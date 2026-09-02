@@ -37,11 +37,44 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
 
 
+_ALIAS_MAX = 128
+
+
 def validate_alias(alias: str) -> str:
     if not alias or alias.strip() != alias or "/" in alias or "\x00" in alias:
         raise WorldlineError(
             "INVALID_ALIAS",
             "world alias must be nonempty, trimmed, and contain neither slash nor NUL",
+            {"alias": alias},
+        )
+    if len(alias) > _ALIAS_MAX:
+        raise WorldlineError(
+            "INVALID_ALIAS",
+            f"world alias must be at most {_ALIAS_MAX} characters",
+            {"alias": alias[:64] + "...", "length": len(alias)},
+        )
+    # Control characters would corrupt list/log rendering, bar-widget lines, systemd unit
+    # descriptions, and terminal titles the alias flows into as a display string.
+    if any(ord(character) < 0x20 or ord(character) == 0x7F for character in alias):
+        raise WorldlineError(
+            "INVALID_ALIAS",
+            "world alias must not contain control characters",
+            {"alias": alias},
+        )
+    return alias
+
+
+def validate_user_alias(alias: str) -> str:
+    # Additional rules for operator-supplied fork/race names only. WORLDLINE itself mints
+    # internal worlds named "PRIME" (the active-world sentinel) and "prime-<txid>" (published
+    # PRIME generations, which `why` renders as "PRIME" and scoring excludes), so those names
+    # are reserved: a user fork taking one would spoof provenance and make name resolution
+    # ambiguous. Internal callers use validate_alias directly and are not subject to this.
+    validate_alias(alias)
+    if alias == "PRIME" or alias.startswith("prime-"):
+        raise WorldlineError(
+            "RESERVED_ALIAS",
+            "world alias must not be the reserved name 'PRIME' or begin with 'prime-'",
             {"alias": alias},
         )
     return alias

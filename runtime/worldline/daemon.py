@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
+import fcntl
 import inspect
 import json
 import logging
@@ -60,6 +61,7 @@ class WorldlineDaemon:
         self._server: asyncio.AbstractServer | None = None
         self._background: dict[str, asyncio.Task[Any]] = {}
         self._heartbeat_task: asyncio.Task[None] | None = None
+        self._lock_fd: int | None = None
         self._stopping = False
         self.register("ping", self._ping)
         self.register("status", self._status, mutating=True)
@@ -95,6 +97,7 @@ class WorldlineDaemon:
             raise RuntimeError("daemon is already started")
         os.umask(0o077)
         self.paths.ensure()
+        self._acquire_singleton_lock()
         if self._recover is not None:
             result = self._recover()
             if inspect.isawaitable(result):
@@ -147,6 +150,29 @@ class WorldlineDaemon:
             self.publisher.publish(daemon_state="STOPPED")
         finally:
             self.paths.socket.unlink(missing_ok=True)
+            if self._lock_fd is not None:
+                os.close(self._lock_fd)
+                self._lock_fd = None
+
+    def _acquire_singleton_lock(self) -> None:
+        # A single mutation lock inside one process is not enough: a second worldlined would
+        # unlink this daemon's socket, bind its own, and run collapses concurrently against the
+        # same store (SQLite WAL serves both), so two self-consistent exchanges could race and
+        # violate "exactly one world commits." An advisory flock held for the daemon's lifetime
+        # makes a second daemon fail fast instead.
+        lock_path = self.paths.socket.parent / "worldlined.lock"
+        fd = os.open(lock_path, os.O_RDWR | os.O_CREAT | os.O_CLOEXEC, 0o600)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            os.close(fd)
+            raise WorldlineError(
+                "DAEMON_ALREADY_RUNNING",
+                f"another worldlined already holds {lock_path}",
+            ) from exc
+        os.ftruncate(fd, 0)
+        os.write(fd, f"{os.getpid()}\n".encode("ascii"))
+        self._lock_fd = fd
 
     def _remove_stale_socket(self) -> None:
         try:

@@ -362,6 +362,11 @@ class RuntimeController:
             raise InvalidRequest("collapse.commit requires transactionId")
         transaction = self.store.transaction_record(args["transactionId"])
         result = self.transactions.commit(args["transactionId"])
+        # The atomic exchange swapped the `live` mapping, so every inotify watch is now pinned
+        # to the pre-collapse payload inodes. Rebuild the watcher against the new PRIME so the
+        # PRIME_CHANGED_DURING_CAPTURE generation guard and dirty/reconcile tracking do not go
+        # stale after the first collapse or return.
+        self._refresh_watcher()
         if transaction["kind"] == "return":
             self._restart_return_context()
         self._schedule_automatic_ghosts(context.daemon)
@@ -442,7 +447,41 @@ class RuntimeController:
     def _doctor(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if set(args) - {"refresh"}:
             raise InvalidRequest("doctor accepts only refresh")
-        return self.capabilities.snapshot(refresh=bool(args.get("refresh", False)))
+        snapshot = self.capabilities.snapshot(refresh=bool(args.get("refresh", False)))
+        snapshot["rootIntegrity"] = self._root_integrity()
+        return snapshot
+
+    def _root_integrity(self) -> dict[str, Any]:
+        # A registered root is healthy only as a symlink chaining through paths.live:
+        #   raw_path -> live/<root_key> -> generations/<gen>/payload/<root_key>
+        # A crash during `root remove` can leave raw_path as a real directory that no longer
+        # routes through live, after which collapses "commit" without touching the user's files.
+        # That divergence is otherwise silent, so surface it here.
+        roots: list[dict[str, Any]] = []
+        healthy = True
+        for root in self.store.roots():
+            raw = os.fsdecode(bytes(root["path"]))
+            expected = os.fsencode(self.paths.live / root["root_key"])
+            state = "OK"
+            detail: str | None = None
+            if not os.path.islink(raw):
+                state = "BROKEN"
+                detail = (
+                    "registered root is a real path, not a WORLDLINE symlink; collapses would "
+                    "not reach the user's files (likely an interrupted `root remove`)"
+                ) if os.path.exists(raw) else "registered root path is missing"
+                healthy = False
+            elif os.readlink(os.fsencode(raw)) != expected:
+                state = "BROKEN"
+                detail = "registered root symlink does not route through the live mapping"
+                healthy = False
+            roots.append({
+                "path": root["display_path"],
+                "rootKey": root["root_key"],
+                "state": state,
+                **({"reason": detail} if detail else {}),
+            })
+        return {"state": "OK" if healthy else "DEGRADED", "roots": roots}
 
     def _adapters(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:
         if args:

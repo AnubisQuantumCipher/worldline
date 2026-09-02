@@ -12,6 +12,29 @@ from ..errors import WorldlineError
 
 
 class GitAdapter:
+    # A registered root is untrusted repo content, and `git` executes commands named in the
+    # repo's own `.git/config` during ordinary inspection: `core.fsmonitor` fires on `status`,
+    # hooks fire on index-refreshing operations, and `diff.external`/textconv drivers fire on
+    # `diff`. These inspections run host-side (outside the world sandbox) and, for `root add` /
+    # `init`, BEFORE the operator confirms, so a hostile repo would get code execution as the
+    # operator. Command-line `-c` has the highest config precedence and overrides the repo's
+    # values, so every exec-capable knob is neutralized here. (`capture` also passes
+    # `--no-ext-diff`, which already blocks `diff.external`; this is defense in depth plus
+    # coverage for fsmonitor/hooks/credential-helper/pager vectors that `--no-ext-diff` misses.)
+    _HARDENING = (
+        "-c", "core.fsmonitor=",
+        "-c", "core.hooksPath=/dev/null",
+        "-c", "diff.external=",
+        "-c", "core.sshCommand=",
+        "-c", "core.pager=cat",
+        "-c", "core.editor=false",
+        "-c", "core.askPass=",
+        "-c", "credential.helper=",
+        "-c", "uploadpack.packObjectsHook=",
+        "-c", "protocol.ext.allow=never",
+        "-c", "protocol.file.allow=user",
+    )
+
     def __init__(self, core: Core | None = None, executable: str = "git") -> None:
         self.core = core or Core.shared()
         self.executable = executable
@@ -19,13 +42,26 @@ class GitAdapter:
     def _run(self, root: bytes, *args: str, check: bool = True) -> subprocess.CompletedProcess[bytes]:
         try:
             result = subprocess.run(
-                [self.executable, "-C", os.fsdecode(root), *args],
+                [self.executable, *self._HARDENING, "-C", os.fsdecode(root), *args],
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 check=False,
                 timeout=15,
-                env={"PATH": os.environ.get("PATH", ""), "LC_ALL": "C", "HOME": os.environ.get("HOME", "")},
+                env={
+                    "PATH": os.environ.get("PATH", ""),
+                    "LC_ALL": "C",
+                    # Ignore ~/.gitconfig and /etc/gitconfig so only the (overridden) repo
+                    # config is consulted; block terminal/credential prompts and optional
+                    # index-lock writers; restrict any protocol handler to inert local files.
+                    "HOME": os.environ.get("HOME", ""),
+                    "GIT_CONFIG_GLOBAL": os.devnull,
+                    "GIT_CONFIG_SYSTEM": os.devnull,
+                    "GIT_TERMINAL_PROMPT": "0",
+                    "GIT_OPTIONAL_LOCKS": "0",
+                    "GIT_ALLOW_PROTOCOL": "file",
+                    "GIT_ATTR_NOSYSTEM": "1",
+                },
             )
         except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
             raise WorldlineError("GIT_UNAVAILABLE", f"Git could not inspect {os.fsdecode(root)}", {"error": str(exc)}) from exc
@@ -53,8 +89,8 @@ class GitAdapter:
         index_hash = hash_id(self.core.hash_file(index_path)) if os.path.isfile(index_path) else None
 
         status = self._run(raw_root, "status", "--porcelain=v2", "--branch", "-z").stdout
-        staged = self._run(raw_root, "diff", "--cached", "--binary", "--no-ext-diff").stdout
-        worktree = self._run(raw_root, "diff", "--binary", "--no-ext-diff").stdout
+        staged = self._run(raw_root, "diff", "--cached", "--binary", "--no-ext-diff", "--no-textconv").stdout
+        worktree = self._run(raw_root, "diff", "--binary", "--no-ext-diff", "--no-textconv").stdout
         submodules = self._run(raw_root, "submodule", "status", "--recursive", check=False)
         submodule_bytes = submodules.stdout if submodules.returncode == 0 else b""
 

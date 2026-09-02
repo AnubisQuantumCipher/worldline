@@ -10,7 +10,7 @@ import uuid
 from typing import Any, Callable, Mapping
 
 from . import SCHEMA_VERSION
-from .canonical import atomic_write_json
+from .canonical import atomic_write_json, fsync_directory
 from .core import CollapseInput, Core, hash_bytes_from_id, hash_id
 from .delta import Delta
 from .errors import ConflictError, WorldlineError
@@ -240,6 +240,10 @@ class CollapseTransaction:
             atomic_write_json(state_path, record)
             self.store.create_transaction(record)
             if decision != "AUTHORIZED":
+                # A denied transaction is terminal and its staged payload (a full PRIME-sized
+                # copy) will never be used; drop it now so repeated conflicted collapses do not
+                # grow the store without bound. The signed transaction record itself is kept.
+                shutil.rmtree(transaction_directory, ignore_errors=True)
                 raise ConflictError(
                     f"collapse denied: {decision}",
                     transactionId=transaction_id,
@@ -301,6 +305,12 @@ class CollapseTransaction:
             self._set_state(record, "DENIED", error={"code": decision})
             raise WorldlineError(decision, f"proved core denied collapse: {decision}")
         self._set_state(record, "AUTHORIZED")
+        # File contents were fsynced during staging, but the directory entries that link them
+        # into the payload tree were not. Flush every staged directory before the exchange so a
+        # power loss immediately after the (durable) rename cannot leave PRIME pointing at a tree
+        # whose dirents never reached disk — recovery re-hashes survivors and would enshrine a
+        # torn tree as COMMITTED otherwise.
+        self._fsync_payload_tree(Path(record["stagingPayload"]))
         exchanged = False
         try:
             context = self.watcher.owned_writes() if self.watcher is not None else _NullContext()
@@ -599,6 +609,19 @@ class CollapseTransaction:
             {"schemaVersion": SCHEMA_VERSION, "transactionId": transaction_id},
         )
 
+    @staticmethod
+    def _fsync_payload_tree(payload: Path) -> None:
+        if not payload.is_dir():
+            return
+        for current, directories, _files in os.walk(payload, followlinks=False):
+            directories.sort()
+            try:
+                fsync_directory(Path(current))
+            except OSError:
+                # A directory that vanished under us cannot be made durable; the pre-exchange
+                # staged-root re-hash already guarded content, so best-effort flush is enough.
+                pass
+
     def _marker(self, directory: Path) -> str | None:
         path = directory / _MARKER
         if not path.is_file():
@@ -642,6 +665,12 @@ class CollapseTransaction:
         record["error"] = error
         atomic_write_json(Path(record["preparedPath"]), record)
         self.store.update_transaction(record["transactionId"], target, error=error, committed=committed)
+        if target in {"DENIED", "ABORTED"}:
+            # Terminal without commit: the staged payload/mapping can never be exchanged, so
+            # reclaim the disk it holds. Guard against removing a live/committed generation.
+            staging = record.get("stagingPayload")
+            if staging and self._marker(self.paths.live) != record["transactionId"]:
+                shutil.rmtree(Path(staging).parent, ignore_errors=True)
 
     def _is_ancestor(self, ancestor: str | None, descendant: str) -> bool:
         if ancestor is None:

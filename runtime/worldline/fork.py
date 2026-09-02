@@ -10,7 +10,7 @@ from .checkpoint import CheckpointManager, FrozenParent
 from .config import GlobalConfig
 from .core import Core, hash_id
 from .errors import WorldlineError
-from .model import World
+from .model import validate_user_alias, World
 from .paths import WorldlinePaths
 from .project import ProjectConfig
 from .runner import AgentRunner
@@ -46,6 +46,7 @@ class ForkManager:
     ) -> World:
         if not mission:
             raise WorldlineError("NO_MISSION", "worldline: no mission; pass --mission FILE, pipe stdin, or create mission.md")
+        validate_user_alias(name)
         parent = frozen or self.checkpoint.freeze()
         actor = resolve_adapter(agent_name, self.config)
         world = World.create(
