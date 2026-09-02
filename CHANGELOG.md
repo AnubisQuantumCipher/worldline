@@ -1,5 +1,97 @@
 # Changelog
 
+## 1.0.2 — 2026-09-02 · recovery, evidence coverage, and honest surfaces
+
+A second audit pass covered the surfaces the first one did not reach: the QML desktop plugin
+(both copies), the Ada/SPARK core source and proof gate, the public claims documents, and the
+remaining crash-consistency defects. Every finding below survived an adversarial verification
+pass. The Ada logic itself was checked hard and is sound — SHA-256 was differentially tested
+byte-identical against `hashlib` for every length 0–599 plus the NIST vectors, and the C ABI,
+the atomic-exchange design and the durability primitives all hold. No Ada source changed here,
+so the 130-check proof is untouched.
+
+### Fixed — availability
+
+- **Recovery could permanently brick the daemon.** A crash between the prepared-record write
+  and its database row leaves the two durably disagreeing; `_load_record` treats that as fatal
+  and `recover_all` had no per-transaction containment, so the exception propagated out of
+  `daemon.start()` **before the socket was published** — every command, including the read-only
+  diagnostics needed to understand the problem, then failed with `DAEMON_UNAVAILABLE` on every
+  boot until the operator hand-edited JSON and SQLite. Recovery now quarantines an unresolvable
+  transaction and reports it; mutation (`prepare`/`commit`) refuses with `RECOVERY_INCOMPLETE`
+  while any quarantine stands. Fail open for diagnosis, fail closed for anything touching PRIME.
+
+- **A second, identical brick via non-idempotent checkpoint publication.** `publish_checkpoint`
+  inserts a world under the deterministic alias `prime-<transactionId>` and only then calls
+  `set_prime`, so a crash between them made replay hit the UNIQUE constraint forever — with the
+  atomic exchange already committed, i.e. the user's files collapsed while the recorded PRIME
+  was stale. The insert now adopts an existing generation when its content identity matches
+  (`instance_id` is not part of `content_id`, so a genuine replay matches) and raises
+  `RECOVERY_STATE_MISMATCH` on real divergence.
+
+### Fixed — evidence integrity
+
+- **A collapse could commit with no receipt, permanently, while `log --verify` passed.** A crash
+  between the COMMITTED state write and the receipt append left the chains internally consistent
+  and merely shorter, so verification reported clean over the hole — breaking the system's
+  central claim that every committed collapse has a receipt in a tamper-evident chain. Recovery
+  now replays `_finish_committed` for any COMMITTED transaction lacking a receipt, and
+  `doctor` reports `receiptCoverage` so the gap is visible even if that replay fails.
+
+- **`doctor` now reports `storeIntegrity`.** A SIGKILL during `worldline init` can leave the
+  operator's real directory inside the store with no row pointing at it — and `rootIntegrity`
+  answered `OK` because it iterates rows that do not exist. The new scan reports unreferenced
+  captured payloads (recovering the original path from the manifest written before the rename),
+  orphaned live mappings, and orphaned prepared records whose staged payload is unreclaimed.
+
+### Fixed — the proof gate
+
+- **The gate could not distinguish a healthy `gnatprove` run from a stale or empty one.** It
+  discarded gnatprove's exit status, never removed the previous summary, and had no floor — so a
+  run that analyzed nothing reported "0 checks, all proved, nothing assumed" and passed. It now
+  fails on a non-zero gnatprove exit, deletes the stale summary first, enforces
+  `MINIMUM_CHECKS = 130`, records `summarySha256` binding the manifest to the artifact it was
+  read from, and screens (comment-stripped, case-insensitive) for `pragma Assume`, GNATprove
+  justification pragmas, and any `SPARK_Mode => Off` outside the declared C-boundary exception.
+
+### Fixed — desktop plugin (both copies)
+
+- **An in-world agent could forge UI chrome on the collapse-authorization screen.** QML `Text`
+  defaults to `AutoText`, so Qt's rich-text heuristic rendered engine-supplied strings —
+  including agent-chosen filenames — as markup on the exact panel a human reads before
+  approving an irreversible PRIME replacement. All 65 `Text` elements across both copies are now
+  `textFormat: Text.PlainText`. (No code execution was possible and no exfiltration channel
+  could be constructed; this was display spoofing, and it was the only defect in the pass with a
+  genuine in-scope adversary.)
+- **The panel affirmed two gates it never evaluated.** "Foreign contamination: NONE" and
+  "Conflicts: 0" were read from world fields the runtime never writes (they are `[]` at
+  construction and assigned nowhere). Before a collapse they now read `UNEVALUATED — computed at
+  collapse.prepare` and `—`. The real gate always ran server-side; the defect was misinformation
+  at the decision point.
+- Delta file lists rendered as left-truncated JSON blobs because the lookup missed the key the
+  runtime actually emits (`pathDisplay`). Job failures rendered as `[object Object]`. A world
+  alias beginning with `-` was parsed as an option by `worldline return`, retargeting PRIME's
+  parent; commands now pass `--`. A check whose status was neither PASS nor FAIL (e.g.
+  `UNAVAILABLE`) was rounded up to a green PASS badge; it now reports `UNASSESSED`.
+
+### Claims corrected
+
+`SKILL.md` no longer tells an agent that a world is "already contained" without qualification —
+network effects are not contained, and that sentence gates unattended runs. Also corrected: the
+kernel-authority sentence (the kernel supplies the verdict; the runtime decides what is compared
+and performs the exchange), the `simulate` claim (filesystem-only), `SECURITY.md` on what of
+`$HOME` is actually projected into a world, the sandbox uid description, and the health-check
+assertion count (25, not 26). Corrections required in the whitepaper and user manual — which are
+PDFs and cannot be edited here — are itemized with exact replacement wording in
+`DOC-CORRECTIONS.md`.
+
+### Tests
+
+`tests/test_security_hardening.py` grows to 14 tests covering recovery containment, the mutation
+gate, `storeIntegrity`, and `receiptCoverage` alongside the existing git-config-exec, alias, and
+root-integrity coverage. Full suite: 58 passed. Health check and both Ada binaries
+(`worldline_core_tests`, `worldline_core_fuzz`) pass.
+
 ## 1.0.1 — 2026-09-02 · security hardening
 
 Follows the aggressive audit recorded in `SECURITY-AUDIT-2026-09-02.md`. The containment,

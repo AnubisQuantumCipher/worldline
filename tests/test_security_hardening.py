@@ -151,5 +151,147 @@ class RootIntegrityDetection(unittest.TestCase):
         self.assertIn("collapses would not reach", broken[0]["reason"])
 
 
+
+class RecoveryContainment(unittest.TestCase):
+    """Recovery must quarantine an unresolvable transaction, never take the daemon down.
+
+    A crash between the prepared-record write and its database row leaves the two durably
+    disagreeing. Raising out of recover_all would fail daemon.start() before the socket is
+    published, so every command -- including the read-only diagnostics needed to understand the
+    problem -- would return DAEMON_UNAVAILABLE on every boot until the operator hand-edited
+    JSON and SQLite. Fail open for diagnosis; fail closed for mutation.
+    """
+
+    def _transactions(self):
+        from worldline.transaction import CollapseTransaction
+
+        transactions = object.__new__(CollapseTransaction)
+        transactions.unrecoverable = {}
+        return transactions
+
+    def test_unresolvable_transaction_is_quarantined_not_raised(self) -> None:
+        from worldline.transaction import CollapseTransaction
+
+        transactions = self._transactions()
+        rows = [{"transaction_id": "wedged"}, {"transaction_id": "healthy"}]
+        transactions.store = type("S", (), {
+            "transactions_in_state": lambda _self, states: rows if "PREPARED" in states else [],
+            "receipt_for_transaction": lambda _self, _tx: object(),
+        })()
+
+        def recover_one(transaction_id):
+            if transaction_id == "wedged":
+                raise WorldlineError("TRANSACTION_RECORD_INVALID", "database and record differ")
+            return {"transactionId": transaction_id, "state": "ABORTED"}
+
+        transactions._recover_one = recover_one
+        recovered = CollapseTransaction.recover_all(transactions)
+
+        self.assertEqual(len(recovered), 2)
+        self.assertEqual(recovered[0]["state"], "UNRECOVERABLE")
+        self.assertEqual(recovered[1]["state"], "ABORTED")
+        self.assertIn("wedged", transactions.unrecoverable)
+        self.assertNotIn("healthy", transactions.unrecoverable)
+
+    def test_mutation_refuses_while_a_transaction_is_unrecoverable(self) -> None:
+        from worldline.transaction import CollapseTransaction
+
+        transactions = self._transactions()
+        transactions.unrecoverable = {"wedged": {"code": "TRANSACTION_RECORD_INVALID"}}
+        with self.assertRaises(WorldlineError) as raised:
+            CollapseTransaction._assert_recovery_complete(transactions)
+        self.assertEqual(raised.exception.code, "RECOVERY_INCOMPLETE")
+        self.assertEqual(raised.exception.details["transactions"], ["wedged"])
+
+    def test_clean_recovery_permits_mutation(self) -> None:
+        from worldline.transaction import CollapseTransaction
+
+        transactions = self._transactions()
+        CollapseTransaction._assert_recovery_complete(transactions)  # must not raise
+
+
+class DoctorIntegrityReports(unittest.TestCase):
+    """doctor must surface state that log --verify and rootIntegrity cannot see."""
+
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-doctor-")
+        root = Path(self.temporary.name)
+        env = {
+            "HOME": str(root / "home"),
+            "XDG_DATA_HOME": str(root / "data"),
+            "XDG_STATE_HOME": str(root / "state"),
+            "XDG_CONFIG_HOME": str(root / "config"),
+            "XDG_RUNTIME_DIR": str(root / "runtime"),
+        }
+        for value in env.values():
+            Path(value).mkdir(mode=0o700, parents=True, exist_ok=True)
+        self.paths = WorldlinePaths.from_environment(env)
+        self.paths.ensure()
+        self.core = Core.shared()
+        self.store = StateStore(self.paths, self.core)
+
+    def tearDown(self) -> None:
+        self.store.close()
+        self.temporary.cleanup()
+
+    def _probe(self):
+        controller = object.__new__(RuntimeController)
+        controller.store = self.store
+        controller.paths = self.paths
+        return controller
+
+    def test_store_integrity_flags_an_unreferenced_captured_payload(self) -> None:
+        # This is what a SIGKILL during `worldline init` leaves behind: the operator's real
+        # directory is in the store and nothing points at it.
+        orphan = self.paths.generations / "abandoned" / "payload" / ("a" * 64)
+        orphan.mkdir(mode=0o700, parents=True)
+        (orphan / "state.txt").write_bytes(b"the user's data")
+        report = RuntimeController._store_integrity(self._probe())
+        self.assertEqual(report["state"], "DEGRADED")
+        kinds = [entry["kind"] for entry in report["findings"]]
+        self.assertIn("ORPHANED_GENERATION", kinds)
+
+    def test_store_integrity_ignores_the_manifests_sibling(self) -> None:
+        # Every generation payload holds a `manifests/` directory beside its root-key
+        # directories. Reporting it would be a false alarm, and a diagnostic that cries wolf is
+        # the same sin as one that stays silent.
+        manifests = self.paths.generations / "gen" / "payload" / "manifests"
+        manifests.mkdir(mode=0o700, parents=True)
+        (manifests / "root.json").write_text("{}", encoding="utf-8")
+        report = RuntimeController._store_integrity(self._probe())
+        self.assertEqual(report["state"], "OK", report["findings"])
+
+    def test_store_integrity_is_ok_on_a_clean_store(self) -> None:
+        report = RuntimeController._store_integrity(self._probe())
+        self.assertEqual(report["state"], "OK")
+        self.assertEqual(report["findings"], [])
+
+    def test_receipt_coverage_flags_a_committed_collapse_with_no_receipt(self) -> None:
+        # log --verify cannot see this: a receipt that was never written leaves both chains
+        # internally consistent, merely shorter, so verification passes over the hole.
+        probe = self._probe()
+        probe.store = type("S", (), {
+            "transactions_in_state": lambda _s, states: (
+                [{"transaction_id": "tx-1"}] if "COMMITTED" in states else []
+            ),
+            "receipt_for_transaction": lambda _s, _tx: None,
+        })()
+        report = RuntimeController._receipt_coverage(probe)
+        self.assertEqual(report["state"], "DEGRADED")
+        self.assertEqual(report["committedWithoutReceipt"], ["tx-1"])
+
+    def test_receipt_coverage_is_ok_when_every_collapse_has_a_receipt(self) -> None:
+        probe = self._probe()
+        probe.store = type("S", (), {
+            "transactions_in_state": lambda _s, states: (
+                [{"transaction_id": "tx-1"}] if "COMMITTED" in states else []
+            ),
+            "receipt_for_transaction": lambda _s, _tx: {"receiptId": "WL:x"},
+        })()
+        report = RuntimeController._receipt_coverage(probe)
+        self.assertEqual(report["state"], "OK")
+        self.assertEqual(report["committedWithoutReceipt"], [])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

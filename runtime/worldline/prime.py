@@ -99,7 +99,29 @@ class PrimeManager:
         world.establish_identity(self.core)
         world.transition(WorldState.VALID, self.core)
         world.evidence = {"checks": [], "summary": "UNASSESSED"}
-        self.store.insert_world(world)
+        # The alias is deterministic (prime-<transactionId>) and this insert autocommits before
+        # set_prime below, so a crash in between makes recovery replay the publish and hit the
+        # UNIQUE alias constraint — which, unhandled, would fail every subsequent daemon start
+        # even though the atomic exchange had already committed. A replay is legitimate only if
+        # it recomputed the same content identity; instance_id is not part of content_id, so a
+        # genuine replay differs there and matches here. Anything else is real divergence.
+        try:
+            self.store.insert_world(world)
+        except WorldlineError as exc:
+            if exc.code != "WORLD_CONFLICT":
+                raise
+            existing = self.store.world(world.alias)
+            if existing.content_id != world.content_id:
+                raise WorldlineError(
+                    "RECOVERY_STATE_MISMATCH",
+                    "a different PRIME generation is already published under this transaction",
+                    {
+                        "alias": world.alias,
+                        "existing": existing.content_id,
+                        "candidate": world.content_id,
+                    },
+                ) from exc
+            world = existing
         if current is not None and current.state in (WorldState.VALID, WorldState.COLLAPSED):
             current.transition(WorldState.ARCHIVED, self.core)
             self.store.save_world(current)

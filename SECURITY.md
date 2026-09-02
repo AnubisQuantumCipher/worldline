@@ -17,8 +17,11 @@ authorized, atomic collapse.
 - **Filesystem containment of agents.** An agent's overlay lower layer is a materialized *copy*
   of the roots, not the live inode; writes land in the overlay upper; the real roots live behind
   a symlink chain in managed storage and are never bind-mounted into a world. `$HOME` is masked
-  by tmpfs; `~/.ssh`, `~/.config`, Wayland/D-Bus/ydotool/XDG session sockets, and **the
-  worldline daemon socket itself** are absent from a world, so an agent cannot drive the daemon.
+  by tmpfs, so nothing under the real home is visible except what is explicitly projected: the
+  adapter's credential file and the operator-configured `readonlyHomePaths` (by default
+  `~/.local/bin`, `~/.local/share/mise`, `~/.config/mise`, `~/opt/gnat`). `~/.ssh`, the rest of
+  `~/.config`, Wayland/D-Bus/ydotool/XDG session sockets, and **the worldline daemon socket
+  itself** are absent from a world, so an agent cannot drive the daemon.
 - **Escape resistance.** Absolute, `..`-escaping, and NUL symlink targets are rejected at
   capture, materialize, and the mandatory staged recapture (`EXTERNAL_SYMLINK`); hardlinks
   outside a root are rejected; walks never follow symlinks; special/cross-device files are

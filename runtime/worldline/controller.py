@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 from dataclasses import asdict
+import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 from typing import Any, Callable
@@ -33,6 +36,10 @@ from .store import StateStore
 from .transaction import CollapseTransaction
 from .causal import CausalIndexer
 from .project import ProjectConfig
+
+# A managed root is keyed by a 64-hex digest; other entries under a generation payload
+# (notably `manifests/`) are structure, not captured roots.
+_ROOT_KEY = re.compile(r"[0-9a-f]{64}")
 
 
 class RuntimeController:
@@ -449,7 +456,97 @@ class RuntimeController:
             raise InvalidRequest("doctor accepts only refresh")
         snapshot = self.capabilities.snapshot(refresh=bool(args.get("refresh", False)))
         snapshot["rootIntegrity"] = self._root_integrity()
+        snapshot["storeIntegrity"] = self._store_integrity()
+        snapshot["receiptCoverage"] = self._receipt_coverage()
         return snapshot
+
+    def _store_integrity(self) -> dict[str, Any]:
+        # Registration moves the operator's real directory into the store before any row records
+        # where it came from, and the rollbacks are exception-only, so a SIGKILL or power loss
+        # can leave the data present but unreferenced. Nothing else scans for that, which made
+        # the worst outcome — "my project directory is gone" — completely silent. Report it.
+        findings: list[dict[str, Any]] = []
+        try:
+            referenced_payloads = {
+                os.path.realpath(str(Path(world.payload_path)))
+                for world in self.store.worlds()
+                if world.payload_path
+            }
+        except Exception:  # pragma: no cover - diagnosis must never raise
+            referenced_payloads = set()
+        root_keys = {root["root_key"] for root in self.store.roots()}
+
+        for generation in sorted(self.paths.generations.glob("*/payload/*")):
+            if not generation.is_dir():
+                continue
+            # Only root-key directories are captured roots; `manifests/` is a legitimate sibling
+            # holding each root's manifest JSON, and reporting it would be a false alarm.
+            if not _ROOT_KEY.fullmatch(generation.name):
+                continue
+            if generation.name in root_keys:
+                continue
+            if os.path.realpath(str(generation)) in referenced_payloads:
+                continue
+            if os.path.realpath(str(generation.parent)) in referenced_payloads:
+                continue
+            entry: dict[str, Any] = {
+                "kind": "ORPHANED_GENERATION",
+                "path": str(generation),
+                "reason": "captured payload is referenced by no managed root and no world",
+            }
+            # register() writes manifests/<root_key>.json before the rename, so the operator's
+            # original path is recoverable from disk even when no database row survived.
+            manifest = generation.parent / "manifests" / f"{generation.name}.json"
+            origin = self._manifest_origin(manifest)
+            if origin is not None:
+                entry["originalPath"] = origin
+            findings.append(entry)
+
+        for mapping in sorted(self.paths.live.glob("*")):
+            if mapping.name not in root_keys and mapping.name != ".worldline-generation.json":
+                findings.append({
+                    "kind": "ORPHANED_LIVE_MAPPING",
+                    "path": str(mapping),
+                    "reason": "live mapping entry matches no managed root",
+                })
+
+        known = {row["transaction_id"] for row in self.store.transactions_in_state(
+            ("PREPARED", "AUTHORIZED", "COMMITTED", "DENIED", "ABORTED")
+        )}
+        for record in sorted(self.paths.transactions.glob("*.json")):
+            if record.stem not in known:
+                findings.append({
+                    "kind": "ORPHANED_PREPARED_RECORD",
+                    "path": str(record),
+                    "reason": "prepared transaction record has no database row; its staged payload is unreclaimed",
+                })
+
+        return {"state": "OK" if not findings else "DEGRADED", "findings": findings}
+
+    @staticmethod
+    def _manifest_origin(manifest: Path) -> str | None:
+        try:
+            value = json.loads(manifest.read_text(encoding="utf-8"))
+            encoded = value.get("rootPathB64")
+            if isinstance(encoded, str):
+                return os.fsdecode(base64.b64decode(encoded.encode("ascii"), validate=True))
+        except Exception:  # pragma: no cover - best effort only
+            return None
+        return None
+
+    def _receipt_coverage(self) -> dict[str, Any]:
+        # "Every committed collapse has a receipt in a tamper-evident chain" is the system's
+        # central evidence claim, and log --verify cannot detect a receipt that was never
+        # written (the chain stays self-consistent, just shorter). Check it directly.
+        missing = [
+            row["transaction_id"]
+            for row in self.store.transactions_in_state(("COMMITTED",))
+            if self.store.receipt_for_transaction(row["transaction_id"]) is None
+        ]
+        return {
+            "state": "OK" if not missing else "DEGRADED",
+            "committedWithoutReceipt": missing,
+        }
 
     def _root_integrity(self) -> dict[str, Any]:
         # A registered root is healthy only as a symlink chaining through paths.live:

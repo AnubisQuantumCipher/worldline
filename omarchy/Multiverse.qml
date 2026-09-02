@@ -194,9 +194,9 @@ Item {
     if (!root.hasSelection || actionProcess.running) return
     actionError = ""
     if (actionKind === "return")
-      actionProcess.command = ["worldline", "return", selectedWorld.alias, "--yes"]
+      actionProcess.command = ["worldline", "return", "--yes", "--", selectedWorld.alias]
     else
-      actionProcess.command = ["worldline", "collapse", selectedWorld.alias, "--yes"]
+      actionProcess.command = ["worldline", "collapse", "--yes", "--", selectedWorld.alias]
     actionProcess.running = true
   }
 
@@ -297,7 +297,7 @@ Item {
 
         RowLayout {
           Layout.fillWidth: true
-          Text {
+          Text { textFormat: Text.PlainText;
             text: "W O R L D L I N E"
             color: Color.foreground
             font.family: Style.font.family
@@ -306,7 +306,7 @@ Item {
             font.letterSpacing: Style.space(1)
           }
           Item { Layout.fillWidth: true }
-          Text {
+          Text { textFormat: Text.PlainText;
             text: root.initialized ? root.primeLabel : "NO PRIME"
             color: root.initialized ? Color.accent : Color.urgent
             font.family: Style.font.family
@@ -327,7 +327,7 @@ Item {
             visible: root.mode === "fork"
             spacing: Style.spacing.lg
 
-            Text {
+            Text { textFormat: Text.PlainText;
               Layout.alignment: Qt.AlignHCenter
               text: "CURRENT REALITY"
               color: Color.muted
@@ -335,7 +335,7 @@ Item {
               font.pixelSize: Style.font.subtitle
               font.letterSpacing: Style.space(0.8)
             }
-            Text {
+            Text { textFormat: Text.PlainText;
               Layout.alignment: Qt.AlignHCenter
               text: root.initialized ? "●  PRIME" : "No PRIME — run worldline init /path/to/work"
               color: root.initialized ? Color.accent : Color.urgent
@@ -356,7 +356,7 @@ Item {
                 delegate: ColumnLayout {
                   required property var modelData
                   spacing: Style.spacing.sm
-                  Text {
+                  Text { textFormat: Text.PlainText;
                     Layout.alignment: Qt.AlignHCenter
                     text: modelData.world
                     color: Color.foreground
@@ -364,7 +364,7 @@ Item {
                     font.pixelSize: Style.font.title
                     font.bold: true
                   }
-                  Text {
+                  Text { textFormat: Text.PlainText;
                     Layout.alignment: Qt.AlignHCenter
                     text: modelData.agent
                     color: Color.muted
@@ -376,7 +376,7 @@ Item {
               }
             }
 
-            Text {
+            Text { textFormat: Text.PlainText;
               text: "FORK REALITY"
               color: Color.foreground
               font.family: Style.font.family
@@ -405,7 +405,7 @@ Item {
             }
             RowLayout {
               Layout.fillWidth: true
-              Text {
+              Text { textFormat: Text.PlainText;
                 Layout.fillWidth: true
                 text: "Fork reality. Explore futures. Measure consequences. Collapse the best future."
                 color: Color.muted
@@ -590,7 +590,7 @@ Item {
                 anchors.margins: Style.spacing.lg
                 spacing: Style.spacing.sm
 
-                Text {
+                Text { textFormat: Text.PlainText;
                   Layout.fillWidth: true
                   text: root.hasSelection ? "WORLD  " + root.shortAlias(root.selectedWorld) : "SELECT A WORLD"
                   color: Color.foreground
@@ -599,7 +599,7 @@ Item {
                   font.bold: true
                   elide: Text.ElideRight
                 }
-                Text {
+                Text { textFormat: Text.PlainText;
                   visible: root.hasSelection && root.selectedWorld.state !== undefined
                   text: root.hasSelection ? String(root.selectedWorld.state || "") : ""
                   color: root.stateColor(root.hasSelection ? root.selectedWorld.state : "")
@@ -615,8 +615,8 @@ Item {
                     required property var modelData
                     Layout.fillWidth: true
                     spacing: 1
-                    Text { text: modelData ? String(modelData[0]).toUpperCase() : ""; color: Color.muted; font.family: Style.font.family; font.pixelSize: Style.font.caption }
-                    Text { Layout.fillWidth: true; text: modelData ? String(modelData[1]) : ""; color: Color.foreground; font.family: Style.font.family; font.pixelSize: Style.font.body; wrapMode: Text.WrapAnywhere; maximumLineCount: 2; elide: Text.ElideRight }
+                    Text { textFormat: Text.PlainText; text: modelData ? String(modelData[0]).toUpperCase() : ""; color: Color.muted; font.family: Style.font.family; font.pixelSize: Style.font.caption }
+                    Text { textFormat: Text.PlainText; Layout.fillWidth: true; text: modelData ? String(modelData[1]) : ""; color: Color.foreground; font.family: Style.font.family; font.pixelSize: Style.font.body; wrapMode: Text.WrapAnywhere; maximumLineCount: 2; elide: Text.ElideRight }
                   }
                 }
                 Item { Layout.fillHeight: true }
@@ -650,7 +650,7 @@ Item {
           }
         }
 
-        Text {
+        Text { textFormat: Text.PlainText;
           Layout.fillWidth: true
           visible: root.actionError !== ""
           text: root.actionError

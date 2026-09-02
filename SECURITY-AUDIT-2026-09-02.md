@@ -129,7 +129,9 @@ binary. Still, they mean specific written claims are stronger than the cryptogra
   chain in managed storage, never bind-mounted into a world. `$HOME` masked by tmpfs; `~/.ssh`,
   `~/.config`, Wayland/DBus/ydotool/XDG sockets all absent; the **daemon socket is unreachable
   from inside a world** (so an agent can't drive a collapse or fork-bomb the daemon); namespace-
-  root neutered (`--cap-drop ALL`, `--disable-userns`, `NoNewPrivileges`, uid→1000).
+  root neutered (`--cap-drop ALL`, `--disable-userns`, `--uid 0` mapping to the real uid
+  outside the namespace, `NoNewPrivileges` set by bwrap itself and again on the transient unit
+  — verified in-world: uid=0, CapEff=0, NoNewPrivs=1).
 - **Symlink / hardlink / traversal escape is blocked.** `_safe_symlink_target` (manifest.py:76-87)
   rejects NUL/absolute/`..`-escaping targets at capture AND materialize AND the mandatory staged
   recapture; a payload `evil -> ~/.ssh` is caught (`EXTERNAL_SYMLINK`). Hardlinks outside the

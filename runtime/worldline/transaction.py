@@ -70,6 +70,10 @@ class CollapseTransaction:
         self.receipts = ReceiptBuilder(store, self.core)
         self.data_transactions = self.paths.data / "transactions"
         secure_directory(self.data_transactions)
+        # transaction_id -> error dict for transactions recovery could not resolve; populated by
+        # recover_all and consulted by prepare()/commit() so a quarantined transaction blocks
+        # mutation without blocking diagnosis.
+        self.unrecoverable: dict[str, dict[str, Any]] = {}
 
     def _require_no_writers(self, world: World) -> None:
         active = [
@@ -86,6 +90,7 @@ class CollapseTransaction:
             )
 
     def prepare(self, candidate_value: str, *, kind: str = "collapse") -> PreparedTransaction:
+        self._assert_recovery_complete()
         if kind not in {"collapse", "return"}:
             raise WorldlineError("INVALID_TRANSACTION", f"unsupported transaction kind: {kind}")
         if self.reconcile_prime is not None and self.store.get_meta("dirty", False):
@@ -276,6 +281,7 @@ class CollapseTransaction:
         return {"transactionId": transaction_id, "state": "ABORTED"}
 
     def commit(self, transaction_id: str) -> dict[str, Any]:
+        self._assert_recovery_complete()
         record = self._load_record(transaction_id)
         if record["state"] == "DENIED":
             raise WorldlineError("TRANSACTION_DENIED", "a denied transaction can never commit")
@@ -461,27 +467,66 @@ class CollapseTransaction:
         }
 
     def recover_all(self) -> list[dict[str, Any]]:
+        # Recovery must never take the daemon down. A transaction that cannot be resolved (for
+        # example a crash between the prepared-record write and its database row, which leaves
+        # the two durably disagreeing) is quarantined and reported instead of raised: an
+        # unraisable startup would deny every read-only diagnostic — doctor, log, list, why —
+        # and leave the operator with no route back except hand-editing JSON and SQLite.
+        # Mutations are gated separately in prepare()/commit(), so this is fail-open for
+        # diagnosis and fail-closed for anything that could touch PRIME.
         recovered: list[dict[str, Any]] = []
+        self.unrecoverable = {}
         for row in self.store.transactions_in_state(("PREPARED", "AUTHORIZED")):
-            record = self._load_record(row["transaction_id"])
-            live_marker = self._marker(self.paths.live)
-            prepared_marker = self._marker(Path(record["preparedMapping"]))
-            transaction_id = record["transactionId"]
-            if live_marker == transaction_id and prepared_marker != transaction_id:
-                recovered.append(self._finish_committed(record))
-            elif prepared_marker == transaction_id and live_marker != transaction_id:
-                if record["state"] == "AUTHORIZED":
-                    self._set_state(record, "ABORTED", error={"code": "RECOVERED_BEFORE_COMMIT"})
-                else:
-                    self._set_state(record, "ABORTED", error={"code": "RECOVERED_BEFORE_COMMIT"})
-                recovered.append({"transactionId": transaction_id, "state": "ABORTED"})
-            else:
-                raise WorldlineError(
-                    "RECOVERY_AMBIGUOUS",
-                    "transaction generation marker does not identify one commit state",
-                    {"transactionId": transaction_id, "liveMarker": live_marker, "preparedMarker": prepared_marker},
+            transaction_id = row["transaction_id"]
+            try:
+                recovered.append(self._recover_one(transaction_id))
+            except WorldlineError as exc:
+                self.unrecoverable[transaction_id] = exc.as_dict()
+                recovered.append(
+                    {"transactionId": transaction_id, "state": "UNRECOVERABLE", "error": exc.as_dict()}
+                )
+        # A crash between the COMMITTED state write and the receipt append leaves a committed
+        # collapse with no receipt and no causal event, permanently: the chains stay internally
+        # consistent, so `log --verify` passes over the hole. Replaying _finish_committed for a
+        # COMMITTED record is idempotent (both _set_state calls are state-guarded and the
+        # checkpoint publish is skipped by the primeGeneration guard), so finish the evidence.
+        for row in self.store.transactions_in_state(("COMMITTED",)):
+            transaction_id = row["transaction_id"]
+            if self.store.receipt_for_transaction(transaction_id) is not None:
+                continue
+            try:
+                record = self._load_record(transaction_id)
+                self._finish_committed(record)
+                recovered.append({"transactionId": transaction_id, "state": "RECEIPT_RECOVERED"})
+            except WorldlineError as exc:
+                self.unrecoverable[transaction_id] = exc.as_dict()
+                recovered.append(
+                    {"transactionId": transaction_id, "state": "RECEIPT_UNRECOVERABLE", "error": exc.as_dict()}
                 )
         return recovered
+
+    def _recover_one(self, transaction_id: str) -> dict[str, Any]:
+        record = self._load_record(transaction_id)
+        live_marker = self._marker(self.paths.live)
+        prepared_marker = self._marker(Path(record["preparedMapping"]))
+        if live_marker == transaction_id and prepared_marker != transaction_id:
+            return self._finish_committed(record)
+        if prepared_marker == transaction_id and live_marker != transaction_id:
+            self._set_state(record, "ABORTED", error={"code": "RECOVERED_BEFORE_COMMIT"})
+            return {"transactionId": transaction_id, "state": "ABORTED"}
+        raise WorldlineError(
+            "RECOVERY_AMBIGUOUS",
+            "transaction generation marker does not identify one commit state",
+            {"transactionId": transaction_id, "liveMarker": live_marker, "preparedMarker": prepared_marker},
+        )
+
+    def _assert_recovery_complete(self) -> None:
+        if getattr(self, "unrecoverable", None):
+            raise WorldlineError(
+                "RECOVERY_INCOMPLETE",
+                "a previous transaction could not be recovered; PRIME must not be mutated until it is resolved",
+                {"transactions": sorted(self.unrecoverable)},
+            )
 
     def _dependency_changes(
         self,
