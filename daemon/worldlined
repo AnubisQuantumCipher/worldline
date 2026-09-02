@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import sys
+sys.dont_write_bytecode = True
+
+here = Path(__file__).resolve()
+candidates = (
+    here.parent.parent / "runtime",
+    here.parent.parent / "lib/worldline/runtime",
+    Path.home() / ".local/lib/worldline/runtime",
+)
+for candidate in candidates:
+    if (candidate / "worldline").is_dir():
+        sys.path.insert(0, str(candidate))
+        break
+
+from worldline.daemon_main import main
+
+raise SystemExit(main())

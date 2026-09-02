@@ -1,0 +1,297 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+import os
+from pathlib import Path, PurePosixPath
+import shutil
+import signal
+import subprocess
+import tempfile
+from typing import Any, Mapping, Sequence
+import uuid
+
+from ..errors import WorldlineError
+from ..manifest import display_path
+from ..paths import WorldlinePaths, secure_directory
+
+_SYSTEM_READONLY = ("/usr", "/bin", "/sbin", "/lib", "/lib64", "/etc", "/sys", "/var", "/opt")
+
+
+@dataclass(frozen=True, slots=True)
+class OverlayRoot:
+    root_key: str
+    lower: Path
+    upper: Path
+    work: Path
+    target: Path
+
+
+@dataclass(frozen=True, slots=True)
+class CredentialProjection:
+    source: Path
+    target: Path
+
+
+@dataclass(frozen=True, slots=True)
+class SandboxSpec:
+    instance_id: str
+    argv: tuple[str, ...]
+    cwd: Path
+    environment: Mapping[str, str]
+    roots: tuple[OverlayRoot, ...]
+    runtime: Path
+    readonly_home_paths: tuple[Path, ...] = ()
+    credential_mounts: tuple[CredentialProjection, ...] = ()
+    operator_home: Path = Path("/home/sicarii")
+
+
+@dataclass(slots=True)
+class SandboxProcess:
+    process: subprocess.Popen[bytes]
+    spec: SandboxSpec
+    bubblewrap_argv: tuple[str, ...]
+
+    @property
+    def pid(self) -> int:
+        return self.process.pid
+
+    def terminate_tree(self, timeout: float = 10.0) -> None:
+        if self.process.poll() is not None:
+            return
+        try:
+            os.killpg(self.process.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            return
+        try:
+            self.process.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(self.process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            self.process.wait()
+
+
+class BubblewrapSandbox:
+    def __init__(self, paths: WorldlinePaths, executable: str | None = None) -> None:
+        self.paths = paths
+        self.executable = executable or shutil.which("bwrap") or ""
+        if not self.executable:
+            raise WorldlineError("BUBBLEWRAP_UNAVAILABLE", "bwrap is not installed")
+
+    def overlay_roots(
+        self,
+        instance_id: str,
+        roots: Sequence[tuple[str, Path, Path]],
+        *,
+        allow_system_roots: bool = False,
+    ) -> tuple[OverlayRoot, ...]:
+        try:
+            parsed = uuid.UUID(instance_id)
+        except ValueError as exc:
+            raise WorldlineError("INVALID_WORLD_INSTANCE", f"world instance is not a UUIDv4: {instance_id}") from exc
+        if parsed.version != 4 or str(parsed) != instance_id:
+            raise WorldlineError("INVALID_WORLD_INSTANCE", f"world instance is not a UUIDv4: {instance_id}")
+        base = self.paths.overlays / instance_id
+        secure_directory(base)
+        result: list[OverlayRoot] = []
+        for root_key, lower_value, target_value in roots:
+            lower = lower_value.resolve(strict=True)
+            target = target_value.absolute()
+            if not lower.is_dir():
+                raise WorldlineError("INVALID_LOWERDIR", f"overlay lower root is not a directory: {lower}")
+            if not target.is_absolute():
+                raise WorldlineError("INVALID_SANDBOX_TARGET", f"managed target is not absolute: {target}")
+            if not allow_system_roots:
+                for readonly in _SYSTEM_READONLY:
+                    if self._overlap(target, Path(readonly)):
+                        raise WorldlineError(
+                            "UNSANDBOXABLE_ROOT",
+                            f"managed root overlaps a read-only system bind: {target}",
+                        )
+            root_base = base / root_key
+            upper = secure_directory(root_base / "upper")
+            work = secure_directory(root_base / "work")
+            if any(upper.iterdir()) or any(work.iterdir()):
+                raise WorldlineError("OVERLAY_NOT_EMPTY", f"overlay upper/work directory is not empty: {root_key}")
+            shutil.copystat(lower, upper, follow_symlinks=False)
+            if upper.stat().st_dev != work.stat().st_dev:
+                raise WorldlineError("OVERLAY_DEVICE_MISMATCH", f"overlay upper/work devices differ: {root_key}")
+            result.append(OverlayRoot(root_key, lower, upper, work, target))
+        targets = [item.target for item in result]
+        if len({str(path) for path in targets}) != len(targets):
+            raise WorldlineError("OVERLAPPING_ROOT", "sandbox contains duplicate managed targets")
+        return tuple(result)
+
+    @staticmethod
+    def _overlap(first: Path, second: Path) -> bool:
+        try:
+            common = Path(os.path.commonpath((first, second)))
+        except ValueError:
+            return False
+        return common in (first, second)
+
+    @staticmethod
+    def _directory_arguments(path: Path, *, stop: Path | None = None) -> list[str]:
+        if not path.is_absolute():
+            raise WorldlineError("INVALID_SANDBOX_TARGET", f"sandbox path is not absolute: {path}")
+        result: list[str] = []
+        current = path
+        chain: list[Path] = []
+        while current != current.parent and current != stop:
+            chain.append(current)
+            current = current.parent
+        for directory in reversed(chain):
+            result.extend(("--dir", str(directory)))
+        return result
+
+    def build_argv(self, spec: SandboxSpec) -> tuple[str, ...]:
+        if not spec.argv or any(not item for item in spec.argv):
+            raise WorldlineError("INVALID_AGENT_COMMAND", "sandbox argv must be a nonempty string array")
+        if not spec.cwd.is_absolute() or not any(self._overlap(spec.cwd, root.target) for root in spec.roots):
+            raise WorldlineError("INVALID_SANDBOX_CWD", f"sandbox cwd is outside managed roots: {spec.cwd}")
+        secure_directory(spec.runtime)
+        arguments: list[str] = [
+            self.executable,
+            "--unshare-all",
+            "--unshare-user",
+            "--share-net",
+            "--die-with-parent",
+            "--new-session",
+            "--uid",
+            "0",
+            "--gid",
+            "0",
+            "--hostname",
+            f"worldline-{spec.instance_id[:12]}",
+            "--clearenv",
+        ]
+        overlay_targets = {str(root.target) for root in spec.roots}
+        for path_text in _SYSTEM_READONLY:
+            if path_text in overlay_targets and not Path(path_text).is_symlink():
+                continue
+            source = Path(path_text)
+            if not os.path.lexists(source):
+                continue
+            if source.is_symlink():
+                arguments.extend(("--symlink", os.readlink(source), path_text))
+            else:
+                arguments.extend(("--ro-bind", path_text, path_text))
+        arguments.extend(("--dev", "/dev", "--proc", "/proc"))
+        arguments.extend(("--tmpfs", "/run", "--tmpfs", "/tmp"))
+        if "/var" not in overlay_targets:
+            arguments.extend(("--tmpfs", "/var/tmp"))
+        arguments.extend(self._directory_arguments(spec.operator_home.parent))
+        arguments.extend(("--tmpfs", str(spec.operator_home)))
+        arguments.extend(self._directory_arguments(Path("/run/worldline-runtime")))
+        arguments.extend(("--bind", str(spec.runtime), "/run/worldline-runtime"))
+
+        mounted_targets: set[str] = set()
+        for source in (*spec.readonly_home_paths, *(item.source for item in spec.credential_mounts)):
+            if not source.is_absolute() or not source.exists():
+                raise WorldlineError("CREDENTIAL_PROJECTION_UNAVAILABLE", f"declared read-only path is missing: {source}")
+        projections = [CredentialProjection(path, path) for path in spec.readonly_home_paths]
+        projections.extend(spec.credential_mounts)
+        for projection in projections:
+            if not projection.target.is_absolute():
+                raise WorldlineError("INVALID_CREDENTIAL_PROJECTION", f"projection target is not absolute: {projection.target}")
+            target_text = str(projection.target)
+            if target_text in mounted_targets:
+                raise WorldlineError("INVALID_CREDENTIAL_PROJECTION", f"duplicate projection target: {target_text}")
+            mounted_targets.add(target_text)
+            arguments.extend(self._directory_arguments(projection.target.parent, stop=spec.operator_home))
+            arguments.extend(("--ro-bind", str(projection.source), target_text))
+
+        for root in spec.roots:
+            arguments.extend(self._directory_arguments(root.target.parent))
+            arguments.extend(("--dir", str(root.target)))
+            arguments.extend(("--overlay-src", str(root.lower)))
+            arguments.extend(("--overlay", str(root.upper), str(root.work), str(root.target)))
+
+        environment = {
+            **{key: value for key, value in spec.environment.items()},
+            "HOME": str(spec.operator_home),
+            "USER": spec.operator_home.name,
+            "LOGNAME": spec.operator_home.name,
+            "XDG_RUNTIME_DIR": "/run/worldline-runtime",
+        }
+        for key, value in sorted(environment.items()):
+            if not isinstance(key, str) or not isinstance(value, str) or "=" in key or "\x00" in key + value:
+                raise WorldlineError("INVALID_SANDBOX_ENV", f"invalid environment entry: {key!r}")
+            arguments.extend(("--setenv", key, value))
+        arguments.extend(("--chdir", str(spec.cwd), "--disable-userns", "--cap-drop", "ALL", "--"))
+        arguments.extend(spec.argv)
+        return tuple(arguments)
+
+    def launch_world(
+        self,
+        spec: SandboxSpec,
+        *,
+        stdin: int | Any = subprocess.PIPE,
+        stdout: int | Any = subprocess.PIPE,
+        stderr: int | Any = subprocess.PIPE,
+    ) -> SandboxProcess:
+        argv = self.build_argv(spec)
+        try:
+            process = subprocess.Popen(
+                argv,
+                stdin=stdin,
+                stdout=stdout,
+                stderr=stderr,
+                start_new_session=True,
+                close_fds=True,
+            )
+        except OSError as exc:
+            raise WorldlineError("SANDBOX_LAUNCH_FAILED", str(exc), {"executable": self.executable}) from exc
+        return SandboxProcess(process=process, spec=spec, bubblewrap_argv=argv)
+
+    @classmethod
+    def capability(cls, paths: WorldlinePaths) -> dict[str, Any]:
+        try:
+            sandbox = cls(paths)
+        except WorldlineError as exc:
+            return {"state": "UNAVAILABLE", "reason": exc.message}
+        version_result = subprocess.run(
+            [sandbox.executable, "--version"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+            timeout=5,
+        )
+        version = version_result.stdout.decode("utf-8", "replace").strip()
+        with tempfile.TemporaryDirectory(prefix="worldline-overlay-probe-", dir=paths.data) as temporary:
+            base = Path(temporary)
+            lower = base / "lower"
+            upper = base / "upper"
+            work = base / "work"
+            runtime = base / "runtime"
+            for directory in (lower, upper, work, runtime):
+                directory.mkdir(mode=0o700)
+            (lower / "sentinel").write_text("overlay", encoding="utf-8")
+            instance = str(uuid.uuid4())
+            spec = SandboxSpec(
+                instance_id=instance,
+                argv=("/usr/bin/test", "-f", "/tmp/worldline-probe/sentinel"),
+                cwd=Path("/tmp/worldline-probe"),
+                environment={"PATH": "/usr/bin"},
+                roots=(OverlayRoot("probe", lower, upper, work, Path("/tmp/worldline-probe")),),
+                runtime=runtime,
+            )
+            try:
+                completed = subprocess.run(
+                    sandbox.build_argv(spec),
+                    stdin=subprocess.DEVNULL,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    check=False,
+                    timeout=15,
+                )
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                return {"state": "UNAVAILABLE", "reason": str(exc)}
+            if completed.returncode != 0:
+                return {
+                    "state": "UNAVAILABLE",
+                    "reason": completed.stderr.decode("utf-8", "replace").strip() or f"probe exited {completed.returncode}",
+                }
+        return {"state": "AVAILABLE", "backend": "overlayfs+bubblewrap", "version": version}

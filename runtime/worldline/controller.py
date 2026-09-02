@@ -1,0 +1,549 @@
+from __future__ import annotations
+
+import asyncio
+from dataclasses import asdict
+import os
+from pathlib import Path
+import shutil
+import subprocess
+from typing import Any, Callable
+import uuid
+
+from .agents import adapter_names, adapter as resolve_adapter
+from .agents.base import AgentContext
+from .capabilities import CapabilityRegistry
+from .checkpoint import CheckpointManager
+from .config import GlobalConfig
+from .core import Core
+from .daemon import RequestContext, WorldlineDaemon
+from .errors import InvalidRequest, WorldlineError
+from .fork import ForkManager
+from .ghosts import GhostManager
+from .linux.hyprland import HyprlandAdapter
+from .linux.inotify import InotifyWatcher
+from .linux.namespaces import BubblewrapSandbox
+from .linux.systemd import SystemdAdapter
+from .paths import WorldlinePaths
+from .reconcile import PrimeChangeTracker
+from .returning import ReturnManager
+from .roots import RootManager
+from .runner import AgentRunner
+from .simulation import SystemSimulation
+from .store import StateStore
+from .transaction import CollapseTransaction
+from .causal import CausalIndexer
+from .project import ProjectConfig
+
+
+class RuntimeController:
+    def __init__(
+        self,
+        paths: WorldlinePaths,
+        store: StateStore,
+        config: GlobalConfig,
+        capabilities: CapabilityRegistry,
+        *,
+        core: Core | None = None,
+    ) -> None:
+        self.paths = paths
+        self.store = store
+        self.config = config
+        self.capabilities = capabilities
+        self.core = core or Core.shared()
+        self.systemd = SystemdAdapter()
+        self.sandbox = BubblewrapSandbox(paths)
+        self.watcher: InotifyWatcher | None = None
+        self.tracker: PrimeChangeTracker | None = None
+        self._refresh_watcher()
+        self.roots = RootManager(paths, store, core=self.core, watcher=self.watcher)
+        self.checkpoint = CheckpointManager(
+            paths,
+            store,
+            core=self.core,
+            watcher=self.watcher,
+            reconcile=self.roots.reconcile,
+        )
+        self.runner = AgentRunner(paths, store, config, self.sandbox, self.systemd, core=self.core)
+        self.forks = ForkManager(paths, store, config, self.checkpoint, self.runner, core=self.core)
+        self.transactions = CollapseTransaction(
+            paths,
+            store,
+            core=self.core,
+            watcher=self.watcher,
+            reconcile=self.roots.reconcile,
+            stop_writers=self._stop_writers,
+        )
+        self.returns = ReturnManager(paths, store, self.checkpoint, self.transactions, core=self.core)
+        self.simulation = SystemSimulation(paths, store, self.sandbox, self.systemd, core=self.core)
+        self.ghosts = GhostManager(config, store)
+        self._last_ghost_generation = self.store.get_meta("primeGeneration")
+
+    def _refresh_watcher(self) -> None:
+        if self.watcher is not None:
+            self.watcher.close()
+            self.watcher = None
+        roots = [
+            (root["root_key"], os.path.realpath(bytes(root["path"])))
+            for root in self.store.roots()
+            if os.path.isdir(os.path.realpath(bytes(root["path"])))
+        ]
+        if roots:
+            self.watcher = InotifyWatcher(roots, self._external_event)
+            self.tracker = PrimeChangeTracker(self.store, self.watcher)
+        else:
+            self.tracker = None
+        if hasattr(self, "roots"):
+            self.roots.watcher = self.watcher
+            self.checkpoint.watcher = self.watcher
+            self.transactions.watcher = self.watcher
+
+    def _external_event(self, event: dict[str, Any]) -> None:
+        if self.tracker is not None:
+            self.tracker.external_event(event)
+
+    def close(self) -> None:
+        if self.watcher is not None:
+            self.watcher.close()
+
+    def recover(self) -> dict[str, Any]:
+        stopped = self.runner.services.stop_orphans()
+        transactions = self.transactions.recover_all()
+        return {"stoppedOrphanJobs": stopped, "transactions": transactions}
+
+    def _stop_writers(self, world) -> None:
+        active = [
+            job
+            for job in self.store.jobs()
+            if job["world_instance"] == world.instance_id
+            and job["state"] in {"STARTING", "RUNNING", "FINALIZING"}
+        ]
+        for job in active:
+            unit = job.get("systemd_unit")
+            if unit:
+                self.systemd.stop(unit)
+            self.store.update_job(
+                job["job_id"],
+                state="CANCELLED",
+                error={"code": "COLLAPSE_STOPPED_WRITER", "message": "writer stopped before collapse"},
+                ended=True,
+            )
+
+    def _schedule_automatic_ghosts(self, daemon: WorldlineDaemon) -> None:
+        generation = self.store.get_meta("primeGeneration")
+        if generation == self._last_ghost_generation:
+            return
+        self._last_ghost_generation = generation
+        status = self.ghosts.status()
+        if not status["enabled"] or generation is None:
+            return
+        frozen = self.checkpoint.freeze()
+        for objective, mission in self.ghosts.missions.items():
+            alias = f"ghost-{objective}-{str(uuid.uuid4())[:8]}"
+            world = self.forks.create_world(alias, mission, status["agent"], frozen=frozen)
+            world.evidence["ghostObjective"] = objective
+            self.store.save_world(world)
+            daemon.spawn_background(
+                f"ghost:{world.instance_id}",
+                asyncio.to_thread(self._run_ghost, world, mission, objective, None),
+            )
+
+    def register(self, daemon: WorldlineDaemon) -> None:
+        daemon.register("init", self._register_roots, mutating=True)
+        daemon.register("root.add", self._register_roots, mutating=True)
+        daemon.register("root.remove", self._remove_root, mutating=True)
+        daemon.register("root.list", self._root_list)
+        daemon.register("fork", self._fork, mutating=True)
+        daemon.register("race", self._race, mutating=True)
+        daemon.register("graph", self._graph)
+        daemon.register("log", self._log)
+        daemon.register("why", self._why)
+        daemon.register("inspect", self._inspect, mutating=True)
+        daemon.register("switch", self._switch, mutating=True)
+        daemon.register("collapse.prepare", self._collapse_prepare, mutating=True)
+        daemon.register("collapse.commit", self._collapse_commit, mutating=True)
+        daemon.register("transaction.abort", self._transaction_abort, mutating=True)
+        daemon.register("return.prepare", self._return_prepare, mutating=True)
+        daemon.register("simulate", self._simulate, mutating=True)
+        daemon.register("doctor", self._doctor)
+        daemon.register("adapters", self._adapters)
+        daemon.register("ghost.enable", self._ghost_enable, mutating=True)
+        daemon.register("ghost.disable", self._ghost_disable, mutating=True)
+        daemon.register("ghost.status", self._ghost_status)
+        daemon.register("ghost.run", self._ghost_run, mutating=True)
+        daemon.register("shell.info", self._shell_info)
+
+    def _register_roots(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        allowed = {"roots", "kind", "primary", "confirmed"}
+        if not set(args) <= allowed or not isinstance(args.get("roots"), list):
+            raise InvalidRequest("init/root.add requires roots and optional kind, primary, confirmed")
+        result = self.roots.register(
+            args["roots"],
+            kind=args.get("kind"),
+            primary=args.get("primary"),
+            confirmed=bool(args.get("confirmed", False)),
+        )
+        self._refresh_watcher()
+        self._schedule_automatic_ghosts(context.daemon)
+        return result
+
+    def _remove_root(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) - {"root", "confirmed"} or not isinstance(args.get("root"), str):
+            raise InvalidRequest("root.remove requires root and optional confirmed")
+        result = self.roots.remove(args["root"], confirmed=bool(args.get("confirmed", False)))
+        self._refresh_watcher()
+        self._schedule_automatic_ghosts(context.daemon)
+        return result
+
+    def _root_list(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:
+        if args:
+            raise InvalidRequest("root.list takes no arguments")
+        return [
+            {
+                "rootKey": root["root_key"],
+                "path": root["display_path"],
+                "kind": root["kind"],
+                "primary": bool(root["primary_root"]),
+                "manifestRoot": root["manifest_root"],
+            }
+            for root in self.store.roots()
+        ]
+
+    @staticmethod
+    def _thread_progress(context: RequestContext) -> Callable[[str, dict[str, Any]], None]:
+        loop = asyncio.get_running_loop()
+
+        def report(event: str, data: dict[str, Any]) -> None:
+            asyncio.run_coroutine_threadsafe(context.progress(event, data), loop)
+
+        return report
+
+    async def _fork(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        required = {"name", "mission", "agent", "wait"}
+        if set(args) != required or not isinstance(args["wait"], bool):
+            raise InvalidRequest("fork requires name, mission, agent, and wait")
+        progress = self._thread_progress(context)
+        if args["wait"]:
+            world = await asyncio.to_thread(
+                self.forks.fork,
+                args["name"],
+                args["mission"],
+                args["agent"],
+                wait=True,
+                progress=progress,
+            )
+            self._schedule_automatic_ghosts(context.daemon)
+            return world.summary()
+        world = await asyncio.to_thread(self.forks.create_world, args["name"], args["mission"], args["agent"])
+        self._schedule_automatic_ghosts(context.daemon)
+        context.daemon.spawn_background(
+            f"world:{world.instance_id}",
+            asyncio.to_thread(self.forks.run_world, world, args["mission"], progress=progress),
+        )
+        return world.summary()
+
+    async def _race(self, args: dict[str, Any], context: RequestContext) -> list[dict[str, Any]]:
+        if set(args) != {"agents", "mission", "detach"} or not isinstance(args["agents"], list) or not isinstance(args["detach"], bool):
+            raise InvalidRequest("race requires agents, mission, and detach")
+        progress = self._thread_progress(context)
+        worlds = await asyncio.to_thread(
+            self.forks.race,
+            args["agents"],
+            args["mission"],
+            wait=not args["detach"],
+            progress=progress,
+        )
+        self._schedule_automatic_ghosts(context.daemon)
+        if args["detach"]:
+            for world in worlds:
+                context.daemon.spawn_background(
+                    f"world:{world.instance_id}",
+                    asyncio.to_thread(self.forks.run_world, world, args["mission"], progress=progress),
+                )
+        return [world.summary() for world in worlds]
+
+    def _graph(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("graph takes no arguments")
+        worlds = self.store.worlds()
+        return {
+            "nodes": [world.summary() for world in worlds],
+            "edges": [
+                {"parent": world.parent_instance, "child": world.instance_id}
+                for world in worlds
+                if world.parent_instance is not None
+            ],
+        }
+
+    def _log(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) - {"verify"}:
+            raise InvalidRequest("log accepts only verify")
+        events = [
+            event
+            for world in self.store.worlds()
+            for event in self.store.causal_events_for_world(world.instance_id)
+        ]
+        return {
+            "events": [item["event"] for item in sorted(events, key=lambda value: value["ordinal"])],
+            "receipts": [item["receipt"] for item in [self.store.receipt_for_transaction(row["transaction_id"]) for row in self.store.receipts()] if item],
+            "verification": self.store.verify_chains() if args.get("verify") else None,
+        }
+
+    def _why(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"path", "line"} or not isinstance(args["path"], str) or not isinstance(args["line"], int):
+            raise InvalidRequest("why requires path and line")
+        return CausalIndexer(self.store).why(args["path"], args["line"])
+
+    def _inspect(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("inspect requires world")
+        if args["world"] == "PRIME":
+            world = self.store.prime()
+            alias = "PRIME"
+        else:
+            world = self.store.world(args["world"])
+            alias = world.alias
+        if world is None:
+            raise WorldlineError("NO_PRIME", "no PRIME is initialized")
+        self.store.set_meta("activeWorld", alias)
+        return world.summary()
+
+    def _switch(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"target"} or not isinstance(args["target"], str):
+            raise InvalidRequest("switch requires target")
+        worlds = [world for world in self.store.worlds() if not world.alias.startswith("prime-")]
+        if not worlds:
+            raise WorldlineError("NO_INSPECTABLE_WORLDS", "no alternate worlds exist")
+        active = self.store.get_meta("activeWorld", "PRIME")
+        aliases = [world.alias for world in worlds]
+        if args["target"] in {"next", "previous"}:
+            index = aliases.index(active) if active in aliases else (-1 if args["target"] == "next" else 0)
+            offset = 1 if args["target"] == "next" else -1
+            selected = worlds[(index + offset) % len(worlds)]
+        else:
+            selected = self.store.world(args["target"])
+        hyprland = HyprlandAdapter()
+        hyprland.focus_workspace(selected.instance_id)
+        clients = hyprland.query("clients")
+        app_id = f"worldline-{selected.instance_id}"
+        exists = any(item.get("class") == app_id or item.get("initialClass") == app_id for item in clients)
+        if not exists:
+            terminal = shutil.which("xdg-terminal-exec")
+            if terminal is None:
+                raise WorldlineError("TERMINAL_UNAVAILABLE", "xdg-terminal-exec is not installed")
+            subprocess.Popen(
+                [
+                    terminal,
+                    f"--app-id={app_id}",
+                    f"--title={selected.alias}/{selected.actor}",
+                    "--",
+                    "worldline",
+                    "shell",
+                    selected.alias,
+                ],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                close_fds=True,
+            )
+        self.store.set_meta("activeWorld", selected.alias)
+        return selected.summary()
+
+    def _collapse_prepare(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("collapse.prepare requires world")
+        prepared = self.transactions.prepare(args["world"])
+        return {
+            **asdict(prepared),
+            "managedRoots": self._root_list({}, context),
+        }
+
+    def _collapse_commit(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
+            raise InvalidRequest("collapse.commit requires transactionId")
+        transaction = self.store.transaction_record(args["transactionId"])
+        result = self.transactions.commit(args["transactionId"])
+        if transaction["kind"] == "return":
+            self._restart_return_context()
+        self._schedule_automatic_ghosts(context.daemon)
+        return result
+
+    def _restart_return_context(self) -> None:
+        prime = self.store.prime()
+        if prime is None:
+            return
+        roots = self.store.roots()
+        primary = next((root for root in roots if root["primary_root"]), None)
+        if primary is None:
+            return
+        project = ProjectConfig.load(Path(os.fsdecode(bytes(primary["path"]))), self.store)
+        self.runner.services.start_declared(prime, project)
+        terminal = shutil.which("xdg-terminal-exec")
+        for item in prime.workspace.get("ownedTerminals", []):
+            if terminal is None or not isinstance(item, dict):
+                break
+            subprocess.Popen(
+                [
+                    terminal,
+                    f"--app-id=worldline-{prime.instance_id}",
+                    f"--title={item.get('title', 'PRIME')}",
+                    "--",
+                    "worldline",
+                    "shell",
+                    "PRIME",
+                ],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                close_fds=True,
+            )
+        clients = prime.workspace.get("clients")
+        if isinstance(clients, dict):
+            clients = clients.get("value")
+        if isinstance(clients, list):
+            try:
+                HyprlandAdapter().restore_live_clients(
+                    HyprlandAdapter.workspace_name(prime.instance_id),
+                    clients,
+                )
+            except WorldlineError:
+                pass
+
+    def _transaction_abort(self, args: dict[str, Any], _context: RequestContext) -> dict[str, str]:
+        if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
+            raise InvalidRequest("transaction.abort requires transactionId")
+        return self.transactions.abort(args["transactionId"])
+
+    def _return_prepare(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not (args["world"] is None or isinstance(args["world"], str)):
+            raise InvalidRequest("return.prepare requires nullable world")
+        selected = self.returns.select(args["world"])
+        candidate = self.returns.prepare_candidate(selected)
+        prepared = self.transactions.prepare(candidate.instance_id, kind="return")
+        return {
+            **asdict(prepared),
+            "returnWorld": selected.alias,
+            "managedRoots": self._root_list({}, context),
+        }
+
+    async def _simulate(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"argv"} or not isinstance(args["argv"], list):
+            raise InvalidRequest("simulate requires argv")
+        roots = self.store.roots()
+        primary = next((root for root in roots if root["primary_root"]), None)
+        project = ProjectConfig(generated=(), checks=(), services=()) if primary is None else ProjectConfig.load(Path(os.fsdecode(bytes(primary["path"]))), self.store)
+        health = [
+            {"id": check.id, "kind": check.kind, "argv": list(check.argv), "required": check.required}
+            for check in project.checks
+            if check.kind == "health"
+        ]
+        world = await asyncio.to_thread(self.simulation.run, args["argv"], health_checks=health)
+        return world.summary()
+
+    def _doctor(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) - {"refresh"}:
+            raise InvalidRequest("doctor accepts only refresh")
+        return self.capabilities.snapshot(refresh=bool(args.get("refresh", False)))
+
+    def _adapters(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:
+        if args:
+            raise InvalidRequest("adapters takes no arguments")
+        roots = self.store.roots()
+        if roots:
+            primary = next(root for root in roots if root["primary_root"])
+            primary_path = Path(os.fsdecode(bytes(primary["path"])))
+            is_git = primary["kind"] == "repo"
+        else:
+            primary_path = self.paths.home
+            is_git = False
+        context = AgentContext(
+            primary_root=primary_path,
+            workspace=primary_path,
+            mission_file=Path("/run/worldline-runtime/mission.txt"),
+            world_state=Path("/run/worldline-runtime/world.json"),
+            home=self.paths.home,
+            is_git_root=is_git,
+        )
+        result: list[dict[str, Any]] = []
+        for name in adapter_names(self.config):
+            try:
+                selected = resolve_adapter(name, self.config)
+                item = selected.capability(context)
+                item["argvPreview"] = list(selected.build_argv(context, "<mission>"))
+            except WorldlineError as exc:
+                item = {"name": name, "state": "UNAVAILABLE", "reason": exc.message}
+            result.append(item)
+        return result
+
+    def _ghost_enable(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"agent"} or not isinstance(args["agent"], str):
+            raise InvalidRequest("ghost.enable requires agent")
+        resolve_adapter(args["agent"], self.config)
+        return self.ghosts.enable(args["agent"])
+
+    def _ghost_disable(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("ghost.disable takes no arguments")
+        return self.ghosts.disable()
+
+    def _ghost_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("ghost.status takes no arguments")
+        return self.ghosts.status()
+
+    async def _ghost_run(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"objective", "wait"} or not isinstance(args["objective"], str) or not isinstance(args["wait"], bool):
+            raise InvalidRequest("ghost.run requires objective and wait")
+        status = self.ghosts.status()
+        if not status["enabled"]:
+            raise WorldlineError("GHOSTS_DISABLED", "ghosts require explicit ghost enable --agent AGENT")
+        try:
+            mission = self.ghosts.missions[args["objective"]]
+        except KeyError as exc:
+            raise WorldlineError("UNKNOWN_GHOST", f"unknown ghost objective: {args['objective']}") from exc
+        alias = f"ghost-{args['objective']}-{str(uuid.uuid4())[:8]}"
+        world = await asyncio.to_thread(self.forks.create_world, alias, mission, status["agent"])
+        world.evidence["ghostObjective"] = args["objective"]
+        self.store.save_world(world)
+        progress = self._thread_progress(context)
+        if args["wait"]:
+            completed = await asyncio.to_thread(
+                self.forks.run_world,
+                world,
+                mission,
+                progress=progress,
+                low_priority=True,
+            )
+            parent = self.store.world(completed.parent_instance)
+            self.ghosts.recommendation(args["objective"], completed, parent)
+            return completed.summary()
+        context.daemon.spawn_background(
+            f"ghost:{world.instance_id}",
+            asyncio.to_thread(self._run_ghost, world, mission, args["objective"], progress),
+        )
+        return world.summary()
+
+    def _run_ghost(self, world, mission: str, objective: str, progress) -> None:
+        completed = self.forks.run_world(world, mission, progress=progress, low_priority=True)
+        parent = self.store.world(completed.parent_instance)
+        self.ghosts.recommendation(objective, completed, parent)
+
+    def _shell_info(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("shell.info requires world")
+        world = self.store.prime() if args["world"] == "PRIME" else self.store.world(args["world"])
+        if world is None:
+            raise WorldlineError("NO_PRIME", "no PRIME is initialized")
+        roots = self.store.roots()
+        primary = next(root for root in roots if root["primary_root"])
+        cwd = world.workspace.get("ownedTerminalCwd")
+        if not isinstance(cwd, str) or not Path(cwd).is_dir():
+            cwd = primary["display_path"]
+        return {
+            "world": world.summary(),
+            "payload": world.payload_path,
+            "cwd": cwd,
+            "roots": [
+                {"rootKey": root["root_key"], "target": root["display_path"]}
+                for root in roots
+            ],
+        }

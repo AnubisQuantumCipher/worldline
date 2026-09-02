@@ -1,0 +1,27 @@
+aggregate library project Worldline_Core is
+
+   for Project_Files use
+     ("worldline_core_sources.gpr", "attest_sha256.gpr");
+   for Object_Dir use "../obj/core-library";
+   for Library_Dir use "../lib";
+   for Library_Name use "worldline_core";
+   for Library_Kind use "dynamic";
+   for Library_Interface use
+     ("Attest",
+      "Attest.SHA256",
+      "Worldline",
+      "Worldline.World",
+      "Worldline.Ancestry",
+      "Worldline.Transitions",
+      "Worldline.Collapse",
+      "Worldline.Causal_Graph",
+      "Worldline.Receipts",
+      "Worldline.C_API");
+   for Library_Standalone use "encapsulated";
+   for Library_Auto_Init use "true";
+
+   package Builder is
+      for Global_Compilation_Switches ("Ada") use ("-fPIC");
+   end Builder;
+
+end Worldline_Core;
