@@ -54,5 +54,29 @@ class DaemonTests(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(status["prime"])
 
 
+class StorageErrorNaming(unittest.TestCase):
+    def test_disk_full_and_other_os_errors_are_named_not_internal(self) -> None:
+        import errno
+        import sqlite3
+
+        from worldline.daemon import storage_error
+
+        full = storage_error(OSError(errno.ENOSPC, "No space left on device", "/store/x"))
+        self.assertEqual(full.code, "DISK_FULL")
+        self.assertEqual(full.details, {"errno": "ENOSPC", "path": "/store/x"})
+        self.assertIn("No space left on device: /store/x", full.message)
+        quota = storage_error(OSError(errno.EDQUOT, "Disk quota exceeded"))
+        self.assertEqual(quota.code, "DISK_FULL")
+        self.assertEqual(quota.details, {"errno": "EDQUOT"})
+        other = storage_error(OSError(errno.EIO, "Input/output error", b"/bytes/path"))
+        self.assertEqual(other.code, "STORAGE_ERROR")
+        self.assertEqual(other.details["path"], "/bytes/path")
+        db_full = storage_error(sqlite3.OperationalError("database or disk is full"))
+        self.assertEqual(db_full.code, "DISK_FULL")
+        db_other = storage_error(sqlite3.OperationalError("database is locked"))
+        self.assertEqual(db_other.code, "STORAGE_ERROR")
+        self.assertEqual(db_other.details, {"backend": "sqlite"})
+
+
 if __name__ == "__main__":
     unittest.main()

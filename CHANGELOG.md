@@ -45,6 +45,15 @@ returned, and `log --verify` replayed clean both times.
 - **Daemon log spam after a detached fork.** Progress events for a client that had already
   disconnected raised `socket.send() raised exception` every few seconds; the daemon now drops
   them silently (the causal chain is the durable record).
+- **A full disk answered `INTERNAL_ERROR`.** Fault injection on a 6 MB tmpfs: the daemon
+  survived, PRIME stayed intact, `doctor` stayed `OK`, and everything recovered once space
+  returned — but `fork`, `collapse --prepare`, and `status` all failed with the unnamed
+  `INTERNAL_ERROR: daemon operation failed`. Storage failures are now named: `DISK_FULL`
+  (ENOSPC, EDQUOT, SQLite "disk is full") or `STORAGE_ERROR`, with the errno name and path in
+  the details, and logged with a traceback.
+- **The skill's `pick_candidate.py` recommended PRIME itself.** `list` includes the PRIME
+  generation as a `VALID` world with an empty delta, which won every ranking. PRIME rows are
+  excluded as "a checkpoint, not a candidate".
 
 ### Tests
 
@@ -55,7 +64,7 @@ through collapse, return, and `root remove`), malformed agent output (binary jun
 line, then a valid event), daemon `kill -9` with a running agent and a `PREPARED` transaction
 (after restart: world `DEAD/DAEMON_RESTART`, job `DEGRADED`, transaction
 `ABORTED/RECOVERED_BEFORE_COMMIT`, PRIME untouched, fresh commit works), and a competing daemon
-(`DAEMON_ALREADY_RUNNING`). Suite: 81.
+(`DAEMON_ALREADY_RUNNING`). Suite: 82.
 
 ## 1.1.0 — 2026-09-20 · prepared transactions, supervision, proved lifecycle, cockpit
 

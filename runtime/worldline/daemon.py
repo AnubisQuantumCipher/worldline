@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import asyncio
+import sqlite3
+import errno
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 import fcntl
@@ -39,6 +41,27 @@ class RequestContext:
 class Operation:
     handler: Handler
     mutating: bool
+
+
+def storage_error(exc: BaseException) -> WorldlineError:
+    """Name a storage failure. ENOSPC/EDQUOT (and SQLite's "disk is full") become DISK_FULL;
+    any other OSError or SQLite error becomes STORAGE_ERROR with the errno name and path."""
+    if isinstance(exc, sqlite3.Error):
+        text = str(exc)
+        code = "DISK_FULL" if "full" in text.lower() else "STORAGE_ERROR"
+        return WorldlineError(code, f"store: {text}", {"backend": "sqlite"})
+    assert isinstance(exc, OSError)
+    name = errno.errorcode.get(exc.errno or 0, f"errno {exc.errno}")
+    code = "DISK_FULL" if exc.errno in (errno.ENOSPC, errno.EDQUOT) else "STORAGE_ERROR"
+    details: dict[str, Any] = {"errno": name}
+    path = exc.filename
+    if path is not None:
+        path_text = os.fsdecode(path) if isinstance(path, (bytes, bytearray)) else str(path)
+        details["path"] = path_text
+    message = f"{name}: {exc.strerror or 'storage operation failed'}"
+    if "path" in details:
+        message += f": {details['path']}"
+    return WorldlineError(code, message, details)
 
 
 class WorldlineDaemon:
@@ -273,6 +296,11 @@ class WorldlineDaemon:
             await self._send(writer, {"id": request_id, "ok": True, "result": result, "error": None})
         except WorldlineError as exc:
             await self._send(writer, {"id": request_id, "ok": False, "result": None, "error": exc.as_dict()})
+        except (OSError, sqlite3.Error) as exc:
+            # Storage failed underneath a handler (disk full is the one that happens): name it,
+            # so the operator sees DISK_FULL with the errno and path instead of INTERNAL_ERROR.
+            _LOG.exception("operation failed on storage")
+            await self._send(writer, {"id": request_id, "ok": False, "result": None, "error": storage_error(exc).as_dict()})
         except Exception:
             _LOG.exception("operation failed")
             await self._send(writer, {"id": request_id, "ok": False, "result": None, "error": {
