@@ -51,6 +51,18 @@ returned, and `log --verify` replayed clean both times.
   `INTERNAL_ERROR: daemon operation failed`. Storage failures are now named: `DISK_FULL`
   (ENOSPC, EDQUOT, SQLite "disk is full") or `STORAGE_ERROR`, with the errno name and path in
   the details, and logged with a traceback.
+- **`return` refused a checkpoint that had been live.** Found on the live machine after the
+  first real collapse into `aegis-anubis`: `return --prepare` answered
+  `PAYLOAD_INTEGRITY_FAILED: candidate payload path set differs from its manifest`. The
+  displaced checkpoint had been PRIME since 2026-08-29 and the project had written 257
+  generated files (`out/`, `keys/`) into it; its stored manifest describes it as it was
+  committed, not as it was displaced. What `return` restores is the state at the instant of
+  displacement, and every committed exchange already records that as its receipt's
+  `beforeRoot`. A return point whose stored manifest no longer matches is now captured fresh
+  and accepted only if it hashes to a `beforeRoot` some committed receipt recorded; the return
+  receipt's `afterRoot` then equals that `beforeRoot`. A payload that changed after it left
+  reality matches neither and is refused with the reason
+  (`tests/test_boundaries.py::ReturnAfterTheCheckpointWasLive`).
 - **The skill's `pick_candidate.py` recommended PRIME itself.** `list` includes the PRIME
   generation as a `VALID` world with an empty delta, which won every ranking. PRIME rows are
   excluded as "a checkpoint, not a candidate".
@@ -64,7 +76,7 @@ through collapse, return, and `root remove`), malformed agent output (binary jun
 line, then a valid event), daemon `kill -9` with a running agent and a `PREPARED` transaction
 (after restart: world `DEAD/DAEMON_RESTART`, job `DEGRADED`, transaction
 `ABORTED/RECOVERED_BEFORE_COMMIT`, PRIME untouched, fresh commit works), and a competing daemon
-(`DAEMON_ALREADY_RUNNING`). Suite: 82.
+(`DAEMON_ALREADY_RUNNING`). Suite: 83.
 
 ## 1.1.0 — 2026-09-20 · prepared transactions, supervision, proved lifecycle, cockpit
 

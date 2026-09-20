@@ -290,6 +290,95 @@ class DaemonCrashRecovery(unittest.TestCase):
                 self.assertEqual(second.stop(), 0, second.log.read_text(encoding="utf-8", errors="replace"))
 
 
+class ReturnAfterTheCheckpointWasLive(unittest.TestCase):
+    """A checkpoint that was PRIME changes while it is PRIME (generated outputs, edits made while
+    the daemon was down). Its stored manifest predates those changes, and `return` used to refuse
+    PAYLOAD_INTEGRITY_FAILED — the live machine hit exactly this after weeks of use. What return
+    restores is the state at the instant of displacement, which the displacing receipt recorded as
+    beforeRoot; that is what the return point is now verified against."""
+
+    def test_return_restores_the_displaced_state_and_refuses_a_tampered_one(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="worldline-return-live-") as temporary:
+            root = Path(temporary)
+            paths, env = _paths(root)
+            work = root / "proj"
+            work.mkdir()
+            (work / "base.txt").write_text("base\n", encoding="utf-8")
+            scripts = Path(env["HOME"]).parent / "agents"
+            scripts.mkdir(mode=0o755, exist_ok=True)
+            (scripts / "second.py").write_text(
+                "import sys; from pathlib import Path; Path(sys.argv[1], 'second.txt').write_text('second')\n", encoding="utf-8"
+            )
+            _config(
+                env,
+                hostile_source="import sys; from pathlib import Path; Path(sys.argv[1], 'made.txt').write_text('made')\n",
+                extra={"second": {"argv": ["/usr/bin/python3", str(scripts / "second.py"), "{workspace}"], "credentialMounts": [], "eventFormat": "jsonl"}},
+            )
+            first = _Daemon(self, root, env, log_name="first.stderr")
+            try:
+                client = first.client
+                client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+                self.assertEqual(client.request("fork", {"name": "made", "mission": "make", "agent": "hostile", "wait": True})["state"], "VALID")
+                prepared = client.request("collapse.prepare", {"world": "made"})
+                self.assertEqual(client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})["state"], "COMMITTED")
+                self.assertEqual((work / "made.txt").read_text(encoding="utf-8"), "made")
+            finally:
+                first.stop()
+            # Reality moves on while nobody is watching: a build writes generated output into the
+            # live root with the daemon stopped, so nothing marks PRIME dirty.
+            (work / "out").mkdir()
+            (work / "out" / "artifact.bin").write_bytes(b"\x00generated\xff")
+            (work / "base.txt").write_text("base, edited by hand\n", encoding="utf-8")
+
+            second = _Daemon(self, root, env, log_name="second.stderr")
+            try:
+                client = second.client
+                self.assertEqual(client.request("fork", {"name": "second", "mission": "again", "agent": "second", "wait": True})["state"], "VALID")
+                prepared = client.request("collapse.prepare", {"world": "second"})
+                self.assertEqual(prepared["decision"], "AUTHORIZED")
+                committed = client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+                self.assertEqual(committed["state"], "COMMITTED")
+                displacing_before_root = committed["beforeRoot"]
+                self.assertEqual((work / "second.txt").read_text(encoding="utf-8"), "second")
+                self.assertTrue((work / "out" / "artifact.bin").exists())
+
+                # Return to the checkpoint that was live: its stored manifest knows nothing of
+                # out/ or the edit, but the receipt that displaced it recorded that exact state.
+                returned = client.request("return.prepare", {"world": None})
+                self.assertEqual(returned["decision"], "AUTHORIZED")
+                result = client.request("collapse.commit", {"transactionId": returned["transaction_id"]})
+                self.assertEqual(result["state"], "COMMITTED")
+                self.assertEqual(result["afterRoot"], displacing_before_root)
+                self.assertEqual(result["receipt"]["afterRoot"], displacing_before_root)
+                self.assertFalse((work / "second.txt").exists())
+                self.assertEqual((work / "made.txt").read_text(encoding="utf-8"), "made")
+                self.assertEqual((work / "base.txt").read_text(encoding="utf-8"), "base, edited by hand\n")
+                self.assertEqual((work / "out" / "artifact.bin").read_bytes(), b"\x00generated\xff")
+                verification = client.request("log", {"verify": True})["verification"]
+                self.assertEqual(verification["receipts"], 3)
+                self.assertEqual(client.request("doctor", {})["storeIntegrity"]["state"], "OK")
+
+                # A return point that changed AFTER it was displaced matches neither its manifest
+                # nor any receipt, and is refused with the reason.
+                probe = client.request("return.prepare", {"world": None})
+                self.assertEqual(probe["decision"], "AUTHORIZED")
+                client.request("transaction.abort", {"transactionId": probe["transaction_id"]})
+                return_point = probe["returnWorld"]
+                payload_root = Path(client.request("show", {"world": return_point})["payload_path"])
+                root_key = client.request("root.list", {})[0]["rootKey"]
+                victim = payload_root / root_key / "second.txt"
+                os.chmod(victim, 0o600)  # archived payloads are stored read-only; a tamperer would do this too
+                victim.write_text("tampered after displacement", encoding="utf-8")
+                with self.assertRaises(WorldlineError) as refused:
+                    client.request("return.prepare", {"world": None})
+                self.assertEqual(refused.exception.code, "PAYLOAD_INTEGRITY_FAILED")
+                self.assertIn("changed after it was displaced", refused.exception.message)
+                self.assertEqual(refused.exception.details.get("returnPoint"), return_point)
+                self.assertEqual(client.request("doctor", {})["openTransactions"], [])
+            finally:
+                second.stop()
+
+
 class CompetingDaemon(unittest.TestCase):
     def test_second_instance_is_refused_and_the_first_keeps_serving(self) -> None:
         with tempfile.TemporaryDirectory(prefix="worldline-compete-") as temporary:
