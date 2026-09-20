@@ -1,5 +1,62 @@
 # Changelog
 
+## 1.1.1 — 2026-09-20 · the builtin agents actually run
+
+Every builtin adapter was exercised for real, with the operator's own credentials, in a private
+harness (own store, socket, and root; real `$HOME`). None of the four had ever completed a
+world on this machine. Each failure was reproduced, fixed at its cause, and covered by a test;
+then claude and codex forks reached `VALID`, a real three-lane race (claude, codex, claude)
+reached `VALID` on all lanes, the codex lane was collapsed through a prepared transaction and
+returned, and `log --verify` replayed clean both times.
+
+### Fixed — why no real world ever finished
+
+- **DNS did not work inside any world.** `/run` is a fresh tmpfs in the sandbox, and on this
+  machine `/etc/resolv.conf` is the systemd-resolved symlink into `/run/systemd/resolve`, so
+  every agent failed name resolution with "Try again" and reconnected until it gave up (codex sat
+  `MUTABLE` for minutes doing exactly that). The resolver directory is now bound read-only into
+  the world. `tests/test_sandbox.py` resolves a real name from inside a world.
+- **Claude Code refused to start as namespace root.** `--dangerously-skip-permissions` is
+  rejected when euid is 0, and the sandbox mapped the operator to uid 0. Agent worlds, checks,
+  and shells now run as the real uid inside the user namespace (nothing about reach changes; the
+  real uid is the only one mapped). `simulate` futures keep namespace root on purpose.
+- **Claude Code refused its own output format.** `--print --output-format stream-json` requires
+  `--verbose` since Claude Code 2.1; the adapter's argv lacked it.
+- **Claude Code's hooks blocked the mission.** The projected `settings.json` carries the
+  operator's desktop hooks (a cockpit tracker on every event on this machine); inside a world the
+  script does not exist, the `UserPromptSubmit` hook exits 2, and Claude Code reports *success*
+  having done nothing. Hooks are disabled in-world via `--settings '{"disableAllHooks":true}'`
+  (`--bare` would also refuse the operator's OAuth credential).
+- **omp died with `SQLITE_READONLY`.** It stamps `schema_version` into `~/.omp/agent/agent.db`
+  at startup, and the database was bound read-only. The world now gets a per-world private copy
+  made with the SQLite backup API (WAL folded in, `0600`, under the world's runtime) and bound
+  writable; the host database is never mounted. `CredentialProjection.private_copy` plus
+  `materialize_private_copies` in the runner; the sandbox refuses a writable projection that is
+  not inside the world runtime. (omp still fails on this machine, honestly: its configured
+  default model is rejected by the provider — the same request fails outside WORLDLINE.)
+- **pi was reported `AVAILABLE` with an empty login.** `~/.pi/agent/auth.json` exists but
+  declares no provider, so every pi world died with "No API key found". The adapter now reads the
+  file's shape (never a value) and reports `UNAVAILABLE: pi has no provider credentials … run
+  \`pi login\``.
+- **An unauthenticated agent produced a DEAD world instead of a refusal.** `fork` and `race`
+  now probe the adapter's credentials before the freeze and refuse `ADAPTER_AUTH_UNAVAILABLE`
+  with no world, no checkpoint, and no generation left behind
+  (`test_unauthenticated_adapter_is_refused_before_any_checkpoint`).
+- **Daemon log spam after a detached fork.** Progress events for a client that had already
+  disconnected raised `socket.send() raised exception` every few seconds; the daemon now drops
+  them silently (the causal chain is the durable record).
+
+### Tests
+
+`tests/test_boundaries.py` (new, 4 scenarios): hostile root contents (unicode, spaces, shell
+metacharacters, leading dashes, mixed modes, nested and empty directories, relative symlinks,
+hardlinks; `EXTERNAL_SYMLINK` and `UNSUPPORTED_SPECIAL_FILE` refusals; everything preserved
+through collapse, return, and `root remove`), malformed agent output (binary junk, a 100 KB
+line, then a valid event), daemon `kill -9` with a running agent and a `PREPARED` transaction
+(after restart: world `DEAD/DAEMON_RESTART`, job `DEGRADED`, transaction
+`ABORTED/RECOVERED_BEFORE_COMMIT`, PRIME untouched, fresh commit works), and a competing daemon
+(`DAEMON_ALREADY_RUNNING`). Suite: 81.
+
 ## 1.1.0 — 2026-09-20 · prepared transactions, supervision, proved lifecycle, cockpit
 
 The desktop plugin was rewritten around an explicit transaction contract, and the engine grew

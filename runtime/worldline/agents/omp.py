@@ -24,13 +24,15 @@ class OmpAdapter(AgentAdapter):
 
     def credential_mounts(self, context: AgentContext) -> tuple[CredentialProjection, ...]:
         directory = context.home / ".omp/agent"
-        mounts = [self.required_projection(directory / "agent.db")]
-        for source in (
-            directory / "agent.db-wal",
-            directory / "agent.db-shm",
-            directory / "config.yml",
-            directory / "models.yml",
-        ):
-            if source.is_file():
-                mounts.append(CredentialProjection(source.resolve(strict=True), source))
+        # omp keeps credentials, settings, and usage in one SQLite database that it opens
+        # read-write at startup (it stamps schema_version before doing anything else), so a
+        # read-only bind of the host file makes every omp world die with SQLITE_READONLY. The
+        # world gets a consistent private copy instead (materialized by the runner through the
+        # SQLite backup API, so the WAL is folded in); the host database is never mounted.
+        source = self.required_projection(directory / "agent.db")
+        mounts = [CredentialProjection(source.source, source.target, private_copy=True)]
+        for name in ("config.yml", "models.yml"):
+            candidate = directory / name
+            if candidate.is_file():
+                mounts.append(CredentialProjection(candidate.resolve(strict=True), candidate))
         return tuple(mounts)

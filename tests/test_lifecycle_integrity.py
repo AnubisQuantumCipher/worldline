@@ -293,7 +293,9 @@ class MeaningfulParentCheck(unittest.TestCase):
 class _FixtureDaemon:
     """A private daemon over a throwaway root and a scriptable generic adapter."""
 
-    def __init__(self, test: unittest.TestCase, agent_source: str, *, project: dict | None = None) -> None:
+    def __init__(
+        self, test: unittest.TestCase, agent_source: str, *, project: dict | None = None, extra_agents: dict | None = None
+    ) -> None:
         self.test = test
         self.temporary = tempfile.TemporaryDirectory(prefix="worldline-fixture-")
         root = Path(self.temporary.name)
@@ -315,7 +317,8 @@ class _FixtureDaemon:
                     "argv": ["/usr/bin/python3", str(agent_script), "{workspace}", "{missionFile}", "{worldState}"],
                     "credentialMounts": [],
                     "eventFormat": "jsonl",
-                }
+                },
+                **(extra_agents or {}),
             },
             "ghosts": {"enabled": False, "agent": None},
         }), encoding="utf-8")
@@ -494,6 +497,39 @@ class CancellationAndFailedStart(unittest.TestCase):
             with self.assertRaises(WorldlineError) as nothing:
                 client.request("job.cancel", {"world": "slow"})
             self.assertEqual(nothing.exception.code, "NO_ACTIVE_JOB")
+            self.assertEqual(client.request("doctor", {})["unsupervisedWorlds"], [])
+        finally:
+            fixture.close()
+
+    def test_unauthenticated_adapter_is_refused_before_any_checkpoint(self) -> None:
+        # The credential file is declared but absent: the adapter is installed and would start,
+        # then die. fork and race must refuse at the prompt with ADAPTER_AUTH_UNAVAILABLE and
+        # leave no world and no frozen generation behind; the adapters listing says why.
+        locked = {
+            "locked": {
+                "argv": ["/usr/bin/true"],
+                "credentialMounts": [{"source": "/nonexistent/worldline-locked-credential", "target": "/home/x/.locked"}],
+                "eventFormat": "jsonl",
+            }
+        }
+        fixture = _FixtureDaemon(self, _QUICK_AGENT, extra_agents=locked)
+        try:
+            work, client = fixture.work, fixture.client
+            client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+            generations_before = sorted(p.name for p in fixture.paths.generations.iterdir())
+            with self.assertRaises(WorldlineError) as refused:
+                client.request("fork", {"name": "locked-out", "mission": "x", "agent": "locked", "wait": False})
+            self.assertEqual(refused.exception.code, "ADAPTER_AUTH_UNAVAILABLE")
+            with self.assertRaises(WorldlineError) as race_refused:
+                client.request("race", {"agents": ["fixture", "locked", "fixture"], "mission": "x", "detach": True})
+            self.assertEqual(race_refused.exception.code, "ADAPTER_AUTH_UNAVAILABLE")
+            self.assertEqual(sorted(p.name for p in fixture.paths.generations.iterdir()), generations_before)
+            aliases = [w["alias"] for w in client.request("list")]
+            self.assertNotIn("locked-out", aliases)
+            self.assertEqual([a for a in aliases if a in ("alpha", "beta", "gamma")], [])
+            adapters = {item["name"]: item for item in client.request("adapters", {})}
+            self.assertEqual(adapters["locked"]["state"], "UNAVAILABLE")
+            self.assertIn("locked-credential", adapters["locked"]["reason"])
             self.assertEqual(client.request("doctor", {})["unsupervisedWorlds"], [])
         finally:
             fixture.close()

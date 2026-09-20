@@ -183,6 +183,8 @@ class SystemSimulation:
             environment=safe_environment(),
             roots=overlays,
             runtime=runtime,
+            uid=0,
+            gid=0,
         )
         job_id = str(uuid.uuid4())
         self.store.create_job(

@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, Callable, Sequence
 
 from .agents import adapter as resolve_adapter
+from .agents.base import AgentContext
 from .checkpoint import CheckpointManager, FrozenParent
 from .config import GlobalConfig
 from .core import Core, hash_id
@@ -51,6 +52,10 @@ class ForkManager:
         # and an unknown or unavailable adapter used to abandon it (an unreferenced payload the
         # doctor then had to explain).
         actor = resolve_adapter(agent_name, self.config)
+        # Credentials are checked before the freeze for the same reason: an agent that cannot be
+        # authenticated (pi with an empty auth.json, a generic command whose declared credential
+        # file is gone) should be a refusal at the prompt, not a world that is born DEAD.
+        actor.credential_mounts(self._probe_context())
         parent = frozen or self.checkpoint.freeze()
         world = World.create(
             alias=name,
@@ -119,6 +124,17 @@ class ForkManager:
         current.transition(WorldState.DEAD, self.core)
         self.store.save_world(current)
 
+    def _probe_context(self) -> AgentContext:
+        home = self.paths.home
+        return AgentContext(
+            primary_root=home,
+            workspace=home,
+            mission_file=Path("/run/worldline-runtime/mission.txt"),
+            world_state=Path("/run/worldline-runtime/world.json"),
+            home=home,
+            is_git_root=False,
+        )
+
     def fork(
         self,
         name: str,
@@ -150,7 +166,7 @@ class ForkManager:
         else:
             aliases = ("alpha", "beta", "gamma")
         for agent_name in agents:
-            resolve_adapter(agent_name, self.config)
+            resolve_adapter(agent_name, self.config).credential_mounts(self._probe_context())
         for alias in aliases:
             try:
                 self.store.world(alias)

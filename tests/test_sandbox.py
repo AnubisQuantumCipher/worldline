@@ -81,5 +81,67 @@ class SandboxTests(unittest.TestCase):
         self.assertEqual(process.process.returncode, 0, stderr.decode("utf-8", "replace"))
 
 
+    def test_argv_binds_resolver_directory_and_refuses_writable_host_credentials(self) -> None:
+        from worldline.linux.namespaces import CredentialProjection
+        from worldline.errors import WorldlineError
+
+        identifier = str(uuid.uuid4())
+        lower = Path(self.temporary.name) / "lower"
+        lower.mkdir()
+        target = Path(f"/tmp/worldline-managed-{identifier}")
+        roots = self.sandbox.overlay_roots(identifier, [("fixture", lower, target)])
+        runtime = self.paths.overlays / identifier / "runtime"
+        host_secret = Path(self.temporary.name) / "secret.db"
+        host_secret.write_bytes(b"host")
+        home = Path(self.temporary.name) / "home"
+        spec = SandboxSpec(
+            instance_id=identifier, argv=("/usr/bin/true",), cwd=target, environment={"PATH": "/usr/bin"},
+            roots=roots, runtime=runtime, operator_home=home,
+            credential_mounts=(CredentialProjection(host_secret, home / ".x/secret.db", private_copy=True),),
+        )
+        with self.assertRaises(WorldlineError) as caught:
+            self.sandbox.build_argv(spec)
+        self.assertEqual(caught.exception.code, "INVALID_CREDENTIAL_PROJECTION")
+
+        runtime.mkdir(parents=True, exist_ok=True)
+        private = runtime / "private-credentials" / "0-secret.db"
+        private.parent.mkdir(parents=True)
+        private.write_bytes(b"copy")
+        spec = SandboxSpec(
+            instance_id=identifier, argv=("/usr/bin/true",), cwd=target, environment={"PATH": "/usr/bin"},
+            roots=roots, runtime=runtime, operator_home=home,
+            credential_mounts=(CredentialProjection(private, home / ".x/secret.db", private_copy=True),),
+        )
+        argv = self.sandbox.build_argv(spec)
+        self.assertIn(("--bind", str(private), str(home / ".x/secret.db")), list(zip(argv, argv[1:], argv[2:])))
+        resolv = Path("/etc/resolv.conf")
+        if resolv.is_symlink() and resolv.resolve().is_relative_to("/run"):
+            directory = str(resolv.resolve().parent)
+            self.assertIn(("--ro-bind", directory, directory), list(zip(argv, argv[1:], argv[2:])))
+            self.assertGreater(argv.index("--ro-bind", argv.index("/run") + 1), argv.index("--tmpfs"))
+
+    def test_world_resolves_dns_names_like_the_host(self) -> None:
+        import socket
+
+        try:
+            socket.getaddrinfo("api.anthropic.com", 443)
+        except OSError:
+            self.skipTest("host has no DNS")
+        identifier = str(uuid.uuid4())
+        lower = Path(self.temporary.name) / "lower"
+        lower.mkdir()
+        target = Path(f"/tmp/worldline-managed-{identifier}")
+        roots = self.sandbox.overlay_roots(identifier, [("fixture", lower, target)])
+        runtime = self.paths.overlays / identifier / "runtime"
+        spec = SandboxSpec(
+            instance_id=identifier,
+            argv=("/usr/bin/python3", "-c", "import socket; socket.getaddrinfo('api.anthropic.com', 443)"),
+            cwd=target, environment={"PATH": "/usr/bin"}, roots=roots, runtime=runtime,
+        )
+        process = self.sandbox.launch_world(spec)
+        _stdout, stderr = process.process.communicate(timeout=30)
+        self.assertEqual(process.process.returncode, 0, stderr.decode("utf-8", "replace"))
+
+
 if __name__ == "__main__":
     unittest.main()

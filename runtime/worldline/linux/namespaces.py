@@ -30,6 +30,11 @@ class OverlayRoot:
 class CredentialProjection:
     source: Path
     target: Path
+    # A private copy is a per-world duplicate of a credential file that the agent must be able
+    # to write (omp keeps its whole state, credentials included, in one SQLite file it opens
+    # read-write). The runner materializes the copy under the world's agent runtime before the
+    # sandbox starts; the host file is never bound. The copy dies with the world.
+    private_copy: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -43,6 +48,13 @@ class SandboxSpec:
     readonly_home_paths: tuple[Path, ...] = ()
     credential_mounts: tuple[CredentialProjection, ...] = ()
     operator_home: Path = Path("/home/sicarii")
+    # Identity inside the user namespace. The real uid is the only one mapped either way, so
+    # this changes what the process *sees*, not what it can reach. Agent worlds, checks, and
+    # shells run as the real uid: Claude Code refuses `--dangerously-skip-permissions` when it
+    # sees euid 0, which is why every builtin claude world on this machine had died. System
+    # futures (`simulate`) keep namespace root deliberately, since they audition system commands.
+    uid: int | None = None
+    gid: int | None = None
 
 
 @dataclass(slots=True)
@@ -145,12 +157,27 @@ class BubblewrapSandbox:
             result.extend(("--dir", str(directory)))
         return result
 
+    @staticmethod
+    def _resolver_directories() -> tuple[Path, ...]:
+        resolv = Path("/etc/resolv.conf")
+        if not resolv.is_symlink():
+            return ()
+        try:
+            real = resolv.resolve(strict=True)
+        except OSError:
+            return ()
+        if real.is_relative_to("/run") and real.parent != Path("/run") and real.parent.is_dir():
+            return (real.parent,)
+        return ()
+
     def build_argv(self, spec: SandboxSpec) -> tuple[str, ...]:
         if not spec.argv or any(not item for item in spec.argv):
             raise WorldlineError("INVALID_AGENT_COMMAND", "sandbox argv must be a nonempty string array")
         if not spec.cwd.is_absolute() or not any(self._overlap(spec.cwd, root.target) for root in spec.roots):
             raise WorldlineError("INVALID_SANDBOX_CWD", f"sandbox cwd is outside managed roots: {spec.cwd}")
         secure_directory(spec.runtime)
+        uid = os.getuid() if spec.uid is None else int(spec.uid)
+        gid = os.getgid() if spec.gid is None else int(spec.gid)
         arguments: list[str] = [
             self.executable,
             "--unshare-all",
@@ -159,9 +186,9 @@ class BubblewrapSandbox:
             "--die-with-parent",
             "--new-session",
             "--uid",
-            "0",
+            str(uid),
             "--gid",
-            "0",
+            str(gid),
             "--hostname",
             f"worldline-{spec.instance_id[:12]}",
             "--clearenv",
@@ -179,6 +206,12 @@ class BubblewrapSandbox:
                 arguments.extend(("--ro-bind", path_text, path_text))
         arguments.extend(("--dev", "/dev", "--proc", "/proc"))
         arguments.extend(("--tmpfs", "/run", "--tmpfs", "/tmp"))
+        # /run is a fresh tmpfs, which strands /etc/resolv.conf when it is the systemd-resolved
+        # symlink into /run/systemd/resolve (Arch's default). Without this every agent inside a
+        # world fails DNS with "Try again" and reconnects until it gives up, while the host
+        # resolves fine. Bind the resolver directory read-only so the symlink lands.
+        for directory in self._resolver_directories():
+            arguments.extend(("--ro-bind", str(directory), str(directory)))
         if "/var" not in overlay_targets:
             arguments.extend(("--tmpfs", "/var/tmp"))
         arguments.extend(self._directory_arguments(spec.operator_home.parent))
@@ -192,6 +225,7 @@ class BubblewrapSandbox:
                 raise WorldlineError("CREDENTIAL_PROJECTION_UNAVAILABLE", f"declared read-only path is missing: {source}")
         projections = [CredentialProjection(path, path) for path in spec.readonly_home_paths]
         projections.extend(spec.credential_mounts)
+        runtime_resolved = spec.runtime.resolve()
         for projection in projections:
             if not projection.target.is_absolute():
                 raise WorldlineError("INVALID_CREDENTIAL_PROJECTION", f"projection target is not absolute: {projection.target}")
@@ -200,7 +234,16 @@ class BubblewrapSandbox:
                 raise WorldlineError("INVALID_CREDENTIAL_PROJECTION", f"duplicate projection target: {target_text}")
             mounted_targets.add(target_text)
             arguments.extend(self._directory_arguments(projection.target.parent, stop=spec.operator_home))
-            arguments.extend(("--ro-bind", str(projection.source), target_text))
+            if projection.private_copy:
+                # Writable, so it must be the world's own copy inside its runtime, never a host file.
+                if not self._overlap(projection.source.resolve(), runtime_resolved):
+                    raise WorldlineError(
+                        "INVALID_CREDENTIAL_PROJECTION",
+                        f"writable projection is not a private copy inside the world runtime: {projection.source}",
+                    )
+                arguments.extend(("--bind", str(projection.source), target_text))
+            else:
+                arguments.extend(("--ro-bind", str(projection.source), target_text))
 
         for root in spec.roots:
             arguments.extend(self._directory_arguments(root.target.parent))

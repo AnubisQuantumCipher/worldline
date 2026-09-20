@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sqlite3
 import threading
 from typing import Any, Callable
 import uuid
@@ -19,7 +20,7 @@ from .core import Core, hash_id
 from .environment import safe_environment
 from .errors import WorldlineError
 from .finalize import Finalizer
-from .linux.namespaces import BubblewrapSandbox, SandboxSpec
+from .linux.namespaces import BubblewrapSandbox, CredentialProjection, SandboxSpec
 from .linux.systemd import SystemdAdapter
 from .manifest import path_b64
 from .model import World, WorldState
@@ -27,6 +28,50 @@ from .paths import WorldlinePaths, secure_directory
 from .services import ServiceManager
 from .project import ProjectConfig
 from .store import StateStore
+
+
+def materialize_private_copies(
+    projections: tuple[CredentialProjection, ...], directory: Path
+) -> tuple[CredentialProjection, ...]:
+    """Replace every private-copy projection with a per-world duplicate under ``directory``.
+
+    The copy is what the sandbox binds writable; the host file is never mounted. SQLite files
+    are copied through the backup API so a live WAL is folded into a consistent snapshot.
+    """
+    if not any(item.private_copy for item in projections):
+        return projections
+    secure_directory(directory)
+    result: list[CredentialProjection] = []
+    for index, item in enumerate(projections):
+        if not item.private_copy:
+            result.append(item)
+            continue
+        copy = directory / f"{index}-{item.source.name}"
+        if copy.exists():
+            copy.unlink()
+        if _is_sqlite(item.source):
+            origin = sqlite3.connect(f"file:{item.source}?mode=ro", uri=True)
+            try:
+                target = sqlite3.connect(copy)
+                try:
+                    origin.backup(target)
+                finally:
+                    target.close()
+            finally:
+                origin.close()
+        else:
+            shutil.copyfile(item.source, copy)
+        os.chmod(copy, 0o600)
+        result.append(CredentialProjection(copy, item.target, private_copy=True))
+    return tuple(result)
+
+
+def _is_sqlite(path: Path) -> bool:
+    try:
+        with path.open("rb") as handle:
+            return handle.read(16) == b"SQLite format 3\x00"
+    except OSError:
+        return False
 
 
 class AgentRunner:
@@ -107,7 +152,7 @@ class AgentRunner:
             is_git_root=primary["kind"] == "repo",
         )
         argv = adapter.build_argv(context, mission)
-        credentials = adapter.credential_mounts(context)
+        credentials = materialize_private_copies(adapter.credential_mounts(context), runtime / "private-credentials")
         spec = SandboxSpec(
             instance_id=world.instance_id,
             argv=argv,

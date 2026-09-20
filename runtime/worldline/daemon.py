@@ -286,8 +286,17 @@ class WorldlineDaemon:
 
     @staticmethod
     async def _send(writer: asyncio.StreamWriter, value: dict[str, Any]) -> None:
-        writer.write(canonical_bytes(value) + b"\n")
-        await writer.drain()
+        # A detached fork/race returns immediately while its background job keeps reporting
+        # progress to the request that started it; once that client has gone, the events have
+        # nowhere to go. Dropping them is correct (the durable record is the causal chain) and
+        # keeps asyncio from logging "socket.send() raised exception" every few seconds.
+        if writer.is_closing():
+            return
+        try:
+            writer.write(canonical_bytes(value) + b"\n")
+            await writer.drain()
+        except (ConnectionError, BrokenPipeError, RuntimeError):
+            return
 
     def _ping(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if args:

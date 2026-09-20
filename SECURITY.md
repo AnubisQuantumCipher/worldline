@@ -25,8 +25,15 @@ authorized, atomic collapse.
 - **Escape resistance.** Absolute, `..`-escaping, and NUL symlink targets are rejected at
   capture, materialize, and the mandatory staged recapture (`EXTERNAL_SYMLINK`); hardlinks
   outside a root are rejected; walks never follow symlinks; special/cross-device files are
-  rejected. Namespace-root is neutered (`--cap-drop ALL`, `--disable-userns`, `--unshare-user`
-  with uid→real, `NoNewPrivileges`).
+  rejected. Agent worlds, checks, and shells run as the real uid inside the user namespace
+  (the only uid mapped either way); `simulate` futures keep namespace root, and either identity
+  is neutered (`--cap-drop ALL`, `--disable-userns`, `--unshare-user`, `NoNewPrivileges`).
+- **Credential projection.** Each builtin adapter binds its credential file read-only at its
+  home path; nothing else of `$HOME` is visible. omp is the one exception: it opens its whole
+  state database read-write at startup, so the world gets a per-world private copy (SQLite
+  backup, `0600`, under the world's runtime) and the host database is never mounted. Claude
+  Code's hooks are disabled inside a world (`--settings '{"disableAllHooks":true}'`): they are
+  host desktop integrations, and a hook that exits 2 silently blocks the mission.
 - **Atomic, crash-consistent collapse.** All roots swap in a single `renameat2(RENAME_EXCHANGE)`
   of the `live` mapping; PRIME is re-hashed against `beforeRoot` and the staged payload against
   `stagedRoot` immediately before the exchange; a generation marker inside the swapped directory
