@@ -49,6 +49,25 @@ class AgentRunner:
         self.checks = CheckRunner(paths, sandbox, systemd)
         self.finalizer = Finalizer(paths, store, sandbox, core=self.core)
         self.services = ServiceManager(paths, store, sandbox, systemd)
+        # Job ids the operator asked to cancel. Consulted right after launch (a cancel that
+        # arrives while the job is still STARTING has no unit to stop yet) and after the unit
+        # exits, so the evidence records USER_CANCELLED instead of an unexplained failure.
+        self._cancelled: set[str] = set()
+        self._cancel_lock = threading.Lock()
+
+    def cancel(self, job_id: str, unit: str | None) -> None:
+        with self._cancel_lock:
+            self._cancelled.add(job_id)
+        if unit:
+            self.systemd.stop(unit)
+
+    def _was_cancelled(self, job_id: str) -> bool:
+        with self._cancel_lock:
+            return job_id in self._cancelled
+
+    def _forget_cancel(self, job_id: str) -> None:
+        with self._cancel_lock:
+            self._cancelled.discard(job_id)
 
     def run(
         self,
@@ -142,6 +161,12 @@ class AgentRunner:
             systemd_unit=unit.unit,
             pid=main_pid,
         )
+        if self._was_cancelled(job_id):
+            # Cancelled between create_job and launch: the unit exists now, stop it ourselves.
+            try:
+                self.systemd.stop(unit.unit)
+            except WorldlineError:
+                pass
         if progress is not None:
             progress("job-started", {"world": world.alias, "jobId": job_id, "unit": unit.unit})
         session_reference: str | None = None
@@ -211,6 +236,8 @@ class AgentRunner:
         exit_code = unit.launcher.wait()
         stdout_thread.join()
         stderr_thread.join()
+        cancelled = self._was_cancelled(job_id)
+        self._forget_cancel(job_id)
         if thread_errors:
             if world.state is WorldState.MUTABLE:
                 world.transition(WorldState.DEAD, self.core)
@@ -241,19 +268,38 @@ class AgentRunner:
             "covers": [],
             "argv": list(argv),
             "exitCode": exit_code,
-            "status": "PASS" if exit_code == 0 else "FAIL",
+            "status": "FAIL" if cancelled else ("PASS" if exit_code == 0 else "FAIL"),
             "rawEventHash": hash_id(self.core.hash_file(raw_path)),
             "stderrHash": hash_id(self.core.hash_file(stderr_path)),
         }
+        if cancelled:
+            agent_result["reason"] = "USER_CANCELLED: the operator stopped this world before the agent finished"
         check_results = [agent_result]
-        check_results.extend(
-            self.checks.run(
-                world_instance=world.instance_id,
-                overlays=overlays,
-                primary_target=primary_target,
-                checks=project.checks,
+        if cancelled:
+            # The partial work is still materialized so it can be inspected, but running the
+            # project's checks against a half-finished tree would manufacture evidence about
+            # code nobody claims is done. Report them as not assessed, with the reason.
+            check_results.extend(
+                {
+                    "id": check.id,
+                    "kind": check.kind,
+                    "required": check.required,
+                    "format": check.format,
+                    "covers": list(check.covers),
+                    "status": "UNASSESSED",
+                    "reason": "not run: world cancelled by the operator before checks",
+                }
+                for check in project.checks
             )
-        )
+        else:
+            check_results.extend(
+                self.checks.run(
+                    world_instance=world.instance_id,
+                    overlays=overlays,
+                    primary_target=primary_target,
+                    checks=project.checks,
+                )
+            )
         finalized = self.finalizer.finalize(
             world.instance_id,
             overlays,
@@ -277,9 +323,14 @@ class AgentRunner:
         if finalized.state is WorldState.VALID:
             self.services.start_declared(finalized, project)
         CausalIndexer(self.store).index(finalized, project)
-        self.store.update_job(job_id, state=finalized.state.value, ended=True)
+        self.store.update_job(
+            job_id,
+            state="CANCELLED" if cancelled else finalized.state.value,
+            error={"code": "USER_CANCELLED", "message": "stopped by the operator"} if cancelled else None,
+            ended=True,
+        )
         if progress is not None:
-            progress("job-finished", {"world": world.alias, "state": finalized.state.value})
+            progress("job-finished", {"world": world.alias, "state": finalized.state.value, "cancelled": cancelled})
         return finalized
 
     @staticmethod

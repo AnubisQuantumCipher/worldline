@@ -63,29 +63,43 @@ def _confirm(prompt: str, *, assume_yes: bool) -> bool:
 
 
 def _print_transaction(facts: dict[str, Any]) -> None:
-    print(f"Base: {facts['before_root']}")
-    print(f"Candidate: {facts['candidate_root']}")
+    kind = str(facts.get("kind") or "collapse").upper()
+    alias = facts.get("candidate_alias") or facts.get("candidateAlias") or ""
+    print(f"Transaction: {facts.get('transaction_id') or facts.get('transactionId')}  [{kind}]  decision {facts.get('decision', '?')}")
+    if alias:
+        print(f"Candidate world: {alias}")
+    print(f"Base: {facts.get('before_root') or facts.get('beforeRoot')}")
+    print(f"Candidate: {facts.get('candidate_root') or facts.get('candidateRoot')}")
     print("Managed roots:")
     for root in facts["managedRoots"]:
         print(f"  {root['path']}  [{root['kind']}]  {root['rootKey']}")
     print("Delta:")
-    for operation in facts["delta"]["operations"]:
-        print(f"  {operation['op']:6} {operation['rootKey']}:{operation['pathDisplay']}")
+    operations = (facts.get("delta") or {}).get("operations") or []
+    if operations:
+        for operation in operations:
+            print(f"  {operation['op']:6} {operation['rootKey']}:{operation['pathDisplay']}")
+    else:
+        print("  (no operations)")
     print("Conflicts:")
-    if facts["conflicts"]:
+    if facts.get("conflicts"):
         for conflict in facts["conflicts"]:
             print(f"  {conflict['pathDisplay']}")
     else:
         print("  NONE")
     print("Foreign contamination:")
-    if facts["contamination"]:
+    if facts.get("contamination"):
         for item in facts["contamination"]:
             print(f"  {item}")
     else:
         print("  NONE")
+    dependencies = facts.get("dependency_changes") or facts.get("dependencyChanges") or []
+    if dependencies:
+        print("Dependency changes:")
+        for item in dependencies:
+            print(f"  {item.get('change', '?'):6} {item.get('name')}  {item.get('from')} -> {item.get('to')}")
 
 
-def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Namespace) -> Any:
+def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Namespace, *, as_json: bool) -> Any:
     roots = arguments.roots if hasattr(arguments, "roots") else [arguments.root]
     payload = {
         "roots": roots,
@@ -102,9 +116,26 @@ def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Nam
         if exc.code != "CONFIRMATION_REQUIRED":
             raise
         details = exc.details
-    print("Managed root change:")
-    for root in details.get("roots", []):
-        print(f"  {root['path']}  [{root['kind']}]" + ("  PRIMARY" if root.get("primary") else ""))
+        message = exc.message
+    facts = {
+        "operation": operation,
+        "state": "DRY_RUN",
+        "roots": details.get("roots", []),
+        "message": message,
+        "effect": (
+            "root removal materializes the current payload back at the exact path and drops the live mapping"
+            if operation == "root.remove"
+            else "registration moves each directory into the WORLDLINE store and leaves a symlink at the exact path"
+        ),
+    }
+    if getattr(arguments, "dry_run", False):
+        # The facts the confirmation prompt would show, as data, and nothing moved. This is the
+        # seam a UI uses to render a managed-root review before asking for the real change.
+        return facts
+    if not as_json or sys.stdin.isatty():
+        print("Managed root change:")
+        for root in details.get("roots", []):
+            print(f"  {root['path']}  [{root['kind']}]" + ("  PRIMARY" if root.get("primary") else ""))
     if not _confirm("Apply this exact managed-root change?", assume_yes=arguments.yes):
         return {"state": "ABORTED"}
     payload["confirmed"] = True
@@ -189,6 +220,7 @@ def parser() -> argparse.ArgumentParser:
     initialize.add_argument("--primary")
     initialize.add_argument("--kind", choices=("repo", "config", "filesystem"))
     initialize.add_argument("--yes", action="store_true")
+    initialize.add_argument("--dry-run", action="store_true", dest="dry_run")
     initialize.add_argument("--json", action="store_true")
 
     root_command = commands.add_parser("root")
@@ -198,10 +230,12 @@ def parser() -> argparse.ArgumentParser:
     root_add.add_argument("--primary")
     root_add.add_argument("--kind", choices=("repo", "config", "filesystem"))
     root_add.add_argument("--yes", action="store_true")
+    root_add.add_argument("--dry-run", action="store_true", dest="dry_run")
     root_add.add_argument("--json", action="store_true")
     root_remove = root_subcommands.add_parser("remove")
     root_remove.add_argument("root")
     root_remove.add_argument("--yes", action="store_true")
+    root_remove.add_argument("--dry-run", action="store_true", dest="dry_run")
     root_remove.add_argument("--json", action="store_true")
     root_list = root_subcommands.add_parser("list")
     root_list.add_argument("--json", action="store_true")
@@ -219,17 +253,39 @@ def parser() -> argparse.ArgumentParser:
     race.add_argument("mission_file", nargs="?")
     race.add_argument("--mission-text")
     race.add_argument("--agent", action="append", required=True)
+    race.add_argument("--name", help="prefix the alpha/beta/gamma lanes, e.g. --name retry gives retry-alpha")
     race.add_argument("--detach", action="store_true")
     race.add_argument("--json", action="store_true")
 
     collapse = commands.add_parser("collapse")
     collapse.add_argument("world")
     collapse.add_argument("--yes", action="store_true")
+    collapse.add_argument("--prepare", action="store_true", help="prepare and print the facts, leave the transaction PREPARED for `transaction commit`/`abort`")
     collapse.add_argument("--json", action="store_true")
     returning = commands.add_parser("return")
     returning.add_argument("world", nargs="?")
     returning.add_argument("--yes", action="store_true")
+    returning.add_argument("--prepare", action="store_true")
     returning.add_argument("--json", action="store_true")
+
+    transaction = commands.add_parser("transaction")
+    transaction_subcommands = transaction.add_subparsers(dest="transaction_command", required=True)
+    transaction_commit = transaction_subcommands.add_parser("commit")
+    transaction_commit.add_argument("transaction_id")
+    transaction_commit.add_argument("--yes", action="store_true")
+    transaction_commit.add_argument("--json", action="store_true")
+    transaction_abort = transaction_subcommands.add_parser("abort")
+    transaction_abort.add_argument("transaction_id")
+    transaction_abort.add_argument("--json", action="store_true")
+    transaction_list = transaction_subcommands.add_parser("list")
+    transaction_list.add_argument("--json", action="store_true")
+    transaction_show = transaction_subcommands.add_parser("show")
+    transaction_show.add_argument("transaction_id")
+    transaction_show.add_argument("--json", action="store_true")
+
+    cancel = commands.add_parser("cancel")
+    cancel.add_argument("world")
+    cancel.add_argument("--json", action="store_true")
 
     simulate = commands.add_parser("simulate")
     simulate.add_argument("argv", nargs=argparse.REMAINDER)
@@ -291,12 +347,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         elif command == "inspect":
             result = client.request("inspect", {"world": arguments.world})
         elif command == "init":
-            result = _root_mutation(client, "init", arguments)
+            result = _root_mutation(client, "init", arguments, as_json=as_json)
         elif command == "root":
             if arguments.root_command == "add":
-                result = _root_mutation(client, "root.add", arguments)
+                result = _root_mutation(client, "root.add", arguments, as_json=as_json)
             elif arguments.root_command == "remove":
-                result = _root_mutation(client, "root.remove", arguments)
+                result = _root_mutation(client, "root.remove", arguments, as_json=as_json)
             else:
                 result = client.request("root.list")
         elif command == "fork":
@@ -313,25 +369,56 @@ def main(argv: Sequence[str] | None = None) -> int:
                 mission = Path(arguments.mission_file).read_text(encoding="utf-8")
             else:
                 mission = _mission(arguments, client)
-            result = client.request(
-                "race",
-                {"agents": arguments.agent, "mission": mission, "detach": arguments.detach},
-                progress=_progress,
-            )
+            race_args: dict[str, Any] = {"agents": arguments.agent, "mission": mission, "detach": arguments.detach}
+            if arguments.name is not None:
+                race_args["name"] = arguments.name
+            result = client.request("race", race_args, progress=_progress)
         elif command in {"collapse", "return"}:
             operation = "collapse.prepare" if command == "collapse" else "return.prepare"
-            payload = {"world": arguments.world} if command == "return" else {"world": arguments.world}
+            payload = {"world": arguments.world}
             facts = client.request(operation, payload)
-            _print_transaction(facts)
-            prompt = (
-                f"Collapse {arguments.world} into PRIME?"
-                if command == "collapse"
-                else f"RETURN to {facts['returnWorld']}?"
-            )
-            if not _confirm(prompt, assume_yes=arguments.yes):
-                result = client.request("transaction.abort", {"transactionId": facts["transaction_id"]})
+            if arguments.prepare:
+                # Leave the transaction PREPARED and hand the facts to the caller. A UI renders
+                # them, then commits or aborts that exact transaction id; commit re-verifies
+                # PRIME against the prepared beforeRoot, so a change in between is refused.
+                if not as_json:
+                    _print_transaction(facts)
+                    print(f"Prepared. Commit with: worldline transaction commit {facts['transaction_id']} --yes")
+                    print(f"Abort with:            worldline transaction abort {facts['transaction_id']}")
+                result = facts
             else:
-                result = client.request("collapse.commit", {"transactionId": facts["transaction_id"]})
+                _print_transaction(facts)
+                prompt = (
+                    f"Collapse {arguments.world} into PRIME?"
+                    if command == "collapse"
+                    else f"RETURN to {facts['returnWorld']}?"
+                )
+                if not _confirm(prompt, assume_yes=arguments.yes):
+                    result = client.request("transaction.abort", {"transactionId": facts["transaction_id"]})
+                else:
+                    result = client.request("collapse.commit", {"transactionId": facts["transaction_id"]})
+        elif command == "transaction":
+            if arguments.transaction_command == "commit":
+                shown = client.request("transaction.show", {"transactionId": arguments.transaction_id})
+                if shown.get("state") != "PREPARED":
+                    raise WorldlineError(
+                        "INVALID_TRANSACTION_STATE",
+                        f"transaction is {shown.get('state')}, only PREPARED transactions can commit",
+                    )
+                if not arguments.yes:
+                    _print_transaction({**shown, "transaction_id": shown["transactionId"]})
+                if not _confirm(f"Commit transaction {arguments.transaction_id} into PRIME?", assume_yes=arguments.yes):
+                    result = client.request("transaction.abort", {"transactionId": arguments.transaction_id})
+                else:
+                    result = client.request("transaction.commit", {"transactionId": arguments.transaction_id})
+            elif arguments.transaction_command == "abort":
+                result = client.request("transaction.abort", {"transactionId": arguments.transaction_id})
+            elif arguments.transaction_command == "list":
+                result = client.request("transaction.list")
+            else:
+                result = client.request("transaction.show", {"transactionId": arguments.transaction_id})
+        elif command == "cancel":
+            result = client.request("job.cancel", {"world": arguments.world})
         elif command == "simulate":
             exact = list(arguments.argv)
             if exact and exact[0] == "--":

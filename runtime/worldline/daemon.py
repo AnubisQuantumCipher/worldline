@@ -102,7 +102,9 @@ class WorldlineDaemon:
             result = self._recover()
             if inspect.isawaitable(result):
                 await result
-        self.store.mark_orphaned_jobs_degraded()
+        swept = self.store.sweep_unsupervised()
+        if swept["jobs"] or swept["worlds"]:
+            _LOG.warning("startup sweep: %d orphaned job(s), %d unsupervised world(s) marked DEAD", swept["jobs"], swept["worlds"])
         self._remove_stale_socket()
         self._server = await asyncio.start_unix_server(
             self._handle_client,

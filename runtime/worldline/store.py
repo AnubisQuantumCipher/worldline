@@ -521,10 +521,34 @@ class StateStore:
             result.append(item)
         return result
 
-    def mark_orphaned_jobs_degraded(self) -> int:
+    def active_jobs_for_world(self, world_instance: str) -> list[dict[str, Any]]:
+        return [
+            job
+            for job in self.jobs()
+            if job["world_instance"] == world_instance
+            and job["state"] in {"STARTING", "RUNNING", "FINALIZING"}
+        ]
+
+    def sweep_unsupervised(self) -> dict[str, int]:
+        """Resolve every world and job that has no live supervisor.
+
+        Runs at daemon start, before the socket is published, when by construction no
+        background task exists: every STARTING/RUNNING/FINALIZING job lost its owner with the
+        previous daemon, and every MUTABLE/FINALIZING world has nobody to finish it -- whether
+        its job vanished with the daemon or it never got a job at all (an adapter that failed
+        after the world row was inserted used to leave such a world MUTABLE forever, which in
+        turn blocked every later `root add`/`root remove` with ROOT_SET_BUSY).
+
+        The world transitions go through World.transition, i.e. the proved kernel. The previous
+        implementation wrote state='DEGRADED' straight into SQL from MUTABLE, a transition the
+        kernel forbids (Mutable -> Finalizing | Dead only): a world with no coherent payload is
+        DEAD, and its evidence records why.
+        """
+        swept_jobs = 0
+        swept_worlds = 0
         with self.transaction() as connection:
             rows = connection.execute(
-                "SELECT job_id,world_instance FROM jobs WHERE state IN ('STARTING','RUNNING','FINALIZING')"
+                "SELECT job_id FROM jobs WHERE state IN ('STARTING','RUNNING','FINALIZING')"
             ).fetchall()
             for row in rows:
                 error = _json_blob({"code": "DAEMON_RESTART", "message": "job owner disappeared during daemon restart"})
@@ -532,11 +556,23 @@ class StateStore:
                     "UPDATE jobs SET state='DEGRADED',ended_at=?,error=? WHERE job_id=?",
                     (utc_now(), error, row["job_id"]),
                 )
-                connection.execute(
-                    "UPDATE worlds SET state='DEGRADED',ended=? WHERE instance_id=? AND state IN ('MUTABLE','FINALIZING')",
-                    (utc_now(), row["world_instance"]),
-                )
-        return len(rows)
+                swept_jobs += 1
+        for world in self.nonterminal_worlds():
+            had_job = any(job["world_instance"] == world.instance_id for job in self.jobs())
+            reason = {
+                "code": "DAEMON_RESTART" if had_job else "NO_SUPERVISING_JOB",
+                "message": (
+                    "supervision was lost during a daemon restart before the world finalized"
+                    if had_job
+                    else "the world was created but no agent job ever supervised it"
+                ),
+            }
+            checks = list(world.evidence.get("checks", [])) if isinstance(world.evidence, dict) else []
+            world.evidence = {"summary": "FAIL", "checks": checks, "supervision": reason}
+            world.transition(WorldState.DEAD, self.core)
+            self.save_world(world)
+            swept_worlds += 1
+        return {"jobs": swept_jobs, "worlds": swept_worlds}
 
     def append_causal_event(self, event: dict[str, Any]) -> dict[str, str]:
         if event.get("schemaVersion") != SCHEMA_VERSION:

@@ -24,14 +24,20 @@ runs is `transaction.py:_is_ancestor` — a Python parent-pointer loop. The tran
 enforced at runtime is `_TRANSACTION_TRANSITIONS` in `transaction.py` plus a SQLite CHECK;
 `Transitions.Transaction_Allowed` is proved and never called.
 
-**Replace with:**
+**Replace with (updated for 1.1.0):**
 
-> World-state transitions, the collapse authorization decision, and every identity and chain
-> hash are computed in Ada 2022 / SPARK code whose absence of runtime error and functional
-> contracts are discharged by proof before the library is installed. The transaction lifecycle
-> and the fork-ancestry check are enforced in Python against the same rules; the corresponding
-> proved units (`Worldline.Transitions.Transaction_Allowed`, `Worldline.Ancestry`) are proved
-> but not yet exported through the C ABI.
+> World-state transitions, transaction-lifecycle transitions, the collapse authorization
+> decision, and every identity and chain hash are computed in Ada 2022 / SPARK code whose
+> absence of runtime error and functional contracts are discharged by proof before the library
+> is installed. The fork-ancestry walk (which world is an ancestor of PRIME) is a Python
+> parent-pointer loop; the kernel then compares the parent identity the store holds against the
+> identity the candidate claims (`PARENT_MISMATCH`). The proved `Worldline.Ancestry` guard type
+> is not exported through the C ABI.
+
+Since 1.1.0 the runtime calls `wl_transaction_transition_allowed` for every transaction state
+change (`transaction.py:_set_state`) and refuses with `CORE_DISAGREEMENT` if its own mirror
+table ever disagrees, so "transaction lifecycle enforced by proved code" is now true. What
+remains Python-only is the ancestry *walk*.
 
 ## 2. Whitepaper p.16, call-out "Why permissive inner flags are acceptable here"
 
@@ -105,6 +111,12 @@ shipped runtime.
 
 > Reserved. The runtime currently supplies the same owner identity on both sides of this
 > comparison, so this code cannot be returned by the shipped call sites.
+
+`PARENT_MISMATCH`, which 1.0 also fed tautologically (the candidate's claim on both sides), is
+reachable since 1.1.0: `prepare` supplies the parent identity recorded in the store as
+`expected_parent` and the candidate's `parent_content` as the claim, and a forged claim is
+denied (`tests/test_lifecycle_integrity.py::MeaningfulParentCheck`). `STAGED_ROOT_MISMATCH`
+remains tautological at prepare time and real at commit time.
 
 ## 7. Whitepaper Table 4 / Table 19 / Manual Figure 1 — stale metrics
 

@@ -65,8 +65,11 @@ trust you place in WORLDLINE.
    ledger would close this; it is not done today.
 
 3. **"Proved" describes the kernel, not an attestation of the running system.** The 130-check
-   SPARK proof covers the hash/link/decision *library*. The authority — what is hashed, whether
-   the decision gates the exchange, and the transaction lifecycle — is enforced in Python.
+   SPARK proof covers the hash/link/decision/lifecycle *library*. The authority — what is
+   hashed and whether the decision gates the exchange — is enforced in Python. Since 1.1.0 the
+   transaction lifecycle (PREPARED → AUTHORIZED → COMMITTED, DENIED sticky) is consulted from
+   the proved unit on every state change, and the kernel's parent comparison receives the
+   store's parent identity rather than the candidate's own claim on both sides.
    `invariantPreservation: PROVED` in a receipt means the on-disk proof manifest matched the
    library at receipt time; the library is selected by `WORLDLINE_CORE_LIB`/package path and the
    manifest is unauthenticated, so a same-uid attacker can make it report `PROVED` for a

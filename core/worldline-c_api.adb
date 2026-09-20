@@ -305,6 +305,27 @@ package body Worldline.C_API with SPARK_Mode => Off is
       end if;
    end Transition_Allowed;
 
+   function Transaction_Transition_Allowed
+     (From_State : Interfaces.Unsigned_8;
+      To_State   : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+   is
+      Last : constant Interfaces.Unsigned_8 :=
+        Interfaces.Unsigned_8
+          (Transitions.Transaction_State'Pos
+             (Transitions.Transaction_State'Last));
+   begin
+      if From_State > Last or else To_State > Last then
+         return 0;
+      elsif Transitions.Transaction_Allowed
+        (Transitions.Transaction_State'Val (Integer (From_State)),
+         Transitions.Transaction_State'Val (Integer (To_State)))
+      then
+         return 1;
+      else
+         return 0;
+      end if;
+   end Transaction_Transition_Allowed;
+
    function Collapse_Decide
      (Request : C_Collapse_Request_Access) return Interfaces.Unsigned_8
    is

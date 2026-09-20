@@ -70,6 +70,15 @@ package Worldline.C_API with SPARK_Mode => Off is
       To_State   : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
      with Export, Convention => C, External_Name => "wl_transition_allowed";
 
+   --  Transaction lifecycle codes follow the declaration order of
+   --  Transitions.Transaction_State: Prepared 0, Authorized 1, Denied 2,
+   --  Committed 3, Aborted 4. Out-of-range codes are refused (0).
+   function Transaction_Transition_Allowed
+     (From_State : Interfaces.Unsigned_8;
+      To_State   : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+     with Export, Convention => C,
+          External_Name => "wl_transaction_transition_allowed";
+
    function Collapse_Decide
      (Request : C_Collapse_Request_Access) return Interfaces.Unsigned_8
      with Export, Convention => C, External_Name => "wl_collapse_decide";

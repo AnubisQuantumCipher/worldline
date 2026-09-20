@@ -168,8 +168,12 @@ class RuntimeController:
         daemon.register("switch", self._switch, mutating=True)
         daemon.register("collapse.prepare", self._collapse_prepare, mutating=True)
         daemon.register("collapse.commit", self._collapse_commit, mutating=True)
+        daemon.register("transaction.commit", self._collapse_commit, mutating=True)
         daemon.register("transaction.abort", self._transaction_abort, mutating=True)
+        daemon.register("transaction.list", self._transaction_list)
+        daemon.register("transaction.show", self._transaction_show)
         daemon.register("return.prepare", self._return_prepare, mutating=True)
+        daemon.register("job.cancel", self._job_cancel, mutating=True)
         daemon.register("simulate", self._simulate, mutating=True)
         daemon.register("doctor", self._doctor)
         daemon.register("adapters", self._adapters)
@@ -249,8 +253,12 @@ class RuntimeController:
         return world.summary()
 
     async def _race(self, args: dict[str, Any], context: RequestContext) -> list[dict[str, Any]]:
-        if set(args) != {"agents", "mission", "detach"} or not isinstance(args["agents"], list) or not isinstance(args["detach"], bool):
-            raise InvalidRequest("race requires agents, mission, and detach")
+        required = {"agents", "mission", "detach"}
+        if not required <= set(args) <= required | {"name"} or not isinstance(args["agents"], list) or not isinstance(args["detach"], bool):
+            raise InvalidRequest("race requires agents, mission, detach, and optional name")
+        name = args.get("name")
+        if name is not None and not isinstance(name, str):
+            raise InvalidRequest("race name must be a string")
         progress = self._thread_progress(context)
         worlds = await asyncio.to_thread(
             self.forks.race,
@@ -258,6 +266,7 @@ class RuntimeController:
             args["mission"],
             wait=not args["detach"],
             progress=progress,
+            name=name,
         )
         self._schedule_automatic_ghosts(context.daemon)
         if args["detach"]:
@@ -425,6 +434,36 @@ class RuntimeController:
             raise InvalidRequest("transaction.abort requires transactionId")
         return self.transactions.abort(args["transactionId"])
 
+    def _transaction_list(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:
+        if args:
+            raise InvalidRequest("transaction.list takes no arguments")
+        return self.transactions.listing()
+
+    def _transaction_show(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
+            raise InvalidRequest("transaction.show requires transactionId")
+        return {
+            **self.transactions.describe(args["transactionId"]),
+            "managedRoots": self._root_list({}, context),
+        }
+
+    def _job_cancel(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("job.cancel requires world")
+        world = self.store.world(args["world"])
+        active = self.store.active_jobs_for_world(world.instance_id)
+        if not active:
+            raise WorldlineError(
+                "NO_ACTIVE_JOB",
+                f"world {world.alias} has no running agent job to cancel",
+                {"world": world.alias, "state": world.state.value},
+            )
+        cancelled: list[dict[str, Any]] = []
+        for job in active:
+            self.runner.cancel(job["job_id"], job.get("systemd_unit"))
+            cancelled.append({"jobId": job["job_id"], "unit": job.get("systemd_unit"), "state": job["state"]})
+        return {"world": world.alias, "cancelled": cancelled}
+
     def _return_prepare(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
         if set(args) != {"world"} or not (args["world"] is None or isinstance(args["world"], str)):
             raise InvalidRequest("return.prepare requires nullable world")
@@ -458,7 +497,43 @@ class RuntimeController:
         snapshot["rootIntegrity"] = self._root_integrity()
         snapshot["storeIntegrity"] = self._store_integrity()
         snapshot["receiptCoverage"] = self._receipt_coverage()
+        snapshot["recovery"] = self._recovery_report()
+        snapshot["openTransactions"] = self._open_transactions()
+        snapshot["unsupervisedWorlds"] = self._unsupervised_worlds()
         return snapshot
+
+    def _recovery_report(self) -> dict[str, Any]:
+        # A quarantined transaction blocks every mutation (prepare/commit refuse with
+        # RECOVERY_INCOMPLETE) but used to be invisible to doctor; the operator only learned of it
+        # from the refusal. Report it where the rest of the integrity picture lives.
+        quarantined = dict(getattr(self.transactions, "unrecoverable", {}) or {})
+        return {
+            "state": "OK" if not quarantined else "INCOMPLETE",
+            "quarantined": [
+                {"transactionId": transaction_id, "error": error}
+                for transaction_id, error in sorted(quarantined.items())
+            ],
+        }
+
+    def _open_transactions(self) -> list[dict[str, Any]]:
+        # A PREPARED transaction holds a staged PRIME-sized payload and blocks root-set changes
+        # (ROOT_SET_BUSY) until it is committed or aborted. A review screen that was closed
+        # without either leaves one behind; list them so the operator can abort deliberately.
+        return [
+            item
+            for item in self.transactions.listing()
+            if item["state"] in {"PREPARED", "AUTHORIZED"}
+        ]
+
+    def _unsupervised_worlds(self) -> list[dict[str, Any]]:
+        # After the startup sweep this should be empty; if it is not, something created a
+        # nonterminal world during this daemon's life and never gave it a job.
+        result: list[dict[str, Any]] = []
+        for world in self.store.nonterminal_worlds():
+            if self.store.active_jobs_for_world(world.instance_id):
+                continue
+            result.append({"alias": world.alias, "instanceId": world.instance_id, "state": world.state.value, "born": world.born})
+        return result
 
     def _store_integrity(self) -> dict[str, Any]:
         # Registration moves the operator's real directory into the store before any row records
@@ -467,11 +542,15 @@ class RuntimeController:
         # the worst outcome — "my project directory is gone" — completely silent. Report it.
         findings: list[dict[str, Any]] = []
         try:
-            referenced_payloads = {
-                os.path.realpath(str(Path(world.payload_path)))
-                for world in self.store.worlds()
-                if world.payload_path
-            }
+            # A world references two payloads: the one it produced (payload_path) and the frozen
+            # checkpoint it was forked from (base_payload_path). Scanning only the first made every
+            # fork checkpoint look orphaned the moment its root was removed -- the health check's
+            # final doctor reported DEGRADED over its own perfectly retained history.
+            referenced_payloads: set[str] = set()
+            for world in self.store.worlds():
+                for reference in (world.payload_path, world.base_payload_path):
+                    if reference:
+                        referenced_payloads.add(os.path.realpath(str(Path(reference))))
         except Exception:  # pragma: no cover - diagnosis must never raise
             referenced_payloads = set()
         root_keys = {root["root_key"] for root in self.store.roots()}

@@ -1,5 +1,99 @@
 # Changelog
 
+## 1.1.0 — 2026-09-20 · prepared transactions, supervision, proved lifecycle, cockpit
+
+The desktop plugin was rewritten around an explicit transaction contract, and the engine grew
+the pieces that contract needs. Every item below was reproduced first, fixed, and covered by a
+test (`tests/test_lifecycle_integrity.py`, 13 new tests; suite 72). The proof gate reran on the
+one kernel change: 130 checks, all proved, nothing assumed, threshold unchanged.
+
+### Fixed — diagnostics that lied
+
+- **`doctor.storeIntegrity` reported DEGRADED over its own retained history.** The scan only
+  counted each world's produced payload (`payload_path`), never the frozen checkpoint it was
+  forked from (`base_payload_path`), so after `root remove` every fork checkpoint read as
+  `ORPHANED_GENERATION`. The skill's health check completed "successfully" with that finding
+  in its final report. The scan now references both; the health check asserts `OK`.
+- **`doctor.systemd` stuck at `UNAVAILABLE: starting` for the whole session.** The capability
+  registry cached the first probe forever, and the daemon starts while the user's systemd
+  manager is still "starting". `UNAVAILABLE` answers are re-probed after 30 s (`AVAILABLE`
+  stays cached); every entry carries `probedAt`.
+- **`transaction list` crashed on any DENIED row** (`NON_CANONICAL_JSON … bytes`): the error
+  column is a JSON blob and was forwarded raw.
+
+### Fixed — worlds nobody supervised
+
+- **A world could stay MUTABLE forever.** `create_world` inserted the row before `run_world`
+  could fail (unknown adapter, invalid `.worldline.json`, sandbox refusal), and the startup
+  sweep only handled worlds that had a job. Such a world reads as "running" on every surface
+  and blocks every later `root add`/`root remove` with `ROOT_SET_BUSY` — the live machine had
+  one (`harden`, born 2026-08-29). `run_world` now terminates a world whose run cannot start
+  (`evidence.supervision` records why), the adapter is resolved *before* the checkpoint is
+  frozen (an unknown adapter used to leak a full generation on disk), and the startup sweep
+  covers job-less nonterminal worlds.
+- **The old sweep wrote a transition the proved kernel forbids.** `mark_orphaned_jobs_degraded`
+  set `MUTABLE → DEGRADED` straight in SQL; `Transitions.Allowed` permits `MUTABLE →
+  FINALIZING | DEAD` only. Lost supervision now goes through `World.transition` to `DEAD`
+  (no coherent payload exists), with `DAEMON_RESTART` or `NO_SUPERVISING_JOB` in the evidence.
+- **Isolated instances could start transient units but never stop, query, or cancel them.**
+  `systemctl --user` insists on `$XDG_RUNTIME_DIR/systemd/private` and does not fall back to
+  the session bus the way `systemd-run --user` does, so any redirected `XDG_RUNTIME_DIR` (the
+  health check, the e2e tests, a second daemon) lost supervision after launch. The adapter now
+  addresses the manager that owns the units explicitly.
+
+### Added — the contract a UI can be honest with
+
+- `worldline collapse WORLD --prepare --json` / `worldline return [WORLD] --prepare --json`
+  stage the transaction and return the facts (decision, before/candidate/staged roots, managed
+  roots, every operation, evaluated conflicts and contamination, dependency changes,
+  `candidate_alias`, `prepared_at`) leaving it PREPARED; `worldline transaction commit ID
+  [--yes]`, `abort ID`, `list`, `show ID`. Commit re-verifies PRIME against the reviewed
+  `beforeRoot` and refuses with `PRIME_CHANGED_AFTER_PREPARE`; a DENIED transaction can never
+  commit; a duplicate commit is `INVALID_TRANSACTION_STATE`.
+- `worldline cancel WORLD` stops the agent's transient unit. The world finalizes DEGRADED with
+  the agent check `FAIL` (`USER_CANCELLED`), project checks recorded `UNASSESSED` with the
+  reason, and the job `CANCELLED` — partial work stays inspectable, never collapsible.
+- `init` / `root add` / `root remove` `--dry-run --json`: the confirmation facts as data,
+  nothing moved.
+- `race --name N` prefixes the alpha/beta/gamma lanes so a second race does not collide.
+- `doctor` gains `recovery` (quarantined transactions, previously invisible until a mutation
+  refused), `openTransactions` (a PREPARED review holds a staged payload and freezes the root
+  set), and `unsupervisedWorlds`.
+
+### Kernel
+
+- `wl_transaction_transition_allowed` is exported through the C ABI and consulted on every
+  transaction state change; the Python mirror table is kept only as a cross-check and a
+  disagreement raises `CORE_DISAGREEMENT`. The transaction lifecycle is therefore enforced by
+  the proved unit, closing the first half of `DOC-CORRECTIONS.md` §1.
+- The kernel's parent comparison is no longer tautological: `prepare` supplies the parent
+  identity the store holds as `expected_parent` and the candidate's claim as
+  `candidate_parent`, and a forged claim is denied `PARENT_MISMATCH` (test). `_authorize`
+  re-checks the same pair at commit (`parentContentExpected` in the record).
+- No SPARK source changed; only `worldline-c_api.{ads,adb}` (the declared unproved boundary)
+  and the header. `prove.sh` reran: 130/130, manifest regenerated and re-verified.
+
+### Install and source of truth
+
+- `omarchy/` is gone from this repository. It held a 665-line 1.0 snapshot of the plugin that
+  `install.sh` copied over the deployed cockpit — the next install would have silently replaced
+  the 1.1 mission-control overlay with it. The plugin lives in `~/Projects/worldline-omarchy`
+  and is deployed as a git checkout at `~/.config/omarchy/plugins/khephri.worldline`; the
+  installer fast-forwards that checkout (refusing on local edits) and validates it with
+  `omarchy-plugin-validate`. The checkout's remote is `origin`, so `omarchy plugin update
+  khephri.worldline` works too.
+- `install.sh` backs up the previous library, launchers, unit, `shell.json`, `bindings.lua`,
+  and the plugin commit id under `~/.local/state/worldline/install-backups/<stamp>`, refuses
+  to restart the daemon while agent jobs are running (`WORLDLINE_FORCE=1` overrides), waits
+  for the new socket, and restarts the shell so keepLoaded plugin components actually swap.
+
+### Documented
+
+- `SECURITY.md` §3 and `DOC-CORRECTIONS.md` §1/§6 updated for the lifecycle export and the
+  meaningful parent check. Nothing about network containment or chain authentication changed:
+  the world still shares the host network, and the evidence chain is still an unsigned hash
+  chain.
+
 ## 1.0.2 — 2026-09-02 · recovery, evidence coverage, and honest surfaces
 
 A second audit pass covered the surfaces the first one did not reach: the QML desktop plugin

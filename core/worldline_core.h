@@ -70,7 +70,14 @@ int wl_causal_link(const uint8_t previous[WL_HASH_BYTES],
 int wl_receipt_link(const uint8_t previous[WL_HASH_BYTES],
                     const uint8_t receipt_root[WL_HASH_BYTES],
                     uint8_t out[WL_HASH_BYTES]);
+#define WL_TX_PREPARED 0u
+#define WL_TX_AUTHORIZED 1u
+#define WL_TX_DENIED 2u
+#define WL_TX_COMMITTED 3u
+#define WL_TX_ABORTED 4u
+
 uint8_t wl_transition_allowed(uint8_t from_state, uint8_t to_state);
+uint8_t wl_transaction_transition_allowed(uint8_t from_state, uint8_t to_state);
 uint8_t wl_collapse_decide(const struct wl_collapse_request *request);
 
 #ifdef __cplusplus

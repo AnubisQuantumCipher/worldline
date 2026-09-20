@@ -28,12 +28,34 @@ class SystemdProcess:
         self.manager.stop(self.unit)
 
 
+def manager_environment(environment: dict[str, str] | None = None) -> dict[str, str]:
+    """Environment under which `systemctl --user` can reach the session's real manager.
+
+    `systemctl --user` connects to `$XDG_RUNTIME_DIR/systemd/private` and does not fall back to
+    `DBUS_SESSION_BUS_ADDRESS`, while `systemd-run --user` does. WORLDLINE redirects
+    XDG_RUNTIME_DIR whenever it runs isolated (the health check, the e2e tests, any second
+    instance), which made the daemon able to START transient units it could then neither stop,
+    query, nor cancel -- the "supervision is not exercised in the harness" caveat, and a real
+    gap for cancel. Point every systemd call at the manager that actually owns the units.
+    """
+    values = dict(os.environ if environment is None else environment)
+    runtime = values.get("XDG_RUNTIME_DIR")
+    if runtime and os.path.exists(os.path.join(runtime, "systemd", "private")):
+        return values
+    real = f"/run/user/{os.getuid()}"
+    if os.path.exists(os.path.join(real, "systemd", "private")):
+        values["XDG_RUNTIME_DIR"] = real
+        values.setdefault("DBUS_SESSION_BUS_ADDRESS", f"unix:path={real}/bus")
+    return values
+
+
 class SystemdAdapter:
     def __init__(self) -> None:
         self.systemd_run = shutil.which("systemd-run")
         self.systemctl = shutil.which("systemctl")
         if self.systemd_run is None or self.systemctl is None:
             raise WorldlineError("SYSTEMD_UNAVAILABLE", "systemd-run or systemctl is not installed")
+        self.environment = manager_environment()
 
     @staticmethod
     def unit_name(instance_id: str) -> str:
@@ -101,6 +123,7 @@ class SystemdAdapter:
                 stderr=stderr,
                 start_new_session=True,
                 close_fds=True,
+                env=self.environment,
             )
         except OSError as exc:
             raise WorldlineError("SYSTEMD_LAUNCH_FAILED", str(exc), {"unit": unit}) from exc
@@ -115,6 +138,7 @@ class SystemdAdapter:
             stderr=subprocess.PIPE,
             check=False,
             timeout=20,
+            env=self.environment,
         )
         if result.returncode not in (0, 5):
             raise WorldlineError(
@@ -133,6 +157,7 @@ class SystemdAdapter:
             stderr=subprocess.PIPE,
             check=False,
             timeout=10,
+            env=self.environment,
         )
         if result.returncode != 0:
             return {"unit": unit, "state": "UNAVAILABLE", "reason": result.stderr.decode("utf-8", "replace").strip()}
@@ -157,12 +182,15 @@ class SystemdAdapter:
             stderr=subprocess.PIPE,
             check=False,
             timeout=10,
+            env=adapter.environment,
         )
         state = result.stdout.decode("utf-8", "replace").strip()
         if result.returncode != 0 or state not in {"running", "degraded"}:
+            # "starting" and "initializing" are transient: the registry re-probes UNAVAILABLE
+            # entries, so this heals once the manager settles instead of sticking for a session.
             return {"state": "UNAVAILABLE", "reason": state or result.stderr.decode("utf-8", "replace").strip()}
-        runtime = os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
+        runtime = adapter.environment.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
         filesystem = os.statvfs(runtime)
         if filesystem.f_bavail == 0:
             return {"state": "UNAVAILABLE", "reason": f"XDG runtime filesystem is full: {runtime}"}
-        return {"state": "AVAILABLE", "managerState": state}
+        return {"state": "AVAILABLE", "managerState": state, "manager": runtime}

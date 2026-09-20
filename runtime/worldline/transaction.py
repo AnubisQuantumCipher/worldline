@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import base64
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
 import os
 from pathlib import Path
@@ -45,6 +45,13 @@ class PreparedTransaction:
     delta: dict[str, Any]
     conflicts: list[dict[str, Any]]
     contamination: list[dict[str, Any]]
+    kind: str = "collapse"
+    candidate_alias: str = ""
+    candidate_instance: str = ""
+    candidate_content: str = ""
+    current_prime: str = ""
+    prepared_at: str = ""
+    dependency_changes: list[dict[str, Any]] = field(default_factory=list)
 
 
 class CollapseTransaction:
@@ -117,6 +124,13 @@ class CollapseTransaction:
                 "candidate fork parent is not an ancestor of current PRIME",
                 {"candidateParent": candidate.parent_instance, "prime": current_prime.instance_id},
             )
+        # The kernel's parent check compares what the store knows the parent's content identity
+        # to be against what the candidate row claims. Feeding the claim to both sides (as 1.0
+        # did) made the proved comparison tautological.
+        parent_world = self.store.world(candidate.parent_instance)
+        if parent_world.content_id is None:
+            raise WorldlineError("INCOMPLETE_WORLD", "candidate parent has no content identity")
+        expected_parent_content = parent_world.content_id
 
         roots = self.store.roots()
         root_set = self.prime.root_set_hash(roots)
@@ -194,7 +208,7 @@ class CollapseTransaction:
                     candidate_state=candidate.state.value,
                     has_conflicts=bool(conflicts),
                     has_foreign_managed_writes=bool(candidate.contamination),
-                    expected_parent=hash_bytes_from_id(candidate.parent_content),
+                    expected_parent=hash_bytes_from_id(expected_parent_content),
                     candidate_parent=hash_bytes_from_id(candidate.parent_content),
                     expected_owner=hash_bytes_from_id(owner),
                     candidate_owner=hash_bytes_from_id(owner),
@@ -219,8 +233,10 @@ class CollapseTransaction:
                 "state": "PREPARED" if decision == "AUTHORIZED" else "DENIED",
                 "decision": decision,
                 "candidateWorld": candidate.instance_id,
+                "candidateAlias": candidate.alias,
                 "candidateContent": candidate.content_id,
                 "parentWorld": candidate.parent_content,
+                "parentContentExpected": expected_parent_content,
                 "currentPrime": current_prime.instance_id,
                 "currentPrimeContent": current_prime.content_id,
                 "beforeRoot": before_root,
@@ -265,6 +281,13 @@ class CollapseTransaction:
                 delta=record["delta"],
                 conflicts=conflicts,
                 contamination=candidate.contamination,
+                kind=kind,
+                candidate_alias=candidate.alias,
+                candidate_instance=candidate.instance_id,
+                candidate_content=candidate.content_id,
+                current_prime=current_prime.instance_id,
+                prepared_at=record["createdAt"],
+                dependency_changes=dependency_changes,
             )
         except BaseException:
             if not (self.paths.transactions / f"{transaction_id}.json").exists():
@@ -279,6 +302,63 @@ class CollapseTransaction:
             raise WorldlineError("TRANSACTION_ALREADY_COMMITTED", "generation marker shows the atomic exchange already committed")
         self._set_state(record, "ABORTED", error={"code": "USER_ABORTED"})
         return {"transactionId": transaction_id, "state": "ABORTED"}
+
+    def describe(self, transaction_id: str) -> dict[str, Any]:
+        """The prepared record as the operator may review it (no staging paths or payload bytes)."""
+        row = self.store.transaction_record(transaction_id)
+        try:
+            record = self._load_record(transaction_id)
+        except WorldlineError as exc:
+            return {
+                "transactionId": transaction_id,
+                "kind": row["kind"],
+                "state": row["state"],
+                "error": exc.as_dict(),
+                "recordReadable": False,
+            }
+        public = {
+            key: record.get(key)
+            for key in (
+                "transactionId", "kind", "state", "decision", "candidateWorld", "candidateAlias",
+                "candidateContent", "parentWorld", "parentContentExpected", "currentPrime",
+                "currentPrimeContent", "beforeRoot", "baseRoot", "candidateRoot", "deltaHash",
+                "delta", "stagedRoot", "rootSetHash", "conflicts", "contamination", "createdAt",
+                "generated", "dependencyChanges", "error",
+            )
+        }
+        public["committedAt"] = row.get("committed_at")
+        public["recordReadable"] = True
+        return public
+
+    def listing(self) -> list[dict[str, Any]]:
+        rows = self.store.transactions_in_state(("PREPARED", "AUTHORIZED", "DENIED", "COMMITTED", "ABORTED"))
+        result: list[dict[str, Any]] = []
+        for row in rows:
+            try:
+                alias = self.store.world(row["candidate_world"]).alias
+            except WorldlineError:
+                alias = None
+            error = row["error"]
+            if isinstance(error, (bytes, bytearray)):
+                # The column is a canonical-JSON blob; the wire format only carries JSON values.
+                try:
+                    error = json.loads(bytes(error).decode("utf-8"))
+                except (UnicodeDecodeError, json.JSONDecodeError):
+                    error = {"code": "UNREADABLE_ERROR"}
+            result.append(
+                {
+                    "transactionId": row["transaction_id"],
+                    "kind": row["kind"],
+                    "state": row["state"],
+                    "candidateWorld": row["candidate_world"],
+                    "candidateAlias": alias,
+                    "createdAt": row["created_at"],
+                    "committedAt": row["committed_at"],
+                    "error": error,
+                    "quarantined": row["transaction_id"] in self.unrecoverable,
+                }
+            )
+        return result
 
     def commit(self, transaction_id: str) -> dict[str, Any]:
         self._assert_recovery_complete()
@@ -330,12 +410,15 @@ class CollapseTransaction:
             raise
 
     def _authorize(self, record: dict[str, Any], candidate: World, staged_root: str) -> str:
+        # Records prepared before parentContentExpected existed carry only the claim; for those
+        # the comparison degrades to the 1.0 behaviour rather than failing recovery outright.
+        expected_parent = record.get("parentContentExpected") or record["parentWorld"]
         return self.core.collapse_decide(
             CollapseInput(
                 candidate_state=candidate.state.value,
                 has_conflicts=bool(record["conflicts"]),
                 has_foreign_managed_writes=bool(record["contamination"]),
-                expected_parent=hash_bytes_from_id(record["parentWorld"]),
+                expected_parent=hash_bytes_from_id(expected_parent),
                 candidate_parent=hash_bytes_from_id(candidate.parent_content),
                 expected_owner=hash_bytes_from_id(record["ownerHash"]),
                 candidate_owner=hash_bytes_from_id(record["ownerHash"]),
@@ -701,7 +784,15 @@ class CollapseTransaction:
         committed: bool = False,
     ) -> None:
         source = record["state"]
-        if target not in _TRANSACTION_TRANSITIONS[source]:
+        # The proved kernel decides the lifecycle; the Python table is kept only as a
+        # cross-check so a disagreement is loud instead of one side silently winning.
+        kernel_allows = self.core.transaction_transition_allowed(source, target)
+        if kernel_allows != (target in _TRANSACTION_TRANSITIONS[source]):
+            raise WorldlineError(
+                "CORE_DISAGREEMENT",
+                f"proved kernel and runtime table disagree on transaction transition {source} -> {target}",
+            )
+        if not kernel_allows:
             raise WorldlineError(
                 "INVALID_TRANSACTION_STATE",
                 f"transaction cannot transition from {source} to {target}",

@@ -21,6 +21,15 @@ STATE_CODES: dict[str, int] = {
     "COLLAPSED": 6,
 }
 
+# Transaction lifecycle codes, in the declaration order of Worldline.Transitions.Transaction_State.
+TRANSACTION_STATE_CODES: dict[str, int] = {
+    "PREPARED": 0,
+    "AUTHORIZED": 1,
+    "DENIED": 2,
+    "COMMITTED": 3,
+    "ABORTED": 4,
+}
+
 COLLAPSE_DECISIONS: dict[int, str] = {
     0: "AUTHORIZED",
     1: "INVALID_CANDIDATE",
@@ -159,6 +168,18 @@ class Core:
         self._lib.wl_transition_allowed.restype = ctypes.c_uint8
         self._lib.wl_collapse_decide.argtypes = [ctypes.POINTER(CCollapseRequest)]
         self._lib.wl_collapse_decide.restype = ctypes.c_uint8
+        # The transaction lifecycle (PREPARED -> AUTHORIZED -> COMMITTED, with DENIED sticky)
+        # is a proved unit; before 1.1 it was only mirrored by a Python table. Refuse a library
+        # that predates the export rather than silently falling back to the mirror.
+        try:
+            function = self._lib.wl_transaction_transition_allowed
+        except AttributeError as exc:
+            raise CoreUnavailable(
+                "libworldline_core.so predates the transaction-lifecycle export; rebuild and reinstall",
+                path=str(self.library_path),
+            ) from exc
+        function.argtypes = [ctypes.c_uint8, ctypes.c_uint8]
+        function.restype = ctypes.c_uint8
 
     @staticmethod
     def _checked(code: int, operation: str) -> None:
@@ -223,6 +244,14 @@ class Core:
         except KeyError as exc:
             raise WorldlineError("INVALID_STATE", f"unknown world state: {exc.args[0]}") from exc
         return bool(self._lib.wl_transition_allowed(source, target))
+
+    def transaction_transition_allowed(self, from_state: str, to_state: str) -> bool:
+        try:
+            source = TRANSACTION_STATE_CODES[from_state]
+            target = TRANSACTION_STATE_CODES[to_state]
+        except KeyError as exc:
+            raise WorldlineError("INVALID_TRANSACTION_STATE", f"unknown transaction state: {exc.args[0]}") from exc
+        return bool(self._lib.wl_transaction_transition_allowed(source, target))
 
     def collapse_decide(self, value: CollapseInput) -> str:
         try:

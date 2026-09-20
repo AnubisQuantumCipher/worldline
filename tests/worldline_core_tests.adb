@@ -1,8 +1,10 @@
 with Ada.Text_IO;
 with Attest;
 with Attest.SHA256;
+with Interfaces;
 with Worldline;
 with Worldline.Ancestry;
+with Worldline.C_API;
 with Worldline.Causal_Graph;
 with Worldline.Collapse;
 with Worldline.Receipts;
@@ -13,6 +15,7 @@ procedure Worldline_Core_Tests is
    use type Worldline.Hash;
    use type Worldline.Collapse.Decision;
    use type Worldline.Transitions.Transaction_State;
+   use type Interfaces.Unsigned_8;
 
    procedure Check (Condition : Boolean; Message : String) is
    begin
@@ -118,6 +121,30 @@ begin
    Check
      (Transaction = Worldline.Transitions.Denied,
       "denied transaction committed");
+
+   --  The C export must agree with the proved unit for every pair, and
+   --  refuse every out-of-range code, so the Python runtime that consults
+   --  wl_transaction_transition_allowed sees exactly the proved lifecycle.
+   for From in Worldline.Transitions.Transaction_State loop
+      for To in Worldline.Transitions.Transaction_State loop
+         Check
+           (Worldline.C_API.Transaction_Transition_Allowed
+              (Interfaces.Unsigned_8
+                 (Worldline.Transitions.Transaction_State'Pos (From)),
+               Interfaces.Unsigned_8
+                 (Worldline.Transitions.Transaction_State'Pos (To))) =
+            (if Worldline.Transitions.Transaction_Allowed (From, To)
+             then 1 else 0),
+            "C transaction lifecycle export disagrees with proved unit");
+      end loop;
+   end loop;
+   Check
+     (Worldline.C_API.Transaction_Transition_Allowed (5, 0) = 0
+      and then Worldline.C_API.Transaction_Transition_Allowed (0, 255) = 0,
+      "out-of-range transaction code accepted");
+   Check
+     (Worldline.C_API.Transaction_Transition_Allowed (2, 3) = 0,
+      "C export let a denied transaction commit");
 
    Check
      (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Authorized,
