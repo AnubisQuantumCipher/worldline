@@ -3,7 +3,9 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "$0")" && pwd)
 cd "$ROOT"
 # shellcheck disable=SC1090
-source "${GNAT_ENV:-$HOME/opt/gnat/env.sh}"
+# The reference machine keeps GNAT FSF under ~/opt/gnat; elsewhere (CI, packaging) the
+# toolchain is already on PATH.
+if [[ -f "${GNAT_ENV:-$HOME/opt/gnat/env.sh}" ]]; then source "${GNAT_ENV:-$HOME/opt/gnat/env.sh}"; fi
 
 OUT="obj/core-library/gnatprove/gnatprove.out"
 LIB="lib/libworldline_core.so"

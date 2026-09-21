@@ -12,15 +12,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: System packages (bubblewrap, git, python)
+      - name: System packages (git, python, build tools for bubblewrap)
         run: |
           sudo apt-get update
-          sudo apt-get install -y bubblewrap git python3 python3-cryptography
+          sudo apt-get install -y git python3 python3-cryptography meson ninja-build libcap-dev pkg-config
           # Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor; the sandbox needs them.
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           sudo sysctl -w kernel.unprivileged_userns_clone=1 || true
-          bwrap --version
           python3 --version
+
+      - name: bubblewrap 0.11 (Ubuntu ships 0.9, which has no --overlay-src)
+        id: bwrap
+        uses: actions/cache@v4
+        with:
+          path: ~/bwrap
+          key: bubblewrap-0.11.0-x86_64
+
+      - name: Build bubblewrap (cache miss)
+        if: steps.bwrap.outputs.cache-hit != 'true'
+        run: |
+          curl -sSfL -o bubblewrap.tar.xz https://github.com/containers/bubblewrap/releases/download/v0.11.0/bubblewrap-0.11.0.tar.xz
+          mkdir -p bubblewrap-src && tar -xJf bubblewrap.tar.xz -C bubblewrap-src --strip-components=1
+          cd bubblewrap-src && meson setup build --prefix="$HOME/bwrap" -Dman=disabled -Dselinux=disabled -Dbash_completion=disabled -Dzsh_completion=disabled && ninja -C build && ninja -C build install
+
+      - name: bubblewrap on PATH
+        run: |
+          echo "$HOME/bwrap/bin" >> "$GITHUB_PATH"
+          "$HOME/bwrap/bin/bwrap" --version
 
       - name: User systemd manager (transient units supervise every world)
         run: |
