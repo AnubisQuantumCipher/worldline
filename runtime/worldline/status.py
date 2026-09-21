@@ -50,6 +50,8 @@ class StatusPublisher:
                 "state": "DEGRADED" if self.store.get_meta("watchState") == "DEGRADED" else prime.state.value,
                 "generation": self.store.get_meta("primeGeneration"),
                 "dirty": bool(self.store.get_meta("dirty", False)),
+                # Set while the watcher's re-capture refuses; PRIME is then its last checkpoint.
+                "watchError": self.store.get_meta("watchError"),
                 "roots": [
                     {
                         "rootKey": root["root_key"],
