@@ -4,6 +4,7 @@ from dataclasses import dataclass
 import json
 from pathlib import Path, PurePosixPath
 import re
+import fnmatch
 from typing import Any, Mapping
 
 from . import SCHEMA_VERSION
@@ -48,10 +49,15 @@ class ProjectConfig:
         generated: tuple[GeneratedClassifier, ...],
         checks: tuple[CheckSpec, ...],
         services: tuple[ServiceSpec, ...],
+        protected: tuple[str, ...] = (),
     ) -> None:
         self.generated = generated
         self.checks = checks
         self.services = services
+        # Paths (relative, globs allowed) a candidate may not change. The list lives in PRIME's
+        # policy, which is the only policy ever consulted, and the comparison is the engine's
+        # own delta, so no in-tree rewrite can lift it (worldline-lab D10, 2026-09-21).
+        self.protected = protected
 
     @classmethod
     def load(cls, primary_root: Path, store: StateStore) -> "ProjectConfig":
@@ -62,8 +68,16 @@ class ProjectConfig:
             value = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise WorldlineError("INVALID_PROJECT_CONFIG", f"{path}: {exc}") from exc
-        if not isinstance(value, dict) or set(value) != {"schemaVersion", "generated", "checks", "services"}:
-            raise WorldlineError("INVALID_PROJECT_CONFIG", "project config fields must be schemaVersion, generated, checks, and services")
+        required_fields = {"schemaVersion", "generated", "checks", "services"}
+        if not isinstance(value, dict) or not required_fields <= set(value) or not set(value) <= required_fields | {"protected"}:
+            raise WorldlineError("INVALID_PROJECT_CONFIG", "project config fields must be schemaVersion, generated, checks, and services, optionally protected")
+        protected_value = value.get("protected", [])
+        if not isinstance(protected_value, list) or not all(isinstance(item, str) and item for item in protected_value):
+            raise WorldlineError("INVALID_PROJECT_CONFIG", "protected must be a list of relative paths or globs")
+        protected: list[str] = []
+        for item in protected_value:
+            cls._relative(item, "protected path", allow_glob=True)
+            protected.append(item)
         if value["schemaVersion"] != SCHEMA_VERSION:
             raise WorldlineError("INVALID_PROJECT_CONFIG", "project config schemaVersion must be literal 1")
         roots = store.roots()
@@ -128,7 +142,7 @@ class ProjectConfig:
             if item["restart"] not in {"never", "on-failure"}:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", f"service {identifier} restart is invalid")
             services.append(ServiceSpec(identifier, argv, item["cwd"], dict(environment), health, item["restart"]))
-        return cls(generated=tuple(generated), checks=tuple(checks), services=tuple(services))
+        return cls(generated=tuple(generated), checks=tuple(checks), services=tuple(services), protected=tuple(protected))
 
     @staticmethod
     def _relative(value: Any, label: str, *, allow_glob: bool = False) -> str:
@@ -153,3 +167,13 @@ class ProjectConfig:
             raise WorldlineError("INVALID_PROJECT_CONFIG", f"{label} id is empty or duplicated: {value}")
         seen.add(value)
         return value
+
+
+def protected_matches(protected: tuple[str, ...] | list[str], path_display: str) -> bool:
+    """True when a delta path is covered by a protected pattern: exact, glob, or under a
+    protected directory."""
+    for pattern in protected:
+        base = pattern.rstrip("/")
+        if path_display == base or fnmatch.fnmatchcase(path_display, pattern) or path_display.startswith(base + "/"):
+            return True
+    return False

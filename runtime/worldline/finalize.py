@@ -13,6 +13,7 @@ from .canonical import atomic_write_json
 from .core import Core
 from .delta import Delta
 from .environment import EnvironmentCapture, OwnedProcess, capture_dependencies, evidence_manifest
+from .project import protected_matches
 from .errors import WorldlineError
 from .linux.docker import DockerAdapter
 from .linux.git import GitAdapter
@@ -81,6 +82,7 @@ class Finalizer:
         overlays: Sequence[OverlayRoot],
         *,
         check_results: Sequence[dict[str, Any]],
+        protected: Sequence[str] = (),
         required_checks: Sequence[str],
         agent_manifest: dict[str, Any],
     ) -> World:
@@ -178,6 +180,26 @@ class Finalizer:
                     {"claimed": world.base_root, "actual": base_root},
                 )
             delta = Delta.compute_all(base_manifests, candidate_manifests, self.core)
+            check_results = list(check_results)
+            required_checks = list(required_checks)
+            if protected:
+                # Engine-enforced: PRIME's policy names the paths and the engine's own delta says
+                # whether the candidate changed them; neither is the candidate's to rewrite. The
+                # synthetic check is part of the evidence manifest like any other check.
+                touched = sorted({op["pathDisplay"] for op in delta.value["operations"] if protected_matches(tuple(protected), op["pathDisplay"])})
+                check_results.append(
+                    {
+                        "id": "protected-paths",
+                        "kind": "policy",
+                        "required": True,
+                        "format": "engine",
+                        "covers": list(protected),
+                        "status": "FAIL" if touched else "PASS",
+                        "touched": touched,
+                        "reason": ("the candidate changed protected paths: " + ", ".join(touched)) if touched else "no protected path changed",
+                    }
+                )
+                required_checks.append("protected-paths")
             dependencies = capture_dependencies(dependency_roots, self.core)
             dependency_counts = [item["count"] for item in dependencies]
             dependency_count = (
