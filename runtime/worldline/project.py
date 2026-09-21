@@ -4,6 +4,8 @@ from dataclasses import dataclass
 import json
 from pathlib import Path, PurePosixPath
 import re
+import fnmatch
+import os
 from typing import Any, Mapping
 
 from . import SCHEMA_VERSION
@@ -29,6 +31,28 @@ class CheckSpec:
     format: str
     result: str | None
     covers: tuple[str, ...]
+    # Globs (relative to the primary root) naming the authoritative verifier files this check
+    # executes or reads. Empty means: the files argv/cwd name, plus every file under each named
+    # file's directory (a verifier's helpers live beside it). Never candidate-owned.
+    verifiers: tuple[str, ...] = ()
+
+    def covers_path(self, relative: str) -> bool:
+        return any(
+            fnmatch.fnmatchcase(relative, pattern) or relative.startswith(pattern.rstrip("*").rstrip("/") + "/")
+            for pattern in self.covers if pattern
+        )
+
+    def named_paths(self) -> list[str]:
+        """Relative paths that argv names (option-looking tokens and escapes excluded)."""
+        out: list[str] = []
+        for token in self.argv:
+            if not token or token.startswith("-") or token.startswith("/"):
+                continue
+            relative = os.path.normpath(os.path.join(self.cwd, token)) if self.cwd else os.path.normpath(token)
+            if relative.startswith("..") or os.path.isabs(relative) or relative == ".":
+                continue
+            out.append(relative)
+        return out
 
 
 @dataclass(frozen=True, slots=True)
@@ -48,10 +72,21 @@ class ProjectConfig:
         generated: tuple[GeneratedClassifier, ...],
         checks: tuple[CheckSpec, ...],
         services: tuple[ServiceSpec, ...],
+        protected: tuple[str, ...] = (),
+        source_sha256: str | None = None,
+        source_path: str | None = None,
     ) -> None:
         self.generated = generated
         self.checks = checks
         self.services = services
+        # Identity of the policy bytes this configuration was parsed from (None when the root
+        # has no .worldline.json). Recorded in every validation context.
+        self.source_sha256 = source_sha256
+        self.source_path = source_path
+        # Paths (relative, globs allowed) a candidate may not change. The list lives in PRIME's
+        # policy, which is the only policy ever consulted, and the comparison is the engine's
+        # own delta, so no in-tree rewrite can lift it (worldline-lab D10, 2026-09-21).
+        self.protected = protected
 
     @classmethod
     def load(cls, primary_root: Path, store: StateStore) -> "ProjectConfig":
@@ -59,11 +94,22 @@ class ProjectConfig:
         if not path.is_file():
             return cls(generated=(), checks=(), services=())
         try:
-            value = json.loads(path.read_text(encoding="utf-8"))
+            raw = path.read_bytes()
+            value = json.loads(raw.decode("utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise WorldlineError("INVALID_PROJECT_CONFIG", f"{path}: {exc}") from exc
-        if not isinstance(value, dict) or set(value) != {"schemaVersion", "generated", "checks", "services"}:
-            raise WorldlineError("INVALID_PROJECT_CONFIG", "project config fields must be schemaVersion, generated, checks, and services")
+        import hashlib
+        source_sha256 = hashlib.sha256(raw).hexdigest()
+        required_fields = {"schemaVersion", "generated", "checks", "services"}
+        if not isinstance(value, dict) or not required_fields <= set(value) or not set(value) <= required_fields | {"protected"}:
+            raise WorldlineError("INVALID_PROJECT_CONFIG", "project config fields must be schemaVersion, generated, checks, and services, optionally protected")
+        protected_value = value.get("protected", [])
+        if not isinstance(protected_value, list) or not all(isinstance(item, str) and item for item in protected_value):
+            raise WorldlineError("INVALID_PROJECT_CONFIG", "protected must be a list of relative paths or globs")
+        protected: list[str] = []
+        for item in protected_value:
+            cls._relative(item, "protected path", allow_glob=True)
+            protected.append(item)
         if value["schemaVersion"] != SCHEMA_VERSION:
             raise WorldlineError("INVALID_PROJECT_CONFIG", "project config schemaVersion must be literal 1")
         roots = store.roots()
@@ -84,7 +130,7 @@ class ProjectConfig:
 
         checks: list[CheckSpec] = []
         check_ids: set[str] = set()
-        allowed_check_fields = {"id", "kind", "argv", "cwd", "required", "format", "result", "covers"}
+        allowed_check_fields = {"id", "kind", "argv", "cwd", "required", "format", "result", "covers", "verifiers"}
         for item in value["checks"]:
             if not isinstance(item, dict) or not {"id", "kind", "argv", "required", "format"} <= set(item) or not set(item) <= allowed_check_fields:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", "check fields are invalid")
@@ -107,9 +153,27 @@ class ProjectConfig:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", f"check {identifier} covers must be an array")
             for pattern in covers:
                 cls._relative(pattern, f"check {identifier} covers", allow_glob=True)
-            checks.append(
-                CheckSpec(identifier, item["kind"], argv, cwd, item["required"], item["format"], result, tuple(covers))
-            )
+            verifiers = item.get("verifiers", [])
+            if not isinstance(verifiers, list):
+                raise WorldlineError("INVALID_PROJECT_CONFIG", f"check {identifier} verifiers must be an array")
+            for pattern in verifiers:
+                cls._relative(pattern, f"check {identifier} verifiers", allow_glob=True)
+            spec = CheckSpec(identifier, item["kind"], argv, cwd, item["required"], item["format"], result, tuple(covers), tuple(verifiers))
+            # A declared verifier the candidate is allowed to rewrite is a contradiction and is
+            # refused. (An argv operand under covers is candidate data — `test -f candidate.txt`
+            # — not an examiner; it is left out of the verifier set and named in the policy
+            # warnings so the omission is never silent.)
+            for pattern in spec.verifiers:
+                # A literal path is probed as itself; a glob is probed by a representative file
+                # under its static prefix (`evaluator/*` -> `evaluator/__probe__`).
+                if any(ch in pattern for ch in "*?["):
+                    prefix = "/".join(part for part in pattern.split("/") if not any(ch in part for ch in "*?["))
+                    probe = f"{prefix}/__probe__" if prefix else "__probe__"
+                else:
+                    probe = os.path.normpath(pattern)
+                if spec.covers_path(probe) or pattern in spec.covers:
+                    raise WorldlineError("INVALID_PROJECT_CONFIG", f"check {identifier} declares verifier {pattern} inside its own covers; a verifier cannot be candidate-owned")
+            checks.append(spec)
 
         services: list[ServiceSpec] = []
         service_ids: set[str] = set()
@@ -128,7 +192,7 @@ class ProjectConfig:
             if item["restart"] not in {"never", "on-failure"}:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", f"service {identifier} restart is invalid")
             services.append(ServiceSpec(identifier, argv, item["cwd"], dict(environment), health, item["restart"]))
-        return cls(generated=tuple(generated), checks=tuple(checks), services=tuple(services))
+        return cls(generated=tuple(generated), checks=tuple(checks), services=tuple(services), protected=tuple(protected), source_sha256=source_sha256, source_path=str(path))
 
     @staticmethod
     def _relative(value: Any, label: str, *, allow_glob: bool = False) -> str:
@@ -153,3 +217,13 @@ class ProjectConfig:
             raise WorldlineError("INVALID_PROJECT_CONFIG", f"{label} id is empty or duplicated: {value}")
         seen.add(value)
         return value
+
+
+def protected_matches(protected: tuple[str, ...] | list[str], path_display: str) -> bool:
+    """True when a delta path is covered by a protected pattern: exact, glob, or under a
+    protected directory."""
+    for pattern in protected:
+        base = pattern.rstrip("/")
+        if path_display == base or fnmatch.fnmatchcase(path_display, pattern) or path_display.startswith(base + "/"):
+            return True
+    return False

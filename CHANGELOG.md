@@ -1,5 +1,133 @@
 # Changelog
 
+## 1.3.0 — 2026-09-21 · evidence freshness; exact-commit releases
+
+- **Approval is bound to the exact content, rules and execution context it verified.** Every
+  finalization now records a *validation context* (schema 1) inside the hashed evidence
+  manifest: the canonical policy in force, the required checks and their semantics, the
+  authoritative verifier files those checks name (hashed by content, from the checkpoint the
+  world was forked from and again from the candidate's own tree), the engine identity
+  (`__version__` + runtime tree hash) and the security-relevant execution configuration
+  (network policy, projections, sandbox, check timeout), the PRIME at fork, the candidate's
+  identity, the adapter and the results. Its `requirementHash` covers the requirement half
+  only. At every promotion boundary the CURRENT PRIME's requirement hash is recomputed from the
+  live policy and verifier bytes and compared with the candidate's; the pair also goes to the
+  proved kernel (`Expected_Validation_Context` / `Candidate_Validation_Context`), which never
+  authorizes a mismatch. Refusals are named: `EVIDENCE_STALE` (with the list of differences),
+  `EVIDENCE_CONTEXT_MISSING`, `EVIDENCE_CONTEXT_INVALID` (wrong world, corrupted, unsupported
+  schema), `VERIFIER_MODIFIED_BY_CANDIDATE` (the candidate rewrote, deleted or redirected a
+  verifier its own evidence ran). Each refusal is a `promotion-refused` causal event; no
+  transaction is created and PRIME is untouched. The requirement identity is semantic:
+  reordering or reformatting `.worldline.json` does not stale evidence; changing a check's
+  argv, cwd, required flag, format, covered paths, the protected list, a verifier's bytes, the
+  engine or the network policy does.
+- **Tested bytes vs staged bytes.** A three-way merge onto a PRIME that moved produces staged
+  bytes the candidate's evidence never covered. The kernel now receives `Tested_Root` /
+  `Staged_Content_Root` (content identities over manifest entries, timestamps excluded) and
+  refuses `STAGED_UNTESTED` unless they agree. When they differ and there is no conflict,
+  prepare runs the current checks over the staged result itself (a *staged validation*, bound
+  to the candidate and the staged content root, with the protected-paths check evaluated on
+  what would change in PRIME); only a PASS makes the staged content the tested content. The
+  facts screen shows `Evidence:` with both identities, the untested paths and the staged
+  validation's results. Prepare may therefore take as long as the project's checks.
+- **Commit re-checks what prepare checked.** At the serialized commit boundary the candidate
+  payload is re-captured and compared with the prepared identity (`CANDIDATE_CHANGED_AFTER_PREPARE`;
+  a naive tamper is caught earlier as `PAYLOAD_INTEGRITY_FAILED`), the current requirement hash
+  is recomputed and handed to the kernel (a policy/verifier/engine change between prepare and
+  commit is `EVIDENCE_STALE` with `decision: VALIDATION_CONTEXT_MISMATCH`; a PRIME content change
+  is still `PRIME_CHANGED_AFTER_PREPARE` first), and a record prepared by a runtime without
+  validation contexts is refused `TRANSACTION_RECORD_LEGACY` (abort it, prepare again).
+- **Return rules.** A *checkpoint return* (to a `prime-…` world: restoration of a previous
+  reality) needs no candidate evidence; the transaction records mode `checkpoint-return` and the
+  current requirement hash. *Re-application* of a candidate world (`return WORLD` for a
+  COLLAPSED/ARCHIVED candidate) is a promotion and obeys the same freshness rules as a collapse,
+  checked against that world's own context (mode `re-application`). Neither is a bypass.
+- **`worldline revalidate WORLD` / `worldline validation WORLD`.** The documented path for an
+  intact candidate whose evidence went stale (policy edited, verifier changed, engine upgraded,
+  configuration changed) or that predates 1.3.0: the CURRENT PRIME's checks run again over the
+  candidate's finalized bytes in the check sandbox, and a PASS context is stored beside the world
+  (store meta `validation:<instance>`, bound to the world's content identity; no schema bump).
+  A FAIL leaves the stale context in force. `validation` shows fresh/stale, the effective
+  context and its source (`finalization` or `revalidation:<id>`), the differences and the
+  revalidation history; `doctor` gains `policy` (the current requirement hash, checks, protected
+  paths and verifiers). Revalidation never changes a world's state or payload and does not
+  re-run the agent check.
+- **Receipts name the evidence.** `evidenceBinding` (optional; 1.2 receipts verify unchanged)
+  records mode, evidence source, candidate context hash, the requirement hash at prepare and at
+  commit, tested and staged content roots, the staged validation and the untested path count.
+  Two non-claims are added: freshness is identity comparison decided by the runtime with the
+  kernel proving only the equality verdict, and checks are not re-run at commit.
+- **Kernel.** `Collapse_Request` is version 2 (`WL_COLLAPSE_REQUEST_VERSION 2`) with four new
+  hash fields; `Decision` gains `Validation_Context_Mismatch` (10) and `Staged_Untested` (11);
+  the postcondition of `Decide` requires both new equalities for `Authorized`. 130 checks proved,
+  nothing assumed; Ada behaviour and fuzz tests cover the new selectors.
+- **Release workflow bound to the exact commit.** `.github/workflows/assurance.yml` (shared by
+  `ci.yml` and `release.yml`) runs `scripts/assurance.py` on one full commit id: build, Ada
+  tests and fuzz, the Python suite (incl. `tests/test_freshness.py` and
+  `tests/test_release_gate.py`; the count is read from the run, never typed here), the proof gate re-run on that build and the manifest check with
+  the library, recording every outcome, the checkout identity and the toolchain into
+  `assurance.json`. `release.yml` publishes only after `scripts/release_gate.py` accepts that
+  report for the tag's commit and tree (rejecting another SHA's run, partial or missing steps,
+  version/tag/changelog mismatch, proof exceptions or a different proved source set, a remote
+  tag elsewhere, an existing release, artifact substitution), creates the release as a draft,
+  verifies the uploaded assets against the computed digests, publishes, and re-verifies. Notes
+  are generated from the changelog and the recorded numbers; nothing is hard-coded. Tokens are
+  read-only everywhere except the publish job.
+- **After the separate adversarial review (JANUS II §7) — four repairs.** (R1) A verifier's
+  helpers are as authoritative as the file a check names: the default verifier scope is now
+  the named file's whole directory, and a check may declare `verifiers` globs to bind exactly
+  the files it executes or reads; a top-level verifier without a declaration binds only itself,
+  which `doctor.policy.warnings` and `validation` now say out loud. (R2) A declared service's
+  argv, cwd, environment, health probe and restart policy are part of the requirement identity
+  (`service changed: …` in the differences). (R3) An argv path inside the check's own `covers` is
+  candidate data, not a verifier, and is now named in `doctor.policy.warnings` instead of being
+  dropped silently; a *declared* verifier inside its own `covers` is refused at load,
+  `INVALID_PROJECT_CONFIG … cannot be candidate-owned`. (R4) The execution identity now includes the environment
+  the check runner forwards into the sandbox (PATH, LANG, toolchain selectors; session-specific
+  names excluded), the check interpreter and the proved kernel library's hash, so a daemon that
+  resolves different tools stales the evidence (`execution changed: checkEnvironment (PATH)`).
+  Retained reproducers: `tests/test_freshness.py` class K; the reviewer's own tests are kept
+  with the run artifacts.
+- **Second review (fresh bytes after the repairs above) — six more.** (R1, blocking) A file
+  the candidate ADDS inside a verifier scope — a shadow package beside the exam that hijacks
+  `import helper` without changing a byte of any existing verifier — is now named
+  `… (added)` in `verifiersModifiedByCandidate` and refused; candidate-side verifier resolution
+  was already tree-wide, the comparison now runs both ways. (R2, major) Re-applying a world
+  that has since been live (`return WORLD` for a world that became PRIME and was displaced)
+  used its displaced payload as the "tested" content; the merge is now judged against the
+  world's declared finalization manifests, the displaced differences are listed as untested
+  paths, and only a passing staged validation over the actual bytes can authorize them. (R3)
+  A check whose argv names no existing file (`make test`, `-m pytest`, `npm test`, `sh -c …`)
+  binds no verifier and is now warned as such against the actual tree, never with a false
+  "top-level verifier" message. (R4) A `return-…` world — an earlier return's result — is a
+  previous reality like a `prime-…` checkpoint and can be returned to without candidate
+  evidence (its copied context is bound to another instance and used to refuse). (R5) No test
+  count is typed into the changelog; the notes derive it from the run. (R6) `release.yml`
+  resolves the tag's target in the publish job independently of the resolve job, fails loudly
+  when the release lookup errors for any reason other than "not found", and the gate bounds
+  skipped tests (`--max-skipped`, default 3).
+- **Third review (the last cycle) — APPROVE, with four non-blocking corrections applied:**
+  SECURITY.md now states the verifier-binding limit beside the hold it qualifies (unnamed or
+  covered examiners are warned, not refused); the gate requires a floor of tests to have run
+  (`--min-tests`, default 150, a deliberate floor like the proof gate's); docs name the retained
+  reproducer classes A–L; proof counts in prose are the numbers this release's gate printed and
+  the release notes carry the derived count from the assurance run.
+- **CI had been masking Python failures.** The old workflow ran the suite as
+  `python3 -m unittest … 2>&1 | tail -n 40`, so the step's status was `tail`'s and three tests
+  had been failing on every "green" main run since 1.2.1 (a codex-only adapter test, an
+  Arch-only `/usr/bin/pacman` probe, and the simulation's `/boot` overlay on the runner). The
+  assurance runner records the real outcome; those tests now skip with a recorded reason where
+  the host genuinely lacks the capability (executable absent, a system root that cannot be an
+  overlay lower layer) or probe a binary every Linux has. Supervision classification accepts the
+  manager's own main-process-exit record as proof of supervision (some systemd versions log no
+  "Started" entry for a workload that exits before the start job is reported) and its bounded
+  journal window is 10 s.
+- **Compatibility.** Store schema stays 2. Worlds finalized by 1.2.x carry no context and are
+  refused `EVIDENCE_CONTEXT_MISSING` until revalidated; an engine upgrade stales every existing
+  candidate by design (the engine is part of the requirement) — `worldline revalidate` is the
+  answer, not a fork. PREPARED transactions from 1.2.x are refused at commit
+  (`TRANSACTION_RECORD_LEGACY`). The plugin needs no change: new codes render as text.
+
 ## 1.2.2 — 2026-09-21 · why credits only what is in effect; codex provenance
 
 - **`why` credited archived siblings.** Every world that touched a line has a range row, and the

@@ -352,11 +352,16 @@ def evidence_manifest(
     core: Core | None = None,
     *,
     metrics: Mapping[str, Any] | None = None,
+    validation: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     verifier = core or Core.shared()
     checks = [dict(result) for result in results]
     summary = "UNASSESSED" if not checks else ("PASS" if all(item.get("status") == "PASS" for item in checks) else "FAIL")
     value = {"schemaVersion": SCHEMA_VERSION, "summary": summary, "checks": checks, "metrics": dict(metrics or {})}
+    if validation is not None:
+        # The validation context is part of the hashed evidence, so the world's identity
+        # (components.evidence -> content id) covers what the evidence was bound to.
+        value["validationContext"] = dict(validation)
     value["root"] = hash_id(verifier.hash_bytes(b"worldline-evidence-v1" + canonical_bytes(value)))
     return value
 

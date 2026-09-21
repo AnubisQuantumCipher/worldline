@@ -1,3 +1,10 @@
+# Publication of a version tag is bound to a PASS assurance of the EXACT commit the tag names,
+# produced in this same run by the shared assurance workflow. The publish job holds the only
+# write token; it runs no tests. It creates the release as a DRAFT with its assets, verifies the
+# uploaded assets against the digests computed from the release tree, and only then publishes;
+# a final step re-fetches the published release and verifies it again. A tag that already
+# exists elsewhere, or a version that already has a release, is refused: published versions
+# never move.
 name: release
 
 on:
@@ -5,33 +12,152 @@ on:
     tags: ['v*']
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  assure-and-publish:
+  resolve:
     runs-on: ubuntu-24.04
+    outputs:
+      sha: ${{ steps.identity.outputs.sha }}
+      tree: ${{ steps.identity.outputs.tree }}
+      tag: ${{ steps.identity.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
-      - name: Tag matches the runtime version
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve the tag to its commit and tree
+        id: identity
         run: |
-          tag="${GITHUB_REF_NAME#v}"
-          version="$(python3 -c 'import sys; sys.path.insert(0, "runtime"); import worldline; print(worldline.__version__)')"
-          test "$tag" = "$version" || { echo "tag v$tag != runtime $version" >&2; exit 1; }
-          grep -q "^## $tag " CHANGELOG.md || { echo "CHANGELOG.md has no $tag section" >&2; exit 1; }
-          python3 verify_proof_manifest.py --sources-only
-      - name: Deterministic archive from the tagged tree
+          tag="$GITHUB_REF_NAME"
+          sha=$(git rev-parse "refs/tags/$tag^{commit}")
+          tree=$(git rev-parse "$sha^{tree}")
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "tree=$tree" >> "$GITHUB_OUTPUT"
+          echo "release $tag -> $sha (tree $tree)"
+
+  assurance:
+    needs: resolve
+    uses: ./.github/workflows/assurance.yml
+    with:
+      ref: ${{ needs.resolve.outputs.sha }}
+
+  publish:
+    needs: [resolve, assurance]
+    if: ${{ needs.resolve.result == 'success' && needs.assurance.result == 'success' && needs.assurance.outputs.result == 'PASS' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_SHA: ${{ needs.resolve.outputs.sha }}
+      RELEASE_TREE: ${{ needs.resolve.outputs.tree }}
+      TAG: ${{ needs.resolve.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Checkout is the release commit
+        run: |
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          test "$(git rev-parse 'HEAD^{tree}')" = "$RELEASE_TREE"
+
+      - name: Download this run's assurance report
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.assurance.outputs.artifact }}
+          path: assurance
+
+      - name: Source archive from the exact release tree, with digests
         run: |
           mkdir -p dist
-          git archive --format=tar.gz --prefix="worldline-${GITHUB_REF_NAME}/" -o "dist/worldline-${GITHUB_REF_NAME}.tar.gz" "$GITHUB_REF_NAME"
-          (cd dist && sha256sum "worldline-${GITHUB_REF_NAME}.tar.gz" > "worldline-${GITHUB_REF_NAME}.tar.gz.sha256")
-          cat "dist/worldline-${GITHUB_REF_NAME}.tar.gz.sha256"
-      - name: Publish the GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
+          git archive --format=tar.gz --prefix="worldline-$TAG/" -o "dist/worldline-$TAG.tar.gz" "$RELEASE_SHA"
+          (cd dist && sha256sum "worldline-$TAG.tar.gz" > "worldline-$TAG.tar.gz.sha256")
+          # The archive must unpack to exactly the release tree's tracked files.
+          mkdir -p check && tar -xzf "dist/worldline-$TAG.tar.gz" -C check
+          diff <(git ls-tree -r --name-only "$RELEASE_SHA" | sort) <(cd "check/worldline-$TAG" && find . -type f -o -type l | sed 's|^\./||' | sort)
+          cat "dist/worldline-$TAG.tar.gz.sha256"
+
+      - name: Remote tag target and existing release
+        id: remote
         run: |
-          tag="${GITHUB_REF_NAME#v}"
-          notes=$(awk -v tag="$tag" 'BEGIN{p=0} /^## /{ if (p) exit; if (index($0, "## " tag " ")==1) p=1 } p' CHANGELOG.md)
-          ci=$(gh run list --workflow ci --branch main --status success --limit 1 --json url --jq '.[0].url' 2>/dev/null || true)
-          gh release create "$GITHUB_REF_NAME" dist/*.tar.gz dist/*.sha256 \
-            --title "WORLDLINE $GITHUB_REF_NAME" \
-            --notes "$notes"$'\n\n'"Release commit: $(git rev-parse HEAD)"$'\n'"Latest green CI on main: ${ci:-see the Actions tab}"$'\n'"Proof gate: 130 checks, all proved, nothing assumed (see proof-manifest.json)."
+          remote=$(git ls-remote --tags origin "refs/tags/$TAG^{}" | cut -f1)
+          if [ -z "$remote" ]; then remote=$(git ls-remote --tags origin "refs/tags/$TAG" | cut -f1); fi
+          echo "remote_sha=${remote:-none}" >> "$GITHUB_OUTPUT"
+          # The tag's target is resolved here, in this job, from the fetched refs — independently
+          # of the resolve job — so the gate's tag/commit comparison is a real check.
+          echo "tag_target=$(git rev-parse "refs/tags/$TAG^{commit}")" >> "$GITHUB_OUTPUT"
+          set +e
+          view=$(gh release view "$TAG" --json isDraft --jq '.isDraft' 2>&1); status=$?
+          set -e
+          if [ "$status" -eq 0 ]; then
+            # A draft left by an earlier failed attempt of this same commit is removed; a
+            # published release is never touched.
+            if [ "$view" = "true" ]; then
+              gh release delete "$TAG" --yes
+              echo "exists=no" >> "$GITHUB_OUTPUT"
+            else
+              echo "exists=yes" >> "$GITHUB_OUTPUT"
+            fi
+          elif printf '%s' "$view" | grep -qi "not found"; then
+            echo "exists=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "cannot determine whether a release for $TAG exists: $view" >&2
+            exit 1
+          fi
+
+      - name: Release gate (exact-commit assurance, version, changelog, proof, tag, artifacts)
+        run: |
+          archive_sha=$(sha256sum "dist/worldline-$TAG.tar.gz" | cut -d' ' -f1)
+          digest_sha=$(sha256sum "dist/worldline-$TAG.tar.gz.sha256" | cut -d' ' -f1)
+          python3 scripts/release_gate.py \
+            --release-sha "$RELEASE_SHA" --release-tree "$RELEASE_TREE" --tag "$TAG" --tag-target-sha "${{ steps.remote.outputs.tag_target }}" \
+            --version-file runtime/worldline/__init__.py --changelog CHANGELOG.md \
+            --assurance assurance/assurance.json --proof-manifest proof-manifest.json \
+            --remote-tag-sha "${{ steps.remote.outputs.remote_sha }}" --release-exists "${{ steps.remote.outputs.exists }}" \
+            --artifact "worldline-$TAG.tar.gz=dist/worldline-$TAG.tar.gz" --expected-artifact "worldline-$TAG.tar.gz=$archive_sha" \
+            --artifact "worldline-$TAG.tar.gz.sha256=dist/worldline-$TAG.tar.gz.sha256" --expected-artifact "worldline-$TAG.tar.gz.sha256=$digest_sha" \
+            --signing unsigned \
+            --write-manifest dist/release-manifest.json
+          python3 verify_proof_manifest.py --sources-only   # sources check only; the full proof is in assurance.json
+
+      - name: Release notes from the changelog and the recorded results
+        run: |
+          python3 scripts/release_notes.py --version "${TAG#v}" --changelog CHANGELOG.md --assurance assurance/assurance.json --release-manifest dist/release-manifest.json > dist/RELEASE-NOTES.md
+          cat dist/RELEASE-NOTES.md
+
+      - name: Create the release as a draft with its assets
+        run: |
+          gh release create "$TAG" "dist/worldline-$TAG.tar.gz" "dist/worldline-$TAG.tar.gz.sha256" dist/release-manifest.json assurance/assurance.json \
+            --draft --title "WORLDLINE $TAG" --notes-file dist/RELEASE-NOTES.md --target "$RELEASE_SHA"
+
+      - name: Verify the draft's assets against the computed digests
+        run: |
+          mkdir -p fetched && gh release download "$TAG" --dir fetched
+          for name in "worldline-$TAG.tar.gz" "worldline-$TAG.tar.gz.sha256" release-manifest.json; do
+            cmp "dist/$name" "fetched/$name" || { echo "uploaded asset differs: $name" >&2; exit 1; }
+          done
+          test "$(gh release view "$TAG" --json targetCommitish --jq '.targetCommitish')" = "$RELEASE_SHA"
+
+      - name: Publish
+        run: gh release edit "$TAG" --draft=false
+
+      - name: Post-publication verification (independent fetch)
+        run: |
+          rm -rf fetched && mkdir -p fetched && gh release download "$TAG" --dir fetched
+          (cd fetched && sha256sum -c "worldline-$TAG.tar.gz.sha256")
+          python3 - <<'PY'
+          import json, hashlib, os
+          tag = os.environ["TAG"]
+          manifest = json.load(open("fetched/release-manifest.json"))
+          assert manifest["commit"] == os.environ["RELEASE_SHA"], "manifest commit differs"
+          for item in manifest["artifacts"]:
+              digest = hashlib.sha256(open(f"fetched/{item['name']}", "rb").read()).hexdigest()
+              assert digest == item["sha256"], f"published {item['name']} differs from the manifest"
+          print("published release verified:", tag, manifest["commit"])
+          PY
+          test "$(gh release view "$TAG" --json isDraft --jq '.isDraft')" = "false"

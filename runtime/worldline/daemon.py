@@ -336,7 +336,20 @@ class WorldlineDaemon:
         if args:
             raise InvalidRequest("status takes no arguments")
         if self._reconcile_status is not None and self.store.get_meta("dirty", False):
-            self._reconcile_status()
+            try:
+                self._reconcile_status()
+            except WorldlineError as exc:
+                # The re-capture refused (EXTERNAL_HARDLINK, UNSUPPORTED_SPECIAL_FILE, ...).
+                # PRIME stays at its last checkpoint, `dirty` stays set so every mutation keeps
+                # refusing by the same name, and status REPORTS the refusal instead of failing:
+                # the operator must be able to see what is wrong (worldline-lab D7, 2026-09-21).
+                self.store.set_meta("watchState", "DEGRADED")
+                self.store.set_meta("watchError", exc.as_dict())
+                _LOG.warning("PRIME re-capture refused; status degraded: %s: %s", exc.code, exc.message)
+            else:
+                if self.store.get_meta("watchError") is not None:
+                    self.store.set_meta("watchError", None)
+                    self.store.set_meta("watchState", "HEALTHY")
         return self.publisher.publish()
 
     def _list(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:

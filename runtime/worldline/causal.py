@@ -216,6 +216,10 @@ class CausalIndexer:
             "receipt": None if receipt is None else receipt["receipt"],
             "eventId": row["event_id"],
             "attribution": "world",
+            # Worlds with a NEWER event on this line that are not in effect (archived siblings,
+            # pruned worlds, or a world whose copy of the line no longer matches PRIME). They are
+            # named, never credited: attribution stays with the world whose text PRIME holds.
+            "bystanders": bystanders,
         }
 
     @staticmethod

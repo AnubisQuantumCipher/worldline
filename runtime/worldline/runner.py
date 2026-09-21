@@ -341,6 +341,16 @@ class AgentRunner:
                     "reason": None,
                 }
             )
+        # What the manager says happened to the unit: structured, bounded, and the only basis
+        # for telling a launcher that never got a unit from a workload that ran and failed.
+        supervision = self.systemd.outcome(unit, exit_code, stopped=stopped)
+        if supervision["kind"] == "LAUNCH_FAILED":
+            first = (supervision.get("launcherStderr") or "").strip().splitlines()
+            raise WorldlineError(
+                "UNIT_LAUNCH_FAILED",
+                "the user manager never started the transient unit" + (f": {first[0]}" if first else ""),
+                {"unit": unit.unit, "launcherExit": exit_code, "supervision": supervision},
+            )
         agent_result = {
             "id": "agent",
             "kind": "build",
@@ -349,15 +359,18 @@ class AgentRunner:
             "covers": [],
             "argv": list(argv),
             "exitCode": exit_code,
-            "status": "FAIL" if stopped else ("PASS" if exit_code == 0 else "FAIL"),
+            "status": "FAIL" if stopped or supervision["kind"] != "SUPERVISED" else ("PASS" if exit_code == 0 else "FAIL"),
             "rawEventHash": hash_id(self.core.hash_file(raw_path)),
             "stderrHash": hash_id(self.core.hash_file(stderr_path)),
             "network": proxy.summary() if proxy is not None else {"policy": policy},
+            "supervision": supervision,
         }
         if cancelled:
             agent_result["reason"] = "USER_CANCELLED: the operator stopped this world before the agent finished"
         elif timed_out:
             agent_result["reason"] = f"TIMEOUT: the agent exceeded the {timeout:g} s limit and was stopped"
+        elif supervision["kind"] == "INDETERMINATE":
+            agent_result["reason"] = f"SUPERVISION_INDETERMINATE: the manager's journal did not establish that {unit.unit} ran ({supervision['source']})"
         check_results = [agent_result]
         if stopped:
             # The partial work is still materialized so it can be inspected, but running the
@@ -387,10 +400,27 @@ class AgentRunner:
                     checks=project.checks,
                 )
             )
+        # Evidence freshness (1.3.0): what this evaluation was bound to. The requirement half is
+        # computed from the bytes the world was forked from (its base payload), which is what
+        # the checks were defined against; finalize adds the candidate-side verifier hashes.
+        from .validation import requirements
+        roots = self.store.roots()
+        base_sources = {root["root_key"]: Path(world.base_payload_path) / root["root_key"] for root in roots}
+        requirement = requirements(project, roots, base_sources, self.config, project.source_sha256, self.core)
+        parent = self.store.world(world.parent_instance) if world.parent_instance else None
+        validation = {
+            "project": project,
+            "roots": roots,
+            "requirement": requirement,
+            "primeAtFork": {"instanceId": world.parent_instance, "contentId": world.parent_content, "generation": self.store.get_meta("primeGeneration") if parent is None else parent.instance_id},
+            "adapter": {"name": adapter.name, "argv": list(argv), "sessionReference": session_reference, "supervision": supervision.get("kind") if isinstance(supervision, dict) else None},
+        }
         finalized = self.finalizer.finalize(
             world.instance_id,
             overlays,
             check_results=check_results,
+            protected=project.protected,
+            validation=validation,
             required_checks=("agent", *(check.id for check in project.checks if check.required)),
             agent_manifest={
                 "adapter": adapter.name,
@@ -400,6 +430,7 @@ class AgentRunner:
                 "argv": list(argv),
                 "systemdUnit": unit.unit,
                 "mainPid": main_pid,
+                "supervision": supervision,
                 "cwd": str(primary_target),
                 "generatedClassifiers": [
                     {"root": item.root_key, "glob": item.glob}

@@ -1,0 +1,142 @@
+# Full assurance of ONE exact commit: build, Ada tests and fuzz, the Python suite (including
+# the deterministic freshness regressions), the SPARK proof gate re-run on this build, and the
+# proof-manifest verification with the library checked. Shared by ci.yml and release.yml so
+# the two cannot drift apart. The job runs untrusted test code with a read-only token; the
+# report it uploads is what a release may rely on, and it names the commit and tree it ran on.
+name: assurance
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: full 40-hex commit id to assure (the checkout is verified against it)
+        required: true
+        type: string
+    outputs:
+      result:
+        description: PASS or FAIL as recorded in assurance.json
+        value: ${{ jobs.assure.outputs.result }}
+      artifact:
+        description: name of the uploaded assurance artifact
+        value: ${{ jobs.assure.outputs.artifact }}
+
+permissions:
+  contents: read
+
+jobs:
+  assure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    permissions:
+      contents: read
+    outputs:
+      result: ${{ steps.report.outputs.result }}
+      artifact: assurance-${{ inputs.ref }}
+    steps:
+      - name: Refuse anything but a full commit id
+        run: |
+          case "${{ inputs.ref }}" in
+            *[!0-9a-f]*|"") echo "ref must be a full 40-hex sha" >&2; exit 1 ;;
+          esac
+          test "${#REF}" -eq 40 || { echo "ref must be 40 hex characters" >&2; exit 1; }
+        env:
+          REF: ${{ inputs.ref }}
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+
+      - name: Checkout is the requested commit
+        run: test "$(git rev-parse HEAD)" = "${{ inputs.ref }}"
+
+      - name: System packages (git, python, build tools for bubblewrap)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git python3 python3-cryptography meson ninja-build libcap-dev pkg-config
+          # Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor; the sandbox needs them.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          sudo sysctl -w kernel.unprivileged_userns_clone=1 || true
+          python3 --version
+
+      - name: bubblewrap 0.11 (Ubuntu ships 0.9, which has no --overlay-src)
+        id: bwrap
+        uses: actions/cache@v4
+        with:
+          path: ~/bwrap
+          key: bubblewrap-0.11.0-x86_64
+
+      - name: Build bubblewrap (cache miss)
+        if: steps.bwrap.outputs.cache-hit != 'true'
+        run: |
+          curl -sSfL -o bubblewrap.tar.xz https://github.com/containers/bubblewrap/releases/download/v0.11.0/bubblewrap-0.11.0.tar.xz
+          mkdir -p bubblewrap-src && tar -xJf bubblewrap.tar.xz -C bubblewrap-src --strip-components=1
+          cd bubblewrap-src && meson setup build --prefix="$HOME/bwrap" -Dman=disabled -Dselinux=disabled -Dbash_completion=disabled -Dzsh_completion=disabled && ninja -C build && ninja -C build install
+
+      - name: bubblewrap on PATH
+        run: |
+          echo "$HOME/bwrap/bin" >> "$GITHUB_PATH"
+          "$HOME/bwrap/bin/bwrap" --version
+
+      - name: User systemd manager (transient units supervise every world)
+        run: |
+          sudo loginctl enable-linger "$(id -un)"
+          for _ in $(seq 1 50); do [ -S "/run/user/$(id -u)/bus" ] && break; sleep 0.2; done
+          echo "XDG_RUNTIME_DIR=/run/user/$(id -u)" >> "$GITHUB_ENV"
+          echo "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus" >> "$GITHUB_ENV"
+          XDG_RUNTIME_DIR=/run/user/$(id -u) systemctl --user is-system-running || true
+
+      - name: GNAT FSF toolchain cache (GNAT 16.1.0, gprbuild 26.0.0, gnatprove 16.1.0 — the reference machine releases)
+        id: toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/gnat
+          key: gnat-fsf-x86_64-16.1.0-1-gprbuild-26.0.0-1-gnatprove-16.1.0-1
+
+      - name: Download the toolchain (cache miss)
+        if: steps.toolchain.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/gnat && cd ~/gnat
+          base=https://github.com/alire-project/GNAT-FSF-builds/releases/download
+          for spec in gnat-16.1.0-1:gnat-x86_64-linux-16.1.0-1 gprbuild-26.0.0-1:gprbuild-x86_64-linux-26.0.0-1 gnatprove-16.1.0-1:gnatprove-x86_64-linux-16.1.0-1; do
+            tag=${spec%%:*}; name=${spec##*:}
+            curl -sSfL -o "$name.tar.gz" "$base/$tag/$name.tar.gz"
+            curl -sSfL -o "$name.tar.gz.sha256" "$base/$tag/$name.tar.gz.sha256"
+            # The published .sha256 holds the bare digest (64 hex chars), not a sha256sum line.
+            echo "$(tr -d '[:space:]' < "$name.tar.gz.sha256")  $name.tar.gz" | sha256sum -c -
+            tar -xzf "$name.tar.gz" && rm -f "$name.tar.gz" "$name.tar.gz.sha256"
+          done
+          ls ~/gnat
+
+      - name: Toolchain on PATH
+        run: |
+          echo "$HOME/gnat/gnat-x86_64-linux-16.1.0-1/bin" >> "$GITHUB_PATH"
+          echo "$HOME/gnat/gprbuild-x86_64-linux-26.0.0-1/bin" >> "$GITHUB_PATH"
+          echo "$HOME/gnat/gnatprove-x86_64-linux-16.1.0-1/bin" >> "$GITHUB_PATH"
+          echo "GPR_PROJECT_PATH=$HOME/gnat/gnatprove-x86_64-linux-16.1.0-1/lib/gnat" >> "$GITHUB_ENV"
+
+      - name: Toolchain check
+        run: |
+          gnat --version | head -1
+          gprbuild --version | head -1
+          gnatprove --version | head -1
+
+      - name: Assurance (build, Ada tests, fuzz, Python suite, proof gate, manifest) — every outcome recorded
+        id: report
+        run: |
+          set +e
+          python3 scripts/assurance.py run --out assurance --expect-sha "${{ inputs.ref }}"
+          status=$?
+          set -e
+          result=$(python3 -c 'import json; print(json.load(open("assurance/assurance.json"))["result"])' 2>/dev/null || echo FAIL)
+          echo "result=$result" >> "$GITHUB_OUTPUT"
+          test "$status" -eq 0
+
+      - name: Upload the assurance report (also on failure, for diagnosis)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assurance-${{ inputs.ref }}
+          path: assurance/
+          if-no-files-found: error
+          retention-days: 90

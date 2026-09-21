@@ -133,6 +133,11 @@ class CausalTests(unittest.TestCase):
                 CausalIndexer(store).index(sibling, ProjectConfig(generated=(), checks=(), services=()))
                 again = CausalIndexer(store).why(str(work / "code.txt"), 1)
                 self.assertEqual(again["world"], "beta")
+                # ...and it is NAMED as a bystander on the world attribution, not only on the
+                # checkpoint path (worldline-lab D6, 2026-09-21).
+                self.assertEqual(again["attribution"], "world")
+                self.assertEqual(again["bystanders"], ["gamma"])
+                self.assertEqual(why["bystanders"], [])
                 # The untouched second line dates from registration.
                 second = CausalIndexer(store).why(str(work / "code.txt"), 2)
                 self.assertEqual(second["attribution"], "checkpoint")

@@ -134,10 +134,21 @@ input. Commit re-captures PRIME and the staged payload, refuses if either moved
 kernel's parent check compares the parent identity the *store* knows against the candidate's
 claim; feeding the claim to both sides, as 1.0 did, made the check tautological.
 
+Since 1.3.0 the request carries two more pairs. `Expected_Validation_Context` is the identity of
+the requirements the current PRIME imposes (canonical policy, required checks, verifier bytes,
+engine, execution configuration), recomputed by the runtime at prepare and again at commit;
+`Candidate_Validation_Context` is the identity the candidate's evidence was bound to when it was
+evaluated. `Tested_Root` is the content identity of the bytes that evidence covered;
+`Staged_Content_Root` is the content identity of what would become PRIME. `Decide` returns
+`Authorized` only if both pairs agree (`Validation_Context_Mismatch`, `Staged_Untested`
+otherwise), and the postcondition states it. What the identities *contain* is the runtime's
+decision, in Python, and is not proved.
+
 ## 6.3 The proof gate
 
 `prove.sh` runs GNATprove at level 3 over every kernel unit and fails unless every check is
-proved with nothing assumed and nothing justified (130 checks as of 1.2.0). It writes
+proved with nothing assumed and nothing justified (130 checks as of 1.3.0; the count is read
+from the gate's output, never typed). It writes
 `proof-manifest.json` with the library hash; the installer verifies the manifest before
 installing, and the runtime reports `invariantPreservation: PROVED` in a receipt only while the
 running library still matches. The continuous-integration workflow re-proves every build on an
@@ -217,6 +228,19 @@ cannot resolve is quarantined and blocks mutation while diagnosis stays availabl
 uses `--prepare` and `transaction commit` so the facts a human reviewed are the facts that
 commit.
 
+**Evidence freshness (1.3.0).** Acceptance evidence is a statement about particular bytes under
+particular rules. Finalization therefore records a validation context inside the hashed evidence
+manifest, and prepare refuses — before staging anything — a candidate whose requirement identity
+differs from the current PRIME's (`EVIDENCE_STALE`), whose context is missing, corrupted or
+belongs to another world, or whose own tree altered a verifier its evidence ran. When the merge
+produces staged bytes that differ from the tested candidate, the current checks run over the
+staged result and their context is bound to the staged content root; without a passing staged
+validation the kernel refuses `STAGED_UNTESTED`. Commit recomputes the requirement identity and
+re-captures the candidate payload, so a change to the rules, the verifiers, the engine, PRIME or
+the candidate between prepare and commit cannot commit. A stale-but-intact candidate is
+revalidated explicitly (`worldline revalidate`), producing a new context bound to the same
+content; nothing is accepted silently.
+
 ## 8.3 Return
 
 `return` restores the state a checkpoint had at the instant it was displaced. A checkpoint that
@@ -226,11 +250,18 @@ root of the reconcile checkpoint published from it. A checkpoint that changed af
 reality matches neither and is refused. This was found on the live machine after the first real
 collapse and is now a boundary test.
 
+A return to a `prime-…` checkpoint restores a previous reality and needs no candidate evidence;
+the transaction records that mode and the requirement in force. A return that re-applies a
+candidate world is a promotion and is judged by that world's evidence under the current
+requirement, exactly like a collapse. Neither path bypasses freshness.
+
 ## 8.4 Collapse receipts and the anchor
 
 Every commit produces a receipt: transaction, parent and candidate identities, `beforeRoot` and
-`afterRoot`, the delta, contamination, generated paths, dependency changes, the proof claim, and
-the non-claims, chained by hash to the previous receipt. `log --verify` replays the chain through
+`afterRoot`, the delta, contamination, generated paths, dependency changes, the proof claim,
+the evidence binding (which context authorized the bytes, the requirement identity at prepare
+and at commit, tested and staged content roots, any staged validation), and the non-claims,
+chained by hash to the previous receipt. `log --verify` replays the chain through
 the kernel.
 
 The receipt chain inside the store is self-consistent and that is all it is: a process running

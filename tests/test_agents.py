@@ -107,6 +107,10 @@ class AgentAdapterTests(unittest.TestCase):
                 self.assertEqual(db.execute("select secret from auth_credentials").fetchone()[0], "host-only")
 
     def test_adapter_options_argv_is_inserted_before_the_mission(self) -> None:
+        import shutil
+        for name in ("codex", "claude", "omp"):
+            if shutil.which(name) is None:
+                self.skipTest(f"{name} is not installed on this host; resolving a builtin adapter needs its executable")
         from worldline.agents import adapter as resolve_adapter
         from worldline.config import GlobalConfig
         from worldline.paths import WorldlinePaths

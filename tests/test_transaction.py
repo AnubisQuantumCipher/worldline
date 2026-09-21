@@ -16,6 +16,8 @@ from worldline.roots import RootManager
 from worldline.store import StateStore
 from worldline.transaction import CollapseTransaction
 
+from validation_support import attach_fresh_context
+
 
 class CollapseTransactionTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -104,6 +106,7 @@ class CollapseTransactionTests(unittest.TestCase):
         world.establish_identity(self.core)
         world.transition(WorldState.VALID, self.core)
         self.store.insert_world(world)
+        attach_fresh_context(self.store, world, core=self.core)
         return world
 
     def test_clean_commit_exchanges_mapping_and_links_receipt(self) -> None:

@@ -222,6 +222,27 @@ excluded from dirtiness and are exactly what `return` preserves when it restores
 that was live (§7.5). A benchmark result supplies `metric`, `unit`, `baseline`, `candidate`, and
 `direction`; WORLDLINE never invents a performance figure.
 
+### Verifiers and the evidence identity (1.3.0)
+
+Every file a check executes or reads is an *authoritative verifier*: its bytes are part of the
+requirement identity, and a candidate that changes one is refused
+`VERIFIER_MODIFIED_BY_CANDIDATE`. By default that set is the regular files a check's `argv`
+(or `cwd`) names plus every file under each named file's directory — an exam at
+`evaluator/exam.py` binds all of `evaluator/`. Declare `"verifiers": ["evaluator/*", "tools/lint.sh"]`
+on a check to bind exactly what it uses instead. A verifier at the top level of the root with
+no declaration binds only itself; the engine cannot know which sibling modules it imports, and
+`worldline doctor` (`policy.warnings`) says so — declare `verifiers` to close it. A file the
+candidate *adds* inside a verifier scope counts as a modification (`… (added)`): a shadow
+package or module beside the exam changes what it imports. A check whose `argv` names no
+existing file (`make test`, `python -m pytest`, `npm test`, `sh -c …`) binds no verifier at all
+and is warned about — declare `verifiers` (the Makefile, `conftest.py`, the script the shell
+line runs). Re-applying a world that has since been live is judged against the bytes its
+evidence covered; what differs is listed as untested and must pass a staged validation. An `argv`
+path that the check's own `covers` globs match is candidate data (`test -f out.txt`), not a
+verifier; it is named in the warnings so the omission is never silent. A *declared* verifier
+inside the check's own `covers` is a contradiction and the policy is refused when it loads. Declared services (argv, cwd, env, health, restart)
+and the environment the check runner forwards into the sandbox are part of the identity too.
+
 # 6. Everyday workflow
 
 ## 6.1 Fork one world
@@ -280,6 +301,17 @@ change in between is refused `PRIME_CHANGED_AFTER_PREPARE`. Only a `VALID` world
 a refusal names its decision code and writes nothing. For a git root, a commit the agent made
 inside its world is part of the delta and lands in the live repository.
 
+Since 1.3.0 the facts screen has an `Evidence:` block. Before anything is staged, the
+candidate's evidence must be *fresh*: evaluated against exactly the policy, checks, verifier
+bytes, engine and execution configuration the current PRIME imposes (section 7.6). A candidate
+whose evidence is stale is refused `EVIDENCE_STALE` with the differences listed; one that
+rewrote a verifier its own evidence ran is refused `VERIFIER_MODIFIED_BY_CANDIDATE`. If PRIME
+moved since the fork and the merge is conflict-free, the staged result is not what was tested:
+prepare runs the current checks over the staged bytes (this can take as long as your checks)
+and reports them under `staged validation`; if they fail, the kernel refuses
+`STAGED_UNTESTED` and lists the untested paths. At commit the candidate payload, the staged
+payload, PRIME and the requirement are all re-verified against what was prepared.
+
 ## 6.5 Return to an earlier reality
 
 ```
@@ -292,6 +324,16 @@ Return restores the state a checkpoint had at the instant it was displaced. A ch
 was live and accumulated generated artifacts is verified against the receipt or reconcile
 checkpoint that displaced it; one that changed after it left reality is refused
 `PAYLOAD_INTEGRITY_FAILED` with the reason. A pruned checkpoint refuses `PAYLOAD_PRUNED`.
+
+Two kinds of return exist and the facts screen names which one you are doing. A **checkpoint
+return** targets a `prime-…` world (a previous reality); no candidate evidence applies, and the
+transaction records mode `checkpoint-return` with the requirement in force. Note that your own
+edits to the live root are checkpoints too, so "the checkpoint that preceded current PRIME"
+may be the state just before your last edit; name the checkpoint explicitly when you mean an
+earlier one. A **re-application** targets a candidate world that was collapsed or archived
+(`return WORLD`): that is a promotion, and it obeys the same freshness rules as a collapse,
+judged against that world's own evidence (mode `re-application`); under a policy the world's
+evidence never met it is refused `EVIDENCE_STALE`.
 
 ## 6.6 Ask why a line exists
 
@@ -318,7 +360,23 @@ one calls a model with your credentials: **ghosts spend model quota**. `ghost st
 recommendation only when objective evidence improved; `ghost disable` stops them. A ghost can
 never collapse itself.
 
-## 6.9 Cancel a running world
+## 6.9 Revalidate a candidate
+
+```
+worldline validation beta          # fresh or stale, why, and the revalidation history
+worldline revalidate beta          # run the CURRENT PRIME's checks over beta's finalized bytes
+```
+
+When the policy, a verifier, the engine or the network policy changed after a world was
+finalized, its evidence is stale and every promotion is refused. `revalidate` runs the current
+checks again over the candidate's own finalized bytes (in the check sandbox; the payload is
+read-only underneath) and stores the resulting context beside the world, bound to its content
+identity. Only a `PASS` outcome speaks for the world afterwards; a `FAIL` leaves it refused.
+Revalidation never changes a world's state, payload or evidence manifest, and it does not
+re-run the agent. Worlds finalized by 1.2.x carry no context (`EVIDENCE_CONTEXT_MISSING`) and
+take the same path.
+
+## 6.10 Cancel a running world
 
 `worldline cancel WORLD` stops the agent's unit. The agent check reads `FAIL · USER_CANCELLED`,
 project checks are `UNASSESSED`, the job is `CANCELLED`, and the partial work is inspectable.
@@ -351,7 +409,20 @@ outside its allowlist, with counts. That is the policy working; the host name te
 agent wanted (on this machine a claude world refused `github.com`, Datadog telemetry, and the
 remote MCP proxy while completing its mission).
 
-## 7.5 Proof claims
+## 7.5 Evidence freshness
+
+`worldline validation WORLD` reports `fresh: true|false`, the effective context (source
+`finalization` or `revalidation:<id>`, its requirement hash, the checks it recorded, the
+verifiers the candidate changed) and, when stale, the differences from the current PRIME's
+requirement (`check added: extra`, `check changed: exam (argv)`, `verifier changed:
+evaluator/exam.py`, `execution changed: network`). `worldline doctor` shows the current
+requirement hash under `policy`. The identity is semantic: reordering or reformatting
+`.worldline.json` does not stale anything; changing what a check does, which files it runs,
+which paths are protected, the engine, or the network policy does. Receipts record what
+authorized the bytes under `evidenceBinding` (mode, evidence source, requirement hashes at
+prepare and commit, tested and staged content roots, staged validation).
+
+## 7.6 Proof claims
 
 `invariantPreservation: PROVED` in a receipt means the installed proof manifest still matches the
 running library. The proved kernel supplies the equality verdict and the state-machine rules;
@@ -428,6 +499,7 @@ fork NAME [--mission F | --mission-text T] [--wait] [--timeout S] -- AGENT
 race [MISSION_FILE] [--mission-text T] --agent A --agent B --agent C [--name N] [--detach] [--timeout S]
 collapse WORLD [--yes | --prepare]   return [WORLD] [--yes | --prepare]
 transaction list | show ID | commit ID --yes | abort ID
+revalidate WORLD   validation WORLD
 cancel WORLD   prune [--older-than D] [--keep N] [--logs] [--dry-run] [--yes]   anchor
 simulate COMMAND...   doctor [--refresh]   adapters   shell WORLD   switch [--next|--previous|WORLD]
 ghost enable --agent A | ghost disable | ghost status | ghost run OBJECTIVE [--wait]
@@ -441,6 +513,10 @@ Every command accepts `--json`; exit `0` success, `1` a named error (`worldline:
 `DAEMON_UNAVAILABLE`, `NO_PRIME`, `NO_MISSION`, `CONFIRMATION_REQUIRED`, `CONFLICT`,
 `INVALID_CANDIDATE`, `PRIME_CHANGED_DURING_CAPTURE`, `PRIME_CHANGED_AFTER_PREPARE`,
 `STAGED_ROOT_MISMATCH`, `PAYLOAD_INTEGRITY_FAILED`, `PAYLOAD_PRUNED`, `PRUNE_BLOCKED`,
+`EVIDENCE_STALE`, `EVIDENCE_CONTEXT_MISSING`, `EVIDENCE_CONTEXT_INVALID`,
+`VERIFIER_MODIFIED_BY_CANDIDATE`, `CANDIDATE_CHANGED_AFTER_PREPARE`, `TRANSACTION_RECORD_LEGACY`
+(kernel decisions `VALIDATION_CONTEXT_MISMATCH`, `STAGED_UNTESTED` arrive as `CONFLICT` /
+`EVIDENCE_STALE` with `details.decision`),
 `ROOT_SET_BUSY`, `RETURN_POINT_INCOMPLETE`, `ADAPTER_UNAVAILABLE`, `ADAPTER_AUTH_UNAVAILABLE`,
 `TIMEOUT`, `USER_CANCELLED`, `DISK_FULL`, `STORAGE_ERROR`, `NETGUARD_UNAVAILABLE`,
 `UNSUPPORTED_SCHEMA`, `GHOSTS_DISABLED`, `SYSTEM_ROOT_COLLAPSE_UNSUPPORTED`.
@@ -457,6 +533,9 @@ a peer-credential check per connection.
 
 The SQLite store carries `PRAGMA user_version` = 2. Migrations are forward-only and recorded in
 `meta.schemaMigrations`; a store newer than the runtime is refused `UNSUPPORTED_SCHEMA`.
+1.3.0 adds no migration: validation contexts live inside each world's evidence, revalidations
+under the meta key `validation:<instance>`, and receipts gain the optional `evidenceBinding`
+field. A 1.3.0 store opens under 1.2.x unchanged; 1.2.x will not consult the contexts.
 
 ## 10.5 Uninstalling
 

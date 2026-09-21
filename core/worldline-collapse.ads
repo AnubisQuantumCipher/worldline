@@ -21,6 +21,13 @@ package Worldline.Collapse with SPARK_Mode is
       Candidate_Root_Set         : Hash;
       Expected_Staged_Root       : Hash;
       Actual_Staged_Root         : Hash;
+      --  Evidence freshness (1.3.0): the requirement identity the candidate's evidence was
+      --  evaluated against must equal the one the current PRIME imposes, and the bytes that
+      --  will become live (the staged result) must be the bytes that were tested.
+      Expected_Validation_Context  : Hash;
+      Candidate_Validation_Context : Hash;
+      Tested_Root                  : Hash;
+      Staged_Content_Root          : Hash;
    end record;
 
    type Decision is
@@ -33,7 +40,9 @@ package Worldline.Collapse with SPARK_Mode is
       Root_Set_Mismatch,
       Staged_Root_Mismatch,
       Conflict,
-      Foreign_Managed_Write);
+      Foreign_Managed_Write,
+      Validation_Context_Mismatch,
+      Staged_Untested);
 
    function Decide (Request : Collapse_Request) return Decision
      with Global => null,
@@ -46,6 +55,8 @@ package Worldline.Collapse with SPARK_Mode is
                and Request.Expected_Delta = Request.Candidate_Delta
                and Request.Expected_Root_Set = Request.Candidate_Root_Set
                and Request.Expected_Staged_Root = Request.Actual_Staged_Root
+               and Request.Expected_Validation_Context = Request.Candidate_Validation_Context
+               and Request.Tested_Root = Request.Staged_Content_Root
                and not Request.Has_Conflicts
                and not Request.Has_Foreign_Managed_Writes);
 

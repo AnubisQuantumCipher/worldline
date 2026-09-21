@@ -70,7 +70,7 @@ class SandboxTests(unittest.TestCase):
         runtime = self.paths.overlays / identifier / "runtime"
         spec = SandboxSpec(
             instance_id=identifier,
-            argv=("/usr/bin/test", "-x", "/usr/bin/pacman"),
+            argv=("/usr/bin/test", "-x", "/usr/bin/env"),  # present on every Linux, not only Arch
             cwd=Path("/usr"),
             environment={"PATH": "/usr/bin"},
             roots=roots,
