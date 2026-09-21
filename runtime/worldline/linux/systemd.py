@@ -170,7 +170,7 @@ class SystemdAdapter:
     JOURNAL_STOPPED = "9d1aaa27d60140bd96365438aad20286"
     JOURNAL_PROCESS_EXIT = "98e322203f7a4ed290d09fe03c09fe15"
     JOURNAL_FAILURE_RESULT = "d9b373ed55a64feb8242e02dbe79a49c"
-    JOURNAL_WINDOW_SECONDS = 5.0
+    JOURNAL_WINDOW_SECONDS = 10.0  # bounded; slow hosts (CI runners) flush the user journal late
 
     def journal_events(self, unit: str, since_us: int) -> list[dict[str, Any]] | None:
         """The user manager's own journal entries about `unit` since `since_us`, structured.
@@ -239,7 +239,11 @@ class SystemdAdapter:
                 journal_readable = False
                 events = []
             ids = {event["messageId"] for event in events}
-            started = self.JOURNAL_STARTED in ids
+            # The manager's own record that it started the unit, or its own record of the main
+            # process exiting (which it can only write for a process it supervised), is proof
+            # of supervision. A unit whose workload exits before the start job is reported gets
+            # only the latter on some systemd versions.
+            started = self.JOURNAL_STARTED in ids or self.JOURNAL_PROCESS_EXIT in ids
             ended = bool(ids & {self.JOURNAL_PROCESS_EXIT, self.JOURNAL_FAILURE_RESULT, self.JOURNAL_STOPPED})
             if started and (ended or launcher_exit == 0 or stopped):
                 break
@@ -248,7 +252,8 @@ class SystemdAdapter:
             time.sleep(0.2)
         exit_entry = next((event for event in events if event["messageId"] == self.JOURNAL_PROCESS_EXIT), None)
         failure_entry = next((event for event in events if event["messageId"] == self.JOURNAL_FAILURE_RESULT), None)
-        started = any(event["messageId"] == self.JOURNAL_STARTED for event in events)
+        started_entry = any(event["messageId"] == self.JOURNAL_STARTED for event in events)
+        started = started_entry or exit_entry is not None
         launched = any(event["messageId"] == self.JOURNAL_STARTING for event in events)
         stopped_by_manager = any(event["messageId"] in {self.JOURNAL_STOPPING, self.JOURNAL_STOPPED} for event in events)
         if started:
@@ -271,6 +276,7 @@ class SystemdAdapter:
             "source": "journal" if journal_readable else "journal-unavailable",
             "launcherExit": launcher_exit,
             "started": started,
+            "supervisionEvidence": "started-entry" if started_entry else ("process-exit-entry" if exit_entry is not None else None),
             "stoppedByManager": stopped_by_manager,
             "exitCode": None if exit_entry is None else exit_entry.get("exitCode"),
             "exitStatus": None if exit_entry is None or exit_entry.get("exitStatus") is None else int(exit_entry["exitStatus"]) if str(exit_entry["exitStatus"]).isdigit() else exit_entry.get("exitStatus"),

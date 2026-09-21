@@ -16,11 +16,37 @@ from worldline.store import StateStore
 from worldline.transaction import CollapseTransaction
 
 
+def _system_roots_overlayable(paths: WorldlinePaths) -> str | None:
+    """Probe: can every system root the simulation overlays be a lower layer on this host?
+    (A vfat /boot or an EFI partition cannot; the engine reports SIMULATION_FAILED there.)
+    Returns bubblewrap's message when one cannot, else None."""
+    import uuid
+    from worldline.linux.namespaces import SandboxSpec
+    from worldline.simulation import _SYSTEM_ROOTS
+    sandbox = BubblewrapSandbox(paths)
+    identifier = str(uuid.uuid4())
+    roots = sandbox.overlay_roots(identifier, [(f"system-{p.name}", p, p) for p in _SYSTEM_ROOTS if p.is_dir()], allow_system_roots=True)
+    runtime = paths.overlays / identifier / "runtime"
+    process = sandbox.launch_world(SandboxSpec(instance_id=identifier, argv=("/usr/bin/true",), cwd=Path("/usr"), environment={"PATH": "/usr/bin"}, roots=roots, runtime=runtime))
+    _out, err = process.process.communicate(timeout=60)
+    if process.process.returncode != 0 and b"overlay" in err:
+        return err.decode("utf-8", "replace").strip()[-300:]
+    return None
+
+
 class SimulationTests(unittest.TestCase):
     def test_system_future_runs_without_system_collapse(self) -> None:
         capability = SystemdAdapter.capability()
         if capability["state"] != "AVAILABLE":
             self.skipTest(capability["reason"])
+        with tempfile.TemporaryDirectory(prefix="worldline-simulation-probe-") as probe:
+            root = Path(probe)
+            env = {name: str(root / name.lower()) for name in ("HOME", "XDG_DATA_HOME", "XDG_STATE_HOME", "XDG_CONFIG_HOME", "XDG_RUNTIME_DIR")}
+            for value in env.values():
+                Path(value).mkdir(mode=0o700, parents=True, exist_ok=True)
+            reason = _system_roots_overlayable(WorldlinePaths.from_environment(env))
+            if reason is not None:
+                self.skipTest(f"a system root cannot be an overlay lower layer on this host: {reason}")
         with tempfile.TemporaryDirectory(prefix="worldline-simulation-") as temporary:
             root = Path(temporary)
             env = {
