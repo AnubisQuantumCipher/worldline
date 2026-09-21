@@ -30,28 +30,37 @@ jobs:
           echo "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus" >> "$GITHUB_ENV"
           XDG_RUNTIME_DIR=/run/user/$(id -u) systemctl --user is-system-running || true
 
-      - name: Alire toolchain (GNAT, gprbuild, gnatprove)
-        uses: alire-project/setup-alire@v4
+      - name: GNAT FSF toolchain (the same releases as the reference machine: GNAT 16.1.0, gprbuild 26.0.0, gnatprove 16.1.0)
+        id: toolchain
+        uses: actions/cache@v4
         with:
-          toolchain: gnat_native gprbuild
-          toolchain_dir: ${{ github.workspace }}/.alire-toolchain
+          path: ~/gnat
+          key: gnat-fsf-x86_64-16.1.0-1-gprbuild-26.0.0-1-gnatprove-16.1.0-1
 
-      - name: Toolchain on PATH (setup-alire only exposes it through alr)
+      - name: Download the toolchain (cache miss)
+        if: steps.toolchain.outputs.cache-hit != 'true'
         run: |
-          for d in "$GITHUB_WORKSPACE"/.alire-toolchain/*/bin "$HOME"/.local/share/alire/toolchains/*/bin "$HOME"/.config/alire/cache/toolchains/*/bin; do
-            [ -d "$d" ] && echo "$d" >> "$GITHUB_PATH" && echo "PATH += $d"
+          mkdir -p ~/gnat && cd ~/gnat
+          base=https://github.com/alire-project/GNAT-FSF-builds/releases/download
+          for spec in gnat-16.1.0-1:gnat-x86_64-linux-16.1.0-1 gprbuild-26.0.0-1:gprbuild-x86_64-linux-26.0.0-1 gnatprove-16.1.0-1:gnatprove-x86_64-linux-16.1.0-1; do
+            tag=${spec%%:*}; name=${spec##*:}
+            curl -sSfL -o "$name.tar.gz" "$base/$tag/$name.tar.gz"
+            curl -sSfL -o "$name.tar.gz.sha256" "$base/$tag/$name.tar.gz.sha256"
+            sha256sum -c "$name.tar.gz.sha256"
+            tar -xzf "$name.tar.gz" && rm -f "$name.tar.gz" "$name.tar.gz.sha256"
           done
-          true
+          ls ~/gnat
 
-      - name: GNATprove
+      - name: Toolchain on PATH
         run: |
-          alr -n install gnatprove --prefix="$HOME/.alire-prove" || alr -n get gnatprove
-          echo "$HOME/.alire-prove/bin" >> "$GITHUB_PATH"
-          ls "$HOME/.alire-prove/bin" | head
+          echo "$HOME/gnat/gnat-x86_64-linux-16.1.0-1/bin" >> "$GITHUB_PATH"
+          echo "$HOME/gnat/gprbuild-x86_64-linux-26.0.0-1/bin" >> "$GITHUB_PATH"
+          echo "$HOME/gnat/gnatprove-x86_64-linux-16.1.0-1/bin" >> "$GITHUB_PATH"
+          echo "GPR_PROJECT_PATH=$HOME/gnat/gnatprove-x86_64-linux-16.1.0-1/lib/gnat" >> "$GITHUB_ENV"
 
       - name: Toolchain check
         run: |
-          which gprbuild gnat gnatprove || true
+          gnat --version | head -1
           gprbuild --version | head -1
           gnatprove --version | head -1
 
