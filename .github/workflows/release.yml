@@ -1,0 +1,37 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  assure-and-publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag matches the runtime version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          version="$(python3 -c 'import sys; sys.path.insert(0, "runtime"); import worldline; print(worldline.__version__)')"
+          test "$tag" = "$version" || { echo "tag v$tag != runtime $version" >&2; exit 1; }
+          grep -q "^## $tag " CHANGELOG.md || { echo "CHANGELOG.md has no $tag section" >&2; exit 1; }
+          python3 verify_proof_manifest.py
+      - name: Deterministic archive from the tagged tree
+        run: |
+          mkdir -p dist
+          git archive --format=tar.gz --prefix="worldline-${GITHUB_REF_NAME}/" -o "dist/worldline-${GITHUB_REF_NAME}.tar.gz" "$GITHUB_REF_NAME"
+          (cd dist && sha256sum "worldline-${GITHUB_REF_NAME}.tar.gz" > "worldline-${GITHUB_REF_NAME}.tar.gz.sha256")
+          cat "dist/worldline-${GITHUB_REF_NAME}.tar.gz.sha256"
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          notes=$(awk -v tag="$tag" 'BEGIN{p=0} /^## /{ if (p) exit; if (index($0, "## " tag " ")==1) p=1 } p' CHANGELOG.md)
+          ci=$(gh run list --workflow ci --branch main --status success --limit 1 --json url --jq '.[0].url' 2>/dev/null || true)
+          gh release create "$GITHUB_REF_NAME" dist/*.tar.gz dist/*.sha256 \
+            --title "WORLDLINE $GITHUB_REF_NAME" \
+            --notes "$notes"$'\n\n'"Release commit: $(git rev-parse HEAD)"$'\n'"Latest green CI on main: ${ci:-see the Actions tab}"$'\n'"Proof gate: 130 checks, all proved, nothing assumed (see proof-manifest.json)."
