@@ -51,6 +51,11 @@ def main() -> int:
             print(f"proof source changed after proof: {key}", file=sys.stderr)
             return 1
 
+    if "--sources-only" in sys.argv[1:]:
+        # A source release carries no built library; the manifest still records the hash of
+        # the library the proof ran against, for anyone who builds and compares.
+        print("proof manifest verified (sources; library not checked)")
+        return 0
     library = manifest.get("library", {})
     library_path = root / str(library.get("path", ""))
     if not library_path.is_file() or library.get("sha256") != digest(library_path):

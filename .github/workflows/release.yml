@@ -18,7 +18,7 @@ jobs:
           version="$(python3 -c 'import sys; sys.path.insert(0, "runtime"); import worldline; print(worldline.__version__)')"
           test "$tag" = "$version" || { echo "tag v$tag != runtime $version" >&2; exit 1; }
           grep -q "^## $tag " CHANGELOG.md || { echo "CHANGELOG.md has no $tag section" >&2; exit 1; }
-          python3 verify_proof_manifest.py
+          python3 verify_proof_manifest.py --sources-only
       - name: Deterministic archive from the tagged tree
         run: |
           mkdir -p dist
