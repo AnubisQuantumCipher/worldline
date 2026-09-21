@@ -63,8 +63,8 @@
   nothing assumed; Ada behaviour and fuzz tests cover the new selectors.
 - **Release workflow bound to the exact commit.** `.github/workflows/assurance.yml` (shared by
   `ci.yml` and `release.yml`) runs `scripts/assurance.py` on one full commit id: build, Ada
-  tests and fuzz, the Python suite (now 142 tests incl. `tests/test_freshness.py` A–J and
-  `tests/test_release_gate.py`), the proof gate re-run on that build and the manifest check with
+  tests and fuzz, the Python suite (incl. `tests/test_freshness.py` and
+  `tests/test_release_gate.py`; the count is read from the run, never typed here), the proof gate re-run on that build and the manifest check with
   the library, recording every outcome, the checkout identity and the toolchain into
   `assurance.json`. `release.yml` publishes only after `scripts/release_gate.py` accepts that
   report for the tag's commit and tree (rejecting another SHA's run, partial or missing steps,
@@ -88,6 +88,24 @@
   resolves different tools stales the evidence (`execution changed: checkEnvironment (PATH)`).
   Retained reproducers: `tests/test_freshness.py` class K; the reviewer's own tests are kept
   with the run artifacts.
+- **Second review (fresh bytes after the repairs above) — six more.** (R1, blocking) A file
+  the candidate ADDS inside a verifier scope — a shadow package beside the exam that hijacks
+  `import helper` without changing a byte of any existing verifier — is now named
+  `… (added)` in `verifiersModifiedByCandidate` and refused; candidate-side verifier resolution
+  was already tree-wide, the comparison now runs both ways. (R2, major) Re-applying a world
+  that has since been live (`return WORLD` for a world that became PRIME and was displaced)
+  used its displaced payload as the "tested" content; the merge is now judged against the
+  world's declared finalization manifests, the displaced differences are listed as untested
+  paths, and only a passing staged validation over the actual bytes can authorize them. (R3)
+  A check whose argv names no existing file (`make test`, `-m pytest`, `npm test`, `sh -c …`)
+  binds no verifier and is now warned as such against the actual tree, never with a false
+  "top-level verifier" message. (R4) A `return-…` world — an earlier return's result — is a
+  previous reality like a `prime-…` checkpoint and can be returned to without candidate
+  evidence (its copied context is bound to another instance and used to refuse). (R5) No test
+  count is typed into the changelog; the notes derive it from the run. (R6) `release.yml`
+  resolves the tag's target in the publish job independently of the resolve job, fails loudly
+  when the release lookup errors for any reason other than "not found", and the gate bounds
+  skipped tests (`--max-skipped`, default 3).
 - **CI had been masking Python failures.** The old workflow ran the suite as
   `python3 -m unittest … 2>&1 | tail -n 40`, so the step's status was `tail`'s and three tests
   had been failing on every "green" main run since 1.2.1 (a codex-only adapter test, an

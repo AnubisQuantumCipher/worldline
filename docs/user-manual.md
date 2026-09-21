@@ -231,7 +231,13 @@ requirement identity, and a candidate that changes one is refused
 `evaluator/exam.py` binds all of `evaluator/`. Declare `"verifiers": ["evaluator/*", "tools/lint.sh"]`
 on a check to bind exactly what it uses instead. A verifier at the top level of the root with
 no declaration binds only itself; the engine cannot know which sibling modules it imports, and
-`worldline doctor` (`policy.warnings`) says so — declare `verifiers` to close it. An `argv`
+`worldline doctor` (`policy.warnings`) says so — declare `verifiers` to close it. A file the
+candidate *adds* inside a verifier scope counts as a modification (`… (added)`): a shadow
+package or module beside the exam changes what it imports. A check whose `argv` names no
+existing file (`make test`, `python -m pytest`, `npm test`, `sh -c …`) binds no verifier at all
+and is warned about — declare `verifiers` (the Makefile, `conftest.py`, the script the shell
+line runs). Re-applying a world that has since been live is judged against the bytes its
+evidence covered; what differs is listed as untested and must pass a staged validation. An `argv`
 path that the check's own `covers` globs match is candidate data (`test -f out.txt`), not a
 verifier; it is named in the warnings so the omission is never silent. A *declared* verifier
 inside the check's own `covers` is a contradiction and the policy is refused when it loads. Declared services (argv, cwd, env, health, restart)
