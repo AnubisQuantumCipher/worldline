@@ -18,7 +18,7 @@ name (`scripts/release_gate.py`).
 1. **Assurance** (`assurance.yml`, read-only token). Check out the full commit id, verify the
    checkout is that commit, then `scripts/assurance.py run --expect-sha <sha>`: build the kernel
    and test binaries, run the Ada behaviour tests and the fuzz, the Python suite (which includes
-   the deterministic freshness regressions A–J and the gate tests), the SPARK proof gate re-run
+   the deterministic freshness regressions (`tests/test_freshness.py`, classes A–L) and the gate tests), the SPARK proof gate re-run
    on this build, and the proof-manifest verification with the library checked. Each step's exit
    status, duration and log digest, the commit and tree, the runtime version and the toolchain
    identities are written to `assurance.json`; the result is `PASS` only if every required step

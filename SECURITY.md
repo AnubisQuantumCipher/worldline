@@ -63,14 +63,18 @@ authorized, atomic collapse.
   requirement identity with the one the CURRENT PRIME imposes, at prepare and again at the
   serialized commit boundary, and the proved kernel refuses a mismatching pair
   (`VALIDATION_CONTEXT_MISMATCH`). Evidence from another world, a corrupted or missing context,
-  or a candidate that rewrote/redirected a verifier its evidence ran is refused by name. Staged
+  or a candidate that rewrote/redirected/shadowed a verifier its evidence ran is refused by name
+  — for the verifiers the engine binds: the files a check's argv names, their directory, or the
+  declared `verifiers` globs. A check that names no existing file (`make test`, `-m pytest`,
+  `sh -c …`) or whose argv path lies inside its own `covers` binds no verifier; the engine WARNS
+  (`doctor.policy.warnings`) and does not refuse — declare `verifiers` for such checks. Staged
   bytes that differ from the tested candidate are refused (`STAGED_UNTESTED`) unless the current
   checks pass over the staged result itself. Checkpoint returns need no candidate evidence;
   re-application of a candidate obeys the collapse rules. Legacy candidates are revalidated
   explicitly (`worldline revalidate`), never accepted silently. A verifier's directory (or the
   declared `verifiers` globs), declared services and the forwarded check environment are part of
   the identity; a top-level verifier without a declaration binds only itself and is warned about.
-  Retained reproducers: `tests/test_freshness.py` (A–K).
+  Retained reproducers: `tests/test_freshness.py` (classes A–L).
 - **Host-side git inspection is hardened (1.0.1).** Registered repos are untrusted; git's
   config-driven command execution is neutralized before inspection (see CHANGELOG 1.0.1).
 

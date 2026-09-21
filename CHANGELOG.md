@@ -106,6 +106,12 @@
   resolves the tag's target in the publish job independently of the resolve job, fails loudly
   when the release lookup errors for any reason other than "not found", and the gate bounds
   skipped tests (`--max-skipped`, default 3).
+- **Third review (the last cycle) — APPROVE, with four non-blocking corrections applied:**
+  SECURITY.md now states the verifier-binding limit beside the hold it qualifies (unnamed or
+  covered examiners are warned, not refused); the gate requires a floor of tests to have run
+  (`--min-tests`, default 150, a deliberate floor like the proof gate's); docs name the retained
+  reproducer classes A–L; proof counts in prose are the numbers this release's gate printed and
+  the release notes carry the derived count from the assurance run.
 - **CI had been masking Python failures.** The old workflow ran the suite as
   `python3 -m unittest … 2>&1 | tail -n 40`, so the step's status was `tail`'s and three tests
   had been failing on every "green" main run since 1.2.1 (a codex-only adapter test, an

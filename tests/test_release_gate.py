@@ -110,6 +110,11 @@ class ReleaseGateAcceptsOnlyTheExactAssuredCommit(unittest.TestCase):
             f["assurance"]["result"] = "FAIL"
         self._rejected(overall, "not PASS")
 
+    def test_a_run_that_collected_almost_nothing_is_rejected(self) -> None:
+        def mutate(f):
+            f["assurance"]["pythonTests"] = {"ran": 1, "ok": True, "failures": 0, "errors": 0, "skipped": 0, "verdictLine": "OK"}
+        self._rejected(mutate, "below the floor")
+
     def test_unbounded_skips_are_rejected(self) -> None:
         def mutate(f):
             f["assurance"]["pythonTests"] = {"ran": 161, "ok": True, "failures": 0, "errors": 0, "skipped": 40, "verdictLine": "OK (skipped=40)"}
