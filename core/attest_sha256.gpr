@@ -1,6 +1,6 @@
 project Worldline_Attest_SHA256 is
 
-   for Source_Dirs use ("../../attest/src");
+   for Source_Dirs use ("attest");
    for Source_Files use
      ("attest.ads", "attest-sha256.ads", "attest-sha256.adb");
    for Object_Dir use "../obj/attest-sha256";
