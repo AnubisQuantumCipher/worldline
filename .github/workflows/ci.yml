@@ -46,7 +46,8 @@ jobs:
             tag=${spec%%:*}; name=${spec##*:}
             curl -sSfL -o "$name.tar.gz" "$base/$tag/$name.tar.gz"
             curl -sSfL -o "$name.tar.gz.sha256" "$base/$tag/$name.tar.gz.sha256"
-            sha256sum -c "$name.tar.gz.sha256"
+            # The published .sha256 holds the bare digest (64 hex chars), not a sha256sum line.
+            echo "$(tr -d '[:space:]' < "$name.tar.gz.sha256")  $name.tar.gz" | sha256sum -c -
             tar -xzf "$name.tar.gz" && rm -f "$name.tar.gz" "$name.tar.gz.sha256"
           done
           ls ~/gnat
