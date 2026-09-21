@@ -5,6 +5,7 @@ import os
 import re
 import shutil
 import subprocess
+import time
 from typing import Any, Sequence
 import uuid
 
@@ -18,6 +19,10 @@ class SystemdProcess:
     unit: str
     launcher: subprocess.Popen[bytes]
     manager: "SystemdAdapter"
+    # Bytes read from the launcher's stderr while confirming supervision; the runner writes them
+    # ahead of the rest so nothing the agent said is lost.
+    stderr_prelude: bytes = b""
+    supervision_confirmed: bool = False
 
     @property
     def pid(self) -> int | None:
@@ -115,6 +120,11 @@ class SystemdAdapter:
             separator = command.index("--")
             command.insert(separator, "--property=RestartSec=2s")
             command.insert(separator, "--property=Restart=on-failure")
+        # Supervision is required, not best effort: the manager must answer BEFORE a unit is
+        # asked of it, and the unit must be seen by the manager AFTER. A launcher that dies
+        # without the manager ever knowing the unit was never a supervised world, and is refused
+        # by name instead of being read as an agent that failed.
+        self.verify_manager()
         try:
             launcher = subprocess.Popen(
                 command,
@@ -127,7 +137,69 @@ class SystemdAdapter:
             )
         except OSError as exc:
             raise WorldlineError("SYSTEMD_LAUNCH_FAILED", str(exc), {"unit": unit}) from exc
-        return SystemdProcess(unit=unit, launcher=launcher, manager=self)
+        return self._confirm_supervision(unit, launcher)
+
+    def verify_manager(self) -> dict[str, str]:
+        """Ask the user service manager something only it can answer. A manager that is
+        `degraded` (some unit failed somewhere) answers; one that cannot be reached does not."""
+        result = subprocess.run(
+            [self.systemctl, "--user", "show", "--property=Version", "--property=NFailedUnits"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+            timeout=10,
+            env=self.environment,
+        )
+        if result.returncode != 0:
+            reason = result.stderr.decode("utf-8", "replace").strip() or f"systemctl exited {result.returncode}"
+            raise WorldlineError("SUPERVISION_UNAVAILABLE", f"the user service manager cannot be reached: {reason}")
+        values: dict[str, str] = {}
+        for line in result.stdout.decode("utf-8", "replace").splitlines():
+            name, separator, value = line.partition("=")
+            if separator:
+                values[name] = value
+        return values
+
+    _CONFIRM_WINDOW_SECONDS = 1.0
+
+    def _confirm_supervision(self, unit: str, launcher: subprocess.Popen[bytes]) -> SystemdProcess:
+        deadline = time.monotonic() + self._CONFIRM_WINDOW_SECONDS
+        while True:
+            shown = subprocess.run(
+                [self.systemctl, "--user", "show", unit, "--property=LoadState", "--property=ActiveState"],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+                timeout=10,
+                env=self.environment,
+            )
+            if shown.returncode == 0 and "LoadState=loaded" in shown.stdout.decode("utf-8", "replace"):
+                return SystemdProcess(unit=unit, launcher=launcher, manager=self, supervision_confirmed=True)
+            code = launcher.poll()
+            if code is None:
+                if time.monotonic() >= deadline:
+                    # The manager answered the pre-flight and the launcher is alive; the unit has
+                    # just not been observed yet. Proceed unconfirmed rather than refuse late.
+                    return SystemdProcess(unit=unit, launcher=launcher, manager=self)
+                time.sleep(0.05)
+                continue
+            if code == 0:
+                # Ran to completion before it could be observed: a very short world.
+                return SystemdProcess(unit=unit, launcher=launcher, manager=self)
+            prelude = b""
+            if launcher.stderr is not None:
+                try:
+                    prelude = launcher.stderr.read()
+                except OSError:
+                    prelude = b""
+            if prelude.lstrip().startswith(b"Failed to"):
+                # systemd-run's own failure ("Failed to connect to bus", "Failed to start
+                # transient service unit"): the manager never took the unit.
+                first = prelude.decode("utf-8", "replace").strip().splitlines()[0]
+                raise WorldlineError("SUPERVISION_UNAVAILABLE", f"transient unit was not started: {first}", {"unit": unit, "exitCode": code})
+            return SystemdProcess(unit=unit, launcher=launcher, manager=self, stderr_prelude=prelude)
 
     def stop(self, unit: str) -> None:
         self._validate_unit(unit)
@@ -170,9 +242,18 @@ class SystemdAdapter:
         return values
 
     @classmethod
-    def capability(cls) -> dict[str, Any]:
+    def capability(cls, adapter: "SystemdAdapter | None" = None) -> dict[str, Any]:
         try:
-            adapter = cls()
+            adapter = adapter or cls()
+        except WorldlineError as exc:
+            return {"state": "UNAVAILABLE", "reason": exc.message}
+        # AVAILABLE means the manager can be QUERIED, which is what launch, cancel, and the
+        # startup sweep need. `is-system-running` is recorded as information only: it answers
+        # "degraded" with exit status 1 whenever any unit anywhere has failed, and the earlier
+        # probe read that exit status as "no supervision" while every world kept running in a
+        # transient unit exactly as before (worldline-lab D8b, 2026-09-21).
+        try:
+            manager = adapter.verify_manager()
         except WorldlineError as exc:
             return {"state": "UNAVAILABLE", "reason": exc.message}
         result = subprocess.run(
@@ -184,13 +265,16 @@ class SystemdAdapter:
             timeout=10,
             env=adapter.environment,
         )
-        state = result.stdout.decode("utf-8", "replace").strip()
-        if result.returncode != 0 or state not in {"running", "degraded"}:
-            # "starting" and "initializing" are transient: the registry re-probes UNAVAILABLE
-            # entries, so this heals once the manager settles instead of sticking for a session.
-            return {"state": "UNAVAILABLE", "reason": state or result.stderr.decode("utf-8", "replace").strip()}
+        state = result.stdout.decode("utf-8", "replace").strip() or "unknown"
         runtime = adapter.environment.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
         filesystem = os.statvfs(runtime)
         if filesystem.f_bavail == 0:
             return {"state": "UNAVAILABLE", "reason": f"XDG runtime filesystem is full: {runtime}"}
-        return {"state": "AVAILABLE", "managerState": state, "manager": runtime}
+        failed = manager.get("NFailedUnits", "")
+        return {
+            "state": "AVAILABLE",
+            "managerState": state,
+            "manager": runtime,
+            "managerVersion": manager.get("Version"),
+            "failedUnits": int(failed) if failed.isdigit() else failed,
+        }

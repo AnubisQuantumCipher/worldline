@@ -284,6 +284,8 @@ class AgentRunner:
         def read_stderr() -> None:
             assert unit.launcher.stderr is not None
             with open(stderr_path, "xb", buffering=0) as destination:
+                if unit.stderr_prelude:
+                    destination.write(unit.stderr_prelude)
                 shutil.copyfileobj(unit.launcher.stderr, destination)
                 destination.flush()
                 os.fsync(destination.fileno())
