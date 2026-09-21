@@ -74,6 +74,7 @@ receipt stays readable by the older code. Run `./install.sh` again to move forwa
 | Disk growth | `worldline prune [--older-than DAYS] [--keep N] [--logs] [--dry-run]`; `doctor.storeUsage` |
 | Receipt integrity beyond the store | `worldline anchor`, `anchor.exportPath`, `attest verify-custos ~/.local/state/worldline/anchor.tsv ~/.config/worldline/anchor/public.hex` |
 | Store format changes | forward-only migrations (`meta.schemaMigrations`); a newer store is refused, never downgraded |
+| Model and effort for a builtin agent | `adapterOptions.<name>.argv`, e.g. codex `["-m", "gpt-5.6-luna", "-c", "model_reasoning_effort=max"]`; visible in `worldline adapters` |
 
 ## Continuous integration
 

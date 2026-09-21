@@ -21,6 +21,7 @@ class PiAdapter(AgentAdapter):
             "json",
             "--no-session",
             "--approve",
+            *self.extra_argv,
             mission,
         )
 

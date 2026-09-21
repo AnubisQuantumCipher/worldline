@@ -24,6 +24,9 @@ class AgentAdapter(ABC):
     name: str
     executable_name: str
     mission_via_stdin: bool = False
+    # Operator-supplied argv inserted before the mission (config `adapterOptions.<name>.argv`),
+    # e.g. codex `-c model_reasoning_effort=high`. Shown verbatim in `adapters` argvPreview.
+    extra_argv: tuple[str, ...] = ()
 
     def __init__(self, executable: str | None = None) -> None:
         self.executable = executable or shutil.which(self.executable_name)

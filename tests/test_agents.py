@@ -106,6 +106,30 @@ class AgentAdapterTests(unittest.TestCase):
             with contextlib.closing(sqlite3.connect(agent / "agent.db")) as db:
                 self.assertEqual(db.execute("select secret from auth_credentials").fetchone()[0], "host-only")
 
+    def test_adapter_options_argv_is_inserted_before_the_mission(self) -> None:
+        from worldline.agents import adapter as resolve_adapter
+        from worldline.config import GlobalConfig
+        from worldline.paths import WorldlinePaths
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            env = {"HOME": str(root / "home"), "XDG_DATA_HOME": str(root / "data"), "XDG_STATE_HOME": str(root / "state"), "XDG_CONFIG_HOME": str(root / "config"), "XDG_RUNTIME_DIR": str(root / "runtime")}
+            for value in env.values():
+                Path(value).mkdir(mode=0o700, parents=True, exist_ok=True)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            config = GlobalConfig.default(paths)
+            config.value["adapterOptions"] = {"codex": {"argv": ["-c", "model_reasoning_effort=high"]}, "claude": {"argv": ["--model", "opus"]}}
+            config.save()
+            argv = resolve_adapter("codex", config).build_argv(self.context, "mission")
+            self.assertEqual(argv[-5:], ("-c", "model_reasoning_effort=high", "-C", "/work", "-"))
+            self.assertEqual(resolve_adapter("claude", config).build_argv(self.context, "mission")[-3:], ("--model", "opus", "mission"))
+            self.assertEqual(resolve_adapter("omp", config).extra_argv, ())
+            for bad in ({"nope": {"argv": ["x"]}}, {"codex": {"argv": [""]}}, {"codex": {"model": "x"}}):
+                config.value["adapterOptions"] = bad
+                with self.assertRaises(WorldlineError):
+                    config.save()
+
     def test_unknown_event_fields_are_tolerated_without_attribution_invention(self) -> None:
         event = CodexAdapter("codex").parse_event({"futureField": {"nested": True}})
         self.assertEqual(event, {"kind": "agent-event"})

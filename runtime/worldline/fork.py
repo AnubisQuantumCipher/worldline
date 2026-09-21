@@ -114,13 +114,21 @@ class ForkManager:
             current = self.store.world(instance_id)
         except WorldlineError:
             return
-        if current.state not in (WorldState.MUTABLE, WorldState.FINALIZING):
-            return
         error = exc.as_dict() if isinstance(exc, WorldlineError) else {
             "code": "RUN_FAILED",
             "message": f"{type(exc).__name__}: {exc}",
             "details": {},
         }
+        # Whatever state the world is in, the job that supervised it must not be left RUNNING:
+        # the bar would count it, the root set would stay busy, and only a daemon restart would
+        # sweep it. (Finalization failures already move the world to DEAD before re-raising.)
+        for job in self.store.active_jobs_for_world(instance_id):
+            self.store.update_job(job["job_id"], state="DEAD", error=error, ended=True)
+        if current.state not in (WorldState.MUTABLE, WorldState.FINALIZING):
+            if isinstance(current.evidence, dict) and current.evidence.get("supervision") is None:
+                current.evidence = {**current.evidence, "supervision": error}
+                self.store.save_world(current)
+            return
         checks = list(current.evidence.get("checks", [])) if isinstance(current.evidence, dict) else []
         current.evidence = {"summary": "FAIL", "checks": checks, "supervision": error}
         current.transition(WorldState.DEAD, self.core)

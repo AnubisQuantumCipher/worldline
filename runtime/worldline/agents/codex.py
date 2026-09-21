@@ -19,6 +19,7 @@ class CodexAdapter(AgentAdapter):
             "--json",
             "--ephemeral",
             "--dangerously-bypass-approvals-and-sandbox",
+            *self.extra_argv,
             "-C",
             str(context.primary_root),
         ]

@@ -16,7 +16,8 @@ from .paths import WorldlinePaths
 _ALLOWED_PLACEHOLDERS = {"workspace", "missionFile", "worldState"}
 _TOP_LEVEL_FIELDS = {"schemaVersion", "readonlyHomePaths", "agentCommands", "ghosts"}
 # Optional blocks (1.2.0). Absent means the documented default; present means validated.
-_OPTIONAL_FIELDS = {"limits", "network", "anchor"}
+_OPTIONAL_FIELDS = {"limits", "network", "anchor", "adapterOptions"}
+_BUILTIN_ADAPTERS = ("claude", "codex", "omp", "pi")
 _NETWORK_POLICIES = ("shared", "allowlist", "none")
 
 
@@ -57,6 +58,7 @@ class GlobalConfig:
             "limits": {"defaultTimeoutSeconds": None},
             "network": {"policy": "shared", "allow": []},
             "anchor": {"exportPath": None},
+            "adapterOptions": {},
         }
         return cls(paths, value)
 
@@ -134,6 +136,22 @@ class GlobalConfig:
             if not isinstance(export, str) or not Path(export).expanduser().is_absolute():
                 raise WorldlineError("INVALID_CONFIG", "anchor.exportPath must be null or an absolute path")
             self._reject_worldline_storage(Path(export).expanduser())
+        options = self.value.get("adapterOptions", {})
+        if not isinstance(options, dict):
+            raise WorldlineError("INVALID_CONFIG", "adapterOptions must be a map of builtin adapter name to options")
+        for name, option in options.items():
+            if name not in _BUILTIN_ADAPTERS:
+                raise WorldlineError("INVALID_CONFIG", f"adapterOptions names an unknown builtin adapter: {name} (generic adapters carry their own argv)")
+            if not isinstance(option, dict) or set(option) != {"argv"}:
+                raise WorldlineError("INVALID_CONFIG", f"adapterOptions.{name} must have exactly argv")
+            argv = option["argv"]
+            if not isinstance(argv, list) or not all(isinstance(item, str) and item and "\x00" not in item for item in argv):
+                raise WorldlineError("INVALID_CONFIG", f"adapterOptions.{name}.argv must be a list of nonempty strings")
+
+    def adapter_argv(self, name: str) -> tuple[str, ...]:
+        """Extra argv a builtin adapter inserts before the mission (e.g. codex `-c model_reasoning_effort=high`)."""
+        option = self.value.get("adapterOptions", {}).get(name)
+        return tuple(option["argv"]) if isinstance(option, dict) else ()
 
     @property
     def default_timeout_seconds(self) -> int | None:

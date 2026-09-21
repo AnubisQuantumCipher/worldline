@@ -22,7 +22,9 @@ _BUILTINS: dict[str, Callable[[], AgentAdapter]] = {
 def adapter(name: str, config: GlobalConfig) -> AgentAdapter:
     factory = _BUILTINS.get(name)
     if factory is not None:
-        return factory()
+        instance = factory()
+        instance.extra_argv = config.adapter_argv(name)
+        return instance
     return GenericAdapter(config.generic_agent(name))
 
 

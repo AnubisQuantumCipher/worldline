@@ -19,6 +19,7 @@ class OmpAdapter(AgentAdapter):
             str(context.primary_root),
             "--approval-mode",
             "yolo",
+            *self.extra_argv,
             mission,
         )
 

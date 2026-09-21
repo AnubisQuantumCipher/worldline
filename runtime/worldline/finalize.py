@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import time
+
 import os
 from pathlib import Path
 import shutil
@@ -51,6 +53,27 @@ class Finalizer:
         self.toolchains = tuple(toolchains)
         self.environment = EnvironmentCapture(self.core)
         self.git = GitAdapter(self.core)
+
+    def _verify_base(self, manifest: CapturedManifest, source: Path, root_key: str) -> None:
+        # The base checkpoint is shared by every sibling and read by several finalizations at
+        # once; a transient read failure here used to surface as a bare CORE_IO and kill the
+        # world. Retry briefly, then fail by name with the root that could not be verified.
+        last: WorldlineError | None = None
+        for attempt in range(3):
+            try:
+                Manifest.verify_content(manifest, source, self.core)
+                return
+            except WorldlineError as exc:
+                last = exc
+                if not exc.code.startswith("CORE_"):
+                    break
+                time.sleep(0.5 * (attempt + 1))
+        assert last is not None
+        raise WorldlineError(
+            "BASE_CHECKPOINT_UNVERIFIED",
+            f"the checkpoint this world was forked from could not be verified for root {root_key}: {last.message}",
+            {"rootKey": root_key, "base": str(source), "cause": last.as_dict()},
+        )
 
     def finalize(
         self,
@@ -131,7 +154,7 @@ class Finalizer:
                 base_manifest_path = Path(world.base_payload_path) / "manifests" / f"{root_key}.json"
                 if base_manifest_path.is_file():
                     base_manifest = Manifest.load(base_manifest_path, self.core)
-                    Manifest.verify_content(base_manifest, base_source, self.core)
+                    self._verify_base(base_manifest, base_source, root_key)
                 else:
                     base_repository = self.git.capture(base_source) if root["kind"] == "repo" else None
                     base_manifest = Manifest.capture(
@@ -234,10 +257,17 @@ class Finalizer:
             return world
         except BaseException as exc:
             if world.state is WorldState.FINALIZING:
+                error = exc.as_dict() if isinstance(exc, WorldlineError) else {
+                    "code": "FINALIZATION_FAILED",
+                    "message": f"{type(exc).__name__}: {exc}",
+                    "details": {},
+                }
                 world.evidence = {
                     "summary": "FAIL",
                     "checks": list(check_results),
                     "materializationError": {"type": type(exc).__name__, "message": str(exc)},
+                    # One place every surface reads the reason a world is DEAD from.
+                    "supervision": error,
                 }
                 world.transition(WorldState.DEAD, self.core)
                 self.store.save_world(world)

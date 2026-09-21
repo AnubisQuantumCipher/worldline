@@ -31,6 +31,7 @@ class ClaudeAdapter(AgentAdapter):
             "--dangerously-skip-permissions",
             "--settings",
             '{"disableAllHooks":true}',
+            *self.extra_argv,
             mission,
         )
 

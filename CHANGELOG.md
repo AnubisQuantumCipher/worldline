@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.2.1 — 2026-09-21 · per-adapter options; a failed finalization closes its job
+
+- **`adapterOptions`** (global config): extra argv a builtin adapter inserts before the mission,
+  shown verbatim in `worldline adapters` (`argvPreview`). The case that prompted it: running
+  codex worlds on a chosen model and reasoning effort without touching the operator's own
+  `~/.codex/config.toml` — `{"codex": {"argv": ["-m", "gpt-5.6-luna", "-c", "model_reasoning_effort=max"]}}`.
+  Only builtin adapter names are accepted; generic adapters carry their own argv.
+- **A world whose finalization failed left its job RUNNING.** Seen live: a cancelled codex lane
+  died with `CORE_IO` while its base checkpoint was verified, the world went `DEAD`, and the job
+  stayed `RUNNING` (the bar counted it, the root set stayed busy) until a daemon restart. The
+  job is now closed with the error whatever state the world is in, and the reason is recorded
+  under `evidence.supervision` as well as `materializationError`.
+- **Base checkpoint verification retries** transient `CORE_*` read failures (the base is shared
+  by every sibling and read by several finalizations at once) and then fails by name:
+  `BASE_CHECKPOINT_UNVERIFIED` with the root and the cause.
+
 ## 1.2.0 — 2026-09-20 · contained network, timeouts, prune, anchored receipts, git roots
 
 Everything a finished tool needs that 1.1.1 still lacked, each exercised for real afterwards.
