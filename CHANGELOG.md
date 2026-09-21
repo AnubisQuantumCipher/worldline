@@ -73,6 +73,16 @@
   verifies the uploaded assets against the computed digests, publishes, and re-verifies. Notes
   are generated from the changelog and the recorded numbers; nothing is hard-coded. Tokens are
   read-only everywhere except the publish job.
+- **CI had been masking Python failures.** The old workflow ran the suite as
+  `python3 -m unittest … 2>&1 | tail -n 40`, so the step's status was `tail`'s and three tests
+  had been failing on every "green" main run since 1.2.1 (a codex-only adapter test, an
+  Arch-only `/usr/bin/pacman` probe, and the simulation's `/boot` overlay on the runner). The
+  assurance runner records the real outcome; those tests now skip with a recorded reason where
+  the host genuinely lacks the capability (executable absent, a system root that cannot be an
+  overlay lower layer) or probe a binary every Linux has. Supervision classification accepts the
+  manager's own main-process-exit record as proof of supervision (some systemd versions log no
+  "Started" entry for a workload that exits before the start job is reported) and its bounded
+  journal window is 10 s.
 - **Compatibility.** Store schema stays 2. Worlds finalized by 1.2.x carry no context and are
   refused `EVIDENCE_CONTEXT_MISSING` until revalidated; an engine upgrade stales every existing
   candidate by design (the engine is part of the requirement) — `worldline revalidate` is the
