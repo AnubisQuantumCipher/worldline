@@ -1,5 +1,10 @@
 # Corrections required in the long-form documents
 
+> **Superseded (1.2.0).** The manual and whitepaper now live in this repository as
+> `docs/user-manual.md` and `docs/whitepaper.md` and are regenerated with `docs/build-pdf.sh`;
+> every correction below is folded into them. This file stays as the record of what the
+> 1.0.x PDFs got wrong.
+
 `~/Documents/WORLDLINE-Whitepaper.pdf` and `~/Documents/WORLDLINE-User-Manual.pdf` are PDFs and
 cannot be edited from the repository, so the claim defects found in the 2026-09-02 audit passes
 are itemized here with exact replacement wording. Apply them at the next regeneration.
