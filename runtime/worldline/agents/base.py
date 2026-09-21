@@ -38,6 +38,10 @@ class AgentAdapter(ABC):
     def credential_mounts(self, context: AgentContext) -> tuple[CredentialProjection, ...]:
         raise NotImplementedError
 
+    def network_hosts(self) -> tuple[str, ...]:
+        """Hosts this agent must reach under the allowlist network policy (its model provider)."""
+        return ()
+
     def parse_event(self, value: Mapping[str, Any]) -> dict[str, Any]:
         event: dict[str, Any] = {"kind": self._first_string(value, "type", "event", "kind") or "agent-event"}
         actor = self._first_string(value, "actor", "agent")

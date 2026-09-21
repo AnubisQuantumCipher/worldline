@@ -32,7 +32,7 @@ class ConfigTests(unittest.TestCase):
         config = GlobalConfig.load(self.paths)
         self.assertEqual(
             set(config.value),
-            {"schemaVersion", "readonlyHomePaths", "agentCommands", "ghosts"},
+            {"schemaVersion", "readonlyHomePaths", "agentCommands", "ghosts", "limits", "network", "anchor"},
         )
         self.assertFalse(config.value["ghosts"]["enabled"])
         self.assertEqual(stat.S_IMODE(self.paths.config_file.stat().st_mode), 0o600)

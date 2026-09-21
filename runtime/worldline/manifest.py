@@ -8,7 +8,7 @@ import posixpath
 import shutil
 import stat
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping
 
 from . import SCHEMA_VERSION
 from .canonical import atomic_write, canonical_bytes, parse_canonical
@@ -405,3 +405,45 @@ class Manifest:
             ns=(metadata["mtimeNs"], metadata["mtimeNs"]),
             follow_symlinks=not symlink,
         )
+
+
+def repository_facts(payload: str | os.PathLike[str], roots: Iterable[Mapping[str, Any]]) -> dict[str, Any] | None:
+    """Head, branch, and dirtiness of every `repo` root in a world payload, from its manifests.
+
+    Raw diffs stay in the manifest; this is what a reader needs to answer "what did the agent
+    commit". None when the world has no repository root or no manifest yet.
+    """
+    result: dict[str, Any] = {"roots": {}}
+    primary_key: str | None = None
+    for root in roots:
+        if root.get("kind") != "repo":
+            continue
+        root_key = str(root["root_key"])
+        manifest_path = Path(payload) / "manifests" / f"{root_key}.json"
+        if not manifest_path.is_file():
+            continue
+        try:
+            captured = Manifest.load(manifest_path)
+        except WorldlineError:
+            continue
+        repository = captured.value.get("repository")
+        if not isinstance(repository, dict):
+            continue
+        status = base64.b64decode(str(repository.get("statusRawB64", "")).encode("ascii"), validate=False)
+        entries = [item for item in status.split(b"\0") if item and not item.startswith(b"# ")]
+        facts = {
+            "head": repository.get("head"),
+            "branch": repository.get("branch"),
+            "dirty": bool(entries),
+            "statusEntries": len(entries),
+            "indexHash": repository.get("indexHash"),
+            "stagedDiffHash": repository.get("stagedDiffHash"),
+            "worktreeDiffHash": repository.get("worktreeDiffHash"),
+        }
+        result["roots"][root_key] = facts
+        if root.get("primary_root") or primary_key is None:
+            primary_key = root_key
+    if not result["roots"]:
+        return None
+    primary = result["roots"][primary_key]
+    return {**primary, "rootKey": primary_key, "roots": result["roots"]}

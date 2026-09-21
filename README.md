@@ -65,6 +65,23 @@ The store (`~/.local/share/worldline`, `~/.local/state/worldline`) is not part o
 and is not touched by a rollback: newer runtimes only add fields, and every generation and
 receipt stays readable by the older code. Run `./install.sh` again to move forward.
 
+## Operating limits and hygiene (1.2.0)
+
+| Concern | Setting or command |
+|---|---|
+| Egress from a world | `network.policy` = `shared` (default) · `allowlist` (provider hosts + `network.allow`, refusals recorded) · `none` |
+| Runaway agents | `fork --timeout SECONDS`, `race --timeout`, `limits.defaultTimeoutSeconds` → job `TIMED_OUT`, world `DEGRADED` |
+| Disk growth | `worldline prune [--older-than DAYS] [--keep N] [--logs] [--dry-run]`; `doctor.storeUsage` |
+| Receipt integrity beyond the store | `worldline anchor`, `anchor.exportPath`, `attest verify-custos ~/.local/state/worldline/anchor.tsv ~/.config/worldline/anchor/public.hex` |
+| Store format changes | forward-only migrations (`meta.schemaMigrations`); a newer store is refused, never downgraded |
+
+## Continuous integration
+
+`.github/workflows/ci.yml` builds the Ada library with the Alire toolchain on an x86_64
+runner, runs the Ada tests and fuzz, the Python suite (bubblewrap, overlayfs, and a lingering
+user systemd manager are set up on the runner), and the proof gate with GNATprove. The proof
+gate is the slow step and is cached per toolchain version.
+
 ## Isolated testing
 
 - `tests/test_boundaries.py` and `tests/test_lifecycle_integrity.py` start private daemons in

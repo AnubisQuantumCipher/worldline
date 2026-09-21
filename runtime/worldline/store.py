@@ -18,6 +18,17 @@ from .paths import WorldlinePaths
 
 _ZERO_HASH = bytes(32)
 
+# The SQLite schema version (PRAGMA user_version). Independent of SCHEMA_VERSION, which names the
+# document formats (status, events, receipts) and stays 1. Bump this when a table changes and add
+# the forward migration below; never edit an old migration.
+STORE_SCHEMA_VERSION = 2
+_MIGRATIONS: dict[int, tuple[str, ...]] = {
+    2: (
+        "ALTER TABLE worlds ADD COLUMN payload_pruned INTEGER NOT NULL DEFAULT 0 CHECK (payload_pruned IN (0, 1))",
+        "ALTER TABLE worlds ADD COLUMN pruned_at TEXT",
+    ),
+}
+
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (
     key TEXT PRIMARY KEY,
@@ -65,7 +76,9 @@ CREATE TABLE IF NOT EXISTS worlds (
     contamination BLOB NOT NULL,
     world_kind TEXT NOT NULL CHECK (world_kind IN ('computational','system')),
     complexity TEXT NOT NULL CHECK (complexity IN ('LOW','MEDIUM','HIGH')),
-    risk TEXT NOT NULL CHECK (risk IN ('LOW','MEDIUM','HIGH'))
+    risk TEXT NOT NULL CHECK (risk IN ('LOW','MEDIUM','HIGH')),
+    payload_pruned INTEGER NOT NULL DEFAULT 0 CHECK (payload_pruned IN (0, 1)),
+    pruned_at TEXT
 ) STRICT;
 
 CREATE INDEX IF NOT EXISTS worlds_parent ON worlds(parent_instance);
@@ -194,16 +207,30 @@ class StateStore:
 
     def _create_schema(self) -> None:
         with self._lock:
-            self._connection.executescript(_SCHEMA)
             current = int(self._connection.execute("PRAGMA user_version").fetchone()[0])
-            if current not in (0, SCHEMA_VERSION):
+            if current > STORE_SCHEMA_VERSION:
                 raise WorldlineError(
                     "UNSUPPORTED_SCHEMA",
-                    f"database schema {current} is not supported",
-                    {"expected": SCHEMA_VERSION},
+                    f"database schema {current} is newer than this runtime supports ({STORE_SCHEMA_VERSION}); "
+                    "upgrade worldline rather than downgrading the store",
+                    {"found": current, "supported": STORE_SCHEMA_VERSION},
                 )
-            self._connection.execute(f"PRAGMA user_version={SCHEMA_VERSION}")
+            # CREATE IF NOT EXISTS gives a fresh store the whole current schema and is a no-op on an
+            # existing one; forward-only migrations then bring an older store up, one version at a
+            # time, and each step is recorded so the history is inspectable.
+            self._connection.executescript(_SCHEMA)
+            if current == 0:
+                self._connection.execute(f"PRAGMA user_version={STORE_SCHEMA_VERSION}")
+            else:
+                for version in range(current + 1, STORE_SCHEMA_VERSION + 1):
+                    for statement in _MIGRATIONS[version]:
+                        self._connection.execute(statement)
+                    self._connection.execute(f"PRAGMA user_version={version}")
+                    history = list(self.get_meta("schemaMigrations", []) or [])
+                    history.append({"from": version - 1, "to": version, "at": utc_now()})
+                    self.set_meta("schemaMigrations", history)
             self.set_meta("schemaVersion", SCHEMA_VERSION)
+            self.set_meta("storeSchemaVersion", STORE_SCHEMA_VERSION)
             self.set_meta("dirty", False)
             self.set_meta("inotifyGeneration", 0)
 
@@ -331,8 +358,8 @@ class StateStore:
                     (instance_id,alias,parent_instance,parent_content,cause,actor,born,ended,state,
                      components,content_id,payload_path,mission_hash,agent_reference,evidence,workspace,
                      base_payload_path,base_root,root_set_hash,delta_hash,delta,conflicts,contamination,
-                     world_kind,complexity,risk)
-                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                     world_kind,complexity,risk,payload_pruned,pruned_at)
+                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (
                         values["instance_id"], values["alias"], values["parent_instance"],
                         values["parent_content"], values["cause"], values["actor"], values["born"],
@@ -343,7 +370,7 @@ class StateStore:
                         values["base_root"], values["root_set_hash"], values["delta_hash"],
                         _json_blob(values["delta"]), _json_blob(values["conflicts"]),
                         _json_blob(values["contamination"]), values["world_kind"],
-                        values["complexity"], values["risk"],
+                        values["complexity"], values["risk"], int(bool(values["payload_pruned"])), values["pruned_at"],
                     ),
                 )
             except sqlite3.IntegrityError as exc:
@@ -357,7 +384,7 @@ class StateStore:
                 alias=?,parent_instance=?,parent_content=?,cause=?,actor=?,born=?,ended=?,state=?,
                 components=?,content_id=?,payload_path=?,mission_hash=?,agent_reference=?,evidence=?,workspace=?,
                 base_payload_path=?,base_root=?,root_set_hash=?,delta_hash=?,delta=?,conflicts=?,contamination=?,
-                world_kind=?,complexity=?,risk=? WHERE instance_id=?""",
+                world_kind=?,complexity=?,risk=?,payload_pruned=?,pruned_at=? WHERE instance_id=?""",
                 (
                     values["alias"], values["parent_instance"], values["parent_content"], values["cause"],
                     values["actor"], values["born"], values["ended"], values["state"],
@@ -366,7 +393,8 @@ class StateStore:
                     _json_blob(values["workspace"]), values["base_payload_path"], values["base_root"],
                     values["root_set_hash"], values["delta_hash"], _json_blob(values["delta"]),
                     _json_blob(values["conflicts"]), _json_blob(values["contamination"]),
-                    values["world_kind"], values["complexity"], values["risk"], values["instance_id"],
+                    values["world_kind"], values["complexity"], values["risk"],
+                    int(bool(values["payload_pruned"])), values["pruned_at"], values["instance_id"],
                 ),
             )
         if not cursor.rowcount:
@@ -401,6 +429,8 @@ class StateStore:
             world_kind=row["world_kind"],
             complexity=row["complexity"],
             risk=row["risk"],
+            payload_pruned=bool(row["payload_pruned"]),
+            pruned_at=row["pruned_at"],
         )
 
     def world(self, value: str) -> World:

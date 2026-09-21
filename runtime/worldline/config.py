@@ -15,6 +15,9 @@ from .paths import WorldlinePaths
 
 _ALLOWED_PLACEHOLDERS = {"workspace", "missionFile", "worldState"}
 _TOP_LEVEL_FIELDS = {"schemaVersion", "readonlyHomePaths", "agentCommands", "ghosts"}
+# Optional blocks (1.2.0). Absent means the documented default; present means validated.
+_OPTIONAL_FIELDS = {"limits", "network", "anchor"}
+_NETWORK_POLICIES = ("shared", "allowlist", "none")
 
 
 @dataclass(frozen=True, slots=True)
@@ -23,6 +26,7 @@ class GenericAgentCommand:
     argv: tuple[str, ...]
     credential_mounts: tuple[tuple[Path, Path], ...]
     event_format: str
+    network_hosts: tuple[str, ...] = ()
 
     def expand(self, values: Mapping[str, str]) -> tuple[str, ...]:
         missing = _ALLOWED_PLACEHOLDERS - set(values)
@@ -50,6 +54,9 @@ class GlobalConfig:
             ],
             "agentCommands": {},
             "ghosts": {"enabled": False, "agent": None},
+            "limits": {"defaultTimeoutSeconds": None},
+            "network": {"policy": "shared", "allow": []},
+            "anchor": {"exportPath": None},
         }
         return cls(paths, value)
 
@@ -74,8 +81,13 @@ class GlobalConfig:
         atomic_write_json(self.paths.config_file, self.value)
 
     def _validate(self) -> None:
-        if not isinstance(self.value, dict) or set(self.value) != _TOP_LEVEL_FIELDS:
-            raise WorldlineError("INVALID_CONFIG", "global config must have exactly schemaVersion, readonlyHomePaths, agentCommands, and ghosts")
+        if not isinstance(self.value, dict) or not (_TOP_LEVEL_FIELDS <= set(self.value) <= _TOP_LEVEL_FIELDS | _OPTIONAL_FIELDS):
+            raise WorldlineError(
+                "INVALID_CONFIG",
+                "global config must have schemaVersion, readonlyHomePaths, agentCommands, and ghosts, "
+                "optionally limits, network, and anchor",
+            )
+        self._validate_optional()
         if self.value["schemaVersion"] != SCHEMA_VERSION:
             raise WorldlineError("INVALID_CONFIG", "global config schemaVersion must be literal 1")
         readonly = self.value["readonlyHomePaths"]
@@ -98,6 +110,47 @@ class GlobalConfig:
             raise WorldlineError("INVALID_CONFIG", "ghost settings have invalid types")
         if ghosts["enabled"] and not ghosts["agent"]:
             raise WorldlineError("INVALID_CONFIG", "enabled ghosts require an agent")
+
+    def _validate_optional(self) -> None:
+        limits = self.value.get("limits", {"defaultTimeoutSeconds": None})
+        if not isinstance(limits, dict) or set(limits) != {"defaultTimeoutSeconds"}:
+            raise WorldlineError("INVALID_CONFIG", "limits must have exactly defaultTimeoutSeconds")
+        timeout = limits["defaultTimeoutSeconds"]
+        if timeout is not None and (isinstance(timeout, bool) or not isinstance(timeout, int) or timeout <= 0):
+            raise WorldlineError("INVALID_CONFIG", "limits.defaultTimeoutSeconds must be null or a positive integer")
+        network = self.value.get("network", {"policy": "shared", "allow": []})
+        if not isinstance(network, dict) or set(network) != {"policy", "allow"}:
+            raise WorldlineError("INVALID_CONFIG", "network must have exactly policy and allow")
+        if network["policy"] not in _NETWORK_POLICIES:
+            raise WorldlineError("INVALID_CONFIG", f"network.policy must be one of {', '.join(_NETWORK_POLICIES)}")
+        allow = network["allow"]
+        if not isinstance(allow, list) or not all(isinstance(item, str) and item and " " not in item for item in allow):
+            raise WorldlineError("INVALID_CONFIG", "network.allow must be a list of host names (a leading dot allows a whole domain)")
+        anchor = self.value.get("anchor", {"exportPath": None})
+        if not isinstance(anchor, dict) or set(anchor) != {"exportPath"}:
+            raise WorldlineError("INVALID_CONFIG", "anchor must have exactly exportPath")
+        export = anchor["exportPath"]
+        if export is not None:
+            if not isinstance(export, str) or not Path(export).expanduser().is_absolute():
+                raise WorldlineError("INVALID_CONFIG", "anchor.exportPath must be null or an absolute path")
+            self._reject_worldline_storage(Path(export).expanduser())
+
+    @property
+    def default_timeout_seconds(self) -> int | None:
+        return self.value.get("limits", {}).get("defaultTimeoutSeconds")
+
+    @property
+    def network_policy(self) -> str:
+        return str(self.value.get("network", {}).get("policy", "shared"))
+
+    @property
+    def network_allow(self) -> tuple[str, ...]:
+        return tuple(self.value.get("network", {}).get("allow", ()))
+
+    @property
+    def anchor_export_path(self) -> Path | None:
+        export = self.value.get("anchor", {}).get("exportPath")
+        return None if export is None else Path(export).expanduser()
 
     def _reject_worldline_storage(self, path: Path) -> None:
         absolute = path.absolute()
@@ -123,8 +176,11 @@ class GlobalConfig:
                 raise WorldlineError("INVALID_CONFIG", f"unsupported adapter placeholder: {field}")
 
     def _parse_command(self, name: str, value: Any) -> GenericAgentCommand:
-        if not isinstance(value, dict) or set(value) != {"argv", "credentialMounts", "eventFormat"}:
+        if not isinstance(value, dict) or not ({"argv", "credentialMounts", "eventFormat"} <= set(value) <= {"argv", "credentialMounts", "eventFormat", "networkHosts"}):
             raise WorldlineError("INVALID_CONFIG", f"agent command {name} has invalid fields")
+        hosts = value.get("networkHosts", [])
+        if not isinstance(hosts, list) or not all(isinstance(item, str) and item for item in hosts):
+            raise WorldlineError("INVALID_CONFIG", f"agent command {name} networkHosts must be a list of host names")
         argv = value["argv"]
         if not isinstance(argv, list) or not argv or not all(isinstance(item, str) and item for item in argv):
             raise WorldlineError("INVALID_CONFIG", f"agent command {name} argv must be nonempty strings")
@@ -146,7 +202,7 @@ class GlobalConfig:
         event_format = value["eventFormat"]
         if not isinstance(event_format, str) or not event_format:
             raise WorldlineError("INVALID_CONFIG", f"agent command {name} eventFormat must be nonempty")
-        return GenericAgentCommand(name, tuple(argv), tuple(mounts), event_format)
+        return GenericAgentCommand(name, tuple(argv), tuple(mounts), event_format, tuple(hosts))
 
     @property
     def readonly_home_paths(self) -> tuple[Path, ...]:

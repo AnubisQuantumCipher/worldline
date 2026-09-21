@@ -109,6 +109,10 @@ class World:
     descendants: int = 0
     complexity: str = "MEDIUM"
     risk: str = "MEDIUM"
+    # Set by `prune`: this world's produced payload was deleted to reclaim space. Its record,
+    # receipts, and causal events stay; anything that needs the payload refuses PAYLOAD_PRUNED.
+    payload_pruned: bool = False
+    pruned_at: str | None = None
 
     @classmethod
     def create(
@@ -194,7 +198,8 @@ class World:
             "parentId": self.parent_content,
             "agent": self.actor,
             "state": self.state.value,
-            "delta": self.delta,
+            "delta": self.compact_delta(),
+            "pruned": self.payload_pruned,
             "checks": checks,
             "proofs": proof_checks,
             "perf": benchmark_checks,
@@ -212,6 +217,17 @@ class World:
             "contamination": self.contamination,
             "kind": self.world_kind,
         }
+
+    # The published status carries every world's delta; a large change or many worlds made the
+    # file the bar reparses every 2 s grow without bound. The summary keeps the counts and the
+    # first entries, says so, and `show` still returns the whole list.
+    SUMMARY_DELTA_LIMIT = 200
+
+    def compact_delta(self) -> dict[str, Any]:
+        files = self.delta.get("files")
+        if not isinstance(files, list) or len(files) <= self.SUMMARY_DELTA_LIMIT:
+            return self.delta
+        return {**self.delta, "files": files[: self.SUMMARY_DELTA_LIMIT], "truncated": True, "total": len(files)}
 
     def record(self) -> dict[str, Any]:
         value = asdict(self)

@@ -27,6 +27,9 @@ class CodexAdapter(AgentAdapter):
         argv.append("-")
         return tuple(argv)
 
+    def network_hosts(self) -> tuple[str, ...]:
+        return ("api.openai.com", "chatgpt.com", "auth.openai.com", ".openai.com")
+
     def credential_mounts(self, context: AgentContext) -> tuple[CredentialProjection, ...]:
         directory = context.home / ".codex"
         mounts = [self.required_projection(directory / "auth.json")]

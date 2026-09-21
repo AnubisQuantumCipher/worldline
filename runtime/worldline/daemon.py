@@ -19,6 +19,7 @@ from typing import Any
 from . import __version__
 from .canonical import canonical_bytes
 from .errors import InvalidRequest, WorldlineError
+from .manifest import repository_facts
 from .paths import WorldlinePaths
 from .status import StatusPublisher
 from .store import StateStore
@@ -346,7 +347,10 @@ class WorldlineDaemon:
     def _show(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if set(args) != {"world"} or not isinstance(args["world"], str):
             raise InvalidRequest("show requires one string world argument")
-        return self.store.world(args["world"]).record()
+        world = self.store.world(args["world"])
+        record = world.record()
+        record["repository"] = None if world.payload_pruned else repository_facts(world.payload_path, self.store.roots())
+        return record
 
     def _verify_log(self, args: dict[str, Any], _context: RequestContext) -> dict[str, int]:
         if args:

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 import asyncio
 import base64
 from dataclasses import asdict
@@ -22,6 +24,8 @@ from .daemon import RequestContext, WorldlineDaemon
 from .errors import InvalidRequest, WorldlineError
 from .fork import ForkManager
 from .ghosts import GhostManager
+from .anchor import AnchorLedger
+from .prune import Pruner, require_payload
 from .linux.hyprland import HyprlandAdapter
 from .linux.inotify import InotifyWatcher
 from .linux.namespaces import BubblewrapSandbox
@@ -41,6 +45,8 @@ from .project import ProjectConfig
 # (notably `manifests/`) are structure, not captured roots.
 _ROOT_KEY = re.compile(r"[0-9a-f]{64}")
 
+
+_LOG = logging.getLogger("worldline.controller")
 
 class RuntimeController:
     def __init__(
@@ -72,6 +78,7 @@ class RuntimeController:
         )
         self.runner = AgentRunner(paths, store, config, self.sandbox, self.systemd, core=self.core)
         self.forks = ForkManager(paths, store, config, self.checkpoint, self.runner, core=self.core)
+        self.anchors = AnchorLedger(paths, config.anchor_export_path)
         self.transactions = CollapseTransaction(
             paths,
             store,
@@ -79,11 +86,23 @@ class RuntimeController:
             watcher=self.watcher,
             reconcile=self.roots.reconcile,
             stop_writers=self._stop_writers,
+            anchor=self.anchors,
         )
+        self.pruner = Pruner(paths, store)
+        restrictive = config.network_policy != "shared"
+        self.runner.checks.network = "none" if restrictive else "shared"
+        self.runner.services.network = "none" if restrictive else "shared"
         self.returns = ReturnManager(paths, store, self.checkpoint, self.transactions, core=self.core)
         self.simulation = SystemSimulation(paths, store, self.sandbox, self.systemd, core=self.core)
         self.ghosts = GhostManager(config, store)
         self._last_ghost_generation = self.store.get_meta("primeGeneration")
+        # Receipts that predate the anchor ledger are anchored now, in chain order, so coverage
+        # is complete from the first receipt rather than from the upgrade.
+        try:
+            rows = [self.store.receipt_for_transaction(row["transaction_id"]) for row in self.store.receipts()]
+            self.anchors.backfill([row for row in rows if row is not None])
+        except (WorldlineError, OSError) as exc:
+            _LOG.warning("anchor backfill skipped: %s", exc)
 
     def _refresh_watcher(self) -> None:
         if self.watcher is not None:
@@ -182,6 +201,8 @@ class RuntimeController:
         daemon.register("ghost.status", self._ghost_status)
         daemon.register("ghost.run", self._ghost_run, mutating=True)
         daemon.register("shell.info", self._shell_info)
+        daemon.register("prune", self._prune, mutating=True)
+        daemon.register("anchor.status", self._anchor_status)
 
     def _register_roots(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
         allowed = {"roots", "kind", "primary", "confirmed"}
@@ -228,10 +249,20 @@ class RuntimeController:
 
         return report
 
+    @staticmethod
+    def _timeout_argument(args: dict[str, Any]) -> float | None:
+        timeout = args.get("timeoutSeconds")
+        if timeout is None:
+            return None
+        if isinstance(timeout, bool) or not isinstance(timeout, int) or timeout <= 0:
+            raise InvalidRequest("timeoutSeconds must be a positive integer")
+        return float(timeout)
+
     async def _fork(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
         required = {"name", "mission", "agent", "wait"}
-        if set(args) != required or not isinstance(args["wait"], bool):
-            raise InvalidRequest("fork requires name, mission, agent, and wait")
+        if not required <= set(args) <= required | {"timeoutSeconds"} or not isinstance(args["wait"], bool):
+            raise InvalidRequest("fork requires name, mission, agent, wait, and optional timeoutSeconds")
+        timeout = self._timeout_argument(args)
         progress = self._thread_progress(context)
         if args["wait"]:
             world = await asyncio.to_thread(
@@ -241,6 +272,7 @@ class RuntimeController:
                 args["agent"],
                 wait=True,
                 progress=progress,
+                timeout=timeout,
             )
             self._schedule_automatic_ghosts(context.daemon)
             return world.summary()
@@ -248,17 +280,18 @@ class RuntimeController:
         self._schedule_automatic_ghosts(context.daemon)
         context.daemon.spawn_background(
             f"world:{world.instance_id}",
-            asyncio.to_thread(self.forks.run_world, world, args["mission"], progress=progress),
+            asyncio.to_thread(self.forks.run_world, world, args["mission"], progress=progress, timeout=timeout),
         )
         return world.summary()
 
     async def _race(self, args: dict[str, Any], context: RequestContext) -> list[dict[str, Any]]:
         required = {"agents", "mission", "detach"}
-        if not required <= set(args) <= required | {"name"} or not isinstance(args["agents"], list) or not isinstance(args["detach"], bool):
-            raise InvalidRequest("race requires agents, mission, detach, and optional name")
+        if not required <= set(args) <= required | {"name", "timeoutSeconds"} or not isinstance(args["agents"], list) or not isinstance(args["detach"], bool):
+            raise InvalidRequest("race requires agents, mission, detach, and optional name and timeoutSeconds")
         name = args.get("name")
         if name is not None and not isinstance(name, str):
             raise InvalidRequest("race name must be a string")
+        timeout = self._timeout_argument(args)
         progress = self._thread_progress(context)
         worlds = await asyncio.to_thread(
             self.forks.race,
@@ -267,13 +300,14 @@ class RuntimeController:
             wait=not args["detach"],
             progress=progress,
             name=name,
+            timeout=timeout,
         )
         self._schedule_automatic_ghosts(context.daemon)
         if args["detach"]:
             for world in worlds:
                 context.daemon.spawn_background(
                     f"world:{world.instance_id}",
-                    asyncio.to_thread(self.forks.run_world, world, args["mission"], progress=progress),
+                    asyncio.to_thread(self.forks.run_world, world, args["mission"], progress=progress, timeout=timeout),
                 )
         return [world.summary() for world in worlds]
 
@@ -302,6 +336,7 @@ class RuntimeController:
             "events": [item["event"] for item in sorted(events, key=lambda value: value["ordinal"])],
             "receipts": [item["receipt"] for item in [self.store.receipt_for_transaction(row["transaction_id"]) for row in self.store.receipts()] if item],
             "verification": self.store.verify_chains() if args.get("verify") else None,
+            "anchor": self.anchors.verify(receipts_known=len(self.store.receipts())) if args.get("verify") else None,
         }
 
     def _why(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
@@ -320,6 +355,7 @@ class RuntimeController:
             alias = world.alias
         if world is None:
             raise WorldlineError("NO_PRIME", "no PRIME is initialized")
+        require_payload(world)
         self.store.set_meta("activeWorld", alias)
         return world.summary()
 
@@ -500,7 +536,43 @@ class RuntimeController:
         snapshot["recovery"] = self._recovery_report()
         snapshot["openTransactions"] = self._open_transactions()
         snapshot["unsupervisedWorlds"] = self._unsupervised_worlds()
+        snapshot["storeUsage"] = self.pruner.usage()
+        snapshot["networkPolicy"] = {"policy": self.config.network_policy, "allow": list(self.config.network_allow)}
+        snapshot["limits"] = {"defaultTimeoutSeconds": self.config.default_timeout_seconds}
+        anchor = self.anchors.verify(receipts_known=len(self.store.receipts()))
+        snapshot["anchor"] = {
+            "state": anchor["state"],
+            "entries": anchor["entries"],
+            "head": anchor["head"],
+            "unanchoredReceipts": anchor.get("unanchoredReceipts", 0),
+            "attest": anchor["attest"]["state"],
+            "external": anchor["external"]["state"],
+            "exportPath": None if self.anchors.export_path is None else str(self.anchors.export_path),
+        }
         return snapshot
+
+    def _prune(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        allowed = {"olderThanDays", "keep", "logs", "dryRun", "confirmed"}
+        if not set(args) <= allowed:
+            raise InvalidRequest("prune accepts olderThanDays, keep, logs, dryRun, and confirmed")
+        for key in ("olderThanDays", "keep"):
+            value = args.get(key)
+            if value is not None and (isinstance(value, bool) or not isinstance(value, int) or value < 0):
+                raise InvalidRequest(f"{key} must be null or a non-negative integer")
+        plan = self.pruner.plan(
+            older_than_days=args.get("olderThanDays"),
+            keep=args.get("keep"),
+            logs=bool(args.get("logs", False)),
+        )
+        if args.get("dryRun", False) or not args.get("confirmed", False):
+            return {"state": "DRY_RUN", **plan}
+        result = self.pruner.apply(plan)
+        return {"state": "PRUNED", **result, "plan": plan}
+
+    def _anchor_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("anchor.status takes no arguments")
+        return self.anchors.verify(receipts_known=len(self.store.receipts()))
 
     def _recovery_report(self) -> dict[str, Any]:
         # A quarantined transaction blocks every mutation (prepare/commit refuse with
@@ -748,6 +820,7 @@ class RuntimeController:
         world = self.store.prime() if args["world"] == "PRIME" else self.store.world(args["world"])
         if world is None:
             raise WorldlineError("NO_PRIME", "no PRIME is initialized")
+        require_payload(world)
         roots = self.store.roots()
         primary = next(root for root in roots if root["primary_root"])
         cwd = world.workspace.get("ownedTerminalCwd")

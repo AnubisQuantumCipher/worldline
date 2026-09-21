@@ -21,6 +21,7 @@ from .environment import safe_environment
 from .errors import WorldlineError
 from .finalize import Finalizer
 from .linux.namespaces import BubblewrapSandbox, CredentialProjection, SandboxSpec
+from .linux.netguard import AllowlistProxy, write_forwarder
 from .linux.systemd import SystemdAdapter
 from .manifest import path_b64
 from .model import World, WorldState
@@ -98,6 +99,7 @@ class AgentRunner:
         # arrives while the job is still STARTING has no unit to stop yet) and after the unit
         # exits, so the evidence records USER_CANCELLED instead of an unexplained failure.
         self._cancelled: set[str] = set()
+        self._timed_out: set[str] = set()
         self._cancel_lock = threading.Lock()
 
     def cancel(self, job_id: str, unit: str | None) -> None:
@@ -123,6 +125,7 @@ class AgentRunner:
         *,
         progress: Callable[[str, dict[str, Any]], None] | None = None,
         low_priority: bool = False,
+        timeout: float | None = None,
     ) -> World:
         world = self.store.world(world_value)
         registered = self.store.roots()
@@ -153,6 +156,14 @@ class AgentRunner:
         )
         argv = adapter.build_argv(context, mission)
         credentials = materialize_private_copies(adapter.credential_mounts(context), runtime / "private-credentials")
+        policy = self.config.network_policy
+        proxy: AllowlistProxy | None = None
+        if policy == "allowlist":
+            guard_directory = self.paths.socket.parent / "netguard"
+            secure_directory(guard_directory)
+            proxy = AllowlistProxy(guard_directory / f"{world.instance_id[:8]}.sock", (*adapter.network_hosts(), *self.config.network_allow))
+            write_forwarder(runtime)
+            proxy.start()
         spec = SandboxSpec(
             instance_id=world.instance_id,
             argv=argv,
@@ -163,6 +174,8 @@ class AgentRunner:
             readonly_home_paths=self.config.readonly_home_paths,
             credential_mounts=credentials,
             operator_home=self.paths.home,
+            network=policy,
+            netguard_source=None if proxy is None else proxy.socket_path,
         )
         raw_path = self.paths.logs / f"{world.instance_id}.agent.jsonl"
         stderr_path = self.paths.logs / f"{world.instance_id}.agent.stderr"
@@ -206,6 +219,18 @@ class AgentRunner:
             systemd_unit=unit.unit,
             pid=main_pid,
         )
+        timer: threading.Timer | None = None
+        if timeout is not None and timeout > 0:
+            def expire() -> None:
+                with self._cancel_lock:
+                    self._timed_out.add(job_id)
+                try:
+                    self.systemd.stop(unit.unit)
+                except WorldlineError:
+                    pass
+            timer = threading.Timer(timeout, expire)
+            timer.daemon = True
+            timer.start()
         if self._was_cancelled(job_id):
             # Cancelled between create_job and launch: the unit exists now, stop it ourselves.
             try:
@@ -281,8 +306,16 @@ class AgentRunner:
         exit_code = unit.launcher.wait()
         stdout_thread.join()
         stderr_thread.join()
+        if timer is not None:
+            timer.cancel()
+        if proxy is not None:
+            proxy.stop()
         cancelled = self._was_cancelled(job_id)
+        with self._cancel_lock:
+            timed_out = job_id in self._timed_out
+            self._timed_out.discard(job_id)
         self._forget_cancel(job_id)
+        stopped = cancelled or timed_out
         if thread_errors:
             if world.state is WorldState.MUTABLE:
                 world.transition(WorldState.DEAD, self.core)
@@ -313,14 +346,17 @@ class AgentRunner:
             "covers": [],
             "argv": list(argv),
             "exitCode": exit_code,
-            "status": "FAIL" if cancelled else ("PASS" if exit_code == 0 else "FAIL"),
+            "status": "FAIL" if stopped else ("PASS" if exit_code == 0 else "FAIL"),
             "rawEventHash": hash_id(self.core.hash_file(raw_path)),
             "stderrHash": hash_id(self.core.hash_file(stderr_path)),
+            "network": proxy.summary() if proxy is not None else {"policy": policy},
         }
         if cancelled:
             agent_result["reason"] = "USER_CANCELLED: the operator stopped this world before the agent finished"
+        elif timed_out:
+            agent_result["reason"] = f"TIMEOUT: the agent exceeded the {timeout:g} s limit and was stopped"
         check_results = [agent_result]
-        if cancelled:
+        if stopped:
             # The partial work is still materialized so it can be inspected, but running the
             # project's checks against a half-finished tree would manufacture evidence about
             # code nobody claims is done. Report them as not assessed, with the reason.
@@ -332,7 +368,10 @@ class AgentRunner:
                     "format": check.format,
                     "covers": list(check.covers),
                     "status": "UNASSESSED",
-                    "reason": "not run: world cancelled by the operator before checks",
+                    "reason": (
+                        "not run: world cancelled by the operator before checks"
+                        if cancelled else "not run: world timed out before checks"
+                    ),
                 }
                 for check in project.checks
             )
@@ -370,12 +409,16 @@ class AgentRunner:
         CausalIndexer(self.store).index(finalized, project)
         self.store.update_job(
             job_id,
-            state="CANCELLED" if cancelled else finalized.state.value,
-            error={"code": "USER_CANCELLED", "message": "stopped by the operator"} if cancelled else None,
+            state="CANCELLED" if cancelled else ("TIMED_OUT" if timed_out else finalized.state.value),
+            error=(
+                {"code": "USER_CANCELLED", "message": "stopped by the operator"} if cancelled
+                else {"code": "TIMEOUT", "message": f"exceeded {timeout:g} s", "seconds": int(timeout)} if timed_out
+                else None
+            ),
             ended=True,
         )
         if progress is not None:
-            progress("job-finished", {"world": world.alias, "state": finalized.state.value, "cancelled": cancelled})
+            progress("job-finished", {"world": world.alias, "state": finalized.state.value, "cancelled": cancelled, "timedOut": timed_out})
         return finalized
 
     @staticmethod

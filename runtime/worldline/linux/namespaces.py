@@ -48,6 +48,15 @@ class SandboxSpec:
     readonly_home_paths: tuple[Path, ...] = ()
     credential_mounts: tuple[CredentialProjection, ...] = ()
     operator_home: Path = Path("/home/sicarii")
+    # Network policy for this sandbox: "shared" (host namespace, the historical default),
+    # "none" (empty namespace: loopback only), or "allowlist" (empty namespace plus the
+    # netguard forwarder relaying to a Unix-socket proxy inside the runtime directory).
+    network: str = "shared"
+    # Host-side proxy socket (kept under $XDG_RUNTIME_DIR/worldline: AF_UNIX paths are limited to
+    # 108 bytes and an overlay runtime path is longer) and where it is bound inside the world.
+    netguard_source: Path | None = None
+    netguard_socket: str = "/run/worldline-runtime/netguard.sock"
+    netguard_port: int = 3128
     # Identity inside the user namespace. The real uid is the only one mapped either way, so
     # this changes what the process *sees*, not what it can reach. Agent worlds, checks, and
     # shells run as the real uid: Claude Code refuses `--dangerously-skip-permissions` when it
@@ -178,11 +187,13 @@ class BubblewrapSandbox:
         secure_directory(spec.runtime)
         uid = os.getuid() if spec.uid is None else int(spec.uid)
         gid = os.getgid() if spec.gid is None else int(spec.gid)
+        if spec.network not in ("shared", "none", "allowlist"):
+            raise WorldlineError("INVALID_NETWORK_POLICY", f"unknown sandbox network policy: {spec.network}")
         arguments: list[str] = [
             self.executable,
             "--unshare-all",
             "--unshare-user",
-            "--share-net",
+            *(("--share-net",) if spec.network == "shared" else ()),
             "--die-with-parent",
             "--new-session",
             "--uid",
@@ -262,8 +273,21 @@ class BubblewrapSandbox:
             if not isinstance(key, str) or not isinstance(value, str) or "=" in key or "\x00" in key + value:
                 raise WorldlineError("INVALID_SANDBOX_ENV", f"invalid environment entry: {key!r}")
             arguments.extend(("--setenv", key, value))
+        command = list(spec.argv)
+        if spec.network == "allowlist":
+            forwarder = spec.runtime / "netguard.py"
+            if not forwarder.is_file() or spec.netguard_source is None or not spec.netguard_source.exists():
+                raise WorldlineError(
+                    "NETGUARD_UNAVAILABLE",
+                    "the allowlist policy needs the netguard forwarder in the world runtime and a live proxy socket",
+                )
+            arguments.extend(("--bind", str(spec.netguard_source), spec.netguard_socket))
+            command = [
+                "/usr/bin/python3", "/run/worldline-runtime/netguard.py",
+                "--socket", spec.netguard_socket, "--port", str(spec.netguard_port), "--", *command,
+            ]
         arguments.extend(("--chdir", str(spec.cwd), "--disable-userns", "--cap-drop", "ALL", "--"))
-        arguments.extend(spec.argv)
+        arguments.extend(command)
         return tuple(arguments)
 
     def launch_world(

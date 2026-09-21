@@ -28,6 +28,19 @@ authorized, atomic collapse.
   rejected. Agent worlds, checks, and shells run as the real uid inside the user namespace
   (the only uid mapped either way); `simulate` futures keep namespace root, and either identity
   is neutered (`--cap-drop ALL`, `--disable-userns`, `--unshare-user`, `NoNewPrivileges`).
+- **Network containment (1.2.0, opt-in).** `network.policy: allowlist` gives each world an
+  empty network namespace whose only exit is a daemon-side proxy that connects to the adapter's
+  provider hosts and `network.allow`, and records every refusal on the world's evidence. This
+  closes the egress gap for everything that speaks HTTP through the proxy environment; it does
+  not stop a process that ignores those variables from *trying* (it simply has no route), and
+  it does not inspect the traffic it does allow. `none` removes the door entirely. `shared`
+  (the default) keeps the historical behaviour and the historical caveat.
+- **Anchored receipts (1.2.0).** The receipt chain is additionally written as an Ed25519-signed
+  Custos-format ledger and mirrored to `anchor.exportPath`. This does not defend against an
+  attacker who holds the signing key (it sits beside the store, `0600`) and can reach the
+  export location; it raises the cost from "rewrite one SQLite file" to "rewrite it, re-sign
+  every entry, and rewrite the external copy", and `attest verify-custos` checks the chain
+  with proved code independent of this runtime.
 - **Credential projection.** Each builtin adapter binds its credential file read-only at its
   home path; nothing else of `$HOME` is visible. omp is the one exception: it opens its whole
   state database read-write at startup, so the world gets a per-world private copy (SQLite

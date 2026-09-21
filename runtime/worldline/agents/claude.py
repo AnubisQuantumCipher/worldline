@@ -34,6 +34,9 @@ class ClaudeAdapter(AgentAdapter):
             mission,
         )
 
+    def network_hosts(self) -> tuple[str, ...]:
+        return ("api.anthropic.com", "console.anthropic.com", "platform.claude.com", "claude.ai", "statsig.anthropic.com", ".sentry.io")
+
     def credential_mounts(self, context: AgentContext) -> tuple[CredentialProjection, ...]:
         directory = context.home / ".claude"
         mounts = [self.required_projection(directory / ".credentials.json")]

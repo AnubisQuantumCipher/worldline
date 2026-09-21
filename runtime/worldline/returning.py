@@ -12,6 +12,7 @@ from .errors import WorldlineError
 from .manifest import CapturedManifest, Manifest
 from .model import World, WorldState
 from .paths import WorldlinePaths
+from .prune import require_payload
 from .store import StateStore
 from .transaction import CollapseTransaction
 
@@ -46,6 +47,7 @@ class ReturnManager:
             WorldState.VALID,
         }:
             raise WorldlineError("INVALID_RETURN_POINT", f"world cannot be returned: {selected.state.value}")
+        require_payload(selected)
         return selected
 
     def prepare_candidate(self, selected: World) -> World:
@@ -119,7 +121,12 @@ class ReturnManager:
             root_key = root["root_key"]
             source = selected_payload / root_key
             if not source.is_dir():
-                raise WorldlineError("RETURN_POINT_INCOMPLETE", f"selected checkpoint does not contain root {root_key}")
+                raise WorldlineError(
+                    "RETURN_POINT_INCOMPLETE",
+                    f"checkpoint {selected.alias} predates the registration of root {root_key} "
+                    "(the root set changed since); return to a later checkpoint, or remove the root first",
+                    {"returnPoint": selected.alias, "missingRoot": root_key},
+                )
             manifest_path = selected_payload / "manifests" / f"{root_key}.json"
             if not manifest_path.is_file():
                 stale_reason = f"no stored manifest for root {root_key}"
@@ -146,15 +153,28 @@ class ReturnManager:
                 core=self.core,
             )
         observed = Manifest.root_set_hash(fresh.values(), self.core)
-        displacing = self._receipt_with_before_root(observed)
-        if displacing is None:
+        witness = self._displacement_witness(selected, observed)
+        if witness is None:
             raise WorldlineError(
                 "PAYLOAD_INTEGRITY_FAILED",
-                "return point changed after it was displaced: it matches neither its stored manifest "
-                "nor the pre-exchange state any committed receipt recorded",
+                "return point changed after it was displaced: it matches neither its stored manifest, "
+                "the pre-exchange state any committed receipt recorded, nor the checkpoint that superseded it",
                 {"returnPoint": selected.alias, "storedManifest": stale_reason, "observedRoot": observed},
             )
         return fresh
+
+    def _displacement_witness(self, selected: World, root_hash: str) -> str | None:
+        """Name the record that proves ``root_hash`` is the state ``selected`` had when it stopped
+        being live: a committed receipt's ``beforeRoot`` (displaced by an exchange), or the state
+        root of a PRIME checkpoint published from it (displaced by a reconcile, which captures the
+        live tree into a new generation and leaves the old directory exactly as it was)."""
+        receipt = self._receipt_with_before_root(root_hash)
+        if receipt is not None:
+            return f"receipt:{receipt}"
+        for world in self.store.worlds():
+            if world.parent_instance == selected.instance_id and world.alias.startswith("prime-") and world.base_root == root_hash:
+                return f"checkpoint:{world.alias}"
+        return None
 
     def _receipt_with_before_root(self, root_hash: str) -> str | None:
         for row in reversed(self.store.receipts()):

@@ -62,6 +62,17 @@ def _confirm(prompt: str, *, assume_yes: bool) -> bool:
     return response in {"y", "yes"}
 
 
+def _print_prune(plan: dict[str, Any]) -> None:
+    worlds = plan.get("worlds", [])
+    if not worlds:
+        print("Nothing to prune: every finished world is still referenced, protected, or newer than the criteria.")
+        return
+    print(f"Prunable worlds: {len(worlds)}  reclaimable: {plan.get('bytes', 0) / 1e6:.1f} MB  protected: {len(plan.get('protected', []))}")
+    for item in worlds:
+        print(f"  {item['alias']:<28} {item['state']:<9} finished {item['finished']}  {item['bytes'] / 1e6:.1f} MB  {len(item['directories'])} dir(s)" + (f"  {len(item['logs'])} log(s)" if item.get('logs') else ""))
+    print("Records, receipts, and causal events are kept; pruned worlds can no longer be inspected or returned to.")
+
+
 def _print_transaction(facts: dict[str, Any]) -> None:
     kind = str(facts.get("kind") or "collapse").upper()
     alias = facts.get("candidate_alias") or facts.get("candidateAlias") or ""
@@ -247,6 +258,7 @@ def parser() -> argparse.ArgumentParser:
     mission_group.add_argument("--mission")
     mission_group.add_argument("--mission-text")
     fork.add_argument("--wait", action="store_true")
+    fork.add_argument("--timeout", type=int, metavar="SECONDS", help="stop the agent after SECONDS (default: limits.defaultTimeoutSeconds)")
     fork.add_argument("--json", action="store_true")
 
     race = commands.add_parser("race")
@@ -255,6 +267,7 @@ def parser() -> argparse.ArgumentParser:
     race.add_argument("--agent", action="append", required=True)
     race.add_argument("--name", help="prefix the alpha/beta/gamma lanes, e.g. --name retry gives retry-alpha")
     race.add_argument("--detach", action="store_true")
+    race.add_argument("--timeout", type=int, metavar="SECONDS", help="stop every lane after SECONDS")
     race.add_argument("--json", action="store_true")
 
     collapse = commands.add_parser("collapse")
@@ -286,6 +299,17 @@ def parser() -> argparse.ArgumentParser:
     cancel = commands.add_parser("cancel")
     cancel.add_argument("world")
     cancel.add_argument("--json", action="store_true")
+
+    prune = commands.add_parser("prune", help="delete the payloads of finished worlds nothing refers to; records and receipts stay")
+    prune.add_argument("--older-than", type=int, metavar="DAYS", help="only worlds that finished more than DAYS ago")
+    prune.add_argument("--keep", type=int, metavar="N", help="keep the N most recent prunable worlds")
+    prune.add_argument("--logs", action="store_true", help="also delete the pruned worlds' agent logs")
+    prune.add_argument("--dry-run", action="store_true")
+    prune.add_argument("--yes", action="store_true")
+    prune.add_argument("--json", action="store_true")
+
+    anchor = commands.add_parser("anchor", help="verify the signed receipt anchor ledger (local, attest, external)")
+    anchor.add_argument("--json", action="store_true")
 
     simulate = commands.add_parser("simulate")
     simulate.add_argument("argv", nargs=argparse.REMAINDER)
@@ -359,7 +383,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             mission = _mission(arguments, client)
             result = client.request(
                 "fork",
-                {"name": arguments.name, "mission": mission, "agent": arguments.agent, "wait": arguments.wait},
+                {"name": arguments.name, "mission": mission, "agent": arguments.agent, "wait": arguments.wait, "timeoutSeconds": arguments.timeout},
                 progress=_progress,
             )
         elif command == "race":
@@ -369,7 +393,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 mission = Path(arguments.mission_file).read_text(encoding="utf-8")
             else:
                 mission = _mission(arguments, client)
-            race_args: dict[str, Any] = {"agents": arguments.agent, "mission": mission, "detach": arguments.detach}
+            race_args: dict[str, Any] = {"agents": arguments.agent, "mission": mission, "detach": arguments.detach, "timeoutSeconds": arguments.timeout}
             if arguments.name is not None:
                 race_args["name"] = arguments.name
             result = client.request("race", race_args, progress=_progress)
@@ -419,6 +443,22 @@ def main(argv: Sequence[str] | None = None) -> int:
                 result = client.request("transaction.show", {"transactionId": arguments.transaction_id})
         elif command == "cancel":
             result = client.request("job.cancel", {"world": arguments.world})
+        elif command == "prune":
+            criteria = {"olderThanDays": arguments.older_than, "keep": arguments.keep, "logs": arguments.logs}
+            plan = client.request("prune", {**criteria, "dryRun": True, "confirmed": False})
+            if arguments.dry_run:
+                result = plan
+            else:
+                if not as_json:
+                    _print_prune(plan)
+                if not plan["worlds"]:
+                    result = plan
+                elif _confirm(f"Delete {len(plan['worlds'])} world payload(s), {plan['bytes'] / 1e6:.1f} MB?", assume_yes=arguments.yes):
+                    result = client.request("prune", {**criteria, "dryRun": False, "confirmed": True})
+                else:
+                    result = {"state": "ABORTED", "message": "nothing deleted"}
+        elif command == "anchor":
+            result = client.request("anchor.status")
         elif command == "simulate":
             exact = list(arguments.argv)
             if exact and exact[0] == "--":

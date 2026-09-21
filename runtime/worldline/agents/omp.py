@@ -22,6 +22,9 @@ class OmpAdapter(AgentAdapter):
             mission,
         )
 
+    def network_hosts(self) -> tuple[str, ...]:
+        return ("api.anthropic.com", "api.openai.com", "chatgpt.com", "auth.openai.com", "generativelanguage.googleapis.com", "openrouter.ai")
+
     def credential_mounts(self, context: AgentContext) -> tuple[CredentialProjection, ...]:
         directory = context.home / ".omp/agent"
         # omp keeps credentials, settings, and usage in one SQLite database that it opens

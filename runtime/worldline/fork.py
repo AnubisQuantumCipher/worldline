@@ -81,6 +81,7 @@ class ForkManager:
         *,
         progress: Callable[[str, dict[str, Any]], None] | None = None,
         low_priority: bool = False,
+        timeout: float | None = None,
     ) -> World:
         try:
             selected = resolve_adapter(world.actor, self.config)
@@ -96,6 +97,7 @@ class ForkManager:
                 project,
                 progress=progress,
                 low_priority=low_priority,
+                timeout=timeout if timeout is not None else self.config.default_timeout_seconds,
             )
         except BaseException as exc:
             # A world whose run could not even start (adapter vanished, project config invalid,
@@ -143,9 +145,10 @@ class ForkManager:
         *,
         wait: bool = False,
         progress: Callable[[str, dict[str, Any]], None] | None = None,
+        timeout: float | None = None,
     ) -> World:
         world = self.create_world(name, mission, agent_name)
-        return self.run_world(world, mission, progress=progress) if wait else world
+        return self.run_world(world, mission, progress=progress, timeout=timeout) if wait else world
 
     def race(
         self,
@@ -155,6 +158,7 @@ class ForkManager:
         wait: bool,
         progress: Callable[[str, dict[str, Any]], None] | None = None,
         name: str | None = None,
+        timeout: float | None = None,
     ) -> list[World]:
         if len(agents) != 3:
             raise WorldlineError("INVALID_RACE", "race requires exactly three --agent values")
@@ -183,7 +187,7 @@ class ForkManager:
         completed: dict[str, World] = {}
         with ThreadPoolExecutor(max_workers=len(worlds), thread_name_prefix="worldline-race") as executor:
             futures = {
-                executor.submit(self.run_world, world, mission, progress=progress): world.alias
+                executor.submit(self.run_world, world, mission, progress=progress, timeout=timeout): world.alias
                 for world in worlds
             }
             for future in as_completed(futures):

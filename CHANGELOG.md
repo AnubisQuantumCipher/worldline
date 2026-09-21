@@ -1,5 +1,59 @@
 # Changelog
 
+## 1.2.0 — 2026-09-20 · contained network, timeouts, prune, anchored receipts, git roots
+
+Everything a finished tool needs that 1.1.1 still lacked, each exercised for real afterwards.
+
+### Added
+
+- **Network policy per world** (`network.policy` in the global config: `shared`, `allowlist`,
+  `none`). Under `allowlist` a world gets an empty network namespace and exactly one door: a
+  proxy the daemon runs on a Unix socket bound into the world's runtime, which only connects to
+  the adapter's provider hosts plus `network.allow`; the in-world forwarder sets the proxy
+  environment every CLI honours. Refusals are recorded on the agent check (`network.refused`),
+  so a blocked host is evidence, not a mystery. `none` is the same namespace without the door.
+  Checks and services get no network under either restrictive policy; `simulate` stays shared
+  (documented). Default remains `shared`, unchanged behaviour.
+- **Timeouts.** `fork --timeout SECONDS`, `race --timeout`, and `limits.defaultTimeoutSeconds`.
+  A world that exceeds its limit is stopped through its unit; the agent check reads
+  `FAIL · TIMEOUT: …`, project checks are `UNASSESSED` with the reason, the job is `TIMED_OUT`
+  with `{"code":"TIMEOUT","seconds":N}`, and the world finalizes `DEGRADED`.
+- **`worldline prune`** (`--older-than DAYS`, `--keep N`, `--logs`, `--dry-run`, `--yes`).
+  Deletes the payload directories of finished worlds that nothing living refers to and marks
+  them `payload_pruned`; records, receipts, and causal events stay, and a `prune` event is
+  recorded per world. PRIME, the checkpoint `return` goes back to, running worlds, and any
+  directory still referenced by an unpruned world or a live root are never touched. Anything
+  that needs a pruned payload refuses `PAYLOAD_PRUNED`. `doctor.storeUsage` reports bytes by area.
+- **Anchored receipts.** Every committed receipt is appended to an Ed25519-signed, hash-chained
+  ledger in the Custos format, so `attest verify-custos LEDGER PUBKEY` replays the chain and
+  every signature with the SPARK-proved implementation in `~/Projects/attest`. `anchor.exportPath`
+  mirrors the ledger somewhere the store's writer does not control; `worldline anchor`,
+  `log --verify`, and `doctor.anchor` report the local verdict, the attest verdict, and whether
+  the external copy matches, is behind, or shows a local rollback. Receipts that predate the
+  ledger are backfilled at startup.
+- **Store schema migrations.** The SQLite `user_version` is now `STORE_SCHEMA_VERSION` (2) with
+  forward-only migrations recorded in `meta.schemaMigrations`; a store newer than the runtime
+  is refused `UNSUPPORTED_SCHEMA` by name instead of being opened.
+- **`show` carries repository facts** (`head`, `branch`, `dirty`, hashes) for `repo` roots.
+- **Bounded status document.** A world summary caps its delta file list at 200 entries and
+  says so (`truncated`, `total`); `show` still returns everything.
+
+### Fixed
+
+- **A git repository root could never collapse.** `git diff` rewrote the freshly materialized
+  staged tree's index (racy stat data; `GIT_OPTIONAL_LOCKS` does not cover that write), so
+  commit re-hashed a different tree and refused `STAGED_ROOT_MISMATCH` every time. Inspection
+  now runs against a private copy of the index. The full cycle — agent commits inside its
+  world, collapse lands the commit in the live repository, return takes it out — is in
+  `tests/test_boundaries.py::RepositoryRootCollapse`.
+- **`return` after a reconcile.** A checkpoint displaced by a reconcile (PRIME changed while the
+  daemon watched, a new generation was published from it) is now accepted when it hashes to
+  that generation's state root, alongside the receipt-witness rule from 1.1.1.
+- **`return` to a checkpoint that predates a root registration** says so
+  (`RETURN_POINT_INCOMPLETE` names the missing root) instead of a bare root key.
+
+Suite: 94.
+
 ## 1.1.1 — 2026-09-20 · the builtin agents actually run
 
 Every builtin adapter was exercised for real, with the operator's own credentials, in a private

@@ -1,0 +1,57 @@
+# Maintainer: Khephri Labs <sic.tau@pm.me>
+# WORLDLINE engine: daemon, CLI, and the SPARK-proved collapse kernel. Built from the git tree.
+# The Omarchy cockpit is the separate plugin khephri.worldline (worldline-omarchy).
+pkgname=worldline-git
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="Branchable working realities: fork isolated agent worlds from PRIME, collapse exactly one back through a proved kernel"
+arch=('x86_64' 'aarch64')
+url="https://github.com/AnubisQuantumCipher/worldline"
+license=('MIT')
+depends=('python>=3.12' 'python-cryptography' 'bubblewrap' 'systemd' 'git' 'gcc-libs')
+makedepends=('git' 'gcc-ada' 'gprbuild')
+optdepends=('gnatprove: re-run the proof gate at build time (WORLDLINE_PROVE=1)'
+            'attest: independent proved verification of the receipt anchor ledger')
+provides=('worldline')
+conflicts=('worldline')
+source=("git+file://${WORLDLINE_SOURCE:-$HOME/Projects/worldline}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd worldline
+  printf '%s.r%s.%s' "$(python3 -c 'import sys; sys.path.insert(0, "runtime"); import worldline; print(worldline.__version__)')" \
+    "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd worldline
+  gprbuild -q -P worldline.gpr
+  # The shipped proof-manifest.json describes the upstream proved build. A locally rebuilt
+  # library has a different hash, and the runtime then reports invariantPreservation honestly
+  # as not PROVED. Set WORLDLINE_PROVE=1 (needs gnatprove) to re-prove this build and refresh
+  # the manifest, which is what the release builds do.
+  if [[ ${WORLDLINE_PROVE:-0} == 1 ]]; then ./prove.sh && python3 verify_proof_manifest.py; fi
+}
+
+check() {
+  cd worldline
+  ./bin/worldline_core_tests
+  ./bin/worldline_core_fuzz
+  PYTHONPATH=runtime PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_*.py'
+}
+
+package() {
+  cd worldline
+  install -d -m 0755 "$pkgdir/usr/lib/worldline" "$pkgdir/usr/lib/worldline/runtime" "$pkgdir/usr/bin" "$pkgdir/usr/lib/systemd/user"
+  install -m 0755 lib/libworldline_core.so "$pkgdir/usr/lib/worldline/"
+  install -m 0644 proof-manifest.json core/worldline_core.h "$pkgdir/usr/lib/worldline/"
+  cp -a runtime/worldline "$pkgdir/usr/lib/worldline/runtime/"
+  find "$pkgdir/usr/lib/worldline/runtime" -name __pycache__ -type d -exec rm -rf {} +
+  # The repo launchers already look in /usr/lib/worldline/runtime (packaged layout).
+  install -m 0755 cli/worldline "$pkgdir/usr/bin/worldline"
+  install -m 0755 daemon/worldlined "$pkgdir/usr/bin/worldlined"
+  sed 's|%h/.local/bin/worldlined|/usr/bin/worldlined|' daemon/worldlined.service > "$pkgdir/usr/lib/systemd/user/worldlined.service"
+  install -d -m 0755 "$pkgdir/usr/share/doc/worldline" "$pkgdir/usr/share/licenses/$pkgname"
+  install -m 0644 README.md CHANGELOG.md SECURITY.md "$pkgdir/usr/share/doc/worldline/"
+  install -m 0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

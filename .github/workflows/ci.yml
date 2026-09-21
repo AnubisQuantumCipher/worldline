@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test-prove:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: System packages (bubblewrap, git, python)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bubblewrap git python3 python3-cryptography
+          # Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor; the sandbox needs them.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          sudo sysctl -w kernel.unprivileged_userns_clone=1 || true
+          bwrap --version
+          python3 --version
+
+      - name: User systemd manager (transient units supervise every world)
+        run: |
+          sudo loginctl enable-linger "$(id -un)"
+          for _ in $(seq 1 50); do [ -S "/run/user/$(id -u)/bus" ] && break; sleep 0.2; done
+          echo "XDG_RUNTIME_DIR=/run/user/$(id -u)" >> "$GITHUB_ENV"
+          echo "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus" >> "$GITHUB_ENV"
+          XDG_RUNTIME_DIR=/run/user/$(id -u) systemctl --user is-system-running || true
+
+      - name: Alire toolchain (GNAT, gprbuild, gnatprove)
+        uses: alire-project/setup-alire@v4
+        with:
+          toolchain: gnat_native gprbuild
+          toolchain_dir: ${{ github.workspace }}/.alire-toolchain
+
+      - name: GNATprove
+        run: |
+          alr -n install gnatprove --prefix="$HOME/.alire-prove" || alr -n get gnatprove
+          echo "$HOME/.alire-prove/bin" >> "$GITHUB_PATH"
+          ls "$HOME/.alire-prove/bin" | head
+
+      - name: Build the kernel library and the Ada test binaries
+        run: gprbuild -q -P worldline.gpr
+
+      - name: Ada behaviour and fuzz
+        run: ./bin/worldline_core_tests && ./bin/worldline_core_fuzz
+
+      - name: Python suite
+        env:
+          PYTHONPATH: runtime
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tail -n 40
+
+      - name: Proof gate (re-proves every unit on this build, then verifies the manifest it wrote)
+        run: ./prove.sh && python3 verify_proof_manifest.py

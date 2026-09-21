@@ -24,6 +24,9 @@ class PiAdapter(AgentAdapter):
             mission,
         )
 
+    def network_hosts(self) -> tuple[str, ...]:
+        return ("api.anthropic.com", "api.openai.com", "chatgpt.com", "auth.openai.com", "generativelanguage.googleapis.com", "openrouter.ai", "api.x.ai")
+
     def credential_mounts(self, context: AgentContext) -> tuple[CredentialProjection, ...]:
         directory = context.home / ".pi/agent"
         auth = self.required_projection(directory / "auth.json")

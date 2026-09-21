@@ -8,6 +8,7 @@ candidates = (
     here.parent.parent / "runtime",
     here.parent.parent / "lib/worldline/runtime",
     Path.home() / ".local/lib/worldline/runtime",
+    Path("/usr/lib/worldline/runtime"),  # packaged layout (packaging/PKGBUILD)
 )
 for candidate in candidates:
     if (candidate / "worldline").is_dir():

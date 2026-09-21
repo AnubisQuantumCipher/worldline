@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 import base64
 from dataclasses import dataclass, field
 import json
@@ -24,6 +26,8 @@ from .paths import WorldlinePaths, secure_directory
 from .prime import Generation, PrimeManager
 from .receipt import ReceiptBuilder
 from .store import StateStore
+
+_LOG = logging.getLogger("worldline.transaction")
 
 _MARKER = ".worldline-generation.json"
 _TRANSACTION_TRANSITIONS = {
@@ -64,10 +68,12 @@ class CollapseTransaction:
         watcher: InotifyWatcher | None = None,
         reconcile: Callable[[], Any] | None = None,
         stop_writers: Callable[[World], None] | None = None,
+        anchor: Any | None = None,
     ) -> None:
         self.paths = paths
         self.store = store
         self.core = core or Core.shared()
+        self.anchor = anchor
         self.watcher = watcher
         self.reconcile_prime = reconcile
         self.stop_writers = stop_writers or self._require_no_writers
@@ -538,6 +544,19 @@ class CollapseTransaction:
                     "receiptRoot": receipt["receiptRoot"],
                 }
             )
+            if self.anchor is not None:
+                # The exchange is durable already; anchoring must never undo that. A failure
+                # here shows up as unanchoredReceipts in doctor and log --verify.
+                row = self.store.receipt_for_transaction(record["transactionId"])
+                try:
+                    if row is not None:
+                        self.anchor.append(
+                            action=str(record.get("kind") or "collapse"),
+                            receipt_id=receipt["receiptId"],
+                            canonical=Path(row["canonical_path"]).read_bytes(),
+                        )
+                except (WorldlineError, OSError) as exc:
+                    _LOG.warning("receipt %s was not anchored: %s", receipt["receiptId"], exc)
         else:
             receipt = {**receipt_row["receipt"], "receiptRoot": receipt_row["receipt_root"], "chainHash": receipt_row["chain_hash"]}
         return {

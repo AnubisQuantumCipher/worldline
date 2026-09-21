@@ -97,7 +97,7 @@ _JUNK = (
 )
 
 
-def _config(env: dict[str, str], hostile_source: str = _AGENT, extra: dict | None = None) -> None:
+def _config(env: dict[str, str], hostile_source: str = _AGENT, extra: dict | None = None, top: dict | None = None) -> None:
     config_dir = Path(env["XDG_CONFIG_HOME"]) / "worldline"
     config_dir.mkdir(mode=0o700, exist_ok=True)
     # Agent scripts live in their own directory: readonlyHomePaths may not overlap WORLDLINE's
@@ -115,7 +115,9 @@ def _config(env: dict[str, str], hostile_source: str = _AGENT, extra: dict | Non
     commands.update(extra or {})
     # Agent scripts must be visible inside the world: the sandbox masks the home, so project
     # the directory holding them read-only (the same seam the health check uses).
-    (config_dir / "config.json").write_text(json.dumps({"schemaVersion": 1, "readonlyHomePaths": [str(scripts)], "agentCommands": commands, "ghosts": {"enabled": False, "agent": None}}), encoding="utf-8")
+    document = {"schemaVersion": 1, "readonlyHomePaths": [str(scripts)], "agentCommands": commands, "ghosts": {"enabled": False, "agent": None}}
+    document.update(top or {})
+    (config_dir / "config.json").write_text(json.dumps(document), encoding="utf-8")
     os.chmod(config_dir / "config.json", 0o600)
 
 
@@ -377,6 +379,194 @@ class ReturnAfterTheCheckpointWasLive(unittest.TestCase):
                 self.assertEqual(client.request("doctor", {})["openTransactions"], [])
             finally:
                 second.stop()
+
+
+class RepositoryRootCollapse(unittest.TestCase):
+    """A git repository registered as a `repo` root: the agent commits inside its world, the
+    collapse carries the commit into the live repository through the same atomic exchange, and
+    return takes it out again. Before the git-capture fix this cycle died at commit with
+    STAGED_ROOT_MISMATCH because inspecting the staged tree rewrote its index."""
+
+    def test_commit_made_in_a_world_lands_in_the_live_repository_and_returns(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="worldline-repo-root-") as temporary:
+            root = Path(temporary)
+            paths, env = _paths(root)
+            work = root / "repo"
+            work.mkdir()
+            git = ["git", "-c", "user.email=t@example.invalid", "-c", "user.name=t", "-C", str(work)]
+            subprocess.run([*git, "init", "-q", "-b", "main"], check=True)
+            (work / "greet.py").write_text('def greet(name):\n    return "Hello, " + name\n', encoding="utf-8")
+            subprocess.run([*git, "add", "greet.py"], check=True)
+            subprocess.run([*git, "commit", "-q", "-m", "initial"], check=True)
+            initial = subprocess.run([*git, "rev-parse", "HEAD"], check=True, stdout=subprocess.PIPE).stdout.decode().strip()
+            committer = (
+                "import subprocess, sys\n"
+                "from pathlib import Path\n"
+                "w = Path(sys.argv[1])\n"
+                "(w / 'greet.py').write_text('def greet(name):\\n    return \"Hello, \" + name + \"!\"\\n')\n"
+                "g = ['git', '-c', 'user.email=a@example.invalid', '-c', 'user.name=agent', '-C', str(w)]\n"
+                "subprocess.run(g + ['add', 'greet.py'], check=True)\n"
+                "subprocess.run(g + ['commit', '-q', '-m', 'greet: exclaim'], check=True)\n"
+            )
+            _config(env, hostile_source=committer)
+            daemon = _Daemon(self, root, env)
+            try:
+                client = daemon.client
+                client.request("init", {"roots": [str(work)], "kind": "repo", "primary": None, "confirmed": True})
+                self.assertEqual(client.request("root.list", {})[0]["kind"], "repo")
+                world = client.request("fork", {"name": "exclaim", "mission": "add !", "agent": "hostile", "wait": True})
+                self.assertEqual(world["state"], "VALID")
+                prepared = client.request("collapse.prepare", {"world": "exclaim"})
+                self.assertEqual(prepared["decision"], "AUTHORIZED")
+                committed = client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+                self.assertEqual(committed["state"], "COMMITTED")
+                head = subprocess.run([*git, "rev-parse", "HEAD"], check=True, stdout=subprocess.PIPE).stdout.decode().strip()
+                self.assertNotEqual(head, initial)
+                subject = subprocess.run([*git, "log", "-1", "--format=%s"], check=True, stdout=subprocess.PIPE).stdout.decode().strip()
+                self.assertEqual(subject, "greet: exclaim")
+                self.assertEqual(subprocess.run([*git, "status", "--porcelain"], check=True, stdout=subprocess.PIPE).stdout, b"")
+                self.assertIn('"!"', (work / "greet.py").read_text(encoding="utf-8"))
+                shown = client.request("show", {"world": "exclaim"})
+                self.assertEqual(shown["repository"]["head"], head)
+                returned = client.request("return.prepare", {"world": None})
+                self.assertEqual(returned["decision"], "AUTHORIZED")
+                self.assertEqual(client.request("collapse.commit", {"transactionId": returned["transaction_id"]})["state"], "COMMITTED")
+                back = subprocess.run([*git, "rev-parse", "HEAD"], check=True, stdout=subprocess.PIPE).stdout.decode().strip()
+                self.assertEqual(back, initial)
+                self.assertNotIn('"!"', (work / "greet.py").read_text(encoding="utf-8"))
+                self.assertEqual(client.request("log", {"verify": True})["verification"]["receipts"], 2)
+            finally:
+                daemon.stop()
+
+
+class NetworkPolicy(unittest.TestCase):
+    """allowlist: the world has no network of its own; the only door is the daemon's proxy, which
+    reaches allowlisted hosts and refuses everything else by name. none: no door at all."""
+
+    def _serve(self) -> tuple[int, Any]:
+        from http.server import BaseHTTPRequestHandler, HTTPServer
+        import threading
+
+        class Ok(BaseHTTPRequestHandler):
+            def do_GET(self) -> None:  # noqa: N802
+                self.send_response(200); self.send_header("Content-Length", "2"); self.end_headers(); self.wfile.write(b"ok")
+            def log_message(self, *_a) -> None:
+                return
+
+        # 127.0.0.2: still loopback on the host, but not on the forwarder's NO_PROXY list
+        # (127.0.0.1 and localhost bypass the proxy so an agent can reach services it starts).
+        server = HTTPServer(("127.0.0.2", 0), Ok)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        return server.server_address[1], server
+
+    def test_allowlist_reaches_allowed_hosts_refuses_others_and_none_has_no_door(self) -> None:
+        port, server = self._serve()
+        try:
+            with tempfile.TemporaryDirectory(prefix="worldline-net-") as temporary:
+                root = Path(temporary)
+                paths, env = _paths(root)
+                work = root / "proj"
+                work.mkdir()
+                (work / "base.txt").write_text("base\n", encoding="utf-8")
+                prober = (
+                    "import json, os, sys, urllib.request, urllib.error\n"
+                    "from pathlib import Path\n"
+                    "out = {'proxy': os.environ.get('HTTPS_PROXY')}\n"
+                    f"for name, url in (('allowed', 'http://127.0.0.2:{port}/x'), ('blocked', 'http://blocked.invalid:{port}/y')):\n"
+                    "    try:\n"
+                    "        out[name] = urllib.request.urlopen(url, timeout=15).read().decode()\n"
+                    "    except urllib.error.HTTPError as e:\n"
+                    "        out[name] = 'HTTP %d' % e.code\n"
+                    "    except Exception as e:\n"
+                    "        out[name] = 'ERR ' + type(e).__name__\n"
+                    "Path(sys.argv[1], 'probe.json').write_text(json.dumps(out))\n"
+                    "print(json.dumps({'type': 'probe', **out}), flush=True)\n"
+                )
+                _config(
+                    env, hostile_source=prober,
+                    extra={"probe": {"argv": ["/usr/bin/python3", str(Path(env["HOME"]).parent / "agents" / "hostile.py"), "{workspace}"], "credentialMounts": [], "eventFormat": "jsonl", "networkHosts": ["127.0.0.2"]}},
+                    top={"network": {"policy": "allowlist", "allow": []}},
+                )
+                daemon = _Daemon(self, root, env)
+                try:
+                    client = daemon.client
+                    client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+                    world = client.request("fork", {"name": "guarded", "mission": "probe", "agent": "probe", "wait": True})
+                    self.assertEqual(world["state"], "VALID", world)
+                    agent = next(check for check in world["checks"] if check["id"] == "agent")
+                    self.assertEqual(agent["network"]["policy"], "allowlist")
+                    self.assertIn("127.0.0.2", agent["network"]["allowed"])
+                    self.assertEqual(agent["network"]["connections"], 1)
+                    self.assertEqual(agent["network"]["refused"], [{"host": "blocked.invalid", "port": port, "count": 1}])
+                    shown = client.request("show", {"world": "guarded"})
+                    probe = json.loads((Path(shown["payload_path"]) / client.request("root.list", {})[0]["rootKey"] / "probe.json").read_text())
+                    self.assertEqual(probe["allowed"], "ok")
+                    self.assertEqual(probe["blocked"], "HTTP 403")
+                    self.assertEqual(probe["proxy"], "http://127.0.0.1:3128")
+                finally:
+                    daemon.stop()
+                # Now the same world under policy none: nothing is reachable and there is no proxy.
+                config_path = Path(env["XDG_CONFIG_HOME"]) / "worldline" / "config.json"
+                document = json.loads(config_path.read_text())
+                document["network"] = {"policy": "none", "allow": []}
+                config_path.write_text(json.dumps(document))
+                daemon = _Daemon(self, root, env, log_name="none.stderr")
+                try:
+                    client = daemon.client
+                    world = client.request("fork", {"name": "dark", "mission": "probe", "agent": "probe", "wait": True})
+                    agent = next(check for check in world["checks"] if check["id"] == "agent")
+                    self.assertEqual(agent["network"], {"policy": "none"})
+                    shown = client.request("show", {"world": "dark"})
+                    probe = json.loads((Path(shown["payload_path"]) / client.request("root.list", {})[0]["rootKey"] / "probe.json").read_text())
+                    self.assertIsNone(probe["proxy"])
+                    self.assertTrue(probe["allowed"].startswith("ERR"), probe)
+                    self.assertTrue(probe["blocked"].startswith("ERR"), probe)
+                finally:
+                    daemon.stop()
+        finally:
+            server.shutdown()
+
+
+class TimeoutStopsAWorld(unittest.TestCase):
+    def test_explicit_and_default_timeouts_end_the_world_honestly(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="worldline-timeout-") as temporary:
+            root = Path(temporary)
+            paths, env = _paths(root)
+            work = root / "proj"
+            work.mkdir()
+            (work / "base.txt").write_text("base\n", encoding="utf-8")
+            (work / ".worldline.json").write_text(json.dumps({"schemaVersion": 1, "generated": [], "services": [], "checks": [
+                {"id": "always", "kind": "tests", "argv": ["/usr/bin/true"], "required": True, "format": "exit"}
+            ]}), encoding="utf-8")
+            _config(env, top={"limits": {"defaultTimeoutSeconds": 2}})
+            daemon = _Daemon(self, root, env)
+            try:
+                client = daemon.client
+                client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+                started = time.monotonic()
+                world = client.request("fork", {"name": "slowpoke", "mission": "sleep", "agent": "slow", "wait": True, "timeoutSeconds": 3})
+                elapsed = time.monotonic() - started
+                self.assertLess(elapsed, 25, "the timeout did not stop the world")
+                self.assertEqual(world["state"], "DEGRADED")
+                agent = next(check for check in world["checks"] if check["id"] == "agent")
+                self.assertEqual(agent["status"], "FAIL")
+                self.assertTrue(agent["reason"].startswith("TIMEOUT: the agent exceeded the 3 s limit"), agent["reason"])
+                project = next(check for check in world["checks"] if check["id"] == "always")
+                self.assertEqual(project["status"], "UNASSESSED")
+                self.assertIn("timed out", project["reason"])
+                job = next(job for job in client.request("status")["jobs"] if job["world"] == world["instanceId"])
+                self.assertEqual(job["state"], "TIMED_OUT")
+                self.assertEqual(job["error"]["code"], "TIMEOUT")
+                self.assertEqual(job["error"]["seconds"], 3)
+                # The configured default applies when the request names no timeout.
+                world = client.request("fork", {"name": "slowpoke-2", "mission": "sleep", "agent": "slow", "wait": True})
+                agent = next(check for check in world["checks"] if check["id"] == "agent")
+                self.assertTrue(agent["reason"].startswith("TIMEOUT: the agent exceeded the 2 s limit"), agent["reason"])
+                self.assertEqual(client.request("doctor", {})["unsupervisedWorlds"], [])
+                with self.assertRaises(Exception):
+                    client.request("fork", {"name": "bad", "mission": "x", "agent": "slow", "wait": False, "timeoutSeconds": -1})
+            finally:
+                daemon.stop()
 
 
 class CompetingDaemon(unittest.TestCase):

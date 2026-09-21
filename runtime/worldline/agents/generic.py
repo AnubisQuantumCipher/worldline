@@ -32,6 +32,9 @@ class GenericAdapter(AgentAdapter):
         )
         return (self.executable, *expanded[1:])
 
+    def network_hosts(self) -> tuple[str, ...]:
+        return tuple(self.command.network_hosts)
+
     def credential_mounts(self, context: AgentContext) -> tuple[CredentialProjection, ...]:
         del context
         mounts: list[CredentialProjection] = []
