@@ -30,7 +30,7 @@ jobs:
           echo "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus" >> "$GITHUB_ENV"
           XDG_RUNTIME_DIR=/run/user/$(id -u) systemctl --user is-system-running || true
 
-      - name: GNAT FSF toolchain (the same releases as the reference machine: GNAT 16.1.0, gprbuild 26.0.0, gnatprove 16.1.0)
+      - name: GNAT FSF toolchain cache (GNAT 16.1.0, gprbuild 26.0.0, gnatprove 16.1.0 — the reference machine releases)
         id: toolchain
         uses: actions/cache@v4
         with:
