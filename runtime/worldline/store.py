@@ -661,6 +661,19 @@ class StateStore:
             ).fetchone()
         return None if row is None else dict(row)
 
+    def line_events(self, root_key: str, path_b64: str, line: int) -> list[dict[str, Any]]:
+        """Every recorded line-range hit for a path and line, newest first (why decides which counts)."""
+        with self._lock:
+            rows = self._connection.execute(
+                """SELECT line_ranges.*,causal_events.* FROM line_ranges
+                JOIN causal_events USING(event_id)
+                WHERE line_ranges.root_key=? AND line_ranges.path_b64=?
+                  AND line_ranges.start_line<=? AND line_ranges.end_line>=?
+                ORDER BY causal_events.ordinal DESC""",
+                (root_key, path_b64, line, line),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
     def causal_events_for_world(self, world_instance: str) -> list[dict[str, Any]]:
         with self._lock:
             rows = self._connection.execute(

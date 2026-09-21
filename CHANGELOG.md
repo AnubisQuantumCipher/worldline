@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.2.2 — 2026-09-21 · why credits only what is in effect; codex provenance
+
+- **`why` credited archived siblings.** Every world that touched a line has a range row, and the
+  newest ordinal won, so after a three-lane race the lane that finished last but was never
+  collapsed was named as the author of a line in PRIME. `why` now considers only worlds in
+  effect (COLLAPSED, or PRIME itself), checks that the world's copy of the line is what PRIME
+  holds, and lists the others as `bystanders`. A line no world in PRIME's lineage changed is
+  answered as a **checkpoint attribution** (registration or return) instead of `NOT_FOUND`;
+  a line past the end of the file is still not found.
+- **codex file changes, commands, and messages are causal events.** `codex exec --json` nests
+  touched paths under `item.changes[]`; the adapter now expands a completed file change into
+  one `tool-event` per path (`apply_patch`, add/update/delete), records commands as `shell`
+  tool events with the exit code, and agent messages as `agent-message`. Later worlds get
+  file-level provenance with the tool named, not "not supplied by adapter".
+
 ## 1.2.1 — 2026-09-21 · per-adapter options; a failed finalization closes its job
 
 - **`adapterOptions`** (global config): extra argv a builtin adapter inserts before the mission,

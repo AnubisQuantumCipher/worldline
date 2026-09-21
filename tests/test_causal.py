@@ -9,6 +9,7 @@ from worldline.core import Core, hash_id
 from worldline.causal import CausalIndexer
 from worldline.delta import Delta
 from worldline.manifest import Manifest, path_b64
+from worldline.errors import WorldlineError
 from worldline.model import World, WorldState
 from worldline.paths import WorldlinePaths
 from worldline.project import ProjectConfig
@@ -98,13 +99,48 @@ class CausalTests(unittest.TestCase):
                     }
                 )
                 CausalIndexer(store).index(world, ProjectConfig(generated=(), checks=(), services=()))
+                # beta is only a proposal so far: PRIME still holds the base line, and why must
+                # not credit a world that never collapsed.
+                self.assertEqual(CausalIndexer(store).why(str(work / "code.txt"), 1)["attribution"], "checkpoint")
+                # Simulate the collapse: beta is COLLAPSED and PRIME now holds its line.
+                world.transition(WorldState.COLLAPSED, core)
+                store.save_world(world)
+                (source / "code.txt").write_text("changed\nsecond\n", encoding="utf-8")
                 why = CausalIndexer(store).why(str(work / "code.txt"), 1)
                 self.assertEqual(why["world"], "beta")
                 self.assertEqual(why["actor"], "fixture")
                 self.assertEqual(why["reason"], "make behavior deterministic")
                 self.assertEqual(why["granularity"], "line")
+                self.assertEqual(why["attribution"], "world")
                 self.assertEqual(why["evidence"][0]["id"], "fixture-test")
                 self.assertIn("PRIME", [item["alias"] for item in why["ancestors"]])
+                # An archived sibling that also touched the line, with a NEWER event, is a bystander.
+                sibling = World.create(
+                    alias="gamma", parent_instance=parent.instance_id, parent_content=parent.content_id, cause="also change it",
+                    actor="fixture", payload_path=payload, base_payload_path=base,
+                    base_root=Manifest.root_set_hash([original], core), root_set_hash=parent.root_set_hash,
+                    mission_hash=hash_id(core.hash_bytes(b"also change it")),
+                )
+                sibling.components = {**world.components, "evidence": hash_id(core.hash_bytes(b"gamma-evidence"))}
+                sibling.delta_hash = delta.delta_hash
+                sibling.delta = {**delta.value["summary"], "files": delta.value["operations"]}
+                sibling.evidence = {"summary": "PASS", "checks": []}
+                sibling.transition(WorldState.FINALIZING, core)
+                sibling.establish_identity(core)
+                sibling.transition(WorldState.VALID, core)
+                sibling.transition(WorldState.ARCHIVED, core)
+                store.insert_world(sibling)
+                CausalIndexer(store).index(sibling, ProjectConfig(generated=(), checks=(), services=()))
+                again = CausalIndexer(store).why(str(work / "code.txt"), 1)
+                self.assertEqual(again["world"], "beta")
+                # The untouched second line dates from registration.
+                second = CausalIndexer(store).why(str(work / "code.txt"), 2)
+                self.assertEqual(second["attribution"], "checkpoint")
+                self.assertEqual(second["world"], "PRIME")
+                self.assertEqual(second["granularity"], "checkpoint")
+                # A line past the end of the file is not found.
+                with self.assertRaises(WorldlineError):
+                    CausalIndexer(store).why(str(work / "code.txt"), 40)
             finally:
                 store.close()
 

@@ -10,7 +10,7 @@ from typing import Any
 from . import SCHEMA_VERSION
 from .errors import NotFound, WorldlineError
 from .manifest import Manifest, path_b64, path_from_b64
-from .model import World
+from .model import WorldState, World
 from .project import ProjectConfig
 from .store import StateStore
 
@@ -159,9 +159,32 @@ class CausalIndexer:
         if selected_root is None or relative is None:
             raise NotFound("managed path", path_value)
         encoded = path_b64(os.fsencode(relative))
-        row = self.store.newest_line_event(selected_root["root_key"], encoded, line)
-        if row is None:
-            raise NotFound("causal event", f"{path_value}:{line}")
+        root_key = selected_root["root_key"]
+        live_root = Path(os.fsdecode(bytes(selected_root["path"])))
+        live_line = self._line_text(live_root, relative, line)
+        prime = self.store.prime()
+        # Every world that touched this line has a range row, archived siblings included, and
+        # the newest ordinal used to win: a lane that finished last but was never collapsed was
+        # credited with a line in PRIME. Only a world in effect can have written PRIME — one that
+        # collapsed, or PRIME itself — and its copy of the line must still be what PRIME holds.
+        chosen_row = None
+        bystanders: list[str] = []
+        for candidate_row in self.store.line_events(root_key, encoded, line):
+            candidate = self.store.world(candidate_row["world_instance"])
+            in_effect = candidate.state is WorldState.COLLAPSED or (prime is not None and candidate.instance_id == prime.instance_id)
+            if not in_effect or candidate.payload_pruned:
+                bystanders.append(candidate.alias)
+                continue
+            if live_line is not None and self._line_text(Path(candidate.payload_path) / root_key, relative, line) != live_line:
+                bystanders.append(candidate.alias)
+                continue
+            chosen_row = candidate_row
+            break
+        if chosen_row is None:
+            if live_line is None:
+                raise NotFound("causal event", f"{path_value}:{line}")
+            return self._checkpoint_attribution(path_value, line, prime, bystanders)
+        row = chosen_row
         event = json.loads(Path(row["canonical_path"]).read_text(encoding="utf-8"))
         world = self.store.world(row["world_instance"])
         ancestors: list[dict[str, Any]] = []
@@ -192,4 +215,40 @@ class CausalIndexer:
             "ancestors": ancestors,
             "receipt": None if receipt is None else receipt["receipt"],
             "eventId": row["event_id"],
+            "attribution": "world",
+        }
+
+    @staticmethod
+    def _line_text(base: Path, relative: bytes, line: int) -> str | None:
+        target = base / os.fsdecode(relative)
+        try:
+            if not target.is_file() or target.is_symlink():
+                return None
+            lines = target.read_bytes().decode("utf-8", "strict").splitlines()
+        except (OSError, UnicodeDecodeError):
+            return None
+        return lines[line - 1] if 0 < line <= len(lines) else None
+
+    def _checkpoint_attribution(self, path_value: str, line: int, prime, bystanders: list[str]) -> dict[str, Any]:
+        ancestors: list[dict[str, Any]] = []
+        current = prime
+        seen: set[str] = set()
+        while current is not None and current.instance_id not in seen:
+            seen.add(current.instance_id)
+            ancestors.append({"alias": "PRIME" if current.alias.startswith("prime-") else current.alias, "instanceId": current.instance_id, "contentId": current.content_id})
+            current = self.store.world(current.parent_instance) if current.parent_instance else None
+        return {
+            "path": path_value,
+            "line": line,
+            "world": "PRIME",
+            "actor": "worldline",
+            "mission": None,
+            "reason": "no world in PRIME's lineage changed this line; it dates from a checkpoint (registration or return)",
+            "granularity": "checkpoint",
+            "evidence": [],
+            "ancestors": ancestors,
+            "receipt": None,
+            "eventId": None,
+            "attribution": "checkpoint",
+            "bystanders": bystanders,
         }

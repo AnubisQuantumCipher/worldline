@@ -192,6 +192,7 @@ required fields and three optional blocks.
 | `network.policy` | `shared`: worlds use the host network (egress not contained). `allowlist`: each world gets an empty network namespace and one door, a daemon-side proxy that reaches only the agent's provider hosts plus `network.allow`; every refused host is recorded on the world. `none`: no door. Checks and services get no network under `allowlist` or `none`. |
 | `network.allow` | Extra hosts for `allowlist`; a leading dot allows a domain (`.example.org`). Claude Code's remote MCP connectors (`mcp-proxy.anthropic.com`) are refused by default; add them here if a mission needs them. |
 | `anchor.exportPath` | Absolute directory outside WORLDLINE storage that receives a copy of the signed receipt ledger after every commit (§9.3). |
+| `adapterOptions.<builtin>.argv` | Extra argv inserted before the mission for a builtin adapter — the way to choose a model or reasoning effort for worlds without editing your own tool config, e.g. codex `["-m", "gpt-5.6-luna", "-c", "model_reasoning_effort=max"]`. `worldline adapters` shows the resulting argv. |
 
 Builtin adapters on this machine: **claude** (runs with `--verbose`, hooks disabled in-world),
 **codex**, **omp** (a private per-world copy of its database), **pi** (`UNAVAILABLE` until

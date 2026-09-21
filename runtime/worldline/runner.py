@@ -259,22 +259,25 @@ class AgentRunner:
                     if not isinstance(value, dict):
                         continue
                     parsed = adapter.parse_event(value)
-                    event = {
-                        "schemaVersion": SCHEMA_VERSION,
-                        "worldInstance": world.instance_id,
-                        "kind": parsed.pop("kind", "agent-event"),
-                        "actor": parsed.pop("actor", adapter.name),
-                        "rawLineHash": raw_hash,
-                        **parsed,
-                    }
-                    self._normalize_path(event, registered, primary)
-                    self.store.append_causal_event(event)
-                    parsed_events += 1
-                    supplied_session = event.get("sessionReference")
-                    if isinstance(supplied_session, str):
-                        session_reference = supplied_session
-                    if progress is not None:
-                        progress("agent-event", {"world": world.alias, "event": event})
+                    expansion = parsed.pop("expand", None)
+                    pieces = list(expansion) if isinstance(expansion, list) and expansion else [parsed]
+                    for piece in pieces:
+                        event = {
+                            "schemaVersion": SCHEMA_VERSION,
+                            "worldInstance": world.instance_id,
+                            "kind": piece.pop("kind", "agent-event"),
+                            "actor": piece.pop("actor", adapter.name),
+                            "rawLineHash": raw_hash,
+                            **piece,
+                        }
+                        self._normalize_path(event, registered, primary)
+                        self.store.append_causal_event(event)
+                        parsed_events += 1
+                        supplied_session = event.get("sessionReference")
+                        if isinstance(supplied_session, str):
+                            session_reference = supplied_session
+                        if progress is not None:
+                            progress("agent-event", {"world": world.alias, "event": event})
                 raw_stream.flush()
                 os.fsync(raw_stream.fileno())
 

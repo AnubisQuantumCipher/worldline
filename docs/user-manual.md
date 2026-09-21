@@ -296,8 +296,12 @@ checkpoint that displaced it; one that changed after it left reality is refused
 ## 6.6 Ask why a line exists
 
 `worldline why PATH:LINE` walks the causal chain (mission, agent events, tool calls, receipts)
-to the world and event that last touched that line. If the adapter supplied only file-level
-provenance, `why` says so rather than inventing a line.
+to the world and event that last wrote that line into PRIME. Only a world in effect can be
+credited: one that collapsed, or PRIME itself, and its copy of the line must be what PRIME
+holds now; archived siblings that also touched the line are listed as bystanders, never as
+authors. A line nothing in PRIME's lineage changed is attributed to the checkpoint it dates
+from (registration or return). If the adapter supplied only file-level provenance, `why` says
+so rather than inventing a line.
 
 ## 6.7 Audition a system change
 

@@ -130,6 +130,20 @@ class AgentAdapterTests(unittest.TestCase):
                 with self.assertRaises(WorldlineError):
                     config.save()
 
+    def test_codex_items_become_tool_events_with_paths_commands_and_messages(self) -> None:
+        codex = CodexAdapter("codex")
+        change = codex.parse_event({"type": "item.completed", "item": {"type": "file_change", "changes": [
+            {"path": "/work/a.py", "kind": "add"}, {"path": "/work/b.py", "kind": "update"}, {"nope": 1}]}})
+        self.assertEqual(change["kind"], "tool-event")
+        self.assertEqual([piece["path"] for piece in change["expand"]], ["/work/a.py", "/work/b.py"])
+        self.assertEqual(change["expand"][1]["reason"], "file update")
+        command = codex.parse_event({"type": "item.completed", "item": {"type": "command_execution", "command": "/bin/bash -lc 'ls'", "exit_code": 0}})
+        self.assertEqual((command["tool"], command["reason"], command["exitCode"]), ("shell", "/bin/bash -lc 'ls'", 0))
+        message = codex.parse_event({"type": "item.completed", "item": {"type": "agent_message", "text": "done"}})
+        self.assertEqual((message["kind"], message["reason"]), ("agent-message", "done"))
+        started = codex.parse_event({"type": "item.started", "item": {"type": "file_change", "changes": [{"path": "/x", "kind": "add"}]}})
+        self.assertNotIn("expand", started)
+
     def test_unknown_event_fields_are_tolerated_without_attribution_invention(self) -> None:
         event = CodexAdapter("codex").parse_event({"futureField": {"nested": True}})
         self.assertEqual(event, {"kind": "agent-event"})
