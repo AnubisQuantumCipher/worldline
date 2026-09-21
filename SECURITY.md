@@ -67,8 +67,10 @@ authorized, atomic collapse.
   bytes that differ from the tested candidate are refused (`STAGED_UNTESTED`) unless the current
   checks pass over the staged result itself. Checkpoint returns need no candidate evidence;
   re-application of a candidate obeys the collapse rules. Legacy candidates are revalidated
-  explicitly (`worldline revalidate`), never accepted silently. Retained reproducers:
-  `tests/test_freshness.py` (A–J).
+  explicitly (`worldline revalidate`), never accepted silently. A verifier's directory (or the
+  declared `verifiers` globs), declared services and the forwarded check environment are part of
+  the identity; a top-level verifier without a declaration binds only itself and is warned about.
+  Retained reproducers: `tests/test_freshness.py` (A–K).
 - **Host-side git inspection is hardened (1.0.1).** Registered repos are untrusted; git's
   config-driven command execution is neutralized before inspection (see CHANGELOG 1.0.1).
 

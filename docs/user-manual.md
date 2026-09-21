@@ -222,6 +222,21 @@ excluded from dirtiness and are exactly what `return` preserves when it restores
 that was live (§7.5). A benchmark result supplies `metric`, `unit`, `baseline`, `candidate`, and
 `direction`; WORLDLINE never invents a performance figure.
 
+### Verifiers and the evidence identity (1.3.0)
+
+Every file a check executes or reads is an *authoritative verifier*: its bytes are part of the
+requirement identity, and a candidate that changes one is refused
+`VERIFIER_MODIFIED_BY_CANDIDATE`. By default that set is the regular files a check's `argv`
+(or `cwd`) names plus every file under each named file's directory — an exam at
+`evaluator/exam.py` binds all of `evaluator/`. Declare `"verifiers": ["evaluator/*", "tools/lint.sh"]`
+on a check to bind exactly what it uses instead. A verifier at the top level of the root with
+no declaration binds only itself; the engine cannot know which sibling modules it imports, and
+`worldline doctor` (`policy.warnings`) says so — declare `verifiers` to close it. An `argv`
+path that the check's own `covers` globs match is candidate data (`test -f out.txt`), not a
+verifier; it is named in the warnings so the omission is never silent. A *declared* verifier
+inside the check's own `covers` is a contradiction and the policy is refused when it loads. Declared services (argv, cwd, env, health, restart)
+and the environment the check runner forwards into the sandbox are part of the identity too.
+
 # 6. Everyday workflow
 
 ## 6.1 Fork one world

@@ -73,6 +73,21 @@
   verifies the uploaded assets against the computed digests, publishes, and re-verifies. Notes
   are generated from the changelog and the recorded numbers; nothing is hard-coded. Tokens are
   read-only everywhere except the publish job.
+- **After the separate adversarial review (JANUS II §7) — four repairs.** (R1) A verifier's
+  helpers are as authoritative as the file a check names: the default verifier scope is now
+  the named file's whole directory, and a check may declare `verifiers` globs to bind exactly
+  the files it executes or reads; a top-level verifier without a declaration binds only itself,
+  which `doctor.policy.warnings` and `validation` now say out loud. (R2) A declared service's
+  argv, cwd, environment, health probe and restart policy are part of the requirement identity
+  (`service changed: …` in the differences). (R3) An argv path inside the check's own `covers` is
+  candidate data, not a verifier, and is now named in `doctor.policy.warnings` instead of being
+  dropped silently; a *declared* verifier inside its own `covers` is refused at load,
+  `INVALID_PROJECT_CONFIG … cannot be candidate-owned`. (R4) The execution identity now includes the environment
+  the check runner forwards into the sandbox (PATH, LANG, toolchain selectors; session-specific
+  names excluded), the check interpreter and the proved kernel library's hash, so a daemon that
+  resolves different tools stales the evidence (`execution changed: checkEnvironment (PATH)`).
+  Retained reproducers: `tests/test_freshness.py` class K; the reviewer's own tests are kept
+  with the run artifacts.
 - **CI had been masking Python failures.** The old workflow ran the suite as
   `python3 -m unittest … 2>&1 | tail -n 40`, so the step's status was `tail`'s and three tests
   had been failing on every "green" main run since 1.2.1 (a codex-only adapter test, an
