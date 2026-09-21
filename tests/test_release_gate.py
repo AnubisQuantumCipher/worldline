@@ -97,7 +97,8 @@ class ReleaseGateAcceptsOnlyTheExactAssuredCommit(unittest.TestCase):
     def test_failed_skipped_cancelled_timed_out_and_missing_required_steps(self) -> None:
         for status in ("failure", "skipped", "cancelled", "timed_out", "in_progress"):
             def mutate(f, status=status):
-                f["assurance"]["steps"][4]["status"] = status  # python-tests
+                step = next(s for s in f["assurance"]["steps"] if s["name"] == "python-tests")
+                step["status"] = status
             self._rejected(mutate, f"python-tests is {status!r}")
         def missing(f):
             f["assurance"]["steps"] = [s for s in f["assurance"]["steps"] if s["name"] != "proof-gate"]
