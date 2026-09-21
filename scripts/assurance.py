@@ -23,6 +23,7 @@ import json
 import os
 import platform
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -32,7 +33,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 1
 
-REQUIRED_STEPS = ("checkout-identity", "build", "ada-tests", "ada-fuzz", "python-tests", "proof-gate", "proof-manifest")
+REQUIRED_STEPS = ("checkout-identity", "clean-build-tree", "build", "ada-tests", "ada-fuzz", "python-tests", "proof-gate", "proof-manifest")
 
 
 def _utc() -> str:
@@ -155,6 +156,22 @@ def run(out: Path, expect_sha: str | None) -> int:
 
     committed_manifest = proof_facts(ROOT / "proof-manifest.json")
     ok = runner.step("checkout-identity", action=checkout_identity)
+
+    def clean_build_tree() -> dict[str, Any]:
+        # A stale object directory lets gprbuild skip compilation and lets gnatprove replay its
+        # session instead of re-proving; assurance rebuilds and re-proves from nothing.
+        removed = []
+        for rel in ("obj", "bin", "lib/gnatprove"):
+            target = ROOT / rel
+            if target.exists():
+                shutil.rmtree(target)
+                removed.append(rel)
+        for library in (ROOT / "lib").glob("*.so"):
+            library.unlink()
+            removed.append(str(library.relative_to(ROOT)))
+        return {"ok": True, "removed": removed}
+
+    ok = runner.step("clean-build-tree", action=clean_build_tree) and ok
     ok = runner.step("build", ["gprbuild", "-q", "-P", "worldline.gpr"]) and ok
     ok = runner.step("ada-tests", ["./bin/worldline_core_tests"], check=lambda o: {"ok": "PASS" in o, "line": o.strip().splitlines()[-1] if o.strip() else ""}) and ok
     ok = runner.step("ada-fuzz", ["./bin/worldline_core_fuzz"], check=lambda o: {"ok": "PASS" in o, "line": o.strip().splitlines()[-1] if o.strip() else ""}) and ok
