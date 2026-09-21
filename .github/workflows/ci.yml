@@ -36,11 +36,24 @@ jobs:
           toolchain: gnat_native gprbuild
           toolchain_dir: ${{ github.workspace }}/.alire-toolchain
 
+      - name: Toolchain on PATH (setup-alire only exposes it through alr)
+        run: |
+          for d in "$GITHUB_WORKSPACE"/.alire-toolchain/*/bin "$HOME"/.local/share/alire/toolchains/*/bin "$HOME"/.config/alire/cache/toolchains/*/bin; do
+            [ -d "$d" ] && echo "$d" >> "$GITHUB_PATH" && echo "PATH += $d"
+          done
+          true
+
       - name: GNATprove
         run: |
           alr -n install gnatprove --prefix="$HOME/.alire-prove" || alr -n get gnatprove
           echo "$HOME/.alire-prove/bin" >> "$GITHUB_PATH"
           ls "$HOME/.alire-prove/bin" | head
+
+      - name: Toolchain check
+        run: |
+          which gprbuild gnat gnatprove || true
+          gprbuild --version | head -1
+          gnatprove --version | head -1
 
       - name: Build the kernel library and the Ada test binaries
         run: gprbuild -q -P worldline.gpr

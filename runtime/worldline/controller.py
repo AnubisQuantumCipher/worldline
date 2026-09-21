@@ -101,6 +101,10 @@ class RuntimeController:
         try:
             rows = [self.store.receipt_for_transaction(row["transaction_id"]) for row in self.store.receipts()]
             self.anchors.backfill([row for row in rows if row is not None])
+            if self.anchors.export_path is not None and self.anchors.ledger_path.is_file():
+                exported = self.anchors.export()
+                if exported.get("state") == "FAILED":
+                    _LOG.warning("anchor export failed: %s", exported.get("reason"))
         except (WorldlineError, OSError) as exc:
             _LOG.warning("anchor backfill skipped: %s", exc)
 

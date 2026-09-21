@@ -1,0 +1,526 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>User and Operations Manual</title><style>
+body { font-family: 'Liberation Serif', 'DejaVu Serif', serif; font-size: 11pt; line-height: 1.35; max-width: 17cm; margin: 2cm auto; color: #111; }
+h1 { font-size: 20pt; margin-top: 1.4em; border-bottom: 1px solid #999; padding-bottom: 0.15em; }
+h2 { font-size: 14pt; margin-top: 1.1em; }
+h3 { font-size: 12pt; }
+code, pre { font-family: 'Liberation Mono', 'DejaVu Sans Mono', monospace; font-size: 9.5pt; }
+pre { background: #f3f3f3; padding: 0.6em; border: 1px solid #ccc; white-space: pre-wrap; }
+table { border-collapse: collapse; width: 100%; margin: 0.6em 0; font-size: 10pt; }
+th, td { border: 1px solid #bbb; padding: 0.25em 0.45em; vertical-align: top; }
+th { background: #e9e9e9; text-align: left; }
+.title { font-size: 26pt; font-weight: bold; letter-spacing: 0.08em; margin-bottom: 0; }
+.subtitle { color: #444; margin-top: 0.2em; margin-bottom: 2em; }
+</style></head><body><p class='title'>WORLDLINE</p><p class='subtitle'>User and Operations Manual<br>Branchable working realities for Omarchy · engine 1.2.0 · plugin 1.3.0 · 2026-09-20</p><h1 id="1-orientation">1. Orientation</h1>
+<h2 id="what-worldline-is-in-one-paragraph">What WORLDLINE is, in one paragraph</h2>
+<p>WORLDLINE captures the working state of directories you nominate and calls that capture
+<strong>PRIME</strong>. It can fork PRIME into isolated <strong>worlds</strong>, run a coding agent inside each world
+where it cannot reach your real files, measure what each world actually produced, and commit
+exactly one world back into PRIME through a single atomic filesystem exchange that a formally
+proved kernel authorized. If the kernel refuses, or anything moved underneath it, PRIME is
+unchanged. <code>return</code> restores the previous reality through the same mechanism.</p>
+<h2 id="what-it-is-not">What it is not</h2>
+<ul>
+<li><strong>Not a replacement for version control.</strong> Use Git as usual. WORLDLINE tracks the whole working
+  state around it, including uncommitted files and generated artifacts, and (since 1.2.0) a
+  commit an agent makes inside its world lands in your repository when that world collapses.</li>
+<li><strong>Not a backup system.</strong> Archived generations are retained until you <code>prune</code> them; retention is
+  a disk policy, not a backup policy, and WORLDLINE never copies anything off the machine except
+  the receipt anchor ledger you configure.</li>
+<li><strong>Not a process freezer.</strong> Files, repositories, configuration, and evidence are captured;
+  running processes, terminals, and window layout are observed and reported, not restored.</li>
+</ul>
+<h2 id="typographic-conventions">Typographic conventions</h2>
+<table>
+<thead>
+<tr>
+<th>Convention</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fixed width</code></td>
+<td>Text you type, a file path, a field name, or output</td>
+</tr>
+<tr>
+<td><code>UPPERCASE</code></td>
+<td>A value you supply, such as <code>WORLD</code> or <code>PATH:LINE</code></td>
+</tr>
+<tr>
+<td><code>[...]</code></td>
+<td>Optional</td>
+</tr>
+<tr>
+<td><code>A \| B</code></td>
+<td>Choose one</td>
+</tr>
+</tbody>
+</table>
+<h1 id="2-safety-notice-what-worldline-changes">2. Safety notice: what WORLDLINE changes</h1>
+<p>Two operations move your real files: registering a managed root, and committing a collapse or
+return. Everything else is read-only or contained inside a world.</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Effect on your files</th>
+<th>Confirmation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>worldline init</code>, <code>worldline root add</code></td>
+<td>Moves the directory into a WORLDLINE generation on the same filesystem and replaces the original path with a symlink</td>
+<td>Printed root list, then a prompt or <code>--yes</code>; <code>--dry-run</code> prints only</td>
+</tr>
+<tr>
+<td><code>worldline root remove</code></td>
+<td>Materializes the current payload back at the original path, then removes the link</td>
+<td>Prompt or <code>--yes</code>; <code>--dry-run</code></td>
+</tr>
+<tr>
+<td><code>worldline collapse WORLD</code></td>
+<td>Replaces the live mapping so PRIME becomes the candidate applied to current state</td>
+<td>Facts screen, then prompt or <code>--yes</code>; or <code>--prepare</code> then <code>transaction commit ID --yes</code></td>
+</tr>
+<tr>
+<td><code>worldline return [WORLD]</code></td>
+<td>Materializes a checkpoint into a new live generation</td>
+<td>Same as collapse</td>
+</tr>
+<tr>
+<td><code>worldline prune</code></td>
+<td>Deletes payload directories of finished worlds nothing refers to</td>
+<td>Printed plan, then prompt or <code>--yes</code>; <code>--dry-run</code></td>
+</tr>
+<tr>
+<td><code>worldline fork</code>, <code>race</code>, <code>ghost run</code></td>
+<td>Nothing outside the world's own overlay; spends external model quota</td>
+<td>None; starting is the decision</td>
+</tr>
+<tr>
+<td><code>worldline simulate</code></td>
+<td>Nothing on the host filesystem; the command runs in a disposable system future that shares the host network</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Everything else</td>
+<td>Read-only</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Installation does not touch your work.</strong> The installer never registers, moves, or migrates a
+  working directory.</li>
+<li><strong>Non-interactive callers must be explicit.</strong> Without a terminal, a mutation without <code>--yes</code>
+  fails with <code>CONFIRMATION_REQUIRED</code>.</li>
+<li><strong>Refusal is normal.</strong> A collapse that would overwrite a change you made in the meantime refuses
+  with <code>CONFLICT</code> and names the paths. Nothing is written on a refusal.</li>
+<li><strong>Agents run with their own permission prompts disabled</strong>, because the sandbox is the boundary
+  for your files. It is not a boundary for the network unless you set <code>network.policy</code> (§5.2):
+  under the default <code>shared</code> policy an agent can reach anything the host can.</li>
+</ul>
+<h1 id="3-requirements">3. Requirements</h1>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Used for</th>
+<th>On this machine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux with overlayfs and user namespaces, bubblewrap</td>
+<td>World isolation</td>
+<td>Present</td>
+</tr>
+<tr>
+<td>systemd user session</td>
+<td>Daemon and job supervision</td>
+<td>Running</td>
+</tr>
+<tr>
+<td>Python 3.12+ with <code>cryptography</code></td>
+<td>Runtime, receipt anchors</td>
+<td>3.14</td>
+</tr>
+<tr>
+<td>GNAT and gnatprove</td>
+<td>Building and proving the kernel (installation only)</td>
+<td><code>~/opt/gnat</code></td>
+</tr>
+<tr>
+<td>Git</td>
+<td><code>repo</code> root capture</td>
+<td>Present</td>
+</tr>
+<tr>
+<td><code>attest</code> (optional)</td>
+<td>Independent proved verification of the anchor ledger</td>
+<td>Present</td>
+</tr>
+<tr>
+<td>Hyprland and the Omarchy shell</td>
+<td>Desktop surfaces</td>
+<td>1 monitor</td>
+</tr>
+<tr>
+<td>Btrfs, CRIU</td>
+<td>Snapshot and checkpoint backends</td>
+<td>Unavailable; reported honestly</td>
+</tr>
+</tbody>
+</table>
+<p>All managed roots must live on the same filesystem as the WORLDLINE data store.</p>
+<h1 id="4-installation">4. Installation</h1>
+<h2 id="41-running-the-installer">4.1 Running the installer</h2>
+<pre><code>cd ~/Projects/worldline
+./install.sh
+</code></pre>
+<p>The installer refuses to install anything until the whole gate passes: it builds the Ada
+library, runs the Ada behaviour and fuzz executables, runs the runtime test suite (94 tests),
+runs the proof gate (130 checks, all proved, nothing assumed), and independently re-verifies the
+proof manifest. It refuses to restart a daemon that is supervising running agent jobs
+(<code>WORLDLINE_FORCE=1</code> overrides). It then writes a backup, stages the runtime, library, launchers,
+service unit, and the plugin checkout, patches the shell bar and key bindings idempotently,
+restarts the daemon, reloads Hyprland, and restarts the shell (<code>WORLDLINE_NO_SHELL_RESTART=1</code>
+defers that).</p>
+<h2 id="42-what-the-installer-writes">4.2 What the installer writes</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Content</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.local/lib/worldline</code></td>
+<td>Runtime package, <code>libworldline_core.so</code>, <code>proof-manifest.json</code>, C header</td>
+<td>Replaced atomically</td>
+</tr>
+<tr>
+<td><code>~/.local/bin/worldline</code>, <code>~/.local/bin/worldlined</code></td>
+<td>Launchers</td>
+<td>Overwritten</td>
+</tr>
+<tr>
+<td><code>~/.config/omarchy/plugins/khephri.worldline</code></td>
+<td>Desktop plugin, a git checkout of <code>../worldline-omarchy</code></td>
+<td>Fast-forwarded; a diverged checkout is refused, never overwritten</td>
+</tr>
+<tr>
+<td><code>~/.config/systemd/user/worldlined.service</code></td>
+<td>User service unit</td>
+<td>Enabled and restarted</td>
+</tr>
+<tr>
+<td><code>~/.config/omarchy/shell.json</code>, <code>~/.config/hypr/bindings.lua</code></td>
+<td>One bar entry, one marked binding block</td>
+<td>Backed up, patched idempotently</td>
+</tr>
+<tr>
+<td><code>~/.local/state/worldline/install-backups/&lt;stamp&gt;-&lt;pid&gt;</code></td>
+<td>Previous runtime, library, launchers, unit, shell config, plugin commit</td>
+<td>One per run; see §4.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="43-verifying-the-installation">4.3 Verifying the installation</h2>
+<pre><code>systemctl --user is-active worldlined.service      # active
+worldline status --json | jq .daemon                 # version, RUNNING
+worldline doctor --json                              # every integrity row OK; anchor, storeUsage, networkPolicy, limits
+worldline adapters --json                            # your agents AVAILABLE, or an UNAVAILABLE reason
+bash ~/.claude/skills/worldline/scripts/health_check.sh   # 47 assertions, zero quota, host untouched
+</code></pre>
+<p>Before any root is registered, status reports <code>prime: null</code> and empty <code>worlds</code> and <code>jobs</code>. That
+is the correct post-installation state.</p>
+<h2 id="44-rollback">4.4 Rollback</h2>
+<pre><code>B=~/.local/state/worldline/install-backups/&lt;stamp&gt;
+systemctl --user stop worldlined.service
+rm -rf ~/.local/lib/worldline &amp;&amp; cp -a &quot;$B/lib-worldline&quot; ~/.local/lib/worldline
+install -m 0755 &quot;$B/worldline&quot; &quot;$B/worldlined&quot; ~/.local/bin/
+install -m 0644 &quot;$B/worldlined.service&quot; ~/.config/systemd/user/worldlined.service
+install -m 0600 &quot;$B/shell.json&quot; ~/.config/omarchy/shell.json
+install -m 0600 &quot;$B/bindings.lua&quot; ~/.config/hypr/bindings.lua
+git -C ~/.config/omarchy/plugins/khephri.worldline checkout --quiet &quot;$(cat &quot;$B/plugin-commit&quot;)&quot;
+systemctl --user daemon-reload &amp;&amp; systemctl --user start worldlined.service
+</code></pre>
+<p>The store is not part of the backup and is not touched by a rollback. Store format changes are
+forward-only migrations (§10.4); an older runtime opens a newer store only if no migration lies
+between them, and refuses by name otherwise.</p>
+<h1 id="5-first-time-setup">5. First-time setup</h1>
+<h2 id="51-registering-managed-roots">5.1 Registering managed roots</h2>
+<pre><code>worldline init ~/Projects/myapp
+worldline init --dry-run ~/Projects/myapp        # prints the exact effect, changes nothing
+worldline root list --json
+worldline root add ~/.config/myapp
+worldline root remove ~/.config/myapp
+</code></pre>
+<ul>
+<li>Kind defaults to <code>repo</code> for a Git working tree, <code>config</code> under your XDG configuration
+  directory, and <code>filesystem</code> otherwise; override with <code>--kind</code>.</li>
+<li>The primary root is the first registered root unless <code>--primary PATH</code> says otherwise. It is the
+  agent's working directory and the home of <code>.worldline.json</code>.</li>
+<li>Registration moves the directory into a WORLDLINE generation on the same filesystem and leaves
+  a symlink at the original path. Absolute paths keep working.</li>
+<li>Refused: symlinks, non-directories, overlapping roots, roots on another filesystem, paths that
+  overlap WORLDLINE's own state, and any root-set change while a transaction is open or a
+  non-terminal world exists (<code>ROOT_SET_BUSY</code>).</li>
+</ul>
+<h2 id="52-global-configuration">5.2 Global configuration</h2>
+<p><code>~/.config/worldline/config.json</code> is owner-only (<code>UNSAFE_CONFIG</code> otherwise). It has four
+required fields and three optional blocks.</p>
+<pre><code class="language-json">{
+  &quot;schemaVersion&quot;: 1,
+  &quot;readonlyHomePaths&quot;: [&quot;/home/you/.local/bin&quot;, &quot;/home/you/.local/share/mise&quot;],
+  &quot;agentCommands&quot;: {
+    &quot;my-tool&quot;: {
+      &quot;argv&quot;: [&quot;/usr/bin/my-tool&quot;, &quot;--json&quot;, &quot;--cwd&quot;, &quot;{workspace}&quot;, &quot;--mission&quot;, &quot;{missionFile}&quot;],
+      &quot;credentialMounts&quot;: [{&quot;source&quot;: &quot;/home/you/.config/my-tool/auth.json&quot;, &quot;target&quot;: &quot;/home/you/.config/my-tool/auth.json&quot;}],
+      &quot;eventFormat&quot;: &quot;jsonl&quot;,
+      &quot;networkHosts&quot;: [&quot;api.my-provider.example&quot;]
+    }
+  },
+  &quot;ghosts&quot;: {&quot;enabled&quot;: false, &quot;agent&quot;: null},
+  &quot;limits&quot;: {&quot;defaultTimeoutSeconds&quot;: 1800},
+  &quot;network&quot;: {&quot;policy&quot;: &quot;allowlist&quot;, &quot;allow&quot;: []},
+  &quot;anchor&quot;: {&quot;exportPath&quot;: &quot;/home/you/Dropbox/worldline-anchor&quot;}
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>readonlyHomePaths</code></td>
+<td>Paths projected read-only into every world (toolchains). Must not overlap WORLDLINE storage.</td>
+</tr>
+<tr>
+<td><code>agentCommands</code></td>
+<td>Generic adapters: exactly <code>argv</code>, <code>credentialMounts</code>, <code>eventFormat</code>, optionally <code>networkHosts</code>. Placeholders <code>{workspace}</code>, <code>{missionFile}</code>, <code>{worldState}</code>; no shell.</td>
+</tr>
+<tr>
+<td><code>ghosts</code></td>
+<td>Speculative-world opt-in. Enabling requires an agent name and spends quota on every checkpoint.</td>
+</tr>
+<tr>
+<td><code>limits.defaultTimeoutSeconds</code></td>
+<td><code>null</code> or a positive integer applied to every world unless <code>--timeout</code> overrides.</td>
+</tr>
+<tr>
+<td><code>network.policy</code></td>
+<td><code>shared</code>: worlds use the host network (egress not contained). <code>allowlist</code>: each world gets an empty network namespace and one door, a daemon-side proxy that reaches only the agent's provider hosts plus <code>network.allow</code>; every refused host is recorded on the world. <code>none</code>: no door. Checks and services get no network under <code>allowlist</code> or <code>none</code>.</td>
+</tr>
+<tr>
+<td><code>network.allow</code></td>
+<td>Extra hosts for <code>allowlist</code>; a leading dot allows a domain (<code>.example.org</code>). Claude Code's remote MCP connectors (<code>mcp-proxy.anthropic.com</code>) are refused by default; add them here if a mission needs them.</td>
+</tr>
+<tr>
+<td><code>anchor.exportPath</code></td>
+<td>Absolute directory outside WORLDLINE storage that receives a copy of the signed receipt ledger after every commit (§9.3).</td>
+</tr>
+</tbody>
+</table>
+<p>Builtin adapters on this machine: <strong>claude</strong> (runs with <code>--verbose</code>, hooks disabled in-world),
+<strong>codex</strong>, <strong>omp</strong> (a private per-world copy of its database), <strong>pi</strong> (<code>UNAVAILABLE</code> until
+<code>pi login</code>). <code>worldline adapters</code> says which are usable and why not.</p>
+<h2 id="53-project-configuration">5.3 Project configuration</h2>
+<p><code>.worldline.json</code> in the primary root declares how a world is measured. Without it, worlds still
+fork and finalize, but evidence is <code>UNASSESSED</code> and risk cannot fall below <code>MEDIUM</code>.</p>
+<pre><code class="language-json">{
+  &quot;schemaVersion&quot;: 1,
+  &quot;generated&quot;: [{&quot;root&quot;: &quot;/home/you/Projects/myapp&quot;, &quot;glob&quot;: &quot;dist/*&quot;}],
+  &quot;checks&quot;: [
+    {&quot;id&quot;: &quot;build&quot;, &quot;kind&quot;: &quot;build&quot;, &quot;argv&quot;: [&quot;/usr/bin/make&quot;, &quot;build&quot;], &quot;required&quot;: true, &quot;format&quot;: &quot;exit&quot;},
+    {&quot;id&quot;: &quot;tests&quot;, &quot;kind&quot;: &quot;tests&quot;, &quot;argv&quot;: [&quot;/usr/bin/make&quot;, &quot;test&quot;], &quot;required&quot;: true, &quot;format&quot;: &quot;junit&quot;, &quot;result&quot;: &quot;build/junit.xml&quot;, &quot;covers&quot;: [&quot;src/*&quot;]},
+    {&quot;id&quot;: &quot;proofs&quot;, &quot;kind&quot;: &quot;proofs&quot;, &quot;argv&quot;: [&quot;./prove.sh&quot;], &quot;required&quot;: false, &quot;format&quot;: &quot;gnatprove&quot;},
+    {&quot;id&quot;: &quot;bench&quot;, &quot;kind&quot;: &quot;benchmark&quot;, &quot;argv&quot;: [&quot;./bench.sh&quot;], &quot;required&quot;: false, &quot;format&quot;: &quot;worldline-benchmark-v1&quot;, &quot;result&quot;: &quot;build/bench.json&quot;}
+  ],
+  &quot;services&quot;: [
+    {&quot;id&quot;: &quot;api&quot;, &quot;argv&quot;: [&quot;/usr/bin/myapp&quot;, &quot;serve&quot;], &quot;cwd&quot;: &quot;.&quot;, &quot;env&quot;: {&quot;MYAPP_PORT&quot;: &quot;8080&quot;}, &quot;healthArgv&quot;: [&quot;/usr/bin/curl&quot;, &quot;-fsS&quot;, &quot;http://127.0.0.1:8080/health&quot;], &quot;restart&quot;: &quot;on-failure&quot;}
+  ]
+}
+</code></pre>
+<p><code>generated</code> globs mark artifacts a project writes into its own root while it is live; they are
+excluded from dirtiness and are exactly what <code>return</code> preserves when it restores a checkpoint
+that was live (§7.5). A benchmark result supplies <code>metric</code>, <code>unit</code>, <code>baseline</code>, <code>candidate</code>, and
+<code>direction</code>; WORLDLINE never invents a performance figure.</p>
+<h1 id="6-everyday-workflow">6. Everyday workflow</h1>
+<h2 id="61-fork-one-world">6.1 Fork one world</h2>
+<pre><code>worldline fork alpha --mission-text 'Add retry to the upload path' -- codex
+worldline fork alpha --mission mission.md --wait --timeout 900 -- claude
+echo 'Refactor the parser' | worldline fork beta -- codex
+</code></pre>
+<ul>
+<li>The alias is yours; identity is the content hash. Aliases are unique, trimmed, no slash or NUL.</li>
+<li>The agent follows <code>--</code>. <code>fork</code> refuses <code>ADAPTER_AUTH_UNAVAILABLE</code> before creating anything when
+  the agent's credentials are missing.</li>
+<li>Mission precedence: <code>--mission FILE</code>, <code>--mission-text</code>, piped stdin, <code>&lt;primary-root&gt;/mission.md</code>.</li>
+<li><code>--timeout SECONDS</code> (or <code>limits.defaultTimeoutSeconds</code>) stops a runaway agent: the world ends
+  <code>DEGRADED</code>, its agent check reads <code>FAIL · TIMEOUT: …</code>, project checks are <code>UNASSESSED</code>, the job
+  is <code>TIMED_OUT</code>, and the partial work is still inspectable.</li>
+<li>Your files are untouched. The world writes to its own overlay.</li>
+</ul>
+<h2 id="62-race-three-agents">6.2 Race three agents</h2>
+<pre><code>worldline race --name retry --mission-text 'Three designs for the scheduler' \
+    --agent codex --agent claude --agent codex --detach --timeout 1200
+</code></pre>
+<p>Exactly three <code>--agent</code> values, three siblings from one frozen checkpoint, lanes <code>alpha</code>, <code>beta</code>,
+<code>gamma</code> (prefixed by <code>--name</code>). They are scored only after each reaches a terminal state.</p>
+<h2 id="63-watch-list-and-inspect">6.3 Watch, list, and inspect</h2>
+<pre><code>worldline status           worldline list           worldline show beta
+worldline graph            worldline watch          worldline inspect beta
+worldline why src/app.py:42
+</code></pre>
+<p><code>show</code> reports what was observed: delta counts, each check with its status, the agent check's
+<code>network</code> block (policy, connections, refused hosts), complexity, risk, conflicts, contamination,
+<code>repository</code> facts for git roots (head, branch, dirty), and <code>payload_pruned</code>. Where a capability
+was unavailable, the reason is printed instead of a guess.</p>
+<h2 id="64-collapse-the-world-you-want">6.4 Collapse the world you want</h2>
+<pre><code>worldline collapse beta                       # facts screen, then a prompt
+worldline collapse beta --prepare --json      # stage, print facts, leave it PREPARED
+worldline transaction list
+worldline transaction commit TRANSACTION_ID --yes
+worldline transaction abort TRANSACTION_ID
+</code></pre>
+<p><code>--prepare</code> is what the cockpit uses: the facts (decision, delta, conflicts, contamination) are
+computed once, shown, and the commit re-verifies PRIME against the prepared <code>beforeRoot</code>. A
+change in between is refused <code>PRIME_CHANGED_AFTER_PREPARE</code>. Only a <code>VALID</code> world can collapse;
+a refusal names its decision code and writes nothing. For a git root, a commit the agent made
+inside its world is part of the delta and lands in the live repository.</p>
+<h2 id="65-return-to-an-earlier-reality">6.5 Return to an earlier reality</h2>
+<pre><code>worldline return               # to the checkpoint that preceded current PRIME
+worldline return WORLD         # to a specific archived checkpoint
+worldline return --prepare
+</code></pre>
+<p>Return restores the state a checkpoint had at the instant it was displaced. A checkpoint that
+was live and accumulated generated artifacts is verified against the receipt or reconcile
+checkpoint that displaced it; one that changed after it left reality is refused
+<code>PAYLOAD_INTEGRITY_FAILED</code> with the reason. A pruned checkpoint refuses <code>PAYLOAD_PRUNED</code>.</p>
+<h2 id="66-ask-why-a-line-exists">6.6 Ask why a line exists</h2>
+<p><code>worldline why PATH:LINE</code> walks the causal chain (mission, agent events, tool calls, receipts)
+to the world and event that last touched that line. If the adapter supplied only file-level
+provenance, <code>why</code> says so rather than inventing a line.</p>
+<h2 id="67-audition-a-system-change">6.7 Audition a system change</h2>
+<p><code>worldline simulate COMMAND...</code> runs the exact argv as namespace root in a disposable system
+future over <code>/usr</code>, <code>/etc</code>, and <code>/var</code>, runs declared health checks, and reports the diff. Nothing
+on the host filesystem changes. The future shares the host network, so a network side effect
+is real. System futures cannot collapse on ext4 (<code>SYSTEM_ROOT_COLLAPSE_UNSUPPORTED</code>).</p>
+<h2 id="68-ghost-worlds">6.8 Ghost worlds</h2>
+<p><code>worldline ghost enable --agent claude</code> makes every new PRIME checkpoint fork four low-priority
+speculative worlds (security-refactor, performance, remove-dependency, simplification). Each
+one calls a model with your credentials: <strong>ghosts spend model quota</strong>. <code>ghost status</code> shows a
+recommendation only when objective evidence improved; <code>ghost disable</code> stops them. A ghost can
+never collapse itself.</p>
+<h2 id="69-cancel-a-running-world">6.9 Cancel a running world</h2>
+<p><code>worldline cancel WORLD</code> stops the agent's unit. The agent check reads <code>FAIL · USER_CANCELLED</code>,
+project checks are <code>UNASSESSED</code>, the job is <code>CANCELLED</code>, and the partial work is inspectable.</p>
+<h1 id="7-reading-results-honestly">7. Reading results honestly</h1>
+<h2 id="71-states">7.1 States</h2>
+<p><code>MUTABLE</code> (running), <code>FINALIZING</code>, <code>VALID</code>, <code>DEGRADED</code> (a required check failed, the agent was
+stopped, or supervision was lost), <code>DEAD</code> (never finished; the reason is on
+<code>evidence.supervision</code>), <code>ARCHIVED</code>, <code>COLLAPSED</code>. Only <code>VALID</code> can collapse.</p>
+<h2 id="72-evidence-vocabulary">7.2 Evidence vocabulary</h2>
+<p><code>PASS</code>, <code>FAIL</code>, <code>UNASSESSED</code> (no evidence configured or none ran), <code>UNAVAILABLE</code> (a capability
+was missing, with a reason), <code>STALE</code> (the daemon stopped publishing). The cockpit renders an
+optional-check failure as <code>PASS · N GAP</code>, never as <code>FAIL</code>.</p>
+<h2 id="73-risk-and-complexity">7.3 Risk and complexity</h2>
+<p>Derived labels whose inputs are next to them: checks with <code>required</code> and <code>status</code>, conflicts,
+contamination, delta, and state. <code>scripts/pick_candidate.py</code> recomputes them; it hard-filters
+PRIME generations, anything not <code>VALID</code>, conflicts, contamination, and failed required checks,
+and refuses to recommend when evidence is <code>UNASSESSED</code>.</p>
+<h2 id="74-network-evidence">7.4 Network evidence</h2>
+<p>Under <code>allowlist</code>, the agent check's <code>network.refused</code> lists every host the agent tried to reach
+outside its allowlist, with counts. That is the policy working; the host name tells you what the
+agent wanted (on this machine a claude world refused <code>github.com</code>, Datadog telemetry, and the
+remote MCP proxy while completing its mission).</p>
+<h2 id="75-proof-claims">7.5 Proof claims</h2>
+<p><code>invariantPreservation: PROVED</code> in a receipt means the installed proof manifest still matches the
+running library. The proved kernel supplies the equality verdict and the state-machine rules;
+the runtime decides what is compared and performs the exchange. The C/Python/QML boundary and
+the OS are outside the proof, and the receipt says so under <code>boundary.notProved</code>.</p>
+<h1 id="8-the-desktop-cockpit">8. The desktop cockpit</h1>
+<p>The bar widget shows a globe; when a world runs it carries a badge. <code>SUPER+SHIFT+W</code> opens the
+fork surface, <code>SUPER+CTRL+W</code> the multiverse, <code>SUPER+ALT+RIGHT</code> runs <code>switch --next</code>, <code>Escape</code>
+closes. Inside: <code>F</code> fork, <code>M</code> roots, <code>C</code> collapse (prepare → review → confirm → commit),
+<code>R</code> return, <code>X</code> cancel, <code>L</code> load the agent log, <code>?</code> keys, <code>0</code> resets the graph zoom.</p>
+<p>The diagnostics card is <code>worldline doctor</code> rendered: managed roots, store, receipts, recovery,
+supervision, <strong>anchor</strong> (entries, attest verdict, external copy), <strong>store usage</strong>, <strong>network</strong>
+policy, <strong>timeout</strong> default, and capabilities. A generation wider than the viewport is fitted
+automatically until you zoom or pan.</p>
+<h1 id="9-operating-limits-and-hygiene">9. Operating limits and hygiene</h1>
+<h2 id="91-timeouts">9.1 Timeouts</h2>
+<p>Every real run should carry one. <code>--timeout</code> on <code>fork</code> and <code>race</code>, or the config default. A
+timed-out world is honest: <code>DEGRADED</code>, reason on the agent check, checks <code>UNASSESSED</code>.</p>
+<h2 id="92-prune">9.2 Prune</h2>
+<pre><code>worldline prune --dry-run
+worldline prune --older-than 14 --keep 5
+worldline prune --logs --yes
+</code></pre>
+<p>Every fork materializes a full checkpoint and every finished world keeps its payload, so the
+store only grows. <code>prune</code> deletes the payload directories of finished worlds that nothing living
+refers to and marks them <code>payload_pruned</code>. Never touched: PRIME, the checkpoint <code>return</code> goes
+back to, running worlds, and any directory still referenced by an unpruned world or a live root.
+Records, receipts, and causal events stay; a <code>prune</code> event is recorded per world. A pruned world
+can no longer be inspected, shelled into, or returned to. <code>doctor.storeUsage</code> shows bytes by area.</p>
+<h2 id="93-anchored-receipts">9.3 Anchored receipts</h2>
+<p>Every committed receipt is appended to an Ed25519-signed, hash-chained ledger in the Custos
+format (<code>~/.local/state/worldline/anchor.tsv</code>, key in <code>~/.config/worldline/anchor/</code>). Verify it
+three ways:</p>
+<pre><code>worldline anchor                     # local replay, attest verdict, external comparison
+worldline log --verify               # receipts + anchor
+attest verify-custos ~/.local/state/worldline/anchor.tsv ~/.config/worldline/anchor/public.hex
+</code></pre>
+<p><code>attest</code> replays the chain and every signature with the SPARK-proved implementation, using none
+of WORLDLINE's code. <code>anchor.exportPath</code> mirrors the ledger somewhere the store's writer does not
+control; the verdicts are <code>MATCH</code>, <code>EXPORT_BEHIND</code>, <code>ROLLED_BACK</code> (the local ledger is shorter
+than the copy), <code>MISMATCH</code>, or <code>UNCONFIGURED</code>. What this does not defend against: an attacker
+who also holds the signing key and can reach the export location.</p>
+<h2 id="94-network-policy">9.4 Network policy</h2>
+<p>See §5.2. <code>allowlist</code> is the recommended setting for missions that touch untrusted content.
+<code>simulate</code> always shares the host network; the manual says so because the containment claim
+must not be overstated.</p>
+<h1 id="10-reference">10. Reference</h1>
+<h2 id="101-command-surface">10.1 Command surface</h2>
+<pre><code>status  list  show WORLD  graph  log [--verify]  why PATH:LINE  inspect WORLD  watch
+init ROOT... [--primary P] [--kind repo|config|filesystem] [--dry-run] [--yes]
+root add ROOT... [--dry-run] [--yes] | root remove ROOT [--dry-run] [--yes] | root list
+fork NAME [--mission F | --mission-text T] [--wait] [--timeout S] -- AGENT
+race [MISSION_FILE] [--mission-text T] --agent A --agent B --agent C [--name N] [--detach] [--timeout S]
+collapse WORLD [--yes | --prepare]   return [WORLD] [--yes | --prepare]
+transaction list | show ID | commit ID --yes | abort ID
+cancel WORLD   prune [--older-than D] [--keep N] [--logs] [--dry-run] [--yes]   anchor
+simulate COMMAND...   doctor [--refresh]   adapters   shell WORLD   switch [--next|--previous|WORLD]
+ghost enable --agent A | ghost disable | ghost status | ghost run OBJECTIVE [--wait]
+</code></pre>
+<p>Every command accepts <code>--json</code>; exit <code>0</code> success, <code>1</code> a named error (<code>worldline: CODE: message</code>),
+<code>130</code> interrupted.</p>
+<h2 id="102-error-codes-worth-knowing">10.2 Error codes worth knowing</h2>
+<p><code>DAEMON_UNAVAILABLE</code>, <code>NO_PRIME</code>, <code>NO_MISSION</code>, <code>CONFIRMATION_REQUIRED</code>, <code>CONFLICT</code>,
+<code>INVALID_CANDIDATE</code>, <code>PRIME_CHANGED_DURING_CAPTURE</code>, <code>PRIME_CHANGED_AFTER_PREPARE</code>,
+<code>STAGED_ROOT_MISMATCH</code>, <code>PAYLOAD_INTEGRITY_FAILED</code>, <code>PAYLOAD_PRUNED</code>, <code>PRUNE_BLOCKED</code>,
+<code>ROOT_SET_BUSY</code>, <code>RETURN_POINT_INCOMPLETE</code>, <code>ADAPTER_UNAVAILABLE</code>, <code>ADAPTER_AUTH_UNAVAILABLE</code>,
+<code>TIMEOUT</code>, <code>USER_CANCELLED</code>, <code>DISK_FULL</code>, <code>STORAGE_ERROR</code>, <code>NETGUARD_UNAVAILABLE</code>,
+<code>UNSUPPORTED_SCHEMA</code>, <code>GHOSTS_DISABLED</code>, <code>SYSTEM_ROOT_COLLAPSE_UNSUPPORTED</code>.</p>
+<h2 id="103-status-document-and-daemon-protocol">10.3 Status document and daemon protocol</h2>
+<p><code>status.json</code> under <code>$XDG_RUNTIME_DIR/worldline</code> has exactly nine fields: <code>schemaVersion</code>,
+<code>daemon</code>, <code>prime</code>, <code>activeWorld</code>, <code>worlds</code>, <code>jobs</code>, <code>capabilities</code>, <code>lastReceipt</code>,
+<code>ghostRecommendation</code>. A world's <code>delta.files</code> is capped at 200 entries with <code>truncated</code> and
+<code>total</code>; <code>show</code> returns everything. The daemon speaks NDJSON over an owner-only Unix socket with
+a peer-credential check per connection.</p>
+<h2 id="104-store-schema">10.4 Store schema</h2>
+<p>The SQLite store carries <code>PRAGMA user_version</code> = 2. Migrations are forward-only and recorded in
+<code>meta.schemaMigrations</code>; a store newer than the runtime is refused <code>UNSUPPORTED_SCHEMA</code>.</p>
+<h2 id="105-uninstalling">10.5 Uninstalling</h2>
+<p><code>worldline root remove</code> every root <strong>first</strong> (it materializes your directories back), then
+disable the unit, remove <code>~/.local/lib/worldline</code>, the launchers, the plugin checkout, the
+<code>shell.json</code> entry, and the bindings block. The store under <code>~/.local/share/worldline</code> and
+<code>~/.local/state/worldline</code> can then be deleted.</p></body></html>
