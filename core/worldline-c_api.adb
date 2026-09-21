@@ -361,7 +361,13 @@ package body Worldline.C_API with SPARK_Mode => Off is
             Expected_Root_Set => To_Hash (Request.Expected_Root_Set),
             Candidate_Root_Set => To_Hash (Request.Candidate_Root_Set),
             Expected_Staged_Root => To_Hash (Request.Expected_Staged_Root),
-            Actual_Staged_Root => To_Hash (Request.Actual_Staged_Root));
+            Actual_Staged_Root => To_Hash (Request.Actual_Staged_Root),
+            Expected_Validation_Context =>
+              To_Hash (Request.Expected_Validation_Context),
+            Candidate_Validation_Context =>
+              To_Hash (Request.Candidate_Validation_Context),
+            Tested_Root => To_Hash (Request.Tested_Root),
+            Staged_Content_Root => To_Hash (Request.Staged_Content_Root));
       begin
          return Interfaces.Unsigned_8
            (Collapse.Decision'Pos (Collapse.Decide (Native_Request)));

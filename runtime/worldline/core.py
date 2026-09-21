@@ -41,6 +41,8 @@ COLLAPSE_DECISIONS: dict[int, str] = {
     7: "STAGED_ROOT_MISMATCH",
     8: "CONFLICT",
     9: "FOREIGN_MANAGED_WRITE",
+    10: "VALIDATION_CONTEXT_MISMATCH",
+    11: "STAGED_UNTESTED",
     255: "INVALID_REQUEST",
 }
 
@@ -72,6 +74,10 @@ class CCollapseRequest(ctypes.Structure):
         ("candidate_root_set", C_HASH),
         ("expected_staged_root", C_HASH),
         ("actual_staged_root", C_HASH),
+        ("expected_validation_context", C_HASH),
+        ("candidate_validation_context", C_HASH),
+        ("tested_root", C_HASH),
+        ("staged_content_root", C_HASH),
     ]
 
 
@@ -92,6 +98,12 @@ class CollapseInput:
     candidate_root_set: bytes
     expected_staged_root: bytes
     actual_staged_root: bytes
+    # Evidence freshness (1.3.0). Defaults equal so callers that do not carry evidence
+    # (tests of other properties) keep their meaning; the transaction manager always sets them.
+    expected_validation_context: bytes = bytes(32)
+    candidate_validation_context: bytes = bytes(32)
+    tested_root: bytes = bytes(32)
+    staged_content_root: bytes = bytes(32)
 
 
 def _library_candidates() -> Iterable[Path]:
@@ -275,6 +287,10 @@ class Core:
             self._array(value.candidate_root_set),
             self._array(value.expected_staged_root),
             self._array(value.actual_staged_root),
+            self._array(value.expected_validation_context),
+            self._array(value.candidate_validation_context),
+            self._array(value.tested_root),
+            self._array(value.staged_content_root),
         )
         code = int(self._lib.wl_collapse_decide(ctypes.byref(request)))
         return COLLAPSE_DECISIONS.get(code, f"UNKNOWN_{code}")

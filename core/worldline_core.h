@@ -34,7 +34,13 @@ extern "C" {
 #define WL_COLLAPSE_STAGED_ROOT_MISMATCH 7u
 #define WL_COLLAPSE_CONFLICT 8u
 #define WL_COLLAPSE_FOREIGN_MANAGED_WRITE 9u
+#define WL_COLLAPSE_VALIDATION_CONTEXT_MISMATCH 10u
+#define WL_COLLAPSE_STAGED_UNTESTED 11u
 #define WL_COLLAPSE_INVALID_REQUEST 255u
+
+/* Layout version of struct wl_collapse_request. The runtime and the library ship together;
+ * a runtime built for a different layout must not call wl_collapse_decide. */
+#define WL_COLLAPSE_REQUEST_VERSION 2u
 
 struct wl_collapse_request {
     uint8_t candidate_state;
@@ -53,6 +59,10 @@ struct wl_collapse_request {
     uint8_t candidate_root_set[WL_HASH_BYTES];
     uint8_t expected_staged_root[WL_HASH_BYTES];
     uint8_t actual_staged_root[WL_HASH_BYTES];
+    uint8_t expected_validation_context[WL_HASH_BYTES];
+    uint8_t candidate_validation_context[WL_HASH_BYTES];
+    uint8_t tested_root[WL_HASH_BYTES];
+    uint8_t staged_content_root[WL_HASH_BYTES];
 };
 
 int wl_hash_file(const char *path, size_t path_len, uint8_t out[WL_HASH_BYTES]);

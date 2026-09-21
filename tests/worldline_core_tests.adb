@@ -58,7 +58,11 @@ procedure Worldline_Core_Tests is
       Expected_Root_Set => H5,
       Candidate_Root_Set => H5,
       Expected_Staged_Root => H6,
-      Actual_Staged_Root => H6);
+      Actual_Staged_Root => H6,
+      Expected_Validation_Context => H1,
+      Candidate_Validation_Context => H1,
+      Tested_Root => H2,
+      Staged_Content_Root => H2);
 
    Parent : Worldline.Ancestry.Parent_Guard :=
      Worldline.Ancestry.New_Parent_Guard (H1);
@@ -191,6 +195,18 @@ begin
         Worldline.Collapse.Staged_Root_Mismatch,
       "staged-root mismatch missed");
    Request.Actual_Staged_Root := H6;
+   Request.Candidate_Validation_Context := H7;
+   Check
+     (Worldline.Collapse.Decide (Request) =
+        Worldline.Collapse.Validation_Context_Mismatch,
+      "validation-context mismatch missed");
+   Request.Candidate_Validation_Context := H1;
+   Request.Staged_Content_Root := H7;
+   Check
+     (Worldline.Collapse.Decide (Request) =
+        Worldline.Collapse.Staged_Untested,
+      "untested staged result authorized");
+   Request.Staged_Content_Root := H2;
    Request.Has_Conflicts := True;
    Check
      (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Conflict,

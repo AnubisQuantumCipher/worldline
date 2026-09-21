@@ -10,7 +10,7 @@ procedure Worldline_Core_Fuzz is
    use type Worldline.Collapse.Decision;
    use type Worldline.Transitions.Transaction_State;
 
-   subtype Selector is Natural range 0 .. 9;
+   subtype Selector is Natural range 0 .. 11;
    package Selector_Random is new Ada.Numerics.Discrete_Random (Selector);
    package Byte_Random is new Ada.Numerics.Discrete_Random
      (Interfaces.Unsigned_8);
@@ -62,7 +62,11 @@ begin
          Expected_Root_Set => Good,
          Candidate_Root_Set => Good,
          Expected_Staged_Root => Good,
-         Actual_Staged_Root => Good);
+         Actual_Staged_Root => Good,
+         Expected_Validation_Context => Good,
+         Candidate_Validation_Context => Good,
+         Tested_Root => Good,
+         Staged_Content_Root => Good);
 
       case Selector_Random.Random (Select_Generator) is
          when 0 =>
@@ -94,6 +98,12 @@ begin
          when 9 =>
             Request.Has_Foreign_Managed_Writes := True;
             Expected := Worldline.Collapse.Foreign_Managed_Write;
+         when 10 =>
+            Request.Candidate_Validation_Context := Bad;
+            Expected := Worldline.Collapse.Validation_Context_Mismatch;
+         when 11 =>
+            Request.Staged_Content_Root := Bad;
+            Expected := Worldline.Collapse.Staged_Untested;
       end case;
 
       Check

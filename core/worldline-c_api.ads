@@ -25,6 +25,10 @@ package Worldline.C_API with SPARK_Mode => Off is
       Candidate_Root_Set         : C_Hash;
       Expected_Staged_Root       : C_Hash;
       Actual_Staged_Root         : C_Hash;
+      Expected_Validation_Context  : C_Hash;
+      Candidate_Validation_Context : C_Hash;
+      Tested_Root                  : C_Hash;
+      Staged_Content_Root          : C_Hash;
    end record
      with Convention => C;
 

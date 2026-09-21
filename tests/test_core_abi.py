@@ -83,6 +83,8 @@ class CoreAbiTests(unittest.TestCase):
             (replace(request, candidate_delta=bad), "DELTA_MISMATCH"),
             (replace(request, candidate_root_set=bad), "ROOT_SET_MISMATCH"),
             (replace(request, actual_staged_root=bad), "STAGED_ROOT_MISMATCH"),
+            (replace(request, candidate_validation_context=bad), "VALIDATION_CONTEXT_MISMATCH"),
+            (replace(request, staged_content_root=bad), "STAGED_UNTESTED"),
             (replace(request, has_conflicts=True), "CONFLICT"),
             (replace(request, has_foreign_managed_writes=True), "FOREIGN_MANAGED_WRITE"),
         )
