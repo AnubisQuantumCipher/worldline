@@ -33,7 +33,7 @@ def good_assurance() -> dict:
         "runtimeVersion": "1.3.0",
         "requiredSteps": list(gate.REQUIRED_STEPS),
         "steps": [{"name": name, "status": "success", "durationSeconds": 1.0, "logSha256": "0" * 64} for name in gate.REQUIRED_STEPS],
-        "pythonTests": {"ran": 142, "ok": True, "failures": 0, "errors": 0, "skipped": 0, "verdictLine": "OK"},
+        "pythonTests": {"ran": 167, "ok": True, "failures": 0, "errors": 0, "skipped": 0, "verdictLine": "OK"},
         "proof": {
             "committedManifest": {"present": True, "sourceHashes": SOURCES},
             "regeneratedManifest": {"present": True, "total": 130, "minimumChecks": 130, "unproved": 0, "justified": 0, "pragmaAssume": 0, "sourceHashes": SOURCES, "librarySha256": "d" * 64, "manifestSha256": "e" * 64},
