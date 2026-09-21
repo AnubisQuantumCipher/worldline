@@ -88,17 +88,26 @@ jobs:
           remote=$(git ls-remote --tags origin "refs/tags/$TAG^{}" | cut -f1)
           if [ -z "$remote" ]; then remote=$(git ls-remote --tags origin "refs/tags/$TAG" | cut -f1); fi
           echo "remote_sha=${remote:-none}" >> "$GITHUB_OUTPUT"
-          if gh release view "$TAG" --json isDraft --jq '.isDraft' >/dev/null 2>&1; then
+          # The tag's target is resolved here, in this job, from the fetched refs — independently
+          # of the resolve job — so the gate's tag/commit comparison is a real check.
+          echo "tag_target=$(git rev-parse "refs/tags/$TAG^{commit}")" >> "$GITHUB_OUTPUT"
+          set +e
+          view=$(gh release view "$TAG" --json isDraft --jq '.isDraft' 2>&1); status=$?
+          set -e
+          if [ "$status" -eq 0 ]; then
             # A draft left by an earlier failed attempt of this same commit is removed; a
             # published release is never touched.
-            if [ "$(gh release view "$TAG" --json isDraft --jq '.isDraft')" = "true" ]; then
+            if [ "$view" = "true" ]; then
               gh release delete "$TAG" --yes
               echo "exists=no" >> "$GITHUB_OUTPUT"
             else
               echo "exists=yes" >> "$GITHUB_OUTPUT"
             fi
-          else
+          elif printf '%s' "$view" | grep -qi "not found"; then
             echo "exists=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "cannot determine whether a release for $TAG exists: $view" >&2
+            exit 1
           fi
 
       - name: Release gate (exact-commit assurance, version, changelog, proof, tag, artifacts)
@@ -106,7 +115,7 @@ jobs:
           archive_sha=$(sha256sum "dist/worldline-$TAG.tar.gz" | cut -d' ' -f1)
           digest_sha=$(sha256sum "dist/worldline-$TAG.tar.gz.sha256" | cut -d' ' -f1)
           python3 scripts/release_gate.py \
-            --release-sha "$RELEASE_SHA" --release-tree "$RELEASE_TREE" --tag "$TAG" --tag-target-sha "$RELEASE_SHA" \
+            --release-sha "$RELEASE_SHA" --release-tree "$RELEASE_TREE" --tag "$TAG" --tag-target-sha "${{ steps.remote.outputs.tag_target }}" \
             --version-file runtime/worldline/__init__.py --changelog CHANGELOG.md \
             --assurance assurance/assurance.json --proof-manifest proof-manifest.json \
             --remote-tag-sha "${{ steps.remote.outputs.remote_sha }}" --release-exists "${{ steps.remote.outputs.exists }}" \

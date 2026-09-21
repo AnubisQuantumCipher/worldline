@@ -110,6 +110,13 @@ class ReleaseGateAcceptsOnlyTheExactAssuredCommit(unittest.TestCase):
             f["assurance"]["result"] = "FAIL"
         self._rejected(overall, "not PASS")
 
+    def test_unbounded_skips_are_rejected(self) -> None:
+        def mutate(f):
+            f["assurance"]["pythonTests"] = {"ran": 161, "ok": True, "failures": 0, "errors": 0, "skipped": 40, "verdictLine": "OK (skipped=40)"}
+        self._rejected(mutate, "skipped 40")
+        facts = good_facts(); facts["assurance"]["pythonTests"]["skipped"] = 2
+        self.assertTrue(gate.evaluate(**facts).accepted)
+
     def test_python_failures_reject_even_if_steps_claim_success(self) -> None:
         def mutate(f):
             f["assurance"]["pythonTests"] = {"ran": 142, "ok": False, "failures": 1, "errors": 0, "verdictLine": "FAILED (failures=1)"}

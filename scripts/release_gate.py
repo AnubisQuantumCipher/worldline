@@ -60,6 +60,7 @@ def evaluate(
     release_exists: bool,
     artifacts: Mapping[str, str],
     expected_artifacts: Mapping[str, str],
+    max_skipped: int = 3,
 ) -> Verdict:
     reasons: list[str] = []
 
@@ -103,6 +104,8 @@ def evaluate(
         python_tests = assurance.get("pythonTests") or {}
         if not python_tests.get("ok") or (python_tests.get("failures") or 0) or (python_tests.get("errors") or 0) or not python_tests.get("ran"):
             reasons.append("python tests did not pass cleanly in the assurance run")
+        if (python_tests.get("skipped") or 0) > max_skipped:
+            reasons.append(f"python tests skipped {python_tests.get('skipped')} cases, more than the allowed {max_skipped}; a host that cannot run the suite cannot assure a release")
         if assurance.get("runtimeVersion") != version:
             reasons.append(f"assurance recorded runtime version {assurance.get('runtimeVersion')}, release is {version}")
 
@@ -193,6 +196,7 @@ def main() -> int:
     parser.add_argument("--expected-artifact", action="append", default=[], help="NAME=SHA256 (independently computed)")
     parser.add_argument("--notes", help="release notes file (its digest is recorded)")
     parser.add_argument("--signing", default="unsigned", help="how the tag/assets are signed (recorded verbatim; 'unsigned' is an honest value)")
+    parser.add_argument("--max-skipped", type=int, default=3, help="most skipped python tests an assurance run may have and still be accepted")
     parser.add_argument("--write-manifest", help="write release-manifest.json here")
     args = parser.parse_args()
 
@@ -213,7 +217,7 @@ def main() -> int:
         release_sha=args.release_sha, release_tree=args.release_tree, tag=args.tag, tag_target_sha=args.tag_target_sha,
         version=version, changelog=Path(args.changelog).read_text(encoding="utf-8"), assurance=assurance,
         committed_proof_manifest=manifest, remote_tag_sha=None if args.remote_tag_sha == "none" else args.remote_tag_sha,
-        release_exists=args.release_exists == "yes", artifacts=artifacts, expected_artifacts=expected,
+        release_exists=args.release_exists == "yes", artifacts=artifacts, expected_artifacts=expected, max_skipped=args.max_skipped,
     )
     if args.write_manifest:
         notes_sha = _digest_file(Path(args.notes)) if args.notes and Path(args.notes).is_file() else None
