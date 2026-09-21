@@ -576,7 +576,7 @@ class RuntimeController:
                 "results": context.get("results", []),
             },
             "problems": problems,
-            "current": None if current is None else {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("checks", [])], "protected": current["policy"].get("protected", [])},
+            "current": None if current is None else {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("canonical", {}).get("checks", [])], "protected": current["policy"].get("canonical", {}).get("protected", []), "verifiers": [f"{v['rootKey'][:12]}:{v['path']} ({v.get('source')})" for v in current.get("verifiers", [])], "warnings": current["policy"].get("warnings", [])},
             "currentError": current_error,
             "differences": [] if not (context and current and isinstance(context.get("requirement"), dict)) else differences(context["requirement"], current),
             "revalidations": [{"validationId": e.get("validationId"), "outcome": e.get("outcome"), "evaluatedAt": e.get("evaluatedAt"), "requirementHash": e.get("requirementHash"), "boundToCurrentContent": e.get("worldContentId") == world.content_id} for e in history],
@@ -597,7 +597,7 @@ class RuntimeController:
         snapshot["limits"] = {"defaultTimeoutSeconds": self.config.default_timeout_seconds}
         try:
             current = current_requirements(self.store, self.config, self.core)
-            snapshot["policy"] = {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("checks", [])], "protected": current["policy"].get("protected", []), "verifiers": [f"{v['rootKey'][:12]}:{v['path']}" for v in current.get("verifiers", [])]}
+            snapshot["policy"] = {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("canonical", {}).get("checks", [])], "protected": current["policy"].get("canonical", {}).get("protected", []), "verifiers": [f"{v['rootKey'][:12]}:{v['path']} ({v.get('source')})" for v in current.get("verifiers", [])], "warnings": current["policy"].get("warnings", [])}
         except WorldlineError as exc:
             snapshot["policy"] = {"requirementHash": None, "error": exc.code}
         anchor = self.anchors.verify(receipts_known=len(self.store.receipts()))

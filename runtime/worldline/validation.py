@@ -33,6 +33,7 @@ from typing import Any, Mapping, Sequence
 from . import SCHEMA_VERSION, __version__
 from .canonical import canonical_bytes
 from .core import Core, hash_id
+from .environment import safe_environment
 from .errors import WorldlineError
 from .project import CheckSpec, ProjectConfig
 
@@ -79,6 +80,7 @@ def canonical_checks(checks: Sequence[CheckSpec]) -> list[dict[str, Any]]:
                 "format": check.format,
                 "result": check.result,
                 "covers": sorted(check.covers),
+                "verifiers": sorted(check.verifiers),
             }
             for check in checks
         ),
@@ -92,12 +94,33 @@ def canonical_policy(project: ProjectConfig) -> dict[str, Any]:
         "checks": canonical_checks(project.checks),
         "protected": sorted(project.protected),
         "generated": sorted(({"root": g.root_key, "glob": g.glob} for g in project.generated), key=lambda g: (g["root"], g["glob"])),
-        "services": sorted((s.id for s in project.services)),
+        # A declared service is started in PRIME after a collapse: what it runs, where, with
+        # which environment, health probe and restart policy is part of the requirement.
+        "services": sorted(
+            ({"id": s.id, "argv": list(s.argv), "cwd": s.cwd, "env": dict(sorted(s.env.items())), "healthArgv": list(s.health_argv), "restart": s.restart} for s in project.services),
+            key=lambda s: s["id"],
+        ),
     }
 
 
-def _covered(check: CheckSpec, relative: str) -> bool:
-    return any(fnmatch.fnmatchcase(relative, pattern) or relative.startswith(pattern.rstrip("*").rstrip("/") + "/") for pattern in check.covers if pattern)
+_WALK_SKIP = {".git", ".hg", ".svn", "__pycache__", "node_modules", ".venv"}
+
+
+def _static_prefix(pattern: str) -> str:
+    """The directory part of a glob before its first wildcard ('evaluator/*' -> 'evaluator')."""
+    parts = pattern.split("/")
+    fixed: list[str] = []
+    for part in parts:
+        if any(ch in part for ch in "*?["):
+            break
+        fixed.append(part)
+    if fixed and fixed == parts:
+        fixed = fixed[:-1]  # a literal file path: its directory
+    return "/".join(fixed)
+
+
+def _glob_match(relative: str, pattern: str) -> bool:
+    return fnmatch.fnmatchcase(relative, pattern) or relative.startswith(pattern.rstrip("*").rstrip("/") + "/")
 
 
 def resolve_verifiers(
@@ -105,13 +128,17 @@ def resolve_verifiers(
     roots: Sequence[Mapping[str, Any]],
     sources: Mapping[str, Path],
 ) -> list[dict[str, Any]]:
-    """The executable verifier files a policy's checks reference, hashed from `sources`
-    (root_key -> directory holding that root's tree).
+    """The authoritative verifier files a policy's checks execute or read, hashed from
+    `sources` (root_key -> directory holding that root's tree).
 
-    A file counts as an authoritative verifier when a check's argv or cwd names it, it exists
-    as a regular file in the tree, and it is NOT inside the check's own `covers` globs (covered
-    paths are the candidate's code under test, not its examiner). Directories, absent paths and
-    options are ignored. Entries are sorted so the identity is canonical.
+    For every check: the regular files its argv or cwd name (`source: argv`), and then either
+    the files matched by the check's declared `verifiers` globs (`source: declared`) or, when
+    none are declared, every regular file under each named file's directory
+    (`source: directory`) — a verifier's helpers and data live beside it and are as
+    authoritative as the file argv names. An argv operand inside the check's own `covers` is
+    candidate data, not a verifier (`policy_warnings` names it); declared verifiers are never
+    excluded (a declared verifier inside covers is refused at policy load). Symlinks and
+    directories are not verifiers. Entries are sorted so the identity is canonical.
     """
     primary = next((r for r in roots if r.get("primary_root") or r.get("primary")), None)
     if primary is None:
@@ -123,7 +150,34 @@ def resolve_verifiers(
     by_path.sort(key=lambda item: -len(item[0]))
     found: dict[tuple[str, str, str], dict[str, Any]] = {}
     primary_key = primary["root_key"]
+
+    def add(check_id: str, root_key: str, relative: str, source: str) -> None:
+        base = sources.get(root_key)
+        if base is None:
+            return
+        path = base / relative
+        if path.is_symlink() or not path.is_file():
+            return
+        key = (check_id, root_key, relative)
+        if key not in found:
+            found[key] = {"checkId": check_id, "rootKey": root_key, "path": relative, "sha256": _sha256_file(path), "source": source}
+
+    def add_tree(check_id: str, root_key: str, directory: str, source: str, pattern: str | None = None) -> None:
+        base = sources.get(root_key)
+        if base is None:
+            return
+        top = base / directory if directory else base
+        if not top.is_dir() or top.is_symlink():
+            return
+        for current, dirs, files in os.walk(top, followlinks=False):
+            dirs[:] = sorted(d for d in dirs if d not in _WALK_SKIP)
+            for name in sorted(files):
+                relative = os.path.normpath(os.path.relpath(Path(current) / name, base))
+                if pattern is None or _glob_match(relative, pattern):
+                    add(check_id, root_key, relative, source)
+
     for check in project.checks:
+        named: list[tuple[str, str]] = []
         cwd_rel = check.cwd or ""
         for token in check.argv:
             if not token or token.startswith("-"):
@@ -142,22 +196,55 @@ def resolve_verifiers(
                     continue
             if root_key is None or relative is None or root_key not in sources:
                 continue
-            candidate_path = sources[root_key] / relative
-            if not candidate_path.is_file() or candidate_path.is_symlink():
+            path = sources[root_key] / relative
+            if path.is_symlink() or not path.is_file():
                 continue
-            if _covered(check, relative):
+            if check.covers_path(relative):
+                # Candidate-owned data the check reads (its covers say so): not a verifier.
+                # policy_warnings names it; `verifiers` binds an examiner explicitly.
                 continue
-            entry_key = (check.id, root_key, relative)
-            if entry_key not in found:
-                found[entry_key] = {"checkId": check.id, "rootKey": root_key, "path": relative, "sha256": _sha256_file(candidate_path)}
+            named.append((root_key, relative))
+            add(check.id, root_key, relative, "argv")
+        if check.verifiers:
+            for pattern in check.verifiers:
+                add_tree(check.id, primary_key, _static_prefix(pattern), "declared", pattern)
+        else:
+            for root_key, relative in named:
+                directory = os.path.dirname(relative)
+                if directory and directory != ".":
+                    add_tree(check.id, root_key, directory, "directory")
     return [found[k] for k in sorted(found)]
+
+
+_KERNEL_LIBRARY_CACHE: dict[str, str] = {}
+
+
+def _kernel_library_sha256() -> str | None:
+    try:
+        path = Path(Core.shared().library_path)
+    except Exception:  # noqa: BLE001 - the identity records absence rather than failing evidence
+        return None
+    key = str(path)
+    if key not in _KERNEL_LIBRARY_CACHE:
+        try:
+            _KERNEL_LIBRARY_CACHE[key] = _sha256_file(path)
+        except OSError:
+            return None
+    return _KERNEL_LIBRARY_CACHE[key]
 
 
 def execution_context(config: Any, adapter_name: str | None = None) -> dict[str, Any]:
     """Security-relevant execution configuration that affects what evidence means."""
+    # The environment the check runner forwards into the sandbox (safe_environment: PATH, LANG,
+    # toolchain selectors …) governs what a check resolves and runs; session-specific names are
+    # left out so a re-login does not stale evidence for no semantic reason.
+    check_environment = {k: v for k, v in safe_environment().items() if k not in ("XDG_RUNTIME_DIR",)}
     return {
         "engineVersion": __version__,
         "runtimeTreeSha256": runtime_tree_sha256(),
+        "kernelLibrarySha256": _kernel_library_sha256(),
+        "checkRunnerInterpreter": "/usr/bin/python3",
+        "checkEnvironment": check_environment,
         "checkRunnerTimeoutSeconds": CHECK_RUNNER_TIMEOUT_SECONDS,
         "network": {"policy": getattr(config, "network_policy", None), "allow": sorted(getattr(config, "network_allow", ()) or ())},
         "readonlyHomePaths": sorted(str(p) for p in (getattr(config, "readonly_home_paths", ()) or ())),
@@ -169,12 +256,31 @@ def requirements(project: ProjectConfig, roots: Sequence[Mapping[str, Any]], sou
     """The requirement half of a context: what a candidate must have been evaluated against."""
     value = {
         "schemaVersion": VALIDATION_CONTEXT_SCHEMA,
-        "policy": {"canonical": canonical_policy(project), "sourceSha256": policy_source_sha256, "requiredChecks": sorted(c.id for c in project.checks if c.required)},
+        "policy": {"canonical": canonical_policy(project), "sourceSha256": policy_source_sha256, "requiredChecks": sorted(c.id for c in project.checks if c.required), "warnings": policy_warnings(project)},
         "verifiers": resolve_verifiers(project, roots, sources),
         "execution": execution_context(config),
     }
     value["requirementHash"] = requirement_hash(value, core)
     return value
+
+
+def policy_warnings(project: ProjectConfig) -> list[str]:
+    """Documented limits of the default verifier scope, stated per check. A top-level verifier
+    file (no directory) without a `verifiers` declaration binds only itself: the engine cannot
+    know which sibling modules it imports. Declaring `verifiers` closes that."""
+    out: list[str] = []
+    for check in project.checks:
+        for named in check.named_paths():
+            if check.covers_path(named):
+                out.append(f"check {check.id}: argv names {named}, which its covers globs match; it is treated as candidate-owned data, not as a verifier — declare `verifiers` if it is the examiner")
+        if check.verifiers:
+            continue
+        for named in check.named_paths():
+            if check.covers_path(named):
+                continue
+            if os.path.dirname(named) in ("", "."):
+                out.append(f"check {check.id}: only the named top-level verifier {named} is bound; helpers it imports are not — declare `verifiers` to bind them")
+    return out
 
 
 def requirement_hash(value: Mapping[str, Any], core: Core | None = None) -> str:
@@ -184,7 +290,7 @@ def requirement_hash(value: Mapping[str, Any], core: Core | None = None) -> str:
     any change to a check's id, argv, cwd, required flag, result format, covered paths or the
     protected list changes it. The raw policy digest is carried for diagnosis only."""
     hashed = {k: v for k, v in value.items() if k != "requirementHash"}
-    hashed["policy"] = {k: v for k, v in dict(value.get("policy") or {}).items() if k != "sourceSha256"}
+    hashed["policy"] = {k: v for k, v in dict(value.get("policy") or {}).items() if k not in ("sourceSha256", "warnings")}
     return _digest(hashed, core)
 
 
@@ -266,6 +372,15 @@ def differences(candidate_requirement: Mapping[str, Any], current_requirement: M
         pa = (a.get("policy") or {}).get("canonical", {}).get("protected"); pb = (b.get("policy") or {}).get("canonical", {}).get("protected")
         if pa != pb:
             out.append("protected paths changed")
+        sa = {s["id"]: s for s in (a.get("policy") or {}).get("canonical", {}).get("services", []) if isinstance(s, dict)}
+        sb = {s["id"]: s for s in (b.get("policy") or {}).get("canonical", {}).get("services", []) if isinstance(s, dict)}
+        for sid in sorted(set(sa) | set(sb)):
+            if sid not in sa:
+                out.append(f"service added: {sid}")
+            elif sid not in sb:
+                out.append(f"service removed: {sid}")
+            elif sa[sid] != sb[sid]:
+                out.append(f"service changed: {sid} ({', '.join(f for f in sa[sid] if sa[sid].get(f) != sb[sid].get(f))})")
         if not out:
             out.append("policy changed")
     va = {(v["rootKey"], v["path"]): v["sha256"] for v in a.get("verifiers", [])}
@@ -280,7 +395,11 @@ def differences(candidate_requirement: Mapping[str, Any], current_requirement: M
     ea, eb = a.get("execution") or {}, b.get("execution") or {}
     for field in sorted(set(ea) | set(eb)):
         if ea.get(field) != eb.get(field):
-            out.append(f"execution changed: {field}")
+            if field == "checkEnvironment" and isinstance(ea.get(field), dict) and isinstance(eb.get(field), dict):
+                names = sorted(k for k in set(ea[field]) | set(eb[field]) if ea[field].get(k) != eb[field].get(k))
+                out.append(f"execution changed: checkEnvironment ({', '.join(names)})")
+            else:
+                out.append(f"execution changed: {field}")
     return out
 
 

