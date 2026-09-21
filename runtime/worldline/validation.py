@@ -256,7 +256,7 @@ def requirements(project: ProjectConfig, roots: Sequence[Mapping[str, Any]], sou
     """The requirement half of a context: what a candidate must have been evaluated against."""
     value = {
         "schemaVersion": VALIDATION_CONTEXT_SCHEMA,
-        "policy": {"canonical": canonical_policy(project), "sourceSha256": policy_source_sha256, "requiredChecks": sorted(c.id for c in project.checks if c.required), "warnings": policy_warnings(project)},
+        "policy": {"canonical": canonical_policy(project), "sourceSha256": policy_source_sha256, "requiredChecks": sorted(c.id for c in project.checks if c.required), "warnings": policy_warnings(project, _primary_source(roots, sources))},
         "verifiers": resolve_verifiers(project, roots, sources),
         "execution": execution_context(config),
     }
@@ -264,20 +264,40 @@ def requirements(project: ProjectConfig, roots: Sequence[Mapping[str, Any]], sou
     return value
 
 
-def policy_warnings(project: ProjectConfig) -> list[str]:
-    """Documented limits of the default verifier scope, stated per check. A top-level verifier
-    file (no directory) without a `verifiers` declaration binds only itself: the engine cannot
-    know which sibling modules it imports. Declaring `verifiers` closes that."""
+def _primary_source(roots: Sequence[Mapping[str, Any]], sources: Mapping[str, Path]) -> Path:
+    primary = next((r for r in roots if r.get("primary_root") or r.get("primary")), None)
+    if primary is None or primary["root_key"] not in sources:
+        raise WorldlineError("NO_PRIMARY_ROOT", "the primary root's tree is not available for verifier resolution")
+    return Path(sources[primary["root_key"]])
+
+
+def policy_warnings(project: ProjectConfig, primary_source: Path) -> list[str]:
+    """Documented limits of the default verifier scope, stated per check against the actual
+    tree: a check whose argv names no existing file (`make test`, `-m pytest`, `npm test`,
+    `bash -c …`) binds NO verifier; a top-level verifier without a `verifiers` declaration
+    binds only itself; an argv operand under the check's own covers is candidate data.
+    Declaring `verifiers` closes every one of these."""
     out: list[str] = []
+
+    def exists(relative: str) -> bool:
+        path = Path(primary_source) / relative
+        return path.is_file() and not path.is_symlink()
+
     for check in project.checks:
+        named_existing: list[str] = []
         for named in check.named_paths():
+            if not exists(named):
+                continue
             if check.covers_path(named):
                 out.append(f"check {check.id}: argv names {named}, which its covers globs match; it is treated as candidate-owned data, not as a verifier — declare `verifiers` if it is the examiner")
+                continue
+            named_existing.append(named)
         if check.verifiers:
             continue
-        for named in check.named_paths():
-            if check.covers_path(named):
-                continue
+        if not named_existing:
+            out.append(f"check {check.id}: argv names no file in the root, so no verifier is bound (a Makefile, conftest.py, package.json or an inline script escapes the evidence identity) — declare `verifiers` to bind its examiner")
+            continue
+        for named in named_existing:
             if os.path.dirname(named) in ("", "."):
                 out.append(f"check {check.id}: only the named top-level verifier {named} is bound; helpers it imports are not — declare `verifiers` to bind them")
     return out
@@ -310,13 +330,15 @@ def build_context(
     """The full context bound to one evaluation. Informational fields (adapter, model argv,
     times) are recorded but are NOT part of the requirement hash."""
     # A verifier the candidate rewrote, deleted, or redirected (turned into a symlink or other
-    # non-regular file, which resolve_verifiers leaves out) is named here; either way the
-    # evidence came from something other than the authoritative verifier bytes.
+    # non-regular file, which resolve_verifiers leaves out) is named here, and so is any file
+    # the candidate ADDED inside a verifier scope (a shadow package or module beside the exam
+    # changes what the exam imports without touching a byte of it). Either way the evidence
+    # came from something other than the authoritative verifier tree.
+    expected = {(v["rootKey"], v["path"]): v["sha256"] for v in requirement.get("verifiers", [])}
     present = {(c["rootKey"], c["path"]): c["sha256"] for c in candidate_verifiers}
     modified = sorted(
-        f"{v['rootKey']}:{v['path']}"
-        for v in requirement.get("verifiers", [])
-        if present.get((v["rootKey"], v["path"])) != v["sha256"]
+        {f"{key[0]}:{key[1]}" for key, digest in expected.items() if present.get(key) != digest}
+        | {f"{key[0]}:{key[1]} (added)" for key in present if key not in expected}
     )
     value = {
         "schemaVersion": VALIDATION_CONTEXT_SCHEMA,

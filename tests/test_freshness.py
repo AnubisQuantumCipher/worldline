@@ -1,4 +1,4 @@
-"""JANUS II evidence-freshness regressions A–J (retained reproducers).
+"""JANUS II evidence-freshness regressions A–K (retained reproducers).
 
 Every test here is deterministic and spends no model quota. Each records the native refusal
 code and compares the live PRIME bytes before and after a refusal: internal records may be
@@ -768,5 +768,117 @@ class K_VerifierDependencies(unittest.TestCase):
             self.assertIn("execution changed: checkEnvironment (PATH)", error.details["differences"])
             self.assertEqual(lab.revalidate("alpha")["outcome"], "PASS")
             self.assertEqual(lab.prepare("alpha")["decision"], "AUTHORIZED")
+        finally:
+            lab.close()
+
+
+class L_SecondReviewRepairs(unittest.TestCase):
+    """Second adversarial review (JANUS II §7, cycle 2): files ADDED under a verifier scope,
+    re-application of displaced bytes, returning to a return-world, unnamed verifiers, and the
+    release gate's skip bound."""
+
+    def test_shadow_package_added_beside_the_exam_is_refused(self) -> None:
+        lab = FreshnessLab(self, exam=EXAM_IMPORTING, files={"evaluator/helper.py": HELPER_V1})
+        try:
+            lab.init()
+            world = lab.fork("shadow", "shadow_forger")
+            self.assertEqual(world["state"], "VALID")  # inside the world the shadow package passed the exam
+            status = lab.validation("shadow")
+            self.assertFalse(status["fresh"])
+            self.assertTrue(any("evaluator/helper/__init__.py (added)" in v for v in status["effective"]["verifiersModifiedByCandidate"]), status["effective"]["verifiersModifiedByCandidate"])
+            prime_before = lab.prime()
+            before, receipts = lab.live(), len(lab.receipts())
+            self.assertEqual(lab.refusal(lab.prepare, "shadow").code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+            _unchanged(self, lab, before, prime_before, receipts)
+            self.assertEqual(lab.revalidate("shadow")["outcome"], "FAIL")
+        finally:
+            lab.close()
+
+    def test_reapplying_a_world_that_was_live_is_judged_against_its_finalized_bytes(self) -> None:
+        # In-process: a candidate whose staged identity equals its content becomes PRIME with
+        # its own payload directory as the live tree (transaction._finish_committed). What is
+        # written there afterwards is never covered by the world's evidence; re-applying the
+        # world must not present those bytes as tested.
+        from worldline.checkpoint import CheckpointManager
+        from worldline.manifest import Manifest
+        from worldline.returning import ReturnManager
+        from worldline.validation import content_root_set
+        with tempfile.TemporaryDirectory(prefix="worldline-freshness-l-") as temporary:
+            root = Path(temporary)
+            paths, _env = isolated_paths(root)
+            core = Core.shared()
+            store = StateStore(paths, core)
+            work = root / "work"; work.mkdir()
+            (work / "state.txt").write_text("prime", encoding="utf-8")
+            RootManager(paths, store, core=core, toolchains=()).register([work], confirmed=True)
+            transaction = CollapseTransaction(paths, store, core=core)
+            returns = ReturnManager(paths, store, CheckpointManager(paths, store, core=core), transaction, core=core)
+            key = store.roots()[0]["root_key"]
+            w = synthetic_candidate(paths, store, core, "w", {"state.txt": "w"})
+            attach_fresh_context(store, w, core=core)
+            root_row = store.roots()[0]
+            w_finalized = content_root_set({key: Manifest.capture(Path(w.payload_path) / key, logical_root=bytes(root_row["path"]), root_key=key, kind=root_row["kind"], core=core)}, core)
+            self.assertEqual(transaction.commit(transaction.prepare("w").transaction_id)["state"], "COMMITTED")
+            w = store.world("w")
+            self.assertEqual(store.prime().instance_id, w.instance_id)
+            live = Path(os.path.realpath(work))
+            for p in (live, live / "state.txt"):
+                os.chmod(p, stat.S_IMODE(p.stat().st_mode) | 0o200)
+            (live / "backdoor.txt").write_text("never evaluated by any check\n", encoding="utf-8")
+            self.assertTrue((Path(w.payload_path) / key / "backdoor.txt").is_file())
+            x = synthetic_candidate(paths, store, core, "x", {"state.txt": "x"})
+            attach_fresh_context(store, x, core=core)
+            self.assertEqual(transaction.commit(transaction.prepare("x").transaction_id)["state"], "COMMITTED")
+            before = tree_bytes(work)
+            receipts_before = len(store.receipts())
+            with self.assertRaises(ConflictError) as raised:
+                returns.execute(w.instance_id)
+            details = raised.exception.details
+            self.assertEqual(details["decision"], "STAGED_UNTESTED")
+            self.assertEqual(details["validation"]["mode"], "re-application")
+            self.assertTrue(any(p.endswith(":backdoor.txt") for p in details["untestedPaths"]), details["untestedPaths"])
+            self.assertEqual(tree_bytes(work), before)
+            self.assertEqual(len(store.receipts()), receipts_before)
+            record = store.transaction_record(details["transactionId"])
+            self.assertEqual(record["state"], "DENIED")
+            prepared_json = json.loads(Path(record["prepared_path"]).read_text(encoding="utf-8"))
+            self.assertEqual(prepared_json["testedRoot"], w_finalized)
+            self.assertNotEqual(prepared_json["stagedContentRoot"], w_finalized)
+            store.close()
+
+    def test_a_return_world_can_itself_be_returned_to(self) -> None:
+        lab = FreshnessLab(self)
+        try:
+            lab.init()
+            pre = lab.prime()["instanceId"]
+            self.assertEqual(lab.fork("w")["state"], "VALID")
+            self.assertEqual(lab.commit(lab.prepare("w")["transaction_id"])["state"], "COMMITTED")
+            returned = lab.return_prepare(pre)
+            self.assertEqual(returned["validation"]["mode"], "checkpoint-return")
+            self.assertEqual(lab.commit(returned["transaction_id"])["state"], "COMMITTED")
+            r_world = next(w for w in lab.client.request("list") if w["alias"].startswith("return-"))
+            self.assertEqual(lab.fork("y", "writer_both")["state"], "VALID")
+            self.assertEqual(lab.commit(lab.prepare("y")["transaction_id"])["state"], "COMMITTED")
+            again = lab.return_prepare(r_world["instanceId"])
+            self.assertEqual(again["validation"]["mode"], "checkpoint-return")
+            self.assertEqual(again["decision"], "AUTHORIZED")
+            self.assertEqual(lab.commit(again["transaction_id"])["state"], "COMMITTED")
+            self.assertFalse((lab.work / "candidate.txt").exists())
+        finally:
+            lab.close()
+
+    def test_checks_that_name_no_file_are_warned_not_silently_unbound(self) -> None:
+        unnamed = policy({"id": "make", "kind": "tests", "argv": ["/usr/bin/sh", "-c", "python3 evaluator/exam.py"], "required": True, "format": "exit"})
+        lab = FreshnessLab(self, policy_value=unnamed)
+        try:
+            lab.init()
+            doctor = lab.client.request("doctor", {})["policy"]
+            self.assertEqual(doctor["verifiers"], [])
+            self.assertTrue(any("check make: argv names no file in the root, so no verifier is bound" in w for w in doctor["warnings"]), doctor["warnings"])
+            lab.set_policy(policy({"id": "make", "kind": "tests", "argv": ["/usr/bin/sh", "-c", "python3 evaluator/exam.py"], "required": True, "format": "exit", "verifiers": ["evaluator/*"]}))
+            lab.settle()
+            doctor = lab.client.request("doctor", {})["policy"]
+            self.assertEqual(doctor["warnings"], [])
+            self.assertTrue(any("evaluator/exam.py (declared)" in v for v in doctor["verifiers"]))
         finally:
             lab.close()

@@ -227,8 +227,21 @@ class CollapseTransaction:
             # (the kernel decides STAGED_UNTESTED on this pair); with conflicts the pair is
             # neutral so the more specific CONFLICT decision is reported.
             tested_root = content_root_set(candidate_manifests, self.core)
+            tested_manifests = candidate_manifests
+            if freshness.get("mode") == "re-application":
+                # The evidence being relied on attests to the subject world's FINALIZED bytes.
+                # A world that has since been live (it became PRIME and was displaced) carries
+                # the displaced state in its payload directory; those bytes were never tested by
+                # that evidence. Judge the merge against the declared finalization manifests.
+                finalized = self._finalized_manifests(self.store.world(freshness["subject"]), roots)
+                if finalized is None:
+                    tested_root = hash_id(bytes(32))
+                    tested_manifests = {}
+                else:
+                    tested_root = content_root_set(finalized, self.core)
+                    tested_manifests = finalized
             staged_content_root = tested_root if conflicts else content_root_set(staged_manifests, self.core)
-            untested_paths = [] if conflicts else content_differences(candidate_manifests, staged_manifests)
+            untested_paths = [] if conflicts else content_differences(tested_manifests, staged_manifests)
             staged_validation: dict[str, Any] | None = None
             if not conflicts and staged_content_root != tested_root and self.validator is not None:
                 # PRIME moved under the candidate and the merge produced bytes nobody tested.
@@ -556,7 +569,10 @@ class CollapseTransaction:
         """
         current = current_requirements(self.store, self.config, self.core)
         subject = self.store.world(return_of) if return_of else candidate
-        checkpoint_return = kind == "return" and subject.actor == "worldline" and subject.alias.startswith("prime-")
+        # Every reality WORLDLINE itself published — a PRIME checkpoint (`prime-…`) or an earlier
+        # return's result (`return-…`) — is a previous reality: restoring it needs no candidate
+        # evidence. A candidate world named in `return WORLD` is a re-application.
+        checkpoint_return = kind == "return" and subject.actor == "worldline"
         if checkpoint_return:
             return {"mode": "checkpoint-return", "requirementHash": current["requirementHash"], "candidateRequirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "contextHash": None, "source": None}
         context, source = effective_context(self.store, subject)
@@ -857,6 +873,21 @@ class CollapseTransaction:
             raise WorldlineError("PAYLOAD_INTEGRITY_FAILED", f"declared manifest identity differs for root {root['root_key']}")
         Manifest.verify_content(manifest, source, self.core)
         return manifest
+
+    def _finalized_manifests(self, world: World, roots: list[dict[str, Any]]) -> dict[str, CapturedManifest] | None:
+        """The manifests a world's finalization declared (its evidence attests to exactly these
+        bytes), or None when any is missing. They are read as declared, not re-captured: the
+        payload directory may since have been live."""
+        out: dict[str, CapturedManifest] = {}
+        for root in roots:
+            path = Path(world.payload_path) / "manifests" / f"{root['root_key']}.json"
+            if not path.is_file():
+                return None
+            manifest = Manifest.load(path, self.core)
+            if manifest.value.get("rootKey") != root["root_key"]:
+                return None
+            out[root["root_key"]] = manifest
+        return out
 
     def _capture_current_roots(self) -> dict[str, CapturedManifest]:
         return {
