@@ -57,6 +57,18 @@ authorized, atomic collapse.
   non-group/other-accessible file — the daemon refuses to start otherwise.
 - **No shell, parameterized SQL.** No `shell=True`/`eval`/`exec`; every subprocess is an argv
   list; all SQL uses placeholders.
+- **Evidence freshness (1.3.0).** A candidate's acceptance evidence is bound to the policy,
+  checks, verifier bytes, engine and execution configuration it was evaluated under
+  (`validationContext` inside the hashed evidence manifest). Promotion compares that
+  requirement identity with the one the CURRENT PRIME imposes, at prepare and again at the
+  serialized commit boundary, and the proved kernel refuses a mismatching pair
+  (`VALIDATION_CONTEXT_MISMATCH`). Evidence from another world, a corrupted or missing context,
+  or a candidate that rewrote/redirected a verifier its evidence ran is refused by name. Staged
+  bytes that differ from the tested candidate are refused (`STAGED_UNTESTED`) unless the current
+  checks pass over the staged result itself. Checkpoint returns need no candidate evidence;
+  re-application of a candidate obeys the collapse rules. Legacy candidates are revalidated
+  explicitly (`worldline revalidate`), never accepted silently. Retained reproducers:
+  `tests/test_freshness.py` (A–J).
 - **Host-side git inspection is hardened (1.0.1).** Registered repos are untrusted; git's
   config-driven command execution is neutralized before inspection (see CHANGELOG 1.0.1).
 
@@ -86,7 +98,13 @@ trust you place in WORLDLINE.
 
 3. **"Proved" describes the kernel, not an attestation of the running system.** The 130-check
    SPARK proof covers the hash/link/decision/lifecycle *library*. The authority — what is
-   hashed and whether the decision gates the exchange — is enforced in Python. Since 1.1.0 the
+   hashed and whether the decision gates the exchange — is enforced in Python. That includes
+   evidence freshness (1.3.0): the runtime computes the requirement and content identities and
+   decides what is compared; the kernel proves only that unequal identities are never
+   `Authorized`. Freshness is identity comparison, not re-execution — a `PASS` revalidation or
+   staged validation is evidence about the bytes it names at the time it ran, in the same check
+   sandbox finalization uses, and stored contexts live in the same same-uid-writable store as
+   everything else. Since 1.1.0 the
    transaction lifecycle (PREPARED → AUTHORIZED → COMMITTED, DENIED sticky) is consulted from
    the proved unit on every state change, and the kernel's parent comparison receives the
    store's parent identity rather than the candidate's own claim on both sides.

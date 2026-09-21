@@ -76,12 +76,19 @@ receipt stays readable by the older code. Run `./install.sh` again to move forwa
 | Store format changes | forward-only migrations (`meta.schemaMigrations`); a newer store is refused, never downgraded |
 | Model and effort for a builtin agent | `adapterOptions.<name>.argv`, e.g. codex `["-m", "gpt-5.6-luna", "-c", "model_reasoning_effort=max"]`; visible in `worldline adapters` |
 
-## Continuous integration
+## Continuous integration and releases
 
-`.github/workflows/ci.yml` builds the Ada library with the Alire toolchain on an x86_64
-runner, runs the Ada tests and fuzz, the Python suite (bubblewrap, overlayfs, and a lingering
-user systemd manager are set up on the runner), and the proof gate with GNATprove. The proof
-gate is the slow step and is cached per toolchain version.
+`.github/workflows/assurance.yml` is the one assurance of an exact commit: it checks out a full
+commit id, verifies the checkout is that commit, and runs `scripts/assurance.py` — build, Ada
+tests and fuzz, the Python suite (bubblewrap 0.11, overlayfs and a lingering user systemd
+manager are set up on the x86_64 runner), the SPARK proof gate re-run on that build, and the
+proof-manifest check with the library — recording every outcome, the tree identity and the
+toolchain into `assurance.json`. `ci.yml` calls it for every push and pull request;
+`release.yml` calls it for the commit a `v*` tag names and publishes only after
+`scripts/release_gate.py` accepts that report for that commit (never "latest green main",
+never a partial run, never a moved tag or an existing release), as a draft whose uploaded
+assets are verified before it is published and again after. `docs/release-process.md` states
+the boundaries. Publishing a release does not install it anywhere.
 
 ## Isolated testing
 
