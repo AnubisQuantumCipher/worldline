@@ -80,6 +80,7 @@ class StatusPublisher:
                     "id": job["job_id"],
                     "world": job["world_instance"],
                     "state": job["state"],
+                    "unit": job.get("systemd_unit"),
                     "started": job["started_at"],
                     "ended": job["ended_at"],
                     "error": job["error"],

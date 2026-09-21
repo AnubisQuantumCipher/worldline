@@ -284,8 +284,6 @@ class AgentRunner:
         def read_stderr() -> None:
             assert unit.launcher.stderr is not None
             with open(stderr_path, "xb", buffering=0) as destination:
-                if unit.stderr_prelude:
-                    destination.write(unit.stderr_prelude)
                 shutil.copyfileobj(unit.launcher.stderr, destination)
                 destination.flush()
                 os.fsync(destination.fileno())
@@ -343,6 +341,16 @@ class AgentRunner:
                     "reason": None,
                 }
             )
+        # What the manager says happened to the unit: structured, bounded, and the only basis
+        # for telling a launcher that never got a unit from a workload that ran and failed.
+        supervision = self.systemd.outcome(unit, exit_code, stopped=stopped)
+        if supervision["kind"] == "LAUNCH_FAILED":
+            first = (supervision.get("launcherStderr") or "").strip().splitlines()
+            raise WorldlineError(
+                "UNIT_LAUNCH_FAILED",
+                "the user manager never started the transient unit" + (f": {first[0]}" if first else ""),
+                {"unit": unit.unit, "launcherExit": exit_code, "supervision": supervision},
+            )
         agent_result = {
             "id": "agent",
             "kind": "build",
@@ -351,15 +359,18 @@ class AgentRunner:
             "covers": [],
             "argv": list(argv),
             "exitCode": exit_code,
-            "status": "FAIL" if stopped else ("PASS" if exit_code == 0 else "FAIL"),
+            "status": "FAIL" if stopped or supervision["kind"] != "SUPERVISED" else ("PASS" if exit_code == 0 else "FAIL"),
             "rawEventHash": hash_id(self.core.hash_file(raw_path)),
             "stderrHash": hash_id(self.core.hash_file(stderr_path)),
             "network": proxy.summary() if proxy is not None else {"policy": policy},
+            "supervision": supervision,
         }
         if cancelled:
             agent_result["reason"] = "USER_CANCELLED: the operator stopped this world before the agent finished"
         elif timed_out:
             agent_result["reason"] = f"TIMEOUT: the agent exceeded the {timeout:g} s limit and was stopped"
+        elif supervision["kind"] == "INDETERMINATE":
+            agent_result["reason"] = f"SUPERVISION_INDETERMINATE: the manager's journal did not establish that {unit.unit} ran ({supervision['source']})"
         check_results = [agent_result]
         if stopped:
             # The partial work is still materialized so it can be inspected, but running the
@@ -393,6 +404,7 @@ class AgentRunner:
             world.instance_id,
             overlays,
             check_results=check_results,
+            protected=project.protected,
             required_checks=("agent", *(check.id for check in project.checks if check.required)),
             agent_manifest={
                 "adapter": adapter.name,
@@ -402,6 +414,7 @@ class AgentRunner:
                 "argv": list(argv),
                 "systemdUnit": unit.unit,
                 "mainPid": main_pid,
+                "supervision": supervision,
                 "cwd": str(primary_target),
                 "generatedClassifiers": [
                     {"root": item.root_key, "glob": item.glob}

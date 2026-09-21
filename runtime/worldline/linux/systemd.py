@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 import os
 import re
 import shutil
@@ -19,10 +20,8 @@ class SystemdProcess:
     unit: str
     launcher: subprocess.Popen[bytes]
     manager: "SystemdAdapter"
-    # Bytes read from the launcher's stderr while confirming supervision; the runner writes them
-    # ahead of the rest so nothing the agent said is lost.
-    stderr_prelude: bytes = b""
-    supervision_confirmed: bool = False
+    # Realtime (µs) just before systemd-run was spawned: the journal window opens here.
+    launched_at_us: int = 0
 
     @property
     def pid(self) -> int | None:
@@ -58,6 +57,7 @@ class SystemdAdapter:
     def __init__(self) -> None:
         self.systemd_run = shutil.which("systemd-run")
         self.systemctl = shutil.which("systemctl")
+        self.journalctl = shutil.which("journalctl")
         if self.systemd_run is None or self.systemctl is None:
             raise WorldlineError("SYSTEMD_UNAVAILABLE", "systemd-run or systemctl is not installed")
         self.environment = manager_environment()
@@ -121,10 +121,10 @@ class SystemdAdapter:
             command.insert(separator, "--property=RestartSec=2s")
             command.insert(separator, "--property=Restart=on-failure")
         # Supervision is required, not best effort: the manager must answer BEFORE a unit is
-        # asked of it, and the unit must be seen by the manager AFTER. A launcher that dies
-        # without the manager ever knowing the unit was never a supervised world, and is refused
-        # by name instead of being read as an agent that failed.
+        # asked of it. What happened AFTER is read from the manager's own journal entries once
+        # the launcher exits (`outcome`), never from anything the workload printed.
         self.verify_manager()
+        launched_at_us = time.time_ns() // 1000
         try:
             launcher = subprocess.Popen(
                 command,
@@ -137,7 +137,7 @@ class SystemdAdapter:
             )
         except OSError as exc:
             raise WorldlineError("SYSTEMD_LAUNCH_FAILED", str(exc), {"unit": unit}) from exc
-        return self._confirm_supervision(unit, launcher)
+        return SystemdProcess(unit=unit, launcher=launcher, manager=self, launched_at_us=launched_at_us)
 
     def verify_manager(self) -> dict[str, str]:
         """Ask the user service manager something only it can answer. A manager that is
@@ -161,45 +161,131 @@ class SystemdAdapter:
                 values[name] = value
         return values
 
-    _CONFIRM_WINDOW_SECONDS = 1.0
+    # Journal message ids the user manager writes about a unit (systemd catalog; stable across
+    # releases). Entries are matched on these ids and on journald's trusted `_` fields, so a
+    # workload cannot forge them (the sandbox has no journal socket at all).
+    JOURNAL_STARTING = "7d4958e842da4a758f6c1cdc7b36dcc5"
+    JOURNAL_STARTED = "39f53479d3a045ac8e11786248231fbf"
+    JOURNAL_STOPPING = "de5b426a63be47a7b6ac3eaac82e2f6f"
+    JOURNAL_STOPPED = "9d1aaa27d60140bd96365438aad20286"
+    JOURNAL_PROCESS_EXIT = "98e322203f7a4ed290d09fe03c09fe15"
+    JOURNAL_FAILURE_RESULT = "d9b373ed55a64feb8242e02dbe79a49c"
+    JOURNAL_WINDOW_SECONDS = 5.0
 
-    def _confirm_supervision(self, unit: str, launcher: subprocess.Popen[bytes]) -> SystemdProcess:
-        deadline = time.monotonic() + self._CONFIRM_WINDOW_SECONDS
-        while True:
-            shown = subprocess.run(
-                [self.systemctl, "--user", "show", unit, "--property=LoadState", "--property=ActiveState"],
-                stdin=subprocess.DEVNULL,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=False,
-                timeout=10,
-                env=self.environment,
-            )
-            if shown.returncode == 0 and "LoadState=loaded" in shown.stdout.decode("utf-8", "replace"):
-                return SystemdProcess(unit=unit, launcher=launcher, manager=self, supervision_confirmed=True)
-            code = launcher.poll()
-            if code is None:
-                if time.monotonic() >= deadline:
-                    # The manager answered the pre-flight and the launcher is alive; the unit has
-                    # just not been observed yet. Proceed unconfirmed rather than refuse late.
-                    return SystemdProcess(unit=unit, launcher=launcher, manager=self)
-                time.sleep(0.05)
+    def journal_events(self, unit: str, since_us: int) -> list[dict[str, Any]] | None:
+        """The user manager's own journal entries about `unit` since `since_us`, structured.
+        None when the journal cannot be read (then supervision is INDETERMINATE, never assumed)."""
+        self._validate_unit(unit)
+        journalctl = self.journalctl
+        if journalctl is None:
+            return None
+        result = subprocess.run(
+            [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager", f"--since=@{max(since_us // 1_000_000 - 2, 0)}"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+            timeout=15,
+            env=self.environment,
+        )
+        if result.returncode != 0:
+            return None
+        manager_unit = f"user@{os.getuid()}.service"
+        events: list[dict[str, Any]] = []
+        for line in result.stdout.decode("utf-8", "replace").splitlines():
+            try:
+                entry = json.loads(line)
+            except json.JSONDecodeError:
                 continue
-            if code == 0:
-                # Ran to completion before it could be observed: a very short world.
-                return SystemdProcess(unit=unit, launcher=launcher, manager=self)
-            prelude = b""
-            if launcher.stderr is not None:
-                try:
-                    prelude = launcher.stderr.read()
-                except OSError:
-                    prelude = b""
-            if prelude.lstrip().startswith(b"Failed to"):
-                # systemd-run's own failure ("Failed to connect to bus", "Failed to start
-                # transient service unit"): the manager never took the unit.
-                first = prelude.decode("utf-8", "replace").strip().splitlines()[0]
-                raise WorldlineError("SUPERVISION_UNAVAILABLE", f"transient unit was not started: {first}", {"unit": unit, "exitCode": code})
-            return SystemdProcess(unit=unit, launcher=launcher, manager=self, stderr_prelude=prelude)
+            if not isinstance(entry, dict):
+                continue
+            # Trusted fields only: authored by the manager process, about this unit, in window.
+            if entry.get("_SYSTEMD_UNIT") != manager_unit or entry.get("_COMM") != "systemd":
+                continue
+            if entry.get("USER_UNIT") not in (None, unit) and entry.get("UNIT") not in (None, unit):
+                continue
+            try:
+                stamp = int(entry.get("__REALTIME_TIMESTAMP", "0"))
+            except (TypeError, ValueError):
+                continue
+            if stamp < since_us:
+                continue
+            events.append(
+                {
+                    "messageId": entry.get("MESSAGE_ID"),
+                    "message": str(entry.get("MESSAGE", ""))[:200],
+                    "jobType": entry.get("JOB_TYPE"),
+                    "jobResult": entry.get("JOB_RESULT"),
+                    "exitCode": entry.get("EXIT_CODE"),
+                    "exitStatus": entry.get("EXIT_STATUS"),
+                    "managerPid": entry.get("_PID"),
+                    "realtimeUs": stamp,
+                }
+            )
+        return events
+
+    def outcome(self, process: SystemdProcess, launcher_exit: int, *, stopped: bool = False) -> dict[str, Any]:
+        """Structured supervision outcome for a finished launcher. Exactly one of:
+        SUPERVISED (the manager started the unit; the workload's exit is authoritative),
+        LAUNCH_FAILED (the launcher ended without the manager ever starting the unit),
+        INDETERMINATE (the journal could not be read, or no entry appeared inside the window).
+        Bounded: polls the journal for at most JOURNAL_WINDOW_SECONDS after the launcher exit."""
+        deadline = time.monotonic() + self.JOURNAL_WINDOW_SECONDS
+        events: list[dict[str, Any]] | None = None
+        journal_readable = True
+        while True:
+            events = self.journal_events(process.unit, process.launched_at_us)
+            if events is None:
+                journal_readable = False
+                events = []
+            ids = {event["messageId"] for event in events}
+            started = self.JOURNAL_STARTED in ids
+            ended = bool(ids & {self.JOURNAL_PROCESS_EXIT, self.JOURNAL_FAILURE_RESULT, self.JOURNAL_STOPPED})
+            if started and (ended or launcher_exit == 0 or stopped):
+                break
+            if not journal_readable or time.monotonic() >= deadline:
+                break
+            time.sleep(0.2)
+        exit_entry = next((event for event in events if event["messageId"] == self.JOURNAL_PROCESS_EXIT), None)
+        failure_entry = next((event for event in events if event["messageId"] == self.JOURNAL_FAILURE_RESULT), None)
+        started = any(event["messageId"] == self.JOURNAL_STARTED for event in events)
+        launched = any(event["messageId"] == self.JOURNAL_STARTING for event in events)
+        stopped_by_manager = any(event["messageId"] in {self.JOURNAL_STOPPING, self.JOURNAL_STOPPED} for event in events)
+        if started:
+            kind = "SUPERVISED"
+        elif not journal_readable:
+            kind = "INDETERMINATE"
+        elif launcher_exit != 0 and not launched:
+            kind = "LAUNCH_FAILED"
+        else:
+            kind = "INDETERMINATE"
+        launcher_stderr = ""
+        if kind != "SUPERVISED" and process.launcher.stderr is not None:
+            try:
+                launcher_stderr = process.launcher.stderr.read().decode("utf-8", "replace")[:400]
+            except (OSError, ValueError):
+                launcher_stderr = ""
+        return {
+            "kind": kind,
+            "unit": process.unit,
+            "source": "journal" if journal_readable else "journal-unavailable",
+            "launcherExit": launcher_exit,
+            "started": started,
+            "stoppedByManager": stopped_by_manager,
+            "exitCode": None if exit_entry is None else exit_entry.get("exitCode"),
+            "exitStatus": None if exit_entry is None or exit_entry.get("exitStatus") is None else int(exit_entry["exitStatus"]) if str(exit_entry["exitStatus"]).isdigit() else exit_entry.get("exitStatus"),
+            "result": (
+                "stopped" if stopped_by_manager
+                else "failure" if failure_entry is not None or (exit_entry is not None and str(exit_entry.get("exitStatus")) not in ("0", "None"))
+                else "success" if started and launcher_exit == 0
+                else None
+            ),
+            # Canonical JSON carries no floats: the bounded window is reported in milliseconds.
+            "windowMilliseconds": int(self.JOURNAL_WINDOW_SECONDS * 1000),
+            "events": events,
+            # Diagnostic only, never used to classify: what the launcher itself printed.
+            "launcherStderr": launcher_stderr,
+        }
 
     def stop(self, unit: str) -> None:
         self._validate_unit(unit)
@@ -221,7 +307,7 @@ class SystemdAdapter:
 
     def metadata(self, unit: str) -> dict[str, Any]:
         self._validate_unit(unit)
-        properties = ("MainPID", "ControlGroup", "ActiveState", "SubState", "ExecMainStatus", "Result")
+        properties = ("MainPID", "ControlGroup", "ActiveState", "SubState", "ExecMainStatus", "Result", "InvocationID", "ExecMainStartTimestampMonotonic")
         result = subprocess.run(
             [self.systemctl, "--user", "show", unit, *[f"--property={item}" for item in properties]],
             stdin=subprocess.DEVNULL,
