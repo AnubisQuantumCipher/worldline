@@ -50,10 +50,16 @@ class ProjectConfig:
         checks: tuple[CheckSpec, ...],
         services: tuple[ServiceSpec, ...],
         protected: tuple[str, ...] = (),
+        source_sha256: str | None = None,
+        source_path: str | None = None,
     ) -> None:
         self.generated = generated
         self.checks = checks
         self.services = services
+        # Identity of the policy bytes this configuration was parsed from (None when the root
+        # has no .worldline.json). Recorded in every validation context.
+        self.source_sha256 = source_sha256
+        self.source_path = source_path
         # Paths (relative, globs allowed) a candidate may not change. The list lives in PRIME's
         # policy, which is the only policy ever consulted, and the comparison is the engine's
         # own delta, so no in-tree rewrite can lift it (worldline-lab D10, 2026-09-21).
@@ -65,9 +71,12 @@ class ProjectConfig:
         if not path.is_file():
             return cls(generated=(), checks=(), services=())
         try:
-            value = json.loads(path.read_text(encoding="utf-8"))
+            raw = path.read_bytes()
+            value = json.loads(raw.decode("utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise WorldlineError("INVALID_PROJECT_CONFIG", f"{path}: {exc}") from exc
+        import hashlib
+        source_sha256 = hashlib.sha256(raw).hexdigest()
         required_fields = {"schemaVersion", "generated", "checks", "services"}
         if not isinstance(value, dict) or not required_fields <= set(value) or not set(value) <= required_fields | {"protected"}:
             raise WorldlineError("INVALID_PROJECT_CONFIG", "project config fields must be schemaVersion, generated, checks, and services, optionally protected")
@@ -142,7 +151,7 @@ class ProjectConfig:
             if item["restart"] not in {"never", "on-failure"}:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", f"service {identifier} restart is invalid")
             services.append(ServiceSpec(identifier, argv, item["cwd"], dict(environment), health, item["restart"]))
-        return cls(generated=tuple(generated), checks=tuple(checks), services=tuple(services), protected=tuple(protected))
+        return cls(generated=tuple(generated), checks=tuple(checks), services=tuple(services), protected=tuple(protected), source_sha256=source_sha256, source_path=str(path))
 
     @staticmethod
     def _relative(value: Any, label: str, *, allow_glob: bool = False) -> str:

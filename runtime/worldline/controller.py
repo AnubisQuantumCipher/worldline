@@ -33,6 +33,8 @@ from .linux.systemd import SystemdAdapter
 from .paths import WorldlinePaths
 from .reconcile import PrimeChangeTracker
 from .returning import ReturnManager
+from .revalidate import Revalidator
+from .validation import current_requirements, differences, effective_context, verify_context
 from .roots import RootManager
 from .runner import AgentRunner
 from .simulation import SystemSimulation
@@ -79,6 +81,7 @@ class RuntimeController:
         self.runner = AgentRunner(paths, store, config, self.sandbox, self.systemd, core=self.core)
         self.forks = ForkManager(paths, store, config, self.checkpoint, self.runner, core=self.core)
         self.anchors = AnchorLedger(paths, config.anchor_export_path)
+        self.revalidator = Revalidator(paths, store, config, self.sandbox, self.runner.checks, core=self.core)
         self.transactions = CollapseTransaction(
             paths,
             store,
@@ -87,6 +90,8 @@ class RuntimeController:
             reconcile=self.roots.reconcile,
             stop_writers=self._stop_writers,
             anchor=self.anchors,
+            config=config,
+            validator=self.revalidator.validate_staged,
         )
         self.pruner = Pruner(paths, store)
         restrictive = config.network_policy != "shared"
@@ -207,6 +212,8 @@ class RuntimeController:
         daemon.register("shell.info", self._shell_info)
         daemon.register("prune", self._prune, mutating=True)
         daemon.register("anchor.status", self._anchor_status)
+        daemon.register("revalidate", self._revalidate, mutating=True)
+        daemon.register("validation.status", self._validation_status)
 
     def _register_roots(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
         allowed = {"roots", "kind", "primary", "confirmed"}
@@ -509,7 +516,7 @@ class RuntimeController:
             raise InvalidRequest("return.prepare requires nullable world")
         selected = self.returns.select(args["world"])
         candidate = self.returns.prepare_candidate(selected)
-        prepared = self.transactions.prepare(candidate.instance_id, kind="return")
+        prepared = self.transactions.prepare(candidate.instance_id, kind="return", return_of=selected.instance_id)
         return {
             **asdict(prepared),
             "returnWorld": selected.alias,
@@ -530,6 +537,51 @@ class RuntimeController:
         world = await asyncio.to_thread(self.simulation.run, args["argv"], health_checks=health)
         return world.summary()
 
+    def _revalidate(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("revalidate requires world")
+        return self.revalidator.revalidate(args["world"])
+
+    def _validation_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("validation requires world")
+        world = self.store.world(args["world"])
+        context, source = effective_context(self.store, world)
+        current: dict[str, Any] | None
+        try:
+            current = current_requirements(self.store, self.config, self.core)
+        except WorldlineError as exc:
+            current = None
+            current_error = exc.as_dict()
+        else:
+            current_error = None
+        problems: list[str] = []
+        try:
+            verify_context(context, candidate_instance=world.instance_id, core=self.core)
+        except WorldlineError as exc:
+            problems.append(exc.code)
+        fresh = bool(context and current and not problems and context.get("requirementHash") == current["requirementHash"] and not context.get("verifiersModifiedByCandidate"))
+        history = self.store.get_meta(f"validation:{world.instance_id}", []) or []
+        return {
+            "world": world.alias,
+            "instanceId": world.instance_id,
+            "state": world.state.value,
+            "fresh": fresh,
+            "effective": None if context is None else {
+                "source": source,
+                "requirementHash": context.get("requirementHash"),
+                "contextHash": context.get("contextHash"),
+                "evaluatedAt": context.get("evaluatedAt"),
+                "verifiersModifiedByCandidate": context.get("verifiersModifiedByCandidate", []),
+                "results": context.get("results", []),
+            },
+            "problems": problems,
+            "current": None if current is None else {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("checks", [])], "protected": current["policy"].get("protected", [])},
+            "currentError": current_error,
+            "differences": [] if not (context and current and isinstance(context.get("requirement"), dict)) else differences(context["requirement"], current),
+            "revalidations": [{"validationId": e.get("validationId"), "outcome": e.get("outcome"), "evaluatedAt": e.get("evaluatedAt"), "requirementHash": e.get("requirementHash"), "boundToCurrentContent": e.get("worldContentId") == world.content_id} for e in history],
+        }
+
     def _doctor(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if set(args) - {"refresh"}:
             raise InvalidRequest("doctor accepts only refresh")
@@ -543,6 +595,11 @@ class RuntimeController:
         snapshot["storeUsage"] = self.pruner.usage()
         snapshot["networkPolicy"] = {"policy": self.config.network_policy, "allow": list(self.config.network_allow)}
         snapshot["limits"] = {"defaultTimeoutSeconds": self.config.default_timeout_seconds}
+        try:
+            current = current_requirements(self.store, self.config, self.core)
+            snapshot["policy"] = {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("checks", [])], "protected": current["policy"].get("protected", []), "verifiers": [f"{v['rootKey'][:12]}:{v['path']}" for v in current.get("verifiers", [])]}
+        except WorldlineError as exc:
+            snapshot["policy"] = {"requirementHash": None, "error": exc.code}
         anchor = self.anchors.verify(receipts_known=len(self.store.receipts()))
         snapshot["anchor"] = {
             "state": anchor["state"],

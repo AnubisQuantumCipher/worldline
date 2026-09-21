@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import fnmatch
-from typing import Any, Sequence
+from typing import Any, Mapping, Sequence
 
 from . import SCHEMA_VERSION
 from .canonical import canonical_bytes
@@ -27,6 +27,7 @@ class ReceiptBuilder:
         contamination: Sequence[dict[str, Any]],
         generated: Sequence[dict[str, str]] = (),
         dependency_changes: Sequence[dict[str, Any]] = (),
+        evidence_binding: Mapping[str, Any] | None = None,
     ) -> dict[str, Any]:
         previous = self.store.last_receipt()
         previous_id = None if previous is None else previous["receipt_id"]
@@ -80,10 +81,17 @@ class ReceiptBuilder:
             "beforeRoot": before_root,
             "afterRoot": after_root,
             "transactionId": transaction_id,
+            # What evidence authorized these bytes (1.3.0): the requirement identity the
+            # candidate's evidence was bound to, the identity in force at prepare and at commit,
+            # and which content root the evidence covered (the candidate's, or a validated
+            # staged merge result).
+            "evidenceBinding": None if evidence_binding is None else dict(evidence_binding),
             "nonClaims": [
                 "OS syscalls and filesystem behavior are outside the SPARK proof.",
                 "Uncooperative external writers and open file descriptors are outside the SPARK proof.",
                 "SHA-256 collision resistance is outside the SPARK proof.",
+                "Evidence freshness is decided by comparing requirement and content identities computed by the runtime; the SPARK kernel proves only that unequal identities are never AUTHORIZED.",
+                "Checks are not re-run at commit; a PASS revalidation or staged validation is evidence about the bytes it names at the time it ran.",
             ],
         }
         preimage = dict(receipt)

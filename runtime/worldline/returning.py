@@ -189,5 +189,5 @@ class ReturnManager:
     def execute(self, value: str | None = None) -> dict[str, object]:
         selected = self.select(value)
         candidate = self.prepare_candidate(selected)
-        prepared = self.transaction.prepare(candidate.instance_id, kind="return")
+        prepared = self.transaction.prepare(candidate.instance_id, kind="return", return_of=selected.instance_id)
         return self.transaction.commit(prepared.transaction_id)

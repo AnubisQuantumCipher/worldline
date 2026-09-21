@@ -400,11 +400,27 @@ class AgentRunner:
                     checks=project.checks,
                 )
             )
+        # Evidence freshness (1.3.0): what this evaluation was bound to. The requirement half is
+        # computed from the bytes the world was forked from (its base payload), which is what
+        # the checks were defined against; finalize adds the candidate-side verifier hashes.
+        from .validation import requirements
+        roots = self.store.roots()
+        base_sources = {root["root_key"]: Path(world.base_payload_path) / root["root_key"] for root in roots}
+        requirement = requirements(project, roots, base_sources, self.config, project.source_sha256, self.core)
+        parent = self.store.world(world.parent_instance) if world.parent_instance else None
+        validation = {
+            "project": project,
+            "roots": roots,
+            "requirement": requirement,
+            "primeAtFork": {"instanceId": world.parent_instance, "contentId": world.parent_content, "generation": self.store.get_meta("primeGeneration") if parent is None else parent.instance_id},
+            "adapter": {"name": adapter.name, "argv": list(argv), "sessionReference": session_reference, "supervision": supervision.get("kind") if isinstance(supervision, dict) else None},
+        }
         finalized = self.finalizer.finalize(
             world.instance_id,
             overlays,
             check_results=check_results,
             protected=project.protected,
+            validation=validation,
             required_checks=("agent", *(check.id for check in project.checks if check.required)),
             agent_manifest={
                 "adapter": adapter.name,

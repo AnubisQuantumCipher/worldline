@@ -14,6 +14,7 @@ from .core import Core
 from .delta import Delta
 from .environment import EnvironmentCapture, OwnedProcess, capture_dependencies, evidence_manifest
 from .project import protected_matches
+from .model import utc_now
 from .errors import WorldlineError
 from .linux.docker import DockerAdapter
 from .linux.git import GitAdapter
@@ -83,6 +84,7 @@ class Finalizer:
         *,
         check_results: Sequence[dict[str, Any]],
         protected: Sequence[str] = (),
+        validation: Mapping[str, Any] | None = None,
         required_checks: Sequence[str],
         agent_manifest: dict[str, Any],
     ) -> World:
@@ -207,9 +209,29 @@ class Finalizer:
                 if all(isinstance(value, int) for value in dependency_counts)
                 else None
             )
+            context = None
+            if validation is not None:
+                # Verifier bytes as they were INSIDE the candidate's tree: a candidate that
+                # rewrote its examiner is named here (and refused at prepare) even when the
+                # path was not listed as protected.
+                from .validation import build_context, resolve_verifiers
+                project = validation["project"]
+                sources = {root_key: payload / root_key for root_key in [r["root_key"] for r in validation["roots"]]}
+                context = build_context(
+                    requirement=validation["requirement"],
+                    candidate={"instanceId": world.instance_id, "alias": world.alias, "baseRoot": world.base_root, "rootSetHash": world.root_set_hash, "missionHash": world.mission_hash},
+                    prime_at_fork=validation["primeAtFork"],
+                    roots=validation["roots"],
+                    results=check_results,
+                    candidate_verifiers=resolve_verifiers(project, validation["roots"], sources),
+                    adapter=validation["adapter"],
+                    evaluated_at=utc_now(),
+                    core=self.core,
+                )
             evidence = evidence_manifest(
                 check_results,
                 self.core,
+                validation=context,
                 metrics={
                     "dependencyCount": dependency_count,
                     "nonblankSourceLines": self._source_lines(candidate_manifests, payload),

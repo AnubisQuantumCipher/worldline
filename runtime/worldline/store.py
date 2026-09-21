@@ -747,7 +747,10 @@ class StateStore:
             "invariantPreservation", "atomicCollapse", "beforeRoot", "afterRoot",
             "transactionId", "nonClaims",
         }
-        if set(receipt) != required:
+        # 1.3.0 receipts name the evidence that authorized the bytes; 1.2 receipts (already on
+        # the chain, and any produced while recovering a 1.2-prepared record) lack the field.
+        optional = {"evidenceBinding"}
+        if not required <= set(receipt) or not set(receipt) <= required | optional:
             raise WorldlineError(
                 "INVALID_RECEIPT",
                 "collapse receipt fields do not match schema",

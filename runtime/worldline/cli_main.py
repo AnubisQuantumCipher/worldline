@@ -108,6 +108,26 @@ def _print_transaction(facts: dict[str, Any]) -> None:
         print("Dependency changes:")
         for item in dependencies:
             print(f"  {item.get('change', '?'):6} {item.get('name')}  {item.get('from')} -> {item.get('to')}")
+    validation = facts.get("validation") or {}
+    if validation:
+        print("Evidence:")
+        print(f"  mode {validation.get('mode')}  source {validation.get('source') or '-'}  evaluated {validation.get('evaluatedAt') or '-'}")
+        print(f"  requirement now  {validation.get('requirementHash')}")
+        print(f"  requirement bound {validation.get('candidateRequirementHash')}")
+        tested = facts.get("tested_root") or facts.get("testedRoot")
+        staged = facts.get("staged_content_root") or facts.get("stagedContentRoot")
+        print(f"  tested content {tested}")
+        print(f"  staged content {staged}  {'(same bytes)' if tested == staged else '(DIFFERS)'}")
+        staged_validation = facts.get("staged_validation") or facts.get("stagedValidation")
+        if staged_validation:
+            print(f"  staged validation {staged_validation.get('outcome')} ({staged_validation.get('summary')})  {staged_validation.get('validationId')}")
+            for item in staged_validation.get("results") or []:
+                print(f"    {item.get('status', '?'):10} {item.get('id')}{'  [required]' if item.get('required') else ''}")
+        untested = facts.get("untested_paths") or facts.get("untestedPaths") or []
+        if untested and tested != staged:
+            print("  untested paths:")
+            for path in untested:
+                print(f"    {path}")
 
 
 def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Namespace, *, as_json: bool) -> Any:
@@ -310,6 +330,12 @@ def parser() -> argparse.ArgumentParser:
 
     anchor = commands.add_parser("anchor", help="verify the signed receipt anchor ledger (local, attest, external)")
     anchor.add_argument("--json", action="store_true")
+    revalidate = commands.add_parser("revalidate", help="re-run the CURRENT PRIME's checks over a VALID world's finalized bytes and record fresh evidence")
+    revalidate.add_argument("world")
+    revalidate.add_argument("--json", action="store_true")
+    validation = commands.add_parser("validation", help="show whether a world's evidence is fresh against the current PRIME's requirements")
+    validation.add_argument("world")
+    validation.add_argument("--json", action="store_true")
 
     simulate = commands.add_parser("simulate")
     simulate.add_argument("argv", nargs=argparse.REMAINDER)
@@ -459,6 +485,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                     result = {"state": "ABORTED", "message": "nothing deleted"}
         elif command == "anchor":
             result = client.request("anchor.status")
+        elif command == "revalidate":
+            result = client.request("revalidate", {"world": arguments.world})
+        elif command == "validation":
+            result = client.request("validation.status", {"world": arguments.world})
         elif command == "simulate":
             exact = list(arguments.argv)
             if exact and exact[0] == "--":

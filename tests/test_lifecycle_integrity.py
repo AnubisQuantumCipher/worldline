@@ -23,6 +23,8 @@ from worldline.roots import RootManager
 from worldline.store import StateStore
 from worldline.transaction import CollapseTransaction
 
+from validation_support import attach_fresh_context
+
 _TRANSACTION_TABLE = {
     "PREPARED": {"AUTHORIZED", "DENIED", "ABORTED"},
     "AUTHORIZED": {"COMMITTED", "ABORTED"},
@@ -258,6 +260,7 @@ class MeaningfulParentCheck(unittest.TestCase):
         world.establish_identity(self.core)
         world.transition(WorldState.VALID, self.core)
         self.store.insert_world(world)
+        attach_fresh_context(self.store, world, core=self.core)
         return world
 
     def test_forged_parent_claim_is_denied_by_the_kernel(self) -> None:

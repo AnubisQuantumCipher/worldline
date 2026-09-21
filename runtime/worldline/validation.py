@@ -1,0 +1,341 @@
+"""Evidence freshness: the validation context (schema 1).
+
+A world's acceptance evidence is bound to the exact content it evaluated, the authoritative
+policy in force, the required checks and their semantics, the executable verifiers those
+checks ran, the engine and its security-relevant execution configuration, and the PRIME the
+world was forked from. The context is computed at finalization (or by an explicit
+revalidation), stored inside the evidence manifest (so the world's identity covers it), and
+compared at every promotion boundary against the requirements the CURRENT PRIME imposes.
+
+Two identities matter and are kept apart:
+
+* ``contextHash`` — everything the evaluation bound, including the candidate's own identity.
+  It is what a transaction record and a receipt name.
+* ``requirementHash`` — only the *requirements* part (policy, checks, verifiers, protected
+  paths, execution configuration, engine). The current PRIME's requirement hash is recomputed
+  at prepare and at commit; the candidate's evidence is fresh iff its requirement hash equals
+  the current one. This is the pair handed to the proved kernel
+  (``expected_validation_context`` / ``candidate_validation_context``).
+
+Enforcement of the comparison lives in Python (transaction.py); the kernel proves only that a
+mismatching pair is never AUTHORIZED. Nothing here reads secrets: policy bytes, verifier bytes
+and configuration values are hashed, credential paths are recorded by name only.
+"""
+from __future__ import annotations
+
+import fnmatch
+import hashlib
+import json
+import os
+from pathlib import Path
+from typing import Any, Mapping, Sequence
+
+from . import SCHEMA_VERSION, __version__
+from .canonical import canonical_bytes
+from .core import Core, hash_id
+from .errors import WorldlineError
+from .project import CheckSpec, ProjectConfig
+
+VALIDATION_CONTEXT_SCHEMA = 1
+CHECK_RUNNER_TIMEOUT_SECONDS = 600  # checks.py: launcher.communicate(timeout=600)
+
+
+def _sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _digest(value: Any, core: Core | None = None) -> str:
+    verifier = core or Core.shared()
+    return hash_id(verifier.hash_bytes(b"worldline-validation-v1" + canonical_bytes(value)))
+
+
+_RUNTIME_TREE_CACHE: dict[str, str] = {}
+
+
+def runtime_tree_sha256() -> str:
+    """Identity of the running engine's Python runtime (every module file, by path and bytes)."""
+    package = Path(__file__).resolve().parent
+    key = str(package)
+    if key not in _RUNTIME_TREE_CACHE:
+        digest = hashlib.sha256()
+        for path in sorted(p for p in package.rglob("*.py") if "__pycache__" not in p.parts):
+            digest.update(str(path.relative_to(package)).encode()); digest.update(b"\0")
+            digest.update(hashlib.sha256(path.read_bytes()).digest())
+        _RUNTIME_TREE_CACHE[key] = digest.hexdigest()
+    return _RUNTIME_TREE_CACHE[key]
+
+
+def canonical_checks(checks: Sequence[CheckSpec]) -> list[dict[str, Any]]:
+    """Checks in canonical form: sorted by id, every semantic field present. Declaration order
+    in .worldline.json does not change the identity; argv order, flags and settings do."""
+    return sorted(
+        (
+            {
+                "id": check.id,
+                "kind": check.kind,
+                "argv": list(check.argv),
+                "cwd": check.cwd,
+                "required": bool(check.required),
+                "format": check.format,
+                "result": check.result,
+                "covers": sorted(check.covers),
+            }
+            for check in checks
+        ),
+        key=lambda item: item["id"],
+    )
+
+
+def canonical_policy(project: ProjectConfig) -> dict[str, Any]:
+    return {
+        "schemaVersion": SCHEMA_VERSION,
+        "checks": canonical_checks(project.checks),
+        "protected": sorted(project.protected),
+        "generated": sorted(({"root": g.root_key, "glob": g.glob} for g in project.generated), key=lambda g: (g["root"], g["glob"])),
+        "services": sorted((s.id for s in project.services)),
+    }
+
+
+def _covered(check: CheckSpec, relative: str) -> bool:
+    return any(fnmatch.fnmatchcase(relative, pattern) or relative.startswith(pattern.rstrip("*").rstrip("/") + "/") for pattern in check.covers if pattern)
+
+
+def resolve_verifiers(
+    project: ProjectConfig,
+    roots: Sequence[Mapping[str, Any]],
+    sources: Mapping[str, Path],
+) -> list[dict[str, Any]]:
+    """The executable verifier files a policy's checks reference, hashed from `sources`
+    (root_key -> directory holding that root's tree).
+
+    A file counts as an authoritative verifier when a check's argv or cwd names it, it exists
+    as a regular file in the tree, and it is NOT inside the check's own `covers` globs (covered
+    paths are the candidate's code under test, not its examiner). Directories, absent paths and
+    options are ignored. Entries are sorted so the identity is canonical.
+    """
+    primary = next((r for r in roots if r.get("primary_root") or r.get("primary")), None)
+    if primary is None:
+        return []
+    by_path: list[tuple[str, str, str]] = []
+    for root in roots:
+        logical = os.fsdecode(bytes(root["path"])) if isinstance(root["path"], (bytes, bytearray, memoryview)) else str(root["path"])
+        by_path.append((logical.rstrip("/") + "/", root["root_key"], logical))
+    by_path.sort(key=lambda item: -len(item[0]))
+    found: dict[tuple[str, str, str], dict[str, Any]] = {}
+    primary_key = primary["root_key"]
+    for check in project.checks:
+        cwd_rel = check.cwd or ""
+        for token in check.argv:
+            if not token or token.startswith("-"):
+                continue
+            root_key: str | None = None
+            relative: str | None = None
+            if token.startswith("/"):
+                for prefix, key, _logical in by_path:
+                    if token.startswith(prefix):
+                        root_key, relative = key, token[len(prefix):]
+                        break
+            else:
+                root_key = primary_key
+                relative = os.path.normpath(os.path.join(cwd_rel, token)) if cwd_rel else os.path.normpath(token)
+                if relative.startswith("..") or os.path.isabs(relative):
+                    continue
+            if root_key is None or relative is None or root_key not in sources:
+                continue
+            candidate_path = sources[root_key] / relative
+            if not candidate_path.is_file() or candidate_path.is_symlink():
+                continue
+            if _covered(check, relative):
+                continue
+            entry_key = (check.id, root_key, relative)
+            if entry_key not in found:
+                found[entry_key] = {"checkId": check.id, "rootKey": root_key, "path": relative, "sha256": _sha256_file(candidate_path)}
+    return [found[k] for k in sorted(found)]
+
+
+def execution_context(config: Any, adapter_name: str | None = None) -> dict[str, Any]:
+    """Security-relevant execution configuration that affects what evidence means."""
+    return {
+        "engineVersion": __version__,
+        "runtimeTreeSha256": runtime_tree_sha256(),
+        "checkRunnerTimeoutSeconds": CHECK_RUNNER_TIMEOUT_SECONDS,
+        "network": {"policy": getattr(config, "network_policy", None), "allow": sorted(getattr(config, "network_allow", ()) or ())},
+        "readonlyHomePaths": sorted(str(p) for p in (getattr(config, "readonly_home_paths", ()) or ())),
+        "sandbox": {"backend": "bubblewrap", "namespaces": ["--unshare-all", "--unshare-user"], "systemImageReadOnly": True},
+    }
+
+
+def requirements(project: ProjectConfig, roots: Sequence[Mapping[str, Any]], sources: Mapping[str, Path], config: Any, policy_source_sha256: str | None, core: Core | None = None) -> dict[str, Any]:
+    """The requirement half of a context: what a candidate must have been evaluated against."""
+    value = {
+        "schemaVersion": VALIDATION_CONTEXT_SCHEMA,
+        "policy": {"canonical": canonical_policy(project), "sourceSha256": policy_source_sha256, "requiredChecks": sorted(c.id for c in project.checks if c.required)},
+        "verifiers": resolve_verifiers(project, roots, sources),
+        "execution": execution_context(config),
+    }
+    value["requirementHash"] = requirement_hash(value, core)
+    return value
+
+
+def requirement_hash(value: Mapping[str, Any], core: Core | None = None) -> str:
+    """Identity of a requirement. Semantic, not byte-level: the policy enters through its
+    canonical form (checks sorted by id, keys ordered, defaults applied), so two policy files
+    that mean the same thing (reordered checks, whitespace, key order) share one identity, while
+    any change to a check's id, argv, cwd, required flag, result format, covered paths or the
+    protected list changes it. The raw policy digest is carried for diagnosis only."""
+    hashed = {k: v for k, v in value.items() if k != "requirementHash"}
+    hashed["policy"] = {k: v for k, v in dict(value.get("policy") or {}).items() if k != "sourceSha256"}
+    return _digest(hashed, core)
+
+
+def build_context(
+    *,
+    requirement: Mapping[str, Any],
+    candidate: Mapping[str, Any],
+    prime_at_fork: Mapping[str, Any],
+    roots: Sequence[Mapping[str, Any]],
+    results: Sequence[Mapping[str, Any]],
+    candidate_verifiers: Sequence[Mapping[str, Any]],
+    adapter: Mapping[str, Any],
+    evaluated_at: str,
+    core: Core | None = None,
+    source: str = "finalization",
+) -> dict[str, Any]:
+    """The full context bound to one evaluation. Informational fields (adapter, model argv,
+    times) are recorded but are NOT part of the requirement hash."""
+    # A verifier the candidate rewrote, deleted, or redirected (turned into a symlink or other
+    # non-regular file, which resolve_verifiers leaves out) is named here; either way the
+    # evidence came from something other than the authoritative verifier bytes.
+    present = {(c["rootKey"], c["path"]): c["sha256"] for c in candidate_verifiers}
+    modified = sorted(
+        f"{v['rootKey']}:{v['path']}"
+        for v in requirement.get("verifiers", [])
+        if present.get((v["rootKey"], v["path"])) != v["sha256"]
+    )
+    value = {
+        "schemaVersion": VALIDATION_CONTEXT_SCHEMA,
+        "requirement": dict(requirement),
+        "requirementHash": requirement["requirementHash"],
+        "candidate": dict(candidate),
+        "primeAtFork": dict(prime_at_fork),
+        "roots": sorted(({"rootKey": r["root_key"], "path": (os.fsdecode(bytes(r["path"])) if isinstance(r["path"], (bytes, bytearray)) else str(r["path"])), "kind": r["kind"]} for r in roots), key=lambda r: r["rootKey"]),
+        "results": [{"id": r.get("id"), "status": r.get("status"), "required": r.get("required"), "exitCode": r.get("exitCode")} for r in results],
+        "candidateVerifiers": list(candidate_verifiers),
+        "verifiersModifiedByCandidate": modified,
+        "adapter": dict(adapter),
+        "evaluatedAt": evaluated_at,
+        "source": source,
+    }
+    value["contextHash"] = _digest({k: v for k, v in value.items() if k != "contextHash"}, core)
+    return value
+
+
+def verify_context(context: Any, *, candidate_instance: str, core: Core | None = None) -> dict[str, Any]:
+    """Structural and integrity verification of a stored context. Raises with a stable code."""
+    if context is None:
+        raise WorldlineError("EVIDENCE_CONTEXT_MISSING", "the candidate's evidence carries no validation context; run `worldline revalidate` or fork a new candidate")
+    if not isinstance(context, dict) or context.get("schemaVersion") != VALIDATION_CONTEXT_SCHEMA:
+        raise WorldlineError("EVIDENCE_CONTEXT_INVALID", "the validation context is malformed or of an unsupported schema", {"schemaVersion": None if not isinstance(context, dict) else context.get("schemaVersion")})
+    expected = _digest({k: v for k, v in context.items() if k != "contextHash"}, core)
+    if context.get("contextHash") != expected:
+        raise WorldlineError("EVIDENCE_CONTEXT_INVALID", "the validation context does not hash to its recorded identity", {"recorded": context.get("contextHash"), "computed": expected})
+    requirement = context.get("requirement") or {}
+    if not isinstance(requirement, dict) or requirement_hash(requirement, core) != requirement.get("requirementHash") or context.get("requirementHash") != requirement.get("requirementHash"):
+        raise WorldlineError("EVIDENCE_CONTEXT_INVALID", "the requirement half of the validation context does not hash to its recorded identity")
+    bound = (context.get("candidate") or {}).get("instanceId")
+    if bound != candidate_instance:
+        raise WorldlineError("EVIDENCE_CONTEXT_INVALID", "the validation context belongs to a different world", {"boundTo": bound, "candidate": candidate_instance})
+    return context
+
+
+def differences(candidate_requirement: Mapping[str, Any], current_requirement: Mapping[str, Any]) -> list[str]:
+    """Human- and machine-readable list of what changed between two requirement halves."""
+    out: list[str] = []
+    a, b = candidate_requirement, current_requirement
+    if (a.get("policy") or {}).get("canonical") != (b.get("policy") or {}).get("canonical"):
+        ca = {c["id"]: c for c in (a.get("policy") or {}).get("canonical", {}).get("checks", [])}
+        cb = {c["id"]: c for c in (b.get("policy") or {}).get("canonical", {}).get("checks", [])}
+        for cid in sorted(set(ca) | set(cb)):
+            if cid not in ca:
+                out.append(f"check added: {cid}")
+            elif cid not in cb:
+                out.append(f"check removed: {cid}")
+            elif ca[cid] != cb[cid]:
+                fields = [f for f in ca[cid] if ca[cid].get(f) != cb[cid].get(f)]
+                out.append(f"check changed: {cid} ({', '.join(fields)})")
+        pa = (a.get("policy") or {}).get("canonical", {}).get("protected"); pb = (b.get("policy") or {}).get("canonical", {}).get("protected")
+        if pa != pb:
+            out.append("protected paths changed")
+        if not out:
+            out.append("policy changed")
+    va = {(v["rootKey"], v["path"]): v["sha256"] for v in a.get("verifiers", [])}
+    vb = {(v["rootKey"], v["path"]): v["sha256"] for v in b.get("verifiers", [])}
+    for key in sorted(set(va) | set(vb)):
+        if key not in va:
+            out.append(f"verifier added: {key[1]}")
+        elif key not in vb:
+            out.append(f"verifier removed: {key[1]}")
+        elif va[key] != vb[key]:
+            out.append(f"verifier changed: {key[1]}")
+    ea, eb = a.get("execution") or {}, b.get("execution") or {}
+    for field in sorted(set(ea) | set(eb)):
+        if ea.get(field) != eb.get(field):
+            out.append(f"execution changed: {field}")
+    return out
+
+
+# ----- tested bytes vs staged bytes -----------------------------------------------------------
+
+_CONTENT_FIELDS = ("pathB64", "type", "mode", "contentHash", "size", "target", "xattrs", "acls")
+
+
+def content_entries(manifest: Any) -> list[dict[str, Any]]:
+    """The content-bearing part of a manifest: every entry's path, type, mode, bytes identity,
+    symlink target and security attributes. Timestamps, hard-link grouping, root-directory
+    metadata and repository facts are excluded: they differ between a payload and a staged copy
+    of the same bytes."""
+    return [{k: e[k] for k in _CONTENT_FIELDS if k in e} for e in manifest.value["entries"]]
+
+
+def content_root_set(manifests: Mapping[str, Any], core: Core | None = None) -> str:
+    """One identity for the content of a whole root set (root key -> manifest)."""
+    verifier = core or Core.shared()
+    value = {root_key: content_entries(manifests[root_key]) for root_key in sorted(manifests)}
+    return hash_id(verifier.hash_bytes(b"worldline-content-root-set-v1" + canonical_bytes(value)))
+
+
+def content_differences(candidate: Mapping[str, Any], staged: Mapping[str, Any]) -> list[str]:
+    """Paths whose content-bearing entry differs between the tested candidate and the staged
+    result, as `rootKey:path`."""
+    out: list[str] = []
+    for root_key in sorted(set(candidate) | set(staged)):
+        a = {e["pathB64"]: e for e in content_entries(candidate[root_key])} if root_key in candidate else {}
+        b = {e["pathB64"]: e for e in content_entries(staged[root_key])} if root_key in staged else {}
+        for key in sorted(set(a) | set(b)):
+            if a.get(key) != b.get(key):
+                import base64
+                out.append(f"{root_key[:12]}:{base64.b64decode(key).decode('utf-8', 'replace')}")
+    return out
+
+
+def current_requirements(store: Any, config: Any, core: Core | None = None) -> dict[str, Any]:
+    """The requirement half imposed by the CURRENT PRIME: its live policy and verifier bytes."""
+    roots = store.roots()
+    primary = next((r for r in roots if r["primary_root"]), None)
+    if primary is None:
+        raise WorldlineError("NO_PRIMARY_ROOT", "no primary root is registered")
+    live_sources = {r["root_key"]: Path(os.path.realpath(os.fsdecode(bytes(r["path"])))) for r in roots}
+    project = ProjectConfig.load(Path(os.fsdecode(bytes(primary["path"]))), store)
+    return requirements(project, roots, live_sources, config, project.source_sha256, core)
+
+
+def effective_context(store: Any, world: Any) -> tuple[dict[str, Any] | None, str]:
+    """The context that currently speaks for a world: the newest successful revalidation bound
+    to this exact world identity, else the finalization context. Returns (context, source)."""
+    for entry in reversed(store.get_meta(f"validation:{world.instance_id}", []) or []):
+        ctx = entry.get("context") if isinstance(entry, dict) else None
+        if isinstance(ctx, dict) and entry.get("outcome") == "PASS" and entry.get("worldContentId") == world.content_id:
+            return ctx, f"revalidation:{entry.get('validationId')}"
+    evidence = world.evidence if isinstance(world.evidence, dict) else {}
+    ctx = evidence.get("validationContext")
+    return (ctx if isinstance(ctx, dict) else None), "finalization"
