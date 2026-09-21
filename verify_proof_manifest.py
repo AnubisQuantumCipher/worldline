@@ -10,9 +10,9 @@ import sys
 def source_paths(root: Path) -> dict[str, Path]:
     result: dict[str, Path] = {
         "worldline.gpr": root / "worldline.gpr",
-        "attest/attest.ads": root.parent / "attest/src/attest.ads",
-        "attest/attest-sha256.ads": root.parent / "attest/src/attest-sha256.ads",
-        "attest/attest-sha256.adb": root.parent / "attest/src/attest-sha256.adb",
+        "attest/attest.ads": root / "core/attest/attest.ads",
+        "attest/attest-sha256.ads": root / "core/attest/attest-sha256.ads",
+        "attest/attest-sha256.adb": root / "core/attest/attest-sha256.adb",
     }
     for pattern in ("*.ads", "*.adb", "*.gpr", "*.h"):
         for path in sorted((root / "core").glob(pattern)):
