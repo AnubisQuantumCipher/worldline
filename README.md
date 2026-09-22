@@ -54,6 +54,20 @@ The engine commit is read only from a checkout whose own top level is the engine
 a release archive inside another repository and the receipt says `unknown` rather than claiming
 that repository's commit.
 
+Installing from a published release is the same command, run inside the unpacked archive:
+
+```bash
+gh release download vX.Y.Z --repo AnubisQuantumCipher/worldline
+sha256sum -c worldline-vX.Y.Z.tar.gz.sha256
+tar -xzf worldline-vX.Y.Z.tar.gz && cd worldline-vX.Y.Z
+WORLDLINE_PLUGIN_REF=<exact plugin commit> ./install.sh
+```
+
+An archive is not a git checkout, so the receipt records `engineCommit: unknown` and says so
+while installing. The commit the archive corresponds to is in the release's own
+`release-manifest.json` and `assurance.json`, both of which name it and are bound to it. The test
+gate runs from the archive exactly as it does from a checkout.
+
 After a verified install the newest `WORLDLINE_BACKUP_KEEP` backups (default 5) are kept and older
 ones removed, each removal printed; `WORLDLINE_BACKUP_KEEP=0` keeps every one. Each backup holds a
 full copy of the state directory, so without pruning the area outgrows the engine it protects.
