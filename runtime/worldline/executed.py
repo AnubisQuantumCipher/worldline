@@ -234,19 +234,45 @@ class ExecutionVerifierSet:
             members.append((item.root_key, item.relative, now))
         return bundle_identity(members), changes
 
-    def rewrite_argv(self, argv: Sequence[str], roots: Mapping[str, str]) -> tuple[list[str], list[dict[str, str]]]:
-        """Point the check at the staged copies. A token that named a verifier now names the one
-        that was identified, so the swap a candidate can still perform is a swap of something the
-        check does not execute."""
-        by_logical: dict[str, StagedVerifier] = {}
-        for item in self.items:
-            logical = roots.get(item.root_key)
-            if logical:
-                by_logical[str(Path(logical) / item.relative)] = item
+    def rewrite_argv(self, argv: Sequence[str], roots: Mapping[str, str], *,
+                     primary_root_key: str | None = None,
+                     cwd: str = "") -> tuple[list[str], list[dict[str, str]]]:
+        """Point the check at the staged copies.
+
+        A token is resolved to (root, relative path) the SAME WAY `resolve_verifiers` resolves
+        it, and that symmetry is the whole correctness argument. An earlier version matched by
+        exact string against the logical path, which left every other spelling the policy loader
+        accepts — a cwd-relative token, a path with a "./" segment — pointing at the candidate's
+        own overlay copy while the evidence recorded PRIME's bundle identity as BOUND. A campaign
+        found it: the forged examiner ran and the result said the authorised one had. Two
+        resolvers that disagree is the same defect as two checks that disagree, and the fix is to
+        have one rule, not two.
+        """
+        by_member: dict[tuple[str, str], StagedVerifier] = {
+            (item.root_key, item.relative): item for item in self.items}
+        prefixes = sorted(((str(path).rstrip("/") + "/", key) for key, path in roots.items()),
+                          key=lambda pair: -len(pair[0]))
+
+        def resolve(token: str) -> tuple[str, str] | None:
+            if not token or token.startswith("-"):
+                return None
+            if token.startswith("/"):
+                for prefix, key in prefixes:
+                    if token.startswith(prefix):
+                        return key, os.path.normpath(token[len(prefix):])
+                return None
+            if primary_root_key is None:
+                return None
+            relative = os.path.normpath(os.path.join(cwd, token) if cwd else token)
+            if relative.startswith("..") or os.path.isabs(relative):
+                return None
+            return primary_root_key, relative
+
         out: list[str] = []
         rewrites: list[dict[str, str]] = []
         for token in argv:
-            item = by_logical.get(token)
+            key = resolve(token)
+            item = by_member.get(key) if key else None
             if item is None:
                 out.append(token)
                 continue

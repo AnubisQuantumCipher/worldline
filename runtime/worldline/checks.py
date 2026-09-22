@@ -12,7 +12,7 @@ import uuid
 import xml.etree.ElementTree as ET
 
 from .canonical import atomic_write_json
-from .executed import VERIFIER_MOUNT, ExecutionVerifierSet
+from .executed import UNIDENTIFIED, VERIFIER_MOUNT, ExecutionVerifierSet
 from .errors import WorldlineError
 from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
 from .admission import Gate
@@ -130,7 +130,32 @@ class CheckRunner:
             staged = ExecutionVerifierSet.stage(
                 check_id=check.id, entries=verifier_entries, sources=sources,
                 staging=runtime.parent / f"{check.id}.verifiers")
-            argv, rewrites = staged.rewrite_argv(argv, dict(logical_roots or {}))
+            primary_key = next((root.root_key for root in overlays
+                                if str(root.target) == str(primary_target)), None)
+            argv, rewrites = staged.rewrite_argv(
+                argv, dict(logical_roots or {}),
+                primary_root_key=primary_key, cwd=check.cwd or "")
+            # FAIL CLOSED. rewrite_argv matches an argv token by exact string against the
+            # logical path, and a policy may legitimately spell the same verifier another way —
+            # a cwd-relative token, a path with a "./" segment, or a `verifiers:` glob argv never
+            # names at all. In every one of those the interpreter was handed the path it was
+            # always handed, which resolves into the candidate's own overlay, while the evidence
+            # happily recorded PRIME's bundle identity as stable and BOUND. A campaign found that
+            # and it is worse than having no feature: it reports an authorised, execution-bound
+            # evaluation of the examiner the candidate supplied.
+            #
+            # So: a bundle was staged and nothing was pointed at it means we cannot show the
+            # interpreter ran what we measured. That is not a passing check and not a failing
+            # one — it is a check whose provenance cannot be stated, and it refuses.
+            if not rewrites:
+                raise WorldlineError(
+                    UNIDENTIFIED,
+                    f"check {check.id} declares a verifier bundle but none of its argv tokens"
+                    " names one, so the bytes it would execute cannot be shown to be the bytes"
+                    " that were identified. Name the verifier by the absolute path of its"
+                    " registered root.",
+                    {"argv": list(check.argv),
+                     "staged": [item.staged for item in staged.items]})
 
         specification = {
             "schemaVersion": 1,
