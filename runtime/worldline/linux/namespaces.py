@@ -46,6 +46,9 @@ class SandboxSpec:
     roots: tuple[OverlayRoot, ...]
     runtime: Path
     readonly_home_paths: tuple[Path, ...] = ()
+    # (host source, path inside the sandbox). Used for the staged execution verifier set: the
+    # bytes a check is identified by must be bytes the candidate has no path to write.
+    readonly_mounts: tuple[tuple[Path, str], ...] = ()
     credential_mounts: tuple[CredentialProjection, ...] = ()
     operator_home: Path = Path("/home/sicarii")
     # Network policy for this sandbox: "shared" (host namespace, the historical default),
@@ -229,6 +232,12 @@ class BubblewrapSandbox:
         arguments.extend(("--tmpfs", str(spec.operator_home)))
         arguments.extend(self._directory_arguments(Path("/run/worldline-runtime")))
         arguments.extend(("--bind", str(spec.runtime), "/run/worldline-runtime"))
+        for source, target in spec.readonly_mounts:
+            if not source.is_dir():
+                raise WorldlineError("VERIFIER_EXECUTION_UNIDENTIFIED",
+                                     f"a declared read-only mount is missing: {source}")
+            arguments.extend(self._directory_arguments(Path(target)))
+            arguments.extend(("--ro-bind", str(source), target))
 
         mounted_targets: set[str] = set()
         for source in (*spec.readonly_home_paths, *(item.source for item in spec.credential_mounts)):

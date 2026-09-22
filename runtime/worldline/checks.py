@@ -7,11 +7,12 @@ from pathlib import Path
 import re
 import subprocess
 import time
-from typing import Any, Sequence
+from typing import Any, Mapping, Sequence
 import uuid
 import xml.etree.ElementTree as ET
 
 from .canonical import atomic_write_json
+from .executed import VERIFIER_MOUNT, ExecutionVerifierSet
 from .errors import WorldlineError
 from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
 from .admission import Gate
@@ -66,7 +67,15 @@ class CheckRunner:
         overlays: Sequence[OverlayRoot],
         primary_target: Path,
         checks: Sequence[CheckSpec],
+        verifiers: Sequence[Mapping[str, Any]] = (),
+        logical_roots: Mapping[str, str] | None = None,
     ) -> list[dict[str, Any]]:
+        """`verifiers` is the resolved verifier set for this policy, as `resolve_verifiers`
+        returns it; each check takes the members that name it. Passing it is what lets a check be
+        identified by the bytes it runs rather than by the path it was given."""
+        by_check: dict[str, list[Mapping[str, Any]]] = {}
+        for entry in verifiers:
+            by_check.setdefault(str(entry.get("checkId")), []).append(entry)
         results: list[dict[str, Any]] = []
         for check in checks:
             results.append(
@@ -75,6 +84,8 @@ class CheckRunner:
                     overlays=overlays,
                     primary_target=primary_target,
                     check=check,
+                    verifier_entries=by_check.get(check.id, ()),
+                    logical_roots=logical_roots,
                 )
             )
         return results
@@ -86,6 +97,8 @@ class CheckRunner:
         overlays: Sequence[OverlayRoot],
         primary_target: Path,
         check: CheckSpec,
+        verifier_entries: Sequence[Mapping[str, Any]] = (),
+        logical_roots: Mapping[str, str] | None = None,
     ) -> dict[str, Any]:
         run_id = str(uuid.uuid4())
         runtime = self.paths.overlays / world_instance / "checks" / check.id
@@ -96,9 +109,32 @@ class CheckRunner:
         secure_directory(runtime)
         cwd = primary_target if check.cwd is None else primary_target / check.cwd
         result_path = None if check.result is None else str(cwd / check.result)
+
+        # The declared verifier set is copied out of the overlays and identified by descriptor
+        # BEFORE anything runs, and the check is pointed at the staged copies. Until this, a
+        # check executed its verifier from inside the world's writable overlay — the file it ran
+        # was a file the candidate owned.
+        staged: ExecutionVerifierSet | None = None
+        argv = list(check.argv)
+        rewrites: list[dict[str, str]] = []
+        # From the LOWER layer, which is PRIME as the world was forked from it — not from the
+        # candidate's merged overlay. The examiner that judges a candidate must not be one the
+        # candidate supplied, so tampering with a verifier inside a world now changes nothing
+        # about what runs. It is still reported at finalization as VERIFIER_MODIFIED_BY_CANDIDATE;
+        # it simply no longer decides anything.
+        sources = {root.root_key: root.lower for root in overlays}
+        if verifier_entries:
+            # A set that cannot be identified is a refusal. Running the check anyway would
+            # produce exactly the result this milestone exists to make impossible: a PASS whose
+            # provenance nobody can state.
+            staged = ExecutionVerifierSet.stage(
+                check_id=check.id, entries=verifier_entries, sources=sources,
+                staging=runtime.parent / f"{check.id}.verifiers")
+            argv, rewrites = staged.rewrite_argv(argv, dict(logical_roots or {}))
+
         specification = {
             "schemaVersion": 1,
-            "argv": list(check.argv),
+            "argv": argv,
             "result": result_path,
         }
         atomic_write_json(runtime / "spec.json", specification)
@@ -115,6 +151,7 @@ class CheckRunner:
             environment=safe_environment(),
             roots=tuple(overlays),
             runtime=runtime,
+            readonly_mounts=((staged.staging, VERIFIER_MOUNT),) if staged is not None else (),
         )
         with self.gate.guard(f"check:{check.id}") as _decision:
             process = self.systemd.launch(
@@ -124,6 +161,20 @@ class CheckRunner:
                 resource_properties=self.gate.unit_properties(),
             )
             _stdout, launch_stderr = process.launcher.communicate(timeout=600)
+        executed: dict[str, Any] | None = None
+        if staged is not None:
+            try:
+                after, changes = staged.reread()
+                executed = staged.as_evidence()
+                executed["identityAfterExecution"] = after
+                executed["changedDuringExecution"] = changes
+                executed["argvRewrites"] = rewrites
+                # The descriptors were held open across the evaluation, so this compares the bytes
+                # that ran against themselves rather than asking whether a name still resolves to
+                # what it used to.
+                executed["stable"] = after == executed["identity"] and not changes
+            finally:
+                staged.close()
         record_path = runtime / "result.json"
         if process.launcher.returncode != 0 or not record_path.is_file():
             return {
@@ -134,6 +185,7 @@ class CheckRunner:
                 "covers": list(check.covers),
                 "status": "FAIL",
                 "reason": launch_stderr.decode("utf-8", "replace").strip() or "check sandbox failed",
+                "executedVerifierSet": executed,
             }
         raw = json.loads(record_path.read_text(encoding="utf-8"))
         stdout = base64.b64decode(raw["stdoutB64"].encode("ascii"), validate=True)
@@ -151,6 +203,10 @@ class CheckRunner:
             "durationNs": raw["durationNs"],
             "stdoutB64": raw["stdoutB64"],
             "stderrB64": raw["stderrB64"],
+            # The identity of the bytes this evaluation actually ran. Compared at finalization
+            # against what the policy declares; a difference is VERIFIER_EXECUTION_IDENTITY_MISMATCH
+            # and cannot satisfy the acceptance gate.
+            "executedVerifierSet": executed,
             **parsed,
         }
 

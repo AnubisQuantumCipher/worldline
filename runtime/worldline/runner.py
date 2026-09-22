@@ -24,6 +24,7 @@ from .finalize import Finalizer
 from .linux.namespaces import BubblewrapSandbox, CredentialProjection, SandboxSpec
 from .linux.netguard import AllowlistProxy, write_forwarder
 from .admission import Gate
+from .validation import resolve_verifiers
 from .linux.systemd import SystemdAdapter
 from .manifest import path_b64
 from .model import World, WorldState
@@ -476,12 +477,21 @@ class AgentRunner:
                 for check in project.checks
             )
         else:
+            # Membership computed from the same PRIME bytes the examiner is staged from, so the
+            # set that is identified and the set that runs are one thing.
+            verifier_roots = [{"root_key": r.root_key, "path": str(r.target),
+                               "primary": str(r.target) == str(primary_target)} for r in overlays]
+            verifier_sources = {r.root_key: r.lower for r in overlays}
+            prime_verifiers = resolve_verifiers(project, verifier_roots, verifier_sources)
+            logical_roots = {r.root_key: str(r.target) for r in overlays}
             check_results.extend(
                 self.checks.run(
                     world_instance=world.instance_id,
                     overlays=overlays,
                     primary_target=primary_target,
                     checks=project.checks,
+                    verifiers=prime_verifiers,
+                    logical_roots=logical_roots,
                 )
             )
         # Evidence freshness (1.3.0): what this evaluation was bound to. The requirement half is

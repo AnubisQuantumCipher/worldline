@@ -139,7 +139,16 @@ class Revalidator:
         )
         primary_target = Path(os.fsdecode(bytes(primary["path"])))
         try:
-            results = list(self.checks.run(world_instance=validation_id, overlays=overlays, primary_target=primary_target, checks=project.checks))
+            # Revalidation re-runs the CURRENT PRIME's checks, so the examiner it stages is
+            # current PRIME's too — the same lower layer the overlays were built from.
+            verifier_roots = [{"root_key": r.root_key, "path": str(r.target),
+                               "primary": str(r.target) == str(primary_target)} for r in overlays]
+            prime_verifiers = resolve_verifiers(project, verifier_roots,
+                                                {r.root_key: r.lower for r in overlays})
+            results = list(self.checks.run(
+                world_instance=validation_id, overlays=overlays, primary_target=primary_target,
+                checks=project.checks, verifiers=prime_verifiers,
+                logical_roots={r.root_key: str(r.target) for r in overlays}))
         finally:
             self._discard(self.paths.overlays / validation_id)
         required = [check.id for check in project.checks if check.required]
