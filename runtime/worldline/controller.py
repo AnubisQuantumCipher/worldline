@@ -29,6 +29,7 @@ from .prune import Pruner, require_payload
 from .linux.hyprland import HyprlandAdapter
 from .linux.inotify import InotifyWatcher
 from .linux.namespaces import BubblewrapSandbox
+from .admission import AdmissionAuthority, Gate, Ledger
 from .linux.systemd import SystemdAdapter
 from .paths import WorldlinePaths
 from .reconcile import PrimeChangeTracker
@@ -67,6 +68,27 @@ class RuntimeController:
         self.core = core or Core.shared()
         self.systemd = SystemdAdapter()
         self.sandbox = BubblewrapSandbox(paths)
+        # One admission authority for the daemon. Everything expensive asks it before executing,
+        # and a reservation exists before a workload is spawned rather than after.
+        self.admission = AdmissionAuthority(
+            Ledger(paths.runtime),
+            config.admission_floors,
+            paths={"state": paths.state, "share": paths.data},
+            usage=self._reservation_usage,
+            is_live=self._reservation_is_live,
+        )
+        # A daemon that died between reserving and releasing must not hold capacity forever.
+        # The service manager is the authority on what is still running, so anything it no
+        # longer has is released here, at start, before any admission is answered.
+        try:
+            self._reconciled_at_start = self.admission.reconcile()
+        except WorldlineError as exc:
+            # A ledger that cannot be read must not stop the daemon from starting. It is
+            # reported by doctor and refuses admissions until it is dealt with.
+            self._reconciled_at_start = []
+            self._reconcile_error = str(exc.args[1] if len(exc.args) > 1 else exc)
+        else:
+            self._reconcile_error = None
         self.watcher: InotifyWatcher | None = None
         self.tracker: PrimeChangeTracker | None = None
         self._refresh_watcher()
@@ -78,7 +100,8 @@ class RuntimeController:
             watcher=self.watcher,
             reconcile=self.roots.reconcile,
         )
-        self.runner = AgentRunner(paths, store, config, self.sandbox, self.systemd, core=self.core)
+        self.gate = Gate(self.admission, config.resource_policy)
+        self.runner = AgentRunner(paths, store, config, self.sandbox, self.systemd, self.gate, core=self.core)
         self.forks = ForkManager(paths, store, config, self.checkpoint, self.runner, core=self.core)
         self.anchors = AnchorLedger(paths, config.anchor_export_path)
         self.revalidator = Revalidator(paths, store, config, self.sandbox, self.runner.checks, core=self.core)
@@ -98,7 +121,7 @@ class RuntimeController:
         self.runner.checks.network = "none" if restrictive else "shared"
         self.runner.services.network = "none" if restrictive else "shared"
         self.returns = ReturnManager(paths, store, self.checkpoint, self.transactions, core=self.core)
-        self.simulation = SystemSimulation(paths, store, self.sandbox, self.systemd, core=self.core)
+        self.simulation = SystemSimulation(paths, store, self.sandbox, self.systemd, self.gate, core=self.core)
         self.ghosts = GhostManager(config, store)
         self._last_ghost_generation = self.store.get_meta("primeGeneration")
         # Receipts that predate the anchor ledger are anchored now, in chain order, so coverage
@@ -582,6 +605,39 @@ class RuntimeController:
             "revalidations": [{"validationId": e.get("validationId"), "outcome": e.get("outcome"), "evaluatedAt": e.get("evaluatedAt"), "requirementHash": e.get("requirementHash"), "boundToCurrentContent": e.get("worldContentId") == world.content_id} for e in history],
         }
 
+    def _reservation_usage(self, reservation: Any) -> int | None:
+        """How much of a reservation the workload has already taken, so it is not withheld twice.
+        Unreadable means None, which withholds the whole reservation — the safe direction."""
+        if not getattr(reservation, "unit", None):
+            return None
+        reading = self.systemd.resource_telemetry(reservation.unit)
+        return reading.get("currentMemoryBytes") if reading.get("state") == "OBSERVED" else None
+
+    def _reservation_is_live(self, reservation: Any) -> bool | None:
+        """True, False, or None when the service manager could not tell us.
+
+        The three-way answer is the whole point. Reading "cannot answer" as "not running" is
+        fail-open: during a manager outage an ordinary admission deleted the accounting for
+        every workload that was still running and promised their memory to someone else. A
+        reservation we cannot ask about is held, not freed.
+
+        A reservation with no unit yet is live by definition — it was taken microseconds ago and
+        the unit is about to exist.
+        """
+        unit = getattr(reservation, "unit", None)
+        if not unit:
+            return True
+        try:
+            metadata = self.systemd.metadata(unit)
+        except WorldlineError:
+            return None
+        if metadata.get("state") != "CAPTURED":
+            return None
+        state = metadata.get("ActiveState")
+        if not state:
+            return None
+        return state in ("active", "activating", "reloading", "deactivating")
+
     def _doctor(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if set(args) - {"refresh"}:
             raise InvalidRequest("doctor accepts only refresh")
@@ -595,6 +651,12 @@ class RuntimeController:
         snapshot["storeUsage"] = self.pruner.usage()
         snapshot["networkPolicy"] = {"policy": self.config.network_policy, "allow": list(self.config.network_allow)}
         snapshot["limits"] = {"defaultTimeoutSeconds": self.config.default_timeout_seconds}
+        try:
+            snapshot["admission"] = self.admission.report(self.config.resource_policy)
+            snapshot["admission"]["reconciledAtDaemonStart"] = [r.as_dict() for r in self._reconciled_at_start]
+            snapshot["admission"]["reconcileErrorAtDaemonStart"] = self._reconcile_error
+        except WorldlineError as exc:
+            snapshot["admission"] = {"state": {"state": "UNKNOWN", "reason": str(exc.args[1] if len(exc.args) > 1 else exc)}}
         try:
             current = current_requirements(self.store, self.config, self.core)
             snapshot["policy"] = {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("canonical", {}).get("checks", [])], "protected": current["policy"].get("canonical", {}).get("protected", []), "verifiers": [f"{v['rootKey'][:12]}:{v['path']} ({v.get('source')})" for v in current.get("verifiers", [])], "warnings": current["policy"].get("warnings", [])}

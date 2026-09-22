@@ -11,6 +11,7 @@ from worldline.linux.systemd import SystemdAdapter
 from worldline.model import WorldState
 from worldline.paths import WorldlinePaths
 from worldline.roots import RootManager
+from worldline.admission import AdmissionAuthority, Floors, Gate, Ledger, ResourcePolicy
 from worldline.simulation import SystemSimulation
 from worldline.store import StateStore
 from worldline.transaction import CollapseTransaction
@@ -71,7 +72,8 @@ class SimulationTests(unittest.TestCase):
                     store,
                     BubblewrapSandbox(paths),
                     SystemdAdapter(),
-                    core=core,
+                    Gate(AdmissionAuthority(Ledger(paths.runtime), Floors()), ResourcePolicy.from_mapping({})),
+        core=core,
                 )
                 future = simulation.run(
                     ["/usr/bin/pacman", "-Q"],

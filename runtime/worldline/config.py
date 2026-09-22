@@ -55,7 +55,10 @@ class GlobalConfig:
             ],
             "agentCommands": {},
             "ghosts": {"enabled": False, "agent": None},
-            "limits": {"defaultTimeoutSeconds": None},
+            # Resources: the ceilings a workload is PERMITTED (hashed into the requirement
+            # identity, because changing them changes what the evidence means) and the floors
+            # WORLDLINE refuses to consume (never hashed — they decide whether work may start).
+            "limits": {"defaultTimeoutSeconds": None, "resources": {}, "admission": {}},
             "network": {"policy": "shared", "allow": []},
             "anchor": {"exportPath": None},
             "adapterOptions": {},
@@ -115,11 +118,23 @@ class GlobalConfig:
 
     def _validate_optional(self) -> None:
         limits = self.value.get("limits", {"defaultTimeoutSeconds": None})
-        if not isinstance(limits, dict) or set(limits) != {"defaultTimeoutSeconds"}:
-            raise WorldlineError("INVALID_CONFIG", "limits must have exactly defaultTimeoutSeconds")
-        timeout = limits["defaultTimeoutSeconds"]
+        if not isinstance(limits, dict) or not set(limits) <= {"defaultTimeoutSeconds", "resources", "admission"}:
+            raise WorldlineError("INVALID_CONFIG",
+                                 "limits must have defaultTimeoutSeconds, optionally resources and admission")
+        timeout = limits.get("defaultTimeoutSeconds")
         if timeout is not None and (isinstance(timeout, bool) or not isinstance(timeout, int) or timeout <= 0):
             raise WorldlineError("INVALID_CONFIG", "limits.defaultTimeoutSeconds must be null or a positive integer")
+        # Validated by the admission module, which owns the vocabulary and the ceilings. An
+        # invalid policy is refused at load rather than at the moment a world is forked.
+        from .admission import Floors, ResourcePolicy
+        for name, parse in (("resources", ResourcePolicy.from_mapping), ("admission", Floors.from_mapping)):
+            section = limits.get(name, {})
+            if not isinstance(section, dict):
+                raise WorldlineError("INVALID_CONFIG", f"limits.{name} must be an object")
+            try:
+                parse(section)
+            except WorldlineError as exc:
+                raise WorldlineError("INVALID_CONFIG", f"limits.{name}: {exc.args[1] if len(exc.args) > 1 else exc}") from exc
         network = self.value.get("network", {"policy": "shared", "allow": []})
         if not isinstance(network, dict) or set(network) != {"policy", "allow"}:
             raise WorldlineError("INVALID_CONFIG", "network must have exactly policy and allow")
@@ -156,6 +171,18 @@ class GlobalConfig:
     @property
     def default_timeout_seconds(self) -> int | None:
         return self.value.get("limits", {}).get("defaultTimeoutSeconds")
+
+    @property
+    def resource_policy(self):
+        """The ceilings a workload is permitted. Hashed into requirementHash."""
+        from .admission import ResourcePolicy
+        return ResourcePolicy.from_mapping(self.value.get("limits", {}).get("resources", {}))
+
+    @property
+    def admission_floors(self):
+        """How much of the machine WORLDLINE refuses to consume. Never hashed."""
+        from .admission import Floors
+        return Floors.from_mapping(self.value.get("limits", {}).get("admission", {}))
 
     @property
     def network_policy(self) -> str:

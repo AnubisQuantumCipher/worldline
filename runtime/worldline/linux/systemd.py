@@ -5,6 +5,7 @@ import json
 import os
 import re
 import shutil
+from pathlib import Path
 import subprocess
 import time
 from typing import Any, Sequence
@@ -86,6 +87,7 @@ class SystemdAdapter:
         nice: int | None = None,
         restart: str = "never",
         pty: bool = False,
+        resource_properties: Sequence[str] = (),
         stdin: int | Any = subprocess.PIPE,
         stdout: int | Any = subprocess.PIPE,
         stderr: int | Any = subprocess.PIPE,
@@ -110,6 +112,13 @@ class SystemdAdapter:
             "--",
             *argv,
         ]
+        # Resource ceilings go on the UNIT, so every descendant inherits them: an agent that
+        # spawns Python that spawns a test suite that launches a prover stays inside one
+        # accounting boundary rather than escaping with the first fork.
+        for item in resource_properties:
+            if not isinstance(item, str) or not item or "=" not in item or "\n" in item:
+                raise WorldlineError("RESOURCE_POLICY_INVALID", f"invalid unit resource property: {item!r}")
+            command.insert(command.index("--"), f"--property={item}")
         if nice is not None:
             if not isinstance(nice, int) or nice < -20 or nice > 19:
                 raise WorldlineError("INVALID_PRIORITY", f"systemd Nice value is invalid: {nice}")
@@ -138,6 +147,115 @@ class SystemdAdapter:
         except OSError as exc:
             raise WorldlineError("SYSTEMD_LAUNCH_FAILED", str(exc), {"unit": unit}) from exc
         return SystemdProcess(unit=unit, launcher=launcher, manager=self, launched_at_us=launched_at_us)
+
+    # Properties systemd exposes for what it was ASKED for, and what it accounted. They are read
+    # back rather than assumed: a configured ceiling is not evidence that the kernel took it.
+    _LIMIT_PROPERTIES = ("MemoryMax", "MemoryHigh", "MemorySwapMax", "CPUQuotaPerSecUSec",
+                         "CPUWeight", "TasksMax", "MemoryAccounting", "CPUAccounting", "TasksAccounting")
+    _USAGE_PROPERTIES = ("MemoryPeak", "MemoryCurrent", "MemorySwapPeak", "CPUUsageNSec",
+                         "TasksCurrent", "Result", "ActiveState", "ExecMainStatus", "ControlGroup")
+
+    def _show(self, unit: str, properties: Sequence[str]) -> dict[str, str] | None:
+        self._validate_unit(unit)
+        result = subprocess.run(
+            [self.systemctl, "--user", "show", unit, *[f"--property={item}" for item in properties]],
+            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            check=False, timeout=10, env=self.environment)
+        if result.returncode != 0:
+            return None
+        values: dict[str, str] = {}
+        for line in result.stdout.decode("utf-8", "replace").splitlines():
+            name, separator, value = line.partition("=")
+            if separator:
+                values[name] = value
+        return values
+
+    @staticmethod
+    def _cgroup_value(control_group: str | None, name: str) -> str | None:
+        """What the KERNEL holds, read from the unit's own cgroup rather than from systemd's
+        idea of it. This is the difference between a ceiling that was requested and one that is
+        in force."""
+        if not control_group:
+            return None
+        path = Path("/sys/fs/cgroup") / control_group.lstrip("/") / name
+        try:
+            return path.read_text(encoding="utf-8").strip()
+        except OSError:
+            return None
+
+    def effective_limits(self, unit: str) -> dict[str, Any]:
+        """The ceilings actually in force, from systemd AND from the kernel's cgroup files.
+
+        Must be called while the unit is running: a collected unit has no cgroup left to read,
+        and `state: UNAVAILABLE` says so rather than reporting zeros.
+        """
+        shown = self._show(unit, (*self._LIMIT_PROPERTIES, "ControlGroup"))
+        if shown is None:
+            return {"state": "UNAVAILABLE", "reason": "the user manager did not answer for this unit"}
+        control_group = shown.get("ControlGroup") or None
+        kernel = {name: self._cgroup_value(control_group, name)
+                  for name in ("memory.max", "memory.high", "memory.swap.max", "cpu.max", "pids.max")}
+        return {
+            "state": "OBSERVED" if control_group else "UNIT_GONE",
+            "controlGroup": control_group,
+            "systemd": {name: shown.get(name) for name in self._LIMIT_PROPERTIES},
+            "kernel": kernel,
+            "cgroupReadable": any(value is not None for value in kernel.values()),
+        }
+
+    def resource_telemetry(self, unit: str) -> dict[str, Any]:
+        """What actually happened. Recorded as measurement and never hashed.
+
+        Absence is reported as absence: a peak we could not read is `None`, not `0`. A unit that
+        has already been collected leaves `state: UNAVAILABLE`, which is honest about the fact
+        that nothing was measured.
+        """
+        shown = self._show(unit, self._USAGE_PROPERTIES)
+        if shown is None:
+            return {"state": "UNAVAILABLE", "reason": "the unit is gone or the manager did not answer"}
+        # `systemctl show` answers for a unit it has never heard of, with Result=success and
+        # ActiveState=inactive. Reporting that as a measured, clean, under-ceiling run is the
+        # worst possible lie, so a unit with neither a control group nor a load state is absent.
+        if not shown.get("ControlGroup") and shown.get("ActiveState") in (None, "", "inactive"):
+            return {"state": "UNAVAILABLE",
+                    "reason": "the manager holds no record of this unit; it was never started or"
+                              " has already been collected, so nothing was measured"}
+
+        def integer(name: str) -> int | None:
+            raw = shown.get(name, "")
+            if raw.isdigit():
+                value = int(raw)
+                # systemd reports an unset counter as 2**64-1 rather than as absent.
+                return None if value >= (1 << 64) - 1 else value
+            return None
+
+        control_group = shown.get("ControlGroup") or None
+        events = self._cgroup_value(control_group, "memory.events") or ""
+        counters = {}
+        for line in events.splitlines():
+            parts = line.split()
+            if len(parts) == 2 and parts[1].isdigit():
+                counters[parts[0]] = int(parts[1])
+        # A ceiling flag with no counter behind it is a claim, not a measurement. When
+        # memory.events cannot be read the honest answer is None, not False.
+        readable = bool(events.strip())
+        hit = (bool(counters.get("max", 0) or counters.get("oom", 0) or counters.get("oom_kill", 0))
+               if readable else None)
+        killed = (bool(counters.get("oom_kill", 0)) or shown.get("Result") == "oom-kill") if readable else (
+            True if shown.get("Result") == "oom-kill" else None)
+        return {
+            "state": "OBSERVED",
+            "peakMemoryBytes": integer("MemoryPeak"),
+            "currentMemoryBytes": integer("MemoryCurrent"),
+            "peakSwapBytes": integer("MemorySwapPeak"),
+            "cpuTimeNanoseconds": integer("CPUUsageNSec"),
+            "tasksCurrent": integer("TasksCurrent"),
+            "result": shown.get("Result"),
+            "activeState": shown.get("ActiveState"),
+            "memoryEvents": counters or None,
+            "hitMemoryCeiling": hit,
+            "oomKilled": killed,
+        }
 
     def verify_manager(self) -> dict[str, str]:
         """Ask the user service manager something only it can answer. A manager that is

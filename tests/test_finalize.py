@@ -9,6 +9,7 @@ import unittest
 from worldline.core import Core, hash_id
 from worldline.finalize import Finalizer
 from worldline.linux.namespaces import BubblewrapSandbox, SandboxSpec
+from worldline.admission import AdmissionAuthority, Floors, Gate, Ledger, ResourcePolicy
 from worldline.linux.systemd import SystemdAdapter
 from worldline.manifest import Manifest
 from worldline.model import World, WorldState
@@ -113,6 +114,7 @@ class FinalizerTests(unittest.TestCase):
             self.store,
             self.sandbox,
             SystemdAdapter(),
+            Gate(AdmissionAuthority(Ledger(self.paths.runtime), Floors()), ResourcePolicy.from_mapping({})),
         )
         project = ProjectConfig(
             generated=(),

@@ -1,5 +1,68 @@
 # Changelog
 
+## 1.4.0 — 2026-09-22 · resource admission and execution budgets
+
+**WORLDLINE must not start work it cannot responsibly supervise with the resources currently
+available.** During JANUS II another session's prover held roughly 20 GB of a 32 GB machine;
+WORLDLINE would have started a world anyway, and a starved world produces evidence that looks
+exactly like evidence produced on a quiet machine.
+
+- **One admission authority.** Every path that spawns supervised work — the agent world, each
+  check, a declared service and its health probe, and `simulate` — asks it first and holds a
+  reservation while it runs. The gate is passed explicitly rather than defaulted, because a
+  component that can be constructed without one can spawn work nobody accounted for.
+- **Admission is a transaction, not a probe.** `observe -> lock -> account -> reserve ->
+  authorize` runs under one exclusive lock, because two requests that each see 20 GB free and
+  each take 16 GB is the failure this exists to prevent. Sixteen processes racing one request
+  against a 1500-record ledger produce exactly one admission; a harsher probe fills 18 GiB of
+  headroom to within one request and never over.
+- **Three things kept apart.** Admission state decides whether work may start and is never
+  hashed — two runs must not stale each other's evidence because one machine had 21 GB free and
+  the other 32 GB. The enforced policy is in `requirementHash`, because a suite that passed under
+  32 GB is not the same evidence as one that passed under 2 GB. Telemetry is recorded and never
+  hashed.
+- **Ceilings the kernel actually holds.** They are applied to the unit, and read back out of the
+  kernel's own cgroup files rather than assumed: a 256 MiB ceiling appears as
+  `memory.max=268435456`, `pids.max=64` and `cpu.max` at exactly half a core, and a four-level
+  process tree reports one identical cgroup at every level. Evidence records `requested`,
+  `effective` and `observed` as three different things.
+- **Outcomes are named, and unknown is not insufficient.** `ADMITTED`,
+  `RESOURCES_UNAVAILABLE`, `RESOURCE_STATE_UNKNOWN`, `RESOURCE_POLICY_INVALID`,
+  `RESOURCE_LIMIT_EXCEEDED`. `QUEUED` is deliberately absent: durable queuing brings priorities,
+  starvation, cancellation and fairness, and that is another project.
+- **An undeclared appetite is unmetered, not fatal.** Refusing the default configuration would
+  stop every existing installation from forking anything, and inventing a number would be a guess
+  dressed as accounting. Unmetered work reserves nothing and enforces nothing and says so — while
+  every floor still applies.
+
+### What the adversarial campaign found
+
+Fourteen agents, six lenses. The transaction held; everything around it did not. Six blocking
+defects, all repaired here and each with a regression control naming the attack it came from:
+
+- the free-memory floor did not apply to unmetered work, and the shipped default is unmetered, so
+  a machine 1.9 GiB below its own floor admitted work with headroom already negative;
+- a service-manager blip was read as "the workload is dead", and admission wrote that verdict to
+  disk, permanently deleting the accounting for workloads that were still running;
+- three corrupt-ledger shapes escaped as tracebacks rather than refusals, a negative reservation
+  manufactured headroom, and duplicate ids meant releasing one released both;
+- telemetry for a unit systemd had never heard of was reported as measured, successful and under
+  its ceiling;
+- a workload the kernel OOM-killed was recorded as a clean run, because the truthful window is
+  tens of milliseconds and the runner sampled once a second;
+- `simulate` spawned supervised work with no reservation and no ceiling at all.
+
+One claim was too strong and is corrected rather than defended: a same-uid workload can create a
+sibling cgroup beside its own unit and leave both the ceiling and the accounting. Every shipped
+call site puts the workload inside the sandbox, where that escape fails. The cgroup is the budget
+for a workload that is not trying to leave it; the sandbox is what stops one that is.
+
+### What this does not do
+
+It does not guarantee completion — another process may take the memory a microsecond later. It
+does not police the host; WORLDLINE governs the workloads it starts. And it does not make
+evidence produced under a satisfied budget correct evidence.
+
 ## 1.3.2 — 2026-09-22 · installable from its own release archive
 
 One defect, found by trying to install 1.3.1 on the machine it was built for.

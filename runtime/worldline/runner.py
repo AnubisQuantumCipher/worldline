@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import shutil
 import sqlite3
+import time
 import threading
 from typing import Any, Callable
 import uuid
@@ -22,6 +23,7 @@ from .errors import WorldlineError
 from .finalize import Finalizer
 from .linux.namespaces import BubblewrapSandbox, CredentialProjection, SandboxSpec
 from .linux.netguard import AllowlistProxy, write_forwarder
+from .admission import Gate
 from .linux.systemd import SystemdAdapter
 from .manifest import path_b64
 from .model import World, WorldState
@@ -83,6 +85,7 @@ class AgentRunner:
         config: GlobalConfig,
         sandbox: BubblewrapSandbox,
         systemd: SystemdAdapter,
+        gate: "Gate",
         *,
         core: Core | None = None,
     ) -> None:
@@ -92,9 +95,10 @@ class AgentRunner:
         self.sandbox = sandbox
         self.systemd = systemd
         self.core = core or Core.shared()
-        self.checks = CheckRunner(paths, sandbox, systemd)
+        self.gate = gate
+        self.checks = CheckRunner(paths, sandbox, systemd, gate)
         self.finalizer = Finalizer(paths, store, sandbox, core=self.core)
-        self.services = ServiceManager(paths, store, sandbox, systemd)
+        self.services = ServiceManager(paths, store, sandbox, systemd, gate)
         # Job ids the operator asked to cancel. Consulted right after launch (a cancel that
         # arrives while the job is still STARTING has no unit to stop yet) and after the unit
         # exits, so the evidence records USER_CANCELLED instead of an unexplained failure.
@@ -206,12 +210,65 @@ class AgentRunner:
                 "argv": list(argv),
             }
         )
-        unit = self.systemd.launch(
-            world.instance_id,
-            self.sandbox.build_argv(spec),
-            description=f"WORLDLINE {world.alias} / {adapter.name}",
-            nice=10 if low_priority else None,
-        )
+        # Nothing is spawned without a reservation. The gate refuses with a named outcome and
+        # the arithmetic behind it, so a world that cannot be supervised is never started rather
+        # than started and starved.
+        guard = self.gate.guard(f"world:{world.alias}/{adapter.name}")
+        guard.__enter__()
+        try:
+            unit = self.systemd.launch(
+                world.instance_id,
+                self.sandbox.build_argv(spec),
+                description=f"WORLDLINE {world.alias} / {adapter.name}",
+                nice=10 if low_priority else None,
+                resource_properties=self.gate.unit_properties(),
+            )
+        except BaseException:
+            guard.release()
+            raise
+        guard.attach_unit(unit.unit)
+
+        # What the kernel ACTUALLY took, read back rather than assumed, and what the workload
+        # actually used. Both are sampled while the unit lives: `--collect` removes a finished
+        # unit along with its cgroup, so a reading taken afterwards measures nothing at all.
+        resources: dict[str, Any] = {
+            "requested": self.gate.policy.canonical(),
+            "effective": {"state": "UNAVAILABLE", "reason": "not sampled"},
+            "observed": {"state": "UNAVAILABLE", "reason": "not sampled"},
+            "accounted": bool(guard.decision and guard.decision.arithmetic.get("accounted")),
+        }
+        sampling = threading.Event()
+
+        def sample_resources() -> None:
+            deadline = time.monotonic() + 30
+            while not sampling.is_set() and time.monotonic() < deadline:
+                reading = self.systemd.effective_limits(unit.unit)
+                if reading.get("cgroupReadable"):
+                    resources["effective"] = reading
+                    break
+                sampling.wait(0.2)
+            # 100 ms, not a second. A workload killed at its ceiling leaves a truthful window
+            # only tens of milliseconds wide before `--collect` takes the unit and its cgroup
+            # away; sampling once a second recorded an OOM-killed run as a clean one. The peak
+            # is kept as a maximum rather than a last-value, so a late empty reading cannot
+            # erase what was already measured.
+            while not sampling.is_set():
+                reading = self.systemd.resource_telemetry(unit.unit)
+                if reading.get("state") == "OBSERVED":
+                    previous = resources["observed"]
+                    if isinstance(previous, dict) and previous.get("state") == "OBSERVED":
+                        for key in ("peakMemoryBytes", "peakSwapBytes", "cpuTimeNanoseconds", "tasksCurrent"):
+                            if (previous.get(key) or 0) > (reading.get(key) or 0):
+                                reading[key] = previous[key]
+                        if previous.get("hitMemoryCeiling"):
+                            reading["hitMemoryCeiling"] = True
+                        if previous.get("oomKilled"):
+                            reading["oomKilled"] = True
+                    resources["observed"] = reading
+                sampling.wait(0.1)
+
+        sampler = threading.Thread(target=sample_resources, name="worldline-resource-sampler", daemon=True)
+        sampler.start()
         main_pid = unit.pid
         self.store.update_job(
             job_id,
@@ -306,7 +363,14 @@ class AgentRunner:
         if adapter.mission_via_stdin:
             unit.launcher.stdin.write(mission.encode("utf-8", "strict"))
         unit.launcher.stdin.close()
-        exit_code = unit.launcher.wait()
+        try:
+            exit_code = unit.launcher.wait()
+        finally:
+            sampling.set()
+            sampler.join(timeout=5)
+            # The workload has ended; the capacity it reserved is free again. Finalization is
+            # cheap and holds nothing back.
+            guard.release()
         stdout_thread.join()
         stderr_thread.join()
         if timer is not None:
@@ -344,6 +408,18 @@ class AgentRunner:
         # What the manager says happened to the unit: structured, bounded, and the only basis
         # for telling a launcher that never got a unit from a workload that ran and failed.
         supervision = self.systemd.outcome(unit, exit_code, stopped=stopped)
+        # Durable evidence, for the case sampling missed. The manager's own record of why the
+        # unit ended outlives the unit, so a ceiling that fired is still provable after the
+        # cgroup is gone.
+        observed = resources.get("observed") if isinstance(resources.get("observed"), dict) else {}
+        manager_result = supervision.get("result") if isinstance(supervision, dict) else None
+        resources["ceilingFired"] = (
+            True if observed.get("hitMemoryCeiling") or observed.get("oomKilled") or manager_result == "oom-kill"
+            else (None if observed.get("state") != "OBSERVED" and manager_result is None else False))
+        resources["ceilingEvidence"] = (
+            "cgroup memory.events sampled during the run" if observed.get("hitMemoryCeiling") else
+            ("the service manager recorded Result=oom-kill" if manager_result == "oom-kill" else
+             ("nothing was measured" if resources["ceilingFired"] is None else "no ceiling event was recorded")))
         if supervision["kind"] == "LAUNCH_FAILED":
             first = (supervision.get("launcherStderr") or "").strip().splitlines()
             raise WorldlineError(
@@ -364,11 +440,19 @@ class AgentRunner:
             "stderrHash": hash_id(self.core.hash_file(stderr_path)),
             "network": proxy.summary() if proxy is not None else {"policy": policy},
             "supervision": supervision,
+            # Measurement, not identity. Telemetry is recorded on the evidence and never hashed,
+            # so an otherwise identical verification is not invalidated because this run happened
+            # to peak 40 MiB higher than the last one.
+            "resources": resources,
         }
         if cancelled:
             agent_result["reason"] = "USER_CANCELLED: the operator stopped this world before the agent finished"
         elif timed_out:
             agent_result["reason"] = f"TIMEOUT: the agent exceeded the {timeout:g} s limit and was stopped"
+        elif resources.get("ceilingFired"):
+            agent_result["reason"] = (
+                f"RESOURCE_LIMIT_EXCEEDED: the workload reached a resource ceiling this policy set"
+                f" ({resources['ceilingEvidence']})")
         elif supervision["kind"] == "INDETERMINATE":
             agent_result["reason"] = f"SUPERVISION_INDETERMINATE: the manager's journal did not establish that {unit.unit} ran ({supervision['source']})"
         check_results = [agent_result]

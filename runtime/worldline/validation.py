@@ -249,7 +249,21 @@ def execution_context(config: Any, adapter_name: str | None = None) -> dict[str,
         "network": {"policy": getattr(config, "network_policy", None), "allow": sorted(getattr(config, "network_allow", ()) or ())},
         "readonlyHomePaths": sorted(str(p) for p in (getattr(config, "readonly_home_paths", ()) or ())),
         "sandbox": {"backend": "bubblewrap", "namespaces": ["--unshare-all", "--unshare-user"], "systemImageReadOnly": True},
+        # The ceilings the workload was PERMITTED. This belongs in the requirement identity
+        # because changing what a run was allowed to consume changes what its result means: a
+        # suite that passed under 32 GB is not the same evidence as one that passed under 2 GB.
+        # The machine's free memory at the time is deliberately NOT here — that is admission
+        # state, and hashing it would stale every world whenever the host got busier.
+        "resourcePolicy": _resource_policy_canonical(config),
     }
+
+
+def _resource_policy_canonical(config: Any) -> dict[str, Any] | None:
+    try:
+        policy = getattr(config, "resource_policy", None)
+    except Exception:  # noqa: BLE001 - an unreadable policy must not break the identity
+        return None
+    return policy.canonical() if policy is not None else None
 
 
 def requirements(project: ProjectConfig, roots: Sequence[Mapping[str, Any]], sources: Mapping[str, Path], config: Any, policy_source_sha256: str | None, core: Core | None = None) -> dict[str, Any]:

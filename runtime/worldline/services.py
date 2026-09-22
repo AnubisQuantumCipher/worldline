@@ -9,6 +9,7 @@ import uuid
 from .environment import safe_environment
 from .errors import WorldlineError
 from .linux.namespaces import BubblewrapSandbox, SandboxSpec
+from .admission import Gate
 from .linux.systemd import SystemdAdapter, SystemdProcess
 from .model import World
 from .paths import WorldlinePaths
@@ -24,11 +25,13 @@ class ServiceManager:
         store: StateStore,
         sandbox: BubblewrapSandbox,
         systemd: SystemdAdapter,
+        gate: "Gate",
     ) -> None:
         self.paths = paths
         self.store = store
         self.sandbox = sandbox
         self.systemd = systemd
+        self.gate = gate
         self._processes: dict[str, SystemdProcess] = {}
 
     def start_declared(self, world: World, project: ProjectConfig) -> list[dict[str, Any]]:
@@ -82,11 +85,19 @@ class ServiceManager:
         stderr_file = open(self.paths.logs / f"{world.instance_id}.service-{service.id}.stderr", "ab", buffering=0)
         stdout_file = open(raw_path, "ab", buffering=0)
         try:
+            # A declared service is supervised work like any other: it reserves before it runs
+            # and is released when it is stopped. The reservation id travels with the record so
+            # a stop in another call can release it, and `reconcile` catches anything that dies
+            # without one.
+            decision = self.gate.admit(f"service:{world.alias}/{service.id}")
+            if not decision.admitted:
+                raise WorldlineError(decision.outcome, decision.reason, decision.as_dict())
             process = self.systemd.launch(
                 instance,
                 self.sandbox.build_argv(spec),
                 description=f"WORLDLINE {world.alias} service {service.id}",
                 restart=service.restart,
+                resource_properties=self.gate.unit_properties(),
                 stdin=subprocess.DEVNULL,
                 stdout=stdout_file,
                 stderr=stderr_file,
@@ -94,9 +105,14 @@ class ServiceManager:
         except BaseException:
             stdout_file.close()
             stderr_file.close()
+            self.gate.authority.release(decision.reservation_id)
             raise
         stdout_file.close()
         stderr_file.close()
+        # The reservation now names the unit, which is what makes it self-releasing: admission
+        # ignores a reservation whose unit the manager no longer has, and `reconcile` removes it.
+        # A service that dies without anyone watching does not hold capacity forever.
+        self.gate.authority.attach_unit(decision.reservation_id, process.unit)
         self._processes[job_id] = process
         self.store.update_job(
             job_id,
@@ -158,12 +174,14 @@ class ServiceManager:
             roots=overlays,
             runtime=self.paths.overlays / instance / "service-health-runtime",
         )
-        process = self.systemd.launch(
-            instance,
-            self.sandbox.build_argv(spec),
-            description=f"WORLDLINE {world.alias} service health {service.id}",
-        )
-        stdout, stderr = process.launcher.communicate(timeout=30)
+        with self.gate.guard(f"service-health:{world.alias}/{service.id}"):
+            process = self.systemd.launch(
+                instance,
+                self.sandbox.build_argv(spec),
+                description=f"WORLDLINE {world.alias} service health {service.id}",
+                resource_properties=self.gate.unit_properties(),
+            )
+            stdout, stderr = process.launcher.communicate(timeout=30)
         return {
             "status": "PASS" if process.launcher.returncode == 0 else "FAIL",
             "exitCode": process.launcher.returncode,
