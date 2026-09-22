@@ -54,6 +54,40 @@ Installation only. No engine behaviour, no evidence semantics and no release-gat
   (`EVIDENCE_CONTEXT_MISSING` → `revalidate` → promotable), and **the old engine then opens and
   verifies the store the new one wrote to**. The README's long-standing claim that older code
   keeps reading newer stores is now backed by that run rather than by assertion.
+- **A second adversarial review, of the hardening itself.** It found that the preflight scored
+  whatever it happened to record: with the daemon quiet, five of its store gates never ran at all
+  and the remaining OK results produced `permitted: true`. The gate list is now a declared roster
+  and **an unasked question is a refusal** — a gate missing from the results refuses exactly as a
+  failed one does. The same review found the installer deciding whether to stop the daemon from
+  `systemctl is-active --quiet`, whose non-zero exit conflates `deactivating`, `activating`,
+  `failed` and "no user manager here": an upgrade could therefore replace the runtime under a
+  live process. Both the installer and the preflight now read `ActiveState` and treat anything
+  they cannot determine as a refusal, and open transactions are read from the store directory so
+  that stopping the daemon does not blind the gate that matters most once it is stopped.
+- **The receipt records what was observed, not what was placed.** `verify_install.py` now reads
+  the kernel library the running daemon actually mapped from `/proc/<pid>/maps`, and checks that
+  the daemon answering is a *new* process and the one the user manager supervises — a daemon that
+  never restarted would otherwise pass every file comparison with the old runtime still in
+  memory. It records whether the proof gate ran or was skipped with `WORLDLINE_SKIP_PROOF=1`, and
+  it writes the receipt even when its own probes fail, so a failed verification is evidence
+  rather than a missing file.
+- **A false engine identity is worse than none.** `git -C DIR rev-parse HEAD` walks up out of
+  `DIR`, so unpacking a release archive inside any other repository recorded *that* repository's
+  commit as the engine. The commit is now accepted only from a checkout whose own top level is
+  the engine directory; otherwise the receipt says `unknown` and the installer says why.
+- **Backups no longer grow without bound.** Each one holds a full copy of the state directory, so
+  an installer that never prunes eventually fills the disk — a worse failure than the one backups
+  insure against. After a *verified* install the newest `WORLDLINE_BACKUP_KEEP` (default 5) are
+  kept and older ones removed, each removal printed. `scripts/prune_backups.py` refuses to touch
+  anything that is not recognisably one of its own backups and never follows a symlink out of the
+  backup area.
+- **The recovery path is tested.** `tests/test_rollback.py` drives the real `rollback.sh` against
+  a sandbox installation with a simulated user manager: refusing an incomplete backup, keeping the
+  superseded store aside, leaving a disabled unit disabled, not starting a daemon that was
+  inactive before the install, and finishing the engine rollback while naming what happened to the
+  plugin. The core-library guard is now executed rather than asserted by reading the source, and
+  the dirty-worktree guard runs against a fixture checkout instead of skipping itself whenever the
+  developer's worktree happens to be clean.
 
 ## 1.3.0 — 2026-09-21 · evidence freshness; exact-commit releases
 

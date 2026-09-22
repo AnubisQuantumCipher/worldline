@@ -41,6 +41,23 @@ The daemon is stopped before the backup and the swap. That is what prevents a fo
 ghost from starting against a half-replaced runtime, and what makes the store backup consistent
 rather than a copy of a live SQLite file.
 
+The preflight works from a declared roster of gates, and **a gate that did not run refuses just
+as a failed one does** — the installation is consulted whether or not the daemon is answering, so
+a quiet daemon cannot produce a pass by leaving the questions unasked. The verification at the
+end reads what is actually running: the kernel library the daemon mapped, taken from
+`/proc/<pid>/maps` rather than from the file on disk, and whether the process answering is a new
+one and the one the unit supervises. A daemon that never restarted would otherwise match every
+file comparison with the old runtime still in memory. The receipt records whether the proof gate
+ran or was skipped, and is written even when the verification fails.
+
+The engine commit is read only from a checkout whose own top level is the engine directory. Unpack
+a release archive inside another repository and the receipt says `unknown` rather than claiming
+that repository's commit.
+
+After a verified install the newest `WORLDLINE_BACKUP_KEEP` backups (default 5) are kept and older
+ones removed, each removal printed; `WORLDLINE_BACKUP_KEEP=0` keeps every one. Each backup holds a
+full copy of the state directory, so without pruning the area outgrows the engine it protects.
+
 Verify afterwards:
 
 ```bash
