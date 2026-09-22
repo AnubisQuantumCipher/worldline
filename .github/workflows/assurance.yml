@@ -50,6 +50,23 @@ jobs:
       - name: Checkout is the requested commit
         run: test "$(git rev-parse HEAD)" = "${{ inputs.ref }}"
 
+      # The evaluation-domain gate runs two arms, and the control arm needs a preserved
+      # VULNERABLE build. The checkout above is shallow and fetches no tags, so without this
+      # step the control would be unavailable on every run. It is provisioned explicitly, and
+      # its pinned identity is checked here as well as in the gate: if this step cannot produce
+      # exactly the pinned bytes, assurance fails rather than proceeding with one arm.
+      - name: Provision the evaluation-domain counterexample (control arm)
+        run: |
+          set -euo pipefail
+          pin() { python3 -c "import sys; sys.path.insert(0, 'scripts'); import assurance_contract as c; print(c.$1)"; }
+          TAG=$(pin COUNTEREXAMPLE_TAG)
+          COMMIT=$(pin COUNTEREXAMPLE_COMMIT)
+          TREE=$(pin COUNTEREXAMPLE_RUNTIME_TREE)
+          echo "counterexample: $TAG -> $COMMIT (runtime tree $TREE)"
+          git fetch --no-tags --depth=1 origin "+refs/tags/$TAG:refs/tags/$TAG"
+          test "$(git rev-parse "$TAG^{commit}")" = "$COMMIT"
+          test "$(git rev-parse "$TAG:runtime")" = "$TREE"
+
       - name: System packages (git, python, build tools for bubblewrap)
         run: |
           sudo apt-get update

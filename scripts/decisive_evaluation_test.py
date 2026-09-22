@@ -110,6 +110,7 @@ def stock_candidate(upper: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--engine", required=True)
+    parser.add_argument("--json", help="also write the structured verdict here")
     args = parser.parse_args()
     sys.path.insert(0, str(Path(args.engine).resolve()))
 
@@ -228,6 +229,23 @@ def main() -> int:
           "\n  well-formed still reads as COMPLETED. Property 2 is what catches that today,"
           "\n  by requiring the trusted examiner's own nonce in the recorded bytes.")
     passed = all(ok for _, ok, _ in properties)
+    if args.json:
+        import json as _json
+        # Structured, so a control can require the SPECIFIC known signature rather than treating
+        # any non-zero exit as successful detection. A fixture that merely crashes must not be
+        # mistaken for a vulnerability that was observed.
+        Path(args.json).write_text(_json.dumps({
+            "schemaVersion": 1,
+            "allHold": passed,
+            "ranAtAll": ran,
+            "properties": [{"name": n, "holds": ok, "detail": d} for n, ok, d in properties],
+            "observedVulnerability": {
+                "fabricatedOutputAccepted": "FABRICATED-PASS" in stdout,
+                "harnessOwnershipMarkers": sorted(set(owned)),
+                "trustedExaminerRan": NONCE in stdout,
+            },
+            "recordedStdout": stdout[:4000],
+        }, indent=2) + "\n", encoding="utf-8")
     print(f"\nVERDICT: {'ALL SIX HOLD' if passed else 'DOES NOT HOLD — do not launch another campaign'}")
     return 0 if passed else 1
 

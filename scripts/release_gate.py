@@ -29,7 +29,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
 
-REQUIRED_STEPS = ("checkout-identity", "clean-build-tree", "build", "ada-tests", "ada-fuzz", "python-tests", "proof-gate", "proof-manifest")
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from assurance_contract import REQUIRED_STEPS
 SCHEMA = 1
 
 
