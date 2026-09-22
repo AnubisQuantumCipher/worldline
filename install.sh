@@ -10,9 +10,10 @@
 #            tree always equals a commit of the plugin repository.
 #
 # Order matters and is deliberate (1.3.1):
-#   build and prove  ->  resolve both identities  ->  fail-closed preflight  ->  STOP the daemon
-#   ->  back up (consistent, because nothing is writing)  ->  install  ->  start  ->  verify that
-#   what is running is what was built  ->  write a receipt.
+#   refuse after a partial install  ->  resolve both identities  ->  build, test and prove  ->
+#   fail-closed preflight  ->  STOP the daemon  ->  back up (consistent, because nothing is
+#   writing)  ->  install  ->  start  ->  verify that what is running is what was built  ->
+#   write a receipt.
 #
 # The daemon is stopped BEFORE the backup and the swap. That is what closes the window in which
 # a fork, race or ghost could start work against a half-replaced runtime, and it is what makes
@@ -23,7 +24,9 @@
 # bindings.lua, the plugin checkout's previous commit id, and the whole state directory
 # (store, receipts, transactions, events) minus the backup area itself. Restore it with
 # scripts/rollback.sh. Payload data under ~/.local/share/worldline is NOT copied unless
-# WORLDLINE_BACKUP_PAYLOADS=1; its size and contents are recorded either way.
+# WORLDLINE_BACKUP_PAYLOADS=1; its size and contents are recorded either way. After a verified
+# install the newest WORLDLINE_BACKUP_KEEP backups (default 5) are kept and older ones removed,
+# with each removal printed; WORLDLINE_BACKUP_KEEP=0 keeps every backup forever.
 set -euo pipefail
 ROOT=$(cd "$(dirname "$0")" && pwd)
 cd "$ROOT"
@@ -56,6 +59,30 @@ BACKUP="$STATE/install-backups/$(date -u +%Y%m%dT%H%M%SZ)-$$"
 RECEIPT="$BACKUP/install-receipt.json"
 SOCKET="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/worldline/worldlined.sock"
 
+DAEMON_STOPPED=0
+PREVIOUS_PID=""
+RUNTIME_REPLACED=0
+INSTALL_DONE=0
+on_exit() {
+  local code=$?
+  [[ "$INSTALL_DONE" == "1" || "$code" == "0" ]] && return
+  echo "install: ABORTED (exit $code)." >&2
+  [[ -n "${STAGE:-}" && -d "${STAGE:-}" ]] && rm -rf "$STAGE"
+  if [[ "$DAEMON_STOPPED" == "1" ]]; then
+    echo "install: the worldlined daemon is STOPPED and was not restarted." >&2
+    if [[ "$RUNTIME_REPLACED" == "1" ]]; then
+      echo "install: the runtime HAS been replaced. Roll back with:" >&2
+      echo "install:   $ROOT/scripts/rollback.sh $BACKUP" >&2
+    else
+      echo "install: nothing was replaced. Bring the daemon back with:" >&2
+      echo "install:   systemctl --user start worldlined.service" >&2
+    fi
+  fi
+  [[ -f "${PARTIAL_MARKER:-/nonexistent}" ]] && echo "install: a partial-install marker remains at $PARTIAL_MARKER" >&2
+  return 0
+}
+trap on_exit EXIT
+
 fail() { echo "install: $*" >&2; exit 2; }
 
 # A path that is a symlink is never written through: replacing it would silently convert a
@@ -82,8 +109,22 @@ fi
 # unreachable or unpinned plugin aborts in a second, with the existing installation whole and
 # before a multi-minute build — rather than after the runtime has already been swapped.
 echo "== identities =="
-ENGINE_COMMIT=$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo "unknown")
-ENGINE_DIRTY=$(git -C "$ROOT" status --porcelain --untracked-files=no 2>/dev/null || true)
+# `git -C DIR rev-parse HEAD` walks UP out of DIR. Unpack a release archive inside any other
+# repository and that repository's HEAD would be recorded as the engine commit — a false identity
+# in the receipt, which is worse than no identity. The engine commit is therefore accepted only
+# from a checkout whose own top level IS this directory.
+ENGINE_TOPLEVEL=$(git -C "$ROOT" rev-parse --show-toplevel 2>/dev/null || true)
+ROOT_REAL=$(cd "$ROOT" && pwd -P)
+if [[ -n "$ENGINE_TOPLEVEL" && "$(cd "$ENGINE_TOPLEVEL" 2>/dev/null && pwd -P)" == "$ROOT_REAL" ]]; then
+  ENGINE_COMMIT=$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo "unknown")
+  ENGINE_DIRTY=$(git -C "$ROOT" status --porcelain --untracked-files=no 2>/dev/null || true)
+else
+  ENGINE_COMMIT="unknown"
+  ENGINE_DIRTY=""
+  echo "install: WARNING — $ROOT is not a git checkout of its own, so this engine corresponds to no"
+  echo "install: commit this installer can name. The receipt will record engineCommit 'unknown'."
+  [[ -n "$ENGINE_TOPLEVEL" ]] && echo "install: (it sits inside $ENGINE_TOPLEVEL, whose HEAD is deliberately NOT claimed as the engine.)"
+fi
 if [[ -n "$ENGINE_DIRTY" && "${WORLDLINE_ALLOW_DIRTY:-0}" != "1" ]]; then
   echo "install: the engine worktree has uncommitted changes, so the installed engine would not" >&2
   echo "install: correspond to any commit. Commit them, or set WORLDLINE_ALLOW_DIRTY=1." >&2
@@ -138,6 +179,8 @@ python3 verify_proof_manifest.py
 echo "== preflight =="
 PREFLIGHT_ARGS=()
 [[ "${WORLDLINE_ALLOW_GHOSTS:-0}" == "1" ]] && PREFLIGHT_ARGS+=(--allow-ghosts)
+[[ "$BACKUP_PAYLOADS" == "1" ]] && PREFLIGHT_ARGS+=(--with-payloads)
+[[ "${WORLDLINE_DAEMON_DOWN_UNCHECKED:-0}" == "1" ]] && PREFLIGHT_ARGS+=(--daemon-down-unchecked)
 if ! python3 "$ROOT/scripts/preflight.py" "${PREFLIGHT_ARGS[@]}"; then
   echo "install: preflight refused the upgrade; nothing was changed." >&2
   echo "install: resolve the named gates, or inspect with: python3 scripts/preflight.py --json" >&2
@@ -149,12 +192,23 @@ fi
 # to start. If the script aborts from here on, the daemon stays stopped: that is fail-safe, and
 # the operator is told so.
 UNIT_ENABLED=$(systemctl --user is-enabled worldlined.service 2>/dev/null || true)
-UNIT_ACTIVE=$(systemctl --user is-active worldlined.service 2>/dev/null || true)
+UNIT_ACTIVE=$(systemctl --user show -p ActiveState --value worldlined.service 2>/dev/null || echo unreachable)
+[[ -n "$UNIT_ACTIVE" ]] || UNIT_ACTIVE=unreachable
 if [[ "$UNIT_ENABLED" == "masked" || -L "$SERVICE" ]]; then
   fail "worldlined.service is masked or its unit path is a symlink; that is deliberate configuration this installer will not silently destroy"
 fi
-if systemctl --user is-active --quiet worldlined.service; then
-  echo "== stopping the daemon for the duration of the upgrade =="
+# `is-active --quiet` exits non-zero for failed, activating AND deactivating alike, so using it
+# here would skip the stop for a unit that is on its way up (and will finish coming up during
+# the backup) or on its way down (and may still be writing). The state is read instead, and
+# anything other than a settled `inactive` gets a real stop — which also cancels a pending
+# auto-restart, since the unit is Restart=on-failure.
+if [[ "$UNIT_ACTIVE" == "unreachable" ]]; then
+  fail "the user manager could not report ActiveState for worldlined.service; refusing to guess whether it is running"
+fi
+if [[ "$UNIT_ACTIVE" != "inactive" ]]; then
+  echo "== stopping the daemon (ActiveState=$UNIT_ACTIVE) for the duration of the upgrade =="
+  PREVIOUS_PID=$(systemctl --user show -p MainPID --value worldlined.service 2>/dev/null || echo "")
+  DAEMON_STOPPED=1
   systemctl --user stop worldlined.service
   for _ in $(seq 1 100); do
     systemctl --user is-active --quiet worldlined.service || break
@@ -162,6 +216,8 @@ if systemctl --user is-active --quiet worldlined.service; then
   done
   systemctl --user is-active --quiet worldlined.service && fail "the daemon did not stop; refusing to replace a running runtime"
   for _ in $(seq 1 50); do [[ -S "$SOCKET" ]] || break; sleep 0.1; done
+else
+  echo "== the daemon is already inactive =="
 fi
 LEFTOVER=$(systemctl --user list-units 'worldline-*' --all --plain --no-legend 2>/dev/null | awk '{print $1}' | grep -v '^worldlined.service$' || true)
 if [[ -n "$LEFTOVER" ]]; then
@@ -196,9 +252,12 @@ fi
 # The store, receipts, transactions and events — everything the daemon owns except the backup
 # area itself, which lives inside the directory being copied and would otherwise recurse.
 if [[ -d "$STATE" ]]; then
-  tar -C "$HOME/.local/state" -cf - --exclude='worldline/install-backups' worldline \
+  tar -C "$HOME/.local/state" -cf - --exclude='worldline/install-backups' \
+      --exclude='worldline/install-incomplete' worldline \
     | tar -C "$BACKUP/state" -xf -
 fi
+# Written last on purpose: rollback.sh refuses a backup with no manifest, which is how an
+# interrupted backup is told apart from a complete one.
 python3 "$ROOT/scripts/backup_manifest.py" "$BACKUP" "$DEST" \
   "$HOME/.local/bin/worldline" "$HOME/.local/bin/worldlined" "$SERVICE" "$SHELL_CONFIG" "$BINDINGS" \
   || fail "the backup does not hold everything that exists on this machine; refusing to install over it"
@@ -221,6 +280,7 @@ install -m 0755 lib/libworldline_core.so "$STAGE/libworldline_core.so"
 install -m 0600 proof-manifest.json "$STAGE/proof-manifest.json"
 install -m 0644 core/worldline_core.h "$STAGE/worldline_core.h"
 
+RUNTIME_REPLACED=1
 if [[ -e "$DEST" ]]; then
   OLD="$LIB_HOME/.worldline-old-$$"
   mv "$DEST" "$OLD"
@@ -239,7 +299,8 @@ if [[ -d "$PLUGIN/.git" ]]; then
   if ! git -C "$PLUGIN" remote get-url origin >/dev/null 2>&1; then
     git -C "$PLUGIN" remote add origin "$PLUGIN_SRC"
   fi
-  git -C "$PLUGIN" fetch --quiet origin "$PLUGIN_TARGET" || git -C "$PLUGIN" fetch --quiet origin
+  git -C "$PLUGIN" fetch --quiet origin "$PLUGIN_TARGET" || git -C "$PLUGIN" fetch --quiet origin \
+    || fail "could not fetch $PLUGIN_TARGET from $PLUGIN_SRC; the engine runtime HAS been replaced and the daemon is stopped — roll back with: $ROOT/scripts/rollback.sh $BACKUP"
   if ! git -C "$PLUGIN" merge --ff-only "$PLUGIN_TARGET" >/dev/null 2>&1; then
     echo "install: plugin checkout $PLUGIN cannot fast-forward to $PLUGIN_TARGET;" >&2
     echo "install: refusing to overwrite local edits. The engine runtime HAS been replaced." >&2
@@ -287,8 +348,11 @@ for _ in $(seq 1 100); do
 done
 systemctl --user is-active --quiet worldlined.service || fail "the daemon did not start; roll back with: scripts/rollback.sh $BACKUP"
 
+MAIN_PID=$(systemctl --user show -p MainPID --value worldlined.service 2>/dev/null || echo "")
 if ! python3 "$ROOT/scripts/verify_install.py" \
       --engine-commit "$ENGINE_COMMIT" --plugin-commit "$PLUGIN_TARGET" \
+      --previous-pid "${PREVIOUS_PID:-}" --main-pid "${MAIN_PID:-}" \
+      --proof-gate "$([[ "$SKIP_PROOF" == "1" ]] && echo skipped || echo ran)" \
       --source "$ROOT" --receipt "$RECEIPT"; then
   echo "install: the running installation does not match what was just built." >&2
   echo "install: roll back with: scripts/rollback.sh $BACKUP" >&2
@@ -319,9 +383,17 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]]; then
   fi
 fi
 
+INSTALL_DONE=1
 rm -f "$PARTIAL_MARKER"
 echo "WORLDLINE installed: runtime $(python3 -c 'import worldline; print(worldline.__version__)') · engine ${ENGINE_COMMIT:0:12} · plugin $(git -C "$PLUGIN" rev-parse --short HEAD) · library $(sha256sum "$DEST/libworldline_core.so" | cut -c1-12)"
 echo "No managed root was initialized and no AI agent was launched."
 echo "Desktop shell restart: $SHELL_RESTART"
 echo "Receipt: $RECEIPT"
 echo "Backup for rollback: $BACKUP   (scripts/rollback.sh $BACKUP)"
+
+# Only now, with this install verified and its own backup the newest one, are older backups
+# pruned. Each holds a full copy of the state directory, so an installer that never prunes fills
+# the disk — and a full disk is a worse failure than the one the backups insure against. The
+# newest WORLDLINE_BACKUP_KEEP are kept; 0 disables pruning entirely.
+python3 "$ROOT/scripts/prune_backups.py" "$STATE/install-backups" --keep "${WORLDLINE_BACKUP_KEEP:-5}" --apply \
+  || echo "install: pruning old backups failed; they are still there, which is the safe direction." >&2

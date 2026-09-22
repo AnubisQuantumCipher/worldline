@@ -1,29 +1,40 @@
 """Controls for install.sh's refusals, exercised without performing an install.
 
 These drive the real installer, so what is tested is the shipped shell, not a description of it.
-Safety: each run gets a sandbox HOME, and a PATH shim whose `gprbuild` and `systemctl` refuse
-loudly. A guard that fired correctly never reaches either. A guard that REGRESSED hits the
-gprbuild shim and fails there, so the test still cannot touch the real daemon, the real user
-manager or the real installation — and the assertion that the build banner never printed is what
-distinguishes "refused by the guard" from "refused by the shim".
+
+Safety: each run gets a sandbox HOME, an environment scrubbed of every inherited WORLDLINE_*
+variable, and a PATH shim whose `gprbuild` and `systemctl` refuse loudly. A guard that fired
+correctly never reaches either. A guard that REGRESSED hits the gprbuild shim and fails there, so
+the test still cannot touch the real daemon, the real user manager or the real installation — and
+the assertion that the build banner never printed is what distinguishes "refused by the guard"
+from "refused by the shim".
 
 The ordering these depend on is deliberate: identities are resolved before the build, so an
 unpinned or unreachable plugin costs a second rather than a full build.
+
+Coverage limit, stated rather than implied: every control here exercises a guard that runs BEFORE
+the build. The post-build sequence — preflight, stopping the daemon, the backup, the swap, the
+restart and the identity verification — cannot be reached without a real gprbuild and proof run,
+so it is NOT covered by any automated test. `tests/test_preflight.py` covers the preflight in
+isolation, `tests/test_rollback.py` covers the recovery path, and the upgrade rehearsal covers
+the engine behaviour across versions; the installer's own post-build path is exercised only by
+performing an actual installation.
 """
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-INSTALL = REPO / "install.sh"
 BUILD_BANNER = "== WORLDLINE build =="
 
 SHIM = """#!/usr/bin/env bash
 echo "SHIM $(basename "$0") was reached: a guard that should have refused did not" >&2
+echo "SHIM-SAW WORLDLINE_CORE_LIB=[${WORLDLINE_CORE_LIB-unset}]"
 exit 97
 """
 
@@ -32,9 +43,10 @@ class InstallGuards(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory(prefix="worldline-install-guards-")
         self.addCleanup(self.temporary.cleanup)
-        self.home = Path(self.temporary.name) / "home"
+        self.base = Path(self.temporary.name)
+        self.home = self.base / "home"
         (self.home / ".local/state/worldline").mkdir(parents=True)
-        self.shims = Path(self.temporary.name) / "shims"
+        self.shims = self.base / "shims"
         self.shims.mkdir()
         for name in ("gprbuild", "systemctl", "hyprctl", "omarchy-restart-shell", "omarchy-shell"):
             shim = self.shims / name
@@ -42,31 +54,68 @@ class InstallGuards(unittest.TestCase):
             os.chmod(shim, 0o755)
         # A throwaway plugin repository, so the plugin guards are about the ref and not about a
         # missing directory.
-        self.plugin = Path(self.temporary.name) / "plugin"
+        self.plugin = self.base / "plugin"
         self.plugin.mkdir()
-        run = lambda *a: subprocess.run(a, cwd=self.plugin, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        run("git", "init", "-q")
-        run("git", "symbolic-ref", "HEAD", "refs/heads/main")  # the runner's init.defaultBranch is not main
-        (self.plugin / "README.md").write_text("plugin\n", encoding="utf-8")
-        run("git", "add", "-A")
-        run("git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "init")
-        self.plugin_head = subprocess.run(["git", "-C", str(self.plugin), "rev-parse", "HEAD"],
-                                          stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+        self._init_repo(self.plugin, "plugin\n")
+        self.plugin_head = self._head(self.plugin)
 
-    def _run(self, env_extra: dict, timeout: int = 90) -> subprocess.CompletedProcess:
-        env = {
-            **os.environ,
+    # ---- fixtures -------------------------------------------------------------------------------
+    def _init_repo(self, root: Path, content: str) -> None:
+        def run(*args: str) -> None:
+            subprocess.run(["git", "-C", str(root), *args], check=True,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        run("init", "-q")
+        run("symbolic-ref", "HEAD", "refs/heads/main")  # the runner's init.defaultBranch is not main
+        (root / "README.md").write_text(content, encoding="utf-8")
+        run("add", "-A")
+        run("-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "init")
+
+    def _head(self, root: Path) -> str:
+        return subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD"],
+                              stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+
+    def engine_copy(self, *, as_git_repo: bool = True, inside: Path | None = None) -> Path:
+        """A self-contained copy of this engine's tracked files, so guards about the ENGINE
+        checkout are deterministic instead of depending on the state of the worktree running the
+        tests. The installer under test is this repository's own install.sh, copied verbatim."""
+        destination = (inside or self.base) / "engine-copy"
+        destination.mkdir(parents=True)
+        listing = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z"],
+                                 stdout=subprocess.PIPE, check=True).stdout
+        for raw in listing.split(b"\0"):
+            if not raw:
+                continue
+            source = REPO / raw.decode()
+            if not source.is_file():
+                continue
+            target = destination / raw.decode()
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
+        if as_git_repo:
+            def run(*args: str) -> None:
+                subprocess.run(["git", "-C", str(destination), *args], check=True,
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            run("init", "-q")
+            run("symbolic-ref", "HEAD", "refs/heads/main")
+            run("add", "-A")
+            run("-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "engine")
+        return destination
+
+    def _run(self, env_extra: dict, root: Path | None = None, timeout: int = 120) -> subprocess.CompletedProcess:
+        # Every inherited WORLDLINE_* variable is dropped: a variable set in the developer's shell
+        # must not be able to decide whether one of these controls passes.
+        env = {k: v for k, v in os.environ.items() if not k.startswith("WORLDLINE_")}
+        env.update({
             "HOME": str(self.home),
             "PATH": f"{self.shims}:{os.environ.get('PATH', '/usr/bin')}",
             "WORLDLINE_PLUGIN_SRC": str(self.plugin),
             "GNAT_ENV": "/nonexistent",
             # These cases are about other guards; the dirty-worktree guard is covered separately.
             "WORLDLINE_ALLOW_DIRTY": "1",
-            **env_extra,
-        }
-        env.pop("WORLDLINE_PLUGIN_REF", None)
+        })
         env.update(env_extra)
-        return subprocess.run(["bash", str(INSTALL)], env=env, stdin=subprocess.DEVNULL,
+        installer = (root or REPO) / "install.sh"
+        return subprocess.run(["bash", str(installer)], env=env, stdin=subprocess.DEVNULL,
                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=timeout)
 
     def assert_refused_before_building(self, proc: subprocess.CompletedProcess, needle: str) -> None:
@@ -112,19 +161,41 @@ class InstallGuards(unittest.TestCase):
 
     # ---- the installed engine must correspond to a commit -------------------------------------
     def test_a_dirty_worktree_is_refused(self) -> None:
-        dirty = subprocess.run(["git", "-C", str(REPO), "status", "--porcelain", "--untracked-files=no"],
-                               stdout=subprocess.PIPE, text=True).stdout.strip()
-        if not dirty:
-            self.skipTest("this worktree is clean, so the dirty guard cannot be exercised here")
-        proc = self._run({"WORLDLINE_PLUGIN_REF": self.plugin_head, "WORLDLINE_ALLOW_DIRTY": "0"})
+        engine = self.engine_copy()
+        (engine / "README.md").write_text("an uncommitted local edit\n", encoding="utf-8")
+        proc = self._run({"WORLDLINE_PLUGIN_REF": self.plugin_head, "WORLDLINE_ALLOW_DIRTY": "0"}, root=engine)
         self.assert_refused_before_building(proc, "uncommitted changes")
+        self.assertIn("README.md", proc.stdout, "the refusal must name what is uncommitted")
+
+    def test_a_clean_worktree_is_identified_by_its_own_commit(self) -> None:
+        engine = self.engine_copy()
+        proc = self._run({"WORLDLINE_PLUGIN_REF": self.plugin_head, "WORLDLINE_ALLOW_DIRTY": "0"}, root=engine)
+        self.assertIn(f"install: engine {self._head(engine)}", proc.stdout)
+        self.assertIn(BUILD_BANNER, proc.stdout)
+
+    def test_an_enclosing_repositorys_head_is_not_claimed_as_the_engine_commit(self) -> None:
+        # Unpacking a release archive inside another repository must not make that repository's
+        # HEAD the recorded engine identity: a false identity is worse than none.
+        outer = self.base / "outer"
+        outer.mkdir()
+        self._init_repo(outer, "some unrelated project\n")
+        engine = self.engine_copy(as_git_repo=False, inside=outer)
+        proc = self._run({"WORLDLINE_PLUGIN_REF": self.plugin_head}, root=engine)
+        self.assertNotIn(self._head(outer), proc.stdout, "it claimed the enclosing repository's commit")
+        self.assertIn("install: engine unknown", proc.stdout)
+        self.assertIn("is not a git checkout of its own", proc.stdout)
+        self.assertIn(BUILD_BANNER, proc.stdout, "an unidentified engine is reported, not refused")
 
     # ---- the environment must not be able to redirect what is proved --------------------------
     def test_a_caller_supplied_core_library_is_dropped(self) -> None:
-        text = INSTALL.read_text(encoding="utf-8")
-        self.assertIn("unset WORLDLINE_CORE_LIB", text)
-        self.assertLess(text.index("unset WORLDLINE_CORE_LIB"), text.index(BUILD_BANNER),
-                        "the override must be dropped before anything is built or tested with it")
+        # Executed, not grepped: the build shim reports the value it actually inherited, so this
+        # fails if the `unset` is removed, moved after the build, or stops taking effect.
+        proc = self._run({"WORLDLINE_PLUGIN_REF": self.plugin_head,
+                          "WORLDLINE_CORE_LIB": "/tmp/somewhere-else/libworldline_core.so"})
+        self.assertIn(BUILD_BANNER, proc.stdout)
+        self.assertIn("SHIM-SAW WORLDLINE_CORE_LIB=[unset]", proc.stdout,
+                      "the build inherited a caller-supplied library path, so the gates would not"
+                      f" exercise the library this build produced:\n{proc.stdout[-600:]}")
 
 
 if __name__ == "__main__":
