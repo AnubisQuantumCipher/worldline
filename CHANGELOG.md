@@ -1,5 +1,42 @@
 # Changelog
 
+## 1.3.2 — 2026-09-22 · installable from its own release archive
+
+One defect, found by trying to install 1.3.1 on the machine it was built for.
+
+- **1.3.1 could not be installed from its own published tarball.** Three controls in
+  `tests/test_install_guards.py` build their fixture from `git ls-files`, and a release archive
+  is not a git checkout, so `git` exited 128 and the three raised. The installer runs the Python
+  suite as a gate, so the install aborted — correctly, before anything was replaced, but it
+  meant the documented installation path (download the release, verify it, run `install.sh`)
+  could not complete. Installing from a checkout hid it, which is exactly why the artifact
+  itself is the thing that has to be tested.
+
+  The fixture now prefers git's index when the tree is a checkout and falls back to a filesystem
+  walk when it is not, so the controls run from a checkout and from an unpacked archive alike.
+  Nothing is skipped: a self-skipping guard was one of the findings 1.3.1 set out to remove, and
+  replacing "errors from a tarball" with "silently skips from a tarball" would have been the
+  same defect wearing a different hat.
+
+Found by an independent review of that fix, and repaired in it:
+
+- **The archive recipe could not complete.** `WORLDLINE_PLUGIN_SRC` defaults to a sibling of the
+  source tree, which exists in a developer layout and does not exist beside an unpacked release.
+  The README recipe now sets it, and the installer's refusal names it instead of only reporting
+  that a path is not a git repository.
+- **The fallback walk copied a git worktree's `.git` file.** In a worktree `.git` is a regular
+  file holding a gitlink, and the skip set only filtered directory names. A fixture that copied
+  it would make its own `git init`/`add`/`commit` operate on the repository it points at — the
+  reviewer reproduced exactly that, moving an external repository's branch while all ten controls
+  still reported OK. `.git` is now excluded at any depth and a control asserts the fixture's git
+  directory resolves inside the sandbox.
+- **The skip set is anchored to the top level**, like `.gitignore`'s own `/obj/` and `/bin/`
+  rules, so a tracked `cli/bin/helper.py` cannot vanish from the fixture because a directory
+  somewhere is called `bin`.
+
+No engine behaviour, no evidence semantics, no installer logic and no release-gate logic
+changed. `v1.3.1`'s archive and tag are untouched.
+
 ## 1.3.1 — 2026-09-22 · deployment and install safety
 
 Installation only. No engine behaviour, no evidence semantics and no release-gate logic changed;

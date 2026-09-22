@@ -12,6 +12,9 @@ from "refused by the shim".
 The ordering these depend on is deliberate: identities are resolved before the build, so an
 unpinned or unreachable plugin costs a second rather than a full build.
 
+These run from a git checkout and from an unpacked release archive alike, because the installer
+has to be testable from exactly the artifact people install.
+
 Coverage limit, stated rather than implied: every control here exercises a guard that runs BEFORE
 the build. The post-build sequence — preflight, stopping the daemon, the backup, the swap, the
 restart and the identity verification — cannot be reached without a real gprbuild and proof run,
@@ -74,21 +77,50 @@ class InstallGuards(unittest.TestCase):
         return subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD"],
                               stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
 
+    def _source_files(self) -> list[str]:
+        """The engine's own files, relative to this tree.
+
+        Git's index is used when this tree is a checkout, because it is the exact set the
+        repository tracks. It is NOT required: a release archive is not a checkout, and the
+        installer has to be testable from precisely the artifact people install. Falling back to
+        a filesystem walk is what lets these controls run there — WORLDLINE 1.3.1 could not be
+        installed from its own published tarball because this fixture assumed git, and the
+        installer's own test gate failed before anything was replaced.
+        """
+        listing = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z"],
+                                 stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        if listing.returncode == 0 and listing.stdout:
+            return sorted(raw.decode() for raw in listing.stdout.split(b"\0") if raw)
+        # Anchored like .gitignore's own rules (/obj/, /bin/): a TRACKED cli/bin/helper.py must
+        # not vanish from the fixture because some directory deep in the tree is called "bin".
+        top_level_skip = {"obj", "bin", "assurance", "dist"}
+        # These are never source, at any depth. `.git` is here for a sharper reason than tidiness:
+        # in a git WORKTREE it is a regular FILE holding a gitlink, and copying it would make the
+        # fixture's own `git init`/`add`/`commit` operate on the REAL repository it points at.
+        any_depth_skip = {".git", "__pycache__", ".mypy_cache", ".pytest_cache"}
+        found: list[str] = []
+        for current, dirs, files in os.walk(REPO):
+            at_top = Path(current) == REPO
+            dirs[:] = sorted(d for d in dirs
+                             if d not in any_depth_skip and not (at_top and d in top_level_skip))
+            for name in sorted(files):
+                path = Path(current) / name
+                if name in any_depth_skip or path.suffix == ".so" or path.is_symlink():
+                    continue
+                found.append(str(path.relative_to(REPO)))
+        return sorted(found)
+
     def engine_copy(self, *, as_git_repo: bool = True, inside: Path | None = None) -> Path:
-        """A self-contained copy of this engine's tracked files, so guards about the ENGINE
-        checkout are deterministic instead of depending on the state of the worktree running the
-        tests. The installer under test is this repository's own install.sh, copied verbatim."""
+        """A self-contained copy of this engine's own files, so guards about the ENGINE checkout
+        are deterministic instead of depending on the state of the tree running the tests. The
+        installer under test is this repository's own install.sh, copied verbatim."""
         destination = (inside or self.base) / "engine-copy"
         destination.mkdir(parents=True)
-        listing = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z"],
-                                 stdout=subprocess.PIPE, check=True).stdout
-        for raw in listing.split(b"\0"):
-            if not raw:
-                continue
-            source = REPO / raw.decode()
+        for relative in self._source_files():
+            source = REPO / relative
             if not source.is_file():
                 continue
-            target = destination / raw.decode()
+            target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
         if as_git_repo:
@@ -185,6 +217,28 @@ class InstallGuards(unittest.TestCase):
         self.assertIn("install: engine unknown", proc.stdout)
         self.assertIn("is not a git checkout of its own", proc.stdout)
         self.assertIn(BUILD_BANNER, proc.stdout, "an unidentified engine is reported, not refused")
+
+    # ---- the fixture itself must not be able to reach outside the sandbox ----------------------
+    def test_the_fixture_never_copies_a_git_entry(self) -> None:
+        """A copied `.git` is not untidiness, it is a way out of the sandbox.
+
+        In a git worktree `.git` is a regular FILE holding `gitdir: /path/to/real/repo/...`. If
+        the fixture copied it, the `git init` / `add -A` / `commit` this class runs inside the
+        copy would resolve that link and commit into the real repository instead — which a
+        reviewer reproduced, moving an external repository's main branch while all ten controls
+        still reported OK.
+        """
+        for relative in self._source_files():
+            self.assertNotIn(".git", Path(relative).parts,
+                             f"the fixture would copy {relative}, which can point git outside the sandbox")
+        engine = self.engine_copy()
+        # `git init` created a .git DIRECTORY in the copy; what must not be there is a copied one.
+        self.assertTrue((engine / ".git").is_dir(), "the fixture's own repository should be a real one")
+        inside = subprocess.run(["git", "-C", str(engine), "rev-parse", "--git-dir"],
+                                stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+        resolved = (engine / inside).resolve() if not Path(inside).is_absolute() else Path(inside).resolve()
+        self.assertTrue(str(resolved).startswith(str(engine.resolve())),
+                        f"the fixture's git directory resolves outside the sandbox: {resolved}")
 
     # ---- the environment must not be able to redirect what is proved --------------------------
     def test_a_caller_supplied_core_library_is_dropped(self) -> None:
