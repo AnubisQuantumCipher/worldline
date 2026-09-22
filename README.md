@@ -19,23 +19,50 @@ the previous reality the same way. The desktop cockpit lives in the separate
 ## Install
 
 ```bash
-./install.sh
+WORLDLINE_PLUGIN_REF=$(git -C ../worldline-omarchy rev-parse main) ./install.sh
 ```
 
-Order: build the library → Ada tests → Python suite → proof gate (`prove.sh`, every check
-must prove; `WORLDLINE_SKIP_PROOF=1` skips only the re-run, the manifest is always verified
-against the library) → refuse if agent jobs are running (`WORLDLINE_FORCE=1` overrides) →
-**backup** → install runtime + library + launchers + user unit → fast-forward the plugin
-checkout from `../worldline-omarchy` (refuses to overwrite a diverged checkout) → patch
-`shell.json` and `bindings.lua` → restart `worldlined` → `hyprctl reload` → restart the shell
-(`WORLDLINE_NO_SHELL_RESTART=1` defers it). It ends by printing what it installed and the
-backup directory.
+The plugin commit is required: an engine release does not identify the plugin, so the installer
+will not pick one (`WORLDLINE_PLUGIN_ALLOW_MOVING_REF=1` accepts whatever `main` is now, and
+says so). Order, which is deliberate:
+
+refuse if a previous install did not finish → resolve the engine and plugin identities → build
+the library → Ada tests → Python suite → proof gate (`prove.sh`; `WORLDLINE_SKIP_PROOF=1` skips
+only the re-run, the manifest is always verified against the library) → **fail-closed preflight**
+(`scripts/preflight.py`; an unreadable daemon refuses, it does not pass) → **stop the daemon** →
+backup (runtime, launchers, unit, desktop config, plugin commit, unit state, and the whole state
+directory) → install runtime + library + launchers + unit → fast-forward the plugin to the pinned
+commit → patch `shell.json` and `bindings.lua` → start `worldlined` → **verify that what is
+running is what was built** (`scripts/verify_install.py`) → `hyprctl reload` → restart the shell
+(`WORLDLINE_NO_SHELL_RESTART=1` defers it; a failed restart is reported, not hidden). It ends by
+printing what it installed, the receipt and the backup directory.
+
+The daemon is stopped before the backup and the swap. That is what prevents a fork, race or
+ghost from starting against a half-replaced runtime, and what makes the store backup consistent
+rather than a copy of a live SQLite file.
+
+The preflight works from a declared roster of gates, and **a gate that did not run refuses just
+as a failed one does** — the installation is consulted whether or not the daemon is answering, so
+a quiet daemon cannot produce a pass by leaving the questions unasked. The verification at the
+end reads what is actually running: the kernel library the daemon mapped, taken from
+`/proc/<pid>/maps` rather than from the file on disk, and whether the process answering is a new
+one and the one the unit supervises. A daemon that never restarted would otherwise match every
+file comparison with the old runtime still in memory. The receipt records whether the proof gate
+ran or was skipped, and is written even when the verification fails.
+
+The engine commit is read only from a checkout whose own top level is the engine directory. Unpack
+a release archive inside another repository and the receipt says `unknown` rather than claiming
+that repository's commit.
+
+After a verified install the newest `WORLDLINE_BACKUP_KEEP` backups (default 5) are kept and older
+ones removed, each removal printed; `WORLDLINE_BACKUP_KEEP=0` keeps every one. Each backup holds a
+full copy of the state directory, so without pruning the area outgrows the engine it protects.
 
 Verify afterwards:
 
 ```bash
 worldline status --json | jq '.daemon'          # version, RUNNING
-worldline doctor --json | jq '{rootIntegrity, storeIntegrity, recovery, openTransactions}'
+worldline doctor --json | jq '{rootIntegrity, storeIntegrity, recovery, openTransactions, policy}'
 bash ~/.claude/skills/worldline/scripts/health_check.sh   # 47 assertions, zero quota, host untouched
 ```
 
@@ -43,27 +70,28 @@ bash ~/.claude/skills/worldline/scripts/health_check.sh   # 47 assertions, zero 
 
 Every install writes `~/.local/state/worldline/install-backups/<UTC stamp>-<pid>/` holding
 `lib-worldline/` (previous runtime + library + manifest), the previous `worldline` and
-`worldlined` launchers, `worldlined.service`, `shell.json`, `bindings.lua`, and
-`plugin-commit`. To go back to it:
+`worldlined` launchers, `worldlined.service`, `shell.json`, `bindings.lua`, `plugin-commit`, the
+unit's prior enablement and run state, `backup-manifest.json` (what was captured, and what was
+absent rather than missed), and `state/` — the store, receipts, transactions and events, taken
+with the daemon stopped.
 
 ```bash
-B=~/.local/state/worldline/install-backups/<stamp>
-worldline status --json | jq '[.jobs[] | select(.state=="RUNNING")] | length'   # must be 0
-systemctl --user stop worldlined.service
-rm -rf ~/.local/lib/worldline && cp -a "$B/lib-worldline" ~/.local/lib/worldline
-install -m 0755 "$B/worldline" "$B/worldlined" ~/.local/bin/
-install -m 0644 "$B/worldlined.service" ~/.config/systemd/user/worldlined.service
-install -m 0600 "$B/shell.json" ~/.config/omarchy/shell.json
-install -m 0600 "$B/bindings.lua" ~/.config/hypr/bindings.lua
-git -C ~/.config/omarchy/plugins/khephri.worldline checkout --quiet "$(cat "$B/plugin-commit")"
-systemctl --user daemon-reload && systemctl --user start worldlined.service
-worldline status --json | jq -r .daemon.version    # the previous version
-omarchy-restart-shell                               # only if the plugin commit changed
+scripts/rollback.sh ~/.local/state/worldline/install-backups/<stamp>              # engine only
+scripts/rollback.sh ~/.local/state/worldline/install-backups/<stamp> --with-state # also the store
 ```
 
-The store (`~/.local/share/worldline`, `~/.local/state/worldline`) is not part of the backup
-and is not touched by a rollback: newer runtimes only add fields, and every generation and
-receipt stays readable by the older code. Run `./install.sh` again to move forward.
+Engine-only is the default: the store keeps whatever has happened since. `--with-state` is a
+data rollback — anything recorded after the backup is discarded — so the superseded store is
+moved aside rather than deleted, and the path is printed. Rollback restores the unit's recorded
+enablement instead of switching the daemon on, and refuses while transient world units exist.
+
+Payload data under `~/.local/share/worldline` is copied only when the install ran with
+`WORLDLINE_BACKUP_PAYLOADS=1`; otherwise `payload-inventory.txt` records what existed.
+
+Older runtimes keep reading newer stores — newer ones add fields rather than change them. That
+is rehearsed rather than assumed: `worldline-lab/deploy/rehearse.py` runs the upgrade and the
+rollback on a throwaway copy and checks that the previous engine opens and verifies the store
+the new one wrote to.
 
 ## Operating limits and hygiene (1.2.0)
 

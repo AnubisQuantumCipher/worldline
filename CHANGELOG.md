@@ -1,5 +1,94 @@
 # Changelog
 
+## 1.3.1 — 2026-09-22 · deployment and install safety
+
+Installation only. No engine behaviour, no evidence semantics and no release-gate logic changed;
+`v1.3.0` remains the release that introduced those and its archive and tag are untouched.
+
+- **An unreadable daemon is no longer read as "nothing is running".** The installer's inline job
+  check parsed the status document with `except Exception: print(0)` and ended its pipeline with
+  `|| echo 0`, so a daemon that could not be reached, answered with the wrong shape, or exited
+  non-zero all resolved to "0 agent jobs" — and the upgrade restarted it anyway.
+  `scripts/preflight.py` replaces it with three outcomes per gate where **UNKNOWN is a refusal**:
+  the status parses and has the expected shape; no job is STARTING/RUNNING/FINALIZING; no world
+  is still MUTABLE/FINALIZING; no transient `worldline-*` unit exists; no transaction is open;
+  recovery, store integrity and every managed root report OK; no unsupervised world; ghosts are
+  disabled (they fork on any PRIME checkpoint, so an enabled ghost refuses unless
+  `--allow-ghosts`); and there is room for the backup. `tests/test_preflight.py` drives the real
+  script against a fake CLI and proves each refusal.
+- **The upgrade is ordered so it can be interrupted, and so the backup means something.** Refuse
+  if a previous install did not finish → resolve BOTH identities → build, test, prove →
+  preflight → **stop the daemon** → back up → install → start → verify → receipt. Stopping
+  before the backup is what closes the window in which a fork, race or ghost could start against
+  a half-replaced runtime, and what makes the store backup consistent instead of a copy of a
+  live SQLite file. Identities resolve before the build, so an unpinned or unreachable plugin
+  costs a second rather than a full build.
+- **The plugin is pinned, not "whatever main is".** `WORLDLINE_PLUGIN_REF` is required and must
+  resolve to a commit; a moving ref needs `WORLDLINE_PLUGIN_ALLOW_MOVING_REF=1` and says so. It
+  is resolved before anything is replaced, so an unreachable plugin aborts with the installation
+  still whole rather than after the runtime has been swapped. An engine archive does not identify
+  the plugin, and the installer no longer pretends otherwise.
+- **The backup covers the store.** The whole state directory (store, receipts, transactions,
+  events) minus `install-backups`, which lives inside it and would otherwise recurse, taken with
+  the daemon stopped. `scripts/backup_manifest.py` records what was captured so a file missing
+  from a backup is distinguishable from one that never existed here. Payload data is inventoried
+  and copied only with `WORLDLINE_BACKUP_PAYLOADS=1`; what is not copied is written down.
+- **What ends up running is checked.** `scripts/verify_install.py` compares the runtime tree,
+  library, proof manifest, header, both launchers, the unit, the pinned plugin commit and the
+  version the *running* daemon reports, and writes an install receipt. The previous installer
+  printed those values and compared none of them.
+- **`scripts/rollback.sh`** restores a backup: engine by default, `--with-state` for a data
+  rollback that moves the superseded store aside rather than deleting it. It restores the unit's
+  recorded enablement and run state instead of switching the daemon on.
+- **Hazards found by an adversarial review of the hardened installer itself**, all fixed here:
+  the desktop shell restart *kills* the running shell and has three failure exits, every one of
+  which was discarded while a success line printed over a possibly dead desktop; unit enablement
+  and run state were never captured and a masked unit (a symlink to `/dev/null`) was silently
+  destroyed; the staging directory was predictable and not required to be new; symlinked install
+  targets were converted to regular files the backup could not restore; a caller-supplied
+  `WORLDLINE_CORE_LIB` could point the gates at a library other than the one built; and
+  re-running after a failed install overwrote the good backup with a copy of the broken state.
+- **Rehearsed, not asserted.** `worldline-lab/deploy/rehearse.py` runs 1.2.x → 1.3.x → rollback
+  on a throwaway copy with private daemons: the new engine opens the old store with identical
+  receipt verification, a world finalized by the old engine takes the documented path
+  (`EVIDENCE_CONTEXT_MISSING` → `revalidate` → promotable), and **the old engine then opens and
+  verifies the store the new one wrote to**. The README's long-standing claim that older code
+  keeps reading newer stores is now backed by that run rather than by assertion.
+- **A second adversarial review, of the hardening itself.** It found that the preflight scored
+  whatever it happened to record: with the daemon quiet, five of its store gates never ran at all
+  and the remaining OK results produced `permitted: true`. The gate list is now a declared roster
+  and **an unasked question is a refusal** — a gate missing from the results refuses exactly as a
+  failed one does. The same review found the installer deciding whether to stop the daemon from
+  `systemctl is-active --quiet`, whose non-zero exit conflates `deactivating`, `activating`,
+  `failed` and "no user manager here": an upgrade could therefore replace the runtime under a
+  live process. Both the installer and the preflight now read `ActiveState` and treat anything
+  they cannot determine as a refusal, and open transactions are read from the store directory so
+  that stopping the daemon does not blind the gate that matters most once it is stopped.
+- **The receipt records what was observed, not what was placed.** `verify_install.py` now reads
+  the kernel library the running daemon actually mapped from `/proc/<pid>/maps`, and checks that
+  the daemon answering is a *new* process and the one the user manager supervises — a daemon that
+  never restarted would otherwise pass every file comparison with the old runtime still in
+  memory. It records whether the proof gate ran or was skipped with `WORLDLINE_SKIP_PROOF=1`, and
+  it writes the receipt even when its own probes fail, so a failed verification is evidence
+  rather than a missing file.
+- **A false engine identity is worse than none.** `git -C DIR rev-parse HEAD` walks up out of
+  `DIR`, so unpacking a release archive inside any other repository recorded *that* repository's
+  commit as the engine. The commit is now accepted only from a checkout whose own top level is
+  the engine directory; otherwise the receipt says `unknown` and the installer says why.
+- **Backups no longer grow without bound.** Each one holds a full copy of the state directory, so
+  an installer that never prunes eventually fills the disk — a worse failure than the one backups
+  insure against. After a *verified* install the newest `WORLDLINE_BACKUP_KEEP` (default 5) are
+  kept and older ones removed, each removal printed. `scripts/prune_backups.py` refuses to touch
+  anything that is not recognisably one of its own backups and never follows a symlink out of the
+  backup area.
+- **The recovery path is tested.** `tests/test_rollback.py` drives the real `rollback.sh` against
+  a sandbox installation with a simulated user manager: refusing an incomplete backup, keeping the
+  superseded store aside, leaving a disabled unit disabled, not starting a daemon that was
+  inactive before the install, and finishing the engine rollback while naming what happened to the
+  plugin. The core-library guard is now executed rather than asserted by reading the source, and
+  the dirty-worktree guard runs against a fixture checkout instead of skipping itself whenever the
+  developer's worktree happens to be clean.
+
 ## 1.3.0 — 2026-09-21 · evidence freshness; exact-commit releases
 
 - **Approval is bound to the exact content, rules and execution context it verified.** Every
