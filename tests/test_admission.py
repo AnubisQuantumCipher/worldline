@@ -160,7 +160,7 @@ class AdmissionControls(unittest.TestCase):
         root = fixture_root(self.base / "memonly", omit=("cpu", "io"))
         state = observe({}, root=root)
         self.assertEqual(state.state, "OBSERVED")
-        self.assertIsNone(state.cpu_pressure_avg10)
+        self.assertIsNone(state.cpu_pressure_hundredths)
 
     def test_a_corrupt_ledger_is_unknown_rather_than_empty(self) -> None:
         """An unreadable ledger read as empty would admit everything at exactly the moment the
@@ -255,10 +255,28 @@ class AdmissionControls(unittest.TestCase):
         with self.assertRaises(WorldlineError):
             ResourcePolicy.from_mapping({"memoryMaxBytes": GIB, "memoryHighBytes": 2 * GIB})
 
-    def test_a_workload_with_no_declared_appetite_is_refused(self) -> None:
-        decision = self.authority().admit(workload="terra", policy=ResourcePolicy.from_mapping({}))
-        self.assertEqual(decision.outcome, RESOURCE_POLICY_INVALID)
-        self.assertIn("undeclared", decision.reason)
+    def test_a_workload_with_no_declared_appetite_is_admitted_unmetered_and_says_so(self) -> None:
+        """Refusing the default configuration would stop every existing installation from forking
+        anything, and inventing a number would be a guess dressed as accounting. So it is admitted,
+        it reserves nothing, and the decision refuses to let that pass for a budget."""
+        authority = self.authority()
+        decision = authority.admit(workload="terra", policy=ResourcePolicy.from_mapping({}))
+        self.assertEqual(decision.outcome, ADMITTED)
+        self.assertFalse(decision.arithmetic["accounted"])
+        self.assertIn("UNMETERED", decision.reason)
+        self.assertIn("memoryMaxBytes", decision.reason)
+        self.assertEqual(self.ledger.outstanding()[0].memory_bytes, 0, "an unmetered workload reserves nothing")
+
+    def test_an_unmetered_workload_is_still_refused_on_a_machine_in_trouble(self) -> None:
+        """Unmetered means unaccounted, not unguarded: the floors still apply."""
+        root = fixture_root(self.base / "hot2", memory_avg10="90.00")
+        decision = self.authority(root=root).admit(workload="terra", policy=ResourcePolicy.from_mapping({}))
+        self.assertEqual(decision.outcome, RESOURCES_UNAVAILABLE)
+        self.assertIn("pressure", decision.reason)
+
+    def test_the_report_names_an_unmetered_policy(self) -> None:
+        report = self.authority().report(ResourcePolicy.from_mapping({}))
+        self.assertTrue(report["unmetered"])
 
     # ---- what the policy asks the kernel for -----------------------------------------------------
     def test_the_policy_becomes_cgroup_properties_with_accounting_always_on(self) -> None:
@@ -287,6 +305,29 @@ class AdmissionControls(unittest.TestCase):
         after = authority.report(self.policy())
         self.assertFalse(after["wouldAdmitNow"])
         self.assertEqual(after["withheldBytes"], 12 * GIB)
+
+    def test_nothing_the_daemon_would_send_contains_a_float(self) -> None:
+        """The wire protocol is canonical JSON, which has no float. PSI arrives as `avg10=0.00`
+        and a timestamp is naturally a float, so both are carried as integers — pressure in
+        hundredths of a percent, time in milliseconds. This caught 18 test failures once."""
+        def floats(value, path="$"):
+            if isinstance(value, float):
+                return [f"{path}: {value}"]
+            if isinstance(value, dict):
+                return [f for k, v in value.items() for f in floats(v, f"{path}.{k}")]
+            if isinstance(value, (list, tuple)):
+                return [f for i, v in enumerate(value) for f in floats(v, f"{path}[{i}]")]
+            return []
+
+        authority = self.authority()
+        decision = authority.admit(workload="terra", policy=self.policy())
+        authority.attach_unit(decision.reservation_id, "worldline-00000000-0000-4000-8000-000000000000.service")
+        for name, payload in (("decision", decision.as_dict()),
+                              ("report", authority.report(self.policy())),
+                              ("refusal", authority.admit(workload="claude", policy=self.policy()).as_dict()),
+                              ("reservation", self.ledger.outstanding()[0].as_dict())):
+            with self.subTest(payload=name):
+                self.assertEqual(floats(payload), [], f"{name} carries a float the protocol cannot encode")
 
     def test_the_report_says_unknown_rather_than_guessing(self) -> None:
         report = self.authority(root=fixture_root(self.base / "blind", omit=("meminfo",))).report(self.policy())

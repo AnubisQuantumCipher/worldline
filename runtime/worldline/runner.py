@@ -22,6 +22,7 @@ from .errors import WorldlineError
 from .finalize import Finalizer
 from .linux.namespaces import BubblewrapSandbox, CredentialProjection, SandboxSpec
 from .linux.netguard import AllowlistProxy, write_forwarder
+from .admission import Gate
 from .linux.systemd import SystemdAdapter
 from .manifest import path_b64
 from .model import World, WorldState
@@ -83,6 +84,7 @@ class AgentRunner:
         config: GlobalConfig,
         sandbox: BubblewrapSandbox,
         systemd: SystemdAdapter,
+        gate: "Gate",
         *,
         core: Core | None = None,
     ) -> None:
@@ -92,9 +94,10 @@ class AgentRunner:
         self.sandbox = sandbox
         self.systemd = systemd
         self.core = core or Core.shared()
-        self.checks = CheckRunner(paths, sandbox, systemd)
+        self.gate = gate
+        self.checks = CheckRunner(paths, sandbox, systemd, gate)
         self.finalizer = Finalizer(paths, store, sandbox, core=self.core)
-        self.services = ServiceManager(paths, store, sandbox, systemd)
+        self.services = ServiceManager(paths, store, sandbox, systemd, gate)
         # Job ids the operator asked to cancel. Consulted right after launch (a cancel that
         # arrives while the job is still STARTING has no unit to stop yet) and after the unit
         # exits, so the evidence records USER_CANCELLED instead of an unexplained failure.
@@ -206,12 +209,23 @@ class AgentRunner:
                 "argv": list(argv),
             }
         )
-        unit = self.systemd.launch(
-            world.instance_id,
-            self.sandbox.build_argv(spec),
-            description=f"WORLDLINE {world.alias} / {adapter.name}",
-            nice=10 if low_priority else None,
-        )
+        # Nothing is spawned without a reservation. The gate refuses with a named outcome and
+        # the arithmetic behind it, so a world that cannot be supervised is never started rather
+        # than started and starved.
+        guard = self.gate.guard(f"world:{world.alias}/{adapter.name}")
+        guard.__enter__()
+        try:
+            unit = self.systemd.launch(
+                world.instance_id,
+                self.sandbox.build_argv(spec),
+                description=f"WORLDLINE {world.alias} / {adapter.name}",
+                nice=10 if low_priority else None,
+                resource_properties=self.gate.unit_properties(),
+            )
+        except BaseException:
+            guard.release()
+            raise
+        guard.attach_unit(unit.unit)
         main_pid = unit.pid
         self.store.update_job(
             job_id,
@@ -306,7 +320,12 @@ class AgentRunner:
         if adapter.mission_via_stdin:
             unit.launcher.stdin.write(mission.encode("utf-8", "strict"))
         unit.launcher.stdin.close()
-        exit_code = unit.launcher.wait()
+        try:
+            exit_code = unit.launcher.wait()
+        finally:
+            # The workload has ended; the capacity it reserved is free again. Finalization is
+            # cheap and holds nothing back.
+            guard.release()
         stdout_thread.join()
         stderr_thread.join()
         if timer is not None:

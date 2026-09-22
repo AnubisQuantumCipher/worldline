@@ -172,12 +172,15 @@ class Floors:
     min_free_memory_bytes: int = 2 * GIB
     min_free_disk_bytes: int = 2 * GIB
     min_free_inodes: int = 10_000
-    max_memory_pressure_avg10: float = 50.0
+    # Pressure in hundredths of a percent, as an integer. The wire protocol is canonical JSON,
+    # which has no float: a value that cannot be represented exactly has no business being an
+    # identity or a threshold.
+    max_memory_pressure_hundredths: int = 5000
 
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any] | None) -> "Floors":
         value = dict(value or {})
-        known = {"minFreeMemoryBytes", "minFreeDiskBytes", "minFreeInodes", "maxMemoryPressureAvg10"}
+        known = {"minFreeMemoryBytes", "minFreeDiskBytes", "minFreeInodes", "maxMemoryPressureHundredths"}
         unknown = sorted(set(value) - known)
         if unknown:
             raise WorldlineError(RESOURCE_POLICY_INVALID, f"unknown admission floor fields: {', '.join(unknown)}")
@@ -186,14 +189,15 @@ class Floors:
             if isinstance(item, bool) or not isinstance(item, int) or item < 0:
                 raise WorldlineError(RESOURCE_POLICY_INVALID, f"admission.{name} must be a non-negative integer")
             return item
-        pressure = value.get("maxMemoryPressureAvg10", 50.0)
-        if isinstance(pressure, bool) or not isinstance(pressure, (int, float)) or not (0 <= float(pressure) <= 100):
-            raise WorldlineError(RESOURCE_POLICY_INVALID, "admission.maxMemoryPressureAvg10 must be between 0 and 100")
+        pressure = value.get("maxMemoryPressureHundredths", 5000)
+        if isinstance(pressure, bool) or not isinstance(pressure, int) or not (0 <= pressure <= 10_000):
+            raise WorldlineError(RESOURCE_POLICY_INVALID,
+                                 "admission.maxMemoryPressureHundredths must be an integer between 0 and 10000")
         return cls(
             min_free_memory_bytes=integer("minFreeMemoryBytes", 2 * GIB),
             min_free_disk_bytes=integer("minFreeDiskBytes", 2 * GIB),
             min_free_inodes=integer("minFreeInodes", 10_000),
-            max_memory_pressure_avg10=float(pressure),
+            max_memory_pressure_hundredths=pressure,
         )
 
 
@@ -213,9 +217,10 @@ def _read_meminfo(root: Path) -> dict[str, int]:
     return values
 
 
-def _read_pressure(path: Path) -> dict[str, float]:
-    """`some avg10=0.00 avg60=0.00 avg300=0.00 total=0`. A file we cannot parse is UNKNOWN."""
-    values: dict[str, float] = {}
+def _read_pressure(path: Path) -> dict[str, int]:
+    """`some avg10=0.00 avg60=0.00 avg300=0.00 total=0`, read as integer hundredths of a percent.
+    A file we cannot parse is UNKNOWN."""
+    values: dict[str, int] = {}
     for line in path.read_text(encoding="utf-8").splitlines():
         parts = line.split()
         if not parts or parts[0] not in ("some", "full"):
@@ -225,7 +230,7 @@ def _read_pressure(path: Path) -> dict[str, float]:
             if not separator:
                 continue
             if key.startswith("avg"):
-                values[f"{parts[0]}.{key}"] = float(raw)
+                values[f"{parts[0]}.{key}"] = round(float(raw) * 100)
     if "some.avg10" not in values:
         raise ValueError(f"{path} has no `some avg10=`")
     return values
@@ -238,9 +243,9 @@ class AdmissionState:
     mem_total_bytes: int | None = None
     mem_available_bytes: int | None = None
     swap_free_bytes: int | None = None
-    memory_pressure_avg10: float | None = None
-    cpu_pressure_avg10: float | None = None
-    io_pressure_avg10: float | None = None
+    memory_pressure_hundredths: int | None = None
+    cpu_pressure_hundredths: int | None = None
+    io_pressure_hundredths: int | None = None
     disk: dict[str, dict[str, int]] = field(default_factory=dict)
 
     def as_dict(self) -> dict[str, Any]:
@@ -248,8 +253,9 @@ class AdmissionState:
             "state": self.state, "reason": self.reason,
             "memTotalBytes": self.mem_total_bytes, "memAvailableBytes": self.mem_available_bytes,
             "swapFreeBytes": self.swap_free_bytes,
-            "pressure": {"memoryAvg10": self.memory_pressure_avg10,
-                         "cpuAvg10": self.cpu_pressure_avg10, "ioAvg10": self.io_pressure_avg10},
+            "pressureHundredths": {"memoryAvg10": self.memory_pressure_hundredths,
+                                   "cpuAvg10": self.cpu_pressure_hundredths,
+                                   "ioAvg10": self.io_pressure_hundredths},
             "disk": self.disk,
         }
 
@@ -261,7 +267,7 @@ def observe(paths: Mapping[str, Path] | None = None, *, root: Path = Path("/")) 
         meminfo = _read_meminfo(root)
     except (OSError, ValueError) as exc:
         return AdmissionState(state="UNKNOWN", reason=f"/proc/meminfo: {exc}")
-    pressures: dict[str, float | None] = {}
+    pressures: dict[str, int | None] = {}
     for name in ("memory", "cpu", "io"):
         path = root / f"proc/pressure/{name}"
         try:
@@ -287,9 +293,9 @@ def observe(paths: Mapping[str, Path] | None = None, *, root: Path = Path("/")) 
         mem_total_bytes=meminfo["MemTotal"],
         mem_available_bytes=meminfo["MemAvailable"],
         swap_free_bytes=meminfo.get("SwapFree"),
-        memory_pressure_avg10=pressures["memory"],
-        cpu_pressure_avg10=pressures["cpu"],
-        io_pressure_avg10=pressures["io"],
+        memory_pressure_hundredths=pressures["memory"],
+        cpu_pressure_hundredths=pressures["cpu"],
+        io_pressure_hundredths=pressures["io"],
         disk=disk,
     )
 
@@ -304,19 +310,19 @@ class Reservation:
     unit: str | None
     memory_bytes: int
     tasks: int
-    created_at: float
+    created_at_ms: int
     owner_pid: int
 
     def as_dict(self) -> dict[str, Any]:
         return {"reservationId": self.reservation_id, "workload": self.workload, "unit": self.unit,
                 "memoryBytes": self.memory_bytes, "tasks": self.tasks,
-                "createdAt": self.created_at, "ownerPid": self.owner_pid}
+                "createdAtMs": self.created_at_ms, "ownerPid": self.owner_pid}
 
     @classmethod
     def from_dict(cls, value: Mapping[str, Any]) -> "Reservation":
         return cls(reservation_id=str(value["reservationId"]), workload=str(value.get("workload", "")),
                    unit=value.get("unit"), memory_bytes=int(value.get("memoryBytes", 0)),
-                   tasks=int(value.get("tasks", 0)), created_at=float(value.get("createdAt", 0.0)),
+                   tasks=int(value.get("tasks", 0)), created_at_ms=int(value.get("createdAtMs", 0)),
                    owner_pid=int(value.get("ownerPid", 0)))
 
 
@@ -381,7 +387,7 @@ class Ledger:
         return out
 
     def _store(self, reservations: Sequence[Reservation]) -> None:
-        document = {"schemaVersion": 1, "updatedAt": time.time(),
+        document = {"schemaVersion": 1, "updatedAtMs": int(time.time() * 1000),
                     "reservations": [r.as_dict() for r in reservations]}
         temporary = self.path.with_suffix(".tmp")
         temporary.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
@@ -409,7 +415,7 @@ class Ledger:
         with self.locked():
             current = self._load()
             self._store([
-                Reservation(r.reservation_id, r.workload, unit, r.memory_bytes, r.tasks, r.created_at, r.owner_pid)
+                Reservation(r.reservation_id, r.workload, unit, r.memory_bytes, r.tasks, r.created_at_ms, r.owner_pid)
                 if r.reservation_id == reservation_id else r
                 for r in current
             ])
@@ -495,16 +501,20 @@ class AdmissionAuthority:
         """observe -> lock -> account -> reserve -> authorize. The lock spans all four."""
         if not isinstance(workload, str) or not workload:
             return Decision(RESOURCE_POLICY_INVALID, "a workload name is required")
-        request_bytes = memory_bytes if memory_bytes is not None else policy.memory_max_bytes
-        if request_bytes is None:
-            return Decision(RESOURCE_POLICY_INVALID,
-                            "no memory ceiling: admission cannot account for a workload whose"
-                            " appetite is undeclared. Set limits.memoryMaxBytes.",
-                            policy=policy.canonical())
-        if isinstance(request_bytes, bool) or not isinstance(request_bytes, int) or request_bytes <= 0:
+        # A policy with no declared ceiling is the default, and refusing it would stop every
+        # existing installation from forking anything. So an undeclared appetite is admitted
+        # UNMETERED rather than refused: the workload reserves nothing, because inventing a
+        # number would be a guess dressed as accounting, and every other gate still applies —
+        # the machine must still have free memory, tolerable pressure and disk headroom. The
+        # decision says `accounted: false` so nobody mistakes this for a budget.
+        unmetered = memory_bytes is None and policy.memory_max_bytes is None
+        request_bytes = 0 if unmetered else (memory_bytes if memory_bytes is not None else policy.memory_max_bytes)
+        if unmetered:
+            pass
+        elif isinstance(request_bytes, bool) or not isinstance(request_bytes, int) or request_bytes <= 0:
             return Decision(RESOURCE_POLICY_INVALID, f"requested memory must be a positive integer, got {request_bytes!r}",
                             policy=policy.canonical())
-        if request_bytes > MAX_MEMORY_BYTES:
+        elif request_bytes > MAX_MEMORY_BYTES:
             return Decision(RESOURCE_POLICY_INVALID, f"requested memory exceeds the permitted maximum: {request_bytes}",
                             policy=policy.canonical())
 
@@ -531,6 +541,7 @@ class AdmissionAuthority:
                 "floorBytes": self.floors.min_free_memory_bytes,
                 "headroomBytes": headroom,
                 "outstandingCount": len(current),
+                "accounted": not unmetered,
             }
 
             limit = policy.max_concurrent_workloads
@@ -539,10 +550,11 @@ class AdmissionAuthority:
                                 f"{len(current)} workloads already admitted and the concurrency ceiling is {limit}",
                                 arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
 
-            if state.memory_pressure_avg10 is not None and state.memory_pressure_avg10 > self.floors.max_memory_pressure_avg10:
+            if (state.memory_pressure_hundredths is not None
+                    and state.memory_pressure_hundredths > self.floors.max_memory_pressure_hundredths):
                 return Decision(RESOURCES_UNAVAILABLE,
-                                f"memory pressure avg10 is {state.memory_pressure_avg10:.2f}, above the"
-                                f" configured ceiling of {self.floors.max_memory_pressure_avg10:.2f}",
+                                f"memory pressure avg10 is {state.memory_pressure_hundredths / 100:.2f}%, above the"
+                                f" configured ceiling of {self.floors.max_memory_pressure_hundredths / 100:.2f}%",
                                 arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
 
             for name, values in state.disk.items():
@@ -557,7 +569,7 @@ class AdmissionAuthority:
                                     f" {self.floors.min_free_inodes}",
                                     arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
 
-            if request_bytes > headroom:
+            if not unmetered and request_bytes > headroom:
                 return Decision(RESOURCES_UNAVAILABLE,
                                 f"{request_bytes} bytes requested but only {headroom} are free to promise:"
                                 f" {state.mem_available_bytes} available, {withheld} withheld by"
@@ -567,11 +579,15 @@ class AdmissionAuthority:
             reservation = Reservation(
                 reservation_id=str(uuid.uuid4()), workload=workload, unit=None,
                 memory_bytes=request_bytes, tasks=policy.tasks_max or 0,
-                created_at=time.time(), owner_pid=os.getpid(),
+                created_at_ms=int(time.time() * 1000), owner_pid=os.getpid(),
             )
             self.ledger._store([*current, reservation])
 
-        return Decision(ADMITTED, f"{request_bytes} bytes reserved against {headroom} of headroom",
+        reason = (f"{request_bytes} bytes reserved against {headroom} of headroom" if not unmetered else
+                  "admitted UNMETERED: this policy declares no memory ceiling, so nothing was"
+                  f" reserved and nothing is enforced. {headroom} bytes of headroom were free."
+                  " Set limits.resources.memoryMaxBytes to make this a budget.")
+        return Decision(ADMITTED, reason,
                         reservation_id=reservation.reservation_id, arithmetic=arithmetic,
                         state=state.as_dict(), policy=policy.canonical())
 
@@ -602,13 +618,70 @@ class AdmissionAuthority:
             "floors": {"minFreeMemoryBytes": self.floors.min_free_memory_bytes,
                        "minFreeDiskBytes": self.floors.min_free_disk_bytes,
                        "minFreeInodes": self.floors.min_free_inodes,
-                       "maxMemoryPressureAvg10": self.floors.max_memory_pressure_avg10},
+                       "maxMemoryPressureHundredths": self.floors.max_memory_pressure_hundredths},
             "enforcedPolicy": policy.canonical(),
             "outstandingReservations": detail,
             "withheldBytes": withheld,
             "headroomBytes": headroom,
             "ledgerError": ledger_error,
+            "unmetered": policy.memory_max_bytes is None,
             "wouldAdmitNow": None if state.state != "OBSERVED" or ledger_error else (
-                policy.memory_max_bytes is not None and headroom is not None
-                and policy.memory_max_bytes <= headroom),
+                True if policy.memory_max_bytes is None else (
+                headroom is not None and policy.memory_max_bytes <= headroom)),
         }
+
+
+class Gate:
+    """An authority bound to the policy in force, with the reservation's lifetime as a block.
+
+    Every place that spawns supervised work holds one of these, and holds it as a context
+    manager, so the reservation exists before the workload does and is released on every exit
+    path including the ones nobody thought about. Anything that still escapes — a daemon killed
+    mid-run — is caught by `reconcile`, because the service manager knows what is running and
+    the ledger does not.
+
+    Passed explicitly rather than defaulted: a component that can be constructed without a gate
+    is a component that can spawn work nobody accounted for.
+    """
+
+    def __init__(self, authority: AdmissionAuthority, policy: ResourcePolicy) -> None:
+        self.authority = authority
+        self.policy = policy
+
+    def unit_properties(self) -> list[str]:
+        return self.policy.unit_properties()
+
+    def admit(self, workload: str, *, memory_bytes: int | None = None) -> Decision:
+        return self.authority.admit(workload=workload, policy=self.policy, memory_bytes=memory_bytes)
+
+    def guard(self, workload: str, *, memory_bytes: int | None = None) -> "_Guard":
+        return _Guard(self, workload, memory_bytes)
+
+
+class _Guard:
+    def __init__(self, gate: Gate, workload: str, memory_bytes: int | None) -> None:
+        self.gate = gate
+        self.workload = workload
+        self.memory_bytes = memory_bytes
+        self.decision: Decision | None = None
+
+    def __enter__(self) -> Decision:
+        decision = self.gate.admit(self.workload, memory_bytes=self.memory_bytes)
+        if not decision.admitted:
+            # A refusal is an answer: it names which outcome, and carries the arithmetic that
+            # produced it so the operator is not left guessing what the machine looked like.
+            raise WorldlineError(decision.outcome, decision.reason, decision.as_dict())
+        self.decision = decision
+        return decision
+
+    def attach_unit(self, unit: str) -> None:
+        if self.decision is not None:
+            self.gate.authority.attach_unit(self.decision.reservation_id, unit)
+
+    def release(self) -> None:
+        if self.decision is not None:
+            self.gate.authority.release(self.decision.reservation_id)
+            self.decision = None
+
+    def __exit__(self, *exc: Any) -> None:
+        self.release()

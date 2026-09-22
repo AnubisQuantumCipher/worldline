@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 from .canonical import atomic_write_json
 from .errors import WorldlineError
 from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
+from .admission import Gate
 from .linux.systemd import SystemdAdapter
 from .project import CheckSpec
 from .environment import safe_environment
@@ -51,10 +52,12 @@ class CheckRunner:
         paths: WorldlinePaths,
         sandbox: BubblewrapSandbox,
         systemd: SystemdAdapter,
+        gate: "Gate",
     ) -> None:
         self.paths = paths
         self.sandbox = sandbox
         self.systemd = systemd
+        self.gate = gate
 
     def run(
         self,
@@ -113,12 +116,14 @@ class CheckRunner:
             roots=tuple(overlays),
             runtime=runtime,
         )
-        process = self.systemd.launch(
-            run_id,
-            self.sandbox.build_argv(spec),
-            description=f"WORLDLINE check {check.id}",
-        )
-        _stdout, launch_stderr = process.launcher.communicate(timeout=600)
+        with self.gate.guard(f"check:{check.id}") as _decision:
+            process = self.systemd.launch(
+                run_id,
+                self.sandbox.build_argv(spec),
+                description=f"WORLDLINE check {check.id}",
+                resource_properties=self.gate.unit_properties(),
+            )
+            _stdout, launch_stderr = process.launcher.communicate(timeout=600)
         record_path = runtime / "result.json"
         if process.launcher.returncode != 0 or not record_path.is_file():
             return {

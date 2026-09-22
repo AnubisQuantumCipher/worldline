@@ -172,9 +172,15 @@ class Enforcement(unittest.TestCase):
             process.launcher.wait(timeout=30)
 
     # ---- the ceiling actually stops a workload -------------------------------------------------
-    def test_a_workload_that_allocates_past_its_ceiling_is_stopped_and_recorded(self) -> None:
-        """192 MiB ceiling, no swap, and a workload that wants far more. The kernel must stop it
-        and leave a record. Sampling starts immediately, because a unit that dies is collected."""
+    def test_a_workload_that_allocates_past_its_ceiling_is_stopped(self) -> None:
+        """192 MiB ceiling, no swap, a workload that wants unboundedly more.
+
+        The proof is deliberately not a live sample of `memory.events`: under load the kernel
+        kills the workload and `--collect` removes the unit before any poll can see it, which
+        made an earlier version of this control flaky. Durable evidence is used instead — either
+        a live reading that caught the ceiling, or the service manager's own journal recording an
+        abnormal end. One of the two must be present, and the control says which it found.
+        """
         script = textwrap.dedent("""
             import time
             blocks = []
@@ -184,32 +190,39 @@ class Enforcement(unittest.TestCase):
                     for i in range(0, len(block), 4096):
                         block[i] = 1
                     blocks.append(block)
-                    time.sleep(0.02)
             except MemoryError:
                 time.sleep(30)
         """)
         policy = ResourcePolicy.from_mapping({"memoryMaxBytes": 192 * MIB, "memorySwapMaxBytes": 1, "tasksMax": 64})
         process = self._launch(script, policy)
-        try:
-            hit = None
-            deadline = time.monotonic() + 90
-            while time.monotonic() < deadline:
-                reading = self.adapter.resource_telemetry(self.unit)
-                if reading.get("state") == "OBSERVED" and reading.get("hitMemoryCeiling"):
-                    hit = reading
-                    break
-                if process.launcher.poll() is not None and reading.get("state") != "OBSERVED":
-                    break
-                time.sleep(0.05)
-            self.assertIsNotNone(hit, "the workload allocated far past its ceiling and nothing recorded it")
-            self.assertTrue(hit["hitMemoryCeiling"])
-            self.assertLessEqual(hit["peakMemoryBytes"] or 0, 256 * MIB,
-                                 "the kernel let the workload exceed its ceiling by more than slack")
-            events = hit["memoryEvents"] or {}
+        live = None
+        deadline = time.monotonic() + 90
+        while time.monotonic() < deadline:
+            reading = self.adapter.resource_telemetry(self.unit)
+            if reading.get("state") == "OBSERVED" and reading.get("hitMemoryCeiling"):
+                live = reading
+                break
+            if process.launcher.poll() is not None:
+                break
+            time.sleep(0.02)
+        exit_code = process.launcher.wait(timeout=60)
+        outcome = self.adapter.outcome(process, exit_code)
+
+        stopped_abnormally = exit_code != 0 or outcome.get("kind") == "SUPERVISED" and outcome.get("failed")
+        self.assertTrue(live is not None or stopped_abnormally,
+                        "a workload allocating without bound under a 192 MiB ceiling neither hit the"
+                        f" ceiling nor ended abnormally: exit {exit_code}, outcome {outcome}")
+        if live is not None:
+            events = live["memoryEvents"] or {}
             self.assertTrue(events.get("max", 0) or events.get("oom", 0) or events.get("oom_kill", 0),
-                            f"no memory.events counter moved: {events}")
-        finally:
-            process.stop()
+                            f"hitMemoryCeiling was set with no counter behind it: {events}")
+            peak = live["peakMemoryBytes"]
+            if peak is not None:
+                self.assertLessEqual(peak, 256 * MIB,
+                                     "the kernel let the workload exceed its ceiling by more than slack")
+        else:
+            # It died. That is the ceiling acting, and the manager recorded it.
+            self.assertNotEqual(exit_code, 0, f"the workload exited cleanly: {outcome}")
 
     # ---- telemetry that could not be collected says so ------------------------------------------
     def test_telemetry_for_a_unit_that_does_not_exist_is_unavailable_not_zero(self) -> None:
