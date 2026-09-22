@@ -213,6 +213,13 @@ class SystemdAdapter:
         shown = self._show(unit, self._USAGE_PROPERTIES)
         if shown is None:
             return {"state": "UNAVAILABLE", "reason": "the unit is gone or the manager did not answer"}
+        # `systemctl show` answers for a unit it has never heard of, with Result=success and
+        # ActiveState=inactive. Reporting that as a measured, clean, under-ceiling run is the
+        # worst possible lie, so a unit with neither a control group nor a load state is absent.
+        if not shown.get("ControlGroup") and shown.get("ActiveState") in (None, "", "inactive"):
+            return {"state": "UNAVAILABLE",
+                    "reason": "the manager holds no record of this unit; it was never started or"
+                              " has already been collected, so nothing was measured"}
 
         def integer(name: str) -> int | None:
             raw = shown.get(name, "")
@@ -229,6 +236,13 @@ class SystemdAdapter:
             parts = line.split()
             if len(parts) == 2 and parts[1].isdigit():
                 counters[parts[0]] = int(parts[1])
+        # A ceiling flag with no counter behind it is a claim, not a measurement. When
+        # memory.events cannot be read the honest answer is None, not False.
+        readable = bool(events.strip())
+        hit = (bool(counters.get("max", 0) or counters.get("oom", 0) or counters.get("oom_kill", 0))
+               if readable else None)
+        killed = (bool(counters.get("oom_kill", 0)) or shown.get("Result") == "oom-kill") if readable else (
+            True if shown.get("Result") == "oom-kill" else None)
         return {
             "state": "OBSERVED",
             "peakMemoryBytes": integer("MemoryPeak"),
@@ -239,8 +253,8 @@ class SystemdAdapter:
             "result": shown.get("Result"),
             "activeState": shown.get("ActiveState"),
             "memoryEvents": counters or None,
-            "hitMemoryCeiling": bool(counters.get("max", 0) or counters.get("oom", 0) or counters.get("oom_kill", 0)),
-            "oomKilled": bool(counters.get("oom_kill", 0)) or shown.get("Result") == "oom-kill",
+            "hitMemoryCeiling": hit,
+            "oomKilled": killed,
         }
 
     def verify_manager(self) -> dict[str, str]:

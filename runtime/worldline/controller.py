@@ -80,7 +80,15 @@ class RuntimeController:
         # A daemon that died between reserving and releasing must not hold capacity forever.
         # The service manager is the authority on what is still running, so anything it no
         # longer has is released here, at start, before any admission is answered.
-        self._reconciled_at_start = self.admission.reconcile()
+        try:
+            self._reconciled_at_start = self.admission.reconcile()
+        except WorldlineError as exc:
+            # A ledger that cannot be read must not stop the daemon from starting. It is
+            # reported by doctor and refuses admissions until it is dealt with.
+            self._reconciled_at_start = []
+            self._reconcile_error = str(exc.args[1] if len(exc.args) > 1 else exc)
+        else:
+            self._reconcile_error = None
         self.watcher: InotifyWatcher | None = None
         self.tracker: PrimeChangeTracker | None = None
         self._refresh_watcher()
@@ -113,7 +121,7 @@ class RuntimeController:
         self.runner.checks.network = "none" if restrictive else "shared"
         self.runner.services.network = "none" if restrictive else "shared"
         self.returns = ReturnManager(paths, store, self.checkpoint, self.transactions, core=self.core)
-        self.simulation = SystemSimulation(paths, store, self.sandbox, self.systemd, core=self.core)
+        self.simulation = SystemSimulation(paths, store, self.sandbox, self.systemd, self.gate, core=self.core)
         self.ghosts = GhostManager(config, store)
         self._last_ghost_generation = self.store.get_meta("primeGeneration")
         # Receipts that predate the anchor ledger are anchored now, in chain order, so coverage
@@ -605,14 +613,29 @@ class RuntimeController:
         reading = self.systemd.resource_telemetry(reservation.unit)
         return reading.get("currentMemoryBytes") if reading.get("state") == "OBSERVED" else None
 
-    def _reservation_is_live(self, reservation: Any) -> bool:
-        """Is the workload this reservation was taken for still running? A reservation with no
-        unit yet is live by definition: it was taken microseconds ago and the unit is about to
-        exist. Anything else is asked of the service manager."""
+    def _reservation_is_live(self, reservation: Any) -> bool | None:
+        """True, False, or None when the service manager could not tell us.
+
+        The three-way answer is the whole point. Reading "cannot answer" as "not running" is
+        fail-open: during a manager outage an ordinary admission deleted the accounting for
+        every workload that was still running and promised their memory to someone else. A
+        reservation we cannot ask about is held, not freed.
+
+        A reservation with no unit yet is live by definition — it was taken microseconds ago and
+        the unit is about to exist.
+        """
         unit = getattr(reservation, "unit", None)
         if not unit:
             return True
-        state = self.systemd.metadata(unit).get("ActiveState")
+        try:
+            metadata = self.systemd.metadata(unit)
+        except WorldlineError:
+            return None
+        if metadata.get("state") != "CAPTURED":
+            return None
+        state = metadata.get("ActiveState")
+        if not state:
+            return None
         return state in ("active", "activating", "reloading", "deactivating")
 
     def _doctor(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
@@ -631,6 +654,7 @@ class RuntimeController:
         try:
             snapshot["admission"] = self.admission.report(self.config.resource_policy)
             snapshot["admission"]["reconciledAtDaemonStart"] = [r.as_dict() for r in self._reconciled_at_start]
+            snapshot["admission"]["reconcileErrorAtDaemonStart"] = self._reconcile_error
         except WorldlineError as exc:
             snapshot["admission"] = {"state": {"state": "UNKNOWN", "reason": str(exc.args[1] if len(exc.args) > 1 else exc)}}
         try:

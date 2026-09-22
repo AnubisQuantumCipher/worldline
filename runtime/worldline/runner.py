@@ -247,11 +247,25 @@ class AgentRunner:
                     resources["effective"] = reading
                     break
                 sampling.wait(0.2)
+            # 100 ms, not a second. A workload killed at its ceiling leaves a truthful window
+            # only tens of milliseconds wide before `--collect` takes the unit and its cgroup
+            # away; sampling once a second recorded an OOM-killed run as a clean one. The peak
+            # is kept as a maximum rather than a last-value, so a late empty reading cannot
+            # erase what was already measured.
             while not sampling.is_set():
                 reading = self.systemd.resource_telemetry(unit.unit)
                 if reading.get("state") == "OBSERVED":
+                    previous = resources["observed"]
+                    if isinstance(previous, dict) and previous.get("state") == "OBSERVED":
+                        for key in ("peakMemoryBytes", "peakSwapBytes", "cpuTimeNanoseconds", "tasksCurrent"):
+                            if (previous.get(key) or 0) > (reading.get(key) or 0):
+                                reading[key] = previous[key]
+                        if previous.get("hitMemoryCeiling"):
+                            reading["hitMemoryCeiling"] = True
+                        if previous.get("oomKilled"):
+                            reading["oomKilled"] = True
                     resources["observed"] = reading
-                sampling.wait(1.0)
+                sampling.wait(0.1)
 
         sampler = threading.Thread(target=sample_resources, name="worldline-resource-sampler", daemon=True)
         sampler.start()
@@ -394,6 +408,18 @@ class AgentRunner:
         # What the manager says happened to the unit: structured, bounded, and the only basis
         # for telling a launcher that never got a unit from a workload that ran and failed.
         supervision = self.systemd.outcome(unit, exit_code, stopped=stopped)
+        # Durable evidence, for the case sampling missed. The manager's own record of why the
+        # unit ended outlives the unit, so a ceiling that fired is still provable after the
+        # cgroup is gone.
+        observed = resources.get("observed") if isinstance(resources.get("observed"), dict) else {}
+        manager_result = supervision.get("result") if isinstance(supervision, dict) else None
+        resources["ceilingFired"] = (
+            True if observed.get("hitMemoryCeiling") or observed.get("oomKilled") or manager_result == "oom-kill"
+            else (None if observed.get("state") != "OBSERVED" and manager_result is None else False))
+        resources["ceilingEvidence"] = (
+            "cgroup memory.events sampled during the run" if observed.get("hitMemoryCeiling") else
+            ("the service manager recorded Result=oom-kill" if manager_result == "oom-kill" else
+             ("nothing was measured" if resources["ceilingFired"] is None else "no ceiling event was recorded")))
         if supervision["kind"] == "LAUNCH_FAILED":
             first = (supervision.get("launcherStderr") or "").strip().splitlines()
             raise WorldlineError(
@@ -423,6 +449,10 @@ class AgentRunner:
             agent_result["reason"] = "USER_CANCELLED: the operator stopped this world before the agent finished"
         elif timed_out:
             agent_result["reason"] = f"TIMEOUT: the agent exceeded the {timeout:g} s limit and was stopped"
+        elif resources.get("ceilingFired"):
+            agent_result["reason"] = (
+                f"RESOURCE_LIMIT_EXCEEDED: the workload reached a resource ceiling this policy set"
+                f" ({resources['ceilingEvidence']})")
         elif supervision["kind"] == "INDETERMINATE":
             agent_result["reason"] = f"SUPERVISION_INDETERMINATE: the manager's journal did not establish that {unit.unit} ran ({supervision['source']})"
         check_results = [agent_result]

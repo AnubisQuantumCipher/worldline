@@ -16,6 +16,7 @@ from .core import Core, hash_id
 from .environment import evidence_manifest, safe_environment
 from .errors import WorldlineError
 from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
+from .admission import Gate
 from .linux.systemd import SystemdAdapter
 from .manifest import Manifest, display_path, path_b64
 from .model import World, WorldState
@@ -58,6 +59,7 @@ class SystemSimulation:
         store: StateStore,
         sandbox: BubblewrapSandbox,
         systemd: SystemdAdapter,
+        gate: "Gate",
         *,
         core: Core | None = None,
     ) -> None:
@@ -65,6 +67,7 @@ class SystemSimulation:
         self.store = store
         self.sandbox = sandbox
         self.systemd = systemd
+        self.gate = gate
         self.core = core or Core.shared()
         self.prime = PrimeManager(paths, store, self.core)
 
@@ -194,11 +197,25 @@ class SystemSimulation:
             raw_event_path=result_path,
             sandbox={"backend": "overlayfs+bubblewrap", "kind": "system"},
         )
-        unit_process = self.systemd.launch(
-            identifier,
-            self.sandbox.build_argv(spec),
-            description=f"WORLDLINE system future {selected_alias}",
-        )
+        # `simulate` runs as namespace root inside a future. It spawned supervised work with no
+        # reservation and no ceiling until 1.4.0: the unit's memory.max read `max` and its
+        # pids.max was the manager's default, not any WORLDLINE policy.
+        # `simulate` runs as namespace root inside a future, and until 1.4.0 it spawned
+        # supervised work with no reservation and no ceiling at all. The guard is opened here and
+        # released in the finally below, so it covers the run rather than only the launch.
+        guard = self.gate.guard("simulate")
+        guard.__enter__()
+        try:
+            unit_process = self.systemd.launch(
+                identifier,
+                self.sandbox.build_argv(spec),
+                description=f"WORLDLINE system future {selected_alias}",
+                resource_properties=self.gate.unit_properties(),
+            )
+        except BaseException:
+            guard.release()
+            raise
+        guard.attach_unit(unit_process.unit)
         self.store.update_job(
             job_id,
             state="RUNNING",
@@ -206,7 +223,10 @@ class SystemSimulation:
             pid=unit_process.pid,
         )
         try:
-            _stdout, stderr = unit_process.launcher.communicate(timeout=timeout)
+            try:
+                _stdout, stderr = unit_process.launcher.communicate(timeout=timeout)
+            finally:
+                guard.release()
             if unit_process.launcher.returncode != 0 or not result_path.is_file():
                 raise WorldlineError(
                     "SIMULATION_FAILED",

@@ -141,9 +141,18 @@ class ResourcePolicy:
     def unit_properties(self) -> list[str]:
         """systemd properties that put these ceilings on the unit's cgroup.
 
-        They are applied to the UNIT, so every descendant inherits them: an agent that spawns
-        Python that spawns a test suite that launches a prover stays inside one boundary.
+        They are applied to the UNIT, so a cooperative process tree inherits them: an agent that
+        spawns Python that spawns a test suite that launches a prover stays inside one boundary.
         Accounting is always on, because telemetry that was never collected is not evidence.
+
+        What this is NOT, measured rather than assumed: `systemd-run --user` places the unit
+        under a slice systemd delegates to the invoking uid, so a workload running as that uid
+        can create a sibling cgroup beside its own unit and move itself into it, escaping the
+        ceiling and the accounting both. Every shipped call site puts the workload inside the
+        bubblewrap sandbox, where /sys is read-only, user namespaces are disabled and the
+        session bus is absent, and a control shows the escape fails there. So the cgroup is the
+        budget for a workload that is not trying to leave it, and the sandbox is what stops one
+        that is. Neither alone is the boundary.
         """
         if self.enforcement != "cgroup2":
             return []
@@ -230,7 +239,10 @@ def _read_pressure(path: Path) -> dict[str, int]:
             if not separator:
                 continue
             if key.startswith("avg"):
-                values[f"{parts[0]}.{key}"] = round(float(raw) * 100)
+                reading = float(raw)
+                if reading != reading or reading in (float("inf"), float("-inf")) or not (0.0 <= reading <= 100.0):
+                    raise ValueError(f"pressure {key}={raw} is not a percentage")
+                values[f"{parts[0]}.{key}"] = round(reading * 100)
     if "some.avg10" not in values:
         raise ValueError(f"{path} has no `some avg10=`")
     return values
@@ -265,8 +277,15 @@ def observe(paths: Mapping[str, Path] | None = None, *, root: Path = Path("/")) 
     because a partially observed machine is not a machine we may reason about."""
     try:
         meminfo = _read_meminfo(root)
-    except (OSError, ValueError) as exc:
+    except (OSError, ValueError, ArithmeticError) as exc:
         return AdmissionState(state="UNKNOWN", reason=f"/proc/meminfo: {exc}")
+    # A reading that cannot be true is not a measurement. A corrupt MemAvailable of 1 PiB on a
+    # 31 GiB machine licensed an 8 TiB admission, so implausibility is refused as UNKNOWN rather
+    # than trusted because it happened to parse.
+    if meminfo["MemTotal"] <= 0 or not (0 <= meminfo["MemAvailable"] <= meminfo["MemTotal"]):
+        return AdmissionState(state="UNKNOWN",
+                              reason=f"/proc/meminfo is not plausible: MemAvailable={meminfo['MemAvailable']}"
+                                     f" of MemTotal={meminfo['MemTotal']}")
     pressures: dict[str, int | None] = {}
     for name in ("memory", "cpu", "io"):
         path = root / f"proc/pressure/{name}"
@@ -278,7 +297,9 @@ def observe(paths: Mapping[str, Path] | None = None, *, root: Path = Path("/")) 
             if name == "memory":
                 return AdmissionState(state="UNKNOWN", reason=f"{path} is absent: no memory pressure accounting")
             pressures[name] = None
-        except (OSError, ValueError) as exc:
+        except (OSError, ValueError, ArithmeticError) as exc:
+            # ArithmeticError covers OverflowError, which `inf` and an overflowing exponent raise
+            # out of round() — those escaped as tracebacks rather than refusals.
             return AdmissionState(state="UNKNOWN", reason=f"{path}: {exc}")
     disk: dict[str, dict[str, int]] = {}
     for name, path in dict(paths or {}).items():
@@ -372,7 +393,13 @@ class Ledger:
             raw = json.loads(self.path.read_text(encoding="utf-8"))
         except FileNotFoundError:
             return []
-        except (OSError, json.JSONDecodeError) as exc:
+        # Deliberately broad. A ledger is an untrusted file on disk, and three shapes escaped a
+        # narrower guard as tracebacks rather than refusals: invalid UTF-8 (UnicodeDecodeError),
+        # a JSON `Infinity` (OverflowError once used), and a deeply nested document
+        # (RecursionError). An exception that is not a refusal is not an answer.
+        except RecursionError as exc:
+            raise WorldlineError(RESOURCE_STATE_UNKNOWN, f"the admission ledger is too deeply nested: {exc}") from exc
+        except Exception as exc:  # noqa: BLE001
             # A ledger we cannot read is not an empty ledger. Treating it as empty would admit
             # everything at exactly the moment the accounting broke.
             raise WorldlineError(RESOURCE_STATE_UNKNOWN, f"the admission ledger is unreadable: {exc}") from exc
@@ -381,9 +408,28 @@ class Ledger:
         out: list[Reservation] = []
         for item in raw["reservations"]:
             try:
-                out.append(Reservation.from_dict(item))
-            except (KeyError, TypeError, ValueError) as exc:
+                reservation = Reservation.from_dict(item)
+            except RecursionError as exc:
+                raise WorldlineError(RESOURCE_STATE_UNKNOWN, f"an admission record is too deeply nested: {exc}") from exc
+            except Exception as exc:  # noqa: BLE001
                 raise WorldlineError(RESOURCE_STATE_UNKNOWN, f"the admission ledger holds a bad record: {exc}") from exc
+            # A negative reservation manufactures headroom: withholding -12 GiB turns a correct
+            # refusal into an admission. A record that cannot be true is a broken ledger.
+            if reservation.memory_bytes < 0 or reservation.tasks < 0:
+                raise WorldlineError(RESOURCE_STATE_UNKNOWN,
+                                     f"admission record {reservation.reservation_id} holds a negative quantity")
+            if reservation.memory_bytes > MAX_MEMORY_BYTES:
+                raise WorldlineError(RESOURCE_STATE_UNKNOWN,
+                                     f"admission record {reservation.reservation_id} reserves an impossible"
+                                     f" {reservation.memory_bytes} bytes")
+            if reservation.unit is not None and not isinstance(reservation.unit, str):
+                raise WorldlineError(RESOURCE_STATE_UNKNOWN, "an admission record names a non-string unit")
+            out.append(reservation)
+        seen = [r.reservation_id for r in out]
+        if len(set(seen)) != len(seen):
+            # Two records with one id: releasing either removed both, and 4 GiB of accounting
+            # vanished on a single release.
+            raise WorldlineError(RESOURCE_STATE_UNKNOWN, "the admission ledger holds duplicate reservation ids")
         return out
 
     def _store(self, reservations: Sequence[Reservation]) -> None:
@@ -412,6 +458,8 @@ class Ledger:
             return True
 
     def attach_unit(self, reservation_id: str, unit: str) -> None:
+        if not isinstance(unit, str) or not unit or "\n" in unit or "/" in unit:
+            raise WorldlineError(RESOURCE_POLICY_INVALID, f"a reservation cannot name this unit: {unit!r}")
         with self.locked():
             current = self._load()
             self._store([
@@ -420,14 +468,23 @@ class Ledger:
                 for r in current
             ])
 
-    def reconcile(self, is_live: Callable[[Reservation], bool]) -> list[Reservation]:
+    def reconcile(self, is_live: Callable[[Reservation], bool | None]) -> list[Reservation]:
         """Drop reservations whose workload is gone. This is what makes a reservation survive a
         daemon that died between spawning and releasing: the truth is the service manager's, not
         ours, so anything it no longer has is released here rather than held forever."""
         with self.locked():
             current = self._load()
-            live = [r for r in current if is_live(r)]
-            dropped = [r for r in current if r not in live]
+            # Three answers, not two. `None` means the manager could not tell us, and a
+            # reservation we cannot ask about is KEPT: freeing it would promise a running
+            # workload's memory to somebody else. A callback that raises is the same as None —
+            # a foreign unit name in the ledger used to wedge reconcile permanently.
+            def verdict(reservation: Reservation) -> bool | None:
+                try:
+                    return is_live(reservation)
+                except Exception:  # noqa: BLE001
+                    return None
+            dropped = [r for r in current if verdict(r) is False]
+            live = [r for r in current if r not in dropped]
             if dropped:
                 self._store(live)
             return dropped
@@ -507,8 +564,12 @@ class AdmissionAuthority:
         # number would be a guess dressed as accounting, and every other gate still applies —
         # the machine must still have free memory, tolerable pressure and disk headroom. The
         # decision says `accounted: false` so nobody mistakes this for a budget.
-        unmetered = memory_bytes is None and policy.memory_max_bytes is None
-        request_bytes = 0 if unmetered else (memory_bytes if memory_bytes is not None else policy.memory_max_bytes)
+        # memoryHigh is a ceiling too — a policy that declares only a high watermark was being
+        # admitted unmetered while the kernel was handed a real MemoryHigh, so the decision said
+        # "nothing is enforced" about a unit that was being throttled.
+        declared = policy.memory_max_bytes if policy.memory_max_bytes is not None else policy.memory_high_bytes
+        unmetered = memory_bytes is None and declared is None
+        request_bytes = 0 if unmetered else (memory_bytes if memory_bytes is not None else declared)
         if unmetered:
             pass
         elif isinstance(request_bytes, bool) or not isinstance(request_bytes, int) or request_bytes <= 0:
@@ -526,10 +587,16 @@ class AdmissionAuthority:
 
         with self.ledger.locked() as handle:
             try:
-                current = [r for r in self.ledger._load() if self._is_live(r)]
+                loaded = self.ledger._load()
             except WorldlineError as exc:
                 return Decision(RESOURCE_STATE_UNKNOWN, str(exc.args[1] if len(exc.args) > 1 else exc),
                                 state=state.as_dict(), policy=policy.canonical())
+            # Liveness filters the ARITHMETIC, never the file. Writing the filtered list back was
+            # a persistent deletion: one ordinary admission during a service-manager outage
+            # destroyed the accounting for every workload that was still running, and promised
+            # their capacity to someone else. Reconciliation is the only thing that removes a
+            # record, and it refuses to act on an answer it did not get.
+            current = [r for r in loaded if self._is_live(r) is not False]
             withheld, detail = self.outstanding_withheld(current)
             assert state.mem_available_bytes is not None
             headroom = state.mem_available_bytes - withheld - self.floors.min_free_memory_bytes
@@ -569,7 +636,10 @@ class AdmissionAuthority:
                                     f" {self.floors.min_free_inodes}",
                                     arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
 
-            if not unmetered and request_bytes > headroom:
+            # The floor applies to unmetered work too. Unmetered means unaccounted, not
+            # unguarded, and the shipped default is unmetered — so skipping this gate let a
+            # machine 1.9 GiB BELOW its own floor admit work with headroom already negative.
+            if request_bytes > headroom:
                 return Decision(RESOURCES_UNAVAILABLE,
                                 f"{request_bytes} bytes requested but only {headroom} are free to promise:"
                                 f" {state.mem_available_bytes} available, {withheld} withheld by"
@@ -581,9 +651,13 @@ class AdmissionAuthority:
                 memory_bytes=request_bytes, tasks=policy.tasks_max or 0,
                 created_at_ms=int(time.time() * 1000), owner_pid=os.getpid(),
             )
-            self.ledger._store([*current, reservation])
+            self.ledger._store([*loaded, reservation])
 
-        reason = (f"{request_bytes} bytes reserved against {headroom} of headroom" if not unmetered else
+        enforced = policy.enforcement == "cgroup2" and bool(policy.unit_properties())
+        reason = ((f"{request_bytes} bytes reserved against {headroom} of headroom"
+                   + ("" if enforced else "; NOTHING is enforced on the workload because"
+                                         f" limits.resources.enforcement is {policy.enforcement!r}"))
+                  if not unmetered else
                   "admitted UNMETERED: this policy declares no memory ceiling, so nothing was"
                   f" reserved and nothing is enforced. {headroom} bytes of headroom were free."
                   " Set limits.resources.memoryMaxBytes to make this a budget.")
@@ -624,10 +698,13 @@ class AdmissionAuthority:
             "withheldBytes": withheld,
             "headroomBytes": headroom,
             "ledgerError": ledger_error,
-            "unmetered": policy.memory_max_bytes is None,
-            "wouldAdmitNow": None if state.state != "OBSERVED" or ledger_error else (
-                True if policy.memory_max_bytes is None else (
-                headroom is not None and policy.memory_max_bytes <= headroom)),
+            "unmetered": policy.memory_max_bytes is None and policy.memory_high_bytes is None,
+            "enforced": policy.enforcement == "cgroup2" and bool(policy.unit_properties()),
+            # The same arithmetic admit() uses, including for an unmetered policy — a report
+            # that said "yes" while headroom was already negative was the doctor telling an
+            # operator the opposite of what the engine would do.
+            "wouldAdmitNow": None if state.state != "OBSERVED" or ledger_error or headroom is None else (
+                (policy.memory_max_bytes or policy.memory_high_bytes or 0) <= headroom),
         }
 
 
