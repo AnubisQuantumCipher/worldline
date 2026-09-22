@@ -319,7 +319,13 @@ def policy_warnings(project: ProjectConfig, primary_source: Path) -> list[str]:
             continue
         for named in named_existing:
             if os.path.dirname(named) in ("", "."):
-                out.append(f"check {check.id}: only the named top-level verifier {named} is bound; helpers it imports are not — declare `verifiers` to bind them")
+                # This used to be a warned LIMIT: the unbound sibling stayed importable, so the
+                # check passed while a forged helper went undetected. Verifiers are now staged
+                # from PRIME and executed from the staging directory, so an undeclared helper is
+                # not there at all and the check FAILS. That is the right posture -- an
+                # undeclared dependency is not authoritative, and running it anyway was the
+                # hole -- but the warning has to say what will actually happen.
+                out.append(f"check {check.id}: only the named top-level verifier {named} is bound, so it is the only file staged; anything it imports from beside it will NOT be found and the check will FAIL — declare `verifiers` to bind and stage them")
     return out
 
 
