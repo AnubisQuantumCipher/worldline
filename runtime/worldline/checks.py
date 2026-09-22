@@ -330,6 +330,10 @@ class CheckRunner:
                 " same evaluation do not agree",
             )
 
+        # If the staged bundle could not satisfy the examiner's own imports, say so on the
+        # result itself. `worldline show` is where an operator reads this, and "FAIL" with no
+        # reason sends them to debug their candidate for a defect in the policy.
+        gaps = (executed or {}).get("unsatisfiedImports") if executed else None
         stdout = base64.b64decode(raw["stdoutB64"].encode("ascii"), validate=True)
         stderr = base64.b64decode(raw["stderrB64"].encode("ascii"), validate=True)
         result_bytes = None if raw["resultB64"] is None else base64.b64decode(raw["resultB64"].encode("ascii"), validate=True)
@@ -362,6 +366,15 @@ class CheckRunner:
                 },
             },
             "supervision": supervision,
+            "evaluatorCompleteness": (
+                {"complete": False,
+                 "unsatisfiedImports": gaps,
+                 "reason": "the staged verifier bundle cannot satisfy "
+                           + ", ".join(sorted({f"{g['verifier']} -> {g['module']}" for g in gaps}))
+                           + "; declare the helper in this check's `verifiers` so it is staged"
+                             " from PRIME. WORLDLINE will not fall back to the candidate's copy."}
+                if gaps else {"complete": True, "unsatisfiedImports": []}
+            ),
             "candidateReachable": {
                 # Produced by processes under examination. Parsed because a check must be read,
                 # never because these bytes are trusted.

@@ -48,9 +48,12 @@ What it does NOT establish, equally exactly:
 """
 from __future__ import annotations
 
+import ast
 import hashlib
 import os
+import posixpath
 import shutil
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -107,6 +110,26 @@ def _digest_fd(fd: int) -> tuple[str, int]:
     return digest.hexdigest(), size
 
 
+
+def _remove_staging(path: Path) -> None:
+    """Remove a previous staging directory, including one this module locked down.
+
+    Staging ends at mode 0500 -- readable and traversable, not writable -- so nothing writes
+    there again. A plain `rmtree` cannot delete entries inside such a directory, which made the
+    reuse branch below raise PermissionError instead of doing the one job it exists for. Today
+    every (world instance, check) pair gets a fresh path so the branch is not reached, but a
+    recovery path that cannot recover is not a recovery path.
+    """
+    if not path.exists():
+        return
+    for directory in (p for p in [path, *path.rglob("*")] if p.is_dir()):
+        try:
+            os.chmod(directory, 0o700)
+        except OSError:
+            pass
+    shutil.rmtree(path)
+
+
 @dataclass(slots=True)
 class StagedVerifier:
     root_key: str
@@ -149,8 +172,7 @@ class ExecutionVerifierSet:
         """Copy the declared set out of the overlays and identify it by descriptor."""
         staged = cls(check_id, staging)
         try:
-            if staging.exists():
-                shutil.rmtree(staging)
+            _remove_staging(staging)
             staging.mkdir(parents=True)
             os.chmod(staging, 0o700)
             for entry in sorted(entries, key=lambda item: (item["rootKey"], item["path"])):
@@ -280,11 +302,79 @@ class ExecutionVerifierSet:
             rewrites.append({"from": token, "to": item.staged, "sha256": item.sha256})
         return out, rewrites
 
+
+    # -- is the staged bundle self-sufficient? ----------------------------------------------------
+
+    def unsatisfied_imports(self) -> list[dict[str, Any]]:
+        """Module-level imports of staged Python verifiers that the staged bundle cannot satisfy.
+
+        This exists to keep two very different things from telling the operator the same story:
+
+            the candidate failed a valid examination
+            the examination could not complete because its trusted dependencies were incomplete
+
+        Both block promotion. Only one of them is about the candidate.
+
+        The check runs over the STAGED bytes -- trusted content, copied from PRIME, identified by
+        the descriptors held open here -- and it runs BEFORE anything executes. It is therefore a
+        supervisor-owned fact, not an inference from what the examination printed. That matters:
+        an examiner's stderr passes through processes the candidate can reach, so a traceback is
+        not evidence of anything.
+
+        Deliberately conservative, because a false positive would blame the evaluator for a
+        candidate's genuine failure:
+
+        - only imports at the top level of the module body, so anything guarded by `try` or
+          deferred into a function is left alone;
+        - only absolute imports, since a relative one is a statement about package structure
+          rather than about a missing file;
+        - satisfied by the standard library, or by a sibling `X.py` or `X/__init__.py` staged in
+          the same directory as the importing verifier -- which is where an examiner that adds
+          its own directory to `sys.path` will look.
+
+        It is not a complete dependency analysis and does not claim to be. A bundle it passes can
+        still fail on a dynamic import; that is a missing detection, never a false accusation.
+        """
+        staged_paths = {(item.root_key, item.relative) for item in self.items}
+        gaps: list[dict[str, Any]] = []
+        for item in sorted(self.items, key=lambda i: (i.root_key, i.relative)):
+            if not item.relative.endswith(".py"):
+                continue
+            try:
+                tree = ast.parse(os.pread(item.fd, item.bytes, 0).decode("utf-8"))
+            except (OSError, SyntaxError, UnicodeDecodeError):
+                # A verifier this module cannot read or parse is not a verifier this module will
+                # make claims about. Silence here is the honest answer.
+                continue
+            directory = posixpath.dirname(item.relative)
+            for node in tree.body:
+                if isinstance(node, ast.Import):
+                    roots = [alias.name.split(".")[0] for alias in node.names]
+                elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
+                    roots = [node.module.split(".")[0]]
+                else:
+                    continue
+                for root in roots:
+                    if root in sys.stdlib_module_names:
+                        continue
+                    candidates = {posixpath.normpath(posixpath.join(directory, f"{root}.py")),
+                                  posixpath.normpath(posixpath.join(directory, root, "__init__.py"))}
+                    if any((item.root_key, c) in staged_paths for c in candidates):
+                        continue
+                    gap = {"verifier": item.relative, "rootKey": item.root_key, "module": root}
+                    if gap not in gaps:
+                        gaps.append(gap)
+        return gaps
+
     def as_evidence(self) -> dict[str, Any]:
+        gaps = self.unsatisfied_imports()
         return {
             "mount": VERIFIER_MOUNT,
             "identity": self.identity(),
             "members": [item.as_dict() for item in self.items],
+            # Established over trusted bytes before execution. A check that fails with a gap
+            # recorded here did not necessarily fail on its merits.
+            "unsatisfiedImports": gaps,
             "nonClaims": [
                 "This identifies the declared verifier BUNDLE that was made available for"
                 " execution. It does not trace which of its files the interpreter actually read:"
@@ -296,6 +386,10 @@ class ExecutionVerifierSet:
                 " against the descriptor's (device, inode) for exactly that reason.",
                 "This addresses a workload inside a WORLDLINE sandbox. It says nothing about an"
                 " adversary with host-side write access to the daemon's staging directory.",
+                "unsatisfiedImports reports module-level, absolute imports only. An empty list"
+                " does not establish that the bundle is complete — a dynamic or guarded import"
+                " can still fail at runtime. It is built to avoid blaming the evaluator for a"
+                " candidate's genuine failure, so it misses rather than over-reports.",
             ],
         }
 

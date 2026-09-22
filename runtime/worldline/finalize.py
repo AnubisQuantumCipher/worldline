@@ -71,6 +71,10 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
     status = result.get("status")
     origin = result.get("origin")
     channel = result.get("resultChannel") or {}
+    # Established over trusted bytes before execution: the staged bundle could not satisfy an
+    # import the examiner makes at module level. A check that then fails did not necessarily
+    # fail on its merits, and telling the operator "the candidate failed" would be wrong.
+    gaps = (executed or {}).get("unsatisfiedImports") if isinstance(executed, Mapping) else None
     if origin == "engine":
         # A check the ENGINE evaluates from facts it owns: protected-paths compares the
         # candidate's delta against the policy, with no subprocess and therefore no exit code.
@@ -94,6 +98,12 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
         outcome = "NONE"
     elif result.get("exitCode") is None and status is None:
         execution = "NOT_ATTEMPTED"
+        outcome = "NONE"
+    elif gaps and status != "PASS":
+        # Not COMPLETED: the examination could not be carried out as specified. Distinct from
+        # FAIL, which is a verdict ON the candidate. Both block promotion; only one of them is
+        # about the candidate, and the operator needs to be told which.
+        execution = "EVALUATOR_INCOMPLETE"
         outcome = "NONE"
     else:
         execution = "COMPLETED"
@@ -120,6 +130,10 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
             " into a single confidence.",
             "bundleIntegrity establishes that the declared artifacts were staged and did not move."
             " It does not establish that they were read.",
+            "EVALUATOR_INCOMPLETE is raised from a conservative, module-level import analysis of"
+            " the staged verifiers. Its absence does not establish that the evaluator was"
+            " complete: a dynamic or guarded import can still fail at run time, and such a run"
+            " is reported as an ordinary FAIL.",
         ],
     }
 
@@ -320,6 +334,21 @@ class Finalizer:
                     }
                 )
                 required_checks.append("protected-paths")
+            # These belong to the RECORD, so they are attached before the evidence manifest is
+            # built and hashed -- not afterwards.
+            #
+            # `evidence_manifest` shallow-copies each result, so anything attached after it was
+            # built lived only on the runner's own list. Finalization read the originals and
+            # correctly degraded the world, but the COMMIT-time gate reads
+            # `subject.evidence["checks"]`, i.e. the copies, where `executionBinding` and
+            # `evaluation` were simply absent. Both of its guards therefore compared against
+            # nothing: `executionBinding == "UNESTABLISHED"` could never be true, and a missing
+            # `executionStatus` reads as None, which is permitted. The second gate that feeds
+            # the kernel's completeness input was passing by not asking -- the exact failure its
+            # own docstring warns about.
+            for item in check_results:
+                item["executionBinding"] = execution_binding(item)
+                item["evaluation"] = evaluation_record(item)
             dependencies = capture_dependencies(dependency_roots, self.core)
             dependency_counts = [item["count"] for item in dependencies]
             dependency_count = (
@@ -407,9 +436,6 @@ class Finalizer:
             world.delta = {**delta.value["summary"], "files": delta.value["operations"]}
             world.establish_identity(self.core)
             results_by_id = {item.get("id"): item for item in check_results}
-            for item in check_results:
-                item["executionBinding"] = execution_binding(item)
-                item["evaluation"] = evaluation_record(item)
             failed_required = [
                 check_id
                 for check_id in required_checks
