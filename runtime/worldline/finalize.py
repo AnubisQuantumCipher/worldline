@@ -69,18 +69,33 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
         integrity = "COMPROMISED"
 
     status = result.get("status")
-    if result.get("exitCode") is None and executed:
-        # An examiner was staged, so one was supposed to run, and the harness never produced a
-        # record the runner could parse. Whatever else is true, nothing was evaluated.
-        execution = "ERROR_BEFORE_EXAMINER"
+    origin = result.get("origin")
+    channel = result.get("resultChannel") or {}
+    if origin == "engine":
+        # A check the ENGINE evaluates from facts it owns: protected-paths compares the
+        # candidate's delta against the policy, with no subprocess and therefore no exit code.
+        # This used to be inferred from "a status is present and an exit code is not", which is
+        # also what a subverted harness looks like. It is declared now.
+        execution = "COMPLETED"
+        outcome = "PASS" if status == "PASS" else "FAIL"
+    elif channel.get("accepted") is False:
+        # The evaluation did not complete. Name the stage ONLY where supervisor-owned facts
+        # establish it; ERROR_BEFORE_EXAMINER asserts which side of the examiner execution
+        # stopped on, and nothing trusted establishes that when no record arrived at all.
+        stage = channel.get("stage")
+        execution = {
+            "SANDBOX_NEVER_STARTED": "ERROR_BEFORE_EXAMINER",
+            "STOPPED_BY_MANAGER": "INTERRUPTED",
+            "HARNESS_SIGNALLED": "INTERRUPTED",
+        }.get(stage, "INCOMPLETE_UNKNOWN")
+        outcome = "NONE"
+    elif result.get("exitCode") is None and executed:
+        execution = "INCOMPLETE_UNKNOWN"
         outcome = "NONE"
     elif result.get("exitCode") is None and status is None:
         execution = "NOT_ATTEMPTED"
         outcome = "NONE"
     else:
-        # Either the harness reported, or this is a check the engine evaluates itself — the
-        # synthetic protected-paths check has a verdict and no subprocess, and treating its
-        # absent exit code as a failed launch turned every clean world DEGRADED.
         execution = "COMPLETED"
         outcome = "PASS" if status == "PASS" else "FAIL"
 
@@ -92,11 +107,17 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
         "evaluationOutcome": outcome,
         "admissibleForPromotion": admissible,
         "nonClaims": [
-            "executionStatus is derived from the record the harness wrote. That record travels"
-            " through a writable bind the candidate's own children can reach, so it is not yet"
-            " forgery-resistant: a trusted control channel is the next piece of work, and until"
-            " it exists COMPLETED means 'a well-formed record arrived', not 'no one could have"
-            " written it'.",
+            "executionStatus COMPLETED means two independent observations of the evaluation"
+            " agreed: the single framed record on the harness's own stdout, and the exit status"
+            " the service manager reported for the unit. It does not mean the examiner's"
+            " JUDGMENT is independent of the candidate -- an examiner that runs candidate code"
+            " is reporting on work that code participated in.",
+            "The agreement is between two SUPERVISOR-side observations. Where the manager's"
+            " journal carries no exit entry -- systemd writes one for a failing unit and not"
+            " for a successful one -- the observation is the exit status systemd-run"
+            " propagated, which is weaker than the manager's own record while still being"
+            " outside the sandbox. The source is named in resultChannel rather than averaged"
+            " into a single confidence.",
             "bundleIntegrity establishes that the declared artifacts were staged and did not move."
             " It does not establish that they were read.",
         ],
@@ -289,6 +310,9 @@ class Finalizer:
                         "kind": "policy",
                         "required": True,
                         "format": "engine",
+                        # Stated, not inferred from an absent exit code: the engine computed
+                        # this verdict itself from facts it owns. See evaluation_record.
+                        "origin": "engine",
                         "covers": list(protected),
                         "status": "FAIL" if touched else "PASS",
                         "touched": touched,

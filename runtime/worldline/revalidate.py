@@ -155,7 +155,7 @@ class Revalidator:
         if project.protected:
             delta = protected_delta()
             touched = sorted({op["pathDisplay"] for op in delta.value["operations"] if protected_matches(tuple(project.protected), op["pathDisplay"])})
-            results.append({"id": "protected-paths", "kind": "policy", "required": True, "format": "engine", "covers": list(project.protected), "status": "FAIL" if touched else "PASS", "touched": touched, "reason": ("protected paths would change: " + ", ".join(touched)) if touched else "no protected path changed"})
+            results.append({"id": "protected-paths", "kind": "policy", "required": True, "format": "engine", "origin": "engine", "covers": list(project.protected), "status": "FAIL" if touched else "PASS", "touched": touched, "reason": ("protected paths would change: " + ", ".join(touched)) if touched else "no protected path changed"})
             required.append("protected-paths")
         context = build_context(
             requirement=current,

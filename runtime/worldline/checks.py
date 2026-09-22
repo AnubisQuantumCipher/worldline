@@ -22,6 +22,27 @@ from .project import CheckSpec
 from .environment import safe_environment
 from .paths import WorldlinePaths, secure_directory
 
+# The authoritative result channel.
+#
+# The record used to be written to a file in /run/worldline-runtime. That directory is
+# bind-mounted read-write and is the world's XDG_RUNTIME_DIR, so the very processes under
+# examination could create, replace or symlink the file that reports on them. Isolating the
+# harness's imports closed the route to OWNING the harness and left open the route to simply
+# writing its conclusion.
+#
+# A nonce would not have fixed it: the examiner's children run as the same user in the same PID
+# namespace, so anything passed in argv, the environment or the spec is readable through procfs.
+# What they cannot do is append to this stream undetected. The harness writes ONE framed record
+# to its own stdout -- a pipe held by the supervisor, never inherited by the examiner, whose own
+# stdout and stderr are pipes the harness reads -- and writes nothing else. The supervisor
+# therefore requires the entire stream to be exactly one frame: a prefix, a suffix or a second
+# frame is interference, not a result.
+#
+# The harness also exits with the examiner's status, so the SERVICE MANAGER records the verdict
+# independently of anything inside the sandbox. Suppressing the frame means killing the harness,
+# which the manager reports as a signal. The two observations must agree or the check refuses.
+RECORD_MARKER = "\x1e--worldline-check-record-v1--\x1e"
+
 _CHECK_RUNNER = """
 import base64
 import json
@@ -29,6 +50,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+MARKER = '\x1e--worldline-check-record-v1--\x1e'
 specification = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
 started = time.monotonic_ns()
 completed = subprocess.run(specification['argv'], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
@@ -37,15 +59,53 @@ if specification['result'] is not None:
     path = Path(specification['result'])
     if path.is_file():
         result = base64.b64encode(path.read_bytes()).decode('ascii')
-Path(sys.argv[2]).write_text(json.dumps({
-    'schemaVersion': 1,
-    'exitCode': completed.returncode,
+code = completed.returncode
+record = json.dumps({
+    'schemaVersion': 2,
+    'exitCode': code,
     'durationNs': time.monotonic_ns() - started,
     'stdoutB64': base64.b64encode(completed.stdout).decode('ascii'),
     'stderrB64': base64.b64encode(completed.stderr).decode('ascii'),
     'resultB64': result,
-}, sort_keys=True, separators=(',', ':')) + '\\n', encoding='utf-8')
+}, sort_keys=True, separators=(',', ':'))
+sys.stdout.write(MARKER + record + MARKER)
+sys.stdout.flush()
+# Exit with the examiner's status so the service manager records the verdict too. Signals follow
+# the shell convention; the supervisor computes the same mapping and compares.
+sys.exit(code & 0xFF if code >= 0 else min(255, 128 - code))
 """.strip()
+
+
+def expected_unit_exit(examiner_exit: int) -> int:
+    """The unit exit status the harness produces for a given examiner status.
+
+    Mirrors the harness exactly. Python reports a signalled child as a negative number, which
+    `sys.exit` cannot express, so signals follow the shell convention.
+    """
+    return examiner_exit & 0xFF if examiner_exit >= 0 else min(255, 128 - examiner_exit)
+
+
+def parse_record_stream(stream: bytes) -> tuple[dict[str, Any] | None, str | None]:
+    """The framed record, or None and a named reason.
+
+    The whole stream must be one frame. Anything else means something other than the harness
+    wrote to the harness's stdout, and a result that cannot be attributed is not a result.
+    """
+    text = stream.decode("utf-8", "replace")
+    parts = text.split(RECORD_MARKER)
+    if len(parts) == 1:
+        return None, "the harness produced no result record"
+    if len(parts) != 3:
+        return None, f"the result stream carries {(len(parts) - 1) // 2} frames, so the record cannot be attributed to the harness"
+    if parts[0] != "" or parts[2].strip() != "":
+        return None, "the result stream carries bytes outside the record frame, so it was written to by more than the harness"
+    try:
+        record = json.loads(parts[1])
+    except json.JSONDecodeError as exc:
+        return None, f"the result record is not valid JSON: {exc}"
+    if not isinstance(record, dict) or record.get("schemaVersion") != 2:
+        return None, "the result record does not have the expected schema"
+    return record, None
 
 
 class CheckRunner:
@@ -193,7 +253,11 @@ class CheckRunner:
                 description=f"WORLDLINE check {check.id}",
                 resource_properties=self.gate.unit_properties(),
             )
-            _stdout, launch_stderr = process.launcher.communicate(timeout=600)
+            record_stream, launch_stderr = process.launcher.communicate(timeout=600)
+            # Supervisor-owned facts, from the service manager's own journal entries for this
+            # unit. The candidate cannot write these: they are the manager's record of a process
+            # it supervised, not anything reported from inside the sandbox.
+            supervision = self.systemd.outcome(process, process.launcher.returncode)
         executed: dict[str, Any] | None = None
         if staged is not None:
             try:
@@ -208,31 +272,72 @@ class CheckRunner:
                 executed["stable"] = after == executed["identity"] and not changes
             finally:
                 staged.close()
-        record_path = runtime / "result.json"
-        if process.launcher.returncode != 0 or not record_path.is_file():
-            return {
-                "id": check.id,
-                "kind": check.kind,
-                "required": check.required,
-                "format": check.format,
-                "covers": list(check.covers),
-                "status": "FAIL",
-                "reason": launch_stderr.decode("utf-8", "replace").strip() or "check sandbox failed",
-                "executedVerifierSet": executed,
-            }
-        raw = json.loads(record_path.read_text(encoding="utf-8"))
-        stdout = base64.b64decode(raw["stdoutB64"].encode("ascii"), validate=True)
-        stderr = base64.b64decode(raw["stderrB64"].encode("ascii"), validate=True)
-        result_bytes = None if raw["resultB64"] is None else base64.b64decode(raw["resultB64"].encode("ascii"), validate=True)
-        parsed = self._parse(check, raw["exitCode"], stdout, stderr, result_bytes)
-        return {
+        observed = self._observed_exit(supervision, process.launcher.returncode)
+        identity = {
             "id": check.id,
             "kind": check.kind,
             "required": check.required,
             "format": check.format,
             "covers": list(check.covers),
+        }
+
+        def refuse(stage: str, reason: str) -> dict[str, Any]:
+            # A check that did not complete is NOT a failed check: nothing was evaluated. The
+            # stage is named only where supervisor-owned facts establish it.
+            return {
+                **identity,
+                "status": "FAIL",
+                "reason": reason,
+                "executedVerifierSet": executed,
+                "resultChannel": {"accepted": False, "stage": stage, "reason": reason},
+                "supervision": supervision,
+                "origin": "supervisor",
+            }
+
+        raw, channel_error = parse_record_stream(record_stream)
+        if raw is None:
+            launcher_text = launch_stderr.decode("utf-8", "replace").strip()
+            if supervision.get("kind") == "SUPERVISED" and supervision.get("stoppedByManager"):
+                stage = "STOPPED_BY_MANAGER"
+            elif supervision.get("kind") == "LAUNCH_FAILED":
+                stage = "SANDBOX_NEVER_STARTED"
+            elif observed["signalled"]:
+                stage = "HARNESS_SIGNALLED"
+            else:
+                # The harness started and produced no attributable record. Which side of the
+                # examiner it stopped on is NOT established by anything trusted here, and
+                # naming a stage would be inventing one.
+                stage = "NO_ATTRIBUTABLE_RECORD"
+            return refuse(stage, f"{channel_error}{': ' + launcher_text if launcher_text else ''}")
+
+        # Two independent observations of the same verdict: the harness's own report, and the
+        # service manager's record of the unit's exit. They must agree.
+        reported = raw["exitCode"]
+        if not isinstance(reported, int):
+            return refuse("RECORD_MALFORMED", "the result record does not carry an integer exit status")
+        if observed["exitStatus"] is None:
+            # One observation is not a cross-check. Unknown is not permission.
+            return refuse(
+                "UNCORROBORATED",
+                f"the supervisor could not observe how the check unit ended ({observed['source']}),"
+                " so the harness's own report is the only account of the evaluation",
+            )
+        if observed["exitStatus"] != expected_unit_exit(reported):
+            return refuse(
+                "CHANNEL_DISAGREEMENT",
+                f"the harness reported examiner status {reported} but the service manager"
+                f" recorded unit status {observed['exitStatus']}; the two observations of the"
+                " same evaluation do not agree",
+            )
+
+        stdout = base64.b64decode(raw["stdoutB64"].encode("ascii"), validate=True)
+        stderr = base64.b64decode(raw["stderrB64"].encode("ascii"), validate=True)
+        result_bytes = None if raw["resultB64"] is None else base64.b64decode(raw["resultB64"].encode("ascii"), validate=True)
+        parsed = self._parse(check, reported, stdout, stderr, result_bytes)
+        return {
+            **identity,
             "argv": list(check.argv),
-            "exitCode": raw["exitCode"],
+            "exitCode": reported,
             "durationNs": raw["durationNs"],
             "stdoutB64": raw["stdoutB64"],
             "stderrB64": raw["stderrB64"],
@@ -240,7 +345,70 @@ class CheckRunner:
             # against what the policy declares; a difference is VERIFIER_EXECUTION_IDENTITY_MISMATCH
             # and cannot satisfy the acceptance gate.
             "executedVerifierSet": executed,
+            # Three kinds of fact that were being carried as one. Keeping them apart is what
+            # stops a judgment inheriting the authority of an observation, or a candidate's
+            # own bytes inheriting the authority of a judgment.
+            "origin": "supervisor",
+            "resultChannel": {
+                "accepted": True,
+                "frames": 1,
+                "exitStatusAgreement": {
+                    "status": "AGREED",
+                    "harnessReported": reported,
+                    "supervisorObserved": observed["exitStatus"],
+                    "source": observed["source"],
+                    "journal": observed.get("journal"),
+                    "launcher": observed.get("launcher"),
+                },
+            },
+            "supervision": supervision,
+            "candidateReachable": {
+                # Produced by processes under examination. Parsed because a check must be read,
+                # never because these bytes are trusted.
+                "stdoutB64": raw["stdoutB64"],
+                "stderrB64": raw["stderrB64"],
+                "resultFilePresent": raw["resultB64"] is not None,
+            },
             **parsed,
+        }
+
+    @staticmethod
+    def _observed_exit(supervision: Mapping[str, Any], launcher_exit: int | None) -> dict[str, Any]:
+        """How the unit ended, according to the SUPERVISOR rather than to the sandbox.
+
+        Two supervisor-owned sources, and the difference between them matters:
+
+        launcher     `systemd-run --pipe` propagates the service's exit status as its own, and
+                     this process reaped it. Always available. The candidate cannot reach it:
+                     systemd-run runs outside the sandbox, and the only way to influence it is
+                     to change how the service actually ended.
+        journal      the manager's own entry for the main process exiting. Stronger, because it
+                     is the manager's record rather than an exit code relayed through a pipe --
+                     but systemd writes that entry for a FAILING unit and not for a successful
+                     one, so it is absent exactly where a claimed PASS would most want
+                     corroborating. It is used when present and never waited for.
+
+        Preferring the journal and stopping there left `exitStatus` None for every passing
+        check, which made the cross-check below pass by not asking.
+        """
+        journal_status = supervision.get("exitStatus")
+        journal_status = journal_status if isinstance(journal_status, int) else None
+        launcher_status = launcher_exit if isinstance(launcher_exit, int) else None
+        if journal_status is not None and launcher_status is not None and journal_status != launcher_status:
+            # The two supervisor-owned sources disagree with EACH OTHER. Nothing here is the
+            # candidate's doing, but the supervisor cannot state how the unit ended.
+            return {"exitStatus": None, "source": "supervisor-sources-disagree",
+                    "journal": journal_status, "launcher": launcher_status, "signalled": False}
+        status = journal_status if journal_status is not None else launcher_status
+        if status is None:
+            return {"exitStatus": None, "source": "unobserved", "journal": None,
+                    "launcher": None, "signalled": False}
+        return {
+            "exitStatus": status,
+            "source": "service-manager-journal" if journal_status is not None else "launcher-propagated",
+            "journal": journal_status,
+            "launcher": launcher_status,
+            "signalled": status > 128,
         }
 
     def _parse(
