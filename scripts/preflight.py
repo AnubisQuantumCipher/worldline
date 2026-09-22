@@ -67,6 +67,8 @@ def main() -> int:
     parser.add_argument("--allow-ghosts", action="store_true",
                         help="permit the upgrade while ghost worlds are enabled (they can fork on any PRIME checkpoint)")
     parser.add_argument("--binary", default=str(Path.home() / ".local/bin/worldline"))
+    parser.add_argument("--unit", default="worldlined.service", help="the daemon's user unit")
+    parser.add_argument("--socket", help="the daemon socket to look for (default: $XDG_RUNTIME_DIR/worldline/worldlined.sock)")
     args = parser.parse_args()
 
     gate = Gate()
@@ -83,41 +85,52 @@ def main() -> int:
         return 0
     report["mode"] = "upgrade"
 
-    unit_active = subprocess.run(["systemctl", "--user", "is-active", "--quiet", "worldlined.service"]).returncode == 0
+    unit_active = subprocess.run(["systemctl", "--user", "is-active", "--quiet", args.unit]).returncode == 0
+    socket = Path(args.socket) if args.socket else \
+        Path(os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}") / "worldline/worldlined.sock"
+    socket_present = socket.exists()
     report["daemonUnitActive"] = unit_active
-    if not unit_active:
-        gate.ok("daemon-running", "the daemon unit is not active; no live work can be interrupted")
-    else:
-        gate.ok("daemon-running", "the daemon unit is active; the gates below are read from it")
+    report["socketPresent"] = socket_present
 
-    # ---- status: parse failure is REFUSE, never "0 jobs" --------------------------------------
+    # The installation is ALWAYS asked, never inferred from the unit. A daemon can run without
+    # its unit being active (launched directly, as the lab harness does), and a `systemctl` that
+    # cannot answer must not be read as "nothing is running". "Quiet" therefore has to be
+    # observed from three independent signals agreeing, not assumed from one.
     status = None
-    if unit_active:
-        code, out, err = run_cli(args.binary, "status")
-        if code != 0:
-            gate.unknown("status-readable", f"`worldline status` exited {code}; the daemon's state is unknown",
-                         {"stderr": err.strip()[-400:]})
+    daemon_quiet = False
+    code, out, err = run_cli(args.binary, "status")
+    if code == 0:
+        try:
+            status = json.loads(out)
+        except json.JSONDecodeError as exc:
+            gate.unknown("status-readable", f"the status document is not valid JSON: {exc}", {"head": out[:200]})
         else:
-            try:
-                status = json.loads(out)
-            except json.JSONDecodeError as exc:
-                gate.unknown("status-readable", f"the status document is not valid JSON: {exc}",
-                             {"head": out[:200]})
+            if not isinstance(status, dict) or "jobs" not in status or "worlds" not in status:
+                gate.unknown("status-readable", "the status document does not have the expected shape",
+                             {"keys": sorted(status)[:20] if isinstance(status, dict) else None})
+                status = None
             else:
-                if not isinstance(status, dict) or "jobs" not in status or "worlds" not in status:
-                    gate.unknown("status-readable", "the status document does not have the expected shape",
-                                 {"keys": sorted(status)[:20] if isinstance(status, dict) else None})
-                    status = None
-                else:
-                    gate.ok("status-readable", "the status document parsed and has the expected shape")
+                gate.ok("status-readable", "the status document parsed and has the expected shape")
+    elif not unit_active and not socket_present:
+        daemon_quiet = True
+        gate.ok("status-readable",
+                "no daemon is running: the installation does not answer, its unit is inactive and there is no socket")
     else:
-        gate.ok("status-readable", "daemon not active; status not required")
+        gate.unknown("status-readable",
+                     f"`worldline status` exited {code} while the unit is "
+                     f"{'active' if unit_active else 'inactive'} and the socket is "
+                     f"{'present' if socket_present else 'absent'}; the daemon's state is unknown",
+                     {"stderr": err.strip()[-400:]})
+    gate.ok("daemon-running", "the daemon unit is active; the gates below are read from it") if unit_active \
+        else gate.ok("daemon-running", "the daemon unit is not active")
 
     # ---- no active agent work -----------------------------------------------------------------
-    if status is None and unit_active:
+    if status is None and not daemon_quiet:
         gate.unknown("no-active-jobs", "cannot enumerate jobs because the status document was unreadable")
+        gate.unknown("no-unfinished-worlds", "cannot enumerate worlds because the status document was unreadable")
     elif status is None:
-        gate.ok("no-active-jobs", "daemon not active; no job can be running under it")
+        gate.ok("no-active-jobs", "no daemon is running, so no job can be running under it")
+        gate.ok("no-unfinished-worlds", "no daemon is running")
     else:
         active = [j for j in status.get("jobs", []) if j.get("state") in ACTIVE_JOB_STATES]
         if active:
@@ -140,7 +153,7 @@ def main() -> int:
         gate.unknown("no-world-units", "could not list the user manager's worldline-* units")
     else:
         units = [line.split()[0] for line in listing.stdout.splitlines() if line.split()]
-        live = [u for u in units if u != "worldlined.service"]
+        live = [u for u in units if u != args.unit]
         if live:
             gate.refuse("no-world-units", f"{len(live)} transient world unit(s) still exist", live[:20])
         else:
@@ -148,7 +161,9 @@ def main() -> int:
 
     # ---- doctor: transactions, recovery, integrity --------------------------------------------
     doctor = None
-    if unit_active:
+    if daemon_quiet:
+        gate.ok("doctor-readable", "no daemon is running; doctor cannot and need not be consulted")
+    else:
         code, out, err = run_cli(args.binary, "doctor", timeout=120)
         if code != 0:
             gate.unknown("doctor-readable", f"`worldline doctor` exited {code}", {"stderr": err.strip()[-400:]})
@@ -159,10 +174,8 @@ def main() -> int:
                 gate.unknown("doctor-readable", f"the doctor document is not valid JSON: {exc}")
             else:
                 gate.ok("doctor-readable", "the doctor document parsed")
-    else:
-        gate.ok("doctor-readable", "daemon not active; doctor not required")
 
-    if doctor is None and unit_active:
+    if doctor is None and not daemon_quiet:
         for name in ("no-open-transactions", "recovery-clean", "store-integrity", "root-integrity"):
             gate.unknown(name, "the doctor document was unreadable, so this could not be observed")
     elif doctor is not None:
@@ -211,7 +224,7 @@ def main() -> int:
             gate.ok("no-unsupervised-worlds", "no unsupervised world")
 
     # ---- ghosts can fork a world on any PRIME checkpoint --------------------------------------
-    if unit_active:
+    if not daemon_quiet:
         code, out, _err = run_cli(args.binary, "ghost", "status")
         if code != 0:
             gate.unknown("ghosts-quiet", "could not read ghost status")
@@ -231,7 +244,7 @@ def main() -> int:
                                 "ghosts are enabled; a PRIME checkpoint during the upgrade would fork worlds. "
                                 "Disable them (worldline ghost disable) or pass --allow-ghosts.", ghost)
     else:
-        gate.ok("ghosts-quiet", "daemon not active; nothing can fork")
+        gate.ok("ghosts-quiet", "no daemon is running; nothing can fork")
 
     # ---- room for the backup -------------------------------------------------------------------
     state = Path.home() / ".local/state/worldline"

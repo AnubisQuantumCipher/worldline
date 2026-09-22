@@ -75,7 +75,11 @@ class PreflightControls(unittest.TestCase):
         return script
 
     def _run(self, binary: Path, *extra: str) -> dict:
+        return self._run_env(binary, {}, *extra)
+
+    def _run_env(self, binary: Path, env_extra: dict, *extra: str) -> dict:
         proc = subprocess.run([sys.executable, str(PREFLIGHT), "--json", "--binary", str(binary), *extra],
+                              env={**os.environ, **env_extra},
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=180)
         report = json.loads(proc.stdout)
         report["_exit"] = proc.returncode
@@ -166,6 +170,34 @@ class PreflightControls(unittest.TestCase):
         self.assertEqual(self._gate(report, "ghosts-quiet")["state"], "REFUSE")
         allowed = self._run(self._binary(ghost=enabled), "--allow-ghosts")
         self.assertEqual(self._gate(allowed, "ghosts-quiet")["state"], "OK")
+
+    # ---- "no daemon is running" must be OBSERVED, never inferred from the unit alone ----------
+    def test_a_silent_daemon_is_only_quiet_when_every_signal_agrees(self) -> None:
+        """CI on a host with no worldlined unit caught this: the gates used to short-circuit to OK
+        whenever the unit was inactive, so the installation was never consulted at all and a
+        running job could not be seen. Quiet now requires the CLI to fail AND the unit to be
+        inactive AND no socket."""
+        silent = self.root / "silent"
+        silent.write_text("#!/usr/bin/env python3\nimport sys\nsys.exit(1)\n", encoding="utf-8")
+        os.chmod(silent, 0o755)
+        absent = self.root / "no-such-socket"
+        # no socket present -> genuinely quiet, and permitted
+        quiet = self._run(silent, "--socket", str(absent), "--unit", "worldline-absent-for-tests.service")
+        self.assertTrue(quiet["permitted"], quiet["refused"])
+        self.assertIn("no daemon is running", self._gate(quiet, "status-readable")["detail"])
+        # a socket present with an unanswering CLI is NOT quiet: something is there
+        present = self.root / "worldlined.sock"
+        present.write_text("", encoding="utf-8")
+        noisy = self._run(silent, "--socket", str(present), "--unit", "worldline-absent-for-tests.service")
+        self.assertFalse(noisy["permitted"])
+        self.assertEqual(self._gate(noisy, "status-readable")["state"], "UNKNOWN")
+
+    def test_a_running_job_is_seen_even_when_the_unit_is_inactive(self) -> None:
+        status = {**HEALTHY_STATUS, "jobs": [{"world": "w", "state": "RUNNING"}]}
+        report = self._run(self._binary(status=status), "--socket", str(self.root / "no-such-socket"),
+                           "--unit", "worldline-absent-for-tests.service")
+        self.assertFalse(report["permitted"], "a job running under a directly-launched daemon must still refuse")
+        self.assertEqual(self._gate(report, "no-active-jobs")["state"], "REFUSE")
 
     # ---- the report is machine-readable and names what refused --------------------------------
     def test_refusal_report_names_the_failing_gates(self) -> None:

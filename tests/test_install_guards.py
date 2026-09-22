@@ -46,6 +46,7 @@ class InstallGuards(unittest.TestCase):
         self.plugin.mkdir()
         run = lambda *a: subprocess.run(a, cwd=self.plugin, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         run("git", "init", "-q")
+        run("git", "symbolic-ref", "HEAD", "refs/heads/main")  # the runner's init.defaultBranch is not main
         (self.plugin / "README.md").write_text("plugin\n", encoding="utf-8")
         run("git", "add", "-A")
         run("git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "init")
