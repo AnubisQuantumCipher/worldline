@@ -224,10 +224,19 @@ def main() -> int:
         print("\n  recorded stdout:")
         for line in stdout.strip().splitlines()[:8]:
             print(f"    {line}")
-    print("\n  NOT established by this gate: the record travels through a writable bind the"
-          "\n  candidate's own children can reach, so a fabricated result that arrives"
-          "\n  well-formed still reads as COMPLETED. Property 2 is what catches that today,"
-          "\n  by requiring the trusted examiner's own nonce in the recorded bytes.")
+    # Kept current deliberately. A non-claim that describes a hole which has since been closed
+    # is as misleading as one that omits a hole which is still open -- it tells an operator the
+    # evidence is weaker than it is, and it rots silently because nothing fails when it is wrong.
+    print("\n  NOT established by this gate: that the examiner's JUDGMENT is independent of the"
+          "\n  candidate. An examiner that runs candidate code is reporting on work that code"
+          "\n  took part in, and no amount of channel protection changes that."
+          "\n"
+          "\n  Established elsewhere, not here: that the result record is attributable. The"
+          "\n  record no longer travels through the writable bind -- the harness writes one"
+          "\n  framed record to a stream the supervisor owns, and the unit's exit status is"
+          "\n  observed outside the sandbox and must agree with it. See tests/test_result_"
+          "\n  channel.py, which carries out both forgery attacks. Property 2 remains the check"
+          "\n  that the trusted examiner's own nonce is in the recorded bytes.")
     passed = all(ok for _, ok, _ in properties)
     if args.json:
         import json as _json
