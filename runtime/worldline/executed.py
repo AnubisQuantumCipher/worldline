@@ -20,12 +20,31 @@ object whose identity is established here is the object execution consumes:
    rewritten to run from there — so a candidate that swaps the original swaps something the check
    does not execute;
 4. after execution every identity is recomputed through the *same descriptors*, which are held
-   open throughout. A descriptor cannot be redirected by replacing a name.
+   open throughout, **and** the staged pathname is re-stated to prove it still resolves to the
+   inode those descriptors hold.
 
-What this establishes, stated exactly: **these declared verifier artifacts produced this
-evaluation under these identities.** It does NOT establish that every input influencing the
-execution was captured — an interpreter reads more than the files a policy declares. Claiming
-otherwise would be the same defect as a configured ceiling standing in for an enforced one.
+Step 4 needs both halves, and this is worth spelling out because the first half alone looks like
+enough and is not. A held descriptor keeps referring to its original open file description even
+after the pathname is removed or re-pointed — which means an unchanged descriptor hash is
+perfectly compatible with the interpreter having opened a *different* file through the same name.
+Descriptor stability proves the bytes we measured did not change. It does not prove they are the
+bytes that ran. Only comparing the name's (device, inode) against the descriptor's closes that,
+and a rebound pathname is refused rather than reported.
+
+What this establishes, stated exactly: **this declared verifier bundle was made available for
+execution under these identities, from a location the workload cannot write, and the pathnames
+the interpreter was given still resolved to those exact objects afterwards.**
+
+What it does NOT establish, equally exactly:
+
+* that every file in the bundle was read — staging ten files identifies ten files, it does not
+  trace which the interpreter opened;
+* that every input influencing the execution was captured — an interpreter reads more than a
+  policy declares;
+* anything about an adversary with host-side write access to the daemon's own staging directory.
+  That is outside the threat model this module addresses, which is a workload inside a WORLDLINE
+  sandbox. A privileged test harness altering a host file is not a sandbox escape, and this
+  module does not pretend otherwise.
 """
 from __future__ import annotations
 
@@ -66,10 +85,17 @@ class StagedVerifier:
     fd: int                  # held open for the whole evaluation
     sha256: str
     bytes: int
+    # The object the name resolved to at capture. Compared afterwards against the name, because
+    # a descriptor that still holds the right bytes says nothing about what the name now points
+    # at — and the name is what the interpreter was given.
+    device: int
+    inode: int
+    host_path: str
 
     def as_dict(self) -> dict[str, Any]:
         return {"rootKey": self.root_key, "path": self.relative, "executedAs": self.staged,
-                "source": self.source, "sha256": self.sha256, "bytes": self.bytes}
+                "source": self.source, "sha256": self.sha256, "bytes": self.bytes,
+                "device": self.device, "inode": self.inode}
 
 
 class ExecutionVerifierSet:
@@ -114,11 +140,13 @@ class ExecutionVerifierSet:
                 os.chmod(target, 0o444)
                 handle = os.open(target, os.O_RDONLY | os.O_CLOEXEC)
                 digest, size = _digest_fd(handle)
+                stat = os.fstat(handle)
                 staged.items.append(StagedVerifier(
                     root_key=root_key, relative=relative,
                     staged=f"{VERIFIER_MOUNT}/{root_key}/{relative}",
                     source=str(entry.get("source", "unknown")),
-                    fd=handle, sha256=digest, bytes=size))
+                    fd=handle, sha256=digest, bytes=size,
+                    device=stat.st_dev, inode=stat.st_ino, host_path=str(target)))
             # Read-only for the owner too: the daemon has no reason to write here again, and a
             # directory nobody may write is one fewer thing to reason about.
             for directory in sorted((p for p in staging.rglob("*") if p.is_dir()), reverse=True):
@@ -145,10 +173,13 @@ class ExecutionVerifierSet:
         return digest.hexdigest()
 
     def reread(self) -> tuple[str, list[dict[str, Any]]]:
-        """Recompute every identity through the SAME descriptors, and report what moved.
+        """Recompute every identity through the same descriptors, AND re-state every pathname.
 
-        A descriptor cannot be redirected by replacing a name, so this answers "are these the
-        bytes that ran?" rather than "does this path still hold the bytes I remember?".
+        Two questions, and the second is the one that is easy to forget. The descriptors answer
+        "did the bytes we measured change?". The pathnames answer "does the name the interpreter
+        was given still resolve to the object we measured?". A held descriptor survives its name
+        being re-pointed, so without the second question an unchanged hash is compatible with a
+        substituted examiner having run.
         """
         changes: list[dict[str, Any]] = []
         digest = hashlib.sha256()
@@ -161,8 +192,21 @@ class ExecutionVerifierSet:
                                 "before": item.sha256, "after": None, "error": str(exc)})
                 now = ""
             if now != item.sha256:
-                changes.append({"path": item.relative, "rootKey": item.root_key,
+                changes.append({"path": item.relative, "rootKey": item.root_key, "kind": "content",
                                 "before": item.sha256, "after": now or None})
+            # The name, not the descriptor. A rebound pathname means the interpreter may have
+            # opened something else entirely, and an unchanged descriptor would never show it.
+            try:
+                named = os.stat(item.host_path)
+                if (named.st_dev, named.st_ino) != (item.device, item.inode):
+                    changes.append({"path": item.relative, "rootKey": item.root_key,
+                                    "kind": "pathname-rebound",
+                                    "before": f"{item.device}:{item.inode}",
+                                    "after": f"{named.st_dev}:{named.st_ino}"})
+            except OSError as exc:
+                changes.append({"path": item.relative, "rootKey": item.root_key,
+                                "kind": "pathname-gone", "before": f"{item.device}:{item.inode}",
+                                "after": None, "error": str(exc)})
             digest.update(item.root_key.encode()); digest.update(b"\0")
             digest.update(item.relative.encode()); digest.update(b"\0")
             digest.update(bytes.fromhex(now) if now else b"\0" * 32); digest.update(b"\0")
@@ -194,10 +238,16 @@ class ExecutionVerifierSet:
             "identity": self.identity(),
             "members": [item.as_dict() for item in self.items],
             "nonClaims": [
-                "This is the identity of the DECLARED verifier artifacts, read through the file"
-                " descriptors the evaluation used, not of every input that influenced it.",
-                "An interpreter reads more than a policy declares. What is established is that"
-                " these artifacts, under these identities, produced this evaluation.",
+                "This identifies the declared verifier BUNDLE that was made available for"
+                " execution. It does not trace which of its files the interpreter actually read:"
+                " staging ten files identifies ten files.",
+                "An interpreter reads more than a policy declares, so this is not a complete"
+                " account of everything that influenced the result.",
+                "Descriptor stability alone would not establish execution identity — a held"
+                " descriptor survives its pathname being re-pointed. The pathname is re-stated"
+                " against the descriptor's (device, inode) for exactly that reason.",
+                "This addresses a workload inside a WORLDLINE sandbox. It says nothing about an"
+                " adversary with host-side write access to the daemon's staging directory.",
             ],
         }
 

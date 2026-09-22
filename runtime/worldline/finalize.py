@@ -38,6 +38,33 @@ for index in range(1, len(sys.argv), 2):
 """.strip()
 
 
+def execution_binding(result: Mapping[str, Any]) -> str:
+    """Whether this result can be attached to the verifier bundle WORLDLINE authorised.
+
+    BOUND         the declared bundle was staged from the trusted snapshot, its identities held
+                  across the evaluation, and the pathnames still resolved to those objects.
+    UNESTABLISHED a bundle was staged but something moved: content changed, a pathname was
+                  rebound, or the re-reading failed. This is not a failed check — it is a check
+                  whose provenance nobody can state, which is worse.
+    NOT_COVERED   this check declares no verifier bundle, so there is nothing to bind. It may
+                  still pass; it is simply not execution-bound, and the evidence says so rather
+                  than letting silence imply coverage.
+
+    Three outcomes on purpose. "The examiner ran and rejected the candidate", "we could not
+    establish that the trusted examiner ran", and "this check is outside execution-identity
+    coverage" are different facts, and the last must never be advertised as bound merely because
+    its neighbours are.
+    """
+    executed = result.get("executedVerifierSet")
+    if not executed:
+        return "NOT_COVERED"
+    if not isinstance(executed, Mapping):
+        return "UNESTABLISHED"
+    if executed.get("stable") is True and not executed.get("changedDuringExecution"):
+        return "BOUND"
+    return "UNESTABLISHED"
+
+
 class Finalizer:
     def __init__(
         self,
@@ -289,10 +316,17 @@ class Finalizer:
             world.delta = {**delta.value["summary"], "files": delta.value["operations"]}
             world.establish_identity(self.core)
             results_by_id = {item.get("id"): item for item in check_results}
+            for item in check_results:
+                item["executionBinding"] = execution_binding(item)
             failed_required = [
                 check_id
                 for check_id in required_checks
-                if check_id not in results_by_id or results_by_id[check_id].get("status") != "PASS"
+                if check_id not in results_by_id
+                or results_by_id[check_id].get("status") != "PASS"
+                # A required check whose examiner cannot be shown to be the authorised one does
+                # not become an ordinary pass. Two missing identities must not become two equal
+                # defaults.
+                or results_by_id[check_id].get("executionBinding") == "UNESTABLISHED"
             ]
             world.risk = "HIGH" if failed_required else "MEDIUM"
             world.transition(WorldState.DEGRADED if failed_required else WorldState.VALID, self.core)

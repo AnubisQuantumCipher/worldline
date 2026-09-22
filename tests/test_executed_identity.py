@@ -169,23 +169,102 @@ class ExecutedIdentity(unittest.TestCase):
                            members=("exam/absent.py",))
         self.assertEqual(caught.exception.args[0], UNIDENTIFIED)
 
-    # ---- identity is read through descriptors, not names -------------------------------------------
-    def test_identity_is_recomputed_through_the_same_descriptors(self) -> None:
+    # ---- descriptor stability is NOT execution identity ---------------------------------------------
+    def test_a_rebound_pathname_is_detected_even_though_the_descriptor_is_unchanged(self) -> None:
+        """The control this replaces was insufficient, and the reason is worth keeping.
+
+        A held descriptor keeps referring to its original open file description after the
+        pathname is re-pointed, so "the descriptor's hash did not move" is perfectly compatible
+        with the interpreter having opened a different file through the same name. Proving the
+        bytes we measured did not change is not proving they are the bytes that ran.
+
+        The substitution here is performed by the test harness as the OWNER of the staging
+        directory, from the host. That is a privileged action and is not a sandbox escape; it is
+        done to exercise the detector, not to claim the workload could do it.
+        """
         staging = self.base / "staged"
-        (self.lower / "exam/run.py").write_text("print('x')\n", encoding="utf-8")
+        (self.lower / "exam/run.py").write_text("print('GENUINE')\n", encoding="utf-8")
         entries = [{"rootKey": ROOT_KEY, "path": "exam/run.py", "source": "argv"}]
         with ExecutionVerifierSet.stage(check_id="exam", entries=entries,
                                         sources={ROOT_KEY: self.lower}, staging=staging) as staged:
             before = staged.identity()
-            # Replace the NAME inside the staging area. The descriptor still holds the old inode.
-            target = staging / ROOT_KEY / "exam/run.py"
+            member = staged.items[0]
+            target = Path(member.host_path)
             os.chmod(staging, 0o700)
             os.chmod(target.parent, 0o700)
             target.unlink()
-            target.write_text("print('replaced')\n", encoding="utf-8")
+            target.write_text("print('SUBSTITUTED')\n", encoding="utf-8")
+
+            # What an interpreter launched against that NAME would actually run:
+            import subprocess
+            ran = subprocess.run([sys.executable, str(target)], capture_output=True, text=True).stdout
+            self.assertIn("SUBSTITUTED", ran, "the harness substitution did not take effect")
+
             after, changes = staged.reread()
-            self.assertEqual(after, before, "the identity followed the name instead of the bytes")
-            self.assertEqual(changes, [])
+            # The descriptor is still perfectly stable. That is the trap.
+            self.assertEqual(after, before, "the descriptor content should be unchanged")
+            kinds = {c.get("kind") for c in changes}
+            self.assertIn("pathname-rebound", kinds,
+                          "a re-pointed pathname was not detected, so descriptor stability was"
+                          f" being mistaken for execution identity: {changes}")
+
+    def test_the_runner_marks_an_evaluation_unstable_when_the_staged_name_was_rebound(self) -> None:
+        """Acceptance condition: the intended examiner runs, or the evaluation is refused."""
+        self.write_examiner("print('GENUINE')\n")
+        staging_parent = self.paths.overlays
+        check = CheckSpec("exam", "tests", ("/usr/bin/python3", f"{LOGICAL}/exam/run.py"),
+                          None, True, "exit", None, (), ())
+        entries = [{"checkId": "exam", "rootKey": ROOT_KEY, "path": "exam/run.py", "source": "argv"}]
+        instance = str(uuid.uuid4())
+
+        original_stage = ExecutionVerifierSet.stage
+        substituted: dict = {}
+
+        def stage_then_substitute(**kwargs):
+            staged = original_stage(**kwargs)
+            member = staged.items[0]
+            target = Path(member.host_path)
+            os.chmod(staged.staging, 0o700)
+            os.chmod(target.parent, 0o700)
+            target.unlink()
+            target.write_text("print('SUBSTITUTED')\n", encoding="utf-8")
+            os.chmod(target, 0o444)
+            substituted["path"] = str(target)
+            return staged
+
+        ExecutionVerifierSet.stage = staticmethod(stage_then_substitute)
+        try:
+            result = self.runner.run(world_instance=instance, overlays=[self.overlay],
+                                     primary_target=Path(LOGICAL), checks=[check],
+                                     verifiers=entries, logical_roots={ROOT_KEY: LOGICAL})[0]
+        finally:
+            ExecutionVerifierSet.stage = original_stage
+        self.assertTrue(substituted, "the substitution never ran")
+        executed = result["executedVerifierSet"]
+        self.assertFalse(executed["stable"],
+                         "a substituted examiner ran and the evaluation was still reported stable")
+        self.assertIn("pathname-rebound", {c.get("kind") for c in executed["changedDuringExecution"]})
+
+    # ---- validate the instrument before trusting a green result -------------------------------------
+    def test_argv_can_only_ever_name_something_that_was_measured(self) -> None:
+        """The deliberately broken instrument is "hash one file, launch another". Nothing in a
+        content or inode comparison catches that, because both files are individually unchanged.
+        What prevents it is structural: the paths the check is given are derived from the same
+        entries that were measured, and this asserts exactly that."""
+        self.write_examiner("print('x')\n")
+        (self.lower / "exam/helper.py").write_text("VALUE = 1\n", encoding="utf-8")
+        result = self.run_check(argv=("/usr/bin/python3", f"{LOGICAL}/exam/run.py"),
+                                members=("exam/run.py", "exam/helper.py"))
+        executed = result["executedVerifierSet"]
+        measured = {m["executedAs"] for m in executed["members"]}
+        self.assertTrue(executed["argvRewrites"], "nothing was rewritten, so nothing was proved")
+        for rewrite in executed["argvRewrites"]:
+            self.assertIn(rewrite["to"], measured,
+                          "the check was pointed at a path that was never measured")
+            member = next(m for m in executed["members"] if m["executedAs"] == rewrite["to"])
+            self.assertEqual(rewrite["sha256"], member["sha256"],
+                             "the digest recorded for the rewrite is not the digest of the"
+                             " member it names")
 
 
 def _stdout(result: dict) -> str:
@@ -195,3 +274,35 @@ def _stdout(result: dict) -> str:
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AcceptanceBinding(unittest.TestCase):
+    """The roster lesson, applied to promotion.
+
+    An evaluation WORLDLINE cannot attach to the examiner it authorised must not become an
+    ordinary pass, and a check outside coverage must not be advertised as bound.
+    """
+
+    def test_the_three_outcomes_are_distinct(self) -> None:
+        from worldline.finalize import execution_binding
+        self.assertEqual(execution_binding(
+            {"executedVerifierSet": {"stable": True, "changedDuringExecution": []}}), "BOUND")
+        self.assertEqual(execution_binding(
+            {"executedVerifierSet": {"stable": False,
+                                     "changedDuringExecution": [{"kind": "pathname-rebound"}]}}),
+            "UNESTABLISHED")
+        self.assertEqual(execution_binding({}), "NOT_COVERED")
+        self.assertEqual(execution_binding({"executedVerifierSet": None}), "NOT_COVERED")
+
+    def test_an_unparseable_record_is_unestablished_not_covered(self) -> None:
+        """A record we cannot read is not a check that needed no binding."""
+        from worldline.finalize import execution_binding
+        for shape in ("yes", 7, ["stable"]):
+            with self.subTest(shape=shape):
+                self.assertEqual(execution_binding({"executedVerifierSet": shape}), "UNESTABLISHED")
+
+    def test_a_bundle_that_moved_is_unestablished_even_when_stable_says_true(self) -> None:
+        """Two sources of truth must agree; the pessimistic one wins."""
+        from worldline.finalize import execution_binding
+        self.assertEqual(execution_binding({"executedVerifierSet": {
+            "stable": True, "changedDuringExecution": [{"kind": "content"}]}}), "UNESTABLISHED")
