@@ -12,6 +12,9 @@ from "refused by the shim".
 The ordering these depend on is deliberate: identities are resolved before the build, so an
 unpinned or unreachable plugin costs a second rather than a full build.
 
+These run from a git checkout and from an unpacked release archive alike, because the installer
+has to be testable from exactly the artifact people install.
+
 Coverage limit, stated rather than implied: every control here exercises a guard that runs BEFORE
 the build. The post-build sequence — preflight, stopping the daemon, the backup, the swap, the
 restart and the identity verification — cannot be reached without a real gprbuild and proof run,
@@ -74,21 +77,42 @@ class InstallGuards(unittest.TestCase):
         return subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD"],
                               stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
 
+    def _source_files(self) -> list[str]:
+        """The engine's own files, relative to this tree.
+
+        Git's index is used when this tree is a checkout, because it is the exact set the
+        repository tracks. It is NOT required: a release archive is not a checkout, and the
+        installer has to be testable from precisely the artifact people install. Falling back to
+        a filesystem walk is what lets these controls run there — WORLDLINE 1.3.1 could not be
+        installed from its own published tarball because this fixture assumed git, and the
+        installer's own test gate failed before anything was replaced.
+        """
+        listing = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z"],
+                                 stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        if listing.returncode == 0 and listing.stdout:
+            return sorted(raw.decode() for raw in listing.stdout.split(b"\0") if raw)
+        skip = {".git", "obj", "bin", "__pycache__", ".mypy_cache", ".pytest_cache", "assurance", "dist"}
+        found: list[str] = []
+        for current, dirs, files in os.walk(REPO):
+            dirs[:] = sorted(d for d in dirs if d not in skip)
+            for name in sorted(files):
+                path = Path(current) / name
+                if path.suffix == ".so" or path.is_symlink():
+                    continue
+                found.append(str(path.relative_to(REPO)))
+        return sorted(found)
+
     def engine_copy(self, *, as_git_repo: bool = True, inside: Path | None = None) -> Path:
-        """A self-contained copy of this engine's tracked files, so guards about the ENGINE
-        checkout are deterministic instead of depending on the state of the worktree running the
-        tests. The installer under test is this repository's own install.sh, copied verbatim."""
+        """A self-contained copy of this engine's own files, so guards about the ENGINE checkout
+        are deterministic instead of depending on the state of the tree running the tests. The
+        installer under test is this repository's own install.sh, copied verbatim."""
         destination = (inside or self.base) / "engine-copy"
         destination.mkdir(parents=True)
-        listing = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z"],
-                                 stdout=subprocess.PIPE, check=True).stdout
-        for raw in listing.split(b"\0"):
-            if not raw:
-                continue
-            source = REPO / raw.decode()
+        for relative in self._source_files():
+            source = REPO / relative
             if not source.is_file():
                 continue
-            target = destination / raw.decode()
+            target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
         if as_git_repo:
