@@ -91,13 +91,21 @@ class InstallGuards(unittest.TestCase):
                                  stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
         if listing.returncode == 0 and listing.stdout:
             return sorted(raw.decode() for raw in listing.stdout.split(b"\0") if raw)
-        skip = {".git", "obj", "bin", "__pycache__", ".mypy_cache", ".pytest_cache", "assurance", "dist"}
+        # Anchored like .gitignore's own rules (/obj/, /bin/): a TRACKED cli/bin/helper.py must
+        # not vanish from the fixture because some directory deep in the tree is called "bin".
+        top_level_skip = {"obj", "bin", "assurance", "dist"}
+        # These are never source, at any depth. `.git` is here for a sharper reason than tidiness:
+        # in a git WORKTREE it is a regular FILE holding a gitlink, and copying it would make the
+        # fixture's own `git init`/`add`/`commit` operate on the REAL repository it points at.
+        any_depth_skip = {".git", "__pycache__", ".mypy_cache", ".pytest_cache"}
         found: list[str] = []
         for current, dirs, files in os.walk(REPO):
-            dirs[:] = sorted(d for d in dirs if d not in skip)
+            at_top = Path(current) == REPO
+            dirs[:] = sorted(d for d in dirs
+                             if d not in any_depth_skip and not (at_top and d in top_level_skip))
             for name in sorted(files):
                 path = Path(current) / name
-                if path.suffix == ".so" or path.is_symlink():
+                if name in any_depth_skip or path.suffix == ".so" or path.is_symlink():
                     continue
                 found.append(str(path.relative_to(REPO)))
         return sorted(found)
@@ -209,6 +217,28 @@ class InstallGuards(unittest.TestCase):
         self.assertIn("install: engine unknown", proc.stdout)
         self.assertIn("is not a git checkout of its own", proc.stdout)
         self.assertIn(BUILD_BANNER, proc.stdout, "an unidentified engine is reported, not refused")
+
+    # ---- the fixture itself must not be able to reach outside the sandbox ----------------------
+    def test_the_fixture_never_copies_a_git_entry(self) -> None:
+        """A copied `.git` is not untidiness, it is a way out of the sandbox.
+
+        In a git worktree `.git` is a regular FILE holding `gitdir: /path/to/real/repo/...`. If
+        the fixture copied it, the `git init` / `add -A` / `commit` this class runs inside the
+        copy would resolve that link and commit into the real repository instead — which a
+        reviewer reproduced, moving an external repository's main branch while all ten controls
+        still reported OK.
+        """
+        for relative in self._source_files():
+            self.assertNotIn(".git", Path(relative).parts,
+                             f"the fixture would copy {relative}, which can point git outside the sandbox")
+        engine = self.engine_copy()
+        # `git init` created a .git DIRECTORY in the copy; what must not be there is a copied one.
+        self.assertTrue((engine / ".git").is_dir(), "the fixture's own repository should be a real one")
+        inside = subprocess.run(["git", "-C", str(engine), "rev-parse", "--git-dir"],
+                                stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+        resolved = (engine / inside).resolve() if not Path(inside).is_absolute() else Path(inside).resolve()
+        self.assertTrue(str(resolved).startswith(str(engine.resolve())),
+                        f"the fixture's git directory resolves outside the sandbox: {resolved}")
 
     # ---- the environment must not be able to redirect what is proved --------------------------
     def test_a_caller_supplied_core_library_is_dropped(self) -> None:

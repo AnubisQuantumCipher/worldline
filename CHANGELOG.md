@@ -18,6 +18,22 @@ One defect, found by trying to install 1.3.1 on the machine it was built for.
   replacing "errors from a tarball" with "silently skips from a tarball" would have been the
   same defect wearing a different hat.
 
+Found by an independent review of that fix, and repaired in it:
+
+- **The archive recipe could not complete.** `WORLDLINE_PLUGIN_SRC` defaults to a sibling of the
+  source tree, which exists in a developer layout and does not exist beside an unpacked release.
+  The README recipe now sets it, and the installer's refusal names it instead of only reporting
+  that a path is not a git repository.
+- **The fallback walk copied a git worktree's `.git` file.** In a worktree `.git` is a regular
+  file holding a gitlink, and the skip set only filtered directory names. A fixture that copied
+  it would make its own `git init`/`add`/`commit` operate on the repository it points at — the
+  reviewer reproduced exactly that, moving an external repository's branch while all ten controls
+  still reported OK. `.git` is now excluded at any depth and a control asserts the fixture's git
+  directory resolves inside the sandbox.
+- **The skip set is anchored to the top level**, like `.gitignore`'s own `/obj/` and `/bin/`
+  rules, so a tracked `cli/bin/helper.py` cannot vanish from the fixture because a directory
+  somewhere is called `bin`.
+
 No engine behaviour, no evidence semantics, no installer logic and no release-gate logic
 changed. `v1.3.1`'s archive and tag are untouched.
 

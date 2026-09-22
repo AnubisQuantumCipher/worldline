@@ -149,7 +149,7 @@ if [[ -d "$PLUGIN_SRC/.git" ]]; then
     || fail "plugin ref '$PLUGIN_REF' does not resolve to a commit in $PLUGIN_SRC"
   PLUGIN_TARGET=$(git -C "$PLUGIN_SRC" rev-parse "${PLUGIN_REF}^{commit}")
 else
-  fail "$PLUGIN_SRC is not a git repository; cannot pin a plugin commit"
+  fail "$PLUGIN_SRC is not a git repository, so no plugin commit can be pinned. The engine release does not contain the plugin and this default is a sibling of the source tree; installing from an unpacked release archive needs WORLDLINE_PLUGIN_SRC=/path/to/worldline-omarchy"
 fi
 echo "install: engine $ENGINE_COMMIT"
 echo "install: plugin $PLUGIN_TARGET ($PLUGIN_REF)"
