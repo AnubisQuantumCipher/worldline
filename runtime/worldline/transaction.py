@@ -626,6 +626,17 @@ class CollapseTransaction:
                 problems.append(f"{check_id}: the authorised examiner could not be shown to have run")
                 actual_members.append(("", check_id, ""))
                 continue
+            evaluation = result.get("evaluation") or {}
+            if evaluation.get("executionStatus") not in (None, "COMPLETED"):
+                # An intact bundle is not an evaluation. Completeness is the roster condition the
+                # kernel proves against, and a check whose evaluation never reached the examiner
+                # must not satisfy it however stable its staged bytes were.
+                complete = False
+                problems.append(
+                    f"{check_id}: execution did not reach the examiner"
+                    f" ({evaluation.get('executionStatus')})")
+                actual_members.append(("", check_id, ""))
+                continue
             if not bundle:
                 actual_members.append(("", check_id, NO_BUNDLE_IDENTITY))
                 continue

@@ -38,6 +38,70 @@ for index in range(1, len(sys.argv), 2):
 """.strip()
 
 
+def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
+    """Three facts that were being carried as one, and could therefore contradict each other.
+
+    `executionBinding` answered "was an intact bundle staged?" while being read as "did the
+    authorised examiner run?". A preserved counterexample makes the gap concrete: a candidate
+    that owned the harness produced `status: PASS` from fabricated output, the examiner never
+    executed — and the binding still said BOUND, because the bundle had indeed been staged and
+    its descriptors had indeed not moved. Both statements were true. Together they were a lie.
+
+    bundleIntegrity     were the intended evaluator artifacts staged and protected under the
+                        recorded identity?
+    executionStatus     did the trusted evaluation reach the examiner and complete, or fail at
+                        an identifiable stage?
+    evaluationOutcome   did a completed evaluation accept or reject the candidate?
+
+    Only `executionStatus == COMPLETED` may contribute to promotion admissibility. An intact
+    bundle whose evaluation never reached it is NOT an ordinary pass and is not a failed check
+    either: it is an evaluation that did not happen.
+    """
+    executed = result.get("executedVerifierSet")
+    if not executed:
+        integrity = "NOT_COVERED"
+    elif not isinstance(executed, Mapping):
+        integrity = "UNKNOWN"
+    elif executed.get("stable") is True and not executed.get("changedDuringExecution"):
+        integrity = "VERIFIED"
+    else:
+        integrity = "COMPROMISED"
+
+    status = result.get("status")
+    if result.get("exitCode") is None and executed:
+        # An examiner was staged, so one was supposed to run, and the harness never produced a
+        # record the runner could parse. Whatever else is true, nothing was evaluated.
+        execution = "ERROR_BEFORE_EXAMINER"
+        outcome = "NONE"
+    elif result.get("exitCode") is None and status is None:
+        execution = "NOT_ATTEMPTED"
+        outcome = "NONE"
+    else:
+        # Either the harness reported, or this is a check the engine evaluates itself — the
+        # synthetic protected-paths check has a verdict and no subprocess, and treating its
+        # absent exit code as a failed launch turned every clean world DEGRADED.
+        execution = "COMPLETED"
+        outcome = "PASS" if status == "PASS" else "FAIL"
+
+    admissible = (execution == "COMPLETED" and outcome == "PASS"
+                  and integrity in ("VERIFIED", "NOT_COVERED"))
+    return {
+        "bundleIntegrity": integrity,
+        "executionStatus": execution,
+        "evaluationOutcome": outcome,
+        "admissibleForPromotion": admissible,
+        "nonClaims": [
+            "executionStatus is derived from the record the harness wrote. That record travels"
+            " through a writable bind the candidate's own children can reach, so it is not yet"
+            " forgery-resistant: a trusted control channel is the next piece of work, and until"
+            " it exists COMPLETED means 'a well-formed record arrived', not 'no one could have"
+            " written it'.",
+            "bundleIntegrity establishes that the declared artifacts were staged and did not move."
+            " It does not establish that they were read.",
+        ],
+    }
+
+
 def execution_binding(result: Mapping[str, Any]) -> str:
     """Whether this result can be attached to the verifier bundle WORLDLINE authorised.
 
@@ -318,6 +382,7 @@ class Finalizer:
             results_by_id = {item.get("id"): item for item in check_results}
             for item in check_results:
                 item["executionBinding"] = execution_binding(item)
+                item["evaluation"] = evaluation_record(item)
             failed_required = [
                 check_id
                 for check_id in required_checks
@@ -327,6 +392,10 @@ class Finalizer:
                 # not become an ordinary pass. Two missing identities must not become two equal
                 # defaults.
                 or results_by_id[check_id].get("executionBinding") == "UNESTABLISHED"
+                # An intact bundle whose evaluation never reached it is not a pass. This is the
+                # dimension that was missing: integrity and execution were one field, so a
+                # fabricated result with a stable bundle looked exactly like a real one.
+                or not (results_by_id[check_id].get("evaluation") or {}).get("admissibleForPromotion")
             ]
             world.risk = "HIGH" if failed_required else "MEDIUM"
             world.transition(WorldState.DEGRADED if failed_required else WorldState.VALID, self.core)

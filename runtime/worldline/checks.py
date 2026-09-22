@@ -167,6 +167,26 @@ class CheckRunner:
             instance_id=world_instance,
             argv=(
                 "/usr/bin/python3",
+                # Isolated startup, and this is a security boundary rather than tidiness. The
+                # check's working directory must be inside a managed root, so it is
+                # candidate-writable BY CONSTRUCTION — and `python3 -c` puts the working
+                # directory first on sys.path. The harness's very first import, `import base64`,
+                # was answered from a file the workload wrote; a correctly written shadow owns
+                # the harness outright and fabricates the result.
+                #
+                # -I removes that insertion (it implies -P), ignores every PYTHON* variable and
+                # drops the user site directory. -S additionally suppresses site initialisation,
+                # which is what processes .pth files and sitecustomize — controlling PYTHONPATH
+                # alone would not reach those. Measured on this host with CPython 3.14.7: with no
+                # flags and with -S alone the candidate's base64.py is imported; with -I and with
+                # -I -S the standard library's is.
+                #
+                # This isolates the HARNESS only. The verifier it launches is a separate process
+                # and keeps ordinary semantics, because examining candidate code legitimately
+                # needs candidate cwd and candidate imports. What the candidate must not get is
+                # authority over the process that attests the examination happened.
+                "-I",
+                "-S",
                 "-c",
                 _CHECK_RUNNER,
                 "/run/worldline-runtime/spec.json",
