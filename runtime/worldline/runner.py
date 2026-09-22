@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import shutil
 import sqlite3
+import time
 import threading
 from typing import Any, Callable
 import uuid
@@ -226,6 +227,34 @@ class AgentRunner:
             guard.release()
             raise
         guard.attach_unit(unit.unit)
+
+        # What the kernel ACTUALLY took, read back rather than assumed, and what the workload
+        # actually used. Both are sampled while the unit lives: `--collect` removes a finished
+        # unit along with its cgroup, so a reading taken afterwards measures nothing at all.
+        resources: dict[str, Any] = {
+            "requested": self.gate.policy.canonical(),
+            "effective": {"state": "UNAVAILABLE", "reason": "not sampled"},
+            "observed": {"state": "UNAVAILABLE", "reason": "not sampled"},
+            "accounted": bool(guard.decision and guard.decision.arithmetic.get("accounted")),
+        }
+        sampling = threading.Event()
+
+        def sample_resources() -> None:
+            deadline = time.monotonic() + 30
+            while not sampling.is_set() and time.monotonic() < deadline:
+                reading = self.systemd.effective_limits(unit.unit)
+                if reading.get("cgroupReadable"):
+                    resources["effective"] = reading
+                    break
+                sampling.wait(0.2)
+            while not sampling.is_set():
+                reading = self.systemd.resource_telemetry(unit.unit)
+                if reading.get("state") == "OBSERVED":
+                    resources["observed"] = reading
+                sampling.wait(1.0)
+
+        sampler = threading.Thread(target=sample_resources, name="worldline-resource-sampler", daemon=True)
+        sampler.start()
         main_pid = unit.pid
         self.store.update_job(
             job_id,
@@ -323,6 +352,8 @@ class AgentRunner:
         try:
             exit_code = unit.launcher.wait()
         finally:
+            sampling.set()
+            sampler.join(timeout=5)
             # The workload has ended; the capacity it reserved is free again. Finalization is
             # cheap and holds nothing back.
             guard.release()
@@ -383,6 +414,10 @@ class AgentRunner:
             "stderrHash": hash_id(self.core.hash_file(stderr_path)),
             "network": proxy.summary() if proxy is not None else {"policy": policy},
             "supervision": supervision,
+            # Measurement, not identity. Telemetry is recorded on the evidence and never hashed,
+            # so an otherwise identical verification is not invalidated because this run happened
+            # to peak 40 MiB higher than the last one.
+            "resources": resources,
         }
         if cancelled:
             agent_result["reason"] = "USER_CANCELLED: the operator stopped this world before the agent finished"
