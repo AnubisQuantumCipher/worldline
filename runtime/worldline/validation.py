@@ -31,6 +31,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from . import SCHEMA_VERSION, __version__
+from .trusted import ISOLATION_FLAGS, TRUSTED_INTERPRETER
 from .canonical import canonical_bytes
 from .core import Core, hash_id
 from .environment import safe_environment
@@ -243,7 +244,12 @@ def execution_context(config: Any, adapter_name: str | None = None) -> dict[str,
         "engineVersion": __version__,
         "runtimeTreeSha256": runtime_tree_sha256(),
         "kernelLibrarySha256": _kernel_library_sha256(),
-        "checkRunnerInterpreter": "/usr/bin/python3",
+        "checkRunnerInterpreter": TRUSTED_INTERPRETER,
+        # The startup policy of the TRUSTED processes, not decoration: it decides whether the
+        # candidate can supply the imports of the process that attests its examination. Evidence
+        # recorded under a weaker policy is not the same evidence, so it belongs in the identity
+        # and a change to it must stale what came before.
+        "trustedStartupFlags": list(ISOLATION_FLAGS),
         "checkEnvironment": check_environment,
         "checkRunnerTimeoutSeconds": CHECK_RUNNER_TIMEOUT_SECONDS,
         "network": {"policy": getattr(config, "network_policy", None), "allow": sorted(getattr(config, "network_allow", ()) or ())},

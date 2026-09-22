@@ -10,6 +10,7 @@ import tempfile
 from typing import Any, Mapping, Sequence
 import uuid
 
+from ..trusted import trusted_script
 from ..errors import WorldlineError
 from ..manifest import display_path
 from ..paths import WorldlinePaths, secure_directory
@@ -291,9 +292,15 @@ class BubblewrapSandbox:
                     "the allowlist policy needs the netguard forwarder in the world runtime and a live proxy socket",
                 )
             arguments.extend(("--bind", str(spec.netguard_source), spec.netguard_socket))
+            # Trusted, and a SCRIPT launch, so the directory it is exposed to is the script's
+            # own -- /run/worldline-runtime, which is bind-mounted read-write and is the
+            # world's XDG_RUNTIME_DIR. The workload writes there by design. See trusted.py.
             command = [
-                "/usr/bin/python3", "/run/worldline-runtime/netguard.py",
-                "--socket", spec.netguard_socket, "--port", str(spec.netguard_port), "--", *command,
+                *trusted_script(
+                    "/run/worldline-runtime/netguard.py",
+                    "--socket", spec.netguard_socket, "--port", str(spec.netguard_port),
+                ),
+                "--", *command,
             ]
         arguments.extend(("--chdir", str(spec.cwd), "--disable-userns", "--cap-drop", "ALL", "--"))
         arguments.extend(command)

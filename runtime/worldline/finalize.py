@@ -23,6 +23,7 @@ from .manifest import CapturedManifest, Manifest
 from .model import World, WorldState
 from .paths import WorldlinePaths, secure_directory
 from .store import StateStore
+from .trusted import trusted_inline
 
 _COPY_SCRIPT = """
 import os
@@ -208,7 +209,9 @@ class Finalizer:
                 )
             spec = SandboxSpec(
                 instance_id=world.instance_id,
-                argv=("/usr/bin/python3", "-c", _COPY_SCRIPT, *copy_arguments),
+                # Trusted: its output IS the candidate snapshot every later measurement is
+                # taken from, and its cwd below is a candidate-writable root. See trusted.py.
+                argv=trusted_inline(_COPY_SCRIPT, *copy_arguments),
                 cwd=roots_by_key[primary["root_key"]].target,
                 environment={"PATH": "/usr/bin"},
                 roots=tuple(overlays),
