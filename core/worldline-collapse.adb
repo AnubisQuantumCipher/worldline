@@ -20,6 +20,10 @@ package body Worldline.Collapse with SPARK_Mode is
          return Validation_Context_Mismatch;
       elsif Request.Tested_Root /= Request.Staged_Content_Root then
          return Staged_Untested;
+      elsif not Request.Execution_Evidence_Complete then
+         return Execution_Evidence_Incomplete;
+      elsif Request.Expected_Executed_Verifier /= Request.Actual_Executed_Verifier then
+         return Verifier_Execution_Identity_Mismatch;
       elsif Request.Has_Conflicts then
          return Conflict;
       elsif Request.Has_Foreign_Managed_Writes then

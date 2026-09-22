@@ -62,6 +62,37 @@ MISMATCH = "VERIFIER_EXECUTION_IDENTITY_MISMATCH"
 UNIDENTIFIED = "VERIFIER_EXECUTION_UNIDENTIFIED"
 
 
+
+
+def bundle_identity(members: Sequence[tuple[str, str, str]]) -> str:
+    """One digest over (root, path, content) triples, in order.
+
+    Deliberately a free function. The expected side is built from the policy's resolved verifier
+    list and the actual side from the runner's execution records — two different producers that
+    must agree. If one function computed both, the equality the kernel proves would be an
+    equality of a value with itself, which assures nothing.
+    """
+    digest = hashlib.sha256()
+    digest.update(b"worldline-execution-verifier-set-v1\0")
+    for root_key, relative, content in sorted(members):
+        digest.update(root_key.encode()); digest.update(b"\0")
+        digest.update(relative.encode()); digest.update(b"\0")
+        # A member's content may be a bare file digest or another bundle identity; both are
+        # sha256, and an empty one is 32 zero bytes rather than an absent member, so "nothing
+        # measured" never collides with "measured as empty".
+        raw = content.removeprefix("sha256:") if content else ""
+        digest.update(bytes.fromhex(raw) if raw else b"\0" * 32); digest.update(b"\0")
+    # Prefixed, like every other identity in this system, so it can be handed to the kernel
+    # boundary without an ad-hoc conversion at the call site.
+    return "sha256:" + digest.hexdigest()
+
+
+#: The identity of an empty bundle. Used on BOTH sides for a check that declares no verifiers and
+#: for a promotion with no candidate evaluation, so "nothing to bind" is symmetric rather than a
+#: special case that could drift apart.
+NO_BUNDLE_IDENTITY = bundle_identity([])
+
+
 def _digest_fd(fd: int) -> tuple[str, int]:
     """Hash by descriptor, never by name. The point of the whole module is in this function."""
     os.lseek(fd, 0, os.SEEK_SET)
@@ -164,13 +195,7 @@ class ExecutionVerifierSet:
         A set identity rather than a file identity, because a verifier is rarely one file and a
         helper swapped beside the entry point must change the answer.
         """
-        digest = hashlib.sha256()
-        digest.update(b"worldline-execution-verifier-set-v1\0")
-        for item in sorted(self.items, key=lambda i: (i.root_key, i.relative)):
-            digest.update(item.root_key.encode()); digest.update(b"\0")
-            digest.update(item.relative.encode()); digest.update(b"\0")
-            digest.update(bytes.fromhex(item.sha256)); digest.update(b"\0")
-        return digest.hexdigest()
+        return bundle_identity([(i.root_key, i.relative, i.sha256) for i in self.items])
 
     def reread(self) -> tuple[str, list[dict[str, Any]]]:
         """Recompute every identity through the same descriptors, AND re-state every pathname.
@@ -182,8 +207,7 @@ class ExecutionVerifierSet:
         substituted examiner having run.
         """
         changes: list[dict[str, Any]] = []
-        digest = hashlib.sha256()
-        digest.update(b"worldline-execution-verifier-set-v1\0")
+        members: list[tuple[str, str, str]] = []
         for item in sorted(self.items, key=lambda i: (i.root_key, i.relative)):
             try:
                 now, size = _digest_fd(item.fd)
@@ -207,10 +231,8 @@ class ExecutionVerifierSet:
                 changes.append({"path": item.relative, "rootKey": item.root_key,
                                 "kind": "pathname-gone", "before": f"{item.device}:{item.inode}",
                                 "after": None, "error": str(exc)})
-            digest.update(item.root_key.encode()); digest.update(b"\0")
-            digest.update(item.relative.encode()); digest.update(b"\0")
-            digest.update(bytes.fromhex(now) if now else b"\0" * 32); digest.update(b"\0")
-        return digest.hexdigest(), changes
+            members.append((item.root_key, item.relative, now))
+        return bundle_identity(members), changes
 
     def rewrite_argv(self, argv: Sequence[str], roots: Mapping[str, str]) -> tuple[list[str], list[dict[str, str]]]:
         """Point the check at the staged copies. A token that named a verifier now names the one
