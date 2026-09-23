@@ -153,6 +153,25 @@ class CheckRunner:
                     " registered root.",
                     {"argv": list(check.argv),
                      "staged": [item.staged for item in staged.items]})
+            # An argv token that resolves to a clean path INSIDE a root but binds to no staged
+            # member, and is not candidate data the check declares in `covers`, is unaccounted
+            # for: it would run whatever is at that path in the candidate's overlay under this
+            # check's authority. rewrite_argv's contract already promises the runner refuses on
+            # it; this is where that promise is kept. A campaign lane found the gap -- a script
+            # token naming a file present only in the candidate overlay executed while the
+            # evidence recorded PRIME's bundle as BOUND. Covers-operands (candidate data the
+            # check legitimately reads, e.g. `test -f out.txt`) are excluded, exactly as
+            # resolve_verifiers excludes them from the verifier set.
+            unaccounted = [m for m in plan.unbound_members
+                           if not check.covers_path(str(m.get("path", "")))]
+            if unaccounted:
+                raise WorldlineError(
+                    UNIDENTIFIED,
+                    f"check {check.id} has argv tokens that resolve inside a managed root but"
+                    " bind to no staged verifier and are not declared candidate data, so what"
+                    f" they would execute cannot be attributed: {[m['token'] for m in unaccounted]}."
+                    " Declare the file in `verifiers`, or in `covers` if it is candidate data.",
+                    {"argv": list(check.argv), "unaccounted": unaccounted})
 
         # THE RECORD PRODUCER IS THE DAEMON, OUTSIDE THE SANDBOX.
         #

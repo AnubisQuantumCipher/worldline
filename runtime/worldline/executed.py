@@ -192,8 +192,16 @@ class ExecutionVerifierSet:
             _remove_staging(staging)
             staging.mkdir(parents=True)
             os.chmod(staging, 0o700)
+            seen: set[tuple[str, str]] = set()
             for entry in sorted(entries, key=lambda item: (item["rootKey"], item["path"])):
                 root_key, relative = str(entry["rootKey"]), str(entry["path"])
+                # Dedup defensively. resolve_verifiers already dedups by (rootKey, path), but two
+                # entries naming one file must never reach the second copyfile: the first leaves
+                # the target 0444, and the second copyfile onto it raises an unhandled
+                # PermissionError instead of a WorldlineError. One file, one staged member.
+                if (root_key, relative) in seen:
+                    continue
+                seen.add((root_key, relative))
                 base = sources.get(root_key)
                 if base is None:
                     raise WorldlineError(UNIDENTIFIED,

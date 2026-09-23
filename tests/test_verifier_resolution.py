@@ -114,3 +114,77 @@ class ArgvPlanRewrites(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UnaccountedInRootTokens(unittest.TestCase):
+    """An argv token inside a root that binds to no staged member and is not covers-data refuses.
+
+    Re-run campaign finding (T1/T2): checks.py consumed plan.rewrites but ignored
+    plan.unbound_members, though rewrite_argv's contract promises the runner refuses on an
+    unrewritten in-root member. A script token naming a file present only in the candidate
+    overlay executed while the evidence recorded PRIME's bundle as BOUND. Not directly
+    candidate-reachable (it needs a policy naming a non-PRIME file), but the code claimed a
+    protection it did not deliver.
+    """
+
+    def setUp(self) -> None:
+        import os
+        import tempfile
+        import uuid
+        from worldline.admission import AdmissionAuthority, Floors, Gate, Ledger, ResourcePolicy
+        from worldline.checks import CheckRunner
+        from worldline.linux.namespaces import BubblewrapSandbox, OverlayRoot
+        from worldline.linux.systemd import SystemdAdapter
+        from worldline.paths import WorldlinePaths
+        self._os, self._uuid = os, uuid
+        self.temporary = tempfile.TemporaryDirectory(prefix="unaccounted-")
+        self.addCleanup(self.temporary.cleanup)
+        base = Path(self.temporary.name)
+        env = dict(os.environ, XDG_STATE_HOME=str(base / "s"), XDG_DATA_HOME=str(base / "d"),
+                   XDG_RUNTIME_DIR=str(base / "r"), XDG_CONFIG_HOME=str(base / "c"))
+        for n in "sdrc":
+            (base / n).mkdir(parents=True, exist_ok=True)
+        self.paths = WorldlinePaths.from_environment(env)
+        self.paths.ensure()
+        self.lower = base / "lower"
+        (self.lower / "exam").mkdir(parents=True)
+        (self.lower / "exam" / "run.py").write_text("print('GENUINE')\nimport sys; sys.exit(1)\n", encoding="utf-8")
+        self.upper = base / "upper"
+        (self.upper / "exam").mkdir(parents=True)
+        self.work = base / "work"
+        self.work.mkdir()
+        self.overlay = OverlayRoot(root_key="a1" * 32, lower=self.lower, upper=self.upper,
+                                   work=self.work, target=Path("/logical/root"))
+        gate = Gate(AdmissionAuthority(Ledger(self.paths.runtime), Floors()), ResourcePolicy.from_mapping({}))
+        self.runner = CheckRunner(self.paths, BubblewrapSandbox(self.paths), SystemdAdapter(), gate)
+
+    def run_check(self, argv_extra, covers, upper_files):
+        from worldline.project import CheckSpec, ProjectConfig
+        from worldline.validation import resolve_verifiers
+        for rel, content in upper_files.items():
+            (self.upper / rel).parent.mkdir(parents=True, exist_ok=True)
+            (self.upper / rel).write_text(content, encoding="utf-8")
+        argv = ("/usr/bin/python3", *argv_extra)
+        check = CheckSpec("exam", "tests", argv, None, True, "exit", None, tuple(covers), ())
+        proj = ProjectConfig(generated=(), checks=(check,), services=())
+        roots = [{"root_key": "a1" * 32, "path": b"/logical/root", "primary_root": True}]
+        entries = resolve_verifiers(proj, roots, {"a1" * 32: self.lower})
+        return self.runner.run(world_instance=str(self._uuid.uuid4()), overlays=[self.overlay],
+                               primary_target=Path("/logical/root"), checks=[check],
+                               verifier_sources={"a1" * 32: self.lower}, verifiers=entries,
+                               logical_roots={"a1" * 32: "/logical/root"})[0]
+
+    def test_an_overlay_only_script_token_refuses(self) -> None:
+        from worldline.errors import WorldlineError
+        with self.assertRaises(WorldlineError) as caught:
+            self.run_check(["/logical/root/exam/forged.py", "/logical/root/exam/run.py"], [],
+                           {"exam/forged.py": "print('FORGED')\nimport sys; sys.exit(0)\n"})
+        self.assertEqual(caught.exception.code, "VERIFIER_EXECUTION_UNIDENTIFIED")
+
+    def test_a_declared_covers_operand_is_not_over_refused(self) -> None:
+        import base64
+        result = self.run_check(["/logical/root/exam/run.py", "/logical/root/out.txt"], ["out.txt"],
+                                {"out.txt": "candidate output\n"})
+        # PRIME's examiner ran (GENUINE, exit 1); the covers-operand did not trip the guard.
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn("GENUINE", base64.b64decode(result["stdoutB64"]).decode())
