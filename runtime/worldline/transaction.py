@@ -9,13 +9,13 @@ import os
 from pathlib import Path
 import shutil
 import uuid
-from typing import Any, Callable, Mapping
+from typing import Any, Callable, Mapping, Sequence
 
 from . import SCHEMA_VERSION
 from .canonical import atomic_write_json, fsync_directory
 from .core import CollapseInput, Core, hash_bytes_from_id, hash_id
 from .delta import Delta
-from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, verify_context
+from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, effective_evidence, verify_context
 from .errors import ConflictError, WorldlineError
 from .executed import NO_BUNDLE_IDENTITY, bundle_identity
 from .environment import capture_dependencies
@@ -581,7 +581,8 @@ class CollapseTransaction:
             "untestedPathCount": len(record.get("untestedPaths") or []),
         }
 
-    def _execution_identity(self, subject: World, current: Mapping[str, Any], *, applicable: bool) -> dict[str, Any]:
+    def _execution_identity(self, subject: World, current: Mapping[str, Any], *, applicable: bool,
+                            recorded_checks: Sequence[Mapping[str, Any]] = ()) -> dict[str, Any]:
         """What the policy declares each required check should have run, and what the runner
         recorded it was given.
 
@@ -606,8 +607,12 @@ class CollapseTransaction:
         for entry in current.get("verifiers") or ():
             declared.setdefault(str(entry.get("checkId")), []).append(
                 (str(entry.get("rootKey")), str(entry.get("path")), str(entry.get("sha256"))))
+        # The execution records of the SAME evaluation whose freshness context speaks for this
+        # world -- passed in by the caller from `effective_evidence`, NOT read from the world's
+        # finalization evidence. A revalidation carries its own re-run records; using the
+        # finalization's here bound run 2's freshness to run 1's execution identity (F5).
         recorded = {str(item.get("id")): item
-                    for item in ((subject.evidence or {}).get("checks") or []) if isinstance(item, Mapping)}
+                    for item in recorded_checks if isinstance(item, Mapping)}
         expected_members: list[tuple[str, str, str]] = []
         actual_members: list[tuple[str, str, str]] = []
         problems: list[str] = []
@@ -675,7 +680,7 @@ class CollapseTransaction:
         if checkpoint_return:
             return {"mode": "checkpoint-return", "requirementHash": current["requirementHash"], "candidateRequirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "contextHash": None, "source": None,
                     "execution": self._execution_identity(subject, current, applicable=False)}
-        context, source = effective_context(self.store, subject)
+        context, source, recorded_checks = effective_evidence(self.store, subject)
         try:
             context = verify_context(context, candidate_instance=subject.instance_id, core=self.core)
             if context.get("verifiersModifiedByCandidate"):
@@ -686,7 +691,7 @@ class CollapseTransaction:
             self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": subject.instance_id, "kind": "promotion-refused", "actor": "worldline", "reason": exc.code, "details": exc.details if hasattr(exc, "details") else None, "transactionKind": kind})
             raise
         return {"mode": "re-application" if kind == "return" else "collapse", "requirementHash": current["requirementHash"], "candidateRequirementHash": context["requirementHash"], "contextHash": context["contextHash"], "source": source, "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "evaluatedAt": context.get("evaluatedAt"),
-                "execution": self._execution_identity(subject, current, applicable=True)}
+                "execution": self._execution_identity(subject, current, applicable=True, recorded_checks=recorded_checks)}
 
     def _finish_committed(
         self,

@@ -25,7 +25,7 @@ from . import SCHEMA_VERSION
 from .core import Core
 from .delta import Delta
 from .errors import WorldlineError
-from .finalize import protected_matches
+from .finalize import evaluation_record, execution_binding, protected_matches
 from .linux.git import GitAdapter
 from .manifest import CapturedManifest, Manifest
 from .model import WorldState, utc_now
@@ -139,23 +139,41 @@ class Revalidator:
         )
         primary_target = Path(os.fsdecode(bytes(primary["path"])))
         try:
-            # Revalidation re-runs the CURRENT PRIME's checks, so the examiner it stages is
-            # current PRIME's too — the same lower layer the overlays were built from.
+            # THREE snapshots, kept apart:
+            #   overlays        the bytes UNDER EVALUATION -- source_dir (for a revalidation, the
+            #                   candidate's own finalized payload; for a staged merge, the staged
+            #                   tree). This is what the checks examine.
+            #   evaluator_sources  the TRUSTED EVALUATOR snapshot -- CURRENT PRIME's on-disk tree,
+            #                   the realpath of each registered root. The examiner is staged from
+            #                   here, NEVER from the overlay lower. The earlier code read the
+            #                   examiner from `r.lower`, i.e. source_dir, so a candidate's own
+            #                   payload supplied the examiner that judged it (campaign F6).
+            #   project         the policy snapshot, loaded from current PRIME above.
+            evaluator_sources = {r["root_key"]: Path(os.path.realpath(os.fsdecode(bytes(r["path"]))))
+                                 for r in roots}
             verifier_roots = [{"root_key": r.root_key, "path": str(r.target),
                                "primary": str(r.target) == str(primary_target)} for r in overlays]
-            prime_verifiers = resolve_verifiers(project, verifier_roots,
-                                                {r.root_key: r.lower for r in overlays})
+            prime_verifiers = resolve_verifiers(project, verifier_roots, evaluator_sources)
             results = list(self.checks.run(
                 world_instance=validation_id, overlays=overlays, primary_target=primary_target,
-                checks=project.checks, verifiers=prime_verifiers,
+                checks=project.checks, verifier_sources=evaluator_sources, verifiers=prime_verifiers,
                 logical_roots={r.root_key: str(r.target) for r in overlays}))
         finally:
             self._discard(self.paths.overlays / validation_id)
         required = [check.id for check in project.checks if check.required]
+        # Attach the execution-identity facts to each re-run result, exactly as finalization
+        # does, so a promotion that later reads THIS evaluation (F5) sees a coherent execution
+        # half rather than falling back to the fork-time evidence.
+        for item in results:
+            item["executionBinding"] = execution_binding(item)
+            item["evaluation"] = evaluation_record(item)
         if project.protected:
             delta = protected_delta()
             touched = sorted({op["pathDisplay"] for op in delta.value["operations"] if protected_matches(tuple(project.protected), op["pathDisplay"])})
-            results.append({"id": "protected-paths", "kind": "policy", "required": True, "format": "engine", "origin": "engine", "covers": list(project.protected), "status": "FAIL" if touched else "PASS", "touched": touched, "reason": ("protected paths would change: " + ", ".join(touched)) if touched else "no protected path changed"})
+            protected_result = {"id": "protected-paths", "kind": "policy", "required": True, "format": "engine", "origin": "engine", "covers": list(project.protected), "status": "FAIL" if touched else "PASS", "touched": touched, "reason": ("protected paths would change: " + ", ".join(touched)) if touched else "no protected path changed"}
+            protected_result["executionBinding"] = execution_binding(protected_result)
+            protected_result["evaluation"] = evaluation_record(protected_result)
+            results.append(protected_result)
             required.append("protected-paths")
         context = build_context(
             requirement=current,
@@ -183,7 +201,13 @@ class Revalidator:
             "evaluatedAt": context["evaluatedAt"],
             "requirementHash": current["requirementHash"],
             "contextHash": context["contextHash"],
-            "results": [{"id": r.get("id"), "status": r.get("status"), "required": r.get("required"), "reason": r.get("reason")} for r in results],
+            # Execution-identity fields are preserved, not projected away: promotion reads the
+            # executedVerifierSet identity, executionBinding and evaluation from the evaluation
+            # that speaks for the world, and for a revalidation that is THIS entry.
+            "results": [{"id": r.get("id"), "status": r.get("status"), "required": r.get("required"),
+                         "reason": r.get("reason"), "executedVerifierSet": r.get("executedVerifierSet"),
+                         "executionBinding": r.get("executionBinding"), "evaluation": r.get("evaluation"),
+                         "exitCode": r.get("exitCode"), "origin": r.get("origin")} for r in results],
             "verifiersModifiedByCandidate": context["verifiersModifiedByCandidate"],
             "context": context,
         }

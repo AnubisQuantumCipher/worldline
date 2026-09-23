@@ -66,6 +66,7 @@ class ExecutedIdentity(unittest.TestCase):
         return self.runner.run(
             world_instance=str(uuid.uuid4()), overlays=[self.overlay],
             primary_target=Path(LOGICAL), checks=[check],
+            verifier_sources={ROOT_KEY: self.lower},
             verifiers=entries, logical_roots={ROOT_KEY: LOGICAL})[0]
 
     # ---- the examiner is PRIME's, not the candidate's -----------------------------------------
@@ -236,6 +237,7 @@ class ExecutedIdentity(unittest.TestCase):
         try:
             result = self.runner.run(world_instance=instance, overlays=[self.overlay],
                                      primary_target=Path(LOGICAL), checks=[check],
+                                     verifier_sources={ROOT_KEY: self.lower},
                                      verifiers=entries, logical_roots={ROOT_KEY: LOGICAL})[0]
         finally:
             ExecutionVerifierSet.stage = original_stage

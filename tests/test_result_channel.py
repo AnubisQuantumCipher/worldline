@@ -158,6 +158,7 @@ class CandidateCannotForgeTheRecord(unittest.TestCase):
         entries = [{"checkId": "exam", "rootKey": ROOT_KEY, "path": "exam/run.py", "source": "argv"}]
         return self.runner.run(world_instance=str(uuid.uuid4()), overlays=[self.overlay],
                                primary_target=Path(LOGICAL), checks=[check],
+                               verifier_sources={ROOT_KEY: self.lower},
                                verifiers=entries, logical_roots={ROOT_KEY: LOGICAL})[0]
 
     FORGE = """

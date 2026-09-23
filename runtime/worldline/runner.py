@@ -485,6 +485,9 @@ class AgentRunner:
             # set that is identified and the set that runs are one thing.
             verifier_roots = [{"root_key": r.root_key, "path": str(r.target),
                                "primary": str(r.target) == str(primary_target)} for r in overlays]
+            # The trusted evaluator snapshot for a fork is the overlay LOWER, which is PRIME as
+            # the world was forked from it. Named here and passed explicitly; the check runner
+            # does not infer it.
             verifier_sources = {r.root_key: r.lower for r in overlays}
             prime_verifiers = resolve_verifiers(project, verifier_roots, verifier_sources)
             logical_roots = {r.root_key: str(r.target) for r in overlays}
@@ -494,6 +497,7 @@ class AgentRunner:
                     overlays=overlays,
                     primary_target=primary_target,
                     checks=project.checks,
+                    verifier_sources=verifier_sources,
                     verifiers=prime_verifiers,
                     logical_roots=logical_roots,
                 )

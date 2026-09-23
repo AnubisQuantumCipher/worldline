@@ -129,12 +129,20 @@ class CheckRunner:
         overlays: Sequence[OverlayRoot],
         primary_target: Path,
         checks: Sequence[CheckSpec],
+        verifier_sources: Mapping[str, Path],
         verifiers: Sequence[Mapping[str, Any]] = (),
         logical_roots: Mapping[str, str] | None = None,
     ) -> list[dict[str, Any]]:
         """`verifiers` is the resolved verifier set for this policy, as `resolve_verifiers`
         returns it; each check takes the members that name it. Passing it is what lets a check be
-        identified by the bytes it runs rather than by the path it was given."""
+        identified by the bytes it runs rather than by the path it was given.
+
+        `verifier_sources` (root_key -> directory) is the TRUSTED EVALUATOR SNAPSHOT the examiner
+        bytes are staged from. It is passed explicitly, never inferred from the overlay `lower`:
+        for a fork the lower happens to be PRIME, but for a revalidation it is the candidate's own
+        payload, and staging the examiner from there would let the candidate supply the examiner
+        that judges it. The tree the check examines (the overlays) and the bytes that examine it
+        (these sources) are two different snapshots and must be named separately."""
         by_check: dict[str, list[Mapping[str, Any]]] = {}
         for entry in verifiers:
             by_check.setdefault(str(entry.get("checkId")), []).append(entry)
@@ -147,6 +155,7 @@ class CheckRunner:
                     primary_target=primary_target,
                     check=check,
                     verifier_entries=by_check.get(check.id, ()),
+                    verifier_sources=verifier_sources,
                     logical_roots=logical_roots,
                 )
             )
@@ -159,6 +168,7 @@ class CheckRunner:
         overlays: Sequence[OverlayRoot],
         primary_target: Path,
         check: CheckSpec,
+        verifier_sources: Mapping[str, Path],
         verifier_entries: Sequence[Mapping[str, Any]] = (),
         logical_roots: Mapping[str, str] | None = None,
     ) -> dict[str, Any]:
@@ -200,12 +210,12 @@ class CheckRunner:
                 f" {escapes}. Name each verifier by a clean path inside its registered root.",
                 {"argv": list(check.argv), "escapes": escapes})
 
-        # From the LOWER layer, which is PRIME as the world was forked from it — not from the
-        # candidate's merged overlay. The examiner that judges a candidate must not be one the
-        # candidate supplied, so tampering with a verifier inside a world now changes nothing
-        # about what runs. It is still reported at finalization as VERIFIER_MODIFIED_BY_CANDIDATE;
-        # it simply no longer decides anything.
-        sources = {root.root_key: root.lower for root in overlays}
+        # The TRUSTED EVALUATOR SNAPSHOT, passed in explicitly. The examiner that judges a
+        # candidate must not be one the candidate supplied, so tampering with a verifier inside a
+        # world changes nothing about what runs (it is still reported at finalization as
+        # VERIFIER_MODIFIED_BY_CANDIDATE; it simply no longer decides anything). This is NOT read
+        # from the overlay lower, because for a revalidation the lower is the candidate's payload.
+        sources = dict(verifier_sources)
         if verifier_entries:
             # A set that cannot be identified is a refusal. Running the check anyway would
             # produce exactly the result this milestone exists to make impossible: a PASS whose

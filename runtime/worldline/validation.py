@@ -488,13 +488,29 @@ def current_requirements(store: Any, config: Any, core: Core | None = None) -> d
     return requirements(project, roots, live_sources, config, project.source_sha256, core)
 
 
-def effective_context(store: Any, world: Any) -> tuple[dict[str, Any] | None, str]:
-    """The context that currently speaks for a world: the newest successful revalidation bound
-    to this exact world identity, else the finalization context. Returns (context, source)."""
+def effective_evidence(store: Any, world: Any) -> tuple[dict[str, Any] | None, str, list[dict[str, Any]]]:
+    """The evaluation that currently speaks for a world, as ONE coherent unit: the freshness
+    context, its source, and the check records FROM THE SAME EVALUATION.
+
+    The freshness half and the execution half must come from the same evaluation. A revalidation
+    re-runs the checks and stores their records (with the executedVerifierSet the runner wrote);
+    its context is what `effective_context` returned. Reading the context from the revalidation
+    but the execution records from the world's FINALIZATION evidence assembled one apparently
+    complete evaluation from two different runs -- run 2's freshness over run 1's execution
+    identity (campaign F5). This returns both halves of whichever evaluation speaks, together.
+    """
     for entry in reversed(store.get_meta(f"validation:{world.instance_id}", []) or []):
         ctx = entry.get("context") if isinstance(entry, dict) else None
         if isinstance(ctx, dict) and entry.get("outcome") == "PASS" and entry.get("worldContentId") == world.content_id:
-            return ctx, f"revalidation:{entry.get('validationId')}"
+            records = [r for r in (entry.get("results") or []) if isinstance(r, dict)]
+            return ctx, f"revalidation:{entry.get('validationId')}", records
     evidence = world.evidence if isinstance(world.evidence, dict) else {}
     ctx = evidence.get("validationContext")
-    return (ctx if isinstance(ctx, dict) else None), "finalization"
+    records = [r for r in (evidence.get("checks") or []) if isinstance(r, dict)]
+    return (ctx if isinstance(ctx, dict) else None), "finalization", records
+
+
+def effective_context(store: Any, world: Any) -> tuple[dict[str, Any] | None, str]:
+    """The freshness context and its source. See `effective_evidence` for the coherent records."""
+    context, source, _records = effective_evidence(store, world)
+    return context, source
