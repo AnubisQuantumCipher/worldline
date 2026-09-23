@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 import base64
 from decimal import Decimal, InvalidOperation
 import json
@@ -11,8 +13,6 @@ from typing import Any, Mapping, Sequence
 import uuid
 import xml.etree.ElementTree as ET
 
-from .trusted import trusted_inline
-from .canonical import atomic_write_json
 from .executed import UNIDENTIFIED, VERIFIER_MOUNT, ExecutionVerifierSet
 from .resolution import resolve_token, root_prefixes
 from .errors import WorldlineError
@@ -22,92 +22,6 @@ from .linux.systemd import SystemdAdapter
 from .project import CheckSpec
 from .environment import safe_environment
 from .paths import WorldlinePaths, secure_directory
-
-# The authoritative result channel.
-#
-# The record used to be written to a file in /run/worldline-runtime. That directory is
-# bind-mounted read-write and is the world's XDG_RUNTIME_DIR, so the very processes under
-# examination could create, replace or symlink the file that reports on them. Isolating the
-# harness's imports closed the route to OWNING the harness and left open the route to simply
-# writing its conclusion.
-#
-# A nonce would not have fixed it: the examiner's children run as the same user in the same PID
-# namespace, so anything passed in argv, the environment or the spec is readable through procfs.
-# What they cannot do is append to this stream undetected. The harness writes ONE framed record
-# to its own stdout -- a pipe held by the supervisor, never inherited by the examiner, whose own
-# stdout and stderr are pipes the harness reads -- and writes nothing else. The supervisor
-# therefore requires the entire stream to be exactly one frame: a prefix, a suffix or a second
-# frame is interference, not a result.
-#
-# The harness also exits with the examiner's status, so the SERVICE MANAGER records the verdict
-# independently of anything inside the sandbox. Suppressing the frame means killing the harness,
-# which the manager reports as a signal. The two observations must agree or the check refuses.
-RECORD_MARKER = "\x1e--worldline-check-record-v1--\x1e"
-
-_CHECK_RUNNER = """
-import base64
-import json
-from pathlib import Path
-import subprocess
-import sys
-import time
-MARKER = '\x1e--worldline-check-record-v1--\x1e'
-specification = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
-started = time.monotonic_ns()
-completed = subprocess.run(specification['argv'], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
-result = None
-if specification['result'] is not None:
-    path = Path(specification['result'])
-    if path.is_file():
-        result = base64.b64encode(path.read_bytes()).decode('ascii')
-code = completed.returncode
-record = json.dumps({
-    'schemaVersion': 2,
-    'exitCode': code,
-    'durationNs': time.monotonic_ns() - started,
-    'stdoutB64': base64.b64encode(completed.stdout).decode('ascii'),
-    'stderrB64': base64.b64encode(completed.stderr).decode('ascii'),
-    'resultB64': result,
-}, sort_keys=True, separators=(',', ':'))
-sys.stdout.write(MARKER + record + MARKER)
-sys.stdout.flush()
-# Exit with the examiner's status so the service manager records the verdict too. Signals follow
-# the shell convention; the supervisor computes the same mapping and compares.
-sys.exit(code & 0xFF if code >= 0 else min(255, 128 - code))
-""".strip()
-
-
-def expected_unit_exit(examiner_exit: int) -> int:
-    """The unit exit status the harness produces for a given examiner status.
-
-    Mirrors the harness exactly. Python reports a signalled child as a negative number, which
-    `sys.exit` cannot express, so signals follow the shell convention.
-    """
-    return examiner_exit & 0xFF if examiner_exit >= 0 else min(255, 128 - examiner_exit)
-
-
-def parse_record_stream(stream: bytes) -> tuple[dict[str, Any] | None, str | None]:
-    """The framed record, or None and a named reason.
-
-    The whole stream must be one frame. Anything else means something other than the harness
-    wrote to the harness's stdout, and a result that cannot be attributed is not a result.
-    """
-    text = stream.decode("utf-8", "replace")
-    parts = text.split(RECORD_MARKER)
-    if len(parts) == 1:
-        return None, "the harness produced no result record"
-    if len(parts) != 3:
-        return None, f"the result stream carries {(len(parts) - 1) // 2} frames, so the record cannot be attributed to the harness"
-    if parts[0] != "" or parts[2].strip() != "":
-        return None, "the result stream carries bytes outside the record frame, so it was written to by more than the harness"
-    try:
-        record = json.loads(parts[1])
-    except json.JSONDecodeError as exc:
-        return None, f"the result record is not valid JSON: {exc}"
-    if not isinstance(record, dict) or record.get("schemaVersion") != 2:
-        return None, "the result record does not have the expected schema"
-    return record, None
-
 
 class CheckRunner:
     def __init__(
@@ -180,7 +94,6 @@ class CheckRunner:
             shutil.rmtree(runtime)
         secure_directory(runtime)
         cwd = primary_target if check.cwd is None else primary_target / check.cwd
-        result_path = None if check.result is None else str(cwd / check.result)
 
         # The declared verifier set is copied out of the overlays and identified by descriptor
         # BEFORE anything runs, and the check is pointed at the staged copies. Until this, a
@@ -241,34 +154,41 @@ class CheckRunner:
                     {"argv": list(check.argv),
                      "staged": [item.staged for item in staged.items]})
 
-        specification = {
-            "schemaVersion": 1,
-            "argv": argv,
-            "result": result_path,
-        }
-        atomic_write_json(runtime / "spec.json", specification)
+        # THE RECORD PRODUCER IS THE DAEMON, OUTSIDE THE SANDBOX.
+        #
+        # The examiner is exec'd directly under bwrap; there is no in-sandbox harness process
+        # writing a framed record to a pipe. A campaign showed why that mattered: the examiner's
+        # own descendants share its uid and PID namespace and can open /proc/<harness>/fd/1, so
+        # they could take the harness's frame off its stdout and put back a forged one, or write
+        # a frame while the harness was mid-write. The producer is now this process -- in a
+        # different PID and mount namespace from everything in the sandbox -- so there is no
+        # in-sandbox producer fd to reach, and the authoritative facts are measured out here:
+        #
+        #   verdict (exit status)   the SERVICE MANAGER's record of how the unit ended. The
+        #                           candidate can change it only by changing how the examiner
+        #                           actually exits, which is the examiner's decision, not its
+        #                           children's.
+        #   stdout / stderr         the examiner's own streams, read by the daemon. These are
+        #                           CANDIDATE-DOMAIN output: the examiner runs candidate cwd and
+        #                           may run candidate code, so they are recorded, never trusted.
+        #   result file             read host-side from the overlay upper AFTER the run. For a
+        #                           format whose verdict is the file contents this is
+        #                           candidate-reachable -- a sibling under the same uid can write
+        #                           it -- so the profile records that and does not claim the
+        #                           report is isolated from the candidate.
+        #
+        # The examiner keeps ordinary startup (NOT -I -S): examining candidate code legitimately
+        # needs candidate cwd and imports. Only the removed harness ever needed isolation.
         spec = SandboxSpec(
             instance_id=world_instance,
-            # Trusted: this process attests that an examination happened, and its cwd is a
-            # managed root, hence candidate-writable by construction. A candidate that planted
-            # base64.py there owned this harness on its first import and fabricated a passing
-            # result. The policy and the measurements behind it are in trusted.py.
-            #
-            # This isolates the HARNESS only. The verifier it launches is a separate process and
-            # keeps ordinary semantics, because examining candidate code legitimately needs
-            # candidate cwd and candidate imports. What the candidate must not get is authority
-            # over the process that attests the examination happened.
-            argv=trusted_inline(
-                _CHECK_RUNNER,
-                "/run/worldline-runtime/spec.json",
-                "/run/worldline-runtime/result.json",
-            ),
+            argv=tuple(argv),
             cwd=cwd,
             environment=safe_environment(),
             roots=tuple(overlays),
             runtime=runtime,
             readonly_mounts=((staged.staging, VERIFIER_MOUNT),) if staged is not None else (),
         )
+        started_ns = time.monotonic_ns()
         with self.gate.guard(f"check:{check.id}") as _decision:
             process = self.systemd.launch(
                 run_id,
@@ -276,11 +196,12 @@ class CheckRunner:
                 description=f"WORLDLINE check {check.id}",
                 resource_properties=self.gate.unit_properties(),
             )
-            record_stream, launch_stderr = process.launcher.communicate(timeout=600)
+            examiner_stdout, examiner_stderr = process.launcher.communicate(timeout=600)
             # Supervisor-owned facts, from the service manager's own journal entries for this
             # unit. The candidate cannot write these: they are the manager's record of a process
             # it supervised, not anything reported from inside the sandbox.
             supervision = self.systemd.outcome(process, process.launcher.returncode)
+        duration_ns = time.monotonic_ns() - started_ns
         executed: dict[str, Any] | None = None
         if staged is not None:
             try:
@@ -317,76 +238,81 @@ class CheckRunner:
                 "origin": "supervisor",
             }
 
-        raw, channel_error = parse_record_stream(record_stream)
-        if raw is None:
-            launcher_text = launch_stderr.decode("utf-8", "replace").strip()
-            if supervision.get("kind") == "SUPERVISED" and supervision.get("stoppedByManager"):
-                stage = "STOPPED_BY_MANAGER"
-            elif supervision.get("kind") == "LAUNCH_FAILED":
-                stage = "SANDBOX_NEVER_STARTED"
-            elif observed["signalled"]:
-                stage = "HARNESS_SIGNALLED"
-            else:
-                # The harness started and produced no attributable record. Which side of the
-                # examiner it stopped on is NOT established by anything trusted here, and
-                # naming a stage would be inventing one.
-                stage = "NO_ATTRIBUTABLE_RECORD"
-            return refuse(stage, f"{channel_error}{': ' + launcher_text if launcher_text else ''}")
-
-        # Two independent observations of the same verdict: the harness's own report, and the
-        # service manager's record of the unit's exit. They must agree.
-        reported = raw["exitCode"]
-        if not isinstance(reported, int):
-            return refuse("RECORD_MALFORMED", "the result record does not carry an integer exit status")
+        # The verdict is the SERVICE MANAGER's observation of how the unit ended -- measured
+        # outside the sandbox, not reported from within it.
+        if supervision.get("kind") == "LAUNCH_FAILED":
+            return refuse("SANDBOX_NEVER_STARTED",
+                          (examiner_stderr.decode("utf-8", "replace").strip() or "the sandbox never started"))
+        if supervision.get("kind") == "SUPERVISED" and supervision.get("stoppedByManager"):
+            return refuse("STOPPED_BY_MANAGER",
+                          "the check unit was stopped by the service manager before it completed")
         if observed["exitStatus"] is None:
-            # One observation is not a cross-check. Unknown is not permission.
-            return refuse(
-                "UNCORROBORATED",
-                f"the supervisor could not observe how the check unit ended ({observed['source']}),"
-                " so the harness's own report is the only account of the evaluation",
-            )
-        if observed["exitStatus"] != expected_unit_exit(reported):
-            return refuse(
-                "CHANNEL_DISAGREEMENT",
-                f"the harness reported examiner status {reported} but the service manager"
-                f" recorded unit status {observed['exitStatus']}; the two observations of the"
-                " same evaluation do not agree",
-            )
+            # No supervisor-owned exit observation: the daemon cannot state how the unit ended,
+            # and the examiner's own streams are candidate-domain. Unknown is not permission.
+            return refuse("UNCORROBORATED",
+                          f"the supervisor could not observe how the check unit ended ({observed['source']})")
 
-        # If the staged bundle could not satisfy the examiner's own imports, say so on the
-        # result itself. `worldline show` is where an operator reads this, and "FAIL" with no
-        # reason sends them to debug their candidate for a defect in the policy.
+        exit_status = observed["exitStatus"]
+
+        # The examiner's own streams: candidate-domain output. Recorded, parsed where a check
+        # format reads them, never trusted as the authoritative record.
+        stdout = examiner_stdout or b""
+        stderr = examiner_stderr or b""
+
+        # The result file, read host-side from the overlay upper after the run. Candidate-
+        # reachable: a sibling under the same uid could have written it. For a format whose
+        # verdict is the file contents (junit, gnatprove, benchmark) this is the report-trust
+        # boundary, recorded honestly below.
+        result_bytes = self._read_result_file(check, overlays, primary_target)
+
         gaps = (executed or {}).get("unsatisfiedImports") if executed else None
-        stdout = base64.b64decode(raw["stdoutB64"].encode("ascii"), validate=True)
-        stderr = base64.b64decode(raw["stderrB64"].encode("ascii"), validate=True)
-        result_bytes = None if raw["resultB64"] is None else base64.b64decode(raw["resultB64"].encode("ascii"), validate=True)
-        parsed = self._parse(check, reported, stdout, stderr, result_bytes)
+        parsed = self._parse(check, exit_status, stdout, stderr, result_bytes)
+
+        verdict_from_file = check.format in ("junit", "gnatprove", "worldline-benchmark-v1")
         return {
             **identity,
             "argv": list(check.argv),
-            "exitCode": reported,
-            "durationNs": raw["durationNs"],
-            "stdoutB64": raw["stdoutB64"],
-            "stderrB64": raw["stderrB64"],
+            "exitCode": exit_status,
+            "durationNs": duration_ns,
+            "stdoutB64": base64.b64encode(stdout).decode("ascii"),
+            "stderrB64": base64.b64encode(stderr).decode("ascii"),
             # The identity of the bytes this evaluation actually ran. Compared at finalization
             # against what the policy declares; a difference is VERIFIER_EXECUTION_IDENTITY_MISMATCH
             # and cannot satisfy the acceptance gate.
             "executedVerifierSet": executed,
-            # Three kinds of fact that were being carried as one. Keeping them apart is what
-            # stops a judgment inheriting the authority of an observation, or a candidate's
-            # own bytes inheriting the authority of a judgment.
             "origin": "supervisor",
+            # The producer is the daemon, outside the sandbox. `accepted` here means the unit
+            # was supervised and its exit observed -- NOT that an in-sandbox frame was validated
+            # (there is no frame any more).
             "resultChannel": {
                 "accepted": True,
-                "frames": 1,
-                "exitStatusAgreement": {
-                    "status": "AGREED",
-                    "harnessReported": reported,
-                    "supervisorObserved": observed["exitStatus"],
+                "recordProducer": "daemon-outside-sandbox",
+                "exitStatus": {
+                    "observed": exit_status,
                     "source": observed["source"],
                     "journal": observed.get("journal"),
                     "launcher": observed.get("launcher"),
                 },
+            },
+            # What the verdict actually rests on, stated so nothing over-claims. The exit status
+            # is supervisor-owned and unforgeable by the examiner's children; a result-file
+            # verdict additionally rests on bytes the candidate could reach, and does NOT get the
+            # "isolated from the candidate" claim for those bytes.
+            "evaluationProfile": {
+                "recordProducer": "supervisor",
+                "verdictAuthority": "candidate-reachable-report" if verdict_from_file else "supervisor-exit-status",
+                "reportTrust": "candidate-reachable" if verdict_from_file else "not-applicable",
+                "nonClaims": ([
+                    "The verdict of a result-file format rests on file bytes written inside the"
+                    " sandbox, which a candidate subprocess under the same uid could replace. The"
+                    " exit status is supervisor-owned; the report contents are not. This check's"
+                    " report is not isolated from the candidate.",
+                ] if verdict_from_file else [
+                    "The verdict is the exit status the service manager observed for the unit,"
+                    " outside the sandbox. A candidate can change it only by changing how the"
+                    " examiner actually exits -- which is not the same as claiming the examiner's"
+                    " JUDGMENT is independent of candidate code it may run in-process.",
+                ]),
             },
             "supervision": supervision,
             "evaluatorCompleteness": (
@@ -401,12 +327,35 @@ class CheckRunner:
             "candidateReachable": {
                 # Produced by processes under examination. Parsed because a check must be read,
                 # never because these bytes are trusted.
-                "stdoutB64": raw["stdoutB64"],
-                "stderrB64": raw["stderrB64"],
-                "resultFilePresent": raw["resultB64"] is not None,
+                "stdoutB64": base64.b64encode(stdout).decode("ascii"),
+                "stderrB64": base64.b64encode(stderr).decode("ascii"),
+                "resultFilePresent": result_bytes is not None,
             },
             **parsed,
         }
+
+    def _read_result_file(self, check: "CheckSpec", overlays: Sequence[OverlayRoot],
+                          primary_target: Path) -> bytes | None:
+        """Read the check's declared result file host-side, from the primary overlay's upper
+        layer, after the run. This is where a file the examiner CREATES lands (and where an
+        existing file it modifies is copied up). It is candidate-reachable: the caller records
+        that. Returns None when no result file is declared or none was produced."""
+        if check.result is None:
+            return None
+        primary = next((root for root in overlays if str(root.target) == str(primary_target)), None)
+        if primary is None:
+            return None
+        relative = check.result if check.cwd is None else os.path.join(check.cwd, check.result)
+        relative = os.path.normpath(relative)
+        if relative.startswith("..") or os.path.isabs(relative):
+            return None
+        host_path = primary.upper / relative
+        try:
+            if host_path.is_symlink() or not host_path.is_file():
+                return None
+            return host_path.read_bytes()
+        except OSError:
+            return None
 
     @staticmethod
     def _observed_exit(supervision: Mapping[str, Any], launcher_exit: int | None) -> dict[str, Any]:

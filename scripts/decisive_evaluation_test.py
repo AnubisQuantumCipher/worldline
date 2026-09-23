@@ -7,18 +7,20 @@ Six properties, established together, against the real CheckRunner and a real sa
   2. the trusted verifier executed
   3. the trusted declared dependencies were used
   4. the candidate remained accessible as the thing being examined
-  5. candidate Python modules did not influence the trusted harness
+  5. candidate Python modules did not fabricate the record
   6. the execution identity is the one the SPARK kernel subsequently requires
 
-The candidate is stocked with every module the harness imports, plus a sitecustomize, plus a
-forged examiner and a shadow helper package. Each screams something unmistakable. The trusted
-verifier prints a nonce only PRIME's copy knows, so "did the real examiner run?" is answered by
-the recorded bytes rather than by an exit code anyone can fabricate.
+The candidate is stocked with every module the OLD in-sandbox harness imported, plus a
+sitecustomize, plus a forged examiner and a shadow helper package. Each screams something
+unmistakable. On the preserved counterexample -- which still runs the harness inside the sandbox
+-- these get imported and fabricate a passing record; on a current engine the record producer is
+the daemon OUTSIDE the sandbox, so none of them is on any import path that matters, and PRIME's
+examiner (identified by a nonce only its copy knows) is what actually runs.
 
     decisive_test.py --engine <runtime dir>
 
-Exit 0 only when all six hold. This is a gate, not a suite member: it is expected to FAIL until
-the harness is moved out of candidate-controlled import space.
+Exit 0 only when all six hold. This is a gate, not a suite member: the preserved counterexample
+is expected to FAIL it, which is what keeps the gate honest.
 """
 from __future__ import annotations
 
@@ -155,10 +157,16 @@ def main() -> int:
     entries = [{"checkId": "exam", "rootKey": root_key, "path": p, "source": "argv"}
                for p in ("exam/run.py", "exam/helper.py")]
 
+    run_kwargs = dict(world_instance=str(uuid.uuid4()), overlays=[overlay],
+                      primary_target=Path(logical), checks=[check],
+                      verifiers=entries, logical_roots={root_key: logical})
     try:
-        result = runner.run(world_instance=str(uuid.uuid4()), overlays=[overlay],
-                            primary_target=Path(logical), checks=[check],
-                            verifiers=entries, logical_roots={root_key: logical})[0]
+        try:
+            # The trusted evaluator snapshot is PRIME (the overlay lower). Newer engines require
+            # it explicitly; the preserved counterexample predates the parameter.
+            result = runner.run(verifier_sources={root_key: lower}, **run_kwargs)[0]
+        except TypeError:
+            result = runner.run(**run_kwargs)[0]
     except Exception as exc:  # noqa: BLE001
         print(f"the check runner raised: {type(exc).__name__}: {exc}")
         result = {}
@@ -191,9 +199,9 @@ def main() -> int:
         ("4 candidate accessible as the examined thing",
          "CANDIDATE_READABLE=True" in stdout,
          f"line={[l for l in stdout.splitlines() if l.startswith('CANDIDATE_READABLE')]}"),
-        ("5 candidate modules did not influence the harness",
-         not owned,
-         f"markers={sorted(set(owned))}"),
+        ("5 candidate modules did not fabricate the record",
+         not owned and "FABRICATED-PASS" not in stdout,
+         f"markers={sorted(set(owned))} fabricated={'FABRICATED-PASS' in stdout}"),
         ("6 the record separates integrity, execution and outcome",
          evaluation.get("bundleIntegrity") == "VERIFIED"
          and evaluation.get("executionStatus") == "COMPLETED"
@@ -229,14 +237,15 @@ def main() -> int:
     # evidence is weaker than it is, and it rots silently because nothing fails when it is wrong.
     print("\n  NOT established by this gate: that the examiner's JUDGMENT is independent of the"
           "\n  candidate. An examiner that runs candidate code is reporting on work that code"
-          "\n  took part in, and no amount of channel protection changes that."
+          "\n  took part in, and moving the producer out does not change that."
           "\n"
-          "\n  Established elsewhere, not here: that the result record is attributable. The"
-          "\n  record no longer travels through the writable bind -- the harness writes one"
-          "\n  framed record to a stream the supervisor owns, and the unit's exit status is"
-          "\n  observed outside the sandbox and must agree with it. See tests/test_result_"
-          "\n  channel.py, which carries out both forgery attacks. Property 2 remains the check"
-          "\n  that the trusted examiner's own nonce is in the recorded bytes.")
+          "\n  Established elsewhere, not here: that the authoritative record is unforgeable."
+          "\n  The record producer is now the DAEMON, outside the sandbox -- there is no"
+          "\n  in-sandbox harness whose stdout a candidate child can steal, and the verdict is"
+          "\n  the exit status the service manager observed. See tests/test_result_channel.py,"
+          "\n  which runs the frame-steal attacks against the moved-out producer. Property 2"
+          "\n  here checks that PRIME's examiner (not a forged overlay copy) actually ran, by"
+          "\n  its own nonce in the recorded stdout.")
     passed = all(ok for _, ok, _ in properties)
     if args.json:
         import json as _json

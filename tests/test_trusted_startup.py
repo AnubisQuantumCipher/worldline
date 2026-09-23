@@ -74,8 +74,11 @@ class PolicyCoverage(unittest.TestCase):
     def test_every_trusted_helper_is_launched_through_the_policy(self) -> None:
         # The four sites, named, so that deleting one's isolation is a test failure rather than
         # a silent regression in whichever file nobody re-read.
+        # checks.py is deliberately NOT here: the in-sandbox check harness was removed when the
+        # record producer moved OUT of the sandbox (campaign F2). The examiner it now launches is
+        # candidate-domain by design and keeps ordinary startup; there is no trusted helper
+        # inside the sandbox to isolate.
         expected = {
-            "checks.py": "trusted_inline(",          # the check harness
             "finalize.py": "trusted_inline(",        # the materializer
             "simulation.py": "trusted_inline(",      # the simulation runner
             "linux/namespaces.py": "trusted_script(",  # the netguard forwarder
