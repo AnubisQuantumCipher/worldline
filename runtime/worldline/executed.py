@@ -59,6 +59,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from .errors import WorldlineError
+from .resolution import resolve_token, root_prefixes
 
 VERIFIER_MOUNT = "/run/worldline-verifiers"
 MISMATCH = "VERIFIER_EXECUTION_IDENTITY_MISMATCH"
@@ -150,6 +151,22 @@ class StagedVerifier:
         return {"rootKey": self.root_key, "path": self.relative, "executedAs": self.staged,
                 "source": self.source, "sha256": self.sha256, "bytes": self.bytes,
                 "device": self.device, "inode": self.inode}
+
+
+@dataclass(slots=True)
+class ArgvPlan:
+    """The resolved execution plan for one check's argv.
+
+    argv            the rewritten command: verifier tokens point at the staged copies.
+    rewrites        one entry per token bound to a staged member.
+    escapes         tokens that address a managed root but bind to no clean member.
+    unbound_members clean in-root paths that resolved to no staged member (covers operands,
+                    symlinks, non-regular files) -- the runner decides which are data.
+    """
+    argv: list[str]
+    rewrites: list[dict[str, str]]
+    escapes: list[str]
+    unbound_members: list[dict[str, str]]
 
 
 class ExecutionVerifierSet:
@@ -258,49 +275,53 @@ class ExecutionVerifierSet:
 
     def rewrite_argv(self, argv: Sequence[str], roots: Mapping[str, str], *,
                      primary_root_key: str | None = None,
-                     cwd: str = "") -> tuple[list[str], list[dict[str, str]]]:
-        """Point the check at the staged copies.
+                     cwd: str = "") -> "ArgvPlan":
+        """Resolve every argv token to its role and point verifier tokens at the staged copies.
 
-        A token is resolved to (root, relative path) the SAME WAY `resolve_verifiers` resolves
-        it, and that symmetry is the whole correctness argument. An earlier version matched by
-        exact string against the logical path, which left every other spelling the policy loader
-        accepts — a cwd-relative token, a path with a "./" segment — pointing at the candidate's
-        own overlay copy while the evidence recorded PRIME's bundle identity as BOUND. A campaign
-        found it: the forged examiner ran and the result said the authorised one had. Two
-        resolvers that disagree is the same defect as two checks that disagree, and the fix is to
-        have one rule, not two.
+        Resolution is the ONE rule in runtime/worldline/resolution.py, shared with
+        `resolve_verifiers` -- two resolvers disagreeing is the same defect as two checks
+        disagreeing. The earlier version had its own copy that normalised where the membership
+        side did not, and a campaign walked through the seam (`/root/./gate.py`,
+        `/root//gate.py`, `/root/../root/x`): the forged overlay examiner ran while the evidence
+        recorded PRIME's bundle identity as BOUND.
+
+        The returned plan names, per token, whether it is a staged verifier (rewritten), a token
+        that addresses a managed root but binds to no staged member (`escapes`), or a token
+        outside every root -- the interpreter, a flag, candidate-data operands. The check runner
+        refuses on `escapes` and on any in-root member that was not rewritten, instead of the old
+        "at least one token rewrote" test that a single unrelated operand satisfied.
         """
         by_member: dict[tuple[str, str], StagedVerifier] = {
             (item.root_key, item.relative): item for item in self.items}
-        prefixes = sorted(((str(path).rstrip("/") + "/", key) for key, path in roots.items()),
-                          key=lambda pair: -len(pair[0]))
-
-        def resolve(token: str) -> tuple[str, str] | None:
-            if not token or token.startswith("-"):
-                return None
-            if token.startswith("/"):
-                for prefix, key in prefixes:
-                    if token.startswith(prefix):
-                        return key, os.path.normpath(token[len(prefix):])
-                return None
-            if primary_root_key is None:
-                return None
-            relative = os.path.normpath(os.path.join(cwd, token) if cwd else token)
-            if relative.startswith("..") or os.path.isabs(relative):
-                return None
-            return primary_root_key, relative
+        prefixes = root_prefixes(roots)
 
         out: list[str] = []
         rewrites: list[dict[str, str]] = []
+        escapes: list[str] = []
+        unbound_members: list[dict[str, str]] = []
         for token in argv:
-            key = resolve(token)
-            item = by_member.get(key) if key else None
-            if item is None:
+            kind, root_key, relative = resolve_token(
+                token, prefixes, primary_root_key=primary_root_key, cwd=cwd)
+            if kind == "escape":
+                # Addresses a root but resolves to no clean member: absolute remainder, a `..`
+                # climbing out, or the root itself. Never executed as a verifier and never
+                # silently passed through as candidate bytes.
+                escapes.append(token)
                 out.append(token)
                 continue
-            out.append(item.staged)
-            rewrites.append({"from": token, "to": item.staged, "sha256": item.sha256})
-        return out, rewrites
+            if kind == "member":
+                item = by_member.get((root_key, relative))
+                if item is not None:
+                    out.append(item.staged)
+                    rewrites.append({"from": token, "to": item.staged, "sha256": item.sha256})
+                    continue
+                # A clean in-root path that is not in the staged set. It named a file the
+                # verifier resolution did not bind (a symlink, a covers-operand, or a
+                # non-regular file). Recorded so the runner can tell a data operand apart from
+                # an unbindable examiner.
+                unbound_members.append({"token": token, "rootKey": root_key or "", "path": relative or ""})
+            out.append(token)
+        return ArgvPlan(argv=out, rewrites=rewrites, escapes=escapes, unbound_members=unbound_members)
 
 
     # -- is the staged bundle self-sufficient? ----------------------------------------------------

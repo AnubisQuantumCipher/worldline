@@ -170,3 +170,67 @@ class IncompleteEvaluatorIsNotAFailedCandidate(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TotalClassification(unittest.TestCase):
+    """evaluation_record must never upgrade an unrecognised state to a completed evaluation.
+
+    The defect (campaign F4): a world that timed out before its checks recorded status
+    UNASSESSED, which no branch anticipated, so it fell through a trailing `else: COMPLETED`
+    and became a completed FAIL -- byte-identical to a check that ran and rejected the
+    candidate. A never-run examination and a completed rejection are the one pair this record
+    exists to keep apart.
+    """
+
+    def er(self, **result):
+        from worldline.finalize import evaluation_record
+        return evaluation_record(result)
+
+    def test_a_world_that_timed_out_before_checks_is_not_attempted(self) -> None:
+        r = self.er(status="UNASSESSED", reason="not run: world timed out before checks")
+        self.assertEqual(r["executionStatus"], "NOT_ATTEMPTED")
+        self.assertEqual(r["evaluationOutcome"], "NONE")
+        self.assertFalse(r["admissibleForPromotion"])
+
+    def test_never_run_and_completed_fail_are_distinguishable(self) -> None:
+        never = self.er(status="UNASSESSED", reason="not run: world cancelled")
+        failed = self.er(status="FAIL", exitCode=1, origin="supervisor",
+                         resultChannel={"accepted": True},
+                         executedVerifierSet={"stable": True, "changedDuringExecution": False})
+        self.assertNotEqual(
+            (never["executionStatus"], never["evaluationOutcome"]),
+            (failed["executionStatus"], failed["evaluationOutcome"]),
+        )
+        self.assertEqual(failed["executionStatus"], "COMPLETED")
+
+    def test_completed_requires_an_accepted_channel_and_a_concrete_exit(self) -> None:
+        # Positive evidence, not the absence of a refusal.
+        self.assertEqual(self.er(status="PASS", resultChannel={"accepted": True})["executionStatus"],
+                         "INCOMPLETE_UNKNOWN")  # no exit code
+        # An exit code with no accepted channel is contradictory, not merely incomplete.
+        self.assertEqual(self.er(status="PASS", exitCode=0)["executionStatus"],
+                         "UNCLASSIFIED")
+        good = self.er(status="PASS", exitCode=0, resultChannel={"accepted": True})
+        self.assertEqual(good["executionStatus"], "COMPLETED")
+
+    def test_a_contradictory_record_is_unclassified_not_completed(self) -> None:
+        # status PASS while the channel refused: the two disagree, so it is not a completed pass.
+        r = self.er(status="PASS", exitCode=0, resultChannel={"accepted": False, "stage": "x"})
+        self.assertNotEqual(r["executionStatus"], "COMPLETED")
+        self.assertFalse(r["admissibleForPromotion"])
+
+    def test_a_garbage_status_is_unclassified(self) -> None:
+        r = self.er(status="WAT", exitCode=0, resultChannel={"accepted": True})
+        self.assertEqual(r["executionStatus"], "UNCLASSIFIED")
+        self.assertFalse(r["admissibleForPromotion"])
+
+    def test_a_forged_engine_origin_through_the_channel_is_rejected(self) -> None:
+        # An externally supplied origin: engine must not confer trusted status. A genuine engine
+        # check has no channel and no staged bundle; a forgery reaching finalization through the
+        # runner carries a resultChannel.
+        forged = self.er(status="PASS", origin="engine", resultChannel={"accepted": True}, exitCode=0)
+        self.assertEqual(forged["executionStatus"], "UNCLASSIFIED")
+        self.assertFalse(forged["admissibleForPromotion"])
+        genuine = self.er(status="PASS", origin="engine", format="engine")
+        self.assertEqual(genuine["executionStatus"], "COMPLETED")
+        self.assertTrue(genuine["admissibleForPromotion"])

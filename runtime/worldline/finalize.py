@@ -39,6 +39,11 @@ for index in range(1, len(sys.argv), 2):
 """.strip()
 
 
+def stopped_supervision(supervision: Mapping[str, Any]) -> bool:
+    """The manager stopped the unit (timeout, cancel) rather than letting it exit on its own."""
+    return bool(supervision.get("stoppedByManager")) or supervision.get("result") == "stopped"
+
+
 def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
     """Three facts that were being carried as one, and could therefore contradict each other.
 
@@ -71,21 +76,61 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
     status = result.get("status")
     origin = result.get("origin")
     channel = result.get("resultChannel") or {}
+    exit_code = result.get("exitCode")
     # Established over trusted bytes before execution: the staged bundle could not satisfy an
     # import the examiner makes at module level. A check that then fails did not necessarily
     # fail on its merits, and telling the operator "the candidate failed" would be wrong.
     gaps = (executed or {}).get("unsatisfiedImports") if isinstance(executed, Mapping) else None
+
+    # A TOTAL classification. Every branch that reaches COMPLETED must be reached by positive
+    # evidence that the evaluation completed; anything unrecognised falls to the final else,
+    # which is NOT a completed evaluation. The previous shape had the opposite default -- a
+    # trailing `else: COMPLETED` -- so a status the branches did not anticipate (UNASSESSED,
+    # produced when a world times out or is cancelled before its checks) was upgraded to a
+    # completed FAIL. A completed rejection and a never-run examination read identically, which
+    # is the one thing this record exists to keep apart.
+    execution, outcome = "UNCLASSIFIED", "NONE"
     if origin == "engine":
         # A check the ENGINE evaluates from facts it owns: protected-paths compares the
         # candidate's delta against the policy, with no subprocess and therefore no exit code.
-        # This used to be inferred from "a status is present and an exit code is not", which is
-        # also what a subverted harness looks like. It is declared now.
-        execution = "COMPLETED"
-        outcome = "PASS" if status == "PASS" else "FAIL"
+        # This is a trusted, in-process verdict -- but only because the engine constructs the
+        # result. An externally supplied `origin: engine` must not confer it. A genuine engine
+        # check ran no subprocess and passed through no trusted channel, so it carries a
+        # definite PASS/FAIL, no exit code, no resultChannel and no executedVerifierSet. A
+        # forged result reaching here through the check runner carries a resultChannel; that is
+        # what disqualifies it, independently of the origin string it set.
+        if (status in ("PASS", "FAIL") and exit_code is None
+                and not channel and not executed):
+            execution = "COMPLETED"
+            outcome = status
+        else:
+            execution = "UNCLASSIFIED"
+            outcome = "NONE"
+    elif origin == "agent":
+        # A supervised process whose verdict is its exit status, observed by the service manager
+        # (the `supervision` block), not a framed record. Trusted only when the manager actually
+        # supervised it; a lost or never-started unit is not a completed evaluation. The agent
+        # check is required, so this gates whether the world can be VALID at all.
+        supervision = result.get("supervision") or {}
+        if (supervision.get("kind") == "SUPERVISED" and not stopped_supervision(supervision)
+                and isinstance(exit_code, int) and status in ("PASS", "FAIL")):
+            execution = "COMPLETED"
+            outcome = status
+        elif supervision.get("kind") in ("STOPPED", None) or stopped_supervision(supervision):
+            execution = "INTERRUPTED"
+            outcome = "NONE"
+        else:
+            execution = "INCOMPLETE_UNKNOWN"
+            outcome = "NONE"
+    elif status == "UNASSESSED" or (status is None and exit_code is None and not channel):
+        # No examination was performed: the world ended before this check ran, or nothing was
+        # configured. Never a verdict on the candidate.
+        execution = "NOT_ATTEMPTED"
+        outcome = "NONE"
     elif channel.get("accepted") is False:
-        # The evaluation did not complete. Name the stage ONLY where supervisor-owned facts
-        # establish it; ERROR_BEFORE_EXAMINER asserts which side of the examiner execution
-        # stopped on, and nothing trusted establishes that when no record arrived at all.
+        # The channel refused. Name the stage ONLY where supervisor-owned facts establish it;
+        # ERROR_BEFORE_EXAMINER asserts which side of the examiner execution stopped on, and
+        # nothing trusted establishes that when no record arrived at all.
         stage = channel.get("stage")
         execution = {
             "SANDBOX_NEVER_STARTED": "ERROR_BEFORE_EXAMINER",
@@ -93,21 +138,27 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
             "HARNESS_SIGNALLED": "INTERRUPTED",
         }.get(stage, "INCOMPLETE_UNKNOWN")
         outcome = "NONE"
-    elif result.get("exitCode") is None and executed:
+    elif channel.get("accepted") is True and isinstance(exit_code, int) and status in ("PASS", "FAIL"):
+        # The one path to a completed subprocess evaluation: the trusted channel accepted a
+        # record, it carries a concrete exit status, and the check produced a definite verdict.
+        if gaps and status != "PASS":
+            # The examination could not be carried out as specified: the staged bundle could
+            # not satisfy the examiner's own imports. Distinct from FAIL, which is a verdict ON
+            # the candidate.
+            execution = "EVALUATOR_INCOMPLETE"
+            outcome = "NONE"
+        else:
+            execution = "COMPLETED"
+            outcome = status
+    elif exit_code is None and (executed or status is not None):
+        # Something was attempted -- a bundle was staged, or a status is present -- but no
+        # accepted record establishes how it ended.
         execution = "INCOMPLETE_UNKNOWN"
         outcome = "NONE"
-    elif result.get("exitCode") is None and status is None:
-        execution = "NOT_ATTEMPTED"
-        outcome = "NONE"
-    elif gaps and status != "PASS":
-        # Not COMPLETED: the examination could not be carried out as specified. Distinct from
-        # FAIL, which is a verdict ON the candidate. Both block promotion; only one of them is
-        # about the candidate, and the operator needs to be told which.
-        execution = "EVALUATOR_INCOMPLETE"
-        outcome = "NONE"
     else:
-        execution = "COMPLETED"
-        outcome = "PASS" if status == "PASS" else "FAIL"
+        # Unknown, contradictory or malformed. The default is deliberately non-promotable.
+        execution = "UNCLASSIFIED"
+        outcome = "NONE"
 
     admissible = (execution == "COMPLETED" and outcome == "PASS"
                   and integrity in ("VERIFIED", "NOT_COVERED"))
@@ -134,6 +185,14 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
             " the staged verifiers. Its absence does not establish that the evaluator was"
             " complete: a dynamic or guarded import can still fail at run time, and such a run"
             " is reported as an ordinary FAIL.",
+            "This classification is total: every unrecognised, contradictory or malformed"
+            " combination falls to UNCLASSIFIED with outcome NONE, never to a completed"
+            " evaluation. UNASSESSED -- a world that ended before its checks ran -- is"
+            " NOT_ATTEMPTED, not a completed failure.",
+            "origin: engine is honoured only for a result that also has no exit code, no"
+            " resultChannel and no staged bundle -- the shape only the engine's own in-process"
+            " checks have. A forged result carrying the string but reaching finalization through"
+            " the check runner is UNCLASSIFIED.",
         ],
     }
 

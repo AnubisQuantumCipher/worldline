@@ -436,6 +436,10 @@ class AgentRunner:
             "covers": [],
             "argv": list(argv),
             "exitCode": exit_code,
+            # Trusted via the supervisor's own outcome for this unit, not via a result channel:
+            # the agent writes no framed record, its verdict IS the exit status the manager
+            # observed. Stated explicitly so evaluation_record does not have to infer it.
+            "origin": "agent",
             "status": "FAIL" if stopped or supervision["kind"] != "SUPERVISED" else ("PASS" if exit_code == 0 else "FAIL"),
             "rawEventHash": hash_id(self.core.hash_file(raw_path)),
             "stderrHash": hash_id(self.core.hash_file(stderr_path)),

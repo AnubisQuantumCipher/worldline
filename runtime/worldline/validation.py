@@ -31,6 +31,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from . import SCHEMA_VERSION, __version__
+from .resolution import resolve_token, root_prefixes
 from .trusted import ISOLATION_FLAGS, TRUSTED_INTERPRETER
 from .canonical import canonical_bytes
 from .core import Core, hash_id
@@ -144,11 +145,11 @@ def resolve_verifiers(
     primary = next((r for r in roots if r.get("primary_root") or r.get("primary")), None)
     if primary is None:
         return []
-    by_path: list[tuple[str, str, str]] = []
+    logical_by_key: dict[str, str] = {}
     for root in roots:
         logical = os.fsdecode(bytes(root["path"])) if isinstance(root["path"], (bytes, bytearray, memoryview)) else str(root["path"])
-        by_path.append((logical.rstrip("/") + "/", root["root_key"], logical))
-    by_path.sort(key=lambda item: -len(item[0]))
+        logical_by_key[root["root_key"]] = logical
+    prefixes = root_prefixes(logical_by_key)
     found: dict[tuple[str, str, str], dict[str, Any]] = {}
     primary_key = primary["root_key"]
 
@@ -181,21 +182,12 @@ def resolve_verifiers(
         named: list[tuple[str, str]] = []
         cwd_rel = check.cwd or ""
         for token in check.argv:
-            if not token or token.startswith("-"):
-                continue
-            root_key: str | None = None
-            relative: str | None = None
-            if token.startswith("/"):
-                for prefix, key, _logical in by_path:
-                    if token.startswith(prefix):
-                        root_key, relative = key, token[len(prefix):]
-                        break
-            else:
-                root_key = primary_key
-                relative = os.path.normpath(os.path.join(cwd_rel, token)) if cwd_rel else os.path.normpath(token)
-                if relative.startswith("..") or os.path.isabs(relative):
-                    continue
-            if root_key is None or relative is None or root_key not in sources:
+            # One resolution rule, shared with rewrite_argv (runtime/worldline/executed.py). A
+            # token that addresses a managed root but cannot be bound cleanly to a member is an
+            # "escape" -- it contributes no verifier here, and the check runner refuses it rather
+            # than executing it as candidate bytes.
+            kind, root_key, relative = resolve_token(token, prefixes, primary_root_key=primary_key, cwd=cwd_rel)
+            if kind != "member" or root_key is None or relative is None or root_key not in sources:
                 continue
             path = sources[root_key] / relative
             if path.is_symlink() or not path.is_file():

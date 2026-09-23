@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 from .trusted import trusted_inline
 from .canonical import atomic_write_json
 from .executed import UNIDENTIFIED, VERIFIER_MOUNT, ExecutionVerifierSet
+from .resolution import resolve_token, root_prefixes
 from .errors import WorldlineError
 from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
 from .admission import Gate
@@ -178,6 +179,27 @@ class CheckRunner:
         staged: ExecutionVerifierSet | None = None
         argv = list(check.argv)
         rewrites: list[dict[str, str]] = []
+        primary_key = next((root.root_key for root in overlays
+                            if str(root.target) == str(primary_target)), None)
+
+        # FAIL CLOSED, and BEFORE staging: an argv token that addresses a managed root but binds
+        # to no clean member inside it -- an absolute remainder (`/root//gate.py`), a `..` that
+        # climbs out (`/root/../root/x`), or the root directory itself -- is never executed. The
+        # earlier code resolved these to nothing and silently ran the candidate's overlay copy
+        # while recording PRIME's bundle as BOUND; a campaign walked straight through it. Whether
+        # or not a bundle was staged, such a token means the bytes this check would run cannot be
+        # attributed, so the check refuses instead of running them.
+        escapes = [token for token in check.argv
+                   if resolve_token(token, root_prefixes(dict(logical_roots or {})),
+                                    primary_root_key=primary_key, cwd=check.cwd or "")[0] == "escape"]
+        if escapes:
+            raise WorldlineError(
+                UNIDENTIFIED,
+                f"check {check.id} has argv tokens that address a managed root but bind to no"
+                " verifier inside it, so what they would execute cannot be attributed:"
+                f" {escapes}. Name each verifier by a clean path inside its registered root.",
+                {"argv": list(check.argv), "escapes": escapes})
+
         # From the LOWER layer, which is PRIME as the world was forked from it — not from the
         # candidate's merged overlay. The examiner that judges a candidate must not be one the
         # candidate supplied, so tampering with a verifier inside a world now changes nothing
@@ -191,23 +213,14 @@ class CheckRunner:
             staged = ExecutionVerifierSet.stage(
                 check_id=check.id, entries=verifier_entries, sources=sources,
                 staging=runtime.parent / f"{check.id}.verifiers")
-            primary_key = next((root.root_key for root in overlays
-                                if str(root.target) == str(primary_target)), None)
-            argv, rewrites = staged.rewrite_argv(
+            plan = staged.rewrite_argv(
                 argv, dict(logical_roots or {}),
                 primary_root_key=primary_key, cwd=check.cwd or "")
-            # FAIL CLOSED. rewrite_argv matches an argv token by exact string against the
-            # logical path, and a policy may legitimately spell the same verifier another way —
-            # a cwd-relative token, a path with a "./" segment, or a `verifiers:` glob argv never
-            # names at all. In every one of those the interpreter was handed the path it was
-            # always handed, which resolves into the candidate's own overlay, while the evidence
-            # happily recorded PRIME's bundle identity as stable and BOUND. A campaign found that
-            # and it is worse than having no feature: it reports an authorised, execution-bound
-            # evaluation of the examiner the candidate supplied.
-            #
-            # So: a bundle was staged and nothing was pointed at it means we cannot show the
-            # interpreter ran what we measured. That is not a passing check and not a failing
-            # one — it is a check whose provenance cannot be stated, and it refuses.
+            argv, rewrites = plan.argv, plan.rewrites
+            # A bundle was staged and no argv token points at it: the entrypoint is named only
+            # by a `verifiers:` glob or a `-m module` the interpreter resolves itself, so the
+            # bytes that run cannot be shown to be the bytes that were identified. Not a passing
+            # check and not a failing one -- a check whose provenance cannot be stated.
             if not rewrites:
                 raise WorldlineError(
                     UNIDENTIFIED,
