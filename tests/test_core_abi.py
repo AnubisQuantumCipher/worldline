@@ -73,6 +73,9 @@ class CoreAbiTests(unittest.TestCase):
             candidate_root_set=good,
             expected_staged_root=good,
             actual_staged_root=good,
+            execution_evidence_complete=True,
+            expected_executed_verifier=bytes([9]) * 32,
+            actual_executed_verifier=bytes([9]) * 32,
         )
         self.assertEqual(self.core.collapse_decide(request), "AUTHORIZED")
         cases = (

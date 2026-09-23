@@ -62,7 +62,10 @@ procedure Worldline_Core_Tests is
       Expected_Validation_Context => H1,
       Candidate_Validation_Context => H1,
       Tested_Root => H2,
-      Staged_Content_Root => H2);
+      Staged_Content_Root => H2,
+      Execution_Evidence_Complete => True,
+      Expected_Executed_Verifier => H7,
+      Actual_Executed_Verifier => H7);
 
    Parent : Worldline.Ancestry.Parent_Guard :=
      Worldline.Ancestry.New_Parent_Guard (H1);
@@ -207,6 +210,23 @@ begin
         Worldline.Collapse.Staged_Untested,
       "untested staged result authorized");
    Request.Staged_Content_Root := H2;
+   --  Execution-time verifier identity: a result nobody can attach to the examiner WORLDLINE
+   --  authorised is not an ordinary pass, and an incomplete roster is not a satisfied one.
+   Request.Execution_Evidence_Complete := False;
+   Check
+     (Worldline.Collapse.Decide (Request) =
+        Worldline.Collapse.Execution_Evidence_Incomplete,
+      "incomplete execution evidence authorized");
+   Request.Execution_Evidence_Complete := True;
+   Request.Actual_Executed_Verifier := H3;
+   Check
+     (Worldline.Collapse.Decide (Request) =
+        Worldline.Collapse.Verifier_Execution_Identity_Mismatch,
+      "a candidate judged by a different examiner was authorized");
+   Request.Actual_Executed_Verifier := H7;
+   Check
+     (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Authorized,
+      "restoring the execution identity did not re-authorize");
    Request.Has_Conflicts := True;
    Check
      (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Conflict,

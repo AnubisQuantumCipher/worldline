@@ -8,6 +8,8 @@ preserved in the worldline-lab campaign; on this engine they are ordinary regres
 """
 from __future__ import annotations
 
+import base64
+
 import json
 import os
 import shutil
@@ -498,27 +500,48 @@ class H_ProtectedEvaluator(unittest.TestCase):
             lab.close()
 
     def test_forged_and_redirected_verifiers_without_protection_are_refused_at_prepare(self) -> None:
+        """MIGRATED — classification A: the same property, satisfied earlier and more strongly.
+
+        Original property: a candidate that replaces or redirects the examiner cannot obtain a
+        promotable result. It was established by DETECTION — the substitute ran, the world
+        reached VALID, and prepare then refused VERIFIER_MODIFIED_BY_CANDIDATE.
+
+        Verifiers are now staged from PRIME and executed from the staging directory, so the
+        substitute never runs. PRIME's exam runs over a tree where the candidate did no work,
+        and the world never becomes promotable in the first place. The forgery is still NAMED,
+        so nothing was traded away for the earlier refusal.
+
+        The original reproducers are unchanged: the same `forger` and `redirector` agents, the
+        same policy. What changed is which stage stops them. That VERIFIER_MODIFIED_BY_CANDIDATE
+        is still reachable on a world that DOES pass is established by
+        `test_work_plus_verifier_tampering_is_still_named_and_refused`, which is the
+        complementary case this one no longer reaches.
+        """
         lab = FreshnessLab(self, policy_value=P0)
         try:
             lab.init()
             for name in ("forger", "redirector"):
                 world = lab.fork(name, name)
-                # Inside the world the substitute exam "passed": the world is VALID.
-                self.assertEqual(world["state"], "VALID", name)
+                # The substitute is inert: PRIME's exam ran, and the candidate did no work.
+                self.assertEqual(world["state"], "DEGRADED", name)
+                checks = {c["id"]: c["status"] for c in lab.client.request("show", {"world": name})["evidence"]["checks"]}
+                self.assertEqual(checks.get("exam"), "FAIL", name)
                 status = lab.validation(name)
                 self.assertFalse(status["fresh"], name)
+                # Still named. Detection did not move just because prevention arrived.
                 self.assertTrue(any("evaluator/exam.py" in v for v in status["effective"]["verifiersModifiedByCandidate"]), (name, status))
                 prime_before = lab.prime()
                 before, receipts = lab.live(), len(lab.receipts())
                 error = lab.refusal(lab.prepare, name)
-                self.assertEqual(error.code, "VERIFIER_MODIFIED_BY_CANDIDATE", name)
+                self.assertEqual(error.code, "INVALID_CANDIDATE", name)
                 _unchanged(self, lab, before, prime_before, receipts)
-                # Revalidation runs PRIME's exam over the candidate's tree: the substitute is
-                # what is there, so it is named again and the outcome is FAIL.
-                revalidated = lab.revalidate(name)
-                self.assertEqual(revalidated["outcome"], "FAIL", name)
-                self.assertIn("verifiers-modified", revalidated["failed"])
-                self.assertEqual(lab.refusal(lab.prepare, name).code, "VERIFIER_MODIFIED_BY_CANDIDATE", name)
+                # Revalidation is for a VALID world whose evidence went stale. This world is
+                # DEGRADED, so there is nothing to revalidate — the candidate must be forked
+                # again. The "revalidation still names verifiers-modified" assertion this test
+                # used to carry now lives on the complementary case, which reaches VALID.
+                self.assertEqual(lab.refusal(lab.revalidate, name).code, "INVALID_CANDIDATE", name)
+                self.assertEqual(lab.refusal(lab.prepare, name).code, "INVALID_CANDIDATE", name)
+            # PRIME's copy of the examiner is untouched throughout.
             self.assertEqual((lab.work / "evaluator" / "exam.py").read_text(encoding="utf-8"), EXAM_V1)
         finally:
             lab.close()
@@ -679,16 +702,25 @@ class K_VerifierDependencies(unittest.TestCase):
             self.assertTrue(any("evaluator/helper.py (directory)" in v for v in doctor["verifiers"]), doctor["verifiers"])
             self.assertEqual(lab.fork("honest")["state"], "VALID")
             self.assertTrue(lab.validation("honest")["fresh"])
+            # MIGRATED — classification A. The forged helper used to be IMPORTED (the world
+            # reached VALID on a fabricated verdict) and then caught by freshness. The bound
+            # helper is now staged from PRIME and imported from the staging directory, so the
+            # forgery is inert: PRIME's helper runs, finds no work, and the check fails.
             world = lab.fork("cheat", "helper_forger")
-            self.assertEqual(world["state"], "VALID")  # the forged helper passed inside the world
+            self.assertEqual(world["state"], "DEGRADED")
+            checks = {c["id"]: c["status"] for c in lab.client.request("show", {"world": "cheat"})["evidence"]["checks"]}
+            self.assertEqual(checks.get("exam"), "FAIL")
             status = lab.validation("cheat")
             self.assertFalse(status["fresh"])
+            # Still named: prevention did not replace detection.
             self.assertIn("evaluator/helper.py", " ".join(status["effective"]["verifiersModifiedByCandidate"]))
             prime_before = lab.prime()
             before, receipts = lab.live(), len(lab.receipts())
             error = lab.refusal(lab.prepare, "cheat")
-            self.assertEqual(error.code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+            self.assertEqual(error.code, "INVALID_CANDIDATE")
             _unchanged(self, lab, before, prime_before, receipts)
+            # An honest candidate is unaffected, which is what makes this a repair and not a
+            # blanket refusal.
             self.assertEqual(lab.prepare("honest")["decision"], "AUTHORIZED")
         finally:
             lab.close()
@@ -700,30 +732,101 @@ class K_VerifierDependencies(unittest.TestCase):
             lab.init()
             doctor = lab.client.request("doctor", {})["policy"]
             self.assertTrue(any("evaluator/helper.py (declared)" in v for v in doctor["verifiers"]), doctor["verifiers"])
-            self.assertEqual(lab.fork("cheat", "helper_forger")["state"], "VALID")
-            self.assertEqual(lab.refusal(lab.prepare, "cheat").code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+            # MIGRATED — classification A, as above: a DECLARED helper is staged from PRIME, so
+            # the forged copy is never imported and the world never becomes promotable.
+            self.assertEqual(lab.fork("cheat", "helper_forger")["state"], "DEGRADED")
+            self.assertIn("evaluator/helper.py", " ".join(lab.validation("cheat")["effective"]["verifiersModifiedByCandidate"]))
+            self.assertEqual(lab.refusal(lab.prepare, "cheat").code, "INVALID_CANDIDATE")
         finally:
             lab.close()
 
-    def test_top_level_verifier_without_declaration_is_a_warned_limit_and_declaring_closes_it(self) -> None:
+    def test_top_level_verifier_without_declaration_fails_the_check_and_declaring_fixes_it(self) -> None:
         top_level = policy({**EXAM_CHECK, "argv": ["/usr/bin/python3", "exam.py"], "covers": ["candidate.txt"]})
         lab = FreshnessLab(self, policy_value=top_level, files={"exam.py": EXAM_IMPORTING, "helper.py": HELPER_V1})
         try:
             lab.init()
+            # MIGRATED — classification B: the property INTENTIONALLY changed, and this is the
+            # one of the five where something real was traded.
+            #
+            # Before: a top-level examiner's undeclared sibling was not bound, stayed importable
+            # from the candidate's tree, and a forged copy of it went UNDETECTED. The test
+            # documented that as a warned limit.
+            #
+            # Now: only bound files are staged, and the examiner executes from the staging
+            # directory, so an undeclared sibling is not merely unbound — it is not there. The
+            # forgery is impossible, but so is the honest layout: the check fails with
+            # ModuleNotFoundError until the dependency is declared. That is the correct posture
+            # (an undeclared dependency is not authoritative, and importing it anyway WAS the
+            # hole) and it is a hard failure where there used to be a silent pass, so the
+            # warning now states that consequence instead of only naming the limit.
             doctor = lab.client.request("doctor", {})["policy"]
-            self.assertTrue(any("only the named top-level verifier exam.py is bound" in w for w in doctor["warnings"]), doctor)
+            self.assertTrue(any("the check will FAIL" in w for w in doctor["warnings"]), doctor)
             self.assertFalse(any("helper.py" in v for v in doctor["verifiers"]))
-            self.assertEqual(lab.fork("cheat", "helper_forger")["state"], "VALID")
-            # Documented limit: with the default scope the forged sibling is not bound.
-            self.assertTrue(lab.validation("cheat")["fresh"])
-            # The remedy: declare the verifier set. The policy edit stales the old evidence, and a
-            # new cheat under the declared policy is refused by name.
+
+            # The honest candidate fails too, and legibly. This is the cost of the change and it
+            # is asserted rather than left for someone to discover.
+            self.assertEqual(lab.fork("honest")["state"], "DEGRADED")
+            exam = next(c for c in lab.client.request("show", {"world": "honest"})["evidence"]["checks"] if c["id"] == "exam")
+            self.assertEqual(exam["status"], "FAIL")
+            self.assertIn("No module named 'helper'", base64.b64decode(exam["stderrB64"]).decode("utf-8", "replace"))
+
+            # The forgery is inert rather than undetected: it cannot produce a passing world.
+            self.assertEqual(lab.fork("cheat", "helper_forger")["state"], "DEGRADED")
+
+            # The remedy is unchanged: declare the verifier set. Then the helper is staged from
+            # PRIME, the honest candidate passes, and a cheat is named.
             lab.set_policy(policy({**EXAM_CHECK, "argv": ["/usr/bin/python3", "exam.py"], "covers": ["candidate.txt"], "verifiers": ["exam.py", "helper.py"]}))
             lab.settle()
             self.assertEqual(lab.client.request("doctor", {})["policy"]["warnings"], [])
-            self.assertEqual(lab.refusal(lab.prepare, "cheat").code, "EVIDENCE_STALE")
-            self.assertEqual(lab.fork("cheat2", "helper_forger")["state"], "VALID")
-            self.assertEqual(lab.refusal(lab.prepare, "cheat2").code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+            self.assertEqual(lab.fork("honest2")["state"], "VALID")
+            self.assertEqual(lab.prepare("honest2")["decision"], "AUTHORIZED")
+            self.assertEqual(lab.fork("cheat2", "helper_forger")["state"], "DEGRADED")
+            self.assertIn("helper.py", " ".join(lab.validation("cheat2")["effective"]["verifiersModifiedByCandidate"]))
+        finally:
+            lab.close()
+
+    def test_work_plus_verifier_tampering_is_still_named_and_refused(self) -> None:
+        """The complementary case, and the one that keeps the migration honest.
+
+        Every forger above now fails its check, because the tampering is inert and the candidate
+        did no real work. That makes them weak evidence for the DETECTION property: they would
+        pass even if `verifiersModifiedByCandidate` stopped being computed at all, since the
+        world never reaches VALID for an unrelated reason.
+
+        This candidate does the work honestly AND rewrites a bound verifier. PRIME's helper
+        runs, finds the work, and the check legitimately PASSES — so the world is VALID and
+        nothing but the freshness comparison stands between it and PRIME. If staging had
+        silently replaced detection with prevention, this world would collapse.
+        """
+        lab = FreshnessLab(self, exam=EXAM_IMPORTING, files={"evaluator/helper.py": HELPER_V1})
+        try:
+            lab.init()
+            world = lab.fork("both", "worker_and_forger")
+            # The check passed on its own merits: PRIME's helper saw real work.
+            self.assertEqual(world["state"], "VALID")
+            checks = {c["id"]: c["status"] for c in lab.client.request("show", {"world": "both"})["evidence"]["checks"]}
+            self.assertEqual(checks.get("exam"), "PASS")
+
+            status = lab.validation("both")
+            self.assertFalse(status["fresh"])
+            self.assertIn("evaluator/helper.py", " ".join(status["effective"]["verifiersModifiedByCandidate"]))
+
+            prime_before = lab.prime()
+            before, receipts = lab.live(), len(lab.receipts())
+            error = lab.refusal(lab.prepare, "both")
+            self.assertEqual(error.code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+            _unchanged(self, lab, before, prime_before, receipts)
+
+            # Revalidation runs PRIME's policy over the candidate's tree and names it again.
+            # This assertion moved here from the forger tests, which can no longer reach a
+            # revalidatable world.
+            revalidated = lab.revalidate("both")
+            self.assertEqual(revalidated["outcome"], "FAIL")
+            self.assertIn("verifiers-modified", revalidated["failed"])
+            self.assertEqual(lab.refusal(lab.prepare, "both").code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+
+            # PRIME's helper is untouched, and no receipt was written.
+            self.assertEqual((lab.work / "evaluator" / "helper.py").read_text(encoding="utf-8"), HELPER_V1)
         finally:
             lab.close()
 
@@ -781,16 +884,21 @@ class L_SecondReviewRepairs(unittest.TestCase):
         lab = FreshnessLab(self, exam=EXAM_IMPORTING, files={"evaluator/helper.py": HELPER_V1})
         try:
             lab.init()
+            # MIGRATED — classification A. A shadow PACKAGE beside the exam used to win the
+            # import (a package directory beats a module in the same path entry) without
+            # changing a byte of any existing verifier, so the exam passed on a fabricated
+            # verdict and freshness caught the ADDED file afterwards. The exam now imports from
+            # the PRIME-staged bundle, where no shadow package exists, so it is inert.
             world = lab.fork("shadow", "shadow_forger")
-            self.assertEqual(world["state"], "VALID")  # inside the world the shadow package passed the exam
+            self.assertEqual(world["state"], "DEGRADED")
             status = lab.validation("shadow")
             self.assertFalse(status["fresh"])
+            # The added file is still named — the "(added)" case remains covered.
             self.assertTrue(any("evaluator/helper/__init__.py (added)" in v for v in status["effective"]["verifiersModifiedByCandidate"]), status["effective"]["verifiersModifiedByCandidate"])
             prime_before = lab.prime()
             before, receipts = lab.live(), len(lab.receipts())
-            self.assertEqual(lab.refusal(lab.prepare, "shadow").code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+            self.assertEqual(lab.refusal(lab.prepare, "shadow").code, "INVALID_CANDIDATE")
             _unchanged(self, lab, before, prime_before, receipts)
-            self.assertEqual(lab.revalidate("shadow")["outcome"], "FAIL")
         finally:
             lab.close()
 

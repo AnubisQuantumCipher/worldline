@@ -10,6 +10,7 @@ import tempfile
 from typing import Any, Mapping, Sequence
 import uuid
 
+from ..trusted import trusted_script
 from ..errors import WorldlineError
 from ..manifest import display_path
 from ..paths import WorldlinePaths, secure_directory
@@ -46,6 +47,9 @@ class SandboxSpec:
     roots: tuple[OverlayRoot, ...]
     runtime: Path
     readonly_home_paths: tuple[Path, ...] = ()
+    # (host source, path inside the sandbox). Used for the staged execution verifier set: the
+    # bytes a check is identified by must be bytes the candidate has no path to write.
+    readonly_mounts: tuple[tuple[Path, str], ...] = ()
     credential_mounts: tuple[CredentialProjection, ...] = ()
     operator_home: Path = Path("/home/sicarii")
     # Network policy for this sandbox: "shared" (host namespace, the historical default),
@@ -229,6 +233,12 @@ class BubblewrapSandbox:
         arguments.extend(("--tmpfs", str(spec.operator_home)))
         arguments.extend(self._directory_arguments(Path("/run/worldline-runtime")))
         arguments.extend(("--bind", str(spec.runtime), "/run/worldline-runtime"))
+        for source, target in spec.readonly_mounts:
+            if not source.is_dir():
+                raise WorldlineError("VERIFIER_EXECUTION_UNIDENTIFIED",
+                                     f"a declared read-only mount is missing: {source}")
+            arguments.extend(self._directory_arguments(Path(target)))
+            arguments.extend(("--ro-bind", str(source), target))
 
         mounted_targets: set[str] = set()
         for source in (*spec.readonly_home_paths, *(item.source for item in spec.credential_mounts)):
@@ -282,9 +292,15 @@ class BubblewrapSandbox:
                     "the allowlist policy needs the netguard forwarder in the world runtime and a live proxy socket",
                 )
             arguments.extend(("--bind", str(spec.netguard_source), spec.netguard_socket))
+            # Trusted, and a SCRIPT launch, so the directory it is exposed to is the script's
+            # own -- /run/worldline-runtime, which is bind-mounted read-write and is the
+            # world's XDG_RUNTIME_DIR. The workload writes there by design. See trusted.py.
             command = [
-                "/usr/bin/python3", "/run/worldline-runtime/netguard.py",
-                "--socket", spec.netguard_socket, "--port", str(spec.netguard_port), "--", *command,
+                *trusted_script(
+                    "/run/worldline-runtime/netguard.py",
+                    "--socket", spec.netguard_socket, "--port", str(spec.netguard_port),
+                ),
+                "--", *command,
             ]
         arguments.extend(("--chdir", str(spec.cwd), "--disable-userns", "--cap-drop", "ALL", "--"))
         arguments.extend(command)

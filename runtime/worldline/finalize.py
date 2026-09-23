@@ -23,6 +23,7 @@ from .manifest import CapturedManifest, Manifest
 from .model import World, WorldState
 from .paths import WorldlinePaths, secure_directory
 from .store import StateStore
+from .trusted import trusted_inline
 
 _COPY_SCRIPT = """
 import os
@@ -36,6 +37,191 @@ for index in range(1, len(sys.argv), 2):
     subprocess.run(['/usr/bin/cp', '--archive', '--reflink=auto', source + '/.', destination], check=True)
     shutil.copystat(source, destination, follow_symlinks=False)
 """.strip()
+
+
+def stopped_supervision(supervision: Mapping[str, Any]) -> bool:
+    """The manager stopped the unit (timeout, cancel) rather than letting it exit on its own."""
+    return bool(supervision.get("stoppedByManager")) or supervision.get("result") == "stopped"
+
+
+def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
+    """Three facts that were being carried as one, and could therefore contradict each other.
+
+    `executionBinding` answered "was an intact bundle staged?" while being read as "did the
+    authorised examiner run?". A preserved counterexample makes the gap concrete: a candidate
+    that owned the harness produced `status: PASS` from fabricated output, the examiner never
+    executed — and the binding still said BOUND, because the bundle had indeed been staged and
+    its descriptors had indeed not moved. Both statements were true. Together they were a lie.
+
+    bundleIntegrity     were the intended evaluator artifacts staged and protected under the
+                        recorded identity?
+    executionStatus     did the trusted evaluation reach the examiner and complete, or fail at
+                        an identifiable stage?
+    evaluationOutcome   did a completed evaluation accept or reject the candidate?
+
+    Only `executionStatus == COMPLETED` may contribute to promotion admissibility. An intact
+    bundle whose evaluation never reached it is NOT an ordinary pass and is not a failed check
+    either: it is an evaluation that did not happen.
+    """
+    executed = result.get("executedVerifierSet")
+    if not executed:
+        integrity = "NOT_COVERED"
+    elif not isinstance(executed, Mapping):
+        integrity = "UNKNOWN"
+    elif executed.get("stable") is True and not executed.get("changedDuringExecution"):
+        integrity = "VERIFIED"
+    else:
+        integrity = "COMPROMISED"
+
+    status = result.get("status")
+    origin = result.get("origin")
+    channel = result.get("resultChannel") or {}
+    exit_code = result.get("exitCode")
+    # Established over trusted bytes before execution: the staged bundle could not satisfy an
+    # import the examiner makes at module level. A check that then fails did not necessarily
+    # fail on its merits, and telling the operator "the candidate failed" would be wrong.
+    gaps = (executed or {}).get("unsatisfiedImports") if isinstance(executed, Mapping) else None
+
+    # A TOTAL classification. Every branch that reaches COMPLETED must be reached by positive
+    # evidence that the evaluation completed; anything unrecognised falls to the final else,
+    # which is NOT a completed evaluation. The previous shape had the opposite default -- a
+    # trailing `else: COMPLETED` -- so a status the branches did not anticipate (UNASSESSED,
+    # produced when a world times out or is cancelled before its checks) was upgraded to a
+    # completed FAIL. A completed rejection and a never-run examination read identically, which
+    # is the one thing this record exists to keep apart.
+    execution, outcome = "UNCLASSIFIED", "NONE"
+    if origin == "engine":
+        # A check the ENGINE evaluates from facts it owns: protected-paths compares the
+        # candidate's delta against the policy, with no subprocess and therefore no exit code.
+        # This is a trusted, in-process verdict -- but only because the engine constructs the
+        # result. An externally supplied `origin: engine` must not confer it. A genuine engine
+        # check ran no subprocess and passed through no trusted channel, so it carries a
+        # definite PASS/FAIL, no exit code, no resultChannel and no executedVerifierSet. A
+        # forged result reaching here through the check runner carries a resultChannel; that is
+        # what disqualifies it, independently of the origin string it set.
+        if (status in ("PASS", "FAIL") and exit_code is None
+                and not channel and not executed):
+            execution = "COMPLETED"
+            outcome = status
+        else:
+            execution = "UNCLASSIFIED"
+            outcome = "NONE"
+    elif origin == "agent":
+        # A supervised process whose verdict is its exit status, observed by the service manager
+        # (the `supervision` block), not a framed record. Trusted only when the manager actually
+        # supervised it; a lost or never-started unit is not a completed evaluation. The agent
+        # check is required, so this gates whether the world can be VALID at all.
+        supervision = result.get("supervision") or {}
+        if (supervision.get("kind") == "SUPERVISED" and not stopped_supervision(supervision)
+                and isinstance(exit_code, int) and status in ("PASS", "FAIL")):
+            execution = "COMPLETED"
+            outcome = status
+        elif supervision.get("kind") in ("STOPPED", None) or stopped_supervision(supervision):
+            execution = "INTERRUPTED"
+            outcome = "NONE"
+        else:
+            execution = "INCOMPLETE_UNKNOWN"
+            outcome = "NONE"
+    elif status == "UNASSESSED" or (status is None and exit_code is None and not channel):
+        # No examination was performed: the world ended before this check ran, or nothing was
+        # configured. Never a verdict on the candidate.
+        execution = "NOT_ATTEMPTED"
+        outcome = "NONE"
+    elif channel.get("accepted") is False:
+        # The channel refused. Name the stage ONLY where supervisor-owned facts establish it;
+        # ERROR_BEFORE_EXAMINER asserts which side of the examiner execution stopped on, and
+        # nothing trusted establishes that when no record arrived at all.
+        stage = channel.get("stage")
+        execution = {
+            "SANDBOX_NEVER_STARTED": "ERROR_BEFORE_EXAMINER",
+            "STOPPED_BY_MANAGER": "INTERRUPTED",
+            "HARNESS_SIGNALLED": "INTERRUPTED",
+        }.get(stage, "INCOMPLETE_UNKNOWN")
+        outcome = "NONE"
+    elif channel.get("accepted") is True and isinstance(exit_code, int) and status in ("PASS", "FAIL"):
+        # The one path to a completed subprocess evaluation: the trusted channel accepted a
+        # record, it carries a concrete exit status, and the check produced a definite verdict.
+        if gaps and status != "PASS":
+            # The examination could not be carried out as specified: the staged bundle could
+            # not satisfy the examiner's own imports. Distinct from FAIL, which is a verdict ON
+            # the candidate.
+            execution = "EVALUATOR_INCOMPLETE"
+            outcome = "NONE"
+        else:
+            execution = "COMPLETED"
+            outcome = status
+    elif exit_code is None and (executed or status is not None):
+        # Something was attempted -- a bundle was staged, or a status is present -- but no
+        # accepted record establishes how it ended.
+        execution = "INCOMPLETE_UNKNOWN"
+        outcome = "NONE"
+    else:
+        # Unknown, contradictory or malformed. The default is deliberately non-promotable.
+        execution = "UNCLASSIFIED"
+        outcome = "NONE"
+
+    admissible = (execution == "COMPLETED" and outcome == "PASS"
+                  and integrity in ("VERIFIED", "NOT_COVERED"))
+    return {
+        "bundleIntegrity": integrity,
+        "executionStatus": execution,
+        "evaluationOutcome": outcome,
+        "admissibleForPromotion": admissible,
+        "nonClaims": [
+            "executionStatus COMPLETED means two independent observations of the evaluation"
+            " agreed: the single framed record on the harness's own stdout, and the exit status"
+            " the service manager reported for the unit. It does not mean the examiner's"
+            " JUDGMENT is independent of the candidate -- an examiner that runs candidate code"
+            " is reporting on work that code participated in.",
+            "The agreement is between two SUPERVISOR-side observations. Where the manager's"
+            " journal carries no exit entry -- systemd writes one for a failing unit and not"
+            " for a successful one -- the observation is the exit status systemd-run"
+            " propagated, which is weaker than the manager's own record while still being"
+            " outside the sandbox. The source is named in resultChannel rather than averaged"
+            " into a single confidence.",
+            "bundleIntegrity establishes that the declared artifacts were staged and did not move."
+            " It does not establish that they were read.",
+            "EVALUATOR_INCOMPLETE is raised from a conservative, module-level import analysis of"
+            " the staged verifiers. Its absence does not establish that the evaluator was"
+            " complete: a dynamic or guarded import can still fail at run time, and such a run"
+            " is reported as an ordinary FAIL.",
+            "This classification is total: every unrecognised, contradictory or malformed"
+            " combination falls to UNCLASSIFIED with outcome NONE, never to a completed"
+            " evaluation. UNASSESSED -- a world that ended before its checks ran -- is"
+            " NOT_ATTEMPTED, not a completed failure.",
+            "origin: engine is honoured only for a result that also has no exit code, no"
+            " resultChannel and no staged bundle -- the shape only the engine's own in-process"
+            " checks have. A forged result carrying the string but reaching finalization through"
+            " the check runner is UNCLASSIFIED.",
+        ],
+    }
+
+
+def execution_binding(result: Mapping[str, Any]) -> str:
+    """Whether this result can be attached to the verifier bundle WORLDLINE authorised.
+
+    BOUND         the declared bundle was staged from the trusted snapshot, its identities held
+                  across the evaluation, and the pathnames still resolved to those objects.
+    UNESTABLISHED a bundle was staged but something moved: content changed, a pathname was
+                  rebound, or the re-reading failed. This is not a failed check — it is a check
+                  whose provenance nobody can state, which is worse.
+    NOT_COVERED   this check declares no verifier bundle, so there is nothing to bind. It may
+                  still pass; it is simply not execution-bound, and the evidence says so rather
+                  than letting silence imply coverage.
+
+    Three outcomes on purpose. "The examiner ran and rejected the candidate", "we could not
+    establish that the trusted examiner ran", and "this check is outside execution-identity
+    coverage" are different facts, and the last must never be advertised as bound merely because
+    its neighbours are.
+    """
+    executed = result.get("executedVerifierSet")
+    if not executed:
+        return "NOT_COVERED"
+    if not isinstance(executed, Mapping):
+        return "UNESTABLISHED"
+    if executed.get("stable") is True and not executed.get("changedDuringExecution"):
+        return "BOUND"
+    return "UNESTABLISHED"
 
 
 class Finalizer:
@@ -117,7 +303,9 @@ class Finalizer:
                 )
             spec = SandboxSpec(
                 instance_id=world.instance_id,
-                argv=("/usr/bin/python3", "-c", _COPY_SCRIPT, *copy_arguments),
+                # Trusted: its output IS the candidate snapshot every later measurement is
+                # taken from, and its cwd below is a candidate-writable root. See trusted.py.
+                argv=trusted_inline(_COPY_SCRIPT, *copy_arguments),
                 cwd=roots_by_key[primary["root_key"]].target,
                 environment={"PATH": "/usr/bin"},
                 roots=tuple(overlays),
@@ -195,6 +383,9 @@ class Finalizer:
                         "kind": "policy",
                         "required": True,
                         "format": "engine",
+                        # Stated, not inferred from an absent exit code: the engine computed
+                        # this verdict itself from facts it owns. See evaluation_record.
+                        "origin": "engine",
                         "covers": list(protected),
                         "status": "FAIL" if touched else "PASS",
                         "touched": touched,
@@ -202,6 +393,21 @@ class Finalizer:
                     }
                 )
                 required_checks.append("protected-paths")
+            # These belong to the RECORD, so they are attached before the evidence manifest is
+            # built and hashed -- not afterwards.
+            #
+            # `evidence_manifest` shallow-copies each result, so anything attached after it was
+            # built lived only on the runner's own list. Finalization read the originals and
+            # correctly degraded the world, but the COMMIT-time gate reads
+            # `subject.evidence["checks"]`, i.e. the copies, where `executionBinding` and
+            # `evaluation` were simply absent. Both of its guards therefore compared against
+            # nothing: `executionBinding == "UNESTABLISHED"` could never be true, and a missing
+            # `executionStatus` reads as None, which is permitted. The second gate that feeds
+            # the kernel's completeness input was passing by not asking -- the exact failure its
+            # own docstring warns about.
+            for item in check_results:
+                item["executionBinding"] = execution_binding(item)
+                item["evaluation"] = evaluation_record(item)
             dependencies = capture_dependencies(dependency_roots, self.core)
             dependency_counts = [item["count"] for item in dependencies]
             dependency_count = (
@@ -292,7 +498,16 @@ class Finalizer:
             failed_required = [
                 check_id
                 for check_id in required_checks
-                if check_id not in results_by_id or results_by_id[check_id].get("status") != "PASS"
+                if check_id not in results_by_id
+                or results_by_id[check_id].get("status") != "PASS"
+                # A required check whose examiner cannot be shown to be the authorised one does
+                # not become an ordinary pass. Two missing identities must not become two equal
+                # defaults.
+                or results_by_id[check_id].get("executionBinding") == "UNESTABLISHED"
+                # An intact bundle whose evaluation never reached it is not a pass. This is the
+                # dimension that was missing: integrity and execution were one field, so a
+                # fabricated result with a stable bundle looked exactly like a real one.
+                or not (results_by_id[check_id].get("evaluation") or {}).get("admissibleForPromotion")
             ]
             world.risk = "HIGH" if failed_required else "MEDIUM"
             world.transition(WorldState.DEGRADED if failed_required else WorldState.VALID, self.core)

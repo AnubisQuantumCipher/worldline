@@ -31,6 +31,8 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from . import SCHEMA_VERSION, __version__
+from .resolution import resolve_token, root_prefixes
+from .trusted import ISOLATION_FLAGS, TRUSTED_INTERPRETER
 from .canonical import canonical_bytes
 from .core import Core, hash_id
 from .environment import safe_environment
@@ -143,11 +145,11 @@ def resolve_verifiers(
     primary = next((r for r in roots if r.get("primary_root") or r.get("primary")), None)
     if primary is None:
         return []
-    by_path: list[tuple[str, str, str]] = []
+    logical_by_key: dict[str, str] = {}
     for root in roots:
         logical = os.fsdecode(bytes(root["path"])) if isinstance(root["path"], (bytes, bytearray, memoryview)) else str(root["path"])
-        by_path.append((logical.rstrip("/") + "/", root["root_key"], logical))
-    by_path.sort(key=lambda item: -len(item[0]))
+        logical_by_key[root["root_key"]] = logical
+    prefixes = root_prefixes(logical_by_key)
     found: dict[tuple[str, str, str], dict[str, Any]] = {}
     primary_key = primary["root_key"]
 
@@ -180,21 +182,12 @@ def resolve_verifiers(
         named: list[tuple[str, str]] = []
         cwd_rel = check.cwd or ""
         for token in check.argv:
-            if not token or token.startswith("-"):
-                continue
-            root_key: str | None = None
-            relative: str | None = None
-            if token.startswith("/"):
-                for prefix, key, _logical in by_path:
-                    if token.startswith(prefix):
-                        root_key, relative = key, token[len(prefix):]
-                        break
-            else:
-                root_key = primary_key
-                relative = os.path.normpath(os.path.join(cwd_rel, token)) if cwd_rel else os.path.normpath(token)
-                if relative.startswith("..") or os.path.isabs(relative):
-                    continue
-            if root_key is None or relative is None or root_key not in sources:
+            # One resolution rule, shared with rewrite_argv (runtime/worldline/executed.py). A
+            # token that addresses a managed root but cannot be bound cleanly to a member is an
+            # "escape" -- it contributes no verifier here, and the check runner refuses it rather
+            # than executing it as candidate bytes.
+            kind, root_key, relative = resolve_token(token, prefixes, primary_root_key=primary_key, cwd=cwd_rel)
+            if kind != "member" or root_key is None or relative is None or root_key not in sources:
                 continue
             path = sources[root_key] / relative
             if path.is_symlink() or not path.is_file():
@@ -243,7 +236,12 @@ def execution_context(config: Any, adapter_name: str | None = None) -> dict[str,
         "engineVersion": __version__,
         "runtimeTreeSha256": runtime_tree_sha256(),
         "kernelLibrarySha256": _kernel_library_sha256(),
-        "checkRunnerInterpreter": "/usr/bin/python3",
+        "checkRunnerInterpreter": TRUSTED_INTERPRETER,
+        # The startup policy of the TRUSTED processes, not decoration: it decides whether the
+        # candidate can supply the imports of the process that attests its examination. Evidence
+        # recorded under a weaker policy is not the same evidence, so it belongs in the identity
+        # and a change to it must stale what came before.
+        "trustedStartupFlags": list(ISOLATION_FLAGS),
         "checkEnvironment": check_environment,
         "checkRunnerTimeoutSeconds": CHECK_RUNNER_TIMEOUT_SECONDS,
         "network": {"policy": getattr(config, "network_policy", None), "allow": sorted(getattr(config, "network_allow", ()) or ())},
@@ -313,7 +311,13 @@ def policy_warnings(project: ProjectConfig, primary_source: Path) -> list[str]:
             continue
         for named in named_existing:
             if os.path.dirname(named) in ("", "."):
-                out.append(f"check {check.id}: only the named top-level verifier {named} is bound; helpers it imports are not — declare `verifiers` to bind them")
+                # This used to be a warned LIMIT: the unbound sibling stayed importable, so the
+                # check passed while a forged helper went undetected. Verifiers are now staged
+                # from PRIME and executed from the staging directory, so an undeclared helper is
+                # not there at all and the check FAILS. That is the right posture -- an
+                # undeclared dependency is not authoritative, and running it anyway was the
+                # hole -- but the warning has to say what will actually happen.
+                out.append(f"check {check.id}: only the named top-level verifier {named} is bound, so it is the only file staged; anything it imports from beside it will NOT be found and the check will FAIL — declare `verifiers` to bind and stage them")
     return out
 
 
@@ -484,13 +488,29 @@ def current_requirements(store: Any, config: Any, core: Core | None = None) -> d
     return requirements(project, roots, live_sources, config, project.source_sha256, core)
 
 
-def effective_context(store: Any, world: Any) -> tuple[dict[str, Any] | None, str]:
-    """The context that currently speaks for a world: the newest successful revalidation bound
-    to this exact world identity, else the finalization context. Returns (context, source)."""
+def effective_evidence(store: Any, world: Any) -> tuple[dict[str, Any] | None, str, list[dict[str, Any]]]:
+    """The evaluation that currently speaks for a world, as ONE coherent unit: the freshness
+    context, its source, and the check records FROM THE SAME EVALUATION.
+
+    The freshness half and the execution half must come from the same evaluation. A revalidation
+    re-runs the checks and stores their records (with the executedVerifierSet the runner wrote);
+    its context is what `effective_context` returned. Reading the context from the revalidation
+    but the execution records from the world's FINALIZATION evidence assembled one apparently
+    complete evaluation from two different runs -- run 2's freshness over run 1's execution
+    identity (campaign F5). This returns both halves of whichever evaluation speaks, together.
+    """
     for entry in reversed(store.get_meta(f"validation:{world.instance_id}", []) or []):
         ctx = entry.get("context") if isinstance(entry, dict) else None
         if isinstance(ctx, dict) and entry.get("outcome") == "PASS" and entry.get("worldContentId") == world.content_id:
-            return ctx, f"revalidation:{entry.get('validationId')}"
+            records = [r for r in (entry.get("results") or []) if isinstance(r, dict)]
+            return ctx, f"revalidation:{entry.get('validationId')}", records
     evidence = world.evidence if isinstance(world.evidence, dict) else {}
     ctx = evidence.get("validationContext")
-    return (ctx if isinstance(ctx, dict) else None), "finalization"
+    records = [r for r in (evidence.get("checks") or []) if isinstance(r, dict)]
+    return (ctx if isinstance(ctx, dict) else None), "finalization", records
+
+
+def effective_context(store: Any, world: Any) -> tuple[dict[str, Any] | None, str]:
+    """The freshness context and its source. See `effective_evidence` for the coherent records."""
+    context, source, _records = effective_evidence(store, world)
+    return context, source
