@@ -160,6 +160,9 @@ jobs:
       - name: Post-publication verification (independent fetch)
         run: |
           rm -rf fetched && mkdir -p fetched && gh release download "$TAG" --dir fetched
+          for name in release-manifest.json assurance.json; do
+            cmp "dist/$name" "fetched/$name" || { echo "published $name differs from the accepted bytes" >&2; exit 1; }
+          done
           (cd fetched && sha256sum -c "worldline-$TAG.tar.gz.sha256")
           python3 - <<'PY'
           import json, hashlib, os
