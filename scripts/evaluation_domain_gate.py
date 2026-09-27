@@ -29,9 +29,14 @@ def run(engine: Path, core_lib: Path | None) -> tuple[int, str, dict]:
     import json
     import os
     import tempfile
-    environment = None
+    # The pinned vulnerable runner predates empty environment-value support in
+    # SystemdAdapter. An empty safe variable (for example COLORTERM from a host
+    # shell) becomes a bwrap argv element and makes that historical control abort
+    # before the attack window. Remove only empty ambient values for both arms;
+    # the preserved runtime and its vulnerability remain unchanged.
+    environment = {key: value for key, value in os.environ.items() if value}
     if core_lib is not None:
-        environment = {**os.environ, "WORLDLINE_CORE_LIB": str(core_lib)}
+        environment["WORLDLINE_CORE_LIB"] = str(core_lib)
     with tempfile.TemporaryDirectory(prefix="evaldomain-") as temporary:
         verdict_path = Path(temporary) / "verdict.json"
         proc = subprocess.run([sys.executable, str(DECISIVE), "--engine", str(engine),
