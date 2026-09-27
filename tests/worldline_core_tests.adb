@@ -7,6 +7,7 @@ with Worldline.Ancestry;
 with Worldline.C_API;
 with Worldline.Causal_Graph;
 with Worldline.Collapse;
+with Worldline.Evaluation;
 with Worldline.Receipts;
 with Worldline.Transitions;
 with Worldline.World;
@@ -15,6 +16,8 @@ procedure Worldline_Core_Tests is
    use type Worldline.Hash;
    use type Worldline.Collapse.Decision;
    use type Worldline.Transitions.Transaction_State;
+   use type Worldline.Evaluation.Execution_State;
+   use type Worldline.Evaluation.Outcome;
    use type Interfaces.Unsigned_8;
 
    procedure Check (Condition : Boolean; Message : String) is
@@ -77,6 +80,23 @@ procedure Worldline_Core_Tests is
      Worldline.Receipts.New_Chain (H0);
    Transaction : Worldline.Transitions.Transaction_State :=
      Worldline.Transitions.Prepared;
+   Evaluation_State : Worldline.Evaluation.Execution_State :=
+     Worldline.Evaluation.Not_Attempted;
+   Evaluation_Facts : Worldline.Evaluation.Observations :=
+     (Source => Worldline.Evaluation.External,
+      Status => Worldline.Evaluation.Pass_Status,
+      Channel => Worldline.Evaluation.Accepted_Channel,
+      Stage => Worldline.Evaluation.No_Stage,
+      Exit_Present => True,
+      Exit_Integer => True,
+      Supervisor => Worldline.Evaluation.No_Supervision,
+      Supervisor_Stopped => False,
+      Bundle_Present => True,
+      Bundle_Is_Mapping => True,
+      Bundle_Stable => True,
+      Bundle_Changed => False,
+      Unsatisfied_Imports => False);
+   Evaluation_Result : Worldline.Evaluation.Classification;
    Linked : Worldline.Hash;
    Identity_One : Worldline.Hash;
    Identity_Two : Worldline.Hash;
@@ -152,6 +172,44 @@ begin
    Check
      (Worldline.C_API.Transaction_Transition_Allowed (2, 3) = 0,
       "C export let a denied transaction commit");
+
+   Worldline.Evaluation.Advance
+     (Evaluation_State, Worldline.Evaluation.Prepared);
+   Worldline.Evaluation.Advance
+     (Evaluation_State, Worldline.Evaluation.Started);
+   Worldline.Evaluation.Advance
+     (Evaluation_State, Worldline.Evaluation.Completed);
+   Worldline.Evaluation.Advance
+     (Evaluation_State, Worldline.Evaluation.Started);
+   Check
+     (Evaluation_State = Worldline.Evaluation.Completed,
+      "completed evaluation resumed under the same identity");
+   Evaluation_Result := Worldline.Evaluation.Classify (Evaluation_Facts);
+   Check
+     (Evaluation_Result.Execution = Worldline.Evaluation.Completed
+      and Evaluation_Result.Result = Worldline.Evaluation.Passed,
+      "trusted completed pass was not classified");
+   Check
+     (Worldline.Evaluation.Admissible
+        (Evaluation_Result, Worldline.Evaluation.Verified_Report, True),
+      "complete report was not admitted");
+   Check
+     (not Worldline.Evaluation.Admissible
+        (Evaluation_Result, Worldline.Evaluation.Verified_Report, False),
+      "missing roster evidence admitted");
+   Evaluation_Facts.Channel := Worldline.Evaluation.Malformed_Channel;
+   Evaluation_Result := Worldline.Evaluation.Classify (Evaluation_Facts);
+   Check
+     (Evaluation_Result.Execution = Worldline.Evaluation.Unclassified
+      and Evaluation_Result.Result = Worldline.Evaluation.No_Outcome,
+      "malformed channel became a completed pass");
+   Evaluation_Facts.Channel := Worldline.Evaluation.Accepted_Channel;
+   Evaluation_Facts.Exit_Present := False;
+   Evaluation_Facts.Exit_Integer := False;
+   Evaluation_Result := Worldline.Evaluation.Classify (Evaluation_Facts);
+   Check
+     (Evaluation_Result.Execution /= Worldline.Evaluation.Completed,
+      "missing supervised exit became completed");
 
    Check
      (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Authorized,

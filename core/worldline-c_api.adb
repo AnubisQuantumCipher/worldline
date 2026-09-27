@@ -6,6 +6,7 @@ with System.Address_To_Access_Conversions;
 with System.Storage_Elements;
 with Worldline.Causal_Graph;
 with Worldline.Collapse;
+with Worldline.Evaluation;
 with Worldline.Receipts;
 with Worldline.Transitions;
 with Worldline.World;
@@ -379,5 +380,99 @@ package body Worldline.C_API with SPARK_Mode => Off is
       when others =>
          return Invalid_Collapse_Request;
    end Collapse_Decide;
+
+   function Evaluation_Classify
+     (Facts : C_Evaluation_Observations_Access;
+      Result : C_Evaluation_Classification_Access)
+      return Interfaces.Unsigned_8
+   is
+   begin
+      if Facts = null or else Result = null
+        or else Facts.Source > Evaluation.Origin'Pos (Evaluation.Origin'Last)
+        or else Facts.Status > Evaluation.Raw_Status'Pos (Evaluation.Raw_Status'Last)
+        or else Facts.Channel > Evaluation.Channel_State'Pos (Evaluation.Channel_State'Last)
+        or else Facts.Stage > Evaluation.Rejection_Stage'Pos (Evaluation.Rejection_Stage'Last)
+        or else Facts.Supervisor > Evaluation.Supervision_State'Pos (Evaluation.Supervision_State'Last)
+        or else Facts.Exit_Present > 1
+        or else Facts.Exit_Integer > 1
+        or else Facts.Supervisor_Stopped > 1
+        or else Facts.Bundle_Present > 1
+        or else Facts.Bundle_Is_Mapping > 1
+        or else Facts.Bundle_Stable > 1
+        or else Facts.Bundle_Changed > 1
+        or else Facts.Unsatisfied_Imports > 1
+        or else Facts.Exit_Integer > Facts.Exit_Present
+        or else Facts.Bundle_Stable > Facts.Bundle_Present
+        or else Facts.Bundle_Changed > Facts.Bundle_Present
+        or else Facts.Bundle_Stable > Facts.Bundle_Is_Mapping
+        or else Facts.Bundle_Changed > Facts.Bundle_Is_Mapping
+      then
+         return 255;
+      end if;
+
+      declare
+         Value : constant Evaluation.Classification := Evaluation.Classify
+           ((Source => Evaluation.Origin'Val (Integer (Facts.Source)),
+             Status => Evaluation.Raw_Status'Val (Integer (Facts.Status)),
+             Channel => Evaluation.Channel_State'Val (Integer (Facts.Channel)),
+             Stage => Evaluation.Rejection_Stage'Val (Integer (Facts.Stage)),
+             Exit_Present => Facts.Exit_Present = 1,
+             Exit_Integer => Facts.Exit_Integer = 1,
+             Supervisor => Evaluation.Supervision_State'Val
+               (Integer (Facts.Supervisor)),
+             Supervisor_Stopped => Facts.Supervisor_Stopped = 1,
+             Bundle_Present => Facts.Bundle_Present = 1,
+             Bundle_Is_Mapping => Facts.Bundle_Is_Mapping = 1,
+             Bundle_Stable => Facts.Bundle_Stable = 1,
+             Bundle_Changed => Facts.Bundle_Changed = 1,
+             Unsatisfied_Imports => Facts.Unsatisfied_Imports = 1));
+      begin
+         Result.Execution := Interfaces.Unsigned_8
+           (Evaluation.Execution_State'Pos (Value.Execution));
+         Result.Outcome := Interfaces.Unsigned_8
+           (Evaluation.Outcome'Pos (Value.Result));
+         Result.Bundle := Interfaces.Unsigned_8
+           (Evaluation.Bundle_Integrity'Pos (Value.Bundle));
+         return 0;
+      end;
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Classify;
+
+   function Evaluation_Admissible
+     (Value : C_Evaluation_Classification_Read_Access;
+      Report : Interfaces.Unsigned_8;
+      Evidence_Complete : Interfaces.Unsigned_8)
+      return Interfaces.Unsigned_8
+   is
+   begin
+      if Value = null
+        or else Value.Execution >
+          Evaluation.Execution_State'Pos (Evaluation.Execution_State'Last)
+        or else Value.Outcome > Evaluation.Outcome'Pos (Evaluation.Outcome'Last)
+        or else Value.Bundle >
+          Evaluation.Bundle_Integrity'Pos (Evaluation.Bundle_Integrity'Last)
+        or else Report >
+          Evaluation.Report_Integrity'Pos (Evaluation.Report_Integrity'Last)
+        or else Evidence_Complete > 1
+      then
+         return 255;
+      end if;
+
+      return
+        (if Evaluation.Admissible
+          ((Execution => Evaluation.Execution_State'Val
+              (Integer (Value.Execution)),
+            Result => Evaluation.Outcome'Val (Integer (Value.Outcome)),
+            Bundle => Evaluation.Bundle_Integrity'Val
+              (Integer (Value.Bundle))),
+           Evaluation.Report_Integrity'Val (Integer (Report)),
+           Evidence_Complete = 1)
+         then 1 else 0);
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Admissible;
 
 end Worldline.C_API;

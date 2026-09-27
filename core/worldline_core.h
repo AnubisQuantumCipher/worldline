@@ -36,11 +36,13 @@ extern "C" {
 #define WL_COLLAPSE_FOREIGN_MANAGED_WRITE 9u
 #define WL_COLLAPSE_VALIDATION_CONTEXT_MISMATCH 10u
 #define WL_COLLAPSE_STAGED_UNTESTED 11u
+#define WL_COLLAPSE_EXECUTION_EVIDENCE_INCOMPLETE 12u
+#define WL_COLLAPSE_VERIFIER_EXECUTION_IDENTITY_MISMATCH 13u
 #define WL_COLLAPSE_INVALID_REQUEST 255u
 
 /* Layout version of struct wl_collapse_request. The runtime and the library ship together;
  * a runtime built for a different layout must not call wl_collapse_decide. */
-#define WL_COLLAPSE_REQUEST_VERSION 2u
+#define WL_COLLAPSE_REQUEST_VERSION 3u
 
 struct wl_collapse_request {
     uint8_t candidate_state;
@@ -63,6 +65,68 @@ struct wl_collapse_request {
     uint8_t candidate_validation_context[WL_HASH_BYTES];
     uint8_t tested_root[WL_HASH_BYTES];
     uint8_t staged_content_root[WL_HASH_BYTES];
+    uint8_t execution_evidence_complete;
+    uint8_t reserved_2;
+    uint8_t reserved_3;
+    uint8_t reserved_4;
+    uint8_t expected_executed_verifier[WL_HASH_BYTES];
+    uint8_t actual_executed_verifier[WL_HASH_BYTES];
+};
+
+/* The evaluation classifications below are the declaration order in
+ * Worldline.Evaluation. A new attempt needs a new evaluation identity; a
+ * terminal execution state cannot resume under the same identity. */
+enum wl_execution_state {
+    WL_EVAL_NOT_ATTEMPTED,
+    WL_EVAL_PREPARED,
+    WL_EVAL_STARTED,
+    WL_EVAL_INTERRUPTED,
+    WL_EVAL_ERROR_BEFORE_EXAMINER,
+    WL_EVAL_INCOMPLETE_UNKNOWN,
+    WL_EVAL_EVALUATOR_INCOMPLETE,
+    WL_EVAL_UNCLASSIFIED,
+    WL_EVAL_COMPLETED
+};
+
+enum wl_evaluation_outcome {
+    WL_EVAL_NO_OUTCOME,
+    WL_EVAL_PASS,
+    WL_EVAL_FAIL
+};
+
+enum wl_bundle_integrity {
+    WL_BUNDLE_NOT_COVERED,
+    WL_BUNDLE_VERIFIED,
+    WL_BUNDLE_COMPROMISED,
+    WL_BUNDLE_UNKNOWN
+};
+
+enum wl_report_integrity {
+    WL_REPORT_NOT_APPLICABLE,
+    WL_REPORT_VERIFIED,
+    WL_REPORT_UNTRUSTED
+};
+
+struct wl_evaluation_observations {
+    uint8_t source;
+    uint8_t status;
+    uint8_t channel;
+    uint8_t stage;
+    uint8_t exit_present;
+    uint8_t exit_integer;
+    uint8_t supervisor;
+    uint8_t supervisor_stopped;
+    uint8_t bundle_present;
+    uint8_t bundle_is_mapping;
+    uint8_t bundle_stable;
+    uint8_t bundle_changed;
+    uint8_t unsatisfied_imports;
+};
+
+struct wl_evaluation_classification {
+    uint8_t execution;
+    uint8_t outcome;
+    uint8_t bundle;
 };
 
 int wl_hash_file(const char *path, size_t path_len, uint8_t out[WL_HASH_BYTES]);
@@ -89,6 +153,13 @@ int wl_receipt_link(const uint8_t previous[WL_HASH_BYTES],
 uint8_t wl_transition_allowed(uint8_t from_state, uint8_t to_state);
 uint8_t wl_transaction_transition_allowed(uint8_t from_state, uint8_t to_state);
 uint8_t wl_collapse_decide(const struct wl_collapse_request *request);
+/* 0 on successful classification, 255 for an invalid raw encoding. */
+uint8_t wl_evaluation_classify(const struct wl_evaluation_observations *facts,
+                               struct wl_evaluation_classification *result);
+/* 0 denied, 1 admitted, 255 invalid. Evidence completeness is an explicit
+ * input; absent evidence never defaults to complete. */
+uint8_t wl_evaluation_admissible(const struct wl_evaluation_classification *value,
+                                 uint8_t report, uint8_t evidence_complete);
 
 #ifdef __cplusplus
 }

@@ -12,7 +12,7 @@
   "claim": "all checks proved, nothing assumed",
   "library": {
     "path": "lib/libworldline_core.so",
-    "sha256": "593a5dd6b7fab33126f12b3a19fcd83ad0fd0cb3fa010bf7f2ae52c8b5144389"
+    "sha256": "d5c1d64206040022d843a66d8999f4863922d112a2b21872f24b5b596a841bc1"
   },
   "options": [
     "-U",
@@ -25,8 +25,8 @@
     "justified": 0,
     "minimumChecks": 130,
     "pragmaAssume": 0,
-    "summarySha256": "9de57348f4a1c3ff56d7bf4daeb26fb0173b90d1fed1a587c1d0fa1401f3fce2",
-    "total": 130,
+    "summarySha256": "f8017bc273807f7fb537b06164117d8a41ee2ef4b0f98c960c8cf393597779cd",
+    "total": 140,
     "unproved": 0
   },
   "schemaVersion": 1,
@@ -37,12 +37,14 @@
     "core/attest_sha256.gpr": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5",
     "core/worldline-ancestry.adb": "fd4bce10366b3217d92d0c1603a1a4ddba3c6e497e06fd42b468e6b0d7dea074",
     "core/worldline-ancestry.ads": "f7916f911d49716d25fe7a4503e6078125f50c6530deb926fe48f2a63ab734ce",
-    "core/worldline-c_api.adb": "da9b22063ddccffa8f5d8244cf64e1b497bc23b99190cb2a76a2e3225340ed92",
-    "core/worldline-c_api.ads": "90a969679c18b109d9fb32b52a32becfb21ef77a3437624e03035e48b5329dbb",
+    "core/worldline-c_api.adb": "152e2324573d8845a7d235309b48fbc6a8d23ef5bcd6c501290c27405e8d1f2b",
+    "core/worldline-c_api.ads": "666b1a750b90bd8615490160d2ac2ecede31973d7336b3074df6dbb9d70dd0f1",
     "core/worldline-causal_graph.adb": "7a1989c91fb712b795040276c39edaf5fd12f46e9059788643ca14aeb6dcee7e",
     "core/worldline-causal_graph.ads": "0c68302dc55b891639f0bcbee7ebfe43e1d6d7a9cfcaa969ee1f0fb664d13e97",
     "core/worldline-collapse.adb": "8bcaa110f6c244fb477c5595202ec3747b54086bb69fa22667e7859935ebfb01",
     "core/worldline-collapse.ads": "25fcf63b69fb723bec9a23d96499140e58a7281349b66ead8ef389979d151d0a",
+    "core/worldline-evaluation.adb": "e6f3a02d914c7c9163146c4d1d73b4374dc67c19ed0e71670d9a7e8e5fd7c9bb",
+    "core/worldline-evaluation.ads": "6c83cbede82740b58718c80482fe042864dc881d1f44364b62d1d1f630d52147",
     "core/worldline-receipts.adb": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225",
     "core/worldline-receipts.ads": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea",
     "core/worldline-transitions.adb": "c87e9ee5871faa1e0187579e90f406d36f7de79e49dce8d8703feb265bb5bc0c",
@@ -50,8 +52,8 @@
     "core/worldline-world.adb": "afda4fe21a013e4efd362e75220af3eb04bbdcb6dbcd648689ea15b3730831ae",
     "core/worldline-world.ads": "aa2ef8a552d1151a771596f5c4a454cf550926f14e80d7adcffb028d3453c386",
     "core/worldline.ads": "6b171d3fa0b9a0cdbd7e3777e4af35e557ed74e67f6b3ee9bdc1bbfe41305286",
-    "core/worldline_core.gpr": "668fce9ee9e0855b3770a9e3c8592f65c618a064fdefd870ae0f594f319758b6",
-    "core/worldline_core.h": "fc6ab2895efd12cbfd5bee2d72c88528c78b807ba30e7d31c6f60d6037088973",
+    "core/worldline_core.gpr": "c4f59c82a4447da1b7cfdbb77c8db63878268a56da6cc5f80a461a9f50c152ce",
+    "core/worldline_core.h": "53e11ff9c8a429b843240202c2a50c69a517b482bb0f024a2cac99d976b21332",
     "core/worldline_core_sources.gpr": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
     "worldline.gpr": "e60f6fc969048d0af1d53c809d1c237dec8eaf99f018fd075e88b2e08f38731c"
   },

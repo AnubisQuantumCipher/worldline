@@ -16,7 +16,7 @@ import tempfile
 from typing import Any, Mapping, Sequence
 
 from .canonical import atomic_write_json
-from .core import Core
+from .core import Core, EvaluationFacts
 from .delta import Delta
 from .environment import EnvironmentCapture, OwnedProcess, capture_dependencies, evidence_manifest
 from .project import protected_matches
@@ -214,106 +214,46 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
     either: it is an evaluation that did not happen.
     """
     executed = result.get("executedVerifierSet")
-    if not executed:
-        integrity = "NOT_COVERED"
-    elif not isinstance(executed, Mapping):
-        integrity = "UNKNOWN"
-    elif executed.get("stable") is True and not executed.get("changedDuringExecution"):
-        integrity = "VERIFIED"
-    else:
-        integrity = "COMPROMISED"
-
     status = result.get("status")
-    origin = result.get("origin")
     channel_value = result.get("resultChannel")
     channel = channel_value if isinstance(channel_value, Mapping) else {}
     exit_code = result.get("exitCode")
-    # Established over trusted bytes before execution: the staged bundle could not satisfy an
-    # import the examiner makes at module level. A check that then fails did not necessarily
-    # fail on its merits, and telling the operator "the candidate failed" would be wrong.
-    gaps = (executed or {}).get("unsatisfiedImports") if isinstance(executed, Mapping) else None
-
-    # A TOTAL classification. Every branch that reaches COMPLETED must be reached by positive
-    # evidence that the evaluation completed; anything unrecognised falls to the final else,
-    # which is NOT a completed evaluation. The previous shape had the opposite default -- a
-    # trailing `else: COMPLETED` -- so a status the branches did not anticipate (UNASSESSED,
-    # produced when a world times out or is cancelled before its checks) was upgraded to a
-    # completed FAIL. A completed rejection and a never-run examination read identically, which
-    # is the one thing this record exists to keep apart.
-    execution, outcome = "UNCLASSIFIED", "NONE"
-    if channel_value is not None and not isinstance(channel_value, Mapping):
-        execution = "UNCLASSIFIED"
-        outcome = "NONE"
-    elif origin == "engine":
-        # A check the ENGINE evaluates from facts it owns: protected-paths compares the
-        # candidate's delta against the policy, with no subprocess and therefore no exit code.
-        # This is a trusted, in-process verdict -- but only because the engine constructs the
-        # result. An externally supplied `origin: engine` must not confer it. A genuine engine
-        # check ran no subprocess and passed through no trusted channel, so it carries a
-        # definite PASS/FAIL, no exit code, no resultChannel and no executedVerifierSet. A
-        # forged result reaching here through the check runner carries a resultChannel; that is
-        # what disqualifies it, independently of the origin string it set.
-        if (status in ("PASS", "FAIL") and exit_code is None
-                and not channel and not executed):
-            execution = "COMPLETED"
-            outcome = status
-        else:
-            execution = "UNCLASSIFIED"
-            outcome = "NONE"
-    elif origin == "agent":
-        # A supervised process whose verdict is its exit status, observed by the service manager
-        # (the `supervision` block), not a framed record. Trusted only when the manager actually
-        # supervised it; a lost or never-started unit is not a completed evaluation. The agent
-        # check is required, so this gates whether the world can be VALID at all.
-        supervision_value = result.get("supervision")
-        supervision = supervision_value if isinstance(supervision_value, Mapping) else {}
-        if (supervision.get("kind") == "SUPERVISED" and not stopped_supervision(supervision)
-                and isinstance(exit_code, int) and status in ("PASS", "FAIL")):
-            execution = "COMPLETED"
-            outcome = status
-        elif supervision.get("kind") in ("STOPPED", None) or stopped_supervision(supervision):
-            execution = "INTERRUPTED"
-            outcome = "NONE"
-        else:
-            execution = "INCOMPLETE_UNKNOWN"
-            outcome = "NONE"
-    elif status == "UNASSESSED" or (status is None and exit_code is None and not channel):
-        # No examination was performed: the world ended before this check ran, or nothing was
-        # configured. Never a verdict on the candidate.
-        execution = "NOT_ATTEMPTED"
-        outcome = "NONE"
-    elif channel.get("accepted") is False:
-        # The channel refused. Name the stage ONLY where supervisor-owned facts establish it;
-        # ERROR_BEFORE_EXAMINER asserts which side of the examiner execution stopped on, and
-        # nothing trusted establishes that when no record arrived at all.
-        stage = channel.get("stage")
-        execution = {
-            "SANDBOX_NEVER_STARTED": "ERROR_BEFORE_EXAMINER",
-            "STOPPED_BY_MANAGER": "INTERRUPTED",
-            "HARNESS_SIGNALLED": "INTERRUPTED",
-        }.get(stage, "INCOMPLETE_UNKNOWN")
-        outcome = "NONE"
-    elif channel.get("accepted") is True and isinstance(exit_code, int) and status in ("PASS", "FAIL"):
-        # The one path to a completed subprocess evaluation: the trusted channel accepted a
-        # record, it carries a concrete exit status, and the check produced a definite verdict.
-        if gaps and status != "PASS":
-            # The examination could not be carried out as specified: the staged bundle could
-            # not satisfy the examiner's own imports. Distinct from FAIL, which is a verdict ON
-            # the candidate.
-            execution = "EVALUATOR_INCOMPLETE"
-            outcome = "NONE"
-        else:
-            execution = "COMPLETED"
-            outcome = status
-    elif exit_code is None and (executed or status is not None):
-        # Something was attempted -- a bundle was staged, or a status is present -- but no
-        # accepted record establishes how it ended.
-        execution = "INCOMPLETE_UNKNOWN"
-        outcome = "NONE"
-    else:
-        # Unknown, contradictory or malformed. The default is deliberately non-promotable.
-        execution = "UNCLASSIFIED"
-        outcome = "NONE"
+    supervision_value = result.get("supervision")
+    supervision = supervision_value if isinstance(supervision_value, Mapping) else {}
+    channel_kind = (
+        "ABSENT" if channel_value is None else
+        "MALFORMED" if not isinstance(channel_value, Mapping) else
+        "EMPTY" if not channel else
+        "ACCEPTED" if channel.get("accepted") is True else
+        "REJECTED" if channel.get("accepted") is False else "OTHER"
+    )
+    stage = channel.get("stage")
+    supervisor_kind = supervision.get("kind")
+    facts = EvaluationFacts(
+        source=result.get("origin") if result.get("origin") in ("engine", "agent") else "external",
+        status=status if status in ("PASS", "FAIL", "UNASSESSED") else
+               ("ABSENT" if status is None else "OTHER"),
+        channel=channel_kind,
+        stage=stage if stage in ("SANDBOX_NEVER_STARTED", "STOPPED_BY_MANAGER",
+                                 "HARNESS_SIGNALLED") else
+              ("ABSENT" if stage is None else "OTHER"),
+        exit_present=exit_code is not None,
+        exit_integer=isinstance(exit_code, int),
+        supervisor=supervisor_kind if supervisor_kind in ("SUPERVISED", "STOPPED") else
+                   ("ABSENT" if supervisor_kind is None else "OTHER"),
+        supervisor_stopped=stopped_supervision(supervision),
+        bundle_present=bool(executed),
+        bundle_is_mapping=isinstance(executed, Mapping),
+        bundle_stable=isinstance(executed, Mapping) and executed.get("stable") is True,
+        bundle_changed=isinstance(executed, Mapping) and bool(executed.get("changedDuringExecution")),
+        unsatisfied_imports=isinstance(executed, Mapping) and bool(executed.get("unsatisfiedImports")),
+    )
+    # Python only maps observations to finite categories. The SPARK core determines execution,
+    # outcome and bundle integrity; malformed and unknown categories remain non-promotable.
+    core = Core.shared()
+    classification = core.evaluation_classify(facts)
+    execution, outcome, integrity = (
+        classification.execution, classification.outcome, classification.bundle)
 
     # Legacy reports come from the writable candidate overlay. Private reports additionally
     # need positive, invocation-bound observations of the separate examiner domain.
@@ -321,9 +261,11 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
     report_based = report_format in ("junit", "gnatprove", "worldline-benchmark-v1")
     report_integrity = ("VERIFIED" if _private_report_verified(result, execution=execution, integrity=integrity)
                         else "UNTRUSTED") if report_based else "NOT_APPLICABLE"
-    admissible = (execution == "COMPLETED" and outcome == "PASS"
-                  and integrity in ("VERIFIED", "NOT_COVERED")
-                  and report_integrity in ("VERIFIED", "NOT_APPLICABLE"))
+    # This is a single check's record. The separate policy roster is verified at finalization
+    # and again at the transaction boundary; its completeness is not inferred here.
+    admissible = core.evaluation_admissible(
+        classification, report_integrity=report_integrity,
+        evidence_complete=bool(result))
     return {
         "bundleIntegrity": integrity,
         "executionStatus": execution,
@@ -331,6 +273,9 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
         "reportIntegrity": report_integrity,
         "admissibleForPromotion": admissible,
         "nonClaims": [
+            "SPARK classifies the finite observations and decides this check's promotion"
+            " admissibility. It does not prove that Python supplied authentic observations"
+            " or that the complete policy roster is present.",
             "executionStatus COMPLETED means the service manager observed the examiner's exit"
             " and the runner produced a definite verdict. It does not authenticate bytes that"
             " the examiner or candidate wrote inside the sandbox, nor establish that the"

@@ -42,6 +42,39 @@ package Worldline.C_API with SPARK_Mode => Off is
    type C_Collapse_Request_Access is access constant C_Collapse_Request
      with Convention => C;
 
+   --  Phase 1 evaluation lifecycle ABI. All fields are validated before enum
+   --  conversion; malformed C input is never interpreted as a completed run.
+   type C_Evaluation_Observations is record
+      Source              : Interfaces.Unsigned_8;
+      Status              : Interfaces.Unsigned_8;
+      Channel             : Interfaces.Unsigned_8;
+      Stage               : Interfaces.Unsigned_8;
+      Exit_Present        : Interfaces.Unsigned_8;
+      Exit_Integer        : Interfaces.Unsigned_8;
+      Supervisor          : Interfaces.Unsigned_8;
+      Supervisor_Stopped  : Interfaces.Unsigned_8;
+      Bundle_Present      : Interfaces.Unsigned_8;
+      Bundle_Is_Mapping   : Interfaces.Unsigned_8;
+      Bundle_Stable       : Interfaces.Unsigned_8;
+      Bundle_Changed      : Interfaces.Unsigned_8;
+      Unsatisfied_Imports : Interfaces.Unsigned_8;
+   end record with Convention => C;
+
+   type C_Evaluation_Observations_Access is
+     access constant C_Evaluation_Observations with Convention => C;
+
+   type C_Evaluation_Classification is record
+      Execution : Interfaces.Unsigned_8;
+      Outcome   : Interfaces.Unsigned_8;
+      Bundle    : Interfaces.Unsigned_8;
+   end record with Convention => C;
+
+   type C_Evaluation_Classification_Access is
+     access all C_Evaluation_Classification with Convention => C;
+
+   type C_Evaluation_Classification_Read_Access is
+     access constant C_Evaluation_Classification with Convention => C;
+
    function Hash_File
      (Path       : System.Address;
       Path_Len   : Interfaces.C.size_t;
@@ -93,5 +126,21 @@ package Worldline.C_API with SPARK_Mode => Off is
    function Collapse_Decide
      (Request : C_Collapse_Request_Access) return Interfaces.Unsigned_8
      with Export, Convention => C, External_Name => "wl_collapse_decide";
+
+   --  0 means a valid classification was written; 255 means invalid input.
+   function Evaluation_Classify
+     (Facts : C_Evaluation_Observations_Access;
+      Result : C_Evaluation_Classification_Access)
+      return Interfaces.Unsigned_8
+     with Export, Convention => C, External_Name => "wl_evaluation_classify";
+
+   --  0 denied, 1 admitted, 255 invalid C encoding.
+   function Evaluation_Admissible
+     (Value : C_Evaluation_Classification_Read_Access;
+      Report : Interfaces.Unsigned_8;
+      Evidence_Complete : Interfaces.Unsigned_8)
+      return Interfaces.Unsigned_8
+     with Export, Convention => C,
+          External_Name => "wl_evaluation_admissible";
 
 end Worldline.C_API;

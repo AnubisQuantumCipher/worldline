@@ -48,6 +48,22 @@ COLLAPSE_DECISIONS: dict[int, str] = {
     255: "INVALID_REQUEST",
 }
 
+# The declaration order is part of the new C ABI. Unknown raw observations
+# remain explicit categories; Python never guesses that they mean completion.
+EVALUATION_ORIGINS = {"engine": 0, "agent": 1, "external": 2}
+EVALUATION_STATUSES = {"ABSENT": 0, "PASS": 1, "FAIL": 2, "UNASSESSED": 3, "OTHER": 4}
+EVALUATION_CHANNELS = {"ABSENT": 0, "EMPTY": 1, "ACCEPTED": 2,
+                       "REJECTED": 3, "OTHER": 4, "MALFORMED": 5}
+EVALUATION_STAGES = {"ABSENT": 0, "SANDBOX_NEVER_STARTED": 1,
+                     "STOPPED_BY_MANAGER": 2, "HARNESS_SIGNALLED": 3, "OTHER": 4}
+EVALUATION_SUPERVISION = {"ABSENT": 0, "SUPERVISED": 1, "STOPPED": 2, "OTHER": 3}
+EVALUATION_EXECUTIONS = ("NOT_ATTEMPTED", "PREPARED", "STARTED", "INTERRUPTED",
+                         "ERROR_BEFORE_EXAMINER", "INCOMPLETE_UNKNOWN",
+                         "EVALUATOR_INCOMPLETE", "UNCLASSIFIED", "COMPLETED")
+EVALUATION_OUTCOMES = ("NONE", "PASS", "FAIL")
+EVALUATION_BUNDLES = ("NOT_COVERED", "VERIFIED", "COMPROMISED", "UNKNOWN")
+EVALUATION_REPORTS = {"NOT_APPLICABLE": 0, "VERIFIED": 1, "UNTRUSTED": 2}
+
 _ERROR_NAMES = {
     1: "INVALID_ARGUMENT",
     2: "IO",
@@ -87,6 +103,43 @@ class CCollapseRequest(ctypes.Structure):
         ("expected_executed_verifier", C_HASH),
         ("actual_executed_verifier", C_HASH),
     ]
+
+
+class CEvaluationObservations(ctypes.Structure):
+    _fields_ = [(name, ctypes.c_uint8) for name in (
+        "source", "status", "channel", "stage", "exit_present", "exit_integer",
+        "supervisor", "supervisor_stopped", "bundle_present", "bundle_is_mapping",
+        "bundle_stable", "bundle_changed", "unsatisfied_imports",
+    )]
+
+
+class CEvaluationClassification(ctypes.Structure):
+    _fields_ = [("execution", ctypes.c_uint8), ("outcome", ctypes.c_uint8),
+                ("bundle", ctypes.c_uint8)]
+
+
+@dataclass(frozen=True, slots=True)
+class EvaluationFacts:
+    source: str
+    status: str
+    channel: str
+    stage: str
+    exit_present: bool
+    exit_integer: bool
+    supervisor: str
+    supervisor_stopped: bool
+    bundle_present: bool
+    bundle_is_mapping: bool
+    bundle_stable: bool
+    bundle_changed: bool
+    unsatisfied_imports: bool
+
+
+@dataclass(frozen=True, slots=True)
+class EvaluationClassification:
+    execution: str
+    outcome: str
+    bundle: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -210,6 +263,22 @@ class Core:
             ) from exc
         function.argtypes = [ctypes.c_uint8, ctypes.c_uint8]
         function.restype = ctypes.c_uint8
+        # The runtime requires the Phase 1 classifier and refuses an older core.
+        # It must not silently restore Python's former admission predicate.
+        try:
+            classify = self._lib.wl_evaluation_classify
+            admissible = self._lib.wl_evaluation_admissible
+        except AttributeError as exc:
+            raise CoreUnavailable(
+                "libworldline_core.so lacks the Phase 1 evaluation authority exports",
+                path=str(self.library_path),
+            ) from exc
+        classify.argtypes = [ctypes.POINTER(CEvaluationObservations),
+                             ctypes.POINTER(CEvaluationClassification)]
+        classify.restype = ctypes.c_uint8
+        admissible.argtypes = [ctypes.POINTER(CEvaluationClassification),
+                              ctypes.c_uint8, ctypes.c_uint8]
+        admissible.restype = ctypes.c_uint8
 
     @staticmethod
     def _checked(code: int, operation: str) -> None:
@@ -282,6 +351,42 @@ class Core:
         except KeyError as exc:
             raise WorldlineError("INVALID_TRANSACTION_STATE", f"unknown transaction state: {exc.args[0]}") from exc
         return bool(self._lib.wl_transaction_transition_allowed(source, target))
+
+    def evaluation_classify(self, facts: EvaluationFacts) -> EvaluationClassification:
+        raw = CEvaluationObservations(
+            EVALUATION_ORIGINS[facts.source], EVALUATION_STATUSES[facts.status],
+            EVALUATION_CHANNELS[facts.channel], EVALUATION_STAGES[facts.stage],
+            int(facts.exit_present), int(facts.exit_integer),
+            EVALUATION_SUPERVISION[facts.supervisor], int(facts.supervisor_stopped),
+            int(facts.bundle_present), int(facts.bundle_is_mapping),
+            int(facts.bundle_stable), int(facts.bundle_changed),
+            int(facts.unsatisfied_imports),
+        )
+        result = CEvaluationClassification()
+        code = int(self._lib.wl_evaluation_classify(ctypes.byref(raw), ctypes.byref(result)))
+        if code != 0:
+            raise WorldlineError("CORE_INVALID_EVALUATION", "proved core rejected evaluation observations")
+        try:
+            return EvaluationClassification(EVALUATION_EXECUTIONS[result.execution],
+                                            EVALUATION_OUTCOMES[result.outcome],
+                                            EVALUATION_BUNDLES[result.bundle])
+        except IndexError as exc:
+            raise WorldlineError("CORE_INVALID_EVALUATION", "proved core returned an invalid classification") from exc
+
+    def evaluation_admissible(self, value: EvaluationClassification, *,
+                              report_integrity: str, evidence_complete: bool) -> bool:
+        try:
+            raw = CEvaluationClassification(EVALUATION_EXECUTIONS.index(value.execution),
+                                            EVALUATION_OUTCOMES.index(value.outcome),
+                                            EVALUATION_BUNDLES.index(value.bundle))
+            report = EVALUATION_REPORTS[report_integrity]
+        except (ValueError, KeyError) as exc:
+            raise WorldlineError("INVALID_EVALUATION", "unknown evaluation classification") from exc
+        code = int(self._lib.wl_evaluation_admissible(ctypes.byref(raw), report,
+                                                     int(evidence_complete)))
+        if code not in (0, 1):
+            raise WorldlineError("CORE_INVALID_EVALUATION", "proved core rejected evaluation admission")
+        return code == 1
 
     def collapse_decide(self, value: CollapseInput) -> str:
         try:
