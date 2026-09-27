@@ -16,6 +16,7 @@ REQUIRED_STEPS: tuple[str, ...] = (
     "ada-tests",
     "ada-fuzz",
     "python-tests",
+    "private-host-tests",
     "evaluation-domain",
     "proof-gate",
     "proof-manifest",

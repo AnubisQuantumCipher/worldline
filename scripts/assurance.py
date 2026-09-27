@@ -85,6 +85,30 @@ def parse_unittest(output: str) -> dict[str, Any]:
     return {"ran": int(ran.group(1)) if ran else None, "ok": ok, "verdictLine": tail, **counts}
 
 
+# These cases exercise the actual user-systemd and user-namespace boundary. The ordinary
+# Python suite permits opt-in host tests to skip on a developer machine, so a green
+# hosted/release report must run this separate mandatory step with the opt-in enabled.
+PRIVATE_HOST_CASES = (
+    "test_genuine_positive_and_negative_assertions_under_observed_separate_roles",
+    "test_worker_timeout_and_output_limit_refuse_the_entire_run",
+    "test_real_private_report_admits_genuine_pass_and_refuses_candidate_forgery",
+    "test_measured_pass_and_candidate_report_forgery_refused",
+    "test_genuine_private_check_survives_revalidation_and_promotes",
+)
+
+
+def check_private_host_suite(output: str) -> dict[str, Any]:
+    summary = parse_unittest(output)
+    observed = [name for name in PRIVATE_HOST_CASES if name in output]
+    summary.update({
+        "ok": summary["ok"] and summary["skipped"] == 0
+              and len(observed) == len(PRIVATE_HOST_CASES),
+        "requiredCases": list(PRIVATE_HOST_CASES),
+        "observedCases": observed,
+    })
+    return summary
+
+
 def proof_facts(manifest_path: Path) -> dict[str, Any]:
     if not manifest_path.is_file():
         return {"present": False}
@@ -212,6 +236,9 @@ def run(out: Path, expect_sha: str | None) -> int:
     ok = runner.step("ada-tests", ["./bin/worldline_core_tests"], check=lambda o: {"ok": "PASS" in o, "line": o.strip().splitlines()[-1] if o.strip() else ""}) and ok
     ok = runner.step("ada-fuzz", ["./bin/worldline_core_fuzz"], check=lambda o: {"ok": "PASS" in o, "line": o.strip().splitlines()[-1] if o.strip() else ""}) and ok
     ok = runner.step("python-tests", [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], env=env, check=parse_unittest) and ok
+    private_env = {**env, "WORLDLINE_PRIVATE_EVALUATOR_TEST": "1"}
+    ok = runner.step("private-host-tests", [sys.executable, "-m", "unittest", "discover", "-v", "-s", "tests", "-p", "test_private_*.py"],
+                     env=private_env, check=check_private_host_suite) and ok
     # The evaluation-domain gate is REQUIRED, not advisory, and it runs two arms. The candidate
     # build must hold every property including positive evidence that the intended examiner ran;
     # the preserved counterexample must FAIL, because a gate that only checks the candidate

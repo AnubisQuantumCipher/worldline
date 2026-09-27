@@ -138,7 +138,7 @@ jobs:
           gprbuild --version | head -1
           gnatprove --version | head -1
 
-      - name: Assurance (build, Ada tests, fuzz, Python suite, proof gate, manifest) — every outcome recorded
+      - name: Assurance (build, Ada tests, fuzz, Python and private host suites, proof gate, manifest) — every outcome recorded
         id: report
         run: |
           set +e

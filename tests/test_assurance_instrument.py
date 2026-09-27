@@ -161,8 +161,29 @@ class OneRoster(unittest.TestCase):
     def test_the_roster_requires_the_evaluation_domain_gate(self) -> None:
         self.assertIn("evaluation-domain", assurance_contract.REQUIRED_STEPS)
 
+    def test_the_roster_requires_real_private_host_checks(self) -> None:
+        self.assertIn("private-host-tests", assurance_contract.REQUIRED_STEPS)
+
     def test_the_roster_has_no_duplicates(self) -> None:
         self.assertEqual(len(set(assurance_contract.REQUIRED_STEPS)), len(assurance_contract.REQUIRED_STEPS))
+
+
+class PrivateHostChecksCannotBeSkipped(unittest.TestCase):
+    def output(self, *, missing: str | None = None, skipped: bool = False) -> str:
+        cases = [name for name in assurance.PRIVATE_HOST_CASES if name != missing]
+        lines = [f"{name} (test_private_host.Example) ... ok" for name in cases]
+        lines.extend(("----------------------------------------------------------------------",
+                      f"Ran {len(cases)} tests in 0.1s", "",
+                      "OK (skipped=1)" if skipped else "OK"))
+        return "\n".join(lines)
+
+    def test_complete_real_host_roster_passes(self) -> None:
+        self.assertTrue(assurance.check_private_host_suite(self.output())["ok"])
+
+    def test_missing_or_skipped_host_case_refuses(self) -> None:
+        self.assertFalse(assurance.check_private_host_suite(
+            self.output(missing=assurance.PRIVATE_HOST_CASES[0]))["ok"])
+        self.assertFalse(assurance.check_private_host_suite(self.output(skipped=True))["ok"])
 
 
 # ------------------------------------------------------- the control's own identity
