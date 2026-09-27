@@ -183,9 +183,9 @@ def tree_bytes(root: Path) -> dict[str, bytes]:
 
 
 class FreshnessLab:
-    def __init__(self, test: unittest.TestCase, *, policy_value: dict[str, Any] | None = P0, exam: str = EXAM_V1, files: dict[str, str] | None = None, network: dict[str, Any] | None = None) -> None:
+    def __init__(self, test: unittest.TestCase, *, policy_value: dict[str, Any] | None = P0, exam: str = EXAM_V1, files: dict[str, str] | None = None, network: dict[str, Any] | None = None, temporary_parent: Path | None = None) -> None:
         self.test = test
-        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-freshness-")
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-freshness-", dir=temporary_parent)
         self.root = Path(self.temporary.name)
         self.paths, self.env = isolated_paths(self.root)
         self.work = self.root / "proj"
