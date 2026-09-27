@@ -207,9 +207,7 @@ fork and finalize, but evidence is `UNASSESSED` and risk cannot fall below `MEDI
   "generated": [{"root": "/home/you/Projects/myapp", "glob": "dist/*"}],
   "checks": [
     {"id": "build", "kind": "build", "argv": ["/usr/bin/make", "build"], "required": true, "format": "exit"},
-    {"id": "tests", "kind": "tests", "argv": ["/usr/bin/make", "test"], "required": true, "format": "junit", "result": "build/junit.xml", "covers": ["src/*"]},
-    {"id": "proofs", "kind": "proofs", "argv": ["./prove.sh"], "required": false, "format": "gnatprove"},
-    {"id": "bench", "kind": "benchmark", "argv": ["./bench.sh"], "required": false, "format": "worldline-benchmark-v1", "result": "build/bench.json"}
+    {"id": "tests", "kind": "tests", "argv": ["/usr/bin/python3", "evaluator/private_tests.py"], "required": true, "format": "junit", "profile": "private-evaluator-v1", "verifiers": ["evaluator/private_tests.py"], "covers": ["src/*"]}
   ],
   "services": [
     {"id": "api", "argv": ["/usr/bin/myapp", "serve"], "cwd": ".", "env": {"MYAPP_PORT": "8080"}, "healthArgv": ["/usr/bin/curl", "-fsS", "http://127.0.0.1:8080/health"], "restart": "on-failure"}
@@ -221,6 +219,46 @@ fork and finalize, but evidence is `UNASSESSED` and risk cannot fall below `MEDI
 excluded from dirtiness and are exactly what `return` preserves when it restores a checkpoint
 that was live (§7.5). A benchmark result supplies `metric`, `unit`, `baseline`, `candidate`, and
 `direction`; WORLDLINE never invents a performance figure.
+
+Check declaration order is part of the policy identity. Ordinary preparation/build checks run
+first and may contribute files to the candidate snapshot. Private checks follow them; a later
+legacy check is refused. Check and service IDs are single filename components containing only
+ASCII letters, digits, dots, underscores and hyphens, beginning with a letter or digit.
+
+### Private report checks
+
+JUnit, GNATprove and benchmark reports from the legacy candidate-writable result path are
+diagnostic and cannot authorize promotion. An admissible report check declares
+`"profile": "private-evaluator-v1"`, an identified Python verifier in `verifiers`, and no
+`result` path. The verifier runs as the examiner on a read-only candidate snapshot. It must
+run candidate programs through `import candidate; candidate.run(argv, cwd=None, timeout=30)`
+and write the actual decision to `/run/worldline-report/report`. Candidate workers have a
+separate UID and mount/PID namespace; they cannot see that report path, broker socket or the
+examiner's toolchain mount. Each `candidate.run` starts from a fresh disposable copy, so worker
+files do not carry to a later call or into the promoted payload. The examiner must make the
+assertion itself: copying candidate-written XML or JSON into the report would give the
+candidate the verdict again.
+
+A minimal `evaluator/private_tests.py` for the example above is:
+
+```python
+import candidate
+from pathlib import Path
+
+observed = candidate.run(["/usr/bin/test", "-f", "candidate.txt"])
+passed = observed.returncode == 0
+Path("/run/worldline-report/report").write_text(
+    f'<testsuite tests="1" failures="{0 if passed else 1}" errors="0"/>')
+raise SystemExit(0 if passed else 1)
+```
+
+The current private backend accepts ordinary files/directories without links, xattrs or special
+permission bits. It refuses other trees by name. Private examiner scripts are Python only;
+generic `make test`, `prove.sh`, `pytest` and compiler workflows need a trusted adapter before
+they can use this profile. Installed GNAT bytes are examiner-only at `/opt/worldline-gnat` when
+the operator installation is present, but the profile does not by itself prove a GNATprove
+workflow or bind a deployed library to a proof. The running host kernel, system tools and
+trusted examiner logic remain in the trust base.
 
 ### Verifiers and the evidence identity (1.3.0)
 

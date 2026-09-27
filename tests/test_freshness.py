@@ -153,13 +153,13 @@ class C_CheckMeaningChanged(unittest.TestCase):
         finally:
             lab.close()
 
-    def test_equivalent_policy_ordering_and_formatting_keep_one_identity(self) -> None:
+    def test_equivalent_policy_field_ordering_and_formatting_keep_one_identity(self) -> None:
         lab = FreshnessLab(self, policy_value=P1)
         try:
             lab.init()
             self.assertEqual(lab.fork("alpha", "writer_both")["state"], "VALID")
             baseline = lab.client.request("doctor", {})["policy"]["requirementHash"]
-            reordered = {"services": [], "checks": [EXTRA_CHECK, {k: EXAM_CHECK[k] for k in reversed(list(EXAM_CHECK))}], "generated": [], "schemaVersion": 1}
+            reordered = {"services": [], "checks": [{k: EXAM_CHECK[k] for k in reversed(list(EXAM_CHECK))}, EXTRA_CHECK], "generated": [], "schemaVersion": 1}
             lab.set_policy(json.dumps(reordered, indent=4, sort_keys=False) + "\n\n")
             lab.settle()
             self.assertEqual(lab.client.request("doctor", {})["policy"]["requirementHash"], baseline)

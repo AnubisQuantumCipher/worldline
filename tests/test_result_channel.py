@@ -11,10 +11,10 @@ namespace from everything the candidate can run. There is no in-sandbox producer
 The verdict is the SERVICE MANAGER's observation of how the unit exited -- measured outside the
 sandbox -- so a candidate can change it only by changing how the examiner actually exits.
 
-An honest limit remains and is recorded rather than hidden: a result-file format's verdict rests
-on file bytes written inside the sandbox, which a sibling under the same uid can replace. Such a
-check is marked candidate-reachable and does not get the "isolated from the candidate" claim for
-its report. Closing that needs uid separation between the examiner and candidate code.
+An honest limit remains and is enforced: a result-file format's verdict rests on file bytes
+written inside the sandbox, which a sibling under the same uid can replace. Such a check is
+marked candidate-reachable and cannot authorize promotion until an isolated examiner produces
+and binds the report.
 """
 from __future__ import annotations
 
@@ -192,6 +192,8 @@ class ResultFileTrustIsHonest(unittest.TestCase):
         self.assertEqual(profile["verdictAuthority"], "candidate-reachable-report")
         self.assertEqual(profile["reportTrust"], "candidate-reachable")
         self.assertTrue(any("not isolated from the candidate" in n for n in profile["nonClaims"]))
+        self.assertEqual(evaluation_record(result)["reportIntegrity"], "UNTRUSTED")
+        self.assertFalse(evaluation_record(result)["admissibleForPromotion"])
 
     def test_the_result_file_is_read_host_side(self) -> None:
         # The daemon reads the file from the overlay upper, outside the sandbox, after the run.
@@ -200,6 +202,25 @@ class ResultFileTrustIsHonest(unittest.TestCase):
         result = self.run_junit(body)
         self.assertEqual(result.get("tests"), 2)
         self.assertTrue((self.upper / "report.xml").is_file())
+
+    def test_a_replaced_failing_report_is_inadmissible(self) -> None:
+        (self.lower / "attack.py").write_text(
+            'from pathlib import Path\n'
+            'Path("/logical/root/report.xml").write_text('
+            '\'<testsuite tests="9" failures="0" errors="0" skipped="0"/>\')\n',
+            encoding="utf-8")
+        result = self.run_junit(
+            'from pathlib import Path\nimport subprocess\n'
+            'Path("report.xml").write_text('
+            '\'<testsuite tests="9" failures="3" errors="0" skipped="0"/>\')\n'
+            'subprocess.run(["/usr/bin/python3", "/logical/root/attack.py"], check=True)\n')
+        # The parser still sees forged passing bytes. The promotion gate must independently
+        # reject the report's provenance, even with a genuine supervisor-observed zero exit.
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(result["exitCode"], 0)
+        self.assertEqual(result["failures"], 0)
+        self.assertEqual(evaluation_record(result)["reportIntegrity"], "UNTRUSTED")
+        self.assertFalse(evaluation_record(result)["admissibleForPromotion"])
 
 
 if __name__ == "__main__":

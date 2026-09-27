@@ -25,12 +25,15 @@ from . import SCHEMA_VERSION
 from .core import Core
 from .delta import Delta
 from .errors import WorldlineError
-from .finalize import evaluation_record, execution_binding, protected_matches
+from .finalize import _COPY_SCRIPT, evaluation_record, execution_binding, protected_matches
 from .linux.git import GitAdapter
+from .linux.namespaces import SandboxSpec
 from .manifest import CapturedManifest, Manifest
 from .model import WorldState, utc_now
+from .paths import secure_directory
 from .project import ProjectConfig
 from .store import StateStore
+from .trusted import trusted_inline
 from .validation import build_context, current_requirements, resolve_verifiers
 
 
@@ -138,6 +141,7 @@ class Revalidator:
             [(root["root_key"], source_dir / root["root_key"], Path(os.fsdecode(bytes(root["path"])))) for root in roots],
         )
         primary_target = Path(os.fsdecode(bytes(primary["path"])))
+        private_id: str | None = None
         try:
             # THREE snapshots, kept apart:
             #   overlays        the bytes UNDER EVALUATION -- source_dir (for a revalidation, the
@@ -154,11 +158,52 @@ class Revalidator:
             verifier_roots = [{"root_key": r.root_key, "path": str(r.target),
                                "primary": str(r.target) == str(primary_target)} for r in overlays]
             prime_verifiers = resolve_verifiers(project, verifier_roots, evaluator_sources)
+            legacy: list[Any] = []
+            private: list[Any] = []
+            for check in project.checks:
+                if check.profile == "private-evaluator-v1":
+                    private.append(check)
+                elif private:
+                    raise WorldlineError("CHECK_PROFILE_ORDER_INVALID",
+                                         "legacy preparation checks must precede private evaluator checks")
+                else:
+                    legacy.append(check)
+            logical_roots = {root.root_key: str(root.target) for root in overlays}
             results = list(self.checks.run(
                 world_instance=validation_id, overlays=overlays, primary_target=primary_target,
-                checks=project.checks, verifier_sources=evaluator_sources, verifiers=prime_verifiers,
-                logical_roots={r.root_key: str(r.target) for r in overlays}))
+                checks=legacy, verifier_sources=evaluator_sources, verifiers=prime_verifiers,
+                logical_roots=logical_roots)) if legacy else []
+            if private:
+                # A revalidation cannot silently promote outputs that only exist in its
+                # scratch overlay. The private examiner gets a daemon-owned copy of the merged
+                # view, and that view must have the same paths and file content as the staged
+                # or finalized input. Ordinary preparatory checks may run, but if they change
+                # content the operator needs a newly finalized candidate.
+                baseline = self._source_manifests(source_dir, roots)
+                private_id = str(uuid.uuid4())
+                snapshot, binding, manifests = self._capture_private_input(
+                    validation_id, private_id, overlays, roots, primary_target)
+                for root in roots:
+                    Manifest.verify_content(baseline[root["root_key"]],
+                                            os.fsencode(snapshot / root["root_key"]), self.core)
+                private_overlays = self.sandbox.overlay_roots(
+                    private_id,
+                    [(root["root_key"], snapshot / root["root_key"],
+                      Path(os.fsdecode(bytes(root["path"])))) for root in roots],
+                )
+                results.extend(self.checks.run(
+                    world_instance=private_id, overlays=private_overlays,
+                    primary_target=primary_target, checks=private,
+                    verifier_sources=evaluator_sources, verifiers=prime_verifiers,
+                    logical_roots=logical_roots, candidate_snapshot=binding))
+                observed = self._source_manifests(snapshot, roots)
+                if any(observed[key].canonical != expected.canonical
+                       for key, expected in manifests.items()):
+                    raise WorldlineError("CANDIDATE_SNAPSHOT_CHANGED",
+                                         "private revalidation input changed during examination")
         finally:
+            if private_id is not None:
+                self._discard(self.paths.overlays / private_id)
             self._discard(self.paths.overlays / validation_id)
         required = [check.id for check in project.checks if check.required]
         # Attach the execution-identity facts to each re-run result, exactly as finalization
@@ -187,8 +232,9 @@ class Revalidator:
             core=self.core,
             source=source,
         )
-        statuses = {r["id"]: r.get("status") for r in results}
-        failed = [check_id for check_id in required if statuses.get(check_id) != "PASS"]
+        results_by_id = {r["id"]: r for r in results}
+        failed = [check_id for check_id in required
+                  if not (results_by_id.get(check_id, {}).get("evaluation") or {}).get("admissibleForPromotion")]
         if context["verifiersModifiedByCandidate"]:
             failed.append("verifiers-modified")
         return {
@@ -196,7 +242,7 @@ class Revalidator:
             "validationId": validation_id,
             "source": source,
             "outcome": "FAIL" if failed else "PASS",
-            "summary": "UNASSESSED" if not results else ("PASS" if all(r.get("status") == "PASS" for r in results) else "FAIL"),
+            "summary": "UNASSESSED" if not results else ("PASS" if not failed else "FAIL"),
             "failed": failed,
             "evaluatedAt": context["evaluatedAt"],
             "requirementHash": current["requirementHash"],
@@ -204,13 +250,65 @@ class Revalidator:
             # Execution-identity fields are preserved, not projected away: promotion reads the
             # executedVerifierSet identity, executionBinding and evaluation from the evaluation
             # that speaks for the world, and for a revalidation that is THIS entry.
-            "results": [{"id": r.get("id"), "status": r.get("status"), "required": r.get("required"),
+            "results": [{"id": r.get("id"), "format": r.get("format"),
+                         "profile": r.get("profile", "legacy"),
+                         "status": r.get("status"), "required": r.get("required"),
                          "reason": r.get("reason"), "executedVerifierSet": r.get("executedVerifierSet"),
                          "executionBinding": r.get("executionBinding"), "evaluation": r.get("evaluation"),
-                         "exitCode": r.get("exitCode"), "origin": r.get("origin")} for r in results],
+                         "exitCode": r.get("exitCode"), "origin": r.get("origin"),
+                         "resultChannel": r.get("resultChannel"),
+                         "evaluationProfile": r.get("evaluationProfile"),
+                         "candidateSnapshot": r.get("candidateSnapshot"),
+                         "privateReport": r.get("privateReport"),
+                         "evaluatorBoundary": r.get("evaluatorBoundary"),
+                         "supervision": r.get("supervision")} for r in results],
             "verifiersModifiedByCandidate": context["verifiersModifiedByCandidate"],
             "context": context,
         }
+
+    def _source_manifests(self, directory: Path, roots: list[dict[str, Any]]) -> dict[str, CapturedManifest]:
+        result: dict[str, CapturedManifest] = {}
+        for root in roots:
+            key = root["root_key"]
+            source = directory / key
+            result[key] = Manifest.capture(
+                source, logical_root=bytes(root["path"]), root_key=key,
+                kind=root["kind"], core=self.core,
+                repository=self.git.capture(source) if root["kind"] == "repo" else None,
+            )
+        return result
+
+    def _capture_private_input(
+        self, validation_id: str, private_id: str, overlays: Any,
+        roots: list[dict[str, Any]], primary_target: Path,
+    ) -> tuple[Path, dict[str, Any], dict[str, CapturedManifest]]:
+        runtime = secure_directory(self.paths.overlays / validation_id / "private-input")
+        materialized = secure_directory(runtime / "materialized")
+        arguments: list[str] = []
+        overlays_by_key = {root.root_key: root for root in overlays}
+        for root in roots:
+            key = root["root_key"]
+            arguments.extend((str(overlays_by_key[key].target),
+                              f"/run/worldline-runtime/materialized/{key}"))
+        spec = SandboxSpec(
+            instance_id=private_id, argv=trusted_inline(_COPY_SCRIPT, *arguments),
+            cwd=primary_target, environment={"PATH": "/usr/bin"},
+            roots=tuple(overlays), runtime=runtime,
+        )
+        process = self.sandbox.launch_world(spec)
+        _stdout, stderr = process.process.communicate(timeout=300)
+        if process.process.returncode != 0:
+            raise WorldlineError("MATERIALIZATION_FAILED",
+                                 stderr.decode("utf-8", "replace").strip()
+                                 or f"private revalidation materializer exited {process.process.returncode}")
+        manifests = self._source_manifests(materialized, roots)
+        binding = {
+            "worldInstance": private_id,
+            "rootSetHash": Manifest.root_set_hash(manifests.values(), self.core),
+            "rootManifests": {key: value.root_hash for key, value in sorted(manifests.items())},
+            "role": "pre-check-input",
+        }
+        return materialized, binding, manifests
 
     @staticmethod
     def _discard(directory: Path) -> None:

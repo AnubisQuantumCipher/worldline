@@ -1,12 +1,18 @@
 from __future__ import annotations
 
+import base64
+import binascii
+import hashlib
 import time
 
+from dataclasses import dataclass
 import os
 from pathlib import Path
+import re
 import shutil
 import stat
 import subprocess
+import tempfile
 from typing import Any, Mapping, Sequence
 
 from .canonical import atomic_write_json
@@ -22,6 +28,7 @@ from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
 from .manifest import CapturedManifest, Manifest
 from .model import World, WorldState
 from .paths import WorldlinePaths, secure_directory
+from .report import MAX_REPORT_BYTES
 from .store import StateStore
 from .trusted import trusted_inline
 
@@ -39,9 +46,136 @@ for index in range(1, len(sys.argv), 2):
 """.strip()
 
 
+@dataclass(frozen=True)
+class CandidateSnapshot:
+    """Daemon-owned input copied before checks; check outputs live elsewhere.
+
+    This identifies the starting tree of a mutable evaluation overlay. It does not prove
+    that an examiner kept that overlay unchanged while it ran.
+    """
+
+    world_instance: str
+    directory: Path
+    manifests: Mapping[str, CapturedManifest]
+    root_hash: str
+
+    def binding(self) -> dict[str, Any]:
+        return {
+            "worldInstance": self.world_instance,
+            "rootSetHash": self.root_hash,
+            "rootManifests": {key: value.root_hash for key, value in sorted(self.manifests.items())},
+            "role": "pre-check-input",
+        }
+
+
 def stopped_supervision(supervision: Mapping[str, Any]) -> bool:
     """The manager stopped the unit (timeout, cancel) rather than letting it exit on its own."""
     return bool(supervision.get("stoppedByManager")) or supervision.get("result") == "stopped"
+
+
+def _private_role_observed(observation: Any, role: str) -> bool:
+    if not isinstance(observation, Mapping):
+        return False
+    expected = 0 if role == "examiner" else 1
+    status, namespaces = observation.get("status"), observation.get("namespaces")
+    if not isinstance(status, Mapping) or not isinstance(namespaces, Mapping):
+        return False
+    if (observation.get("role") != role
+            or type(observation.get("uid")) is not int or observation["uid"] != expected
+            or type(observation.get("gid")) is not int or observation["gid"] != expected
+            or status.get("NoNewPrivs") != "1" or status.get("Groups") != ""
+            or observation.get("reportMounted") is not (role == "examiner")
+            or observation.get("brokerMounted") is not (role == "examiner")):
+        return False
+    for key in ("CapEff", "CapPrm", "CapBnd", "CapAmb"):
+        value = status.get(key)
+        if not isinstance(value, str) or re.fullmatch(r"0+", value) is None:
+            return False
+    for key in ("Uid", "Gid"):
+        value = status.get(key)
+        if not isinstance(value, str) or value.split() != [str(expected)] * 4:
+            return False
+    for key in ("pid", "mnt", "user"):
+        value = namespaces.get(key)
+        if not isinstance(value, str) or re.fullmatch(key + r":\[[0-9]+\]", value) is None:
+            return False
+    return True
+
+
+def _private_report_verified(result: Mapping[str, Any], *, execution: str, integrity: str) -> bool:
+    """Verify report provenance for either a completed passing or failing examination.
+
+    Labels alone confer no authority. The producer must establish these facts before building
+    the result; persisted evidence is bound and rechecked again at promotion.
+    """
+    if (result.get("profile") != "private-evaluator-v1" or result.get("origin") != "supervisor"
+            or execution != "COMPLETED" or integrity != "VERIFIED"
+            or type(result.get("exitCode")) is not int or result["exitCode"] < 0):
+        return False
+    channel, supervision = result.get("resultChannel"), result.get("supervision")
+    boundary, report = result.get("evaluatorBoundary"), result.get("privateReport")
+    snapshot, executed = result.get("candidateSnapshot"), result.get("executedVerifierSet")
+    if any(not isinstance(value, Mapping) for value in
+           (channel, supervision, boundary, report, snapshot, executed)):
+        return False
+    if (channel.get("accepted") is not True
+            or channel.get("recordProducer") != "daemon-outside-sandbox"
+            or supervision.get("kind") != "SUPERVISED" or supervision.get("started") is not True
+            or supervision.get("stoppedByManager") is not False
+            or supervision.get("result") != ("success" if result["exitCode"] == 0 else "failure")
+            or type(supervision.get("launcherExit")) is not int
+            or supervision["launcherExit"] != result["exitCode"]
+            or supervision.get("exitCode") not in (None, "exited")
+            or (supervision.get("exitStatus") is not None
+                and (type(supervision["exitStatus"]) is not int
+                     or supervision["exitStatus"] != result["exitCode"]))
+            or boundary.get("profileId") != result["profile"]
+            or ("error" in boundary and boundary["error"] is not None)
+            or type(boundary.get("examinerReturnCode")) is not int
+            or boundary["examinerReturnCode"] != result["exitCode"]
+            or type(boundary.get("bootstrapExitCode")) is not int
+            or boundary["bootstrapExitCode"] != result["exitCode"]
+            or not isinstance(boundary.get("managerBootstrapProperties"), Mapping)
+            or boundary["managerBootstrapProperties"].get("NoNewPrivileges") != "no"
+            or boundary.get("rolesCompleted") is not True or boundary.get("reportMountExclusive") is not True
+            or report.get("collection") != "private-directory"):
+        return False
+    for report_key, expected in (
+            ("runId", boundary.get("runId")), ("checkId", result.get("id")),
+            ("candidateIdentity", snapshot.get("rootSetHash")),
+            ("verifierIdentity", executed.get("identity"))):
+        if (not isinstance(expected, str) or not expected or "\x00" in expected
+                or report.get(report_key) != expected):
+            return False
+    digest = report.get("sha256")
+    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None:
+        return False
+    if type(report.get("sizeBytes")) is not int or not 0 < report["sizeBytes"] <= MAX_REPORT_BYTES:
+        return False
+    payload_b64 = report.get("payloadB64")
+    if (not isinstance(payload_b64, str)
+            or len(payload_b64) > ((MAX_REPORT_BYTES + 2) // 3) * 4):
+        return False
+    try:
+        payload = base64.b64decode(payload_b64, validate=True)
+    except (binascii.Error, ValueError):
+        return False
+    if len(payload) != report["sizeBytes"] or hashlib.sha256(payload).hexdigest() != digest:
+        return False
+    examiner, workers = boundary.get("examiner"), boundary.get("workers")
+    if not _private_role_observed(examiner, "examiner") or not isinstance(workers, list):
+        return False
+    for worker in workers:
+        if not isinstance(worker, Mapping) or type(worker.get("returncode")) is not int:
+            return False
+        observation = worker.get("observation")
+        if not _private_role_observed(observation, "worker"):
+            return False
+        if (observation["namespaces"]["user"] != examiner["namespaces"]["user"]
+                or any(observation["namespaces"][key] == examiner["namespaces"][key]
+                       for key in ("pid", "mnt"))):
+            return False
+    return True
 
 
 def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
@@ -75,7 +209,8 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
 
     status = result.get("status")
     origin = result.get("origin")
-    channel = result.get("resultChannel") or {}
+    channel_value = result.get("resultChannel")
+    channel = channel_value if isinstance(channel_value, Mapping) else {}
     exit_code = result.get("exitCode")
     # Established over trusted bytes before execution: the staged bundle could not satisfy an
     # import the examiner makes at module level. A check that then fails did not necessarily
@@ -90,7 +225,10 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
     # completed FAIL. A completed rejection and a never-run examination read identically, which
     # is the one thing this record exists to keep apart.
     execution, outcome = "UNCLASSIFIED", "NONE"
-    if origin == "engine":
+    if channel_value is not None and not isinstance(channel_value, Mapping):
+        execution = "UNCLASSIFIED"
+        outcome = "NONE"
+    elif origin == "engine":
         # A check the ENGINE evaluates from facts it owns: protected-paths compares the
         # candidate's delta against the policy, with no subprocess and therefore no exit code.
         # This is a trusted, in-process verdict -- but only because the engine constructs the
@@ -111,7 +249,8 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
         # (the `supervision` block), not a framed record. Trusted only when the manager actually
         # supervised it; a lost or never-started unit is not a completed evaluation. The agent
         # check is required, so this gates whether the world can be VALID at all.
-        supervision = result.get("supervision") or {}
+        supervision_value = result.get("supervision")
+        supervision = supervision_value if isinstance(supervision_value, Mapping) else {}
         if (supervision.get("kind") == "SUPERVISED" and not stopped_supervision(supervision)
                 and isinstance(exit_code, int) and status in ("PASS", "FAIL")):
             execution = "COMPLETED"
@@ -160,25 +299,33 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
         execution = "UNCLASSIFIED"
         outcome = "NONE"
 
+    # Legacy reports come from the writable candidate overlay. Private reports additionally
+    # need positive, invocation-bound observations of the separate examiner domain.
+    report_format = result.get("format")
+    report_based = report_format in ("junit", "gnatprove", "worldline-benchmark-v1")
+    report_integrity = ("VERIFIED" if _private_report_verified(result, execution=execution, integrity=integrity)
+                        else "UNTRUSTED") if report_based else "NOT_APPLICABLE"
     admissible = (execution == "COMPLETED" and outcome == "PASS"
-                  and integrity in ("VERIFIED", "NOT_COVERED"))
+                  and integrity in ("VERIFIED", "NOT_COVERED")
+                  and report_integrity in ("VERIFIED", "NOT_APPLICABLE"))
     return {
         "bundleIntegrity": integrity,
         "executionStatus": execution,
         "evaluationOutcome": outcome,
+        "reportIntegrity": report_integrity,
         "admissibleForPromotion": admissible,
         "nonClaims": [
-            "executionStatus COMPLETED means two independent observations of the evaluation"
-            " agreed: the single framed record on the harness's own stdout, and the exit status"
-            " the service manager reported for the unit. It does not mean the examiner's"
-            " JUDGMENT is independent of the candidate -- an examiner that runs candidate code"
-            " is reporting on work that code participated in.",
-            "The agreement is between two SUPERVISOR-side observations. Where the manager's"
-            " journal carries no exit entry -- systemd writes one for a failing unit and not"
-            " for a successful one -- the observation is the exit status systemd-run"
-            " propagated, which is weaker than the manager's own record while still being"
-            " outside the sandbox. The source is named in resultChannel rather than averaged"
-            " into a single confidence.",
+            "executionStatus COMPLETED means the service manager observed the examiner's exit"
+            " and the runner produced a definite verdict. It does not authenticate bytes that"
+            " the examiner or candidate wrote inside the sandbox, nor establish that the"
+            " examiner's judgment is independent of candidate code run in-process.",
+            "Report integrity VERIFIED requires the private examiner boundary, clean supervised"
+            " completion, a private collector digest, and matching invocation, candidate and"
+            " verifier identities. It does not prove examiner logic correct or make arbitrary"
+            " candidate imports safe. Legacy reportTrust labels confer no authorization."
+            if report_based else
+            "The supervisor-observed exit status supports only the exit-format verdict; it"
+            " does not imply anything about report files or candidate code run in-process.",
             "bundleIntegrity establishes that the declared artifacts were staged and did not move."
             " It does not establish that they were read.",
             "EVALUATOR_INCOMPLETE is raised from a conservative, module-level import analysis of"
@@ -242,6 +389,91 @@ class Finalizer:
         self.environment = EnvironmentCapture(self.core)
         self.git = GitAdapter(self.core)
 
+    def capture_candidate(self, world_value: str, overlays: Sequence[OverlayRoot]) -> CandidateSnapshot:
+        """Copy and identify the agent tree before any evaluator can write to its view."""
+        world = self.store.world(world_value)
+        if world.state is not WorldState.MUTABLE:
+            raise WorldlineError("INVALID_TRANSITION", "candidate capture requires a MUTABLE world")
+        return self._capture_candidate(world, overlays)
+
+    def _capture_candidate(self, world: World, overlays: Sequence[OverlayRoot]) -> CandidateSnapshot:
+        """Materialize for pre-check capture or the legacy finalization path."""
+        registered = self.store.roots()
+        roots_by_key = {root.root_key: root for root in overlays}
+        if len(roots_by_key) != len(overlays) or set(roots_by_key) != {root["root_key"] for root in registered}:
+            raise WorldlineError("ROOT_SET_MISMATCH", "overlay roots do not match registered roots")
+        if not registered:
+            raise WorldlineError("ROOT_SET_MISMATCH", "candidate capture requires registered roots")
+        parent = secure_directory(self.paths.overlays / world.instance_id)
+        runtime = Path(tempfile.mkdtemp(prefix="candidate-snapshot-", dir=parent))
+        materialized = runtime / "materialized"
+        materialized.mkdir(mode=0o700)
+        arguments: list[str] = []
+        for root in registered:
+            overlay = roots_by_key[root["root_key"]]
+            if os.fsencode(overlay.target) != bytes(root["path"]):
+                raise WorldlineError("ROOT_SET_MISMATCH", "overlay target differs from its registered root")
+            arguments.extend((str(overlay.target), f"/run/worldline-runtime/materialized/{root['root_key']}"))
+        primary = next((root for root in registered if root["primary_root"]), registered[0])
+        spec = SandboxSpec(
+            instance_id=world.instance_id,
+            argv=trusted_inline(_COPY_SCRIPT, *arguments),
+            cwd=roots_by_key[primary["root_key"]].target,
+            environment={"PATH": "/usr/bin"},
+            roots=tuple(overlays),
+            runtime=runtime,
+        )
+        process = self.sandbox.launch_world(spec)
+        _stdout, stderr = process.process.communicate(timeout=300)
+        if process.process.returncode != 0:
+            raise WorldlineError("MATERIALIZATION_FAILED",
+                                 stderr.decode("utf-8", "replace").strip()
+                                 or f"materializer exited {process.process.returncode}")
+        manifests = self._capture_candidate_manifests(materialized, registered)
+        return CandidateSnapshot(world.instance_id, materialized, manifests,
+                                 Manifest.root_set_hash(manifests.values(), self.core))
+
+    def _capture_candidate_manifests(self, directory: Path,
+                                    registered: Sequence[Mapping[str, Any]]) -> dict[str, CapturedManifest]:
+        result: dict[str, CapturedManifest] = {}
+        for root in registered:
+            root_key = root["root_key"]
+            source = directory / root_key
+            result[root_key] = Manifest.capture(
+                source, logical_root=bytes(root["path"]), root_key=root_key, kind=root["kind"],
+                core=self.core, repository=self.git.capture(source) if root["kind"] == "repo" else None,
+            )
+        return result
+
+    def candidate_overlays(self, snapshot: CandidateSnapshot) -> tuple[OverlayRoot, ...]:
+        """Shared scratch for private checks; retained under the world's ordinary overlay tree."""
+        roots = self.store.roots()
+        self._verify_candidate_snapshot(snapshot, self.store.world(snapshot.world_instance), roots)
+        result: list[OverlayRoot] = []
+        for root in roots:
+            key = root["root_key"]
+            lower = snapshot.directory / key
+            private = snapshot.directory.parent / "check-overlays" / key
+            upper = secure_directory(private / "upper")
+            work = secure_directory(private / "work")
+            if any(upper.iterdir()) or any(work.iterdir()):
+                raise WorldlineError("OVERLAY_NOT_EMPTY", "private check overlays must start empty")
+            shutil.copystat(lower, upper, follow_symlinks=False)
+            result.append(OverlayRoot(key, lower, upper, work, Path(os.fsdecode(bytes(root["path"])))))
+        return tuple(result)
+
+    def _verify_candidate_snapshot(self, snapshot: CandidateSnapshot, world: World,
+                                   registered: Sequence[Mapping[str, Any]]) -> None:
+        if (snapshot.world_instance != world.instance_id
+                or set(snapshot.manifests) != {root["root_key"] for root in registered}
+                or Manifest.root_set_hash(snapshot.manifests.values(), self.core) != snapshot.root_hash):
+            raise WorldlineError("CANDIDATE_SNAPSHOT_MISMATCH", "candidate snapshot identity does not match this world")
+        # verify_content intentionally ignores several metadata fields. Recapture the full
+        # manifests here so changed permissions, xattrs, links and repository facts also refuse.
+        observed = self._capture_candidate_manifests(snapshot.directory, registered)
+        if any(observed[key].canonical != expected.canonical for key, expected in snapshot.manifests.items()):
+            raise WorldlineError("CANDIDATE_SNAPSHOT_CHANGED", "the pre-check candidate snapshot changed")
+
     def _verify_base(self, manifest: CapturedManifest, source: Path, root_key: str) -> None:
         # The base checkpoint is shared by every sibling and read by several finalizations at
         # once; a transient read failure here used to surface as a bare CORE_IO and kill the
@@ -273,57 +505,39 @@ class Finalizer:
         validation: Mapping[str, Any] | None = None,
         required_checks: Sequence[str],
         agent_manifest: dict[str, Any],
+        candidate_snapshot: CandidateSnapshot | None = None,
     ) -> World:
         world = self.store.world(world_value)
         if world.state is not WorldState.MUTABLE:
             raise WorldlineError("INVALID_TRANSITION", f"finalization requires MUTABLE world, got {world.state.value}")
+        private_snapshot = candidate_snapshot is not None
+        if candidate_snapshot is None:
+            # Legacy checks historically contribute generated outputs to the payload. Preserve
+            # that behavior and its limited source-binding claim; private evaluators must name
+            # a snapshot chosen before their execution.
+            if any(item.get("profile") == "private-evaluator-v1" and item.get("status") != "UNASSESSED"
+                   for item in check_results):
+                raise WorldlineError("CANDIDATE_SNAPSHOT_MISSING", "evaluated results require a pre-check candidate snapshot")
         world.transition(WorldState.FINALIZING, self.core)
         self.store.save_world(world)
-        runtime = self.paths.overlays / world.instance_id / "materializer-runtime"
-        secure_directory(runtime)
-        materialized = runtime / "materialized"
-        if materialized.exists():
-            shutil.rmtree(materialized)
-        materialized.mkdir(mode=0o700)
 
         try:
-            roots_by_key = {root.root_key: root for root in overlays}
+            if candidate_snapshot is None:
+                candidate_snapshot = self._capture_candidate(world, overlays)
             registered = self.store.roots()
-            if set(roots_by_key) != {root["root_key"] for root in registered}:
-                raise WorldlineError("ROOT_SET_MISMATCH", "overlay roots do not match registered roots")
-            primary = next((root for root in registered if root["primary_root"]), registered[0])
-            copy_arguments: list[str] = []
-            for root in registered:
-                overlay = roots_by_key[root["root_key"]]
-                copy_arguments.extend(
-                    (
-                        str(overlay.target),
-                        f"/run/worldline-runtime/materialized/{root['root_key']}",
-                    )
-                )
-            spec = SandboxSpec(
-                instance_id=world.instance_id,
-                # Trusted: its output IS the candidate snapshot every later measurement is
-                # taken from, and its cwd below is a candidate-writable root. See trusted.py.
-                argv=trusted_inline(_COPY_SCRIPT, *copy_arguments),
-                cwd=roots_by_key[primary["root_key"]].target,
-                environment={"PATH": "/usr/bin"},
-                roots=tuple(overlays),
-                runtime=runtime,
-            )
-            process = self.sandbox.launch_world(spec)
-            _stdout, stderr = process.process.communicate(timeout=300)
-            if process.process.returncode != 0:
-                raise WorldlineError(
-                    "MATERIALIZATION_FAILED",
-                    stderr.decode("utf-8", "replace").strip() or f"materializer exited {process.process.returncode}",
-                )
+            self._verify_candidate_snapshot(candidate_snapshot, world, registered)
+            binding = candidate_snapshot.binding()
+            for item in check_results:
+                if item.get("profile") == "private-evaluator-v1" and item.get("status") != "UNASSESSED":
+                    if item.get("candidateSnapshot") != binding:
+                        raise WorldlineError("CANDIDATE_SNAPSHOT_MISMATCH",
+                                             "check result does not name the pre-check candidate snapshot")
 
             payload = Path(world.payload_path)
             if payload.exists():
                 raise WorldlineError("PAYLOAD_EXISTS", f"candidate payload already exists: {payload}")
             payload.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
-            os.rename(materialized, payload)
+            os.rename(candidate_snapshot.directory, payload)
             manifests_directory = payload / "manifests"
             manifests_directory.mkdir(mode=0o700)
             candidate_manifests: dict[str, CapturedManifest] = {}
@@ -334,15 +548,7 @@ class Finalizer:
                 logical = bytes(root["path"])
                 candidate_source = payload / root_key
                 base_source = Path(world.base_payload_path) / root_key
-                repository = self.git.capture(candidate_source) if root["kind"] == "repo" else None
-                candidate_manifest = Manifest.capture(
-                    candidate_source,
-                    logical_root=logical,
-                    root_key=root_key,
-                    kind=root["kind"],
-                    core=self.core,
-                    repository=repository,
-                )
+                candidate_manifest = candidate_snapshot.manifests[root_key]
                 base_manifest_path = Path(world.base_payload_path) / "manifests" / f"{root_key}.json"
                 if base_manifest_path.is_file():
                     base_manifest = Manifest.load(base_manifest_path, self.core)
@@ -443,6 +649,21 @@ class Finalizer:
                     "nonblankSourceLines": self._source_lines(candidate_manifests, payload),
                     "dependencyRecords": dependencies,
                     "generatedClassifiers": agent_manifest.get("generatedClassifiers", []),
+                    "candidateSnapshot": binding if private_snapshot else None,
+                    "evaluationWorkspace": {
+                        "writes": ("private evaluator writes are discarded; the pre-check snapshot becomes the payload"
+                                   if private_snapshot else "legacy check outputs are included in the payload"),
+                        "nonClaims": ([
+                            "The snapshot identifies the initial input of mutable check overlays."
+                            " It does not establish that an examiner saw unchanged bytes throughout"
+                            " execution; transient or persistent writes in its scratch view can"
+                            " affect its judgment. Private check-produced artifacts are not promoted.",
+                        ] if private_snapshot else [
+                            "Legacy checks run in the same writable overlay that is materialized"
+                            " afterward. Their evidence does not establish that the final payload"
+                            " remained unchanged throughout evaluation.",
+                        ]),
+                    },
                 },
             )
             try:

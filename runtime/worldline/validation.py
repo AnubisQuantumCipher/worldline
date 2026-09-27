@@ -69,10 +69,12 @@ def runtime_tree_sha256() -> str:
 
 
 def canonical_checks(checks: Sequence[CheckSpec]) -> list[dict[str, Any]]:
-    """Checks in canonical form: sorted by id, every semantic field present. Declaration order
-    in .worldline.json does not change the identity; argv order, flags and settings do."""
-    return sorted(
-        (
+    """Checks in policy execution order, with every semantic field present.
+
+    Legacy preparation and private examination have an enforced sequence. Reordering checks
+    changes what ran and must invalidate evidence, even if every individual check is unchanged.
+    """
+    return [
             {
                 "id": check.id,
                 "kind": check.kind,
@@ -83,11 +85,10 @@ def canonical_checks(checks: Sequence[CheckSpec]) -> list[dict[str, Any]]:
                 "result": check.result,
                 "covers": sorted(check.covers),
                 "verifiers": sorted(check.verifiers),
+                "profile": check.profile,
             }
             for check in checks
-        ),
-        key=lambda item: item["id"],
-    )
+    ]
 
 
 def canonical_policy(project: ProjectConfig) -> dict[str, Any]:
@@ -365,7 +366,13 @@ def build_context(
         "candidate": dict(candidate),
         "primeAtFork": dict(prime_at_fork),
         "roots": sorted(({"rootKey": r["root_key"], "path": (os.fsdecode(bytes(r["path"])) if isinstance(r["path"], (bytes, bytearray)) else str(r["path"])), "kind": r["kind"]} for r in roots), key=lambda r: r["rootKey"]),
-        "results": [{"id": r.get("id"), "status": r.get("status"), "required": r.get("required"), "exitCode": r.get("exitCode")} for r in results],
+        "results": [{"id": r.get("id"), "status": r.get("status"), "required": r.get("required"),
+                     "format": r.get("format"), "profile": r.get("profile", "legacy"),
+                     "exitCode": r.get("exitCode"),
+                     "candidateSnapshot": r.get("candidateSnapshot"),
+                     "privateReport": r.get("privateReport"),
+                     "evaluatorBoundary": r.get("evaluatorBoundary")}
+                    for r in results],
         "candidateVerifiers": list(candidate_verifiers),
         "verifiersModifiedByCandidate": modified,
         "adapter": dict(adapter),

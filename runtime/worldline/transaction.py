@@ -18,6 +18,7 @@ from .delta import Delta
 from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, effective_evidence, verify_context
 from .errors import ConflictError, WorldlineError
 from .executed import NO_BUNDLE_IDENTITY, bundle_identity
+from .finalize import evaluation_record
 from .environment import capture_dependencies
 from .linux.atomic import AtomicExchange
 from .linux.git import GitAdapter
@@ -603,6 +604,16 @@ class CollapseTransaction:
             return {"complete": True, "expected": NO_BUNDLE_IDENTITY, "actual": NO_BUNDLE_IDENTITY,
                     "mode": "no-candidate-evaluation", "problems": [], "requiredChecks": []}
         required = sorted(str(item) for item in (current.get("policy", {}).get("requiredChecks") or ()))
+        declared_formats = {
+            str(item.get("id")): item.get("format")
+            for item in (current.get("policy", {}).get("canonical", {}).get("checks") or ())
+            if isinstance(item, Mapping)
+        }
+        declared_profiles = {
+            str(item.get("id")): item.get("profile", "legacy")
+            for item in (current.get("policy", {}).get("canonical", {}).get("checks") or ())
+            if isinstance(item, Mapping)
+        }
         declared: dict[str, list[tuple[str, str, str]]] = {}
         for entry in current.get("verifiers") or ():
             declared.setdefault(str(entry.get("checkId")), []).append(
@@ -629,6 +640,25 @@ class CollapseTransaction:
             if result.get("executionBinding") == "UNESTABLISHED":
                 complete = False
                 problems.append(f"{check_id}: the authorised examiner could not be shown to have run")
+                actual_members.append(("", check_id, ""))
+                continue
+            if result.get("format") != declared_formats.get(check_id):
+                complete = False
+                problems.append(f"{check_id}: recorded check format does not match the current policy")
+                actual_members.append(("", check_id, ""))
+                continue
+            if result.get("profile", "legacy") != declared_profiles.get(check_id):
+                complete = False
+                problems.append(f"{check_id}: recorded evaluator profile does not match the current policy")
+                actual_members.append(("", check_id, ""))
+                continue
+            # Recompute from the raw result at the promotion boundary. A saved evaluation
+            # classification is not authority, and a report-format PASS from the old same-uid
+            # channel remains non-promotable even when its verifier bundle was intact.
+            derived_evaluation = evaluation_record(result)
+            if derived_evaluation.get("reportIntegrity") == "UNTRUSTED":
+                complete = False
+                problems.append(f"{check_id}: report bytes were reachable by candidate code")
                 actual_members.append(("", check_id, ""))
                 continue
             evaluation = result.get("evaluation") or {}

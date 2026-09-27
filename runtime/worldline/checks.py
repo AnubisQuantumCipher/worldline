@@ -7,6 +7,7 @@ from decimal import Decimal, InvalidOperation
 import json
 from pathlib import Path
 import re
+import stat
 import subprocess
 import time
 from typing import Any, Mapping, Sequence
@@ -19,9 +20,11 @@ from .errors import WorldlineError
 from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
 from .admission import Gate
 from .linux.systemd import SystemdAdapter
-from .project import CheckSpec
+from .project import CheckSpec, _SAFE_IDENTIFIER
 from .environment import safe_environment
 from .paths import WorldlinePaths, secure_directory
+from .report import MAX_REPORT_BYTES, collect_private_report, prepare_private_report
+from .linux.private_evaluator import PrivateEvaluationSpec, PrivateEvaluator
 
 class CheckRunner:
     def __init__(
@@ -46,6 +49,7 @@ class CheckRunner:
         verifier_sources: Mapping[str, Path],
         verifiers: Sequence[Mapping[str, Any]] = (),
         logical_roots: Mapping[str, str] | None = None,
+        candidate_snapshot: Mapping[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
         """`verifiers` is the resolved verifier set for this policy, as `resolve_verifiers`
         returns it; each check takes the members that name it. Passing it is what lets a check be
@@ -71,6 +75,7 @@ class CheckRunner:
                     verifier_entries=by_check.get(check.id, ()),
                     verifier_sources=verifier_sources,
                     logical_roots=logical_roots,
+                    candidate_snapshot=candidate_snapshot,
                 )
             )
         return results
@@ -85,10 +90,24 @@ class CheckRunner:
         verifier_sources: Mapping[str, Path],
         verifier_entries: Sequence[Mapping[str, Any]] = (),
         logical_roots: Mapping[str, str] | None = None,
+        candidate_snapshot: Mapping[str, Any] | None = None,
     ) -> dict[str, Any]:
         run_id = str(uuid.uuid4())
-        runtime = self.paths.overlays / world_instance / "checks" / check.id
-        if runtime.exists():
+        # Validate again at the filesystem boundary: direct callers can construct a CheckSpec
+        # without going through ProjectConfig.load. A path-like ID must never redirect the
+        # cleanup below outside the daemon-owned check directory.
+        if not isinstance(check.id, str) or _SAFE_IDENTIFIER.fullmatch(check.id) is None:
+            raise WorldlineError("INVALID_CHECK_ID", "check ID is not a safe single path component")
+        SystemdAdapter.unit_name(world_instance)
+        check_root = secure_directory(secure_directory(self.paths.overlays / world_instance) / "checks")
+        runtime = check_root / check.id
+        try:
+            existing = runtime.lstat()
+        except FileNotFoundError:
+            existing = None
+        if existing is not None:
+            if not stat.S_ISDIR(existing.st_mode) or existing.st_uid != os.getuid():
+                raise WorldlineError("UNSAFE_CHECK_RUNTIME", "check runtime is not a daemon-owned directory")
             import shutil
 
             shutil.rmtree(runtime)
@@ -173,6 +192,13 @@ class CheckRunner:
                     " Declare the file in `verifiers`, or in `covers` if it is candidate data.",
                     {"argv": list(check.argv), "unaccounted": unaccounted})
 
+        if check.profile == "private-evaluator-v1":
+            return self._run_private(
+                run_id=run_id, world_instance=world_instance, runtime=runtime,
+                cwd=cwd, check=check, overlays=overlays, staged=staged,
+                argv=argv, rewrites=rewrites, candidate_snapshot=candidate_snapshot,
+            )
+
         # THE RECORD PRODUCER IS THE DAEMON, OUTSIDE THE SANDBOX.
         #
         # The examiner is exec'd directly under bwrap; there is no in-sandbox harness process
@@ -241,6 +267,7 @@ class CheckRunner:
             "kind": check.kind,
             "required": check.required,
             "format": check.format,
+            "profile": check.profile,
             "covers": list(check.covers),
         }
 
@@ -353,6 +380,156 @@ class CheckRunner:
             **parsed,
         }
 
+    def _run_private(
+        self, *, run_id: str, world_instance: str, runtime: Path, cwd: Path,
+        check: CheckSpec, overlays: Sequence[OverlayRoot],
+        staged: ExecutionVerifierSet | None, argv: Sequence[str],
+        rewrites: Sequence[Mapping[str, str]],
+        candidate_snapshot: Mapping[str, Any] | None,
+    ) -> dict[str, Any]:
+        """Run one report-format check with a separate examiner and worker identity.
+
+        The daemon prepares and collects the report. The backend establishes the process and
+        mount boundary. Neither the check policy nor a candidate report can select the backend
+        or claim its own boundary. Finalization independently classifies the recorded facts.
+        """
+        identity = {
+            "id": check.id, "kind": check.kind, "required": check.required,
+            "format": check.format, "profile": check.profile, "covers": list(check.covers),
+        }
+        if (staged is None or not staged.items or not isinstance(candidate_snapshot, Mapping)
+                or candidate_snapshot.get("worldInstance") != world_instance
+                or not isinstance(candidate_snapshot.get("rootSetHash"), str)
+                or not candidate_snapshot["rootSetHash"]
+                or not isinstance(candidate_snapshot.get("rootManifests"), Mapping)
+                or set(candidate_snapshot["rootManifests"]) != {root.root_key for root in overlays}):
+            if staged is not None:
+                staged.close()
+            raise WorldlineError("PRIVATE_INPUT_UNBOUND", "private evaluation requires a frozen candidate and identified verifier set")
+
+        candidate_identity = candidate_snapshot["rootSetHash"]
+        verifier_identity = staged.identity()
+        observed: dict[str, Any] | None = None
+        report: bytes | None = None
+        private_report: dict[str, Any] | None = None
+        executed: dict[str, Any] | None = None
+        failure: WorldlineError | OSError | ValueError | None = None
+        started_ns = time.monotonic_ns()
+        try:
+            base = secure_directory(runtime / "private-reports")
+            report_directory = prepare_private_report(
+                base, run_id=run_id, check_id=check.id,
+                candidate_identity=candidate_identity, verifier_identity=verifier_identity)
+            spec = PrivateEvaluationSpec(
+                run_id=run_id,
+                roots={str(root.target): root.lower for root in overlays},
+                verifier_directory=staged.staging,
+                argv=tuple(argv), cwd=str(cwd), report_directory=report_directory,
+                runtime=runtime / "private-backend",
+            )
+            with self.gate.guard(f"check:{check.id}"):
+                observed = PrivateEvaluator(self.systemd).run(
+                    spec, resource_properties=self.gate.unit_properties())
+            boundary = observed.get("boundary")
+            supervision = observed.get("supervision")
+            exit_status = self._observed_exit(
+                supervision if isinstance(supervision, Mapping) else {},
+                observed.get("exitCode"))
+            if (not isinstance(boundary, Mapping) or boundary.get("profileId") != check.profile
+                    or boundary.get("runId") != run_id or boundary.get("rolesCompleted") is not True
+                    or boundary.get("reportMountExclusive") is not True
+                    or not isinstance(supervision, Mapping)
+                    or supervision.get("kind") != "SUPERVISED"
+                    or supervision.get("stoppedByManager") is not False
+                    or exit_status["exitStatus"] is None):
+                raise WorldlineError("PRIVATE_BOUNDARY_UNVERIFIED",
+                                     "private evaluator boundary or supervisor exit was not established")
+            report, private_report = collect_private_report(
+                report_directory, run_id=run_id, check_id=check.id,
+                candidate_identity=candidate_identity, verifier_identity=verifier_identity)
+            # Retain bytes so the promotion boundary can recompute the report digest without
+            # relying on a mutable runtime pathname. The size cap is enforced by the collector.
+            private_report["payloadB64"] = base64.b64encode(report).decode("ascii")
+        except (WorldlineError, OSError, ValueError) as exc:
+            failure = exc
+        finally:
+            try:
+                after, changes = staged.reread()
+                executed = staged.as_evidence()
+                # The private backend injects this broker API before executing the trusted
+                # verifier. It is not a missing helper in the staged verifier directory.
+                executed["unsatisfiedImports"] = [
+                    gap for gap in executed.get("unsatisfiedImports", [])
+                    if gap.get("module") != "candidate"
+                ]
+                executed["privateRuntimeModules"] = ["candidate"]
+                executed["identityAfterExecution"] = after
+                executed["changedDuringExecution"] = changes
+                executed["argvRewrites"] = list(rewrites)
+                executed["stable"] = after == executed["identity"] and not changes
+            finally:
+                staged.close()
+        duration_ns = time.monotonic_ns() - started_ns
+        if failure is not None:
+            reason = f"{getattr(failure, 'code', 'PRIVATE_EVALUATOR_FAILED')}: {failure}"
+            return {
+                **identity, "status": "FAIL", "reason": reason,
+                "candidateSnapshot": dict(candidate_snapshot),
+                "executedVerifierSet": executed,
+                "resultChannel": {"accepted": False, "stage": "PRIVATE_EVALUATOR_REFUSED",
+                                  "reason": reason},
+                "origin": "supervisor",
+                "supervision": None if observed is None else observed.get("supervision"),
+                "evaluatorBoundary": None if observed is None else observed.get("boundary"),
+            }
+        assert observed is not None and report is not None and private_report is not None
+        supervision = observed["supervision"]
+        exit_status = self._observed_exit(supervision, observed["exitCode"])
+        exit_code = exit_status["exitStatus"]
+        assert isinstance(exit_code, int)
+        stdout = observed.get("stdout") or b""
+        stderr = observed.get("stderr") or b""
+        parsed = self._parse(check, exit_code, stdout, stderr, report)
+        gaps = (executed or {}).get("unsatisfiedImports") if executed else None
+        return {
+            **identity, "argv": list(check.argv), "exitCode": exit_code,
+            "durationNs": duration_ns,
+            "stdoutB64": base64.b64encode(stdout).decode("ascii"),
+            "stderrB64": base64.b64encode(stderr).decode("ascii"),
+            "candidateSnapshot": dict(candidate_snapshot),
+            "executedVerifierSet": executed,
+            "origin": "supervisor",
+            "resultChannel": {
+                "accepted": True, "recordProducer": "daemon-outside-sandbox",
+                "exitStatus": exit_status,
+            },
+            "evaluationProfile": {
+                "recordProducer": "isolated-examiner",
+                "verdictAuthority": "private-report",
+                "reportTrust": "examiner-only-mount",
+                "nonClaims": [
+                    "The private boundary isolates the report writer from candidate workers;"
+                    " it does not prove the examiner's logic is correct.",
+                    "The operator host kernel, installed system tools and trusted verifier"
+                    " bundle remain in the trust base.",
+                ],
+            },
+            "supervision": supervision,
+            "evaluatorBoundary": observed["boundary"],
+            "privateReport": private_report,
+            "evaluatorCompleteness": (
+                {"complete": False, "unsatisfiedImports": gaps,
+                 "reason": "the staged verifier bundle has unsatisfied imports"}
+                if gaps else {"complete": True, "unsatisfiedImports": []}
+            ),
+            "candidateReachable": {
+                "stdoutB64": base64.b64encode(stdout).decode("ascii"),
+                "stderrB64": base64.b64encode(stderr).decode("ascii"),
+                "resultFilePresent": False,
+            },
+            **parsed,
+        }
+
     def _read_result_file(self, check: "CheckSpec", overlays: Sequence[OverlayRoot],
                           primary_target: Path) -> bytes | None:
         """Read the check's declared result file host-side, from the primary overlay's upper
@@ -368,13 +545,44 @@ class CheckRunner:
         relative = os.path.normpath(relative)
         if relative.startswith("..") or os.path.isabs(relative):
             return None
-        host_path = primary.upper / relative
+        parts = relative.split(os.sep)
+        directory_flags = os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC | os.O_NOFOLLOW
+        file_flags = os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK
         try:
-            if host_path.is_symlink() or not host_path.is_file():
-                return None
-            return host_path.read_bytes()
+            directory_fd = os.open(primary.upper, directory_flags)
         except OSError:
             return None
+        try:
+            for component in parts[:-1]:
+                next_fd = os.open(component, directory_flags, dir_fd=directory_fd)
+                os.close(directory_fd)
+                directory_fd = next_fd
+            report_fd = os.open(parts[-1], file_flags, dir_fd=directory_fd)
+            try:
+                before = os.fstat(report_fd)
+                if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+                        or before.st_size > MAX_REPORT_BYTES):
+                    return None
+                content = bytearray()
+                while len(content) <= MAX_REPORT_BYTES:
+                    chunk = os.read(report_fd, min(65536, MAX_REPORT_BYTES + 1 - len(content)))
+                    if not chunk:
+                        break
+                    content.extend(chunk)
+                after = os.fstat(report_fd)
+                if (len(content) > MAX_REPORT_BYTES or len(content) != after.st_size
+                        or (before.st_dev, before.st_ino, before.st_size,
+                            before.st_mtime_ns, before.st_ctime_ns) !=
+                           (after.st_dev, after.st_ino, after.st_size,
+                            after.st_mtime_ns, after.st_ctime_ns)):
+                    return None
+                return bytes(content)
+            finally:
+                os.close(report_fd)
+        except OSError:
+            return None
+        finally:
+            os.close(directory_fd)
 
     @staticmethod
     def _observed_exit(supervision: Mapping[str, Any], launcher_exit: int | None) -> dict[str, Any]:
@@ -429,18 +637,29 @@ class CheckRunner:
         if check.format == "junit":
             if result is None:
                 return {"status": "FAIL", "reason": "JUnit result file is missing", "tests": None}
+            if b"<!DOCTYPE" in result.upper():
+                return {"status": "FAIL", "reason": "JUnit DTD is not allowed", "tests": None}
             try:
                 root = ET.fromstring(result)
+                if root.tag not in ("testsuite", "testsuites"):
+                    raise ValueError("root must be testsuite or testsuites")
                 suites = [root] if root.tag == "testsuite" else list(root.iter("testsuite"))
+                if not suites:
+                    raise ValueError("no testsuite elements")
                 totals = {
                     name: sum(int(suite.attrib.get(name, "0")) for suite in suites)
                     for name in ("tests", "failures", "errors", "skipped")
                 }
+                if (totals["tests"] <= 0 or any(value < 0 for value in totals.values())
+                        or totals["failures"] + totals["errors"] + totals["skipped"] > totals["tests"]):
+                    raise ValueError("test counts are empty or inconsistent")
             except (ET.ParseError, ValueError) as exc:
                 return {"status": "FAIL", "reason": f"invalid JUnit XML: {exc}", "tests": None}
             status = "PASS" if exit_code == 0 and totals["failures"] == 0 and totals["errors"] == 0 else "FAIL"
             return {"status": status, **totals}
         if check.format == "gnatprove":
+            if check.profile == "private-evaluator-v1" and result is None:
+                return {"status": "FAIL", "reason": "private GNATprove report is missing", "total": None}
             text = payload.decode("utf-8", "replace")
             total_line = next((line for line in text.splitlines() if line.startswith("Total")), None)
             if total_line is None:
@@ -448,8 +667,13 @@ class CheckRunner:
             fields = re.sub(r"\([0-9]+%\)", "", total_line).split()
             if len(fields) != 6:
                 return {"status": "FAIL", "reason": "gnatprove Total row is invalid", "total": None}
-            count = lambda value: 0 if value == "." else int(value)
-            total, justified, unproved = count(fields[1]), count(fields[4]), count(fields[5])
+            try:
+                counts = [0 if value == "." else int(value) for value in fields[1:]]
+            except ValueError:
+                return {"status": "FAIL", "reason": "gnatprove Total counts are invalid", "total": None}
+            total, justified, unproved = counts[0], counts[3], counts[4]
+            if total <= 0 or any(count < 0 for count in counts) or sum(counts[1:]) != total:
+                return {"status": "FAIL", "reason": "gnatprove Total counts are empty or inconsistent", "total": None}
             return {
                 "status": "PASS" if exit_code == 0 and justified == 0 and unproved == 0 else "FAIL",
                 "total": total,
@@ -464,13 +688,18 @@ class CheckRunner:
             except (UnicodeError, json.JSONDecodeError) as exc:
                 return {"status": "FAIL", "reason": f"invalid benchmark JSON: {exc}"}
             required = {"metric", "unit", "baseline", "candidate", "direction"}
-            if not isinstance(value, dict) or set(value) != required or value["direction"] not in {"higher-is-better", "lower-is-better"}:
+            if (not isinstance(value, dict) or set(value) != required
+                    or value["direction"] not in {"higher-is-better", "lower-is-better"}
+                    or not isinstance(value["metric"], str) or not value["metric"]
+                    or not isinstance(value["unit"], str) or not value["unit"]):
                 return {"status": "FAIL", "reason": "benchmark schema is invalid"}
             try:
                 baseline = Decimal(str(value["baseline"]))
                 candidate = Decimal(str(value["candidate"]))
             except InvalidOperation:
                 return {"status": "FAIL", "reason": "benchmark values are not numeric"}
+            if not baseline.is_finite() or not candidate.is_finite():
+                return {"status": "FAIL", "reason": "benchmark values are not finite"}
             improvement = (
                 candidate > baseline
                 if value["direction"] == "higher-is-better"

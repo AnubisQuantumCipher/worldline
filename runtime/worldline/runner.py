@@ -136,6 +136,10 @@ class AgentRunner:
         registered = self.store.roots()
         if not registered:
             raise WorldlineError("NO_PRIME", "agent execution requires registered roots")
+        # Legacy preparation may produce build outputs. Private evaluation starts only after
+        # those writes are complete and gets a fixed input snapshot. Never reorder a policy or
+        # run another legacy writer after a private result has named that snapshot.
+        legacy_checks, private_checks = self._evaluation_phases(project)
         base = Path(world.base_payload_path)
         overlay_inputs = [
             (root["root_key"], base / root["root_key"], Path(os.fsdecode(bytes(root["path"]))))
@@ -461,6 +465,7 @@ class AgentRunner:
         elif supervision["kind"] == "INDETERMINATE":
             agent_result["reason"] = f"SUPERVISION_INDETERMINATE: the manager's journal did not establish that {unit.unit} ran ({supervision['source']})"
         check_results = [agent_result]
+        candidate_snapshot = None
         if stopped:
             # The partial work is still materialized so it can be inspected, but running the
             # project's checks against a half-finished tree would manufacture evidence about
@@ -471,6 +476,7 @@ class AgentRunner:
                     "kind": check.kind,
                     "required": check.required,
                     "format": check.format,
+                    "profile": check.profile,
                     "covers": list(check.covers),
                     "status": "UNASSESSED",
                     "reason": (
@@ -491,17 +497,32 @@ class AgentRunner:
             verifier_sources = {r.root_key: r.lower for r in overlays}
             prime_verifiers = resolve_verifiers(project, verifier_roots, verifier_sources)
             logical_roots = {r.root_key: str(r.target) for r in overlays}
-            check_results.extend(
-                self.checks.run(
+            if legacy_checks:
+                check_results.extend(self.checks.run(
                     world_instance=world.instance_id,
                     overlays=overlays,
                     primary_target=primary_target,
-                    checks=project.checks,
+                    checks=legacy_checks,
+                    verifier_sources=verifier_sources,
+                    verifiers=prime_verifiers,
+                    logical_roots=logical_roots,
+                ))
+            if private_checks:
+                candidate_snapshot = self.finalizer.capture_candidate(world.instance_id, overlays)
+                check_overlays = self.finalizer.candidate_overlays(candidate_snapshot)
+                evaluated = self.checks.run(
+                    world_instance=world.instance_id,
+                    overlays=check_overlays,
+                    primary_target=primary_target,
+                    checks=private_checks,
+                    candidate_snapshot=candidate_snapshot.binding(),
                     verifier_sources=verifier_sources,
                     verifiers=prime_verifiers,
                     logical_roots=logical_roots,
                 )
-            )
+                for result in evaluated:
+                    result["candidateSnapshot"] = candidate_snapshot.binding()
+                check_results.extend(evaluated)
         # Evidence freshness (1.3.0): what this evaluation was bound to. The requirement half is
         # computed from the bytes the world was forked from (its base payload), which is what
         # the checks were defined against; finalize adds the candidate-side verifier hashes.
@@ -539,6 +560,7 @@ class AgentRunner:
                     for item in project.generated
                 ],
             },
+            candidate_snapshot=candidate_snapshot,
         )
         if finalized.state is WorldState.VALID:
             self.services.start_declared(finalized, project)
@@ -556,6 +578,23 @@ class AgentRunner:
         if progress is not None:
             progress("job-finished", {"world": world.alias, "state": finalized.state.value, "cancelled": cancelled, "timedOut": timed_out})
         return finalized
+
+    @staticmethod
+    def _evaluation_phases(project: ProjectConfig) -> tuple[list[Any], list[Any]]:
+        legacy: list[Any] = []
+        private: list[Any] = []
+        for check in project.checks:
+            if check.profile == "private-evaluator-v1":
+                private.append(check)
+            elif private:
+                raise WorldlineError(
+                    "CHECK_PROFILE_ORDER_INVALID",
+                    "legacy preparation checks must precede private evaluator checks",
+                    {"checkId": check.id},
+                )
+            else:
+                legacy.append(check)
+        return legacy, private
 
     @staticmethod
     def _normalize_path(
