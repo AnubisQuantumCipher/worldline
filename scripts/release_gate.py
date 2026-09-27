@@ -12,8 +12,8 @@ imported by the dry-run tests and executed by release.yml. It rejects, by name:
     than the committed manifest;
   * a remote tag that already points elsewhere, or an already published release (published
     versions never move);
-  * an artifact whose digest is not the one computed from the release tree, or an artifact set
-    that differs from the expected one.
+  * an artifact whose digest is not the expected one, an artifact set that differs from the
+    expected one, or an assurance asset that differs from the report this gate accepted.
 
 It never consults "latest green CI on main": the only run it accepts is the one whose report
 names the release commit.
@@ -56,6 +56,7 @@ def evaluate(
     version: str,
     changelog: str,
     assurance: Mapping[str, Any] | None,
+    assurance_sha256: str | None,
     committed_proof_manifest: Mapping[str, Any] | None,
     remote_tag_sha: str | None,
     release_exists: bool,
@@ -138,7 +139,13 @@ def evaluate(
     if release_exists:
         reasons.append(f"a release for {tag} already exists; published versions are never replaced")
 
-    # -- artifacts are exactly what the release tree produced
+    # -- the report published as an asset must be the exact bytes accepted above
+    if not isinstance(assurance_sha256, str) or not re.fullmatch(r"[0-9a-f]{64}", assurance_sha256):
+        reasons.append("assurance report digest is missing or invalid")
+    if artifacts.get("assurance.json") != assurance_sha256:
+        reasons.append("assurance.json artifact digest differs from the report accepted by the gate")
+
+    # -- every listed artifact has its expected digest
     if set(artifacts) != set(expected_artifacts):
         reasons.append(f"artifact set differs: have {sorted(artifacts)}, expected {sorted(expected_artifacts)}")
     for name, digest in sorted(expected_artifacts.items()):
@@ -160,6 +167,7 @@ def release_manifest(*, verdict: Verdict, release_sha: str, release_tree: str, t
         "tree": release_tree,
         "sourceOnly": True,
         "assurance": {
+            "sha256": artifacts.get("assurance.json"),
             "result": assurance.get("result"),
             "startedAt": assurance.get("startedAt"),
             "finishedAt": assurance.get("finishedAt"),
@@ -208,7 +216,9 @@ def main() -> int:
     version_text = Path(args.version_file).read_text(encoding="utf-8")
     match = re.search(r'^__version__\s*=\s*"([^"]+)"', version_text, re.M)
     version = match.group(1) if match else ""
-    assurance = json.loads(Path(args.assurance).read_text(encoding="utf-8")) if Path(args.assurance).is_file() else None
+    assurance_bytes = Path(args.assurance).read_bytes() if Path(args.assurance).is_file() else None
+    assurance = json.loads(assurance_bytes) if assurance_bytes is not None else None
+    assurance_sha256 = hashlib.sha256(assurance_bytes).hexdigest() if assurance_bytes is not None else None
     manifest = json.loads(Path(args.proof_manifest).read_text(encoding="utf-8")) if Path(args.proof_manifest).is_file() else None
     artifacts = {}
     for item in args.artifact:
@@ -221,6 +231,7 @@ def main() -> int:
     verdict = evaluate(
         release_sha=args.release_sha, release_tree=args.release_tree, tag=args.tag, tag_target_sha=args.tag_target_sha,
         version=version, changelog=Path(args.changelog).read_text(encoding="utf-8"), assurance=assurance,
+        assurance_sha256=assurance_sha256,
         committed_proof_manifest=manifest, remote_tag_sha=None if args.remote_tag_sha == "none" else args.remote_tag_sha,
         release_exists=args.release_exists == "yes", artifacts=artifacts, expected_artifacts=expected, max_skipped=args.max_skipped, min_tests=args.min_tests,
     )

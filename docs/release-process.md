@@ -17,8 +17,10 @@ name (`scripts/release_gate.py`).
 
 1. **Assurance** (`assurance.yml`, read-only token). Check out the full commit id, verify the
    checkout is that commit, then `scripts/assurance.py run --expect-sha <sha>`: build the kernel
-   and test binaries, run the Ada behaviour tests and the fuzz, the Python suite (which includes
-   the deterministic freshness regressions (`tests/test_freshness.py`, classes A–L) and the gate tests), the SPARK proof gate re-run
+   and test binaries, run the Ada behaviour tests and the fuzz, the Python suite with its private
+   host integration cases enabled and verbose skip reasons (including the deterministic freshness
+   regressions in `tests/test_freshness.py`, classes A–L, and the gate tests), then a mandatory
+   named private-host subset with zero skips, the SPARK proof gate re-run
    on this build, and the proof-manifest verification with the library checked. Each step's exit
    status, duration and log digest, the commit and tree, the runtime version and the toolchain
    identities are written to `assurance.json`; the result is `PASS` only if every required step
@@ -26,14 +28,19 @@ name (`scripts/release_gate.py`).
    set with zero exceptions and at least the floor.
 2. **Gate** (`release.yml`, publish job, write token, runs no tests). Resolve the tag to its
    commit and tree; build `worldline-<tag>.tar.gz` with `git archive` from that commit and check
-   it unpacks to exactly the tracked files; compute digests; read the remote tag target and
-   whether a release already exists; run the gate with all of it. A draft left by an earlier
-   failed attempt of the same commit is removed; a published release is never touched.
+   it unpacks to exactly the tracked files; compute digests of the archive and the one copied
+   `assurance.json` the gate reads; read the remote tag target and whether a release already
+   exists; run the gate with all of it. The report digest enters `release-manifest.json`, and
+   the gate refuses a report asset with bytes other than the report it accepted. A draft left
+   by an earlier failed attempt of the same commit is removed; a published release is never
+   touched.
 3. **Draft, verify, publish, verify.** Create the release as a draft with the archive, its
-   `.sha256`, `release-manifest.json` and `assurance.json`; download the draft's assets and
-   compare them byte-for-byte with what was built; check the release target is the commit; then
-   publish; then fetch the published release independently and verify the digests against the
-   manifest. A mismatch at any point leaves the release unpublished (draft) and the job red.
+   `.sha256`, `release-manifest.json` and that same `assurance.json`; download the draft's assets and
+   compare them byte-for-byte with what was built and verify each manifest digest, including
+   `assurance.json`; check the release target is the commit; then publish; then fetch the
+   published release independently and verify those digests again. A draft mismatch blocks
+   publication. A mismatch after publication makes the job red and requires investigation of
+   an already published release.
 4. **Notes** are generated from the `CHANGELOG.md` section plus the numbers in `assurance.json`
    (test counts, proof totals, library hash, toolchain). Nothing is typed from memory.
 

@@ -53,11 +53,12 @@ def good_facts() -> dict:
         "version": "1.3.0",
         "changelog": "# Changelog\n\n## 1.3.0 — 2026-09-21 · evidence freshness\n\n- things\n\n## 1.2.2 — old\n",
         "assurance": good_assurance(),
+        "assurance_sha256": "3" * 64,
         "committed_proof_manifest": {"sourceHashes": SOURCES, "proof": {"total": 130}},
         "remote_tag_sha": None,
         "release_exists": False,
-        "artifacts": {"worldline-v1.3.0.tar.gz": "f" * 64, "worldline-v1.3.0.tar.gz.sha256": "1" * 64, "release-manifest.json": "2" * 64},
-        "expected_artifacts": {"worldline-v1.3.0.tar.gz": "f" * 64, "worldline-v1.3.0.tar.gz.sha256": "1" * 64, "release-manifest.json": "2" * 64},
+        "artifacts": {"worldline-v1.3.0.tar.gz": "f" * 64, "worldline-v1.3.0.tar.gz.sha256": "1" * 64, "assurance.json": "3" * 64},
+        "expected_artifacts": {"worldline-v1.3.0.tar.gz": "f" * 64, "worldline-v1.3.0.tar.gz.sha256": "1" * 64, "assurance.json": "3" * 64},
     }
 
 
@@ -182,8 +183,17 @@ class ReleaseGateAcceptsOnlyTheExactAssuredCommit(unittest.TestCase):
             f["artifacts"]["evil.tar.gz"] = "0" * 64
         self._rejected(extra, "artifact set differs")
         def missing(f):
-            del f["artifacts"]["release-manifest.json"]
+            del f["artifacts"]["assurance.json"]
         self._rejected(missing, "artifact set differs")
+
+    def test_assurance_asset_must_be_the_accepted_report_bytes(self) -> None:
+        def substituted(f):
+            # A coherent but false artifact/expected pair cannot substitute another
+            # report for the one whose contents the gate evaluated.
+            f["artifacts"]["assurance.json"] = "4" * 64
+            f["expected_artifacts"]["assurance.json"] = "4" * 64
+        self._rejected(substituted, "differs from the report accepted")
+        self._rejected(lambda f: f.update(assurance_sha256=None), "digest is missing")
 
     def test_command_line_dry_run_with_real_files(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -191,28 +201,41 @@ class ReleaseGateAcceptsOnlyTheExactAssuredCommit(unittest.TestCase):
             (root / "version.py").write_text('__version__ = "1.3.0"\n', encoding="utf-8")
             (root / "CHANGELOG.md").write_text(good_facts()["changelog"], encoding="utf-8")
             (root / "assurance.json").write_text(json.dumps(good_assurance()), encoding="utf-8")
+            (root / "other-assurance.json").write_text(json.dumps(good_assurance()) + "\n", encoding="utf-8")
             (root / "proof-manifest.json").write_text(json.dumps({"sourceHashes": SOURCES}), encoding="utf-8")
             (root / "worldline-v1.3.0.tar.gz").write_bytes(b"archive")
             import hashlib
             digest = hashlib.sha256(b"archive").hexdigest()
+            assurance_digest = hashlib.sha256((root / "assurance.json").read_bytes()).hexdigest()
+            other_assurance_digest = hashlib.sha256((root / "other-assurance.json").read_bytes()).hexdigest()
             base = [sys.executable, str(REPO / "scripts" / "release_gate.py"), "--release-sha", SHA, "--release-tree", TREE, "--tag", "v1.3.0", "--tag-target-sha", SHA,
                     "--version-file", str(root / "version.py"), "--changelog", str(root / "CHANGELOG.md"), "--assurance", str(root / "assurance.json"),
                     "--proof-manifest", str(root / "proof-manifest.json"), "--release-exists", "no",
-                    "--artifact", f"worldline-v1.3.0.tar.gz={root / 'worldline-v1.3.0.tar.gz'}", "--expected-artifact", f"worldline-v1.3.0.tar.gz={digest}"]
+                    "--artifact", f"worldline-v1.3.0.tar.gz={root / 'worldline-v1.3.0.tar.gz'}", "--expected-artifact", f"worldline-v1.3.0.tar.gz={digest}",
+                    "--artifact", f"assurance.json={root / 'assurance.json'}", "--expected-artifact", f"assurance.json={assurance_digest}"]
             accepted = subprocess.run([*base, "--write-manifest", str(root / "release-manifest.json")], capture_output=True, text=True)
             self.assertEqual(accepted.returncode, 0, accepted.stdout + accepted.stderr)
             manifest = json.loads((root / "release-manifest.json").read_text(encoding="utf-8"))
             self.assertTrue(manifest["accepted"])
             self.assertEqual(manifest["proof"]["total"], 130)
-            self.assertEqual(manifest["artifacts"], [{"name": "worldline-v1.3.0.tar.gz", "sha256": digest}])
+            self.assertEqual(manifest["artifacts"], [{"name": "assurance.json", "sha256": assurance_digest},
+                                                     {"name": "worldline-v1.3.0.tar.gz", "sha256": digest}])
+            self.assertEqual(manifest["assurance"]["sha256"], assurance_digest)
             self.assertEqual(manifest["signing"], {"method": "unsigned"})
             # wrong commit on the command line: the assurance report names SHA, the release is OTHER
             wrong = subprocess.run([arg if arg != SHA else OTHER for arg in base], capture_output=True, text=True)
             self.assertEqual(wrong.returncode, 1)
             self.assertIn("belongs to", wrong.stdout)
-            substituted = subprocess.run([*base[:-1], "worldline-v1.3.0.tar.gz=" + "0" * 64], capture_output=True, text=True)
+            substituted_args = base.copy()
+            substituted_args[substituted_args.index(f"worldline-v1.3.0.tar.gz={digest}")] = "worldline-v1.3.0.tar.gz=" + "0" * 64
+            substituted = subprocess.run(substituted_args, capture_output=True, text=True)
             self.assertEqual(substituted.returncode, 1)
             self.assertIn("digest", substituted.stdout)
+            swapped_assurance = subprocess.run([*base, "--artifact", f"assurance.json={root / 'other-assurance.json'}",
+                                                "--expected-artifact", f"assurance.json={other_assurance_digest}"],
+                                               capture_output=True, text=True)
+            self.assertEqual(swapped_assurance.returncode, 1)
+            self.assertIn("differs from the report accepted", swapped_assurance.stdout)
             no_report = subprocess.run([arg if arg != str(root / "assurance.json") else str(root / "absent.json") for arg in base], capture_output=True, text=True)
             self.assertEqual(no_report.returncode, 1)
             self.assertIn("missing", no_report.stdout)

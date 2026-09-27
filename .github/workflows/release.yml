@@ -75,6 +75,8 @@ jobs:
       - name: Source archive from the exact release tree, with digests
         run: |
           mkdir -p dist
+          # The gate, notes and upload all consume this one copied report.
+          install -m 0600 assurance/assurance.json dist/assurance.json
           git archive --format=tar.gz --prefix="worldline-$TAG/" -o "dist/worldline-$TAG.tar.gz" "$RELEASE_SHA"
           (cd dist && sha256sum "worldline-$TAG.tar.gz" > "worldline-$TAG.tar.gz.sha256")
           # The archive must unpack to exactly the release tree's tracked files.
@@ -114,33 +116,42 @@ jobs:
         run: |
           archive_sha=$(sha256sum "dist/worldline-$TAG.tar.gz" | cut -d' ' -f1)
           digest_sha=$(sha256sum "dist/worldline-$TAG.tar.gz.sha256" | cut -d' ' -f1)
+          assurance_sha=$(sha256sum dist/assurance.json | cut -d' ' -f1)
           python3 scripts/release_gate.py \
             --release-sha "$RELEASE_SHA" --release-tree "$RELEASE_TREE" --tag "$TAG" --tag-target-sha "${{ steps.remote.outputs.tag_target }}" \
             --version-file runtime/worldline/__init__.py --changelog CHANGELOG.md \
-            --assurance assurance/assurance.json --proof-manifest proof-manifest.json \
+            --assurance dist/assurance.json --proof-manifest proof-manifest.json \
             --remote-tag-sha "${{ steps.remote.outputs.remote_sha }}" --release-exists "${{ steps.remote.outputs.exists }}" \
             --artifact "worldline-$TAG.tar.gz=dist/worldline-$TAG.tar.gz" --expected-artifact "worldline-$TAG.tar.gz=$archive_sha" \
             --artifact "worldline-$TAG.tar.gz.sha256=dist/worldline-$TAG.tar.gz.sha256" --expected-artifact "worldline-$TAG.tar.gz.sha256=$digest_sha" \
+            --artifact assurance.json=dist/assurance.json --expected-artifact "assurance.json=$assurance_sha" \
             --signing unsigned \
             --write-manifest dist/release-manifest.json
           python3 verify_proof_manifest.py --sources-only   # sources check only; the full proof is in assurance.json
 
       - name: Release notes from the changelog and the recorded results
         run: |
-          python3 scripts/release_notes.py --version "${TAG#v}" --changelog CHANGELOG.md --assurance assurance/assurance.json --release-manifest dist/release-manifest.json > dist/RELEASE-NOTES.md
+          python3 scripts/release_notes.py --version "${TAG#v}" --changelog CHANGELOG.md --assurance dist/assurance.json --release-manifest dist/release-manifest.json > dist/RELEASE-NOTES.md
           cat dist/RELEASE-NOTES.md
 
       - name: Create the release as a draft with its assets
         run: |
-          gh release create "$TAG" "dist/worldline-$TAG.tar.gz" "dist/worldline-$TAG.tar.gz.sha256" dist/release-manifest.json assurance/assurance.json \
+          gh release create "$TAG" "dist/worldline-$TAG.tar.gz" "dist/worldline-$TAG.tar.gz.sha256" dist/release-manifest.json dist/assurance.json \
             --draft --title "WORLDLINE $TAG" --notes-file dist/RELEASE-NOTES.md --target "$RELEASE_SHA"
 
       - name: Verify the draft's assets against the computed digests
         run: |
           mkdir -p fetched && gh release download "$TAG" --dir fetched
-          for name in "worldline-$TAG.tar.gz" "worldline-$TAG.tar.gz.sha256" release-manifest.json; do
+          for name in "worldline-$TAG.tar.gz" "worldline-$TAG.tar.gz.sha256" release-manifest.json assurance.json; do
             cmp "dist/$name" "fetched/$name" || { echo "uploaded asset differs: $name" >&2; exit 1; }
           done
+          python3 - <<'PY'
+          import hashlib, json, pathlib
+          manifest = json.load(open("fetched/release-manifest.json"))
+          for item in manifest["artifacts"]:
+              digest = hashlib.sha256((pathlib.Path("fetched") / item["name"]).read_bytes()).hexdigest()
+              assert digest == item["sha256"], f"draft {item['name']} differs from the accepted manifest"
+          PY
           test "$(gh release view "$TAG" --json targetCommitish --jq '.targetCommitish')" = "$RELEASE_SHA"
 
       - name: Publish
