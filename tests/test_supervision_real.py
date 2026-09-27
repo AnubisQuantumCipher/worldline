@@ -26,7 +26,9 @@ class RealManagerSupervisionTests(unittest.TestCase):
         self.adapter = SystemdAdapter()
         self.instance = str(uuid.uuid4())
         self.unit = f"worldline-{self.instance}.service"
-        self.addCleanup(lambda: subprocess.run(["/usr/bin/systemctl", "--user", "stop", self.unit], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL))
+        self.addCleanup(lambda: subprocess.run(["/usr/bin/systemctl", "--user", "stop", self.unit],
+                                               check=False, stdout=subprocess.DEVNULL,
+                                               stderr=subprocess.DEVNULL, env=self.adapter.environment))
 
     def run_and_classify(self, argv: list[str], *, stop_after: float | None = None) -> tuple[dict, int]:
         process = self.adapter.launch(self.instance, argv, description="worldline-lab real supervision test")
@@ -67,7 +69,8 @@ class RealManagerSupervisionTests(unittest.TestCase):
     def test_launcher_failure_with_a_reachable_manager_is_launch_failed(self) -> None:
         # Occupy the unit name first: systemd-run then fails to start the transient unit and the
         # manager records nothing new for it inside the window.
-        subprocess.run(["/usr/bin/systemd-run", "--user", f"--unit={self.unit}", "--collect", "--quiet", "/usr/bin/sleep", "30"], check=True)
+        subprocess.run(["/usr/bin/systemd-run", "--user", f"--unit={self.unit}", "--collect", "--quiet", "/usr/bin/sleep", "30"],
+                       check=True, env=self.adapter.environment)
         time.sleep(0.3)
         process = self.adapter.launch(self.instance, ["/bin/true"], description="collides")
         self.addCleanup(lambda: [s.close() for s in (process.launcher.stdin, process.launcher.stdout, process.launcher.stderr) if s is not None])

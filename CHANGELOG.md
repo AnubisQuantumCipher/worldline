@@ -1,5 +1,111 @@
 # Changelog
 
+## 1.5.0 — 2026-09-27 · private evaluation and report integrity
+
+**Candidate bytes are data to the trusted evaluator, and private report checks keep candidate
+workers out of the report writer's identity, mounts and process namespace.** See the compatibility
+note below before upgrading.
+
+### Private report profile
+
+- A declared `private-evaluator-v1` check stages its trusted Python examiner from PRIME,
+  freezes the candidate input before evaluation, and gives `candidate.run` workers a distinct
+  subordinate host identity and disposable writable copies. Only the examiner receives the
+  private report, broker and optional installed GNAT toolchain mounts.
+- JUnit, GNATprove and benchmark reports are admitted only when the daemon collects an
+  invocation-bound private report after clean supervisor observations. Legacy candidate-reachable
+  report files remain nonadmissible. The profile and check order enter policy identity.
+- Finalization, revalidation, prepare and commit require matching candidate snapshots, verifier
+  identity and report evidence. Revalidation refuses preparatory changes to file metadata as
+  well as file contents when the finalized or staged input lacks those changes.
+- Hosted assurance requires the real private evaluator host suite. Its pinned vulnerable
+  counterexample must still exhibit the known harness ownership defect; a control that merely
+  crashes cannot satisfy the release gate.
+
+The private boundary relies on the host kernel, installed isolation and toolchain binaries,
+and trusted examiner logic. It does not make arbitrary candidate imports into the examiner safe.
+
+### ⚠ Compatibility — verifier dependencies
+
+**Staged verifiers no longer obtain undeclared sibling modules from the candidate's project
+directory. Checks that relied on those imports may now fail even for an otherwise correct
+candidate. Declare the authoritative helper files in the check's `verifiers` set and rerun
+evaluation. WORLDLINE does not fall back to candidate-controlled dependencies to preserve the
+former behaviour.**
+
+A verifier now executes from a staging directory copied out of PRIME, not from the candidate's
+writable overlay. Only files the policy *binds* are staged. Previously a top-level examiner's
+undeclared sibling stayed importable from candidate-controlled storage — which is precisely the
+hole: a forged helper beside the exam would be imported and would decide the verdict.
+
+**The diagnostic you will see** is the examiner's own import failure, in the check's stderr:
+
+```
+Traceback (most recent call last):
+  File "/run/worldline-verifiers/<root>/exam.py", line 4, in <module>
+    import helper
+ModuleNotFoundError: No module named 'helper'
+```
+
+and, on the check result, `evaluatorCompleteness.complete: false` naming the gap and the remedy.
+
+**Before** — `exam.py` imports `helper.py` beside it; only `exam.py` is bound, and `doctor`
+warns that the check will fail:
+
+```json
+{ "id": "exam", "kind": "tests", "required": true, "format": "exit",
+  "argv": ["/usr/bin/python3", "exam.py"], "covers": ["src/**"] }
+```
+
+**After** — the helper is declared, so it is staged from PRIME alongside the entry point:
+
+```json
+{ "id": "exam", "kind": "tests", "required": true, "format": "exit",
+  "argv": ["/usr/bin/python3", "exam.py"], "covers": ["src/**"],
+  "verifiers": ["exam.py", "helper.py"] }
+```
+
+A verifier in its own directory (`evaluator/exam.py`) is unaffected: the default scope binds
+that directory, so its helpers are already staged. The change bites the top-level layout, where
+binding the whole directory would mean binding the repository.
+
+### A stalled examination is not a failed candidate
+
+Two outcomes that both block promotion must not tell the operator the same story:
+
+| | `status` | `executionStatus` | `evaluationOutcome` |
+|---|---|---|---|
+| the candidate failed a valid examination | `FAIL` | `COMPLETED` | `FAIL` |
+| the examination could not complete | `FAIL` | `EVALUATOR_INCOMPLETE` | `NONE` |
+
+`EVALUATOR_INCOMPLETE` is raised from a conservative, module-level import analysis of the
+**staged** verifiers, run over trusted bytes *before* anything executes — never inferred from
+what the examination printed, because an examiner's stderr passes through processes the
+candidate can reach. It considers only top-level absolute imports, so anything guarded by `try`
+or deferred into a function is left alone: it misses rather than over-reports, because a false
+positive would blame the evaluator for a candidate's genuine failure. Its absence does not
+establish that the evaluator was complete.
+
+### Trusted execution environment
+
+- **One startup policy for every process WORLDLINE runs on its own behalf** (`worldline.trusted`).
+  `python3 -c SRC` exposes the working directory on `sys.path[0]`; `python3 script.py` exposes
+  the script's directory. Both are candidate-writable in normal operation. The check harness, the
+  materializer, the simulation runner and the netguard forwarder now all start with `-I -S`.
+  **Trusted helpers may import the standard library only**, because `-S` drops site-packages.
+- **The legacy exit-status record producer is the daemon outside the sandbox.** It reads the
+  service manager's exit observation and treats examiner stdout and stderr as candidate-reachable
+  data. Report formats require the separate private profile above; they cannot borrow the legacy
+  exit-status claim to authenticate a result file.
+- **`ERROR_BEFORE_EXAMINER` is narrowed** to the one case supervisor-owned facts establish. An
+  absent record is `INCOMPLETE_UNKNOWN`; a stopped or signalled unit is `INTERRUPTED`.
+- **Engine-evaluated checks declare `origin: engine`** rather than being inferred from "a status
+  is present and an exit code is not", which is also what a subverted harness looks like.
+- **`evaluation` and `executionBinding` are attached before the evidence is hashed.** They were
+  attached afterwards, and `evidence_manifest` shallow-copies each result, so the persisted
+  evidence never carried them — and the commit-time gate that reads that evidence was comparing
+  against fields that were always absent. Both of its guards were vacuous.
+
 ## 1.4.0 — 2026-09-22 · resource admission and execution budgets
 
 **WORLDLINE must not start work it cannot responsibly supervise with the resources currently

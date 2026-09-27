@@ -13,6 +13,7 @@ from .errors import WorldlineError
 from .store import StateStore
 
 _SECRET_NAME = re.compile(r"(?:TOKEN|KEY|PASSWORD|PASSWD|SECRET|CREDENTIAL|AUTH|COOKIE)", re.IGNORECASE)
+_SAFE_IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,127}\Z")
 
 
 @dataclass(frozen=True, slots=True)
@@ -35,6 +36,9 @@ class CheckSpec:
     # executes or reads. Empty means: the files argv/cwd name, plus every file under each named
     # file's directory (a verifier's helpers live beside it). Never candidate-owned.
     verifiers: tuple[str, ...] = ()
+    # Report formats need an explicit private examiner profile before their verdict can
+    # authorize promotion. The default preserves the legacy policy and its refusal gate.
+    profile: str = "legacy"
 
     def covers_path(self, relative: str) -> bool:
         return any(
@@ -130,7 +134,8 @@ class ProjectConfig:
 
         checks: list[CheckSpec] = []
         check_ids: set[str] = set()
-        allowed_check_fields = {"id", "kind", "argv", "cwd", "required", "format", "result", "covers", "verifiers"}
+        private_checks_started = False
+        allowed_check_fields = {"id", "kind", "argv", "cwd", "required", "format", "result", "covers", "verifiers", "profile"}
         for item in value["checks"]:
             if not isinstance(item, dict) or not {"id", "kind", "argv", "required", "format"} <= set(item) or not set(item) <= allowed_check_fields:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", "check fields are invalid")
@@ -158,7 +163,21 @@ class ProjectConfig:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", f"check {identifier} verifiers must be an array")
             for pattern in verifiers:
                 cls._relative(pattern, f"check {identifier} verifiers", allow_glob=True)
-            spec = CheckSpec(identifier, item["kind"], argv, cwd, item["required"], item["format"], result, tuple(covers), tuple(verifiers))
+            profile = item.get("profile", "legacy")
+            if profile not in {"legacy", "private-evaluator-v1"}:
+                raise WorldlineError("INVALID_PROJECT_CONFIG", f"check {identifier} profile is invalid")
+            if profile == "private-evaluator-v1":
+                private_checks_started = True
+                if item["format"] not in {"junit", "gnatprove", "worldline-benchmark-v1"}:
+                    raise WorldlineError("INVALID_PROJECT_CONFIG", f"check {identifier} private evaluator requires a report format")
+                if result is not None:
+                    raise WorldlineError("INVALID_PROJECT_CONFIG", f"check {identifier} private evaluator uses the fixed private report, not a candidate result path")
+                if not verifiers:
+                    raise WorldlineError("INVALID_PROJECT_CONFIG", f"check {identifier} private evaluator requires declared trusted verifier files")
+            elif private_checks_started:
+                raise WorldlineError("CHECK_PROFILE_ORDER_INVALID",
+                                     "legacy preparation checks must precede private evaluator checks")
+            spec = CheckSpec(identifier, item["kind"], argv, cwd, item["required"], item["format"], result, tuple(covers), tuple(verifiers), profile)
             # A declared verifier the candidate is allowed to rewrite is a contradiction and is
             # refused. (An argv operand under covers is candidate data — `test -f candidate.txt`
             # — not an examiner; it is left out of the verifier set and named in the policy
@@ -213,8 +232,9 @@ class ProjectConfig:
 
     @staticmethod
     def _identifier(value: Any, seen: set[str], label: str) -> str:
-        if not isinstance(value, str) or not value or value in seen:
-            raise WorldlineError("INVALID_PROJECT_CONFIG", f"{label} id is empty or duplicated: {value}")
+        if (not isinstance(value, str) or _SAFE_IDENTIFIER.fullmatch(value) is None
+                or value in seen):
+            raise WorldlineError("INVALID_PROJECT_CONFIG", f"{label} id is invalid or duplicated: {value}")
         seen.add(value)
         return value
 

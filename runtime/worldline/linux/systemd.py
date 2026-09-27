@@ -14,6 +14,7 @@ import uuid
 from ..errors import WorldlineError
 
 _UNIT_PATTERN = re.compile(r"^worldline-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.service$")
+_PRIVATE_BOOTSTRAP = object()
 
 
 @dataclass(slots=True)
@@ -91,9 +92,15 @@ class SystemdAdapter:
         stdin: int | Any = subprocess.PIPE,
         stdout: int | Any = subprocess.PIPE,
         stderr: int | Any = subprocess.PIPE,
+        _bootstrap_token: object | None = None,
     ) -> SystemdProcess:
-        if not argv or any(not isinstance(item, str) or not item for item in argv):
-            raise WorldlineError("INVALID_AGENT_COMMAND", "transient unit argv must be nonempty strings")
+        # Empty arguments after argv[0] are valid: bwrap uses an empty value after --setenv
+        # for a declared empty environment variable. Rejecting every empty argument made an
+        # otherwise valid check fail before launch whenever COLORTERM (or another allowlisted
+        # variable) happened to be present with an empty value.
+        if (not argv or not isinstance(argv[0], str) or not argv[0]
+                or any(not isinstance(item, str) for item in argv)):
+            raise WorldlineError("INVALID_AGENT_COMMAND", "transient unit argv requires a nonempty executable and string arguments")
         unit = self.unit_name(instance_id)
         command = [
             self.systemd_run,
@@ -107,7 +114,7 @@ class SystemdAdapter:
             "--property=KillMode=control-group",
             "--property=SendSIGKILL=yes",
             "--property=TimeoutStopSec=10s",
-            "--property=NoNewPrivileges=yes",
+            "--property=NoNewPrivileges=" + ("no" if _bootstrap_token is _PRIVATE_BOOTSTRAP else "yes"),
             "--property=PrivateTmp=no",
             "--",
             *argv,
@@ -147,6 +154,53 @@ class SystemdAdapter:
         except OSError as exc:
             raise WorldlineError("SYSTEMD_LAUNCH_FAILED", str(exc), {"unit": unit}) from exc
         return SystemdProcess(unit=unit, launcher=launcher, manager=self, launched_at_us=launched_at_us)
+
+    def launch_private_evaluator(
+        self, instance_id: str, plan: Path, helper: Path, *,
+        resource_properties: Sequence[str] = (),
+    ) -> SystemdProcess:
+        """Launch only the engine's mapped-UID bootstrap with mapping helpers enabled.
+
+        Ordinary launch keeps NoNewPrivileges=yes. This exception is needed before
+        newuidmap/newgidmap install the subordinate ranges; the fixed bootstrap drops all
+        capabilities and sets NNP before running either role. Callers cannot provide argv.
+        """
+        from .private_evaluator import PROFILE_ID
+        from ..trusted import trusted_script
+        import hashlib
+        import stat
+
+        approved_resources = {
+            "MemoryMax", "MemoryHigh", "MemorySwapMax", "CPUQuota", "CPUWeight",
+            "TasksMax", "MemoryAccounting", "CPUAccounting", "TasksAccounting", "IOAccounting",
+        }
+        for item in resource_properties:
+            if not isinstance(item, str) or item.partition("=")[0] not in approved_resources:
+                raise WorldlineError("RESOURCE_POLICY_INVALID", "private evaluator resource property is not allowed")
+        policy = helper.with_name("trusted.py")
+        for path in (plan, helper, policy):
+            info = path.lstat()
+            if (not path.is_absolute() or not stat.S_ISREG(info.st_mode)
+                    or info.st_uid != os.getuid() or info.st_nlink != 1
+                    or info.st_mode & 0o022):
+                raise WorldlineError("PRIVATE_EVALUATOR_INVALID", "bootstrap plan/helper is not daemon-owned")
+        value = json.loads(plan.read_text(encoding="utf-8"))
+        installed = Path(__file__).with_name("private_evaluator.py")
+        if (value.get("profileId") != PROFILE_ID or value.get("runId") != instance_id
+                or value.get("helper") != str(helper)
+                or value.get("startupPolicy") != str(policy)
+                or hashlib.sha256(helper.read_bytes()).digest() != hashlib.sha256(installed.read_bytes()).digest()
+                or policy.read_bytes() != Path(__file__).parents[1].joinpath("trusted.py").read_bytes()):
+            raise WorldlineError("PRIVATE_EVALUATOR_INVALID", "bootstrap identity does not match the running engine")
+        return self.launch(
+            instance_id,
+            ("/usr/bin/unshare", "--user", "--map-auto", "--map-root-user", "--",
+             *trusted_script(str(helper), "--bootstrap", str(plan))),
+            description="WORLDLINE private evaluator",
+            resource_properties=resource_properties,
+            stdin=subprocess.DEVNULL,
+            _bootstrap_token=_PRIVATE_BOOTSTRAP,
+        )
 
     # Properties systemd exposes for what it was ASKED for, and what it accounted. They are read
     # back rather than assumed: a configured ceiling is not evidence that the kernel took it.

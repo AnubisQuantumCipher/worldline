@@ -23,6 +23,7 @@ from .model import World, WorldState
 from .paths import WorldlinePaths, secure_directory
 from .prime import PrimeManager
 from .store import StateStore
+from .trusted import trusted_inline
 
 _SYSTEM_ROOTS = (Path("/usr"), Path("/etc"), Path("/var"), Path("/opt"), Path("/boot"))
 _RUNNER = """
@@ -175,9 +176,10 @@ class SystemSimulation:
         overlay_by_key = {root.root_key: root for root in overlays}
         spec = SandboxSpec(
             instance_id=identifier,
-            argv=(
-                "/usr/bin/python3",
-                "-c",
+            # Trusted, and this one runs as namespace root with its cwd inside a candidate
+            # root, so an unisolated start would hand the candidate a root-privileged
+            # interpreter on its first import. See trusted.py.
+            argv=trusted_inline(
                 _RUNNER,
                 "/run/worldline-runtime/commands.json",
                 "/run/worldline-runtime/results.json",

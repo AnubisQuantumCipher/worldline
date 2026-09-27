@@ -28,6 +28,22 @@ package Worldline.Collapse with SPARK_Mode is
       Candidate_Validation_Context : Hash;
       Tested_Root                  : Hash;
       Staged_Content_Root          : Hash;
+      --  Execution-time verifier identity (1.5.0). Binding a result to the verifier bytes that
+      --  were EXECUTED is a different obligation from binding it to the bytes that exist before
+      --  or afterwards, and the difference is a whole attack: replace the examiner, run the
+      --  replacement, restore the original, finalize.
+      --
+      --  Execution_Evidence_Complete is the roster condition. It is False when any required
+      --  check has no execution record, an unreadable one, or one whose provenance could not be
+      --  established. A missing measurement is not a satisfied one.
+      --
+      --  The two identities MUST be computed from different sources: the expected one from the
+      --  trusted evaluator specification, the actual one from the runner's protected execution
+      --  record. Passing one computed value twice would prove an equality that assures nothing,
+      --  and that obligation lives outside this package because this package cannot check it.
+      Execution_Evidence_Complete  : Boolean;
+      Expected_Executed_Verifier   : Hash;
+      Actual_Executed_Verifier     : Hash;
    end record;
 
    type Decision is
@@ -42,7 +58,11 @@ package Worldline.Collapse with SPARK_Mode is
       Conflict,
       Foreign_Managed_Write,
       Validation_Context_Mismatch,
-      Staged_Untested);
+      Staged_Untested,
+      --  Appended, so the ordinals of every existing decision are unchanged and a client that
+      --  has not been rebuilt cannot silently reinterpret an old code as a new one.
+      Execution_Evidence_Incomplete,
+      Verifier_Execution_Identity_Mismatch);
 
    function Decide (Request : Collapse_Request) return Decision
      with Global => null,
@@ -57,6 +77,8 @@ package Worldline.Collapse with SPARK_Mode is
                and Request.Expected_Staged_Root = Request.Actual_Staged_Root
                and Request.Expected_Validation_Context = Request.Candidate_Validation_Context
                and Request.Tested_Root = Request.Staged_Content_Root
+               and Request.Execution_Evidence_Complete
+               and Request.Expected_Executed_Verifier = Request.Actual_Executed_Verifier
                and not Request.Has_Conflicts
                and not Request.Has_Foreign_Managed_Writes);
 

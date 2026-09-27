@@ -29,6 +29,13 @@ package Worldline.C_API with SPARK_Mode => Off is
       Candidate_Validation_Context : C_Hash;
       Tested_Root                  : C_Hash;
       Staged_Content_Root          : C_Hash;
+      --  Appended for 1.5.0. Existing field offsets are unchanged.
+      Execution_Evidence_Complete  : Interfaces.Unsigned_8;
+      Reserved_2                   : Interfaces.Unsigned_8;
+      Reserved_3                   : Interfaces.Unsigned_8;
+      Reserved_4                   : Interfaces.Unsigned_8;
+      Expected_Executed_Verifier   : C_Hash;
+      Actual_Executed_Verifier     : C_Hash;
    end record
      with Convention => C;
 

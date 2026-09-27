@@ -43,6 +43,8 @@ COLLAPSE_DECISIONS: dict[int, str] = {
     9: "FOREIGN_MANAGED_WRITE",
     10: "VALIDATION_CONTEXT_MISMATCH",
     11: "STAGED_UNTESTED",
+    12: "EXECUTION_EVIDENCE_INCOMPLETE",
+    13: "VERIFIER_EXECUTION_IDENTITY_MISMATCH",
     255: "INVALID_REQUEST",
 }
 
@@ -78,6 +80,12 @@ class CCollapseRequest(ctypes.Structure):
         ("candidate_validation_context", C_HASH),
         ("tested_root", C_HASH),
         ("staged_content_root", C_HASH),
+        ("execution_evidence_complete", ctypes.c_uint8),
+        ("reserved_2", ctypes.c_uint8),
+        ("reserved_3", ctypes.c_uint8),
+        ("reserved_4", ctypes.c_uint8),
+        ("expected_executed_verifier", C_HASH),
+        ("actual_executed_verifier", C_HASH),
     ]
 
 
@@ -104,6 +112,16 @@ class CollapseInput:
     candidate_validation_context: bytes = bytes(32)
     tested_root: bytes = bytes(32)
     staged_content_root: bytes = bytes(32)
+    # Execution-time verifier identity (1.5.0). The defaults REFUSE, and that is the whole point
+    # of choosing them: the fields above default to equal values so callers testing unrelated
+    # properties keep their meaning, and applying that convention here would mean a caller who
+    # forgot to supply an execution identity got a perfectly provable equality of two zeroes.
+    # A missing measurement must not become a satisfied one, so the default is "incomplete", and
+    # the two identities differ from each other so that even a caller who forces completeness
+    # without supplying identities is refused.
+    execution_evidence_complete: bool = False
+    expected_executed_verifier: bytes = bytes(32)
+    actual_executed_verifier: bytes = b"\xff" * 32
 
 
 def _library_candidates() -> Iterable[Path]:
@@ -291,6 +309,10 @@ class Core:
             self._array(value.candidate_validation_context),
             self._array(value.tested_root),
             self._array(value.staged_content_root),
+            1 if value.execution_evidence_complete else 0,
+            0, 0, 0,
+            self._array(value.expected_executed_verifier),
+            self._array(value.actual_executed_verifier),
         )
         code = int(self._lib.wl_collapse_decide(ctypes.byref(request)))
         return COLLAPSE_DECISIONS.get(code, f"UNKNOWN_{code}")

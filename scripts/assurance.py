@@ -33,7 +33,13 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 1
 
-REQUIRED_STEPS = ("checkout-identity", "clean-build-tree", "build", "ada-tests", "ada-fuzz", "python-tests", "proof-gate", "proof-manifest")
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from assurance_contract import (
+    COUNTEREXAMPLE_COMMIT,
+    COUNTEREXAMPLE_RUNTIME_TREE,
+    COUNTEREXAMPLE_TAG,
+    REQUIRED_STEPS,
+)
 
 
 def _utc() -> str:
@@ -79,6 +85,31 @@ def parse_unittest(output: str) -> dict[str, Any]:
     return {"ran": int(ran.group(1)) if ran else None, "ok": ok, "verdictLine": tail, **counts}
 
 
+# These cases exercise the actual user-systemd and user-namespace boundary. A hosted
+# assurance run enables them in the full suite, then reruns this named subset as a
+# mandatory zero-skip step so their presence is independently checked.
+PRIVATE_HOST_CASES = (
+    "test_genuine_positive_and_negative_assertions_under_observed_separate_roles",
+    "test_worker_timeout_and_output_limit_refuse_the_entire_run",
+    "test_real_private_report_admits_genuine_pass_and_refuses_candidate_forgery",
+    "test_measured_pass_and_candidate_report_forgery_refused",
+    "test_genuine_private_check_survives_revalidation_and_promotes",
+    "test_revalidation_refuses_prep_metadata_absent_from_finalized_candidate",
+)
+
+
+def check_private_host_suite(output: str) -> dict[str, Any]:
+    summary = parse_unittest(output)
+    observed = [name for name in PRIVATE_HOST_CASES if name in output]
+    summary.update({
+        "ok": summary["ok"] and summary["skipped"] == 0
+              and len(observed) == len(PRIVATE_HOST_CASES),
+        "requiredCases": list(PRIVATE_HOST_CASES),
+        "observedCases": observed,
+    })
+    return summary
+
+
 def proof_facts(manifest_path: Path) -> dict[str, Any]:
     if not manifest_path.is_file():
         return {"present": False}
@@ -112,6 +143,16 @@ class Runner:
         try:
             if action is not None:
                 summary = action()
+                # An action's success is explicit, validated and NECESSARY. This branch used to
+                # leave `status` at "success" whatever the action returned, so an action
+                # reporting {"ok": false} was recorded as a passing step — the instrument
+                # calling its own failure a success, which is the one thing an assurance runner
+                # must never do. A missing, malformed or false result now fails the step.
+                if not isinstance(summary, dict):
+                    status, code = "failure", 64
+                    summary = {"ok": False, "reason": f"action returned {type(summary).__name__}, not a result"}
+                elif summary.get("ok") is not True:
+                    status, code = "failure", 65
             else:
                 assert argv is not None
                 code, output = _run(argv, env=env)
@@ -122,7 +163,10 @@ class Runner:
                     if summary is not None and summary.get("ok") is False:
                         status = "failure"
         except Exception as exc:  # recorded, never hidden
-            status, summary = "failure", {"exception": f"{type(exc).__name__}: {exc}"}
+            # A non-zero exit code too: a failed step that records exitCode 0 reads like a
+            # successful one to anything that looks at the number rather than the word.
+            status, code = "failure", 66
+            summary = {"ok": False, "exception": f"{type(exc).__name__}: {exc}"}
         log_path.write_bytes(output)
         record = {
             "name": name,
@@ -137,6 +181,23 @@ class Runner:
         self.steps.append(record)
         print(f"[assurance] {name}: {status} ({record['durationSeconds']}s)", flush=True)
         return status == "success"
+
+
+
+def check_counterexample_identity(commit: str, subtree: str) -> dict[str, Any] | None:
+    """None when the control arm may proceed; a refusal record otherwise.
+
+    A tag is a movable pointer. If it were re-pointed at a repaired build the control arm
+    would start passing, the gate would report the instrument healthy, and only the candidate
+    arm would remain — which is the failure the control exists to prevent.
+    """
+    if commit == COUNTEREXAMPLE_COMMIT and subtree == COUNTEREXAMPLE_RUNTIME_TREE:
+        return None
+    return {"ok": False, "counterexampleControl": "IDENTITY_MISMATCH",
+            "reason": "the counterexample no longer has its pinned identity, so the control arm"
+                      " would be measuring an unknown build",
+            "expected": {"commit": COUNTEREXAMPLE_COMMIT, "runtimeTree": COUNTEREXAMPLE_RUNTIME_TREE},
+            "actual": {"commit": commit, "runtimeTree": subtree}}
 
 
 def run(out: Path, expect_sha: str | None) -> int:
@@ -175,7 +236,69 @@ def run(out: Path, expect_sha: str | None) -> int:
     ok = runner.step("build", ["gprbuild", "-q", "-P", "worldline.gpr"]) and ok
     ok = runner.step("ada-tests", ["./bin/worldline_core_tests"], check=lambda o: {"ok": "PASS" in o, "line": o.strip().splitlines()[-1] if o.strip() else ""}) and ok
     ok = runner.step("ada-fuzz", ["./bin/worldline_core_fuzz"], check=lambda o: {"ok": "PASS" in o, "line": o.strip().splitlines()[-1] if o.strip() else ""}) and ok
-    ok = runner.step("python-tests", [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], env=env, check=parse_unittest) and ok
+    private_env = {**env, "WORLDLINE_PRIVATE_EVALUATOR_TEST": "1"}
+    # Verbose output names any remaining host-capability skips in the retained log.
+    # The private integration cases must run here too, so the release gate's skipped
+    # count cannot be consumed by deliberately disabled security tests.
+    ok = runner.step("python-tests", [sys.executable, "-m", "unittest", "discover", "-v", "-s", "tests", "-p", "test_*.py"],
+                     env=private_env, check=parse_unittest) and ok
+    ok = runner.step("private-host-tests", [sys.executable, "-m", "unittest", "discover", "-v", "-s", "tests", "-p", "test_private_*.py"],
+                     env=private_env, check=check_private_host_suite) and ok
+    # The evaluation-domain gate is REQUIRED, not advisory, and it runs two arms. The candidate
+    # build must hold every property including positive evidence that the intended examiner ran;
+    # the preserved counterexample must FAIL, because a gate that only checks the candidate
+    # cannot tell "the vulnerability is fixed" from "the instrument stopped working". Keeping
+    # this out of the release decision until it passed would be the missing-roster problem in
+    # another form: the ordinary suite stays green while the most important known security
+    # requirement is absent from the decision.
+    def evaluation_domain() -> dict[str, Any]:
+        counterexample = ROOT / "assurance" / "counterexample-runtime"
+        tag = COUNTEREXAMPLE_TAG
+        # A tag is a movable pointer. Resolve it and require the pinned identity BEFORE using
+        # it, so a re-pointed tag refuses loudly instead of turning the control arm green.
+        try:
+            commit = _git("rev-parse", f"{tag}^{{commit}}")
+            subtree = _git("rev-parse", f"{tag}:runtime")
+        except Exception as exc:
+            return {"ok": False, "counterexampleControl": "UNRESOLVED",
+                    "reason": f"the counterexample tag {tag} could not be resolved: {exc}"}
+        mismatch = check_counterexample_identity(commit, subtree)
+        if mismatch is not None:
+            return mismatch
+        materialised = False
+        try:
+            counterexample.mkdir(parents=True, exist_ok=True)
+            archive = subprocess.run(["git", "-C", str(ROOT), "archive", "--format=tar", tag, "runtime"],
+                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+            if archive.returncode == 0 and archive.stdout:
+                subprocess.run(["tar", "-x", "-C", str(counterexample)], input=archive.stdout, check=True)
+                materialised = (counterexample / "runtime" / "worldline").is_dir()
+        except (OSError, subprocess.SubprocessError):
+            materialised = False
+        if not materialised:
+            # Counterexample unavailable means the gate did not complete. It does NOT mean the
+            # candidate arm alone is a pass: a gate that only checks the candidate cannot tell
+            # "the vulnerability is fixed" from "the instrument stopped working".
+            return {"ok": False,
+                    "reason": f"the counterexample runtime could not be materialised from {tag},"
+                              " so the two-arm gate did not run. This is an incomplete gate, not"
+                              " a candidate-only pass.",
+                    "counterexampleControl": "UNAVAILABLE"}
+        command = [sys.executable, str(ROOT / "scripts/evaluation_domain_gate.py"),
+                   "--engine", str(ROOT / "runtime"),
+                   "--counterexample", str(counterexample / "runtime"),
+                   "--core-lib", str(ROOT / "lib/libworldline_core.so")]
+        proc = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                              text=True, timeout=1800, env=env)
+        detected = "the known defect was OBSERVED" in proc.stdout
+        return {"ok": proc.returncode == 0 and detected,
+                "counterexampleTag": tag,
+                "counterexampleCommit": commit,
+                "counterexampleRuntimeTree": subtree,
+                "counterexampleControl": "DEFECT_OBSERVED" if detected else "NOT_OBSERVED",
+                "tail": proc.stdout[-4000:]}
+
+    ok = runner.step("evaluation-domain", action=evaluation_domain) and ok
     ok = runner.step("proof-gate", ["./prove.sh"]) and ok
     ok = runner.step("proof-manifest", [sys.executable, "verify_proof_manifest.py"]) and ok
     regenerated = proof_facts(ROOT / "proof-manifest.json")
