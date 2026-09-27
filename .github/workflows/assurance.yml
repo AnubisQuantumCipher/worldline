@@ -70,7 +70,7 @@ jobs:
       - name: System packages (git, python, build tools for bubblewrap)
         run: |
           sudo apt-get update
-          sudo apt-get install -y git python3 python3-cryptography meson ninja-build libcap-dev pkg-config
+          sudo apt-get install -y git python3 python3-cryptography meson ninja-build libcap-dev pkg-config uidmap
           # Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor; the sandbox needs them.
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           sudo sysctl -w kernel.unprivileged_userns_clone=1 || true
@@ -102,6 +102,14 @@ jobs:
           echo "XDG_RUNTIME_DIR=/run/user/$(id -u)" >> "$GITHUB_ENV"
           echo "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus" >> "$GITHUB_ENV"
           XDG_RUNTIME_DIR=/run/user/$(id -u) systemctl --user is-system-running || true
+
+      - name: Private evaluator subordinate identities
+        run: |
+          command -v newuidmap
+          command -v newgidmap
+          test -n "$(getsubids "$(id -un)")"
+          test -n "$(getsubids -g "$(id -un)")"
+          unshare --user --map-auto --map-root-user -- /usr/bin/id
 
       - name: GNAT FSF toolchain cache (GNAT 16.1.0, gprbuild 26.0.0, gnatprove 16.1.0 — the reference machine releases)
         id: toolchain

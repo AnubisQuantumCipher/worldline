@@ -1,9 +1,29 @@
 # Changelog
 
-## Unreleased — trusted evaluation domain
+## 1.5.0 — 2026-09-27 · private evaluation and report integrity
 
-**Candidate bytes are data to the verification harness, never part of the harness's execution
-environment.** Not yet released; see the compatibility note below before upgrading.
+**Candidate bytes are data to the trusted evaluator, and private report checks keep candidate
+workers out of the report writer's identity, mounts and process namespace.** See the compatibility
+note below before upgrading.
+
+### Private report profile
+
+- A declared `private-evaluator-v1` check stages its trusted Python examiner from PRIME,
+  freezes the candidate input before evaluation, and gives `candidate.run` workers a distinct
+  subordinate host identity and disposable writable copies. Only the examiner receives the
+  private report, broker and optional installed GNAT toolchain mounts.
+- JUnit, GNATprove and benchmark reports are admitted only when the daemon collects an
+  invocation-bound private report after clean supervisor observations. Legacy candidate-reachable
+  report files remain nonadmissible. The profile and check order enter policy identity.
+- Finalization, revalidation, prepare and commit require matching candidate snapshots, verifier
+  identity and report evidence. Revalidation refuses preparatory changes to file metadata as
+  well as file contents when the finalized or staged input lacks those changes.
+- Hosted assurance requires the real private evaluator host suite. Its pinned vulnerable
+  counterexample must still exhibit the known harness ownership defect; a control that merely
+  crashes cannot satisfy the release gate.
+
+The private boundary relies on the host kernel, installed isolation and toolchain binaries,
+and trusted examiner logic. It does not make arbitrary candidate imports into the examiner safe.
 
 ### ⚠ Compatibility — verifier dependencies
 
@@ -73,11 +93,10 @@ establish that the evaluator was complete.
   the script's directory. Both are candidate-writable in normal operation. The check harness, the
   materializer, the simulation runner and the netguard forwarder now all start with `-I -S`.
   **Trusted helpers may import the standard library only**, because `-S` drops site-packages.
-- **The result channel is protected, not just the result schema.** The harness writes one framed
-  record to a stream the supervisor owns and nothing else, and it exits with the examiner's
-  status so the unit's exit is observed outside the sandbox. The whole stream must be exactly one
-  frame and the two observations must agree, or the check refuses — `NO_ATTRIBUTABLE_RECORD`,
-  `CHANNEL_DISAGREEMENT` or `UNCORROBORATED`.
+- **The legacy exit-status record producer is the daemon outside the sandbox.** It reads the
+  service manager's exit observation and treats examiner stdout and stderr as candidate-reachable
+  data. Report formats require the separate private profile above; they cannot borrow the legacy
+  exit-status claim to authenticate a result file.
 - **`ERROR_BEFORE_EXAMINER` is narrowed** to the one case supervisor-owned facts establish. An
   absent record is `INCOMPLETE_UNKNOWN`; a stopped or signalled unit is `INTERRUPTED`.
 - **Engine-evaluated checks declare `origin: engine`** rather than being inferred from "a status

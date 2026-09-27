@@ -94,6 +94,7 @@ PRIVATE_HOST_CASES = (
     "test_real_private_report_admits_genuine_pass_and_refuses_candidate_forgery",
     "test_measured_pass_and_candidate_report_forgery_refused",
     "test_genuine_private_check_survives_revalidation_and_promotes",
+    "test_revalidation_refuses_prep_metadata_absent_from_finalized_candidate",
 )
 
 

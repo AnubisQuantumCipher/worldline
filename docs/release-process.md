@@ -1,4 +1,4 @@
-# Release process and its boundaries (1.3.0)
+# Release process and its boundaries
 
 This document states what each step of a release proves and, as importantly, what it does not.
 The mechanism is in `.github/workflows/assurance.yml`, `.github/workflows/release.yml`,
@@ -73,10 +73,10 @@ name (`scripts/release_gate.py`).
 
 ```
 # on the merged commit, after the workflow files are in main:
-git tag -a v1.3.0 -m "WORLDLINE 1.3.0" <merged sha>
-git push origin v1.3.0                 # triggers release.yml at that commit
+git tag -a v1.5.0 -m "WORLDLINE 1.5.0" <merged sha>
+git push origin v1.5.0                 # triggers release.yml at that commit
 gh run watch                            # resolve -> assurance -> publish
-gh release download v1.3.0 --dir /tmp/v && (cd /tmp/v && sha256sum -c worldline-v1.3.0.tar.gz.sha256)
+gh release download v1.5.0 --dir /tmp/v && (cd /tmp/v && sha256sum -c worldline-v1.5.0.tar.gz.sha256)
 ```
 
 Never push a version tag while a workflow that could publish without assurance is still the one

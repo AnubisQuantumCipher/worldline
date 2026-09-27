@@ -25,8 +25,10 @@ import hashlib
 import json
 import os
 from pathlib import Path, PurePosixPath
+import platform
 import runpy
 import selectors
+import shutil
 import socket
 import stat
 import struct
@@ -58,14 +60,15 @@ MAX_REQUESTS = 32
 MAX_WORKER_SECONDS = 120
 MAX_EVALUATOR_SECONDS = 600
 TOOLCHAIN_MOUNT = "/opt/worldline-gnat"
+_ARCH = platform.machine()
 _TOOLCHAIN_EXECUTABLES = (
-    "gnat-aarch64-linux-16.1.0-1/bin/gcc",
-    "gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
-    "gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
-    "gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3",
-    "gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/alt-ergo",
-    "gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/cvc5",
-    "gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/z3",
+    f"gnat-{_ARCH}-linux-16.1.0-1/bin/gcc",
+    f"gprbuild-{_ARCH}-linux-26.0.0-1/bin/gprbuild",
+    f"gnatprove-{_ARCH}-linux-16.1.0-1/bin/gnatprove",
+    f"gnatprove-{_ARCH}-linux-16.1.0-1/libexec/spark/bin/why3",
+    f"gnatprove-{_ARCH}-linux-16.1.0-1/libexec/spark/bin/alt-ergo",
+    f"gnatprove-{_ARCH}-linux-16.1.0-1/libexec/spark/bin/cvc5",
+    f"gnatprove-{_ARCH}-linux-16.1.0-1/libexec/spark/bin/z3",
 )
 _DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
 _FILE_FLAGS = os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK
@@ -195,6 +198,7 @@ class PrivateEvaluationSpec:
     report_directory: Path
     runtime: Path
     timeout_seconds: int = MAX_EVALUATOR_SECONDS
+    bubblewrap_executable: Path | None = None
 
 
 def _validate_spec(spec: PrivateEvaluationSpec) -> None:
@@ -231,6 +235,24 @@ def _validate_spec(spec: PrivateEvaluationSpec) -> None:
             _refuse("backend runtime must be outside input trees")
 
 
+def _bubblewrap_identity(requested: Path | None) -> dict[str, str]:
+    selected = str(requested) if requested is not None else shutil.which("bwrap")
+    if not selected:
+        _refuse("bubblewrap is unavailable for private roles", "PRIVATE_EVALUATOR_UNAVAILABLE")
+    try:
+        path = Path(selected).resolve(strict=True)
+    except (OSError, RuntimeError) as exc:
+        _refuse(f"bubblewrap executable cannot be resolved: {exc}", "PRIVATE_EVALUATOR_INVALID")
+    info = path.stat()
+    if (not path.is_absolute() or not stat.S_ISREG(info.st_mode)
+            or info.st_uid not in (0, os.getuid()) or info.st_mode & 0o7022
+            or not os.access(path, os.X_OK)):
+        _refuse("bubblewrap executable is not an approved regular file", "PRIVATE_EVALUATOR_INVALID")
+    with path.open("rb") as stream:
+        digest = hashlib.file_digest(stream, "sha256").hexdigest()
+    return {"path": str(path), "sha256": digest}
+
+
 class PrivateEvaluator:
     def __init__(self, systemd: Any):
         self.systemd = systemd
@@ -245,6 +267,7 @@ class PrivateEvaluator:
 
     def _run(self, spec: PrivateEvaluationSpec, resource_properties: Sequence[str]) -> dict[str, Any]:
         _validate_spec(spec)
+        bubblewrap = _bubblewrap_identity(spec.bubblewrap_executable)
         spec.runtime.mkdir(mode=0o700)
         (spec.runtime / "frozen").mkdir(mode=0o700)
         (spec.runtime / "workers").mkdir(mode=0o700)
@@ -262,6 +285,7 @@ class PrivateEvaluator:
         startup_policy.write_bytes(Path(__file__).parents[1].joinpath("trusted.py").read_bytes())
         startup_policy.chmod(0o444)
         plan = {"profileId": PROFILE_ID, "runId": spec.run_id, "roots": roots,
+                "bubblewrap": bubblewrap,
                 "verifier": str(verifier), "verifierIdentity": verifier_identity,
                 "argv": list(spec.argv), "cwd": spec.cwd, "runtime": str(spec.runtime),
                 "report": str(spec.report_directory), "helper": str(helper),
@@ -269,9 +293,11 @@ class PrivateEvaluator:
                 "bootstrapSha256": hashlib.sha256(helper.read_bytes()).hexdigest(),
                 "startupPolicySha256": hashlib.sha256(startup_policy.read_bytes()).hexdigest(),
                 "timeout": spec.timeout_seconds, "operatorUid": os.getuid(), "operatorGid": os.getgid()}
-        toolchain = Path.home() / "opt" / "gnat"
-        # Fixed operator installation, never a path chosen by the candidate or project policy.
-        if toolchain.exists():
+        # Fixed operator installations on the reference host and the hosted assurance runner.
+        # The candidate and project policy cannot supply this path.
+        toolchain = next((root for root in (Path.home() / "opt" / "gnat", Path.home() / "gnat")
+                          if root.is_dir() and (root / _TOOLCHAIN_EXECUTABLES[2]).is_file()), None)
+        if toolchain is not None:
             descriptor = _open_directory(toolchain)
             os.close(descriptor)
             identities = {}
@@ -362,7 +388,7 @@ def _mapped_identity(mapping: str, identity: int) -> int:
 def _sandbox(plan: Mapping[str, Any], role: str, roots: Sequence[Mapping[str, Any]],
              payload: Sequence[str], cwd: str) -> list[str]:
     # No --unshare-user here: the bootstrap already owns the subordinate-ID user namespace.
-    command = ["/usr/bin/bwrap", "--unshare-pid", "--unshare-ipc", "--unshare-uts", "--unshare-net",
+    command = [plan["bubblewrap"]["path"], "--unshare-pid", "--unshare-ipc", "--unshare-uts", "--unshare-net",
                "--die-with-parent", "--new-session", "--clearenv", "--setenv", "PATH", "/usr/bin",
                "--setenv", "HOME", "/tmp", "--ro-bind", "/usr", "/usr", "--ro-bind", "/etc", "/etc"]
     for path in ("/bin", "/sbin", "/lib", "/lib64"):
@@ -524,6 +550,7 @@ def _bootstrap(plan_path: str) -> int:
                               "startupPolicySha256": plan["startupPolicySha256"],
                               "inputs": plan["roots"], "verifierIdentity": plan["verifierIdentity"],
                               "toolchain": plan.get("toolchain"),
+                              "bubblewrap": plan.get("bubblewrap"),
                               "nonClaims": ["Role isolation does not establish examiner logic correctness.",
                                             "Kernel, system tools and trusted examiner are part of the trust base.",
                                             "Nested user namespace creation is not disabled by this backend."]}
@@ -534,6 +561,13 @@ def _bootstrap(plan_path: str) -> int:
     try:
         if os.getuid() != 0 or os.getgid() != 0:
             _refuse("bootstrap did not enter its mapped root identity")
+        executable = plan.get("bubblewrap")
+        if (not isinstance(executable, dict) or not isinstance(executable.get("path"), str)
+                or not isinstance(executable.get("sha256"), str)):
+            _refuse("bubblewrap executable identity is absent")
+        with Path(executable["path"]).open("rb") as stream:
+            if hashlib.file_digest(stream, "sha256").hexdigest() != executable["sha256"]:
+                _refuse("bubblewrap executable changed before private roles ran")
         evidence["bootstrap"] = _observations("bootstrap")
         for name, expected in (("uidMap", plan["operatorUid"]), ("gidMap", plan["operatorGid"])):
             mapping = evidence["bootstrap"][name]

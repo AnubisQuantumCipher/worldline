@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import stat
 import tempfile
 import unittest
@@ -15,6 +16,7 @@ from worldline.errors import WorldlineError
 from worldline.linux.private_evaluator import (
     BackendFailure, PrivateEvaluationSpec, PrivateEvaluator, REPORT_MOUNT,
     TOOLCHAIN_MOUNT, VERIFIER_MOUNT, _request, copy_frozen_tree,
+    _bubblewrap_identity,
 )
 from worldline.linux.systemd import SystemdAdapter
 from worldline.trusted import TRUSTED_INTERPRETER
@@ -81,6 +83,17 @@ class PrivateTreeContract(unittest.TestCase):
                         {**request, "argv": ["relative"]}, {**request, "argv": ["/run/helper"]}):
             with self.subTest(request=changed), self.assertRaises(BackendFailure):
                 _request(changed, roots, "/work")
+
+    def test_private_role_binary_uses_the_resolved_approved_installation(self):
+        installed = self.base / "private-bwrap"
+        installed.write_bytes(b"controlled bubblewrap fixture\n")
+        installed.chmod(0o755)
+        identity = _bubblewrap_identity(installed)
+        self.assertEqual(identity["path"], str(installed.resolve()))
+        self.assertEqual(identity["sha256"], hashlib.sha256(installed.read_bytes()).hexdigest())
+        installed.chmod(0o775)
+        with self.assertRaises(BackendFailure):
+            _bubblewrap_identity(installed)
 
 
 _WORKER = '''import json, os
@@ -156,6 +169,8 @@ class PrivateEvaluatorIntegration(unittest.TestCase):
         self.assertFalse((self.source / "nested/created.txt").exists())
         for result in (passing, failing):
             boundary = result["boundary"]
+            self.assertEqual(boundary["bubblewrap"]["path"],
+                             str(Path(shutil.which("bwrap")).resolve()))
             self.assertEqual(boundary["managerBootstrapProperties"]["NoNewPrivileges"], "no")
             self.assertTrue(boundary["rolesCompleted"])
             examiner = boundary["examiner"]
@@ -170,6 +185,9 @@ class PrivateEvaluatorIntegration(unittest.TestCase):
                 self.assertEqual(observation["status"]["CapEff"], "0000000000000000")
             self.assertTrue(examiner["reportMounted"])
             self.assertTrue(examiner["brokerMounted"])
+            self.assertTrue(examiner["toolchainMounted"])
+            self.assertTrue(any(name.endswith("/bin/gnatprove")
+                                for name in boundary["toolchain"]["executables"]))
             self.assertFalse(worker["reportMounted"])
             self.assertFalse(worker["brokerMounted"])
             self.assertFalse(worker["toolchainMounted"])

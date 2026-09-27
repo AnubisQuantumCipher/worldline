@@ -176,16 +176,24 @@ class Revalidator:
             if private:
                 # A revalidation cannot silently promote outputs that only exist in its
                 # scratch overlay. The private examiner gets a daemon-owned copy of the merged
-                # view, and that view must have the same paths and file content as the staged
-                # or finalized input. Ordinary preparatory checks may run, but if they change
-                # content the operator needs a newly finalized candidate.
+                # view, and that view must have the same full manifest as the staged or
+                # finalized input. Permissions, timestamps, xattrs and repository state can
+                # change an examiner's judgment just as file bytes can. Ordinary preparatory
+                # checks may run, but their scratch changes cannot be credited to an unchanged
+                # source candidate.
                 baseline = self._source_manifests(source_dir, roots)
                 private_id = str(uuid.uuid4())
                 snapshot, binding, manifests = self._capture_private_input(
                     validation_id, private_id, overlays, roots, primary_target)
                 for root in roots:
-                    Manifest.verify_content(baseline[root["root_key"]],
-                                            os.fsencode(snapshot / root["root_key"]), self.core)
+                    key = root["root_key"]
+                    if baseline[key].canonical != manifests[key].canonical:
+                        raise WorldlineError(
+                            "REVALIDATION_INPUT_CHANGED",
+                            "private revalidation snapshot differs from the finalized or staged input",
+                            {"rootKey": key, "sourceManifest": baseline[key].root_hash,
+                             "examinedManifest": manifests[key].root_hash},
+                        )
                 private_overlays = self.sandbox.overlay_roots(
                     private_id,
                     [(root["root_key"], snapshot / root["root_key"],

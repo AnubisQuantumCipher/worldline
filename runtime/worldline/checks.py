@@ -426,6 +426,7 @@ class CheckRunner:
                 verifier_directory=staged.staging,
                 argv=tuple(argv), cwd=str(cwd), report_directory=report_directory,
                 runtime=runtime / "private-backend",
+                bubblewrap_executable=Path(self.sandbox.executable),
             )
             with self.gate.guard(f"check:{check.id}"):
                 observed = PrivateEvaluator(self.systemd).run(
