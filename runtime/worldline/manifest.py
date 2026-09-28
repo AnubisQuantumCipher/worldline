@@ -79,6 +79,17 @@ def _safe_symlink_target(relative: bytes, target: bytes) -> None:
             "EXTERNAL_SYMLINK",
             f"symlink leaves registered root: {display_path(relative)} -> {display_path(target)}",
         )
+    # Lexical normalization agrees with the kernel only while ".." never follows a name: after
+    # `dirlink -> .`, the target `dirlink/../../outside` climbs one level more than it appears
+    # to, and repeating the pair reaches any path. Leading ".." climb the link's own parent
+    # chain, which this walk reached through real directories only.
+    parts = [part for part in target.split(b"/") if part not in (b"", b".")]
+    first_name = next((index for index, part in enumerate(parts) if part != b".."), len(parts))
+    if b".." in parts[first_name:]:
+        raise WorldlineError(
+            "EXTERNAL_SYMLINK",
+            f"symlink target climbs after a name: {display_path(relative)} -> {display_path(target)}",
+        )
     resolved = posixpath.normpath(posixpath.join(posixpath.dirname(relative), target))
     if resolved == b".." or resolved.startswith(b"../") or resolved.startswith(b"/"):
         raise WorldlineError(
