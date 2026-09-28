@@ -32,7 +32,10 @@ report files are never admissible.
   `~/.config`, Wayland/D-Bus/ydotool/XDG session sockets, and **the worldline daemon socket
   itself** are absent from a world, so an agent cannot drive the daemon.
 - **Escape resistance.** Absolute, `..`-escaping, and NUL symlink targets are rejected at
-  capture, materialize, and the mandatory staged recapture (`EXTERNAL_SYMLINK`); hardlinks
+  capture, materialize, and the mandatory staged recapture (`EXTERNAL_SYMLINK`). Since 1.6.0
+  this includes any target whose `..` follows a name: after `x -> .`, the kernel resolves
+  `x/../..` above where lexical normalization places it. Before 1.6.0, such a target could
+  normalize inside a root and resolve outside it. Hardlinks
   outside a root are rejected; walks never follow symlinks; special/cross-device files are
   rejected. Agent worlds, checks, and shells run as the real uid inside the user namespace
   (the only uid mapped either way); `simulate` futures keep namespace root, and either identity
@@ -217,9 +220,10 @@ report files are never admissible.
   the last copied generation. Worker edits reach the candidate view only through an explicit
   copy-in that names the current generation while no candidate handle is live and no output is
   uncopied; candidate output is copied back only after every candidate handle of the case has
-  been torn down. Case copies accept only ordinary files, directories and symlinks whose lexical
-  target stays in the case, and refuse hardlinks, special files, xattrs, special permission
-  bits, nested mounts (same-device bind mounts included) and observed mutation. **Any protocol
+  been torn down. Case copies accept only ordinary files, directories and symlinks whose target
+  stays in the case with no `..` after a name, and refuse hardlinks, special files, xattrs,
+  special permission bits, nested mounts (same-device bind mounts included) and observed
+  mutation. **Any protocol
   violation stops the broker and refuses the whole run** — a malformed request, a refused peer,
   a lease outside the worker copy or over the cap, a variable outside the allowlist, a link that
   escapes, a copy that changes, a worker view that moved, or a session or lease still open at the

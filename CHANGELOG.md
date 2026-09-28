@@ -40,11 +40,25 @@ in a worker still started candidate subprocesses under its own worker identity.
 
 - The sandbox helper now reads exactly the three-byte role acknowledgement. Before, it could
   consume the first byte of candidate stdin written behind the acknowledgement on the same pipe.
+- **Symlink targets that climb after a name are refused at capture and materialize
+  (`EXTERNAL_SYMLINK`).** This escape has existed since the check was introduced. The check
+  normalized targets lexically, but after `dirlink -> .` the kernel resolves
+  `dirlink/../../outside` one level higher than normalization does. Repeating the pair reaches
+  any path, so a world could carry a link that escapes its root into PRIME through an
+  authorized collapse. Leading `..` that stay inside the root are unaffected.
+- The case copier applies the same rule to case trees (`CASE_COPY_LINK_ESCAPE`).
+- A malformed principal label in boundary evidence (for example, a list) is refused instead of
+  raising during finalization.
+- A lease can be opened on a directory that the candidate input already contains. Before, the
+  run was refused.
 
 ### Review, campaigns and documentation
 
 - An independent review of the whole runtime delta since 1.5.0 found no critical or high
   issue. Its deferred items are low-severity and fail closed.
+- A CodeRabbit review found the case copier's lexical symlink check, which led to the capture
+  fix above, plus the malformed-label and committed-directory issues. All are fixed with
+  regression tests that fail without the fixes.
 - A finalizer regression test proves a candidate is admitted only under its own principal
   label (mutation-checked).
 - Two retained adversarial campaigns, `test_private_lease_protocol_campaign.py` and
@@ -52,7 +66,7 @@ in a worker still started candidate subprocesses under its own worker identity.
   ordering, replay, handle reuse, request fuzzing, role deaths, copy-out failures, extreme trees,
   nested user namespaces and `/proc`. Every scenario must end as a clean run or a whole-run
   refusal, never with a half-copied case.
-- The private-host roster now requires 27 named cases, with zero skips.
+- The private-host roster now requires 29 named cases, with zero skips.
 - `SECURITY.md` is brought current through this release.
 
 The candidate principal protects the examiner and worker processes and their mounts from
