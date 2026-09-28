@@ -168,7 +168,8 @@ rm -f "$STATE/install-incomplete"
 DESKTOP="not attempted"
 if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]] && command -v omarchy-restart-shell >/dev/null 2>&1; then
   hyprctl reload >/dev/null 2>&1 || true
-  omarchy-shell -q shell rescanPlugins >/dev/null 2>&1 || true
+  # No rescan before the restart: a rescan still completing plugin objects when the kill lands
+  # segfaults quickshell 0.3.1 (quickshell-mirror/quickshell#956); the restart re-reads them.
   if omarchy-restart-shell; then
     DESKTOP="ok"
   else
