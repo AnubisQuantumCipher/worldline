@@ -731,7 +731,9 @@ class PrivateLeaseFaultCampaign(unittest.TestCase):
             self.assertEqual(refused.code, "PRIVATE_EVALUATOR_BOUNDARY_FAILED")
             runtime = self.base / "mountid"
             boundary = json.loads((runtime / "boundary.json").read_text())
-            self.assertIn("CASE_COPY", boundary["error"])
+            # Copier refusals carry their message, not their code (for example "mount or
+            # special permission bits in case tree").
+            self.assertRegex(boundary["error"], r"case tree|mount identity|during copy|while opening")
             self.assertFalse(boundary.get("rolesCompleted", False))
             _record("8", refused=boundary["error"])
             self._assert_clean_teardown(_SpecShim(runtime, boundary["runId"]))

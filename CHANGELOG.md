@@ -46,6 +46,9 @@ in a worker still started candidate subprocesses under its own worker identity.
   `dirlink/../../outside` one level higher than normalization does. Repeating the pair reaches
   any path, so a world could carry a link that escapes its root into PRIME through an
   authorized collapse. Leading `..` that stay inside the root are unaffected.
+  **Upgrade note:** a registered root that already contains such a link, even a harmless one
+  like `a -> b/../c`, is refused at its next capture. Before upgrading, rewrite the link to
+  its normalized form (`a -> c`). `find ROOT -type l` lists the candidates.
 - The case copier applies the same rule to case trees (`CASE_COPY_LINK_ESCAPE`).
 - A malformed principal label in boundary evidence (for example, a list) is refused instead of
   raising during finalization.
