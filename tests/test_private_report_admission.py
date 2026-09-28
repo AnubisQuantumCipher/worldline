@@ -159,8 +159,10 @@ class PrivateReportAdmission(unittest.TestCase):
         self.assertTrue(evaluation_record(with_entry("candidate", "candidate"))["admissibleForPromotion"])
         # A candidate relabelled, or left unlabelled and so defaulted, as a worker fails the
         # worker pins; a worker relabelled as a candidate fails the candidate pins.
+        # Malformed labels, including unhashable ones, are refused rather than raising.
         for principal, role in (("worker", "candidate"), (None, "candidate"), ("candidate", "worker"),
-                                ("examiner", "candidate"), ("root", "candidate")):
+                                ("examiner", "candidate"), ("root", "candidate"),
+                                ([], "candidate"), ({}, "candidate"), (2, "candidate")):
             with self.subTest(principal=principal, role=role):
                 self.assert_refused(with_entry(principal, role))
         shared = with_entry("candidate", "candidate")

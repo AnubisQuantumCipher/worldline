@@ -74,7 +74,7 @@ def stopped_supervision(supervision: Mapping[str, Any]) -> bool:
 
 
 def _private_role_observed(observation: Any, role: str) -> bool:
-    if not isinstance(observation, Mapping):
+    if not isinstance(observation, Mapping) or type(role) is not str:
         return False
     expected = {"examiner": 0, "worker": 1, "candidate": 2}.get(role)
     if expected is None:
