@@ -97,6 +97,10 @@ PRIVATE_HOST_CASES = (
     "test_revalidation_refuses_prep_metadata_absent_from_finalized_candidate",
     "test_lease_runs_candidate_principal_with_exact_stdin_and_scoped_copies",
     "test_protocol_violations_refuse_the_entire_run",
+    "test_positive_full_lifecycle_preserves_exact_manifests",
+    "test_streaming_under_cap_is_complete_and_consistent",
+    "test_protocol_violations_refuse_the_whole_run",
+    "test_exited_but_untorndown_handle_is_still_active_across_the_exit_race",
 )
 
 
