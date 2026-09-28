@@ -95,6 +95,14 @@ def _check_entry(descriptor: int, before: os.stat_result,
 def _check_link_target(parent: str, target: str, logical_root: str) -> None:
     if not target or "\0" in target:
         _refuse("CASE_COPY_LINK_ESCAPE", "invalid link target")
+    # Lexical normalization agrees with the kernel only while ".." never follows a name: the
+    # kernel resolves each name first, so after `dirlink -> .` the target
+    # `dirlink/../../outside` climbs one level more than it appears to. Leading ".." climb
+    # the link's own parent chain, which this walk reached through real directories only.
+    parts = [part for part in target.split("/") if part not in ("", ".")]
+    first_name = next((index for index, part in enumerate(parts) if part != ".."), len(parts))
+    if (target.startswith("/") and ".." in parts) or ".." in parts[first_name:]:
+        _refuse("CASE_COPY_LINK_ESCAPE", "link target climbs after a name")
     resolved = posixpath.normpath(posixpath.join(parent, target))
     if resolved != logical_root and not resolved.startswith(logical_root + "/"):
         _refuse("CASE_COPY_LINK_ESCAPE", "link target escapes the case tree")

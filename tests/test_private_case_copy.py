@@ -59,6 +59,36 @@ class CaseCopyTests(unittest.TestCase):
                            logical_root="/run/janus-case/example")
         self.assertEqual(caught.exception.code, "CASE_COPY_LINK_ESCAPE")
 
+    def test_link_that_climbs_after_a_name_is_refused(self) -> None:
+        # `dirlink -> .` makes the kernel resolve `dirlink/../../outside` one level above
+        # what lexical normalization claims, so it escapes the case. Absolute targets with
+        # `..` and inner `..` that happen to stay inside are refused by the same rule.
+        (self.source / "subdir").mkdir()
+        (self.source / "subdir" / "dirlink").symlink_to(".", target_is_directory=True)
+        cases = (("subdir/a", "dirlink/../../outside"), ("subdir/b", "dirlink/../sibling"),
+                 ("c", "/run/janus-case/example/subdir/../subdir"))
+        for name, target in cases:
+            with self.subTest(target=target):
+                link = self.source / name
+                link.symlink_to(target)
+                destination = self.root / ("refused-" + name.replace("/", "-"))
+                with self.assertRaises(CaseCopyError) as caught:
+                    copy_case_tree(self.source, destination,
+                                   logical_root="/run/janus-case/example")
+                self.assertEqual(caught.exception.code, "CASE_COPY_LINK_ESCAPE")
+                link.unlink()
+
+    def test_leading_parent_and_dot_links_still_copy(self) -> None:
+        (self.source / "external").mkdir()
+        (self.source / "state").mkdir()
+        (self.source / "state" / "shard").symlink_to("../external", target_is_directory=True)
+        (self.source / "state" / "self").symlink_to("./shard")
+        (self.source / "absolute").symlink_to("/run/janus-case/example/external")
+        copy_case_tree(self.source, self.destination, logical_root="/run/janus-case/example")
+        self.assertEqual(os.readlink(self.destination / "state" / "self"), "./shard")
+        self.assertEqual(os.readlink(self.destination / "absolute"),
+                         "/run/janus-case/example/external")
+
     def test_hardlink_refused(self) -> None:
         (self.source / "original").write_bytes(b"same inode")
         os.link(self.source / "original", self.source / "alias")
