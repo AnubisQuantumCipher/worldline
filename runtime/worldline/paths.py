@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 import stat
-from typing import Mapping
+from typing import Any, Mapping
 
 from .errors import WorldlineError
 
@@ -29,8 +29,9 @@ def _identity_list(value: str | None, name: str) -> tuple[int, ...]:
     return items
 
 
-def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None = None) -> Path:
-    """A real directory owned by this uid: 0700, or 0750 group `shared_gid` in client mode."""
+def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None = None,
+                     shared_mode: int = 0o750) -> Path:
+    """A real directory owned by this uid: 0700, or `shared_mode` with group `shared_gid`."""
     if create:
         path.mkdir(mode=0o700, parents=True, exist_ok=True)
     try:
@@ -42,14 +43,16 @@ def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None 
     if info.st_uid != os.getuid():
         raise WorldlineError("UNSAFE_STORE", f"store path is not owned by uid {os.getuid()}: {path}")
     if shared_gid is not None:
-        # Dedicated-account client mode: the listed clients' group may traverse, never write.
+        # Dedicated-account client mode: the listed clients' group may read or traverse, never write.
+        if shared_mode & 0o7027:
+            raise ValueError(f"not a client-mode directory mode: {shared_mode:o}")
         if info.st_gid != shared_gid:
             os.chown(path, -1, shared_gid)
-        if stat.S_IMODE(info.st_mode) != 0o750:
-            os.chmod(path, 0o750)
+        if stat.S_IMODE(info.st_mode) != shared_mode:
+            os.chmod(path, shared_mode)
         after = path.lstat()
-        if after.st_gid != shared_gid or stat.S_IMODE(after.st_mode) != 0o750:
-            raise WorldlineError("UNSAFE_STORE", f"shared runtime directory is not 0750 for its group: {path}")
+        if after.st_gid != shared_gid or stat.S_IMODE(after.st_mode) != shared_mode:
+            raise WorldlineError("UNSAFE_STORE", f"shared directory is not {shared_mode:o} for its group: {path}")
         return path
     if stat.S_IMODE(info.st_mode) & 0o077:
         os.chmod(path, 0o700)
@@ -146,6 +149,68 @@ class WorldlinePaths:
     def config_file(self) -> Path:
         return self.config / "config.json"
 
+    def prime_directory(self, path: Path) -> Path:
+        """A directory on the way from the live mapping to PRIME's content.
+
+        In client mode the client group may traverse it (0710) but not list or write it, so a
+        client reads PRIME through the symlink chain and nothing else. Otherwise it is 0700 like
+        every store directory.
+        """
+        return secure_directory(path, shared_gid=self.client_gid, shared_mode=0o710)
+
+    def share_live_chain(self) -> None:
+        """Client mode: open the path to the CURRENT PRIME's content to the client group.
+
+        New generations and transactions are created that way; this covers a store that was
+        written before client mode (a migrated store) and is otherwise unreadable to clients
+        until its next collapse. Only directories strictly between the store and each root's
+        payload are touched; a root's own directory keeps the mode its manifest records.
+        """
+        if self.client_gid is None:
+            return
+        store = os.path.realpath(self.data)
+        for mapping in sorted(self.live.iterdir()):
+            if not mapping.is_symlink():
+                continue
+            target = os.path.realpath(mapping)
+            if not target.startswith(store + os.sep):
+                raise WorldlineError("LIVE_MAPPING_BROKEN", f"live mapping leaves the store: {mapping.name}")
+            parts = Path(target).relative_to(store).parts[:-1]
+            current = Path(store)
+            for part in parts:
+                current = current / part
+                self.prime_directory(current)
+
+    def root_source(self, root: Mapping[str, Any]) -> bytes:
+        """The store directory holding a managed root's content, resolved through WORLDLINE's own
+        live mapping and never through the registered path.
+
+        The registered path is a link in a directory its operator owns. When the daemon runs as a
+        dedicated account, that operator is only a client, and a client that re-points the link
+        must not choose what the daemon captures, validates, loads policy from or keeps when
+        pruning. The link must still route through the live mapping, or the root is refused.
+        """
+        root_key = str(root["root_key"])
+        raw = bytes(root["path"])
+        live = os.fsencode(self.live / root_key)
+        try:
+            routed = os.readlink(raw)
+        except OSError as exc:
+            raise WorldlineError(
+                "LIVE_MAPPING_BROKEN",
+                f"managed root is not a WORLDLINE symlink: {os.fsdecode(raw)}") from exc
+        if routed != live:
+            raise WorldlineError(
+                "LIVE_MAPPING_BROKEN",
+                f"managed root does not route through the live mapping: {os.fsdecode(raw)}")
+        source = os.path.realpath(live)
+        store = os.path.realpath(os.fsencode(self.data))
+        if not source.startswith(store + b"/") or not os.path.isdir(source):
+            raise WorldlineError(
+                "LIVE_MAPPING_BROKEN",
+                f"live mapping for {root_key} does not resolve to a directory in the store")
+        return source
+
     def ensure(self) -> None:
         for path in (
             self.data,
@@ -161,4 +226,9 @@ class WorldlinePaths:
             self.transactions,
             self.logs,
         ):
-            secure_directory(path, shared_gid=self.client_gid if path == self.runtime else None)
+            if path == self.runtime:
+                secure_directory(path, shared_gid=self.client_gid)
+            elif path in (self.data, self.live, self.generations):
+                self.prime_directory(path)
+            else:
+                secure_directory(path)

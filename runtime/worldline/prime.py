@@ -10,7 +10,7 @@ from .canonical import canonical_bytes
 from .core import Core, hash_id
 from .errors import WorldlineError
 from .model import World, WorldState
-from .paths import WorldlinePaths, secure_directory
+from .paths import WorldlinePaths
 from .store import StateStore
 
 
@@ -38,7 +38,8 @@ class PrimeManager:
         if str(parsed) != identifier or parsed.version != 4:
             raise WorldlineError("INVALID_GENERATION", f"generation id is not canonical UUIDv4 text: {identifier}")
         path = self.paths.generations / identifier / "payload"
-        secure_directory(path)
+        self.paths.prime_directory(path.parent)
+        self.paths.prime_directory(path)
         return path
 
     def root_set_hash(self, roots: list[dict[str, Any]]) -> str:

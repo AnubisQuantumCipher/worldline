@@ -490,8 +490,8 @@ def current_requirements(store: Any, config: Any, core: Core | None = None) -> d
     primary = next((r for r in roots if r["primary_root"]), None)
     if primary is None:
         raise WorldlineError("NO_PRIMARY_ROOT", "no primary root is registered")
-    live_sources = {r["root_key"]: Path(os.path.realpath(os.fsdecode(bytes(r["path"])))) for r in roots}
-    project = ProjectConfig.load(Path(os.fsdecode(bytes(primary["path"]))), store)
+    live_sources = {r["root_key"]: Path(os.fsdecode(store.paths.root_source(r))) for r in roots}
+    project = ProjectConfig.load(live_sources[primary["root_key"]], store)
     return requirements(project, roots, live_sources, config, project.source_sha256, core)
 
 

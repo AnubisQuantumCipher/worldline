@@ -42,6 +42,8 @@ class RequestContext:
 class Operation:
     handler: Handler
     mutating: bool
+    # Refused to listed client uids: the daemon's own account only (client mode).
+    owner_only: bool = False
 
 
 def storage_error(exc: BaseException) -> WorldlineError:
@@ -93,10 +95,10 @@ class WorldlineDaemon:
         self.register("show", self._show)
         self.register("log.verify", self._verify_log)
 
-    def register(self, name: str, handler: Handler, *, mutating: bool = False) -> None:
+    def register(self, name: str, handler: Handler, *, mutating: bool = False, owner_only: bool = False) -> None:
         if not name or name in self._operations:
             raise ValueError(f"duplicate or empty operation: {name}")
-        self._operations[name] = Operation(handler=handler, mutating=mutating)
+        self._operations[name] = Operation(handler=handler, mutating=mutating, owner_only=owner_only)
 
     def spawn_background(self, key: str, awaitable: Awaitable[Any]) -> asyncio.Task[Any]:
         if key in self._background and not self._background[key].done():
@@ -121,6 +123,7 @@ class WorldlineDaemon:
             raise RuntimeError("daemon is already started")
         os.umask(0o077)
         self.paths.ensure()
+        self.paths.share_live_chain()
         self._acquire_singleton_lock()
         if self._recover is not None:
             result = self._recover()
@@ -292,6 +295,11 @@ class WorldlineDaemon:
             operation = self._operations.get(operation_name)
             if operation is None:
                 raise WorldlineError("UNKNOWN_OPERATION", f"unknown daemon operation: {operation_name}")
+            if operation.owner_only and self._peer_uid(writer) != os.getuid():
+                raise WorldlineError(
+                    "OPERATION_NEEDS_DAEMON_ACCOUNT",
+                    f"{operation_name} moves directories between the operator and the store; "
+                    "a client of a dedicated-account daemon cannot request it")
 
             async def progress(event: str, data: dict[str, Any]) -> None:
                 await self._send(writer, {"id": request_id, "event": event, "data": data})

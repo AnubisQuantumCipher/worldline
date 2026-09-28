@@ -132,7 +132,7 @@ class Revalidator:
         if primary is None:
             raise WorldlineError("NO_PRIMARY_ROOT", "no primary root is registered")
         current = current_requirements(self.store, self.config, self.core)
-        project = ProjectConfig.load(Path(os.fsdecode(bytes(primary["path"]))), self.store)
+        project = ProjectConfig.load(Path(os.fsdecode(self.paths.root_source(primary))), self.store)
         # The tree under evaluation is the read-only lower layer of a scratch overlay; nothing a
         # check writes reaches it.
         validation_id = str(uuid.uuid4())
@@ -153,7 +153,7 @@ class Revalidator:
             #                   examiner from `r.lower`, i.e. source_dir, so a candidate's own
             #                   payload supplied the examiner that judged it (campaign F6).
             #   project         the policy snapshot, loaded from current PRIME above.
-            evaluator_sources = {r["root_key"]: Path(os.path.realpath(os.fsdecode(bytes(r["path"]))))
+            evaluator_sources = {r["root_key"]: Path(os.fsdecode(self.paths.root_source(r)))
                                  for r in roots}
             verifier_roots = [{"root_key": r.root_key, "path": str(r.target),
                                "primary": str(r.target) == str(primary_target)} for r in overlays]

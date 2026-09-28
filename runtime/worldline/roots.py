@@ -272,7 +272,7 @@ class RootManager:
         recorded = {item["root_key"]: item for item in self.store.roots()}
         for root_key, root in sorted(recorded.items()):
             logical = bytes(root["path"])
-            source = os.path.realpath(logical)
+            source = self.paths.root_source(root)
             repository = self.git.capture(source) if root["kind"] == "repo" else None
             manifest = Manifest.capture(
                 source,
@@ -319,7 +319,7 @@ class RootManager:
             manifests = self._capture_all(manifests_directory)
         roots = {item["root_key"]: item for item in self.store.roots()}
         dependency_roots = [
-            (root_key, os.path.realpath(bytes(root["path"]))) for root_key, root in sorted(roots.items())
+            (root_key, self.paths.root_source(root)) for root_key, root in sorted(roots.items())
         ]
         evidence = evidence_manifest([], self.core)
         agent = {"adapter": None, "missionHash": None, "sessionReference": None}
@@ -366,9 +366,7 @@ class RootManager:
         self._assert_root_set_mutable()
         root = self.store.root(value)
         logical = bytes(root["path"])
-        source = os.path.realpath(logical)
-        if not os.path.islink(logical):
-            raise WorldlineError("LIVE_MAPPING_BROKEN", f"managed root is not a WORLDLINE symlink: {root['display_path']}")
+        source = self.paths.root_source(root)
         repository = self.git.capture(source) if root["kind"] == "repo" else None
         manifest = Manifest.capture(
             source,

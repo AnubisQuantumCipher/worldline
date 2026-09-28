@@ -114,10 +114,11 @@ class RevalidationStoresExecutionFacts(unittest.TestCase):
         self.assertIn('"evaluation": r.get("evaluation")', source)
 
     def test_the_examiner_is_staged_from_current_prime_not_the_candidate(self) -> None:
-        # F6: the trusted evaluator snapshot is the realpath of each registered root (current
-        # PRIME), passed as verifier_sources -- never the overlay lower (the candidate payload).
+        # F6: the trusted evaluator snapshot is each registered root's current PRIME content,
+        # resolved through the store's live mapping (1.7.0; before, the realpath of the root's
+        # own link), passed as verifier_sources -- never the overlay lower (the candidate payload).
         source = (REPO / "runtime/worldline/revalidate.py").read_text(encoding="utf-8")
-        self.assertIn("evaluator_sources = {r[\"root_key\"]: Path(os.path.realpath(", source)
+        self.assertIn("evaluator_sources = {r[\"root_key\"]: Path(os.fsdecode(self.paths.root_source(r)))", source)
         self.assertIn("verifier_sources=evaluator_sources", source)
         # And it is NOT read from r.lower anywhere in _evaluate.
         evaluate = source[source.index("def _evaluate"):]
