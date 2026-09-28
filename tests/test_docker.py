@@ -21,6 +21,16 @@ class DockerAdapterTests(unittest.TestCase):
         adapter.server_version = "fixture"
         return adapter
 
+    def test_probe_timeout_is_docker_unavailable_not_an_internal_error(self) -> None:
+        # 2026-09-28: under a load average near 110 `docker info` outlived its 10 s window and
+        # the uncaught TimeoutExpired surfaced as WORLDLINE_INTERNAL_ERROR at finalization.
+        timeout = subprocess.TimeoutExpired(["docker", "info"], 10)
+        with patch("worldline.linux.docker.shutil.which", return_value="/usr/bin/docker"), \
+                patch("worldline.linux.docker.subprocess.run", side_effect=timeout):
+            with self.assertRaises(WorldlineError) as caught:
+                DockerAdapter(Core.shared())
+        self.assertEqual(caught.exception.code, "DOCKER_UNAVAILABLE")
+
     def test_capture_retains_only_scoped_reconstructable_state(self) -> None:
         with tempfile.TemporaryDirectory(prefix="worldline-docker-") as temporary:
             root = Path(temporary) / "root"

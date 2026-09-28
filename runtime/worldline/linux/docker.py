@@ -22,14 +22,19 @@ class DockerAdapter:
         self.core = core or Core.shared()
         if self.executable is None:
             raise WorldlineError("DOCKER_UNAVAILABLE", "docker is not installed")
-        probe = subprocess.run(
-            [self.executable, "info", "--format", "{{json .ServerVersion}}"],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-            timeout=10,
-        )
+        try:
+            probe = subprocess.run(
+                [self.executable, "info", "--format", "{{json .ServerVersion}}"],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+                timeout=10,
+            )
+        except subprocess.TimeoutExpired as exc:
+            # Under host load `docker info` can exceed its probe window. That means Docker is
+            # unavailable to this capture, not an internal error that kills finalization.
+            raise WorldlineError("DOCKER_UNAVAILABLE", "docker info did not answer within 10 s") from exc
         if probe.returncode != 0:
             raise WorldlineError("DOCKER_UNAVAILABLE", probe.stderr.decode("utf-8", "replace").strip() or "Docker daemon is unavailable")
         self.server_version = probe.stdout.decode("utf-8", "replace").strip().strip('"')
