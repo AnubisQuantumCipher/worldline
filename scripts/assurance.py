@@ -101,6 +101,21 @@ PRIVATE_HOST_CASES = (
     "test_streaming_under_cap_is_complete_and_consistent",
     "test_protocol_violations_refuse_the_whole_run",
     "test_exited_but_untorndown_handle_is_still_active_across_the_exit_race",
+    "test_scenario1_death_in_role_acknowledgement_window",
+    "test_scenario2_worker_death_with_active_case_refuses_and_reaps",
+    "test_scenario3_examiner_death_with_live_case_refuses_and_reaps",
+    "test_scenario4_copyout_failure_keeps_worker_dir_pre_operation",
+    "test_scenario4_root_copies_candidate_locked_file_as_correct_copy",
+    "test_scenarios6_7_nested_userns_and_proc_reach_nothing_privileged",
+    "test_scenario8_nested_mount_does_not_change_copyout",
+    "test_entry_count_over_limit_refuses",
+    "test_depth_over_limit_refuses",
+    "test_apparent_size_over_limit_refuses_via_sparse_file",
+    "test_long_newline_and_non_utf8_names_copy_without_crashing",
+    "test_symlink_loops_and_self_reference_do_not_hang",
+    "test_absolute_external_symlink_refused",
+    "test_special_permission_bits_refused",
+    "test_user_xattr_refused_when_supported",
 )
 
 
