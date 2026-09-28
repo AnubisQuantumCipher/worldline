@@ -50,6 +50,15 @@ _GATE = unittest.skipUnless(
 
 LOGICAL = "/logical/fault-campaign"
 CASE = LOGICAL + "/cases/one"
+# Optional: WORLDLINE_CAMPAIGN_LOG=/path.jsonl records what the kernel decided. Nothing is
+# printed: the assurance instrument reads unittest's own verdict as the last line of output.
+_LOG = os.environ.get("WORLDLINE_CAMPAIGN_LOG")
+
+
+def _record(scenario: str, **observed) -> None:
+    if _LOG:
+        with open(_LOG, "a", encoding="utf-8") as handle:
+            handle.write(json.dumps({"scenario": scenario, **observed}, sort_keys=True, default=str) + "\n")
 
 
 def _fill(source: str) -> str:
@@ -668,10 +677,9 @@ class PrivateLeaseFaultCampaign(unittest.TestCase):
         probe = outer["probe"]
         # Record what the kernel decided (data, not an assertion).
         self._nested_record = probe["nested"]
-        print("\n[scenario 6/7] candidate uid=%s nested=%s" % (probe["uid"], json.dumps(probe["nested"])))
-        print("[scenario 7] proc_visible_uids=%s pid1=%s proc1_root_run=%s kill_probe=%s"
-              % (probe["proc_visible_uids"], json.dumps(probe["pid1"]),
-                 probe["proc1_root_run"], probe["kill_probe"]))
+        _record("6/7", uid=probe["uid"], nested=probe["nested"],
+                proc_visible_uids=probe["proc_visible_uids"], pid1=probe["pid1"],
+                proc1_root_run=probe["proc1_root_run"], kill_probe=probe["kill_probe"])
 
         # Invariants that must hold whether or not the kernel allowed the nested namespace:
         # (a) no privileged surface is present or connectable, before OR after nesting.
@@ -721,9 +729,8 @@ class PrivateLeaseFaultCampaign(unittest.TestCase):
         if isinstance(result, dict):
             self.assertEqual(result["exitCode"], 0, result["stdout"] + result["stderr"])
             probe = self._worker_probe(result)
-            print("\n[scenario 8] nested mount=%s copied=%s underlying=%s ghost=%s"
-                  % (probe["probe"], probe["copied_out"], probe["have_underlying"],
-                     probe["have_ghost"]))
+            _record("8", nested_mount=probe["probe"], copied=probe["copied_out"],
+                    underlying=probe["have_underlying"], ghost=probe["have_ghost"])
             if probe["copied_out"]:
                 self.assertTrue(probe["have_underlying"])
                 self.assertFalse(probe["have_ghost"])
