@@ -723,18 +723,27 @@ class PrivateLeaseFaultCampaign(unittest.TestCase):
 
     # -- scenario 8 ------------------------------------------------------------
     def test_scenario8_nested_mount_does_not_change_copyout(self):
-        spec, result = self._run("mountid", {"mode": "mountid", "timeout": 120})
         # Two acceptable outcomes: a VALID run whose copy-out collected the underlying content,
         # or an explicit refusal from the copier. Never a copy that captured the nested ghost.
-        if isinstance(result, dict):
-            self.assertEqual(result["exitCode"], 0, result["stdout"] + result["stderr"])
-            probe = self._worker_probe(result)
-            _record("8", nested_mount=probe["probe"], copied=probe["copied_out"],
-                    underlying=probe["have_underlying"], ghost=probe["have_ghost"])
-            if probe["copied_out"]:
-                self.assertTrue(probe["have_underlying"])
-                self.assertFalse(probe["have_ghost"])
-            self._assert_clean_teardown(spec)
+        try:
+            spec, result = self._run("mountid", {"mode": "mountid", "timeout": 120})
+        except WorldlineError as refused:
+            self.assertEqual(refused.code, "PRIVATE_EVALUATOR_BOUNDARY_FAILED")
+            runtime = self.base / "mountid"
+            boundary = json.loads((runtime / "boundary.json").read_text())
+            self.assertIn("CASE_COPY", boundary["error"])
+            self.assertFalse(boundary.get("rolesCompleted", False))
+            _record("8", refused=boundary["error"])
+            self._assert_clean_teardown(_SpecShim(runtime, boundary["runId"]))
+            return
+        self.assertEqual(result["exitCode"], 0, result["stdout"] + result["stderr"])
+        probe = self._worker_probe(result)
+        _record("8", nested_mount=probe["probe"], copied=probe["copied_out"],
+                underlying=probe["have_underlying"], ghost=probe["have_ghost"])
+        if probe["copied_out"]:
+            self.assertTrue(probe["have_underlying"])
+            self.assertFalse(probe["have_ghost"])
+        self._assert_clean_teardown(spec)
 
 
 class _SpecShim:
