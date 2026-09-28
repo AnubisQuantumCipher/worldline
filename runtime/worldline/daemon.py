@@ -135,7 +135,11 @@ class WorldlineDaemon:
             path=self.paths.socket,
             limit=_MAX_REQUEST_BYTES,
         )
-        os.chmod(self.paths.socket, 0o600)
+        if self.paths.client_gid is None:
+            os.chmod(self.paths.socket, 0o600)
+        else:
+            os.chown(self.paths.socket, -1, self.paths.client_gid)
+            os.chmod(self.paths.socket, 0o660)
         self._verify_socket()
         self.publisher.publish(daemon_state="RUNNING")
         self._heartbeat_task = asyncio.create_task(self._heartbeat(), name="worldline:status-heartbeat")
@@ -213,8 +217,12 @@ class WorldlineDaemon:
         info = self.paths.socket.lstat()
         if info.st_uid != os.getuid() or not stat.S_ISSOCK(info.st_mode):
             raise WorldlineError("UNSAFE_SOCKET", f"daemon socket failed ownership validation: {self.paths.socket}")
-        if stat.S_IMODE(info.st_mode) != 0o600:
-            raise WorldlineError("UNSAFE_SOCKET", f"daemon socket mode is not 0600: {self.paths.socket}")
+        if self.paths.client_gid is None:
+            if stat.S_IMODE(info.st_mode) != 0o600:
+                raise WorldlineError("UNSAFE_SOCKET", f"daemon socket mode is not 0600: {self.paths.socket}")
+        elif stat.S_IMODE(info.st_mode) != 0o660 or info.st_gid != self.paths.client_gid:
+            raise WorldlineError("UNSAFE_SOCKET",
+                                 f"daemon socket is not 0660 for its client group: {self.paths.socket}")
 
     @staticmethod
     def _peer_uid(writer: asyncio.StreamWriter) -> int:
@@ -227,7 +235,8 @@ class WorldlineDaemon:
 
     async def _handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         try:
-            if self._peer_uid(writer) != os.getuid():
+            # The daemon's own uid, plus the client uids its root-owned environment lists.
+            if self._peer_uid(writer) not in (os.getuid(), *self.paths.client_uids):
                 await self._send(writer, {"id": None, "ok": False, "result": None, "error": {
                     "code": "PEER_UID_MISMATCH", "message": "peer uid does not own this daemon", "details": {}
                 }})

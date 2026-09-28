@@ -97,5 +97,9 @@ class StatusPublisher:
 
     def publish(self, *, daemon_state: str = "RUNNING") -> dict[str, Any]:
         value = self.snapshot(daemon_state=daemon_state)
-        atomic_write_json(self.paths.status, value)
+        # Client mode: the listed clients' group reads status, as the desktop plugin does.
+        if self.paths.client_gid is None:
+            atomic_write_json(self.paths.status, value)
+        else:
+            atomic_write_json(self.paths.status, value, mode=0o640, group=self.paths.client_gid)
         return value

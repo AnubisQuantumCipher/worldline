@@ -174,8 +174,13 @@ def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Nam
 
 
 def _shell(client: DaemonClient, world_name: str) -> int:
-    info = client.request("shell.info", {"world": world_name})
     paths = WorldlinePaths.from_environment()
+    if paths.daemon_uid is not None and paths.daemon_uid != os.getuid():
+        # The shell materializes the world's payload as the caller, from the daemon's store. A
+        # client of a dedicated-account daemon cannot read that store, by design.
+        raise WorldlineError("SHELL_UNAVAILABLE_TO_CLIENT",
+                             "worldline shell needs the daemon's own account; this is a client of it")
+    info = client.request("shell.info", {"world": world_name})
     config = GlobalConfig.load(paths)
     sandbox = BubblewrapSandbox(paths)
     identifier = str(uuid.uuid4())
