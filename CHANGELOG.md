@@ -1,5 +1,82 @@
 # Changelog
 
+## 1.6.0 — 2026-09-28 · stateful candidate leases
+
+**Private examiners can now keep every candidate process out of the worker's identity, including
+stateful harnesses that run many candidate commands against evolving state.** Earlier releases
+gave `candidate.run` workers a separate identity from the examiner, but a verifier harness running
+in a worker still started candidate subprocesses under its own worker identity.
+
+### Candidate principal
+
+- The private backend adds a third mapped identity. Examiners start candidate processes with
+  `candidate.run_isolated` / `start_isolated` / `stream_isolated` / `wait_isolated` /
+  `signal_isolated` / `teardown_isolated` as the candidate principal. These processes have no
+  report, examiner-broker or worker-broker mount, and have their own PID namespace.
+- Finalization accepts `candidate` role observations only with that principal's identity. It
+  refuses any report in which a candidate observation shares a worker's UID or GID.
+
+### Worker broker and scoped case leases
+
+- A worker receives a worker-only broker socket, served only while a worker is active and only
+  to that worker's mapped identity. A trusted harness in the worker can open a scoped case lease
+  on a real directory strictly inside its copy of the candidate roots, as long as it does not
+  overlap another lease.
+- The backend copies the case into a separate candidate view and starts candidate commands
+  there as the candidate principal. It accepts the normal argv/cwd validation, bounded stdin,
+  and an allowlist of interpreter-determinism variables (`PYTHONHASHSEED`,
+  `PYTHONDONTWRITEBYTECODE`). It provides stream, bounded blocking wait, SIGTERM/SIGKILL of the
+  candidate's process group, and teardown.
+- Candidate outputs are copied back only after every candidate handle of the case is torn
+  down. Worker edits reach the candidate view only through an explicit copy-in guarded by the
+  lease generation, and a side-effect-free `case_status` reports whether the worker view changed.
+- Case copies accept only ordinary files, directories and symlinks whose lexical target stays in
+  the case. They refuse hardlinks, special files, xattrs, special permission bits, nested mounts
+  and observed mutation. Any protocol violation stops the broker and refuses the whole run.
+- Every candidate start is recorded in the boundary evidence with its role observation and lease
+  handle. Each lease records its open/copy/start/teardown/close events.
+
+### Fixed
+
+- The sandbox helper now reads exactly the three-byte role acknowledgement. Before, it could
+  consume the first byte of candidate stdin written behind the acknowledgement on the same pipe.
+- **Symlink targets that climb after a name are refused at capture and materialize
+  (`EXTERNAL_SYMLINK`).** This escape has existed since the check was introduced. The check
+  normalized targets lexically, but after `dirlink -> .` the kernel resolves
+  `dirlink/../../outside` one level higher than normalization does. Repeating the pair reaches
+  any path, so a world could carry a link that escapes its root into PRIME through an
+  authorized collapse. Leading `..` that stay inside the root are unaffected.
+  **Upgrade note:** a registered root that already contains such a link, even a harmless one
+  like `a -> b/../c`, is refused at its next capture. Before upgrading, rewrite the link to
+  its normalized form (`a -> c`). `find ROOT -type l` lists the candidates.
+- The case copier applies the same rule to case trees (`CASE_COPY_LINK_ESCAPE`).
+- A malformed principal label in boundary evidence (for example, a list) is refused instead of
+  raising during finalization.
+- A lease can be opened on a directory that the candidate input already contains. Before, the
+  run was refused.
+
+### Review, campaigns and documentation
+
+- An independent review of the whole runtime delta since 1.5.0 found no critical or high
+  issue. Its deferred items are low-severity and fail closed.
+- A CodeRabbit review found the case copier's lexical symlink check, which led to the capture
+  fix above, plus the malformed-label and committed-directory issues. All are fixed with
+  regression tests that fail without the fixes.
+- A finalizer regression test proves a candidate is admitted only under its own principal
+  label (mutation-checked).
+- Two retained adversarial campaigns, `test_private_lease_protocol_campaign.py` and
+  `test_private_lease_fault_campaign.py`, attack the lease protocol. They cover overlap,
+  ordering, replay, handle reuse, request fuzzing, role deaths, copy-out failures, extreme trees,
+  nested user namespaces and `/proc`. Every scenario must end as a clean run or a whole-run
+  refusal, never with a half-copied case.
+- The private-host roster now requires 29 named cases, with zero skips.
+- `SECURITY.md` is brought current through this release.
+
+The candidate principal protects the examiner and worker processes and their mounts from
+candidate code. It does not make a harness's judgment independent of the candidate outputs it
+chooses to read, and it does not attest the host kernel, the installed isolation binaries, or an
+operator account with administrative access.
+
 ## 1.5.0 — 2026-09-27 · private evaluation and report integrity
 
 **Candidate bytes are data to the trusted evaluator, and private report checks keep candidate

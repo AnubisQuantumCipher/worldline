@@ -156,6 +156,16 @@ class HostileRootContents(unittest.TestCase):
                 self.assertEqual(refused.exception.code, "EXTERNAL_SYMLINK")
                 self.assertFalse(work.is_symlink())
                 (work / "escape-link").unlink()
+                # A target that climbs after a name normalizes inside the root, but after
+                # `dirlink -> .` the kernel resolves it outside; refused the same way.
+                os.symlink(".", work / "nested" / "dirlink")
+                os.symlink("dirlink/../../outside", work / "nested" / "climb-link")
+                with self.assertRaises(WorldlineError) as climbed:
+                    client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+                self.assertEqual(climbed.exception.code, "EXTERNAL_SYMLINK")
+                self.assertFalse(work.is_symlink())
+                (work / "nested" / "climb-link").unlink()
+                (work / "nested" / "dirlink").unlink()
                 # A FIFO is refused too.
                 os.mkfifo(work / "pipe")
                 with self.assertRaises(WorldlineError) as fifo:

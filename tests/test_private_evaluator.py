@@ -77,8 +77,11 @@ class PrivateTreeContract(unittest.TestCase):
     def test_constrained_request_accepts_command_and_refuses_authority_options(self):
         roots = [{"target": "/work"}]
         request = {"argv": ["/usr/bin/true"], "cwd": None, "timeout": 10}
-        self.assertEqual(_request(request, roots, "/work"), (["/usr/bin/true"], "/work", 10))
+        self.assertEqual(_request(request, roots, "/work"), (["/usr/bin/true"], "/work", 10, "worker"))
+        self.assertEqual(_request({**request, "principal": "candidate"}, roots, "/work"),
+                         (["/usr/bin/true"], "/work", 10, "candidate"))
         for changed in ({**request, "uid": 0}, {**request, "cwd": "/etc"},
+                        {**request, "principal": "examiner"}, {**request, "principal": "root"},
                         {**request, "cwd": "/work/../etc"}, {**request, "timeout": True},
                         {**request, "argv": ["relative"]}, {**request, "argv": ["/run/helper"]}):
             with self.subTest(request=changed), self.assertRaises(BackendFailure):
