@@ -31,13 +31,24 @@ def _identity_list(value: str | None, name: str) -> tuple[int, ...]:
     if not all(_IDENTITY.fullmatch(part) for part in parts):
         raise WorldlineError("INVALID_CLIENT_MODE", f"{name} must list positive decimal identities")
     items = tuple(int(part) for part in parts)
+    if any(item >= (1 << 32) - 1 for item in items):  # (uid_t)-1 and above are not identities
+        raise WorldlineError("INVALID_CLIENT_MODE", f"{name} lists an identity out of range")
     if len(set(items)) != len(items):
         raise WorldlineError("INVALID_CLIENT_MODE", f"{name} must list distinct identities")
     return items
 
 
 def _nested(first: Path, second: Path) -> bool:
-    return first == second or first in second.parents or second in first.parents
+    """Whether either path contains the other, as spelled or as resolved through symlinks."""
+    for a, b in ((first, second), (Path(os.path.realpath(first)), Path(os.path.realpath(second)))):
+        if a == b or a in b.parents or b in a.parents:
+            return True
+    return False
+
+
+# Content a client can reach must be read-only to it: no group or other write, and no special
+# bits (a setuid or setgid file there would run as the daemon account for anyone who can reach it).
+_CLIENT_UNSAFE_MODE = stat.S_IWGRP | stat.S_IWOTH | stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
 
 
 def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None = None,
@@ -106,6 +117,11 @@ class WorldlinePaths:
             raise WorldlineError(
                 "INVALID_CLIENT_MODE",
                 "client mode needs exactly one WORLDLINE_CLIENT_GID and at least one WORLDLINE_CLIENT_UIDS")
+        if gids and gids[0] == os.getgid():
+            # Everything the daemon creates carries its primary group, so that group's write bits
+            # would be the clients' write bits.
+            raise WorldlineError("INVALID_CLIENT_MODE",
+                                 "the client group must not be the daemon account's primary group")
         runtime = runtime_home / "worldline"
         if gids and any(_nested(runtime, other / "worldline") for other in (data_home, state_home, config_home)):
             # The runtime directory is opened to the client group; the store must never share it.
@@ -179,13 +195,50 @@ class WorldlinePaths:
         """
         return secure_directory(path, shared_gid=self.client_gid, shared_mode=0o710)
 
+    def assert_client_safe(self, directory: Path | str | bytes) -> None:
+        """Client mode: content on the client-searchable path must be the daemon's, and
+        read-only to everyone else.
+
+        Manifests record modes and materialization re-applies them, so a candidate chooses the
+        modes of the content it stages. A group- or world-writable directory there would let a
+        client write PRIME directly, and the daemon would adopt the write as a new generation
+        with no transaction. Refused instead: CLIENT_MODE_UNSAFE_CONTENT names the entries.
+        """
+        if self.client_gid is None:
+            return
+        uid = os.getuid()
+        root = os.fsencode(directory)
+        unsafe: list[str] = []
+        unreadable: list[str] = []
+
+        def inspect(path: bytes) -> None:
+            info = os.lstat(path)
+            if stat.S_ISLNK(info.st_mode):
+                return  # a link's own mode is meaningless; its target is inspected where it lies
+            if info.st_uid != uid or stat.S_IMODE(info.st_mode) & _CLIENT_UNSAFE_MODE:
+                unsafe.append(f"{stat.S_IMODE(info.st_mode):04o} uid={info.st_uid} "
+                              f"{os.fsdecode(os.path.relpath(path, root))}")
+
+        inspect(root)
+        for current, subdirectories, files in os.walk(root, onerror=lambda error: unreadable.append(str(error))):
+            for name in subdirectories + files:
+                inspect(os.path.join(current, name))
+        if unsafe or unreadable:
+            raise WorldlineError(
+                "CLIENT_MODE_UNSAFE_CONTENT",
+                "content a client can reach must be owned by the daemon and carry no group or other "
+                "write and no setuid, setgid or sticky bit",
+                {"directory": os.fsdecode(root), "count": len(unsafe), "entries": unsafe[:50],
+                 "unreadable": unreadable[:20]})
+
     def share_live_chain(self) -> None:
         """Client mode: open the path to the CURRENT PRIME's content to the client group.
 
         New generations and transactions are created that way; this covers a store that was
         written before client mode (a migrated store) and is otherwise unreadable to clients
-        until its next collapse. Only directories strictly between the store and each root's
-        payload are touched; a root's own directory keeps the mode its manifest records.
+        until its next collapse. The content is checked first (assert_client_safe). Only
+        existing directories strictly between the store and each root's payload are re-moded;
+        a root's own directory keeps the mode its manifest records, and nothing is created.
         """
         if self.client_gid is None:
             return
@@ -194,13 +247,14 @@ class WorldlinePaths:
             if not mapping.is_symlink():
                 continue
             target = os.path.realpath(mapping)
-            if not target.startswith(store + os.sep):
-                raise WorldlineError("LIVE_MAPPING_BROKEN", f"live mapping leaves the store: {mapping.name}")
+            if not target.startswith(store + os.sep) or not os.path.isdir(target):
+                raise WorldlineError("LIVE_MAPPING_BROKEN", f"live mapping does not resolve inside the store: {mapping.name}")
+            self.assert_client_safe(target)
             parts = Path(target).relative_to(store).parts[:-1]
             current = Path(store)
             for part in parts:
                 current = current / part
-                self.prime_directory(current)
+                secure_directory(current, create=False, shared_gid=self.client_gid, shared_mode=0o710)
 
     def root_source(self, root: Mapping[str, Any]) -> bytes:
         """The store directory holding a managed root's content, resolved through WORLDLINE's own

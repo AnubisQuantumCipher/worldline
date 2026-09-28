@@ -141,7 +141,10 @@ def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Nam
         "confirmed": False,
     }
     if operation == "root.remove":
-        payload = {"root": arguments.root, "confirmed": False}
+        # A path is sent absolute; a root key (no separator) as given.
+        root = arguments.root
+        payload = {"root": os.path.abspath(root) if os.sep in root or root.startswith(".") else root,
+                   "confirmed": False}
     try:
         client.request(operation, payload)
         raise AssertionError("unconfirmed root mutation unexpectedly succeeded")

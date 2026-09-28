@@ -283,6 +283,71 @@ class ReviewRepairs(unittest.TestCase):
         # Under /run, which is already a tmpfs: nothing extra is mounted.
         self.assertNotIn(str(paths.runtime), masked)
 
+    def _mask_fixture(self) -> tuple[WorldlinePaths, BubblewrapSandbox, OverlayRoot]:
+        paths = WorldlinePaths(home=Path("/var/lib/worldline-mask-test"),
+                               data=Path("/var/lib/worldline-mask-test/xdg-data/worldline"),
+                               state=Path("/var/lib/worldline-mask-test/xdg-state/worldline"),
+                               config=Path("/var/lib/worldline-mask-test/xdg-config/worldline"),
+                               runtime=Path("/run/worldline-mask-test"))
+        target = Path(f"/tmp/worldline-mask-test-{uuid.uuid4()}")
+        root = OverlayRoot("fixture", self.root / "lower", self.root / "upper", self.root / "work", target)
+        return paths, BubblewrapSandbox(paths, executable="/usr/bin/bwrap"), root
+
+    def test_simulate_system_overlays_are_mounted_before_the_masks(self) -> None:
+        # Review of 8102150, N2: overlays of /var mounted after the masks covered them.
+        paths, sandbox, root = self._mask_fixture()
+        var = OverlayRoot("system-var", self.root / "vl", self.root / "vu", self.root / "vw", Path("/var"))
+        spec = SandboxSpec(instance_id=str(uuid.uuid4()), argv=("/usr/bin/true",), cwd=root.target,
+                           environment={"PATH": "/usr/bin"}, roots=(var, root), runtime=self.root)
+        argv = list(sandbox.build_argv(spec))
+        var_overlay = max(index for index, value in enumerate(argv) if value == "/var" and argv[index - 1] == str(self.root / "vw"))
+        tmpfs = {argv[index + 1]: index for index, value in enumerate(argv) if value == "--tmpfs"}
+        self.assertGreater(tmpfs[str(paths.home)], var_overlay)  # the daemon HOME covers the store here
+        managed = max(index for index, value in enumerate(argv) if value == str(root.target) and argv[index - 1] == str(root.work))
+        self.assertGreater(managed, tmpfs[str(paths.home)])  # managed roots after the HOME mask
+
+    def test_every_sandbox_masks_the_daemons_home_by_default(self) -> None:
+        # Review of 8102150, N3: checks, services and simulate masked a fixed /home/sicarii.
+        paths, sandbox, root = self._mask_fixture()
+        spec = SandboxSpec(instance_id=str(uuid.uuid4()), argv=("/usr/bin/true",), cwd=root.target,
+                           environment={"PATH": "/usr/bin"}, roots=(root,), runtime=self.root)
+        argv = list(sandbox.build_argv(spec))
+        masked = {argv[index + 1] for index, value in enumerate(argv) if value == "--tmpfs"}
+        self.assertIn(str(paths.home), masked)
+        self.assertNotIn("/home/sicarii", masked)
+        self.assertEqual(argv[argv.index("HOME") + 1], str(paths.home))
+
+    def test_an_existing_permissive_lock_is_made_owner_only(self) -> None:
+        runtime = self.root / "runtime"
+        runtime.mkdir()
+        (runtime / "admission.lock").write_bytes(b"")
+        os.chmod(runtime / "admission.lock", 0o644)
+        ledger = Ledger(runtime)
+        with ledger.locked():
+            pass
+        self.assertEqual(stat.S_IMODE(ledger.lock_path.stat().st_mode), 0o600)
+
+    def test_out_of_range_identities_and_a_symlinked_runtime_refuse(self) -> None:
+        cases = [environment(self.root / "range", WORLDLINE_CLIENT_GID="4294967295", WORLDLINE_CLIENT_UIDS="1000")]
+        linked = environment(self.root / "linked", WORLDLINE_CLIENT_GID="970", WORLDLINE_CLIENT_UIDS="1000")
+        (self.root / "linked" / "runtime-link").symlink_to(linked["XDG_STATE_HOME"])
+        linked["XDG_RUNTIME_DIR"] = str(self.root / "linked" / "runtime-link")
+        cases.append(linked)
+        for env in cases:
+            with self.subTest(runtime=env["XDG_RUNTIME_DIR"], gid=env["WORLDLINE_CLIENT_GID"]):
+                with self.assertRaises(WorldlineError) as caught:
+                    WorldlinePaths.from_environment(env)
+                self.assertEqual(caught.exception.code, "INVALID_CLIENT_MODE")
+
+    def test_root_remove_sends_a_path_absolute_and_a_key_as_given(self) -> None:
+        for given, sent in (("relative/dir", os.path.abspath("relative/dir")), ("a" * 64, "a" * 64)):
+            with self.subTest(given=given):
+                client = mock.Mock()
+                client.request.side_effect = WorldlineError("STOP", "stop here")
+                with self.assertRaises(WorldlineError):
+                    cli_main._root_mutation(client, "root.remove", argparse.Namespace(root=given, yes=False), as_json=True)
+                self.assertEqual(client.request.call_args.args[1]["root"], sent)
+
 
 class ClientSideRefusals(unittest.TestCase):
     def setUp(self) -> None:

@@ -125,12 +125,14 @@ class WorldlineDaemon:
             raise RuntimeError("daemon is already started")
         os.umask(0o077)
         self.paths.ensure()
-        self.paths.share_live_chain()
         self._acquire_singleton_lock()
         if self._recover is not None:
             result = self._recover()
             if inspect.isawaitable(result):
                 await result
+        # After the lock and recovery: only this daemon touches the store, and an interrupted
+        # exchange has been resolved, so `live` is the mapping that will be served.
+        self.paths.share_live_chain()
         swept = self.store.sweep_unsupervised()
         if swept["jobs"] or swept["worlds"]:
             _LOG.warning("startup sweep: %d orphaned job(s), %d unsupervised world(s) marked DEAD", swept["jobs"], swept["worlds"])

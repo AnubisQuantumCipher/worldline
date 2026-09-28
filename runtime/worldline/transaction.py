@@ -225,6 +225,13 @@ class CollapseTransaction:
                         {"beforeGeneration": before_generation, "afterGeneration": after_generation},
                     )
 
+            # Client mode: the staged payload becomes PRIME, which clients can reach. Its modes
+            # are the candidate's; refuse any a client could write through before a transaction
+            # exists (the staging is removed by the handler below).
+            if not conflicts:
+                for root_key in staged_manifests:
+                    self.paths.assert_client_safe(payload / root_key)
+
             delta = Delta.compute_all(base_manifests, candidate_manifests, self.core)
             base_root = Manifest.root_set_hash(base_manifests.values(), self.core)
             before_root = Manifest.root_set_hash(current_manifests.values(), self.core)

@@ -369,8 +369,9 @@ class Ledger:
             self.handle = None
 
         def __enter__(self) -> "Ledger._Locked":
-            self.handle = os.fdopen(
-                os.open(self.ledger.lock_path, os.O_RDWR | os.O_CREAT | os.O_APPEND | os.O_CLOEXEC, 0o600), "a+b")
+            descriptor = os.open(self.ledger.lock_path, os.O_RDWR | os.O_CREAT | os.O_APPEND | os.O_CLOEXEC, 0o600)
+            os.fchmod(descriptor, 0o600)  # also a lock left 0644 by an older build
+            self.handle = os.fdopen(descriptor, "a+b")
             try:
                 fcntl.flock(self.handle.fileno(), fcntl.LOCK_EX)
             except OSError:
