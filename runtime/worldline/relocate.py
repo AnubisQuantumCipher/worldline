@@ -18,6 +18,11 @@ old prefixes to the new ones and proves the result:
   refuses the relocation.
 
 The old copy is never opened for writing. Rolling back is starting the old daemon again.
+
+Run it as the account that will own the store (never root), on a copy that account already owns,
+with no daemon serving it: each is checked, and every rewrite is planned and every refusal raised
+before anything is written. It does not re-point the operator's root links; `worldline doctor`
+(rootIntegrity) shows them once the daemon runs.
 """
 from __future__ import annotations
 
@@ -99,20 +104,17 @@ class Relocation:
 
     # -- the three kinds of persisted location
 
-    def _rewrite_database(self, connection: sqlite3.Connection) -> dict[str, int]:
-        counts: dict[str, int] = {}
+    def _plan_database(self, connection: sqlite3.Connection) -> list[tuple[str, str, int, str]]:
+        """Every location row's new value, computed (and refused) before anything is written."""
+        plan: list[tuple[str, str, int, str]] = []
         for table, column in LOCATION_COLUMNS:
-            rows = connection.execute(f"SELECT rowid, {column} FROM {table}").fetchall()
-            changed = 0
-            for rowid, value in rows:
+            for rowid, value in connection.execute(f"SELECT rowid, {column} FROM {table}").fetchall():
                 if not isinstance(value, str):
                     raise _refuse(f"{table}.{column} holds a non-text location", {"rowid": rowid})
                 mapped = os.fsdecode(self._map(os.fsencode(value), f"{table}.{column}"))
                 if mapped != value:
-                    connection.execute(f"UPDATE {table} SET {column}=? WHERE rowid=?", (mapped, rowid))
-                    changed += 1
-            counts[f"{table}.{column}"] = changed
-        return counts
+                    plan.append((table, column, rowid, mapped))
+        return plan
 
     def _rewrite_json_strings(self, value: Any, where: str) -> Any:
         if isinstance(value, dict):
@@ -123,11 +125,11 @@ class Relocation:
             return os.fsdecode(self._map(os.fsencode(value), where))
         return value
 
-    def _rewrite_transaction_records(self) -> int:
-        changed = 0
+    def _plan_transaction_records(self) -> list[tuple[Path, Any, int]]:
+        plan: list[tuple[Path, Any, int]] = []
         directory = self.new_state / "transactions"
         if not directory.is_dir():
-            return 0
+            return plan
         for path in sorted(directory.glob("*.json")):
             raw = path.read_bytes()
             if not self._mentions(raw):
@@ -136,10 +138,11 @@ class Relocation:
             if canonical_bytes(value) != raw:
                 # Rewriting re-serializes. Only a canonical record re-serializes to itself.
                 raise _refuse(f"transaction record is not canonical JSON: {path.name}")
-            atomic_write_json(path, self._rewrite_json_strings(value, f"transactions/{path.name}"),
-                              mode=path.stat().st_mode & 0o777)
-            changed += 1
-        return changed
+            rewritten = self._rewrite_json_strings(value, f"transactions/{path.name}")
+            if self._mentions(canonical_bytes(rewritten)):
+                raise _refuse(f"transaction record names the old store where it cannot be rewritten: {path.name}")
+            plan.append((path, rewritten, path.stat().st_mode & 0o777))
+        return plan
 
     def _mapping_links(self) -> Iterator[Path]:
         live = self.new_data / "live"
@@ -151,18 +154,50 @@ class Relocation:
                 if mapping.is_dir() and not mapping.is_symlink():
                     yield from (item for item in sorted(mapping.iterdir()) if item.is_symlink())
 
-    def _rewrite_mapping_links(self) -> int:
-        changed = 0
+    def _plan_mapping_links(self) -> list[tuple[Path, bytes]]:
+        plan: list[tuple[Path, bytes]] = []
         for link in self._mapping_links():
             target = os.readlink(os.fsencode(link))
             mapped = self._map(target, f"mapping link {link.relative_to(self.new_data)}")
-            if mapped == target:
+            if mapped != target:
+                plan.append((link, mapped))
+        return plan
+
+    def _holders(self) -> list[int]:
+        """Processes this uid can see that hold the copy's database open. A daemon serving the
+        copy runs as the same account, so it is visible; `BEGIN EXCLUSIVE` alone does not detect
+        an idle WAL connection."""
+        names = {os.path.realpath(self.database) + suffix for suffix in ("", "-wal", "-shm")}
+        holders: set[int] = set()
+        for process in Path("/proc").iterdir():
+            if not process.name.isdigit() or int(process.name) == os.getpid():
                 continue
-            temporary = link.with_name(f".{link.name}.relocate")
-            os.symlink(mapped, os.fsencode(temporary))
-            os.replace(temporary, link)
-            changed += 1
-        return changed
+            try:
+                for descriptor in (process / "fd").iterdir():
+                    if os.path.realpath(descriptor) in names:
+                        holders.add(int(process.name))
+            except OSError:
+                continue  # another uid's process, or gone
+        return sorted(holders)
+
+    def _foreign_entries(self) -> tuple[int, list[str]]:
+        """Entries in the copy not owned by the account doing the relocation (it will own the
+        store): an incomplete chown after a root copy leaves content the daemon cannot vouch for."""
+        uid = os.geteuid()
+        count = 0
+        sample: list[str] = []
+        for root in (self.new_data, self.new_state):
+            for directory, subdirectories, files in os.walk(root):
+                for name in (directory, *[os.path.join(directory, entry) for entry in subdirectories + files]):
+                    info = os.lstat(name)
+                    if info.st_uid != uid:
+                        count += 1
+                        if len(sample) < 20:
+                            sample.append(f"uid={info.st_uid} {os.path.relpath(name, root)}")
+                subdirectories[:] = [entry for entry in subdirectories
+                                     if not os.path.islink(os.path.join(directory, entry))
+                                     and os.access(os.path.join(directory, entry), os.R_OK | os.X_OK)]
+        return count, sample
 
     # -- classification of every remaining mention
 
@@ -268,28 +303,56 @@ class Relocation:
                            "jobs": [row[0] for row in jobs]})
 
     def run(self, *, dry_run: bool = False) -> dict[str, Any]:
+        if os.geteuid() == 0:
+            raise _refuse("run as the account that will own the store, not as root")
+        for directory in (self.new_data, self.new_state):
+            if directory.stat().st_uid != os.geteuid():
+                raise _refuse(f"{directory} is not owned by the account running the relocation")
+        holders = self._holders()
+        if holders:
+            raise _refuse("the copy's database is open in another process; stop its daemon first",
+                          {"pids": holders})
         connection = sqlite3.connect(self.database, isolation_level=None)
         try:
-            try:
-                connection.execute("BEGIN EXCLUSIVE")  # a daemon serving this copy would hold it
-                self._quiescent(connection)
-                if dry_run:
-                    planned = {f"{table}.{column}": count for (table, column) in LOCATION_COLUMNS
-                               if (count := sum(1 for (value,) in connection.execute(f"SELECT {column} FROM {table}")
-                                                if isinstance(value, str) and self._mentions(os.fsencode(value))))}
-                    connection.execute("ROLLBACK")
-                    found, refused = self._scan()
-                    return {"state": "DRY_RUN", "locationRows": planned, "mentions": found,
-                            "refusedFiles": refused[:200],
-                            "refusedDatabaseColumns": self._scan_database(connection, skip_locations=True)}
-                columns = self._rewrite_database(connection)
-                connection.execute("COMMIT")
-            except BaseException:
-                if connection.in_transaction:
-                    connection.execute("ROLLBACK")
-                raise
-            records = self._rewrite_transaction_records()
-            links = self._rewrite_mapping_links()
+            # Everything is planned, and every refusal raised, before anything is written.
+            connection.execute("BEGIN EXCLUSIVE")
+            self._quiescent(connection)
+            database_plan = self._plan_database(connection)
+            records_plan = self._plan_transaction_records()
+            links_plan = self._plan_mapping_links()
+            stray_columns = self._scan_database(connection, skip_locations=True)
+            found, refused = self._scan()
+            foreign, foreign_sample = self._foreign_entries()
+            report = {
+                "locationRows": {f"{table}.{column}": sum(1 for row in database_plan if row[:2] == (table, column))
+                                 for table, column in LOCATION_COLUMNS},
+                "transactionRecords": len(records_plan), "mappingLinks": len(links_plan),
+                "mentions": found, "refusedFiles": refused[:200], "refusedDatabaseColumns": stray_columns,
+                "foreignOwned": {"count": foreign, "sample": foreign_sample},
+            }
+            if dry_run:
+                connection.execute("ROLLBACK")
+                connection.close()  # the last connection closing removes the -wal/-shm it created
+                return {"state": "DRY_RUN", **report}
+            if refused or stray_columns or foreign:
+                raise _refuse("the copy names the old store where it cannot be rewritten, or holds "
+                              "entries its account does not own", report)
+            for table, column, rowid, mapped in database_plan:
+                connection.execute(f"UPDATE {table} SET {column}=? WHERE rowid=?", (mapped, rowid))
+            connection.execute("COMMIT")
+        except BaseException:
+            if connection.in_transaction:
+                connection.execute("ROLLBACK")
+            connection.close()
+            raise
+        # Idempotent from here: a rerun accepts values that are already new.
+        for path, value, mode in records_plan:
+            atomic_write_json(path, value, mode=mode)
+        for link, mapped in links_plan:
+            temporary = link.with_name(f".{link.name}.relocate")
+            os.symlink(mapped, os.fsencode(temporary))
+            os.replace(temporary, link)
+        try:
             database = self._scan_database(connection, skip_locations=False)
             connection.execute("PRAGMA wal_checkpoint(TRUNCATE)")
         finally:
@@ -301,7 +364,8 @@ class Relocation:
             raise _refuse("the old store is still named where the daemon reads it",
                           {"databaseColumns": database, "files": refused[:200]})
         return {"state": "RELOCATED",
-                "rewritten": {"databaseRows": columns, "transactionRecords": records, "mappingLinks": links},
+                "rewritten": {"databaseRows": report["locationRows"], "transactionRecords": len(records_plan),
+                              "mappingLinks": len(links_plan)},
                 "mentionsKept": found, "verification": self.verify()}
 
     def verify(self) -> dict[str, Any]:

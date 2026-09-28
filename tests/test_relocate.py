@@ -19,7 +19,9 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest import mock
 
+from worldline.canonical import canonical_bytes
 from worldline.client import DaemonClient
 from worldline.errors import WorldlineError
 from worldline.paths import WorldlinePaths
@@ -63,7 +65,7 @@ def _open_directories(root: Path) -> None:
 class RelocateAStore(unittest.TestCase):
     def setUp(self) -> None:
         fixture = _FixtureDaemon(self, _QUICK_AGENT)
-        self.addCleanup(fixture.temporary.cleanup)
+        self.addCleanup(lambda: (_open_directories(Path(fixture.temporary.name)), fixture.temporary.cleanup()))
         try:
             client, work = fixture.client, fixture.work
             client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
@@ -84,7 +86,8 @@ class RelocateAStore(unittest.TestCase):
         self.work = work
         self.old = fixture.paths
         self.destination = Path(tempfile.mkdtemp(prefix="worldline-relocated-"))
-        self.addCleanup(shutil.rmtree, self.destination, True)
+        # Overlay work directories are 000: open them, or rmtree leaves the copy behind.
+        self.addCleanup(lambda: (_open_directories(self.destination), shutil.rmtree(self.destination, True)))
         self.env = {
             "HOME": str(self.destination / "home"),
             "XDG_DATA_HOME": str(self.destination / "data"),
@@ -174,7 +177,7 @@ class RelocateAStore(unittest.TestCase):
         (self.new.state / "stray.json").write_text(json.dumps({"path": str(self.old.data / "live")}))
         with self.assertRaises(WorldlineError) as caught:
             self.relocation().run()
-        self.assertIn("state/stray.json", caught.exception.details["files"])
+        self.assertIn("state/stray.json", caught.exception.details["refusedFiles"])
 
     def test_a_mention_in_any_other_database_column_refuses(self) -> None:
         with sqlite3.connect(self.new.database) as connection:
@@ -182,7 +185,42 @@ class RelocateAStore(unittest.TestCase):
                                (json.dumps(str(self.old.state / "x")).encode(),))
         with self.assertRaises(WorldlineError) as caught:
             self.relocation().run()
-        self.assertIn("meta.value", caught.exception.details["databaseColumns"])
+        self.assertIn("meta.value", caught.exception.details["refusedDatabaseColumns"])
+
+    def test_a_daemon_holding_the_copy_open_refuses(self) -> None:
+        holder = subprocess.Popen(
+            [sys.executable, "-c", "import sqlite3, sys, time; c = sqlite3.connect(sys.argv[1]); "
+             "c.execute('SELECT count(*) FROM worlds').fetchone(); print('open', flush=True); time.sleep(60)",
+             str(self.new.database)], stdout=subprocess.PIPE, text=True)
+        self.addCleanup(holder.wait)
+        self.addCleanup(holder.kill)
+        self.assertEqual(holder.stdout.readline().strip(), "open")
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation().run()
+        self.assertIn(holder.pid, caught.exception.details["pids"])
+
+    def test_a_copy_the_runner_does_not_own_refuses(self) -> None:
+        with mock.patch("worldline.relocate.os.geteuid", return_value=os.getuid() + 1):
+            with self.assertRaises(WorldlineError) as caught:
+                self.relocation().run()
+        self.assertIn("not owned by the account", caught.exception.message)
+
+    def test_an_unrewritable_mention_refuses_before_anything_is_written(self) -> None:
+        # A canonical record naming the old store mid-string: the first candidate committed the
+        # database rewrite before discovering it, leaving the copy half-relocated (review r2).
+        record = sorted((self.new.state / "transactions").glob("*.json"))[0]
+        value = json.loads(record.read_bytes())
+        value["note"] = f"failed near {self.old.data}/live"
+        record.write_bytes(canonical_bytes(value))
+        with sqlite3.connect(self.new.database) as connection:
+            before = connection.execute("SELECT payload_path FROM worlds ORDER BY rowid").fetchall()
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation().run()
+        self.assertEqual(caught.exception.code, "RELOCATION_REFUSED")
+        with sqlite3.connect(self.new.database) as connection:
+            self.assertEqual(connection.execute("SELECT payload_path FROM worlds ORDER BY rowid").fetchall(), before)
+        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
+        self.assertTrue(os.readlink(live).startswith(str(self.old.data)))
 
     def test_nested_or_relative_directories_are_refused(self) -> None:
         for arguments in ({"new_data": self.old.data / "inner"}, {"old_data": Path("relative/data")}):
