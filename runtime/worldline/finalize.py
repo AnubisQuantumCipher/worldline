@@ -76,7 +76,9 @@ def stopped_supervision(supervision: Mapping[str, Any]) -> bool:
 def _private_role_observed(observation: Any, role: str) -> bool:
     if not isinstance(observation, Mapping):
         return False
-    expected = 0 if role == "examiner" else 1
+    expected = {"examiner": 0, "worker": 1, "candidate": 2}.get(role)
+    if expected is None:
+        return False
     status, namespaces = observation.get("status"), observation.get("namespaces")
     if not isinstance(status, Mapping) or not isinstance(namespaces, Mapping):
         return False
@@ -85,7 +87,8 @@ def _private_role_observed(observation: Any, role: str) -> bool:
             or type(observation.get("gid")) is not int or observation["gid"] != expected
             or status.get("NoNewPrivs") != "1" or status.get("Groups") != ""
             or observation.get("reportMounted") is not (role == "examiner")
-            or observation.get("brokerMounted") is not (role == "examiner")):
+            or observation.get("brokerMounted") is not (role == "examiner")
+            or observation.get("workerBrokerMounted") is not (role == "worker")):
         return False
     for key in ("CapEff", "CapPrm", "CapBnd", "CapAmb"):
         value = status.get(key)
@@ -165,16 +168,29 @@ def _private_report_verified(result: Mapping[str, Any], *, execution: str, integ
     examiner, workers = boundary.get("examiner"), boundary.get("workers")
     if not _private_role_observed(examiner, "examiner") or not isinstance(workers, list):
         return False
+    worker_roles = []
+    candidate_roles = []
     for worker in workers:
         if not isinstance(worker, Mapping) or type(worker.get("returncode")) is not int:
             return False
         observation = worker.get("observation")
-        if not _private_role_observed(observation, "worker"):
+        role = worker.get("principal", "worker")
+        if not _private_role_observed(observation, role) or role not in ("worker", "candidate"):
             return False
         if (observation["namespaces"]["user"] != examiner["namespaces"]["user"]
                 or any(observation["namespaces"][key] == examiner["namespaces"][key]
-                       for key in ("pid", "mnt"))):
+                       for key in ("pid", "mnt"))
+                or observation.get("uidMap") != examiner.get("uidMap")
+                or observation.get("gidMap") != examiner.get("gidMap")):
             return False
+        (worker_roles if role == "worker" else candidate_roles).append(observation)
+    for candidate in candidate_roles:
+        for worker in worker_roles:
+            # Earlier role namespaces may have exited and the kernel can reuse
+            # their namespace inode numbers. Identity separation is the stable
+            # cross-run fact; live namespace separation is checked by bootstrap.
+            if candidate["uid"] == worker["uid"] or candidate["gid"] == worker["gid"]:
+                return False
     return True
 
 

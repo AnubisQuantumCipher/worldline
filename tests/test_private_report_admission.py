@@ -11,7 +11,7 @@ from worldline.finalize import evaluation_record
 
 def observation(role: str) -> dict:
     examiner = role == "examiner"
-    uid = 0 if examiner else 1
+    uid = {"examiner": 0, "worker": 1, "candidate": 2}[role]
     return {
         "role": role, "uid": uid, "gid": uid,
         "status": {"Uid": " ".join([str(uid)] * 4), "Gid": " ".join([str(uid)] * 4),
@@ -20,6 +20,7 @@ def observation(role: str) -> dict:
         "namespaces": {"user": "user:[100]", "pid": "pid:[101]" if examiner else "pid:[102]",
                        "mnt": "mnt:[103]" if examiner else "mnt:[104]"},
         "reportMounted": examiner, "brokerMounted": examiner,
+        "workerBrokerMounted": role == "worker",
     }
 
 
