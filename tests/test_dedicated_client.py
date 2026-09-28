@@ -19,6 +19,7 @@ from unittest import mock
 from worldline import cli_main
 from worldline.canonical import atomic_write
 from worldline.client import DaemonClient
+from worldline.controller import RuntimeController
 from worldline.core import Core
 from worldline.daemon import WorldlineDaemon
 from worldline.errors import WorldlineError
@@ -121,6 +122,16 @@ class ClientModeDaemon(unittest.IsolatedAsyncioTestCase):
                 await asyncio.to_thread(client.request, "ping")
         self.assertEqual(caught.exception.code, "PEER_UID_MISMATCH")
 
+    async def test_owner_only_operations_refuse_a_listed_client(self) -> None:
+        self.daemon.register("probe.owner", lambda _args, _context: {"served": True}, owner_only=True)
+        client = DaemonClient(self.paths)
+        self.assertEqual(await asyncio.to_thread(client.request, "probe.owner"), {"served": True})
+        with mock.patch.object(WorldlineDaemon, "_peer_uid", return_value=self.other_uid):
+            self.assertIn("version", await asyncio.to_thread(client.request, "ping"))
+            with self.assertRaises(WorldlineError) as caught:
+                await asyncio.to_thread(client.request, "probe.owner")
+        self.assertEqual(caught.exception.code, "OPERATION_NEEDS_DAEMON_ACCOUNT")
+
     async def test_client_refuses_a_daemon_that_is_not_the_expected_uid(self) -> None:
         # WORLDLINE_DAEMON_UID names the dedicated account; this daemon runs as the test user.
         expecting_other = WorldlinePaths(
@@ -130,6 +141,22 @@ class ClientModeDaemon(unittest.IsolatedAsyncioTestCase):
         with self.assertRaises(WorldlineError) as caught:
             await asyncio.to_thread(DaemonClient(expecting_other).request, "ping")
         self.assertEqual(caught.exception.code, "DAEMON_PEER_UNEXPECTED")
+
+
+class OwnerOnlyRegistrations(unittest.TestCase):
+    def test_exactly_the_root_set_changes_are_owner_only(self) -> None:
+        # They move directories between the operator and the store, which a dedicated account
+        # cannot do on a client's behalf. Everything else stays open to listed clients.
+        recorded: dict[str, bool] = {}
+
+        class Recorder:
+            def register(self, name, _handler, *, mutating=False, owner_only=False):
+                recorded[name] = owner_only
+
+        RuntimeController.register(mock.Mock(), Recorder())
+        self.assertEqual({name for name, owner in recorded.items() if owner},
+                         {"init", "root.add", "root.remove"})
+        self.assertIn("collapse.commit", recorded)
 
 
 class ClientSideRefusals(unittest.TestCase):
