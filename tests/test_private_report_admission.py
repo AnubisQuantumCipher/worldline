@@ -147,6 +147,32 @@ class PrivateReportAdmission(unittest.TestCase):
         result["exitCode"] = False
         self.assert_refused(result)
 
+    def test_candidate_principal_is_admitted_only_under_its_own_label(self) -> None:
+        def with_entry(principal: str | None, role: str) -> dict:
+            result = private_result()
+            entry = {"returncode": 0, "observation": observation(role)}
+            if principal is not None:
+                entry["principal"] = principal
+            result["evaluatorBoundary"]["workers"].append(entry)
+            return result
+
+        self.assertTrue(evaluation_record(with_entry("candidate", "candidate"))["admissibleForPromotion"])
+        # A candidate relabelled, or left unlabelled and so defaulted, as a worker fails the
+        # worker pins; a worker relabelled as a candidate fails the candidate pins.
+        for principal, role in (("worker", "candidate"), (None, "candidate"), ("candidate", "worker"),
+                                ("examiner", "candidate"), ("root", "candidate")):
+            with self.subTest(principal=principal, role=role):
+                self.assert_refused(with_entry(principal, role))
+        shared = with_entry("candidate", "candidate")
+        shared["evaluatorBoundary"]["workers"][1]["observation"].update({"uid": 1, "gid": 1})
+        self.assert_refused(shared)
+        # The worker-broker mount is pinned per role on its own, independent of the UID pin.
+        for role, mounted in (("worker", False), ("candidate", True)):
+            with self.subTest(role=role, workerBrokerMounted=mounted):
+                result = with_entry(role, role)
+                result["evaluatorBoundary"]["workers"][1]["observation"]["workerBrokerMounted"] = mounted
+                self.assert_refused(result)
+
     def test_role_identity_namespaces_privileges_and_mounts_are_required(self) -> None:
         baseline = private_result()
         changes = (
