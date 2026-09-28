@@ -1,5 +1,49 @@
 # Changelog
 
+## 1.7.0 — 2026-09-28 · dedicated-account client mode
+
+**The daemon can run as its own account and serve named client accounts, so the store and
+PRIME's backing no longer have to belong to the operator's login.** Before this release, the
+daemon accepted only its own uid. Moving it to a dedicated account would have locked the
+operator's CLI, the bar plugin and every other reader out.
+
+### Dedicated-account client mode
+
+- Opt-in through the daemon's environment:
+  - `WORLDLINE_CLIENT_GID`: one group;
+  - `WORLDLINE_CLIENT_UIDS`: comma-separated, distinct and positive.
+- With both set:
+  - the runtime directory becomes `0750`, the socket `0660` and `status.json` `0640`, all
+    owned by the daemon with the client group;
+  - the daemon verifies the socket's mode and group after it binds;
+  - the daemon serves its own uid and the listed uids, and refuses every other peer with
+    `PEER_UID_MISMATCH`.
+- Without them, nothing changes: owner-only, `0600`.
+- Settings that are malformed, name more than one group, or list uids without a group refuse at
+  startup with `INVALID_CLIENT_MODE`.
+- The client checks the server's `SO_PEERCRED` before it sends a request:
+  - it expects `WORLDLINE_DAEMON_UID` when that is set, and its own uid otherwise;
+  - anything else is refused with `DAEMON_PEER_UNEXPECTED`.
+  In 1.6.0 the client trusted whatever was listening at the socket path.
+- A socket the caller has no permission to reach is refused with `DAEMON_ACCESS_DENIED`,
+  instead of raising `PermissionError`.
+- `worldline shell` reads the world's payload from the daemon's store as the caller. From a
+  client account it now refuses with `SHELL_UNAVAILABLE_TO_CLIENT`.
+- `SECURITY.md` states the limits (new limit 7):
+  - a listed client has the owner's full request surface;
+  - the boundary is only as strong as the root-owned unit that sets the environment;
+  - agent adapters mount the credentials of the account the daemon runs as.
+
+### Fixed
+
+- **A slow `docker info` no longer fails finalization with `WORLDLINE_INTERNAL_ERROR`.** When
+  the Docker probe outlived its 10 s window, the uncaught `TimeoutExpired` escaped as an
+  internal error. It now refuses as `DOCKER_UNAVAILABLE`, like any other unavailable daemon.
+- **The private evaluator's bootstrap handshake window is 60 s instead of 15 s**
+  (`BOOTSTRAP_HANDSHAKE_SECONDS`), on both sides. Under a load average near 110 on
+  2026-09-28, a mapped bootstrap became ready after 19.86 s and the run was refused
+  `PRIVATE_EVALUATOR_UNAVAILABLE`. The handshake still fails closed at its deadline.
+
 ## 1.6.0 — 2026-09-28 · stateful candidate leases
 
 **Private examiners can now keep every candidate process out of the worker's identity, including

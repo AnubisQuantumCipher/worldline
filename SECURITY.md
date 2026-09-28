@@ -3,7 +3,7 @@
 This document states plainly what WORLDLINE defends against, what it does not, and where its
 claims end. It is deliberately conservative: a guarantee is listed under "Holds" only if it was
 verified in code or demonstrated, and everything else is named as a limit rather than left
-implied. Last reviewed 2026-09-28, against release 1.6.0 (the audit of record is still
+implied. Last reviewed 2026-09-28, against release 1.7.0 (the audit of record is still
 `SECURITY-AUDIT-2026-09-02.md`; the adversarial reviews since then are summarized in
 `CHANGELOG.md`).
 
@@ -72,6 +72,18 @@ report files are never admissible.
 - **Daemon access control.** Socket is `0600` with an `SO_PEERCRED` uid check per connection and
   a bounded request envelope. The global config is rejected unless it is a regular, owner-owned,
   non-group/other-accessible file — the daemon refuses to start otherwise.
+- **Dedicated-account client mode (1.7.0).** Opt-in only, through the daemon's environment:
+  `WORLDLINE_CLIENT_GID` (one group) and `WORLDLINE_CLIENT_UIDS` (the client uids, none of them
+  0). With both set, the runtime directory becomes `0750`, the socket `0660` and `status.json`
+  `0640`, all owned by the daemon's uid with that group; the daemon verifies the socket's mode
+  and group after binding. Per connection it serves its own uid and the listed uids, and refuses
+  every other peer with `PEER_UID_MISMATCH`. Malformed or incomplete settings refuse at startup
+  (`INVALID_CLIENT_MODE`), and without them nothing changes: owner-only, `0600`. Store, state and
+  config directories stay `0700` of the daemon's uid, so a client reaches the store and PRIME's
+  backing only through the daemon. On the client side, `WORLDLINE_DAEMON_UID` names the account
+  the daemon must run as, and the client checks the socket's `SO_PEERCRED` before sending
+  anything: a socket bound by any other uid is refused with `DAEMON_PEER_UNEXPECTED`. Without it
+  the client expects its own uid, which 1.6.0 did not check at all.
 - **No shell, parameterized SQL.** No `shell=True`/`eval`/`exec`; every subprocess is an argv
   list; every SQL statement that carries data uses placeholders (the only interpolated SQL sets
   `PRAGMA user_version` from the runtime's own integer schema constants).
@@ -365,6 +377,22 @@ trust you place in WORLDLINE.
    orchestrator account with administrative access (for example `sudo`) is outside the model,
    and WORLDLINE makes no claim against it. The same holds, as limit 2 says, for any process
    running as your uid outside the sandbox.
+
+7. **Client mode moves the store out of a client's reach; it does not limit what a client may
+   ask for.**
+   - A listed client has the owner's full request surface. That includes `collapse`, `return`,
+     `transaction commit` and the managed-root changes. The confirmation screen is a CLI
+     prompt, not a daemon-side authorization.
+   - The boundary is only as strong as the daemon's environment and account. Whoever can edit
+     the service unit can add a client uid. The deployment must keep the unit, the install
+     and the account root-owned.
+   - The client group can list the runtime directory's names and read `status.json`. It
+     cannot read the admission ledger, because the daemon runs under `umask 077`.
+   - `worldline shell` materializes a world's payload as the caller, from the daemon's store.
+     From a client account it refuses with `SHELL_UNAVAILABLE_TO_CLIENT`.
+   - Agent adapters still mount the credential files of the account the daemon runs as. A
+     dedicated account therefore has no agent credentials until something provides them.
+     WORLDLINE does not.
 
 ## Reporting
 
