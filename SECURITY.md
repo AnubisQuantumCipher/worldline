@@ -72,18 +72,29 @@ report files are never admissible.
 - **Daemon access control.** Socket is `0600` with an `SO_PEERCRED` uid check per connection and
   a bounded request envelope. The global config is rejected unless it is a regular, owner-owned,
   non-group/other-accessible file — the daemon refuses to start otherwise.
+- **Managed roots resolve through the store (1.7.0).** Capture, validation, policy loading,
+  prune and `why` read a root's content through the store's own `live/<root key>` mapping,
+  never through the registered path. That path is a link in a directory the operator owns.
+  The link must route through the mapping and the mapping must resolve inside the store, or the
+  root is refused (`LIVE_MAPPING_BROKEN`).
 - **Dedicated-account client mode (1.7.0).** Opt-in only, through the daemon's environment:
-  `WORLDLINE_CLIENT_GID` (one group) and `WORLDLINE_CLIENT_UIDS` (the client uids, none of them
-  0). With both set, the runtime directory becomes `0750`, the socket `0660` and `status.json`
-  `0640`, all owned by the daemon's uid with that group; the daemon verifies the socket's mode
-  and group after binding. Per connection it serves its own uid and the listed uids, and refuses
-  every other peer with `PEER_UID_MISMATCH`. Malformed or incomplete settings refuse at startup
-  (`INVALID_CLIENT_MODE`), and without them nothing changes: owner-only, `0600`. Store, state and
-  config directories stay `0700` of the daemon's uid, so a client reaches the store and PRIME's
-  backing only through the daemon. On the client side, `WORLDLINE_DAEMON_UID` names the account
-  the daemon must run as, and the client checks the socket's `SO_PEERCRED` before sending
-  anything: a socket bound by any other uid is refused with `DAEMON_PEER_UNEXPECTED`. Without it
-  the client expects its own uid, which 1.6.0 did not check at all.
+  exactly one `WORLDLINE_CLIENT_GID` and at least one `WORLDLINE_CLIENT_UIDS` (distinct ASCII
+  decimal uids, never 0). Anything else refuses at startup with `INVALID_CLIENT_MODE`, and so
+  do a runtime directory that overlaps the store and a group the daemon is not in.
+  - The runtime directory is `0750`, the socket `0660` and `status.json` `0640`, all with that
+    group.
+  - The daemon serves its own uid and the listed ones and refuses every other peer with
+    `PEER_UID_MISMATCH`.
+  - Clients can traverse to PRIME's content but not list or write any store directory: the path
+    to it is `0710` with the group, and everything else stays `0700`.
+  - `init`, `root add`, `root remove` and `switch` refuse clients
+    (`OPERATION_NEEDS_DAEMON_ACCOUNT`).
+  - The client checks the socket's `SO_PEERCRED` against `WORLDLINE_DAEMON_UID`, or its own
+    uid, before sending anything.
+  - Without the environment, the daemon is owner-only as before.
+- **The store is masked in every sandbox (1.7.0).** A data, state, config or runtime directory
+  that a sandbox would otherwise see is covered by a tmpfs. That means one under a read-only
+  system bind (`/var`, `/opt`, ...) and outside the masked HOME.
 - **No shell, parameterized SQL.** No `shell=True`/`eval`/`exec`; every subprocess is an argv
   list; every SQL statement that carries data uses placeholders (the only interpolated SQL sets
   `PRAGMA user_version` from the runtime's own integer schema constants).
@@ -378,21 +389,30 @@ trust you place in WORLDLINE.
    and WORLDLINE makes no claim against it. The same holds, as limit 2 says, for any process
    running as your uid outside the sandbox.
 
-7. **Client mode moves the store out of a client's reach; it does not limit what a client may
-   ask for.**
-   - A listed client has the owner's full request surface. That includes `collapse`, `return`,
-     `transaction commit` and the managed-root changes. The confirmation screen is a CLI
-     prompt, not a daemon-side authorization.
+7. **Client mode separates the store from its clients; it does not authorize their requests.**
+   - A listed client has every operation except the root-set changes and `switch`. That includes
+     `collapse`, `return` and `transaction commit`. The confirmation screen is a CLI prompt,
+     not a daemon-side authorization. Receipts do not record which uid asked; the daemon's log
+     does.
    - The boundary is only as strong as the daemon's environment and account. Whoever can edit
-     the service unit can add a client uid. The deployment must keep the unit, the install
-     and the account root-owned.
-   - The client group can list the runtime directory's names and read `status.json`. It
-     cannot read the admission ledger, because the daemon runs under `umask 077`.
-   - `worldline shell` materializes a world's payload as the caller, from the daemon's store.
-     From a client account it refuses with `SHELL_UNAVAILABLE_TO_CLIENT`.
-   - Agent adapters still mount the credential files of the account the daemon runs as. A
-     dedicated account therefore has no agent credentials until something provides them.
-     WORLDLINE does not.
+     the service unit can add a client uid, and the daemon account can do anything the store
+     can. The deployment must keep the unit, the install and the account out of the clients'
+     reach.
+   - Clients can stat names they already know along the path to PRIME, since the chain is
+     group-searchable. They can read PRIME's content with its recorded modes, and the other
+     staged payloads whose transaction ids they learn from `transaction list`. They cannot list
+     any store directory.
+   - The routing check reads the registered root links. The daemon account therefore needs
+     search permission on the directories above them, for example the operator's HOME. Without
+     it every capture refuses, which fails closed.
+   - `worldline shell` (`SHELL_UNAVAILABLE_TO_CLIENT`) and `switch`
+     (`OPERATION_NEEDS_DAEMON_ACCOUNT`) need the daemon's own account, and refuse from clients.
+     Agent adapters mount the credential files of the account the daemon runs as, so a
+     dedicated account has no agent credentials until the deployment provides them. Job
+     supervision needs that account's systemd user manager (lingering).
+   - `worldline-relocate` proves a relocated copy's recorded locations, chains and mappings. It
+     does not prove the copy is complete: the copy step (as root, for overlay work directories)
+     and its comparison belong to the migration.
 
 ## Reporting
 

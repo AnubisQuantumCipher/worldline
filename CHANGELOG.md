@@ -2,47 +2,127 @@
 
 ## 1.7.0 — 2026-09-28 · dedicated-account client mode
 
-**The daemon can run as its own account and serve named client accounts, so the store and
-PRIME's backing no longer have to belong to the operator's login.** Before this release, the
-daemon accepted only its own uid. Moving it to a dedicated account would have locked the
-operator's CLI, the bar plugin and every other reader out.
+**The daemon can run as its own account, serve named client accounts, and be moved there.** The
+store, PRIME's content and the policy that gates promotion no longer have to be the operator's to
+write. Before this release, the daemon accepted only its own uid. It also resolved every managed
+root through the operator's own link, so moving it to another account would have changed nothing
+that mattered.
+
+### Managed roots resolve through the store (every deployment)
+
+- The following once read a root through `realpath(<registered path>)`, a symlink in a directory
+  the operator owns:
+  - capture, reconcile, prepare, checkpoint, revalidation and validation;
+  - `simulate`, `prune`, fork policy loading, service start and `why`.
+
+  All of them now resolve the root's content through the store's own `live/<root key>`
+  mapping. The registered path must still link to exactly that mapping, and the mapping must
+  resolve inside the store. Anything else refuses with `LIVE_MAPPING_BROKEN`, the state the
+  doctor already called `BROKEN`.
+- With one account this closed nothing new. With a dedicated daemon, a client that re-pointed
+  its `~/Projects/<root>` link could have:
+  - had its own directory captured as PRIME with no collapse;
+  - had the gating policy loaded from it;
+  - made `prune` treat PRIME's payload as unreferenced.
+
+  An independent review demonstrated the first two.
+- `why` refuses paths containing `..`, and reads only inside the root.
+- **Upgrade note:** a root whose registered path no longer links to its live mapping now refuses
+  captures instead of silently adopting what is there. An interrupted `root remove` can leave
+  such a root. `worldline doctor` lists it under `rootIntegrity`.
 
 ### Dedicated-account client mode
 
-- Opt-in through the daemon's environment:
-  - `WORLDLINE_CLIENT_GID`: one group;
-  - `WORLDLINE_CLIENT_UIDS`: comma-separated, distinct and positive.
+- It is opt-in, through the daemon's environment. Both variables are required, and any other
+  combination refuses at startup with `INVALID_CLIENT_MODE`:
+  - `WORLDLINE_CLIENT_GID`: exactly one group;
+  - `WORLDLINE_CLIENT_UIDS`: at least one uid, distinct, in ASCII decimal digits only, never 0.
+
+  The following also refuse with `INVALID_CLIENT_MODE`:
+  - a runtime directory that overlaps data, state or config;
+  - a client group the daemon account is not a member of.
+
+  Without the variables, nothing changes: owner-only, `0600`.
 - With both set:
-  - the runtime directory becomes `0750`, the socket `0660` and `status.json` `0640`, all
-    owned by the daemon with the client group;
-  - the daemon verifies the socket's mode and group after it binds;
+  - the runtime directory is `0750`, the socket `0660` (verified after bind) and
+    `status.json` `0640`, all with the client group;
   - the daemon serves its own uid and the listed uids, and refuses every other peer with
     `PEER_UID_MISMATCH`.
-- Without them, nothing changes: owner-only, `0600`.
-- Settings that are malformed, name more than one group, or list uids without a group refuse at
-  startup with `INVALID_CLIENT_MODE`.
-- The client checks the server's `SO_PEERCRED` before it sends a request:
-  - it expects `WORLDLINE_DAEMON_UID` when that is set, and its own uid otherwise;
-  - anything else is refused with `DAEMON_PEER_UNEXPECTED`.
-  In 1.6.0 the client trusted whatever was listening at the socket path.
-- A socket the caller has no permission to reach is refused with `DAEMON_ACCESS_DENIED`,
-  instead of raising `PermissionError`.
-- `worldline shell` reads the world's payload from the daemon's store as the caller. From a
-  client account it now refuses with `SHELL_UNAVAILABLE_TO_CLIENT`.
-- `SECURITY.md` states the limits (new limit 7):
-  - a listed client has the owner's full request surface;
-  - the boundary is only as strong as the root-owned unit that sets the environment;
-  - agent adapters mount the credentials of the account the daemon runs as.
+- **Clients read PRIME and nothing else of the store.** The directories on the path from the
+  store to PRIME's content are `0710` with the client group, so clients can traverse them but
+  not list or write them. That path is data, `live`, `generations` and each generation and its
+  payload, and `transactions` and each transaction, its payload and its mapping. Manifests,
+  state, worlds, overlays and config stay `0700`. At startup the daemon re-modes the current
+  path, so a store written before client mode is readable at once.
+- **`init`, `root add`, `root remove` and `switch` belong to the daemon's own account.**
+  - The root-set changes move directories between the operator and the store, which a
+    dedicated account cannot do on a client's behalf.
+  - `switch` drives the desktop and opens a terminal as the daemon.
+
+  A listed client gets `OPERATION_NEEDS_DAEMON_ACCOUNT`. Every other
+  operation is open to listed clients, and the daemon logs each mutating request with its
+  requester's uid.
+- **Nothing the daemon runs can read its store.** In every sandbox (agents, legacy checks,
+  services, `simulate`, `shell`), a data, state, config or runtime directory is covered by a
+  tmpfs when it would otherwise be visible: under a read-only system bind such as `/var` or
+  `/opt`, and outside the masked HOME. Before, a store under `/var/lib` would have been
+  readable, anchor signing key included. The private evaluator's roles never saw `/var`.
+- The client checks the server's `SO_PEERCRED` before sending anything. It expects
+  `WORLDLINE_DAEMON_UID` when that is set, and its own uid otherwise; anything else is refused
+  with `DAEMON_PEER_UNEXPECTED`. In 1.6.0 the client checked nothing.
+- A socket the caller cannot reach refuses with `DAEMON_ACCESS_DENIED`.
+- `worldline shell` refuses from a client account with `SHELL_UNAVAILABLE_TO_CLIENT`.
+- The CLI sends `init`/`root add` paths as absolute paths, because the daemon's working
+  directory is not the caller's.
+
+### Relocating a store: `worldline-relocate`
+
+- A store records absolute paths to itself, so it cannot simply be moved. `worldline-relocate
+  --from-data --from-state --to-data --to-state [--dry-run]` works on a stopped, quiescent copy
+  already placed at the new location, and never writes the old copy. It rewrites exactly the
+  recorded locations:
+  - six database location columns;
+  - the transaction records;
+  - the live and prepared mapping links.
+
+  It then proves the result:
+  - no database column or daemon-read file still names the old store;
+  - the causal and receipt chains replay;
+  - every mapping and retained payload resolves inside the new store.
+- Some mentions of the old path are kept byte for byte and only counted: user content, hashed
+  records, agent output and the snapshots given to agents. A mention anywhere else refuses.
+- The operator's own root links are left for the migration to re-point.
+- Tested end to end: a store with two collapses is relocated and served by a fresh daemon. It
+  reports the same PRIME, the same chain verification and a working fork and collapse, and the
+  old copy stays byte-identical.
 
 ### Fixed
 
-- **A slow `docker info` no longer fails finalization with `WORLDLINE_INTERNAL_ERROR`.** When
-  the Docker probe outlived its 10 s window, the uncaught `TimeoutExpired` escaped as an
-  internal error. It now refuses as `DOCKER_UNAVAILABLE`, like any other unavailable daemon.
-- **The private evaluator's bootstrap handshake window is 60 s instead of 15 s**
-  (`BOOTSTRAP_HANDSHAKE_SECONDS`), on both sides. Under a load average near 110 on
-  2026-09-28, a mapped bootstrap became ready after 19.86 s and the run was refused
-  `PRIVATE_EVALUATOR_UNAVAILABLE`. The handshake still fails closed at its deadline.
+- **Load-induced internal errors.**
+  - A `docker info`, `docker ps` or `docker inspect` that outlives its window now refuses as
+    `DOCKER_UNAVAILABLE`. Before, the uncaught `TimeoutExpired` failed finalization with
+    `WORLDLINE_INTERNAL_ERROR`.
+  - The private evaluator's bootstrap handshake window is 60 s instead of 15 s
+    (`BOOTSTRAP_HANDSHAKE_SECONDS`), on both sides. Under a load average near 110, a bootstrap
+    became ready after 19.86 s and was refused. It still fails closed at its deadline.
+- **`worldlined` sets `umask 077` before it builds anything,** and the admission lock and ledger
+  are created `0600` explicitly. Before, the build step created them before the daemon's own
+  umask applied, so under a permissive unit umask they were `0644`. A client-group member could
+  then have held the lock and stalled admission.
+- **The self-capture guard compares resolved paths as well.** Before, a symlinked parent could
+  walk a root into the store past the lexical check.
+
+### Known limits
+
+- Revalidation runs on the daemon's event loop, as before. A refused bootstrap now holds it for
+  up to 60 s instead of 15 s.
+- Receipts and causal events do not record which uid requested a change; the daemon's log does.
+- In a dedicated deployment:
+  - the daemon account needs search (`x`) permission on each directory above the registered
+    root paths, to check that their links still route through the store;
+  - job supervision needs the account's own systemd user manager (lingering);
+  - agents run with that account's credentials, and WORLDLINE does not provide any.
+  `SECURITY.md` limit 7.
 
 ## 1.6.0 — 2026-09-28 · stateful candidate leases
 
