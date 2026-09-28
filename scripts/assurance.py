@@ -116,6 +116,8 @@ PRIVATE_HOST_CASES = (
     "test_absolute_external_symlink_refused",
     "test_special_permission_bits_refused",
     "test_user_xattr_refused_when_supported",
+    "test_lease_on_a_directory_the_candidate_input_already_contains",
+    "test_link_that_climbs_after_a_name_is_refused",
 )
 
 

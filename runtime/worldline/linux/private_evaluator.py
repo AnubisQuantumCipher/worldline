@@ -729,7 +729,13 @@ def _bootstrap(plan_path: str) -> int:
                 _own_tree(view, 2)
                 matching = next(root for root in roots if root["target"] == selected["target"])
                 mountpoint = Path(matching["source"]) / relative
-                mountpoint.mkdir(parents=True, exist_ok=False)
+                try:
+                    mountpoint.mkdir(parents=True, exist_ok=False)
+                except FileExistsError:
+                    # A leased directory the candidate input already contains is hidden by the
+                    # case bind mount; any other kind of entry there is refused.
+                    if not stat.S_ISDIR(os.lstat(mountpoint).st_mode):
+                        _refuse("scoped case mountpoint is not a real directory in the candidate copy")
             except BaseException:
                 remove_private_tree(work)
                 raise

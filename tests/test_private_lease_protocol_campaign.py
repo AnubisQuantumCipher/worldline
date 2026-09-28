@@ -248,6 +248,19 @@ def mode_positive_full_lifecycle():
     done(all(checks.values()), checks=checks)
 
 
+def mode_lease_committed_directory():
+    # The leased directory is part of the frozen candidate input, not created by the worker.
+    committed = LOGICAL + "/committed"
+    ch = open_case(committed)
+    h = start(ch, READER % committed)
+    wait_done(ch, h)
+    teardown(ch, h)
+    copy_out(ch)
+    seen = (Path(committed) / "seen.txt").read_text()
+    close_case(ch)
+    done(seen == "committed v0\n", seen=seen)
+
+
 def mode_streaming_under_cap_is_consistent():
     big = CROOT + "/big"
     build_case(big)
@@ -662,6 +675,18 @@ class PrivateLeaseProtocolCampaign(unittest.TestCase):
         self.assertEqual(leases[0]["events"][-1], "close")
         self.assertIn("copy-out", leases[0]["events"])
         self.assertIn("copy-in", leases[0]["events"])
+        self._assert_source_pristine()
+        self._assert_unit_gone(spec.run_id)
+
+    def test_lease_on_a_directory_the_candidate_input_already_contains(self):
+        committed = self.source / "committed"
+        committed.mkdir(mode=0o755)
+        (committed / "input.txt").write_text("committed v0\n")
+        self.source_manifest = _host_manifest(self.source)
+        spec, result = self._run_mode("lease_committed_directory")
+        self.assertEqual(result["exitCode"], 0, result["stdout"] + result["stderr"])
+        self.assertIn(b'failures="0"', (result["reportDirectory"] / "report").read_bytes())
+        self.assertTrue(result["boundary"]["rolesCompleted"])
         self._assert_source_pristine()
         self._assert_unit_gone(spec.run_id)
 
