@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import os
+import re
 from pathlib import Path
 import stat
 from typing import Any, Mapping
@@ -16,17 +17,27 @@ def _absolute(value: str | os.PathLike[str]) -> Path:
     return path
 
 
+_IDENTITY = re.compile(r"[1-9][0-9]{0,9}")
+
+
 def _identity_list(value: str | None, name: str) -> tuple[int, ...]:
-    """Parse a comma-separated list of positive numeric identities from the environment."""
+    """Parse a comma-separated list of distinct positive decimal identities from the environment.
+
+    ASCII digits only: `int()` alone also takes spaces, underscores and other scripts' digits.
+    """
     if value is None or value == "":
         return ()
-    try:
-        items = tuple(int(part) for part in value.split(","))
-    except ValueError as exc:
-        raise WorldlineError("INVALID_CLIENT_MODE", f"{name} must list numeric identities") from exc
-    if any(item <= 0 for item in items) or len(set(items)) != len(items):
-        raise WorldlineError("INVALID_CLIENT_MODE", f"{name} must list distinct positive identities")
+    parts = value.split(",")
+    if not all(_IDENTITY.fullmatch(part) for part in parts):
+        raise WorldlineError("INVALID_CLIENT_MODE", f"{name} must list positive decimal identities")
+    items = tuple(int(part) for part in parts)
+    if len(set(items)) != len(items):
+        raise WorldlineError("INVALID_CLIENT_MODE", f"{name} must list distinct identities")
     return items
+
+
+def _nested(first: Path, second: Path) -> bool:
+    return first == second or first in second.parents or second in first.parents
 
 
 def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None = None,
@@ -47,7 +58,12 @@ def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None 
         if shared_mode & 0o7027:
             raise ValueError(f"not a client-mode directory mode: {shared_mode:o}")
         if info.st_gid != shared_gid:
-            os.chown(path, -1, shared_gid)
+            try:
+                os.chown(path, -1, shared_gid)
+            except PermissionError as exc:
+                raise WorldlineError(
+                    "INVALID_CLIENT_MODE",
+                    f"the daemon account is not a member of client group {shared_gid}") from exc
         if stat.S_IMODE(info.st_mode) != shared_mode:
             os.chmod(path, shared_mode)
         after = path.lstat()
@@ -86,15 +102,20 @@ class WorldlinePaths:
         gids = _identity_list(values.get("WORLDLINE_CLIENT_GID"), "WORLDLINE_CLIENT_GID")
         uids = _identity_list(values.get("WORLDLINE_CLIENT_UIDS"), "WORLDLINE_CLIENT_UIDS")
         daemon = _identity_list(values.get("WORLDLINE_DAEMON_UID"), "WORLDLINE_DAEMON_UID")
-        if len(gids) > 1 or len(daemon) > 1 or (uids and not gids):
+        if len(gids) > 1 or len(daemon) > 1 or bool(uids) != bool(gids):
             raise WorldlineError(
                 "INVALID_CLIENT_MODE",
-                "client mode needs exactly one WORLDLINE_CLIENT_GID for its WORLDLINE_CLIENT_UIDS")
+                "client mode needs exactly one WORLDLINE_CLIENT_GID and at least one WORLDLINE_CLIENT_UIDS")
+        runtime = runtime_home / "worldline"
+        if gids and any(_nested(runtime, other / "worldline") for other in (data_home, state_home, config_home)):
+            # The runtime directory is opened to the client group; the store must never share it.
+            raise WorldlineError("INVALID_CLIENT_MODE",
+                                 "in client mode the runtime directory must be apart from data, state and config")
         return cls(
             home=home,
             data=data_home / "worldline",
             state=state_home / "worldline",
-            runtime=runtime_home / "worldline",
+            runtime=runtime,
             config=config_home / "worldline",
             client_gid=gids[0] if gids else None,
             client_uids=uids,

@@ -183,6 +183,17 @@ class BubblewrapSandbox:
             return (real.parent,)
         return ()
 
+    def _store_masks(self, spec: SandboxSpec) -> list[str]:
+        """tmpfs over each store directory the sandbox would otherwise see: one under a
+        read-only system bind and outside the masked HOME. Anywhere else it is not mounted."""
+        masks: list[str] = []
+        for private in (self.paths.data, self.paths.state, self.paths.config, self.paths.runtime):
+            if spec.operator_home == private or spec.operator_home in private.parents:
+                continue
+            if any(Path(system) == private or Path(system) in private.parents for system in _SYSTEM_READONLY):
+                masks.extend(("--tmpfs", str(private)))
+        return masks
+
     def build_argv(self, spec: SandboxSpec) -> tuple[str, ...]:
         if not spec.argv or any(not item for item in spec.argv):
             raise WorldlineError("INVALID_AGENT_COMMAND", "sandbox argv must be a nonempty string array")
@@ -231,6 +242,11 @@ class BubblewrapSandbox:
             arguments.extend(("--tmpfs", "/var/tmp"))
         arguments.extend(self._directory_arguments(spec.operator_home.parent))
         arguments.extend(("--tmpfs", str(spec.operator_home)))
+        # Nothing WORLDLINE runs may read its own store. Masking the HOME above covers a store
+        # under it; a dedicated account's store elsewhere (/var/lib/...) would otherwise be
+        # visible through the read-only system binds, signing key included. Bind SOURCES resolve
+        # on the host, so the overlays and runtimes below are unaffected.
+        arguments.extend(self._store_masks(spec))
         arguments.extend(self._directory_arguments(Path("/run/worldline-runtime")))
         arguments.extend(("--bind", str(spec.runtime), "/run/worldline-runtime"))
         for source, target in spec.readonly_mounts:

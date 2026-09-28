@@ -36,6 +36,8 @@ class RequestContext:
     daemon: "WorldlineDaemon"
     request_id: str | int
     progress: Progress
+    # SO_PEERCRED uid of the requester: the daemon's own, or a listed client's in client mode.
+    peer_uid: int | None = None
 
 
 @dataclass(slots=True)
@@ -141,7 +143,12 @@ class WorldlineDaemon:
         if self.paths.client_gid is None:
             os.chmod(self.paths.socket, 0o600)
         else:
-            os.chown(self.paths.socket, -1, self.paths.client_gid)
+            try:
+                os.chown(self.paths.socket, -1, self.paths.client_gid)
+            except PermissionError as exc:
+                raise WorldlineError(
+                    "INVALID_CLIENT_MODE",
+                    f"the daemon account is not a member of client group {self.paths.client_gid}") from exc
             os.chmod(self.paths.socket, 0o660)
         self._verify_socket()
         self.publisher.publish(daemon_state="RUNNING")
@@ -295,7 +302,7 @@ class WorldlineDaemon:
             operation = self._operations.get(operation_name)
             if operation is None:
                 raise WorldlineError("UNKNOWN_OPERATION", f"unknown daemon operation: {operation_name}")
-            if operation.owner_only and self._peer_uid(writer) != os.getuid():
+            if operation.owner_only and self._peer_uid(writer) != os.getuid():  # before any handler runs
                 raise WorldlineError(
                     "OPERATION_NEEDS_DAEMON_ACCOUNT",
                     f"{operation_name} moves directories between the operator and the store; "
@@ -304,8 +311,11 @@ class WorldlineDaemon:
             async def progress(event: str, data: dict[str, Any]) -> None:
                 await self._send(writer, {"id": request_id, "event": event, "data": data})
 
-            context = RequestContext(self, request_id, progress)
+            peer_uid = self._peer_uid(writer)
+            context = RequestContext(self, request_id, progress, peer_uid)
             if operation.mutating:
+                # Receipts and causal events do not record who asked; the daemon's log does.
+                _LOG.info("%s requested by uid %d", operation_name, peer_uid)
                 async with self._mutation_lock:
                     result = await self._invoke(operation.handler, args, context)
                     self.publisher.publish()

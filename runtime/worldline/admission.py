@@ -369,7 +369,8 @@ class Ledger:
             self.handle = None
 
         def __enter__(self) -> "Ledger._Locked":
-            self.handle = open(self.ledger.lock_path, "a+b")
+            self.handle = os.fdopen(
+                os.open(self.ledger.lock_path, os.O_RDWR | os.O_CREAT | os.O_APPEND | os.O_CLOEXEC, 0o600), "a+b")
             try:
                 fcntl.flock(self.handle.fileno(), fcntl.LOCK_EX)
             except OSError:
@@ -436,7 +437,10 @@ class Ledger:
         document = {"schemaVersion": 1, "updatedAtMs": int(time.time() * 1000),
                     "reservations": [r.as_dict() for r in reservations]}
         temporary = self.path.with_suffix(".tmp")
-        temporary.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
+        descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_CLOEXEC, 0o600)
+        os.fchmod(descriptor, 0o600)
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            stream.write(json.dumps(document, indent=2) + "\n")
         os.replace(temporary, self.path)
 
     # -- operations, each taking the lock unless one is already held -----------------------------

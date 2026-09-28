@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import logging
+import os
 import signal
 
 from .app import WorldlineApplication
@@ -25,6 +26,9 @@ async def _run() -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Before anything is built: building already creates files in the runtime directory, which
+    # client mode opens to the client group. The unit's UMask is not relied on.
+    os.umask(0o077)
     parser = argparse.ArgumentParser(prog="worldlined")
     parser.add_argument("--log-level", choices=("DEBUG", "INFO", "WARNING", "ERROR"), default="INFO")
     arguments = parser.parse_args(argv)

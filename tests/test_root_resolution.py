@@ -25,6 +25,10 @@ from worldline.roots import RootManager
 from worldline.store import StateStore
 
 
+# A supplementary group: files are not created with it, so a missing group change fails.
+SUPPLEMENTARY_GID = next((gid for gid in os.getgroups() if gid != os.getgid()), None)
+
+
 def environment(root: Path, **extra: str) -> dict[str, str]:
     env = {
         "HOME": str(root / "home"),
@@ -46,7 +50,8 @@ class _Registered(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory(prefix="worldline-root-resolution-")
         self.addCleanup(self.temporary.cleanup)
         root = Path(self.temporary.name)
-        extra = {"WORLDLINE_CLIENT_GID": str(os.getgid())} if self.client_mode else {}
+        extra = ({"WORLDLINE_CLIENT_GID": str(SUPPLEMENTARY_GID), "WORLDLINE_CLIENT_UIDS": str(os.getuid() + 4242)}
+                 if self.client_mode else {})
         self.paths = WorldlinePaths.from_environment(environment(root, **extra))
         self.store = StateStore(self.paths, Core.shared())
         self.addCleanup(self.store.close)
@@ -121,6 +126,7 @@ class RootSourceTests(_Registered):
             CausalIndexer(self.store).why(climbing, 1)
 
 
+@unittest.skipIf(SUPPLEMENTARY_GID is None, "needs a supplementary group")
 class ClientModePrimeChainTests(_Registered):
     client_mode = True
 
@@ -138,7 +144,7 @@ class ClientModePrimeChainTests(_Registered):
         self.assertIn(self.paths.generations, [Path(p) for p in chain])
         for directory in chain:
             with self.subTest(directory=str(directory)):
-                self.assertEqual(self._mode_and_group(directory), (0o710, os.getgid()))
+                self.assertEqual(self._mode_and_group(directory), (0o710, SUPPLEMENTARY_GID))
         # The root's own directory keeps the mode its manifest records; manifests stay private.
         self.assertEqual(stat.S_IMODE(source.stat().st_mode), self.work_mode)
         self.assertEqual(stat.S_IMODE((source.parent / "manifests").stat().st_mode), 0o700)
@@ -154,7 +160,7 @@ class ClientModePrimeChainTests(_Registered):
         self.paths.share_live_chain()
         for directory in (generation, source.parent):
             with self.subTest(directory=str(directory)):
-                self.assertEqual(self._mode_and_group(directory), (0o710, os.getgid()))
+                self.assertEqual(self._mode_and_group(directory), (0o710, SUPPLEMENTARY_GID))
 
     def test_without_client_mode_every_store_directory_stays_0700(self) -> None:
         owner_only = WorldlinePaths.from_environment(environment(Path(self.temporary.name) / "plain"))

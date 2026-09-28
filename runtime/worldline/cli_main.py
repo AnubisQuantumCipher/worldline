@@ -132,10 +132,12 @@ def _print_transaction(facts: dict[str, Any]) -> None:
 
 def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Namespace, *, as_json: bool) -> Any:
     roots = arguments.roots if hasattr(arguments, "roots") else [arguments.root]
+    primary = getattr(arguments, "primary", None)
     payload = {
-        "roots": roots,
+        # Absolute here: the daemon's working directory is not the caller's.
+        "roots": [os.path.abspath(root) for root in roots],
         "kind": getattr(arguments, "kind", None),
-        "primary": getattr(arguments, "primary", None),
+        "primary": None if primary is None else os.path.abspath(primary),
         "confirmed": False,
     }
     if operation == "root.remove":

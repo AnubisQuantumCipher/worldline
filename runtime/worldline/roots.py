@@ -138,7 +138,10 @@ class RootManager:
         for raw, selected_kind in normalized:
             if any(self._overlap(raw, other) for other in seen):
                 raise WorldlineError("OVERLAPPING_ROOT", f"managed roots overlap: {display_path(raw)}")
-            if any(self._overlap(raw, internal) for internal in protected):
+            # Resolved on both sides: a symlinked parent must not walk a root into the store.
+            resolved = os.path.realpath(raw)
+            if any(self._overlap(raw, internal) or self._overlap(resolved, os.path.realpath(internal))
+                   for internal in protected):
                 raise WorldlineError("WORLDLINE_SELF_CAPTURE", f"root overlaps WORLDLINE state: {display_path(raw)}")
             repository = self.git.capture(raw) if selected_kind == "repo" else None
             root_key = self._root_key(raw)

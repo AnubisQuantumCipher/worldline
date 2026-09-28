@@ -218,7 +218,7 @@ class RuntimeController:
         daemon.register("log", self._log)
         daemon.register("why", self._why)
         daemon.register("inspect", self._inspect, mutating=True)
-        daemon.register("switch", self._switch, mutating=True)
+        daemon.register("switch", self._switch, mutating=True, owner_only=True)
         daemon.register("collapse.prepare", self._collapse_prepare, mutating=True)
         daemon.register("collapse.commit", self._collapse_commit, mutating=True)
         daemon.register("transaction.commit", self._collapse_commit, mutating=True)
