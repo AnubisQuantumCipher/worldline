@@ -85,16 +85,24 @@ report files are never admissible.
     group.
   - The daemon serves its own uid and the listed ones and refuses every other peer with
     `PEER_UID_MISMATCH`.
-  - Clients can traverse to PRIME's content but not list or write any store directory: the path
-    to it is `0710` with the group, and everything else stays `0700`.
+  - Clients can traverse to PRIME's content, but cannot list any store directory: the path to it
+    is `0710` with the group, and everything else stays `0700`.
+  - Content they can reach must be owned by the daemon and carry no group or other write bit
+    and no setuid, setgid or sticky bit (`CLIENT_MODE_UNSAFE_CONTENT`). This is checked at
+    collapse and return prepare, when a generation is published, and at daemon start. A client
+    group equal to the daemon's primary group is refused.
   - `init`, `root add`, `root remove` and `switch` refuse clients
     (`OPERATION_NEEDS_DAEMON_ACCOUNT`).
   - The client checks the socket's `SO_PEERCRED` against `WORLDLINE_DAEMON_UID`, or its own
     uid, before sending anything.
   - Without the environment, the daemon is owner-only as before.
-- **The store is masked in every sandbox (1.7.0).** A data, state, config or runtime directory
-  that a sandbox would otherwise see is covered by a tmpfs. That means one under a read-only
-  system bind (`/var`, `/opt`, ...) and outside the masked HOME.
+- **The daemon's HOME and store are masked in every ordinary sandbox (1.7.0).**
+  - Agents, checks, services, `simulate`, `shell` and the materializers all see the daemon's
+    HOME as an empty tmpfs.
+  - A data, state, config or runtime directory under a system path (bound, or overlaid by
+    `simulate`) and outside that HOME is covered by its own tmpfs, mounted after the system
+    overlays.
+  - The private evaluator binds only `/usr`, `/etc` and the library directories.
 - **No shell, parameterized SQL.** No `shell=True`/`eval`/`exec`; every subprocess is an argv
   list; every SQL statement that carries data uses placeholders (the only interpolated SQL sets
   `PRAGMA user_version` from the runtime's own integer schema constants).
@@ -399,9 +407,14 @@ trust you place in WORLDLINE.
      can. The deployment must keep the unit, the install and the account out of the clients'
      reach.
    - Clients can stat names they already know along the path to PRIME, since the chain is
-     group-searchable. They can read PRIME's content with its recorded modes, and the other
-     staged payloads whose transaction ids they learn from `transaction list`. They cannot list
-     any store directory.
+     group-searchable. Through each entry's recorded other-read bit, they can read:
+     - PRIME's content;
+     - fork checkpoints;
+     - the staged payloads of open transactions, whose ids `transaction list` gives them.
+
+     The content's group is the daemon's primary group, which clients are never in, so a
+     `0600` or `0640` file stays unreadable to them. They cannot list any store directory, and
+     reachable content refuses group or other write and special bits.
    - The routing check reads the registered root links. The daemon account therefore needs
      search permission on the directories above them, for example the operator's HOME. Without
      it every capture refuses, which fails closed.
@@ -410,9 +423,16 @@ trust you place in WORLDLINE.
      Agent adapters mount the credential files of the account the daemon runs as, so a
      dedicated account has no agent credentials until the deployment provides them. Job
      supervision needs that account's systemd user manager (lingering).
-   - `worldline-relocate` proves a relocated copy's recorded locations, chains and mappings. It
-     does not prove the copy is complete: the copy step (as root, for overlay work directories)
-     and its comparison belong to the migration.
+   - `worldline-relocate` proves a relocated copy's recorded locations, chains and mappings, and
+     that its account owns every entry.
+     - It does not prove the copy is complete. The copy step (as root, for overlay work
+       directories) and its comparison belong to the migration.
+     - Its check for a process holding the database open sees only processes of its own uid.
+   - Deployment requirements that WORLDLINE does not enforce:
+     - `RestrictSUIDSGID=yes` on the unit;
+     - a `nosuid` store mount.
+
+     There is no supported way to add a root in the dedicated layout.
 
 ## Reporting
 

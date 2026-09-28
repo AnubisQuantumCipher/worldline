@@ -48,12 +48,30 @@ that mattered.
     `status.json` `0640`, all with the client group;
   - the daemon serves its own uid and the listed uids, and refuses every other peer with
     `PEER_UID_MISMATCH`.
-- **Clients read PRIME and nothing else of the store.** The directories on the path from the
-  store to PRIME's content are `0710` with the client group, so clients can traverse them but
-  not list or write them. That path is data, `live`, `generations` and each generation and its
-  payload, and `transactions` and each transaction, its payload and its mapping. Manifests,
-  state, worlds, overlays and config stay `0700`. At startup the daemon re-modes the current
-  path, so a store written before client mode is readable at once.
+- **Clients can read content on the way to PRIME, but can list or write no store directory.**
+  - The directories from the store to PRIME's content are `0710` with the client group, so
+    clients can traverse them but not list or write them. That path is:
+    - data;
+    - `live`;
+    - `generations`, each generation and its payload;
+    - `transactions`, and each transaction with its payload and mapping.
+  - That also makes fork checkpoints, and the staged payloads of open transactions, reachable
+    by name.
+  - Manifests, state, worlds, overlays and config stay `0700`.
+  - At startup the daemon re-modes the current path, so a store written before client mode is
+    readable at once.
+- **Content a client can reach must be the daemon's and read-only to everyone else**
+  (`CLIENT_MODE_UNSAFE_CONTENT`).
+  - What is refused: an entry not owned by the daemon, any group or other write bit, and any
+    setuid, setgid or sticky bit.
+  - Where it is enforced: at collapse and return prepare (before a transaction exists), when a
+    generation is published, and at daemon start (before the path is opened).
+  - Why: manifests record modes and materialization re-applies them, so a candidate chooses the
+    modes of what it stages. An independent review demonstrated a world that opened its root
+    0777. It became PRIME, a write into it was adopted as a new PRIME with no transaction, and
+    the policy file could be replaced the same way.
+  - A client group equal to the daemon's primary group refuses with `INVALID_CLIENT_MODE`,
+    because every file the daemon creates carries that group.
 - **`init`, `root add`, `root remove` and `switch` belong to the daemon's own account.**
   - The root-set changes move directories between the operator and the store, which a
     dedicated account cannot do on a client's behalf.
@@ -62,24 +80,35 @@ that mattered.
   A listed client gets `OPERATION_NEEDS_DAEMON_ACCOUNT`. Every other
   operation is open to listed clients, and the daemon logs each mutating request with its
   requester's uid.
-- **Nothing the daemon runs can read its store.** In every sandbox (agents, legacy checks,
-  services, `simulate`, `shell`), a data, state, config or runtime directory is covered by a
-  tmpfs when it would otherwise be visible: under a read-only system bind such as `/var` or
-  `/opt`, and outside the masked HOME. Before, a store under `/var/lib` would have been
-  readable, anchor signing key included. The private evaluator's roles never saw `/var`.
+- **Every ordinary sandbox masks the daemon's HOME and its store.** This covers agents,
+  legacy checks, services, `simulate`, `shell` and the materializers.
+  - Before, only agent worlds masked the daemon's HOME. The others masked a fixed
+    `/home/sicarii`, so a dedicated account's HOME was visible to candidate code.
+  - A data, state, config or runtime directory that is under a system path (read-only bound,
+    or overlaid by `simulate`) and outside that HOME gets its own tmpfs, by its configured
+    spelling and by its resolved one.
+  - `simulate`'s system overlays are now mounted before these masks. Mounted after them, as
+    in an earlier candidate of this release, they covered the masks.
+  - Before, a store under `/var/lib` would have been readable, anchor signing key included.
+    The private evaluator's roles never see `/var`.
 - The client checks the server's `SO_PEERCRED` before sending anything. It expects
   `WORLDLINE_DAEMON_UID` when that is set, and its own uid otherwise; anything else is refused
   with `DAEMON_PEER_UNEXPECTED`. In 1.6.0 the client checked nothing.
 - A socket the caller cannot reach refuses with `DAEMON_ACCESS_DENIED`.
 - `worldline shell` refuses from a client account with `SHELL_UNAVAILABLE_TO_CLIENT`.
-- The CLI sends `init`/`root add` paths as absolute paths, because the daemon's working
-  directory is not the caller's.
+- The CLI sends root paths for `init`, `root add` and `root remove` as absolute paths,
+  because the daemon's working directory is not the caller's.
 
 ### Relocating a store: `worldline-relocate`
 
 - A store records absolute paths to itself, so it cannot simply be moved. `worldline-relocate
   --from-data --from-state --to-data --to-state [--dry-run]` works on a stopped, quiescent copy
-  already placed at the new location, and never writes the old copy. It rewrites exactly the
+  already placed at the new location, and never writes the old copy. It refuses in these cases:
+  - it is run as root;
+  - the copy holds entries its account does not own;
+  - a process it can see still has the copy's database open.
+
+  It plans every rewrite and raises every refusal before it writes anything. It rewrites exactly the
   recorded locations:
   - six database location columns;
   - the transaction records;
@@ -121,7 +150,10 @@ that mattered.
   - the daemon account needs search (`x`) permission on each directory above the registered
     root paths, to check that their links still route through the store;
   - job supervision needs the account's own systemd user manager (lingering);
-  - agents run with that account's credentials, and WORLDLINE does not provide any.
+  - agents run with that account's credentials, and WORLDLINE does not provide any;
+  - there is no supported way to add a root: the daemon cannot move the operator's
+    directories, and clients may not ask;
+  - the unit should set `RestrictSUIDSGID=yes`, and the store should sit on a `nosuid` mount.
   `SECURITY.md` limit 7.
 
 ## 1.6.0 — 2026-09-28 · stateful candidate leases
