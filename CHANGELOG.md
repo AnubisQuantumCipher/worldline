@@ -41,6 +41,20 @@ in a worker still started candidate subprocesses under its own worker identity.
 - The sandbox helper now reads exactly the three-byte role acknowledgement. Before, it could
   consume the first byte of candidate stdin written behind the acknowledgement on the same pipe.
 
+### Review, campaigns and documentation
+
+- An independent review of the whole runtime delta since 1.5.0 found no critical or high
+  issue. Its deferred items are low-severity and fail closed.
+- A finalizer regression test proves a candidate is admitted only under its own principal
+  label (mutation-checked).
+- Two retained adversarial campaigns, `test_private_lease_protocol_campaign.py` and
+  `test_private_lease_fault_campaign.py`, attack the lease protocol. They cover overlap,
+  ordering, replay, handle reuse, request fuzzing, role deaths, copy-out failures, extreme trees,
+  nested user namespaces and `/proc`. Every scenario must end as a clean run or a whole-run
+  refusal, never with a half-copied case.
+- The private-host roster now requires 27 named cases, with zero skips.
+- `SECURITY.md` is brought current through this release.
+
 The candidate principal protects the examiner and worker processes and their mounts from
 candidate code. It does not make a harness's judgment independent of the candidate outputs it
 chooses to read, and it does not attest the host kernel, the installed isolation binaries, or an
