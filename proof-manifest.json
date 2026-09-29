@@ -1,7 +1,11 @@
 {
   "boundary": {
+    "assumptions": [
+      "SHA-256 is functionally correct (tested against published vectors, not proved) and collision-resistant; every identity equality the kernel proves is an equality of digests",
+      "the runtime supplies authentic observations and computes each Decide input from the independent source its comment names; a value passed to both sides of an equality proves nothing"
+    ],
     "notProved": [
-      "C/Python/QML boundary",
+      "C/Python/QML boundary: the C ABI decode in worldline-c_api (SPARK_Mode Off) and the Python mapping of observations to the kernel's finite categories",
       "OS syscalls and filesystem behavior"
     ],
     "proved": [
@@ -10,9 +14,377 @@
     ]
   },
   "claim": "all checks proved, nothing assumed",
+  "coverage": {
+    "requiredProved": [
+      "Worldline.Collapse.Decide",
+      "Worldline.Evaluation.Admissible",
+      "Worldline.Evaluation.Advance",
+      "Worldline.Evaluation.Classify",
+      "Worldline.Evaluation.Roster_Complete",
+      "Worldline.Evaluation.Transition_Allowed",
+      "Worldline.Transitions.Advance",
+      "Worldline.Transitions.Transaction_Allowed"
+    ],
+    "subprograms": {
+      "Attest": {
+        "at": "attest.ads:11",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256": {
+        "at": "attest-sha256.ads:11",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Absorbed": {
+        "at": "attest-sha256.ads:26",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Ch": {
+        "at": "attest-sha256.adb:27",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Compress": {
+        "at": "attest-sha256.adb:53",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Context": {
+        "at": "attest-sha256.ads:51",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Final": {
+        "at": "attest-sha256.ads:36",
+        "checks": 17,
+        "proved": true
+      },
+      "Attest.SHA256.Hash": {
+        "at": "attest-sha256.ads:40",
+        "checks": 2,
+        "proved": true
+      },
+      "Attest.SHA256.Initial": {
+        "at": "attest-sha256.ads:29",
+        "checks": 1,
+        "proved": true
+      },
+      "Attest.SHA256.Low_Byte": {
+        "at": "attest-sha256.adb:45",
+        "checks": 1,
+        "proved": true
+      },
+      "Attest.SHA256.Maj": {
+        "at": "attest-sha256.adb:30",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Sigma0": {
+        "at": "attest-sha256.adb:33",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Sigma1": {
+        "at": "attest-sha256.adb:36",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Theta0": {
+        "at": "attest-sha256.adb:39",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Theta1": {
+        "at": "attest-sha256.adb:42",
+        "checks": 0,
+        "proved": true
+      },
+      "Attest.SHA256.Update": {
+        "at": "attest-sha256.ads:32",
+        "checks": 7,
+        "proved": true
+      },
+      "Worldline": {
+        "at": "worldline.ads:3",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Ancestry": {
+        "at": "worldline-ancestry.ads:1",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Ancestry.Accepted": {
+        "at": "worldline-ancestry.ads:11",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Ancestry.Check_Owner": {
+        "at": "worldline-ancestry.ads:34",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Ancestry.Claim": {
+        "at": "worldline-ancestry.ads:14",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Ancestry.Expected": {
+        "at": "worldline-ancestry.ads:12",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Ancestry.Expected_Owner": {
+        "at": "worldline-ancestry.ads:32",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Ancestry.New_Owner_Guard": {
+        "at": "worldline-ancestry.ads:28",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Ancestry.New_Parent_Guard": {
+        "at": "worldline-ancestry.ads:7",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Ancestry.Owner_Accepted": {
+        "at": "worldline-ancestry.ads:31",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Ancestry.Owner_Guard": {
+        "at": "worldline-ancestry.ads:56",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Ancestry.Parent_Guard": {
+        "at": "worldline-ancestry.ads:48",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Causal_Graph": {
+        "at": "worldline-causal_graph.ads:1",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Causal_Graph.Accepted": {
+        "at": "worldline-causal_graph.ads:11",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Causal_Graph.Append": {
+        "at": "worldline-causal_graph.ads:17",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Causal_Graph.Chain": {
+        "at": "worldline-causal_graph.ads:32",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Causal_Graph.Head": {
+        "at": "worldline-causal_graph.ads:12",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Causal_Graph.Link": {
+        "at": "worldline-causal_graph.ads:14",
+        "checks": 3,
+        "proved": true
+      },
+      "Worldline.Causal_Graph.New_Chain": {
+        "at": "worldline-causal_graph.ads:7",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Collapse": {
+        "at": "worldline-collapse.ads:3",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse.Decide": {
+        "at": "worldline-collapse.ads:102",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Collapse.Evidence_Holds": {
+        "at": "worldline-collapse.ads:89",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Evaluation": {
+        "at": "worldline-evaluation.ads:1",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Evaluation.Admissible": {
+        "at": "worldline-evaluation.ads:181",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Evaluation.Advance": {
+        "at": "worldline-evaluation.ads:38",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Evaluation.Bundle_Of": {
+        "at": "worldline-evaluation.ads:93",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Evaluation.Classify": {
+        "at": "worldline-evaluation.ads:120",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Evaluation.Completion_Possible": {
+        "at": "worldline-evaluation.ads:103",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Evaluation.Evidence_Complete": {
+        "at": "worldline-evaluation.ads:172",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Evaluation.Reachable": {
+        "at": "worldline-evaluation.ads:49",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Evaluation.Roster_Complete": {
+        "at": "worldline-evaluation.ads:200",
+        "checks": 5,
+        "proved": true
+      },
+      "Worldline.Evaluation.Transition_Allowed": {
+        "at": "worldline-evaluation.ads:21",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Receipts": {
+        "at": "worldline-receipts.ads:1",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Receipts.Accepted": {
+        "at": "worldline-receipts.ads:11",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Receipts.Append": {
+        "at": "worldline-receipts.ads:17",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Receipts.Chain": {
+        "at": "worldline-receipts.ads:32",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Receipts.Head": {
+        "at": "worldline-receipts.ads:12",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Receipts.Link": {
+        "at": "worldline-receipts.ads:14",
+        "checks": 3,
+        "proved": true
+      },
+      "Worldline.Receipts.New_Chain": {
+        "at": "worldline-receipts.ads:7",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Transitions": {
+        "at": "worldline-transitions.ads:1",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Transitions.Advance": {
+        "at": "worldline-transitions.ads:20",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Transitions.Allowed": {
+        "at": "worldline-transitions.ads:6",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Transitions.Transaction_Allowed": {
+        "at": "worldline-transitions.ads:12",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.World": {
+        "at": "worldline-world.ads:1",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.World.Identity": {
+        "at": "worldline-world.ads:3",
+        "checks": 7,
+        "proved": true
+      }
+    },
+    "unanalyzedBoundary": [
+      "worldline-c_api"
+    ],
+    "units": {
+      "attest": {
+        "analyzed": 1,
+        "available": 1
+      },
+      "attest-sha256": {
+        "analyzed": 15,
+        "available": 15
+      },
+      "worldline": {
+        "analyzed": 1,
+        "available": 1
+      },
+      "worldline-ancestry": {
+        "analyzed": 11,
+        "available": 11
+      },
+      "worldline-c_api": {
+        "analyzed": 0,
+        "available": 0
+      },
+      "worldline-causal_graph": {
+        "analyzed": 7,
+        "available": 7
+      },
+      "worldline-collapse": {
+        "analyzed": 3,
+        "available": 3
+      },
+      "worldline-evaluation": {
+        "analyzed": 10,
+        "available": 10
+      },
+      "worldline-receipts": {
+        "analyzed": 7,
+        "available": 7
+      },
+      "worldline-transitions": {
+        "analyzed": 4,
+        "available": 4
+      },
+      "worldline-world": {
+        "analyzed": 2,
+        "available": 2
+      }
+    }
+  },
   "library": {
     "path": "lib/libworldline_core.so",
-    "sha256": "0dd95fdc92c97e3a780282f320b338a87c581e80a153765c41e235f284a5f80d"
+    "sha256": "061ffbf0850d2b974dfbb8002557f33c88fee91334a414487550e84ab8d01d38"
   },
   "options": [
     "-U",
@@ -23,10 +395,10 @@
   "project": "core/worldline_core.gpr",
   "proof": {
     "justified": 0,
-    "minimumChecks": 130,
+    "minimumChecks": 158,
     "pragmaAssume": 0,
-    "summarySha256": "648a1942c6a451970c0da727c059afffe49def90df8f9c2e0aa68d80ac5cf6e4",
-    "total": 140,
+    "summarySha256": "00ae97c392e7ecce1ab0cc7377277159820977f1b645a8d8b9cb86240dcce9eb",
+    "total": 158,
     "unproved": 0
   },
   "schemaVersion": 1,
@@ -37,14 +409,14 @@
     "core/attest_sha256.gpr": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5",
     "core/worldline-ancestry.adb": "fd4bce10366b3217d92d0c1603a1a4ddba3c6e497e06fd42b468e6b0d7dea074",
     "core/worldline-ancestry.ads": "f7916f911d49716d25fe7a4503e6078125f50c6530deb926fe48f2a63ab734ce",
-    "core/worldline-c_api.adb": "152e2324573d8845a7d235309b48fbc6a8d23ef5bcd6c501290c27405e8d1f2b",
-    "core/worldline-c_api.ads": "666b1a750b90bd8615490160d2ac2ecede31973d7336b3074df6dbb9d70dd0f1",
+    "core/worldline-c_api.adb": "21e7d52d1bcc5eb5d35e6a7e66e6ad737b2df6ae638636e02d31f16d2a03b610",
+    "core/worldline-c_api.ads": "b28183ec079e5b590d069d972b0b374b2f3dfc7c0c06390760455ab89c56cf60",
     "core/worldline-causal_graph.adb": "7a1989c91fb712b795040276c39edaf5fd12f46e9059788643ca14aeb6dcee7e",
     "core/worldline-causal_graph.ads": "0c68302dc55b891639f0bcbee7ebfe43e1d6d7a9cfcaa969ee1f0fb664d13e97",
-    "core/worldline-collapse.adb": "8bcaa110f6c244fb477c5595202ec3747b54086bb69fa22667e7859935ebfb01",
-    "core/worldline-collapse.ads": "25fcf63b69fb723bec9a23d96499140e58a7281349b66ead8ef389979d151d0a",
-    "core/worldline-evaluation.adb": "e6f3a02d914c7c9163146c4d1d73b4374dc67c19ed0e71670d9a7e8e5fd7c9bb",
-    "core/worldline-evaluation.ads": "6c83cbede82740b58718c80482fe042864dc881d1f44364b62d1d1f630d52147",
+    "core/worldline-collapse.adb": "82fbb2f12affaab54e75bc270563d199711df157d5520d7a7f423b40d9341d9e",
+    "core/worldline-collapse.ads": "e50082691284768fe66c8e104dd9962191c3e0c1f5179aa94050a30e50dcb23c",
+    "core/worldline-evaluation.adb": "b26b9ebb21b114b11ceabc782a5ca4726c425043aa5faf682e0034b939ed9ae3",
+    "core/worldline-evaluation.ads": "57568e64bee941bcc8ad7f01acba5d3dabf06deda42120627c8de1ca01de6554",
     "core/worldline-receipts.adb": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225",
     "core/worldline-receipts.ads": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea",
     "core/worldline-transitions.adb": "c87e9ee5871faa1e0187579e90f406d36f7de79e49dce8d8703feb265bb5bc0c",
@@ -53,7 +425,7 @@
     "core/worldline-world.ads": "aa2ef8a552d1151a771596f5c4a454cf550926f14e80d7adcffb028d3453c386",
     "core/worldline.ads": "6b171d3fa0b9a0cdbd7e3777e4af35e557ed74e67f6b3ee9bdc1bbfe41305286",
     "core/worldline_core.gpr": "c4f59c82a4447da1b7cfdbb77c8db63878268a56da6cc5f80a461a9f50c152ce",
-    "core/worldline_core.h": "53e11ff9c8a429b843240202c2a50c69a517b482bb0f024a2cac99d976b21332",
+    "core/worldline_core.h": "21d73107727bba6c4b54b4a9e77eb8dee552ad094bbbda572083b02556d545ea",
     "core/worldline_core_sources.gpr": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
     "worldline.gpr": "e60f6fc969048d0af1d53c809d1c237dec8eaf99f018fd075e88b2e08f38731c"
   },

@@ -36,8 +36,20 @@ package Worldline.C_API with SPARK_Mode => Off is
       Reserved_4                   : Interfaces.Unsigned_8;
       Expected_Executed_Verifier   : C_Hash;
       Actual_Executed_Verifier     : C_Hash;
+      --  Appended for 1.8.0 (request layout 4). Existing offsets unchanged.
+      Evaluation_Mode              : Interfaces.Unsigned_8;
+      Checkpoint_Witnessed         : Interfaces.Unsigned_8;
+      Reserved_5                   : Interfaces.Unsigned_8;
+      Reserved_6                   : Interfaces.Unsigned_8;
+      Expected_Checkpoint          : C_Hash;
+      Witnessed_Checkpoint         : C_Hash;
    end record
      with Convention => C;
+
+   --  The ABI generation of this library: request layouts, record layouts and
+   --  the meaning of every exported code. The runtime refuses to load a
+   --  library that reports a different generation.
+   ABI_Version : constant Interfaces.Unsigned_32 := 4;
 
    type C_Collapse_Request_Access is access constant C_Collapse_Request
      with Convention => C;
@@ -74,6 +86,20 @@ package Worldline.C_API with SPARK_Mode => Off is
 
    type C_Evaluation_Classification_Read_Access is
      access constant C_Evaluation_Classification with Convention => C;
+
+   type C_Evidence_Presence is record
+      Record_Identified   : Interfaces.Unsigned_8;
+      Verdict_Recorded    : Interfaces.Unsigned_8;
+      Binding_Established : Interfaces.Unsigned_8;
+      Declaration_Matches : Interfaces.Unsigned_8;
+      Bundle_Identified   : Interfaces.Unsigned_8;
+   end record with Convention => C;
+
+   type C_Evidence_Presence_Access is
+     access constant C_Evidence_Presence with Convention => C;
+
+   type C_State_Access is access all Interfaces.Unsigned_8
+     with Convention => C;
 
    function Hash_File
      (Path       : System.Address;
@@ -134,13 +160,50 @@ package Worldline.C_API with SPARK_Mode => Off is
       return Interfaces.Unsigned_8
      with Export, Convention => C, External_Name => "wl_evaluation_classify";
 
-   --  0 denied, 1 admitted, 255 invalid C encoding.
+   --  0 denied, 1 admitted, 255 invalid C encoding. A classification that
+   --  Classify could not have produced (an outcome without completion, or
+   --  completion without an outcome) is an invalid encoding.
    function Evaluation_Admissible
-     (Value : C_Evaluation_Classification_Read_Access;
-      Report : Interfaces.Unsigned_8;
-      Evidence_Complete : Interfaces.Unsigned_8)
+     (Value    : C_Evaluation_Classification_Read_Access;
+      Report   : Interfaces.Unsigned_8;
+      Presence : C_Evidence_Presence_Access)
       return Interfaces.Unsigned_8
      with Export, Convention => C,
           External_Name => "wl_evaluation_admissible";
+
+   --  Evaluation lifecycle relation: 0 refused, 1 allowed, 255 invalid code.
+   function Evaluation_Transition_Allowed
+     (From_State : Interfaces.Unsigned_8;
+      To_State   : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+     with Export, Convention => C,
+          External_Name => "wl_evaluation_transition_allowed";
+
+   --  Advances State in place when the kernel allows it. 0 on success (the
+   --  state may be unchanged when the step is refused), 255 invalid input.
+   function Evaluation_Advance
+     (State     : C_State_Access;
+      Requested : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+     with Export, Convention => C,
+          External_Name => "wl_evaluation_advance";
+
+   --  One admission byte (0 or 1) per required check. 0 incomplete,
+   --  1 complete, 255 invalid (a byte above 1, a count above 4096, or a null
+   --  array with a nonzero count).
+   function Evaluation_Roster_Complete
+     (Admitted       : System.Address;
+      Count          : Interfaces.C.size_t;
+      Empty_Declared : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+     with Export, Convention => C,
+          External_Name => "wl_evaluation_roster_complete";
+
+   function ABI_Generation return Interfaces.Unsigned_32
+     with Export, Convention => C, External_Name => "wl_abi_version";
+
+   --  Byte size of an exported record as this library lays it out:
+   --  0 collapse request, 1 evaluation observations, 2 evaluation
+   --  classification, 3 evidence presence. 0 for an unknown selector.
+   function Layout_Size
+     (Selector : Interfaces.Unsigned_8) return Interfaces.C.size_t
+     with Export, Convention => C, External_Name => "wl_layout_size";
 
 end Worldline.C_API;

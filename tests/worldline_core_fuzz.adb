@@ -10,7 +10,7 @@ procedure Worldline_Core_Fuzz is
    use type Worldline.Collapse.Decision;
    use type Worldline.Transitions.Transaction_State;
 
-   subtype Selector is Natural range 0 .. 13;
+   subtype Selector is Natural range 0 .. 17;
    package Selector_Random is new Ada.Numerics.Discrete_Random (Selector);
    package Byte_Random is new Ada.Numerics.Discrete_Random
      (Interfaces.Unsigned_8);
@@ -69,7 +69,11 @@ begin
          Staged_Content_Root => Good,
          Execution_Evidence_Complete => True,
          Expected_Executed_Verifier => Good,
-         Actual_Executed_Verifier => Good);
+         Actual_Executed_Verifier => Good,
+         Mode => Worldline.Collapse.Candidate_Evaluation,
+         Checkpoint_Witnessed => False,
+         Expected_Checkpoint => Good,
+         Witnessed_Checkpoint => Bad);
 
       case Selector_Random.Random (Select_Generator) is
          when 0 =>
@@ -113,6 +117,30 @@ begin
          when 13 =>
             Request.Actual_Executed_Verifier := Bad;
             Expected := Worldline.Collapse.Verifier_Execution_Identity_Mismatch;
+         --  Checkpoint return (1.8.0): the candidate-evaluation fields are
+         --  broken on purpose and must not matter; only the witness does.
+         when 14 =>
+            Request.Mode := Worldline.Collapse.Checkpoint_Return;
+            Request.Execution_Evidence_Complete := False;
+            Request.Candidate_Validation_Context := Bad;
+            Request.Actual_Executed_Verifier := Bad;
+            Request.Checkpoint_Witnessed := True;
+            Request.Witnessed_Checkpoint := Good;
+            Expected := Worldline.Collapse.Authorized;
+         when 15 =>
+            Request.Mode := Worldline.Collapse.Checkpoint_Return;
+            Request.Checkpoint_Witnessed := True;
+            Expected := Worldline.Collapse.Checkpoint_Unwitnessed;
+         when 16 =>
+            Request.Mode := Worldline.Collapse.Checkpoint_Return;
+            Request.Witnessed_Checkpoint := Good;
+            Expected := Worldline.Collapse.Checkpoint_Unwitnessed;
+         when 17 =>
+            --  A witness never speaks for a candidate evaluation.
+            Request.Checkpoint_Witnessed := True;
+            Request.Witnessed_Checkpoint := Good;
+            Request.Execution_Evidence_Complete := False;
+            Expected := Worldline.Collapse.Execution_Evidence_Incomplete;
       end case;
 
       Check

@@ -1,4 +1,5 @@
 with Ada.Text_IO;
+with Interfaces.C;
 with Attest;
 with Attest.SHA256;
 with Interfaces;
@@ -11,6 +12,7 @@ with Worldline.Evaluation;
 with Worldline.Receipts;
 with Worldline.Transitions;
 with Worldline.World;
+with System;
 
 procedure Worldline_Core_Tests is
    use type Worldline.Hash;
@@ -19,6 +21,8 @@ procedure Worldline_Core_Tests is
    use type Worldline.Evaluation.Execution_State;
    use type Worldline.Evaluation.Outcome;
    use type Interfaces.Unsigned_8;
+   use type Interfaces.Unsigned_32;
+   use type Interfaces.C.size_t;
 
    procedure Check (Condition : Boolean; Message : String) is
    begin
@@ -68,7 +72,23 @@ procedure Worldline_Core_Tests is
       Staged_Content_Root => H2,
       Execution_Evidence_Complete => True,
       Expected_Executed_Verifier => H7,
-      Actual_Executed_Verifier => H7);
+      Actual_Executed_Verifier => H7,
+      Mode => Worldline.Collapse.Candidate_Evaluation,
+      Checkpoint_Witnessed => False,
+      Expected_Checkpoint => H0,
+      Witnessed_Checkpoint => H0);
+
+   Full_Presence : constant Worldline.Evaluation.Evidence_Presence :=
+     (Record_Identified | Verdict_Recorded | Binding_Established |
+      Declaration_Matches | Bundle_Identified => True);
+
+   C_Request : aliased Worldline.C_API.C_Collapse_Request;
+   C_Value : aliased Worldline.C_API.C_Evaluation_Classification;
+   C_Presence : aliased Worldline.C_API.C_Evidence_Presence :=
+     (others => 1);
+   C_State : aliased Interfaces.Unsigned_8;
+   Roster_Bytes : aliased array (1 .. 3) of Interfaces.Unsigned_8 :=
+     [1, 1, 1];
 
    Parent : Worldline.Ancestry.Parent_Guard :=
      Worldline.Ancestry.New_Parent_Guard (H1);
@@ -191,12 +211,146 @@ begin
       "trusted completed pass was not classified");
    Check
      (Worldline.Evaluation.Admissible
-        (Evaluation_Result, Worldline.Evaluation.Verified_Report, True),
+        (Evaluation_Result, Worldline.Evaluation.Verified_Report,
+         Full_Presence),
       "complete report was not admitted");
    Check
      (not Worldline.Evaluation.Admissible
-        (Evaluation_Result, Worldline.Evaluation.Verified_Report, False),
-      "missing roster evidence admitted");
+        (Evaluation_Result, Worldline.Evaluation.Verified_Report,
+         (Full_Presence with delta Binding_Established => False)),
+      "unestablished examiner provenance admitted");
+   Check
+     (not Worldline.Evaluation.Admissible
+        (Evaluation_Result, Worldline.Evaluation.Verified_Report,
+         (Full_Presence with delta Declaration_Matches => False)),
+      "an undeclared evaluator format admitted");
+
+   --  1.8.0: an examiner whose staged bundle cannot satisfy its own imports
+   --  does not complete, whatever it reported.
+   Evaluation_Facts.Unsatisfied_Imports := True;
+   Evaluation_Result := Worldline.Evaluation.Classify (Evaluation_Facts);
+   Check
+     (Evaluation_Result.Execution = Worldline.Evaluation.Evaluator_Incomplete
+      and Evaluation_Result.Result = Worldline.Evaluation.No_Outcome,
+      "a pass from an evaluator with unsatisfied imports completed");
+   Evaluation_Facts.Unsatisfied_Imports := False;
+
+   --  The lifecycle export agrees with the proved relation for every pair.
+   for From in Worldline.Evaluation.Execution_State loop
+      for To in Worldline.Evaluation.Execution_State loop
+         Check
+           (Worldline.C_API.Evaluation_Transition_Allowed
+              (Interfaces.Unsigned_8
+                 (Worldline.Evaluation.Execution_State'Pos (From)),
+               Interfaces.Unsigned_8
+                 (Worldline.Evaluation.Execution_State'Pos (To))) =
+            (if Worldline.Evaluation.Transition_Allowed (From, To)
+             then 1 else 0),
+            "C evaluation lifecycle export disagrees with proved unit");
+      end loop;
+   end loop;
+   Check
+     (Worldline.C_API.Evaluation_Transition_Allowed (9, 0) = 255
+      and then Worldline.C_API.Evaluation_Transition_Allowed (0, 9) = 255,
+      "out-of-range evaluation state accepted");
+   C_State := 0;
+   Check
+     (Worldline.C_API.Evaluation_Advance (C_State'Unchecked_Access, 8) = 0
+      and then C_State = 0,
+      "not-attempted evaluation jumped to completed");
+   Check
+     (Worldline.C_API.Evaluation_Advance (C_State'Unchecked_Access, 1) = 0
+      and then C_State = 1,
+      "prepare step refused");
+   Check
+     (Worldline.C_API.Evaluation_Advance (C_State'Unchecked_Access, 200) = 255,
+      "invalid requested state accepted");
+   Check
+     (Worldline.C_API.Evaluation_Advance (null, 1) = 255,
+      "null state accepted");
+
+   --  Roster: nothing required is complete only when declared so.
+   declare
+      None : constant Worldline.Evaluation.Admissions (1 .. 0) :=
+        [others => True];
+   begin
+      Check
+        (not Worldline.Evaluation.Roster_Complete (None, False),
+         "an undeclared empty roster was complete");
+      Check
+        (Worldline.Evaluation.Roster_Complete (None, True),
+         "a declared empty roster was incomplete");
+      Check
+        (not Worldline.Evaluation.Roster_Complete ([True, False, True], True),
+         "a roster with a refused check was complete");
+   end;
+   Check
+     (Worldline.C_API.Evaluation_Roster_Complete
+        (Roster_Bytes'Address, 3, 0) = 1,
+      "complete C roster refused");
+   Roster_Bytes (2) := 0;
+   Check
+     (Worldline.C_API.Evaluation_Roster_Complete
+        (Roster_Bytes'Address, 3, 1) = 0,
+      "C roster with a refused check admitted");
+   Roster_Bytes (2) := 2;
+   Check
+     (Worldline.C_API.Evaluation_Roster_Complete
+        (Roster_Bytes'Address, 3, 1) = 255,
+      "non-Boolean C roster byte accepted");
+   Roster_Bytes (2) := 1;
+   Check
+     (Worldline.C_API.Evaluation_Roster_Complete
+        (System.Null_Address, 0, 0) = 0
+      and then Worldline.C_API.Evaluation_Roster_Complete
+        (System.Null_Address, 0, 1) = 1
+      and then Worldline.C_API.Evaluation_Roster_Complete
+        (System.Null_Address, 1, 1) = 255
+      and then Worldline.C_API.Evaluation_Roster_Complete
+        (Roster_Bytes'Address, 4097, 1) = 255
+      and then Worldline.C_API.Evaluation_Roster_Complete
+        (Roster_Bytes'Address, 3, 2) = 255,
+      "C roster boundary encodings misread");
+
+   --  Admissibility over C: incoherent classifications and non-Boolean
+   --  presence bytes are invalid encodings, not denials to reinterpret.
+   C_Value := (Execution => 8, Outcome => 1, Bundle => 1);
+   Check
+     (Worldline.C_API.Evaluation_Admissible
+        (C_Value'Unchecked_Access, 1, C_Presence'Unchecked_Access) = 1,
+      "C admission of a complete pass refused");
+   C_Value := (Execution => 8, Outcome => 0, Bundle => 1);
+   Check
+     (Worldline.C_API.Evaluation_Admissible
+        (C_Value'Unchecked_Access, 1, C_Presence'Unchecked_Access) = 255,
+      "completion without an outcome accepted as an encoding");
+   C_Value := (Execution => 7, Outcome => 1, Bundle => 1);
+   Check
+     (Worldline.C_API.Evaluation_Admissible
+        (C_Value'Unchecked_Access, 1, C_Presence'Unchecked_Access) = 255,
+      "an outcome without completion accepted as an encoding");
+   C_Value := (Execution => 8, Outcome => 1, Bundle => 1);
+   C_Presence.Bundle_Identified := 2;
+   Check
+     (Worldline.C_API.Evaluation_Admissible
+        (C_Value'Unchecked_Access, 1, C_Presence'Unchecked_Access) = 255,
+      "non-Boolean presence byte accepted");
+   C_Presence.Bundle_Identified := 0;
+   Check
+     (Worldline.C_API.Evaluation_Admissible
+        (C_Value'Unchecked_Access, 1, C_Presence'Unchecked_Access) = 0,
+      "an unidentified declared bundle admitted");
+   Check
+     (Worldline.C_API.Evaluation_Admissible
+        (C_Value'Unchecked_Access, 1, null) = 255,
+      "null presence accepted");
+
+   Check (Worldline.C_API.ABI_Generation = 4, "ABI generation is not 4");
+   Check
+     (Worldline.C_API.Layout_Size (0) = C_Request'Size / 8
+      and then Worldline.C_API.Layout_Size (3) = 5
+      and then Worldline.C_API.Layout_Size (9) = 0,
+      "layout sizes misreported");
    Evaluation_Facts.Channel := Worldline.Evaluation.Malformed_Channel;
    Evaluation_Result := Worldline.Evaluation.Classify (Evaluation_Facts);
    Check
@@ -285,6 +439,40 @@ begin
    Check
      (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Authorized,
       "restoring the execution identity did not re-authorize");
+   --  Checkpoint return: no candidate evaluation is consulted, and the case
+   --  must carry a lineage witness rather than pass by having nothing to check.
+   Request.Mode := Worldline.Collapse.Checkpoint_Return;
+   Request.Execution_Evidence_Complete := False;
+   Request.Candidate_Validation_Context := H7;
+   Check
+     (Worldline.Collapse.Decide (Request) =
+        Worldline.Collapse.Checkpoint_Unwitnessed,
+      "an unwitnessed checkpoint return was authorized");
+   Request.Checkpoint_Witnessed := True;
+   Request.Expected_Checkpoint := H3;
+   Request.Witnessed_Checkpoint := H4;
+   Check
+     (Worldline.Collapse.Decide (Request) =
+        Worldline.Collapse.Checkpoint_Unwitnessed,
+      "a checkpoint witness naming other content was accepted");
+   Request.Witnessed_Checkpoint := H3;
+   Check
+     (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Authorized,
+      "a witnessed checkpoint return was denied");
+   Request.Staged_Content_Root := H7;
+   Check
+     (Worldline.Collapse.Decide (Request) =
+        Worldline.Collapse.Staged_Untested,
+      "checkpoint mode skipped the tested-bytes obligation");
+   Request.Staged_Content_Root := H2;
+   Request.Mode := Worldline.Collapse.Candidate_Evaluation;
+   Check
+     (Worldline.Collapse.Decide (Request) =
+        Worldline.Collapse.Validation_Context_Mismatch,
+      "a checkpoint witness authorized a candidate evaluation");
+   Request.Candidate_Validation_Context := H1;
+   Request.Execution_Evidence_Complete := True;
+   Request.Checkpoint_Witnessed := False;
    Request.Has_Conflicts := True;
    Check
      (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Conflict,
@@ -295,6 +483,62 @@ begin
      (Worldline.Collapse.Decide (Request) =
         Worldline.Collapse.Foreign_Managed_Write,
       "foreign write missed");
+
+   --  C boundary: every Boolean byte is 0 or 1, every reserved byte is 0.
+   C_Request := (Candidate_State => 2, others => <>);
+   C_Request.Has_Conflicts := 0;
+   C_Request.Has_Foreign_Managed_Writes := 0;
+   C_Request.Reserved := 0;
+   C_Request.Execution_Evidence_Complete := 1;
+   C_Request.Reserved_2 := 0;
+   C_Request.Reserved_3 := 0;
+   C_Request.Reserved_4 := 0;
+   C_Request.Evaluation_Mode := 0;
+   C_Request.Checkpoint_Witnessed := 0;
+   C_Request.Reserved_5 := 0;
+   C_Request.Reserved_6 := 0;
+   C_Request.Expected_Parent := [others => 1];
+   C_Request.Candidate_Parent := [others => 1];
+   C_Request.Expected_Owner := [others => 1];
+   C_Request.Candidate_Owner := [others => 1];
+   C_Request.Expected_Base := [others => 1];
+   C_Request.Candidate_Base := [others => 1];
+   C_Request.Expected_Delta := [others => 1];
+   C_Request.Candidate_Delta := [others => 1];
+   C_Request.Expected_Root_Set := [others => 1];
+   C_Request.Candidate_Root_Set := [others => 1];
+   C_Request.Expected_Staged_Root := [others => 1];
+   C_Request.Actual_Staged_Root := [others => 1];
+   C_Request.Expected_Validation_Context := [others => 1];
+   C_Request.Candidate_Validation_Context := [others => 1];
+   C_Request.Tested_Root := [others => 1];
+   C_Request.Staged_Content_Root := [others => 1];
+   C_Request.Expected_Executed_Verifier := [others => 1];
+   C_Request.Actual_Executed_Verifier := [others => 1];
+   C_Request.Expected_Checkpoint := [others => 0];
+   C_Request.Witnessed_Checkpoint := [others => 0];
+   Check
+     (Worldline.C_API.Collapse_Decide (C_Request'Unchecked_Access) = 0,
+      "valid C collapse request denied");
+   for Field in 1 .. 8 loop
+      declare
+         Bad : aliased Worldline.C_API.C_Collapse_Request := C_Request;
+      begin
+         case Field is
+            when 1 => Bad.Execution_Evidence_Complete := 2;
+            when 2 => Bad.Reserved_2 := 1;
+            when 3 => Bad.Reserved_3 := 1;
+            when 4 => Bad.Reserved_4 := 1;
+            when 5 => Bad.Reserved_5 := 1;
+            when 6 => Bad.Reserved_6 := 1;
+            when 7 => Bad.Evaluation_Mode := 2;
+            when others => Bad.Checkpoint_Witnessed := 2;
+         end case;
+         Check
+           (Worldline.C_API.Collapse_Decide (Bad'Unchecked_Access) = 255,
+            "malformed C collapse byte accepted");
+      end;
+   end loop;
 
    Linked := Worldline.Causal_Graph.Link (H0, H1);
    Worldline.Causal_Graph.Append (Causal, H0, H1);

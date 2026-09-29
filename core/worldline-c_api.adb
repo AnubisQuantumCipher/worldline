@@ -336,8 +336,17 @@ package body Worldline.C_API with SPARK_Mode => Off is
    begin
       if Request = null
         or else Request.Reserved /= 0
+        or else Request.Reserved_2 /= 0
+        or else Request.Reserved_3 /= 0
+        or else Request.Reserved_4 /= 0
+        or else Request.Reserved_5 /= 0
+        or else Request.Reserved_6 /= 0
         or else Request.Has_Conflicts > 1
         or else Request.Has_Foreign_Managed_Writes > 1
+        or else Request.Execution_Evidence_Complete > 1
+        or else Request.Checkpoint_Witnessed > 1
+        or else Request.Evaluation_Mode >
+          Collapse.Evaluation_Mode'Pos (Collapse.Evaluation_Mode'Last)
         or else Request.Candidate_State > Last_State
       then
          return Invalid_Collapse_Request;
@@ -369,9 +378,13 @@ package body Worldline.C_API with SPARK_Mode => Off is
               To_Hash (Request.Candidate_Validation_Context),
             Tested_Root => To_Hash (Request.Tested_Root),
             Staged_Content_Root => To_Hash (Request.Staged_Content_Root),
-            Execution_Evidence_Complete => Request.Execution_Evidence_Complete /= 0,
+            Execution_Evidence_Complete => Request.Execution_Evidence_Complete = 1,
             Expected_Executed_Verifier => To_Hash (Request.Expected_Executed_Verifier),
-            Actual_Executed_Verifier => To_Hash (Request.Actual_Executed_Verifier));
+            Actual_Executed_Verifier => To_Hash (Request.Actual_Executed_Verifier),
+            Mode => Collapse.Evaluation_Mode'Val (Integer (Request.Evaluation_Mode)),
+            Checkpoint_Witnessed => Request.Checkpoint_Witnessed = 1,
+            Expected_Checkpoint => To_Hash (Request.Expected_Checkpoint),
+            Witnessed_Checkpoint => To_Hash (Request.Witnessed_Checkpoint));
       begin
          return Interfaces.Unsigned_8
            (Collapse.Decision'Pos (Collapse.Decide (Native_Request)));
@@ -441,13 +454,17 @@ package body Worldline.C_API with SPARK_Mode => Off is
    end Evaluation_Classify;
 
    function Evaluation_Admissible
-     (Value : C_Evaluation_Classification_Read_Access;
-      Report : Interfaces.Unsigned_8;
-      Evidence_Complete : Interfaces.Unsigned_8)
+     (Value    : C_Evaluation_Classification_Read_Access;
+      Report   : Interfaces.Unsigned_8;
+      Presence : C_Evidence_Presence_Access)
       return Interfaces.Unsigned_8
    is
+      Completed_Code : constant Interfaces.Unsigned_8 :=
+        Evaluation.Execution_State'Pos (Evaluation.Completed);
+      No_Outcome_Code : constant Interfaces.Unsigned_8 :=
+        Evaluation.Outcome'Pos (Evaluation.No_Outcome);
    begin
-      if Value = null
+      if Value = null or else Presence = null
         or else Value.Execution >
           Evaluation.Execution_State'Pos (Evaluation.Execution_State'Last)
         or else Value.Outcome > Evaluation.Outcome'Pos (Evaluation.Outcome'Last)
@@ -455,7 +472,13 @@ package body Worldline.C_API with SPARK_Mode => Off is
           Evaluation.Bundle_Integrity'Pos (Evaluation.Bundle_Integrity'Last)
         or else Report >
           Evaluation.Report_Integrity'Pos (Evaluation.Report_Integrity'Last)
-        or else Evidence_Complete > 1
+        or else (Value.Execution = Completed_Code) =
+                (Value.Outcome = No_Outcome_Code)
+        or else Presence.Record_Identified > 1
+        or else Presence.Verdict_Recorded > 1
+        or else Presence.Binding_Established > 1
+        or else Presence.Declaration_Matches > 1
+        or else Presence.Bundle_Identified > 1
       then
          return 255;
       end if;
@@ -468,11 +491,117 @@ package body Worldline.C_API with SPARK_Mode => Off is
             Bundle => Evaluation.Bundle_Integrity'Val
               (Integer (Value.Bundle))),
            Evaluation.Report_Integrity'Val (Integer (Report)),
-           Evidence_Complete = 1)
+           (Record_Identified   => Presence.Record_Identified = 1,
+            Verdict_Recorded    => Presence.Verdict_Recorded = 1,
+            Binding_Established => Presence.Binding_Established = 1,
+            Declaration_Matches => Presence.Declaration_Matches = 1,
+            Bundle_Identified   => Presence.Bundle_Identified = 1))
          then 1 else 0);
    exception
       when others =>
          return 255;
    end Evaluation_Admissible;
+
+   Last_Execution_Code : constant Interfaces.Unsigned_8 :=
+     Evaluation.Execution_State'Pos (Evaluation.Execution_State'Last);
+
+   function Evaluation_Transition_Allowed
+     (From_State : Interfaces.Unsigned_8;
+      To_State   : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+   is
+   begin
+      if From_State > Last_Execution_Code or else To_State > Last_Execution_Code then
+         return 255;
+      end if;
+      return
+        (if Evaluation.Transition_Allowed
+           (Evaluation.Execution_State'Val (Integer (From_State)),
+            Evaluation.Execution_State'Val (Integer (To_State)))
+         then 1 else 0);
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Transition_Allowed;
+
+   function Evaluation_Advance
+     (State     : C_State_Access;
+      Requested : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+   is
+   begin
+      if State = null
+        or else State.all > Last_Execution_Code
+        or else Requested > Last_Execution_Code
+      then
+         return 255;
+      end if;
+      declare
+         Current : Evaluation.Execution_State :=
+           Evaluation.Execution_State'Val (Integer (State.all));
+      begin
+         Evaluation.Advance
+           (Current, Evaluation.Execution_State'Val (Integer (Requested)));
+         State.all := Interfaces.Unsigned_8
+           (Evaluation.Execution_State'Pos (Current));
+      end;
+      return 0;
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Advance;
+
+   function Evaluation_Roster_Complete
+     (Admitted       : System.Address;
+      Count          : Interfaces.C.size_t;
+      Empty_Declared : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+   is
+      use System.Storage_Elements;
+   begin
+      if Empty_Declared > 1
+        or else Count > Interfaces.C.size_t (Evaluation.Roster_Index'Last)
+        or else (Count > 0 and then Admitted = System.Null_Address)
+      then
+         return 255;
+      end if;
+      declare
+         Length : constant Natural := Natural (Count);
+         Values : Evaluation.Admissions (1 .. Length);
+      begin
+         for I in Values'Range loop
+            declare
+               Byte : constant Interfaces.Unsigned_8 :=
+                 Get_Byte (Admitted, Storage_Offset (I - 1));
+            begin
+               if Byte > 1 then
+                  return 255;
+               end if;
+               Values (I) := Byte = 1;
+            end;
+         end loop;
+         return
+           (if Evaluation.Roster_Complete (Values, Empty_Declared = 1)
+            then 1 else 0);
+      end;
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Roster_Complete;
+
+   function ABI_Generation return Interfaces.Unsigned_32 is
+   begin
+      return ABI_Version;
+   end ABI_Generation;
+
+   function Layout_Size
+     (Selector : Interfaces.Unsigned_8) return Interfaces.C.size_t
+   is
+   begin
+      case Selector is
+         when 0 => return C_Collapse_Request'Size / 8;
+         when 1 => return C_Evaluation_Observations'Size / 8;
+         when 2 => return C_Evaluation_Classification'Size / 8;
+         when 3 => return C_Evidence_Presence'Size / 8;
+         when others => return 0;
+      end case;
+   end Layout_Size;
 
 end Worldline.C_API;

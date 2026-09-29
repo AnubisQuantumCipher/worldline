@@ -41,6 +41,30 @@ def main() -> int:
         print("proof manifest does not record a zero-exception proof", file=sys.stderr)
         return 1
 
+    coverage = manifest.get("coverage")
+    if not isinstance(coverage, dict):
+        print("proof manifest records no per-subprogram coverage", file=sys.stderr)
+        return 1
+    subprograms = coverage.get("subprograms") or {}
+    required = coverage.get("requiredProved") or []
+    if not required or not isinstance(subprograms, dict):
+        print("proof manifest coverage is empty", file=sys.stderr)
+        return 1
+    unproved_required = [name for name in required
+                         if not (isinstance(subprograms.get(name), dict) and subprograms[name].get("proved") is True)]
+    if unproved_required:
+        print("required subprograms not proved: " + ", ".join(unproved_required), file=sys.stderr)
+        return 1
+    if any(not (isinstance(value, dict) and value.get("proved") is True) for value in subprograms.values()):
+        print("proof manifest records an unproved subprogram", file=sys.stderr)
+        return 1
+    boundary = set(coverage.get("unanalyzedBoundary") or [])
+    for unit, counts in (coverage.get("units") or {}).items():
+        if not isinstance(counts, dict) or counts.get("analyzed") != counts.get("available") or (
+                unit not in boundary and not counts.get("available")):
+            print(f"proof manifest records an unanalyzed unit: {unit}", file=sys.stderr)
+            return 1
+
     paths = source_paths(root)
     recorded = manifest.get("sourceHashes")
     if not isinstance(recorded, dict) or set(recorded) != set(paths):

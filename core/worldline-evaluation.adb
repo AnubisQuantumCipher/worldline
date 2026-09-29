@@ -12,7 +12,7 @@ package body Worldline.Evaluation with SPARK_Mode is
          when Started =>
             return To_State in Completed | Interrupted | Incomplete_Unknown |
               Evaluator_Incomplete | Unclassified;
-         when others =>
+         when Terminal_State =>
             return False;
       end case;
    end Transition_Allowed;
@@ -28,18 +28,8 @@ package body Worldline.Evaluation with SPARK_Mode is
    function Classify (Facts : Observations) return Classification is
       Answer : Classification :=
         (Execution => Unclassified, Result => No_Outcome,
-         Bundle => Not_Covered);
+         Bundle => Bundle_Of (Facts));
    begin
-      if not Facts.Bundle_Present then
-         Answer.Bundle := Not_Covered;
-      elsif not Facts.Bundle_Is_Mapping then
-         Answer.Bundle := Unknown_Integrity;
-      elsif Facts.Bundle_Stable and not Facts.Bundle_Changed then
-         Answer.Bundle := Verified;
-      else
-         Answer.Bundle := Compromised;
-      end if;
-
       if Facts.Channel = Malformed_Channel then
          null;
       elsif Facts.Source = Engine then
@@ -49,8 +39,6 @@ package body Worldline.Evaluation with SPARK_Mode is
            and not Facts.Bundle_Present
          then
             Answer.Execution := Completed;
-            Answer.Result :=
-              (if Facts.Status = Pass_Status then Passed else Failed);
          end if;
       elsif Facts.Source = Agent then
          if Facts.Supervisor = Supervised
@@ -59,8 +47,6 @@ package body Worldline.Evaluation with SPARK_Mode is
            and Facts.Status in Pass_Status | Fail_Status
          then
             Answer.Execution := Completed;
-            Answer.Result :=
-              (if Facts.Status = Pass_Status then Passed else Failed);
          elsif Facts.Supervisor in No_Supervision | Stopped
            or Facts.Supervisor_Stopped
          then
@@ -86,32 +72,55 @@ package body Worldline.Evaluation with SPARK_Mode is
         and Facts.Exit_Integer
         and Facts.Status in Pass_Status | Fail_Status
       then
-         if Facts.Unsatisfied_Imports and Facts.Status /= Pass_Status then
-            Answer.Execution := Evaluator_Incomplete;
-         else
-            Answer.Execution := Completed;
-            Answer.Result :=
-              (if Facts.Status = Pass_Status then Passed else Failed);
-         end if;
+         Answer.Execution := Completed;
       elsif not Facts.Exit_Present
         and (Facts.Bundle_Present or Facts.Status /= Absent_Status)
       then
          Answer.Execution := Incomplete_Unknown;
       end if;
 
+      --  An examiner whose staged bundle cannot satisfy its own module-level
+      --  imports resolved them from somewhere WORLDLINE did not stage. Its
+      --  verdict, pass or fail, is not an evaluation of the candidate.
+      if Answer.Execution = Completed and Facts.Unsatisfied_Imports then
+         Answer.Execution := Evaluator_Incomplete;
+      end if;
+
+      if Answer.Execution = Completed then
+         Answer.Result :=
+           (if Facts.Status = Pass_Status then Passed else Failed);
+      end if;
+
       return Answer;
    end Classify;
 
    function Admissible
-     (Value : Classification;
-      Report : Report_Integrity;
-      Evidence_Complete : Boolean) return Boolean is
+     (Value    : Classification;
+      Report   : Report_Integrity;
+      Presence : Evidence_Presence) return Boolean is
    begin
       return Value.Execution = Completed
         and Value.Result = Passed
         and Value.Bundle in Not_Covered | Verified
         and Report in Not_Applicable | Verified_Report
-        and Evidence_Complete;
+        and Evidence_Complete (Presence);
    end Admissible;
+
+   function Roster_Complete
+     (Admitted       : Admissions;
+      Empty_Declared : Boolean) return Boolean is
+   begin
+      if Admitted'Length = 0 then
+         return Empty_Declared;
+      end if;
+      for I in Admitted'Range loop
+         if not Admitted (I) then
+            return False;
+         end if;
+         pragma Loop_Invariant
+           (for all J in Admitted'First .. I => Admitted (J));
+      end loop;
+      return True;
+   end Roster_Complete;
 
 end Worldline.Evaluation;

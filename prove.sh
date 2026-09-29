@@ -38,7 +38,24 @@ import sys
 
 # Floor for the total proved-check count. The gate is "all checks proved"; without a floor,
 # a run that analyzed nothing satisfies it vacuously. Lower this only as a deliberate edit.
-MINIMUM_CHECKS = 130
+MINIMUM_CHECKS = 158
+
+# Subprograms whose proof is a claim of this release. Each must appear in the summary as
+# flow analyzed with no errors AND proved; a unit that silently stopped being analyzed, or a
+# decision that stopped being proved, fails the gate even when the total still clears the floor.
+REQUIRED_PROVED = [
+    "Worldline.Collapse.Decide",
+    "Worldline.Evaluation.Admissible",
+    "Worldline.Evaluation.Advance",
+    "Worldline.Evaluation.Classify",
+    "Worldline.Evaluation.Roster_Complete",
+    "Worldline.Evaluation.Transition_Allowed",
+    "Worldline.Transitions.Advance",
+    "Worldline.Transitions.Transaction_Allowed",
+]
+# The one unit that is not analyzed on purpose: the C ABI decode (SPARK_Mode => Off), named in
+# boundary.notProved below.
+UNANALYZED_BOUNDARY = {"worldline-c_api"}
 
 root = Path(sys.argv[1]).resolve()
 out_path = (root / sys.argv[2]).resolve()
@@ -131,6 +148,45 @@ if total < MINIMUM_CHECKS:
         "if this reduction is intentional, lower MINIMUM_CHECKS deliberately in prove.sh"
     )
 
+# Per-subprogram coverage, read from the same summary the counts came from.
+_UNIT = re.compile(r"^in unit (\S+), (\d+) subprograms and packages out of (\d+) analyzed$")
+_SUBPROGRAM = re.compile(
+    r"^  (\S+) at (\S+) flow analyzed \((\d+) errors, \d+ checks, \d+ warnings and "
+    r"(\d+) pragma Assume statements\) and (.*)$")
+_PROVED = re.compile(r"^proved \((\d+) checks\)$")
+units: dict[str, dict[str, int]] = {}
+subprograms: dict[str, dict[str, object]] = {}
+coverage_problems: list[str] = []
+for line in summary.splitlines():
+    unit_match = _UNIT.match(line)
+    if unit_match:
+        name, analyzed, available = unit_match.group(1), int(unit_match.group(2)), int(unit_match.group(3))
+        units[name] = {"analyzed": analyzed, "available": available}
+        if analyzed != available:
+            coverage_problems.append(f"unit {name}: {analyzed} of {available} analyzed")
+        if name not in UNANALYZED_BOUNDARY and available == 0:
+            coverage_problems.append(f"unit {name}: nothing analyzed")
+        continue
+    sub_match = _SUBPROGRAM.match(line)
+    if sub_match:
+        name, where, errors, sub_assumes, verdict = sub_match.groups()
+        proved = _PROVED.match(verdict)
+        subprograms[name] = {"at": where, "checks": int(proved.group(1)) if proved else None,
+                             "proved": bool(proved) and errors == "0" and sub_assumes == "0"}
+        if not subprograms[name]["proved"]:
+            coverage_problems.append(f"{name}: {verdict}")
+for name in REQUIRED_PROVED:
+    if name not in subprograms:
+        coverage_problems.append(f"{name}: absent from the proof summary")
+if not units or not subprograms:
+    coverage_problems.append("no per-subprogram lines in the proof summary")
+for unit in sorted(UNANALYZED_BOUNDARY):
+    if unit not in units:
+        coverage_problems.append(f"declared boundary unit {unit} missing from the summary")
+print(f"subprograms    {len(subprograms)} proved in {len(units)} units")
+if coverage_problems:
+    raise SystemExit("PROOF GATE FAILED: coverage: " + "; ".join(coverage_problems))
+
 sha256 = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
 first_line = lambda argv: subprocess.run(
     argv, check=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
@@ -159,9 +215,27 @@ manifest = {
         "path": "lib/libworldline_core.so",
         "sha256": sha256(lib_path),
     },
+    "coverage": {
+        "requiredProved": REQUIRED_PROVED,
+        "unanalyzedBoundary": sorted(UNANALYZED_BOUNDARY),
+        "units": units,
+        "subprograms": subprograms,
+    },
     "boundary": {
         "proved": ["Worldline SPARK policy units", "Attest.SHA256 absence of runtime error"],
-        "notProved": ["C/Python/QML boundary", "OS syscalls and filesystem behavior"],
+        "notProved": [
+            "C/Python/QML boundary: the C ABI decode in worldline-c_api (SPARK_Mode Off) and the"
+            " Python mapping of observations to the kernel's finite categories",
+            "OS syscalls and filesystem behavior",
+        ],
+        "assumptions": [
+            "SHA-256 is functionally correct (tested against published vectors, not proved) and"
+            " collision-resistant; every identity equality the kernel proves is an equality of"
+            " digests",
+            "the runtime supplies authentic observations and computes each Decide input from the"
+            " independent source its comment names; a value passed to both sides of an equality"
+            " proves nothing",
+        ],
     },
 }
 manifest_path = root / "proof-manifest.json"

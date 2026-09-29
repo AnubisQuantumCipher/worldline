@@ -150,6 +150,13 @@ def proof_facts(manifest_path: Path) -> dict[str, Any]:
         "librarySha256": (manifest.get("library") or {}).get("sha256"),
         "sourceHashes": manifest.get("sourceHashes"),
         "claim": manifest.get("claim"),
+        # Which subprograms were proved, and with how many checks. Unlike the summary bytes and
+        # the library hash, these are properties of the proved source, so a hosted run must
+        # reproduce the committed ones exactly.
+        "coverage": {name: value.get("checks")
+                     for name, value in ((manifest.get("coverage") or {}).get("subprograms") or {}).items()
+                     if isinstance(value, dict) and value.get("proved") is True},
+        "requiredProved": (manifest.get("coverage") or {}).get("requiredProved"),
     }
 
 
@@ -331,6 +338,9 @@ def run(out: Path, expect_sha: str | None) -> int:
     proof_consistent = (
         committed_manifest.get("present") and regenerated.get("present")
         and committed_manifest.get("sourceHashes") == regenerated.get("sourceHashes")
+        and bool(regenerated.get("requiredProved"))
+        and committed_manifest.get("requiredProved") == regenerated.get("requiredProved")
+        and committed_manifest.get("coverage") == regenerated.get("coverage")
         and regenerated.get("unproved") == 0 and regenerated.get("justified") == 0 and regenerated.get("pragmaAssume") == 0
         and isinstance(regenerated.get("total"), int) and isinstance(regenerated.get("minimumChecks"), int)
         and regenerated["total"] >= regenerated["minimumChecks"]
