@@ -31,7 +31,7 @@ sys.path.insert(0, str(REPO / "runtime"))
 
 from worldline.admission import AdmissionAuthority, Floors, Gate, Ledger, ResourcePolicy  # noqa: E402
 from worldline.checks import CheckRunner  # noqa: E402
-from worldline.finalize import evaluation_record  # noqa: E402
+from validation_support import evaluate as evaluation_record  # noqa: E402
 from worldline.linux.namespaces import BubblewrapSandbox, OverlayRoot  # noqa: E402
 from worldline.linux.systemd import SystemdAdapter  # noqa: E402
 from worldline.paths import WorldlinePaths  # noqa: E402

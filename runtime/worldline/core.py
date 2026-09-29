@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 from threading import Lock
-from typing import Iterable, Mapping
+from typing import Iterable, Mapping, Sequence
 
 from .errors import CoreUnavailable, WorldlineError
 
@@ -45,8 +45,17 @@ COLLAPSE_DECISIONS: dict[int, str] = {
     11: "STAGED_UNTESTED",
     12: "EXECUTION_EVIDENCE_INCOMPLETE",
     13: "VERIFIER_EXECUTION_IDENTITY_MISMATCH",
+    14: "CHECKPOINT_UNWITNESSED",
     255: "INVALID_REQUEST",
 }
+
+# The ABI generation this runtime was written against (wl_abi_version). Record layouts and the
+# meaning of every exported code belong to it; a library reporting another is refused at load.
+ABI_VERSION = 4
+
+# Which evidence speaks for the bytes that would become live (Worldline.Collapse.Evaluation_Mode).
+EVALUATION_MODES = {"CANDIDATE_EVALUATION": 0, "CHECKPOINT_RETURN": 1}
+ROSTER_MAX = 4096
 
 # The declaration order is part of the new C ABI. Unknown raw observations
 # remain explicit categories; Python never guesses that they mean completion.
@@ -102,6 +111,13 @@ class CCollapseRequest(ctypes.Structure):
         ("reserved_4", ctypes.c_uint8),
         ("expected_executed_verifier", C_HASH),
         ("actual_executed_verifier", C_HASH),
+        # Layout 4 (1.8.0).
+        ("evaluation_mode", ctypes.c_uint8),
+        ("checkpoint_witnessed", ctypes.c_uint8),
+        ("reserved_5", ctypes.c_uint8),
+        ("reserved_6", ctypes.c_uint8),
+        ("expected_checkpoint", C_HASH),
+        ("witnessed_checkpoint", C_HASH),
     ]
 
 
@@ -116,6 +132,18 @@ class CEvaluationObservations(ctypes.Structure):
 class CEvaluationClassification(ctypes.Structure):
     _fields_ = [("execution", ctypes.c_uint8), ("outcome", ctypes.c_uint8),
                 ("bundle", ctypes.c_uint8)]
+
+
+class CEvidencePresence(ctypes.Structure):
+    _fields_ = [(name, ctypes.c_uint8) for name in (
+        "record_identified", "verdict_recorded", "binding_established",
+        "declaration_matches", "bundle_identified",
+    )]
+
+
+# wl_layout_size selectors, and the ctypes record each one must match byte for byte.
+_LAYOUTS = ((0, CCollapseRequest), (1, CEvaluationObservations),
+            (2, CEvaluationClassification), (3, CEvidencePresence))
 
 
 @dataclass(frozen=True, slots=True)
@@ -140,6 +168,20 @@ class EvaluationClassification:
     execution: str
     outcome: str
     bundle: str
+
+
+@dataclass(frozen=True, slots=True)
+class EvidencePresence:
+    """Typed per-check evidence presence (Worldline.Evaluation.Evidence_Presence).
+
+    Each field is a fact the caller established, never a truthiness test on the record. The
+    kernel admits a check only when every one of them holds.
+    """
+    record_identified: bool
+    verdict_recorded: bool
+    binding_established: bool
+    declaration_matches: bool
+    bundle_identified: bool
 
 
 @dataclass(frozen=True, slots=True)
@@ -175,6 +217,12 @@ class CollapseInput:
     execution_evidence_complete: bool = False
     expected_executed_verifier: bytes = bytes(32)
     actual_executed_verifier: bytes = b"\xff" * 32
+    # 1.8.0. Candidate evaluation is the default; a checkpoint return must say so and carry a
+    # witness. The witness defaults REFUSE for the same reason as the execution identity above.
+    mode: str = "CANDIDATE_EVALUATION"
+    checkpoint_witnessed: bool = False
+    expected_checkpoint: bytes = bytes(32)
+    witnessed_checkpoint: bytes = b"\xff" * 32
 
 
 def _library_candidates() -> Iterable[Path]:
@@ -276,9 +324,47 @@ class Core:
         classify.argtypes = [ctypes.POINTER(CEvaluationObservations),
                              ctypes.POINTER(CEvaluationClassification)]
         classify.restype = ctypes.c_uint8
+        # 1.8.0: the ABI generation and every record layout are checked before any decision is
+        # asked for. A library built for another layout would read these structures at the
+        # wrong offsets and answer questions nobody asked.
+        try:
+            abi_version = self._lib.wl_abi_version
+            layout_size = self._lib.wl_layout_size
+            transition = self._lib.wl_evaluation_transition_allowed
+            advance = self._lib.wl_evaluation_advance
+            roster = self._lib.wl_evaluation_roster_complete
+        except AttributeError as exc:
+            raise CoreUnavailable(
+                "libworldline_core.so predates ABI generation 4 (the 1.8.0 evaluation authority);"
+                " rebuild and reinstall", path=str(self.library_path),
+            ) from exc
+        abi_version.argtypes = []
+        abi_version.restype = ctypes.c_uint32
+        reported = int(abi_version())
+        if reported != ABI_VERSION:
+            raise CoreUnavailable(
+                f"libworldline_core.so reports ABI generation {reported}; this runtime requires {ABI_VERSION}",
+                path=str(self.library_path),
+            )
+        layout_size.argtypes = [ctypes.c_uint8]
+        layout_size.restype = ctypes.c_size_t
+        for selector, structure in _LAYOUTS:
+            library_size = int(layout_size(selector))
+            if library_size != ctypes.sizeof(structure):
+                raise CoreUnavailable(
+                    f"record layout {structure.__name__} disagrees with the library"
+                    f" ({ctypes.sizeof(structure)} bytes here, {library_size} in the library)",
+                    path=str(self.library_path),
+                )
         admissible.argtypes = [ctypes.POINTER(CEvaluationClassification),
-                              ctypes.c_uint8, ctypes.c_uint8]
+                               ctypes.c_uint8, ctypes.POINTER(CEvidencePresence)]
         admissible.restype = ctypes.c_uint8
+        transition.argtypes = [ctypes.c_uint8, ctypes.c_uint8]
+        transition.restype = ctypes.c_uint8
+        advance.argtypes = [ctypes.POINTER(ctypes.c_uint8), ctypes.c_uint8]
+        advance.restype = ctypes.c_uint8
+        roster.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_uint8]
+        roster.restype = ctypes.c_uint8
 
     @staticmethod
     def _checked(code: int, operation: str) -> None:
@@ -373,8 +459,16 @@ class Core:
         except IndexError as exc:
             raise WorldlineError("CORE_INVALID_EVALUATION", "proved core returned an invalid classification") from exc
 
+    @staticmethod
+    def _flag(value: object, name: str) -> int:
+        # A presence fact is a Boolean the caller established. 0/1 integers, None, or a record
+        # are not facts; refusing them keeps a truthiness test from sneaking back in.
+        if not isinstance(value, bool):
+            raise WorldlineError("INVALID_EVALUATION", f"{name} must be a Boolean fact")
+        return 1 if value else 0
+
     def evaluation_admissible(self, value: EvaluationClassification, *,
-                              report_integrity: str, evidence_complete: bool) -> bool:
+                              report_integrity: str, presence: EvidencePresence) -> bool:
         try:
             raw = CEvaluationClassification(EVALUATION_EXECUTIONS.index(value.execution),
                                             EVALUATION_OUTCOMES.index(value.outcome),
@@ -382,10 +476,52 @@ class Core:
             report = EVALUATION_REPORTS[report_integrity]
         except (ValueError, KeyError) as exc:
             raise WorldlineError("INVALID_EVALUATION", "unknown evaluation classification") from exc
+        if not isinstance(presence, EvidencePresence):
+            raise WorldlineError("INVALID_EVALUATION", "evidence presence must be typed facts")
+        raw_presence = CEvidencePresence(*(self._flag(getattr(presence, name), name)
+                                           for name, _ in CEvidencePresence._fields_))
         code = int(self._lib.wl_evaluation_admissible(ctypes.byref(raw), report,
-                                                     int(evidence_complete)))
+                                                     ctypes.byref(raw_presence)))
         if code not in (0, 1):
             raise WorldlineError("CORE_INVALID_EVALUATION", "proved core rejected evaluation admission")
+        return code == 1
+
+    def evaluation_transition_allowed(self, from_state: str, to_state: str) -> bool:
+        try:
+            source = EVALUATION_EXECUTIONS.index(from_state)
+            target = EVALUATION_EXECUTIONS.index(to_state)
+        except ValueError as exc:
+            raise WorldlineError("INVALID_EVALUATION", "unknown evaluation state") from exc
+        code = int(self._lib.wl_evaluation_transition_allowed(source, target))
+        if code not in (0, 1):
+            raise WorldlineError("CORE_INVALID_EVALUATION", "proved core rejected an evaluation transition")
+        return code == 1
+
+    def evaluation_advance(self, state: str, requested: str) -> str:
+        try:
+            current = ctypes.c_uint8(EVALUATION_EXECUTIONS.index(state))
+            target = EVALUATION_EXECUTIONS.index(requested)
+        except ValueError as exc:
+            raise WorldlineError("INVALID_EVALUATION", "unknown evaluation state") from exc
+        if int(self._lib.wl_evaluation_advance(ctypes.byref(current), target)) != 0:
+            raise WorldlineError("CORE_INVALID_EVALUATION", "proved core rejected an evaluation advance")
+        try:
+            return EVALUATION_EXECUTIONS[current.value]
+        except IndexError as exc:
+            raise WorldlineError("CORE_INVALID_EVALUATION", "proved core returned an invalid state") from exc
+
+    def evaluation_roster_complete(self, admitted: Sequence[bool], *, empty_declared: bool) -> bool:
+        """The kernel's roster rule: every required check admitted, and an empty roster only
+        when the policy explicitly declared that nothing is required."""
+        flags = [self._flag(item, "roster admission") for item in admitted]
+        if len(flags) > ROSTER_MAX:
+            raise WorldlineError("ROSTER_TOO_LARGE", f"a roster of {len(flags)} checks exceeds {ROSTER_MAX}")
+        buffer = (ctypes.c_uint8 * len(flags))(*flags) if flags else None
+        address = ctypes.cast(buffer, ctypes.c_void_p) if buffer is not None else ctypes.c_void_p()
+        code = int(self._lib.wl_evaluation_roster_complete(
+            address, len(flags), self._flag(empty_declared, "empty roster declaration")))
+        if code not in (0, 1):
+            raise WorldlineError("CORE_INVALID_EVALUATION", "proved core rejected the roster")
         return code == 1
 
     def collapse_decide(self, value: CollapseInput) -> str:
@@ -393,6 +529,10 @@ class Core:
             state = STATE_CODES[value.candidate_state]
         except KeyError as exc:
             raise WorldlineError("INVALID_STATE", f"unknown candidate state: {value.candidate_state}") from exc
+        try:
+            mode = EVALUATION_MODES[value.mode]
+        except KeyError as exc:
+            raise WorldlineError("INVALID_EVALUATION", f"unknown evaluation mode: {value.mode}") from exc
         request = CCollapseRequest(
             state,
             int(value.has_conflicts),
@@ -414,10 +554,15 @@ class Core:
             self._array(value.candidate_validation_context),
             self._array(value.tested_root),
             self._array(value.staged_content_root),
-            1 if value.execution_evidence_complete else 0,
+            self._flag(value.execution_evidence_complete, "execution evidence completeness"),
             0, 0, 0,
             self._array(value.expected_executed_verifier),
             self._array(value.actual_executed_verifier),
+            mode,
+            self._flag(value.checkpoint_witnessed, "checkpoint witness"),
+            0, 0,
+            self._array(value.expected_checkpoint),
+            self._array(value.witnessed_checkpoint),
         )
         code = int(self._lib.wl_collapse_decide(ctypes.byref(request)))
         return COLLAPSE_DECISIONS.get(code, f"UNKNOWN_{code}")

@@ -18,7 +18,7 @@ from .delta import Delta
 from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, effective_evidence, verify_context
 from .errors import ConflictError, WorldlineError
 from .executed import NO_BUNDLE_IDENTITY, bundle_identity
-from .finalize import evaluation_record
+from .finalize import check_declarations, required_roster, roster_decision
 from .environment import capture_dependencies
 from .linux.atomic import AtomicExchange
 from .linux.git import GitAdapter
@@ -128,10 +128,13 @@ class CollapseTransaction:
         if self.reconcile_prime is not None and self.store.get_meta("dirty", False):
             self.reconcile_prime()
         candidate = self.store.world(candidate_value)
-        if candidate.world_kind == "system":
+        subject_kind = self.store.world(return_of).world_kind if return_of else candidate.world_kind
+        if candidate.world_kind == "system" or subject_kind == "system":
+            # A system future's verdicts come from a runner inside the future itself; it is not
+            # an evaluation and can never become PRIME, neither by collapse nor by `return`.
             raise WorldlineError(
                 "SYSTEM_ROOT_COLLAPSE_UNSUPPORTED",
-                "system futures on this backend are inspectable but cannot collapse",
+                "system futures on this backend are inspectable but cannot collapse or be returned to",
             )
         if candidate.state is not WorldState.VALID:
             raise WorldlineError(
@@ -294,9 +297,10 @@ class CollapseTransaction:
                     # Execution-time verifier identity. Expected from the policy's resolved
                     # verifier list, actual from what the runner recorded having staged — two
                     # sources, so the equality the kernel proves is a real comparison.
-                    execution_evidence_complete=bool(freshness["execution"]["complete"]),
+                    execution_evidence_complete=freshness["execution"]["complete"] is True,
                     expected_executed_verifier=hash_bytes_from_id(freshness["execution"]["expected"]),
                     actual_executed_verifier=hash_bytes_from_id(freshness["execution"]["actual"]),
+                    **self._checkpoint_fields(freshness),
                 )
             )
             generated = candidate.evidence.get("metrics", {}).get("generatedClassifiers", [])
@@ -355,7 +359,7 @@ class CollapseTransaction:
                     conflicts=conflicts,
                     contamination=candidate.contamination,
                     untestedPaths=untested_paths[:50],
-                    validation={k: freshness.get(k) for k in ("mode", "requirementHash", "candidateRequirementHash")},
+                    validation={k: freshness.get(k) for k in ("mode", "requirementHash", "candidateRequirementHash", "witness")},
                     execution={k: (freshness.get("execution") or {}).get(k)
                                for k in ("complete", "expected", "actual", "mode", "problems")},
                     stagedValidation=None if staged_validation is None else {k: staged_validation.get(k) for k in ("validationId", "outcome", "summary", "failed", "results")},
@@ -376,7 +380,7 @@ class CollapseTransaction:
                 current_prime=current_prime.instance_id,
                 prepared_at=record["createdAt"],
                 dependency_changes=dependency_changes,
-                validation={k: freshness.get(k) for k in ("mode", "source", "requirementHash", "candidateRequirementHash", "contextHash", "policySourceSha256", "evaluatedAt")},
+                validation={k: freshness.get(k) for k in ("mode", "source", "requirementHash", "candidateRequirementHash", "contextHash", "policySourceSha256", "evaluatedAt", "witness")},
                 execution=dict(freshness.get("execution") or {}),
                 tested_root=tested_root,
                 staged_content_root=staged_content_root,
@@ -529,7 +533,9 @@ class CollapseTransaction:
         # with the requirement the candidate's evidence was bound to at preparation. For a
         # checkpoint return both sides are the current hash (documented: no evidence applies).
         expected_context = current_requirement_hash or validation.get("requirementHash") or hash_id(bytes(32))
-        candidate_context = validation.get("candidateRequirementHash") if validation.get("mode") != "checkpoint-return" else expected_context
+        # In checkpoint-return mode the kernel does not consult the context pair (there is no
+        # candidate evaluation); what it consults is the lineage witness recorded at prepare.
+        candidate_context = validation.get("candidateRequirementHash")
         # The prepared record stores the whole freshness document under "validation", so the
         # execution facts live there. Reading the wrong nesting silently produced "incomplete"
         # for every commit, which is the correct direction to fail but the wrong reason.
@@ -560,15 +566,78 @@ class CollapseTransaction:
                 # from a tree that has since moved would decide on different evidence than the
                 # one that was authorised; a policy change between prepare and commit is caught
                 # separately, as EVIDENCE_STALE.
-                execution_evidence_complete=bool(prepared_execution.get("complete")),
+                execution_evidence_complete=prepared_execution.get("complete") is True,
                 expected_executed_verifier=hash_bytes_from_id(
                     prepared_execution.get("expected") or NO_BUNDLE_IDENTITY),
                 actual_executed_verifier=hash_bytes_from_id(
                     prepared_execution.get("actual") or hash_id(b"\xff" * 32)),
                 tested_root=hash_bytes_from_id(tested),
                 staged_content_root=hash_bytes_from_id(staged_content),
+                **self._checkpoint_fields(validation),
             )
         )
+
+    @staticmethod
+    def _checkpoint_fields(freshness: Mapping[str, Any]) -> dict[str, Any]:
+        """The evaluation mode and checkpoint witness for Decide, from a freshness document.
+
+        Anything but an explicit checkpoint-return document is a candidate evaluation, whose
+        witness fields keep CollapseInput's refusing defaults. A checkpoint return without a
+        recorded witness is passed as unwitnessed, and the kernel refuses it.
+        """
+        if freshness.get("mode") != "checkpoint-return":
+            return {"mode": "CANDIDATE_EVALUATION"}
+        witness = freshness.get("witness")
+        if not isinstance(witness, Mapping) or not witness.get("witnessed") or not witness.get("expected"):
+            return {"mode": "CHECKPOINT_RETURN", "checkpoint_witnessed": False}
+        return {
+            "mode": "CHECKPOINT_RETURN",
+            "checkpoint_witnessed": True,
+            "expected_checkpoint": hash_bytes_from_id(str(witness["expected"])),
+            "witnessed_checkpoint": hash_bytes_from_id(str(witness["witnessed"])),
+        }
+
+    # Far beyond any real store; a longer walk is treated as no witness rather than as a pass.
+    _LINEAGE_LIMIT = 1_000_000
+
+    def _checkpoint_witness(self, subject: World) -> dict[str, Any] | None:
+        """Whether `subject` was a previous reality, established from records other than its own.
+
+        Every PRIME names the PRIME it displaced as its parent: publish_checkpoint parents the
+        new generation on the current PRIME, a committed collapse makes the candidate PRIME only
+        when it was forked from the current PRIME, and a committed return is parented on the
+        PRIME it replaced. So the parent chain from the current PRIME visits exactly the
+        realities WORLDLINE has made live. The subject is one of them when the walk reaches it.
+
+        The witness is the content identity a DIFFERENT record states for the subject: the
+        `parent_content` its child in the lineage recorded when it was created from the frozen
+        PRIME, or the PRIME register's `primeContent` when the subject is the current PRIME. The
+        kernel compares it with the subject's own `content_id`.
+
+        A WORLDLINE-made world that never became live -- the synthetic candidate left behind by
+        a refused `return` -- is not on the walk, so it has no witness, and returning to it is
+        refused instead of passing as a checkpoint with nothing to check.
+        """
+        if subject.content_id is None:
+            return None
+        prime = self.store.prime()
+        if prime is None:
+            return None
+        if prime.instance_id == subject.instance_id:
+            recorded = self.store.get_meta("primeContent")
+            return {"source": "prime-register", "expected": subject.content_id,
+                    "witnessed": recorded if isinstance(recorded, str) else None}
+        child = prime
+        seen: set[str] = set()
+        while child.parent_instance is not None and child.instance_id not in seen:
+            if len(seen) >= self._LINEAGE_LIMIT:
+                return None
+            seen.add(child.instance_id)
+            if child.parent_instance == subject.instance_id:
+                return {"source": f"lineage:{child.instance_id}", "expected": subject.content_id,
+                        "witnessed": child.parent_content}
+            child = self.store.world(child.parent_instance)
+        return None
 
     @staticmethod
     def _evidence_binding(record: Mapping[str, Any]) -> dict[str, Any] | None:
@@ -591,41 +660,28 @@ class CollapseTransaction:
             "untestedPathCount": len(record.get("untestedPaths") or []),
         }
 
-    def _execution_identity(self, subject: World, current: Mapping[str, Any], *, applicable: bool,
+    def _execution_identity(self, subject: World, current: Mapping[str, Any], *,
                             recorded_checks: Sequence[Mapping[str, Any]] = ()) -> dict[str, Any]:
         """What the policy declares each required check should have run, and what the runner
-        recorded it was given.
+        recorded it was given -- and whether the kernel admits the roster.
 
-        The two sides are produced from different data by different code on purpose. The expected
-        side is built here from `current_requirements`' resolved verifier list — the trusted
-        evaluator specification. The actual side is read from the world's evidence, where the
-        check runner wrote what it staged and identified. If one function produced both, the
-        equality the kernel proves would be an equality of a value with itself.
+        The two identity sides are produced from different data by different code on purpose.
+        The expected side is built here from `current_requirements`' resolved verifier list --
+        the trusted evaluator specification. The actual side is read from the world's evidence,
+        where the check runner wrote what it staged and identified. If one function produced
+        both, the equality the kernel proves would be an equality of a value with itself.
 
-        Completeness is the roster condition, and it is the same lesson the preflight learned: a
-        required check with no execution record, an unreadable one, or one whose provenance could
-        not be established does not become an ordinary pass.
+        Completeness is the kernel's roster rule (Evaluation.Roster_Complete over one
+        Evaluation.Admissible verdict per required check), recomputed here from each raw record
+        against the CURRENT policy's declaration. A saved classification is not authority, a
+        completed FAIL is not a pass, a record with no execution status is not a completed one,
+        and an empty roster counts only when the policy declared it.
         """
-        if not applicable:
-            # A checkpoint return restores a reality WORLDLINE itself published; there is no
-            # candidate evaluation to bind. Both sides are the empty-bundle identity, which is
-            # honest rather than a special case that could drift.
-            return {"complete": True, "expected": NO_BUNDLE_IDENTITY, "actual": NO_BUNDLE_IDENTITY,
-                    "mode": "no-candidate-evaluation", "problems": [], "requiredChecks": []}
-        required = sorted(str(item) for item in (current.get("policy", {}).get("requiredChecks") or ()))
-        declared_formats = {
-            str(item.get("id")): item.get("format")
-            for item in (current.get("policy", {}).get("canonical", {}).get("checks") or ())
-            if isinstance(item, Mapping)
-        }
-        declared_profiles = {
-            str(item.get("id")): item.get("profile", "legacy")
-            for item in (current.get("policy", {}).get("canonical", {}).get("checks") or ())
-            if isinstance(item, Mapping)
-        }
-        declared: dict[str, list[tuple[str, str, str]]] = {}
+        required, empty_declared = required_roster(current)
+        declarations = check_declarations(current)
+        declared_bundles: dict[str, list[tuple[str, str, str]]] = {}
         for entry in current.get("verifiers") or ():
-            declared.setdefault(str(entry.get("checkId")), []).append(
+            declared_bundles.setdefault(str(entry.get("checkId")), []).append(
                 (str(entry.get("rootKey")), str(entry.get("path")), str(entry.get("sha256"))))
         # The execution records of the SAME evaluation whose freshness context speaks for this
         # world -- passed in by the caller from `effective_evidence`, NOT read from the world's
@@ -633,68 +689,30 @@ class CollapseTransaction:
         # finalization's here bound run 2's freshness to run 1's execution identity (F5).
         recorded = {str(item.get("id")): item
                     for item in recorded_checks if isinstance(item, Mapping)}
+        roster = roster_decision(required, recorded, declarations,
+                                 empty_declared=empty_declared, core=self.core)
+        refused = {item["id"]: item["reason"] for item in roster["refused"]}
         expected_members: list[tuple[str, str, str]] = []
         actual_members: list[tuple[str, str, str]] = []
-        problems: list[str] = []
-        complete = True
         for check_id in required:
-            bundle = declared.get(check_id, [])
+            bundle = declared_bundles.get(check_id, [])
             expected_members.append(("", check_id, bundle_identity(bundle) if bundle else NO_BUNDLE_IDENTITY))
-            result = recorded.get(check_id)
-            if result is None:
-                complete = False
-                problems.append(f"{check_id}: no execution record")
-                actual_members.append(("", check_id, ""))
-                continue
-            if result.get("executionBinding") == "UNESTABLISHED":
-                complete = False
-                problems.append(f"{check_id}: the authorised examiner could not be shown to have run")
-                actual_members.append(("", check_id, ""))
-                continue
-            if result.get("format") != declared_formats.get(check_id):
-                complete = False
-                problems.append(f"{check_id}: recorded check format does not match the current policy")
-                actual_members.append(("", check_id, ""))
-                continue
-            if result.get("profile", "legacy") != declared_profiles.get(check_id):
-                complete = False
-                problems.append(f"{check_id}: recorded evaluator profile does not match the current policy")
-                actual_members.append(("", check_id, ""))
-                continue
-            # Recompute from the raw result at the promotion boundary. A saved evaluation
-            # classification is not authority, and a report-format PASS from the old same-uid
-            # channel remains non-promotable even when its verifier bundle was intact.
-            derived_evaluation = evaluation_record(result)
-            if derived_evaluation.get("reportIntegrity") == "UNTRUSTED":
-                complete = False
-                problems.append(f"{check_id}: report bytes were reachable by candidate code")
-                actual_members.append(("", check_id, ""))
-                continue
-            evaluation = result.get("evaluation") or {}
-            if evaluation.get("executionStatus") not in (None, "COMPLETED"):
-                # An intact bundle is not an evaluation. Completeness is the roster condition the
-                # kernel proves against, and a check whose evaluation never reached the examiner
-                # must not satisfy it however stable its staged bytes were.
-                complete = False
-                problems.append(
-                    f"{check_id}: execution did not reach the examiner"
-                    f" ({evaluation.get('executionStatus')})")
+            if check_id in refused:
                 actual_members.append(("", check_id, ""))
                 continue
             if not bundle:
                 actual_members.append(("", check_id, NO_BUNDLE_IDENTITY))
                 continue
-            executed = result.get("executedVerifierSet")
+            executed = recorded[check_id].get("executedVerifierSet")
             identity = executed.get("identity") if isinstance(executed, Mapping) else None
-            if not identity:
-                complete = False
-                problems.append(f"{check_id}: a verifier bundle is declared but none was recorded as executed")
-                actual_members.append(("", check_id, ""))
-                continue
-            actual_members.append(("", check_id, str(identity)))
-        return {"complete": complete, "expected": bundle_identity(expected_members),
+            actual_members.append(("", check_id, str(identity) if identity else ""))
+        problems = [f"{check_id}: {reason}" for check_id, reason in refused.items()]
+        if not roster["complete"] and not required:
+            problems.append("no .worldline.json declares what a collapse requires; add one"
+                            " (\"checks\": [] declares that nothing is required)")
+        return {"complete": roster["complete"] is True, "expected": bundle_identity(expected_members),
                 "actual": bundle_identity(actual_members), "mode": "candidate-evaluation",
-                "problems": problems, "requiredChecks": required}
+                "problems": problems, "requiredChecks": required, "emptyDeclared": empty_declared}
 
     def _freshness(self, candidate: World, *, kind: str, return_of: str | None) -> dict[str, Any]:
         """Evidence freshness at the promotion boundary (Python-enforced; the kernel proves that
@@ -715,10 +733,19 @@ class CollapseTransaction:
         # Every reality WORLDLINE itself published — a PRIME checkpoint (`prime-…`) or an earlier
         # return's result (`return-…`) — is a previous reality: restoring it needs no candidate
         # evidence. A candidate world named in `return WORLD` is a re-application.
+        #
+        # 1.8.0: the actor string alone no longer selects this path. The case is explicit in the
+        # kernel (Evaluation_Mode = Checkpoint_Return) and must carry a lineage witness; a
+        # WORLDLINE-made world that never became live is refused there as CHECKPOINT_UNWITNESSED.
         checkpoint_return = kind == "return" and subject.actor == "worldline"
         if checkpoint_return:
             return {"mode": "checkpoint-return", "requirementHash": current["requirementHash"], "candidateRequirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "contextHash": None, "source": None,
-                    "execution": self._execution_identity(subject, current, applicable=False)}
+                    "witness": self._checkpoint_witness(subject),
+                    # No candidate evaluation exists, and none is claimed: the kernel does not
+                    # consult these fields in this mode, and they say "nothing" rather than
+                    # "complete".
+                    "execution": {"complete": False, "expected": NO_BUNDLE_IDENTITY, "actual": NO_BUNDLE_IDENTITY,
+                                  "mode": "no-candidate-evaluation", "problems": [], "requiredChecks": []}}
         context, source, recorded_checks = effective_evidence(self.store, subject)
         try:
             context = verify_context(context, candidate_instance=subject.instance_id, core=self.core)
@@ -730,7 +757,7 @@ class CollapseTransaction:
             self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": subject.instance_id, "kind": "promotion-refused", "actor": "worldline", "reason": exc.code, "details": exc.details if hasattr(exc, "details") else None, "transactionKind": kind})
             raise
         return {"mode": "re-application" if kind == "return" else "collapse", "requirementHash": current["requirementHash"], "candidateRequirementHash": context["requirementHash"], "contextHash": context["contextHash"], "source": source, "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "evaluatedAt": context.get("evaluatedAt"),
-                "execution": self._execution_identity(subject, current, applicable=True, recorded_checks=recorded_checks)}
+                "execution": self._execution_identity(subject, current, recorded_checks=recorded_checks)}
 
     def _finish_committed(
         self,

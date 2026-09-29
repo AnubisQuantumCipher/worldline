@@ -24,7 +24,7 @@ from worldline.roots import RootManager
 from worldline.store import StateStore
 from worldline.transaction import CollapseTransaction
 
-from validation_support import attach_fresh_context
+from validation_support import DECLARED_EMPTY_POLICY, attach_fresh_context
 
 _TRANSACTION_TABLE = {
     "PREPARED": {"AUTHORIZED", "DENIED", "ABORTED"},
@@ -217,6 +217,7 @@ class MeaningfulParentCheck(unittest.TestCase):
         self.work = Path(self.temporary.name) / "work"
         self.work.mkdir()
         (self.work / "state.txt").write_text("prime", encoding="utf-8")
+        (self.work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
         self.roots.register([self.work], confirmed=True)
         self.transaction = CollapseTransaction(self.paths, self.store, core=self.core)
 
@@ -298,7 +299,7 @@ class _FixtureDaemon:
     """A private daemon over a throwaway root and a scriptable generic adapter."""
 
     def __init__(
-        self, test: unittest.TestCase, agent_source: str, *, project: dict | None = None, extra_agents: dict | None = None
+        self, test: unittest.TestCase, agent_source: str, *, project: dict | bool | None = None, extra_agents: dict | None = None
     ) -> None:
         self.test = test
         self.temporary = tempfile.TemporaryDirectory(prefix="worldline-fixture-")
@@ -309,8 +310,12 @@ class _FixtureDaemon:
         (self.work / "prime.txt").write_text("prime", encoding="utf-8")
         agent_script = self.work / "fixture_agent.py"
         agent_script.write_text(agent_source, encoding="utf-8")
-        if project is not None:
-            (self.work / ".worldline.json").write_text(json.dumps(project), encoding="utf-8")
+        # An explicit empty policy unless the test names one: from 1.8.0 a project with no
+        # policy has declared nothing, and nothing is not a pass. `project=False` means "no
+        # .worldline.json at all".
+        if project is not False:
+            (self.work / ".worldline.json").write_text(
+                json.dumps(DECLARED_EMPTY_POLICY if project is None else project), encoding="utf-8")
         config_dir = Path(self.env["XDG_CONFIG_HOME"]) / "worldline"
         config_dir.mkdir(mode=0o700)
         (config_dir / "config.json").write_text(json.dumps({

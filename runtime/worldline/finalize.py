@@ -16,7 +16,7 @@ import tempfile
 from typing import Any, Mapping, Sequence
 
 from .canonical import atomic_write_json
-from .core import Core, EvaluationFacts
+from .core import Core, EvaluationFacts, EvidencePresence
 from .delta import Delta
 from .environment import EnvironmentCapture, OwnedProcess, capture_dependencies, evidence_manifest
 from .project import protected_matches
@@ -194,7 +194,154 @@ def _private_report_verified(result: Mapping[str, Any], *, execution: str, integ
     return True
 
 
-def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
+@dataclass(frozen=True)
+class CheckDeclaration:
+    """What the policy in force declares a required check to be: the format and evaluator
+    profile it must have run as, and whether a verifier bundle is declared for it (which then
+    must be named as what executed).
+
+    Built from the requirement record -- the policy and its resolved verifier list -- and never
+    from a check result, so the kernel's Declaration_Matches compares two sources.
+    """
+
+    format: str | None
+    profile: str
+    bundle_declared: bool
+
+
+# Results WORLDLINE produces itself rather than from a policy check. Their ids are reserved in
+# project configs, so a policy cannot declare a check that shadows one.
+ENGINE_DECLARATIONS: dict[str, CheckDeclaration] = {
+    "agent": CheckDeclaration("exit", "legacy", False),
+    "protected-paths": CheckDeclaration("engine", "legacy", False),
+}
+
+
+def check_declarations(requirement: Mapping[str, Any] | None) -> dict[str, CheckDeclaration]:
+    """Per-check declarations from a requirement record (`requirements()`/`current_requirements()`).
+
+    A missing or malformed requirement yields no declarations, and a check with no declaration
+    is never admitted: the absence is carried to the kernel as Declaration_Matches = False.
+    """
+    if not isinstance(requirement, Mapping):
+        return {}
+    policy = requirement.get("policy")
+    canonical = policy.get("canonical") if isinstance(policy, Mapping) else None
+    if not isinstance(canonical, Mapping):
+        return {}
+    bundles = {
+        str(entry.get("checkId"))
+        for entry in (requirement.get("verifiers") or ())
+        if isinstance(entry, Mapping) and entry.get("checkId") is not None
+    }
+    declared: dict[str, CheckDeclaration] = {}
+    for item in canonical.get("checks") or ():
+        if isinstance(item, Mapping) and isinstance(item.get("id"), str) and item["id"]:
+            profile = item.get("profile", "legacy")
+            declared[item["id"]] = CheckDeclaration(
+                item.get("format") if isinstance(item.get("format"), str) else None,
+                profile if isinstance(profile, str) else "",
+                item["id"] in bundles,
+            )
+    if canonical.get("protected"):
+        declared["protected-paths"] = ENGINE_DECLARATIONS["protected-paths"]
+    return declared
+
+
+def required_roster(requirement: Mapping[str, Any] | None) -> tuple[list[str], bool]:
+    """The promotion roster a requirement record imposes, and whether an empty one was declared.
+
+    Required policy checks plus the engine's protected-paths check when the policy protects any
+    path. An empty roster counts as declared only when a policy file was actually read
+    (`sourceSha256` present); a project with no policy has declared nothing, and nothing is not
+    a pass.
+    """
+    policy = requirement.get("policy") if isinstance(requirement, Mapping) else None
+    if not isinstance(policy, Mapping):
+        return [], False
+    required = sorted({str(item) for item in (policy.get("requiredChecks") or ())})
+    canonical = policy.get("canonical")
+    if isinstance(canonical, Mapping) and canonical.get("protected") and "protected-paths" not in required:
+        required.append("protected-paths")
+    return required, isinstance(policy.get("sourceSha256"), str) and bool(policy.get("sourceSha256"))
+
+
+def evaluation_presence(result: Mapping[str, Any], declared: CheckDeclaration | None) -> EvidencePresence:
+    """Typed evidence facts for one record. Each is a question about a specific field, so an
+    empty or partial record cannot pass by being non-empty."""
+    executed = result.get("executedVerifierSet")
+    identity = executed.get("identity") if isinstance(executed, Mapping) else None
+    identifier = result.get("id")
+    return EvidencePresence(
+        record_identified=isinstance(identifier, str) and bool(identifier),
+        verdict_recorded=isinstance(result.get("status"), str),
+        binding_established=execution_binding(result) != "UNESTABLISHED",
+        declaration_matches=(
+            declared is not None
+            and declared.format is not None
+            and result.get("format") == declared.format
+            and result.get("profile", "legacy") == declared.profile
+        ),
+        bundle_identified=declared is not None and (
+            not declared.bundle_declared or (isinstance(identity, str) and bool(identity))),
+    )
+
+
+def refusal_reason(evaluation: Mapping[str, Any]) -> str:
+    """Why the kernel did not admit a check, in the order an operator can act on."""
+    presence = evaluation.get("evidencePresence") or {}
+    if evaluation.get("executionStatus") != "COMPLETED":
+        return f"execution did not complete ({evaluation.get('executionStatus')})"
+    if evaluation.get("evaluationOutcome") != "PASS":
+        return f"the completed evaluation did not pass ({evaluation.get('evaluationOutcome')})"
+    if evaluation.get("bundleIntegrity") not in ("NOT_COVERED", "VERIFIED"):
+        return f"verifier bundle integrity is {evaluation.get('bundleIntegrity')}"
+    if evaluation.get("reportIntegrity") == "UNTRUSTED":
+        return "report bytes were reachable by candidate code"
+    missing = [name for name, value in presence.items() if value is not True]
+    if missing:
+        return "evidence incomplete: " + ", ".join(missing)
+    return "not admitted"
+
+
+def roster_decision(
+    required: Sequence[str],
+    results_by_id: Mapping[str, Any],
+    declarations: Mapping[str, CheckDeclaration],
+    *,
+    empty_declared: bool,
+    core: Core | None = None,
+) -> dict[str, Any]:
+    """The kernel's verdict on a roster: every required check recomputed from its raw record,
+    admitted by Worldline.Evaluation.Admissible, and the list judged by Roster_Complete.
+
+    Saved classifications are never read here. Python assembles the list in policy order; the
+    per-check decision and the completeness rule (including the empty-roster case) are the
+    kernel's.
+    """
+    core = core or Core.shared()
+    admitted: list[bool] = []
+    refused: list[dict[str, str]] = []
+    evaluations: dict[str, dict[str, Any]] = {}
+    for check_id in required:
+        result = results_by_id.get(check_id)
+        if not isinstance(result, Mapping):
+            admitted.append(False)
+            refused.append({"id": check_id, "reason": "no execution record"})
+            continue
+        evaluation = evaluation_record(result, declared=declarations.get(check_id), core=core)
+        evaluations[check_id] = evaluation
+        ok = evaluation["admissibleForPromotion"] is True
+        admitted.append(ok)
+        if not ok:
+            refused.append({"id": check_id, "reason": refusal_reason(evaluation)})
+    complete = core.evaluation_roster_complete(admitted, empty_declared=empty_declared)
+    return {"complete": complete, "required": list(required), "emptyDeclared": empty_declared,
+            "refused": refused, "evaluations": evaluations}
+
+
+def evaluation_record(result: Mapping[str, Any], *, declared: CheckDeclaration | None,
+                      core: Core | None = None) -> dict[str, Any]:
     """Three facts that were being carried as one, and could therefore contradict each other.
 
     `executionBinding` answered "was an intact bundle staged?" while being read as "did the
@@ -238,11 +385,13 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
                                  "HARNESS_SIGNALLED") else
               ("ABSENT" if stage is None else "OTHER"),
         exit_present=exit_code is not None,
-        exit_integer=isinstance(exit_code, int),
+        # bool is an int subclass; True is not an exit status.
+        exit_integer=type(exit_code) is int,
         supervisor=supervisor_kind if supervisor_kind in ("SUPERVISED", "STOPPED") else
                    ("ABSENT" if supervisor_kind is None else "OTHER"),
         supervisor_stopped=stopped_supervision(supervision),
-        bundle_present=bool(executed),
+        # An empty or malformed bundle record is present and unverifiable, not absent.
+        bundle_present=executed is not None,
         bundle_is_mapping=isinstance(executed, Mapping),
         bundle_stable=isinstance(executed, Mapping) and executed.get("stable") is True,
         bundle_changed=isinstance(executed, Mapping) and bool(executed.get("changedDuringExecution")),
@@ -250,7 +399,7 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
     )
     # Python only maps observations to finite categories. The SPARK core determines execution,
     # outcome and bundle integrity; malformed and unknown categories remain non-promotable.
-    core = Core.shared()
+    core = core or Core.shared()
     classification = core.evaluation_classify(facts)
     execution, outcome, integrity = (
         classification.execution, classification.outcome, classification.bundle)
@@ -261,16 +410,24 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
     report_based = report_format in ("junit", "gnatprove", "worldline-benchmark-v1")
     report_integrity = ("VERIFIED" if _private_report_verified(result, execution=execution, integrity=integrity)
                         else "UNTRUSTED") if report_based else "NOT_APPLICABLE"
-    # This is a single check's record. The separate policy roster is verified at finalization
-    # and again at the transaction boundary; its completeness is not inferred here.
+    # Evidence presence is a set of typed facts about named fields, checked against the policy's
+    # declaration for this check. The roster -- every required check, and what an empty one
+    # means -- is decided separately by the kernel's Roster_Complete (see roster_decision).
+    presence = evaluation_presence(result, declared)
     admissible = core.evaluation_admissible(
-        classification, report_integrity=report_integrity,
-        evidence_complete=bool(result))
+        classification, report_integrity=report_integrity, presence=presence)
     return {
         "bundleIntegrity": integrity,
         "executionStatus": execution,
         "evaluationOutcome": outcome,
         "reportIntegrity": report_integrity,
+        "evidencePresence": {
+            "recordIdentified": presence.record_identified,
+            "verdictRecorded": presence.verdict_recorded,
+            "bindingEstablished": presence.binding_established,
+            "declarationMatches": presence.declaration_matches,
+            "bundleIdentified": presence.bundle_identified,
+        },
         "admissibleForPromotion": admissible,
         "nonClaims": [
             "SPARK classifies the finite observations and decides this check's promotion"
@@ -290,9 +447,14 @@ def evaluation_record(result: Mapping[str, Any]) -> dict[str, Any]:
             "bundleIntegrity establishes that the declared artifacts were staged and did not move."
             " It does not establish that they were read.",
             "EVALUATOR_INCOMPLETE is raised from a conservative, module-level import analysis of"
-            " the staged verifiers. Its absence does not establish that the evaluator was"
-            " complete: a dynamic or guarded import can still fail at run time, and such a run"
-            " is reported as an ordinary FAIL.",
+            " the staged verifiers, whatever verdict the examiner reported: a PASS from an"
+            " examiner that resolved a module WORLDLINE did not stage is not an evaluation of the"
+            " candidate. Its absence does not establish that the evaluator was complete: a"
+            " dynamic or guarded import can still fail at run time, and such a run is reported as"
+            " an ordinary FAIL.",
+            "evidencePresence records typed facts about named fields compared with the policy's"
+            " declaration for this check; it does not authenticate the values those fields"
+            " hold.",
             "This classification is total: every unrecognised, contradictory or malformed"
             " combination falls to UNCLASSIFIED with outcome NONE, never to a completed"
             " evaluation. UNASSESSED -- a world that ended before its checks ran -- is"
@@ -323,7 +485,7 @@ def execution_binding(result: Mapping[str, Any]) -> str:
     its neighbours are.
     """
     executed = result.get("executedVerifierSet")
-    if not executed:
+    if executed is None:
         return "NOT_COVERED"
     if not isinstance(executed, Mapping):
         return "UNESTABLISHED"
@@ -572,9 +734,22 @@ class Finalizer:
             # `executionStatus` reads as None, which is permitted. The second gate that feeds
             # the kernel's completeness input was passing by not asking -- the exact failure its
             # own docstring warns about.
+            #
+            # Each record is classified against the policy's declaration for its check, from the
+            # requirement this evaluation was bound to. Without a requirement nothing is declared,
+            # and a check with no declaration is never admitted.
+            requirement = validation.get("requirement") if validation is not None else None
+            declarations = check_declarations(requirement)
+            # WORLDLINE's own results have fixed shapes that no policy writes: the agent's exit is
+            # always on this roster, and protected-paths whenever this finalization protects
+            # anything.
+            declarations["agent"] = ENGINE_DECLARATIONS["agent"]
+            if protected:
+                declarations["protected-paths"] = ENGINE_DECLARATIONS["protected-paths"]
             for item in check_results:
                 item["executionBinding"] = execution_binding(item)
-                item["evaluation"] = evaluation_record(item)
+                item["evaluation"] = evaluation_record(
+                    item, declared=declarations.get(str(item.get("id"))), core=self.core)
             dependencies = capture_dependencies(dependency_roots, self.core)
             dependency_counts = [item["count"] for item in dependencies]
             dependency_count = (
@@ -677,22 +852,14 @@ class Finalizer:
             world.delta = {**delta.value["summary"], "files": delta.value["operations"]}
             world.establish_identity(self.core)
             results_by_id = {item.get("id"): item for item in check_results}
-            failed_required = [
-                check_id
-                for check_id in required_checks
-                if check_id not in results_by_id
-                or results_by_id[check_id].get("status") != "PASS"
-                # A required check whose examiner cannot be shown to be the authorised one does
-                # not become an ordinary pass. Two missing identities must not become two equal
-                # defaults.
-                or results_by_id[check_id].get("executionBinding") == "UNESTABLISHED"
-                # An intact bundle whose evaluation never reached it is not a pass. This is the
-                # dimension that was missing: integrity and execution were one field, so a
-                # fabricated result with a stable bundle looked exactly like a real one.
-                or not (results_by_id[check_id].get("evaluation") or {}).get("admissibleForPromotion")
-            ]
-            world.risk = "HIGH" if failed_required else "MEDIUM"
-            world.transition(WorldState.DEGRADED if failed_required else WorldState.VALID, self.core)
+            # The kernel decides the roster: each required record is recomputed from its raw
+            # fields (never the saved classification), admitted by Evaluation.Admissible, and the
+            # list judged by Roster_Complete. The runner always puts the agent's own exit on it;
+            # an empty roster counts only when the requirement's policy declared one.
+            roster = roster_decision(list(required_checks), results_by_id, declarations,
+                                     empty_declared=required_roster(requirement)[1], core=self.core)
+            world.risk = "HIGH" if not roster["complete"] else "MEDIUM"
+            world.transition(WorldState.VALID if roster["complete"] else WorldState.DEGRADED, self.core)
             self.store.save_world(world)
             self._make_readonly(payload)
             return world

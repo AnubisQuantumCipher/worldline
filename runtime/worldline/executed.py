@@ -50,9 +50,11 @@ from __future__ import annotations
 
 import ast
 import hashlib
+import importlib.machinery
 import os
 import posixpath
 import shutil
+import site
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -330,6 +332,25 @@ class ExecutionVerifierSet:
 
     # -- is the staged bundle self-sufficient? ----------------------------------------------------
 
+    @staticmethod
+    def host_site_packages() -> list[str]:
+        """The base installation's system site-packages: read-only host paths under
+        sys.base_prefix that no candidate can write. Never the user site, a virtual
+        environment, or the working directory."""
+        base = os.path.realpath(sys.base_prefix)
+        return [path for path in site.getsitepackages([sys.base_prefix, sys.base_exec_prefix])
+                if os.path.isdir(path) and os.path.realpath(path).startswith(base + os.sep)]
+
+    @classmethod
+    def host_installed(cls, module: str) -> bool:
+        """Whether the host interpreter's own installation provides top-level `module`.
+
+        Since 1.8.0 a gap blocks a PASS as well as a FAIL, so a verifier importing a package
+        the host has installed system-wide (pytest, say) must not be reported as incomplete.
+        The lookup searches only host_site_packages() and executes nothing.
+        """
+        return importlib.machinery.PathFinder.find_spec(module, cls.host_site_packages()) is not None
+
     def unsatisfied_imports(self) -> list[dict[str, Any]]:
         """Module-level imports of staged Python verifiers that the staged bundle cannot satisfy.
 
@@ -353,9 +374,10 @@ class ExecutionVerifierSet:
           deferred into a function is left alone;
         - only absolute imports, since a relative one is a statement about package structure
           rather than about a missing file;
-        - satisfied by the standard library, or by a sibling `X.py` or `X/__init__.py` staged in
-          the same directory as the importing verifier -- which is where an examiner that adds
-          its own directory to `sys.path` will look.
+        - satisfied by the standard library, by a package the host installation provides in
+          its system site-packages (see host_installed), or by a sibling `X.py` or
+          `X/__init__.py` staged in the same directory as the importing verifier -- which is
+          where an examiner that adds its own directory to `sys.path` will look.
 
         It is not a complete dependency analysis and does not claim to be. A bundle it passes can
         still fail on a dynamic import; that is a missing detection, never a false accusation.
@@ -380,7 +402,7 @@ class ExecutionVerifierSet:
                 else:
                     continue
                 for root in roots:
-                    if root in sys.stdlib_module_names:
+                    if root in sys.stdlib_module_names or self.host_installed(root):
                         continue
                     candidates = {posixpath.normpath(posixpath.join(directory, f"{root}.py")),
                                   posixpath.normpath(posixpath.join(directory, root, "__init__.py"))}

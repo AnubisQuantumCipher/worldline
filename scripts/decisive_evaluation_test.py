@@ -177,8 +177,17 @@ def main() -> int:
             sorted(p.name for p in (base / "upper").rglob("HARNESS-OWNED*"))
 
     try:
+        import inspect
         from worldline.finalize import evaluation_record
-        evaluation = evaluation_record(result) if result else {}
+        if not result:
+            evaluation = {}
+        elif "declared" in inspect.signature(evaluation_record).parameters:
+            # 1.8.0: the declaration comes from the check this gate defined above (an exit
+            # check with a declared verifier bundle), never from the record under test.
+            from worldline.finalize import CheckDeclaration
+            evaluation = evaluation_record(result, declared=CheckDeclaration(check.format, check.profile, True))
+        else:
+            evaluation = evaluation_record(result)
     except ImportError:
         # The preserved counterexample predates the three-dimension record.
         evaluation = {"bundleIntegrity": "n/a", "executionStatus": "n/a",

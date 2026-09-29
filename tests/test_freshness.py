@@ -35,7 +35,7 @@ from worldline.validation import differences, requirement_hash
 from freshness_support import (
     EXAM_CHECK, EXAM_IMPORTING, EXAM_V1, EXAM_V2, EXTRA_CHECK, HELPER_V1, P0, P0_PROTECTED, P1, SLOW_EXAM, FreshnessLab, isolated_paths, policy, synthetic_candidate, tree_bytes,
 )
-from validation_support import attach_fresh_context
+from validation_support import DECLARED_EMPTY_POLICY, attach_fresh_context
 
 
 def _unchanged(test: unittest.TestCase, lab: FreshnessLab, before: dict[str, bytes], prime_before: dict, receipts_before: int) -> None:
@@ -244,6 +244,7 @@ class D_ChangeAfterPreparation(unittest.TestCase):
             core = Core.shared()
             store = StateStore(paths, core)
             work = Path(temporary) / "work"; work.mkdir()
+            (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             (work / "state.txt").write_text("prime", encoding="utf-8")
             RootManager(paths, store, core=core, toolchains=()).register([work], confirmed=True)
             transaction = CollapseTransaction(paths, store, core=core)
@@ -276,6 +277,7 @@ class E_ReplayAndSubstitution(unittest.TestCase):
         self.core = Core.shared()
         self.store = StateStore(self.paths, self.core)
         self.work = root / "work"; self.work.mkdir()
+        (self.work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
         (self.work / "state.txt").write_text("prime", encoding="utf-8")
         RootManager(self.paths, self.store, core=self.core, toolchains=()).register([self.work], confirmed=True)
         self.transaction = CollapseTransaction(self.paths, self.store, core=self.core)
@@ -917,6 +919,7 @@ class L_SecondReviewRepairs(unittest.TestCase):
             core = Core.shared()
             store = StateStore(paths, core)
             work = root / "work"; work.mkdir()
+            (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             (work / "state.txt").write_text("prime", encoding="utf-8")
             RootManager(paths, store, core=core, toolchains=()).register([work], confirmed=True)
             transaction = CollapseTransaction(paths, store, core=core)

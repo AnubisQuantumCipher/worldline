@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from worldline.finalize import CheckDeclaration, evaluation_record
 from worldline.model import World, utc_now
 from worldline.store import StateStore
 from worldline.validation import build_context, current_requirements
@@ -26,3 +27,31 @@ def attach_fresh_context(store: StateStore, world: World, *, config: Any | None 
     world.evidence = {**(world.evidence if isinstance(world.evidence, dict) else {}), "validationContext": context}
     store.save_world(world)
     return context
+
+
+# A policy that explicitly declares no checks. From 1.8.0 an empty promotion roster counts only
+# when a policy declared it; a project with no .worldline.json has declared nothing.
+DECLARED_EMPTY_POLICY: dict[str, Any] = {"schemaVersion": 1, "generated": [], "checks": [], "services": []}
+
+
+def matching_declaration(result: dict[str, Any]) -> CheckDeclaration:
+    """The declaration a policy would have made for exactly this record.
+
+    For unit tests of classification and report integrity, which are about the record, not
+    about whether it matches a policy. Declaration mismatch has its own tests.
+    """
+    return CheckDeclaration(result.get("format"), result.get("profile", "legacy"),
+                            result.get("executedVerifierSet") is not None)
+
+
+def evaluate(result: dict[str, Any]) -> dict[str, Any]:
+    """evaluation_record against the record's own matching declaration (see above)."""
+    return evaluation_record(result, declared=matching_declaration(result))
+
+
+def agent_pass_result() -> dict[str, Any]:
+    """The agent's own supervised exit-0 record, as the runner writes it (the kernel classifies
+    it COMPLETED/PASS). For finalization unit tests, whose roster always holds the agent."""
+    return {"id": "agent", "kind": "build", "required": True, "format": "exit", "covers": [],
+            "argv": [], "exitCode": 0, "origin": "agent", "status": "PASS",
+            "supervision": {"kind": "SUPERVISED"}}

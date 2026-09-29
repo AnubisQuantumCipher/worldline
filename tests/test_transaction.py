@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 import tempfile
@@ -16,7 +17,7 @@ from worldline.roots import RootManager
 from worldline.store import StateStore
 from worldline.transaction import CollapseTransaction
 
-from validation_support import attach_fresh_context
+from validation_support import DECLARED_EMPTY_POLICY, attach_fresh_context
 
 
 class CollapseTransactionTests(unittest.TestCase):
@@ -39,6 +40,7 @@ class CollapseTransactionTests(unittest.TestCase):
         self.work = root / "work"
         self.work.mkdir()
         (self.work / "state.txt").write_text("prime", encoding="utf-8")
+        (self.work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
         self.roots.register([self.work], confirmed=True)
         self.transaction = CollapseTransaction(self.paths, self.store, core=self.core)
         self.sequence = 0

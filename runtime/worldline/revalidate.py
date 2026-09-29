@@ -25,7 +25,8 @@ from .core import Core
 from .delta import Delta
 from .fstree import remove_tree
 from .errors import WorldlineError
-from .finalize import _COPY_SCRIPT, evaluation_record, execution_binding, protected_matches
+from .finalize import (_COPY_SCRIPT, check_declarations, evaluation_record, execution_binding,
+                       protected_matches, required_roster, roster_decision)
 from .linux.git import GitAdapter
 from .linux.namespaces import SandboxSpec
 from .manifest import CapturedManifest, Manifest
@@ -213,21 +214,25 @@ class Revalidator:
             if private_id is not None:
                 self._discard(self.paths.overlays / private_id)
             self._discard(self.paths.overlays / validation_id)
-        required = [check.id for check in project.checks if check.required]
+        # The roster is the one promotion will impose: the current requirement's required checks
+        # plus protected-paths when the policy protects anything, judged by the kernel.
+        required, empty_declared = required_roster(current)
+        declarations = check_declarations(current)
         # Attach the execution-identity facts to each re-run result, exactly as finalization
         # does, so a promotion that later reads THIS evaluation (F5) sees a coherent execution
         # half rather than falling back to the fork-time evidence.
         for item in results:
             item["executionBinding"] = execution_binding(item)
-            item["evaluation"] = evaluation_record(item)
+            item["evaluation"] = evaluation_record(
+                item, declared=declarations.get(str(item.get("id"))), core=self.core)
         if project.protected:
             delta = protected_delta()
             touched = sorted({op["pathDisplay"] for op in delta.value["operations"] if protected_matches(tuple(project.protected), op["pathDisplay"])})
             protected_result = {"id": "protected-paths", "kind": "policy", "required": True, "format": "engine", "origin": "engine", "covers": list(project.protected), "status": "FAIL" if touched else "PASS", "touched": touched, "reason": ("protected paths would change: " + ", ".join(touched)) if touched else "no protected path changed"}
             protected_result["executionBinding"] = execution_binding(protected_result)
-            protected_result["evaluation"] = evaluation_record(protected_result)
+            protected_result["evaluation"] = evaluation_record(
+                protected_result, declared=declarations.get("protected-paths"), core=self.core)
             results.append(protected_result)
-            required.append("protected-paths")
         context = build_context(
             requirement=current,
             candidate=subject,
@@ -241,8 +246,13 @@ class Revalidator:
             source=source,
         )
         results_by_id = {r["id"]: r for r in results}
-        failed = [check_id for check_id in required
-                  if not (results_by_id.get(check_id, {}).get("evaluation") or {}).get("admissibleForPromotion")]
+        roster = roster_decision(required, results_by_id, declarations,
+                                 empty_declared=empty_declared, core=self.core)
+        failed = [item["id"] for item in roster["refused"]]
+        if not roster["complete"] and not failed:
+            # Nothing was refused and the kernel still said incomplete: the roster was empty and
+            # no policy declared it so. Named, because an empty list must not read as a pass.
+            failed.append("roster-undeclared")
         if context["verifiersModifiedByCandidate"]:
             failed.append("verifiers-modified")
         return {

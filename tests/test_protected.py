@@ -7,6 +7,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
+from validation_support import agent_pass_result  # noqa: E402
 from worldline.core import Core, hash_id
 from worldline.errors import WorldlineError
 from worldline.finalize import Finalizer
@@ -108,7 +109,7 @@ class ProtectedFinalizeTests(unittest.TestCase):
         _stdout, stderr = process.process.communicate(timeout=15)
         self.assertEqual(process.process.returncode, 0, stderr.decode("utf-8", "replace"))
         return Finalizer(self.paths, self.store, self.sandbox, core=self.core).finalize(
-            world.alias, overlays, check_results=[], required_checks=[], protected=protected,
+            world.alias, overlays, check_results=[agent_pass_result()], required_checks=["agent"], protected=protected,
             agent_manifest={"adapter": "fixture", "sessionReference": None, "rawEventHash": None},
         )
 

@@ -6,6 +6,7 @@ import stat
 import tempfile
 import unittest
 
+from validation_support import agent_pass_result  # noqa: E402
 from worldline.core import Core, hash_id
 from worldline.finalize import Finalizer
 from worldline.linux.namespaces import BubblewrapSandbox, SandboxSpec
@@ -97,8 +98,8 @@ class FinalizerTests(unittest.TestCase):
         finalized = Finalizer(self.paths, self.store, self.sandbox, core=self.core).finalize(
             world.alias,
             overlays,
-            check_results=[],
-            required_checks=[],
+            check_results=[agent_pass_result()],
+            required_checks=["agent"],
             agent_manifest={"adapter": "fixture", "sessionReference": None, "rawEventHash": None},
         )
         payload_file = Path(finalized.payload_path) / root_key / "value.txt"
