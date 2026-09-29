@@ -30,10 +30,13 @@ import argparse
 import json
 import os
 from pathlib import Path
+import shutil
 import sqlite3
+import stat
 import sys
 import tempfile
 from typing import Any, Iterator
+import uuid
 
 from .canonical import atomic_write_json, canonical_bytes
 from .core import Core
@@ -80,8 +83,15 @@ class Relocation:
                                   {"first": os.fsdecode(first), "second": os.fsdecode(second)})
         self.new_data, self.new_state = new_data, new_state
         self.database = new_state / "worldline.sqlite3"
-        if not self.database.is_file():
-            raise _refuse(f"no store database at {self.database}")
+        if self.database.is_symlink() or not self.database.is_file():
+            raise _refuse(f"no store database file at {self.database}")
+        # The database is the only file rewritten in place. A hard-linked or symlinked copy could
+        # share it with the old store (review of ff201cd): the copy's database, and its -wal and
+        # -shm, must each be a file of its own.
+        for suffix in ("", "-wal", "-shm"):
+            candidate = Path(str(self.database) + suffix)
+            if candidate.is_symlink() or (candidate.exists() and candidate.stat().st_nlink != 1):
+                raise _refuse(f"{candidate.name} in the copy is linked elsewhere; copy it, do not link it")
 
     # -- mapping one location
 
@@ -167,24 +177,37 @@ class Relocation:
         """Processes this uid can see that hold the copy's database open. A daemon serving the
         copy runs as the same account, so it is visible; `BEGIN EXCLUSIVE` alone does not detect
         an idle WAL connection."""
-        names = {os.path.realpath(self.database) + suffix for suffix in ("", "-wal", "-shm")}
+        identities = set()
+        for suffix in ("", "-wal", "-shm"):
+            try:
+                info = os.stat(str(self.database) + suffix)
+            except FileNotFoundError:
+                continue
+            identities.add((info.st_dev, info.st_ino))
         holders: set[int] = set()
         for process in Path("/proc").iterdir():
             if not process.name.isdigit() or int(process.name) == os.getpid():
                 continue
             try:
                 for descriptor in (process / "fd").iterdir():
-                    if os.path.realpath(descriptor) in names:
+                    try:
+                        info = os.stat(descriptor)
+                    except OSError:
+                        continue
+                    if (info.st_dev, info.st_ino) in identities:  # by inode, not by path
                         holders.add(int(process.name))
             except OSError:
                 continue  # another uid's process, or gone
         return sorted(holders)
 
-    def _foreign_entries(self) -> tuple[int, list[str]]:
+    def _foreign_entries(self) -> tuple[int, list[str], int]:
         """Entries in the copy not owned by the account doing the relocation (it will own the
-        store): an incomplete chown after a root copy leaves content the daemon cannot vouch for."""
+        store): an incomplete chown after a root copy leaves content the daemon cannot vouch for.
+        A directory the account cannot read (overlay work directories are 000 by design) is
+        checked itself but not descended; the count of those is reported."""
         uid = os.geteuid()
         count = 0
+        undescended = 0
         sample: list[str] = []
         for root in (self.new_data, self.new_state):
             for directory, subdirectories, files in os.walk(root):
@@ -194,9 +217,32 @@ class Relocation:
                         count += 1
                         if len(sample) < 20:
                             sample.append(f"uid={info.st_uid} {os.path.relpath(name, root)}")
-                subdirectories[:] = [entry for entry in subdirectories
-                                     if not os.path.islink(os.path.join(directory, entry))
-                                     and os.access(os.path.join(directory, entry), os.R_OK | os.X_OK)]
+                readable = [entry for entry in subdirectories
+                            if not os.path.islink(os.path.join(directory, entry))
+                            and os.access(os.path.join(directory, entry), os.R_OK | os.X_OK)]
+                undescended += sum(1 for entry in subdirectories
+                                   if not os.path.islink(os.path.join(directory, entry)) and entry not in readable)
+                subdirectories[:] = readable
+        return count, sample, undescended
+
+    def _live_unsafe_for_clients(self) -> tuple[int, list[str]]:
+        """PRIME content a client-mode daemon would refuse at start (group or other write, or a
+        setuid, setgid or sticky bit): reported so a migration learns it before starting."""
+        flags = stat.S_IWGRP | stat.S_IWOTH | stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
+        count = 0
+        sample: list[str] = []
+        live = self.new_data / "live"
+        for link in (sorted(live.iterdir()) if live.is_dir() else []):
+            if not link.is_symlink():
+                continue
+            target = os.path.realpath(link)
+            for directory, subdirectories, files in os.walk(target):
+                for name in (directory, *[os.path.join(directory, entry) for entry in subdirectories + files]):
+                    info = os.lstat(name)
+                    if not stat.S_ISLNK(info.st_mode) and stat.S_IMODE(info.st_mode) & flags:
+                        count += 1
+                        if len(sample) < 20:
+                            sample.append(f"{stat.S_IMODE(info.st_mode):04o} {link.name[:12]}/{os.path.relpath(name, target)}")
         return count, sample
 
     # -- classification of every remaining mention
@@ -210,6 +256,8 @@ class Relocation:
         if base == "state":
             if len(relative) == 2 and relative[0] == "transactions" and relative[1].endswith(".json") and not link:
                 return "location"
+            if relative[:1] == ("install-backups",):
+                return "install backup"  # the single-account installer's own rollback copies
             if relative[:1] in (("events",), ("receipts",)):
                 return "hashed record"
             if relative[:1] == ("logs",):
@@ -312,9 +360,20 @@ class Relocation:
         if holders:
             raise _refuse("the copy's database is open in another process; stop its daemon first",
                           {"pids": holders})
-        connection = sqlite3.connect(self.database, isolation_level=None)
+        scratch: str | None = None
+        database = self.database
+        if dry_run:
+            # Opening a database can checkpoint its WAL and create or delete -wal/-shm. A dry run
+            # plans against a private copy, so the copy under relocation is not touched at all.
+            scratch = tempfile.mkdtemp(prefix="worldline-relocate-plan-")
+            for suffix in ("", "-wal", "-shm"):
+                source = str(self.database) + suffix
+                if os.path.exists(source):
+                    shutil.copy2(source, os.path.join(scratch, "worldline.sqlite3" + suffix))
+            database = Path(scratch) / "worldline.sqlite3"
+        connection = sqlite3.connect(database, isolation_level=None)
         try:
-            # Everything is planned, and every refusal raised, before anything is written.
+            # Everything is planned, and every planning refusal raised, before anything is written.
             connection.execute("BEGIN EXCLUSIVE")
             self._quiescent(connection)
             database_plan = self._plan_database(connection)
@@ -322,17 +381,20 @@ class Relocation:
             links_plan = self._plan_mapping_links()
             stray_columns = self._scan_database(connection, skip_locations=True)
             found, refused = self._scan()
-            foreign, foreign_sample = self._foreign_entries()
+            foreign, foreign_sample, undescended = self._foreign_entries()
+            unsafe, unsafe_sample = self._live_unsafe_for_clients()
             report = {
                 "locationRows": {f"{table}.{column}": sum(1 for row in database_plan if row[:2] == (table, column))
                                  for table, column in LOCATION_COLUMNS},
                 "transactionRecords": len(records_plan), "mappingLinks": len(links_plan),
                 "mentions": found, "refusedFiles": refused[:200], "refusedDatabaseColumns": stray_columns,
-                "foreignOwned": {"count": foreign, "sample": foreign_sample},
+                "foreignOwned": {"count": foreign, "sample": foreign_sample,
+                                 "unreadableDirectoriesNotDescended": undescended},
+                "liveContentUnsafeForClients": {"count": unsafe, "sample": unsafe_sample},
             }
             if dry_run:
                 connection.execute("ROLLBACK")
-                connection.close()  # the last connection closing removes the -wal/-shm it created
+                connection.close()
                 return {"state": "DRY_RUN", **report}
             if refused or stray_columns or foreign:
                 raise _refuse("the copy names the old store where it cannot be rewritten, or holds "
@@ -345,11 +407,17 @@ class Relocation:
                 connection.execute("ROLLBACK")
             connection.close()
             raise
+        finally:
+            if scratch is not None:
+                shutil.rmtree(scratch, ignore_errors=True)
         # Idempotent from here: a rerun accepts values that are already new.
         for path, value, mode in records_plan:
             atomic_write_json(path, value, mode=mode)
         for link, mapped in links_plan:
-            temporary = link.with_name(f".{link.name}.relocate")
+            for stale in link.parent.glob(f".{link.name}.relocate*"):
+                if stale.is_symlink():
+                    stale.unlink()  # left by an interrupted run
+            temporary = link.with_name(f".{link.name}.relocate-{uuid.uuid4().hex}")
             os.symlink(mapped, os.fsencode(temporary))
             os.replace(temporary, link)
         try:
@@ -387,14 +455,19 @@ class Relocation:
                     live = paths.live / root["root_key"]
                     if not os.path.realpath(live).startswith(os.fsdecode(store_root)) or not live.is_dir():
                         raise _refuse(f"live mapping for {root['root_key']} does not resolve inside the new store")
-                missing = [world.alias for world in store.worlds()
-                           if not world.payload_pruned and not Path(world.payload_path).is_dir()]
+                retained = [world for world in store.worlds() if not world.payload_pruned]
+                missing = [world.alias for world in retained if not Path(world.payload_path).is_dir()]
                 if missing:
                     raise _refuse("retained world payloads are missing from the new store", {"worlds": missing[:50]})
+                outside = [world.alias for world in retained
+                           if not os.path.realpath(os.fsencode(world.payload_path)).startswith(store_root)]
+                if outside:
+                    # A path under the new prefix can still resolve into the old store through a
+                    # link inside the copy (review of ff201cd).
+                    raise _refuse("retained world payloads resolve outside the new store", {"worlds": outside[:50]})
             finally:
                 store.close()
         finally:
-            import shutil
             shutil.rmtree(scratch, ignore_errors=True)
         return {"chains": chains, "roots": "RESOLVED", "payloads": "PRESENT"}
 

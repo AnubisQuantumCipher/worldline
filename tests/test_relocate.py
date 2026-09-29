@@ -222,6 +222,58 @@ class RelocateAStore(unittest.TestCase):
         live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
         self.assertTrue(os.readlink(live).startswith(str(self.old.data)))
 
+    def test_a_database_shared_with_the_old_store_is_refused(self) -> None:
+        # A hard-linked copy (cp -al, rsync --link-dest) would rewrite the OLD store in place.
+        self.new.database.unlink()
+        os.link(self.old.database, self.new.database)
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation()
+        self.assertIn("linked elsewhere", caught.exception.message)
+
+    def test_a_dry_run_with_a_hot_wal_changes_no_byte(self) -> None:
+        holder = sqlite3.connect(self.new.database)  # this process: not a holder the check excludes wrongly
+        holder.execute("PRAGMA journal_mode=WAL")
+        holder.execute("INSERT OR REPLACE INTO meta(key, value) VALUES ('hot', x'00')")
+        holder.commit()
+        self.assertTrue(Path(str(self.new.database) + "-wal").exists())
+        before = (_tree_digest(self.new.state), os.stat(self.new.state).st_mtime_ns)
+        self.relocation().run(dry_run=True)
+        self.assertEqual((_tree_digest(self.new.state), os.stat(self.new.state).st_mtime_ns), before)
+        holder.close()
+
+    def test_install_backups_are_kept_content(self) -> None:
+        backup = self.new.state / "install-backups" / "20260101T000000Z-1" / "state"
+        backup.mkdir(parents=True)
+        (backup / "copy.json").write_text(json.dumps({"payload": str(self.old.data / "worlds")}))
+        result = self.relocation().run(dry_run=True)
+        self.assertEqual(result["refusedFiles"], [])
+        self.assertEqual(result["mentions"].get("install backup"), 1)
+
+    def test_a_payload_that_resolves_into_the_old_store_is_refused(self) -> None:
+        with sqlite3.connect(self.new.database) as connection:
+            instance, payload = connection.execute(
+                "SELECT instance_id, payload_path FROM worlds WHERE alias='sibling'").fetchone()
+        copied = Path(payload.replace(str(self.old.data), str(self.new.data), 1))
+        shutil.rmtree(copied)
+        copied.symlink_to(payload)  # the new spelling, pointing back into the old store
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation().run()
+        self.assertEqual(caught.exception.code, "RELOCATION_REFUSED")
+
+    def test_a_stale_temporary_link_from_an_interrupted_run_is_cleared(self) -> None:
+        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
+        stale = live.with_name(f".{live.name}.relocate")
+        stale.symlink_to(os.readlink(live))
+        result = self.relocation().run()
+        self.assertEqual(result["state"], "RELOCATED")
+        self.assertFalse(stale.is_symlink())
+
+    def test_unsafe_prime_content_is_reported(self) -> None:
+        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
+        os.chmod(os.path.realpath(live), 0o777)
+        result = self.relocation().run(dry_run=True)
+        self.assertGreaterEqual(result["liveContentUnsafeForClients"]["count"], 1)
+
     def test_nested_or_relative_directories_are_refused(self) -> None:
         for arguments in ({"new_data": self.old.data / "inner"}, {"old_data": Path("relative/data")}):
             with self.subTest(arguments=str(arguments)):
