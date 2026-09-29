@@ -27,7 +27,7 @@ extern "C" {
 #define WL_COLLAPSE_AUTHORIZED 0u
 #define WL_COLLAPSE_INVALID_CANDIDATE 1u
 #define WL_COLLAPSE_PARENT_MISMATCH 2u
-#define WL_COLLAPSE_OWNER_MISMATCH 3u
+#define WL_COLLAPSE_OWNER_MISMATCH 3u /* retired in 1.9.0: never returned */
 #define WL_COLLAPSE_BASE_MISMATCH 4u
 #define WL_COLLAPSE_DELTA_MISMATCH 5u
 #define WL_COLLAPSE_ROOT_SET_MISMATCH 6u
@@ -39,56 +39,87 @@ extern "C" {
 #define WL_COLLAPSE_EXECUTION_EVIDENCE_INCOMPLETE 12u
 #define WL_COLLAPSE_VERIFIER_EXECUTION_IDENTITY_MISMATCH 13u
 #define WL_COLLAPSE_CHECKPOINT_UNWITNESSED 14u
+#define WL_COLLAPSE_IDENTITY_ABSENT 15u
+#define WL_COLLAPSE_MEASUREMENT_ABSENT 16u
+#define WL_COLLAPSE_PRIME_CHANGED 17u
+#define WL_COLLAPSE_WATCH_INCOMPLETE 18u
+#define WL_COLLAPSE_CHECKPOINT_MISMATCH 19u
+#define WL_COLLAPSE_EVIDENCE_SUBJECT_MISMATCH 20u
 #define WL_COLLAPSE_INVALID_REQUEST 255u
 
 /* ABI generation of the library (wl_abi_version). It changes whenever a record layout or the
  * meaning of an exported code changes; the runtime refuses a library that reports another. */
-#define WL_ABI_VERSION 4u
+#define WL_ABI_VERSION 5u
 
 /* Layout version of struct wl_collapse_request. The runtime and the library ship together;
  * a runtime built for a different layout must not call wl_collapse_decide. */
-#define WL_COLLAPSE_REQUEST_VERSION 4u
+#define WL_COLLAPSE_REQUEST_VERSION 5u
+
+#define WL_PHASE_COMMIT 0u
+#define WL_PHASE_PREPARE 1u
 
 /* Which evidence speaks for the bytes that would become live. */
 #define WL_MODE_CANDIDATE_EVALUATION 0u
 #define WL_MODE_CHECKPOINT_RETURN 1u
 
+#define WL_MEASUREMENT_UNMEASURED 0u
+#define WL_MEASUREMENT_NONE_FOUND 1u
+#define WL_MEASUREMENT_FOUND 2u
+
+/* An identity the runtime could not establish is absent: present = 0 and every value byte 0.
+ * A present value is never all zero, so no zero digest can pass for a real identity. */
+struct wl_optional_hash {
+    uint8_t present;
+    uint8_t value[WL_HASH_BYTES];
+};
+
+/* A little-endian 64-bit counter with the same presence rule (a present counter may be 0). */
+struct wl_optional_counter {
+    uint8_t present;
+    uint8_t value_le[8];
+};
+
+/* Layout 5 (1.9.0). All bytes; no padding and no reserved bytes. A request that is not
+ * well formed -- a Boolean or enum out of range, a present byte other than 0 or 1, an absent
+ * value with a nonzero byte, a present all-zero hash, or a slot the mode or phase does not
+ * consult that is not empty -- is WL_COLLAPSE_INVALID_REQUEST. Prepare must leave
+ * actual_staged_root absent; candidate mode must leave both checkpoint fields absent; checkpoint
+ * mode must leave evaluated_requirement and executed_verifiers absent and roster_complete 0. */
 struct wl_collapse_request {
     uint8_t candidate_state;
-    uint8_t has_conflicts;
-    uint8_t has_foreign_managed_writes;
-    uint8_t reserved;
-    uint8_t expected_parent[WL_HASH_BYTES];
-    uint8_t candidate_parent[WL_HASH_BYTES];
-    uint8_t expected_owner[WL_HASH_BYTES];
-    uint8_t candidate_owner[WL_HASH_BYTES];
-    uint8_t expected_base[WL_HASH_BYTES];
-    uint8_t candidate_base[WL_HASH_BYTES];
-    uint8_t expected_delta[WL_HASH_BYTES];
-    uint8_t candidate_delta[WL_HASH_BYTES];
-    uint8_t expected_root_set[WL_HASH_BYTES];
-    uint8_t candidate_root_set[WL_HASH_BYTES];
-    uint8_t expected_staged_root[WL_HASH_BYTES];
-    uint8_t actual_staged_root[WL_HASH_BYTES];
-    uint8_t expected_validation_context[WL_HASH_BYTES];
-    uint8_t candidate_validation_context[WL_HASH_BYTES];
-    uint8_t tested_root[WL_HASH_BYTES];
-    uint8_t staged_content_root[WL_HASH_BYTES];
-    uint8_t execution_evidence_complete;
-    uint8_t reserved_2;
-    uint8_t reserved_3;
-    uint8_t reserved_4;
-    uint8_t expected_executed_verifier[WL_HASH_BYTES];
-    uint8_t actual_executed_verifier[WL_HASH_BYTES];
-    /* Layout 4 (1.8.0). Every Boolean byte is 0 or 1 and every reserved byte is 0; anything
-     * else is WL_COLLAPSE_INVALID_REQUEST. In checkpoint-return mode the validation context,
-     * roster and executed-verifier fields are not consulted; the checkpoint witness is. */
+    uint8_t phase;
     uint8_t evaluation_mode;
-    uint8_t checkpoint_witnessed;
-    uint8_t reserved_5;
-    uint8_t reserved_6;
-    uint8_t expected_checkpoint[WL_HASH_BYTES];
-    uint8_t witnessed_checkpoint[WL_HASH_BYTES];
+    uint8_t conflicts;
+    uint8_t foreign_writes;
+    uint8_t roster_complete;
+    uint8_t staged_roster_complete;
+    struct wl_optional_hash expected_parent;
+    struct wl_optional_hash candidate_parent;
+    struct wl_optional_hash expected_subject;
+    struct wl_optional_hash evidence_subject;
+    struct wl_optional_hash expected_base;
+    struct wl_optional_hash candidate_base;
+    struct wl_optional_hash expected_delta;
+    struct wl_optional_hash candidate_delta;
+    struct wl_optional_hash expected_root_set;
+    struct wl_optional_hash candidate_root_set;
+    struct wl_optional_hash expected_staged_root;
+    struct wl_optional_hash actual_staged_root;
+    struct wl_optional_hash staged_content_root;
+    struct wl_optional_hash tested_root;
+    struct wl_optional_hash current_requirement;
+    struct wl_optional_hash evaluated_requirement;
+    struct wl_optional_hash declared_verifiers;
+    struct wl_optional_hash executed_verifiers;
+    struct wl_optional_hash staged_evaluated_requirement;
+    struct wl_optional_hash staged_executed_verifiers;
+    struct wl_optional_hash staged_examined_root;
+    struct wl_optional_hash expected_checkpoint;
+    struct wl_optional_hash witnessed_checkpoint;
+    struct wl_optional_hash registered_watch_set;
+    struct wl_optional_hash watched_set;
+    struct wl_optional_counter generation_before;
+    struct wl_optional_counter generation_after;
 };
 
 /* The evaluation classifications below are the declaration order in
@@ -178,6 +209,8 @@ struct wl_evidence_presence {
 #define WL_LAYOUT_EVALUATION_OBSERVATIONS 1u
 #define WL_LAYOUT_EVALUATION_CLASSIFICATION 2u
 #define WL_LAYOUT_EVIDENCE_PRESENCE 3u
+#define WL_LAYOUT_OPTIONAL_HASH 4u
+#define WL_LAYOUT_OPTIONAL_COUNTER 5u
 #define WL_ROSTER_MAX 4096u
 
 int wl_hash_file(const char *path, size_t path_len, uint8_t out[WL_HASH_BYTES]);

@@ -10,10 +10,12 @@ import sys
 # Pinned here and imported by prove.sh, so the gate and this verifier cannot disagree, and a
 # manifest cannot vouch for itself by shrinking what it claims.
 # Floor for the total proved-check count. Lower it only as a deliberate edit.
-MINIMUM_CHECKS = 156
+MINIMUM_CHECKS = 251
 # Subprograms whose proof is a claim of this release.
 REQUIRED_PROVED = [
     "Worldline.Collapse.Decide",
+    "Worldline.Collapse_Wire.Decide_Wire",
+    "Worldline.Collapse_Wire.Decode",
     "Worldline.Evaluation.Admissible",
     "Worldline.Evaluation.Advance",
     "Worldline.Evaluation.Classify",
@@ -22,7 +24,9 @@ REQUIRED_PROVED = [
     "Worldline.Transitions.Advance",
     "Worldline.Transitions.Transaction_Allowed",
 ]
-# The one unit not analyzed on purpose: the C ABI decode (SPARK_Mode => Off).
+# The one unit not analyzed on purpose: the C ABI entry points (SPARK_Mode => Off) -- pointer
+# dereference, exception handlers, and file and byte hashing marshalling. From 1.9.0 the collapse
+# request decode is not here: Worldline.Collapse_Wire decodes and validates it, and is proved.
 UNANALYZED_BOUNDARY = {"worldline-c_api"}
 
 

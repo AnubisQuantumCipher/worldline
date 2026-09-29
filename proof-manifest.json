@@ -2,10 +2,12 @@
   "boundary": {
     "assumptions": [
       "SHA-256 is functionally correct (tested against published vectors, not proved) and collision-resistant; every identity equality the kernel proves is an equality of digests",
-      "the runtime supplies authentic observations and computes each Decide input from the independent source its comment names; a value passed to both sides of an equality proves nothing"
+      "the runtime supplies authentic observations and computes each Decide input from the independent source its comment names; a value passed to both sides of an equality proves nothing",
+      "the C header's wl_collapse_request layout equals Collapse_Wire.Raw_Request: checked by name-keyed offsets at load and by the test suite, not proved",
+      "the prepared transaction record read back at commit is the one prepare wrote (store integrity, not proved)"
     ],
     "notProved": [
-      "C/Python/QML boundary: the C ABI decode in worldline-c_api (SPARK_Mode Off) and the Python mapping of observations to the kernel's finite categories",
+      "C/Python/QML boundary: the C ABI entry points in worldline-c_api (SPARK_Mode Off: pointer dereference, exception handlers, file and byte hashing marshalling) and the Python mapping of observations to the kernel's finite categories; the collapse request decode itself is proved (Worldline.Collapse_Wire)",
       "OS syscalls and filesystem behavior"
     ],
     "proved": [
@@ -17,6 +19,8 @@
   "coverage": {
     "requiredProved": [
       "Worldline.Collapse.Decide",
+      "Worldline.Collapse_Wire.Decide_Wire",
+      "Worldline.Collapse_Wire.Decode",
       "Worldline.Evaluation.Admissible",
       "Worldline.Evaluation.Advance",
       "Worldline.Evaluation.Classify",
@@ -202,17 +206,157 @@
         "proved": true
       },
       "Worldline.Collapse": {
-        "at": "worldline-collapse.ads:3",
+        "at": "worldline-collapse.ads:5",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse.All_Hold": {
+        "at": "worldline-collapse.ads:192",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse.Covered": {
+        "at": "worldline-collapse.ads:175",
         "checks": 0,
         "proved": true
       },
       "Worldline.Collapse.Decide": {
-        "at": "worldline-collapse.ads:102",
+        "at": "worldline-collapse.ads:207",
         "checks": 1,
         "proved": true
       },
+      "Worldline.Collapse.Differ": {
+        "at": "worldline-collapse.ads:121",
+        "checks": 0,
+        "proved": true
+      },
       "Worldline.Collapse.Evidence_Holds": {
-        "at": "worldline-collapse.ads:89",
+        "at": "worldline-collapse.ads:180",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse.Measured": {
+        "at": "worldline-collapse.ads:125",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse.Primary_Covers": {
+        "at": "worldline-collapse.ads:162",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse.Required_Present": {
+        "at": "worldline-collapse.ads:135",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse.Staged_Covers": {
+        "at": "worldline-collapse.ads:168",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse.Staged_Root_Holds": {
+        "at": "worldline-collapse.ads:155",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire": {
+        "at": "worldline-collapse_wire.ads:11",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.All_Zero": {
+        "at": "worldline-collapse_wire.ads:72",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Content": {
+        "at": "worldline-collapse_wire.ads:151",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Content_Root": {
+        "at": "worldline-collapse_wire.ads:166",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Counter": {
+        "at": "worldline-collapse_wire.ads:196",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Counter_Value": {
+        "at": "worldline-collapse_wire.ads:136",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Counter_Well_Formed": {
+        "at": "worldline-collapse_wire.ads:82",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Decide_Wire": {
+        "at": "worldline-collapse_wire.ads:251",
+        "checks": 3,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Decode": {
+        "at": "worldline-collapse_wire.ads:210",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Delta_Of": {
+        "at": "worldline-collapse_wire.ads:171",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Digest": {
+        "at": "worldline-collapse_wire.ads:147",
+        "checks": 1,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Hash_Well_Formed": {
+        "at": "worldline-collapse_wire.ads:76",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Measure": {
+        "at": "worldline-collapse_wire.ads:202",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Requirement": {
+        "at": "worldline-collapse_wire.ads:181",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Root_Set": {
+        "at": "worldline-collapse_wire.ads:176",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.State": {
+        "at": "worldline-collapse_wire.ads:161",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Subject": {
+        "at": "worldline-collapse_wire.ads:156",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Verifiers": {
+        "at": "worldline-collapse_wire.ads:186",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Watch_Set": {
+        "at": "worldline-collapse_wire.ads:191",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Collapse_Wire.Well_Formed": {
+        "at": "worldline-collapse_wire.ads:88",
         "checks": 0,
         "proved": true
       },
@@ -259,6 +403,16 @@
       "Worldline.Evaluation.Transition_Allowed": {
         "at": "worldline-evaluation.ads:21",
         "checks": 1,
+        "proved": true
+      },
+      "Worldline.Identities": {
+        "at": "worldline-identities.ads:14",
+        "checks": 0,
+        "proved": true
+      },
+      "Worldline.Identities.Same": {
+        "at": "worldline-identities.ads:104",
+        "checks": 0,
         "proved": true
       },
       "Worldline.Receipts": {
@@ -356,12 +510,20 @@
         "available": 7
       },
       "worldline-collapse": {
-        "analyzed": 3,
-        "available": 3
+        "analyzed": 19,
+        "available": 19
+      },
+      "worldline-collapse_wire": {
+        "analyzed": 20,
+        "available": 20
       },
       "worldline-evaluation": {
         "analyzed": 9,
         "available": 9
+      },
+      "worldline-identities": {
+        "analyzed": 11,
+        "available": 11
       },
       "worldline-receipts": {
         "analyzed": 7,
@@ -379,7 +541,7 @@
   },
   "library": {
     "path": "lib/libworldline_core.so",
-    "sha256": "7ecd9f0f69a4ee22e0baa0452b36ecdddcf62a048a8731ab1d9f704a86f401c6"
+    "sha256": "c623e1a3989e464eb0acdce08a5334f8629ddc553bc64b40f4a81066779e3ae9"
   },
   "options": [
     "-U",
@@ -390,10 +552,10 @@
   "project": "core/worldline_core.gpr",
   "proof": {
     "justified": 0,
-    "minimumChecks": 156,
+    "minimumChecks": 251,
     "pragmaAssume": 0,
-    "summarySha256": "7271a16b9c967d9eec8f87baaf4e6a4209ad128a1f960f73bdb250abd3c427ba",
-    "total": 156,
+    "summarySha256": "d5b54c02f825464b974f097576dfd81dd839def78b3a5921cc14b50aa97fb319",
+    "total": 251,
     "unproved": 0
   },
   "schemaVersion": 1,
@@ -404,14 +566,17 @@
     "core/attest_sha256.gpr": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5",
     "core/worldline-ancestry.adb": "fd4bce10366b3217d92d0c1603a1a4ddba3c6e497e06fd42b468e6b0d7dea074",
     "core/worldline-ancestry.ads": "f7916f911d49716d25fe7a4503e6078125f50c6530deb926fe48f2a63ab734ce",
-    "core/worldline-c_api.adb": "2de8d54fbf5c846a8ee6938e7ecc7658f4e96a62a544fde99713b6b954b8b59e",
-    "core/worldline-c_api.ads": "2f351024b5836859f0179a739c3a720b92f609970f396920eee35f7edd81c8ce",
+    "core/worldline-c_api.adb": "a8769b793ca76713570e71128f646adfd6b380f4aef062ab63eec353b00ab786",
+    "core/worldline-c_api.ads": "5442ef2d4def4422e8e256d3a0c52ceb12c99b161acce5dad820ea2fbb850a54",
     "core/worldline-causal_graph.adb": "7a1989c91fb712b795040276c39edaf5fd12f46e9059788643ca14aeb6dcee7e",
     "core/worldline-causal_graph.ads": "0c68302dc55b891639f0bcbee7ebfe43e1d6d7a9cfcaa969ee1f0fb664d13e97",
-    "core/worldline-collapse.adb": "82fbb2f12affaab54e75bc270563d199711df157d5520d7a7f423b40d9341d9e",
-    "core/worldline-collapse.ads": "e50082691284768fe66c8e104dd9962191c3e0c1f5179aa94050a30e50dcb23c",
+    "core/worldline-collapse.adb": "bd7d50f16e5fd3a5b65d14e367d7d04845c531936c20fa9a6a3ad5879bf58cf6",
+    "core/worldline-collapse.ads": "ba6e2a5325fe438922d63d188f936fce556a7b2e8aab99ec38f36d6a1d2ae3ce",
+    "core/worldline-collapse_wire.adb": "e0bf9cdb828115ae343687a80ca646f46c6ffde8cfaaf610182e0a58318f2dd4",
+    "core/worldline-collapse_wire.ads": "2216d2b8cfcef17ef7ac7e4c5c25c170fd1388427c477c95add1cd24f9078431",
     "core/worldline-evaluation.adb": "a675b451c118250c8a03c964d670d71792ab5ba3fd8ec7e9bb5799c3d817bf89",
     "core/worldline-evaluation.ads": "374dd36340edde851d3e897c282800b7a626d07d441bbf798add4c546672e590",
+    "core/worldline-identities.ads": "3935a4aa1d670f42738b0b1e7968a8d6560fd3580150f9dada6bfe6145bb7f10",
     "core/worldline-receipts.adb": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225",
     "core/worldline-receipts.ads": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea",
     "core/worldline-transitions.adb": "c87e9ee5871faa1e0187579e90f406d36f7de79e49dce8d8703feb265bb5bc0c",
@@ -419,8 +584,8 @@
     "core/worldline-world.adb": "afda4fe21a013e4efd362e75220af3eb04bbdcb6dbcd648689ea15b3730831ae",
     "core/worldline-world.ads": "aa2ef8a552d1151a771596f5c4a454cf550926f14e80d7adcffb028d3453c386",
     "core/worldline.ads": "6b171d3fa0b9a0cdbd7e3777e4af35e557ed74e67f6b3ee9bdc1bbfe41305286",
-    "core/worldline_core.gpr": "c4f59c82a4447da1b7cfdbb77c8db63878268a56da6cc5f80a461a9f50c152ce",
-    "core/worldline_core.h": "88141111f9faa6cff78c02e5c65919b693aacc38792796c58375cf8a1225655c",
+    "core/worldline_core.gpr": "67ef534295e27992826a2dd131e688c1f5abb69ab3c5aab2d0630f254032c677",
+    "core/worldline_core.h": "2293726718392af237c340eb7b24b2825a253f730eb23f7128db06bd5030b047",
     "core/worldline_core_sources.gpr": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
     "worldline.gpr": "e60f6fc969048d0af1d53c809d1c237dec8eaf99f018fd075e88b2e08f38731c"
   },

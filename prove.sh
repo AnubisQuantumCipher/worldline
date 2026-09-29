@@ -231,8 +231,10 @@ manifest = {
     "boundary": {
         "proved": ["Worldline SPARK policy units", "Attest.SHA256 absence of runtime error"],
         "notProved": [
-            "C/Python/QML boundary: the C ABI decode in worldline-c_api (SPARK_Mode Off) and the"
-            " Python mapping of observations to the kernel's finite categories",
+            "C/Python/QML boundary: the C ABI entry points in worldline-c_api (SPARK_Mode Off:"
+            " pointer dereference, exception handlers, file and byte hashing marshalling) and the"
+            " Python mapping of observations to the kernel's finite categories; the collapse"
+            " request decode itself is proved (Worldline.Collapse_Wire)",
             "OS syscalls and filesystem behavior",
         ],
         "assumptions": [
@@ -242,6 +244,10 @@ manifest = {
             "the runtime supplies authentic observations and computes each Decide input from the"
             " independent source its comment names; a value passed to both sides of an equality"
             " proves nothing",
+            "the C header's wl_collapse_request layout equals Collapse_Wire.Raw_Request: checked"
+            " by name-keyed offsets at load and by the test suite, not proved",
+            "the prepared transaction record read back at commit is the one prepare wrote (store"
+            " integrity, not proved)",
         ],
     },
 }
