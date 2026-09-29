@@ -24,7 +24,7 @@ from unittest import mock
 from worldline.canonical import canonical_bytes
 from worldline.client import DaemonClient
 from worldline.errors import WorldlineError
-from worldline.paths import WorldlinePaths
+from worldline.paths import STORE_LOCK_NAME, WorldlinePaths
 from worldline.relocate import Relocation
 
 from tests.test_lifecycle_integrity import _FixtureDaemon, _QUICK_AGENT
@@ -475,9 +475,9 @@ class RelocateAStore(unittest.TestCase):
     def test_a_daemon_cannot_start_on_the_copy_while_the_relocation_holds_its_lock(self) -> None:
         # Review of 796cb02: a refused daemon had already migrated the database, reset meta rows
         # and changed directory modes; and a restarted unit took a fresh lock file. The lock is
-        # taken here with flock directly, as the relocation does, at <state>/worldlined.lock.
+        # taken here with flock directly, as the relocation does, at <state>/<the store lock>.
         import fcntl
-        lock = os.open(self.new.state / "worldlined.lock", os.O_RDWR | os.O_CREAT | os.O_CLOEXEC, 0o600)
+        lock = os.open(self.new.state / STORE_LOCK_NAME, os.O_RDWR | os.O_CREAT | os.O_CLOEXEC, 0o600)
         self.addCleanup(os.close, lock)
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         before = (_tree_digest(self.new.data), (self.new.state / "worldline.sqlite3").read_bytes(),
@@ -502,7 +502,7 @@ class RelocateAStore(unittest.TestCase):
             self.relocation().run()
 
     def test_directories_it_cannot_read_refuse_unless_they_are_overlay_work_directories(self) -> None:
-        work = self.new.data / "overlays" / "dead-world" / "root" / "work" / "work"
+        work = self.new.data / "overlays" / "3d55cbbf-955c-4fd0-951b-adee9d9daf09" / ("b" * 64) / "work" / "work"
         work.mkdir(parents=True)
         os.chmod(work, 0)
         self.addCleanup(os.chmod, work, 0o700)
@@ -567,6 +567,81 @@ class RelocateAStore(unittest.TestCase):
         report = self.relocation().run(dry_run=True)
         self.assertEqual(len(report["unreadableDirectories"]), 1, report["unreadableDirectories"])
 
+    def test_work_directories_an_agent_can_make_are_not_overlayfs_ones(self) -> None:
+        # Review of 09f5c0b: `agent-runtime/work/work` and a check named `work` matched the rule.
+        world = "3d55cbbf-955c-4fd0-951b-adee9d9daf09"
+        made = []
+        for layout in ((world, "agent-runtime"), (world, "checks", "work")):
+            planted = self.new.data.joinpath("overlays", *layout, "work", "work") if layout[1] == "agent-runtime" \
+                else self.new.data.joinpath("overlays", *layout, "work")
+            planted.mkdir(parents=True)
+            os.chmod(planted, 0)
+            self.addCleanup(os.chmod, planted, 0o700)
+            made.append(planted)
+        genuine = self.new.data / "overlays" / world / ("a" * 64) / "work" / "work"
+        genuine.mkdir(parents=True)
+        os.chmod(genuine, 0)
+        self.addCleanup(os.chmod, genuine, 0o700)
+        report = self.relocation().run(dry_run=True)
+        self.assertEqual(len(report["unreadableDirectories"]), 2, report["unreadableDirectories"])
+        self.assertGreaterEqual(report["foreignOwned"]["overlayWorkDirectoriesNotDescended"], 1)
+
+    def test_a_bind_mounted_lock_file_is_refused_before_it_is_written(self) -> None:
+        # Review of 09f5c0b: the lock was written before the mount table was read.
+        bwrap = shutil.which("bwrap")
+        if bwrap is None:
+            self.skipTest("bwrap is required to make a mount without privileges")
+        old_lock = self.old.state / STORE_LOCK_NAME
+        old_lock.write_text("4242 worldlined\n")
+        new_lock = self.new.state / STORE_LOCK_NAME
+        new_lock.write_text("placeholder\n")
+        code = "import sys; from worldline.relocate import main; sys.exit(main(sys.argv[1:]))"
+        arguments = ["--from-data", str(self.old.data), "--from-state", str(self.old.state),
+                     "--to-data", str(self.new.data), "--to-state", str(self.new.state)]
+        result = subprocess.run(
+            [bwrap, "--dev-bind", "/", "/", "--bind", str(old_lock), str(new_lock), "--", sys.executable, "-B", "-c", code, *arguments],
+            env={**os.environ, "PYTHONPATH": str(REPO / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"},
+            capture_output=True, timeout=120)
+        self.assertEqual(result.returncode, 1, result.stderr.decode(errors="replace")[-2000:])
+        self.assertEqual(old_lock.read_text(), "4242 worldlined\n")
+
+    def test_a_view_of_the_old_store_at_the_copys_path_refuses(self) -> None:
+        # Review of 09f5c0b: a FUSE or network view has a device of its own. Simulated: the
+        # canary made in the copy shows up in the old store.
+        real = os.path.lexists
+
+        def lexists(path):
+            return True if ".worldline-relocate-canary-" in os.fsdecode(path) else real(path)
+
+        with mock.patch("worldline.relocate.os.path.lexists", side_effect=lexists):
+            with self.assertRaises(WorldlineError) as caught:
+                self.relocation().run()
+        self.assertIn("another filesystem", caught.exception.message)
+        self.assertEqual([p.name for p in self.new.data.iterdir() if "canary" in p.name], [])
+
+    def test_verification_requires_mapping_links_like_the_daemon(self) -> None:
+        # Review of 09f5c0b: a dereferenced live mapping passed verification and the daemon then
+        # refused it.
+        relocation = self.relocation()
+        relocation.run()
+        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
+        content = Path(os.path.realpath(live))
+        live.unlink()
+        shutil.copytree(content, live, symlinks=True)
+        with self.assertRaises(WorldlineError) as caught:
+            relocation.verify()
+        self.assertIn("not a link to a payload", caught.exception.message)
+
+    def test_a_hard_linked_lock_fails_the_dry_run_by_name(self) -> None:
+        old_lock = self.old.state / STORE_LOCK_NAME
+        old_lock.write_text("4242 worldlined\n")
+        new_lock = self.new.state / STORE_LOCK_NAME
+        new_lock.unlink(missing_ok=True)
+        os.link(old_lock, new_lock)
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation().run(dry_run=True)
+        self.assertNotIn("a daemon is using", caught.exception.message)
+
     def test_a_link_named_like_the_database_is_still_checked(self) -> None:
         journal = self.new.state / "worldline.sqlite3-journal"
         journal.symlink_to(self.old.state / "worldline.sqlite3")
@@ -574,7 +649,7 @@ class RelocateAStore(unittest.TestCase):
         self.assertTrue(any("worldline.sqlite3-journal" in entry for entry in refused), refused)
 
     def test_a_directory_at_the_lock_path_refuses_by_name(self) -> None:
-        lock = self.new.state / "worldlined.lock"
+        lock = self.new.state / STORE_LOCK_NAME
         lock.unlink(missing_ok=True)   # the copy carries the fixture daemon's lock file
         lock.mkdir()
         with self.assertRaises(WorldlineError) as caught:

@@ -67,12 +67,20 @@ def grant_owner_access(path: str | bytes | os.PathLike) -> None:
             os.close(fd)
 
 
+class NothingRemoved(OSError):
+    """The tree could not be made removable, and nothing of it was removed."""
+
+
 def remove_tree(path: str | bytes | os.PathLike, *, ignore_errors: bool = False) -> None:
-    """Remove a real directory and everything below it without following a link anywhere."""
+    """Remove a real directory and everything below it without following a link anywhere.
+    A failure before anything was removed raises NothingRemoved; one after raises the OSError."""
     if not os.path.lexists(path):
         return
     try:
-        grant_owner_access(path)
+        try:
+            grant_owner_access(path)
+        except OSError as exc:
+            raise NothingRemoved(exc.errno, f"nothing removed: {exc.strerror or exc}", os.fsdecode(path)) from exc
         shutil.rmtree(path)
     except OSError:
         if not ignore_errors:

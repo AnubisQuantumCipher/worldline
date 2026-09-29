@@ -265,6 +265,28 @@ class GitSandboxLayout(unittest.TestCase):
         self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
         self.assertIn("signal 9", caught.exception.message)
 
+    def test_a_failed_submodule_listing_is_refused_not_read_as_none(self) -> None:
+        # Review of 09f5c0b: a failing `submodule status` was recorded as "no submodules".
+        head = subprocess.run(["git", "-C", str(self.main), "rev-parse", "HEAD"], check=True,
+                              capture_output=True, text=True).stdout.strip()
+        # A gitlink with no mapping in .gitmodules anywhere (worktree, index or HEAD): git itself
+        # refuses `submodule status` with "no submodule mapping found", exit 128.
+        subprocess.run(["git", "-C", str(self.main), "update-index", "--add", "--cacheinfo", f"160000,{head},libmodule"],
+                       check=True, capture_output=True)
+        with self.assertRaises(WorldlineError) as caught:
+            GitAdapter(Core.shared()).capture(self.main)
+        self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
+
+    def test_an_alternates_entry_leaving_the_root_is_judged_without_lookups(self) -> None:
+        from worldline.controller import _require_alternates_inside
+        info = self.main / ".git" / "objects" / "info"
+        info.mkdir(parents=True, exist_ok=True)
+        (info / "alternates").write_text("../../../../elsewhere/objects\n", encoding="utf-8")
+        with mock.patch("worldline.controller.os.path.realpath", side_effect=AssertionError("looked up")):
+            with self.assertRaises(WorldlineError) as caught:
+                _require_alternates_inside(os.fsencode(self.main))
+        self.assertEqual(caught.exception.code, "GIT_ALTERNATES_OUTSIDE_ROOT")
+
     def test_git_outside_the_bound_directories_refuses_before_running(self) -> None:
         with mock.patch("worldline.linux.git.shutil.which", return_value="/opt/elsewhere/bin/git"):
             with self.assertRaises(WorldlineError) as caught:

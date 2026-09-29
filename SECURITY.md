@@ -91,8 +91,9 @@ report files are never admissible.
     while the daemon runs. Since 1.7.1 `worldlined` takes a lock in the store's state directory
     before it validates or builds anything and closes the gate once it is the store's only daemon,
     so a second start neither touches a running daemon's gate nor writes its store, and a start or
-    configuration that refuses, or a daemon that fails in Python, leaves the gate closed. A daemon
-    killed outright leaves it as it was until the next start.
+    configuration that refuses after that lock, an unsafe lock path, or a daemon that fails in
+    Python, leaves the gate closed. A daemon that stops cleanly or is killed outright leaves it as
+    it was until the next start, which closes it and checks again before opening it.
   - Content they can reach must be owned by the daemon and carry no other-write bit, no
     group-write bit outside the daemon's own group, no extended ACL (any `system.*acl*` xattr), no
     file capability (`security.capability`), and no setuid, setgid or sticky bit
@@ -480,7 +481,8 @@ trust you place in WORLDLINE.
      ones it can observe under `clientMode.deployment`, each `OK`, `MISSING` or `UNKNOWN`):
      - `RestrictSUIDSGID=yes` on the unit, and on the account's user manager (jobs run there);
      - `MemoryMax=`, `MemorySwapMax=` and `TasksMax=` on the unit, which bound repository
-       inspection (reported);
+       inspection (reported), and `OOMPolicy=continue`, so an OOM kill of inspection does not stop
+       the daemon;
      - a `nosuid` store mount on the host, where clients reach PRIME (reported from PID 1's mount
        table; the daemon's own namespace can show `nosuid` over a mount that is not);
      - a client group disjoint from the daemon's group (named members are checked; accounts whose

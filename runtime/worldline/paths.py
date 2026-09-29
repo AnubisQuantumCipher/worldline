@@ -80,7 +80,9 @@ def _refuse_client_group_overlap(client_gid: int) -> None:
                                  f"{name}, a member of the client group, is in the daemon account's group {daemon_group.gr_name}")
 
 
-STORE_LOCK_NAME = "worldlined.lock"
+# Not the runtime lock's name: a layout whose runtime and state directories coincide would have
+# the daemon's second lock refuse its first (review of 09f5c0b).
+STORE_LOCK_NAME = "worldline-store.lock"
 LIVE_MARKER = ".worldline-generation.json"
 
 
@@ -93,7 +95,10 @@ def acquire_store_lock(state: Path, *, holder: str, create_directory: bool = Tru
     lock (review of 796cb02). Returns the descriptor, held until it is closed."""
     import fcntl
     if create_directory:
-        secure_directory(state)
+        try:
+            secure_directory(state)
+        except PermissionError as exc:
+            raise WorldlineError("UNSAFE_STORE", f"the state directory cannot be created or checked: {state}: {exc}") from exc
     path = state / STORE_LOCK_NAME
     try:
         descriptor = os.open(path, os.O_RDWR | os.O_CREAT | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
@@ -130,6 +135,13 @@ def store_lock_held_elsewhere(state: Path) -> bool:
     except OSError as exc:
         raise WorldlineError("UNSAFE_STORE", f"the store lock cannot be read: {state / STORE_LOCK_NAME}: {exc}") from exc
     try:
+        info = os.fstat(descriptor)
+        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_nlink != 1:
+            # The same checks the lock itself makes: a dry run must not pass what the real run
+            # refuses (review of 09f5c0b).
+            raise WorldlineError("UNSAFE_STORE",
+                                 f"the store lock is not a regular, unlinked-elsewhere file owned by uid {os.getuid()}: "
+                                 f"{state / STORE_LOCK_NAME}")
         fcntl.flock(descriptor, fcntl.LOCK_SH | fcntl.LOCK_NB)
     except OSError:
         return True
@@ -235,11 +247,16 @@ def _host_mount_options(path: str, mountinfo: str = "/proc/1/mountinfo") -> tupl
         raise ValueError("the mount table has no root")
 
     def on_top(current: tuple[int, int, str, list[str]], point: str) -> tuple[int, int, str, list[str]]:
+        seen = {current[0]}
         while True:
-            covering = [entry for entry in entries if entry[1] == current[0] and entry[2] == point]
+            # A mount is never its own cover: a root listed as its own parent, and any cycle,
+            # would otherwise loop forever on the daemon's event loop (review of 09f5c0b).
+            covering = [entry for entry in entries
+                        if entry[1] == current[0] and entry[2] == point and entry[0] not in seen]
             if not covering:
                 return current
             current = covering[-1]
+            seen.add(current[0])
 
     current = on_top(roots[-1], "/")
     prefix = ""

@@ -38,6 +38,10 @@ def main(argv: list[str] | None = None) -> int:
     _raise_descriptor_limit()
     try:
         data, state = store_directories()
+    except WorldlineError as exc:
+        log.error("%s", exc)
+        return 1
+    try:
         # The store lock before anything is validated or built: building opens the database,
         # migrates it and sets directory modes, which a second daemon, or one started during a
         # relocation, must not do (review of 796cb02); and a configuration that refuses must still
@@ -45,6 +49,14 @@ def main(argv: list[str] | None = None) -> int:
         lock = acquire_store_lock(state, holder="worldlined")
     except WorldlineError as exc:
         log.error("%s", exc)
+        if exc.code == "UNSAFE_STORE":
+            # The lock path or the state directory is not what the daemon made: take clients off
+            # the store; a running daemon would hold a lock that is no longer this path's anyway
+            # (review of 09f5c0b).
+            try:
+                close_gate_at(data)
+            except OSError:
+                log.exception("could not close the client gate")
         return 1
 
     def close_gate() -> None:

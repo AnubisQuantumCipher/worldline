@@ -224,7 +224,8 @@ class GitAdapter:
         # report that exec failed, exit 1 and `bwrap: execvp`, which git never produces; git is
         # checked beforehand to lie inside what the sandbox binds, so that should not happen.
         exec_failed = result.returncode == 1 and result.stderr.startswith(b"bwrap: execvp ")
-        if b'"exit-code"' not in status or exec_failed:
+        # A negative code: the sandbox launcher itself was killed by a signal (review of 09f5c0b).
+        if b'"exit-code"' not in status or exec_failed or result.returncode < 0:
             raise WorldlineError(
                 "GIT_SANDBOX_UNAVAILABLE",
                 f"the repository sandbox did not start for {os.fsdecode(root)}",
@@ -292,8 +293,10 @@ class GitAdapter:
             status = run("status", "--porcelain=v2", "--branch", "-z", extra_env=private, scratch=scratch).stdout
             staged = run("diff", "--cached", "--binary", "--no-ext-diff", "--no-textconv", extra_env=private, scratch=scratch).stdout
             worktree = run("diff", "--binary", "--no-ext-diff", "--no-textconv", extra_env=private, scratch=scratch).stdout
-            submodules = run("submodule", "status", "--recursive", check=False, extra_env=private, scratch=scratch)
-        submodule_bytes = submodules.stdout if submodules.returncode == 0 else b""
+            # Checked: a failure here (a fork refused inside the sandbox, say) was recorded as "no
+            # submodules" for a repository that has them (review of 09f5c0b).
+            submodules = run("submodule", "status", "--recursive", extra_env=private, scratch=scratch)
+        submodule_bytes = submodules.stdout
 
         return {
             "state": "CAPTURED",

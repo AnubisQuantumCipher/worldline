@@ -30,6 +30,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import sqlite3
@@ -43,7 +44,7 @@ from .canonical import atomic_write_json, canonical_bytes
 from .core import Core
 from .errors import WorldlineError
 from .model import NONTERMINAL_STATES
-from .paths import (LIVE_MARKER, WorldlinePaths, _unescape_mount_path, acquire_store_lock,
+from .paths import (LIVE_MARKER, STORE_LOCK_NAME, WorldlinePaths, _unescape_mount_path, acquire_store_lock,
                     store_lock_held_elsewhere, store_lock_intact, xattr_risks)
 
 # (table, column) pairs that hold a location in the store. Nothing else in the database may.
@@ -66,9 +67,23 @@ RECORD_COLUMNS = (("worlds", "evidence"),)
 # `validation:<world instance>`, and they are read only for their freshness context and results.
 RECORD_META_PREFIXES = ("validation:",)
 OPEN_TRANSACTION_STATES = ("PREPARED", "AUTHORIZED")
+# A world's instance id and a root key: an agent can make `agent-runtime/work/work` or a check
+# named `work` in its own overlay, which the looser rule took for overlayfs's (review of 09f5c0b).
+_INSTANCE_ID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+_ROOT_KEY = re.compile(r"[0-9a-f]{64}")
 _DATABASE_FILES = frozenset(("worldline.sqlite3", "worldline.sqlite3-wal", "worldline.sqlite3-shm",
                              "worldline.sqlite3-journal"))
 ACTIVE_JOB_STATES = ("STARTING", "RUNNING", "FINALIZING")
+
+
+def _fdinfo_identity(path: str) -> tuple[int, int] | None:
+    """(mount id, inode) of an open descriptor, from its fdinfo; None when unreadable."""
+    try:
+        with open(path, encoding="ascii", errors="replace") as stream:
+            fields = dict(line.split(":", 1) for line in stream if ":" in line)
+        return int(fields["mnt_id"]), int(fields["ino"])
+    except (OSError, KeyError, ValueError):
+        return None
 
 
 def _refuse(message: str, details: dict[str, Any] | None = None) -> WorldlineError:
@@ -134,6 +149,16 @@ class Relocation:
                 new_info = candidate.stat()
                 if (old_info.st_dev, old_info.st_ino) == (new_info.st_dev, new_info.st_ino):
                     raise _refuse(f"{candidate.name} in the copy is the old store's own file")
+        # The copy's store lock is written by a real run: it must not be the old store's own lock
+        # file, through a hard link or a file bind mount (review of 09f5c0b).
+        lock = new_state / STORE_LOCK_NAME
+        try:
+            old_lock, new_lock = os.stat(os.path.join(old_state, STORE_LOCK_NAME)), os.lstat(lock)
+        except OSError:
+            pass
+        else:
+            if (old_lock.st_dev, old_lock.st_ino) == (new_lock.st_dev, new_lock.st_ino):
+                raise _refuse(f"{STORE_LOCK_NAME} in the copy is the old store's own lock file")
 
     # -- mapping one location
 
@@ -257,9 +282,38 @@ class Relocation:
         return plan
 
     def _holders(self) -> list[int]:
-        """Processes this uid can see that hold the copy's database open. A daemon serving the
-        copy runs as the same account, so it is visible; `BEGIN EXCLUSIVE` alone does not detect
-        an idle WAL connection."""
+        """Processes this uid can see that hold the copy's database open, matched by mount id and
+        inode read from /proc/<pid>/fdinfo. Nothing is stat'ed through another process's
+        descriptor: one on a FUSE mount that stopped answering would hang the relocation (review
+        of 09f5c0b). A daemon serving the copy runs as the same account, so it is visible;
+        `BEGIN EXCLUSIVE` alone does not detect an idle WAL connection."""
+        identities: set[tuple[int, int]] = set()
+        for suffix in ("", "-wal", "-shm"):
+            try:
+                descriptor = os.open(str(self.database) + suffix, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
+            except FileNotFoundError:
+                continue
+            try:
+                identity = _fdinfo_identity(f"/proc/self/fdinfo/{descriptor}")
+            finally:
+                os.close(descriptor)
+            if identity is not None:
+                identities.add(identity)
+            else:
+                return self._holders_by_stat()  # a kernel whose fdinfo has no inode
+        holders: set[int] = set()
+        for process in Path("/proc").iterdir():
+            if not process.name.isdigit() or int(process.name) == os.getpid():
+                continue
+            try:
+                for info in (process / "fdinfo").iterdir():
+                    if _fdinfo_identity(str(info)) in identities:
+                        holders.add(int(process.name))
+            except OSError:
+                continue  # another uid's process, or gone
+        return sorted(holders)
+
+    def _holders_by_stat(self) -> list[int]:
         identities = set()
         for suffix in ("", "-wal", "-shm"):
             try:
@@ -277,10 +331,10 @@ class Relocation:
                         info = os.stat(descriptor)
                     except OSError:
                         continue
-                    if (info.st_dev, info.st_ino) in identities:  # by inode, not by path
+                    if (info.st_dev, info.st_ino) in identities:
                         holders.add(int(process.name))
             except OSError:
-                continue  # another uid's process, or gone
+                continue
         return sorted(holders)
 
     @staticmethod
@@ -289,6 +343,7 @@ class Relocation:
         layout the daemon makes, `overlays/<world>/<root key>/work/work`, qualifies: a 0000
         `work/work` anywhere else (inside PRIME's content, say) is refused (review of 4490013)."""
         return (base == "data" and len(relative) == 5 and relative[0] == "overlays"
+                and _INSTANCE_ID.fullmatch(relative[1]) is not None and _ROOT_KEY.fullmatch(relative[2]) is not None
                 and relative[3] == "work" and relative[4] == "work")
 
     def _mounts_inside(self) -> list[str]:
@@ -576,6 +631,11 @@ class Relocation:
             if held:
                 raise _refuse("the copy's store lock is held: a daemon is using the copy; stop it first")
             return self._run(dry_run=True, lock=None)
+        mounts = self._mounts_inside()
+        if mounts:
+            # Before the lock is written: a file bind of the old store's lock would otherwise be
+            # rewritten first (review of 09f5c0b).
+            raise _refuse("a mount inside the copy would have the relocation write through it", {"mounts": mounts[:50]})
         try:
             lock = acquire_store_lock(self.new_state, holder="worldline-relocate", create_directory=False)
         except WorldlineError as exc:
@@ -586,6 +646,23 @@ class Relocation:
             return self._run(dry_run=False, lock=lock)
         finally:
             os.close(lock)
+
+    def _refuse_views_of_the_old_store(self) -> None:
+        """A FUSE or network view of the old store at the copy's path has a device of its own, so
+        the identity checks pass it: a file made in each copy root must not appear in the old
+        store (review of 09f5c0b). When the old store is not visible to this account, ownership
+        separates them instead."""
+        token = f".worldline-relocate-canary-{uuid.uuid4().hex}"
+        for new_root, old_root in ((self.new_data, self.old[0]), (self.new_state, self.old[1])):
+            canary = new_root / token
+            descriptor = os.open(canary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC, 0o600)
+            os.close(descriptor)
+            try:
+                if os.path.lexists(os.path.join(os.fsdecode(old_root), token)):
+                    raise _refuse("the copy is the old store seen through another filesystem",
+                                  {"copy": str(new_root), "old": os.fsdecode(old_root)})
+            finally:
+                canary.unlink()
 
     def _lock_still_held(self, lock: int | None) -> None:
         if lock is not None and not store_lock_intact(self.new_state, lock):
@@ -642,6 +719,7 @@ class Relocation:
                               "its account does not own, holds a mount, a file linked outside it or a "
                               "directory it cannot read", report)
             self._lock_still_held(lock)
+            self._refuse_views_of_the_old_store()
             for table, column, rowid, mapped in database_plan:
                 connection.execute(f"UPDATE {table} SET {column}=? WHERE rowid=?", (mapped, rowid))
             connection.execute("COMMIT")
@@ -701,8 +779,10 @@ class Relocation:
                         raise _refuse(f"a mapping link does not resolve inside the new store: {link}")
                 for root in store.roots():
                     live = paths.live / root["root_key"]
-                    if not os.path.realpath(live).startswith(os.fsdecode(store_root)) or not live.is_dir():
-                        raise _refuse(f"live mapping for {root['root_key']} does not resolve inside the new store")
+                    areas = (os.fsdecode(store_root) + "generations/", os.fsdecode(store_root) + "transactions/")
+                    if not live.is_symlink() or not os.path.realpath(live).startswith(areas) or not live.is_dir():
+                        # The daemon's own rule (root_source): a link into a payload (review of 09f5c0b).
+                        raise _refuse(f"live mapping for {root['root_key']} is not a link to a payload in the new store")
                 retained = [world for world in store.worlds() if not world.payload_pruned]
                 missing = [world.alias for world in retained if not Path(world.payload_path).is_dir()]
                 if missing:

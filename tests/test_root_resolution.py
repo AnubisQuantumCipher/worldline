@@ -201,6 +201,57 @@ class RootSourceTests(_Registered):
         self.assertEqual((repo / ".git").readlink(), elsewhere)
         self.assertEqual((repo / "f.txt").read_text(), "x\n")
 
+    def _second_root(self, name: str) -> dict:
+        other = Path(self.temporary.name) / name
+        other.mkdir()
+        (other / "state.txt").write_text(name + "\n")
+        self.manager.register([other], confirmed=True)
+        return next(item for item in self.store.roots() if bytes(item["path"]) == os.fsencode(other))
+
+    def test_a_removal_the_remaining_roots_refuse_changes_nothing(self) -> None:
+        # Review of 09f5c0b: another root's capture refusing after the operator's path had been
+        # swapped left the primary root half-removed (ROOT_CONFLICT on the rollback's re-add).
+        other = self._second_root("other")
+        self.store.set_primary_root(self.root["root_key"])
+        fifo = Path(os.fsdecode(self.paths.root_source(other))) / "fifo"
+        os.mkfifo(fifo)
+        with self.assertRaises(WorldlineError) as caught:
+            self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertEqual(caught.exception.code, "UNSUPPORTED_SPECIAL_FILE")
+        roots = {item["root_key"]: item for item in self.store.roots()}
+        self.assertIn(self.root["root_key"], roots)
+        self.assertTrue(roots[self.root["root_key"]]["primary_root"])
+        self.assertTrue(self.work.is_symlink())
+        self.assertEqual(sorted(p.name for p in self.work.parent.iterdir() if p.name.startswith(".worldline-materialize-")), [])
+        fifo.unlink()
+        self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertFalse(self.work.is_symlink())
+        self.assertEqual((self.work / "state.txt").read_bytes(), b"prime bytes\n")
+
+    def test_two_roots_the_sandbox_cannot_inspect_can_both_be_removed(self) -> None:
+        # Review of 09f5c0b: each removal was refused by the other root's capture.
+        import subprocess
+        repos = []
+        for name in ("first-linked", "second-linked"):
+            repo = Path(self.temporary.name) / name
+            repo.mkdir()
+            subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
+            (repo / "f.txt").write_text(name + "\n")
+            repos.append(repo)
+        self.manager.register(repos, confirmed=True)   # registered while their layout was supported
+        linked = []
+        for repo in repos:
+            root = next(item for item in self.store.roots() if bytes(item["path"]) == os.fsencode(repo))
+            source = Path(os.fsdecode(self.paths.root_source(root)))
+            elsewhere = Path(self.temporary.name) / f"{repo.name}.git"
+            (source / ".git").rename(elsewhere)
+            (source / ".git").symlink_to(elsewhere)
+            linked.append((repo, root, elsewhere))
+        for repo, root, elsewhere in linked:
+            self.manager.remove(root["root_key"], confirmed=True)
+            self.assertTrue(repo.is_dir() and not repo.is_symlink())
+            self.assertEqual((repo / ".git").readlink(), elsewhere)
+
     def test_why_does_not_leave_the_root(self) -> None:
         outside = Path(self.temporary.name) / "secret.txt"
         outside.write_bytes(b"daemon-only line\n")

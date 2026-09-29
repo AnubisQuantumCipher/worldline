@@ -3,8 +3,9 @@
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 
 **An independent review of 1.7.0 (commit ad64cd2) and a rehearsal of the dedicated-account
-migration on a copy of a production store found the defects below; two more independent reviews,
-of the 1.7.1 candidates 796cb02 and 4490013, found more, including one that 796cb02 introduced.
+migration on a copy of a production store found the defects below; three more independent reviews,
+of the 1.7.1 candidates 796cb02, 4490013 and 09f5c0b, found more, including one that 796cb02
+introduced.
 Each is fixed and tested, and each new test was run against the code it guards against and
 failed there.** No store migration is needed. Existing VALID worlds need revalidation before collapse, as
 after any release: the runtime changed.
@@ -21,12 +22,21 @@ after any release: the runtime changed.
     checkout, or the directory with `--kind filesystem`.
   - **Upgrade note:** a root registered in one of those layouts now refuses captures.
     `worldline doctor` shows it as `BROKEN` under `rootIntegrity`, with the code. `root remove`
-    still works: it records no repository facts for such a root, copies its bytes, `.git`
-    included, and recreates a top-level `.git` link as it is even when it leaves the root (the
-    first candidate refused that link as `EXTERNAL_SYMLINK`).
+    still works, for any number of such roots: it records no repository facts for the root it
+    removes, copies its bytes, `.git` included, and recreates a top-level `.git` link as it is
+    even when it leaves the root; the other roots in such a layout are captured the same way while
+    it publishes what remains (the candidates refused the link as `EXTERNAL_SYMLINK`, then each
+    removal was refused by the other roots' captures).
+- **`root remove` refuses before it changes anything.** It captures the remaining roots first; a
+  refusal there (a FIFO, a hard link to outside, the content check) now leaves every root, the
+  primary flag and the operator's path as they were. It used to swap the path first, and its
+  rollback then re-added the primary root while another was primary, left it half-removed, and
+  kept a full copy beside the path (fourth review; 1.7.0 too). The rollback now re-adds the root
+  before making it primary, always moves the path back, and removes the materialized copy.
   - The doctor also names a repository that borrows objects from outside itself
     (`objects/info/alternates`, `GIT_ALTERNATES_OUTSIDE_ROOT`), which the sandbox cannot read.
-    It reads that file without following links.
+    It reads that file without following links and judges each entry lexically, so nothing the
+    repository names is looked up on the host.
 - **The index is read at a fixed path, once.** 1.7.0 took the index path from git's own output
   about the repository and read the file twice, once to hash it and once to copy it. It is now
   `<root>/.git/index`, opened through one descriptor that refuses links at every step. The bytes
@@ -52,10 +62,12 @@ after any release: the runtime changed.
   - The shipped `worldlined.service` sets `MemoryMax=4G`, `MemorySwapMax=0` and `TasksMax=4096`.
     `memory.max` does not cover swap. 1.7.0's notes relied on a memory bound the shipped unit did
     not set.
-  - A task limit reached when the sandbox is created refuses as `GIT_SANDBOX_UNAVAILABLE`; one
-    reached inside a started sandbox, or git killed by any signal, refuses as
-    `GIT_INSPECTION_FAILED`. A git killed after launch was read by `rev-parse --verify HEAD` as
-    "no HEAD" (third review).
+  - A task limit reached when the sandbox is created refuses as `GIT_SANDBOX_UNAVAILABLE`, as does
+    a sandbox launcher killed by a signal. Inside a started sandbox, git killed by any signal, and
+    a failing `submodule status` (one of git's own processes refused a fork, say), refuse as
+    `GIT_INSPECTION_FAILED`, or `GIT_UNAVAILABLE` at the 15 s timeout. A git killed after launch was
+    read by `rev-parse --verify HEAD` as "no HEAD", and a failed submodule listing as "no
+    submodules" (third and fourth reviews).
 - **`worldline doctor` probes the sandbox, not only git.** The `git` capability is
   `UNAVAILABLE`, with the reason, when bubblewrap, `prlimit` or `choom` is missing or the sandbox
   cannot start, for example with a git installed outside the system directories the sandbox binds.
@@ -87,10 +99,12 @@ after any release: the runtime changed.
   store's state directory before it validates its configuration or builds anything, then the
   daemon's older lock in the runtime directory, and only then closes the gate. A second start
   used to close a running daemon's gate before its lock refused it, and to write the database
-  first. A start that refuses after taking the store lock, a configuration that refuses, or a
-  daemon that fails in Python closes the gate. A lock path that is a directory, a link or a file
-  hard-linked elsewhere refuses as `UNSAFE_STORE` before anything is written to it. The runtime
-  directory is not enough on its own: systemd removes it with the unit, lock file included.
+  first. A start that refuses after taking the store lock, a configuration that refuses, an
+  unsafe lock path, or a daemon that fails in Python closes the gate. The lock is
+  `worldline-store.lock` in the state directory; a lock path that is a directory, a link or a
+  file hard-linked elsewhere refuses as `UNSAFE_STORE` before anything is written to it. The
+  runtime directory is not enough on its own: systemd removes it with the unit, lock file
+  included.
 - **`live` holds mapping links only.** A copy that dereferenced links turned a mapping into a
   real directory, which the start check skipped and routing served. The start now refuses
   anything in `live` other than mapping links into a generation or transaction payload, and its
@@ -109,7 +123,8 @@ after any release: the runtime changed.
   mount table (PID 1's), which is what clients use, by walking the mount tree so a covered mount
   is not taken for the one in use: in a unit with `NoNewPrivileges=` and a mount namespace,
   systemd mounts everything `nosuid`, so the daemon's own view read `OK` over a suid-capable host
-  mount. When PID 1 is not the host's systemd (`PrivatePIDs=`, a container), it is `UNKNOWN`.
+  mount. When PID 1 is not systemd (`PrivatePIDs=`, or a container whose init is something
+  else) it is `UNKNOWN`; in a container whose init is systemd, "host" means the container's.
 - **A world's recorded environment no longer lists `XDG_DATA_HOME`, `XDG_CONFIG_HOME`,
   `XDG_STATE_HOME` or `XDG_CACHE_HOME`.** Since 1.7.0 no sandbox passes them, and the record
   claimed they were passed. Docker containers no longer receive them either; they named host
@@ -127,17 +142,26 @@ after any release: the runtime changed.
 - **One user of the copy at a time.** A real run holds the copy's store lock, the one
   `worldlined` takes before it opens anything, and checks before writing and before reporting
   that the lock file was not replaced. A dry run, which writes nothing, checks only that the
-  lock is free. The first candidate's `--daemon-lock` did not keep a daemon out and is gone.
+  lock is free, with the same checks. The first candidate's `--daemon-lock` did not keep a daemon
+  out and is gone. The mount table is read before the lock is written (a file bind of the old
+  store's lock was rewritten first), and the copy's lock must not be the old store's own file.
+  A file made in each copy root must not appear in the old store: a FUSE or network view of it
+  has a device of its own. Processes holding the copy's database are found from
+  `/proc/<pid>/fdinfo`, never by `stat` through their descriptors, which a hung FUSE mount would
+  block.
 - **Links:** the daemon makes only the live and prepared mapping links. Any other link in the
   copy refuses, except inside content: a payload below its root, and anything inside a world's
   overlay (its upper layer, the agent's runtime snapshot, a check's frozen inputs). A link that
   resolves into the old store refuses wherever it is. A recorded location that exists in the copy
   must resolve inside the new store; this is checked while planning, before anything is written,
-  and again in the verification.
+  and again in the verification, which also requires what the daemon does of each live mapping:
+  a link into a generation or transaction payload.
 - **Directories the account cannot read refuse,** except overlayfs work directories where the
-  daemon makes them, `overlays/<world>/<root key>/work/work` (0000 by design, holding only the
-  kernel's transient state), which are counted. What they hold cannot be checked. A file or link
-  named like the database files is checked like any other unless it is a regular file.
+  daemon makes them, `overlays/<world instance id>/<64-hex root key>/work/work` (0000 by design,
+  holding only the kernel's transient state), which are counted. What they hold cannot be
+  checked; an agent can make `work/work` in its own runtime or a check's, which the looser rules
+  of the second and third candidates accepted. A file or link named like the database files is
+  checked like any other unless it is a regular file.
 - **Sockets, FIFOs and devices are skipped, and files are read in bounded chunks.** The
   rehearsal's relocation of a production copy crashed on a dead world's socket (`ENXIO`); a FIFO
   would have blocked it.
@@ -156,9 +180,11 @@ after any release: the runtime changed.
   ownership report counts each entry once; 1.7.0 counted every directory twice.
 - The relocation was rehearsed on a consistent copy of a production store with this release's
   code, run as the dedicated account: 6,255 location rows, 10 transaction records and 26
-  mapping links planned; no refused file, column or row; no foreign-owned entry, mount, file
-  linked outside, or unreadable directory other than 74 overlay work directories; no PRIME
-  content, read in the copy, that a client-mode daemon would refuse; one evidence record kept.
+  mapping links planned; no refused file, column or row; no foreign-owned entry, mount or file
+  linked outside; 73 overlay work directories counted; no PRIME content, read in the copy, that a
+  client-mode daemon would refuse; one evidence record kept. One directory refused: an empty
+  overlayfs probe (`wl-uidprobe-*/work/work`) left in production's data directory on 2026-09-20,
+  which the migration's copy excludes.
 
 ### Fixed
 
@@ -167,11 +193,14 @@ after any release: the runtime changed.
   agent's upper layer with a link to PRIME's content, or to any directory the account owns, had
   prune set that directory to 0700 (second review, demonstrated). Every directory is now opened
   without following links and changed through its own descriptor.
-- **`prune` never deletes outside the store.** Every directory a world owns is checked before
-  any is removed: one that resolves outside the data directory (a link planted in a copy, or a
-  relocated store's leftovers) is reported under `failures`, nothing of that world is removed,
-  and it stays retained. A removal that fails part way still records the world as pruned, since
-  its payload is no longer whole, and the causal event names what was not removed.
+- **`prune` never deletes outside the store, and records only what it removed.** Every directory
+  a world owns is checked before any is removed: one that resolves outside the data directory (a
+  link planted in a copy, or a relocated store's leftovers) is reported under `failures`, nothing
+  of that world is removed, and it stays retained. A world nothing of which could be removed stays
+  retained too (fourth review: it was recorded pruned with everything in place). A removal that
+  fails part way records the world as pruned, since its payload is no longer whole, and the causal
+  event names what was not removed; a pruned world's overlay that is still there is offered again
+  by the next prune.
 - **A root holding a read-only directory can be copied again.** Materialization created each
   directory with its recorded mode, so a non-empty 0555 directory could not receive its entries
   and every fork, reconcile or removal of that root failed (1.7.0 too; third review). Directories
@@ -183,8 +212,13 @@ after any release: the runtime changed.
 
 ### Known limits
 
-- The gate closes on a failed start and when a daemon fails in Python; a daemon killed outright
-  (SIGKILL, the OOM killer) leaves it as it was until the next start closes it.
+- The gate closes on a failed start and when a daemon fails in Python. A daemon that stops
+  cleanly, or is killed outright (SIGKILL, the OOM killer), leaves it as it was, and the next
+  start closes it and checks again before opening it.
+- Repository inspection runs the git in `/usr/bin` or `/bin`; a git installed elsewhere
+  (`/usr/local/bin`) is refused by the doctor's probe and by every capture.
+- `OOMPolicy=continue` is set by the shipped unit; a deployment that writes its own unit sets it
+  itself (`SECURITY.md` limit 7).
 - A 1.7.0 daemon holds only the runtime-directory lock. During an upgrade, a 1.7.1 start against
   a store that a 1.7.0 daemon still serves builds before the older lock refuses it: stop the old
   daemon first, as the installers do.

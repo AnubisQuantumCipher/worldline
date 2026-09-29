@@ -285,16 +285,30 @@ class RootManager:
             if os.path.lexists(target) and not os.path.lexists(candidate.raw_path):
                 os.rename(target, candidate.raw_path)
 
-    def _capture_all(self, manifests_directory: Path) -> list[CapturedManifest]:
+    def _capture_all(self, manifests_directory: Path, *, exclude: frozenset[str] = frozenset(),
+                     uninspectable_ok: bool = False) -> list[CapturedManifest]:
+        """Capture every registered root but `exclude` into this generation. `uninspectable_ok`
+        (root removal only) captures a repository root whose layout the repository sandbox cannot
+        inspect without repository facts, recreating a top-level `.git` link as it is, as removal
+        does for the root it removes: otherwise two such roots could never be removed, each
+        removal refused by the other's capture (review of 09f5c0b)."""
         manifests: list[CapturedManifest] = []
         payload = manifests_directory.parent / "payload"
         internal_manifests = payload / "manifests"
         internal_manifests.mkdir(mode=0o700, exist_ok=True)
-        recorded = {item["root_key"]: item for item in self.store.roots()}
+        recorded = {item["root_key"]: item for item in self.store.roots() if item["root_key"] not in exclude}
         for root_key, root in sorted(recorded.items()):
             logical = bytes(root["path"])
             source = self.paths.root_source(root)
-            repository = self.git.capture(source) if root["kind"] == "repo" else None
+            allow_external: frozenset[bytes] = frozenset()
+            try:
+                repository = self.git.capture(source) if root["kind"] == "repo" else None
+            except WorldlineError as exc:
+                if not (uninspectable_ok and exc.code in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT")):
+                    raise
+                repository = None
+                if os.path.islink(os.path.join(source, b".git")):
+                    allow_external = frozenset({b".git"})
             manifest = Manifest.capture(
                 source,
                 logical_root=logical,
@@ -302,22 +316,24 @@ class RootManager:
                 kind=root["kind"],
                 core=self.core,
                 repository=repository,
+                allow_external_links=allow_external,
             )
             target = payload / root_key
             if not target.exists():
-                Manifest.materialize(manifest, source, target, core=self.core)
+                Manifest.materialize(manifest, source, target, core=self.core, allow_external_links=allow_external)
             manifest.save(manifests_directory / f"{root_key}.json")
             manifest.save(internal_manifests / f"{root_key}.json")
             self.store.update_root_generation(root_key, root["generation_id"], manifest.root_hash)
             manifests.append(manifest)
         return manifests
 
-    def capture_current(self, *, generation_id: str | None = None) -> tuple[str, Path, list[CapturedManifest]]:
+    def capture_current(self, *, generation_id: str | None = None, exclude: frozenset[str] = frozenset(),
+                        uninspectable_ok: bool = False) -> tuple[str, Path, list[CapturedManifest]]:
         identifier = generation_id or str(uuid.uuid4())
         payload = self.prime.new_generation(generation_id=identifier)
         manifests_directory = payload.parent / "manifests"
         manifests_directory.mkdir(mode=0o700)
-        capture = lambda: self._capture_all(manifests_directory)
+        capture = lambda: self._capture_all(manifests_directory, exclude=exclude, uninspectable_ok=uninspectable_ok)
         try:
             if self.watcher is not None:
                 from .linux.inotify import stable_capture
@@ -443,17 +459,31 @@ class RootManager:
                 {"roots": [{"path": root["display_path"], "kind": root["kind"]}]},
             )
 
+        # Everything that can refuse is done before anything changes: the remaining roots are
+        # captured first, into a fresh generation (a copy). A capture refused after the operator's
+        # path had been swapped left the root half-removed (review of 09f5c0b).
+        remaining = [item for item in self.store.roots() if item["root_key"] != root["root_key"]]
+        prepared = (self.capture_current(exclude=frozenset({root["root_key"]}), uninspectable_ok=True)
+                    if remaining else None)
         stage = os.path.join(os.path.dirname(logical), f".worldline-materialize-{uuid.uuid4()}".encode("ascii"))
-        Manifest.materialize(manifest, source, stage, core=self.core, allow_external_links=allow_external)
+        try:
+            Manifest.materialize(manifest, source, stage, core=self.core, allow_external_links=allow_external)
+        except BaseException:
+            remove_tree(stage, ignore_errors=True)
+            if prepared is not None:
+                remove_tree(prepared[1].parent, ignore_errors=True)
+            raise
+        was_primary = bool(root["primary_root"])
         with (self.watcher.owned_writes() if self.watcher is not None else nullcontext()):
             self.atomic.exchange(logical, stage)
+        publishing = False
         try:
             self.store.remove_root(root["root_key"])
-            remaining = self.store.roots()
-            if remaining and root["primary_root"]:
+            if remaining and was_primary:
                 self.store.set_primary_root(remaining[0]["root_key"])
-            if remaining:
-                generation_id, payload, manifests = self.capture_current()
+            if prepared is not None:
+                generation_id, payload, manifests = prepared
+                publishing = True
                 world = self._publish_generation(
                     generation_id=generation_id,
                     generation_payload=payload,
@@ -469,22 +499,31 @@ class RootManager:
                 prime_id = None
         except BaseException:
             try:
-                self.store.root(root["root_key"])
-            except NotFound:
-                self.store.add_root(
-                    root_key=root["root_key"],
-                    raw_path=logical,
-                    display_path=root["display_path"],
-                    kind=root["kind"],
-                    device=root["device"],
-                    primary=bool(root["primary_root"]),
-                    generation_id=root["generation_id"],
-                    manifest_root=root["manifest_root"],
-                )
-                if root["primary_root"]:
+                try:
+                    self.store.root(root["root_key"])
+                except NotFound:
+                    # Re-added as it was, and made primary afterwards: re-adding it as primary while
+                    # another root was primary broke the one-primary rule (review of 09f5c0b).
+                    self.store.add_root(
+                        root_key=root["root_key"],
+                        raw_path=logical,
+                        display_path=root["display_path"],
+                        kind=root["kind"],
+                        device=root["device"],
+                        primary=False,
+                        generation_id=root["generation_id"],
+                        manifest_root=root["manifest_root"],
+                    )
+                if was_primary:
                     self.store.set_primary_root(root["root_key"])
-            with (self.watcher.owned_writes() if self.watcher is not None else nullcontext()):
-                self.atomic.exchange(logical, stage)
+            finally:
+                # The operator's path is swapped back whatever the store did, and the copy that was
+                # materialized for it is removed instead of left beside the path.
+                with (self.watcher.owned_writes() if self.watcher is not None else nullcontext()):
+                    self.atomic.exchange(logical, stage)
+                remove_tree(stage, ignore_errors=True)
+                if prepared is not None and not publishing:
+                    remove_tree(prepared[1].parent, ignore_errors=True)
             raise
 
         os.unlink(stage)

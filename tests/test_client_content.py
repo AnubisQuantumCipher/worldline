@@ -21,7 +21,7 @@ from unittest import mock
 from worldline.core import Core
 from worldline.daemon import WorldlineDaemon
 from worldline.errors import WorldlineError
-from worldline.paths import WorldlinePaths
+from worldline.paths import STORE_LOCK_NAME, WorldlinePaths
 from worldline.roots import RootManager
 from worldline.status import StatusPublisher
 from worldline.store import StateStore
@@ -353,7 +353,7 @@ class StoreLockRefusesWhatIsNotItsOwnFile(unittest.TestCase):
             elsewhere.write_text("4242 worldlined\n")
             for make in ("directory", "symlink", "hardlink"):
                 with self.subTest(make=make):
-                    lock = state / "worldlined.lock"
+                    lock = state / STORE_LOCK_NAME
                     if make == "directory":
                         lock.mkdir()
                     elif make == "symlink":
@@ -406,6 +406,19 @@ class StartupOrdersTheGateAfterTheLock(unittest.TestCase):
             result = self.daemon(broken)
             self.assertEqual(result.returncode, 1, result.stderr)
             self.assertIn(b"INVALID_CLIENT_MODE", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
+
+    def test_an_unsafe_lock_path_closes_the_gate(self) -> None:
+        # Review of 09f5c0b: a start refused at the lock itself left a previous run's gate open.
+        with tempfile.TemporaryDirectory(prefix="worldline-unsafe-lock-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()
+            (paths.state / STORE_LOCK_NAME).mkdir()
+            result = self.daemon(env)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"UNSAFE_STORE", result.stderr)
             self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
 
     def test_a_start_that_refuses_after_the_lock_closes_the_gate(self) -> None:
@@ -496,6 +509,13 @@ class DoctorReportsClientMode(unittest.TestCase):
                           "90 32 253:0 /a /var/lib/x rw,nosuid,relatime shared:2 - ext4 /dev/vda rw\n"
                           "95 32 253:0 /b /var/lib rw,relatime shared:3 - ext4 /dev/vda rw\n")
         self.assertEqual(_host_mount_options("/var/lib/x/store", covered.name), ("/var/lib", ["rw", "relatime"]))
+
+    def test_a_root_listed_as_its_own_parent_does_not_loop(self) -> None:
+        # Review of 09f5c0b: `on_top` kept finding the root itself and never returned.
+        from worldline.paths import _host_mount_options
+        with tempfile.NamedTemporaryFile("w", delete=False, dir=self.scratch()) as table:
+            table.write("1 1 253:0 / / rw,nosuid,relatime - ext4 /dev/vda rw\n")
+        self.assertEqual(_host_mount_options("/var/lib/store", table.name), ("/", ["rw", "nosuid", "relatime"]))
 
     def test_nosuid_is_unknown_when_pid_1_is_not_the_hosts_init(self) -> None:
         from worldline.paths import deployment_facts

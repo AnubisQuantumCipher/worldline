@@ -75,15 +75,20 @@ def _require_alternates_inside(source: bytes) -> None:
     finally:
         for descriptor in descriptors:
             os.close(descriptor)
-    objects = os.path.realpath(os.path.join(source, b".git", b"objects"))
-    root = os.path.realpath(source)
+    # Judged lexically: an entry names paths the repository chose, so nothing is looked up on the
+    # host (a path on a mount that stopped answering would block the daemon) and no resolved path
+    # is echoed back (review of 09f5c0b). The sandbox binds only the root, so an entry that only
+    # reaches outside through a link inside the root is refused by the capture itself.
+    objects = os.path.join(source, b".git", b"objects")
+    root = source.rstrip(b"/")
     for entry in entries:
-        resolved = os.path.realpath(entry if os.path.isabs(entry) else os.path.join(objects, entry))
-        if not (resolved == root or resolved.startswith(root + b"/")):
+        named = os.path.normpath(entry if os.path.isabs(entry) else os.path.join(objects, entry))
+        if not (named == root or named.startswith(root + b"/")):
             raise WorldlineError(
                 "GIT_ALTERNATES_OUTSIDE_ROOT",
-                f"{os.fsdecode(source)} borrows objects from {os.fsdecode(resolved)}, which the repository "
-                "sandbox cannot see; repack the repository (git repack -a -d) and remove the alternates file")
+                f"{os.fsdecode(source)} borrows objects from outside itself ({os.fsdecode(entry)}), which the "
+                "repository sandbox cannot see; repack the repository (git repack -a -d) and remove the "
+                "alternates file")
 
 
 class RuntimeController:
