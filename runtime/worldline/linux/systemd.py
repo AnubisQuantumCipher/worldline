@@ -116,6 +116,10 @@ class SystemdAdapter:
             "--property=TimeoutStopSec=10s",
             "--property=NoNewPrivileges=" + ("no" if _bootstrap_token is _PRIVATE_BOOTSTRAP else "yes"),
             "--property=PrivateTmp=no",
+            # What a world writes must not depend on the host manager's umask: a manager
+            # started with umask 002 or 000 made every agent file group- or world-writable,
+            # which client mode then refused at collapse.
+            "--property=UMask=0022",
             "--",
             *argv,
         ]

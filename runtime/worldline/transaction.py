@@ -25,7 +25,7 @@ from .linux.git import GitAdapter
 from .linux.inotify import InotifyWatcher
 from .manifest import CapturedManifest, Manifest
 from .model import TERMINAL_STATES, World, WorldState, utc_now
-from .paths import WorldlinePaths, secure_directory
+from .paths import WorldlinePaths
 from .prime import Generation, PrimeManager
 from .receipt import ReceiptBuilder
 from .store import StateStore
@@ -101,7 +101,7 @@ class CollapseTransaction:
         self.prime = PrimeManager(paths, store, self.core)
         self.receipts = ReceiptBuilder(store, self.core)
         self.data_transactions = self.paths.data / "transactions"
-        secure_directory(self.data_transactions)
+        self.paths.prime_directory(self.data_transactions)
         # transaction_id -> error dict for transactions recovery could not resolve; populated by
         # recover_all and consulted by prepare()/commit() so a quarantined transaction blocks
         # mutation without blocking diagnosis.
@@ -167,8 +167,10 @@ class CollapseTransaction:
         transaction_directory = self.data_transactions / transaction_id
         payload = transaction_directory / "payload"
         mapping = transaction_directory / "mapping"
-        secure_directory(payload)
-        secure_directory(mapping)
+        # A committed transaction's payload IS PRIME, and its mapping becomes `live`.
+        self.paths.prime_directory(transaction_directory)
+        self.paths.prime_directory(payload)
+        self.paths.prime_directory(mapping)
         before_generation = self.watcher.synchronized_generation() if self.watcher is not None else None
 
         base_manifests: dict[str, CapturedManifest] = {}
@@ -182,7 +184,7 @@ class CollapseTransaction:
                 logical = bytes(root["path"])
                 base_source = os.fsencode(Path(candidate.base_payload_path) / root_key)
                 candidate_source = os.fsencode(Path(candidate.payload_path) / root_key)
-                current_source = os.path.realpath(logical)
+                current_source = self.paths.root_source(root)
                 for label, source in (("base", base_source), ("candidate", candidate_source), ("current", current_source)):
                     if not os.path.isdir(source):
                         raise WorldlineError(
@@ -222,6 +224,13 @@ class CollapseTransaction:
                         "PRIME changed while collapse staging was copied and hashed",
                         {"beforeGeneration": before_generation, "afterGeneration": after_generation},
                     )
+
+            # Client mode: the staged payload becomes PRIME, which clients can reach. Its modes
+            # are the candidate's; refuse any a client could write through before a transaction
+            # exists (the staging is removed by the handler below).
+            if not conflicts:
+                for root_key in staged_manifests:
+                    self.paths.assert_client_safe(payload / root_key)
 
             delta = Delta.compute_all(base_manifests, candidate_manifests, self.core)
             base_root = Manifest.root_set_hash(base_manifests.values(), self.core)
@@ -1028,7 +1037,7 @@ class CollapseTransaction:
     def _capture_current_roots(self) -> dict[str, CapturedManifest]:
         return {
             root["root_key"]: self._capture(
-                source=os.path.realpath(bytes(root["path"])), logical=bytes(root["path"]), root=root
+                source=self.paths.root_source(root), logical=bytes(root["path"]), root=root
             )
             for root in self.store.roots()
         }

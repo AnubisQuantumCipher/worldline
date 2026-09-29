@@ -132,14 +132,19 @@ def _print_transaction(facts: dict[str, Any]) -> None:
 
 def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Namespace, *, as_json: bool) -> Any:
     roots = arguments.roots if hasattr(arguments, "roots") else [arguments.root]
+    primary = getattr(arguments, "primary", None)
     payload = {
-        "roots": roots,
+        # Absolute here: the daemon's working directory is not the caller's.
+        "roots": [os.path.abspath(root) for root in roots],
         "kind": getattr(arguments, "kind", None),
-        "primary": getattr(arguments, "primary", None),
+        "primary": None if primary is None else os.path.abspath(primary),
         "confirmed": False,
     }
     if operation == "root.remove":
-        payload = {"root": arguments.root, "confirmed": False}
+        # A path is sent absolute; a root key (no separator) as given.
+        root = arguments.root
+        payload = {"root": os.path.abspath(root) if os.sep in root or root.startswith(".") else root,
+                   "confirmed": False}
     try:
         client.request(operation, payload)
         raise AssertionError("unconfirmed root mutation unexpectedly succeeded")
@@ -174,8 +179,13 @@ def _root_mutation(client: DaemonClient, operation: str, arguments: argparse.Nam
 
 
 def _shell(client: DaemonClient, world_name: str) -> int:
-    info = client.request("shell.info", {"world": world_name})
     paths = WorldlinePaths.from_environment()
+    if paths.daemon_uid is not None and paths.daemon_uid != os.getuid():
+        # The shell materializes the world's payload as the caller, from the daemon's store. A
+        # client of a dedicated-account daemon cannot read that store, by design.
+        raise WorldlineError("SHELL_UNAVAILABLE_TO_CLIENT",
+                             "worldline shell needs the daemon's own account; this is a client of it")
+    info = client.request("shell.info", {"world": world_name})
     config = GlobalConfig.load(paths)
     sandbox = BubblewrapSandbox(paths)
     identifier = str(uuid.uuid4())

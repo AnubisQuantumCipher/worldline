@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import os
 from pathlib import Path
 import subprocess
@@ -80,6 +81,126 @@ class GitConfigExecutionHardening(unittest.TestCase):
             capture_output=True,
         )
         self.assertTrue(self.marker_fsmonitor.exists(), "control did not fire; repo not armed")
+
+
+class GitFilterDriversAreContained(unittest.TestCase):
+    """A repository's own config can define `filter.<any name>.clean`, which `.gitattributes`
+    applies during `status` and `diff`. No `-c` denylist can name it (review of ff201cd, blocking:
+    a world's repository ran commands as the daemon account, host-side). Every git process now runs
+    in a bubblewrap sandbox with no network, the system directories read-only, and only the
+    inspected root (read-only), its git directories and a private scratch directory from the host.
+
+    The filter lives INSIDE the repository, so the sandbox can run it, and it replaces the file's
+    content with a marker: the marker in the captured diff proves the filter ran in the sandbox,
+    and the absent marker files prove it wrote nowhere the host can see."""
+
+    MARKER = b"FILTERED-BY-THE-REPOSITORY-CLEAN-DRIVER"
+
+    def setUp(self) -> None:
+        if subprocess.run(["git", "--version"], capture_output=True).returncode != 0:
+            self.skipTest("git is unavailable")
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-gitfilter-")
+        self.addCleanup(self.temporary.cleanup)
+        self.base = Path(self.temporary.name)
+        self.repo = self.base / "repo"
+        self.repo.mkdir()
+        self.git = lambda *args: subprocess.run(["git", "-C", str(self.repo), *args], check=True, capture_output=True)
+        self.git("init", "-q")
+        (self.repo / "f.txt").write_text("original\n", encoding="utf-8")
+        self.git("add", "f.txt")
+        self.git("-c", "user.email=a@b.c", "-c", "user.name=a", "commit", "-qm", "init")
+        self.outside = self.base / "HIT.outside-root"   # its parent is never mounted in the sandbox
+        self.inside = self.repo / "HIT.inside-root"      # the root is bound read-only
+        script = self.repo / "filter.sh"
+        script.write_text(f"#!/bin/sh\ntouch {self.outside} 2>/dev/null\ntouch {self.inside} 2>/dev/null\n"
+                          f"echo {self.MARKER.decode()}\n", encoding="utf-8")
+        script.chmod(0o755)
+        self.git("config", "filter.evil.clean", str(script))
+        (self.repo / ".gitattributes").write_text("f.txt filter=evil\n", encoding="utf-8")
+        (self.repo / "f.txt").write_text("changed\n", encoding="utf-8")
+        os.utime(self.repo / "f.txt", (1, 1))  # racy stat data makes git re-read, and so re-filter
+
+    def test_the_repository_is_genuinely_armed(self) -> None:
+        subprocess.run(["git", "-C", str(self.repo), "diff"], capture_output=True,
+                       env={"PATH": "/usr/bin:/bin", "HOME": str(self.base),
+                            "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_SYSTEM": os.devnull})
+        self.assertTrue(self.outside.exists(), "control did not fire; the filter is not armed")
+
+    def test_the_filter_runs_inside_the_sandbox_and_reaches_nothing_outside(self) -> None:
+        captured = GitAdapter(Core.shared()).capture(self.repo)
+        diff = base64.b64decode(captured["worktreeDiffRawB64"])
+        self.assertIn(self.MARKER, diff, "the filter did not run inside the sandbox; nothing was contained")
+        self.assertFalse(self.outside.exists(), "a repository filter wrote outside the inspected root")
+        self.assertFalse(self.inside.exists(), "a repository filter wrote into the inspected root")
+
+
+class GitSandboxLayout(unittest.TestCase):
+    """What the repository sandbox binds, and what it refuses to (review of 80007ba)."""
+
+    def setUp(self) -> None:
+        if subprocess.run(["git", "--version"], capture_output=True).returncode != 0:
+            self.skipTest("git is unavailable")
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-gitlayout-")
+        self.addCleanup(self.temporary.cleanup)
+        self.base = Path(self.temporary.name)
+        self.main = self.base / "main"
+        self.main.mkdir()
+        git = lambda *args: subprocess.run(["git", "-C", str(self.main), *args], check=True, capture_output=True)
+        git("init", "-q", "-b", "main")
+        (self.main / "f.txt").write_text("original\n", encoding="utf-8")
+        git("add", "f.txt")
+        git("-c", "user.email=a@b.c", "-c", "user.name=a", "commit", "-qm", "init")
+        self.git = git
+
+    def test_a_linked_worktree_root_is_captured(self) -> None:
+        # Its .git is a file naming a directory outside the root; 80007ba refused every such root.
+        linked = self.base / "linked"
+        self.git("worktree", "add", "-q", "-b", "feature", str(linked))
+        (linked / "f.txt").write_text("edited in the worktree\n", encoding="utf-8")
+        binds = GitAdapter._git_directories(os.fsencode(linked))
+        self.assertEqual([os.fsdecode(b) for b in binds],
+                         [os.path.realpath(self.main / ".git" / "worktrees" / "linked"), os.path.realpath(self.main / ".git")])
+        captured = GitAdapter(Core.shared()).capture(linked)
+        self.assertEqual((captured["state"], captured["branch"]), ("CAPTURED", "feature"))
+        self.assertIsNotNone(captured["head"])
+        self.assertIsNotNone(captured["indexHash"])
+        self.assertIn(b"edited in the worktree", base64.b64decode(captured["worktreeDiffRawB64"]))
+
+    def test_a_git_file_naming_a_directory_that_is_not_a_git_directory_binds_nothing(self) -> None:
+        secrets = self.base / "secrets"
+        secrets.mkdir()
+        (secrets / "key").write_text("do not show me to a sandbox\n", encoding="utf-8")
+        root = self.base / "hostile"
+        root.mkdir()
+        (root / ".git").write_text(f"gitdir: {secrets}\n", encoding="utf-8")
+        self.assertEqual(GitAdapter._git_directories(os.fsencode(root)), [])
+        argv = GitAdapter._sandbox(os.fsencode(root), None, [])
+        self.assertNotIn(str(secrets), argv)
+        with self.assertRaises(WorldlineError) as caught:
+            GitAdapter(Core.shared()).capture(root)
+        self.assertIn(caught.exception.code, ("GIT_INSPECTION_FAILED", "NOT_A_GIT_ROOT"))
+
+    def test_an_index_link_that_leaves_the_root_is_not_read(self) -> None:
+        outside = self.base / "outside-secret"
+        outside.write_bytes(b"DIRC" + b"\0" * 60)
+        index = self.main / ".git" / "index"
+        index.unlink()
+        index.symlink_to(outside)
+        self.assertIsNone(GitAdapter._contained_index(os.fsencode(self.main), os.fsencode(index), []))
+        captured = GitAdapter(Core.shared()).capture(self.main)
+        self.assertEqual(captured["state"], "CAPTURED")
+        self.assertIsNone(captured["indexHash"])
+
+    def test_the_sandbox_limits_processes_and_its_tmpfs(self) -> None:
+        argv = GitAdapter._sandbox(os.fsencode(self.main), None, [])
+        self.assertTrue(argv[0].endswith("prlimit"))
+        soft, hard = argv[1].removeprefix("--nproc=").split(":")
+        self.assertEqual(soft, hard)
+        own = GitAdapter._uid_tasks(os.getuid())
+        self.assertGreater(int(soft), own)
+        self.assertLessEqual(int(soft), own + GitAdapter._EXTRA_TASKS + 128)
+        size = argv.index("--size")
+        self.assertEqual(argv[size + 1:size + 4], [str(GitAdapter._TMPFS_BYTES), "--tmpfs", "/tmp"])
 
 
 class AliasValidation(unittest.TestCase):

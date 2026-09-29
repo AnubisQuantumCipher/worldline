@@ -57,14 +57,16 @@ class CheckpointManager:
         generation = self.paths.generations / generation_id
         payload = generation / "payload"
         manifests_directory = payload / "manifests"
-        manifests_directory.mkdir(mode=0o700, parents=True)
+        self.paths.prime_directory(generation)
+        self.paths.prime_directory(payload)
+        manifests_directory.mkdir(mode=0o700)
         before = self.watcher.synchronized_generation() if self.watcher is not None else None
         manifests: dict[str, CapturedManifest] = {}
         try:
             for root in self.store.roots():
                 root_key = root["root_key"]
                 logical = bytes(root["path"])
-                source = os.path.realpath(logical)
+                source = self.paths.root_source(root)
                 repository = self.git.capture(source) if root["kind"] == "repo" else None
                 manifest = Manifest.capture(
                     source,

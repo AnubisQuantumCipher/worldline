@@ -68,11 +68,13 @@ def fsync_directory(path: Path) -> None:
         os.close(descriptor)
 
 
-def atomic_write(path: Path, data: bytes, *, mode: int = 0o600) -> None:
+def atomic_write(path: Path, data: bytes, *, mode: int = 0o600, group: int | None = None) -> None:
     path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     descriptor, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     temporary = Path(temporary_name)
     try:
+        if group is not None:
+            os.fchown(descriptor, -1, group)
         os.fchmod(descriptor, mode)
         with os.fdopen(descriptor, "wb", closefd=True) as stream:
             stream.write(data)
@@ -89,5 +91,6 @@ def atomic_write(path: Path, data: bytes, *, mode: int = 0o600) -> None:
         raise
 
 
-def atomic_write_json(path: Path, value: JsonValue, *, mode: int = 0o600) -> None:
-    atomic_write(path, canonical_bytes(value), mode=mode)
+def atomic_write_json(path: Path, value: JsonValue, *, mode: int = 0o600,
+                      group: int | None = None) -> None:
+    atomic_write(path, canonical_bytes(value), mode=mode, group=group)

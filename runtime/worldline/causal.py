@@ -158,9 +158,12 @@ class CausalIndexer:
             break
         if selected_root is None or relative is None:
             raise NotFound("managed path", path_value)
+        if ".." in relative.parts:
+            # Lexical, so `root/../../x` would otherwise name a file outside every root.
+            raise NotFound("managed path", path_value)
         encoded = path_b64(os.fsencode(relative))
         root_key = selected_root["root_key"]
-        live_root = Path(os.fsdecode(bytes(selected_root["path"])))
+        live_root = Path(os.fsdecode(self.store.paths.root_source(selected_root)))
         live_line = self._line_text(live_root, relative, line)
         prime = self.store.prime()
         # Every world that touched this line has a range row, archived siblings included, and
@@ -227,6 +230,8 @@ class CausalIndexer:
         target = base / os.fsdecode(relative)
         try:
             if not target.is_file() or target.is_symlink():
+                return None
+            if base.resolve() not in target.resolve().parents:
                 return None
             lines = target.read_bytes().decode("utf-8", "strict").splitlines()
         except (OSError, UnicodeDecodeError):

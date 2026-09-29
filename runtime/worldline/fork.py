@@ -89,7 +89,7 @@ class ForkManager:
             primary = next((root for root in roots if root["primary_root"]), None)
             if primary is None:
                 raise WorldlineError("NO_PRIMARY_ROOT", "no primary root is registered")
-            project = ProjectConfig.load(Path(os.fsdecode(bytes(primary["path"]))), self.store)
+            project = ProjectConfig.load(Path(os.fsdecode(self.paths.root_source(primary))), self.store)
             result = self.runner.run(
                 world.instance_id,
                 selected,

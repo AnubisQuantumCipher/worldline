@@ -138,7 +138,10 @@ class RootManager:
         for raw, selected_kind in normalized:
             if any(self._overlap(raw, other) for other in seen):
                 raise WorldlineError("OVERLAPPING_ROOT", f"managed roots overlap: {display_path(raw)}")
-            if any(self._overlap(raw, internal) for internal in protected):
+            # Resolved on both sides: a symlinked parent must not walk a root into the store.
+            resolved = os.path.realpath(raw)
+            if any(self._overlap(raw, internal) or self._overlap(resolved, os.path.realpath(internal))
+                   for internal in protected):
                 raise WorldlineError("WORLDLINE_SELF_CAPTURE", f"root overlaps WORLDLINE state: {display_path(raw)}")
             repository = self.git.capture(raw) if selected_kind == "repo" else None
             root_key = self._root_key(raw)
@@ -272,7 +275,7 @@ class RootManager:
         recorded = {item["root_key"]: item for item in self.store.roots()}
         for root_key, root in sorted(recorded.items()):
             logical = bytes(root["path"])
-            source = os.path.realpath(logical)
+            source = self.paths.root_source(root)
             repository = self.git.capture(source) if root["kind"] == "repo" else None
             manifest = Manifest.capture(
                 source,
@@ -318,8 +321,19 @@ class RootManager:
             manifests_directory = generation_payload.parent / "manifests"
             manifests = self._capture_all(manifests_directory)
         roots = {item["root_key"]: item for item in self.store.roots()}
+        # Client mode: a new generation becomes PRIME and clients can reach it. Registration
+        # brings in the operator's modes; reconcile and remove re-capture what is live.
+        try:
+            for root_key in roots:
+                self.paths.assert_client_safe(generation_payload / root_key)
+        except WorldlineError as exc:
+            if exc.code == "CLIENT_MODE_UNSAFE_CONTENT":
+                # A reconcile copies what is live, so live itself is unsafe: take every client
+                # off the store rather than only refusing the copy (review of ff201cd).
+                self.paths.close_client_gate()
+            raise
         dependency_roots = [
-            (root_key, os.path.realpath(bytes(root["path"]))) for root_key, root in sorted(roots.items())
+            (root_key, self.paths.root_source(root)) for root_key, root in sorted(roots.items())
         ]
         evidence = evidence_manifest([], self.core)
         agent = {"adapter": None, "missionHash": None, "sessionReference": None}
@@ -366,9 +380,7 @@ class RootManager:
         self._assert_root_set_mutable()
         root = self.store.root(value)
         logical = bytes(root["path"])
-        source = os.path.realpath(logical)
-        if not os.path.islink(logical):
-            raise WorldlineError("LIVE_MAPPING_BROKEN", f"managed root is not a WORLDLINE symlink: {root['display_path']}")
+        source = self.paths.root_source(root)
         repository = self.git.capture(source) if root["kind"] == "repo" else None
         manifest = Manifest.capture(
             source,

@@ -22,17 +22,35 @@ class DockerAdapter:
         self.core = core or Core.shared()
         if self.executable is None:
             raise WorldlineError("DOCKER_UNAVAILABLE", "docker is not installed")
-        probe = subprocess.run(
-            [self.executable, "info", "--format", "{{json .ServerVersion}}"],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-            timeout=10,
-        )
+        try:
+            probe = subprocess.run(
+                [self.executable, "info", "--format", "{{json .ServerVersion}}"],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+                timeout=10,
+            )
+        except subprocess.TimeoutExpired as exc:
+            # Under host load `docker info` can exceed its probe window. That means Docker is
+            # unavailable to this capture, not an internal error that kills finalization.
+            raise WorldlineError("DOCKER_UNAVAILABLE", "docker info did not answer within 10 s") from exc
         if probe.returncode != 0:
             raise WorldlineError("DOCKER_UNAVAILABLE", probe.stderr.decode("utf-8", "replace").strip() or "Docker daemon is unavailable")
         self.server_version = probe.stdout.decode("utf-8", "replace").strip().strip('"')
+
+    def _run(self, arguments: list[str], *, timeout: float) -> subprocess.CompletedProcess[bytes]:
+        try:
+            return subprocess.run(
+                [self.executable, *arguments],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+                timeout=timeout,
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise WorldlineError("DOCKER_UNAVAILABLE", f"docker {arguments[0]} did not answer within {timeout:g} s") from exc
 
     @staticmethod
     def _world_id(value: str) -> str:
@@ -55,33 +73,14 @@ class DockerAdapter:
             root_key: path.resolve(strict=True)
             for root_key, path in world_roots.items()
         }
-        listing = subprocess.run(
-            [
-                self.executable,
-                "ps",
-                "-aq",
-                "--filter",
-                f"label=worldline.instance={world_instance}",
-            ],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-            timeout=15,
-        )
+        listing = self._run(
+            ["ps", "-aq", "--filter", f"label=worldline.instance={world_instance}"], timeout=15)
         if listing.returncode != 0:
             raise WorldlineError("DOCKER_INSPECTION_FAILED", listing.stderr.decode("utf-8", "replace").strip())
         identifiers = [line for line in listing.stdout.decode("ascii", "strict").splitlines() if line]
         if not identifiers:
             return []
-        inspection = subprocess.run(
-            [self.executable, "inspect", *identifiers],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-            timeout=30,
-        )
+        inspection = self._run(["inspect", *identifiers], timeout=30)
         if inspection.returncode != 0:
             raise WorldlineError("DOCKER_INSPECTION_FAILED", inspection.stderr.decode("utf-8", "replace").strip())
         parsed = json.loads(inspection.stdout.decode("utf-8", "strict"))

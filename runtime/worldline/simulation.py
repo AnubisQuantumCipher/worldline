@@ -97,7 +97,7 @@ class SystemSimulation:
         for root in registered:
             root_key = root["root_key"]
             logical = bytes(root["path"])
-            source = Path(os.fsdecode(os.path.realpath(logical)))
+            source = Path(os.fsdecode(self.paths.root_source(root)))
             repository = None
             manifest = Manifest.capture(
                 source,

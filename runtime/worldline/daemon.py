@@ -36,12 +36,16 @@ class RequestContext:
     daemon: "WorldlineDaemon"
     request_id: str | int
     progress: Progress
+    # SO_PEERCRED uid of the requester: the daemon's own, or a listed client's in client mode.
+    peer_uid: int | None = None
 
 
 @dataclass(slots=True)
 class Operation:
     handler: Handler
     mutating: bool
+    # Refused to listed client uids: the daemon's own account only (client mode).
+    owner_only: bool = False
 
 
 def storage_error(exc: BaseException) -> WorldlineError:
@@ -93,10 +97,10 @@ class WorldlineDaemon:
         self.register("show", self._show)
         self.register("log.verify", self._verify_log)
 
-    def register(self, name: str, handler: Handler, *, mutating: bool = False) -> None:
+    def register(self, name: str, handler: Handler, *, mutating: bool = False, owner_only: bool = False) -> None:
         if not name or name in self._operations:
             raise ValueError(f"duplicate or empty operation: {name}")
-        self._operations[name] = Operation(handler=handler, mutating=mutating)
+        self._operations[name] = Operation(handler=handler, mutating=mutating, owner_only=owner_only)
 
     def spawn_background(self, key: str, awaitable: Awaitable[Any]) -> asyncio.Task[Any]:
         if key in self._background and not self._background[key].done():
@@ -126,6 +130,9 @@ class WorldlineDaemon:
             result = self._recover()
             if inspect.isawaitable(result):
                 await result
+        # After the lock and recovery: only this daemon touches the store, and an interrupted
+        # exchange has been resolved, so `live` is the mapping that will be served.
+        self.paths.share_live_chain()
         swept = self.store.sweep_unsupervised()
         if swept["jobs"] or swept["worlds"]:
             _LOG.warning("startup sweep: %d orphaned job(s), %d unsupervised world(s) marked DEAD", swept["jobs"], swept["worlds"])
@@ -135,7 +142,16 @@ class WorldlineDaemon:
             path=self.paths.socket,
             limit=_MAX_REQUEST_BYTES,
         )
-        os.chmod(self.paths.socket, 0o600)
+        if self.paths.client_gid is None:
+            os.chmod(self.paths.socket, 0o600)
+        else:
+            try:
+                os.chown(self.paths.socket, -1, self.paths.client_gid)
+            except PermissionError as exc:
+                raise WorldlineError(
+                    "INVALID_CLIENT_MODE",
+                    f"the daemon account is not a member of client group {self.paths.client_gid}") from exc
+            os.chmod(self.paths.socket, 0o660)
         self._verify_socket()
         self.publisher.publish(daemon_state="RUNNING")
         self._heartbeat_task = asyncio.create_task(self._heartbeat(), name="worldline:status-heartbeat")
@@ -213,8 +229,12 @@ class WorldlineDaemon:
         info = self.paths.socket.lstat()
         if info.st_uid != os.getuid() or not stat.S_ISSOCK(info.st_mode):
             raise WorldlineError("UNSAFE_SOCKET", f"daemon socket failed ownership validation: {self.paths.socket}")
-        if stat.S_IMODE(info.st_mode) != 0o600:
-            raise WorldlineError("UNSAFE_SOCKET", f"daemon socket mode is not 0600: {self.paths.socket}")
+        if self.paths.client_gid is None:
+            if stat.S_IMODE(info.st_mode) != 0o600:
+                raise WorldlineError("UNSAFE_SOCKET", f"daemon socket mode is not 0600: {self.paths.socket}")
+        elif stat.S_IMODE(info.st_mode) != 0o660 or info.st_gid != self.paths.client_gid:
+            raise WorldlineError("UNSAFE_SOCKET",
+                                 f"daemon socket is not 0660 for its client group: {self.paths.socket}")
 
     @staticmethod
     def _peer_uid(writer: asyncio.StreamWriter) -> int:
@@ -227,7 +247,8 @@ class WorldlineDaemon:
 
     async def _handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         try:
-            if self._peer_uid(writer) != os.getuid():
+            # The daemon's own uid, plus the client uids its root-owned environment lists.
+            if self._peer_uid(writer) not in (os.getuid(), *self.paths.client_uids):
                 await self._send(writer, {"id": None, "ok": False, "result": None, "error": {
                     "code": "PEER_UID_MISMATCH", "message": "peer uid does not own this daemon", "details": {}
                 }})
@@ -283,12 +304,20 @@ class WorldlineDaemon:
             operation = self._operations.get(operation_name)
             if operation is None:
                 raise WorldlineError("UNKNOWN_OPERATION", f"unknown daemon operation: {operation_name}")
+            if operation.owner_only and self._peer_uid(writer) != os.getuid():  # before any handler runs
+                raise WorldlineError(
+                    "OPERATION_NEEDS_DAEMON_ACCOUNT",
+                    f"{operation_name} moves directories between the operator and the store; "
+                    "a client of a dedicated-account daemon cannot request it")
 
             async def progress(event: str, data: dict[str, Any]) -> None:
                 await self._send(writer, {"id": request_id, "event": event, "data": data})
 
-            context = RequestContext(self, request_id, progress)
+            peer_uid = self._peer_uid(writer)
+            context = RequestContext(self, request_id, progress, peer_uid)
             if operation.mutating:
+                # Receipts and causal events do not record who asked; the daemon's log does.
+                _LOG.info("%s requested by uid %d", operation_name, peer_uid)
                 async with self._mutation_lock:
                     result = await self._invoke(operation.handler, args, context)
                     self.publisher.publish()

@@ -105,10 +105,9 @@ class Pruner:
             for reference in (world.payload_path, world.base_payload_path):
                 referenced.add(os.path.realpath(reference))
         for root in self.store.roots():
-            try:
-                live = os.path.realpath(bytes(root["path"]))
-            except OSError:
-                continue
+            # Resolved through the store's own mapping: a re-pointed or broken operator link
+            # refuses the prune instead of leaving PRIME's payload looking unreferenced.
+            live = self.paths.root_source(root)
             referenced.add(os.fsdecode(os.path.dirname(live)))
 
         directories: dict[str, dict[str, Any]] = {}

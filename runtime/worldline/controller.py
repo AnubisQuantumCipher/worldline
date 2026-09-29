@@ -140,11 +140,13 @@ class RuntimeController:
         if self.watcher is not None:
             self.watcher.close()
             self.watcher = None
-        roots = [
-            (root["root_key"], os.path.realpath(bytes(root["path"])))
-            for root in self.store.roots()
-            if os.path.isdir(os.path.realpath(bytes(root["path"])))
-        ]
+        roots = []
+        for root in self.store.roots():
+            try:
+                roots.append((root["root_key"], self.paths.root_source(root)))
+            except WorldlineError as exc:
+                # The doctor reports a broken mapping; the watcher only skips it.
+                _LOG.warning("not watching %s: %s", root["display_path"], exc)
         if roots:
             self.watcher = InotifyWatcher(roots, self._external_event)
             self.tracker = PrimeChangeTracker(self.store, self.watcher)
@@ -206,9 +208,9 @@ class RuntimeController:
             )
 
     def register(self, daemon: WorldlineDaemon) -> None:
-        daemon.register("init", self._register_roots, mutating=True)
-        daemon.register("root.add", self._register_roots, mutating=True)
-        daemon.register("root.remove", self._remove_root, mutating=True)
+        daemon.register("init", self._register_roots, mutating=True, owner_only=True)
+        daemon.register("root.add", self._register_roots, mutating=True, owner_only=True)
+        daemon.register("root.remove", self._remove_root, mutating=True, owner_only=True)
         daemon.register("root.list", self._root_list)
         daemon.register("fork", self._fork, mutating=True)
         daemon.register("race", self._race, mutating=True)
@@ -216,7 +218,7 @@ class RuntimeController:
         daemon.register("log", self._log)
         daemon.register("why", self._why)
         daemon.register("inspect", self._inspect, mutating=True)
-        daemon.register("switch", self._switch, mutating=True)
+        daemon.register("switch", self._switch, mutating=True, owner_only=True)
         daemon.register("collapse.prepare", self._collapse_prepare, mutating=True)
         daemon.register("collapse.commit", self._collapse_commit, mutating=True)
         daemon.register("transaction.commit", self._collapse_commit, mutating=True)
@@ -466,7 +468,7 @@ class RuntimeController:
         primary = next((root for root in roots if root["primary_root"]), None)
         if primary is None:
             return
-        project = ProjectConfig.load(Path(os.fsdecode(bytes(primary["path"]))), self.store)
+        project = ProjectConfig.load(Path(os.fsdecode(self.paths.root_source(primary))), self.store)
         self.runner.services.start_declared(prime, project)
         terminal = shutil.which("xdg-terminal-exec")
         for item in prime.workspace.get("ownedTerminals", []):
@@ -551,7 +553,7 @@ class RuntimeController:
             raise InvalidRequest("simulate requires argv")
         roots = self.store.roots()
         primary = next((root for root in roots if root["primary_root"]), None)
-        project = ProjectConfig(generated=(), checks=(), services=()) if primary is None else ProjectConfig.load(Path(os.fsdecode(bytes(primary["path"]))), self.store)
+        project = ProjectConfig(generated=(), checks=(), services=()) if primary is None else ProjectConfig.load(Path(os.fsdecode(self.paths.root_source(primary))), self.store)
         health = [
             {"id": check.id, "kind": check.kind, "argv": list(check.argv), "required": check.required}
             for check in project.checks
@@ -832,7 +834,6 @@ class RuntimeController:
         healthy = True
         for root in self.store.roots():
             raw = os.fsdecode(bytes(root["path"]))
-            expected = os.fsencode(self.paths.live / root["root_key"])
             state = "OK"
             detail: str | None = None
             if not os.path.islink(raw):
@@ -842,10 +843,15 @@ class RuntimeController:
                     "not reach the user's files (likely an interrupted `root remove`)"
                 ) if os.path.exists(raw) else "registered root path is missing"
                 healthy = False
-            elif os.readlink(os.fsencode(raw)) != expected:
-                state = "BROKEN"
-                detail = "registered root symlink does not route through the live mapping"
-                healthy = False
+            else:
+                # Exactly what every capture enforces (review of ff201cd: the doctor said OK for a
+                # root whose live mapping resolved outside the store, which every capture refuses).
+                try:
+                    self.paths.root_source(root)
+                except WorldlineError as exc:
+                    state = "BROKEN"
+                    detail = exc.message
+                    healthy = False
             roots.append({
                 "path": root["display_path"],
                 "rootKey": root["root_key"],

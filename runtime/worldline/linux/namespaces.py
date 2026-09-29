@@ -51,7 +51,10 @@ class SandboxSpec:
     # bytes a check is identified by must be bytes the candidate has no path to write.
     readonly_mounts: tuple[tuple[Path, str], ...] = ()
     credential_mounts: tuple[CredentialProjection, ...] = ()
-    operator_home: Path = Path("/home/sicarii")
+    # The HOME the sandbox sees, as an empty tmpfs. None means the daemon's own HOME: every
+    # sandbox masks the account WORLDLINE runs as (1.6.0 defaulted to a fixed operator path, so
+    # checks, services and simulate left a dedicated account's HOME visible).
+    operator_home: Path | None = None
     # Network policy for this sandbox: "shared" (host namespace, the historical default),
     # "none" (empty namespace: loopback only), or "allowlist" (empty namespace plus the
     # netguard forwarder relaying to a Unix-socket proxy inside the runtime directory).
@@ -183,6 +186,28 @@ class BubblewrapSandbox:
             return (real.parent,)
         return ()
 
+    def _store_masks(self, home: Path) -> list[str]:
+        """tmpfs over each store directory the sandbox would otherwise see: one under a system
+        path (bound read-only, or overlaid by simulate) and outside the masked HOME, by its
+        configured spelling and by its resolved one. Anywhere else it is not mounted."""
+        masks: list[str] = []
+        systems = [Path(system) for system in (*_SYSTEM_READONLY, "/boot")]
+        homes = {home, Path(os.path.realpath(home))}
+        for configured in (self.paths.data, self.paths.state, self.paths.config, self.paths.runtime):
+            for private in dict.fromkeys((configured, Path(os.path.realpath(configured)))):
+                if os.path.islink(private):
+                    continue  # bwrap cannot mount onto a link; its resolved spelling is covered
+                if any(masked == private or masked in private.parents for masked in homes):
+                    continue
+                if any(system == private or system in private.parents for system in systems):
+                    masks.extend(("--tmpfs", str(private)))
+        return masks
+
+    def _overlay_arguments(self, root: OverlayRoot) -> list[str]:
+        return [*self._directory_arguments(root.target.parent), "--dir", str(root.target),
+                "--overlay-src", str(root.lower),
+                "--overlay", str(root.upper), str(root.work), str(root.target)]
+
     def build_argv(self, spec: SandboxSpec) -> tuple[str, ...]:
         if not spec.argv or any(not item for item in spec.argv):
             raise WorldlineError("INVALID_AGENT_COMMAND", "sandbox argv must be a nonempty string array")
@@ -208,7 +233,14 @@ class BubblewrapSandbox:
             f"worldline-{spec.instance_id[:12]}",
             "--clearenv",
         ]
+        home = spec.operator_home if spec.operator_home is not None else self.paths.home
         overlay_targets = {str(root.target) for root in spec.roots}
+        # simulate overlays whole system directories (/usr, /etc, /var, /opt, /boot). They are
+        # mounted first, so the HOME and store masks below land on top of them; mounted last,
+        # as in 1.7.0's first candidate, they covered the masks and the store was readable.
+        system_targets = {*_SYSTEM_READONLY, "/boot"}
+        system_overlays = [root for root in spec.roots if str(root.target) in system_targets]
+        managed_overlays = [root for root in spec.roots if str(root.target) not in system_targets]
         for path_text in _SYSTEM_READONLY:
             if path_text in overlay_targets and not Path(path_text).is_symlink():
                 continue
@@ -219,6 +251,8 @@ class BubblewrapSandbox:
                 arguments.extend(("--symlink", os.readlink(source), path_text))
             else:
                 arguments.extend(("--ro-bind", path_text, path_text))
+        for root in system_overlays:
+            arguments.extend(self._overlay_arguments(root))
         arguments.extend(("--dev", "/dev", "--proc", "/proc"))
         arguments.extend(("--tmpfs", "/run", "--tmpfs", "/tmp"))
         # /run is a fresh tmpfs, which strands /etc/resolv.conf when it is the systemd-resolved
@@ -229,8 +263,20 @@ class BubblewrapSandbox:
             arguments.extend(("--ro-bind", str(directory), str(directory)))
         if "/var" not in overlay_targets:
             arguments.extend(("--tmpfs", "/var/tmp"))
-        arguments.extend(self._directory_arguments(spec.operator_home.parent))
-        arguments.extend(("--tmpfs", str(spec.operator_home)))
+        arguments.extend(self._directory_arguments(home.parent))
+        if not os.path.islink(home):
+            arguments.extend(("--tmpfs", str(home)))
+        real_home = Path(os.path.realpath(home))
+        if real_home != home:
+            # A HOME spelled through a link: the link's target is where the content is, and a
+            # system bind or overlay would show it there.
+            arguments.extend(self._directory_arguments(real_home.parent))
+            arguments.extend(("--tmpfs", str(real_home)))
+        # Nothing WORLDLINE runs may read its own store. Masking the HOME above covers a store
+        # under it; a dedicated account's store elsewhere (/var/lib/...) would otherwise be
+        # visible through the system binds and overlays, signing key included. Bind SOURCES
+        # resolve on the host, so the overlays and runtimes below are unaffected.
+        arguments.extend(self._store_masks(home))
         arguments.extend(self._directory_arguments(Path("/run/worldline-runtime")))
         arguments.extend(("--bind", str(spec.runtime), "/run/worldline-runtime"))
         for source, target in spec.readonly_mounts:
@@ -254,7 +300,7 @@ class BubblewrapSandbox:
             if target_text in mounted_targets:
                 raise WorldlineError("INVALID_CREDENTIAL_PROJECTION", f"duplicate projection target: {target_text}")
             mounted_targets.add(target_text)
-            arguments.extend(self._directory_arguments(projection.target.parent, stop=spec.operator_home))
+            arguments.extend(self._directory_arguments(projection.target.parent, stop=home))
             if projection.private_copy:
                 # Writable, so it must be the world's own copy inside its runtime, never a host file.
                 if not self._overlap(projection.source.resolve(), runtime_resolved):
@@ -266,17 +312,18 @@ class BubblewrapSandbox:
             else:
                 arguments.extend(("--ro-bind", str(projection.source), target_text))
 
-        for root in spec.roots:
-            arguments.extend(self._directory_arguments(root.target.parent))
-            arguments.extend(("--dir", str(root.target)))
-            arguments.extend(("--overlay-src", str(root.lower)))
-            arguments.extend(("--overlay", str(root.upper), str(root.work), str(root.target)))
+        # Managed roots last: in a single-account install they live inside the masked HOME.
+        for root in managed_overlays:
+            arguments.extend(self._overlay_arguments(root))
 
         environment = {
-            **{key: value for key, value in spec.environment.items()},
-            "HOME": str(spec.operator_home),
-            "USER": spec.operator_home.name,
-            "LOGNAME": spec.operator_home.name,
+            # The account's XDG homes name directories inside the masked HOME that the sandbox
+            # does not have; tools then use their HOME-relative defaults, where projections land.
+            **{key: value for key, value in spec.environment.items()
+               if key not in ("XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_STATE_HOME", "XDG_CACHE_HOME")},
+            "HOME": str(home),
+            "USER": home.name,
+            "LOGNAME": home.name,
             "XDG_RUNTIME_DIR": "/run/worldline-runtime",
         }
         for key, value in sorted(environment.items()):

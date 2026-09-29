@@ -3,7 +3,7 @@
 This document states plainly what WORLDLINE defends against, what it does not, and where its
 claims end. It is deliberately conservative: a guarantee is listed under "Holds" only if it was
 verified in code or demonstrated, and everything else is named as a limit rather than left
-implied. Last reviewed 2026-09-28, against release 1.6.0 (the audit of record is still
+implied. Last reviewed 2026-09-28, against release 1.7.0 (the audit of record is still
 `SECURITY-AUDIT-2026-09-02.md`; the adversarial reviews since then are summarized in
 `CHANGELOG.md`).
 
@@ -72,6 +72,39 @@ report files are never admissible.
 - **Daemon access control.** Socket is `0600` with an `SO_PEERCRED` uid check per connection and
   a bounded request envelope. The global config is rejected unless it is a regular, owner-owned,
   non-group/other-accessible file — the daemon refuses to start otherwise.
+- **Managed roots resolve through the store (1.7.0).** Capture, validation, policy loading,
+  prune and `why` read a root's content through the store's own `live/<root key>` mapping,
+  never through the registered path. That path is a link in a directory the operator owns.
+  The link must route through the mapping and the mapping must resolve inside the store, or the
+  root is refused (`LIVE_MAPPING_BROKEN`).
+- **Dedicated-account client mode (1.7.0).** Opt-in only, through the daemon's environment:
+  exactly one `WORLDLINE_CLIENT_GID` and at least one `WORLDLINE_CLIENT_UIDS` (distinct ASCII
+  decimal uids, never 0). Anything else refuses at startup with `INVALID_CLIENT_MODE`, and so
+  do a runtime directory that overlaps the store and a group the daemon is not in.
+  - The runtime directory is `0750`, the socket `0660` and `status.json` `0640`, all with that
+    group.
+  - The daemon serves its own uid and the listed ones and refuses every other peer with
+    `PEER_UID_MISMATCH`.
+  - Clients can traverse to PRIME's content, but cannot list any store directory: the path to it
+    is `0710` with the group, and everything else stays `0700`. The data directory is the gate: it
+    opens only at daemon start after the content check, and closes if content turns out unsafe.
+  - Content they can reach must be owned by the daemon and carry no other-write bit, no
+    group-write bit on an entry of the client group, and no setuid, setgid or sticky bit
+    (`CLIENT_MODE_UNSAFE_CONTENT`). This is checked at
+    collapse and return prepare, when a generation is published, and at daemon start. A client
+    group equal to the daemon's primary group is refused.
+  - `init`, `root add`, `root remove` and `switch` refuse clients
+    (`OPERATION_NEEDS_DAEMON_ACCOUNT`).
+  - The client checks the socket's `SO_PEERCRED` against `WORLDLINE_DAEMON_UID`, or its own
+    uid, before sending anything.
+  - Without the environment, the daemon is owner-only as before.
+- **The daemon's HOME and store are masked in every ordinary sandbox (1.7.0).**
+  - Agents, checks, services, `simulate`, `shell` and the materializers all see the daemon's
+    HOME as an empty tmpfs.
+  - A data, state, config or runtime directory under a system path (bound, or overlaid by
+    `simulate`) and outside that HOME is covered by its own tmpfs, mounted after the system
+    overlays.
+  - The private evaluator binds only `/usr`, `/etc` and the library directories.
 - **No shell, parameterized SQL.** No `shell=True`/`eval`/`exec`; every subprocess is an argv
   list; every SQL statement that carries data uses placeholders (the only interpolated SQL sets
   `PRAGMA user_version` from the runtime's own integer schema constants).
@@ -116,8 +149,16 @@ report files are never admissible.
   and it is the sandbox that stops one that tries. That escape was shown to fail inside the
   ordinary world/check sandbox, where user namespaces are disabled; this document does not
   extend the claim to the private evaluator's roles (limit 5).
-- **Host-side git inspection is hardened (1.0.1).** Registered repos are untrusted; git's
-  config-driven command execution is neutralized before inspection (see CHANGELOG 1.0.1).
+- **Repository inspection runs in a sandbox (1.7.0; hardened since 1.0.1).** Registered repos
+  and world repos are untrusted. Every host-side `git` process runs in its own bubblewrap
+  sandbox: no network, read-only system directories, a bounded tmpfs, a task limit, and only
+  the inspected root (read-only), a linked worktree's own git directories (read-only, bound only
+  when they are real git directories) and a private scratch directory from the host. The index
+  file is read on the host only when it lies inside those. Anything a repository's configuration
+  makes git run, such as a filter driver, reaches nothing. Before 1.7.0 a `-c` denylist was the
+  only defence, and it could not name filter drivers; that list remains as a second layer.
+  Memory used inside the sandbox is charged to the daemon's cgroup: the unit's `MemoryMax=`
+  bounds it.
 - **Release assurance of an exact commit (1.3.0; private host roster, 1.5.0).** A version is
   published only after `scripts/release_gate.py` accepts the full assurance report of the tagged
   commit, produced in the same workflow run (`docs/release-process.md`). One roster
@@ -365,6 +406,53 @@ trust you place in WORLDLINE.
    orchestrator account with administrative access (for example `sudo`) is outside the model,
    and WORLDLINE makes no claim against it. The same holds, as limit 2 says, for any process
    running as your uid outside the sandbox.
+
+7. **Client mode separates the store from its clients; it does not authorize their requests.**
+   - A listed client has every operation except the root-set changes and `switch`. That includes
+     `collapse`, `return` and `transaction commit`. The confirmation screen is a CLI prompt,
+     not a daemon-side authorization. Receipts do not record which uid asked; the daemon's log
+     does.
+   - The boundary is only as strong as the daemon's environment and account. Whoever can edit
+     the service unit can add a client uid, and the daemon account can do anything the store
+     can. The deployment must keep the unit, the install and the account out of the clients'
+     reach.
+   - Clients can stat names they already know along the path to PRIME, since the chain is
+     group-searchable. Through each entry's recorded other-read bit, they can read:
+     - PRIME's content;
+     - fork checkpoints;
+     - the staged payloads of open transactions, whose ids `transaction list` gives them.
+
+     The content's group is the daemon's primary group, and a client in that group is refused, so
+     a `0600` or `0640` file stays unreadable to them directly. Through daemon requests (`why`,
+     `show`, `inspect`) they see PRIME content whatever its modes. Earlier PRIMEs' committed
+     payloads stay readable by id until `prune`. They cannot list any store directory, and
+     reachable content refuses other-write, a group-write bit for the client group, and special bits.
+   - The routing check reads the registered root links. The daemon account therefore needs
+     search permission on the directories above them, for example the operator's HOME. Without
+     it every capture refuses, which fails closed.
+   - `worldline shell` (`SHELL_UNAVAILABLE_TO_CLIENT`) and `switch`
+     (`OPERATION_NEEDS_DAEMON_ACCOUNT`) need the daemon's own account, and refuse from clients.
+     Agent adapters mount the credential files of the account the daemon runs as, so a
+     dedicated account has no agent credentials until the deployment provides them. Job
+     supervision needs that account's systemd user manager (lingering).
+   - `worldline-relocate` proves a relocated copy's recorded locations, chains and mappings, and
+     that its account owns every entry.
+     - It does not prove the copy is complete. The copy step (as root, for overlay work
+       directories) and its comparison belong to the migration.
+     - Its check for a process holding the database open sees only processes of its own uid.
+     - Directories it cannot read (overlay work directories are `0000`) are checked for ownership
+       but not descended; the report counts them.
+   - Deployment requirements that WORLDLINE does not enforce:
+     - `RestrictSUIDSGID=yes` on the unit, and on the account's user manager (jobs run there);
+     - `MemoryMax=` on the unit, which bounds repository inspection;
+     - a `nosuid` store mount;
+     - a regular (non-system) uid for the account, so journald keeps its user journal, which job
+       supervision reads;
+     - search permission for clients above the data and runtime directories.
+   - `simulate` runs a client's argv as the daemon account, in a sandbox that masks the store and
+     HOME but shares the host network under `network.policy: shared`.
+
+     There is no supported way to add a root in the dedicated layout.
 
 ## Reporting
 

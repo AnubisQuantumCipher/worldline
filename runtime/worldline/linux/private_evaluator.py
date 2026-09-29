@@ -58,6 +58,9 @@ WORKER_BROKER_MOUNT = "/run/worldline-worker-broker.sock"
 HELPER_MOUNT = "/run/worldline-evaluator.py"
 MAX_TREE_BYTES = 268_435_456
 MAX_TREE_ENTRIES = 100_000
+# The mapped bootstrap handshake is fail-closed, so its window only has to cover a loaded host:
+# on 2026-09-28 a bootstrap under a load average near 110 became ready after 19.86 s.
+BOOTSTRAP_HANDSHAKE_SECONDS = 60
 MAX_OUTPUT_BYTES = 1_048_576
 MAX_REQUEST_BYTES = 65_536
 MAX_REQUESTS = 32
@@ -330,7 +333,7 @@ class PrivateEvaluator:
         process = self.systemd.launch_private_evaluator(
             spec.run_id, plan_path, helper, resource_properties=resource_properties)
         try:
-            deadline = time.monotonic() + 15
+            deadline = time.monotonic() + BOOTSTRAP_HANDSHAKE_SECONDS
             while not (spec.runtime / "bootstrap-ready").exists():
                 if process.launcher.poll() is not None or time.monotonic() >= deadline:
                     _refuse("mapped bootstrap did not become ready", "PRIVATE_EVALUATOR_UNAVAILABLE")
@@ -635,7 +638,7 @@ def _bootstrap(plan_path: str) -> int:
                     or _mapped_identity(mapping, 2) in (0, expected, _mapped_identity(mapping, 1))):
                 _refuse("subordinate UID/GID mapping is unavailable")
         (runtime / "bootstrap-ready").write_text("ready\n")
-        deadline = time.monotonic() + 15
+        deadline = time.monotonic() + BOOTSTRAP_HANDSHAKE_SECONDS
         while not (runtime / "bootstrap-go").exists():
             if time.monotonic() >= deadline:
                 _refuse("daemon did not acknowledge bootstrap manager properties")
