@@ -16,11 +16,11 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 import os
 from pathlib import Path
-import shutil
 from typing import Any
 
 from . import SCHEMA_VERSION
 from .model import utc_now
+from .fstree import NothingRemoved, remove_tree
 from .errors import WorldlineError
 from .model import World, WorldState
 from .paths import WorldlinePaths
@@ -41,19 +41,9 @@ def _tree_bytes(path: Path) -> int:
 
 
 def _remove_tree(path: Path) -> None:
-    # Payloads are stored read-only; make every directory writable before removal (the top
-    # directory included, or unlinking its entries fails with EACCES).
-    try:
-        os.chmod(path, 0o700)
-    except OSError:
-        pass
-    for current, directories, _files in os.walk(path):
-        for name in directories:
-            try:
-                os.chmod(os.path.join(current, name), 0o700)
-            except OSError:
-                pass
-    shutil.rmtree(path, ignore_errors=False)
+    # Payloads are stored read-only: every directory is made owner-accessible first, through
+    # its own descriptor. Changing modes by path followed links in the tree (review of 796cb02).
+    remove_tree(path)
 
 
 class Pruner:
@@ -100,7 +90,9 @@ class Pruner:
 
         referenced: set[str] = set()
         for world in worlds:
-            if world.instance_id in pruning:
+            # A pruned world can never be returned, so what it names is no one's: a payload it
+            # shared stays reclaimable once no live world names it (review of 300543c).
+            if world.instance_id in pruning or world.payload_pruned:
                 continue
             for reference in (world.payload_path, world.base_payload_path):
                 referenced.add(os.path.realpath(reference))
@@ -143,6 +135,31 @@ class Pruner:
                 "logs": log_files,
                 "bytes": sum(directories[item]["bytes"] for item in own),
             })
+        # A pruned world's overlay that is still there (a removal that failed part way, or a
+        # private evaluation's worker copies it could not open then) is offered again, so it is
+        # not left for good (review of 09f5c0b). The overlay is the world's alone; payloads are
+        # not offered again, since one may be another world's base. The world stays pruned.
+        for world in worlds:
+            if not world.payload_pruned or world.instance_id in protected or world.instance_id in active:
+                continue
+            own = []
+            overlay = self.paths.overlays / world.instance_id
+            if overlay.is_dir():
+                real = os.path.realpath(overlay)
+                if real not in directories:
+                    directories[real] = {"path": real, "bytes": _tree_bytes(overlay), "world": world.alias}
+                    own.append(real)
+            if own:
+                entries.append({
+                    "alias": world.alias,
+                    "instanceId": world.instance_id,
+                    "state": world.state.value,
+                    "finished": world.ended or world.born,
+                    "directories": own,
+                    "logs": [],
+                    "bytes": sum(directories[item]["bytes"] for item in own),
+                    "leftover": True,
+                })
         return {
             "worlds": entries,
             "directories": sorted(directories.values(), key=lambda item: item["path"]),
@@ -156,8 +173,24 @@ class Pruner:
         removed_directories: list[str] = []
         pruned: list[str] = []
         failures: list[dict[str, str]] = []
+        store = os.path.realpath(self.paths.data)
         for entry in plan["worlds"]:
             world = self.store.world(entry["instanceId"])
+            # Every directory is checked before any is removed: a world whose payload resolves
+            # outside the store keeps all of it, and stays retained (review of 4490013: removing
+            # the first directories before refusing a later one lost a payload without a record).
+            outside = [directory for directory in entry["directories"]
+                       if Path(directory).is_dir() and not os.path.realpath(directory).startswith(store + os.sep)]
+            if outside:
+                # A recorded location that resolves outside the store (a link planted in a copy,
+                # or a relocated store still pointing at its old home) is never deleted.
+                failures.extend({"path": directory, "error": f"resolves outside the store: {os.path.realpath(directory)}"}
+                                for directory in outside)
+                continue
+            partial: list[str] = []
+            untouched: list[str] = []
+            removed_here = 0
+            removed_for_world: list[str] = []
             for directory in entry["directories"]:
                 path = Path(directory)
                 if not path.is_dir():
@@ -165,11 +198,28 @@ class Pruner:
                 size = _tree_bytes(path)
                 try:
                     _remove_tree(path)
+                except NothingRemoved as exc:
+                    failures.append({"path": directory, "error": str(exc)})
+                    untouched.append(directory)
+                    continue
                 except OSError as exc:
                     failures.append({"path": directory, "error": str(exc)})
+                    partial.append(directory)
                     continue
+                removed_here += 1
+                removed_for_world.append(directory)
                 removed_bytes += size
                 removed_directories.append(directory)
+            if entry.get("leftover"):
+                continue  # already recorded as pruned; what could not be removed is offered again
+            payload = os.path.realpath(world.payload_path)
+            if os.path.isdir(payload) and payload not in removed_for_world and payload not in partial:
+                # Its own payload is whole: it could not be touched, or it is another world's base
+                # and was not offered. The world stays retained, whatever else of it went (its
+                # overlay is scratch), and the failures say why. Decided from the payload alone
+                # (reviews of 09f5c0b, c7d89f1 and 300543c: it was recorded pruned with its payload
+                # in place when the overlay's removal also failed, or when the payload was shared).
+                continue
             for log_file in entry["logs"]:
                 try:
                     os.unlink(log_file)
@@ -177,15 +227,23 @@ class Pruner:
                     pass
                 except OSError as exc:
                     failures.append({"path": log_file, "error": str(exc)})
+            # A removal that failed part way leaves the payload incomplete, so the world is recorded
+            # pruned; the event says which directories could not be removed, and a later prune
+            # offers them again as leftovers.
             world.payload_pruned = True
             world.pruned_at = utc_now()
             self.store.save_world(world)
+            reason = f"payload pruned: {len(entry['directories'])} directories, {entry['bytes']} bytes"
+            if partial or untouched:
+                kept = partial + untouched
+                reason = (f"payload pruned in part: {len(entry['directories']) - len(kept)} of "
+                          f"{len(entry['directories'])} directories removed; not removed: {', '.join(kept)}")
             self.store.append_causal_event({
                 "schemaVersion": SCHEMA_VERSION,
                 "worldInstance": world.instance_id,
                 "kind": "prune",
                 "actor": "worldline",
-                "reason": f"payload pruned: {len(entry['directories'])} directories, {entry['bytes']} bytes",
+                "reason": reason,
             })
             pruned.append(world.alias)
         return {

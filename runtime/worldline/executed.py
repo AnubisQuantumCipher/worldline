@@ -58,6 +58,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from .fstree import remove_tree
 from .errors import WorldlineError
 from .resolution import resolve_token, root_prefixes
 
@@ -121,14 +122,9 @@ def _remove_staging(path: Path) -> None:
     every (world instance, check) pair gets a fresh path so the branch is not reached, but a
     recovery path that cannot recover is not a recovery path.
     """
-    if not path.exists():
-        return
-    for directory in (p for p in [path, *path.rglob("*")] if p.is_dir()):
-        try:
-            os.chmod(directory, 0o700)
-        except OSError:
-            pass
-    shutil.rmtree(path)
+    # Every directory is opened without following links and made writable through its own
+    # descriptor: `p.is_dir()` followed a link out of the staging tree (review of 796cb02).
+    remove_tree(path)
 
 
 @dataclass(slots=True)

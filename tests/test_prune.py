@@ -6,6 +6,7 @@ from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
+from unittest import mock
 
 from worldline.errors import WorldlineError
 from worldline.model import World, WorldState
@@ -94,6 +95,307 @@ class PruneReclaimsOnlyWhatNothingRefersTo(unittest.TestCase):
             client.request("transaction.abort", {"transactionId": returned["transaction_id"]})
         finally:
             fixture.close()
+
+
+class PruneNeverDeletesOutsideTheStore(unittest.TestCase):
+    def test_a_payload_that_resolves_outside_the_store_is_kept_and_reported(self) -> None:
+        # A recorded location can resolve outside the store through a link planted in a copy, or
+        # a relocated store's leftovers. Prune reports it as a failure and deletes nothing there.
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+        try:
+            work, client = fixture.work, fixture.client
+            client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            self.assertEqual(client.request("show", {"world": "archived"})["state"], "ARCHIVED")
+            payload = Path(client.request("show", {"world": "archived"})["payload_path"])
+            outside = Path(fixture.temporary.name) / "outside-the-store"
+            # Moving a directory to another parent rewrites its "..": it and its parent must be writable.
+            parent_mode, payload_mode = payload.parent.stat().st_mode, payload.stat().st_mode
+            os.chmod(payload.parent, parent_mode | 0o700)
+            os.chmod(payload, payload_mode | 0o700)
+            os.rename(payload, outside)
+            os.chmod(outside, payload_mode)
+            payload.symlink_to(outside, target_is_directory=True)
+            os.chmod(payload.parent, parent_mode)
+            before = sorted(str(item.relative_to(outside)) for item in outside.rglob("*"))
+            self.assertTrue(before)
+
+            plan = client.request("prune", {"dryRun": True})
+            self.assertIn(str(outside), [item["path"] for item in plan["directories"]])
+            result = client.request("prune", {"dryRun": False, "confirmed": True})
+            self.assertEqual(result["state"], "PRUNED")
+            self.assertTrue(any(failure["path"] == str(outside) and "resolves outside the store" in failure["error"]
+                                for failure in result["failures"]), result["failures"])
+            self.assertNotIn(str(outside), result["directories"])
+            self.assertEqual(sorted(str(item.relative_to(outside)) for item in outside.rglob("*")), before)
+            # Not recorded as pruned: its payload is not gone (review of 796cb02).
+            self.assertNotIn("archived", result["pruned"])
+            self.assertFalse(client.request("show", {"world": "archived"})["payload_pruned"])
+            self.assertEqual(client.request("doctor", {})["storeIntegrity"]["state"], "OK")
+
+        finally:
+            fixture.close()
+
+    def test_a_world_with_any_directory_outside_the_store_keeps_all_of_them(self) -> None:
+        # Review of 4490013: the first directories were removed before a later one was refused,
+        # losing a payload without a record. Every directory is checked first now.
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+        try:
+            work, client, paths = fixture.work, fixture.client, fixture.paths
+            client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            shown = client.request("show", {"world": "archived"})
+            overlay = paths.overlays / shown["instance_id"]
+            self.assertTrue(overlay.is_dir())
+            payload = Path(shown["payload_path"])
+            outside = Path(fixture.temporary.name) / "outside-the-store"
+            parent_mode, payload_mode = payload.parent.stat().st_mode, payload.stat().st_mode
+            os.chmod(payload.parent, parent_mode | 0o700)
+            os.chmod(payload, payload_mode | 0o700)
+            os.rename(payload, outside)
+            os.chmod(outside, payload_mode)
+            payload.symlink_to(outside, target_is_directory=True)
+            os.chmod(payload.parent, parent_mode)
+            result = client.request("prune", {"dryRun": False, "confirmed": True})
+            self.assertNotIn("archived", result["pruned"])
+            self.assertTrue(overlay.is_dir())          # the directory inside the store was kept too
+            self.assertTrue(outside.is_dir())
+        finally:
+            fixture.close()
+
+    def test_links_in_a_pruned_tree_are_never_followed(self) -> None:
+        # Review of 796cb02: making each directory writable before removal followed links, so an
+        # agent's upper layer with a link to PRIME's content (or anywhere the account owns) had
+        # prune set that directory to 0700. A link inside a 0000 directory was reached too.
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+        try:
+            work, client, paths = fixture.work, fixture.client, fixture.paths
+            client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            instance = client.request("show", {"world": "archived"})["instance_id"]
+            overlay = paths.overlays / instance
+            self.assertTrue(overlay.is_dir())
+            victim = Path(fixture.temporary.name) / "victim"
+            victim.mkdir(mode=0o755)
+            os.chmod(victim, 0o755)
+            prime = Path(os.path.realpath(work))
+            prime_mode = os.stat(prime).st_mode & 0o7777
+            hidden = overlay / "hidden"
+            hidden.mkdir()
+            (overlay / "to-victim").symlink_to(victim, target_is_directory=True)
+            (hidden / "to-prime").symlink_to(prime, target_is_directory=True)
+            os.chmod(hidden, 0o000)
+            result = client.request("prune", {"dryRun": False, "confirmed": True})
+            self.assertEqual(result["failures"], [])
+            self.assertIn("archived", result["pruned"])
+            self.assertFalse(overlay.exists())
+            self.assertEqual(os.stat(victim).st_mode & 0o7777, 0o755)
+            self.assertEqual(os.stat(prime).st_mode & 0o7777, prime_mode)
+        finally:
+            fixture.close()
+
+
+class PruneRecordsOnlyWhatItRemoved(unittest.TestCase):
+    """Review of 09f5c0b: a world was recorded pruned when nothing of it had been removed, and
+    what a prune could not remove was never offered again."""
+
+    def test_untouched_worlds_stay_retained_and_leftovers_are_offered_again(self) -> None:
+        import signal
+        from worldline.core import Core
+        from worldline.fstree import NothingRemoved, remove_tree
+        from worldline.prune import Pruner
+
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+
+        def cleanup() -> None:
+            for directory, subdirectories, _files in os.walk(fixture.temporary.name):
+                for name in subdirectories:
+                    path = os.path.join(directory, name)
+                    if not os.path.islink(path):
+                        os.chmod(path, os.stat(path).st_mode | 0o700)
+            fixture.temporary.cleanup()
+
+        self.addCleanup(cleanup)
+        try:
+            client = fixture.client
+            client.request("init", {"roots": [str(fixture.work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            instance = client.request("show", {"world": "archived"})["instance_id"]
+        finally:
+            fixture.process.send_signal(signal.SIGTERM)
+            fixture.process.wait(timeout=15)
+            fixture.errors.close()
+        store = StateStore(fixture.paths, Core.shared())
+        self.addCleanup(store.close)
+        pruner = Pruner(fixture.paths, store)
+        overlay = os.path.realpath(fixture.paths.overlays / instance)
+
+        def plan() -> dict:
+            return pruner.plan(older_than_days=None, keep=None, logs=False)
+
+        # Every removal fails before anything is deleted: nothing is recorded.
+        with mock.patch("worldline.prune.remove_tree", side_effect=NothingRemoved(13, "denied", "x")):
+            result = pruner.apply(plan())
+        self.assertNotIn("archived", result["pruned"])
+        self.assertFalse(store.world(instance).payload_pruned)
+
+        # The payload goes, the overlay cannot be opened: recorded as a partial prune.
+        def everything_but_the_overlay(path, **kwargs):
+            if os.path.realpath(path) == overlay:
+                raise NothingRemoved(13, "denied", str(path))
+            remove_tree(path, **kwargs)
+
+        with mock.patch("worldline.prune.remove_tree", side_effect=everything_but_the_overlay):
+            result = pruner.apply(plan())
+        self.assertIn("archived", result["pruned"])
+        self.assertTrue(store.world(instance).payload_pruned)
+        self.assertTrue(os.path.isdir(overlay))
+
+        # The overlay is offered again, removed, and the world stays pruned.
+        leftovers = [entry for entry in plan()["worlds"] if entry.get("leftover")]
+        self.assertEqual([entry["instanceId"] for entry in leftovers], [instance])
+        result = pruner.apply({"worlds": leftovers})
+        self.assertFalse(os.path.exists(overlay))
+        self.assertTrue(store.world(instance).payload_pruned)
+        self.assertEqual([entry for entry in plan()["worlds"] if entry.get("leftover")], [])
+
+
+class PruneKeepsAWorldWhosePayloadIsWhole(unittest.TestCase):
+    def test_only_the_overlay_removed_leaves_the_world_retained(self) -> None:
+        # Review of c7d89f1: payload untouched, overlay removed, and the world was recorded pruned.
+        import signal
+        from worldline.core import Core
+        from worldline.fstree import NothingRemoved, remove_tree
+        from worldline.prune import Pruner
+
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+
+        def cleanup() -> None:
+            for directory, subdirectories, _files in os.walk(fixture.temporary.name):
+                for name in subdirectories:
+                    path = os.path.join(directory, name)
+                    if not os.path.islink(path):
+                        os.chmod(path, os.stat(path).st_mode | 0o700)
+            fixture.temporary.cleanup()
+
+        self.addCleanup(cleanup)
+        try:
+            client = fixture.client
+            client.request("init", {"roots": [str(fixture.work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            instance = client.request("show", {"world": "archived"})["instance_id"]
+        finally:
+            fixture.process.send_signal(signal.SIGTERM)
+            fixture.process.wait(timeout=15)
+            fixture.errors.close()
+        store = StateStore(fixture.paths, Core.shared())
+        self.addCleanup(store.close)
+        pruner = Pruner(fixture.paths, store)
+        overlay = os.path.realpath(fixture.paths.overlays / instance)
+
+        def only_the_overlay(path, **kwargs):
+            if os.path.realpath(path) != overlay:
+                raise NothingRemoved(13, "denied", str(path))
+            remove_tree(path, **kwargs)
+
+        with mock.patch("worldline.prune.remove_tree", side_effect=only_the_overlay):
+            result = pruner.apply(pruner.plan(older_than_days=None, keep=None, logs=False))
+        self.assertNotIn("archived", result["pruned"])
+        self.assertFalse(store.world(instance).payload_pruned)
+        self.assertFalse(os.path.exists(overlay))
+        self.assertIn(instance, [entry["instanceId"] for entry in pruner.plan(older_than_days=None, keep=None, logs=False)["worlds"]])
+
+
+class PruneDecidesFromTheWorldsOwnPayload(unittest.TestCase):
+    """Review of 300543c: a world was recorded pruned with its own payload whole when its payload
+    could not be touched and its overlay's removal failed part way, and when its payload was
+    another world's base; a payload a pruned world shared was then never reclaimed."""
+
+    def setUp(self) -> None:
+        from worldline.prune import Pruner
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-prune-own-payload-")
+        self.addCleanup(self.temporary.cleanup)
+        base = Path(self.temporary.name)
+        self.paths = WorldlinePaths(home=base / "home", data=base / "data", state=base / "state",
+                                    runtime=base / "runtime", config=base / "config")
+        self.store = StateStore(self.paths)
+        self.addCleanup(self.store.close)
+        self.pruner = Pruner(self.paths, self.store)
+
+    def world(self, alias: str, state: WorldState, base_payload: str | None = None) -> World:
+        world = World.create(alias=alias, parent_instance=None, parent_content="0" * 64, cause="m", actor="fixture",
+                             payload_path=Path("/nowhere"),
+                             base_payload_path=Path(base_payload or (self.paths.data / "generations" / "gone" / "payload")),
+                             base_root="0" * 64, root_set_hash="0" * 64, mission_hash="0" * 64)
+        world.payload_path = str(self.paths.worlds / world.instance_id / "payload")
+        (Path(world.payload_path) / "rk1").mkdir(parents=True)
+        (Path(world.payload_path) / "rk1" / "result.txt").write_text("the world's own content\n")
+        world.state, world.ended = state, world.born
+        self.store.insert_world(world)
+        (self.paths.overlays / world.instance_id / "rk1" / "upper").mkdir(parents=True)
+        (self.paths.overlays / world.instance_id / "rk1" / "upper" / "agent-output.txt").write_text("agent work\n")
+        return world
+
+    def prune(self) -> dict:
+        return self.pruner.apply(self.pruner.plan(older_than_days=None, keep=None, logs=False))
+
+    def test_a_payload_untouched_with_its_overlay_removed_in_part_stays_retained(self) -> None:
+        from worldline.fstree import NothingRemoved
+        dead = self.world("dead", WorldState.DEAD)
+        payload = os.path.realpath(dead.payload_path)
+
+        def failing(path, **kwargs):
+            if os.path.realpath(path) == payload:
+                raise NothingRemoved(13, "denied", str(path))
+            raise OSError(13, "denied part way", str(path))   # the overlay, in part
+
+        with mock.patch("worldline.prune.remove_tree", side_effect=failing):
+            result = self.prune()
+        self.assertNotIn("dead", result["pruned"])
+        self.assertFalse(self.store.world(dead.instance_id).payload_pruned)
+        self.assertTrue((Path(dead.payload_path) / "rk1" / "result.txt").exists())
+
+    def test_a_shared_payload_keeps_its_world_retained_and_is_reclaimed_later(self) -> None:
+        parent = self.world("parent", WorldState.DEAD)
+        child = self.world("child", WorldState.VALID, base_payload=parent.payload_path)
+        first = self.prune()
+        self.assertNotIn("parent", first["pruned"])                      # only its overlay went
+        self.assertFalse(self.store.world(parent.instance_id).payload_pruned)
+        self.assertTrue((Path(parent.payload_path) / "rk1" / "result.txt").exists())
+        archived = self.store.world(child.instance_id)
+        archived.state = WorldState.ARCHIVED
+        self.store.save_world(archived)
+        second = self.prune()
+        self.assertIn("parent", second["pruned"])
+        self.assertIn("child", second["pruned"])
+        self.assertFalse(os.path.exists(parent.payload_path))
+
+    def test_a_payload_only_a_pruned_world_names_is_reclaimed(self) -> None:
+        # A world recorded pruned with its payload in place (as 300543c and earlier did) no longer
+        # counts as referring to that payload.
+        parent = self.world("parent", WorldState.DEAD)
+        child = self.world("child", WorldState.ARCHIVED, base_payload=parent.payload_path)
+        marked = self.store.world(parent.instance_id)
+        marked.payload_pruned = True
+        self.store.save_world(marked)
+        result = self.prune()
+        self.assertIn("child", result["pruned"])
+        self.assertFalse(os.path.exists(parent.payload_path))
 
 
 class StoreSchemaMigrations(unittest.TestCase):

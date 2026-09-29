@@ -8,10 +8,11 @@ import signal
 
 from .app import WorldlineApplication
 from .errors import WorldlineError
+from .paths import WorldlinePaths, acquire_store_lock, close_gate_at, store_directories, store_lock_in_use
 
 
-async def _run() -> int:
-    application = WorldlineApplication.build()
+async def _run(paths: WorldlinePaths) -> int:
+    application = WorldlineApplication.build(paths)
     stopped = asyncio.Event()
     loop = asyncio.get_running_loop()
     for signum in (signal.SIGINT, signal.SIGTERM):
@@ -33,11 +34,73 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--log-level", choices=("DEBUG", "INFO", "WARNING", "ERROR"), default="INFO")
     arguments = parser.parse_args(argv)
     logging.basicConfig(level=getattr(logging, arguments.log_level), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    log = logging.getLogger("worldline.daemon")
+    _raise_descriptor_limit()
     try:
-        return asyncio.run(_run())
+        data, state = store_directories()
     except WorldlineError as exc:
-        logging.getLogger("worldline.daemon").error("%s", exc)
+        log.error("%s", exc)
         return 1
+    try:
+        # The store lock before anything is validated or built: building opens the database,
+        # migrates it and sets directory modes, which a second daemon, or one started during a
+        # relocation, must not do (review of 796cb02); and a configuration that refuses must still
+        # be able to close the gate a previous run opened (review of 4490013).
+        lock = acquire_store_lock(state, holder="worldlined")
+    except (WorldlineError, OSError) as exc:
+        log.error("%s", exc)
+        if getattr(exc, "code", None) != "DAEMON_ALREADY_RUNNING" and not store_lock_in_use(state):
+            # The lock path or the state directory is not what the daemon made, or the lock could
+            # not be taken or written, and no daemon holds it there: take clients off the store
+            # (reviews of 09f5c0b and 300543c). A lock some process holds is a running daemon's,
+            # whose gate a second start must leave alone (review of c7d89f1).
+            try:
+                close_gate_at(data)
+            except OSError:
+                log.exception("could not close the client gate")
+        elif getattr(exc, "code", None) != "DAEMON_ALREADY_RUNNING":
+            # Held, or this start cannot tell: the gate is left as a clean stop leaves it, and the
+            # log says so (review of f50bbb1).
+            log.warning("the store lock may be held by another process; the client gate is left as it was")
+        return 1
+
+    def close_gate() -> None:
+        # This process holds the store lock, so no other 1.7.1 or later daemon serves this store:
+        # a start that refused, or a daemon that failed, must not leave a previous run's gate
+        # open. Only DAEMON_ALREADY_RUNNING (an older daemon's runtime lock) leaves it alone.
+        try:
+            close_gate_at(data)
+        except OSError:
+            log.exception("could not close the client gate")
+
+    try:
+        try:
+            paths = WorldlinePaths.from_environment()
+        except WorldlineError as exc:
+            log.error("%s", exc)
+            close_gate()
+            return 1
+        return asyncio.run(_run(paths))
+    except WorldlineError as exc:
+        log.error("%s", exc)
+        if exc.code != "DAEMON_ALREADY_RUNNING":
+            close_gate()
+        return 1
+    except BaseException:
+        close_gate()
+        raise
+    finally:
+        os.close(lock)
+
+
+def _raise_descriptor_limit() -> None:
+    """Removing a tree holds a descriptor per directory level; a candidate's tree can be deep,
+    and systemd's default soft limit is 1024 (review of 4490013)."""
+    import resource
+    soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+    target = hard if hard != resource.RLIM_INFINITY else 1 << 20
+    if soft != resource.RLIM_INFINITY and soft < target:
+        resource.setrlimit(resource.RLIMIT_NOFILE, (min(target, 1 << 20), hard))
 
 
 if __name__ == "__main__":

@@ -15,12 +15,16 @@ from typing import Any, Iterable, Mapping, Sequence
 from . import SCHEMA_VERSION
 from .canonical import atomic_write_json, canonical_bytes
 from .core import Core, hash_id
+from .errors import WorldlineError
 from .manifest import display_path, path_b64
 
 _SECRET_NAME = re.compile(r"(?:TOKEN|KEY|PASSWORD|PASSWD|SECRET|CREDENTIAL|AUTH|COOKIE)", re.IGNORECASE)
+# The account's XDG_*_HOME variables are not here: they name directories inside the daemon's HOME,
+# which every sandbox masks, so no sandbox passes them (namespaces.py) and a world's recorded
+# environment must not claim it had them (review of ad64cd2).
 _SAFE_EXACT = {
     "LANG", "LANGUAGE", "TERM", "COLORTERM", "EDITOR", "VISUAL", "PAGER", "PATH",
-    "XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_CACHE_HOME", "XDG_STATE_HOME", "XDG_RUNTIME_DIR",
+    "XDG_RUNTIME_DIR",
     "RUSTUP_TOOLCHAIN", "GPR_PROJECT_PATH", "ADA_PROJECT_PATH", "VIRTUAL_ENV", "CONDA_DEFAULT_ENV",
 }
 _SAFE_PREFIXES = ("LC_", "MISE_", "ASDF_", "GNAT_", "PYENV_", "NVM_")
@@ -321,6 +325,31 @@ def capture_dependencies(
     return records
 
 
+# Deeper than any real manifest; far below the recursion canonicalisation needs.
+_DECLARED_DEPTH = 64
+
+
+def _declared_problem(value: Any) -> str | None:
+    """Why a parsed dependency group cannot be recorded, or None. It becomes part of a canonical
+    document: nested past the canonicaliser's recursion, it raised a bare RecursionError out of
+    every capture; a float (`{"x": 1.5}`) refused every capture NON_CANONICAL_JSON (review of
+    8ff1903)."""
+    stack = [(value, 1)]
+    while stack:
+        item, depth = stack.pop()
+        if depth > _DECLARED_DEPTH:
+            return f"nested deeper than {_DECLARED_DEPTH} levels"
+        if isinstance(item, dict):
+            stack.extend((child, depth + 1) for child in item.values())
+        elif isinstance(item, list):
+            stack.extend((child, depth + 1) for child in item)
+    try:
+        canonical_bytes(value)
+    except WorldlineError as exc:
+        return exc.message
+    return None
+
+
 def _dependency_record(root_key: str, root: bytes, format_name: str, files: list[bytes], core: Core) -> dict[str, Any]:
     directory = os.path.relpath(os.path.dirname(files[0]), root)
     if directory == b".":
@@ -330,10 +359,16 @@ def _dependency_record(root_key: str, root: bytes, format_name: str, files: list
         declared = _parse_dependency_group(format_name, files)
         state = "PARSED" if declared is not None else "UNAVAILABLE"
         reason = None if declared is not None else "format parser unavailable"
-    except (OSError, UnicodeError, json.JSONDecodeError, tomllib.TOMLDecodeError, TypeError, ValueError) as exc:
+    except (OSError, UnicodeError, json.JSONDecodeError, tomllib.TOMLDecodeError, TypeError, ValueError,
+            AttributeError, RecursionError) as exc:
+        # A package.json that is `[]` has no .get (review of c7d89f1); one nested deeper than the
+        # parser recurses raised out of every capture (review of 300543c).
         declared = None
         state = "UNAVAILABLE"
         reason = str(exc)
+    problem = None if declared is None else _declared_problem(declared)
+    if problem is not None:
+        declared, state, reason = None, "UNAVAILABLE", f"declared dependencies cannot be recorded: {problem}"
     return {
         "rootKey": root_key,
         "directoryB64": path_b64(directory),

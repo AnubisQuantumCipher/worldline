@@ -51,7 +51,10 @@ class DaemonClient:
                 pass
             stream = connection.makefile("rb")
             while True:
-                line = stream.readline()
+                try:
+                    line = stream.readline()
+                except ConnectionResetError:
+                    line = b""  # closed without answering: reported below as DAEMON_DISCONNECTED
                 if not line:
                     raise WorldlineError("DAEMON_DISCONNECTED", "daemon closed the request before a terminal response")
                 try:

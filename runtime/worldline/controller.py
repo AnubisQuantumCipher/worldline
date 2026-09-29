@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 from typing import Any, Callable
 import uuid
@@ -26,12 +27,13 @@ from .fork import ForkManager
 from .ghosts import GhostManager
 from .anchor import AnchorLedger
 from .prune import Pruner, require_payload
+from .linux.git import GitAdapter
 from .linux.hyprland import HyprlandAdapter
 from .linux.inotify import InotifyWatcher
 from .linux.namespaces import BubblewrapSandbox
 from .admission import AdmissionAuthority, Gate, Ledger
 from .linux.systemd import SystemdAdapter
-from .paths import WorldlinePaths
+from .paths import WorldlinePaths, deployment_facts, xattr_risks
 from .reconcile import PrimeChangeTracker
 from .returning import ReturnManager
 from .revalidate import Revalidator
@@ -50,6 +52,46 @@ _ROOT_KEY = re.compile(r"[0-9a-f]{64}")
 
 
 _LOG = logging.getLogger("worldline.controller")
+
+def _require_alternates_inside(source: bytes) -> None:
+    """Objects borrowed from outside the root (`objects/info/alternates`) are invisible to the
+    repository sandbox, so every capture of such a root refuses; say so before a capture does.
+    Judged lexically: an entry that only leaves the root through a link inside it passes here and
+    is refused by the capture itself."""
+    # Opened one component at a time without following links, like the index (review of 796cb02):
+    # the path is the candidate's to shape, and a linked `alternates` had the host read any file.
+    descriptors: list[int] = []
+    try:
+        current = os.open(source, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        descriptors.append(current)
+        for part in (b".git", b"objects", b"info"):
+            current = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=current)
+            descriptors.append(current)
+        handle = os.open(b"alternates", os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK, dir_fd=current)
+        descriptors.append(handle)
+        if not stat.S_ISREG(os.fstat(handle).st_mode):
+            return
+        entries = [line.strip() for line in os.read(handle, 65536).splitlines() if line.strip()]
+    except OSError:
+        return
+    finally:
+        for descriptor in descriptors:
+            os.close(descriptor)
+    # Judged lexically: an entry names paths the repository chose, so nothing is looked up on the
+    # host (a path on a mount that stopped answering would block the daemon) and no resolved path
+    # is echoed back (review of 09f5c0b). The sandbox binds only the root, so an entry that only
+    # reaches outside through a link inside the root is refused by the capture itself.
+    objects = os.path.join(source, b".git", b"objects")
+    root = source.rstrip(b"/")
+    for entry in entries:
+        named = os.path.normpath(entry if os.path.isabs(entry) else os.path.join(objects, entry))
+        if not (named == root or named.startswith(root + b"/")):
+            raise WorldlineError(
+                "GIT_ALTERNATES_OUTSIDE_ROOT",
+                f"{os.fsdecode(source)} borrows objects from outside itself ({os.fsdecode(entry)}), which the "
+                "repository sandbox cannot see; repack the repository (git repack -a -d) and remove the "
+                "alternates file")
+
 
 class RuntimeController:
     def __init__(
@@ -645,6 +687,7 @@ class RuntimeController:
             raise InvalidRequest("doctor accepts only refresh")
         snapshot = self.capabilities.snapshot(refresh=bool(args.get("refresh", False)))
         snapshot["rootIntegrity"] = self._root_integrity()
+        snapshot["clientMode"] = self._client_mode_report()
         snapshot["storeIntegrity"] = self._store_integrity()
         snapshot["receiptCoverage"] = self._receipt_coverage()
         snapshot["recovery"] = self._recovery_report()
@@ -693,6 +736,34 @@ class RuntimeController:
             return {"state": "DRY_RUN", **plan}
         result = self.pruner.apply(plan)
         return {"state": "PRUNED", **result, "plan": plan}
+
+    def _client_mode_report(self) -> dict[str, Any]:
+        """Whether clients are served, whether the gate into the store is open, and the host
+        facts a client-mode deployment needs that the daemon can observe (SECURITY.md limit 7)."""
+        if self.paths.client_gid is None:
+            return {"enabled": False}
+        gate: dict[str, Any]
+        try:
+            info = os.lstat(self.paths.data)
+            mode = stat.S_IMODE(info.st_mode)
+            acl, _capability = xattr_risks(self.paths.data)
+            if mode == 0o710 and info.st_gid == self.paths.client_gid and not acl:
+                gate = {"state": "OPEN"}
+            elif mode == 0o700 and not acl:
+                gate = {"state": "CLOSED"}
+            else:
+                # Neither: something opened it another way (review of 796cb02 found 0711, 0755 and
+                # a foreign group all reported CLOSED). The next ensure() resets it to 0700.
+                gate = {"state": "UNSAFE", "mode": f"{mode:04o}", "gid": info.st_gid, "acl": acl}
+        except OSError as exc:
+            gate = {"state": "UNKNOWN", "reason": str(exc)}
+        return {
+            "enabled": True,
+            "clientGid": self.paths.client_gid,
+            "clientUids": list(self.paths.client_uids),
+            "gate": gate,
+            "deployment": deployment_facts(self.paths.data),
+        }
 
     def _anchor_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if args:
@@ -847,10 +918,13 @@ class RuntimeController:
                 # Exactly what every capture enforces (review of ff201cd: the doctor said OK for a
                 # root whose live mapping resolved outside the store, which every capture refuses).
                 try:
-                    self.paths.root_source(root)
+                    source = self.paths.root_source(root)
+                    if root["kind"] == "repo":
+                        GitAdapter._require_top_level_repository(source)
+                        _require_alternates_inside(source)
                 except WorldlineError as exc:
                     state = "BROKEN"
-                    detail = exc.message
+                    detail = f"{exc.code}: {exc.message}"
                     healthy = False
             roots.append({
                 "path": root["display_path"],

@@ -126,6 +126,10 @@ class WorldlineDaemon:
         os.umask(0o077)
         self.paths.ensure()
         self._acquire_singleton_lock()
+        # Closed once this start is the store's only daemon (a second start closed a running
+        # daemon's gate before it was refused: review of 796cb02), and before anything that
+        # checks what clients would reach. worldlined closes it too if the start refuses.
+        self.paths.close_client_gate()
         if self._recover is not None:
             result = self._recover()
             if inspect.isawaitable(result):
@@ -375,6 +379,21 @@ class WorldlineDaemon:
                 self.store.set_meta("watchState", "DEGRADED")
                 self.store.set_meta("watchError", exc.as_dict())
                 _LOG.warning("PRIME re-capture refused; status degraded: %s: %s", exc.code, exc.message)
+            except (OSError, sqlite3.Error) as exc:
+                # Storage keeps its own name and errno (DISK_FULL, STORAGE_ERROR: review of f50bbb1)
+                # and status stays readable (review of 0fa069c: an unreadable file in a root failed
+                # every status request while the store stayed dirty).
+                _LOG.warning("PRIME re-capture failed on storage; status degraded: %s", exc)
+                self.store.set_meta("watchState", "DEGRADED")
+                self.store.set_meta("watchError", storage_error(exc).as_dict())
+            except Exception as exc:  # noqa: BLE001
+                # Anything else the re-capture raised is reported the same way: status that failed
+                # with INTERNAL_ERROR on every request left the operator nothing to read while the
+                # store stayed dirty (review of 8ff1903).
+                _LOG.exception("PRIME re-capture failed; status degraded")
+                self.store.set_meta("watchState", "DEGRADED")
+                self.store.set_meta("watchError", {"code": "RECAPTURE_FAILED",
+                                                   "message": f"{type(exc).__name__}: {exc}"[:2000], "details": {}})
             else:
                 if self.store.get_meta("watchError") is not None:
                     self.store.set_meta("watchError", None)
