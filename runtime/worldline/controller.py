@@ -30,6 +30,7 @@ from .prune import Pruner, require_payload
 from .linux.git import GitAdapter
 from .linux.hyprland import HyprlandAdapter
 from .linux.inotify import InotifyWatcher
+from .model import WorldState
 from .linux.namespaces import BubblewrapSandbox
 from .admission import AdmissionAuthority, Gate, Ledger
 from .linux.systemd import SystemdAdapter
@@ -692,6 +693,7 @@ class RuntimeController:
         snapshot["receiptCoverage"] = self._receipt_coverage()
         snapshot["recovery"] = self._recovery_report()
         snapshot["openTransactions"] = self._open_transactions()
+        snapshot["promotionReadiness"] = self._promotion_readiness(measure_foreign=bool(args.get("refresh", False)))
         snapshot["unsupervisedWorlds"] = self._unsupervised_worlds()
         snapshot["storeUsage"] = self.pruner.usage()
         snapshot["networkPolicy"] = {"policy": self.config.network_policy, "allow": list(self.config.network_allow)}
@@ -792,6 +794,44 @@ class RuntimeController:
             for item in self.transactions.listing()
             if item["state"] in {"PREPARED", "AUTHORIZED"}
         ]
+
+    def _promotion_readiness(self, *, measure_foreign: bool) -> dict[str, Any]:
+        """Read-only census of what 1.9.0 promotion will refuse and why (plan step 10): pending
+        transactions (recovery aborts them at the next start), watch coverage, the foreign-write
+        measurement (with --refresh), and every VALID world's standing -- fresh, needing
+        revalidation, or not revalidatable for a missing payload, base or declared manifest."""
+        report: dict[str, Any] = {"pendingTransactions": [item["transactionId"] for item in self._open_transactions()]}
+        report.update(self.transactions.readiness(measure_foreign=measure_foreign))
+        try:
+            current = current_requirements(self.store, self.config, self.core)["requirementHash"]
+        except WorldlineError as exc:
+            current, report["requirementError"] = None, exc.code
+        roots = self.store.roots()
+        worlds: dict[str, list[dict[str, Any]]] = {"fresh": [], "needsRevalidation": [], "notRevalidatable": []}
+        for world in self.store.worlds():
+            if world.state is not WorldState.VALID or world.world_kind == "system":
+                continue
+            row = {"instanceId": world.instance_id, "alias": world.alias}
+            payload = Path(world.payload_path) if world.payload_path else None
+            base = Path(world.base_payload_path) if world.base_payload_path else None
+            missing = []
+            if payload is None or not payload.is_dir():
+                missing.append("payload")
+            if base is None or not base.is_dir():
+                missing.append("base")
+            if payload is not None and payload.is_dir() and any(
+                    not (payload / "manifests" / f"{root['root_key']}.json").is_file() for root in roots):
+                missing.append("manifest")
+            context, source = effective_context(self.store, world)
+            evaluated = context.get("requirementHash") if isinstance(context, dict) else None
+            if missing:
+                worlds["notRevalidatable"].append({**row, "missing": missing})
+            elif evaluated is not None and evaluated == current:
+                worlds["fresh"].append({**row, "evidence": source})
+            else:
+                worlds["needsRevalidation"].append({**row, "evidence": source if context else None})
+        report["validWorlds"] = worlds
+        return report
 
     def _unsupervised_worlds(self) -> list[dict[str, Any]]:
         # After the startup sweep this should be empty; if it is not, something created a

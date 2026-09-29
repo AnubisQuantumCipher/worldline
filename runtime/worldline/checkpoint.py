@@ -53,6 +53,13 @@ class CheckpointManager:
         parent = self.store.prime()
         if parent is None or parent.content_id is None:
             raise WorldlineError("NO_PRIME", "fork requires an initialized PRIME")
+        if self.watcher is None and self.store.roots():
+            # 1.9.0: without a PRIME watcher nothing tells this freeze that PRIME moved while it
+            # was copied, and the collapse decision would refuse the world later anyway
+            # (MEASUREMENT_ABSENT). Refuse at the start instead.
+            raise WorldlineError("PRIME_WATCH_UNAVAILABLE",
+                                 "PRIME is not being watched (inotify unavailable or no root mappable); "
+                                 "`worldline doctor` shows why")
         generation_id = str(uuid.uuid4())
         generation = self.paths.generations / generation_id
         payload = generation / "payload"

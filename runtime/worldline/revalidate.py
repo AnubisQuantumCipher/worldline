@@ -37,7 +37,7 @@ from .paths import secure_directory
 from .project import ProjectConfig
 from .store import StateStore
 from .trusted import trusted_inline
-from .validation import build_context, current_requirements, resolve_verifiers
+from .validation import content_root_set, build_context, current_requirements, resolve_verifiers
 
 
 class Revalidator:
@@ -145,6 +145,11 @@ class Revalidator:
         )
         primary_target = Path(os.fsdecode(bytes(primary["path"])))
         private_id: str | None = None
+        # What this evaluation examines, identified before any check runs and verified again
+        # after the last one (1.9.0). Promotion compares it with the bytes that would go live;
+        # a tree that moved under the checks is refused rather than attributed to either state.
+        examined = self._source_manifests(source_dir, roots)
+        examined_content_root = content_root_set(examined, self.core)
         try:
             # THREE snapshots, kept apart:
             #   overlays        the bytes UNDER EVALUATION -- source_dir (for a revalidation, the
@@ -184,7 +189,7 @@ class Revalidator:
                 # change an examiner's judgment just as file bytes can. Ordinary preparatory
                 # checks may run, but their scratch changes cannot be credited to an unchanged
                 # source candidate.
-                baseline = self._source_manifests(source_dir, roots)
+                baseline = examined
                 private_id = str(uuid.uuid4())
                 snapshot, binding, manifests = self._capture_private_input(
                     validation_id, private_id, overlays, roots, primary_target)
@@ -216,6 +221,9 @@ class Revalidator:
             if private_id is not None:
                 self._discard(self.paths.overlays / private_id)
             self._discard(self.paths.overlays / validation_id)
+        if content_root_set(self._source_manifests(source_dir, roots), self.core) != examined_content_root:
+            raise WorldlineError("REVALIDATION_INPUT_CHANGED",
+                                 "the tree under evaluation changed while the checks ran")
         # The roster is the one promotion will impose: the current requirement's required checks
         # plus protected-paths when the policy protects anything, judged by the kernel.
         required, empty_declared = required_roster(current)
@@ -246,6 +254,7 @@ class Revalidator:
             evaluated_at=utc_now(),
             core=self.core,
             source=source,
+            examined_content_root=examined_content_root,
         )
         results_by_id = {r["id"]: r for r in results}
         roster = roster_decision(required, results_by_id, declarations,
@@ -267,11 +276,13 @@ class Revalidator:
             "evaluatedAt": context["evaluatedAt"],
             "requirementHash": current["requirementHash"],
             "contextHash": context["contextHash"],
+            "examinedContentRoot": examined_content_root,
             # Execution-identity fields are preserved, not projected away: promotion reads the
             # executedVerifierSet identity, executionBinding and evaluation from the evaluation
             # that speaks for the world, and for a revalidation that is THIS entry.
             "results": [{"id": r.get("id"), "format": r.get("format"),
-                         "profile": r.get("profile", "legacy"),
+                         # Stated only when the record states it; never defaulted (1.9.0).
+                         **({"profile": r["profile"]} if "profile" in r else {}),
                          "status": r.get("status"), "required": r.get("required"),
                          "reason": r.get("reason"), "executedVerifierSet": r.get("executedVerifierSet"),
                          "executionBinding": r.get("executionBinding"), "evaluation": r.get("evaluation"),

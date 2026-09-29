@@ -201,6 +201,13 @@ class InotifyWatcher:
         if external:
             self._callback(event)
 
+    def watched_roots(self) -> list[tuple[str, bytes]]:
+        """The roots whose top-level watch is live right now, as (root key, path). A root whose
+        watch was dropped (IN_IGNORED: the directory went away or was replaced) is not here, so
+        the collapse decision sees partial coverage instead of assuming it (1.9.0)."""
+        with self._state_lock:
+            return sorted((root_key, root) for root_key, root, relative in self._watches.values() if relative == b"")
+
     @contextmanager
     def owned_writes(self) -> Iterator[None]:
         with self._read_lock:

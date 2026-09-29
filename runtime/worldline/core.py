@@ -46,15 +46,24 @@ COLLAPSE_DECISIONS: dict[int, str] = {
     12: "EXECUTION_EVIDENCE_INCOMPLETE",
     13: "VERIFIER_EXECUTION_IDENTITY_MISMATCH",
     14: "CHECKPOINT_UNWITNESSED",
+    15: "IDENTITY_ABSENT",
+    16: "MEASUREMENT_ABSENT",
+    17: "PRIME_CHANGED",
+    18: "WATCH_INCOMPLETE",
+    19: "CHECKPOINT_MISMATCH",
+    20: "EVIDENCE_SUBJECT_MISMATCH",
     255: "INVALID_REQUEST",
 }
 
 # The ABI generation this runtime was written against (wl_abi_version). Record layouts and the
 # meaning of every exported code belong to it; a library reporting another is refused at load.
-ABI_VERSION = 4
+ABI_VERSION = 5
 
 # Which evidence speaks for the bytes that would become live (Worldline.Collapse.Evaluation_Mode).
 EVALUATION_MODES = {"CANDIDATE_EVALUATION": 0, "CHECKPOINT_RETURN": 1}
+COLLAPSE_PHASES = {"COMMIT": 0, "PREPARE": 1}
+# A measurement the runtime made, or could not make (Worldline.Collapse.Measurement).
+MEASUREMENTS = {"UNMEASURED": 0, "NONE_FOUND": 1, "FOUND": 2}
 ROSTER_MAX = 4096
 
 # The declaration order is part of the new C ABI. Unknown raw observations
@@ -83,41 +92,56 @@ _ERROR_NAMES = {
 C_HASH = ctypes.c_uint8 * HASH_BYTES
 
 
+class COptionalHash(ctypes.Structure):
+    _fields_ = [("present", ctypes.c_uint8), ("value", C_HASH)]
+
+
+class COptionalCounter(ctypes.Structure):
+    _fields_ = [("present", ctypes.c_uint8), ("value_le", ctypes.c_uint8 * 8)]
+
+
+# Layout 5 (1.9.0), in the order of Worldline.Collapse_Wire.Raw_Request.
+COLLAPSE_HASH_FIELDS = (
+    "expected_parent",
+    "candidate_parent",
+    "expected_subject",
+    "evidence_subject",
+    "expected_base",
+    "candidate_base",
+    "expected_delta",
+    "candidate_delta",
+    "expected_root_set",
+    "candidate_root_set",
+    "expected_staged_root",
+    "actual_staged_root",
+    "staged_content_root",
+    "tested_root",
+    "current_requirement",
+    "evaluated_requirement",
+    "declared_verifiers",
+    "executed_verifiers",
+    "staged_evaluated_requirement",
+    "staged_executed_verifiers",
+    "staged_examined_root",
+    "expected_checkpoint",
+    "witnessed_checkpoint",
+    "registered_watch_set",
+    "watched_set",
+)
+
+
 class CCollapseRequest(ctypes.Structure):
     _fields_ = [
         ("candidate_state", ctypes.c_uint8),
-        ("has_conflicts", ctypes.c_uint8),
-        ("has_foreign_managed_writes", ctypes.c_uint8),
-        ("reserved", ctypes.c_uint8),
-        ("expected_parent", C_HASH),
-        ("candidate_parent", C_HASH),
-        ("expected_owner", C_HASH),
-        ("candidate_owner", C_HASH),
-        ("expected_base", C_HASH),
-        ("candidate_base", C_HASH),
-        ("expected_delta", C_HASH),
-        ("candidate_delta", C_HASH),
-        ("expected_root_set", C_HASH),
-        ("candidate_root_set", C_HASH),
-        ("expected_staged_root", C_HASH),
-        ("actual_staged_root", C_HASH),
-        ("expected_validation_context", C_HASH),
-        ("candidate_validation_context", C_HASH),
-        ("tested_root", C_HASH),
-        ("staged_content_root", C_HASH),
-        ("execution_evidence_complete", ctypes.c_uint8),
-        ("reserved_2", ctypes.c_uint8),
-        ("reserved_3", ctypes.c_uint8),
-        ("reserved_4", ctypes.c_uint8),
-        ("expected_executed_verifier", C_HASH),
-        ("actual_executed_verifier", C_HASH),
-        # Layout 4 (1.8.0).
+        ("phase", ctypes.c_uint8),
         ("evaluation_mode", ctypes.c_uint8),
-        ("checkpoint_witnessed", ctypes.c_uint8),
-        ("reserved_5", ctypes.c_uint8),
-        ("reserved_6", ctypes.c_uint8),
-        ("expected_checkpoint", C_HASH),
-        ("witnessed_checkpoint", C_HASH),
+        ("conflicts", ctypes.c_uint8),
+        ("foreign_writes", ctypes.c_uint8),
+        ("roster_complete", ctypes.c_uint8),
+        ("staged_roster_complete", ctypes.c_uint8),
+        *[(name, COptionalHash) for name in COLLAPSE_HASH_FIELDS],
+        ("generation_before", COptionalCounter),
+        ("generation_after", COptionalCounter),
     ]
 
 
@@ -143,7 +167,8 @@ class CEvidencePresence(ctypes.Structure):
 
 # wl_layout_size selectors, and the ctypes record each one must match byte for byte.
 _LAYOUTS = ((0, CCollapseRequest), (1, CEvaluationObservations),
-            (2, CEvaluationClassification), (3, CEvidencePresence))
+            (2, CEvaluationClassification), (3, CEvidencePresence),
+            (4, COptionalHash), (5, COptionalCounter))
 
 
 @dataclass(frozen=True, slots=True)
@@ -184,45 +209,50 @@ class EvidencePresence:
     bundle_identified: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True, slots=True, kw_only=True)
 class CollapseInput:
+    """Every input of the collapse decision, with no defaults (1.9.0).
+
+    An identity is 32 bytes or None, and None means ABSENT: the kernel never treats two absent
+    values as equal, and a zero digest is refused before it reaches the kernel, so no sentinel
+    can stand in for a value. Each pair is produced from two different sources; the kernel's
+    Collapse_Request comments name them.
+    """
+
     candidate_state: str
-    has_conflicts: bool
-    has_foreign_managed_writes: bool
-    expected_parent: bytes
-    candidate_parent: bytes
-    expected_owner: bytes
-    candidate_owner: bytes
-    expected_base: bytes
-    candidate_base: bytes
-    expected_delta: bytes
-    candidate_delta: bytes
-    expected_root_set: bytes
-    candidate_root_set: bytes
-    expected_staged_root: bytes
-    actual_staged_root: bytes
-    # Evidence freshness (1.3.0). Defaults equal so callers that do not carry evidence
-    # (tests of other properties) keep their meaning; the transaction manager always sets them.
-    expected_validation_context: bytes = bytes(32)
-    candidate_validation_context: bytes = bytes(32)
-    tested_root: bytes = bytes(32)
-    staged_content_root: bytes = bytes(32)
-    # Execution-time verifier identity (1.5.0). The defaults REFUSE, and that is the whole point
-    # of choosing them: the fields above default to equal values so callers testing unrelated
-    # properties keep their meaning, and applying that convention here would mean a caller who
-    # forgot to supply an execution identity got a perfectly provable equality of two zeroes.
-    # A missing measurement must not become a satisfied one, so the default is "incomplete", and
-    # the two identities differ from each other so that even a caller who forces completeness
-    # without supplying identities is refused.
-    execution_evidence_complete: bool = False
-    expected_executed_verifier: bytes = bytes(32)
-    actual_executed_verifier: bytes = b"\xff" * 32
-    # 1.8.0. Candidate evaluation is the default; a checkpoint return must say so and carry a
-    # witness. The witness defaults REFUSE for the same reason as the execution identity above.
-    mode: str = "CANDIDATE_EVALUATION"
-    checkpoint_witnessed: bool = False
-    expected_checkpoint: bytes = bytes(32)
-    witnessed_checkpoint: bytes = b"\xff" * 32
+    phase: str
+    mode: str
+    conflicts: str
+    foreign_writes: str
+    roster_complete: bool
+    staged_roster_complete: bool
+    expected_parent: bytes | None
+    candidate_parent: bytes | None
+    expected_subject: bytes | None
+    evidence_subject: bytes | None
+    expected_base: bytes | None
+    candidate_base: bytes | None
+    expected_delta: bytes | None
+    candidate_delta: bytes | None
+    expected_root_set: bytes | None
+    candidate_root_set: bytes | None
+    expected_staged_root: bytes | None
+    actual_staged_root: bytes | None
+    staged_content_root: bytes | None
+    tested_root: bytes | None
+    current_requirement: bytes | None
+    evaluated_requirement: bytes | None
+    declared_verifiers: bytes | None
+    executed_verifiers: bytes | None
+    staged_evaluated_requirement: bytes | None
+    staged_executed_verifiers: bytes | None
+    staged_examined_root: bytes | None
+    expected_checkpoint: bytes | None
+    witnessed_checkpoint: bytes | None
+    registered_watch_set: bytes | None
+    watched_set: bytes | None
+    generation_before: int | None
+    generation_after: int | None
 
 
 def _library_candidates() -> Iterable[Path]:
@@ -534,45 +564,43 @@ class Core:
             raise WorldlineError("CORE_INVALID_EVALUATION", "proved core rejected the roster")
         return code == 1
 
+    @staticmethod
+    def _optional_hash(value: bytes | None, name: str) -> COptionalHash:
+        if value is None:
+            return COptionalHash(0, C_HASH())
+        if not isinstance(value, (bytes, bytearray)) or len(value) != HASH_BYTES:
+            raise WorldlineError("INVALID_HASH", f"{name} is not a 32-byte identity")
+        if not any(value):
+            # A zero digest is the old sentinel for "nothing"; it must be stated as absent.
+            raise WorldlineError("INVALID_HASH", f"{name} is an all-zero digest; pass None for absent")
+        return COptionalHash(1, C_HASH.from_buffer_copy(bytes(value)))
+
+    @staticmethod
+    def _optional_counter(value: int | None, name: str) -> COptionalCounter:
+        if value is None:
+            return COptionalCounter(0, (ctypes.c_uint8 * 8)())
+        if type(value) is not int or not 0 <= value < 2 ** 64:
+            raise WorldlineError("INVALID_EVALUATION", f"{name} is not an unsigned 64-bit counter")
+        return COptionalCounter(1, (ctypes.c_uint8 * 8)(*value.to_bytes(8, "little")))
+
     def collapse_decide(self, value: CollapseInput) -> str:
+        if not isinstance(value, CollapseInput):
+            raise WorldlineError("INVALID_EVALUATION", "collapse input must be a CollapseInput")
         try:
             state = STATE_CODES[value.candidate_state]
-        except KeyError as exc:
-            raise WorldlineError("INVALID_STATE", f"unknown candidate state: {value.candidate_state}") from exc
-        try:
+            phase = COLLAPSE_PHASES[value.phase]
             mode = EVALUATION_MODES[value.mode]
+            conflicts = MEASUREMENTS[value.conflicts]
+            foreign = MEASUREMENTS[value.foreign_writes]
         except KeyError as exc:
-            raise WorldlineError("INVALID_EVALUATION", f"unknown evaluation mode: {value.mode}") from exc
+            raise WorldlineError("INVALID_EVALUATION", f"unknown collapse category: {exc.args[0]}") from exc
         request = CCollapseRequest(
-            state,
-            int(value.has_conflicts),
-            int(value.has_foreign_managed_writes),
-            0,
-            self._array(value.expected_parent),
-            self._array(value.candidate_parent),
-            self._array(value.expected_owner),
-            self._array(value.candidate_owner),
-            self._array(value.expected_base),
-            self._array(value.candidate_base),
-            self._array(value.expected_delta),
-            self._array(value.candidate_delta),
-            self._array(value.expected_root_set),
-            self._array(value.candidate_root_set),
-            self._array(value.expected_staged_root),
-            self._array(value.actual_staged_root),
-            self._array(value.expected_validation_context),
-            self._array(value.candidate_validation_context),
-            self._array(value.tested_root),
-            self._array(value.staged_content_root),
-            self._flag(value.execution_evidence_complete, "execution evidence completeness"),
-            0, 0, 0,
-            self._array(value.expected_executed_verifier),
-            self._array(value.actual_executed_verifier),
-            mode,
-            self._flag(value.checkpoint_witnessed, "checkpoint witness"),
-            0, 0,
-            self._array(value.expected_checkpoint),
-            self._array(value.witnessed_checkpoint),
+            state, phase, mode, conflicts, foreign,
+            self._flag(value.roster_complete, "roster completeness"),
+            self._flag(value.staged_roster_complete, "staged roster completeness"),
+            *[self._optional_hash(getattr(value, name), name) for name in COLLAPSE_HASH_FIELDS],
+            self._optional_counter(value.generation_before, "generation_before"),
+            self._optional_counter(value.generation_after, "generation_after"),
         )
         code = int(self._lib.wl_collapse_decide(ctypes.byref(request)))
         return COLLAPSE_DECISIONS.get(code, f"UNKNOWN_{code}")

@@ -205,15 +205,18 @@ class CheckDeclaration:
     """
 
     format: str | None
-    profile: str
+    profile: str | None
     bundle_declared: bool
+    # WORLDLINE's own results are identified by origin and carry no profile (1.9.0); a policy
+    # check's record must state its profile and is not constrained by origin.
+    origin: str | None = None
 
 
 # Results WORLDLINE produces itself rather than from a policy check. Their ids are reserved in
 # project configs, so a policy cannot declare a check that shadows one.
 ENGINE_DECLARATIONS: dict[str, CheckDeclaration] = {
-    "agent": CheckDeclaration("exit", "legacy", False),
-    "protected-paths": CheckDeclaration("engine", "legacy", False),
+    "agent": CheckDeclaration("exit", None, False, origin="agent"),
+    "protected-paths": CheckDeclaration("engine", None, False, origin="engine"),
 }
 
 
@@ -255,12 +258,12 @@ def check_declarations(requirement: Mapping[str, Any] | None) -> dict[str, Check
     declared: dict[str, CheckDeclaration] = {}
     for item in canonical.get("checks") or ():
         if isinstance(item, Mapping) and isinstance(item.get("id"), str) and item["id"]:
-            profile = item.get("profile", "legacy")
-            declared[item["id"]] = CheckDeclaration(
-                item.get("format") if isinstance(item.get("format"), str) else None,
-                profile if isinstance(profile, str) else "",
-                item["id"] in bundles,
-            )
+            # The canonical policy always states the profile (validation.canonical_checks); a
+            # check without one has no declaration rather than a defaulted one (1.9.0).
+            profile = item.get("profile")
+            if not isinstance(profile, str) or not isinstance(item.get("format"), str):
+                continue
+            declared[item["id"]] = CheckDeclaration(item["format"], profile, item["id"] in bundles)
     if canonical.get("protected"):
         declared["protected-paths"] = ENGINE_DECLARATIONS["protected-paths"]
     return declared
@@ -284,6 +287,15 @@ def required_roster(requirement: Mapping[str, Any] | None) -> tuple[list[str], b
     return required, isinstance(policy.get("sourceSha256"), str) and bool(policy.get("sourceSha256"))
 
 
+def _declaration_matches(result: Mapping[str, Any], declared: CheckDeclaration | None) -> bool:
+    """The record is the kind of result the declaration names, with no default filling a gap."""
+    if declared is None or declared.format is None or result.get("format") != declared.format:
+        return False
+    if declared.origin is not None:
+        return result.get("origin") == declared.origin and "profile" not in result
+    return isinstance(result.get("profile"), str) and result["profile"] == declared.profile
+
+
 def evaluation_presence(result: Mapping[str, Any], declared: CheckDeclaration | None) -> EvidencePresence:
     """Typed evidence facts for one record. Each is a question about a specific field, so an
     empty or partial record cannot pass by being non-empty."""
@@ -294,12 +306,7 @@ def evaluation_presence(result: Mapping[str, Any], declared: CheckDeclaration | 
         record_identified=isinstance(identifier, str) and bool(identifier),
         verdict_recorded=isinstance(result.get("status"), str),
         binding_established=execution_binding(result) != "UNESTABLISHED",
-        declaration_matches=(
-            declared is not None
-            and declared.format is not None
-            and result.get("format") == declared.format
-            and result.get("profile", "legacy") == declared.profile
-        ),
+        declaration_matches=_declaration_matches(result, declared),
         bundle_identified=declared is not None and (
             not declared.bundle_declared or (isinstance(identity, str) and bool(identity))),
     )

@@ -25,6 +25,7 @@ from worldline.store import StateStore
 from worldline.transaction import CollapseTransaction
 
 from validation_support import DECLARED_EMPTY_POLICY, attach_fresh_context
+from watch_support import watched  # noqa: E402
 
 _TRANSACTION_TABLE = {
     "PREPARED": {"AUTHORIZED", "DENIED", "ABORTED"},
@@ -219,7 +220,7 @@ class MeaningfulParentCheck(unittest.TestCase):
         (self.work / "state.txt").write_text("prime", encoding="utf-8")
         (self.work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
         self.roots.register([self.work], confirmed=True)
-        self.transaction = CollapseTransaction(self.paths, self.store, core=self.core)
+        self.transaction = watched(CollapseTransaction(self.paths, self.store, core=self.core), self.paths, self.store)
 
     def tearDown(self) -> None:
         self.store.close()
@@ -239,6 +240,9 @@ class MeaningfulParentCheck(unittest.TestCase):
         (candidate_directory / root_key / "state.txt").write_text(value, encoding="utf-8")
         base_manifest = Manifest.capture(base_directory / root_key, logical_root=logical, root_key=root_key, kind=root["kind"], core=self.core)
         candidate_manifest = Manifest.capture(candidate_directory / root_key, logical_root=logical, root_key=root_key, kind=root["kind"], core=self.core)
+        # A finalized world declares its manifests; promotion reads them as the tested bytes.
+        (candidate_directory / "manifests").mkdir(mode=0o700, exist_ok=True)
+        candidate_manifest.save(candidate_directory / "manifests" / f"{root_key}.json")
         delta = Delta.compute_all({root_key: base_manifest}, {root_key: candidate_manifest}, self.core)
         parent = self.store.prime()
         world = World.create(

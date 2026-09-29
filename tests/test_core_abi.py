@@ -11,6 +11,7 @@ import tempfile
 import unittest
 
 from worldline.core import CollapseInput, Core
+from worldline.errors import WorldlineError
 
 
 class CoreAbiTests(unittest.TestCase):
@@ -55,45 +56,87 @@ class CoreAbiTests(unittest.TestCase):
         )
 
     def test_every_collapse_denial_and_transition_boundary(self) -> None:
-        good = bytes([1]) * 32
-        bad = bytes([2]) * 32
+        # ABI generation 5: every identity is typed and optional, and every measurement is
+        # tri-state. One good commit-phase request, then each input moved on its own.
+        def h(byte: int) -> bytes:
+            return bytes([byte]) * 32
+
         request = CollapseInput(
-            candidate_state="VALID",
-            has_conflicts=False,
-            has_foreign_managed_writes=False,
-            expected_parent=good,
-            candidate_parent=good,
-            expected_owner=good,
-            candidate_owner=good,
-            expected_base=good,
-            candidate_base=good,
-            expected_delta=good,
-            candidate_delta=good,
-            expected_root_set=good,
-            candidate_root_set=good,
-            expected_staged_root=good,
-            actual_staged_root=good,
-            execution_evidence_complete=True,
-            expected_executed_verifier=bytes([9]) * 32,
-            actual_executed_verifier=bytes([9]) * 32,
+            candidate_state="VALID", phase="COMMIT", mode="CANDIDATE_EVALUATION",
+            conflicts="NONE_FOUND", foreign_writes="NONE_FOUND",
+            roster_complete=True, staged_roster_complete=False,
+            expected_parent=h(1), candidate_parent=h(1),
+            expected_subject=h(2), evidence_subject=h(2),
+            expected_base=h(3), candidate_base=h(3),
+            expected_delta=h(4), candidate_delta=h(4),
+            expected_root_set=h(5), candidate_root_set=h(5),
+            expected_staged_root=h(6), actual_staged_root=h(6),
+            staged_content_root=h(7), tested_root=h(7),
+            current_requirement=h(8), evaluated_requirement=h(8),
+            declared_verifiers=h(9), executed_verifiers=h(9),
+            staged_evaluated_requirement=None, staged_executed_verifiers=None, staged_examined_root=None,
+            expected_checkpoint=None, witnessed_checkpoint=None,
+            registered_watch_set=h(10), watched_set=h(10),
+            generation_before=41, generation_after=41,
         )
         self.assertEqual(self.core.collapse_decide(request), "AUTHORIZED")
+        bad = h(0xEE)
         cases = (
             (replace(request, candidate_state="DEAD"), "INVALID_CANDIDATE"),
             (replace(request, candidate_parent=bad), "PARENT_MISMATCH"),
-            (replace(request, candidate_owner=bad), "OWNER_MISMATCH"),
+            (replace(request, evidence_subject=bad), "EVIDENCE_SUBJECT_MISMATCH"),
             (replace(request, candidate_base=bad), "BASE_MISMATCH"),
             (replace(request, candidate_delta=bad), "DELTA_MISMATCH"),
             (replace(request, candidate_root_set=bad), "ROOT_SET_MISMATCH"),
             (replace(request, actual_staged_root=bad), "STAGED_ROOT_MISMATCH"),
-            (replace(request, candidate_validation_context=bad), "VALIDATION_CONTEXT_MISMATCH"),
+            (replace(request, evaluated_requirement=bad), "VALIDATION_CONTEXT_MISMATCH"),
+            (replace(request, executed_verifiers=bad), "VERIFIER_EXECUTION_IDENTITY_MISMATCH"),
+            (replace(request, roster_complete=False), "EXECUTION_EVIDENCE_INCOMPLETE"),
             (replace(request, staged_content_root=bad), "STAGED_UNTESTED"),
-            (replace(request, has_conflicts=True), "CONFLICT"),
-            (replace(request, has_foreign_managed_writes=True), "FOREIGN_MANAGED_WRITE"),
+            (replace(request, conflicts="FOUND"), "CONFLICT"),
+            (replace(request, foreign_writes="FOUND"), "FOREIGN_MANAGED_WRITE"),
+            (replace(request, foreign_writes="UNMEASURED"), "MEASUREMENT_ABSENT"),
+            (replace(request, conflicts="UNMEASURED"), "MEASUREMENT_ABSENT"),
+            (replace(request, generation_after=None), "MEASUREMENT_ABSENT"),
+            (replace(request, watched_set=None), "MEASUREMENT_ABSENT"),
+            (replace(request, generation_after=42), "PRIME_CHANGED"),
+            (replace(request, watched_set=bad), "WATCH_INCOMPLETE"),
+            (replace(request, expected_parent=None), "IDENTITY_ABSENT"),
+            (replace(request, expected_parent=None, candidate_parent=None), "IDENTITY_ABSENT"),
+            (replace(request, evidence_subject=None), "IDENTITY_ABSENT"),
+            (replace(request, actual_staged_root=None), "IDENTITY_ABSENT"),
+            (replace(request, tested_root=None), "STAGED_UNTESTED"),
         )
         for supplied, expected in cases:
             with self.subTest(expected=expected):
                 self.assertEqual(self.core.collapse_decide(supplied), expected)
+        # Prepare phase: no second capture yet, so the staged-root pair is not compared.
+        self.assertEqual(self.core.collapse_decide(replace(request, phase="PREPARE", actual_staged_root=None)), "AUTHORIZED")
+        # The staged evaluation covers the staged bytes only when it ran the current
+        # requirement, with a complete roster, on exactly those bytes.
+        staged = replace(request, tested_root=bad, staged_evaluated_requirement=h(8),
+                         staged_roster_complete=True, staged_executed_verifiers=h(9), staged_examined_root=h(7))
+        self.assertEqual(self.core.collapse_decide(staged), "AUTHORIZED")
+        # The staged block never stands in for the candidate's own evidence.
+        self.assertEqual(self.core.collapse_decide(replace(staged, roster_complete=False)), "EXECUTION_EVIDENCE_INCOMPLETE")
+        self.assertEqual(self.core.collapse_decide(replace(staged, evaluated_requirement=bad)), "VALIDATION_CONTEXT_MISMATCH")
+        for broken in (replace(staged, staged_roster_complete=False), replace(staged, staged_examined_root=bad),
+                       replace(staged, staged_evaluated_requirement=bad), replace(staged, staged_executed_verifiers=None)):
+            with self.subTest(staged=broken):
+                self.assertEqual(self.core.collapse_decide(broken), "STAGED_UNTESTED")
+        # Checkpoint return: the witness decides, never a candidate roster.
+        checkpoint = replace(request, mode="CHECKPOINT_RETURN", roster_complete=False,
+                             evaluated_requirement=None, executed_verifiers=None,
+                             expected_checkpoint=h(11), witnessed_checkpoint=h(11))
+        self.assertEqual(self.core.collapse_decide(checkpoint), "AUTHORIZED")
+        self.assertEqual(self.core.collapse_decide(replace(checkpoint, witnessed_checkpoint=None)), "CHECKPOINT_UNWITNESSED")
+        self.assertEqual(self.core.collapse_decide(replace(checkpoint, witnessed_checkpoint=bad)), "CHECKPOINT_MISMATCH")
+        # OWNER_MISMATCH is retired: no request reaches it.
+        self.assertNotIn("OWNER_MISMATCH", {self.core.collapse_decide(supplied) for supplied, _ in cases})
+        # A zero digest is the old sentinel for "nothing"; the encoder refuses it.
+        with self.assertRaises(WorldlineError) as zero:
+            self.core.collapse_decide(replace(request, tested_root=bytes(32)))
+        self.assertEqual(zero.exception.code, "INVALID_HASH")
         self.assertTrue(self.core.transition_allowed("MUTABLE", "FINALIZING"))
         self.assertTrue(self.core.transition_allowed("FINALIZING", "VALID"))
         self.assertFalse(self.core.transition_allowed("DEAD", "VALID"))

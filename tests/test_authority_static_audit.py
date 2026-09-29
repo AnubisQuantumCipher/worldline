@@ -1,4 +1,5 @@
-"""Static audit (1.8.0): the promotion decision has no independent Python definition.
+"""Static audit (1.8.0, 1.9.0): the promotion decision has no independent Python definition,
+and (1.9.0) no module that feeds it states an absent identity as a value.
 
 Every comparison with a verdict ("PASS" or "COMPLETED") in the modules that decide or feed
 promotion, and every read of a saved verdict field, is listed below per function with a count
@@ -31,10 +32,6 @@ ALLOWED_COMPARISONS = {
     ("finalize.py", "evaluation_record"): (1,
         "the Python mapping of raw fields to the kernel's finite categories (the declared"
         " unproved boundary)"),
-    ("transaction.py", "prepare"): (1,
-        "staged-merge revalidation outcome selects tested_root := staged_content_root; the outcome"
-        " is itself the kernel roster verdict of revalidate._evaluate, and the tested=staged"
-        " obligation is Phase 1 item 1"),
     ("validation.py", "effective_evidence"): (1,
         "selects which evaluation speaks for a world (Phase 1 item 5, one effective evaluation);"
         " promotion still recomputes every check of the selected evaluation in the kernel"),
@@ -158,6 +155,92 @@ class NoPythonAdmissibility(unittest.TestCase):
         self.assertIn("evaluation_roster_complete", calls("finalize.py", "roster_decision"))
         self.assertIn("evaluation_admissible", calls("finalize.py", "evaluation_record"))
         self.assertIn("evaluation_classify", calls("finalize.py", "evaluation_record"))
+
+
+# 1.9.0 (typed absence): the modules that produce collapse inputs never state "nothing" as a
+# value. An identity that could not be established is None and reaches the kernel as absent.
+PROMOTION_MODULES = ("transaction.py", "finalize.py", "revalidate.py", "validation.py", "returning.py",
+                     "checkpoint.py", "executed.py", "core.py")
+
+
+# (module, enclosing function) -> (how many, why it is not a stand-in identity).
+ALLOWED_SENTINELS = {
+    ("executed.py", "bundle_identity"): (1,
+        "the input encoding of the verifier-set digest: a member with empty content hashes as 32"
+        " zero bytes inside the digest, never a value handed to the kernel; the formula is the"
+        " released identity of every recorded executedVerifierSet"),
+}
+
+
+def sentinels(module: str, root: Path = RUNTIME) -> list[tuple[str, str, int, str]]:
+    """Every spelling of a stand-in identity, in source order: a zero or 0xff digest
+    (bytes(32), b"\\x00" * 32, "0" * 64), a fallback to the no-bundle token
+    (`x or NO_BUNDLE_IDENTITY`), and a defaulted evidence profile (`.get("profile", ...)`)."""
+    tree = ast.parse((root / module).read_text(encoding="utf-8"))
+    found: list[tuple[str, str, int, str]] = []
+
+    def spelling(node: ast.AST) -> str | None:
+        if (isinstance(node, ast.Call) and getattr(node.func, "id", None) == "bytes" and len(node.args) == 1
+                and isinstance(node.args[0], ast.Constant) and node.args[0].value == 32):
+            return "bytes(32)"
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):
+            for unit, count in ((node.left, node.right), (node.right, node.left)):
+                if (isinstance(unit, ast.Constant) and isinstance(unit.value, (bytes, str)) and len(unit.value) == 1
+                        and isinstance(count, ast.Constant) and count.value in (32, 64)):
+                    return f"{unit.value!r} * {count.value}"
+        if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or) and any(
+                isinstance(value, ast.Name) and value.id == "NO_BUNDLE_IDENTITY" for value in node.values[1:]):
+            return "or NO_BUNDLE_IDENTITY"
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "get"
+                and len(node.args) == 2 and isinstance(node.args[0], ast.Constant) and node.args[0].value == "profile"):
+            return ".get('profile', default)"
+        return None
+
+    def visit(node: ast.AST, function: str) -> None:
+        for child in ast.iter_child_nodes(node):
+            name = child.name if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)) else function
+            text = spelling(child)
+            if text is not None:
+                found.append((module, name, child.lineno, text))
+            visit(child, name)
+
+    visit(tree, "<module>")
+    return sorted(found, key=lambda hit: hit[2])
+
+
+class NoSentinelIdentities(unittest.TestCase):
+    def test_promotion_modules_state_no_identity_as_a_value(self) -> None:
+        sites = Counter((module, function) for name in PROMOTION_MODULES for module, function, _line, _text in sentinels(name))
+        self.assertEqual(dict(sites), {key: count for key, (count, _why) in ALLOWED_SENTINELS.items()})
+
+    def test_the_audit_sees_the_spellings_it_claims_to(self) -> None:
+        import tempfile
+        source = (
+            "def a():\n    return hash_id(bytes(32))\n"
+            "def b():\n    return b'\\xff' * 32\n"
+            "def c():\n    return 'sha256:' + '0' * 64\n"
+            "def d(x):\n    return x or NO_BUNDLE_IDENTITY\n"
+            "def e(item):\n    return item.get('profile', 'legacy')\n"
+            "def f(item):\n    return item.get('profile')\n"
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            probe = Path(temporary) / "probe.py"
+            probe.write_text(source, encoding="utf-8")
+            hits = sentinels(probe.name, Path(temporary))
+        self.assertEqual([text for _module, _function, _line, text in hits],
+                         ["bytes(32)", "b'\\xff' * 32", "'0' * 64", "or NO_BUNDLE_IDENTITY", ".get('profile', default)"])
+
+    def test_collapse_input_has_no_defaults(self) -> None:
+        import dataclasses
+        from worldline.core import CollapseInput
+        fields = dataclasses.fields(CollapseInput)
+        self.assertTrue(fields)
+        for field in fields:
+            with self.subTest(field=field.name):
+                self.assertIs(field.default, dataclasses.MISSING)
+                self.assertIs(field.default_factory, dataclasses.MISSING)
+        with self.assertRaises(TypeError):
+            CollapseInput(candidate_state="VALID")  # every other input missing
 
 
 if __name__ == "__main__":

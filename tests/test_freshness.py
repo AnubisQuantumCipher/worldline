@@ -35,7 +35,8 @@ from worldline.validation import differences, requirement_hash
 from freshness_support import (
     EXAM_CHECK, EXAM_IMPORTING, EXAM_V1, EXAM_V2, EXTRA_CHECK, HELPER_V1, P0, P0_PROTECTED, P1, SLOW_EXAM, FreshnessLab, isolated_paths, policy, synthetic_candidate, tree_bytes,
 )
-from validation_support import DECLARED_EMPTY_POLICY, attach_fresh_context
+from validation_support import DECLARED_EMPTY_POLICY, agent_pass_result, attach_fresh_context
+from watch_support import watched  # noqa: E402
 
 
 def _unchanged(test: unittest.TestCase, lab: FreshnessLab, before: dict[str, bytes], prime_before: dict, receipts_before: int) -> None:
@@ -247,7 +248,7 @@ class D_ChangeAfterPreparation(unittest.TestCase):
             (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             (work / "state.txt").write_text("prime", encoding="utf-8")
             RootManager(paths, store, core=core, toolchains=()).register([work], confirmed=True)
-            transaction = CollapseTransaction(paths, store, core=core)
+            transaction = watched(CollapseTransaction(paths, store, core=core), paths, store)
             candidate = synthetic_candidate(paths, store, core, "cand", {"state.txt": "candidate"})
             attach_fresh_context(store, candidate, core=core)
             prepared = transaction.prepare(candidate.alias)
@@ -280,19 +281,30 @@ class E_ReplayAndSubstitution(unittest.TestCase):
         (self.work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
         (self.work / "state.txt").write_text("prime", encoding="utf-8")
         RootManager(self.paths, self.store, core=self.core, toolchains=()).register([self.work], confirmed=True)
-        self.transaction = CollapseTransaction(self.paths, self.store, core=self.core)
+        self.transaction = watched(CollapseTransaction(self.paths, self.store, core=self.core), self.paths, self.store)
 
     def tearDown(self) -> None:
         self.store.close()
         self.temporary.cleanup()
 
     def _refused(self, world, code: str) -> WorldlineError:
-        before = tree_bytes(self.work)
+        before, listed = tree_bytes(self.work), self.transaction.listing()
         with self.assertRaises(WorldlineError) as raised:
             self.transaction.prepare(world.alias)
         self.assertEqual(raised.exception.code, code)
         self.assertEqual(tree_bytes(self.work), before)
-        self.assertEqual(self.transaction.listing(), [])
+        self.assertEqual(self.transaction.listing(), listed)
+        return raised.exception
+
+    def _denied(self, world, decision: str) -> WorldlineError:
+        # A kernel refusal: a DENIED record, PRIME untouched, no receipt.
+        before, receipts = tree_bytes(self.work), len(self.store.receipts())
+        with self.assertRaises(ConflictError) as raised:
+            self.transaction.prepare(world.alias)
+        self.assertEqual(raised.exception.details["decision"], decision)
+        self.assertEqual(self.store.transaction_record(raised.exception.details["transactionId"])["state"], "DENIED")
+        self.assertEqual(tree_bytes(self.work), before)
+        self.assertEqual(len(self.store.receipts()), receipts)
         return raised.exception
 
     def test_missing_corrupted_and_foreign_contexts_are_refused(self) -> None:
@@ -300,11 +312,12 @@ class E_ReplayAndSubstitution(unittest.TestCase):
         beta = synthetic_candidate(self.paths, self.store, self.core, "beta", {"state.txt": "b"})
         # missing (legacy 1.2 world)
         self._refused(beta, "EVIDENCE_CONTEXT_MISSING")
-        # substitution: alpha's context on beta
+        # substitution: alpha's intact context on beta. 1.9.0: the kernel decides the evidence
+        # subject (beta's row against the context's own binding), not a Python string check.
         alpha_context = attach_fresh_context(self.store, alpha, core=self.core)
-        beta.evidence = {"validationContext": dict(alpha_context)}
+        beta.evidence = {"checks": [agent_pass_result()], "validationContext": dict(alpha_context)}
         self.store.save_world(beta)
-        self.assertEqual(self._refused(beta, "EVIDENCE_CONTEXT_INVALID").details["boundTo"], alpha.instance_id)
+        self._denied(beta, "EVIDENCE_SUBJECT_MISMATCH")
         # corrupted: a re-bound copy whose hash no longer matches
         forged = {**alpha_context, "candidate": {**alpha_context["candidate"], "instanceId": beta.instance_id}}
         beta.evidence = {"validationContext": forged}
@@ -399,12 +412,16 @@ class F_UntestedMergedResult(unittest.TestCase):
             self.assertEqual(prepared["decision"], "AUTHORIZED")
             self.assertNotEqual(prepared["untested_paths"], [])
             self.assertEqual(prepared["staged_validation"]["outcome"], "PASS")
-            self.assertEqual(prepared["tested_root"], prepared["staged_content_root"])
+            # 1.9.0: the tested root stays what the candidate's own evidence examined; the
+            # staged evaluation covers the staged bytes because it examined exactly them.
+            self.assertNotEqual(prepared["tested_root"], prepared["staged_content_root"])
+            self.assertEqual(prepared["staged_validation"]["examinedContentRoot"], prepared["staged_content_root"])
             committed = lab.commit(prepared["transaction_id"])
             self.assertEqual(committed["state"], "COMMITTED")
             binding = _last_binding(lab)
             self.assertEqual(binding["stagedValidation"]["outcome"], "PASS")
-            self.assertEqual(binding["testedRoot"], binding["stagedContentRoot"])
+            self.assertNotEqual(binding["testedRoot"], binding["stagedContentRoot"])
+            self.assertEqual(binding["stagedValidation"]["examinedContentRoot"], binding["stagedContentRoot"])
             self.assertEqual(binding["prepareRequirementHash"], binding["commitRequirementHash"])
             self.assertEqual((lab.work / "notes.txt").read_text(encoding="utf-8"), "n2\n")
             self.assertEqual((lab.work / "candidate.txt").read_text(encoding="utf-8"), "candidate")
@@ -417,13 +434,18 @@ class F_UntestedMergedResult(unittest.TestCase):
             core = Core.shared()
             store = StateStore(paths, core)
             work = Path(temporary) / "work"; work.mkdir()
+            (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             (work / "state.txt").write_text("prime", encoding="utf-8")
             (work / "other.txt").write_text("one", encoding="utf-8")
-            RootManager(paths, store, core=core, toolchains=()).register([work], confirmed=True)
-            transaction = CollapseTransaction(paths, store, core=core)
+            roots = RootManager(paths, store, core=core, toolchains=())
+            roots.register([work], confirmed=True)
+            transaction = watched(CollapseTransaction(paths, store, core=core), paths, store)
             candidate = synthetic_candidate(paths, store, core, "cand", {"state.txt": "candidate"})
             attach_fresh_context(store, candidate, core=core)
             (work / "other.txt").write_text("two", encoding="utf-8")  # PRIME moves, no conflict
+            # The watcher reports the write; it becomes a PRIME generation, not a foreign write.
+            store.set_meta("dirty", True)
+            roots.reconcile()
             before = tree_bytes(work)
             with self.assertRaises(ConflictError) as raised:
                 transaction.prepare(candidate.alias)
@@ -921,9 +943,10 @@ class L_SecondReviewRepairs(unittest.TestCase):
             work = root / "work"; work.mkdir()
             (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             (work / "state.txt").write_text("prime", encoding="utf-8")
-            RootManager(paths, store, core=core, toolchains=()).register([work], confirmed=True)
-            transaction = CollapseTransaction(paths, store, core=core)
-            returns = ReturnManager(paths, store, CheckpointManager(paths, store, core=core), transaction, core=core)
+            roots = RootManager(paths, store, core=core, toolchains=())
+            roots.register([work], confirmed=True)
+            transaction = watched(CollapseTransaction(paths, store, core=core), paths, store)
+            returns = ReturnManager(paths, store, watched(CheckpointManager(paths, store, core=core), paths, store), transaction, core=core)
             key = store.roots()[0]["root_key"]
             w = synthetic_candidate(paths, store, core, "w", {"state.txt": "w"})
             attach_fresh_context(store, w, core=core)
@@ -937,6 +960,10 @@ class L_SecondReviewRepairs(unittest.TestCase):
                 os.chmod(p, stat.S_IMODE(p.stat().st_mode) | 0o200)
             (live / "backdoor.txt").write_text("never evaluated by any check\n", encoding="utf-8")
             self.assertTrue((Path(w.payload_path) / key / "backdoor.txt").is_file())
+            # The daemon's watcher reports that write, PRIME goes dirty and is reconciled into a
+            # generation before the next fork (1.9.0: an unreported one is FOREIGN_MANAGED_WRITE).
+            store.set_meta("dirty", True)
+            roots.reconcile()
             x = synthetic_candidate(paths, store, core, "x", {"state.txt": "x"})
             attach_fresh_context(store, x, core=core)
             self.assertEqual(transaction.commit(transaction.prepare("x").transaction_id)["state"], "COMMITTED")
