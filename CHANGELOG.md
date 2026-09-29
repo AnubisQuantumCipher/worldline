@@ -12,17 +12,23 @@ need revalidation before collapse, as after any release: the runtime changed.
   dies before its payload exists leaves a retained world (DEAD, DEGRADED) with no payload
   directory; the production store under rehearsal had six. 1.7.1's dry run said nothing about
   them, and its real run rewrote the copy and then refused in verification ("retained world
-  payloads are missing from the new store"), so such a store could not be relocated at all. The
-  relocation now records, while planning and before anything is written, which retained worlds'
-  payloads are already absent from the copy, reports them in dry and real runs alike
-  (`payloadsAbsentBeforeRelocation`: count, and each world's alias, instance and state), and
-  verification requires every payload that was present before to be present after. A payload
-  that disappears during relocation still refuses.
-
-### Known limits
-
-- `prune` never offers a world whose payload is absent and that has no logs, so such worlds stay
-  recorded (and are reported by every relocation) until removed by hand.
+  payloads are missing from the new store"), so such a store could not be relocated at all.
+  - While planning, before anything is written, the relocation measures which retained worlds'
+    payloads are absent from the copy. A DEAD or DEGRADED world whose payload is absent from the
+    copy, and, where the old store is visible to the relocating account, from the old store too,
+    is reported (`payloadsAbsentBeforeRelocation`) and not required by verification, whose
+    verdict then reads `PRESENT_EXCEPT_NEVER_CREATED`.
+  - Any other missing payload (a world that can still be returned to, collapsed or revalidated,
+    or a payload the old store still has) is a lost or incomplete copy: it is reported
+    (`payloadsMissingFromCopy`, with the reason) and the real run refuses before writing
+    anything. The first candidate of this release exempted every absent payload, whatever the
+    world's state (review of `24b511d`).
+  - A rerun on a copy whose rows were already rewritten exempts nothing, since a payload lost by
+    the first run would otherwise read as never there: re-stage a fresh copy instead.
+  - A payload that disappears after planning still refuses in verification.
+  - Reports list the first 50 worlds of each kind and count them all.
+  - A store that predates `payload_pruned` (schema 1) is read, not refused with an
+    `OperationalError`.
 
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 

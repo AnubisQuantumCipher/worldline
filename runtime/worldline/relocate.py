@@ -9,7 +9,8 @@ old prefixes to the new ones and proves the result:
 
 - every row of the six location columns lies under the new prefixes;
 - the live mapping and every prepared mapping resolve inside the new store, and every retained
-  world payload exists there;
+  world payload that was in the copy before relocation exists there (a DEAD or DEGRADED world
+  whose payload never existed is reported, not required; any other missing payload refuses);
 - the causal and receipt chains replay through the proved kernel;
 - nothing the daemon dereferences still names the old store. Any other mention of an old prefix
   is classified. Content (payload trees, world upper layers), hashed records (causal events,
@@ -22,7 +23,9 @@ The old copy is never opened for writing. Rolling back is starting the old daemo
 Run it as the account that will own the store (never root), on a copy that account already owns,
 with no daemon serving it: each is checked, and every rewrite is planned and every planning refusal
 raised before anything is written. The final verification (chains, mappings, payloads) runs after
-the writes; if it refuses, the copy stays rewritten, the old copy is intact, and a rerun is safe. It does not re-point the operator's root links; `worldline doctor`
+the writes; if it refuses, the copy stays rewritten and the old copy is intact. A rerun on that
+copy is safe, but exempts no missing payload: re-stage a fresh copy to relocate a store that holds
+DEAD or DEGRADED worlds without a payload. It does not re-point the operator's root links; `worldline doctor`
 (rootIntegrity) shows them once the daemon runs.
 """
 from __future__ import annotations
@@ -275,19 +278,46 @@ class Relocation:
 
     # -- the three kinds of persisted location
 
-    def _payloads_absent(self, connection: sqlite3.Connection) -> list[dict[str, str]]:
-        """Retained worlds whose payload is not in the copy before anything is rewritten: a fork
-        that died before its payload existed (a production store had six). The relocation cannot
-        lose what was never there, so these are reported, by dry and real runs alike, and
-        verification requires only the payloads that were present (1.7.1 refused the store after
-        rewriting it: rehearsal of 1.7.1)."""
-        absent = []
-        for instance, alias, state, payload in connection.execute(
-                "SELECT instance_id, alias, state, payload_path FROM worlds WHERE payload_pruned=0 ORDER BY rowid"):
+    # A fork that dies before its payload exists leaves a retained world in one of these states.
+    # Any other retained world (VALID, ARCHIVED, COLLAPSED, ...) can be returned to, collapsed or
+    # revalidated, so its payload must be there (review of 24b511d).
+    _PAYLOAD_MAY_NEVER_HAVE_EXISTED = frozenset({"DEAD", "DEGRADED"})
+
+    def _payloads_absent(self, connection: sqlite3.Connection) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+        """Retained worlds whose payload is not in the copy, measured before anything is rewritten:
+        (exempt, missing). A DEAD or DEGRADED world whose payload is absent from the copy, and, where
+        the old store is visible, from the old store too, is a fork that died before its payload
+        existed (a production store had six): the relocation cannot lose what was never there, so
+        it is reported and verification does not require it (1.7.1 refused such a store after
+        rewriting it: rehearsal of 1.7.1). Any other missing payload is a lost or incomplete copy
+        and refuses while planning. On a rerun (the copy's rows already name the new store) nothing
+        is exempt: a payload the first run lost would otherwise read as never there."""
+        columns = {row[1] for row in connection.execute("PRAGMA table_info(worlds)")}
+        query = "SELECT instance_id, alias, state, payload_path FROM worlds"
+        if "payload_pruned" in columns:   # absent from a store that never ran 1.2.0 or later
+            query += " WHERE payload_pruned=0"
+        new_data = str(self.new_data).rstrip("/") + "/"
+        exempt: list[dict[str, str]] = []
+        missing: list[dict[str, str]] = []
+        rows = connection.execute(query + " ORDER BY rowid").fetchall()
+        # What the copy's own rows say, lexically: a row already naming the new store was rewritten.
+        rerun = any(payload.startswith(new_data) for *_rest, payload in rows)
+        for instance, alias, state, payload in rows:
             mapped = os.fsdecode(self._map(os.fsencode(payload), "worlds.payload_path"))
-            if not os.path.isdir(mapped):
-                absent.append({"instanceId": instance, "alias": alias, "state": state})
-        return absent
+            if os.path.isdir(mapped):
+                continue
+            entry = {"instanceId": instance, "alias": alias, "state": state}
+            # False when the old store is not visible to this account (unknown): the state rule
+            # then decides alone.
+            in_old = not rerun and os.path.isdir(payload)
+            if rerun or state not in self._PAYLOAD_MAY_NEVER_HAVE_EXISTED or in_old:
+                entry["reason"] = ("rerun on a rewritten copy" if rerun else
+                                   f"a {state} world needs its payload"
+                                   if state not in self._PAYLOAD_MAY_NEVER_HAVE_EXISTED else "present in the old store")
+                missing.append(entry)
+            else:
+                exempt.append(entry)
+        return exempt, missing
 
     def _plan_database(self, connection: sqlite3.Connection) -> list[tuple[str, str, int, str]]:
         """Every location row's new value, computed (and refused) before anything is written."""
@@ -857,7 +887,7 @@ class Relocation:
             record_columns = self._scan_database(connection, skip_locations=True, records=True)
             found, refused = self._scan()
             walk = self._walk_copy()
-            absent = self._payloads_absent(connection)
+            absent, lost = self._payloads_absent(connection)
             unsafe, unsafe_sample = self._live_unsafe_for_clients()
             report = {
                 "locationRows": {f"{table}.{column}": sum(1 for row in database_plan if row[:2] == (table, column))
@@ -868,6 +898,7 @@ class Relocation:
                 **walk,
                 "liveContentUnsafeForClients": {"count": unsafe, "sample": unsafe_sample},
                 "payloadsAbsentBeforeRelocation": {"count": len(absent), "sample": absent[:50]},
+                "payloadsMissingFromCopy": {"count": len(lost), "sample": lost[:50]},
             }
             if dry_run:
                 connection.execute("ROLLBACK")
@@ -878,6 +909,10 @@ class Relocation:
                 raise _refuse("the copy names the old store where it cannot be rewritten, holds entries "
                               "its account does not own, holds a mount, a file linked outside it or a "
                               "directory it cannot read", report)
+            if lost:
+                # Before anything is written (review of 24b511d: a VALID world's payload missing from
+                # the copy was relocated and reported PRESENT).
+                raise _refuse("retained world payloads are missing from the copy", report["payloadsMissingFromCopy"])
             self._lock_still_held(lock)
             for table, column, rowid, mapped in database_plan:
                 connection.execute(f"UPDATE {table} SET {column}=? WHERE rowid=?", (mapped, rowid))
@@ -966,7 +1001,8 @@ class Relocation:
                 store.close()
         finally:
             shutil.rmtree(scratch, ignore_errors=True)
-        return {"chains": chains, "roots": "RESOLVED", "payloads": "PRESENT",
+        return {"chains": chains, "roots": "RESOLVED",
+                "payloads": "PRESENT" if not absent_before else "PRESENT_EXCEPT_NEVER_CREATED",
                 "payloadsAbsentBeforeRelocation": len(absent_before)}
 
 

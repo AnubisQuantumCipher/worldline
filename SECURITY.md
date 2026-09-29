@@ -500,9 +500,12 @@ trust you place in WORLDLINE.
        On btrfs a held file with the same inode number in another subvolume of the same
        filesystem reads as a holder and refuses the relocation.
      - Every retained world's payload that is in the copy before relocation must be there after
-       it. A retained world whose payload was already absent (a fork that died before it had
-       one) is reported (`payloadsAbsentBeforeRelocation`, 1.7.2), not refused: the relocation
-       cannot lose what was never there.
+       it. Only a DEAD or DEGRADED world whose payload is absent from the copy (and, where the
+       old store is visible, from the old store) is reported as never created
+       (`payloadsAbsentBeforeRelocation`, 1.7.2); any other missing payload refuses before
+       anything is written (`payloadsMissingFromCopy`), and a rerun on a rewritten copy exempts
+       nothing. Where the old store is not visible, "never created" rests on the world's state
+       alone.
      - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and
        nothing reads a path back out of it) and counts it; a mention of the old store in any
        other database column refuses.

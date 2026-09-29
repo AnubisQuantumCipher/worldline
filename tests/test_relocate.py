@@ -695,44 +695,109 @@ class RelocateAStore(unittest.TestCase):
             self.relocation().run(dry_run=True)
         self.assertIn("open in another process", caught.exception.message)
 
-    def _world_without_payload(self, alias: str) -> Path:
-        """Make `alias` in the copy what a fork that died before its payload existed leaves: a
-        retained DEAD world with no payload directory. Returns where the payload would be."""
-        connection = sqlite3.connect(self.new.database)
+    def _world_without_payload(self, alias: str, state: str = "DEAD", *, old_too: bool = True) -> Path:
+        """Make `alias` a retained world in `state` whose payload is absent from the copy and, with
+        `old_too`, from the old store as well: what a fork that died before its payload existed
+        leaves. Returns where the copy's payload would be."""
+        for database in (self.new.database, self.old.database):
+            connection = sqlite3.connect(database)
+            try:
+                (payload,) = connection.execute("SELECT payload_path FROM worlds WHERE alias=?", (alias,)).fetchone()
+                connection.execute("UPDATE worlds SET state=? WHERE alias=?", (state, alias))
+                connection.commit()
+            finally:
+                connection.close()
+        copy = Path(str(self.new.data) + payload[len(str(self.old.data)):])
+        for directory in (copy, Path(payload)) if old_too else (copy,):
+            _open_directories(directory)
+            shutil.rmtree(directory)
+        return copy
+
+    def _payload_rows(self) -> list[str]:
+        connection = sqlite3.connect(f"file:{self.new.database}?mode=ro", uri=True)
         try:
-            (payload,) = connection.execute("SELECT payload_path FROM worlds WHERE alias=?", (alias,)).fetchone()
-            connection.execute("UPDATE worlds SET state='DEAD' WHERE alias=?", (alias,))
-            connection.commit()
+            return [row[0] for row in connection.execute("SELECT payload_path FROM worlds ORDER BY rowid")]
         finally:
             connection.close()
-        copy = Path(str(self.new.data) + payload[len(str(self.old.data)):])
-        _open_directories(copy)
-        shutil.rmtree(copy)
-        return copy
 
     def test_a_retained_world_that_never_had_a_payload_is_reported_not_refused(self) -> None:
         # Rehearsal of 1.7.1 on a copy of a production store: six DEAD or DEGRADED worlds whose
         # forks died before a payload existed made verification refuse, after the copy had been
         # rewritten; the dry run had said nothing.
-        self._world_without_payload("sibling")
+        self._world_without_payload("sibling", "DEAD")
         planned = self.relocation().run(dry_run=True)
         self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["count"], 1)
         self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["sample"][0]["alias"], "sibling")
         self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["sample"][0]["state"], "DEAD")
+        self.assertEqual(planned["payloadsMissingFromCopy"]["count"], 0)
         result = self.relocation().run()
         self.assertEqual(result["state"], "RELOCATED")
         self.assertEqual(result["payloadsAbsentBeforeRelocation"]["count"], 1)
+        self.assertEqual(result["verification"]["payloads"], "PRESENT_EXCEPT_NEVER_CREATED")
         self.assertEqual(result["verification"]["payloadsAbsentBeforeRelocation"], 1)
 
-    def test_a_payload_that_was_there_before_must_still_be_there(self) -> None:
-        # What was absent is recorded before anything is rewritten; any other missing payload is
-        # still a relocation loss.
-        self._world_without_payload("sibling")
-        with mock.patch.object(Relocation, "_payloads_absent", return_value=[]):
+    def test_a_returnable_world_missing_from_the_copy_refuses_before_anything_is_written(self) -> None:
+        # Review of 24b511d: a VALID world's payload missing from the copy only was relocated and
+        # reported PRESENT; revalidate and collapse then failed on it.
+        self._world_without_payload("sibling", "VALID", old_too=False)
+        planned = self.relocation().run(dry_run=True)
+        self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["count"], 0)
+        self.assertEqual(planned["payloadsMissingFromCopy"]["count"], 1)
+        self.assertEqual(planned["payloadsMissingFromCopy"]["sample"][0]["reason"], "a VALID world needs its payload")
+        before = self._payload_rows()
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation().run()
+        self.assertIn("missing from the copy", caught.exception.message)
+        self.assertEqual(self._payload_rows(), before)                # nothing rewritten
+
+    def test_a_dead_world_whose_payload_the_old_store_still_has_is_an_incomplete_copy(self) -> None:
+        self._world_without_payload("sibling", "DEAD", old_too=False)
+        planned = self.relocation().run(dry_run=True)
+        self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["count"], 0)
+        self.assertEqual(planned["payloadsMissingFromCopy"]["sample"][0]["reason"], "present in the old store")
+        with self.assertRaises(WorldlineError):
+            self.relocation().run()
+
+    def test_a_rerun_exempts_nothing(self) -> None:
+        # Review of 24b511d: a rerun re-measured the rewritten copy, so a payload the first run
+        # lost read as never there.
+        self._world_without_payload("sibling", "DEAD")
+        self.assertEqual(self.relocation().run()["state"], "RELOCATED")
+        planned = self.relocation().run(dry_run=True)
+        self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["count"], 0)
+        self.assertEqual(planned["payloadsMissingFromCopy"]["sample"][0]["reason"], "rerun on a rewritten copy")
+
+    def test_a_payload_lost_after_planning_still_refuses(self) -> None:
+        # What was absent is measured before anything is rewritten; a payload that disappears
+        # after that (here, just before verification) is a relocation loss.
+        connection = sqlite3.connect(f"file:{self.new.database}?mode=ro", uri=True)
+        try:
+            (payload,) = connection.execute("SELECT payload_path FROM worlds WHERE alias='sibling'").fetchone()
+        finally:
+            connection.close()
+        copy = Path(str(self.new.data) + payload[len(str(self.old.data)):])
+        real_verify = Relocation.verify
+
+        def lose_then_verify(relocation, *args, **kwargs):
+            _open_directories(copy)
+            shutil.rmtree(copy)
+            return real_verify(relocation, *args, **kwargs)
+
+        with mock.patch.object(Relocation, "verify", lose_then_verify):
             with self.assertRaises(WorldlineError) as caught:
                 self.relocation().run()
-        self.assertIn("retained world payloads are missing", caught.exception.message)
+        self.assertIn("retained world payloads are missing from the new store", caught.exception.message)
         self.assertEqual(caught.exception.details["worlds"], ["sibling"])
+
+    def test_a_store_before_payload_pruning_is_read(self) -> None:
+        # Review of 24b511d: the check queried payload_pruned, which a store that never ran 1.2.0
+        # or later does not have, and refused it with an OperationalError.
+        connection = sqlite3.connect(":memory:")
+        connection.execute("CREATE TABLE worlds (instance_id TEXT, alias TEXT, state TEXT, payload_path TEXT)")
+        connection.execute("INSERT INTO worlds VALUES ('i', 'gone', 'DEAD', ?)",
+                           (str(self.old.data / "worlds" / "i" / "payload"),))
+        exempt, missing = self.relocation()._payloads_absent(connection)
+        self.assertEqual([item["alias"] for item in exempt + missing], ["gone"])
 
     def test_a_fifo_named_like_the_wal_is_refused_at_once(self) -> None:
         # Review of c7d89f1: the holder check blocked opening it.
