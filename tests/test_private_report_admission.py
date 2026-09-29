@@ -6,7 +6,7 @@ import copy
 import hashlib
 import unittest
 
-from worldline.finalize import evaluation_record
+from validation_support import evaluate as evaluation_record
 
 
 def observation(role: str) -> dict:

@@ -16,6 +16,10 @@ _SECRET_NAME = re.compile(r"(?:TOKEN|KEY|PASSWORD|PASSWD|SECRET|CREDENTIAL|AUTH|
 _SAFE_IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,127}\Z")
 
 
+# Result ids WORLDLINE produces itself; see finalize.ENGINE_DECLARATIONS.
+RESERVED_CHECK_IDS = frozenset({"agent", "protected-paths"})
+
+
 @dataclass(frozen=True, slots=True)
 class GeneratedClassifier:
     root_key: str
@@ -140,6 +144,11 @@ class ProjectConfig:
             if not isinstance(item, dict) or not {"id", "kind", "argv", "required", "format"} <= set(item) or not set(item) <= allowed_check_fields:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", "check fields are invalid")
             identifier = cls._identifier(item["id"], check_ids, "check")
+            if identifier in RESERVED_CHECK_IDS:
+                # These ids name results WORLDLINE produces itself (the agent's own exit and the
+                # engine's protected-paths verdict); a policy check using one would share its
+                # roster slot with them.
+                raise WorldlineError("INVALID_PROJECT_CONFIG", f"check id {identifier!r} is reserved")
             if item["kind"] not in {"build", "tests", "proofs", "benchmark", "health"}:
                 raise WorldlineError("INVALID_PROJECT_CONFIG", f"invalid check kind: {item['kind']}")
             argv = cls._argv(item["argv"], f"check {identifier}")

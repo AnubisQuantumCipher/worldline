@@ -15,6 +15,8 @@ from worldline.client import DaemonClient
 from worldline.errors import WorldlineError
 from worldline.paths import WorldlinePaths
 
+from validation_support import DECLARED_EMPTY_POLICY
+
 RUNTIME = Path(__file__).resolve().parents[1] / "runtime"
 LIBRARY = Path(__file__).resolve().parents[1] / "lib/libworldline_core.so"
 
@@ -130,6 +132,7 @@ class HostileRootContents(unittest.TestCase):
             paths, env = _paths(root)
             work = root / "proj with space & ünïcode"
             work.mkdir()
+            (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             (work / "base.txt").write_text("base\n", encoding="utf-8")
             (work / "spaced name.txt").write_text("spaced\n", encoding="utf-8")
             (work / "uni-ünïcødé-日本.txt").write_text("unicode\n", encoding="utf-8")
@@ -253,9 +256,13 @@ class DaemonCrashRecovery(unittest.TestCase):
             paths, env = _paths(root)
             work = root / "proj"
             work.mkdir()
+            (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             (work / "base.txt").write_text("base\n", encoding="utf-8")
             _config(env, hostile_source="import sys; from pathlib import Path; Path(sys.argv[1], 'made.txt').write_text('made')\n")
             first = _Daemon(self, root, env, log_name="first.stderr")
+            # A failure before the deliberate SIGKILL must not leave this daemon running after the
+            # temporary directory is gone.
+            self.addCleanup(lambda: first.process.poll() is None and first.process.kill())
             client = first.client
             client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
             good = client.request("fork", {"name": "good", "mission": "make", "agent": "hostile", "wait": True})
@@ -315,6 +322,7 @@ class ReturnAfterTheCheckpointWasLive(unittest.TestCase):
             paths, env = _paths(root)
             work = root / "proj"
             work.mkdir()
+            (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             (work / "base.txt").write_text("base\n", encoding="utf-8")
             scripts = Path(env["HOME"]).parent / "agents"
             scripts.mkdir(mode=0o755, exist_ok=True)
@@ -403,10 +411,11 @@ class RepositoryRootCollapse(unittest.TestCase):
             paths, env = _paths(root)
             work = root / "repo"
             work.mkdir()
+            (work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
             git = ["git", "-c", "user.email=t@example.invalid", "-c", "user.name=t", "-C", str(work)]
             subprocess.run([*git, "init", "-q", "-b", "main"], check=True)
             (work / "greet.py").write_text('def greet(name):\n    return "Hello, " + name\n', encoding="utf-8")
-            subprocess.run([*git, "add", "greet.py"], check=True)
+            subprocess.run([*git, "add", "greet.py", ".worldline.json"], check=True)
             subprocess.run([*git, "commit", "-q", "-m", "initial"], check=True)
             initial = subprocess.run([*git, "rev-parse", "HEAD"], check=True, stdout=subprocess.PIPE).stdout.decode().strip()
             committer = (

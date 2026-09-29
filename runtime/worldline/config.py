@@ -18,6 +18,10 @@ _TOP_LEVEL_FIELDS = {"schemaVersion", "readonlyHomePaths", "agentCommands", "gho
 # Optional blocks (1.2.0). Absent means the documented default; present means validated.
 _OPTIONAL_FIELDS = {"limits", "network", "anchor", "adapterOptions"}
 _BUILTIN_ADAPTERS = ("claude", "codex", "omp", "pi")
+# Actor names WORLDLINE writes for worlds it makes itself: published PRIME generations and
+# `return` results ("worldline"), and system futures ("system"). A fork's actor is its adapter's
+# name, so an adapter taking one of these would make a candidate look like WORLDLINE's own work.
+RESERVED_ACTORS = ("worldline", "system")
 _NETWORK_POLICIES = ("shared", "allowlist", "none")
 
 
@@ -107,6 +111,8 @@ class GlobalConfig:
         if not isinstance(commands, dict) or not all(isinstance(name, str) and name for name in commands):
             raise WorldlineError("INVALID_CONFIG", "agentCommands must be a map")
         for name in commands:
+            if name.casefold() in RESERVED_ACTORS:
+                raise WorldlineError("INVALID_CONFIG", f"agentCommands must not use the reserved actor name {name!r}")
             self._parse_command(name, commands[name])
         ghosts = self.value["ghosts"]
         if not isinstance(ghosts, dict) or set(ghosts) != {"enabled", "agent"}:

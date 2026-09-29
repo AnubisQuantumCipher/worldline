@@ -15,6 +15,7 @@ from .canonical import atomic_write_json, canonical_bytes
 from .core import Core, hash_id
 from .environment import evidence_manifest, safe_environment
 from .errors import WorldlineError
+from .finalize import evaluation_record
 from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
 from .admission import Gate
 from .linux.systemd import SystemdAdapter
@@ -242,6 +243,13 @@ class SystemSimulation:
                     stderr_bytes = base64.b64decode(item["stderrB64"].encode("ascii"), validate=True)
                     item["stdoutHash"] = hash_id(self.core.hash_bytes(stdout))
                     item["stderrHash"] = hash_id(self.core.hash_bytes(stderr_bytes))
+            # A system future is not an evaluation. Its verdicts come from a runner inside the
+            # future itself, and the world can never become PRIME: prepare refuses system worlds
+            # both as collapse candidates and as `return` subjects. The kernel's classification
+            # is recorded on every result (no policy declares these checks, so none is admitted)
+            # so that no reader mistakes this report for evidence.
+            for item in results:
+                item["evaluation"] = evaluation_record(item, declared=None, core=self.core)
             upper_records = [self._upper_record(root) for root in overlays]
             system_delta_root = hash_id(
                 self.core.hash_bytes(b"worldline-system-delta-v1" + canonical_bytes(upper_records))
@@ -295,9 +303,11 @@ class SystemSimulation:
             }
             world.transition(WorldState.FINALIZING, self.core)
             world.establish_identity(self.core)
-            failed = any(item.get("required") and item.get("status") != "PASS" for item in results)
-            world.transition(WorldState.DEGRADED if failed else WorldState.VALID, self.core)
-            world.risk = "HIGH" if failed else "MEDIUM"
+            # VALID/DEGRADED reports what the in-future runner said about required commands. It is
+            # a health report, not an admission: see above.
+            reported_failure = any(item.get("required") and item.get("status") != "PASS" for item in results)
+            world.transition(WorldState.DEGRADED if reported_failure else WorldState.VALID, self.core)
+            world.risk = "HIGH" if reported_failure else "MEDIUM"
             self.store.save_world(world)
             self.store.update_job(job_id, state=world.state.value, ended=True)
             return world

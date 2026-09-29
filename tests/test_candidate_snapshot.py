@@ -9,6 +9,7 @@ from unittest.mock import patch
 
 from worldline.core import Core, hash_id
 from worldline.errors import WorldlineError
+from validation_support import agent_pass_result  # noqa: E402
 from worldline.finalize import Finalizer
 from worldline.linux.namespaces import BubblewrapSandbox, SandboxSpec
 from worldline.manifest import Manifest
@@ -137,7 +138,9 @@ class CandidateSnapshotTests(unittest.TestCase):
         self.run_in(self.overlays, "from pathlib import Path\nPath('legacy-output.txt').write_text('kept')\n")
         result = {"id": "legacy", "format": "exit", "profile": "legacy", "status": "PASS",
                   "exitCode": 0, "origin": "supervisor", "resultChannel": {"accepted": True}}
-        finalized = self.finalize(results=[result], required=["legacy"])
+        # Without a bound requirement no policy check is declared, so only the agent's own exit
+        # is on this roster; the legacy check's outputs are what this test is about.
+        finalized = self.finalize(results=[result, agent_pass_result()], required=["agent"])
         self.assertEqual(finalized.state, WorldState.VALID)
         self.assertEqual((Path(finalized.payload_path) / self.key / "legacy-output.txt").read_text(), "kept")
         self.assertIsNone(finalized.evidence["metrics"]["candidateSnapshot"])

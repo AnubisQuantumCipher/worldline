@@ -5,6 +5,14 @@ package Worldline.Collapse with SPARK_Mode is
    use type Transitions.World_State;
 
 
+   --  Which evidence speaks for the bytes that would become live (1.8.0).
+   --  Candidate_Evaluation: the candidate's own evaluation, fresh against the
+   --  current requirements, with a complete roster and the executed verifier
+   --  identity. Checkpoint_Return: a previous reality WORLDLINE itself made
+   --  live; there is no candidate evaluation, and the case must carry a
+   --  lineage witness instead of passing by having nothing to check.
+   type Evaluation_Mode is (Candidate_Evaluation, Checkpoint_Return);
+
    type Collapse_Request is record
       Candidate_State            : Transitions.World_State;
       Has_Conflicts              : Boolean;
@@ -44,6 +52,16 @@ package Worldline.Collapse with SPARK_Mode is
       Execution_Evidence_Complete  : Boolean;
       Expected_Executed_Verifier   : Hash;
       Actual_Executed_Verifier     : Hash;
+      --  1.8.0. In Checkpoint_Return mode the candidate-evaluation fields
+      --  above (validation context, roster, executed verifier) are not
+      --  consulted; the witness below is. Expected_Checkpoint is the subject's
+      --  own content identity; Witnessed_Checkpoint is the content identity a
+      --  DIFFERENT record states for it: the PRIME lineage (the child PRIME
+      --  that recorded it as its parent) or the PRIME register itself.
+      Mode                         : Evaluation_Mode;
+      Checkpoint_Witnessed         : Boolean;
+      Expected_Checkpoint          : Hash;
+      Witnessed_Checkpoint         : Hash;
    end record;
 
    type Decision is
@@ -62,7 +80,24 @@ package Worldline.Collapse with SPARK_Mode is
       --  Appended, so the ordinals of every existing decision are unchanged and a client that
       --  has not been rebuilt cannot silently reinterpret an old code as a new one.
       Execution_Evidence_Incomplete,
-      Verifier_Execution_Identity_Mismatch);
+      Verifier_Execution_Identity_Mismatch,
+      --  Appended for 1.8.0.
+      Checkpoint_Unwitnessed);
+
+   --  The evidence obligation for the request's mode, stated once so the
+   --  contract and every reader agree on which fields a mode consults.
+   function Evidence_Holds (Request : Collapse_Request) return Boolean is
+     (case Request.Mode is
+        when Candidate_Evaluation =>
+          Request.Expected_Validation_Context =
+            Request.Candidate_Validation_Context
+          and Request.Execution_Evidence_Complete
+          and Request.Expected_Executed_Verifier =
+            Request.Actual_Executed_Verifier,
+        when Checkpoint_Return =>
+          Request.Checkpoint_Witnessed
+          and Request.Expected_Checkpoint = Request.Witnessed_Checkpoint)
+     with Global => null;
 
    function Decide (Request : Collapse_Request) return Decision
      with Global => null,
@@ -75,10 +110,8 @@ package Worldline.Collapse with SPARK_Mode is
                and Request.Expected_Delta = Request.Candidate_Delta
                and Request.Expected_Root_Set = Request.Candidate_Root_Set
                and Request.Expected_Staged_Root = Request.Actual_Staged_Root
-               and Request.Expected_Validation_Context = Request.Candidate_Validation_Context
                and Request.Tested_Root = Request.Staged_Content_Root
-               and Request.Execution_Evidence_Complete
-               and Request.Expected_Executed_Verifier = Request.Actual_Executed_Verifier
+               and Evidence_Holds (Request)
                and not Request.Has_Conflicts
                and not Request.Has_Foreign_Managed_Writes);
 

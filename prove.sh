@@ -36,11 +36,12 @@ import re
 import subprocess
 import sys
 
-# Floor for the total proved-check count. The gate is "all checks proved"; without a floor,
-# a run that analyzed nothing satisfies it vacuously. Lower this only as a deliberate edit.
-MINIMUM_CHECKS = 130
-
 root = Path(sys.argv[1]).resolve()
+# The floor, the required subprograms and the declared boundary are pinned in the verifier, so
+# the gate that writes the manifest and the check that reads it cannot disagree.
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(root))
+from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY  # noqa: E402
 out_path = (root / sys.argv[2]).resolve()
 lib_path = (root / sys.argv[3]).resolve()
 summary = out_path.read_text(encoding="utf-8")
@@ -76,8 +77,10 @@ if missing:
 # "pragma  assume" and "pragma\nAssume", which a raw byte count silently scores as zero. Also
 # screen for justification pragmas and for a body quietly leaving SPARK analysis entirely.
 _ASSUME = re.compile(rb"(?is)\bpragma\s+assume\b")
-_JUSTIFY = re.compile(rb"(?is)\bpragma\s+annotate\s*\(\s*gnatprove\s*,\s*(false_positive|intentional)")
-_SPARK_OFF = re.compile(rb"(?is)\bspark_mode\s*=>\s*off\b")
+# Any GNATprove annotation, in pragma or aspect form: justifications (False_Positive,
+# Intentional) and exclusions (Skip_Proof, Skip_Flow_And_Proof) alike. None is allowed.
+_JUSTIFY = re.compile(rb"(?is)\b(pragma\s+annotate\s*\(|annotate\s*=>\s*\()\s*gnatprove\b")
+_SPARK_OFF = re.compile(rb"(?is)\bspark_mode\s*(=>|\()\s*off\b")
 
 
 def code_only(path):
@@ -93,6 +96,14 @@ def code_only(path):
         index = 0
         while index < len(line):
             character = line[index : index + 1]
+            if not in_string and character == b"'":
+                # After an identifier or ')' this is an attribute tick (Character'( ... ));
+                # otherwise 'x' is a character literal, and '"' or '-' inside it is neither a
+                # string delimiter nor a comment.
+                previous = line[:index].rstrip()[-1:]
+                if not (previous.isalnum() or previous in (b"_", b")")) and line[index + 2 : index + 3] == b"'":
+                    index += 3
+                    continue
             if character == b'"':
                 in_string = not in_string
             elif not in_string and line[index : index + 2] == b"--":
@@ -128,8 +139,60 @@ if spark_off:
 if total < MINIMUM_CHECKS:
     raise SystemExit(
         f"PROOF GATE FAILED: only {total} checks proved, expected at least {MINIMUM_CHECKS}; "
-        "if this reduction is intentional, lower MINIMUM_CHECKS deliberately in prove.sh"
+        "if this reduction is intentional, lower MINIMUM_CHECKS deliberately in verify_proof_manifest.py"
     )
+
+# Per-subprogram coverage, read from the same summary the counts came from. Fail closed: inside
+# the per-unit section every indented line must be the one proved form. Anything else --
+# "proof skipped", "not analyzed", a skipped flow analysis, a format this parser has never seen
+# -- is a coverage problem, never a line to ignore.
+_UNIT = re.compile(r"^in unit (\S+), (\d+) subprograms and packages out of (\d+) analyzed$")
+_SUBPROGRAM = re.compile(
+    r"^  (\S+) at (\S+) flow analyzed \(0 errors, \d+ checks, \d+ warnings and "
+    r"0 pragma Assume statements\) and proved \((\d+) checks\)$")
+units: dict[str, dict[str, int]] = {}
+subprograms: dict[str, dict[str, object]] = {}
+listed: dict[str, int] = {}
+coverage_problems: list[str] = []
+current_unit: str | None = None
+for line in summary.splitlines():
+    unit_match = _UNIT.match(line)
+    if unit_match:
+        current_unit = unit_match.group(1)
+        analyzed, available = int(unit_match.group(2)), int(unit_match.group(3))
+        units[current_unit] = {"analyzed": analyzed, "available": available}
+        listed[current_unit] = 0
+        if analyzed != available:
+            coverage_problems.append(f"unit {current_unit}: {analyzed} of {available} analyzed")
+        if current_unit not in UNANALYZED_BOUNDARY and available == 0:
+            coverage_problems.append(f"unit {current_unit}: nothing analyzed")
+        continue
+    if current_unit is None:
+        continue
+    if not line.startswith("  "):
+        current_unit = None
+        continue
+    sub_match = _SUBPROGRAM.match(line)
+    if sub_match is None:
+        coverage_problems.append(f"unit {current_unit}: not a proved subprogram: {line.strip()}")
+        continue
+    name, where, checks = sub_match.groups()
+    subprograms[name] = {"at": where, "checks": int(checks), "proved": True}
+    listed[current_unit] += 1
+for unit, counts in units.items():
+    if listed.get(unit, 0) != counts["analyzed"]:
+        coverage_problems.append(f"unit {unit}: {counts['analyzed']} analyzed but {listed.get(unit, 0)} listed as proved")
+for name in REQUIRED_PROVED:
+    if name not in subprograms:
+        coverage_problems.append(f"{name}: absent from the proof summary")
+if not units or not subprograms:
+    coverage_problems.append("no per-subprogram lines in the proof summary")
+for unit in sorted(UNANALYZED_BOUNDARY):
+    if unit not in units:
+        coverage_problems.append(f"declared boundary unit {unit} missing from the summary")
+print(f"subprograms    {len(subprograms)} proved in {len(units)} units")
+if coverage_problems:
+    raise SystemExit("PROOF GATE FAILED: coverage: " + "; ".join(coverage_problems))
 
 sha256 = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
 first_line = lambda argv: subprocess.run(
@@ -159,9 +222,27 @@ manifest = {
         "path": "lib/libworldline_core.so",
         "sha256": sha256(lib_path),
     },
+    "coverage": {
+        "requiredProved": REQUIRED_PROVED,
+        "unanalyzedBoundary": sorted(UNANALYZED_BOUNDARY),
+        "units": units,
+        "subprograms": subprograms,
+    },
     "boundary": {
         "proved": ["Worldline SPARK policy units", "Attest.SHA256 absence of runtime error"],
-        "notProved": ["C/Python/QML boundary", "OS syscalls and filesystem behavior"],
+        "notProved": [
+            "C/Python/QML boundary: the C ABI decode in worldline-c_api (SPARK_Mode Off) and the"
+            " Python mapping of observations to the kernel's finite categories",
+            "OS syscalls and filesystem behavior",
+        ],
+        "assumptions": [
+            "SHA-256 is functionally correct (tested against published vectors, not proved) and"
+            " collision-resistant; every identity equality the kernel proves is an equality of"
+            " digests",
+            "the runtime supplies authentic observations and computes each Decide input from the"
+            " independent source its comment names; a value passed to both sides of an equality"
+            " proves nothing",
+        ],
     },
 }
 manifest_path = root / "proof-manifest.json"

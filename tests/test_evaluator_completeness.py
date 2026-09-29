@@ -24,7 +24,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "runtime"))
 
 from worldline.executed import ExecutionVerifierSet  # noqa: E402
-from worldline.finalize import evaluation_record  # noqa: E402
+from validation_support import evaluate as evaluation_record  # noqa: E402
 
 ROOT_KEY = "c3" * 32
 
@@ -156,8 +156,9 @@ class IncompleteEvaluatorIsNotAFailedCandidate(unittest.TestCase):
         self.assertNotEqual(incomplete["evaluationOutcome"], failed["evaluationOutcome"])
 
     def test_a_pass_is_never_relabelled_by_the_analysis(self) -> None:
-        # The analysis can produce a false positive; it must not turn a passing check into a
-        # non-result, because the import evidently resolved.
+        # The analysis can produce a false positive (it cannot tell a missing helper from the
+        # candidate's own module under test, which a test imports); it must not turn a passing
+        # check into a non-result, because the import evidently resolved. 1.8.0 keeps this.
         record = self.record(status="PASS", gaps=self.GAP, exit_code=0)
         self.assertEqual(record["executionStatus"], "COMPLETED")
         self.assertEqual(record["evaluationOutcome"], "PASS")
@@ -183,7 +184,7 @@ class TotalClassification(unittest.TestCase):
     """
 
     def er(self, **result):
-        from worldline.finalize import evaluation_record
+        from validation_support import evaluate as evaluation_record
         return evaluation_record(result)
 
     def test_a_world_that_timed_out_before_checks_is_not_attempted(self) -> None:
@@ -231,6 +232,6 @@ class TotalClassification(unittest.TestCase):
         forged = self.er(status="PASS", origin="engine", resultChannel={"accepted": True}, exitCode=0)
         self.assertEqual(forged["executionStatus"], "UNCLASSIFIED")
         self.assertFalse(forged["admissibleForPromotion"])
-        genuine = self.er(status="PASS", origin="engine", format="engine")
+        genuine = self.er(id="protected-paths", status="PASS", origin="engine", format="engine")
         self.assertEqual(genuine["executionStatus"], "COMPLETED")
         self.assertTrue(genuine["admissibleForPromotion"])

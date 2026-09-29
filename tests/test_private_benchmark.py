@@ -17,7 +17,7 @@ import uuid
 
 from worldline.admission import AdmissionAuthority, Floors, Gate, Ledger, ResourcePolicy
 from worldline.checks import CheckRunner
-from worldline.finalize import evaluation_record
+from validation_support import evaluate as evaluation_record
 from worldline.linux.namespaces import BubblewrapSandbox, OverlayRoot
 from worldline.linux.systemd import SystemdAdapter
 from worldline.paths import WorldlinePaths

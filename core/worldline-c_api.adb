@@ -6,6 +6,7 @@ with System.Address_To_Access_Conversions;
 with System.Storage_Elements;
 with Worldline.Causal_Graph;
 with Worldline.Collapse;
+with Worldline.Evaluation;
 with Worldline.Receipts;
 with Worldline.Transitions;
 with Worldline.World;
@@ -335,8 +336,17 @@ package body Worldline.C_API with SPARK_Mode => Off is
    begin
       if Request = null
         or else Request.Reserved /= 0
+        or else Request.Reserved_2 /= 0
+        or else Request.Reserved_3 /= 0
+        or else Request.Reserved_4 /= 0
+        or else Request.Reserved_5 /= 0
+        or else Request.Reserved_6 /= 0
         or else Request.Has_Conflicts > 1
         or else Request.Has_Foreign_Managed_Writes > 1
+        or else Request.Execution_Evidence_Complete > 1
+        or else Request.Checkpoint_Witnessed > 1
+        or else Request.Evaluation_Mode >
+          Collapse.Evaluation_Mode'Pos (Collapse.Evaluation_Mode'Last)
         or else Request.Candidate_State > Last_State
       then
          return Invalid_Collapse_Request;
@@ -368,9 +378,13 @@ package body Worldline.C_API with SPARK_Mode => Off is
               To_Hash (Request.Candidate_Validation_Context),
             Tested_Root => To_Hash (Request.Tested_Root),
             Staged_Content_Root => To_Hash (Request.Staged_Content_Root),
-            Execution_Evidence_Complete => Request.Execution_Evidence_Complete /= 0,
+            Execution_Evidence_Complete => Request.Execution_Evidence_Complete = 1,
             Expected_Executed_Verifier => To_Hash (Request.Expected_Executed_Verifier),
-            Actual_Executed_Verifier => To_Hash (Request.Actual_Executed_Verifier));
+            Actual_Executed_Verifier => To_Hash (Request.Actual_Executed_Verifier),
+            Mode => Collapse.Evaluation_Mode'Val (Integer (Request.Evaluation_Mode)),
+            Checkpoint_Witnessed => Request.Checkpoint_Witnessed = 1,
+            Expected_Checkpoint => To_Hash (Request.Expected_Checkpoint),
+            Witnessed_Checkpoint => To_Hash (Request.Witnessed_Checkpoint));
       begin
          return Interfaces.Unsigned_8
            (Collapse.Decision'Pos (Collapse.Decide (Native_Request)));
@@ -379,5 +393,314 @@ package body Worldline.C_API with SPARK_Mode => Off is
       when others =>
          return Invalid_Collapse_Request;
    end Collapse_Decide;
+
+   function Evaluation_Classify
+     (Facts : C_Evaluation_Observations_Access;
+      Result : C_Evaluation_Classification_Access)
+      return Interfaces.Unsigned_8
+   is
+   begin
+      if Facts = null or else Result = null
+        or else Facts.Source > Evaluation.Origin'Pos (Evaluation.Origin'Last)
+        or else Facts.Status > Evaluation.Raw_Status'Pos (Evaluation.Raw_Status'Last)
+        or else Facts.Channel > Evaluation.Channel_State'Pos (Evaluation.Channel_State'Last)
+        or else Facts.Stage > Evaluation.Rejection_Stage'Pos (Evaluation.Rejection_Stage'Last)
+        or else Facts.Supervisor > Evaluation.Supervision_State'Pos (Evaluation.Supervision_State'Last)
+        or else Facts.Exit_Present > 1
+        or else Facts.Exit_Integer > 1
+        or else Facts.Supervisor_Stopped > 1
+        or else Facts.Bundle_Present > 1
+        or else Facts.Bundle_Is_Mapping > 1
+        or else Facts.Bundle_Stable > 1
+        or else Facts.Bundle_Changed > 1
+        or else Facts.Unsatisfied_Imports > 1
+        or else Facts.Exit_Integer > Facts.Exit_Present
+        or else Facts.Bundle_Stable > Facts.Bundle_Present
+        or else Facts.Bundle_Changed > Facts.Bundle_Present
+        or else Facts.Bundle_Stable > Facts.Bundle_Is_Mapping
+        or else Facts.Bundle_Changed > Facts.Bundle_Is_Mapping
+      then
+         return 255;
+      end if;
+
+      declare
+         Value : constant Evaluation.Classification := Evaluation.Classify
+           ((Source => Evaluation.Origin'Val (Integer (Facts.Source)),
+             Status => Evaluation.Raw_Status'Val (Integer (Facts.Status)),
+             Channel => Evaluation.Channel_State'Val (Integer (Facts.Channel)),
+             Stage => Evaluation.Rejection_Stage'Val (Integer (Facts.Stage)),
+             Exit_Present => Facts.Exit_Present = 1,
+             Exit_Integer => Facts.Exit_Integer = 1,
+             Supervisor => Evaluation.Supervision_State'Val
+               (Integer (Facts.Supervisor)),
+             Supervisor_Stopped => Facts.Supervisor_Stopped = 1,
+             Bundle_Present => Facts.Bundle_Present = 1,
+             Bundle_Is_Mapping => Facts.Bundle_Is_Mapping = 1,
+             Bundle_Stable => Facts.Bundle_Stable = 1,
+             Bundle_Changed => Facts.Bundle_Changed = 1,
+             Unsatisfied_Imports => Facts.Unsatisfied_Imports = 1));
+      begin
+         Result.Execution := Interfaces.Unsigned_8
+           (Evaluation.Execution_State'Pos (Value.Execution));
+         Result.Outcome := Interfaces.Unsigned_8
+           (Evaluation.Outcome'Pos (Value.Result));
+         Result.Bundle := Interfaces.Unsigned_8
+           (Evaluation.Bundle_Integrity'Pos (Value.Bundle));
+         return 0;
+      end;
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Classify;
+
+   function Evaluation_Admissible
+     (Value    : C_Evaluation_Classification_Read_Access;
+      Report   : Interfaces.Unsigned_8;
+      Presence : C_Evidence_Presence_Access)
+      return Interfaces.Unsigned_8
+   is
+      Completed_Code : constant Interfaces.Unsigned_8 :=
+        Evaluation.Execution_State'Pos (Evaluation.Completed);
+      No_Outcome_Code : constant Interfaces.Unsigned_8 :=
+        Evaluation.Outcome'Pos (Evaluation.No_Outcome);
+   begin
+      if Value = null or else Presence = null
+        or else Value.Execution >
+          Evaluation.Execution_State'Pos (Evaluation.Execution_State'Last)
+        or else Value.Outcome > Evaluation.Outcome'Pos (Evaluation.Outcome'Last)
+        or else Value.Bundle >
+          Evaluation.Bundle_Integrity'Pos (Evaluation.Bundle_Integrity'Last)
+        or else Report >
+          Evaluation.Report_Integrity'Pos (Evaluation.Report_Integrity'Last)
+        or else (Value.Execution = Completed_Code) =
+                (Value.Outcome = No_Outcome_Code)
+        --  Classify never produces an in-flight state.
+        or else Value.Execution in
+          Evaluation.Execution_State'Pos (Evaluation.Prepared) ..
+          Evaluation.Execution_State'Pos (Evaluation.Started)
+        or else Presence.Record_Identified > 1
+        or else Presence.Verdict_Recorded > 1
+        or else Presence.Binding_Established > 1
+        or else Presence.Declaration_Matches > 1
+        or else Presence.Bundle_Identified > 1
+      then
+         return 255;
+      end if;
+
+      return
+        (if Evaluation.Admissible
+          ((Execution => Evaluation.Execution_State'Val
+              (Integer (Value.Execution)),
+            Result => Evaluation.Outcome'Val (Integer (Value.Outcome)),
+            Bundle => Evaluation.Bundle_Integrity'Val
+              (Integer (Value.Bundle))),
+           Evaluation.Report_Integrity'Val (Integer (Report)),
+           (Record_Identified   => Presence.Record_Identified = 1,
+            Verdict_Recorded    => Presence.Verdict_Recorded = 1,
+            Binding_Established => Presence.Binding_Established = 1,
+            Declaration_Matches => Presence.Declaration_Matches = 1,
+            Bundle_Identified   => Presence.Bundle_Identified = 1))
+         then 1 else 0);
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Admissible;
+
+   Last_Execution_Code : constant Interfaces.Unsigned_8 :=
+     Evaluation.Execution_State'Pos (Evaluation.Execution_State'Last);
+
+   function Evaluation_Transition_Allowed
+     (From_State : Interfaces.Unsigned_8;
+      To_State   : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+   is
+   begin
+      if From_State > Last_Execution_Code or else To_State > Last_Execution_Code then
+         return 255;
+      end if;
+      return
+        (if Evaluation.Transition_Allowed
+           (Evaluation.Execution_State'Val (Integer (From_State)),
+            Evaluation.Execution_State'Val (Integer (To_State)))
+         then 1 else 0);
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Transition_Allowed;
+
+   function Evaluation_Advance
+     (State     : C_State_Access;
+      Requested : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+   is
+   begin
+      if State = null
+        or else State.all > Last_Execution_Code
+        or else Requested > Last_Execution_Code
+      then
+         return 255;
+      end if;
+      declare
+         Current : Evaluation.Execution_State :=
+           Evaluation.Execution_State'Val (Integer (State.all));
+      begin
+         Evaluation.Advance
+           (Current, Evaluation.Execution_State'Val (Integer (Requested)));
+         State.all := Interfaces.Unsigned_8
+           (Evaluation.Execution_State'Pos (Current));
+      end;
+      return 0;
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Advance;
+
+   function Evaluation_Roster_Complete
+     (Admitted       : System.Address;
+      Count          : Interfaces.C.size_t;
+      Empty_Declared : Interfaces.Unsigned_8) return Interfaces.Unsigned_8
+   is
+      use System.Storage_Elements;
+   begin
+      if Empty_Declared > 1
+        or else Count > Interfaces.C.size_t (Evaluation.Roster_Index'Last)
+        or else (Count > 0 and then Admitted = System.Null_Address)
+      then
+         return 255;
+      end if;
+      declare
+         Length : constant Natural := Natural (Count);
+         Values : Evaluation.Admissions (1 .. Length);
+      begin
+         for I in Values'Range loop
+            declare
+               Byte : constant Interfaces.Unsigned_8 :=
+                 Get_Byte (Admitted, Storage_Offset (I - 1));
+            begin
+               if Byte > 1 then
+                  return 255;
+               end if;
+               Values (I) := Byte = 1;
+            end;
+         end loop;
+         return
+           (if Evaluation.Roster_Complete (Values, Empty_Declared = 1)
+            then 1 else 0);
+      end;
+   exception
+      when others =>
+         return 255;
+   end Evaluation_Roster_Complete;
+
+   function ABI_Generation return Interfaces.Unsigned_32 is
+   begin
+      return ABI_Version;
+   end ABI_Generation;
+
+   function Layout_Size
+     (Selector : Interfaces.Unsigned_8) return Interfaces.C.size_t
+   is
+   begin
+      case Selector is
+         when 0 => return C_Collapse_Request'Size / 8;
+         when 1 => return C_Evaluation_Observations'Size / 8;
+         when 2 => return C_Evaluation_Classification'Size / 8;
+         when 3 => return C_Evidence_Presence'Size / 8;
+         when others => return 0;
+      end case;
+   end Layout_Size;
+
+   function Layout_Offset
+     (Selector : Interfaces.Unsigned_8;
+      Name     : System.Address;
+      Name_Len : Interfaces.C.size_t) return Interfaces.C.size_t
+   is
+      use System.Storage_Elements;
+      Unknown : constant Interfaces.C.size_t := Interfaces.C.size_t'Last;
+      Collapse_Probe    : C_Collapse_Request;
+      Observation_Probe : C_Evaluation_Observations;
+      Class_Probe       : C_Evaluation_Classification;
+      Presence_Probe    : C_Evidence_Presence;
+      --  Only the components' 'Position is read; no value is.
+      pragma Warnings (Off, Collapse_Probe);
+      pragma Warnings (Off, Observation_Probe);
+      pragma Warnings (Off, Class_Probe);
+      pragma Warnings (Off, Presence_Probe);
+   begin
+      if Name = System.Null_Address or else Name_Len = 0 or else Name_Len > 64 then
+         return Unknown;
+      end if;
+      declare
+         Text : String (1 .. Natural (Name_Len));
+      begin
+         for I in Text'Range loop
+            Text (I) := Character'Val (Integer (Get_Byte (Name, Storage_Offset (I - 1))));
+         end loop;
+         case Selector is
+            when 0 =>
+               if Text = "candidate_state" then return Interfaces.C.size_t (Collapse_Probe.Candidate_State'Position);
+               elsif Text = "has_conflicts" then return Interfaces.C.size_t (Collapse_Probe.Has_Conflicts'Position);
+               elsif Text = "has_foreign_managed_writes" then return Interfaces.C.size_t (Collapse_Probe.Has_Foreign_Managed_Writes'Position);
+               elsif Text = "reserved" then return Interfaces.C.size_t (Collapse_Probe.Reserved'Position);
+               elsif Text = "expected_parent" then return Interfaces.C.size_t (Collapse_Probe.Expected_Parent'Position);
+               elsif Text = "candidate_parent" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Parent'Position);
+               elsif Text = "expected_owner" then return Interfaces.C.size_t (Collapse_Probe.Expected_Owner'Position);
+               elsif Text = "candidate_owner" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Owner'Position);
+               elsif Text = "expected_base" then return Interfaces.C.size_t (Collapse_Probe.Expected_Base'Position);
+               elsif Text = "candidate_base" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Base'Position);
+               elsif Text = "expected_delta" then return Interfaces.C.size_t (Collapse_Probe.Expected_Delta'Position);
+               elsif Text = "candidate_delta" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Delta'Position);
+               elsif Text = "expected_root_set" then return Interfaces.C.size_t (Collapse_Probe.Expected_Root_Set'Position);
+               elsif Text = "candidate_root_set" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Root_Set'Position);
+               elsif Text = "expected_staged_root" then return Interfaces.C.size_t (Collapse_Probe.Expected_Staged_Root'Position);
+               elsif Text = "actual_staged_root" then return Interfaces.C.size_t (Collapse_Probe.Actual_Staged_Root'Position);
+               elsif Text = "expected_validation_context" then return Interfaces.C.size_t (Collapse_Probe.Expected_Validation_Context'Position);
+               elsif Text = "candidate_validation_context" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Validation_Context'Position);
+               elsif Text = "tested_root" then return Interfaces.C.size_t (Collapse_Probe.Tested_Root'Position);
+               elsif Text = "staged_content_root" then return Interfaces.C.size_t (Collapse_Probe.Staged_Content_Root'Position);
+               elsif Text = "execution_evidence_complete" then return Interfaces.C.size_t (Collapse_Probe.Execution_Evidence_Complete'Position);
+               elsif Text = "reserved_2" then return Interfaces.C.size_t (Collapse_Probe.Reserved_2'Position);
+               elsif Text = "reserved_3" then return Interfaces.C.size_t (Collapse_Probe.Reserved_3'Position);
+               elsif Text = "reserved_4" then return Interfaces.C.size_t (Collapse_Probe.Reserved_4'Position);
+               elsif Text = "expected_executed_verifier" then return Interfaces.C.size_t (Collapse_Probe.Expected_Executed_Verifier'Position);
+               elsif Text = "actual_executed_verifier" then return Interfaces.C.size_t (Collapse_Probe.Actual_Executed_Verifier'Position);
+               elsif Text = "evaluation_mode" then return Interfaces.C.size_t (Collapse_Probe.Evaluation_Mode'Position);
+               elsif Text = "checkpoint_witnessed" then return Interfaces.C.size_t (Collapse_Probe.Checkpoint_Witnessed'Position);
+               elsif Text = "reserved_5" then return Interfaces.C.size_t (Collapse_Probe.Reserved_5'Position);
+               elsif Text = "reserved_6" then return Interfaces.C.size_t (Collapse_Probe.Reserved_6'Position);
+               elsif Text = "expected_checkpoint" then return Interfaces.C.size_t (Collapse_Probe.Expected_Checkpoint'Position);
+               elsif Text = "witnessed_checkpoint" then return Interfaces.C.size_t (Collapse_Probe.Witnessed_Checkpoint'Position);
+               end if;
+            when 1 =>
+               if Text = "source" then return Interfaces.C.size_t (Observation_Probe.Source'Position);
+               elsif Text = "status" then return Interfaces.C.size_t (Observation_Probe.Status'Position);
+               elsif Text = "channel" then return Interfaces.C.size_t (Observation_Probe.Channel'Position);
+               elsif Text = "stage" then return Interfaces.C.size_t (Observation_Probe.Stage'Position);
+               elsif Text = "exit_present" then return Interfaces.C.size_t (Observation_Probe.Exit_Present'Position);
+               elsif Text = "exit_integer" then return Interfaces.C.size_t (Observation_Probe.Exit_Integer'Position);
+               elsif Text = "supervisor" then return Interfaces.C.size_t (Observation_Probe.Supervisor'Position);
+               elsif Text = "supervisor_stopped" then return Interfaces.C.size_t (Observation_Probe.Supervisor_Stopped'Position);
+               elsif Text = "bundle_present" then return Interfaces.C.size_t (Observation_Probe.Bundle_Present'Position);
+               elsif Text = "bundle_is_mapping" then return Interfaces.C.size_t (Observation_Probe.Bundle_Is_Mapping'Position);
+               elsif Text = "bundle_stable" then return Interfaces.C.size_t (Observation_Probe.Bundle_Stable'Position);
+               elsif Text = "bundle_changed" then return Interfaces.C.size_t (Observation_Probe.Bundle_Changed'Position);
+               elsif Text = "unsatisfied_imports" then return Interfaces.C.size_t (Observation_Probe.Unsatisfied_Imports'Position);
+               end if;
+            when 2 =>
+               if Text = "execution" then return Interfaces.C.size_t (Class_Probe.Execution'Position);
+               elsif Text = "outcome" then return Interfaces.C.size_t (Class_Probe.Outcome'Position);
+               elsif Text = "bundle" then return Interfaces.C.size_t (Class_Probe.Bundle'Position);
+               end if;
+            when 3 =>
+               if Text = "record_identified" then return Interfaces.C.size_t (Presence_Probe.Record_Identified'Position);
+               elsif Text = "verdict_recorded" then return Interfaces.C.size_t (Presence_Probe.Verdict_Recorded'Position);
+               elsif Text = "binding_established" then return Interfaces.C.size_t (Presence_Probe.Binding_Established'Position);
+               elsif Text = "declaration_matches" then return Interfaces.C.size_t (Presence_Probe.Declaration_Matches'Position);
+               elsif Text = "bundle_identified" then return Interfaces.C.size_t (Presence_Probe.Bundle_Identified'Position);
+               end if;
+            when others => null;
+         end case;
+      end;
+      return Unknown;
+   end Layout_Offset;
+
 
 end Worldline.C_API;

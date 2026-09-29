@@ -112,7 +112,26 @@ for rel in ('evaluator/helper.py', 'helper.py'):
         print(json.dumps({'type': 'tool-event', 'actor': 'fixture', 'path': str(w / rel), 'line': 1}), flush=True)
 """
 
-AGENTS = {"writer": WRITER, "writer_both": WRITER_BOTH, "forger": FORGER, "redirector": REDIRECTOR, "policy_editor": POLICY_EDITOR, "helper_forger": HELPER_FORGER, "shadow_forger": SHADOW_FORGER, "worker_and_forger": WORKER_AND_FORGER}
+# Does the wrong work: the exam fails, so the world is DEGRADED on its merits.
+SLACKER = """import json, sys
+from pathlib import Path
+w = Path(sys.argv[1])
+(w / 'candidate.txt').write_text('not the work', encoding='utf-8')
+(w / 'slacker.txt').write_text('slacker', encoding='utf-8')
+print(json.dumps({'type': 'tool-event', 'actor': 'fixture', 'path': str(w / 'candidate.txt'), 'line': 1}), flush=True)
+"""
+
+# Does the work, then its own process fails: the policy checks pass, the agent's exit does not.
+EXIT_FAILER = """import json, sys
+from pathlib import Path
+w = Path(sys.argv[1])
+(w / 'candidate.txt').write_text('candidate', encoding='utf-8')
+(w / 'exit-failer.txt').write_text('written by an agent that then failed', encoding='utf-8')
+print(json.dumps({'type': 'tool-event', 'actor': 'fixture', 'path': str(w / 'candidate.txt'), 'line': 1}), flush=True)
+sys.exit(3)
+"""
+
+AGENTS = {"writer": WRITER, "slacker": SLACKER, "exit_failer": EXIT_FAILER, "writer_both": WRITER_BOTH, "forger": FORGER, "redirector": REDIRECTOR, "policy_editor": POLICY_EDITOR, "helper_forger": HELPER_FORGER, "shadow_forger": SHADOW_FORGER, "worker_and_forger": WORKER_AND_FORGER}
 
 # ---- the authoritative verifier, in two versions at the same path ------------------------
 

@@ -28,9 +28,19 @@ class InotifyTests(unittest.TestCase):
         self.watcher.close()
         self.temporary.cleanup()
 
+    def settle(self) -> None:
+        """Wait until the watcher has been quiet for a while. One write raises several events
+        (create, modify, close); reconciling after only the first let a late event from the
+        SAME external write mark PRIME dirty again, a hosted-runner flake."""
+        while True:
+            self.received.clear()
+            if not self.received.wait(0.3):
+                return
+
     def test_external_changes_dirty_prime_but_owned_writes_do_not(self) -> None:
         (self.root / "external.txt").write_text("outside", encoding="utf-8")
         self.assertTrue(self.received.wait(2))
+        self.settle()
         self.assertTrue(self.watcher.dirty)
         self.watcher.mark_reconciled()
         self.events.clear()
