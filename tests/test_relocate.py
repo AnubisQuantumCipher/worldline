@@ -822,11 +822,6 @@ class RelocateAStore(unittest.TestCase):
                 self.assertEqual(caught.exception.code, "RELOCATION_REFUSED")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
-
 class RelocationViewsThroughSymlinks(unittest.TestCase):
     def test_a_view_of_an_old_store_named_through_a_symlink_is_refused(self) -> None:
         # Review of 300543c: the old store is recorded by the path its daemon was given, and the
@@ -871,3 +866,51 @@ class RelocationViewsThroughSymlinks(unittest.TestCase):
             self.assertEqual(result.returncode, 1, result.stderr.decode(errors="replace")[-2000:])
             self.assertIn(b"seen through a mount", result.stderr)
             self.assertEqual(os.readlink(mapping), before)
+
+    def test_a_bound_copy_is_refused_when_a_hidden_link_names_the_old_store(self) -> None:
+        # Review of 8ff1903: with the link inside a directory the relocating account cannot search
+        # (the operator's 0700 home, `~/.local/share` on another disk), the old store could not be
+        # located, and a bind of it at the copy's path was relocated in place.
+        from worldline.store import StateStore
+        bwrap = shutil.which("bwrap")
+        if bwrap is None:
+            self.skipTest("bwrap is required to make a mount without privileges")
+        with tempfile.TemporaryDirectory(prefix="worldline-view-hidden-link-") as temporary:
+            base = Path(temporary)
+            (base / "opshome").mkdir()
+            (base / "otherdisk").mkdir()
+            (base / "opshome" / "share").symlink_to(base / "otherdisk")
+            old = base / "opshome" / "share" / "old"
+            paths = WorldlinePaths(home=base / "home", data=old / "data", state=old / "state",
+                                   runtime=base / "runtime", config=base / "config")
+            StateStore(paths).close()
+            content = old / "data" / "generations" / "g1" / "payload" / "rk1"
+            (content / "sub").mkdir(parents=True)
+            (content / "f.txt").write_text("prime content\n")
+            (old / "data" / "live" / "rk1").symlink_to(content, target_is_directory=True)
+            new = base / "new"
+            new.mkdir()
+            shutil.copytree(old / "state", new / "state", symlinks=True)
+            (new / "data").mkdir()
+            mapping = base / "otherdisk" / "old" / "data" / "live" / "rk1"
+            before = os.readlink(mapping)
+            code = ("import os, sys; os.chmod(sys.argv[1], 0); "
+                    "from worldline.relocate import main; code = main(sys.argv[2:]); "
+                    "os.chmod(sys.argv[1], 0o755); sys.exit(code)")
+            arguments = ["--from-data", str(old / "data"), "--from-state", str(old / "state"),
+                         "--to-data", str(new / "data"), "--to-state", str(new / "state")]
+            try:
+                result = subprocess.run(
+                    [bwrap, "--dev-bind", "/", "/", "--bind", str(base / "otherdisk" / "old" / "data"), str(new / "data"),
+                     "--", sys.executable, "-B", "-c", code, str(base / "opshome"), *arguments],
+                    env={**os.environ, "PYTHONPATH": str(REPO / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"},
+                    capture_output=True, timeout=120)
+            finally:
+                os.chmod(base / "opshome", 0o755)
+            self.assertEqual(result.returncode, 1, result.stderr.decode(errors="replace")[-2000:])
+            self.assertIn(b"cannot resolve the old store", result.stderr)
+            self.assertEqual(os.readlink(mapping), before)
+
+
+if __name__ == "__main__":
+    unittest.main()

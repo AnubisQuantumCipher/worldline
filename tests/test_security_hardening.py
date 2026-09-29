@@ -284,6 +284,19 @@ class GitSandboxLayout(unittest.TestCase):
                 self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
                 self.assertIn("stopped by a signal", caught.exception.message)
 
+    def test_a_file_named_like_a_kill_report_is_not_a_kill(self) -> None:
+        # Review of 8ff1903: git's warning quoting a file named "died of signal 9.txt" matched the
+        # unanchored pattern, and every capture of the repository refused.
+        (self.main / ".gitattributes").write_text("* text eol=crlf\n")
+        (self.main / "died of signal 9.txt").write_text("one\n")
+        subprocess.run(["git", "-C", str(self.main), "add", ".gitattributes", "died of signal 9.txt"],
+                       check=True, capture_output=True)
+        subprocess.run(["git", "-C", str(self.main), "-c", "user.email=a@b.c", "-c", "user.name=a",
+                        "commit", "-qm", "crlf"], check=True, capture_output=True)
+        (self.main / "died of signal 9.txt").write_text("one\ntwo\n")   # git now warns, quoting its name
+        captured = GitAdapter(Core.shared()).capture(self.main)
+        self.assertEqual(captured["state"], "CAPTURED")
+
     def test_a_listing_git_refuses_is_recorded_as_unreadable(self) -> None:
         # Review of c7d89f1: refusing it broke an ordinary repository shape (an embedded checkout
         # added with `git add -A`); review of 09f5c0b: it was recorded as "no submodules".

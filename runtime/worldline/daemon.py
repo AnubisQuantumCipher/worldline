@@ -379,6 +379,14 @@ class WorldlineDaemon:
                 self.store.set_meta("watchState", "DEGRADED")
                 self.store.set_meta("watchError", exc.as_dict())
                 _LOG.warning("PRIME re-capture refused; status degraded: %s: %s", exc.code, exc.message)
+            except Exception as exc:  # noqa: BLE001
+                # Anything else the re-capture raised is reported the same way: status that failed
+                # with INTERNAL_ERROR on every request left the operator nothing to read while the
+                # store stayed dirty (review of 8ff1903).
+                _LOG.exception("PRIME re-capture failed; status degraded")
+                self.store.set_meta("watchState", "DEGRADED")
+                self.store.set_meta("watchError", {"code": "RECAPTURE_FAILED",
+                                                   "message": f"{type(exc).__name__}: {exc}"[:2000], "details": {}})
             else:
                 if self.store.get_meta("watchError") is not None:
                     self.store.set_meta("watchError", None)

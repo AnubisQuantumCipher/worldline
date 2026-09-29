@@ -15,6 +15,7 @@ from typing import Any, Iterable, Mapping, Sequence
 from . import SCHEMA_VERSION
 from .canonical import atomic_write_json, canonical_bytes
 from .core import Core, hash_id
+from .errors import WorldlineError
 from .manifest import display_path, path_b64
 
 _SECRET_NAME = re.compile(r"(?:TOKEN|KEY|PASSWORD|PASSWD|SECRET|CREDENTIAL|AUTH|COOKIE)", re.IGNORECASE)
@@ -324,6 +325,31 @@ def capture_dependencies(
     return records
 
 
+# Deeper than any real manifest; far below the recursion canonicalisation needs.
+_DECLARED_DEPTH = 64
+
+
+def _declared_problem(value: Any) -> str | None:
+    """Why a parsed dependency group cannot be recorded, or None. It becomes part of a canonical
+    document: nested past the canonicaliser's recursion, it raised a bare RecursionError out of
+    every capture; a float (`{"x": 1.5}`) refused every capture NON_CANONICAL_JSON (review of
+    8ff1903)."""
+    stack = [(value, 1)]
+    while stack:
+        item, depth = stack.pop()
+        if depth > _DECLARED_DEPTH:
+            return f"nested deeper than {_DECLARED_DEPTH} levels"
+        if isinstance(item, dict):
+            stack.extend((child, depth + 1) for child in item.values())
+        elif isinstance(item, list):
+            stack.extend((child, depth + 1) for child in item)
+    try:
+        canonical_bytes(value)
+    except WorldlineError as exc:
+        return exc.message
+    return None
+
+
 def _dependency_record(root_key: str, root: bytes, format_name: str, files: list[bytes], core: Core) -> dict[str, Any]:
     directory = os.path.relpath(os.path.dirname(files[0]), root)
     if directory == b".":
@@ -340,6 +366,9 @@ def _dependency_record(root_key: str, root: bytes, format_name: str, files: list
         declared = None
         state = "UNAVAILABLE"
         reason = str(exc)
+    problem = None if declared is None else _declared_problem(declared)
+    if problem is not None:
+        declared, state, reason = None, "UNAVAILABLE", f"declared dependencies cannot be recorded: {problem}"
     return {
         "rootKey": root_key,
         "directoryB64": path_b64(directory),

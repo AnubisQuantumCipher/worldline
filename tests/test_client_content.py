@@ -527,6 +527,48 @@ class StartupOrdersTheGateAfterTheLock(unittest.TestCase):
                 self.assertIn(b"UNSAFE_STORE", result.stderr)
                 self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o710)
 
+    def test_a_lock_this_start_cannot_observe_leaves_the_gate_alone(self) -> None:
+        # Review of 8ff1903: a start that could neither find the held lock in the kernel's lock
+        # table nor open it (another pid namespace), or could not search the state directory,
+        # read the lock as free and closed a running daemon's gate.
+        import fcntl
+        if os.geteuid() == 0:
+            self.skipTest("root opens and searches whatever the mode")
+        unshare = shutil.which("unshare")
+        for case in ("unsearchable-state-home", "other-pid-namespace"):
+            with self.subTest(case=case), tempfile.TemporaryDirectory(prefix="worldline-unobservable-") as temporary:
+                env = environment(Path(temporary), **CLIENT_ENV)
+                paths = WorldlinePaths.from_environment(env)
+                paths.ensure()
+                paths.share_live_chain()
+                lock = paths.state / STORE_LOCK_NAME
+                holder = os.open(lock, os.O_RDWR | os.O_CREAT, 0o600)
+                state_home = Path(env["XDG_STATE_HOME"])
+                try:
+                    fcntl.flock(holder, fcntl.LOCK_EX)
+                    if case == "unsearchable-state-home":
+                        os.chmod(state_home, 0)
+                        result = self.daemon(env)
+                    else:
+                        if unshare is None:
+                            self.skipTest("unshare is required")
+                        os.chmod(lock, 0)
+                        repo = Path(__file__).resolve().parents[1]
+                        result = subprocess.run(
+                            [unshare, "--user", "--map-current-user", "--pid", "--fork", "--mount-proc",
+                             sys.executable, "-B", "-m", "worldline.daemon_main"],
+                            env={**os.environ, **env, "PYTHONPATH": str(repo / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"},
+                            capture_output=True, timeout=60)
+                        if b"UNSAFE_STORE" not in result.stderr and result.returncode != 1:
+                            self.skipTest(f"unprivileged pid namespaces are not available: {result.stderr[-300:]!r}")
+                finally:
+                    os.chmod(state_home, 0o700)
+                    os.chmod(lock, 0o600)
+                    os.close(holder)
+                self.assertEqual(result.returncode, 1, result.stderr)
+                self.assertIn(b"UNSAFE_STORE", result.stderr)
+                self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o710)
+
     def test_a_state_directory_linked_to_another_store_closes_the_gate(self) -> None:
         # Review of 300543c: the in-use check followed the link and found the other store's
         # daemon holding its own lock, so this store's gate stayed open with no daemon serving it.

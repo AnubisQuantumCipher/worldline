@@ -735,6 +735,18 @@ class Relocation:
         same device, and a copy root on FUSE, a network filesystem or an idmapped mount is refused,
         since those can present anything with any owner (review of c7d89f1)."""
         entries = _mount_table()
+        # An old store whose path runs through a directory this account cannot search (the
+        # operator's 0700 home in the dedicated-account migration) cannot be located in the mount
+        # table when a link lies past that point (`~/.local/share` on another disk): a bind of it
+        # at the copy's path then compares against the wrong place (review of 8ff1903).
+        hidden = []
+        for old_root in self.old:
+            try:
+                os.path.realpath(os.fsdecode(old_root), strict=True)
+            except PermissionError:
+                hidden.append(os.fsdecode(old_root))
+            except OSError:
+                pass  # missing, or a link loop: resolved as far as it goes, below
         pairs = [(("data", self.new_data), self.old[0]), (("state", self.new_state), self.old[1]),
                  (("data", self.new_data), self.old[1]), (("state", self.new_state), self.old[0])]
         for (base, new_root), old_root in pairs:
@@ -753,6 +765,12 @@ class Relocation:
                     or old_source.startswith(source.rstrip("/") + "/")):
                 raise _refuse("the copy is the old store seen through a mount",
                               {"copy": str(new_root), "old": os.fsdecode(old_root), "mount": mount["point"]})
+            if hidden and mount["root"] != "/":
+                # A copy on a bind of some directory cannot be told from a view of that old store.
+                # A copy made in place is on a mount of a whole filesystem; relocate that one.
+                raise _refuse(f"the copy's {base} directory is on a bind mount of {mount['root']}, and this account "
+                              "cannot resolve the old store's path to rule out that it is the old store",
+                              {"mount": mount["point"], "boundFrom": mount["root"], "unresolved": hidden})
 
     def _refuse_views_of_the_old_store(self) -> None:
         """A FUSE or network view of the old store at the copy's path has a device of its own, so

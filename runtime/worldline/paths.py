@@ -177,20 +177,34 @@ def close_gate_at(data: Path) -> None:
 
 
 def store_lock_in_use(state: Path) -> bool:
-    """Whether a process holds a lock on the regular file at the store lock's path, whatever else
-    is wrong with it (a second link, a mode it cannot be written with). Decided from the kernel's
-    lock table first, which needs no open: a lock its owner made unreadable (0000, 0200) is still
-    a running daemon's (review of 300543c). A state path that is not a real directory of this
-    account's is not this store's, and a lock reached through it is some other store's: not in
-    use here. A lock file hard-linked to another store's held lock cannot be told apart from this
+    """Whether a process holds, or may hold, a lock on the regular file at the store lock's path,
+    whatever else is wrong with it (a second link, a mode it cannot be written with). Decided from
+    the kernel's lock table first, which needs no open: a lock its owner made unreadable (0000,
+    0200) is still a running daemon's (review of 300543c). Where this process cannot tell (the lock
+    is not in the table as it sees it, from another pid namespace or on a filesystem whose table
+    identities differ from stat's, and it cannot be opened; or the state directory cannot be
+    searched), the answer is "may be": a start then leaves the gate as a clean stop does, rather
+    than closing a running daemon's (review of 8ff1903). A state path that is not a real directory
+    of this account's is not this store's, and a lock reached through it is some other store's: not
+    in use here. A lock file hard-linked to another store's held lock cannot be told apart from this
     store's own and reads as in use (SECURITY.md)."""
+    import errno
     import fcntl
     try:
         directory = os.lstat(state)
-        info = os.lstat(state / STORE_LOCK_NAME)
-    except OSError:
+    except FileNotFoundError:
         return False
-    if not stat.S_ISDIR(directory.st_mode) or directory.st_uid != os.getuid() or not stat.S_ISREG(info.st_mode):
+    except OSError as exc:
+        return exc.errno == errno.EACCES   # an unsearchable parent: cannot tell
+    if not stat.S_ISDIR(directory.st_mode) or directory.st_uid != os.getuid():
+        return False
+    try:
+        info = os.lstat(state / STORE_LOCK_NAME)
+    except FileNotFoundError:
+        return False
+    except OSError as exc:
+        return exc.errno == errno.EACCES   # a state directory this account cannot search
+    if not stat.S_ISREG(info.st_mode):
         return False
     if _flock_listed(info):
         return True
@@ -198,8 +212,8 @@ def store_lock_in_use(state: Path) -> bool:
     # overlays report other devices there) or this process's view of /proc may hide the holder.
     try:
         descriptor = os.open(state / STORE_LOCK_NAME, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
-    except OSError:
-        return False
+    except OSError as exc:
+        return exc.errno == errno.EACCES   # unreadable to this account: cannot tell
     try:
         if not stat.S_ISREG(os.fstat(descriptor).st_mode):
             return False

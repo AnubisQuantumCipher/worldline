@@ -304,40 +304,52 @@ class RootManager:
         internal_manifests.mkdir(mode=0o700, exist_ok=True)
         recorded = {item["root_key"]: item for item in self.store.roots() if item["root_key"] not in exclude}
         for root_key, root in sorted(recorded.items()):
-            logical = bytes(root["path"])
-            source = self.paths.root_source(root)
-            allow_external: frozenset[bytes] = frozenset()
             try:
-                repository = self.git.capture(source) if root["kind"] == "repo" else None
+                manifests.append(self._capture_root(root_key, root, payload, manifests_directory,
+                                                    internal_manifests, uninspectable_ok))
             except WorldlineError as exc:
-                if not (uninspectable_ok and exc.code in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT")
-                        and self._layout_uninspectable(source)):
-                    # Only the layout: a NOT_A_GIT_ROOT from content (core.bare) keeps refusing, or
-                    # removing another root would publish this one without its facts (review of c7d89f1).
-                    # Named by the operator's path: the error names the store's payload path, which
-                    # says nothing about which root to repair (review of 300543c).
-                    exc.details = {**(exc.details or {}), "root": root["display_path"]}
-                    raise
-                repository = None
-                if os.path.islink(os.path.join(source, b".git")):
-                    allow_external = frozenset({b".git"})
-            manifest = Manifest.capture(
-                source,
-                logical_root=logical,
-                root_key=root_key,
-                kind=root["kind"],
-                core=self.core,
-                repository=repository,
-                allow_external_links=allow_external,
-            )
-            target = payload / root_key
-            if not target.exists():
-                Manifest.materialize(manifest, source, target, core=self.core, allow_external_links=allow_external)
-            manifest.save(manifests_directory / f"{root_key}.json")
-            manifest.save(internal_manifests / f"{root_key}.json")
-            self.store.update_root_generation(root_key, root["generation_id"], manifest.root_hash)
-            manifests.append(manifest)
+                # Named by the operator's path, in the message too: the plain CLI prints only the
+                # code and message, and those named the store's payload path or nothing, which
+                # says nothing about which root to repair (reviews of 300543c and 8ff1903).
+                display = root["display_path"]
+                exc.details = {**(exc.details or {}), "root": display}
+                if not exc.message.startswith(f"{display}: "):
+                    exc.message = f"{display}: {exc.message}"
+                raise
         return manifests
+
+    def _capture_root(self, root_key: str, root, payload: Path, manifests_directory: Path,
+                      internal_manifests: Path, uninspectable_ok: bool) -> CapturedManifest:
+        logical = bytes(root["path"])
+        source = self.paths.root_source(root)
+        allow_external: frozenset[bytes] = frozenset()
+        try:
+            repository = self.git.capture(source) if root["kind"] == "repo" else None
+        except WorldlineError as exc:
+            if not (uninspectable_ok and exc.code in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT")
+                    and self._layout_uninspectable(source)):
+                # Only the layout: a NOT_A_GIT_ROOT from content (core.bare) keeps refusing, or
+                # removing another root would publish this one without its facts (review of c7d89f1).
+                raise
+            repository = None
+            if os.path.islink(os.path.join(source, b".git")):
+                allow_external = frozenset({b".git"})
+        manifest = Manifest.capture(
+            source,
+            logical_root=logical,
+            root_key=root_key,
+            kind=root["kind"],
+            core=self.core,
+            repository=repository,
+            allow_external_links=allow_external,
+        )
+        target = payload / root_key
+        if not target.exists():
+            Manifest.materialize(manifest, source, target, core=self.core, allow_external_links=allow_external)
+        manifest.save(manifests_directory / f"{root_key}.json")
+        manifest.save(internal_manifests / f"{root_key}.json")
+        self.store.update_root_generation(root_key, root["generation_id"], manifest.root_hash)
+        return manifest
 
     @staticmethod
     def _layout_uninspectable(source: bytes) -> bool:
@@ -446,8 +458,11 @@ class RootManager:
         except BaseException:
             # A fresh copy of what is live: a refused publish must not keep it. status reconciles
             # while the store is dirty, so each refused attempt left another full copy (review of
-            # 300543c). Kept only if it did become PRIME before the failure.
-            if self.store.get_meta("primeGeneration") != generation_id:
+            # 300543c). Kept if it became PRIME, or if a world was already recorded over it
+            # (publication records the world before it moves PRIME: review of 8ff1903).
+            real = os.path.realpath(payload)
+            if (self.store.get_meta("primeGeneration") != generation_id
+                    and not any(os.path.realpath(world.payload_path) == real for world in self.store.worlds())):
                 remove_tree(payload.parent, ignore_errors=True)
             raise
 
@@ -461,7 +476,7 @@ class RootManager:
             repository = self.git.capture(source) if root["kind"] == "repo" else None
         except WorldlineError as exc:
             if exc.code not in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT", "GIT_INSPECTION_FAILED",
-                                "GIT_SANDBOX_UNAVAILABLE", "GIT_UNAVAILABLE"):
+                                "GIT_SANDBOX_UNAVAILABLE", "GIT_UNAVAILABLE", "BUBBLEWRAP_UNAVAILABLE"):
                 raise
             # The root being removed is never published again, so its repository facts are not
             # needed: removal copies the payload's bytes, `.git` included, and compares them with
@@ -547,6 +562,7 @@ class RootManager:
                 self.store.set_meta("dirty", False)
                 prime_id = None
         except BaseException as failure:
+            kept_at: str | None = None
             try:
                 try:
                     self.store.root(root["root_key"])
@@ -582,11 +598,22 @@ class RootManager:
                     os.rename(stage, kept)
                     _LOG.error("root removal rolled back; what was written at %s meanwhile is kept in %s",
                                root["display_path"], os.fsdecode(kept))
+                    kept_at = os.fsdecode(kept)
                     if isinstance(failure, WorldlineError):  # said in the refusal too (review of 300543c)
-                        failure.details = {**(failure.details or {}), "keptAt": os.fsdecode(kept)}
+                        failure.details = {**(failure.details or {}), "keptAt": kept_at}
+                        failure.message = (f"{failure.message}; what was written at {root['display_path']} "
+                                           f"meanwhile is kept in {kept_at}")
                 # The prepared generation is discarded unless publication made it PRIME.
                 if prepared is not None and self.store.get_meta("primeGeneration") != prepared[0]:
                     remove_tree(prepared[1].parent, ignore_errors=True)
+            if kept_at is not None and isinstance(failure, Exception) and not isinstance(failure, WorldlineError):
+                # A failure that is not a refusal (a full disk) kept the copy too: said by name, not
+                # only in the daemon's log (review of 8ff1903).
+                raise WorldlineError(
+                    "ROOT_REMOVAL_ROLLED_BACK",
+                    f"{root['display_path']} was not removed ({type(failure).__name__}: {failure}); "
+                    f"what was written there meanwhile is kept in {kept_at}",
+                    {"keptAt": kept_at, "root": root["display_path"]}) from failure
             raise
 
         os.unlink(stage)

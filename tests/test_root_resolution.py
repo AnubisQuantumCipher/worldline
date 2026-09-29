@@ -257,6 +257,69 @@ class RootSourceTests(_Registered):
         world = self.manager.reconcile()
         self.assertNotEqual(world.content_id, self.prime)
 
+    def test_declared_dependencies_that_cannot_be_recorded_are_unavailable(self) -> None:
+        # Review of 8ff1903: a float refused every capture NON_CANONICAL_JSON, and one nested past the
+        # canonicaliser's recursion raised a bare RecursionError out of reconcile and removal.
+        source = Path(os.fsdecode(self.paths.root_source(self.root)))
+        for text in ('{"dependencies": {"x": 1.5}}',
+                     '{"dependencies": {"x": ' + "[" * 3000 + "]" * 3000 + "}}"):
+            with self.subTest(text=text[:40]):
+                (source / "package.json").write_text(text)
+                self.store.set_meta("dirty", True)
+                world = self.manager.reconcile()
+                self.assertEqual(self.store.prime().content_id, world.content_id)
+
+    def test_a_remaining_root_refused_for_its_own_files_is_named_in_the_message(self) -> None:
+        # Review of 8ff1903: a FIFO or outside hard link in another root refused a removal with a
+        # message that named neither that root nor anything the operator could find.
+        other = self._second_root("fifo-root")
+        os.mkfifo(Path(os.fsdecode(self.paths.root_source(other))) / "fifo")
+        with self.assertRaises(WorldlineError) as caught:
+            self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertEqual(caught.exception.code, "UNSUPPORTED_SPECIAL_FILE")
+        self.assertTrue(caught.exception.message.startswith(other["display_path"] + ": "), caught.exception.message)
+        self.assertEqual(caught.exception.details["root"], other["display_path"])
+
+    def test_a_failure_that_is_not_a_refusal_still_reports_the_kept_copy(self) -> None:
+        # Review of 8ff1903: a disk-full OSError after the swap kept what was written at the path,
+        # but said so only in the daemon's log.
+        def write_then_fail(root_key):
+            (self.work / "written-meanwhile.txt").write_text("keep me\n")
+            raise OSError(28, "No space left on device")
+
+        with mock.patch.object(self.store, "remove_root", side_effect=write_then_fail):
+            with self.assertRaises(WorldlineError) as caught:
+                self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertEqual(caught.exception.code, "ROOT_REMOVAL_ROLLED_BACK")
+        kept = Path(caught.exception.details["keptAt"])
+        self.assertEqual((kept / "written-meanwhile.txt").read_text(), "keep me\n")
+        self.assertIn(str(kept), caught.exception.message)
+        self.assertTrue(self.work.is_symlink())
+
+    def test_the_removed_root_needs_no_repository_sandbox(self) -> None:
+        # Review of 8ff1903: a missing bwrap, prlimit or choom still refused removing a repository
+        # root, whose facts removal never uses.
+        repo, root = self._repository_root("no-sandbox")
+        with mock.patch.object(self.manager.git, "capture",
+                               side_effect=WorldlineError("BUBBLEWRAP_UNAVAILABLE", "bwrap is not installed")):
+            self.manager.remove(root["root_key"], confirmed=True)
+        self.assertTrue(repo.is_dir() and not repo.is_symlink())
+
+    def test_a_publish_that_failed_after_recording_its_world_keeps_that_payload(self) -> None:
+        # Review of 8ff1903: publication records the world before it moves PRIME; a failure in
+        # between (a full disk) had the reconcile discard delete the payload the world names.
+        import sqlite3
+        source = Path(os.fsdecode(self.paths.root_source(self.root)))
+        (source / "state.txt").write_bytes(b"changed\n")
+        self.store.set_meta("dirty", True)
+        before = {world.instance_id for world in self.store.worlds()}
+        with mock.patch.object(self.store, "set_prime", side_effect=sqlite3.OperationalError("database or disk is full")):
+            with self.assertRaises(sqlite3.OperationalError):
+                self.manager.reconcile()
+        recorded = [world for world in self.store.worlds() if world.instance_id not in before]
+        self.assertEqual(len(recorded), 1)
+        self.assertTrue(Path(recorded[0].payload_path).is_dir())
+
     def _second_root(self, name: str) -> dict:
         other = Path(self.temporary.name) / name
         other.mkdir()
@@ -371,6 +434,23 @@ class RootSourceTests(_Registered):
 
 
 @unittest.skipIf(SUPPLEMENTARY_GID is None, "needs a supplementary group")
+class StatusReportsAnyRecaptureFailure(unittest.TestCase):
+    def test_an_unexpected_recapture_failure_degrades_status_instead_of_failing_it(self) -> None:
+        # Review of 8ff1903: status caught only refusals, so any other failure of the re-capture
+        # answered INTERNAL_ERROR on every request while the store stayed dirty.
+        from worldline.daemon import WorldlineDaemon
+        meta = {"dirty": True}
+        store = mock.Mock()
+        store.get_meta.side_effect = lambda key, default=None: meta.get(key, default)
+        store.set_meta.side_effect = lambda key, value: meta.__setitem__(key, value)
+        daemon = mock.Mock(store=store, _reconcile_status=mock.Mock(side_effect=RecursionError("too deep")))
+        daemon.publisher.publish.return_value = {"published": True}
+        self.assertEqual(WorldlineDaemon._status(daemon, {}, None), {"published": True})
+        self.assertEqual(meta["watchState"], "DEGRADED")
+        self.assertEqual(meta["watchError"]["code"], "RECAPTURE_FAILED")
+        self.assertIn("RecursionError", meta["watchError"]["message"])
+
+
 class ClientModePrimeChainTests(_Registered):
     client_mode = True
 

@@ -17,8 +17,11 @@ from ..errors import WorldlineError
 # git's own words for a fork, allocation or descriptor it could not get (bash's for its scripts).
 _RESOURCE_FAILURE = re.compile(r"cannot fork|fork: |Resource temporarily unavailable|Cannot allocate memory|"
                                r"Too many open files|out of memory", re.IGNORECASE)
-# git's report that a process it started was killed (run-command's wait_or_whine, C locale).
-_CHILD_KILLED = re.compile(rb"died of signal [0-9]+")
+# git's report that a process it started was killed: run-command's wait_or_whine prints exactly
+# `error: <program> died of signal <n>` on a line of its own (C locale). Matched as a whole line
+# only: a warning that quotes a file named "died of signal 9.txt" set off an unanchored match
+# (review of 8ff1903).
+_CHILD_KILLED = re.compile(rb"^error: [^'\n]* died of signal [0-9]+$", re.MULTILINE)
 
 
 class GitAdapter:
@@ -248,14 +251,16 @@ class GitAdapter:
                 f"git was stopped by signal {result.returncode - 128} while inspecting {os.fsdecode(root)}",
                 {"argv": list(args), "stderr": result.stderr.decode("utf-8", "replace")[:2000]},
             )
-        if _CHILD_KILLED.search(result.stderr):
+        killed = _CHILD_KILLED.search(result.stderr)
+        if killed:
             # A process git started was killed (inspection runs at OOM score 1000). git says so and
             # exits 128, or exits 0 after trying another way, which changes what it prints:
             # `submodule status` retries `describe` with other options. Either would be recorded
             # as a fact about the repository (review of 300543c).
             raise WorldlineError(
                 "GIT_INSPECTION_FAILED",
-                f"a process git started was stopped by a signal while inspecting {os.fsdecode(root)}",
+                f"a process git started was stopped by a signal while inspecting {os.fsdecode(root)} "
+                f"({killed.group(0).decode('utf-8', 'replace')})",
                 {"argv": list(args), "stderr": result.stderr.decode("utf-8", "replace")[:2000]},
             )
         if check and result.returncode != 0:
