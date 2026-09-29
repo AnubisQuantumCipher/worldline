@@ -88,8 +88,9 @@ report files are never admissible.
   - Clients can traverse to PRIME's content, but cannot list any store directory: the path to it
     is `0710` with the group, and everything else stays `0700`. The data directory is the gate: it
     opens only at daemon start after the content check, and closes if content turns out unsafe.
-  - Content they can reach must be owned by the daemon and carry no group or other write bit
-    and no setuid, setgid or sticky bit (`CLIENT_MODE_UNSAFE_CONTENT`). This is checked at
+  - Content they can reach must be owned by the daemon and carry no other-write bit, no
+    group-write bit on an entry of the client group, and no setuid, setgid or sticky bit
+    (`CLIENT_MODE_UNSAFE_CONTENT`). This is checked at
     collapse and return prepare, when a generation is published, and at daemon start. A client
     group equal to the daemon's primary group is refused.
   - `init`, `root add`, `root remove` and `switch` refuse clients
@@ -150,10 +151,14 @@ report files are never admissible.
   extend the claim to the private evaluator's roles (limit 5).
 - **Repository inspection runs in a sandbox (1.7.0; hardened since 1.0.1).** Registered repos
   and world repos are untrusted. Every host-side `git` process runs in its own bubblewrap
-  sandbox: no network, read-only system directories, and only the inspected root (read-only)
-  and a private scratch directory from the host. Anything a repository's configuration makes
-  git run, such as a filter driver, reaches nothing. Before 1.7.0 a `-c` denylist was the only
-  defence, and it could not name filter drivers; that list remains as a second layer.
+  sandbox: no network, read-only system directories, a bounded tmpfs, a task limit, and only
+  the inspected root (read-only), a linked worktree's own git directories (read-only, bound only
+  when they are real git directories) and a private scratch directory from the host. The index
+  file is read on the host only when it lies inside those. Anything a repository's configuration
+  makes git run, such as a filter driver, reaches nothing. Before 1.7.0 a `-c` denylist was the
+  only defence, and it could not name filter drivers; that list remains as a second layer.
+  Memory used inside the sandbox is charged to the daemon's cgroup: the unit's `MemoryMax=`
+  bounds it.
 - **Release assurance of an exact commit (1.3.0; private host roster, 1.5.0).** A version is
   published only after `scripts/release_gate.py` accepts the full assurance report of the tagged
   commit, produced in the same workflow run (`docs/release-process.md`). One roster
@@ -421,7 +426,7 @@ trust you place in WORLDLINE.
      a `0600` or `0640` file stays unreadable to them directly. Through daemon requests (`why`,
      `show`, `inspect`) they see PRIME content whatever its modes. Earlier PRIMEs' committed
      payloads stay readable by id until `prune`. They cannot list any store directory, and
-     reachable content refuses group or other write and special bits.
+     reachable content refuses other-write, a group-write bit for the client group, and special bits.
    - The routing check reads the registered root links. The daemon account therefore needs
      search permission on the directories above them, for example the operator's HOME. Without
      it every capture refuses, which fails closed.
@@ -439,6 +444,7 @@ trust you place in WORLDLINE.
        but not descended; the report counts them.
    - Deployment requirements that WORLDLINE does not enforce:
      - `RestrictSUIDSGID=yes` on the unit, and on the account's user manager (jobs run there);
+     - `MemoryMax=` on the unit, which bounds repository inspection;
      - a `nosuid` store mount;
      - a regular (non-system) uid for the account, so journald keeps its user journal, which job
        supervision reads;

@@ -22,12 +22,19 @@ that mattered.
   a 1.7.0 candidate demonstrated it.
 - Every git process now runs in its own bubblewrap sandbox:
   - no network;
-  - the system directories read-only, and a fresh `/tmp`;
-  - nothing of the host except the inspected root (read-only) and a private scratch directory.
+  - the system directories read-only, and a fresh `/tmp` of at most 256 MiB;
+  - nothing of the host except the inspected root (read-only), a linked worktree's own git
+    directories (read-only; found on the host from the root's `.git` file, and bound only when
+    they are real directories holding a `HEAD`), and a private scratch directory;
+  - at most 512 tasks beyond what the daemon's uid already has (`prlimit --nproc`), and the
+    existing 15 s timeout. Memory is bounded by the daemon unit's own cgroup, not here.
+- The index file git names is read on the host only when it lies inside the root or those git
+  directories and is a regular file; a `.git/index` link elsewhere is treated as no index.
 - Git behaves exactly as before, so the captured repository facts do not change. Anything a
   hostile configuration makes it run reaches nothing. The `-c` denylist stays as a second layer.
-- `tests/test_security_hardening.py` arms a repository with a filter, proves on the host that it
-  fires, and proves that inspection no longer lets it write anywhere.
+- `tests/test_security_hardening.py` arms a repository with a filter that lives inside it,
+  proves on the host that it fires, proves through its marker in the captured diff that it ran
+  inside the sandbox, and proves that it wrote nowhere the host can see.
 
 ### Managed roots resolve through the store (every deployment)
 
@@ -93,8 +100,10 @@ that mattered.
     modes.
 - **Content a client can reach must be the daemon's and read-only to everyone else**
   (`CLIENT_MODE_UNSAFE_CONTENT`).
-  - What is refused: an entry not owned by the daemon, any group or other write bit, and any
-    setuid, setgid or sticky bit.
+  - What is refused: an entry not owned by the daemon, any other-write bit, a group-write bit
+    on an entry whose group is the client group, and any setuid, setgid or sticky bit. A
+    group-write bit on an entry of the daemon's own group grants clients nothing, since a client
+    in that group is refused, and umask-002 hosts put that bit on everything a world writes.
   - Where it is enforced: at collapse and return prepare (before a transaction exists), when a
     generation is published, and at daemon start (before the gate opens). A directory the daemon
     cannot read there refuses too. If publication finds live content unsafe while the daemon
@@ -187,6 +196,12 @@ that mattered.
   then have held the lock and stalled admission.
 - **The self-capture guard compares resolved paths as well.** Before, a symlinked parent could
   walk a root into the store past the lexical check.
+- **The client reads a refusal the daemon sent before closing.** A daemon refuses an unlisted
+  peer and closes before reading anything; under load the client's send then failed with a
+  broken pipe instead of reporting `PEER_UID_MISMATCH`, which was already in its receive buffer.
+- **Every transient job unit sets `UMask=0022`.** What a world writes no longer depends on the
+  host manager's umask. A hosted runner whose manager ran with a permissive umask made every
+  agent-written file group-writable, which client mode then refused at collapse.
 
 ### Known limits
 
@@ -203,7 +218,8 @@ that mattered.
   - agents run with that account's credentials, and WORLDLINE does not provide any;
   - there is no supported way to add a root: the daemon cannot move the operator's
     directories, and clients may not ask;
-  - the unit should set `RestrictSUIDSGID=yes`, and the store should sit on a `nosuid` mount.
+  - the unit should set `RestrictSUIDSGID=yes` and a `MemoryMax=` (repository inspection runs
+    inside the daemon's cgroup), and the store should sit on a `nosuid` mount.
   `SECURITY.md` limit 7.
 - `simulate` runs a client's argv as the daemon account, in a sandbox that masks the store and
   HOME but shares the host network under `network.policy: shared`.
