@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.7.2 — 2026-09-29 · relocating stores with payload-less worlds
+
+**Found by the rehearsal of the dedicated-account migration from the 1.7.1 release artifact, on
+a consistent copy of a production store.** No store migration is needed. Existing VALID worlds
+need revalidation before collapse, as after any release: the runtime changed.
+
+### Fixed
+
+- **`worldline-relocate` relocates a store that holds worlds without a payload.** A fork that
+  dies before its payload exists leaves a retained world (DEAD, DEGRADED) with no payload
+  directory; the production store under rehearsal had six. 1.7.1's dry run said nothing about
+  them, and its real run rewrote the copy and then refused in verification ("retained world
+  payloads are missing from the new store"), so such a store could not be relocated at all. The
+  relocation now records, while planning and before anything is written, which retained worlds'
+  payloads are already absent from the copy, reports them in dry and real runs alike
+  (`payloadsAbsentBeforeRelocation`: count, and each world's alias, instance and state), and
+  verification requires every payload that was present before to be present after. A payload
+  that disappears during relocation still refuses.
+
+### Known limits
+
+- `prune` never offers a world whose payload is absent and that has no logs, so such worlds stay
+  recorded (and are reported by every relocation) until removed by hand.
+
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 
 **An independent review of 1.7.0 (commit ad64cd2) and a rehearsal of the dedicated-account

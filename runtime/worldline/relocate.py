@@ -275,6 +275,20 @@ class Relocation:
 
     # -- the three kinds of persisted location
 
+    def _payloads_absent(self, connection: sqlite3.Connection) -> list[dict[str, str]]:
+        """Retained worlds whose payload is not in the copy before anything is rewritten: a fork
+        that died before its payload existed (a production store had six). The relocation cannot
+        lose what was never there, so these are reported, by dry and real runs alike, and
+        verification requires only the payloads that were present (1.7.1 refused the store after
+        rewriting it: rehearsal of 1.7.1)."""
+        absent = []
+        for instance, alias, state, payload in connection.execute(
+                "SELECT instance_id, alias, state, payload_path FROM worlds WHERE payload_pruned=0 ORDER BY rowid"):
+            mapped = os.fsdecode(self._map(os.fsencode(payload), "worlds.payload_path"))
+            if not os.path.isdir(mapped):
+                absent.append({"instanceId": instance, "alias": alias, "state": state})
+        return absent
+
     def _plan_database(self, connection: sqlite3.Connection) -> list[tuple[str, str, int, str]]:
         """Every location row's new value, computed (and refused) before anything is written."""
         plan: list[tuple[str, str, int, str]] = []
@@ -843,6 +857,7 @@ class Relocation:
             record_columns = self._scan_database(connection, skip_locations=True, records=True)
             found, refused = self._scan()
             walk = self._walk_copy()
+            absent = self._payloads_absent(connection)
             unsafe, unsafe_sample = self._live_unsafe_for_clients()
             report = {
                 "locationRows": {f"{table}.{column}": sum(1 for row in database_plan if row[:2] == (table, column))
@@ -852,6 +867,7 @@ class Relocation:
                 "recordColumnsKept": record_columns,
                 **walk,
                 "liveContentUnsafeForClients": {"count": unsafe, "sample": unsafe_sample},
+                "payloadsAbsentBeforeRelocation": {"count": len(absent), "sample": absent[:50]},
             }
             if dry_run:
                 connection.execute("ROLLBACK")
@@ -895,18 +911,20 @@ class Relocation:
         if database or refused:
             raise _refuse("the old store is still named where the daemon reads it",
                           {"databaseColumns": database, "files": refused[:200]})
-        verification = self.verify()
+        verification = self.verify(absent_before=frozenset(item["instanceId"] for item in absent))
         self._lock_still_held(lock)
         return {"state": "RELOCATED",
                 "rewritten": {"databaseRows": report["locationRows"], "transactionRecords": len(records_plan),
                               "mappingLinks": len(links_plan)},
                 "mentionsKept": found, "recordColumnsKept": report["recordColumnsKept"],
+                "payloadsAbsentBeforeRelocation": report["payloadsAbsentBeforeRelocation"],
                 "liveContentUnsafeForClients": dict(zip(("count", "sample"), self._live_unsafe_for_clients())),
                 "verification": verification}
 
-    def verify(self) -> dict[str, Any]:
+    def verify(self, absent_before: frozenset[str] = frozenset()) -> dict[str, Any]:
         """The relocated store, read as the daemon will read it. Opening it as the daemon does
-        also sets its directories' modes and would migrate an older schema."""
+        also sets its directories' modes and would migrate an older schema. `absent_before` names
+        the retained worlds whose payload was already absent from the copy before relocation."""
         from .store import StateStore
 
         scratch = Path(tempfile.mkdtemp(prefix="worldline-relocate-"))
@@ -927,7 +945,8 @@ class Relocation:
                         # The daemon's own rule (root_source): a link into a payload (review of 09f5c0b).
                         raise _refuse(f"live mapping for {root['root_key']} is not a link to a payload in the new store")
                 retained = [world for world in store.worlds() if not world.payload_pruned]
-                missing = [world.alias for world in retained if not Path(world.payload_path).is_dir()]
+                missing = [world.alias for world in retained
+                           if world.instance_id not in absent_before and not Path(world.payload_path).is_dir()]
                 if missing:
                     raise _refuse("retained world payloads are missing from the new store", {"worlds": missing[:50]})
                 outside = [world.alias for world in retained
@@ -947,7 +966,8 @@ class Relocation:
                 store.close()
         finally:
             shutil.rmtree(scratch, ignore_errors=True)
-        return {"chains": chains, "roots": "RESOLVED", "payloads": "PRESENT"}
+        return {"chains": chains, "roots": "RESOLVED", "payloads": "PRESENT",
+                "payloadsAbsentBeforeRelocation": len(absent_before)}
 
 
 def main(argv: list[str] | None = None) -> int:

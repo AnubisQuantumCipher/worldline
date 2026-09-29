@@ -3,7 +3,7 @@
 This document states plainly what WORLDLINE defends against, what it does not, and where its
 claims end. It is deliberately conservative: a guarantee is listed under "Holds" only if it was
 verified in code or demonstrated, and everything else is named as a limit rather than left
-implied. Last reviewed 2026-09-29, against release 1.7.1 (the audit of record is still
+implied. Last reviewed 2026-09-29, against release 1.7.2 (the audit of record is still
 `SECURITY-AUDIT-2026-09-02.md`; the adversarial reviews since then are summarized in
 `CHANGELOG.md`).
 
@@ -499,6 +499,10 @@ trust you place in WORLDLINE.
        checks.
        On btrfs a held file with the same inode number in another subvolume of the same
        filesystem reads as a holder and refuses the relocation.
+     - Every retained world's payload that is in the copy before relocation must be there after
+       it. A retained world whose payload was already absent (a fork that died before it had
+       one) is reported (`payloadsAbsentBeforeRelocation`, 1.7.2), not refused: the relocation
+       cannot lose what was never there.
      - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and
        nothing reads a path back out of it) and counts it; a mention of the old store in any
        other database column refuses.
