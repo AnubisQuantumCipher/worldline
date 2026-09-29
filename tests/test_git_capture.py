@@ -13,8 +13,11 @@ from worldline.linux.git import GitAdapter
 
 
 def _git(root: Path, *args: str) -> None:
+    # No automatic maintenance: git 2.55 runs it detached after a commit, and its
+    # objects/maintenance.lock came and went while the test copied .git (a flaky copytree error).
     subprocess.run(
-        ["git", "-c", "user.email=t@example.invalid", "-c", "user.name=t", "-C", str(root), *args],
+        ["git", "-c", "user.email=t@example.invalid", "-c", "user.name=t", "-c", "maintenance.auto=false",
+         "-c", "gc.auto=0", "-C", str(root), *args],
         check=True, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
     )
 

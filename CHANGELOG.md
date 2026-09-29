@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.7.3 — 2026-09-29 · deployment guidance corrected
+
+**Found by the rehearsal of the dedicated-account migration from the 1.7.2 release artifact.**
+No code path changes; no store migration is needed.
+
+### Fixed
+
+- **`RestrictSUIDSGID=` is no longer recommended; it breaks every sandbox.** 1.7.0 to 1.7.2
+  asked dedicated deployments to set it on the unit and on the account's user manager. Its
+  seccomp filter answers `openat2` with ENOSYS (the flags live in a struct it cannot inspect),
+  and bubblewrap 0.13 does not fall back: in the rehearsal, repository inspection refused
+  `GIT_SANDBOX_UNAVAILABLE` ("Can't open source /usr: Function not implemented"), `simulate`
+  refused `SIMULATION_FAILED`, and the doctor reported the sandbox `UNAVAILABLE`. Removing it
+  restored all three (demonstrated with a transient unit with and without the setting). Setuid
+  content stays covered by the content check (setuid and setgid bits refuse in anything a
+  client can reach) and by the `nosuid` store mount.
+- **The store's `nosuid` mount belongs outside the system roots `simulate` overlays** (`/usr`,
+  `/etc`, `/var`, `/opt`, `/boot`), for example `/srv/<account>`. The kernel refuses an
+  unprivileged overlay layer that has a mount beneath it, so a self-bind of `/var/lib/<account>`
+  made `/var` unusable as a layer and `simulate` failed ("Can't make overlay mount … Invalid
+  argument") for every account on the host; demonstrated by removing the mount in a private
+  namespace, which restored the overlay. With the store under `/srv`, the rehearsal's exercise
+  passed 22 of 22.
+
 ## 1.7.2 — 2026-09-29 · relocating stores with payload-less worlds
 
 **Found by the rehearsal of the dedicated-account migration from the 1.7.1 release artifact, on

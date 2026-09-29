@@ -347,7 +347,9 @@ def deployment_facts(data: Path) -> dict[str, dict[str, Any]]:
       there reported OK over a suid-capable host mount (review of 796cb02);
     - the unit's MemoryMax=, MemorySwapMax= and TasksMax=, which bound repository inspection (it
       runs in the daemon's own cgroup). memory.max does not cover swap.
-    RestrictSUIDSGID= on the unit and on the account's user manager cannot be read from here."""
+    RestrictSUIDSGID= must not be set on the unit or the account's user manager: its seccomp filter
+    answers openat2 with ENOSYS and bubblewrap then builds no sandbox, which the repository
+    sandbox probe reports (rehearsal of 1.7.2)."""
     facts: dict[str, dict[str, Any]] = {}
     try:
         value = Path("/proc/sys/fs/protected_hardlinks").read_text(encoding="ascii").strip()
