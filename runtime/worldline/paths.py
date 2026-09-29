@@ -190,20 +190,19 @@ def store_lock_in_use(state: Path) -> bool:
     store's own and reads as in use (SECURITY.md)."""
     import errno
     import fcntl
+    # Only these say there is no lock here to hold; any other error (EACCES, EPERM from a security
+    # policy, EMFILE, EIO) means this process cannot tell (review of f50bbb1).
+    absent = (errno.ENOENT, errno.ENOTDIR, errno.ELOOP)
     try:
         directory = os.lstat(state)
-    except FileNotFoundError:
-        return False
     except OSError as exc:
-        return exc.errno == errno.EACCES   # an unsearchable parent: cannot tell
+        return exc.errno not in absent
     if not stat.S_ISDIR(directory.st_mode) or directory.st_uid != os.getuid():
         return False
     try:
         info = os.lstat(state / STORE_LOCK_NAME)
-    except FileNotFoundError:
-        return False
     except OSError as exc:
-        return exc.errno == errno.EACCES   # a state directory this account cannot search
+        return exc.errno not in absent
     if not stat.S_ISREG(info.st_mode):
         return False
     if _flock_listed(info):
@@ -213,7 +212,7 @@ def store_lock_in_use(state: Path) -> bool:
     try:
         descriptor = os.open(state / STORE_LOCK_NAME, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
     except OSError as exc:
-        return exc.errno == errno.EACCES   # unreadable to this account: cannot tell
+        return exc.errno not in absent     # unreadable to this account: cannot tell
     try:
         if not stat.S_ISREG(os.fstat(descriptor).st_mode):
             return False

@@ -92,8 +92,21 @@ def _mount_table(path: str = "/proc/self/mountinfo") -> list[dict[str, Any]]:
             dash = fields.index("-")
             entries.append({"id": int(fields[0]), "parent": int(fields[1]), "device": fields[2],
                             "root": _unescape_mount_path(fields[3]), "point": _unescape_mount_path(fields[4]),
-                            "options": fields[5].split(","), "fstype": fields[dash + 1]})
+                            "options": fields[5].split(","), "fstype": fields[dash + 1],
+                            "super": fields[dash + 3].split(",") if len(fields) > dash + 3 else []})
     return entries
+
+
+def _bind_of_a_directory(mount: dict[str, Any]) -> bool:
+    """Whether a mount shows a directory of its filesystem rather than the filesystem itself. A
+    btrfs subvolume mounted whole records the subvolume as its root (`/@`), with the same path in
+    its `subvol=` option: that is a whole mount, not a bind (review of f50bbb1: every btrfs system
+    whose root is a subvolume read as bound)."""
+    if mount["root"] == "/":
+        return False
+    if mount["fstype"] == "btrfs" and f"subvol={mount['root']}" in mount.get("super", []):
+        return False
+    return True
 
 
 def _holding_mount(path: str, entries: list[dict[str, Any]]) -> dict[str, Any]:
@@ -743,10 +756,12 @@ class Relocation:
         for old_root in self.old:
             try:
                 os.path.realpath(os.fsdecode(old_root), strict=True)
-            except PermissionError:
+            except (PermissionError, FileNotFoundError):
+                # Unsearchable, or missing from this view (a tmpfs over the home, as ProtectHome=
+                # gives): either way it cannot be located (review of f50bbb1).
                 hidden.append(os.fsdecode(old_root))
             except OSError:
-                pass  # missing, or a link loop: resolved as far as it goes, below
+                pass  # a link loop: resolved as far as it goes, below
         pairs = [(("data", self.new_data), self.old[0]), (("state", self.new_state), self.old[1]),
                  (("data", self.new_data), self.old[1]), (("state", self.new_state), self.old[0])]
         for (base, new_root), old_root in pairs:
@@ -765,7 +780,7 @@ class Relocation:
                     or old_source.startswith(source.rstrip("/") + "/")):
                 raise _refuse("the copy is the old store seen through a mount",
                               {"copy": str(new_root), "old": os.fsdecode(old_root), "mount": mount["point"]})
-            if hidden and mount["root"] != "/":
+            if hidden and _bind_of_a_directory(mount):
                 # A copy on a bind of some directory cannot be told from a view of that old store.
                 # A copy made in place is on a mount of a whole filesystem; relocate that one.
                 raise _refuse(f"the copy's {base} directory is on a bind mount of {mount['root']}, and this account "

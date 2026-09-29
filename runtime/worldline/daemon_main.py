@@ -58,6 +58,10 @@ def main(argv: list[str] | None = None) -> int:
                 close_gate_at(data)
             except OSError:
                 log.exception("could not close the client gate")
+        elif getattr(exc, "code", None) != "DAEMON_ALREADY_RUNNING":
+            # Held, or this start cannot tell: the gate is left as a clean stop leaves it, and the
+            # log says so (review of f50bbb1).
+            log.warning("the store lock may be held by another process; the client gate is left as it was")
         return 1
 
     def close_gate() -> None:

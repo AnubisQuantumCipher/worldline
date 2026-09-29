@@ -266,6 +266,22 @@ class RootManager:
             raise
         return {"roots": summary, "prime": world.content_id, "generation": generation_id}
 
+    def _discard_unpublished(self, generation_id: str, payload: Path) -> None:
+        """Remove a fresh generation a refused publication left, unless it became PRIME or a world
+        was already recorded over it: publication records the world before it moves PRIME, and a
+        failure in between (a full disk) had the discard delete a recorded world's payload (reviews
+        of 8ff1903 and f50bbb1, for reconcile and for removal). A lookup that fails keeps it."""
+        try:
+            if self.store.get_meta("primeGeneration") == generation_id:
+                return
+            real = os.path.realpath(payload)
+            if any(os.path.realpath(world.payload_path) == real for world in self.store.worlds()):
+                return
+        except Exception:  # noqa: BLE001 - keeping it is the safe side; the original failure is raised
+            _LOG.exception("could not decide whether generation %s was published; kept", generation_id)
+            return
+        remove_tree(payload.parent, ignore_errors=True)
+
     @staticmethod
     def _discard_registration_generation(generation_payload: Path, moved, candidates=()) -> None:
         """Remove a refused registration's generation only once every root it moved in has been
@@ -458,12 +474,8 @@ class RootManager:
         except BaseException:
             # A fresh copy of what is live: a refused publish must not keep it. status reconciles
             # while the store is dirty, so each refused attempt left another full copy (review of
-            # 300543c). Kept if it became PRIME, or if a world was already recorded over it
-            # (publication records the world before it moves PRIME: review of 8ff1903).
-            real = os.path.realpath(payload)
-            if (self.store.get_meta("primeGeneration") != generation_id
-                    and not any(os.path.realpath(world.payload_path) == real for world in self.store.worlds())):
-                remove_tree(payload.parent, ignore_errors=True)
+            # 300543c).
+            self._discard_unpublished(generation_id, payload)
             raise
 
     def remove(self, value: str, *, confirmed: bool = False) -> dict[str, Any]:
@@ -598,17 +610,20 @@ class RootManager:
                     os.rename(stage, kept)
                     _LOG.error("root removal rolled back; what was written at %s meanwhile is kept in %s",
                                root["display_path"], os.fsdecode(kept))
-                    kept_at = os.fsdecode(kept)
+                    # Display-safe: a name that is not UTF-8 could not be sent in the reply (review of f50bbb1).
+                    kept_at = kept.decode("utf-8", "backslashreplace")
                     if isinstance(failure, WorldlineError):  # said in the refusal too (review of 300543c)
                         failure.details = {**(failure.details or {}), "keptAt": kept_at}
                         failure.message = (f"{failure.message}; what was written at {root['display_path']} "
                                            f"meanwhile is kept in {kept_at}")
-                # The prepared generation is discarded unless publication made it PRIME.
-                if prepared is not None and self.store.get_meta("primeGeneration") != prepared[0]:
-                    remove_tree(prepared[1].parent, ignore_errors=True)
+                # The prepared generation is discarded unless publication made it PRIME or recorded
+                # a world over it.
+                if prepared is not None:
+                    self._discard_unpublished(prepared[0], prepared[1])
             if kept_at is not None and isinstance(failure, Exception) and not isinstance(failure, WorldlineError):
                 # A failure that is not a refusal (a full disk) kept the copy too: said by name, not
-                # only in the daemon's log (review of 8ff1903).
+                # only in the daemon's log (review of 8ff1903), with the failure's own trace logged.
+                _LOG.error("root removal failed and was rolled back", exc_info=failure)
                 raise WorldlineError(
                     "ROOT_REMOVAL_ROLLED_BACK",
                     f"{root['display_path']} was not removed ({type(failure).__name__}: {failure}); "

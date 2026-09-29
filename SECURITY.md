@@ -92,17 +92,20 @@ report files are never admissible.
     before it validates or builds anything and closes the gate once it is the store's only daemon,
     so a second start neither writes a running daemon's store nor touches its gate, as long as the
     lock file is in place (removing it, which only the daemon account or root can, lets a second
-    daemon with another runtime directory start). Whether the lock is held is read from the
+    daemon with another runtime directory start) and no daemon starts at the same moment (the
+    check and the close are two steps). Whether the lock is held is read from the
     kernel's lock table, which counts a lock its owner made unreadable, and a lock the start cannot
     observe (not in the table as it sees it and unreadable to it, or behind a state directory it
     cannot search) is taken as held. The gate is left closed by a start or configuration that
-    refuses after that lock, by a lock that cannot be taken or written while no process holds it
-    (an unsafe lock path, a state path that is not a real directory of the daemon's, a full disk),
-    and by a daemon that fails in Python. It is left as it was by a daemon that stops cleanly or is
+    refuses after that lock, by a lock that cannot be taken or written while the start can see
+    that no process holds it (a lock path that is not a regular file, a state path that is not a
+    real directory of the daemon's, a full disk), and by a daemon that fails in Python. It is left
+    as it was by a daemon that stops cleanly or is
     killed outright, until the next start, which closes it and checks again before opening it; by a
     configuration whose store directories cannot be named (a relative XDG path), which refuses
-    before the lock; by a start that cannot observe the lock; and by a start refused on a lock file
-    hard-linked to another store's held lock, which cannot be told from this store's own.
+    before the lock; by a start that cannot observe the lock, whether or not a process holds it,
+    which logs that it left the gate; and by a start refused on a lock file hard-linked to another
+    store's held lock, which cannot be told from this store's own.
   - Content they can reach must be owned by the daemon and carry no other-write bit, no
     group-write bit outside the daemon's own group, no extended ACL (any `system.*acl*` xattr), no
     file capability (`security.capability`), and no setuid, setgid or sticky bit
@@ -483,10 +486,13 @@ trust you place in WORLDLINE.
        opens anything, so no daemon can start on the copy meanwhile; both runs first check,
        reading only, that it is free, before anything is written into the copy.
      - A copy root on FUSE, a network filesystem or an idmapped mount, or one that is the old
-       store's location on the same device, refuses, judged from the mount table before anything
-       is written, whether or not the old store is visible to the relocating account; the old
-       store's paths are resolved as far as that account can see first (a symlinked home), and
-       when they cannot be resolved at all, a copy root on a bind mount of a directory refuses too.
+       store's location on the same device as far as the mount table can relate them, refuses,
+       judged from the mount table before anything is written, whether or not the old store is
+       visible to the relocating account; the old store's paths are resolved as far as that
+       account can see first (a symlinked home), and when they cannot be resolved at all, a copy
+       root on a bind mount of a directory refuses too (a btrfs subvolume mounted whole is not a
+       bind). Where the account can neither see nor locate the old store, a copy named by the old
+       store's own real path is left to the ownership checks.
        On btrfs a held file with the same inode number in another subvolume of the same
        filesystem reads as a holder and refuses the relocation.
      - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and

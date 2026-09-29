@@ -822,6 +822,25 @@ class RelocateAStore(unittest.TestCase):
                 self.assertEqual(caught.exception.code, "RELOCATION_REFUSED")
 
 
+class RelocationMountRoots(unittest.TestCase):
+    def test_a_whole_btrfs_subvolume_is_not_a_bind(self) -> None:
+        # Review of f50bbb1: a root filesystem that is a btrfs subvolume records `/@` as its mount
+        # root, and the hidden-old-store rule read every such system as bound.
+        from worldline.relocate import _bind_of_a_directory, _mount_table
+        line = "29 1 0:26 {root} / rw,relatime shared:1 - btrfs /dev/vda2 rw,ssd,space_cache=v2,subvolid=256,subvol={subvol}\n"
+        cases = {("/", "/"): False, ("/@", "/@"): False, ("/@/var/lib", "/@"): True}
+        with tempfile.TemporaryDirectory(prefix="worldline-mountinfo-") as temporary:
+            for (root, subvol), bound in cases.items():
+                with self.subTest(root=root, subvol=subvol):
+                    table = Path(temporary) / "mountinfo"
+                    table.write_text(line.format(root=root, subvol=subvol))
+                    (entry,) = _mount_table(str(table))
+                    self.assertIn(f"subvol={subvol}", entry["super"])
+                    self.assertEqual(_bind_of_a_directory(entry), bound)
+        ext4 = {"root": "/var/lib/other", "fstype": "ext4", "super": ["rw"]}
+        self.assertTrue(_bind_of_a_directory(ext4))
+
+
 class RelocationViewsThroughSymlinks(unittest.TestCase):
     def test_a_view_of_an_old_store_named_through_a_symlink_is_refused(self) -> None:
         # Review of 300543c: the old store is recorded by the path its daemon was given, and the

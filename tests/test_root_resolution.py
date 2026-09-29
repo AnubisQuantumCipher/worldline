@@ -296,6 +296,41 @@ class RootSourceTests(_Registered):
         self.assertIn(str(kept), caught.exception.message)
         self.assertTrue(self.work.is_symlink())
 
+    def test_a_removal_whose_publication_failed_after_recording_keeps_that_payload(self) -> None:
+        # Review of f50bbb1: only reconcile kept a payload a recorded world names; removal still
+        # deleted it when PRIME could not be moved (a full disk).
+        import sqlite3
+        other = self._second_root("stays")
+        before = {world.instance_id for world in self.store.worlds()}
+        with mock.patch.object(self.store, "set_prime", side_effect=sqlite3.OperationalError("database or disk is full")):
+            with self.assertRaises(sqlite3.OperationalError):
+                self.manager.remove(self.root["root_key"], confirmed=True)
+        recorded = [world for world in self.store.worlds() if world.instance_id not in before]
+        self.assertEqual(len(recorded), 1)
+        self.assertTrue(Path(recorded[0].payload_path).is_dir())
+        self.assertIn(other["root_key"], {item["root_key"] for item in self.store.roots()})
+
+    def test_a_kept_copy_under_a_name_that_is_not_utf8_can_be_reported(self) -> None:
+        # Review of f50bbb1: the kept path went into the reply undecoded and could not be sent.
+        import json
+        parent = Path(os.fsdecode(os.fsencode(self.temporary.name) + b"/odd-\xff"))
+        parent.mkdir()
+        odd = parent / "root"
+        odd.mkdir()
+        (odd / "state.txt").write_text("odd\n")
+        self.manager.register([odd], confirmed=True)
+        root = next(item for item in self.store.roots() if bytes(item["path"]) == os.fsencode(odd))
+
+        def write_then_fail(root_key):
+            (odd / "written-meanwhile.txt").write_text("keep me\n")
+            raise OSError(28, "No space left on device")
+
+        with mock.patch.object(self.store, "remove_root", side_effect=write_then_fail):
+            with self.assertRaises(WorldlineError) as caught:
+                self.manager.remove(root["root_key"], confirmed=True)
+        json.dumps(caught.exception.as_dict(), ensure_ascii=False).encode("utf-8")
+        self.assertIn("\\xff", caught.exception.details["keptAt"])
+
     def test_the_removed_root_needs_no_repository_sandbox(self) -> None:
         # Review of 8ff1903: a missing bwrap, prlimit or choom still refused removing a repository
         # root, whose facts removal never uses.
@@ -433,7 +468,6 @@ class RootSourceTests(_Registered):
             CausalIndexer(self.store).why(climbing, 1)
 
 
-@unittest.skipIf(SUPPLEMENTARY_GID is None, "needs a supplementary group")
 class StatusReportsAnyRecaptureFailure(unittest.TestCase):
     def test_an_unexpected_recapture_failure_degrades_status_instead_of_failing_it(self) -> None:
         # Review of 8ff1903: status caught only refusals, so any other failure of the re-capture
@@ -450,7 +484,21 @@ class StatusReportsAnyRecaptureFailure(unittest.TestCase):
         self.assertEqual(meta["watchError"]["code"], "RECAPTURE_FAILED")
         self.assertIn("RecursionError", meta["watchError"]["message"])
 
+    def test_a_storage_failure_of_the_recapture_still_fails_status_by_name(self) -> None:
+        # Review of f50bbb1: a full disk had been answered DISK_FULL with its errno; the catch-all
+        # turned it into a successful status.
+        from worldline.daemon import WorldlineDaemon
+        meta = {"dirty": True}
+        store = mock.Mock()
+        store.get_meta.side_effect = lambda key, default=None: meta.get(key, default)
+        store.set_meta.side_effect = lambda key, value: meta.__setitem__(key, value)
+        daemon = mock.Mock(store=store, _reconcile_status=mock.Mock(side_effect=OSError(28, "No space left on device")))
+        with self.assertRaises(OSError):
+            WorldlineDaemon._status(daemon, {}, None)
+        self.assertNotIn("watchError", meta)
 
+
+@unittest.skipIf(SUPPLEMENTARY_GID is None, "needs a supplementary group")
 class ClientModePrimeChainTests(_Registered):
     client_mode = True
 

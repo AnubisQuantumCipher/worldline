@@ -134,6 +134,18 @@ class GitFilterDriversAreContained(unittest.TestCase):
         captured = GitAdapter(Core.shared()).capture(self.repo)
         self.assertIsNotNone(captured["head"])
 
+    def test_a_filter_killed_by_a_signal_is_not_a_fact(self) -> None:
+        # Review of f50bbb1: git quotes a filter's `%f` in the command it reports, so the line
+        # `error: sh ... 'f.txt' died of signal 9` escaped a pattern that refused quotes; git fell
+        # back to the unfiltered file, exited 0, and a changed file was recorded as a fact.
+        killer = self.repo / "killer.sh"
+        killer.write_text("#!/bin/sh\nkill -9 $$\n", encoding="utf-8")
+        self.git("config", "filter.evil.clean", f"sh {killer} %f")
+        with self.assertRaises(WorldlineError) as caught:
+            GitAdapter(Core.shared()).capture(self.repo)
+        self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
+        self.assertIn("died of signal 9", caught.exception.message)
+
     def test_the_filter_runs_inside_the_sandbox_and_reaches_nothing_outside(self) -> None:
         captured = GitAdapter(Core.shared()).capture(self.repo)
         diff = base64.b64decode(captured["worktreeDiffRawB64"])

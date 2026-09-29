@@ -569,6 +569,26 @@ class StartupOrdersTheGateAfterTheLock(unittest.TestCase):
                 self.assertIn(b"UNSAFE_STORE", result.stderr)
                 self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o710)
 
+    def test_a_start_that_cannot_tell_says_it_left_the_gate(self) -> None:
+        # Review of f50bbb1: "cannot tell" also keeps the gate when nothing holds the lock; the
+        # start now says so instead of leaving it silently.
+        if os.geteuid() == 0:
+            self.skipTest("root searches whatever the mode")
+        with tempfile.TemporaryDirectory(prefix="worldline-cannot-tell-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()
+            state_home = Path(env["XDG_STATE_HOME"])
+            os.chmod(state_home, 0)
+            try:
+                result = self.daemon(env)
+            finally:
+                os.chmod(state_home, 0o700)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"the client gate is left as it was", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o710)
+
     def test_a_state_directory_linked_to_another_store_closes_the_gate(self) -> None:
         # Review of 300543c: the in-use check followed the link and found the other store's
         # daemon holding its own lock, so this store's gate stayed open with no daemon serving it.

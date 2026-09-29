@@ -3,9 +3,9 @@
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 
 **An independent review of 1.7.0 (commit ad64cd2) and a rehearsal of the dedicated-account
-migration on a copy of a production store found the defects below; six more independent reviews,
-of the 1.7.1 candidates 796cb02, 4490013, 09f5c0b, c7d89f1, 300543c and 8ff1903, found more,
-including defects the candidates' own fixes introduced.
+migration on a copy of a production store found the defects below; seven more independent reviews,
+of the 1.7.1 candidates 796cb02, 4490013, 09f5c0b, c7d89f1, 300543c, 8ff1903 and f50bbb1, found
+more, including defects the candidates' own fixes introduced.
 Each is fixed and tested, except those named under Known limits, and each new test was run
 against the code it guards against and failed there.** No store migration is needed. Existing VALID worlds need revalidation before collapse, as
 after any release: the runtime changed.
@@ -79,10 +79,12 @@ after any release: the runtime changed.
     not set.
   - A task limit reached when the sandbox is created refuses as `GIT_SANDBOX_UNAVAILABLE`, as does
     a sandbox launcher killed by a signal. Inside a started sandbox, git killed by any signal, a
-    process git started that was killed (git's own `error: <program> died of signal <n>` line,
+    process git started that was killed (git's own `error: <command> died of signal <n>` line,
     matched as a whole line, whether git then exits 128, or exits 0 after retrying another way,
     as `submodule status` retries `describe`: sixth review; seventh review: an unanchored match
-    was set off by a warning quoting a file named like one), and a submodule listing refused for want of resources (a fork git could not get),
+    was set off by a warning quoting a file named like one; eighth review: the command may hold
+    quotes, as a filter's `%f` does), and a submodule listing refused for want of resources (a
+    fork git could not get),
     refuse as `GIT_INSPECTION_FAILED`, or `GIT_UNAVAILABLE` at the 15 s timeout. A git killed after launch was
     read by `rev-parse --verify HEAD` as "no HEAD", and a failed submodule listing as "no
     submodules" (third and fourth reviews).
@@ -127,14 +129,16 @@ after any release: the runtime changed.
   used to close a running daemon's gate before its lock refused it, and to write the database
   first. The gate closes when a start refuses after taking the store lock, when the
   configuration refuses (it is validated after the lock), when the lock cannot be taken or
-  written and no process holds it (an unsafe lock path, a state path that is not a real
-  directory of the daemon's, a full disk), and when a daemon fails in Python after the lock. A
+  written and the start can see that no process holds it (a lock path that is not a regular
+  file, a state path that is not a real directory of the daemon's, a full disk), and when a
+  daemon fails in Python after the lock. A
   lock some process holds is a running daemon's, and its gate is left alone; whether one is held
   is read from the kernel's lock table, so a running daemon's lock that its owner made unreadable
   still counts (sixth review), and where the start cannot tell (the lock is not in the table as it
   sees it, from another pid namespace or on a filesystem whose table identities differ from
-  `stat`'s, and it cannot be opened; or the state directory cannot be searched) it is taken as
-  held, and the gate is left as a clean stop leaves it (seventh review). A lock reached through a
+  `stat`'s, and it cannot be opened; or the state directory cannot be searched; or any error but
+  "missing" answers) it is taken as held, whether or not a process holds it, and the gate is left
+  as a clean stop leaves it; the start logs that it left the gate (seventh and eighth reviews). A lock reached through a
   state directory that is itself a link counts for nothing (sixth review: another store's daemon
   kept this gate open). What the gate does not cover is under Known limits. The lock is
   `worldline-store.lock` in the state directory; a lock path that is a directory, a link or a
@@ -189,13 +193,16 @@ after any release: the runtime changed.
   canary file was written into the copy first). The first candidate's `--daemon-lock` did not keep a daemon
   out and is gone. Before the lock is written or the database opened: the mount table must show
   no mount inside the copy; no copy root may be on FUSE, a network filesystem or an idmapped
-  mount; and no copy root may be, on the same device, the old store's location or overlap it.
-  These are read from the mount table alone, so they hold when the relocating account cannot see
-  the old store, as in the dedicated-account migration (fifth review: a bind of the old store at
-  the copy's path passed every other check there). When the account cannot resolve the old
-  store's path at all (a link inside the operator's 0700 home, such as `~/.local/share` on another
-  disk), a copy on a bind mount of a directory refuses as well, since it cannot be told from a
-  view of the old store (seventh review, demonstrated). The copy's lock must not be the old store's
+  mount; and no copy root may be, on the same device, the old store's location or overlap it as
+  far as the mount table can relate them. These are read from the mount table alone, so they hold
+  when the relocating account cannot see the old store, as in the dedicated-account migration
+  (fifth review: a bind of the old store at the copy's path passed every other check there). When
+  the account cannot resolve the old store's path at all (a link inside the operator's 0700 home,
+  such as `~/.local/share` on another disk, or a path missing from its view), a copy on a bind
+  mount of a directory refuses as well, since it cannot be told from a view of the old store
+  (seventh review, demonstrated); a btrfs subvolume mounted whole is not a bind (eighth review:
+  every btrfs root read as one). Where the account can neither see nor locate the old store, a
+  copy named by the old store's own real path is caught by the ownership checks, not by these. The copy's lock must not be the old store's
   own file, and, where the old store is visible, a file made in each copy root must not appear in
   it. Processes holding the copy's database are found by device and inode from
   `/proc/<pid>/fdinfo` and that process's own mount table (mount ids differ between namespaces),
@@ -273,12 +280,14 @@ after any release: the runtime changed.
   capture of its root with an `AttributeError` (1.7.0 too; fifth review), a `RecursionError` or
   `NON_CANONICAL_JSON` (sixth and seventh reviews).
 - **`status` reports any failure of its re-capture.** It reported refusals as a `DEGRADED` watch
-  state, but anything else answered `INTERNAL_ERROR` on every request while the store stayed
-  dirty; that is now `DEGRADED` too, with `RECAPTURE_FAILED` (seventh review).
-- **A publication that fails after recording its world keeps that world's payload.** Reconcile
-  discards the fresh copy of a refused publication, but publication records the world before it
-  moves PRIME; a failure in between (a full disk) had the discard delete a recorded world's
-  payload (seventh review).
+  state, but a failure that was neither a refusal nor a storage error answered `INTERNAL_ERROR`
+  on every request while the store stayed dirty; that is now `DEGRADED` too, with
+  `RECAPTURE_FAILED` (seventh review). A storage failure still fails the request as `DISK_FULL`
+  or `STORAGE_ERROR` with its errno (eighth review).
+- **A publication that fails after recording its world keeps that world's payload,** in reconcile
+  and in `root remove` alike. Both discard the fresh copy of a refused publication, but
+  publication records the world before it moves PRIME; a failure in between (a full disk) had
+  the discard delete a recorded world's payload (seventh and eighth reviews).
 - **A daemon that resets the connection is `DAEMON_DISCONNECTED`,** not a `ConnectionResetError`
   traceback.
 
@@ -307,10 +316,12 @@ after any release: the runtime changed.
   this gate as a clean stop does.
 - A registration's content check runs before the move and again after it. Content made unsafe
   in between, followed by a kill after the database commit, still leaves content every later
-  client-mode start refuses; a single-account start repairs it.
+  client-mode start refuses; a `chmod` of the named entries by the daemon account repairs it.
 - A publication that fails after recording its world but before moving PRIME leaves that world
-  recorded but not PRIME, and reconcile refuses `NOT_FOUND` until live content changes (1.6.0
-  too).
+  recorded, VALID and not PRIME: reconcile or removal refuses `NOT_FOUND` until live content
+  changes (1.6.0 too), and prune never offers that world, so its generation stays until removed
+  by hand. A relocation's dry run does not check that kept worlds' payloads exist; the real run
+  finds out in its final verification, after rewriting the copy.
 - `root remove` re-reads the root just before the swap. A write into the root after that re-read
   and before the swap is kept only in the store's previous payload, not at the operator's path:
   stop writers into a root before removing it. A rollback keeps a full copy beside the path
@@ -327,7 +338,8 @@ after any release: the runtime changed.
   the relocation; the fix for btrfs is tested with a simulated `stat`, not on btrfs.
 - When the relocating account cannot resolve the old store's path, a copy on any bind mount of a
   directory refuses, including an ostree system's `/var`; run the relocation where the old
-  store's path resolves, or relocate before binding.
+  store's path resolves (for example by granting the account search on its parents for the run),
+  or relocate before binding.
 - Repository inspection runs the git in `/usr/bin` or `/bin`; a git installed elsewhere
   (`/usr/local/bin`) is refused by the doctor's probe and by every capture.
 - `OOMPolicy=continue` is set by the shipped unit; a deployment that writes its own unit sets it

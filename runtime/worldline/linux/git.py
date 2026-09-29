@@ -18,10 +18,10 @@ from ..errors import WorldlineError
 _RESOURCE_FAILURE = re.compile(r"cannot fork|fork: |Resource temporarily unavailable|Cannot allocate memory|"
                                r"Too many open files|out of memory", re.IGNORECASE)
 # git's report that a process it started was killed: run-command's wait_or_whine prints exactly
-# `error: <program> died of signal <n>` on a line of its own (C locale). Matched as a whole line
-# only: a warning that quotes a file named "died of signal 9.txt" set off an unanchored match
-# (review of 8ff1903).
-_CHILD_KILLED = re.compile(rb"^error: [^'\n]* died of signal [0-9]+$", re.MULTILINE)
+# `error: <command> died of signal <n>` on a line of its own (C locale). Matched as a whole line:
+# a warning that quotes a file named "died of signal 9.txt" set off an unanchored match (review of
+# 8ff1903). The command may itself hold quotes: a filter's `%f` is quoted there (review of f50bbb1).
+_CHILD_KILLED = re.compile(rb"^error: .* died of signal [0-9]+$", re.MULTILINE)
 
 
 class GitAdapter:
