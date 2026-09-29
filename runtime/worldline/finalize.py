@@ -447,11 +447,10 @@ def evaluation_record(result: Mapping[str, Any], *, declared: CheckDeclaration |
             "bundleIntegrity establishes that the declared artifacts were staged and did not move."
             " It does not establish that they were read.",
             "EVALUATOR_INCOMPLETE is raised from a conservative, module-level import analysis of"
-            " the staged verifiers, whatever verdict the examiner reported: a PASS from an"
-            " examiner that resolved a module WORLDLINE did not stage is not an evaluation of the"
-            " candidate. Its absence does not establish that the evaluator was complete: a"
-            " dynamic or guarded import can still fail at run time, and such a run is reported as"
-            " an ordinary FAIL.",
+            " the staged verifiers, for a FAIL only: a PASS resolved its imports, and the analysis"
+            " cannot tell a missing helper from the candidate's module under test. Its absence"
+            " does not establish that the evaluator was complete: a dynamic or guarded import can"
+            " still fail at run time, and such a run is reported as an ordinary FAIL.",
             "evidencePresence records typed facts about named fields compared with the policy's"
             " declaration for this check; it does not authenticate the values those fields"
             " hold.",

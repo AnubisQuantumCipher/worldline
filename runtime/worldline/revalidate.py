@@ -6,12 +6,14 @@ at promotion with ``EVIDENCE_STALE``. Revalidation is the documented way back: t
 PRIME's checks are run again, inside a sandbox, over the candidate's own finalized bytes, and
 the resulting validation context is stored beside the world (store meta
 ``validation:<instance>``), bound to the world's content identity. Only a ``PASS`` outcome
-speaks for the world afterwards; a ``FAIL`` leaves the stale finalization context in force,
-so the world remains refused until a fresh candidate is forked.
+speaks for the world afterwards. A ``FAIL`` does not supersede an earlier ``PASS``: when the
+requirements changed, the older evidence is stale anyway and the world stays refused; when
+they did not, the earlier ``PASS`` (or the finalization's) still speaks. Letting the latest
+evaluation speak is Phase 1's "one effective evaluation" item, not this module's behaviour.
 
 Revalidation never changes the world's state, payload or evidence manifest: those are the
 finalization's. The candidate's ``agent`` check is not re-run; it is a property of the run
-that produced the bytes, and the world's VALID state already records it.
+that produced the bytes, and promotion judges it from the finalization record (1.8.0).
 """
 from __future__ import annotations
 

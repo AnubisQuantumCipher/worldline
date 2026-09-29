@@ -330,6 +330,7 @@ class Core:
         try:
             abi_version = self._lib.wl_abi_version
             layout_size = self._lib.wl_layout_size
+            layout_offset = self._lib.wl_layout_offset
             transition = self._lib.wl_evaluation_transition_allowed
             advance = self._lib.wl_evaluation_advance
             roster = self._lib.wl_evaluation_roster_complete
@@ -348,12 +349,21 @@ class Core:
             )
         layout_size.argtypes = [ctypes.c_uint8]
         layout_size.restype = ctypes.c_size_t
+        layout_offset.argtypes = [ctypes.c_uint8, ctypes.c_char_p, ctypes.c_size_t]
+        layout_offset.restype = ctypes.c_size_t
+        # Every field's offset BY NAME, not only each record's size: two equal-sized fields
+        # swapped keep every size and every positional offset, and would put a decision input
+        # where the kernel reads another.
         for selector, structure in _LAYOUTS:
             library_size = int(layout_size(selector))
-            if library_size != ctypes.sizeof(structure):
+            library_offsets = [int(layout_offset(selector, name.encode("ascii"), len(name)))
+                               for name, _ in structure._fields_]
+            here = [getattr(structure, name).offset for name, _ in structure._fields_]
+            if library_size != ctypes.sizeof(structure) or library_offsets != here:
                 raise CoreUnavailable(
                     f"record layout {structure.__name__} disagrees with the library"
-                    f" ({ctypes.sizeof(structure)} bytes here, {library_size} in the library)",
+                    f" ({ctypes.sizeof(structure)} bytes here, {library_size} in the library;"
+                    f" field offsets {'agree' if library_offsets == here else 'differ'})",
                     path=str(self.library_path),
                 )
         admissible.argtypes = [ctypes.POINTER(CEvaluationClassification),

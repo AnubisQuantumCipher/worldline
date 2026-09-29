@@ -24,7 +24,13 @@ def attach_fresh_context(store: StateStore, world: World, *, config: Any | None 
         evaluated_at=utc_now(),
         core=core,
     )
-    world.evidence = {**(world.evidence if isinstance(world.evidence, dict) else {}), "validationContext": context}
+    evidence = dict(world.evidence) if isinstance(world.evidence, dict) else {}
+    # A really finalized world always carries its agent's own exit, and promotion (1.8.0) judges
+    # it from there; a hand-built candidate gets the same passing record.
+    checks = [item for item in (evidence.get("checks") or []) if isinstance(item, dict)]
+    if not any(item.get("id") == "agent" for item in checks):
+        checks = [agent_pass_result(), *checks]
+    world.evidence = {**evidence, "checks": checks, "validationContext": context}
     store.save_world(world)
     return context
 

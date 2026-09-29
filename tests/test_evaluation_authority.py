@@ -5,6 +5,7 @@ from __future__ import annotations
 import ctypes
 from dataclasses import replace
 from itertools import product
+from types import SimpleNamespace
 from pathlib import Path
 import unittest
 
@@ -22,6 +23,8 @@ from worldline.core import (
 from worldline.errors import WorldlineError
 from worldline.finalize import CheckDeclaration, evaluation_record, roster_decision
 from worldline.transaction import CollapseTransaction
+
+from validation_support import agent_pass_result
 
 FULL = EvidencePresence(True, True, True, True, True)
 SUPERVISED_PASS = {"id": "exam", "format": "exit", "status": "PASS", "origin": "supervisor",
@@ -86,12 +89,14 @@ class EvaluationAuthorityTests(unittest.TestCase):
                 self.assertFalse(self.core.evaluation_admissible(
                     result, report_integrity="VERIFIED", presence=FULL))
 
-    def test_a_pass_from_an_evaluator_with_unsatisfied_imports_is_not_an_evaluation(self) -> None:
-        # 1.7.3 counted this as COMPLETED/PASS: the examiner resolved a module WORLDLINE did not
-        # stage, so something other than the declared evaluator judged the candidate.
-        result = self.core.evaluation_classify(replace(self.good_facts(), unsatisfied_imports=True))
-        self.assertEqual((result.execution, result.outcome), ("EVALUATOR_INCOMPLETE", "NONE"))
-        self.assertFalse(self.core.evaluation_admissible(result, report_integrity="VERIFIED", presence=FULL))
+    def test_unsatisfied_imports_relabel_a_failure_but_not_a_pass(self) -> None:
+        # A FAIL from an examiner that could not load its own helpers is not a verdict on the
+        # candidate. A PASS resolved its imports; the analysis cannot tell a missing helper from
+        # the module under test, so a PASS stays a completed pass (decision D1).
+        failed = self.core.evaluation_classify(replace(self.good_facts(), unsatisfied_imports=True, status="FAIL"))
+        self.assertEqual((failed.execution, failed.outcome), ("EVALUATOR_INCOMPLETE", "NONE"))
+        passed = self.core.evaluation_classify(replace(self.good_facts(), unsatisfied_imports=True))
+        self.assertEqual((passed.execution, passed.outcome), ("COMPLETED", "PASS"))
 
     def test_every_non_completed_state_and_a_completed_fail_are_refused(self) -> None:
         cases = {
@@ -99,7 +104,7 @@ class EvaluationAuthorityTests(unittest.TestCase):
             "INTERRUPTED": {**SUPERVISED_PASS, "resultChannel": {"accepted": False, "stage": "STOPPED_BY_MANAGER"}},
             "ERROR_BEFORE_EXAMINER": {**SUPERVISED_PASS, "resultChannel": {"accepted": False, "stage": "SANDBOX_NEVER_STARTED"}},
             "INCOMPLETE_UNKNOWN": {"id": "exam", "format": "exit", "status": "PASS", "origin": "supervisor"},
-            "EVALUATOR_INCOMPLETE": {**SUPERVISED_PASS, "executedVerifierSet": {
+            "EVALUATOR_INCOMPLETE": {**SUPERVISED_PASS, "status": "FAIL", "exitCode": 1, "executedVerifierSet": {
                 "identity": "sha256:" + "11" * 32, "stable": True, "unsatisfiedImports": [{"module": "helper"}]}},
             "UNCLASSIFIED": {**SUPERVISED_PASS, "resultChannel": "not a mapping"},
         }
@@ -223,28 +228,48 @@ class EvaluationAuthorityTests(unittest.TestCase):
     def test_promotion_recomputes_and_refuses_what_1_7_3_let_through(self) -> None:
         manager = object.__new__(CollapseTransaction)
         manager.core = self.core
+        subject = SimpleNamespace(evidence={"checks": [agent_pass_result()]})
         current = {"policy": {"requiredChecks": ["exam"], "sourceSha256": "ab" * 32, "canonical": {
             "checks": [{"id": "exam", "format": "exit"}], "protected": []}}, "verifiers": []}
-        self.assertTrue(manager._execution_identity(None, current, recorded_checks=[SUPERVISED_PASS])["complete"])
+        self.assertTrue(manager._execution_identity(subject, current, recorded_checks=[SUPERVISED_PASS])["complete"])
         # A completed FAIL: 1.7.3 checked only that execution reached the examiner.
         completed_fail = {**SUPERVISED_PASS, "status": "FAIL", "exitCode": 1}
-        self.assertFalse(manager._execution_identity(None, current, recorded_checks=[completed_fail])["complete"])
+        self.assertFalse(manager._execution_identity(subject, current, recorded_checks=[completed_fail])["complete"])
         # A record with no classifiable execution: 1.7.3 accepted a missing executionStatus.
         bare = {"id": "exam", "format": "exit", "status": "PASS"}
-        self.assertFalse(manager._execution_identity(None, current, recorded_checks=[bare])["complete"])
+        self.assertFalse(manager._execution_identity(subject, current, recorded_checks=[bare])["complete"])
         # An empty roster: declared by a policy file, or not declared at all.
         empty = {"policy": {"requiredChecks": [], "sourceSha256": "ab" * 32, "canonical": {"checks": [], "protected": []}}, "verifiers": []}
-        self.assertTrue(manager._execution_identity(None, empty, recorded_checks=[])["complete"])
+        self.assertTrue(manager._execution_identity(subject, empty, recorded_checks=[])["complete"])
         undeclared = {"policy": {"requiredChecks": [], "sourceSha256": None, "canonical": {"checks": [], "protected": []}}, "verifiers": []}
-        identity = manager._execution_identity(None, undeclared, recorded_checks=[])
+        identity = manager._execution_identity(subject, undeclared, recorded_checks=[])
         self.assertFalse(identity["complete"])
         self.assertTrue(identity["problems"])
         # Protected paths are on the promotion roster whenever the policy protects anything.
         protected = {"policy": {"requiredChecks": [], "sourceSha256": "ab" * 32, "canonical": {"checks": [], "protected": ["secret/**"]}}, "verifiers": []}
-        self.assertFalse(manager._execution_identity(None, protected, recorded_checks=[])["complete"])
+        self.assertFalse(manager._execution_identity(subject, protected, recorded_checks=[])["complete"])
         touched = {"id": "protected-paths", "format": "engine", "origin": "engine", "status": "FAIL"}
-        self.assertFalse(manager._execution_identity(None, protected, recorded_checks=[touched])["complete"])
-        self.assertTrue(manager._execution_identity(None, protected, recorded_checks=[{**touched, "status": "PASS"}])["complete"])
+        self.assertFalse(manager._execution_identity(subject, protected, recorded_checks=[touched])["complete"])
+        self.assertTrue(manager._execution_identity(subject, protected, recorded_checks=[{**touched, "status": "PASS"}])["complete"])
+
+    def test_the_agents_own_exit_is_on_every_promotion_roster(self) -> None:
+        # PB-1: a world DEGRADED by its agent's failure becomes ARCHIVED when a sibling
+        # collapses; `return` must still judge the agent from the finalization record.
+        manager = object.__new__(CollapseTransaction)
+        manager.core = self.core
+        current = {"policy": {"requiredChecks": [], "sourceSha256": "ab" * 32, "canonical": {"checks": [], "protected": []}}, "verifiers": []}
+        ok = SimpleNamespace(evidence={"checks": [agent_pass_result()]})
+        self.assertTrue(manager._execution_identity(ok, current, recorded_checks=[])["complete"])
+        for label, evidence in (("failed", {"checks": [{**agent_pass_result(), "status": "FAIL", "exitCode": 1}]}),
+                                ("stopped", {"checks": [{**agent_pass_result(), "supervision": {"kind": "SUPERVISED", "stoppedByManager": True}}]}),
+                                ("missing", {"checks": []}), ("no evidence", None)):
+            with self.subTest(agent=label):
+                identity = manager._execution_identity(SimpleNamespace(evidence=evidence), current, recorded_checks=[])
+                self.assertFalse(identity["complete"])
+                self.assertTrue(any(problem.startswith("agent:") for problem in identity["problems"]), identity["problems"])
+        # A revalidation's records cannot stand in for it: they never carry the agent.
+        failed = SimpleNamespace(evidence={"checks": [{**agent_pass_result(), "status": "FAIL", "exitCode": 1}]})
+        self.assertFalse(manager._execution_identity(failed, current, recorded_checks=[agent_pass_result()])["complete"])
 
 
 if __name__ == "__main__":

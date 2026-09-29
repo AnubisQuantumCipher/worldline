@@ -52,9 +52,49 @@ class AbiLayout(unittest.TestCase):
                 self.assertEqual(header_fields(struct), [name for name, _ in record._fields_])
 
     def test_the_library_lays_out_every_record_as_ctypes_does(self) -> None:
+        unknown = ctypes.c_size_t(-1).value
         for struct, (selector, record) in STRUCTS.items():
             with self.subTest(struct=struct):
                 self.assertEqual(self.core._lib.wl_layout_size(selector), ctypes.sizeof(record))
+                for name, _type in record._fields_:
+                    self.assertEqual(self.core._lib.wl_layout_offset(selector, name.encode(), len(name)),
+                                     getattr(record, name).offset, name)
+                self.assertEqual(self.core._lib.wl_layout_offset(selector, b"nonexistent", 11), unknown)
+        self.assertEqual(self.core._lib.wl_layout_offset(9, b"candidate_state", 15), unknown)
+        self.assertEqual(self.core._lib.wl_layout_offset(0, None, 0), unknown)
+
+    def test_a_library_whose_fields_are_ordered_differently_is_refused_at_load(self) -> None:
+        # Two equal-sized fields swapped keep every record size; only the offsets differ.
+        from unittest import mock
+        from worldline.errors import CoreUnavailable
+        import worldline.core as core_module
+        fields = list(CCollapseRequest._fields_)
+        mode = next(i for i, (name, _t) in enumerate(fields) if name == "evaluation_mode")
+        fields[mode], fields[mode + 1] = fields[mode + 1], fields[mode]
+        swapped = type("SwappedCollapseRequest", (ctypes.Structure,), {"_fields_": fields})
+        self.assertEqual(ctypes.sizeof(swapped), ctypes.sizeof(CCollapseRequest))
+        layouts = tuple((selector, swapped if record is CCollapseRequest else record)
+                        for selector, record in core_module._LAYOUTS)
+        with mock.patch.object(core_module, "_LAYOUTS", layouts):
+            with self.assertRaises(CoreUnavailable):
+                Core(REPO / "lib/libworldline_core.so")
+
+    def test_every_observation_code_table_matches_the_header(self) -> None:
+        from worldline import core as core_module
+        text = HEADER.read_text(encoding="utf-8")
+        tables = {
+            "wl_evaluation_origin": ("WL_ORIGIN_", {k.upper(): v for k, v in core_module.EVALUATION_ORIGINS.items()}),
+            "wl_evaluation_status": ("WL_STATUS_", core_module.EVALUATION_STATUSES),
+            "wl_evaluation_channel": ("WL_CHANNEL_", core_module.EVALUATION_CHANNELS),
+            "wl_evaluation_stage": ("WL_STAGE_", core_module.EVALUATION_STAGES),
+            "wl_evaluation_supervision": ("WL_SUPERVISION_", core_module.EVALUATION_SUPERVISION),
+        }
+        for enum, (prefix, table) in tables.items():
+            with self.subTest(enum=enum):
+                body = re.search(r"enum %s \{(.*?)\};" % enum, text, re.S).group(1)
+                names = [item.strip().removeprefix(prefix) for item in body.split(",") if item.strip()]
+                self.assertEqual(names, [name for name, _code in sorted(table.items(), key=lambda kv: kv[1])])
+                self.assertEqual(sorted(table.values()), list(range(len(names))))
 
     def test_a_c_compiler_reading_the_header_agrees_on_every_offset(self) -> None:
         compiler = shutil.which("cc") or shutil.which("gcc")

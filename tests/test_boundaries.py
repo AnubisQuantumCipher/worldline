@@ -260,6 +260,9 @@ class DaemonCrashRecovery(unittest.TestCase):
             (work / "base.txt").write_text("base\n", encoding="utf-8")
             _config(env, hostile_source="import sys; from pathlib import Path; Path(sys.argv[1], 'made.txt').write_text('made')\n")
             first = _Daemon(self, root, env, log_name="first.stderr")
+            # A failure before the deliberate SIGKILL must not leave this daemon running after the
+            # temporary directory is gone.
+            self.addCleanup(lambda: first.process.poll() is None and first.process.kill())
             client = first.client
             client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
             good = client.request("fork", {"name": "good", "mission": "make", "agent": "hostile", "wait": True})

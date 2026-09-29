@@ -15,11 +15,9 @@ comparing against fields that were always absent.
 from __future__ import annotations
 
 import os
-import site
 import sys
 import tempfile
 import unittest
-from unittest import mock
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -70,25 +68,6 @@ class UnsatisfiedImports(unittest.TestCase):
     def test_the_standard_library_satisfies_the_import(self) -> None:
         gaps = self.stage({"exam.py": "import json, sys\nfrom pathlib import Path\n"}, ("exam.py",))
         self.assertEqual(gaps, [])
-
-    def test_a_host_installed_package_satisfies_the_import(self) -> None:
-        # 1.8.0: a gap now blocks a PASS, so a package the host installed system-wide is not one.
-        host = self.base / "host-site"
-        host.mkdir()
-        (host / "hostonly.py").write_text("x = 1\n", encoding="utf-8")
-        with mock.patch.object(ExecutionVerifierSet, "host_site_packages", staticmethod(lambda: [str(host)])):
-            self.assertEqual(self.stage({"exam.py": "import hostonly\n"}, ("exam.py",)), [])
-        # ... and only the host's installation: the same module anywhere else is still a gap.
-        with mock.patch.object(ExecutionVerifierSet, "host_site_packages", staticmethod(lambda: [])):
-            self.assertEqual([g["module"] for g in self.stage({"exam.py": "import hostonly\n"}, ("exam.py",))],
-                             ["hostonly"])
-
-    def test_host_site_packages_are_system_paths_only(self) -> None:
-        base = os.path.realpath(sys.base_prefix)
-        for path in ExecutionVerifierSet.host_site_packages():
-            self.assertTrue(os.path.realpath(path).startswith(base + os.sep), path)
-        self.assertNotIn(os.path.realpath(site.getusersitepackages()),
-                         [os.path.realpath(p) for p in ExecutionVerifierSet.host_site_packages()])
 
     def test_siblings_resolve_within_the_verifier_s_own_directory(self) -> None:
         # The examiner adds its own directory to sys.path, so that is where the sibling must be.
@@ -176,17 +155,13 @@ class IncompleteEvaluatorIsNotAFailedCandidate(unittest.TestCase):
         self.assertNotEqual(incomplete["executionStatus"], failed["executionStatus"])
         self.assertNotEqual(incomplete["evaluationOutcome"], failed["evaluationOutcome"])
 
-    def test_a_pass_with_unsatisfied_imports_is_not_an_evaluation(self) -> None:
-        # 1.8.0 reverses 1.7.3 here, deliberately. The import "evidently resolved" -- from
-        # somewhere WORLDLINE did not stage, which may be the candidate's own tree. That PASS is
-        # not an evaluation of the candidate by the declared evaluator, so it is
-        # EVALUATOR_INCOMPLETE and cannot authorize. A false positive of the analysis now blocks
-        # promotion instead of admitting it; the remedy is to declare the helper in the check's
-        # `verifiers` (host-installed packages are not gaps; see UnsatisfiedImports).
+    def test_a_pass_is_never_relabelled_by_the_analysis(self) -> None:
+        # The analysis can produce a false positive (it cannot tell a missing helper from the
+        # candidate's own module under test, which a test imports); it must not turn a passing
+        # check into a non-result, because the import evidently resolved. 1.8.0 keeps this.
         record = self.record(status="PASS", gaps=self.GAP, exit_code=0)
-        self.assertEqual(record["executionStatus"], "EVALUATOR_INCOMPLETE")
-        self.assertEqual(record["evaluationOutcome"], "NONE")
-        self.assertFalse(record["admissibleForPromotion"])
+        self.assertEqual(record["executionStatus"], "COMPLETED")
+        self.assertEqual(record["evaluationOutcome"], "PASS")
 
     def test_the_non_claim_bounds_the_analysis(self) -> None:
         record = self.record(status="FAIL", gaps=[])

@@ -18,7 +18,7 @@ from .delta import Delta
 from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, effective_evidence, verify_context
 from .errors import ConflictError, WorldlineError
 from .executed import NO_BUNDLE_IDENTITY, bundle_identity
-from .finalize import check_declarations, required_roster, roster_decision
+from .finalize import ENGINE_DECLARATIONS, check_declarations, required_roster, roster_decision
 from .environment import capture_dependencies
 from .linux.atomic import AtomicExchange
 from .linux.git import GitAdapter
@@ -614,6 +614,14 @@ class CollapseTransaction:
         PRIME, or the PRIME register's `primeContent` when the subject is the current PRIME. The
         kernel compares it with the subject's own `content_id`.
 
+        What this establishes, stated exactly: that the subject ROW was once live. Finding the
+        walk hit is Python's decision (Checkpoint_Witnessed); the kernel's equality only checks
+        that the two records agree, which they do unless one of them was altered. Neither value
+        is computed from the bytes being restored: those are bound separately, by
+        ReturnManager.return_point_manifests (the stored manifest, or a committed receipt's
+        beforeRoot). Removing the last root starts a new lineage, so checkpoints from before
+        such a reset have no witness.
+
         A WORLDLINE-made world that never became live -- the synthetic candidate left behind by
         a refused `return` -- is not on the walk, so it has no witness, and returning to it is
         refused instead of passing as a checkpoint with nothing to check.
@@ -627,16 +635,18 @@ class CollapseTransaction:
             recorded = self.store.get_meta("primeContent")
             return {"source": "prime-register", "expected": subject.content_id,
                     "witnessed": recorded if isinstance(recorded, str) else None}
-        child = prime
+        # One indexed row per step (store.lineage_link), not a full world load: this runs inside
+        # a mutating request, and a return that is refused walks all the way to genesis.
+        link = self.store.lineage_link(prime.instance_id)
         seen: set[str] = set()
-        while child.parent_instance is not None and child.instance_id not in seen:
+        while link is not None and link["parent_instance"] is not None and link["instance_id"] not in seen:
             if len(seen) >= self._LINEAGE_LIMIT:
                 return None
-            seen.add(child.instance_id)
-            if child.parent_instance == subject.instance_id:
-                return {"source": f"lineage:{child.instance_id}", "expected": subject.content_id,
-                        "witnessed": child.parent_content}
-            child = self.store.world(child.parent_instance)
+            seen.add(link["instance_id"])
+            if link["parent_instance"] == subject.instance_id:
+                return {"source": f"lineage:{link['instance_id']}", "expected": subject.content_id,
+                        "witnessed": link["parent_content"]}
+            link = self.store.lineage_link(link["parent_instance"])
         return None
 
     @staticmethod
@@ -679,6 +689,15 @@ class CollapseTransaction:
         """
         required, empty_declared = required_roster(current)
         declarations = check_declarations(current)
+        # The agent's own exit is on every finalization roster and no revalidation re-runs it, so
+        # it is judged from the subject's FINALIZATION record, whichever evaluation speaks for the
+        # policy checks. Without this, a world DEGRADED by its agent's failure and then ARCHIVED
+        # by a sibling's collapse could be re-applied with `return` (the ARCHIVED state erases
+        # the DEGRADED one). A subject with no finalization agent record is refused.
+        finalization = subject.evidence.get("checks") if subject is not None and isinstance(subject.evidence, dict) else None
+        agent_record = next((item for item in (finalization or ()) if isinstance(item, Mapping) and item.get("id") == "agent"), None)
+        agent = roster_decision(["agent"], {"agent": agent_record} if agent_record is not None else {},
+                                {"agent": ENGINE_DECLARATIONS["agent"]}, empty_declared=False, core=self.core)
         declared_bundles: dict[str, list[tuple[str, str, str]]] = {}
         for entry in current.get("verifiers") or ():
             declared_bundles.setdefault(str(entry.get("checkId")), []).append(
@@ -692,6 +711,7 @@ class CollapseTransaction:
         roster = roster_decision(required, recorded, declarations,
                                  empty_declared=empty_declared, core=self.core)
         refused = {item["id"]: item["reason"] for item in roster["refused"]}
+        agent_refused = {item["id"]: item["reason"] for item in agent["refused"]}
         expected_members: list[tuple[str, str, str]] = []
         actual_members: list[tuple[str, str, str]] = []
         for check_id in required:
@@ -706,13 +726,16 @@ class CollapseTransaction:
             executed = recorded[check_id].get("executedVerifierSet")
             identity = executed.get("identity") if isinstance(executed, Mapping) else None
             actual_members.append(("", check_id, str(identity) if identity else ""))
-        problems = [f"{check_id}: {reason}" for check_id, reason in refused.items()]
+        problems = [f"{check_id}: {reason}" for check_id, reason in {**agent_refused, **refused}.items()]
         if not roster["complete"] and not required:
             problems.append("no .worldline.json declares what a collapse requires; add one"
                             " (\"checks\": [] declares that nothing is required)")
-        return {"complete": roster["complete"] is True, "expected": bundle_identity(expected_members),
+        # Two kernel verdicts, both required: the policy roster (which may be empty only when
+        # declared) and the agent's own finalization exit.
+        complete = roster["complete"] is True and agent["complete"] is True
+        return {"complete": complete, "expected": bundle_identity(expected_members),
                 "actual": bundle_identity(actual_members), "mode": "candidate-evaluation",
-                "problems": problems, "requiredChecks": required, "emptyDeclared": empty_declared}
+                "problems": problems, "requiredChecks": ["agent", *required], "emptyDeclared": empty_declared}
 
     def _freshness(self, candidate: World, *, kind: str, return_of: str | None) -> dict[str, Any]:
         """Evidence freshness at the promotion boundary (Python-enforced; the kernel proves that

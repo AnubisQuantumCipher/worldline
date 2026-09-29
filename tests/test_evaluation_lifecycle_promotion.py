@@ -48,6 +48,21 @@ class ReapplyingAFailedWorld(unittest.TestCase):
         self.assertTrue(any(problem.startswith("exam:") for problem in refused.details["execution"]["problems"]))
         self.assertEqual(self.lab.live(), before)
 
+    def test_a_world_whose_agent_failed_cannot_be_reapplied_either(self) -> None:
+        # Its policy checks pass; its agent's own exit, which is on every finalization roster
+        # and which no revalidation re-runs, failed. The review of the first 1.8.0 candidate
+        # showed `return` still let it through, because the promotion roster left the agent out.
+        self.assertEqual(self.lab.fork("quitter", agent="exit_failer")["state"], "DEGRADED")
+        self.assertEqual(self.lab.fork("good")["state"], "VALID")
+        self.lab.commit(self.lab.prepare("good")["transaction_id"])
+        self.assertEqual(self.worlds()["quitter"], "ARCHIVED")
+        before = self.lab.live()
+        refused = self.lab.refusal(self.lab.return_prepare, "quitter")
+        self.assertEqual(refused.details.get("decision"), "EXECUTION_EVIDENCE_INCOMPLETE", refused.details)
+        self.assertTrue(any(problem.startswith("agent:") for problem in refused.details["execution"]["problems"]))
+        self.assertEqual(self.lab.live(), before)
+        self.assertNotIn("exit-failer.txt", before)
+
     def test_the_synthetic_world_a_refused_return_leaves_is_not_a_checkpoint(self) -> None:
         # 1.7.3: a refused `return X` left its synthetic candidate (actor "worldline") VALID in
         # the store, and `return <that world>` then took the checkpoint path, which needs no

@@ -491,6 +491,15 @@ class StateStore:
             ).fetchall()
         return [self._world_from_row(row) for row in rows]
 
+    def lineage_link(self, instance_id: str) -> dict[str, Any] | None:
+        """One world's parent link, without loading the world (no descendant counts)."""
+        with self._lock:
+            row = self._connection.execute(
+                "SELECT instance_id,parent_instance,parent_content FROM worlds WHERE instance_id=?",
+                (instance_id,),
+            ).fetchone()
+        return None if row is None else dict(row)
+
     def set_prime(self, instance_id: str, content_id: str, generation_id: str) -> None:
         with self.transaction():
             self.set_meta("primeInstance", instance_id)

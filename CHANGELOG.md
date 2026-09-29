@@ -2,50 +2,59 @@
 
 ## 1.8.0 — 2026-09-29 · evaluation lifecycle authority
 
-**The proved core now decides whether a world's evaluation can promote it, and three ways to
-promote without a passing evaluation are closed.** The SPARK unit `Worldline.Evaluation` classifies every
-check record, admits or refuses each one, and judges the whole roster. Python maps observed
-fields to the kernel's categories and records the answers. The design and the
+**The proved core now decides whether a world's evaluation can promote it, and four ways to
+promote without a passing evaluation are closed.** The SPARK unit `Worldline.Evaluation`
+classifies every check record, admits or refuses each one, and judges the whole roster. Python
+maps observed fields to the kernel's categories and records the answers. The design and the
 requirements-to-contract table are in `docs/phase1-evaluation-lifecycle.md`.
 
-**Upgrading.** A project with no `.worldline.json` can no longer collapse. Add one that declares
-its checks; `"checks": []` explicitly declares that nothing is required. After installing,
-revalidate VALID worlds before collapse, as after any release. No store migration is needed.
+### Upgrading
+
+- **A project with no `.worldline.json` can no longer collapse.** Add a policy that declares
+  its checks. This minimal file explicitly declares that nothing is required:
+  `{"schemaVersion": 1, "generated": [], "checks": [], "services": []}`. Test harnesses and
+  health checks that collapse in a throwaway root need one too.
+- Revalidate VALID worlds before collapse, as after any release. No store migration is needed.
+- Two kinds of world are no longer return points. Returning to either is now refused with
+  CHECKPOINT_UNWITNESSED:
+  - A PRIME from before the last root was removed. Removing the last root starts a new lineage.
+  - A COLLAPSED `return-*` world whose commit published a new generation. Return to that
+    `prime-*` generation instead.
 
 ### Security: promotion without a passing evaluation (every deployment)
 
-Each defect below was reproduced on 1.7.3 before it was fixed. The scenarios are tests in
-`tests/test_evaluation_lifecycle_promotion.py`.
+Each defect below was reproduced on 1.7.3 before it was fixed. The 1.8.0 side is tested end to
+end in `tests/test_evaluation_lifecycle_promotion.py`.
 
-- **`return` re-applied a failed world.** A required check could COMPLETE with FAIL, leaving
-  the world DEGRADED; when a sibling collapsed, that world became ARCHIVED. `return <world>`
-  then authorized it and committed its bytes as PRIME. The promotion boundary asked only
-  whether execution had reached the examiner, not whether the check passed. It now recomputes
-  every required check from its raw record, and the kernel admits a check only when it
-  completed, passed, and has complete evidence. The case is now refused with
-  EXECUTION_EVIDENCE_INCOMPLETE.
-- **A refused `return` left a world that could be returned to with no evidence.**
-  `return X` creates a synthetic candidate before it decides. When the decision was a
-  refusal, that candidate stayed VALID with the actor `worldline`. After any later PRIME
-  change, `return <that world>` took the checkpoint path, which consulted no evidence. This
-  promoted a world whose evidence had just been refused as stale, and it reverted the newer
-  policy with it. Checkpoint return is now an explicit mode of the kernel's collapse decision,
-  and it requires a lineage witness: a record other than the subject's own row, stating the
-  content identity it had when it was live. A world that never became PRIME has no witness and
-  is refused with CHECKPOINT_UNWITNESSED.
-- **An empty roster counted as complete.** A project with no policy collapsed with its
-  execution roster reported complete, because a loop over nothing found nothing wrong. The
-  kernel's `Roster_Complete` treats an empty roster as complete only when a policy declared it.
-  A project with no policy has declared nothing, so it is refused.
+- **`return` re-applied a world whose required check failed.** A required check COMPLETED with
+  FAIL, so the world was DEGRADED. When a sibling collapsed, the world was ARCHIVED, and
+  `return <world>` then authorized it and committed its bytes as PRIME. The promotion boundary
+  asked only whether execution had reached the examiner, not whether the check passed. It now
+  recomputes every required check from its raw record against the current policy's
+  declaration. The kernel admits a check only when it completed, passed, and has complete
+  evidence.
+- **`return` re-applied a world whose agent failed.** The agent's own exit is on every
+  finalization roster, and revalidation never re-runs it. A world DEGRADED only because its
+  agent failed, then ARCHIVED, was authorized and committed. The promotion roster now includes
+  the agent's exit, judged from the finalization record. The review of the first 1.8.0
+  candidate found this.
+- **A refused `return` left a world that could be returned to with no evidence.** `return X`
+  creates a synthetic candidate before it decides. When the decision was a refusal, that
+  candidate stayed VALID with the actor `worldline`. After any later PRIME change,
+  `return <that world>` took the checkpoint path, which consulted no evidence. The result:
+  - a world whose evidence had just been refused as stale was promoted;
+  - the newer policy was reverted along with it.
+
+  Checkpoint return is now an explicit mode of the kernel's collapse decision, and it needs a
+  witness that the subject was once PRIME. A world that never became PRIME has no witness, so
+  it is refused with CHECKPOINT_UNWITNESSED.
+- **An empty roster counted as complete.** A project with no policy collapsed with its roster
+  reported complete, because a loop over nothing found nothing wrong. The kernel's
+  `Roster_Complete` treats an empty roster as complete only when a policy declared it.
 
 ### Changed
 
-- **An examiner with unsatisfied imports never completes.** 1.7.3 counted a PASS as a completed
-  pass when the staged bundle could not satisfy one of the examiner's module-level imports. The
-  import had resolved from somewhere WORLDLINE did not stage. Such a run is now
-  EVALUATOR_INCOMPLETE and cannot authorize. A package installed in the host's system
-  site-packages is not a gap. Otherwise, declare the helper in the check's `verifiers`.
-- Evidence presence is a set of typed facts (`evaluation.evidencePresence`) rather than
+- Evidence presence is now a set of typed facts (`evaluation.evidencePresence`) rather than
   "the record is non-empty":
   - the record names its check;
   - a verdict is recorded;
@@ -60,28 +69,40 @@ Each defect below was reproduced on 1.7.3 before it was fixed. The scenarios are
   `agent` and `protected-paths` are refused in policies.
 - A system future (`simulate`) cannot be the subject of `return`. Its results carry the
   kernel's classification, which admits none of them.
+- Unchanged, deliberately: a PASS from an examiner whose staged bundle has unsatisfied imports
+  is still a completed pass. The import analysis cannot tell a missing helper from the module
+  under test. A FAIL with such a gap is still EVALUATOR_INCOMPLETE.
 
 ### Proof and ABI
 
-- 158 checks proved, none justified, no `pragma Assume` (the floor rises from 130 to 158).
-  The postconditions now state the whole lifecycle relation, the functional meaning of each
-  classification, the exact admission predicate, the roster rule, and the two collapse modes.
-- `proof-manifest.json` records per-subprogram coverage. The gate fails when a required
-  subprogram is not proved or a unit is only partly analyzed. Assurance compares the coverage
-  of a fresh run with the committed one.
-- The ABI is generation 4:
-  - the collapse request layout gains an evaluation mode and a checkpoint witness;
-  - `wl_evaluation_admissible` takes typed evidence presence;
-  - new exports: `wl_evaluation_transition_allowed`, `wl_evaluation_advance`,
-    `wl_evaluation_roster_complete`, `wl_abi_version` and `wl_layout_size`.
-- At load, the runtime refuses a library of another generation, or one whose record layouts
-  differ from its own.
-- The C layer rejects, as an invalid request:
+- **Proof.** 156 checks proved, none justified, no `pragma Assume`; the floor rises from 130 to
+  156. The postconditions state:
+  - the whole lifecycle relation;
+  - the exact admission predicate and roster rule;
+  - the two collapse modes;
+  - for `Classify`: what may complete, that an outcome is the recorded verdict, and the named
+    refusals.
+- **Coverage.** `proof-manifest.json` records per-subprogram coverage. The gate fails closed
+  on any summary line that is not a proved subprogram, including a skipped proof, a skipped
+  flow analysis or an unknown format. It also fails on any GNATprove annotation in the source.
+  The floor and the required subprograms are pinned in `verify_proof_manifest.py`, which
+  refuses a manifest that shrinks them. Assurance compares the coverage of a fresh run with the
+  committed one.
+- **ABI generation 4** (1.7.3 was collapse request layout 2):
+  - The collapse request gains an evaluation mode and a checkpoint witness.
+  - New exports: `wl_evaluation_classify`, `wl_evaluation_admissible` (typed evidence
+    presence), `wl_evaluation_transition_allowed`, `wl_evaluation_advance`,
+    `wl_evaluation_roster_complete`, `wl_abi_version`, `wl_layout_size` and `wl_layout_offset`
+    (each field's offset, by name).
+  - At load, the runtime refuses a library of another generation, or one whose record sizes or
+    named field offsets differ from its own.
+- **Invalid requests.** The C layer rejects:
   - every Boolean byte other than 0 or 1;
   - every nonzero reserved byte;
-  - a classification the kernel could not have produced.
-- A test compiles the header and compares it field by field with the ctypes records and the
-  library.
+  - every classification `Classify` could not have produced: an outcome without completion,
+    completion without an outcome, or an in-flight state.
+- **Header checks.** A test compiles the header and compares every field offset and every code
+  table with the runtime.
 
 ## 1.7.3 — 2026-09-29 · deployment guidance corrected
 
