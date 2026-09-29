@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+import shutil
 import stat
 import tempfile
 import unittest
@@ -158,6 +159,48 @@ class RootSourceTests(_Registered):
         self.manager.remove(root["root_key"], confirmed=True)
         self.assertTrue((repo / "f.txt").is_file())
 
+    def test_a_real_directory_in_live_is_not_a_mapping(self) -> None:
+        # Review of 796cb02: a copy that dereferenced links turned the mapping into a directory,
+        # which the start check skipped and root_source served.
+        live = self.paths.live / self.root["root_key"]
+        content = Path(os.path.realpath(live))
+        live.unlink()
+        shutil.copytree(content, live)
+        with self.assertRaises(WorldlineError) as caught:
+            self.paths.root_source(self.root)
+        self.assertEqual(caught.exception.code, "LIVE_MAPPING_BROKEN")
+
+    def test_a_refused_capture_leaves_no_copy_behind(self) -> None:
+        # Review of 796cb02: every refused reconcile left a full copy of the roots before it.
+        before = sorted(item.name for item in self.paths.generations.iterdir())
+        source = Path(os.fsdecode(self.paths.root_source(self.root)))
+        os.mkfifo(source / "fifo")
+        self.store.set_meta("dirty", True)
+        for _attempt in range(3):
+            with self.assertRaises(WorldlineError) as caught:
+                self.manager.reconcile()
+            self.assertEqual(caught.exception.code, "UNSUPPORTED_SPECIAL_FILE")
+        self.assertEqual(sorted(item.name for item in self.paths.generations.iterdir()), before)
+
+    def test_a_root_whose_git_is_a_link_outside_it_can_still_be_removed(self) -> None:
+        # Review of 796cb02: the doctor called it BROKEN and said remove it; remove refused
+        # EXTERNAL_SYMLINK on the `.git` link.
+        import subprocess
+        repo = Path(self.temporary.name) / "linked-repo"
+        repo.mkdir()
+        subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
+        (repo / "f.txt").write_text("x\n")
+        self.manager.register([repo], confirmed=True)
+        root = next(item for item in self.store.roots() if bytes(item["path"]) == os.fsencode(repo))
+        source = Path(os.fsdecode(self.paths.root_source(root)))
+        elsewhere = Path(self.temporary.name) / "elsewhere.git"
+        (source / ".git").rename(elsewhere)
+        (source / ".git").symlink_to(elsewhere)
+        self.manager.remove(root["root_key"], confirmed=True)
+        self.assertTrue(repo.is_dir() and not repo.is_symlink())
+        self.assertEqual((repo / ".git").readlink(), elsewhere)
+        self.assertEqual((repo / "f.txt").read_text(), "x\n")
+
     def test_why_does_not_leave_the_root(self) -> None:
         outside = Path(self.temporary.name) / "secret.txt"
         outside.write_bytes(b"daemon-only line\n")
@@ -216,6 +259,16 @@ class ClientModePrimeChainTests(_Registered):
         for private in (self.paths.state, self.paths.worlds, self.paths.overlays, self.paths.config):
             with self.subTest(private=str(private)):
                 self.assertEqual(stat.S_IMODE(private.stat().st_mode), 0o700)
+
+    def test_anything_in_live_but_mapping_links_refuses_the_start(self) -> None:
+        live = self.paths.live / self.root["root_key"]
+        content = Path(os.path.realpath(live))
+        live.unlink()
+        shutil.copytree(content, live)
+        with self.assertRaises(WorldlineError) as caught:
+            self.paths.share_live_chain()
+        self.assertEqual(caught.exception.code, "LIVE_MAPPING_BROKEN")
+        self.assertEqual(stat.S_IMODE(self.paths.data.stat().st_mode), 0o700)   # the gate stays shut
 
     def test_share_live_chain_opens_a_store_written_before_client_mode(self) -> None:
         source = Path(os.fsdecode(self.paths.root_source(self.root)))

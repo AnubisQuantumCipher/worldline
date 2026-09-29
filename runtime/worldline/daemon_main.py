@@ -8,10 +8,11 @@ import signal
 
 from .app import WorldlineApplication
 from .errors import WorldlineError
+from .paths import WorldlinePaths, acquire_store_lock
 
 
-async def _run() -> int:
-    application = WorldlineApplication.build()
+async def _run(paths: WorldlinePaths) -> int:
+    application = WorldlineApplication.build(paths)
     stopped = asyncio.Event()
     loop = asyncio.get_running_loop()
     for signum in (signal.SIGINT, signal.SIGTERM):
@@ -33,11 +34,37 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--log-level", choices=("DEBUG", "INFO", "WARNING", "ERROR"), default="INFO")
     arguments = parser.parse_args(argv)
     logging.basicConfig(level=getattr(logging, arguments.log_level), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    log = logging.getLogger("worldline.daemon")
     try:
-        return asyncio.run(_run())
+        paths = WorldlinePaths.from_environment()
+        # The store lock before anything is built: building opens the database, migrates it and
+        # sets directory modes, which a second daemon, or one started during a relocation, must
+        # not do (review of 796cb02).
+        lock = acquire_store_lock(paths.state, holder="worldlined")
     except WorldlineError as exc:
-        logging.getLogger("worldline.daemon").error("%s", exc)
+        log.error("%s", exc)
         return 1
+    def close_gate() -> None:
+        # This process holds the store lock, so no other daemon serves this store: a start that
+        # refused, or a daemon that failed, must not leave a previous run's gate open (review of
+        # 796cb02). Only DAEMON_ALREADY_RUNNING (an older daemon's runtime lock) leaves it alone.
+        try:
+            paths.close_client_gate()
+        except OSError:
+            log.exception("could not close the client gate")
+
+    try:
+        return asyncio.run(_run(paths))
+    except WorldlineError as exc:
+        log.error("%s", exc)
+        if exc.code != "DAEMON_ALREADY_RUNNING":
+            close_gate()
+        return 1
+    except BaseException:
+        close_gate()
+        raise
+    finally:
+        os.close(lock)
 
 
 if __name__ == "__main__":

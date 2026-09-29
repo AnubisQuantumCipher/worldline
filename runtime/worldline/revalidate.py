@@ -16,7 +16,6 @@ that produced the bytes, and the world's VALID state already records it.
 from __future__ import annotations
 
 import os
-import shutil
 import uuid
 from pathlib import Path
 from typing import Any
@@ -24,6 +23,7 @@ from typing import Any
 from . import SCHEMA_VERSION
 from .core import Core
 from .delta import Delta
+from .fstree import remove_tree
 from .errors import WorldlineError
 from .finalize import _COPY_SCRIPT, evaluation_record, execution_binding, protected_matches
 from .linux.git import GitAdapter
@@ -320,12 +320,5 @@ class Revalidator:
 
     @staticmethod
     def _discard(directory: Path) -> None:
-        if not directory.exists():
-            return
-        for root_dir, dirs, _files in os.walk(directory):
-            for name in dirs:
-                try:
-                    os.chmod(os.path.join(root_dir, name), 0o700)
-                except OSError:
-                    pass
-        shutil.rmtree(directory, ignore_errors=True)
+        # Candidate-written content: never change a mode through a link it holds (review of 796cb02).
+        remove_tree(directory, ignore_errors=True)

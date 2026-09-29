@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from contextlib import nullcontext
 from dataclasses import dataclass
+import logging
 import os
 from pathlib import Path
 import shutil
@@ -12,6 +13,7 @@ from typing import Any, Iterable, Sequence
 from .canonical import atomic_write_json, fsync_directory
 from .core import Core, hash_id
 from .environment import EnvironmentCapture, evidence_manifest
+from .fstree import remove_tree
 from .errors import NotFound, WorldlineError
 from .linux.atomic import AtomicExchange
 from .linux.git import GitAdapter
@@ -32,6 +34,9 @@ class RootCandidate:
     device: int
     primary: bool
     manifest: CapturedManifest
+
+
+_LOG = logging.getLogger("worldline.roots")
 
 
 class RootManager:
@@ -215,7 +220,7 @@ class RootManager:
                     moved.append((candidate, target, live))
         except BaseException:
             self._rollback_registration(moved)
-            shutil.rmtree(generation_payload.parent, ignore_errors=True)
+            self._discard_registration_generation(generation_payload, moved)
             raise
 
         previous_primary = next((item["root_key"] for item in self.store.roots() if item["primary_root"]), None)
@@ -237,7 +242,7 @@ class RootManager:
                     )
         except BaseException:
             self._rollback_registration(moved)
-            shutil.rmtree(generation_payload.parent, ignore_errors=True)
+            self._discard_registration_generation(generation_payload, moved)
             raise
 
         try:
@@ -246,6 +251,7 @@ class RootManager:
                 generation_payload=generation_payload,
                 cause="Register managed roots",
                 supplied_manifests=self._capture_all(manifests_directory),
+                registering=frozenset(candidate.root_key for candidate in candidates),
             )
         except BaseException:
             with self.store.transaction() as connection:
@@ -254,9 +260,21 @@ class RootManager:
                 if previous_primary is not None:
                     connection.execute("UPDATE roots SET primary_root=1 WHERE root_key=?", (previous_primary,))
             self._rollback_registration(moved)
-            shutil.rmtree(generation_payload.parent, ignore_errors=True)
+            self._discard_registration_generation(generation_payload, moved)
             raise
         return {"roots": summary, "prime": world.content_id, "generation": generation_id}
+
+    @staticmethod
+    def _discard_registration_generation(generation_payload: Path, moved) -> None:
+        """Remove a refused registration's generation only once every root it moved in has been
+        moved back. A root still there is the operator's own directory, and the only copy of
+        it: the generation is kept, and the doctor reports it as unreferenced data."""
+        stranded = [os.fsdecode(target) for _candidate, target, _live in moved if os.path.lexists(target)]
+        if stranded:
+            _LOG.error("registration refused and could not move back %s; kept in %s",
+                       ", ".join(stranded), generation_payload.parent)
+            return
+        shutil.rmtree(generation_payload.parent, ignore_errors=True)
 
     def _rollback_registration(self, moved: Iterable[tuple[RootCandidate, bytes, bytes]]) -> None:
         for candidate, target, live in reversed(list(moved)):
@@ -300,12 +318,18 @@ class RootManager:
         manifests_directory = payload.parent / "manifests"
         manifests_directory.mkdir(mode=0o700)
         capture = lambda: self._capture_all(manifests_directory)
-        if self.watcher is not None:
-            from .linux.inotify import stable_capture
+        try:
+            if self.watcher is not None:
+                from .linux.inotify import stable_capture
 
-            manifests = stable_capture(self.watcher, capture)
-        else:
-            manifests = capture()
+                manifests = stable_capture(self.watcher, capture)
+            else:
+                manifests = capture()
+        except BaseException:
+            # Every payload here is a fresh copy of what is live, never an original: a refused
+            # capture must not leave one behind per status request (review of 796cb02).
+            remove_tree(payload.parent, ignore_errors=True)
+            raise
         return identifier, payload, manifests
 
     def _publish_generation(
@@ -315,6 +339,7 @@ class RootManager:
         generation_payload: Path,
         cause: str,
         supplied_manifests: list[CapturedManifest] | None = None,
+        registering: frozenset[str] = frozenset(),
     ):
         manifests = supplied_manifests
         if manifests is None:
@@ -323,18 +348,21 @@ class RootManager:
         roots = {item["root_key"]: item for item in self.store.roots()}
         # Client mode: a new generation becomes PRIME and clients can reach it. Registration
         # brings in the operator's modes; reconcile and remove re-capture what is live.
-        try:
-            for root_key in roots:
+        for root_key in roots:
+            try:
                 self.paths.assert_client_safe(generation_payload / root_key)
-        except WorldlineError as exc:
-            if exc.code == "CLIENT_MODE_UNSAFE_CONTENT":
-                # A reconcile copies what is live, so live itself is unsafe: take every client
-                # off the store rather than only refusing the copy (review of ff201cd), and
-                # do not keep the refused copy (review of ad64cd2: every status request left
-                # another full, unchecked copy behind).
-                self.paths.close_client_gate()
-                shutil.rmtree(generation_payload.parent, ignore_errors=True)
-            raise
+            except WorldlineError as exc:
+                if exc.code == "CLIENT_MODE_UNSAFE_CONTENT" and root_key not in registering:
+                    # A copy of what is live, so live itself is unsafe: take every client off
+                    # the store rather than only refusing the copy (review of ff201cd).
+                    self.paths.close_client_gate()
+                    if not registering:
+                        # Reconcile and remove publish fresh copies only: do not keep the refused
+                        # one (review of ad64cd2). A registration's generation holds the
+                        # operator's own directories, which its rollback moves back; deleting it
+                        # here destroyed them (review of 796cb02).
+                        remove_tree(generation_payload.parent, ignore_errors=True)
+                raise
         dependency_roots = [
             (root_key, self.paths.root_source(root)) for root_key, root in sorted(roots.items())
         ]
@@ -384,6 +412,7 @@ class RootManager:
         root = self.store.root(value)
         logical = bytes(root["path"])
         source = self.paths.root_source(root)
+        allow_external: frozenset[bytes] = frozenset()
         try:
             repository = self.git.capture(source) if root["kind"] == "repo" else None
         except WorldlineError as exc:
@@ -391,8 +420,13 @@ class RootManager:
                 raise
             # A root registered before 1.7.x whose layout the repository sandbox cannot inspect
             # (a linked worktree, a `.git` link, a subdirectory) must still be removable. Removal
-            # copies the payload's bytes, `.git` included, whatever the repository facts say.
+            # copies the payload's bytes, `.git` included, whatever the repository facts say; a
+            # top-level `.git` link is recreated as it is even when it leaves the root, since it is
+            # the operator's own link at its own path (review of 796cb02: it was refused as
+            # EXTERNAL_SYMLINK, so the doctor said remove it and remove would not).
             repository = None
+            if os.path.islink(os.path.join(source, b".git")):
+                allow_external = frozenset({b".git"})
         manifest = Manifest.capture(
             source,
             logical_root=logical,
@@ -400,6 +434,7 @@ class RootManager:
             kind=root["kind"],
             core=self.core,
             repository=repository,
+            allow_external_links=allow_external,
         )
         if not confirmed:
             raise WorldlineError(
@@ -409,7 +444,7 @@ class RootManager:
             )
 
         stage = os.path.join(os.path.dirname(logical), f".worldline-materialize-{uuid.uuid4()}".encode("ascii"))
-        Manifest.materialize(manifest, source, stage, core=self.core)
+        Manifest.materialize(manifest, source, stage, core=self.core, allow_external_links=allow_external)
         with (self.watcher.owned_writes() if self.watcher is not None else nullcontext()):
             self.atomic.exchange(logical, stage)
         try:

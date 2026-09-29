@@ -33,7 +33,7 @@ from .linux.inotify import InotifyWatcher
 from .linux.namespaces import BubblewrapSandbox
 from .admission import AdmissionAuthority, Gate, Ledger
 from .linux.systemd import SystemdAdapter
-from .paths import WorldlinePaths, deployment_facts
+from .paths import WorldlinePaths, deployment_facts, xattr_risks
 from .reconcile import PrimeChangeTracker
 from .returning import ReturnManager
 from .revalidate import Revalidator
@@ -56,12 +56,25 @@ _LOG = logging.getLogger("worldline.controller")
 def _require_alternates_inside(source: bytes) -> None:
     """Objects borrowed from outside the root (`objects/info/alternates`) are invisible to the
     repository sandbox, so every capture of such a root refuses; say so before a capture does."""
-    alternates = os.path.join(source, b".git", b"objects", b"info", b"alternates")
+    # Opened one component at a time without following links, like the index (review of 796cb02):
+    # the path is the candidate's to shape, and a linked `alternates` had the host read any file.
+    descriptors: list[int] = []
     try:
-        with open(alternates, "rb") as stream:
-            entries = [line.strip() for line in stream.read(65536).splitlines() if line.strip()]
+        current = os.open(source, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        descriptors.append(current)
+        for part in (b".git", b"objects", b"info"):
+            current = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=current)
+            descriptors.append(current)
+        handle = os.open(b"alternates", os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK, dir_fd=current)
+        descriptors.append(handle)
+        if not stat.S_ISREG(os.fstat(handle).st_mode):
+            return
+        entries = [line.strip() for line in os.read(handle, 65536).splitlines() if line.strip()]
     except OSError:
         return
+    finally:
+        for descriptor in descriptors:
+            os.close(descriptor)
     objects = os.path.realpath(os.path.join(source, b".git", b"objects"))
     root = os.path.realpath(source)
     for entry in entries:
@@ -722,12 +735,21 @@ class RuntimeController:
         facts a client-mode deployment needs that the daemon can observe (SECURITY.md limit 7)."""
         if self.paths.client_gid is None:
             return {"enabled": False}
+        gate: dict[str, Any]
         try:
-            info = os.stat(self.paths.data)
-            opened = stat.S_IMODE(info.st_mode) == 0o710 and info.st_gid == self.paths.client_gid
-            gate = "OPEN" if opened else "CLOSED"
-        except OSError:
-            gate = "UNKNOWN"
+            info = os.lstat(self.paths.data)
+            mode = stat.S_IMODE(info.st_mode)
+            acl, _capability = xattr_risks(self.paths.data)
+            if mode == 0o710 and info.st_gid == self.paths.client_gid and not acl:
+                gate = {"state": "OPEN"}
+            elif mode == 0o700 and not acl:
+                gate = {"state": "CLOSED"}
+            else:
+                # Neither: something opened it another way (review of 796cb02 found 0711, 0755 and
+                # a foreign group all reported CLOSED). The next ensure() resets it to 0700.
+                gate = {"state": "UNSAFE", "mode": f"{mode:04o}", "gid": info.st_gid, "acl": acl}
+        except OSError as exc:
+            gate = {"state": "UNKNOWN", "reason": str(exc)}
         return {
             "enabled": True,
             "clientGid": self.paths.client_gid,

@@ -125,10 +125,11 @@ class WorldlineDaemon:
             raise RuntimeError("daemon is already started")
         os.umask(0o077)
         self.paths.ensure()
-        # Closed first: a gate a previous run opened must not stay open while this start checks,
-        # nor after a start that refuses (review of ad64cd2).
-        self.paths.close_client_gate()
         self._acquire_singleton_lock()
+        # Closed once this start is the store's only daemon (a second start closed a running
+        # daemon's gate before it was refused: review of 796cb02), and before anything that
+        # checks what clients would reach. worldlined closes it too if the start refuses.
+        self.paths.close_client_gate()
         if self._recover is not None:
             result = self._recover()
             if inspect.isawaitable(result):

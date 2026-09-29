@@ -104,6 +104,14 @@ class RelocateAStore(unittest.TestCase):
             shutil.copytree(source, target, symlinks=True)
         self.old_digest = (_tree_digest(self.old.data), _tree_digest(self.old.state))
 
+    def copy_content(self) -> Path:
+        """The copy's PRIME content for the first root. Before relocation the copy's live links
+        still name the old store; following them would reach the OLD store's content."""
+        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
+        target = os.readlink(live)
+        self.assertTrue(target.startswith(str(self.old.data) + "/"), target)
+        return Path(str(self.new.data) + target[len(str(self.old.data)):])
+
     def relocation(self) -> Relocation:
         return Relocation(old_data=self.old.data, old_state=self.old.state,
                           new_data=self.new.data, new_state=self.new.state)
@@ -269,17 +277,22 @@ class RelocateAStore(unittest.TestCase):
         self.assertFalse(stale.is_symlink())
 
     def test_unsafe_prime_content_is_reported(self) -> None:
-        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
-        os.chmod(os.path.realpath(live), 0o777)
+        os.chmod(self.copy_content(), 0o777)
         result = self.relocation().run(dry_run=True)
         self.assertGreaterEqual(result["liveContentUnsafeForClients"]["count"], 1)
+
+    def test_the_report_reads_the_copy_not_the_old_store(self) -> None:
+        # Review of 796cb02: the report followed the copy's unrewritten links into the old store.
+        old_content = Path(os.path.realpath(next(p for p in sorted(self.old.live.iterdir()) if p.is_symlink())))
+        os.chmod(old_content, 0o777)
+        self.addCleanup(os.chmod, old_content, 0o755)
+        self.assertEqual(self.relocation().run(dry_run=True)["liveContentUnsafeForClients"]["count"], 0)
 
     def test_group_write_outside_the_accounts_group_is_reported(self) -> None:
         other = next((gid for gid in os.getgroups() if gid != os.getegid()), None)
         if other is None:
             self.skipTest("needs a supplementary group")
-        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
-        target = Path(os.path.realpath(live))
+        target = self.copy_content()
         victim = next(p for p in sorted(target.iterdir()) if p.is_file())
         os.chown(victim, -1, other)
         os.chmod(victim, 0o664)
@@ -443,20 +456,114 @@ class RelocateAStore(unittest.TestCase):
                                      and os.access(os.path.join(directory, d), os.R_OK | os.X_OK)]
             walked += 1  # the root itself
         with mock.patch("worldline.relocate.os.geteuid", return_value=os.getuid() + 1):
-            count, _sample, _undescended = relocation._foreign_entries()
+            count = relocation._walk_copy()["foreignOwned"]["count"]
         self.assertEqual(count, walked)
 
-    def test_a_held_daemon_lock_refuses_the_run(self) -> None:
+    def test_a_held_store_lock_refuses_the_run(self) -> None:
+        # The copy's own lock, which worldlined takes before it opens anything.
+        from worldline.paths import acquire_store_lock
+        lock = acquire_store_lock(self.new.state, holder="a daemon", create_directory=False)
+        self.addCleanup(os.close, lock)
+        database = (self.new.state / "worldline.sqlite3").read_bytes()
+        for dry_run in (True, False):
+            with self.subTest(dry_run=dry_run):
+                with self.assertRaises(WorldlineError) as caught:
+                    self.relocation().run(dry_run=dry_run)
+                self.assertIn("store lock is held", caught.exception.message)
+        self.assertEqual((self.new.state / "worldline.sqlite3").read_bytes(), database)
+
+    def test_a_daemon_cannot_start_on_the_copy_while_the_relocation_holds_its_lock(self) -> None:
+        # Review of 796cb02: a refused daemon had already migrated the database, reset meta rows
+        # and changed directory modes; and a restarted unit took a fresh lock file. The lock is
+        # taken here with flock directly, as the relocation does, at <state>/worldlined.lock.
         import fcntl
+        lock = os.open(self.new.state / "worldlined.lock", os.O_RDWR | os.O_CREAT | os.O_CLOEXEC, 0o600)
+        self.addCleanup(os.close, lock)
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        before = (_tree_digest(self.new.data), (self.new.state / "worldline.sqlite3").read_bytes(),
+                  os.stat(self.new.generations).st_mode)
+        env = {**os.environ, **self.env, "PYTHONPATH": str(REPO / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"}
+        result = subprocess.run([sys.executable, "-B", "-m", "worldline.daemon_main"], env=env,
+                                capture_output=True, timeout=60)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn(b"DAEMON_ALREADY_RUNNING", result.stderr)
+        self.assertEqual((_tree_digest(self.new.data), (self.new.state / "worldline.sqlite3").read_bytes(),
+                          os.stat(self.new.generations).st_mode), before)
+
+    def test_a_file_linked_outside_the_copy_refuses(self) -> None:
+        # Review of 796cb02: a `cp -al` copy shares inodes with the old store.
+        events = self.new.state / "events"
+        victim = next(p for p in sorted(events.iterdir()) if p.is_file())
+        outside = self.destination / "outside-link"
+        os.link(victim, outside)
+        report = self.relocation().run(dry_run=True)
+        self.assertEqual(report["linkedOutsideCopy"]["count"], 1)
+        with self.assertRaises(WorldlineError):
+            self.relocation().run()
+
+    def test_directories_it_cannot_read_refuse_unless_they_are_overlay_work_directories(self) -> None:
+        work = self.new.data / "overlays" / "dead-world" / "root" / "work" / "work"
+        work.mkdir(parents=True)
+        os.chmod(work, 0)
+        self.addCleanup(os.chmod, work, 0o700)
+        report = self.relocation().run(dry_run=True)
+        self.assertEqual(report["unreadableDirectories"], [])
+        self.assertGreaterEqual(report["foreignOwned"]["overlayWorkDirectoriesNotDescended"], 1)
+        other = self.new.data / "worlds" / "sealed"
+        other.mkdir(parents=True)
+        os.chmod(other, 0)
+        self.addCleanup(os.chmod, other, 0o700)
+        report = self.relocation().run(dry_run=True)
+        self.assertEqual(report["unreadableDirectories"], ["data/worlds/sealed"])
+        with self.assertRaises(WorldlineError):
+            self.relocation().run()
+
+    def test_a_mount_inside_the_copy_refuses(self) -> None:
+        # Review of 796cb02: a bind of the old `live` inside the copy had the old store rewritten.
+        # Simulated: the walk sees a different device for the copy's `live`.
+        real_lstat = os.lstat
+        target = str(self.new.live)
+
+        def lstat(path, *args, **kwargs):
+            info = real_lstat(path, *args, **kwargs)
+            if os.fsdecode(path) == target:
+                values = list(info)
+                values[2] = info.st_dev + 1
+                return os.stat_result(values)
+            return info
+
+        with mock.patch("worldline.relocate.os.lstat", side_effect=lstat):
+            report = self.relocation().run(dry_run=True)
+        self.assertEqual(report["mountsInsideCopy"], ["data/live"])
+
+    def test_revalidation_records_are_kept_and_other_meta_rows_refused(self) -> None:
+        connection = sqlite3.connect(self.new.state / "worldline.sqlite3")
+        try:
+            record = json.dumps([{"results": [{"evaluatorBoundary": {"inputs": [
+                {"frozen": f"{self.old.data}/overlays/w/checks/c/private-backend/frozen/0"}]}}]}]).encode()
+            connection.execute("INSERT INTO meta(key, value) VALUES (?, ?)", ("validation:w", record))
+            connection.commit()
+            report = self.relocation().run(dry_run=True)
+            self.assertEqual(report["recordColumnsKept"], {"meta.value (validation:*)": 1})
+            self.assertEqual(report["refusedDatabaseColumns"], {})
+            connection.execute("INSERT INTO meta(key, value) VALUES (?, ?)", ("other", f"{self.old.state}/x".encode()))
+            connection.commit()
+        finally:
+            connection.close()
+        self.assertEqual(self.relocation().run(dry_run=True)["refusedDatabaseColumns"], {"meta.value": 1})
+
+    def test_a_corrupt_database_or_record_is_refused_by_name(self) -> None:
+        # Review of 796cb02: both escaped as tracebacks.
         from worldline.relocate import main
-        lock_path = self.destination / "worldlined.lock"
-        holder = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o600)
-        self.addCleanup(os.close, holder)
-        fcntl.flock(holder, fcntl.LOCK_EX)
-        code = main(["--from-data", str(self.old.data), "--from-state", str(self.old.state),
-                     "--to-data", str(self.new.data), "--to-state", str(self.new.state),
-                     "--dry-run", "--daemon-lock", str(lock_path)])
-        self.assertEqual(code, 1)
+        arguments = ["--from-data", str(self.old.data), "--from-state", str(self.old.state),
+                     "--to-data", str(self.new.data), "--to-state", str(self.new.state)]
+        record = next(iter(sorted((self.new.state / "transactions").glob("*.json"))))
+        saved = record.read_bytes()
+        record.write_bytes(b"not json " + os.fsencode(self.old.data))
+        self.assertEqual(main([*arguments, "--dry-run"]), 1)
+        record.write_bytes(saved)
+        (self.new.state / "worldline.sqlite3").write_bytes(b"this is not a database" * 100)
+        self.assertEqual(main([*arguments, "--dry-run"]), 1)
 
     def test_nested_or_relative_directories_are_refused(self) -> None:
         for arguments in ({"new_data": self.old.data / "inner"}, {"old_data": Path("relative/data")}):

@@ -130,7 +130,45 @@ class PruneNeverDeletesOutsideTheStore(unittest.TestCase):
                                 for failure in result["failures"]), result["failures"])
             self.assertNotIn(str(outside), result["directories"])
             self.assertEqual(sorted(str(item.relative_to(outside)) for item in outside.rglob("*")), before)
+            # Not recorded as pruned: its payload is not gone (review of 796cb02).
+            self.assertNotIn("archived", result["pruned"])
+            self.assertFalse(client.request("show", {"world": "archived"})["payload_pruned"])
             self.assertEqual(client.request("doctor", {})["storeIntegrity"]["state"], "OK")
+
+        finally:
+            fixture.close()
+
+    def test_links_in_a_pruned_tree_are_never_followed(self) -> None:
+        # Review of 796cb02: making each directory writable before removal followed links, so an
+        # agent's upper layer with a link to PRIME's content (or anywhere the account owns) had
+        # prune set that directory to 0700. A link inside a 0000 directory was reached too.
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+        try:
+            work, client, paths = fixture.work, fixture.client, fixture.paths
+            client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            instance = client.request("show", {"world": "archived"})["instance_id"]
+            overlay = paths.overlays / instance
+            self.assertTrue(overlay.is_dir())
+            victim = Path(fixture.temporary.name) / "victim"
+            victim.mkdir(mode=0o755)
+            os.chmod(victim, 0o755)
+            prime = Path(os.path.realpath(work))
+            prime_mode = os.stat(prime).st_mode & 0o7777
+            hidden = overlay / "hidden"
+            hidden.mkdir()
+            (overlay / "to-victim").symlink_to(victim, target_is_directory=True)
+            (hidden / "to-prime").symlink_to(prime, target_is_directory=True)
+            os.chmod(hidden, 0o000)
+            result = client.request("prune", {"dryRun": False, "confirmed": True})
+            self.assertEqual(result["failures"], [])
+            self.assertIn("archived", result["pruned"])
+            self.assertFalse(overlay.exists())
+            self.assertEqual(os.stat(victim).st_mode & 0o7777, 0o755)
+            self.assertEqual(os.stat(prime).st_mode & 0o7777, prime_mode)
         finally:
             fixture.close()
 

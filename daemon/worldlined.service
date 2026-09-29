@@ -12,9 +12,11 @@ RuntimeDirectory=worldline
 RuntimeDirectoryMode=0700
 UMask=0077
 # Repository inspection runs sandboxed as a child of the daemon, inside this cgroup: these bound
-# what a hostile repository's configuration can make it use. Worlds, checks and services run in
-# their own transient units with their own limits.
+# what a hostile repository's configuration can make it use (it runs with OOM score 1000, so the
+# kernel kills it before the daemon). MemoryMax= does not cover swap, hence MemorySwapMax=.
+# Worlds, checks and services run in their own transient units with their own limits.
 MemoryMax=4G
+MemorySwapMax=0
 TasksMax=4096
 
 [Install]

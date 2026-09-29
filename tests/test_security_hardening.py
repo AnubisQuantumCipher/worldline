@@ -127,6 +127,13 @@ class GitFilterDriversAreContained(unittest.TestCase):
                             "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_SYSTEM": os.devnull})
         self.assertTrue(self.outside.exists(), "control did not fire; the filter is not armed")
 
+    def test_a_filter_cannot_make_a_working_sandbox_read_as_broken(self) -> None:
+        # Review of 796cb02: stderr starting with `bwrap:` was read as the sandbox failing to start.
+        script = self.repo / "filter.sh"
+        script.write_text("#!/bin/sh\necho 'bwrap: pretend the sandbox failed' >&2\ncat\n", encoding="utf-8")
+        captured = GitAdapter(Core.shared()).capture(self.repo)
+        self.assertIsNotNone(captured["head"])
+
     def test_the_filter_runs_inside_the_sandbox_and_reaches_nothing_outside(self) -> None:
         captured = GitAdapter(Core.shared()).capture(self.repo)
         diff = base64.b64decode(captured["worktreeDiffRawB64"])
@@ -224,8 +231,10 @@ class GitSandboxLayout(unittest.TestCase):
     def test_the_sandbox_limits_tasks_and_forbids_nested_user_namespaces(self) -> None:
         limit = GitAdapter._task_limit()
         argv = GitAdapter._sandbox(os.fsencode(self.main), None, limit)
-        self.assertTrue(argv[0].endswith("prlimit"))
-        self.assertEqual(argv[1], f"--nproc={limit}:{limit}")
+        self.assertTrue(argv[0].endswith("choom"))
+        self.assertEqual(argv[1:4], ["-n", "1000", "--"])
+        self.assertTrue(argv[4].endswith("prlimit"))
+        self.assertEqual(argv[5], f"--nproc={limit}:{limit}")
         self.assertGreater(limit, GitAdapter._uid_tasks(os.getuid()))
         for flag in ("--unshare-user", "--disable-userns"):
             self.assertIn(flag, argv)
@@ -238,6 +247,27 @@ class GitSandboxLayout(unittest.TestCase):
         self.assertNotEqual(nested.returncode, 0, nested.stderr)
         plain = subprocess.run([*argv, "/usr/bin/true"], capture_output=True, timeout=30)
         self.assertEqual(plain.returncode, 0, plain.stderr)
+        # Inspection shares the daemon's cgroup; the kernel's OOM killer is to pick it first
+        # (review of 796cb02).
+        score = subprocess.run([*argv, "/bin/sh", "-c", "cat /proc/self/oom_score_adj"],
+                               capture_output=True, timeout=30)
+        self.assertEqual(score.stdout.strip(), b"1000", score.stderr)
+
+    def test_git_outside_the_bound_directories_refuses_before_running(self) -> None:
+        with mock.patch("worldline.linux.git.shutil.which", return_value="/opt/elsewhere/bin/git"):
+            with self.assertRaises(WorldlineError) as caught:
+                GitAdapter(Core.shared())._sandboxed_git()
+        self.assertEqual(caught.exception.code, "GIT_SANDBOX_UNAVAILABLE")
+
+    def test_alternates_behind_a_link_are_not_read(self) -> None:
+        # Review of 796cb02: the doctor opened `objects/info/alternates` following links.
+        from worldline.controller import _require_alternates_inside
+        decoy = self.base / "decoy-alternates"
+        decoy.write_text(str(self.base / "elsewhere" / "objects") + "\n", encoding="utf-8")
+        info = self.main / ".git" / "objects" / "info"
+        info.mkdir(parents=True, exist_ok=True)
+        (info / "alternates").symlink_to(decoy)
+        _require_alternates_inside(os.fsencode(self.main))  # not followed, so nothing to refuse
 
 
 class AliasValidation(unittest.TestCase):

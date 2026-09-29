@@ -87,16 +87,23 @@ report files are never admissible.
     `PEER_UID_MISMATCH`.
   - Clients can traverse to PRIME's content, but cannot list any store directory: the path to it
     is `0710` with the group, and everything else stays `0700`. The data directory is the gate:
-    every daemon start closes it first and opens it only after the content check, and it closes
-    if content turns out unsafe while the daemon runs (1.7.1: a refused start no longer leaves a
-    previous run's open gate open).
+    it opens only at daemon start after the content check, and closes if content turns out unsafe
+    while the daemon runs. Since 1.7.1 `worldlined` takes a lock in the store's state directory
+    before it builds anything and closes the gate once it is the store's only daemon, so a second
+    start neither touches a running daemon's gate nor writes its store, and a start that refuses,
+    or a daemon that fails, leaves the gate closed.
   - Content they can reach must be owned by the daemon and carry no other-write bit, no
-    group-write bit outside the daemon's own group, no extended POSIX ACL, and no setuid, setgid
-    or sticky bit (`CLIENT_MODE_UNSAFE_CONTENT`; the group and ACL rules are 1.7.1). This is
-    checked at collapse and return prepare, when a generation is published, and at daemon start.
-    A client group equal to the daemon's primary group is refused.
-  - The routing check compares the live directory by device and inode, resolved in the daemon's
-    own namespace (1.7.1).
+    group-write bit outside the daemon's own group, no extended ACL (any `system.*acl*` xattr), no
+    file capability (`security.capability`), and no setuid, setgid or sticky bit
+    (`CLIENT_MODE_UNSAFE_CONTENT`; the group, ACL and capability rules are 1.7.1). An entry whose
+    xattrs cannot be read refuses. This is checked at collapse and return prepare, when a
+    generation is published, and at daemon start. A client group equal to the daemon's primary
+    group is refused, and so is a named member of the client group who is in the daemon's group.
+  - `live` may hold only mapping links (and its marker), each a link into a generation or
+    transaction payload; the routing check compares the live directory by device and inode,
+    resolved in the daemon's own namespace (1.7.1).
+  - A refused registration moves the operator's directory back; only reconcile and remove, which
+    publish copies, discard a refused generation (1.7.1).
   - `init`, `root add`, `root remove` and `switch` refuse clients
     (`OPERATION_NEEDS_DAEMON_ACCOUNT`).
   - The client checks the socket's `SO_PEERCRED` against `WORLDLINE_DAEMON_UID`, or its own
@@ -163,11 +170,14 @@ report files are never admissible.
   the root names (1.7.0 bound them, and a `.git` file naming another repository put its content
   into a world's facts). The index is read on the host at `<root>/.git/index` through one
   descriptor that refuses links, and the bytes hashed are the bytes copied. A sandbox that does
-  not start refuses (`GIT_SANDBOX_UNAVAILABLE`) instead of being read as a repository fact.
-  Anything a repository's configuration makes git run, such as a filter driver, reaches nothing.
+  not start refuses (`GIT_SANDBOX_UNAVAILABLE`) instead of being read as a repository fact; only
+  bubblewrap's own status report decides that, not git's stderr, which a repository's filter can
+  write. git must resolve inside the bound system directories. Anything a repository's
+  configuration makes git run, such as a filter driver, reaches nothing.
   Before 1.7.0 a `-c` denylist was the only defence, and it could not name filter drivers; that
   list remains as a second layer. Memory and tasks used inside the sandbox are charged to the
-  daemon's cgroup: the shipped unit's `MemoryMax=4G` and `TasksMax=4096` bound them.
+  daemon's cgroup: the shipped unit's `MemoryMax=4G`, `MemorySwapMax=0` and `TasksMax=4096` bound
+  them, and inspection runs with OOM score 1000 so the kernel kills it before the daemon.
 - **Release assurance of an exact commit (1.3.0; private host roster, 1.5.0).** A version is
   published only after `scripts/release_gate.py` accepts the full assurance report of the tagged
   commit, produced in the same workflow run (`docs/release-process.md`). One roster
@@ -436,7 +446,7 @@ trust you place in WORLDLINE.
      `show`, `inspect`) they see PRIME content whatever its modes. Earlier PRIMEs' committed
      payloads stay readable by id until `prune`. They cannot list any store directory, and
      reachable content refuses other-write, a group-write bit outside the daemon's own group, an
-     extended ACL, and special bits.
+     extended ACL, a file capability, and special bits.
    - The routing check reads the registered root links. The daemon account therefore needs
      search permission on the directories above them, for example the operator's HOME. Without
      it every capture refuses, which fails closed. It runs on the daemon's event loop: a
@@ -452,18 +462,26 @@ trust you place in WORLDLINE.
      that its account owns every entry.
      - It does not prove the copy is complete. The copy step (as root, for overlay work
        directories) and its comparison belong to the migration.
-     - Its check for a process holding the database open sees only processes of its own uid.
-       `--daemon-lock` holds the new daemon's lock for the run, so that daemon cannot start.
+     - Its check for a process holding the database open sees only processes of its own uid. A
+       real run also holds the copy's store lock, the one `worldlined` takes before it opens
+       anything, so no daemon can start on the copy meanwhile; a dry run only checks it is free.
      - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and
        nothing reads a path back out of it) and counts it; a mention of the old store in any
        other database column refuses.
-     - Directories it cannot read (overlay work directories are `0000`) are checked for ownership
-       but not descended; the report counts them.
+     - Directories it cannot read refuse, except overlayfs work directories (`0000` by design,
+       holding only the kernel's transient state), which are checked for ownership but not
+       descended; the report counts them.
+     - It refuses a mount inside the copy and a file hard-linked outside it, and reports PRIME
+       content a client-mode daemon would refuse as it is in the copy.
    - Deployment requirements that WORLDLINE does not enforce (`worldline doctor` reports the
      ones it can observe under `clientMode.deployment`, each `OK`, `MISSING` or `UNKNOWN`):
      - `RestrictSUIDSGID=yes` on the unit, and on the account's user manager (jobs run there);
-     - `MemoryMax=` and `TasksMax=` on the unit, which bound repository inspection (reported);
-     - a `nosuid` store mount (reported);
+     - `MemoryMax=`, `MemorySwapMax=` and `TasksMax=` on the unit, which bound repository
+       inspection (reported);
+     - a `nosuid` store mount on the host, where clients reach PRIME (reported from PID 1's mount
+       table; the daemon's own namespace can show `nosuid` over a mount that is not);
+     - a client group disjoint from the daemon's group (named members are checked; accounts whose
+       primary group is the client group are not listed anywhere the daemon can check);
      - `fs.protected_hardlinks=1` (reported). Without it a client can hard-link a PRIME file it
        can read into a directory of its own, and every capture of PRIME then refuses
        `EXTERNAL_HARDLINK` until the link is found: a denial of service;

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import errno
 import os
 import re
 from pathlib import Path
@@ -57,6 +58,87 @@ def _refuse_clients_in_daemon_group(uids: tuple[int, ...]) -> None:
                                  f"client uid {uid} is in the daemon account's group {daemon_group.gr_name}")
 
 
+def _refuse_client_group_overlap(client_gid: int) -> None:
+    """Every member of the client group can traverse to PRIME, listed or not. A member that is
+    also in the daemon's group could write what the daemon's group may write (review of 796cb02).
+    Named members are checked; accounts whose primary group is the client group cannot be listed
+    here, which is why the two groups must be kept disjoint (SECURITY.md limit 7)."""
+    import grp
+    import pwd
+    try:
+        clients = grp.getgrgid(client_gid)
+        daemon_group = grp.getgrgid(os.getgid())
+    except KeyError:
+        return
+    for name in clients.gr_mem:
+        try:
+            entry = pwd.getpwnam(name)
+        except KeyError:
+            continue
+        if entry.pw_uid != os.getuid() and (entry.pw_gid == os.getgid() or name in daemon_group.gr_mem):
+            raise WorldlineError("INVALID_CLIENT_MODE",
+                                 f"{name}, a member of the client group, is in the daemon account's group {daemon_group.gr_name}")
+
+
+STORE_LOCK_NAME = "worldlined.lock"
+LIVE_MARKER = ".worldline-generation.json"
+
+
+def acquire_store_lock(state: Path, *, holder: str, create_directory: bool = True) -> int:
+    """The store's own lock, kept in its state directory. worldlined takes it before it opens
+    anything, and worldline-relocate for its whole run, so neither can touch a store the other
+    is using. The daemon's older lock lives in the runtime directory, which systemd removes
+    with the unit (lock file included), so a restarted unit locked a new file while another
+    process still held the old one; and the daemon wrote its database before taking even that
+    lock (review of 796cb02). Returns the descriptor, held until it is closed."""
+    import fcntl
+    if create_directory:
+        secure_directory(state)
+    path = state / STORE_LOCK_NAME
+    descriptor = os.open(path, os.O_RDWR | os.O_CREAT | os.O_CLOEXEC | os.O_NOFOLLOW, 0o600)
+    try:
+        info = os.fstat(descriptor)
+        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid():
+            raise WorldlineError("UNSAFE_STORE", f"the store lock is not a regular file owned by uid {os.getuid()}: {path}")
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            raise WorldlineError(
+                "DAEMON_ALREADY_RUNNING",
+                f"{path} is held: a worldlined or worldline-relocate is using this store") from exc
+        os.ftruncate(descriptor, 0)
+        os.write(descriptor, f"{os.getpid()} {holder}\n".encode("ascii"))
+        return descriptor
+    except BaseException:
+        os.close(descriptor)
+        raise
+
+
+def store_lock_held_elsewhere(state: Path) -> bool:
+    """Whether another process holds the store lock, without creating or changing anything."""
+    import fcntl
+    try:
+        descriptor = os.open(state / STORE_LOCK_NAME, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
+    except FileNotFoundError:
+        return False
+    try:
+        fcntl.flock(descriptor, fcntl.LOCK_SH | fcntl.LOCK_NB)
+    except OSError:
+        return True
+    finally:
+        os.close(descriptor)
+    return False
+
+
+def store_lock_intact(state: Path, descriptor: int) -> bool:
+    """Whether the lock file at its path is still the one this descriptor holds."""
+    try:
+        named, held = os.stat(state / STORE_LOCK_NAME, follow_symlinks=False), os.fstat(descriptor)
+    except OSError:
+        return False
+    return (named.st_dev, named.st_ino) == (held.st_dev, held.st_ino)
+
+
 def _nested(first: Path, second: Path) -> bool:
     """Whether either path contains the other, as spelled or as resolved through symlinks."""
     for a, b in ((first, second), (Path(os.path.realpath(first)), Path(os.path.realpath(second)))):
@@ -79,12 +161,47 @@ _CLIENT_SPECIAL_BITS = stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
 _ACL_XATTRS = frozenset(("system.posix_acl_access", "system.posix_acl_default"))
 
 
-def has_extended_acl(path: str | bytes) -> bool:
+def xattr_risks(path: str | bytes) -> tuple[bool, bool]:
+    """(extended ACL, file capability) on an entry, read without following a link.
+
+    Any `system.*acl*` name counts as an ACL (NFSv4, richacl), not only the two POSIX names, and
+    a `security.capability` xattr is a file capability: executing such a file grants it, and
+    manifests record it like any xattr (review of 796cb02). Only a filesystem without xattr
+    support reads as neither; any other error raises instead of reading as none."""
     try:
         names = os.listxattr(path, follow_symlinks=False)
-    except OSError:
-        return False  # a filesystem without xattrs has no ACLs
-    return any(name in _ACL_XATTRS for name in names)
+    except OSError as exc:
+        if exc.errno in (errno.ENOTSUP, errno.EOPNOTSUPP):
+            return False, False
+        raise
+    acl = any(name in _ACL_XATTRS or (name.startswith("system.") and "acl" in name) for name in names)
+    return acl, "security.capability" in names
+
+
+def has_extended_acl(path: str | bytes) -> bool:
+    return xattr_risks(path)[0]
+
+
+def _unescape_mount_path(field: str) -> str:
+    return re.sub(r"\\([0-7]{3})", lambda match: chr(int(match.group(1), 8)), field)
+
+
+def _host_mount_options(path: str, mountinfo: str = "/proc/1/mountinfo") -> tuple[str, list[str]]:
+    """The mount point and per-mount options of `path` as the host (PID 1's mount namespace)
+    has it mounted: the longest mount point containing it, the last one listed if stacked."""
+    best: tuple[str, list[str]] | None = None
+    with open(mountinfo, encoding="utf-8", errors="surrogateescape") as stream:
+        for line in stream:
+            fields = line.split()
+            if len(fields) < 6:
+                continue
+            point = _unescape_mount_path(fields[4])
+            inside = path == point or point == "/" or path.startswith(point.rstrip("/") + "/")
+            if inside and (best is None or len(point) >= len(best[0])):
+                best = (point, fields[5].split(","))
+    if best is None:
+        raise ValueError(f"no mount holds {path}")
+    return best
 
 
 def deployment_facts(data: Path) -> dict[str, dict[str, Any]]:
@@ -93,9 +210,12 @@ def deployment_facts(data: Path) -> dict[str, dict[str, Any]]:
     - fs.protected_hardlinks=1. Without it a client hard-links a PRIME file it can read into a
       directory of its own, and every capture of PRIME refuses EXTERNAL_HARDLINK until the link
       is found (review of ad64cd2);
-    - a nosuid store mount;
-    - the unit's MemoryMax= and TasksMax=, which bound repository inspection (it runs in the
-      daemon's own cgroup).
+    - a nosuid store mount, as the host mounts it (PID 1's mount table), since clients reach
+      PRIME through the host's mounts. The daemon's own view can differ: systemd mounts
+      everything nosuid in a unit with NoNewPrivileges= and a mount namespace, so reading it
+      there reported OK over a suid-capable host mount (review of 796cb02);
+    - the unit's MemoryMax=, MemorySwapMax= and TasksMax=, which bound repository inspection (it
+      runs in the daemon's own cgroup). memory.max does not cover swap.
     RestrictSUIDSGID= on the unit and on the account's user manager cannot be read from here."""
     facts: dict[str, dict[str, Any]] = {}
     try:
@@ -104,10 +224,11 @@ def deployment_facts(data: Path) -> dict[str, dict[str, Any]]:
     except (OSError, ValueError) as exc:
         facts["protectedHardlinks"] = {"state": "UNKNOWN", "reason": str(exc)}
     try:
-        nosuid = bool(os.statvfs(data).f_flag & os.ST_NOSUID)
-        facts["storeNosuid"] = {"state": "OK" if nosuid else "MISSING"}
-    except OSError as exc:
-        facts["storeNosuid"] = {"state": "UNKNOWN", "reason": str(exc)}
+        point, options = _host_mount_options(os.path.realpath(data))
+        facts["storeNosuid"] = {"state": "OK" if "nosuid" in options else "MISSING", "mount": point,
+                                "view": "host (PID 1's mount table)"}
+    except (OSError, ValueError) as exc:
+        facts["storeNosuid"] = {"state": "UNKNOWN", "reason": f"the host's mount table is not readable: {exc}"}
     try:
         lines = Path("/proc/self/cgroup").read_text(encoding="utf-8").splitlines()
         unified = next(line[3:] for line in lines if line.startswith("0::"))
@@ -115,7 +236,7 @@ def deployment_facts(data: Path) -> dict[str, dict[str, Any]]:
     except (OSError, ValueError, StopIteration) as exc:
         group = None
         reason = f"no cgroup v2 membership: {exc}" if str(exc) else "no cgroup v2 membership"
-    for name, control in (("memoryMax", "memory.max"), ("tasksMax", "pids.max")):
+    for name, control in (("memoryMax", "memory.max"), ("memorySwapMax", "memory.swap.max"), ("tasksMax", "pids.max")):
         if group is None:
             facts[name] = {"state": "UNKNOWN", "reason": reason}
             continue
@@ -137,7 +258,10 @@ def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None 
                      shared_mode: int = 0o750) -> Path:
     """A real directory owned by this uid: 0700, or `shared_mode` with group `shared_gid`."""
     if create:
-        path.mkdir(mode=0o700, parents=True, exist_ok=True)
+        try:
+            path.mkdir(mode=0o700, parents=True, exist_ok=True)
+        except FileExistsError:
+            pass  # something that is not a directory: refused by name just below
     try:
         info = path.lstat()
     except FileNotFoundError as exc:
@@ -206,6 +330,7 @@ class WorldlinePaths:
                                  "the client group must not be the daemon account's primary group")
         if gids:
             _refuse_clients_in_daemon_group(uids)
+            _refuse_client_group_overlap(gids[0])
             spelled = {"HOME": home, "XDG_DATA_HOME": data_home, "XDG_STATE_HOME": state_home,
                        "XDG_CONFIG_HOME": config_home, "XDG_RUNTIME_DIR": runtime_home}
             crooked = sorted(name for name, value in spelled.items()
@@ -234,6 +359,10 @@ class WorldlinePaths:
     @property
     def database(self) -> Path:
         return self.state / "worldline.sqlite3"
+
+    @property
+    def store_lock(self) -> Path:
+        return self.state / STORE_LOCK_NAME
 
     @property
     def socket(self) -> Path:
@@ -309,10 +438,16 @@ class WorldlinePaths:
             info = os.lstat(path)
             if stat.S_ISLNK(info.st_mode):
                 return  # a link's own mode is meaningless; its target is inspected where it lies
-            acl = has_extended_acl(path)
-            if info.st_uid != uid or client_unsafe(stat.S_IMODE(info.st_mode), info.st_gid, daemon_gid) or acl:
+            try:
+                acl, capability = xattr_risks(path)
+            except OSError as exc:  # unreadable xattrs are not "none" (review of 796cb02)
+                unreadable.append(f"{os.fsdecode(os.path.relpath(path, root))}: xattrs: {exc}")
+                return
+            if (info.st_uid != uid or client_unsafe(stat.S_IMODE(info.st_mode), info.st_gid, daemon_gid)
+                    or acl or capability):
                 unsafe.append(f"{stat.S_IMODE(info.st_mode):04o} uid={info.st_uid} gid={info.st_gid}"
-                              f"{' acl' if acl else ''} {os.fsdecode(os.path.relpath(path, root))}")
+                              f"{' acl' if acl else ''}{' file-capability' if capability else ''}"
+                              f" {os.fsdecode(os.path.relpath(path, root))}")
 
         inspect(root)
         for current, subdirectories, files in os.walk(root, onerror=lambda error: unreadable.append(str(error))):
@@ -322,16 +457,23 @@ class WorldlinePaths:
             raise WorldlineError(
                 "CLIENT_MODE_UNSAFE_CONTENT",
                 "content a client can reach must be owned by the daemon, carry no other-write bit, "
-                "no group-write bit outside the daemon's own group, no extended ACL, and no setuid, "
-                "setgid or sticky bit",
+                "no group-write bit outside the daemon's own group, no extended ACL, no file "
+                "capability, and no setuid, setgid or sticky bit",
                 {"directory": os.fsdecode(root), "count": len(unsafe), "entries": unsafe[:50],
                  "unreadable": unreadable[:20]})
 
     def close_client_gate(self) -> None:
         """Client mode: withdraw every client's reach into the store. The data directory is the
         root of the client path, so 0700 there closes all of it. Used when reachable content
-        turns out unsafe while the daemon runs; the next start re-opens only after checking."""
-        if self.client_gid is not None:
+        turns out unsafe while the daemon runs, and on a start that refuses; the next start
+        re-opens only after checking. A data directory that does not exist yet is created closed."""
+        if self.client_gid is None:
+            return
+        try:
+            info = self.data.lstat()
+        except FileNotFoundError:
+            return
+        if stat.S_ISDIR(info.st_mode) and info.st_uid == os.getuid():
             os.chmod(self.data, 0o700)
 
     def share_live_chain(self) -> None:
@@ -348,7 +490,12 @@ class WorldlinePaths:
         store = os.path.realpath(self.data)
         for mapping in sorted(self.live.iterdir()):
             if not mapping.is_symlink():
-                continue
+                if mapping.name == LIVE_MARKER and stat.S_ISREG(mapping.lstat().st_mode):
+                    continue
+                # A copy that dereferenced links turns a mapping into a real directory, which this
+                # check skipped while root_source served it (review of 796cb02).
+                raise WorldlineError("LIVE_MAPPING_BROKEN",
+                                     f"live holds something other than mapping links: {mapping.name}")
             target = os.path.realpath(mapping)
             if not target.startswith(store + os.sep) or not os.path.isdir(target):
                 raise WorldlineError("LIVE_MAPPING_BROKEN", f"live mapping does not resolve inside the store: {mapping.name}")
@@ -402,10 +549,13 @@ class WorldlinePaths:
                 f"managed root does not route through the live mapping: {os.fsdecode(raw)}")
         source = os.path.realpath(live)
         store = os.path.realpath(os.fsencode(self.data))
-        if not source.startswith(store + b"/") or not os.path.isdir(source):
+        payload_areas = (store + b"/generations/", store + b"/transactions/")
+        if not os.path.islink(live) or not source.startswith(payload_areas) or not os.path.isdir(source):
+            # The mapping is a link into a generation or a transaction payload; a real directory
+            # there (a copy that dereferenced links) is nothing the daemon published (review of 796cb02).
             raise WorldlineError(
                 "LIVE_MAPPING_BROKEN",
-                f"live mapping for {root_key} does not resolve to a directory in the store")
+                f"live mapping for {root_key} is not a link to a payload in the store")
         return source
 
     def ensure(self) -> None:

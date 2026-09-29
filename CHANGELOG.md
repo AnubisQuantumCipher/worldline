@@ -3,9 +3,11 @@
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 
 **An independent review of 1.7.0 (commit ad64cd2) and a rehearsal of the dedicated-account
-migration on a copy of a production store found the defects below. Each is fixed and tested.**
-No store migration is needed. Existing VALID worlds need revalidation before collapse, as after
-any release: the runtime changed.
+migration on a copy of a production store found the defects below; a second independent review,
+of the first 1.7.1 candidate (796cb02), found more, including one that candidate introduced. Each
+is fixed and tested, and each new test was run against the code it guards against and failed
+there.** No store migration is needed. Existing VALID worlds need revalidation before collapse, as
+after any release: the runtime changed.
 
 ### Security: repository inspection
 
@@ -19,52 +21,83 @@ any release: the runtime changed.
     checkout, or the directory with `--kind filesystem`.
   - **Upgrade note:** a root registered in one of those layouts now refuses captures.
     `worldline doctor` shows it as `BROKEN` under `rootIntegrity`, with the code. `root remove`
-    still works: it records no repository facts for such a root and copies its bytes, `.git`
-    included.
+    still works: it records no repository facts for such a root, copies its bytes, `.git`
+    included, and recreates a top-level `.git` link as it is even when it leaves the root (the
+    first candidate refused that link as `EXTERNAL_SYMLINK`).
   - The doctor also names a repository that borrows objects from outside itself
     (`objects/info/alternates`, `GIT_ALTERNATES_OUTSIDE_ROOT`), which the sandbox cannot read.
+    It reads that file without following links.
 - **The index is read at a fixed path, once.** 1.7.0 took the index path from git's own output
   about the repository and read the file twice, once to hash it and once to copy it. It is now
   `<root>/.git/index`, opened through one descriptor that refuses links at every step. The bytes
   that are hashed are the bytes that are copied.
-- **A sandbox that did not start refuses instead of becoming a fact.** bubblewrap reports the
-  child's exit code (`--json-status-fd`) only when the sandbox ran it. Without that report, or
-  with bubblewrap's own error on stderr, inspection refuses with `GIT_SANDBOX_UNAVAILABLE`. In
-  1.7.0 a launch failure during `rev-parse --verify HEAD` recorded `head: null` for a repository
-  that has a HEAD.
-- **The task limit cannot be escaped, and the unit bounds memory and tasks.**
+- **Whether the sandbox started is bubblewrap's to say, not git's stderr.** bubblewrap reports
+  the child's exit code (`--json-status-fd`) only when the sandbox set up and ran it. Without that
+  report, inspection refuses with `GIT_SANDBOX_UNAVAILABLE`; in 1.7.0 a launch failure during
+  `rev-parse --verify HEAD` recorded `head: null` for a repository that has a HEAD. With it, git's
+  exit code stands whatever git's stderr says: in the first candidate, a repository filter that
+  printed `bwrap:` made a working sandbox refuse. bubblewrap's own exec-failure report (exit 1,
+  `bwrap: execvp`) still refuses, and git must resolve inside the directories the sandbox binds.
+- **The task limit cannot be escaped, and the unit bounds memory, swap and tasks.**
   - The sandbox has no nested user namespace (`--disable-userns`) and no capabilities. A nested
     namespace would have started a fresh `RLIMIT_NPROC` count.
   - The allowance is 2048 tasks beyond the uid's current count, taken once per capture instead
     of once per git call. With 512, a burst of threads under the same uid could refuse an
     ordinary capture (reasoned in the review); such a refusal is now `GIT_SANDBOX_UNAVAILABLE`.
-  - The shipped `worldlined.service` sets `MemoryMax=4G` and `TasksMax=4096`. Repository
-    inspection runs in the daemon's own cgroup, so these are its hard bounds. 1.7.0's notes
-    relied on a memory bound the shipped unit did not set.
+  - Inspection runs in the daemon's own cgroup, with OOM score 1000, so under memory pressure the
+    kernel kills inspection before the daemon.
+  - The shipped `worldlined.service` sets `MemoryMax=4G`, `MemorySwapMax=0` and `TasksMax=4096`.
+    `memory.max` does not cover swap. 1.7.0's notes relied on a memory bound the shipped unit did
+    not set.
 - **`worldline doctor` probes the sandbox, not only git.** The `git` capability is
-  `UNAVAILABLE`, with the reason, when bubblewrap or `prlimit` is missing or the sandbox cannot
-  start, for example with a git installed outside the system directories the sandbox binds.
+  `UNAVAILABLE`, with the reason, when bubblewrap, `prlimit` or `choom` is missing or the sandbox
+  cannot start, for example with a git installed outside the system directories the sandbox binds.
 
 ### Client mode
 
+- **A refused registration keeps the operator's directory.** The first 1.7.1 candidate deleted a
+  refused generation, and registration's generation holds the operator's own directory, moved in:
+  a client-mode `init` or `root add` whose content the check refused deleted it (second review,
+  blocker, demonstrated). Only reconcile and remove, which publish fresh copies, discard what was
+  refused; registration moves the directory back, and a generation that still holds a moved root
+  is kept, never deleted. A registration refusal no longer closes the gate: live content is not
+  what was refused.
 - **Group-write is allowed only in the daemon's own group.** 1.7.0 refused a group-write bit
   only on entries of the client group. A migration that changed only the owner keeps the
   operator's group, and the operator is a client, so that content was client-writable and passed
   the start check. Any group other than the daemon's own now refuses
-  (`CLIENT_MODE_UNSAFE_CONTENT`).
-- **Extended POSIX ACLs refuse.** Manifests record ACLs and materialization re-applies them. A
-  `u:<client>:rwx` entry grants write while the mode bits show only its mask.
-- **Daemon start closes the gate first.** A gate a previous run opened stayed open while the
-  next start checked the content, and after a start that refused.
-- **A refused generation leaves nothing behind.** When publication found live content unsafe,
-  1.7.0 closed the gate but kept the full copy it had made: one more per `status` request.
+  (`CLIENT_MODE_UNSAFE_CONTENT`). A named member of the client group who is also in the daemon's
+  group refuses at startup (`INVALID_CLIENT_MODE`).
+- **Extended ACLs and file capabilities refuse.** Manifests record xattrs and materialization
+  re-applies them. A `u:<client>:rwx` entry grants write while the mode bits show only its mask;
+  any `system.*acl*` xattr counts, not only the two POSIX names. A `security.capability` xattr
+  grants its capabilities to whoever executes the file. An entry whose xattrs cannot be read
+  refuses instead of reading as none. Materializing an xattr this account may not set refuses
+  with `XATTR_NOT_APPLICABLE` instead of an unnamed `PermissionError`.
+- **One daemon per store, decided before anything is opened.** `worldlined` takes a lock in the
+  store's state directory before it builds anything, then the daemon's older lock in the runtime
+  directory, and only then closes the gate. A second start used to close a running daemon's gate
+  before its lock refused it, and to write the database first. A start that refuses after taking
+  the store lock, or a daemon that fails, closes the gate. The runtime directory is not enough on
+  its own: systemd removes it with the unit, lock file included.
+- **`live` holds mapping links only.** A copy that dereferenced links turned a mapping into a
+  real directory, which the start check skipped and routing served. The start now refuses
+  anything in `live` other than mapping links and its marker, and routing requires `live/<key>`
+  to be a link into a generation or transaction payload (`LIVE_MAPPING_BROKEN`).
 - **The routing check compares the live directory by kernel identity.** Every component must
   exist and be searchable in the daemon's namespace. 1.7.0 used a lexical `realpath`, which
   skipped a component it could not see and popped the `..` after it, so a link the daemon cannot
   follow was reported as routing.
-- **`worldline doctor` reports client mode** (`clientMode`): the client group and uids, whether
-  the gate is open, and the host facts the daemon can observe, each `OK`, `MISSING` or `UNKNOWN`:
-  `fs.protected_hardlinks`, a `nosuid` store mount, and the unit's memory and task limits.
+- **A refused reconcile or remove leaves no copy behind,** whether the content check refused it
+  or the capture did (a FIFO, an external hard link, a git layout the sandbox cannot inspect).
+  Before, each refused `status` request left another full copy of the roots.
+- **`worldline doctor` reports client mode** (`clientMode`): the client group and uids; the gate
+  as `OPEN`, `CLOSED` or `UNSAFE` with the mode, group and ACL it found; and the host facts the
+  daemon can observe, each `OK`, `MISSING` or `UNKNOWN`: `fs.protected_hardlinks`, a `nosuid`
+  store mount, and the unit's memory, swap and task limits. The mount is read from the host's
+  mount table (PID 1's), which is what clients use: in a unit with `NoNewPrivileges=` and a mount
+  namespace, systemd mounts everything `nosuid`, so the daemon's own view read `OK` over a
+  suid-capable host mount.
 - **A world's recorded environment no longer lists `XDG_DATA_HOME`, `XDG_CONFIG_HOME`,
   `XDG_STATE_HOME` or `XDG_CACHE_HOME`.** Since 1.7.0 no sandbox passes them, and the record
   claimed they were passed. Docker containers no longer receive them either; they named host
@@ -74,37 +107,57 @@ any release: the runtime changed.
 
 - **The copy must be a copy.** A copy reached through a symlinked parent, a copy that overlaps
   the old store, a copy that is the old store under another name (a bind mount: same device and
-  inode) and a database file that is the old store's own each once had the old store rewritten
-  in place. Each now refuses.
+  inode), a database file that is the old store's own, a mount anywhere inside the copy, and a
+  file hard-linked to anything outside the copy each once had the relocation, or the relocated
+  daemon, write the old store. Each now refuses.
+- **One user of the copy at a time.** A real run holds the copy's store lock, the one
+  `worldlined` takes before it opens anything, and checks before writing and before reporting
+  that the lock file was not replaced. A dry run, which writes nothing, checks only that the
+  lock is free. The first candidate's `--daemon-lock` did not keep a daemon out and is gone.
 - **Links:** the daemon makes only the live and prepared mapping links. Any other link in the
-  copy refuses, except inside content: a payload below its root, a world's upper layer. A link
-  that resolves into the old store refuses wherever it is. A recorded location that exists in the
-  copy must resolve inside the new store; this is checked while planning, before anything is
-  written, and again in the verification.
+  copy refuses, except inside content: a payload below its root, and anything inside a world's
+  overlay (its upper layer, the agent's runtime snapshot, a check's frozen inputs). A link that
+  resolves into the old store refuses wherever it is. A recorded location that exists in the copy
+  must resolve inside the new store; this is checked while planning, before anything is written,
+  and again in the verification.
+- **Directories the account cannot read refuse,** except overlayfs work directories (0000 by
+  design, holding only the kernel's transient state), which are counted. What they hold cannot be
+  checked.
 - **Sockets, FIFOs and devices are skipped, and files are read in bounded chunks.** The
   rehearsal's relocation of a production copy crashed on a dead world's socket (`ENXIO`); a FIFO
   would have blocked it.
-- **A world's evidence is kept byte for byte and counted (`recordColumnsKept`).** It is hashed
-  into the world's identity, and a private evaluator's check records where it ran: its sandbox
-  command line and frozen inputs, under the old store. Nothing reads a path back out of it. The
-  production copy holds one such world, and 1.7.0 refused it. A mention in any other database
-  column still refuses.
-- `--daemon-lock PATH` holds the new daemon's `worldlined.lock` for the run, so that daemon
-  cannot start meanwhile.
-- Errors are reported as `RELOCATION_REFUSED`, never a traceback. Transaction records must be
-  regular files. The ownership report counts each entry once; 1.7.0 counted every directory
-  twice. The report of PRIME content a client-mode daemon would refuse follows the new
-  group-write and ACL rules.
+- **Records are kept byte for byte and counted (`recordColumnsKept`):** each world's evidence,
+  which is hashed into the world's identity, and each revalidation record (`meta` rows
+  `validation:*`). A private evaluator's check records where it ran, its sandbox command line and
+  frozen inputs, under the old store; nothing reads a path back out of either. The production copy
+  holds one such world, and 1.7.0 refused it. A mention in any other database column or row still
+  refuses.
+- **The report of PRIME content a client-mode daemon would refuse reads the copy.** Before the
+  rewrite, the copy's live links still name the old store, and the first candidate followed them
+  there. It now maps each link onto the new prefix, adds file capabilities and anything in `live`
+  other than mapping links, and appears in the result of a real run too.
+- Every error is reported as `RELOCATION_REFUSED` with its cause, including a corrupt database and
+  a record that is not JSON, never a traceback. Transaction records must be regular files. The
+  ownership report counts each entry once; 1.7.0 counted every directory twice.
 - The relocation was rehearsed on a consistent copy of a production store with this release's
   code, run as the dedicated account: 6,255 location rows, 10 transaction records and 26
-  mapping links planned; no refused file or column; no foreign-owned entry; no PRIME content a
-  client-mode daemon would refuse.
+  mapping links planned; no refused file, column or row; no foreign-owned entry, mount, file
+  linked outside, or unreadable directory other than 74 overlay work directories; no PRIME
+  content, read in the copy, that a client-mode daemon would refuse; one evidence record kept.
 
 ### Fixed
 
-- **`prune` never deletes outside the store.** A recorded location that resolves outside the
-  data directory (a link planted in a copy, or a relocated store's leftovers) is reported under
-  `failures` and left alone.
+- **Removing a tree never follows a link.** Prune, revalidation cleanup and verifier staging
+  cleanup made every directory writable before removing it, by path, which followed links: an
+  agent's upper layer with a link to PRIME's content, or to any directory the account owns, had
+  prune set that directory to 0700 (second review, demonstrated). Every directory is now opened
+  without following links and changed through its own descriptor.
+- **`prune` never deletes outside the store,** and a world is recorded as pruned only when
+  everything it owned is gone. A recorded location that resolves outside the data directory (a
+  link planted in a copy, or a relocated store's leftovers) is reported under `failures` and left
+  alone, and the world stays retained.
+- **A store path that exists as something other than a directory refuses as `UNSAFE_STORE`,**
+  not a `FileExistsError` traceback.
 - **A daemon that resets the connection is `DAEMON_DISCONNECTED`,** not a `ConnectionResetError`
   traceback.
 
@@ -115,10 +168,14 @@ any release: the runtime changed.
   answers. A dedicated unit with `ProtectHome=tmpfs` and a read-only bind of the project
   directory keeps other mounts in the home directory out of its view.
 - The task allowance counts the uid's threads through `/proc` once per capture.
+- Repository inspection binds `/etc` and `/usr` read-only, so a repository's filter can put their
+  world-readable content into its own world's recorded facts; an agent can read them anyway.
 - In a dedicated deployment, `fs.protected_hardlinks=1` joins the requirements WORLDLINE does
   not enforce. Without it a client can hard-link a PRIME file it can read into a directory of
   its own, and every capture of PRIME then refuses `EXTERNAL_HARDLINK` until the link is found.
-  `worldline doctor` reports it. `SECURITY.md` limit 7.
+  `worldline doctor` reports it. The client group and the daemon's group must be disjoint: named
+  members are checked, but accounts whose primary group is the client group cannot be listed.
+  `SECURITY.md` limit 7.
 
 ## 1.7.0 — 2026-09-28 · dedicated-account client mode
 

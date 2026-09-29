@@ -184,7 +184,11 @@ class Manifest:
         kind: str,
         core: Core | None = None,
         repository: dict[str, Any] | None = None,
+        allow_external_links: frozenset[bytes] = frozenset(),
     ) -> CapturedManifest:
+        """`allow_external_links` names root-relative symlinks recorded as they are even when they
+        leave the root. Only `root remove` uses it, for a top-level `.git` link, since removal
+        recreates the operator's own link at its own path and never follows it."""
         verifier = core or Core.shared()
         raw_root = os.path.abspath(os.fsencode(root))
         raw_logical_root = raw_root if logical_root is None else os.path.abspath(os.fsencode(logical_root))
@@ -237,7 +241,8 @@ class Manifest:
                 elif stat.S_ISLNK(info.st_mode):
                     target = os.readlink(absolute)
                     target_bytes = os.fsencode(target)
-                    _safe_symlink_target(relative, target_bytes)
+                    if relative not in allow_external_links:
+                        _safe_symlink_target(relative, target_bytes)
                     entry.update(
                         {
                             "type": "symlink",
@@ -323,6 +328,7 @@ class Manifest:
         *,
         core: Core | None = None,
         verify: bool = True,
+        allow_external_links: frozenset[bytes] = frozenset(),
     ) -> CapturedManifest:
         verifier = core or Core.shared()
         source = os.path.abspath(os.fsencode(source_root))
@@ -365,7 +371,8 @@ class Manifest:
         for entry in symlinks:
             relative = path_from_b64(entry["pathB64"])
             target = base64.b64decode(entry["targetB64"].encode("ascii"), validate=True)
-            _safe_symlink_target(relative, target)
+            if relative not in allow_external_links:
+                _safe_symlink_target(relative, target)
             destination_path = os.path.join(destination, relative)
             os.symlink(target, destination_path)
             Manifest._apply_metadata(destination_path, entry, symlink=True)
@@ -389,6 +396,7 @@ class Manifest:
             kind=manifest.value["kind"],
             core=verifier,
             repository=manifest.value.get("repository"),
+            allow_external_links=allow_external_links,
         )
         if verify and captured.root_hash != manifest.root_hash:
             raise WorldlineError(
@@ -405,7 +413,15 @@ class Manifest:
             name = base64.b64decode(item["nameB64"].encode("ascii"), validate=True)
             value = base64.b64decode(item["valueB64"].encode("ascii"), validate=True)
             expected_names.add(name)
-            os.setxattr(path, name, value, follow_symlinks=not symlink)
+            try:
+                os.setxattr(path, name, value, follow_symlinks=not symlink)
+            except PermissionError as exc:
+                # A file capability (security.capability) or another privileged xattr: recorded
+                # like any xattr, but only a privileged process may set it (review of 796cb02).
+                raise WorldlineError(
+                    "XATTR_NOT_APPLICABLE",
+                    f"{display_path(path)} carries {os.fsdecode(name)}, which this account may not set",
+                    {"xattr": os.fsdecode(name)}) from exc
         existing = {os.fsencode(name) for name in os.listxattr(path, follow_symlinks=not symlink)}
         for name in existing - expected_names:
             os.removexattr(path, name, follow_symlinks=not symlink)

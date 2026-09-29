@@ -113,9 +113,13 @@ class GitAdapter:
     def _sandbox(cls, root: bytes, scratch: str | None, task_limit: int, status_fd: int | None = None) -> list[str]:
         bwrap = shutil.which("bwrap")
         prlimit = shutil.which("prlimit")
-        if bwrap is None or prlimit is None:
-            raise WorldlineError("BUBBLEWRAP_UNAVAILABLE", "bwrap and prlimit are required to inspect a repository")
-        argv = [prlimit, f"--nproc={task_limit}:{task_limit}", "--",
+        choom = shutil.which("choom")
+        if bwrap is None or prlimit is None or choom is None:
+            raise WorldlineError("BUBBLEWRAP_UNAVAILABLE", "bwrap, prlimit and choom are required to inspect a repository")
+        # Inspection runs in the daemon's own cgroup, so the unit's limits bound it together with
+        # the daemon; an OOM score of 1000 makes the kernel kill inspection first, not the daemon
+        # (review of 796cb02). Raising one's own score needs no privilege.
+        argv = [choom, "-n", "1000", "--", prlimit, f"--nproc={task_limit}:{task_limit}", "--",
                 bwrap, "--unshare-all", "--unshare-user", "--disable-userns", "--cap-drop", "ALL",
                 "--die-with-parent", "--new-session", "--clearenv"]
         if status_fd is not None:
@@ -167,7 +171,7 @@ class GitAdapter:
         self, root: bytes, *args: str, check: bool = True, extra_env: Mapping[str, str] | None = None,
         scratch: str | None = None, task_limit: int | None = None,
     ) -> subprocess.CompletedProcess[bytes]:
-        executable = shutil.which(self.executable) or self.executable
+        executable = self._sandboxed_git()
         environment = {
             **(extra_env or {}),
             "PATH": "/usr/bin:/bin",
@@ -211,11 +215,16 @@ class GitAdapter:
             for descriptor in (status_read, status_write):
                 if descriptor >= 0:
                     os.close(descriptor)
-        # bwrap reports the child's exit code only when the sandbox actually ran it. Without that
-        # report (or with bwrap's own error on stderr) the sandbox did not start, and git's exit
-        # code must not be read as a repository fact: a launch failure once recorded head=None for
-        # a repository that has a HEAD (review of ad64cd2).
-        if b'"exit-code"' not in status or result.stderr.startswith(b"bwrap:"):
+        # bwrap reports the child's exit code only when the sandbox set up and ran it. Without that
+        # report the sandbox did not start, and git's exit code must not be read as a repository
+        # fact: a launch failure once recorded head=None for a repository that has a HEAD (review
+        # of ad64cd2). With it, the code is git's, whatever git's stderr says: a repository's
+        # filter can print anything there, and a `bwrap:` prefix once made it refuse its own
+        # captures as a broken sandbox (review of 796cb02). The one exception is bwrap's own
+        # report that exec failed, exit 1 and `bwrap: execvp`, which git never produces; git is
+        # checked beforehand to lie inside what the sandbox binds, so that should not happen.
+        exec_failed = result.returncode == 1 and result.stderr.startswith(b"bwrap: execvp ")
+        if b'"exit-code"' not in status or exec_failed:
             raise WorldlineError(
                 "GIT_SANDBOX_UNAVAILABLE",
                 f"the repository sandbox did not start for {os.fsdecode(root)}",
@@ -228,6 +237,21 @@ class GitAdapter:
                 {"argv": list(args), "stderr": result.stderr.decode("utf-8", "replace")},
             )
         return result
+
+    def _sandboxed_git(self) -> str:
+        """git's absolute path, which must lie inside the system directories the sandbox binds
+        (by its spelling and by its resolved path), or it could not run there."""
+        found = shutil.which(self.executable, path="/usr/bin:/bin")
+        if found is None:
+            raise WorldlineError("GIT_UNAVAILABLE", f"{self.executable} is not in /usr/bin or /bin")
+        bound = tuple(os.path.realpath(path) for path in self._SANDBOX_SYSTEM)
+        real = os.path.realpath(found)
+        if not any(real == base or real.startswith(base + os.sep) for base in bound):
+            raise WorldlineError(
+                "GIT_SANDBOX_UNAVAILABLE",
+                f"git at {found} resolves to {real}, outside the directories the repository sandbox binds "
+                f"({', '.join(self._SANDBOX_SYSTEM)})")
+        return found
 
     def capture(self, root: str | bytes | os.PathLike[str] | os.PathLike[bytes]) -> dict[str, Any]:
         raw_root = os.path.abspath(os.fsencode(root))

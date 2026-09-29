@@ -13,6 +13,7 @@ from pathlib import Path
 import shutil
 import stat
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest import mock
@@ -117,6 +118,45 @@ class ContentSafety(unittest.TestCase):
         details = self.refuses()
         self.assertTrue(any(" acl " in entry for entry in details["entries"]), details)
 
+    def test_a_file_capability_refuses(self) -> None:
+        # Review of 796cb02: manifests record security.capability and materialization re-applies
+        # it; a client executing such a file gains the capability. Only a privileged process can
+        # set a real one, so its presence is simulated here.
+        real = os.listxattr
+        target = os.fsencode(self.tree / "sub" / "file.txt")
+
+        def listing(path, *args, **kwargs):
+            names = real(path, *args, **kwargs)
+            return names + ["security.capability"] if os.fsencode(path) == target else names
+
+        with mock.patch("worldline.paths.os.listxattr", side_effect=listing):
+            details = self.refuses()
+        self.assertTrue(any("file-capability" in entry for entry in details["entries"]), details)
+
+    def test_xattrs_that_cannot_be_read_refuse_rather_than_read_as_none(self) -> None:
+        # Review of 796cb02: any listxattr error read as "no ACL".
+        with mock.patch("worldline.paths.os.listxattr", side_effect=OSError(5, "Input/output error")):
+            details = self.refuses()
+        self.assertTrue(details["unreadable"], details)
+
+    def test_any_system_acl_name_counts(self) -> None:
+        from worldline.paths import xattr_risks
+        with mock.patch("worldline.paths.os.listxattr", return_value=["system.nfs4_acl"]):
+            self.assertEqual(xattr_risks(os.fsencode(self.tree)), (True, False))
+
+    def test_a_client_group_member_in_the_daemons_group_is_refused(self) -> None:
+        import grp
+        import pwd
+        member = "someone-else"
+        fake_groups = {SUPPLEMENTARY_GID: grp.struct_group(("clients", "x", SUPPLEMENTARY_GID, [member])),
+                       os.getgid(): grp.struct_group(("daemon", "x", os.getgid(), []))}
+        fake_user = pwd.struct_passwd((member, "x", os.getuid() + 7, os.getgid(), "", "/", "/bin/sh"))
+        with mock.patch("grp.getgrgid", side_effect=lambda gid: fake_groups[gid]), \
+                mock.patch("pwd.getpwnam", return_value=fake_user):
+            with self.assertRaises(WorldlineError) as caught:
+                WorldlinePaths.from_environment(environment(self.root / "overlap", **CLIENT_ENV))
+        self.assertEqual(caught.exception.code, "INVALID_CLIENT_MODE")
+
     def test_content_the_daemon_does_not_own_refuses(self) -> None:
         with mock.patch("worldline.paths.os.getuid", return_value=os.getuid() + 1):
             self.refuses()
@@ -220,6 +260,86 @@ class CollapseRefusesUnsafeContent(unittest.TestCase):
         self.assertEqual(content.parent.stat().st_gid, SUPPLEMENTARY_GID)
 
 
+@needs_supplementary
+class RefusedRegistrationKeepsTheDirectory(unittest.TestCase):
+    """Review of 796cb02 (blocker): the cleanup of a refused generation also ran on registration,
+    whose generation holds the operator's own directory, moved in. A refused `init` deleted it."""
+
+    def test_a_refused_registration_moves_the_directory_back_intact(self) -> None:
+        import hashlib
+        with tempfile.TemporaryDirectory(prefix="worldline-register-refused-") as temporary:
+            root = Path(temporary)
+            paths = WorldlinePaths.from_environment(environment(root, **CLIENT_ENV))
+            store = StateStore(paths, Core.shared())
+            self.addCleanup(store.close)
+            project = root / "project"
+            (project / "src").mkdir(parents=True)
+            (project / "README").write_text("the only copy\n")
+            (project / "src" / "build.log").write_text("log\n")
+            os.chmod(project / "src" / "build.log", 0o666)   # refused in client mode
+
+            def digest() -> str:
+                value = hashlib.sha256()
+                for directory, _subdirectories, files in sorted(os.walk(project)):
+                    for name in sorted(files):
+                        path = Path(directory, name)
+                        value.update(str(path.relative_to(project)).encode() + b"\0" + path.read_bytes())
+                return value.hexdigest()
+
+            before = digest()
+            gate_before = stat.S_IMODE(paths.data.stat().st_mode)
+            with self.assertRaises(WorldlineError) as caught:
+                RootManager(paths, store, core=Core.shared(), toolchains=()).register([project], confirmed=True)
+            self.assertEqual(caught.exception.code, "CLIENT_MODE_UNSAFE_CONTENT")
+            self.assertTrue(project.is_dir() and not project.is_symlink())
+            self.assertEqual(digest(), before)
+            self.assertEqual(store.roots(), [])
+            self.assertEqual(list(paths.generations.iterdir()), [])
+            # Live content was not the unsafe part, so the gate is left as it was.
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), gate_before)
+
+
+@needs_supplementary
+class StartupOrdersTheGateAfterTheLock(unittest.TestCase):
+    """Review of 796cb02: a second start closed a running daemon's gate before its lock refused
+    it, and a start refused before the close left a previous run's gate open."""
+
+    def daemon(self, env: dict[str, str]) -> subprocess.CompletedProcess:
+        repo = Path(__file__).resolve().parents[1]
+        return subprocess.run([sys.executable, "-B", "-m", "worldline.daemon_main"],
+                              env={**os.environ, **env, "PYTHONPATH": str(repo / "runtime"),
+                                   "PYTHONDONTWRITEBYTECODE": "1"},
+                              capture_output=True, timeout=60)
+
+    def test_a_second_start_leaves_the_running_daemons_gate_and_store_alone(self) -> None:
+        from worldline.paths import acquire_store_lock
+        with tempfile.TemporaryDirectory(prefix="worldline-second-start-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()                       # the running daemon opened its gate
+            lock = acquire_store_lock(paths.state, holder="running daemon")
+            self.addCleanup(os.close, lock)
+            result = self.daemon(env)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"DAEMON_ALREADY_RUNNING", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o710)
+            self.assertFalse(paths.database.exists())      # nothing was built
+
+    def test_a_start_that_refuses_after_the_lock_closes_the_gate(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="worldline-refused-start-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()
+            paths.worlds.rmdir()
+            paths.worlds.write_text("not a directory\n")  # ensure() refuses UNSAFE_STORE
+            result = self.daemon(env)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"UNSAFE_STORE", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
+
+
 class DoctorReportsClientMode(unittest.TestCase):
     """The deployment requirements a client-mode daemon can observe are reported, never assumed."""
 
@@ -233,8 +353,9 @@ class DoctorReportsClientMode(unittest.TestCase):
         self.assertTrue(report["enabled"])
         self.assertEqual(report["clientGid"], SUPPLEMENTARY_GID)
         self.assertEqual(report["clientUids"], [os.getuid() + 4242])
-        self.assertEqual(report["gate"], "OPEN")
-        self.assertEqual(set(report["deployment"]), {"protectedHardlinks", "storeNosuid", "memoryMax", "tasksMax"})
+        self.assertEqual(report["gate"], {"state": "OPEN"})
+        self.assertEqual(set(report["deployment"]),
+                         {"protectedHardlinks", "storeNosuid", "memoryMax", "memorySwapMax", "tasksMax"})
         for name, fact in report["deployment"].items():
             with self.subTest(fact=name):
                 self.assertIn(fact["state"], {"OK", "MISSING", "UNKNOWN"})
@@ -257,6 +378,8 @@ class DoctorReportsClientMode(unittest.TestCase):
                 return "0\n"
             if name.endswith("/memory.max"):
                 return "4294967296\n"
+            if name.endswith("/memory.swap.max"):
+                return "max\n"
             if name.endswith("/pids.max"):
                 raise PermissionError(13, "Permission denied", name)
             return real_read(self, *args, **kwargs)
@@ -266,10 +389,41 @@ class DoctorReportsClientMode(unittest.TestCase):
         self.assertEqual(facts["protectedHardlinks"], {"state": "MISSING", "value": "0"})
         self.assertEqual(facts["memoryMax"]["state"], "OK")
         self.assertEqual(facts["memoryMax"]["value"], "4294967296")
+        self.assertEqual(facts["memorySwapMax"]["state"], "MISSING")   # memory.max does not cover swap
         self.assertEqual(facts["tasksMax"]["state"], "UNKNOWN")
         self.assertIn(facts["storeNosuid"]["state"], {"OK", "MISSING"})
-        with mock.patch("worldline.paths.os.statvfs", side_effect=OSError(5, "I/O error")):
+        self.assertEqual(facts["storeNosuid"]["view"], "host (PID 1's mount table)")
+        with mock.patch("worldline.paths._host_mount_options", side_effect=PermissionError(13, "denied")):
             self.assertEqual(deployment_facts(Path("/"))["storeNosuid"]["state"], "UNKNOWN")
+
+    def test_nosuid_is_read_from_the_host_mount_table_not_the_daemons(self) -> None:
+        # Review of 796cb02: inside a unit with NoNewPrivileges= and a mount namespace systemd
+        # mounts everything nosuid, so the daemon's own view read OK over a suid-capable host mount.
+        from worldline.paths import _host_mount_options
+        with tempfile.NamedTemporaryFile("w", delete=False, dir=self.scratch()) as table:
+            table.write("32 2 253:0 / / rw,relatime shared:1 - ext4 /dev/vda rw\n"
+                        "90 32 253:0 /var/lib/x /var/lib/x rw,nosuid,nodev,relatime shared:2 - ext4 /dev/vda rw\n"
+                        "91 32 0:40 / /var/lib/x\\040y rw,relatime shared:3 - tmpfs t rw\n")
+        self.assertEqual(_host_mount_options("/var/lib/x/xdg-data/worldline", table.name)[1][:3], ["rw", "nosuid", "nodev"])
+        self.assertEqual(_host_mount_options("/var/lib/xy", table.name)[0], "/")
+        self.assertEqual(_host_mount_options("/var/lib/x y/z", table.name)[0], "/var/lib/x y")
+
+    def scratch(self) -> str:
+        directory = tempfile.mkdtemp(prefix="worldline-mounts-")
+        self.addCleanup(lambda: __import__("shutil").rmtree(directory, ignore_errors=True))
+        return directory
+
+    def test_the_gate_names_a_state_that_is_neither_open_nor_closed(self) -> None:
+        # Review of 796cb02: 0711, 0755 and a foreign group were all reported CLOSED.
+        from worldline.controller import RuntimeController
+        with tempfile.TemporaryDirectory(prefix="worldline-gate-") as temporary:
+            paths = WorldlinePaths.from_environment(environment(Path(temporary), **CLIENT_ENV))
+            paths.ensure()
+            controller = mock.Mock(paths=paths)
+            self.assertEqual(RuntimeController._client_mode_report(controller)["gate"], {"state": "CLOSED"})
+            os.chmod(paths.data, 0o755)
+            gate = RuntimeController._client_mode_report(controller)["gate"]
+            self.assertEqual((gate["state"], gate["mode"]), ("UNSAFE", "0755"))
 
 
 if __name__ == "__main__":

@@ -16,11 +16,11 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 import os
 from pathlib import Path
-import shutil
 from typing import Any
 
 from . import SCHEMA_VERSION
 from .model import utc_now
+from .fstree import remove_tree
 from .errors import WorldlineError
 from .model import World, WorldState
 from .paths import WorldlinePaths
@@ -41,19 +41,9 @@ def _tree_bytes(path: Path) -> int:
 
 
 def _remove_tree(path: Path) -> None:
-    # Payloads are stored read-only; make every directory writable before removal (the top
-    # directory included, or unlinking its entries fails with EACCES).
-    try:
-        os.chmod(path, 0o700)
-    except OSError:
-        pass
-    for current, directories, _files in os.walk(path):
-        for name in directories:
-            try:
-                os.chmod(os.path.join(current, name), 0o700)
-            except OSError:
-                pass
-    shutil.rmtree(path, ignore_errors=False)
+    # Payloads are stored read-only: every directory is made owner-accessible first, through
+    # its own descriptor. Changing modes by path followed links in the tree (review of 796cb02).
+    remove_tree(path)
 
 
 class Pruner:
@@ -158,6 +148,7 @@ class Pruner:
         failures: list[dict[str, str]] = []
         for entry in plan["worlds"]:
             world = self.store.world(entry["instanceId"])
+            refused = False
             for directory in entry["directories"]:
                 path = Path(directory)
                 if not path.is_dir():
@@ -168,15 +159,21 @@ class Pruner:
                     # A recorded location that resolves outside the store (a link planted in a
                     # copy, or a relocated store still pointing at its old home) is never deleted.
                     failures.append({"path": directory, "error": f"resolves outside the store: {real}"})
+                    refused = True
                     continue
                 size = _tree_bytes(path)
                 try:
                     _remove_tree(path)
                 except OSError as exc:
                     failures.append({"path": directory, "error": str(exc)})
+                    refused = True
                     continue
                 removed_bytes += size
                 removed_directories.append(directory)
+            if refused:
+                # Recorded as pruned only when every directory it owned is gone; the failures say
+                # why it was not (review of 796cb02: a refused directory was recorded as pruned).
+                continue
             for log_file in entry["logs"]:
                 try:
                     os.unlink(log_file)
