@@ -79,10 +79,12 @@ package body Worldline.Evaluation with SPARK_Mode is
          Answer.Execution := Incomplete_Unknown;
       end if;
 
-      --  An examiner whose staged bundle cannot satisfy its own module-level
-      --  imports resolved them from somewhere WORLDLINE did not stage. Its
-      --  verdict, pass or fail, is not an evaluation of the candidate.
-      if Answer.Execution = Completed and Facts.Unsatisfied_Imports then
+      --  A failure from an examiner whose staged bundle cannot satisfy its own
+      --  module-level imports is not a verdict on the candidate.
+      if Answer.Execution = Completed
+        and Facts.Unsatisfied_Imports
+        and Facts.Status = Fail_Status
+      then
          Answer.Execution := Evaluator_Incomplete;
       end if;
 

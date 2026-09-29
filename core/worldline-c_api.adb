@@ -474,6 +474,10 @@ package body Worldline.C_API with SPARK_Mode => Off is
           Evaluation.Report_Integrity'Pos (Evaluation.Report_Integrity'Last)
         or else (Value.Execution = Completed_Code) =
                 (Value.Outcome = No_Outcome_Code)
+        --  Classify never produces an in-flight state.
+        or else Value.Execution in
+          Evaluation.Execution_State'Pos (Evaluation.Prepared) ..
+          Evaluation.Execution_State'Pos (Evaluation.Started)
         or else Presence.Record_Identified > 1
         or else Presence.Verdict_Recorded > 1
         or else Presence.Binding_Established > 1
@@ -603,5 +607,100 @@ package body Worldline.C_API with SPARK_Mode => Off is
          when others => return 0;
       end case;
    end Layout_Size;
+
+   function Layout_Offset
+     (Selector : Interfaces.Unsigned_8;
+      Name     : System.Address;
+      Name_Len : Interfaces.C.size_t) return Interfaces.C.size_t
+   is
+      use System.Storage_Elements;
+      Unknown : constant Interfaces.C.size_t := Interfaces.C.size_t'Last;
+      Collapse_Probe    : C_Collapse_Request;
+      Observation_Probe : C_Evaluation_Observations;
+      Class_Probe       : C_Evaluation_Classification;
+      Presence_Probe    : C_Evidence_Presence;
+      --  Only the components' 'Position is read; no value is.
+      pragma Warnings (Off, Collapse_Probe);
+      pragma Warnings (Off, Observation_Probe);
+      pragma Warnings (Off, Class_Probe);
+      pragma Warnings (Off, Presence_Probe);
+   begin
+      if Name = System.Null_Address or else Name_Len = 0 or else Name_Len > 64 then
+         return Unknown;
+      end if;
+      declare
+         Text : String (1 .. Natural (Name_Len));
+      begin
+         for I in Text'Range loop
+            Text (I) := Character'Val (Integer (Get_Byte (Name, Storage_Offset (I - 1))));
+         end loop;
+         case Selector is
+            when 0 =>
+               if Text = "candidate_state" then return Interfaces.C.size_t (Collapse_Probe.Candidate_State'Position);
+               elsif Text = "has_conflicts" then return Interfaces.C.size_t (Collapse_Probe.Has_Conflicts'Position);
+               elsif Text = "has_foreign_managed_writes" then return Interfaces.C.size_t (Collapse_Probe.Has_Foreign_Managed_Writes'Position);
+               elsif Text = "reserved" then return Interfaces.C.size_t (Collapse_Probe.Reserved'Position);
+               elsif Text = "expected_parent" then return Interfaces.C.size_t (Collapse_Probe.Expected_Parent'Position);
+               elsif Text = "candidate_parent" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Parent'Position);
+               elsif Text = "expected_owner" then return Interfaces.C.size_t (Collapse_Probe.Expected_Owner'Position);
+               elsif Text = "candidate_owner" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Owner'Position);
+               elsif Text = "expected_base" then return Interfaces.C.size_t (Collapse_Probe.Expected_Base'Position);
+               elsif Text = "candidate_base" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Base'Position);
+               elsif Text = "expected_delta" then return Interfaces.C.size_t (Collapse_Probe.Expected_Delta'Position);
+               elsif Text = "candidate_delta" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Delta'Position);
+               elsif Text = "expected_root_set" then return Interfaces.C.size_t (Collapse_Probe.Expected_Root_Set'Position);
+               elsif Text = "candidate_root_set" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Root_Set'Position);
+               elsif Text = "expected_staged_root" then return Interfaces.C.size_t (Collapse_Probe.Expected_Staged_Root'Position);
+               elsif Text = "actual_staged_root" then return Interfaces.C.size_t (Collapse_Probe.Actual_Staged_Root'Position);
+               elsif Text = "expected_validation_context" then return Interfaces.C.size_t (Collapse_Probe.Expected_Validation_Context'Position);
+               elsif Text = "candidate_validation_context" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Validation_Context'Position);
+               elsif Text = "tested_root" then return Interfaces.C.size_t (Collapse_Probe.Tested_Root'Position);
+               elsif Text = "staged_content_root" then return Interfaces.C.size_t (Collapse_Probe.Staged_Content_Root'Position);
+               elsif Text = "execution_evidence_complete" then return Interfaces.C.size_t (Collapse_Probe.Execution_Evidence_Complete'Position);
+               elsif Text = "reserved_2" then return Interfaces.C.size_t (Collapse_Probe.Reserved_2'Position);
+               elsif Text = "reserved_3" then return Interfaces.C.size_t (Collapse_Probe.Reserved_3'Position);
+               elsif Text = "reserved_4" then return Interfaces.C.size_t (Collapse_Probe.Reserved_4'Position);
+               elsif Text = "expected_executed_verifier" then return Interfaces.C.size_t (Collapse_Probe.Expected_Executed_Verifier'Position);
+               elsif Text = "actual_executed_verifier" then return Interfaces.C.size_t (Collapse_Probe.Actual_Executed_Verifier'Position);
+               elsif Text = "evaluation_mode" then return Interfaces.C.size_t (Collapse_Probe.Evaluation_Mode'Position);
+               elsif Text = "checkpoint_witnessed" then return Interfaces.C.size_t (Collapse_Probe.Checkpoint_Witnessed'Position);
+               elsif Text = "reserved_5" then return Interfaces.C.size_t (Collapse_Probe.Reserved_5'Position);
+               elsif Text = "reserved_6" then return Interfaces.C.size_t (Collapse_Probe.Reserved_6'Position);
+               elsif Text = "expected_checkpoint" then return Interfaces.C.size_t (Collapse_Probe.Expected_Checkpoint'Position);
+               elsif Text = "witnessed_checkpoint" then return Interfaces.C.size_t (Collapse_Probe.Witnessed_Checkpoint'Position);
+               end if;
+            when 1 =>
+               if Text = "source" then return Interfaces.C.size_t (Observation_Probe.Source'Position);
+               elsif Text = "status" then return Interfaces.C.size_t (Observation_Probe.Status'Position);
+               elsif Text = "channel" then return Interfaces.C.size_t (Observation_Probe.Channel'Position);
+               elsif Text = "stage" then return Interfaces.C.size_t (Observation_Probe.Stage'Position);
+               elsif Text = "exit_present" then return Interfaces.C.size_t (Observation_Probe.Exit_Present'Position);
+               elsif Text = "exit_integer" then return Interfaces.C.size_t (Observation_Probe.Exit_Integer'Position);
+               elsif Text = "supervisor" then return Interfaces.C.size_t (Observation_Probe.Supervisor'Position);
+               elsif Text = "supervisor_stopped" then return Interfaces.C.size_t (Observation_Probe.Supervisor_Stopped'Position);
+               elsif Text = "bundle_present" then return Interfaces.C.size_t (Observation_Probe.Bundle_Present'Position);
+               elsif Text = "bundle_is_mapping" then return Interfaces.C.size_t (Observation_Probe.Bundle_Is_Mapping'Position);
+               elsif Text = "bundle_stable" then return Interfaces.C.size_t (Observation_Probe.Bundle_Stable'Position);
+               elsif Text = "bundle_changed" then return Interfaces.C.size_t (Observation_Probe.Bundle_Changed'Position);
+               elsif Text = "unsatisfied_imports" then return Interfaces.C.size_t (Observation_Probe.Unsatisfied_Imports'Position);
+               end if;
+            when 2 =>
+               if Text = "execution" then return Interfaces.C.size_t (Class_Probe.Execution'Position);
+               elsif Text = "outcome" then return Interfaces.C.size_t (Class_Probe.Outcome'Position);
+               elsif Text = "bundle" then return Interfaces.C.size_t (Class_Probe.Bundle'Position);
+               end if;
+            when 3 =>
+               if Text = "record_identified" then return Interfaces.C.size_t (Presence_Probe.Record_Identified'Position);
+               elsif Text = "verdict_recorded" then return Interfaces.C.size_t (Presence_Probe.Verdict_Recorded'Position);
+               elsif Text = "binding_established" then return Interfaces.C.size_t (Presence_Probe.Binding_Established'Position);
+               elsif Text = "declaration_matches" then return Interfaces.C.size_t (Presence_Probe.Declaration_Matches'Position);
+               elsif Text = "bundle_identified" then return Interfaces.C.size_t (Presence_Probe.Bundle_Identified'Position);
+               end if;
+            when others => null;
+         end case;
+      end;
+      return Unknown;
+   end Layout_Offset;
+
 
 end Worldline.C_API;

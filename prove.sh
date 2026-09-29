@@ -36,28 +36,12 @@ import re
 import subprocess
 import sys
 
-# Floor for the total proved-check count. The gate is "all checks proved"; without a floor,
-# a run that analyzed nothing satisfies it vacuously. Lower this only as a deliberate edit.
-MINIMUM_CHECKS = 158
-
-# Subprograms whose proof is a claim of this release. Each must appear in the summary as
-# flow analyzed with no errors AND proved; a unit that silently stopped being analyzed, or a
-# decision that stopped being proved, fails the gate even when the total still clears the floor.
-REQUIRED_PROVED = [
-    "Worldline.Collapse.Decide",
-    "Worldline.Evaluation.Admissible",
-    "Worldline.Evaluation.Advance",
-    "Worldline.Evaluation.Classify",
-    "Worldline.Evaluation.Roster_Complete",
-    "Worldline.Evaluation.Transition_Allowed",
-    "Worldline.Transitions.Advance",
-    "Worldline.Transitions.Transaction_Allowed",
-]
-# The one unit that is not analyzed on purpose: the C ABI decode (SPARK_Mode => Off), named in
-# boundary.notProved below.
-UNANALYZED_BOUNDARY = {"worldline-c_api"}
-
 root = Path(sys.argv[1]).resolve()
+# The floor, the required subprograms and the declared boundary are pinned in the verifier, so
+# the gate that writes the manifest and the check that reads it cannot disagree.
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(root))
+from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY  # noqa: E402
 out_path = (root / sys.argv[2]).resolve()
 lib_path = (root / sys.argv[3]).resolve()
 summary = out_path.read_text(encoding="utf-8")
@@ -93,8 +77,10 @@ if missing:
 # "pragma  assume" and "pragma\nAssume", which a raw byte count silently scores as zero. Also
 # screen for justification pragmas and for a body quietly leaving SPARK analysis entirely.
 _ASSUME = re.compile(rb"(?is)\bpragma\s+assume\b")
-_JUSTIFY = re.compile(rb"(?is)\bpragma\s+annotate\s*\(\s*gnatprove\s*,\s*(false_positive|intentional)")
-_SPARK_OFF = re.compile(rb"(?is)\bspark_mode\s*=>\s*off\b")
+# Any GNATprove annotation, in pragma or aspect form: justifications (False_Positive,
+# Intentional) and exclusions (Skip_Proof, Skip_Flow_And_Proof) alike. None is allowed.
+_JUSTIFY = re.compile(rb"(?is)\b(pragma\s+annotate\s*\(|annotate\s*=>\s*\()\s*gnatprove\b")
+_SPARK_OFF = re.compile(rb"(?is)\bspark_mode\s*(=>|\()\s*off\b")
 
 
 def code_only(path):
@@ -110,6 +96,14 @@ def code_only(path):
         index = 0
         while index < len(line):
             character = line[index : index + 1]
+            if not in_string and character == b"'":
+                # After an identifier or ')' this is an attribute tick (Character'( ... ));
+                # otherwise 'x' is a character literal, and '"' or '-' inside it is neither a
+                # string delimiter nor a comment.
+                previous = line[:index].rstrip()[-1:]
+                if not (previous.isalnum() or previous in (b"_", b")")) and line[index + 2 : index + 3] == b"'":
+                    index += 3
+                    continue
             if character == b'"':
                 in_string = not in_string
             elif not in_string and line[index : index + 2] == b"--":
@@ -145,36 +139,49 @@ if spark_off:
 if total < MINIMUM_CHECKS:
     raise SystemExit(
         f"PROOF GATE FAILED: only {total} checks proved, expected at least {MINIMUM_CHECKS}; "
-        "if this reduction is intentional, lower MINIMUM_CHECKS deliberately in prove.sh"
+        "if this reduction is intentional, lower MINIMUM_CHECKS deliberately in verify_proof_manifest.py"
     )
 
-# Per-subprogram coverage, read from the same summary the counts came from.
+# Per-subprogram coverage, read from the same summary the counts came from. Fail closed: inside
+# the per-unit section every indented line must be the one proved form. Anything else --
+# "proof skipped", "not analyzed", a skipped flow analysis, a format this parser has never seen
+# -- is a coverage problem, never a line to ignore.
 _UNIT = re.compile(r"^in unit (\S+), (\d+) subprograms and packages out of (\d+) analyzed$")
 _SUBPROGRAM = re.compile(
-    r"^  (\S+) at (\S+) flow analyzed \((\d+) errors, \d+ checks, \d+ warnings and "
-    r"(\d+) pragma Assume statements\) and (.*)$")
-_PROVED = re.compile(r"^proved \((\d+) checks\)$")
+    r"^  (\S+) at (\S+) flow analyzed \(0 errors, \d+ checks, \d+ warnings and "
+    r"0 pragma Assume statements\) and proved \((\d+) checks\)$")
 units: dict[str, dict[str, int]] = {}
 subprograms: dict[str, dict[str, object]] = {}
+listed: dict[str, int] = {}
 coverage_problems: list[str] = []
+current_unit: str | None = None
 for line in summary.splitlines():
     unit_match = _UNIT.match(line)
     if unit_match:
-        name, analyzed, available = unit_match.group(1), int(unit_match.group(2)), int(unit_match.group(3))
-        units[name] = {"analyzed": analyzed, "available": available}
+        current_unit = unit_match.group(1)
+        analyzed, available = int(unit_match.group(2)), int(unit_match.group(3))
+        units[current_unit] = {"analyzed": analyzed, "available": available}
+        listed[current_unit] = 0
         if analyzed != available:
-            coverage_problems.append(f"unit {name}: {analyzed} of {available} analyzed")
-        if name not in UNANALYZED_BOUNDARY and available == 0:
-            coverage_problems.append(f"unit {name}: nothing analyzed")
+            coverage_problems.append(f"unit {current_unit}: {analyzed} of {available} analyzed")
+        if current_unit not in UNANALYZED_BOUNDARY and available == 0:
+            coverage_problems.append(f"unit {current_unit}: nothing analyzed")
+        continue
+    if current_unit is None:
+        continue
+    if not line.startswith("  "):
+        current_unit = None
         continue
     sub_match = _SUBPROGRAM.match(line)
-    if sub_match:
-        name, where, errors, sub_assumes, verdict = sub_match.groups()
-        proved = _PROVED.match(verdict)
-        subprograms[name] = {"at": where, "checks": int(proved.group(1)) if proved else None,
-                             "proved": bool(proved) and errors == "0" and sub_assumes == "0"}
-        if not subprograms[name]["proved"]:
-            coverage_problems.append(f"{name}: {verdict}")
+    if sub_match is None:
+        coverage_problems.append(f"unit {current_unit}: not a proved subprogram: {line.strip()}")
+        continue
+    name, where, checks = sub_match.groups()
+    subprograms[name] = {"at": where, "checks": int(checks), "proved": True}
+    listed[current_unit] += 1
+for unit, counts in units.items():
+    if listed.get(unit, 0) != counts["analyzed"]:
+        coverage_problems.append(f"unit {unit}: {counts['analyzed']} analyzed but {listed.get(unit, 0)} listed as proved")
 for name in REQUIRED_PROVED:
     if name not in subprograms:
         coverage_problems.append(f"{name}: absent from the proof summary")

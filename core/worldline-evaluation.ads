@@ -43,16 +43,6 @@ package Worldline.Evaluation with SPARK_Mode is
               (if Transition_Allowed (State'Old, Requested)
                then Requested else State'Old);
 
-   --  A state is reachable when a lifecycle that starts at Not_Attempted can
-   --  arrive at it through allowed transitions. Paths are at most three steps
-   --  long (Not_Attempted, Prepared, Started, terminal).
-   function Reachable (State : Execution_State) return Boolean is
-     (State = Not_Attempted
-      or else Transition_Allowed (Not_Attempted, State)
-      or else Transition_Allowed (Prepared, State)
-      or else Transition_Allowed (Started, State))
-     with Global => null;
-
    --  C/Python translates observable categories into this finite record. That
    --  translation and the provenance of each observation remain outside proof.
    type Origin is (Engine, Agent, External);
@@ -99,11 +89,14 @@ package Worldline.Evaluation with SPARK_Mode is
 
    --  The observations that can support a completed evaluation at all. Every
    --  Completed classification satisfies this; it is necessary, not
-   --  sufficient.
+   --  sufficient. A FAIL from an examiner whose staged bundle cannot satisfy
+   --  its own module-level imports is not a verdict on the candidate. A PASS
+   --  with such a gap is: the import resolved, and the analysis cannot tell a
+   --  missing helper from the module under test, which a test imports.
    function Completion_Possible (Facts : Observations) return Boolean is
      (Facts.Channel /= Malformed_Channel
       and Facts.Status in Pass_Status | Fail_Status
-      and not Facts.Unsatisfied_Imports
+      and not (Facts.Unsatisfied_Imports and Facts.Status = Fail_Status)
       and (case Facts.Source is
              when Engine =>
                not Facts.Exit_Present
@@ -130,15 +123,13 @@ package Worldline.Evaluation with SPARK_Mode is
                           (Facts.Status = Pass_Status)))
             --  Bundle integrity is a pure function of the bundle facts.
             and Classify'Result.Bundle = Bundle_Of (Facts)
-            --  A classification is an end of a legal lifecycle, and never a
-            --  claim that an attempt is still in flight.
-            and Reachable (Classify'Result.Execution)
+            --  A classification never claims an attempt is still in flight.
             and Classify'Result.Execution not in Prepared | Started
             --  Named refusals (spec section 4).
             and (if Facts.Channel = Malformed_Channel then
                    Classify'Result.Execution = Unclassified)
-            and (if Facts.Unsatisfied_Imports then
-                   Classify'Result.Execution /= Completed)
+            and (if Facts.Unsatisfied_Imports and Facts.Status = Fail_Status
+                 then Classify'Result.Execution /= Completed)
             and (if Facts.Source = Agent
                    and Facts.Channel /= Malformed_Channel
                    and (Facts.Supervisor_Stopped

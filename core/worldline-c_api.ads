@@ -206,4 +206,14 @@ package Worldline.C_API with SPARK_Mode => Off is
      (Selector : Interfaces.Unsigned_8) return Interfaces.C.size_t
      with Export, Convention => C, External_Name => "wl_layout_size";
 
+   --  Byte offset of the field NAMED Name (lower case, as in the C header) of
+   --  the record Selector names, as this library lays it out; size_t'Last for
+   --  an unknown selector or name. Keyed by name, not position: two
+   --  equal-sized fields swapped keep every size and every positional offset.
+   function Layout_Offset
+     (Selector : Interfaces.Unsigned_8;
+      Name     : System.Address;
+      Name_Len : Interfaces.C.size_t) return Interfaces.C.size_t
+     with Export, Convention => C, External_Name => "wl_layout_offset";
+
 end Worldline.C_API;

@@ -125,6 +125,24 @@ enum wl_report_integrity {
     WL_REPORT_UNTRUSTED
 };
 
+/* Observation input codes, in the declaration order of Worldline.Evaluation's
+ * Origin, Raw_Status, Channel_State, Rejection_Stage and Supervision_State. */
+enum wl_evaluation_origin { WL_ORIGIN_ENGINE, WL_ORIGIN_AGENT, WL_ORIGIN_EXTERNAL };
+enum wl_evaluation_status {
+    WL_STATUS_ABSENT, WL_STATUS_PASS, WL_STATUS_FAIL, WL_STATUS_UNASSESSED, WL_STATUS_OTHER
+};
+enum wl_evaluation_channel {
+    WL_CHANNEL_ABSENT, WL_CHANNEL_EMPTY, WL_CHANNEL_ACCEPTED,
+    WL_CHANNEL_REJECTED, WL_CHANNEL_OTHER, WL_CHANNEL_MALFORMED
+};
+enum wl_evaluation_stage {
+    WL_STAGE_ABSENT, WL_STAGE_SANDBOX_NEVER_STARTED, WL_STAGE_STOPPED_BY_MANAGER,
+    WL_STAGE_HARNESS_SIGNALLED, WL_STAGE_OTHER
+};
+enum wl_evaluation_supervision {
+    WL_SUPERVISION_ABSENT, WL_SUPERVISION_SUPERVISED, WL_SUPERVISION_STOPPED, WL_SUPERVISION_OTHER
+};
+
 struct wl_evaluation_observations {
     uint8_t source;
     uint8_t status;
@@ -191,7 +209,8 @@ uint8_t wl_evaluation_classify(const struct wl_evaluation_observations *facts,
                                struct wl_evaluation_classification *result);
 /* 0 denied, 1 admitted, 255 invalid. Evidence presence is an explicit typed input; absent
  * evidence never defaults to complete. A classification Classify could not produce (an
- * outcome without completion, or completion without an outcome) is invalid. */
+ * outcome without completion, completion without an outcome, or an in-flight state) is
+ * invalid. */
 uint8_t wl_evaluation_admissible(const struct wl_evaluation_classification *value,
                                  uint8_t report,
                                  const struct wl_evidence_presence *presence);
@@ -205,6 +224,10 @@ uint8_t wl_evaluation_roster_complete(const uint8_t *admitted, size_t count,
                                       uint8_t empty_declared);
 uint32_t wl_abi_version(void);
 size_t wl_layout_size(uint8_t selector);
+/* Offset of the field named `name` (as spelled in this header) of record `selector`; SIZE_MAX
+ * for an unknown selector or name. Keyed by name: two equal-sized fields swapped keep every
+ * size and every positional offset. */
+size_t wl_layout_offset(uint8_t selector, const char *name, size_t name_len);
 
 #ifdef __cplusplus
 }

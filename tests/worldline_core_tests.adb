@@ -225,14 +225,21 @@ begin
          (Full_Presence with delta Declaration_Matches => False)),
       "an undeclared evaluator format admitted");
 
-   --  1.8.0: an examiner whose staged bundle cannot satisfy its own imports
-   --  does not complete, whatever it reported.
+   --  An examiner whose staged bundle cannot satisfy its own imports: a FAIL
+   --  is not a verdict on the candidate; a PASS resolved its imports.
    Evaluation_Facts.Unsatisfied_Imports := True;
+   Evaluation_Facts.Status := Worldline.Evaluation.Fail_Status;
    Evaluation_Result := Worldline.Evaluation.Classify (Evaluation_Facts);
    Check
      (Evaluation_Result.Execution = Worldline.Evaluation.Evaluator_Incomplete
       and Evaluation_Result.Result = Worldline.Evaluation.No_Outcome,
-      "a pass from an evaluator with unsatisfied imports completed");
+      "a failure from an incomplete evaluator became a candidate verdict");
+   Evaluation_Facts.Status := Worldline.Evaluation.Pass_Status;
+   Evaluation_Result := Worldline.Evaluation.Classify (Evaluation_Facts);
+   Check
+     (Evaluation_Result.Execution = Worldline.Evaluation.Completed
+      and Evaluation_Result.Result = Worldline.Evaluation.Passed,
+      "a pass whose imports resolved was not completed");
    Evaluation_Facts.Unsatisfied_Imports := False;
 
    --  The lifecycle export agrees with the proved relation for every pair.
@@ -351,6 +358,24 @@ begin
       and then Worldline.C_API.Layout_Size (3) = 5
       and then Worldline.C_API.Layout_Size (9) = 0,
       "layout sizes misreported");
+   declare
+      function Offset (Selector : Interfaces.Unsigned_8; Name : String) return Interfaces.C.size_t is
+        (Worldline.C_API.Layout_Offset (Selector, Name'Address, Interfaces.C.size_t (Name'Length)));
+   begin
+      Check
+        (Offset (0, "candidate_state") = 0
+         and then Offset (0, "expected_parent") = 4
+         and then Offset (3, "bundle_identified") = 4
+         and then Offset (3, "nonexistent") = Interfaces.C.size_t'Last
+         and then Offset (9, "candidate_state") = Interfaces.C.size_t'Last
+         and then Offset (0, "Candidate_State") = Interfaces.C.size_t'Last,
+         "layout offsets misreported");
+   end;
+   C_Value := (Execution => 1, Outcome => 0, Bundle => 1);
+   Check
+     (Worldline.C_API.Evaluation_Admissible
+        (C_Value'Unchecked_Access, 1, C_Presence'Unchecked_Access) = 255,
+      "an in-flight classification accepted as an encoding");
    Evaluation_Facts.Channel := Worldline.Evaluation.Malformed_Channel;
    Evaluation_Result := Worldline.Evaluation.Classify (Evaluation_Facts);
    Check
