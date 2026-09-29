@@ -3,9 +3,10 @@
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 
 **An independent review of 1.7.0 (commit ad64cd2) and a rehearsal of the dedicated-account
-migration on a copy of a production store found the defects below; seven more independent reviews,
-of the 1.7.1 candidates 796cb02, 4490013, 09f5c0b, c7d89f1, 300543c, 8ff1903 and f50bbb1, found
-more, including defects the candidates' own fixes introduced.
+migration on a copy of a production store found the defects below; eight more independent
+reviews, of the 1.7.1 candidates 796cb02, 4490013, 09f5c0b, c7d89f1, 300543c, 8ff1903, f50bbb1
+and 0fa069c, found more, including defects the candidates' own fixes introduced; the last four
+found nothing of major severity.
 Each is fixed and tested, except those named under Known limits, and each new test was run
 against the code it guards against and failed there.** No store migration is needed. Existing VALID worlds need revalidation before collapse, as
 after any release: the runtime changed.
@@ -79,12 +80,14 @@ after any release: the runtime changed.
     not set.
   - A task limit reached when the sandbox is created refuses as `GIT_SANDBOX_UNAVAILABLE`, as does
     a sandbox launcher killed by a signal. Inside a started sandbox, git killed by any signal, a
-    process git started that was killed (git's own `error: <command> died of signal <n>` line,
-    matched as a whole line, whether git then exits 128, or exits 0 after retrying another way,
-    as `submodule status` retries `describe`: sixth review; seventh review: an unanchored match
-    was set off by a warning quoting a file named like one; eighth review: the command may hold
-    quotes, as a filter's `%f` does), and a submodule listing refused for want of resources (a
-    fork git could not get),
+    process git started that was killed (git's own `died of signal <n>` report at the end of a
+    line, or its `external filter '<command>' failed <n>` above 128 for the signals it does not
+    name, such as SIGPIPE; whether git then exits 128, or exits 0 after retrying another way, as
+    `submodule status` retries `describe` and a filter falls back to the unfiltered file: sixth
+    review; seventh review: an unanchored match was set off by a warning quoting a file named like
+    one; eighth and ninth reviews: the report may follow quotes, a filter's partial output or a
+    newline in a `%f` file name), and a submodule listing refused for want of resources (a fork
+    git could not get),
     refuse as `GIT_INSPECTION_FAILED`, or `GIT_UNAVAILABLE` at the 15 s timeout. A git killed after launch was
     read by `rev-parse --verify HEAD` as "no HEAD", and a failed submodule listing as "no
     submodules" (third and fourth reviews).
@@ -198,11 +201,14 @@ after any release: the runtime changed.
   when the relocating account cannot see the old store, as in the dedicated-account migration
   (fifth review: a bind of the old store at the copy's path passed every other check there). When
   the account cannot resolve the old store's path at all (a link inside the operator's 0700 home,
-  such as `~/.local/share` on another disk, or a path missing from its view), a copy on a bind
-  mount of a directory refuses as well, since it cannot be told from a view of the old store
-  (seventh review, demonstrated); a btrfs subvolume mounted whole is not a bind (eighth review:
-  every btrfs root read as one). Where the account can neither see nor locate the old store, a
-  copy named by the old store's own real path is caught by the ownership checks, not by these. The copy's lock must not be the old store's
+  such as `~/.local/share` on another disk), a copy on a bind mount of a directory refuses as
+  well, since it cannot be told from a view of the old store
+  (seventh review, demonstrated); a btrfs subvolume mounted whole is not a bind (eighth and
+  ninth reviews: every btrfs root read as one, and a subvolume name with a space still did). Where
+  the account can neither see nor locate the old store (its path unsearchable or missing, as
+  behind a tmpfs over the home), a copy named by the old store's own real path, or a view of it
+  the mount table cannot relate, is caught by the ownership checks, not by these (ninth review: a
+  missing path counted as hidden refused a moved store's copy on ostree's `/var`). The copy's lock must not be the old store's
   own file, and, where the old store is visible, a file made in each copy root must not appear in
   it. Processes holding the copy's database are found by device and inode from
   `/proc/<pid>/fdinfo` and that process's own mount table (mount ids differ between namespaces),
@@ -282,8 +288,8 @@ after any release: the runtime changed.
 - **`status` reports any failure of its re-capture.** It reported refusals as a `DEGRADED` watch
   state, but a failure that was neither a refusal nor a storage error answered `INTERNAL_ERROR`
   on every request while the store stayed dirty; that is now `DEGRADED` too, with
-  `RECAPTURE_FAILED` (seventh review). A storage failure still fails the request as `DISK_FULL`
-  or `STORAGE_ERROR` with its errno (eighth review).
+  `RECAPTURE_FAILED` (seventh review). A storage failure is recorded the same way under its own
+  name, `DISK_FULL` or `STORAGE_ERROR` with its errno (eighth and ninth reviews).
 - **A publication that fails after recording its world keeps that world's payload,** in reconcile
   and in `root remove` alike. Both discard the fresh copy of a refused publication, but
   publication records the world before it moves PRIME; a failure in between (a full disk) had
@@ -326,6 +332,8 @@ after any release: the runtime changed.
   and before the swap is kept only in the store's previous payload, not at the operator's path:
   stop writers into a root before removing it. A rollback keeps a full copy beside the path
   whenever anything about the copy changed, its mtime included (an editor's temporary file).
+- A process git starts that is killed by SIGPIPE, SIGINT or SIGQUIT and is not a filter leaves no
+  report in git's output, so its effect cannot be told from a fact.
 - A repository's content can make a submodule listing read like a resource failure (a gitlink at
   a path named `cannot fork`), or print a whole line that reads like git's report of a killed
   process; either refuses that repository's captures by name, and while it does, every operation

@@ -828,14 +828,16 @@ class RelocationMountRoots(unittest.TestCase):
         # root, and the hidden-old-store rule read every such system as bound.
         from worldline.relocate import _bind_of_a_directory, _mount_table
         line = "29 1 0:26 {root} / rw,relatime shared:1 - btrfs /dev/vda2 rw,ssd,space_cache=v2,subvolid=256,subvol={subvol}\n"
-        cases = {("/", "/"): False, ("/@", "/@"): False, ("/@/var/lib", "/@"): True}
+        # Review of 0fa069c: both fields are escaped as the kernel escapes paths (a space is \\040).
+        cases = {("/", "/"): False, ("/@", "/@"): False, ("/@/var/lib", "/@"): True,
+                 ("/my\\040vol", "/my\\040vol"): False}
         with tempfile.TemporaryDirectory(prefix="worldline-mountinfo-") as temporary:
             for (root, subvol), bound in cases.items():
                 with self.subTest(root=root, subvol=subvol):
                     table = Path(temporary) / "mountinfo"
                     table.write_text(line.format(root=root, subvol=subvol))
                     (entry,) = _mount_table(str(table))
-                    self.assertIn(f"subvol={subvol}", entry["super"])
+                    self.assertIn(f"subvol={subvol}", entry["super"])   # as the kernel wrote it
                     self.assertEqual(_bind_of_a_directory(entry), bound)
         ext4 = {"root": "/var/lib/other", "fstype": "ext4", "super": ["rw"]}
         self.assertTrue(_bind_of_a_directory(ext4))
@@ -929,6 +931,39 @@ class RelocationViewsThroughSymlinks(unittest.TestCase):
             self.assertEqual(result.returncode, 1, result.stderr.decode(errors="replace")[-2000:])
             self.assertIn(b"cannot resolve the old store", result.stderr)
             self.assertEqual(os.readlink(mapping), before)
+
+
+    def test_a_moved_store_can_be_relocated_from_a_bind(self) -> None:
+        # Review of 0fa069c: counting a missing old path as unresolvable refused the copy of a store
+        # that was moved rather than copied, when the copy sits on a bind (ostree's /var).
+        from worldline.store import StateStore
+        bwrap = shutil.which("bwrap")
+        if bwrap is None:
+            self.skipTest("bwrap is required to make a mount without privileges")
+        with tempfile.TemporaryDirectory(prefix="worldline-moved-store-") as temporary:
+            base = Path(temporary)
+            old = base / "old"
+            paths = WorldlinePaths(home=base / "home", data=old / "data", state=old / "state",
+                                   runtime=base / "runtime", config=base / "config")
+            StateStore(paths).close()
+            content = old / "data" / "generations" / "g1" / "payload" / "rk1"
+            (content / "sub").mkdir(parents=True)
+            (content / "f.txt").write_text("prime content\n")
+            (old / "data" / "live" / "rk1").symlink_to(content, target_is_directory=True)
+            (base / "vol").mkdir()
+            os.rename(old, base / "vol" / "store")      # moved, not copied: the old path is gone
+            (base / "mnt").mkdir()
+            code = "import sys; from worldline.relocate import main; sys.exit(main(sys.argv[1:]))"
+            arguments = ["--from-data", str(old / "data"), "--from-state", str(old / "state"),
+                         "--to-data", str(base / "mnt" / "store" / "data"),
+                         "--to-state", str(base / "mnt" / "store" / "state"), "--dry-run"]
+            result = subprocess.run(
+                [bwrap, "--dev-bind", "/", "/", "--bind", str(base / "vol"), str(base / "mnt"),
+                 "--", sys.executable, "-B", "-c", code, *arguments],
+                env={**os.environ, "PYTHONPATH": str(REPO / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"},
+                capture_output=True, timeout=120)
+            self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace")[-2000:])
+            self.assertIn(b"DRY_RUN", result.stdout)
 
 
 if __name__ == "__main__":

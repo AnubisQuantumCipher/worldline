@@ -17,11 +17,25 @@ from ..errors import WorldlineError
 # git's own words for a fork, allocation or descriptor it could not get (bash's for its scripts).
 _RESOURCE_FAILURE = re.compile(r"cannot fork|fork: |Resource temporarily unavailable|Cannot allocate memory|"
                                r"Too many open files|out of memory", re.IGNORECASE)
-# git's report that a process it started was killed: run-command's wait_or_whine prints exactly
-# `error: <command> died of signal <n>` on a line of its own (C locale). Matched as a whole line:
-# a warning that quotes a file named "died of signal 9.txt" set off an unanchored match (review of
-# 8ff1903). The command may itself hold quotes: a filter's `%f` is quoted there (review of f50bbb1).
-_CHILD_KILLED = re.compile(rb"^error: .* died of signal [0-9]+$", re.MULTILINE)
+# git's report that a process it started was killed: run-command's wait_or_whine prints
+# `error: <command> died of signal <n>` (C locale). Matched at the end of a line only: a warning
+# that quotes a file named "died of signal 9.txt" set off an unanchored match (review of
+# 8ff1903), while its start may be glued to a killed filter's partial output or follow a newline
+# in a `%f` file name (reviews of f50bbb1 and 0fa069c). SIGPIPE, SIGINT and SIGQUIT print no such
+# line; a filter killed by one is still reported as `external filter '<command>' failed <128+n>`.
+_CHILD_KILLED = re.compile(rb"died of signal [0-9]+$", re.MULTILINE)
+_FILTER_FAILED = re.compile(rb"external filter .* failed ([0-9]+)$", re.MULTILINE)
+
+
+def _child_kill_report(stderr: bytes) -> bytes | None:
+    """The line in git's stderr that says a process it started was killed, or None."""
+    killed = _CHILD_KILLED.search(stderr)
+    if killed:
+        return killed.group(0)
+    for failed in _FILTER_FAILED.finditer(stderr):
+        if int(failed.group(1)) > 128:
+            return failed.group(0)
+    return None
 
 
 class GitAdapter:
@@ -251,7 +265,7 @@ class GitAdapter:
                 f"git was stopped by signal {result.returncode - 128} while inspecting {os.fsdecode(root)}",
                 {"argv": list(args), "stderr": result.stderr.decode("utf-8", "replace")[:2000]},
             )
-        killed = _CHILD_KILLED.search(result.stderr)
+        killed = _child_kill_report(result.stderr)
         if killed:
             # A process git started was killed (inspection runs at OOM score 1000). git says so and
             # exits 128, or exits 0 after trying another way, which changes what it prints:
@@ -260,7 +274,7 @@ class GitAdapter:
             raise WorldlineError(
                 "GIT_INSPECTION_FAILED",
                 f"a process git started was stopped by a signal while inspecting {os.fsdecode(root)} "
-                f"({killed.group(0).decode('utf-8', 'replace')})",
+                f"({killed.decode('utf-8', 'replace')})",
                 {"argv": list(args), "stderr": result.stderr.decode("utf-8", "replace")[:2000]},
             )
         if check and result.returncode != 0:

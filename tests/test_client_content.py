@@ -374,6 +374,21 @@ class MaterializationOfReadOnlyDirectories(unittest.TestCase):
                         os.chmod(directory, 0o755)
 
 
+class StoreLockInUseAnswersOnlyWhatItSees(unittest.TestCase):
+    def test_only_a_missing_path_means_no_lock_here(self) -> None:
+        # Review of f50bbb1: only EACCES counted as "cannot tell", so EPERM (a security policy),
+        # EMFILE or EIO read as "not in use" and closed a running daemon's gate.
+        import errno
+        from worldline.paths import store_lock_in_use
+        with tempfile.TemporaryDirectory(prefix="worldline-lock-errors-") as temporary:
+            state = Path(temporary)
+            for number, held in ((errno.EPERM, True), (errno.EIO, True), (errno.EMFILE, True),
+                                 (errno.ENOENT, False), (errno.ENOTDIR, False), (errno.ELOOP, False)):
+                with self.subTest(errno=errno.errorcode[number]):
+                    with mock.patch("worldline.paths.os.lstat", side_effect=OSError(number, os.strerror(number))):
+                        self.assertEqual(store_lock_in_use(state), held)
+
+
 class StoreLockRefusesWhatIsNotItsOwnFile(unittest.TestCase):
     def test_a_directory_link_or_hard_link_at_the_lock_path_refuses_by_name(self) -> None:
         from worldline.paths import acquire_store_lock

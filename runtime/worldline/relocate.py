@@ -104,8 +104,10 @@ def _bind_of_a_directory(mount: dict[str, Any]) -> bool:
     whose root is a subvolume read as bound)."""
     if mount["root"] == "/":
         return False
-    if mount["fstype"] == "btrfs" and f"subvol={mount['root']}" in mount.get("super", []):
-        return False
+    if mount["fstype"] == "btrfs" and any(
+            option.startswith("subvol=") and _unescape_mount_path(option[len("subvol="):]) == mount["root"]
+            for option in mount.get("super", [])):
+        return False   # super options are escaped like paths (a space is \040: review of 0fa069c)
     return True
 
 
@@ -756,12 +758,14 @@ class Relocation:
         for old_root in self.old:
             try:
                 os.path.realpath(os.fsdecode(old_root), strict=True)
-            except (PermissionError, FileNotFoundError):
-                # Unsearchable, or missing from this view (a tmpfs over the home, as ProtectHome=
-                # gives): either way it cannot be located (review of f50bbb1).
+            except PermissionError:
                 hidden.append(os.fsdecode(old_root))
             except OSError:
-                pass  # a link loop: resolved as far as it goes, below
+                # Missing (a store moved rather than copied) or a link loop: resolved as far as it
+                # goes, below. Counting a missing path as hidden refused a moved store's copy on
+                # ostree's /var (review of 0fa069c); a view behind a tmpfs over the home is left to
+                # the ownership checks.
+                pass
         pairs = [(("data", self.new_data), self.old[0]), (("state", self.new_state), self.old[1]),
                  (("data", self.new_data), self.old[1]), (("state", self.new_state), self.old[0])]
         for (base, new_root), old_root in pairs:

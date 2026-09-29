@@ -137,14 +137,37 @@ class GitFilterDriversAreContained(unittest.TestCase):
     def test_a_filter_killed_by_a_signal_is_not_a_fact(self) -> None:
         # Review of f50bbb1: git quotes a filter's `%f` in the command it reports, so the line
         # `error: sh ... 'f.txt' died of signal 9` escaped a pattern that refused quotes; git fell
-        # back to the unfiltered file, exited 0, and a changed file was recorded as a fact.
+        # back to the unfiltered file, exited 0, and a changed file was recorded as a fact. Review
+        # of 0fa069c: a report glued to the filter's partial output, and a SIGPIPE kill, which
+        # git reports only as `external filter ... failed 141`, escaped too.
         killer = self.repo / "killer.sh"
-        killer.write_text("#!/bin/sh\nkill -9 $$\n", encoding="utf-8")
-        self.git("config", "filter.evil.clean", f"sh {killer} %f")
-        with self.assertRaises(WorldlineError) as caught:
-            GitAdapter(Core.shared()).capture(self.repo)
-        self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
-        self.assertIn("died of signal 9", caught.exception.message)
+        for case, body, reported in (("quoted %f", "kill -9 $$", "died of signal 9"),
+                                     ("glued to partial output", "printf cleaning >&2; kill -9 $$", "died of signal 9"),
+                                     ("SIGPIPE", "kill -PIPE $$", "failed 141")):
+            with self.subTest(case=case):
+                killer.write_text(f"#!/bin/sh\n{body}\n", encoding="utf-8")
+                self.git("config", "filter.evil.clean", f"sh {killer} %f")
+                with self.assertRaises(WorldlineError) as caught:
+                    GitAdapter(Core.shared()).capture(self.repo)
+                self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
+                self.assertIn(reported, caught.exception.message)
+
+    def test_kill_reports_are_told_from_lines_that_only_quote_one(self) -> None:
+        from worldline.linux.git import _child_kill_report
+        killed = [b"error: git died of signal 9\n",
+                  b"error: sh k.sh 'f.txt' died of signal 9\n",
+                  b"cleaningerror: sh k.sh 'f.txt' died of signal 9\n",          # glued
+                  b"error: sh k.sh 'a\nb.txt' died of signal 15\n",                # split by a newline in %f
+                  b"error: external filter 'sh k.sh' failed 141\n"]                # SIGPIPE
+        quoted = [b"warning: in the working copy of 'died of signal 9.txt', LF will be replaced by CRLF\n",
+                  b"error: invalid path 'x died of signal 9'\n",
+                  b"error: external filter 'sh k.sh' failed 1\n"]
+        for text in killed:
+            with self.subTest(killed=text):
+                self.assertIsNotNone(_child_kill_report(text))
+        for text in quoted:
+            with self.subTest(quoted=text):
+                self.assertIsNone(_child_kill_report(text))
 
     def test_the_filter_runs_inside_the_sandbox_and_reaches_nothing_outside(self) -> None:
         captured = GitAdapter(Core.shared()).capture(self.repo)

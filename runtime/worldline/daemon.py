@@ -379,8 +379,13 @@ class WorldlineDaemon:
                 self.store.set_meta("watchState", "DEGRADED")
                 self.store.set_meta("watchError", exc.as_dict())
                 _LOG.warning("PRIME re-capture refused; status degraded: %s: %s", exc.code, exc.message)
-            except (OSError, sqlite3.Error):
-                raise  # storage: answered DISK_FULL or STORAGE_ERROR with its errno, as before (review of f50bbb1)
+            except (OSError, sqlite3.Error) as exc:
+                # Storage keeps its own name and errno (DISK_FULL, STORAGE_ERROR: review of f50bbb1)
+                # and status stays readable (review of 0fa069c: an unreadable file in a root failed
+                # every status request while the store stayed dirty).
+                _LOG.warning("PRIME re-capture failed on storage; status degraded: %s", exc)
+                self.store.set_meta("watchState", "DEGRADED")
+                self.store.set_meta("watchError", storage_error(exc).as_dict())
             except Exception as exc:  # noqa: BLE001
                 # Anything else the re-capture raised is reported the same way: status that failed
                 # with INTERNAL_ERROR on every request left the operator nothing to read while the

@@ -560,7 +560,8 @@ Every command accepts `--json`; exit `0` success, `1` a named error (`worldline:
 `UNSUPPORTED_SCHEMA`, `GHOSTS_DISABLED`, `SYSTEM_ROOT_COLLAPSE_UNSUPPORTED`,
 `ROOT_REMOVAL_ROLLED_BACK` (a removal that failed without refusing and kept what was written at
 the path; `details.keptAt`). A status whose re-capture failed without refusing reports
-`watchState: DEGRADED` with `watchError.code` `RECAPTURE_FAILED`.
+`watchState: DEGRADED` with `watchError.code` `RECAPTURE_FAILED`, or `DISK_FULL` /
+`STORAGE_ERROR` (with the errno) for a storage failure.
 
 ## 10.3 Status document and daemon protocol
 

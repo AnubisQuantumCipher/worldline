@@ -194,7 +194,9 @@ report files are never admissible.
   them, inspection runs with OOM score 1000 (code a repository makes git run can lower it toward
   the unit's floor), and `OOMPolicy=continue` keeps an OOM kill in the cgroup from stopping the
   daemon. A git killed by any signal, or reporting that a process it started was killed (`died of
-  signal`), refuses the inspection instead of becoming a fact.
+  signal`, or a filter that failed with a status above 128), refuses the inspection instead of
+  becoming a fact; a helper other than a filter killed by SIGPIPE, SIGINT or SIGQUIT leaves no
+  report and cannot be told apart.
 - **Release assurance of an exact commit (1.3.0; private host roster, 1.5.0).** A version is
   published only after `scripts/release_gate.py` accepts the full assurance report of the tagged
   commit, produced in the same workflow run (`docs/release-process.md`). One roster
@@ -489,10 +491,12 @@ trust you place in WORLDLINE.
        store's location on the same device as far as the mount table can relate them, refuses,
        judged from the mount table before anything is written, whether or not the old store is
        visible to the relocating account; the old store's paths are resolved as far as that
-       account can see first (a symlinked home), and when they cannot be resolved at all, a copy
-       root on a bind mount of a directory refuses too (a btrfs subvolume mounted whole is not a
-       bind). Where the account can neither see nor locate the old store, a copy named by the old
-       store's own real path is left to the ownership checks.
+       account can see first (a symlinked home), and when they run through a directory it cannot
+       search, a copy root on a bind mount of a directory refuses too (a btrfs subvolume mounted
+       whole is not a bind). Where the account can neither see nor locate the old store (its path
+       unsearchable, or missing as behind a tmpfs over the home), a copy named by the old store's
+       own real path, or a view of it the mount table cannot relate, is left to the ownership
+       checks.
        On btrfs a held file with the same inode number in another subvolume of the same
        filesystem reads as a holder and refuses the relocation.
      - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and

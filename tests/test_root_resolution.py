@@ -484,18 +484,23 @@ class StatusReportsAnyRecaptureFailure(unittest.TestCase):
         self.assertEqual(meta["watchError"]["code"], "RECAPTURE_FAILED")
         self.assertIn("RecursionError", meta["watchError"]["message"])
 
-    def test_a_storage_failure_of_the_recapture_still_fails_status_by_name(self) -> None:
-        # Review of f50bbb1: a full disk had been answered DISK_FULL with its errno; the catch-all
-        # turned it into a successful status.
+    def test_a_storage_failure_of_the_recapture_keeps_its_name(self) -> None:
+        # Review of f50bbb1: a full disk had been answered DISK_FULL with its errno, and the
+        # catch-all renamed it RECAPTURE_FAILED; review of 0fa069c: failing the request instead
+        # left status unreadable while the store stayed dirty. It is recorded by its own name.
         from worldline.daemon import WorldlineDaemon
-        meta = {"dirty": True}
-        store = mock.Mock()
-        store.get_meta.side_effect = lambda key, default=None: meta.get(key, default)
-        store.set_meta.side_effect = lambda key, value: meta.__setitem__(key, value)
-        daemon = mock.Mock(store=store, _reconcile_status=mock.Mock(side_effect=OSError(28, "No space left on device")))
-        with self.assertRaises(OSError):
-            WorldlineDaemon._status(daemon, {}, None)
-        self.assertNotIn("watchError", meta)
+        for error, code in ((OSError(28, "No space left on device"), "DISK_FULL"),
+                            (PermissionError(13, "Permission denied", "/store/x"), "STORAGE_ERROR")):
+            with self.subTest(code=code):
+                meta = {"dirty": True}
+                store = mock.Mock()
+                store.get_meta.side_effect = lambda key, default=None: meta.get(key, default)
+                store.set_meta.side_effect = lambda key, value: meta.__setitem__(key, value)
+                daemon = mock.Mock(store=store, _reconcile_status=mock.Mock(side_effect=error))
+                daemon.publisher.publish.return_value = {"published": True}
+                self.assertEqual(WorldlineDaemon._status(daemon, {}, None), {"published": True})
+                self.assertEqual(meta["watchState"], "DEGRADED")
+                self.assertEqual(meta["watchError"]["code"], code)
 
 
 @unittest.skipIf(SUPPLEMENTARY_GID is None, "needs a supplementary group")
