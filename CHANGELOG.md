@@ -16,21 +16,28 @@ need revalidation before collapse, as after any release: the runtime changed.
   missing from the new store"), so such a store could not be relocated at all.
   - While planning, before anything is written, the relocation measures which retained worlds'
     payloads are absent from the copy. The relocation cannot lose what the old store does not
-    have, so such a payload is exempt only on evidence that the old store lacks it too, and the
-    basis is reported for each (`payloadsAbsentBeforeRelocation`): seen absent in the old store
-    (`absent-in-old-store`); attested absent by a caller who can see the old store when the
-    relocating account cannot (`attested-absent-in-old-store`, from `--absent-in-old-store FILE`,
-    a JSON list of instance ids); or a world that never received its identity (`never-created`:
-    finalization writes the payload before the identity). Each entry says whether the old store
-    could be checked. Verification does not require exempt payloads, and its verdict then reads
-    `PRESENT_EXCEPT_ABSENT_FROM_OLD_STORE`.
+    have, so such a payload is exempt only on positive evidence that the old store lacks it too,
+    and the basis is reported for each (`payloadsAbsentBeforeRelocation`): seen absent in the
+    old store (`absent-in-old-store`), which counts only when the old store is present at its
+    recorded path and is this store (its generations, a live link for each root its database
+    records, and a record of this world at this path) and the path is walked without following
+    a link to a component that does not exist; or attested absent by a caller who can see the
+    old store when the relocating account cannot (`attested-absent-in-old-store`, from
+    `--absent-in-old-store FILE`, a JSON list of instance ids; `-` reads it from standard
+    input, as a pipe from the operator delivers it). Each entry says whether the old store could be checked; the report counts the
+    attestation's ids, how many were used, lists unused ones and gives its SHA-256. Verification
+    does not require exempt payloads, and its verdict then reads
+    `PRESENT_EXCEPT_ABSENT_FROM_OLD_STORE`. The old store's database is opened immutable, so it is
+    never written.
   - Any other missing payload is a lost or incomplete copy: it is reported
     (`payloadsMissingFromCopy`, with the reason) and the real run refuses before writing
-    anything. World state decides nothing. The first candidate of this release exempted every
-    absent payload (review of `24b511d`: a VALID world's payload missing from the copy only was
-    relocated and reported present); the second exempted DEAD and DEGRADED worlds by state
-    (review of `3416f89`: a payload-less DEAD world is archived when a sibling collapses, and
-    then refused the whole store, and a DEGRADED payload lost by the copy passed unseen).
+    anything. Neither world state nor a missing identity is evidence. The candidates of this
+    release got this wrong three times: `24b511d` exempted every absent payload (a VALID
+    world's payload missing from the copy only was relocated and reported present); `3416f89`
+    decided by state (a payload-less DEAD world is archived when a sibling collapses and then
+    refused the whole store); `ac9f621` took a world without an identity as never created
+    (finalization writes the payload before the identity, so such a world may still have one)
+    and a missing path as seen absent even when the old store was not there at all.
   - A rerun on a copy whose rows were already rewritten exempts nothing, since a payload lost by
     the first run would otherwise read as absent: re-stage a fresh copy instead.
   - A payload that disappears after planning still refuses in verification.
@@ -43,6 +50,8 @@ need revalidation before collapse, as after any release: the runtime changed.
 - An attestation is trusted as given: a caller who attests that the old store lacks a payload it
   has makes the relocation accept that payload's absence from the copy. Proving the copy complete
   remains the migration's, as before.
+- The old store's database is read immutable: rows still only in its WAL (a running daemon's)
+  are not seen, and a world found only there is not evidence, so its missing payload refuses.
 - A world whose payload its own store lost stays recorded with its state; the relocation carries
   it as it is.
 

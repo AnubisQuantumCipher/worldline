@@ -789,12 +789,84 @@ class RelocateAStore(unittest.TestCase):
         self.assertEqual(attested["payloadsAbsentBeforeRelocation"]["sample"][0]["basis"], "attested-absent-in-old-store")
         self.assertEqual(attested["payloadsMissingFromCopy"]["count"], 0)
 
-    def test_a_world_that_never_received_its_identity_is_exempt_unseen(self) -> None:
+    def test_a_missing_identity_is_not_evidence(self) -> None:
+        # Review of ac9f621: finalization writes the payload before the identity, so a world whose
+        # finalization was interrupted has a payload and no identity; "never created" exempted a
+        # payload the old store still had.
         self._world_without_payload("sibling", "DEAD", old_too=False, identity=False)
         self._hide_old_data()
         planned = self.relocation().run(dry_run=True)
-        self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["sample"][0]["basis"], "never-created")
-        self.assertEqual(planned["payloadsMissingFromCopy"]["count"], 0)
+        self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["count"], 0)
+        self.assertIn("no evidence", planned["payloadsMissingFromCopy"]["sample"][0]["reason"])
+
+    def test_an_old_store_that_is_not_there_is_no_evidence(self) -> None:
+        # Review of ac9f621: with the old store moved away, or an empty directory at its path, a
+        # missing path read as "seen absent", and a VALID payload lost by the copy was relocated.
+        self._world_without_payload("sibling", "VALID", old_too=False)
+        for case in ("moved away", "empty directory"):
+            with self.subTest(case=case):
+                aside = self.old.data.with_name(self.old.data.name + ".aside")
+                os.rename(self.old.data, aside)
+                self.addCleanup(lambda aside=aside: (shutil.rmtree(self.old.data, True) if self.old.data.exists() and not any(self.old.data.iterdir()) else None, os.rename(aside, self.old.data) if aside.exists() else None))
+                if case == "empty directory":
+                    self.old.data.mkdir()
+                planned = self.relocation().run(dry_run=True)
+                self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["count"], 0)
+                self.assertEqual(planned["payloadsMissingFromCopy"]["count"], 1)
+                self.assertFalse(planned["payloadsMissingFromCopy"]["sample"][0]["oldStoreChecked"])
+                if case == "empty directory":
+                    self.old.data.rmdir()
+                os.rename(aside, self.old.data)
+
+    def test_a_link_on_the_old_payload_path_is_no_evidence(self) -> None:
+        # Only a component that does not exist, reached without following a link, is absence.
+        self._world_without_payload("sibling", "VALID")
+        connection = sqlite3.connect(f"file:{self.old.database}?mode=ro", uri=True)
+        try:
+            (payload,) = connection.execute("SELECT payload_path FROM worlds WHERE alias='sibling'").fetchone()
+        finally:
+            connection.close()
+        world_directory = Path(payload).parent
+        elsewhere = self.destination / "elsewhere"
+        elsewhere.mkdir()
+        _open_directories(world_directory)
+        shutil.rmtree(world_directory)
+        world_directory.symlink_to(elsewhere, target_is_directory=True)
+        planned = self.relocation().run(dry_run=True)
+        self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["count"], 0)
+        self.assertFalse(planned["payloadsMissingFromCopy"]["sample"][0]["oldStoreChecked"])
+
+    def test_the_attestation_is_accounted_for(self) -> None:
+        from worldline.relocate import main
+        self._world_without_payload("sibling", "DEGRADED", old_too=False)
+        self._hide_old_data()
+        planned = self.relocation().run(dry_run=True)
+        instance = planned["payloadsMissingFromCopy"]["sample"][0]["instanceId"]
+        attestation = self.destination / "attested.json"
+        attestation.write_text(json.dumps([instance, "not-a-world"]))
+        arguments = ["--from-data", str(self.old.data), "--from-state", str(self.old.state),
+                     "--to-data", str(self.new.data), "--to-state", str(self.new.state),
+                     "--absent-in-old-store", str(attestation), "--dry-run"]
+        output = []
+        with mock.patch("builtins.print", side_effect=lambda text, **kwargs: output.append(text)):
+            self.assertEqual(main(arguments), 0)
+        report = json.loads(output[0])["attestation"]
+        self.assertEqual(report["sha256"], hashlib.sha256(attestation.read_bytes()).hexdigest())
+        self.assertEqual((report["ids"], report["used"], report["unused"]), (2, 1, ["not-a-world"]))
+
+    def test_the_attestation_can_arrive_on_standard_input(self) -> None:
+        # Opening /dev/stdin reopens the pipe by path, which the relocating account may not do for
+        # a pipe the operator created (rehearsal of 1.7.2); `-` reads the open descriptor.
+        import io
+        from worldline.relocate import main
+        arguments = ["--from-data", str(self.old.data), "--from-state", str(self.old.state),
+                     "--to-data", str(self.new.data), "--to-state", str(self.new.state),
+                     "--absent-in-old-store", "-", "--dry-run"]
+        stdin = io.TextIOWrapper(io.BytesIO(b'["not-a-world"]'))
+        output = []
+        with mock.patch("sys.stdin", stdin), mock.patch("builtins.print", side_effect=lambda text, **kwargs: output.append(text)):
+            self.assertEqual(main(arguments), 0)
+        self.assertEqual(json.loads(output[0])["attestation"]["unused"], ["not-a-world"])
 
     def test_the_attestation_must_be_a_list_of_ids(self) -> None:
         from worldline.relocate import main
