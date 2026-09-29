@@ -3,7 +3,7 @@
 This document states plainly what WORLDLINE defends against, what it does not, and where its
 claims end. It is deliberately conservative: a guarantee is listed under "Holds" only if it was
 verified in code or demonstrated, and everything else is named as a limit rather than left
-implied. Last reviewed 2026-09-29, against release 1.7.2 (the audit of record is still
+implied. Last reviewed 2026-09-29, against release 1.7.3 (the audit of record is still
 `SECURITY-AUDIT-2026-09-02.md`; the adversarial reviews since then are summarized in
 `CHANGELOG.md`).
 
@@ -519,12 +519,20 @@ trust you place in WORLDLINE.
        content a client-mode daemon would refuse as it is in the copy.
    - Deployment requirements that WORLDLINE does not enforce (`worldline doctor` reports the
      ones it can observe under `clientMode.deployment`, each `OK`, `MISSING` or `UNKNOWN`):
-     - `RestrictSUIDSGID=yes` on the unit, and on the account's user manager (jobs run there);
+     - no `RestrictSUIDSGID=` on the unit or on the account's user manager (jobs run there): its
+       seccomp filter answers `openat2` with ENOSYS, and bubblewrap (0.13) then cannot build any
+       sandbox, so repository inspection, `simulate`, agents and checks all refuse (1.7.3; 1.7.0
+       to 1.7.2 recommended it). Setuid content is covered by the content check, which refuses
+       setuid and setgid bits in anything a client can reach, and by the `nosuid` store mount;
      - `MemoryMax=`, `MemorySwapMax=` and `TasksMax=` on the unit, which bound repository
        inspection (reported), and `OOMPolicy=continue`, so an OOM kill of inspection does not stop
        the daemon;
      - a `nosuid` store mount on the host, where clients reach PRIME (reported from PID 1's mount
-       table; the daemon's own namespace can show `nosuid` over a mount that is not);
+       table; the daemon's own namespace can show `nosuid` over a mount that is not), placed
+       outside the system roots `simulate` overlays (`/usr`, `/etc`, `/var`, `/opt`, `/boot`),
+       for example `/srv/<account>`: the kernel refuses an unprivileged overlay layer with a
+       mount beneath it, so a store mounted under `/var/lib` makes `simulate` fail for every
+       account on the host (1.7.3);
      - a client group disjoint from the daemon's group (named members are checked; accounts whose
        primary group is the client group are not listed anywhere the daemon can check);
      - `fs.protected_hardlinks=1` (reported). Without it a client can hard-link a PRIME file it
