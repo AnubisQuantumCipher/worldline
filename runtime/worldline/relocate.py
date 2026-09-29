@@ -226,9 +226,11 @@ class Relocation:
         return count, sample, undescended
 
     def _live_unsafe_for_clients(self) -> tuple[int, list[str]]:
-        """PRIME content a client-mode daemon would refuse at start (group or other write, or a
-        setuid, setgid or sticky bit): reported so a migration learns it before starting."""
-        flags = stat.S_IWGRP | stat.S_IWOTH | stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
+        """PRIME content a client-mode daemon would refuse at start (other write, or a setuid,
+        setgid or sticky bit): reported so a migration learns it before starting. Group-write
+        bits are not reported: they matter only on an entry of the client group, and this copy's
+        entries carry the account's own group."""
+        flags = stat.S_IWOTH | stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
         count = 0
         sample: list[str] = []
         live = self.new_data / "live"

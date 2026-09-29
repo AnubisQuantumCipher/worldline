@@ -42,7 +42,13 @@ class DaemonClient:
                 raise WorldlineError(
                     "DAEMON_PEER_UNEXPECTED",
                     f"worldlined socket is served by uid {peer_uid}, expected {expected_uid}")
-            connection.sendall(canonical_bytes(request) + b"\n")
+            try:
+                connection.sendall(canonical_bytes(request) + b"\n")
+            except (BrokenPipeError, ConnectionResetError):
+                # A daemon that refuses this peer answers and closes before reading anything;
+                # its refusal is already in our receive buffer, so read it instead of failing
+                # on the send. A daemon that closed without answering shows as DAEMON_DISCONNECTED.
+                pass
             stream = connection.makefile("rb")
             while True:
                 line = stream.readline()

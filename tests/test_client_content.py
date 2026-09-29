@@ -79,16 +79,28 @@ class ContentSafety(unittest.TestCase):
     def test_ordinary_modes_pass(self) -> None:
         self.paths.assert_client_safe(self.tree)
 
-    def test_group_or_other_write_and_special_bits_refuse(self) -> None:
-        cases = ((self.tree / "sub" / "file.txt", 0o664), (self.tree / "sub" / "file.txt", 0o646),
+    def test_other_write_and_special_bits_refuse(self) -> None:
+        cases = ((self.tree / "sub" / "file.txt", 0o646),
                  (self.tree / "sub" / "file.txt", 0o4755), (self.tree / "sub" / "file.txt", 0o2755),
-                 (self.tree / "sub", 0o1755), (self.tree / "sub", 0o777), (self.tree, 0o775))
+                 (self.tree / "sub", 0o1755), (self.tree / "sub", 0o777), (self.tree, 0o777))
         for path, mode in cases:
             with self.subTest(path=path.name, mode=oct(mode)):
                 os.chmod(path, mode)
                 details = self.refuses()
                 self.assertGreaterEqual(details["count"], 1)
                 os.chmod(path, 0o755 if path.is_dir() else 0o644)
+
+    def test_group_write_matters_only_for_the_client_group(self) -> None:
+        # A umask-002 host puts g+w on everything a world writes; that grants a client nothing
+        # while the entry carries the daemon's own group, which clients are never in.
+        file = self.tree / "sub" / "file.txt"
+        os.chmod(file, 0o664)
+        os.chmod(self.tree / "sub", 0o775)
+        self.paths.assert_client_safe(self.tree)
+        os.chown(file, -1, SUPPLEMENTARY_GID)   # now the client group could write it
+        details = self.refuses()
+        self.assertEqual(details["count"], 1)
+        self.assertIn(f"gid={SUPPLEMENTARY_GID}", details["entries"][0])
 
     def test_content_the_daemon_does_not_own_refuses(self) -> None:
         with mock.patch("worldline.paths.os.getuid", return_value=os.getuid() + 1):
@@ -151,7 +163,10 @@ class CollapseRefusesUnsafeContent(unittest.TestCase):
         fixture = self.fixture(_ORDINARY_AGENT)
         client = fixture.client
         self.assertEqual(client.request("fork", {"name": "ordinary", "mission": "m", "agent": "fixture", "wait": True})["state"], "VALID")
-        prepared = client.request("collapse.prepare", {"world": "ordinary"})
+        try:
+            prepared = client.request("collapse.prepare", {"world": "ordinary"})
+        except WorldlineError as exc:  # name the entries: a CI runner refused here without saying why
+            self.fail(f"{exc.code}: {exc.message} {exc.details}")
         client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
         self.assertEqual((fixture.work / "result.txt").read_text(), "ordinary\n")
         content = Path(os.path.realpath(fixture.work))

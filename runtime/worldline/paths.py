@@ -65,9 +65,17 @@ def _nested(first: Path, second: Path) -> bool:
     return False
 
 
-# Content a client can reach must be read-only to it: no group or other write, and no special
-# bits (a setuid or setgid file there would run as the daemon account for anyone who can reach it).
-_CLIENT_UNSAFE_MODE = stat.S_IWGRP | stat.S_IWOTH | stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
+# Content a client can reach must be read-only to it: no other-write bit, no group-write bit on
+# an entry whose group IS the client group, and no special bit (a setuid or setgid file there
+# would run as the daemon account for anyone who can reach it). A group-write bit on an entry of
+# the daemon's own group grants clients nothing, since a client in that group is refused, and
+# hosts with umask 002 put that bit on everything a world writes.
+_CLIENT_SPECIAL_BITS = stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
+
+
+def client_unsafe(mode: int, gid: int, client_gid: int) -> bool:
+    return bool(mode & stat.S_IWOTH or mode & _CLIENT_SPECIAL_BITS
+                or (mode & stat.S_IWGRP and gid == client_gid))
 
 
 def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None = None,
@@ -230,13 +238,14 @@ class WorldlinePaths:
         read-only to everyone else.
 
         Manifests record modes and materialization re-applies them, so a candidate chooses the
-        modes of the content it stages. A group- or world-writable directory there would let a
+        modes of the content it stages. A directory there that clients could write would let a
         client write PRIME directly, and the daemon would adopt the write as a new generation
         with no transaction. Refused instead: CLIENT_MODE_UNSAFE_CONTENT names the entries.
         """
         if self.client_gid is None:
             return
         uid = os.getuid()
+        client_gid = self.client_gid
         root = os.fsencode(directory)
         unsafe: list[str] = []
         unreadable: list[str] = []
@@ -245,8 +254,8 @@ class WorldlinePaths:
             info = os.lstat(path)
             if stat.S_ISLNK(info.st_mode):
                 return  # a link's own mode is meaningless; its target is inspected where it lies
-            if info.st_uid != uid or stat.S_IMODE(info.st_mode) & _CLIENT_UNSAFE_MODE:
-                unsafe.append(f"{stat.S_IMODE(info.st_mode):04o} uid={info.st_uid} "
+            if info.st_uid != uid or client_unsafe(stat.S_IMODE(info.st_mode), info.st_gid, client_gid):
+                unsafe.append(f"{stat.S_IMODE(info.st_mode):04o} uid={info.st_uid} gid={info.st_gid} "
                               f"{os.fsdecode(os.path.relpath(path, root))}")
 
         inspect(root)
@@ -256,8 +265,8 @@ class WorldlinePaths:
         if unsafe or unreadable:
             raise WorldlineError(
                 "CLIENT_MODE_UNSAFE_CONTENT",
-                "content a client can reach must be owned by the daemon and carry no group or other "
-                "write and no setuid, setgid or sticky bit",
+                "content a client can reach must be owned by the daemon, carry no other-write bit, "
+                "no group-write bit for the client group, and no setuid, setgid or sticky bit",
                 {"directory": os.fsdecode(root), "count": len(unsafe), "entries": unsafe[:50],
                  "unreadable": unreadable[:20]})
 
