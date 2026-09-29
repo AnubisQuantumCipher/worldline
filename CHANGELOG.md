@@ -8,6 +8,27 @@ write. Before this release, the daemon accepted only its own uid. It also resolv
 root through the operator's own link, so moving it to another account would have changed nothing
 that mattered.
 
+### Security: repository inspection could run commands on the host (every deployment)
+
+- WORLDLINE inspects repository roots with `git status` and `git diff`, host-side and outside
+  any sandbox. This happens at registration, at finalization of every world, at collapse prepare,
+  and at every capture of PRIME.
+- Earlier releases neutralized git's exec-capable settings with a `-c` denylist. No denylist can
+  name a filter driver: a repository defines `filter.<any name>.clean` in its own config and
+  applies it through `.gitattributes`.
+- A world whose agent wrote such a configuration could therefore run commands as the daemon's
+  account when the world was finalized. In a single-account install that is the operator, so the
+  command ran outside the sandbox the world was meant to be confined to. An independent review of
+  a 1.7.0 candidate demonstrated it.
+- Every git process now runs in its own bubblewrap sandbox:
+  - no network;
+  - the system directories read-only, and a fresh `/tmp`;
+  - nothing of the host except the inspected root (read-only) and a private scratch directory.
+- Git behaves exactly as before, so the captured repository facts do not change. Anything a
+  hostile configuration makes it run reaches nothing. The `-c` denylist stays as a second layer.
+- `tests/test_security_hardening.py` arms a repository with a filter, proves on the host that it
+  fires, and proves that inspection no longer lets it write anywhere.
+
 ### Managed roots resolve through the store (every deployment)
 
 - The following once read a root through `realpath(<registered path>)`, a symlink in a directory
@@ -16,9 +37,12 @@ that mattered.
   - `simulate`, `prune`, fork policy loading, service start and `why`.
 
   All of them now resolve the root's content through the store's own `live/<root key>`
-  mapping. The registered path must still link to exactly that mapping, and the mapping must
-  resolve inside the store. Anything else refuses with `LIVE_MAPPING_BROKEN`, the state the
-  doctor already called `BROKEN`.
+  mapping. The registered path must still link to that mapping's `<root key>` entry, and the
+  mapping must resolve inside the store. Anything else refuses with `LIVE_MAPPING_BROKEN`, the
+  state the doctor already called `BROKEN`.
+- The live directory is compared resolved. A HOME reached through a symlink, a doubled or
+  trailing slash, or a relative link therefore still routes; a link straight to a payload
+  does not.
 - With one account this closed nothing new. With a dedicated daemon, a client that re-pointed
   its `~/Projects/<root>` link could have:
   - had its own directory captured as PRIME with no collapse;
@@ -27,6 +51,8 @@ that mattered.
 
   An independent review demonstrated the first two.
 - `why` refuses paths containing `..`, and reads only inside the root.
+- `worldline doctor` reports a root `BROKEN` for exactly what captures refuse. Before, it could
+  say `OK` for a root whose live mapping resolved outside the store.
 - **Upgrade note:** a root whose registered path no longer links to its live mapping now refuses
   captures instead of silently adopting what is there. An interrupted `root remove` can leave
   such a root. `worldline doctor` lists it under `rootIntegrity`.
@@ -40,7 +66,9 @@ that mattered.
 
   The following also refuse with `INVALID_CLIENT_MODE`:
   - a runtime directory that overlaps data, state or config;
-  - a client group the daemon account is not a member of.
+  - a client group the daemon account is not a member of;
+  - a client uid whose primary group is the daemon's, or that is a member of it;
+  - a HOME or XDG directory spelled through a symlink (masks and the gate are applied by path).
 
   Without the variables, nothing changes: owner-only, `0600`.
 - With both set:
@@ -58,14 +86,19 @@ that mattered.
   - That also makes fork checkpoints, and the staged payloads of open transactions, reachable
     by name.
   - Manifests, state, worlds, overlays and config stay `0700`.
-  - At startup the daemon re-modes the current path, so a store written before client mode is
-    readable at once.
+  - The data directory is the gate to all of it. It is created closed (`0700`) and opened
+    (`0710`) only at daemon start, after the content check below. A store written before client
+    mode is therefore readable at once, but nothing unchecked ever is.
+  - Through daemon requests (`why`, `show`, `inspect`), clients see PRIME content whatever its
+    modes.
 - **Content a client can reach must be the daemon's and read-only to everyone else**
   (`CLIENT_MODE_UNSAFE_CONTENT`).
   - What is refused: an entry not owned by the daemon, any group or other write bit, and any
     setuid, setgid or sticky bit.
   - Where it is enforced: at collapse and return prepare (before a transaction exists), when a
-    generation is published, and at daemon start (before the path is opened).
+    generation is published, and at daemon start (before the gate opens). A directory the daemon
+    cannot read there refuses too. If publication finds live content unsafe while the daemon
+    runs, the gate closes and every client loses reach into the store.
   - Why: manifests record modes and materialization re-applies them, so a candidate chooses the
     modes of what it stages. An independent review demonstrated a world that opened its root
     0777. It became PRIME, a write into it was adopted as a new PRIME with no transaction, and
@@ -89,6 +122,9 @@ that mattered.
     spelling and by its resolved one.
   - `simulate`'s system overlays are now mounted before these masks. Mounted after them, as
     in an earlier candidate of this release, they covered the masks.
+  - A HOME spelled through a symlink is masked where it really is.
+  - The account's `XDG_*_HOME` variables are no longer passed in. They named directories inside
+    the masked HOME, so tools used their HOME-relative defaults instead.
   - Before, a store under `/var/lib` would have been readable, anchor signing key included.
     The private evaluator's roles never see `/var`.
 - The client checks the server's `SO_PEERCRED` before sending anything. It expects
@@ -106,20 +142,31 @@ that mattered.
   already placed at the new location, and never writes the old copy. It refuses in these cases:
   - it is run as root;
   - the copy holds entries its account does not own;
-  - a process it can see still has the copy's database open.
+  - a process it can see holds the copy's database open, compared by inode;
+  - the copy's database is a symlink or has other hard links (a linked copy would rewrite the
+    old store in place).
 
-  It plans every rewrite and raises every refusal before it writes anything. It rewrites exactly the
+  It plans every rewrite and raises every planning refusal before it writes anything. A dry run
+  plans against a private copy of the database, so it changes no byte of the store. It rewrites exactly the
   recorded locations:
   - six database location columns;
   - the transaction records;
   - the live and prepared mapping links.
 
-  It then proves the result:
+  It then proves the result, after writing:
   - no database column or daemon-read file still names the old store;
   - the causal and receipt chains replay;
   - every mapping and retained payload resolves inside the new store.
+
+  If that verification refuses, the copy is left rewritten and the old copy is still intact.
 - Some mentions of the old path are kept byte for byte and only counted: user content, hashed
-  records, agent output and the snapshots given to agents. A mention anywhere else refuses.
+  records, agent output, the snapshots given to agents, and the single-account installer's
+  `install-backups`. A mention anywhere else refuses.
+- The report also names PRIME content a client-mode daemon would refuse at start, and counts
+  directories it could not read (overlay work directories are `0000`), which it checks for
+  ownership without descending into them.
+- It ships in the release tree as `cli/worldline-relocate`. The installers do not put it on
+  `PATH`.
 - The operator's own root links are left for the migration to re-point.
 - Tested end to end: a store with two collapses is relocated and served by a fresh daemon. It
   reports the same PRIME, the same chain verification and a working fork and collapse, and the
@@ -149,12 +196,18 @@ that mattered.
 - In a dedicated deployment:
   - the daemon account needs search (`x`) permission on each directory above the registered
     root paths, to check that their links still route through the store;
-  - job supervision needs the account's own systemd user manager (lingering);
+  - job supervision needs the account's own systemd user manager (lingering), and the account
+    must be a regular uid, not a system one. journald keeps a user journal only for regular uids,
+    and supervision reads it; a system account's jobs would all be indeterminate;
+  - clients need search permission on every directory above the data and runtime directories;
   - agents run with that account's credentials, and WORLDLINE does not provide any;
   - there is no supported way to add a root: the daemon cannot move the operator's
     directories, and clients may not ask;
   - the unit should set `RestrictSUIDSGID=yes`, and the store should sit on a `nosuid` mount.
   `SECURITY.md` limit 7.
+- `simulate` runs a client's argv as the daemon account, in a sandbox that masks the store and
+  HOME but shares the host network under `network.policy: shared`.
+- Earlier PRIMEs' committed payloads stay readable by transaction id until `prune`.
 
 ## 1.6.0 — 2026-09-28 · stateful candidate leases
 

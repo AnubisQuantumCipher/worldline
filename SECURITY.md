@@ -86,7 +86,8 @@ report files are never admissible.
   - The daemon serves its own uid and the listed ones and refuses every other peer with
     `PEER_UID_MISMATCH`.
   - Clients can traverse to PRIME's content, but cannot list any store directory: the path to it
-    is `0710` with the group, and everything else stays `0700`.
+    is `0710` with the group, and everything else stays `0700`. The data directory is the gate: it
+    opens only at daemon start after the content check, and closes if content turns out unsafe.
   - Content they can reach must be owned by the daemon and carry no group or other write bit
     and no setuid, setgid or sticky bit (`CLIENT_MODE_UNSAFE_CONTENT`). This is checked at
     collapse and return prepare, when a generation is published, and at daemon start. A client
@@ -147,8 +148,12 @@ report files are never admissible.
   and it is the sandbox that stops one that tries. That escape was shown to fail inside the
   ordinary world/check sandbox, where user namespaces are disabled; this document does not
   extend the claim to the private evaluator's roles (limit 5).
-- **Host-side git inspection is hardened (1.0.1).** Registered repos are untrusted; git's
-  config-driven command execution is neutralized before inspection (see CHANGELOG 1.0.1).
+- **Repository inspection runs in a sandbox (1.7.0; hardened since 1.0.1).** Registered repos
+  and world repos are untrusted. Every host-side `git` process runs in its own bubblewrap
+  sandbox: no network, read-only system directories, and only the inspected root (read-only)
+  and a private scratch directory from the host. Anything a repository's configuration makes
+  git run, such as a filter driver, reaches nothing. Before 1.7.0 a `-c` denylist was the only
+  defence, and it could not name filter drivers; that list remains as a second layer.
 - **Release assurance of an exact commit (1.3.0; private host roster, 1.5.0).** A version is
   published only after `scripts/release_gate.py` accepts the full assurance report of the tagged
   commit, produced in the same workflow run (`docs/release-process.md`). One roster
@@ -412,8 +417,10 @@ trust you place in WORLDLINE.
      - fork checkpoints;
      - the staged payloads of open transactions, whose ids `transaction list` gives them.
 
-     The content's group is the daemon's primary group, which clients are never in, so a
-     `0600` or `0640` file stays unreadable to them. They cannot list any store directory, and
+     The content's group is the daemon's primary group, and a client in that group is refused, so
+     a `0600` or `0640` file stays unreadable to them directly. Through daemon requests (`why`,
+     `show`, `inspect`) they see PRIME content whatever its modes. Earlier PRIMEs' committed
+     payloads stay readable by id until `prune`. They cannot list any store directory, and
      reachable content refuses group or other write and special bits.
    - The routing check reads the registered root links. The daemon account therefore needs
      search permission on the directories above them, for example the operator's HOME. Without
@@ -428,9 +435,16 @@ trust you place in WORLDLINE.
      - It does not prove the copy is complete. The copy step (as root, for overlay work
        directories) and its comparison belong to the migration.
      - Its check for a process holding the database open sees only processes of its own uid.
+     - Directories it cannot read (overlay work directories are `0000`) are checked for ownership
+       but not descended; the report counts them.
    - Deployment requirements that WORLDLINE does not enforce:
-     - `RestrictSUIDSGID=yes` on the unit;
-     - a `nosuid` store mount.
+     - `RestrictSUIDSGID=yes` on the unit, and on the account's user manager (jobs run there);
+     - a `nosuid` store mount;
+     - a regular (non-system) uid for the account, so journald keeps its user journal, which job
+       supervision reads;
+     - search permission for clients above the data and runtime directories.
+   - `simulate` runs a client's argv as the daemon account, in a sandbox that masks the store and
+     HOME but shares the host network under `network.policy: shared`.
 
      There is no supported way to add a root in the dedicated layout.
 
