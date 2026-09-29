@@ -82,6 +82,53 @@ class GitConfigExecutionHardening(unittest.TestCase):
         self.assertTrue(self.marker_fsmonitor.exists(), "control did not fire; repo not armed")
 
 
+class GitFilterDriversAreContained(unittest.TestCase):
+    """A repository's own config can define `filter.<any name>.clean`, which `.gitattributes`
+    applies during `status` and `diff`. No `-c` denylist can name it (review of ff201cd, blocking:
+    a world's repository ran commands as the daemon account, host-side). Every git process now runs
+    in a bubblewrap sandbox with no network, the system directories read-only, and only the
+    inspected root (read-only) and a private scratch directory from the host."""
+
+    def setUp(self) -> None:
+        if subprocess.run(["git", "--version"], capture_output=True).returncode != 0:
+            self.skipTest("git is unavailable")
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-gitfilter-")
+        self.addCleanup(self.temporary.cleanup)
+        self.base = Path(self.temporary.name)
+        self.repo = self.base / "repo"
+        self.repo.mkdir()
+        git = lambda *args: subprocess.run(["git", "-C", str(self.repo), *args], check=True, capture_output=True)
+        git("init", "-q")
+        (self.repo / "f.txt").write_text("original\n", encoding="utf-8")
+        git("add", "f.txt")
+        git("-c", "user.email=a@b.c", "-c", "user.name=a", "commit", "-qm", "init")
+        self.marker = self.base / "HIT.filter"          # outside the inspected root
+        self.inside = self.repo / "HIT.inside-root"      # inside it, bound read-only
+        script = self.base / "filter.sh"
+        script.write_text(f"#!/bin/sh\ntouch {self.marker}\ntouch {self.inside}\ncat\n", encoding="utf-8")
+        script.chmod(0o755)
+        git("config", "filter.evil.clean", str(script))
+        git("config", "filter.evil.smudge", str(script))
+        (self.repo / ".gitattributes").write_text("* filter=evil\n", encoding="utf-8")
+        (self.repo / "f.txt").write_text("changed\n", encoding="utf-8")
+        # Racy stat data makes git re-read (and so re-filter) the file.
+        os.utime(self.repo / "f.txt", (1, 1))
+
+    def test_the_repository_is_genuinely_armed(self) -> None:
+        subprocess.run(["git", "-C", str(self.repo), "diff"], capture_output=True,
+                       env={"PATH": "/usr/bin:/bin", "HOME": str(self.base),
+                            "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_SYSTEM": os.devnull})
+        self.assertTrue(self.marker.exists(), "control did not fire; the filter is not armed")
+
+    def test_capture_runs_no_filter_on_the_host(self) -> None:
+        try:
+            GitAdapter(Core.shared()).capture(self.repo)
+        except WorldlineError:
+            pass  # a filter failing inside the sandbox may fail the inspection; that is fine
+        self.assertFalse(self.marker.exists(), "a repository filter wrote outside the sandbox")
+        self.assertFalse(self.inside.exists(), "a repository filter wrote into the inspected root")
+
+
 class AliasValidation(unittest.TestCase):
     def test_user_alias_rejects_reserved_and_hostile_names(self) -> None:
         for bad in ("PRIME", "prime-abc", "a\nb", "a\tb", "a\x7fb", "z" * 129):
