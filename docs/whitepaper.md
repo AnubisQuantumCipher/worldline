@@ -122,15 +122,19 @@ policy properties: the world state machine admits only the documented transition
 transaction state machine admits PREPARED → AUTHORIZED → COMMITTED and the abort/deny paths and
 nothing else; `collapse_decide` returns AUTHORIZED only when the candidate is VALID, has no
 conflicts and no foreign managed writes, and every identity the runtime hands it (parent,
-owner, base, delta, root set, staged root) matches its expectation.
+evidence subject, base, delta, root set, staged root) matches its expectation. Since 1.9.0 the
+request arrives as a flat byte record that a proved SPARK unit (`Worldline.Collapse_Wire`)
+validates and decodes: every identity is optional, every measurement is tri-state, and a
+malformed request is answered 255, never with a decision.
 
 ## 6.2 Collapse authorization
 
 Prepare computes, from fresh captures: the base manifests (the checkpoint the candidate was
 forked from), the current manifests (PRIME as it is now), and the candidate manifests; performs a
 three-way merge into a staged payload; records conflicts and contamination; and hashes every
-input. Commit re-captures PRIME and the staged payload, refuses if either moved
-(`PRIME_CHANGED_AFTER_PREPARE`, `STAGED_ROOT_MISMATCH`), and only then asks the kernel. The
+input. Commit re-captures PRIME and the staged payload, refuses if PRIME moved
+(`PRIME_CHANGED_AFTER_PREPARE`), and asks the kernel, which compares the staged tree with the
+capture prepare recorded (`STAGED_ROOT_MISMATCH`, decided in the kernel since 1.9.0). The
 kernel's parent check compares the parent identity the *store* knows against the candidate's
 claim; feeding the claim to both sides, as 1.0 did, made the check tautological.
 
@@ -144,10 +148,24 @@ evaluated. `Tested_Root` is the content identity of the bytes that evidence cove
 otherwise), and the postcondition states it. What the identities *contain* is the runtime's
 decision, in Python, and is not proved.
 
+Since 1.9.0 (typed absence) each identity domain is its own SPARK type with explicit presence,
+and two absent values are never equal: an identity the runtime could not establish is passed
+as absent, and `Decide` refuses it (`Identity_Absent`), where earlier releases passed a zero or
+sentinel digest that could compare equal to another. The measurements are tri-state
+(unmeasured, none found, found): conflicts; foreign managed writes (section 8.1); the PRIME
+watcher's generation before and after, whose difference is `Prime_Changed`; and the set of
+registered roots against the set actually watched, whose difference is `Watch_Incomplete`.
+Anything unmeasured is `Measurement_Absent`. The owner pair, one value passed on both sides, is
+retired; an evidence-subject pair takes its place, produced from the promotion's own arguments
+on one side and from the binding the speaking evaluation (or return vehicle) carries on the
+other. `Tested_Root` is what the candidate's evidence examined, never overwritten; when PRIME
+moved under the candidate, a staged-merge evaluation covers the staged bytes only if it ran the
+current requirement with a complete roster and the declared verifiers over exactly those bytes.
+
 ## 6.3 The proof gate
 
 `prove.sh` runs GNATprove at level 3 over every kernel unit and fails unless every check is
-proved with nothing assumed and nothing justified (130 checks as of 1.3.0; the count is read
+proved with nothing assumed and nothing justified (251 checks as of 1.9.0; the count is read
 from the gate's output, never typed). It writes
 `proof-manifest.json` with the library hash; the installer verifies the manifest before
 installing, and the runtime reports `invariantPreservation: PROVED` in a receipt only while the
@@ -156,8 +174,10 @@ x86_64 runner, which is also the portability check for the Mac Pro.
 
 ## 6.4 What is not proved
 
-The C/Python/QML boundary, the operating system, overlayfs, bubblewrap, systemd, SQLite, and
-the filesystem's behaviour under crash are outside the proof. Receipts list this under
+The C entry points (pointer dereference, exception handlers, hashing marshalling; the
+collapse request's decoding is proved since 1.9.0), the Python/QML boundary, the operating
+system, overlayfs, bubblewrap, systemd, SQLite, and the filesystem's behaviour under crash are
+outside the proof. Receipts list this under
 `boundary.notProved`. The runtime's honesty about its inputs is enforced by tests, fault
 injection (disk full, `kill -9` with a prepared transaction, hostile root contents), and the
 boundary suite, not by proof.
@@ -217,6 +237,16 @@ candidate changed and PRIME did not is taken from the candidate; a path both cha
 is a conflict; a path changed in PRIME by something other than a WORLDLINE commit is
 contamination. Conflicts and contamination are facts on the transaction, and the kernel denies
 a collapse that has either.
+
+Since 1.9.0 contamination is measured rather than assumed absent. Prepare and commit compare the
+component roots (filesystem, config, repository) of the capture of live PRIME they have just
+taken with the components the PRIME record states. A difference is a foreign managed write:
+the kernel refuses, the runtime records an `unaccounted-write` causal event and marks PRIME
+dirty, and the next status or prepare reconciles the change into its own PRIME generation, so a
+retry proceeds on a PRIME that records it. A PRIME record without those components is
+unmeasured, which the kernel also refuses. A write the watcher reported is reconciled before
+prepare and is not contamination; a write made and undone between two captures is not seen.
+Receipts state the measurement (`foreignWorldContamination.measuredBy`).
 
 ## 8.2 Prepare, commit, recover
 

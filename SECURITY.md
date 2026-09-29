@@ -361,22 +361,35 @@ trust you place in WORLDLINE.
    that the attacker cannot write. `anchor.exportPath` is unset by default.
 
 3. **"Proved" describes the kernel, not an attestation of the running system.** The SPARK proof
-   (`proof-manifest.json`: 130 checks, 0 unproved, 0 justified, 0 `pragma Assume`) covers the
-   kernel library: hashing, identity and link functions, the world and transaction state
-   machines, and the collapse decision. `Decide`'s postcondition makes `Authorized` equivalent to
-   a `VALID` candidate with no conflicts and no foreign managed writes whose every identity pair
-   agrees — parent, owner, base, delta, root set, staged root, validation context, tested and
-   staged content, and (1.5.0) complete execution evidence with equal expected and executed
-   verifier identities. The manifest's own boundary lists the C/Python/QML boundary and OS
-   syscalls and filesystem behaviour as not proved. Everything that decides *what* is hashed,
+   (`proof-manifest.json`: 251 checks, 0 unproved, 0 justified, 0 `pragma Assume`) covers the
+   kernel library: hashing, identity and link functions, the world, evaluation and transaction
+   state machines, the collapse decision, and (1.9.0) the decoding and validation of the collapse
+   request as it arrives over the C ABI. `Decide`'s postcondition makes `Authorized` exactly
+   equivalent to `All_Hold`: a `VALID` candidate; conflicts and foreign managed writes both
+   measured and none found; the PRIME watcher's generation unchanged across the decision and
+   every registered root watched; every identity pair present and equal — parent, evidence
+   subject, base, delta, root set, and at commit the staged root; and the evidence obligation of
+   the mode (a candidate evaluation against the current requirement, with a complete roster and
+   equal declared and executed verifier identities, or for a checkpoint return a witness equal
+   to the checkpoint), in both modes by evidence that examined exactly the bytes that would go
+   live. Since 1.9.0 each identity has its own type and explicit presence: two absent values are
+   never equal, and nothing absent or unmeasured is ever `Authorized`. The manifest's own
+   boundary lists the C entry points (pointer dereference, exception handlers, hashing
+   marshalling), the Python/QML boundary, and OS syscalls and filesystem behaviour as not proved. Everything that decides *what* is hashed,
    compared and enforced is Python, covered by tests rather than proof: manifests, requirement
    and content identities, what enters the execution-identity comparison, report collection and
    admission, resource admission, the sandbox, and the whole private evaluator — its namespace
    setup through `unshare`, `newuidmap`/`newgidmap`, bubblewrap and `setpriv` under systemd, the
    role observations, both brokers, the lease protocol and both copy protocols. The kernel proves
-   only that unequal identities are never `Authorized`; which values reach it is the runtime's
-   choice (the owner pair, for instance, is one computed value passed on both sides, so it
-   constrains nothing). Freshness is identity comparison, not re-execution — a `PASS`
+   only that unequal or absent identities are never `Authorized`; which values reach it is the
+   runtime's choice. 1.9.0 retired the owner pair, which was one computed value passed on both
+   sides and so constrained nothing; each remaining pair is produced from two different records,
+   named in the kernel's request comments, but a runtime that passed one value to both sides
+   would still satisfy the proof. Foreign managed writes are measured (1.9.0) by comparing a
+   capture of live PRIME with the components the PRIME record states: a write nothing reported is
+   refused, and marks PRIME for reconciliation. A write the watcher reported becomes a PRIME
+   generation rather than a foreign write, and a write made and undone between two captures is
+   not seen. Freshness is identity comparison, not re-execution — a `PASS`
    revalidation or staged validation is evidence about the bytes it names at the time it ran, in
    the same sandbox finalization uses, and stored contexts live in the same same-uid-writable
    store as everything else. Since 1.1.0 the transaction lifecycle (PREPARED → AUTHORIZED →

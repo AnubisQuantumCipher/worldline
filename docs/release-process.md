@@ -59,7 +59,7 @@ name (`scripts/release_gate.py`).
   stream carries one (claude: `init.model`, `modelUsage`; codex JSONL carries only a thread id).
   Neither is proof of what model answered.
 - **Python vs SPARK.** The kernel proves state-machine rules and equality verdicts over the
-  identities it is handed (130 checks, nothing assumed). Everything that decides *what* is
+  identities it is handed (251 checks as of 1.9.0, nothing assumed). Everything that decides *what* is
   hashed and compared — manifests, contexts, requirement identities, the exchange, the sandbox —
   is Python and is covered by tests, not proof.
 - **Local vs pushed vs merged vs tagged vs released.** A commit on a branch proves nothing about

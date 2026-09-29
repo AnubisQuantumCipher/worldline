@@ -1,5 +1,145 @@
 # Changelog
 
+## 1.9.0 — 2026-09-29 · typed absence and honest collapse inputs
+
+**The collapse decision no longer accepts a missing value as a matching one, and every input it
+consults is measured.** Each identity is its own SPARK type with explicit presence; two absent
+values are never equal, and nothing absent or unmeasured is ever authorized. Foreign managed
+writes, PRIME stability and watch coverage are measured and decided in the kernel. The request
+is decoded and validated by a proved SPARK unit instead of unproved C-boundary code. The
+requirements-to-contract table is in `docs/phase1-typed-absence.md`.
+
+### Upgrading
+
+- **Install the library and runtime together.** The collapse request is ABI generation 5. A
+  generation-4 library or runtime is refused at load, as in 1.8.0.
+- **No store migration.** The SQLite schema (`user_version` 2), every table and column, world
+  content identities, and the causal and receipt chain bytes are unchanged.
+- **Pending transactions.** A PREPARED or AUTHORIZED transaction does not survive a daemon
+  restart. At first start, recovery aborts it (`RECOVERED_BEFORE_COMMIT`), or finishes it when
+  the live marker shows its exchange already happened. Prepare again. A rollback does the same.
+- **Revalidate VALID worlds before collapse, as after every release.** The requirement identity
+  includes the engine version, runtime tree and kernel library, so every stored evaluation is
+  stale after an upgrade. The stricter evidence rules below therefore apply only to evidence
+  1.9.0 writes, and 1.9.0 revalidation writes it in the required form.
+- Worlds that are not VALID (ARCHIVED or COLLAPSED candidates) cannot be revalidated.
+  Re-applying them stays refused with EVIDENCE_STALE, as after any upgrade. Also unchanged:
+  - checkpoint returns to `prime-*` generations, witnessed as in 1.8.0, including the genesis
+    PRIME;
+  - pre-1.3 worlds are not promotable;
+  - pruned or payload-less worlds are refused (PAYLOAD_PRUNED / INCOMPLETE_WORLD).
+- **Upgrading directly from 1.7.3:** every 1.8.0 note also applies.
+  - A project with no `.worldline.json` cannot collapse.
+  - Pre-1.3 worlds are not promotable.
+  - A PRIME from before the last root was removed, and a COLLAPSED `return-*` that published a
+    generation, are no longer return points.
+- **New refusals:**
+  - **MEASUREMENT_ABSENT** — no PRIME watcher (inotify unavailable or no root mappable), or
+    conflicts or foreign writes could not be measured. 1.8.0 skipped the PRIME-stability guard
+    here. `fork` refuses PRIME_WATCH_UNAVAILABLE for the same reason.
+  - **WATCH_INCOMPLETE** — a registered root is not watched: a broken mapping, or its root
+    watch was lost. Repair the root (`doctor` lists it) or restart the daemon.
+  - **FOREIGN_MANAGED_WRITE** — live PRIME content differs from the PRIME record and the
+    watcher did not report it. The refusal marks PRIME dirty; the next status or prepare
+    records the change as a PRIME generation, and a retry proceeds.
+  - **PRIME_CHANGED** (the error code is still PRIME_CHANGED_DURING_CAPTURE) — PRIME changed
+    during prepare or commit. The window now covers the requirement read and the staged-merge
+    evaluation, and the refusal leaves a DENIED transaction record.
+  - **STAGED_UNTESTED**, now also in two new cases:
+    - the bytes a staged-merge evaluation examined differ from the staged bytes;
+    - a candidate whose declared finalization manifests are missing, where no staged
+      evaluation covers the result. 1.8.0 re-captured the candidate silently.
+  - **IDENTITY_ABSENT** — a required identity is missing from a world row or prepared record.
+    Only damaged or hand-edited stores produce it.
+  - **EVIDENCE_SUBJECT_MISMATCH** — the evaluation speaking for a world was bound to another
+    world (previously EVIDENCE_CONTEXT_INVALID "belongs to a different world", decided in
+    Python), or a return vehicle names another subject.
+  - **CHECKPOINT_MISMATCH** — a witness exists but disagrees. CHECKPOINT_UNWITNESSED now means
+    no witness.
+  - **REQUIREMENT_IDENTITY_UNAVAILABLE** — the kernel library or the resource policy cannot be
+    read, so no requirement can be stated. 1.8.0 hashed the unreadable value as null.
+  - For evidence written by 1.9.0:
+    - a policy-check record must state its profile;
+    - a check with no declared verifier must record that none executed;
+    - a record that ran an undeclared bundle does not match.
+- **Codes.** OWNER_MISMATCH (3) is never produced. Codes 15–20 are new. Consumers of the header
+  and the desktop plugin must learn them.
+- **Receipts.** `foreignWorldContamination.state` now reports a measurement, with
+  `measuredBy` and `measurement`. The receipt keys are otherwise unchanged. The evidence
+  binding's `stagedValidation` gains `examinedContentRoot`.
+- **Before installing,** run `worldline doctor --refresh` from the new release against a copy
+  of the store and read `promotionReadiness`. It lists pending transactions, the foreign-write
+  measurement, unwatched roots, and VALID worlds that cannot be revalidated (missing manifest,
+  payload or base).
+
+### Security: collapse inputs that were assumed, not measured (every deployment)
+
+Each defect below was reproduced on released 1.8.0 before it was fixed, by one script run
+against both trees (retained with the release evidence). On 1.8.0 every scenario was
+AUTHORIZED and COMMITTED; on 1.9.0 each is refused by the kernel with the decision named. The
+1.9.0 side is also tested end to end in `tests/test_typed_absence.py`.
+
+- **An unreported write into live PRIME went live under a receipt that denied it.** A file
+  written into a managed root with no watcher event was carried into the new PRIME, and the
+  receipt stated `foreignWorldContamination: NONE` with nothing measured. No PRIME generation
+  or causal event ever recorded the write. 1.9.0 refuses FOREIGN_MANAGED_WRITE, records an
+  `unaccounted-write` event, and reconciles the change into its own generation before a retry.
+- **No watcher meant no stability guard.** With no PRIME watcher (inotify unavailable, or no
+  root mappable), prepare and commit skipped the generation check and authorized. 1.9.0 refuses
+  MEASUREMENT_ABSENT.
+- **Partial watch coverage was invisible.** A watcher watching none of the registered roots
+  still authorized. 1.9.0 compares the registered roots with the roots actually watched and
+  refuses WATCH_INCOMPLETE.
+- **A missing declared manifest was silently re-captured as "tested".** With the candidate's
+  declared manifests gone, prepare captured whatever the payload held and treated it as the
+  bytes the evidence covered. 1.9.0 leaves the tested root absent: STAGED_UNTESTED unless a
+  staged evaluation covers the staged bytes.
+- **A staged PASS was trusted for bytes it never named.** After a staged-merge evaluation
+  passed, prepare set the tested root to the staged root, whatever that evaluation had
+  examined. 1.9.0 keeps the tested root as what the candidate's evidence examined; the kernel
+  accepts the staged bytes only if the staged evaluation ran the current requirement with a
+  complete roster and the declared verifiers over exactly those bytes.
+
+### Changed
+
+- The owner pair is retired: it was one computed value passed to both sides, so it constrained
+  nothing. An evidence-subject pair replaces it, produced from the promotion's own arguments on
+  one side and from the speaking evaluation's binding (or the return vehicle's mission hash) on
+  the other. The Python "belongs to a different world" check no longer decides promotion; the
+  structural and hash checks of a validation context stay.
+- The staged-root comparison at commit is the kernel's (STAGED_ROOT_MISMATCH with a DENIED
+  record); the Python pre-check is gone. At prepare the staged root is one observation and
+  equality is a commit obligation.
+- Commit refuses a prepared record written by an earlier runtime (TRANSACTION_RECORD_LEGACY),
+  and treats a record that does not state that conflicts were measured as unmeasured.
+- A conflicted merge records no staged root: null in the transaction record, the literal
+  `"absent"` in the store, never a zero digest.
+- Revalidation records the content root it examined before any check runs, and refuses
+  REVALIDATION_INPUT_CHANGED if the tree moved while the checks ran.
+- WORLDLINE's own agent and protected-paths records are declared by origin with no profile;
+  policy checks match only on an explicitly recorded profile.
+- `doctor` gains `promotionReadiness` (read-only): pending transactions, watch coverage, the
+  VALID-world census, and with `--refresh` the foreign-write measurement.
+- A kernel refusal at commit carries `details.decision`, `details.transactionId` and
+  `details.absentInputs`.
+
+### Proof and ABI
+
+- **Proof.** 251 checks proved, none justified, no `pragma Assume`; the floor rises from 156 to
+  251. `Worldline.Collapse_Wire.Decode` and `Decide_Wire` join the required proved subprograms.
+  `Decide`'s postcondition states that `Authorized` is exactly `All_Hold`, that nothing absent
+  or unmeasured is authorized, that OWNER_MISMATCH is never returned, and for every refusal
+  that what it names is actually the case. `Decide_Wire`'s postcondition states that a
+  malformed request is 255 and a well-formed one is exactly `Decide` of its decoding.
+- **ABI generation 5.** `wl_collapse_request` is a fresh all-`uint8_t` layout with no padding
+  or reserved bytes: seven scalar bytes, 25 optional hashes (`wl_optional_hash`) and two
+  optional counters (`wl_optional_counter`). `wl_layout_size` and `wl_layout_offset` report the
+  new record (selector 0) and the two optional records (selectors 4 and 5) by field name.
+- The kernel tests cover every decision code, each required identity absent on one side and on
+  both, both phases, the staged-evidence cases and the checkpoint cases; a 20000-iteration fuzz
+  run compares `Decide` with an independent oracle; the wire tests cover a null request and
+  each class of malformed encoding.
+
 ## 1.8.0 — 2026-09-29 · evaluation lifecycle authority
 
 **The proved core now decides whether a world's evaluation can promote it, and four ways to

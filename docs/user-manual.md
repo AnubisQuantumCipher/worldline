@@ -85,8 +85,8 @@ cd ~/Projects/worldline
 ```
 
 The installer refuses to install anything until the whole gate passes: it builds the Ada
-library, runs the Ada behaviour and fuzz executables, runs the runtime test suite (94 tests),
-runs the proof gate (130 checks, all proved, nothing assumed), and independently re-verifies the
+library, runs the Ada behaviour and fuzz executables, runs the runtime test suite, runs the
+proof gate (every check proved, nothing assumed; 251 checks as of 1.9.0), and independently re-verifies the
 proof manifest. It refuses to restart a daemon that is supervising running agent jobs
 (`WORLDLINE_FORCE=1` overrides). It then writes a backup, stages the runtime, library, launchers,
 service unit, and the plugin checkout, patches the shell bar and key bindings idempotently,
@@ -552,9 +552,11 @@ Every command accepts `--json`; exit `0` success, `1` a named error (`worldline:
 `INVALID_CANDIDATE`, `PRIME_CHANGED_DURING_CAPTURE`, `PRIME_CHANGED_AFTER_PREPARE`,
 `STAGED_ROOT_MISMATCH`, `PAYLOAD_INTEGRITY_FAILED`, `PAYLOAD_PRUNED`, `PRUNE_BLOCKED`,
 `EVIDENCE_STALE`, `EVIDENCE_CONTEXT_MISSING`, `EVIDENCE_CONTEXT_INVALID`,
-`VERIFIER_MODIFIED_BY_CANDIDATE`, `CANDIDATE_CHANGED_AFTER_PREPARE`, `TRANSACTION_RECORD_LEGACY`
-(kernel decisions `VALIDATION_CONTEXT_MISMATCH`, `STAGED_UNTESTED` arrive as `CONFLICT` /
-`EVIDENCE_STALE` with `details.decision`),
+`VERIFIER_MODIFIED_BY_CANDIDATE`, `CANDIDATE_CHANGED_AFTER_PREPARE`, `TRANSACTION_RECORD_LEGACY`,
+`PRIME_WATCH_UNAVAILABLE`, `REQUIREMENT_IDENTITY_UNAVAILABLE`
+(a kernel refusal at prepare arrives as `CONFLICT` with `details.decision`; at commit as the
+decision's own name, except `VALIDATION_CONTEXT_MISMATCH` → `EVIDENCE_STALE` and
+`PRIME_CHANGED` → `PRIME_CHANGED_DURING_CAPTURE`, which also carry `details.decision`),
 `ROOT_SET_BUSY`, `RETURN_POINT_INCOMPLETE`, `ADAPTER_UNAVAILABLE`, `ADAPTER_AUTH_UNAVAILABLE`,
 `TIMEOUT`, `USER_CANCELLED`, `DISK_FULL`, `STORAGE_ERROR`, `NETGUARD_UNAVAILABLE`,
 `UNSUPPORTED_SCHEMA`, `GHOSTS_DISABLED`, `SYSTEM_ROOT_COLLAPSE_UNSUPPORTED`,
@@ -562,6 +564,32 @@ Every command accepts `--json`; exit `0` success, `1` a named error (`worldline:
 the path; `details.keptAt`). A status whose re-capture failed without refusing reports
 `watchState: DEGRADED` with `watchError.code` `RECAPTURE_FAILED`, or `DISK_FULL` /
 `STORAGE_ERROR` (with the errno) for a storage failure.
+
+The kernel's decisions (`details.decision`), with the 1.9.0 additions last:
+
+| Decision | Meaning |
+| --- | --- |
+| `INVALID_CANDIDATE` | the candidate is not VALID |
+| `PARENT_MISMATCH`, `BASE_MISMATCH`, `DELTA_MISMATCH`, `ROOT_SET_MISMATCH` | an identity differs from what the store records |
+| `STAGED_ROOT_MISMATCH` | the staged tree changed between prepare and commit |
+| `CONFLICT` | the three-way merge found conflicting changes |
+| `FOREIGN_MANAGED_WRITE` | live PRIME differs from its record and nothing reported the write; PRIME is marked for reconciliation and a retry proceeds |
+| `VALIDATION_CONTEXT_MISMATCH` | the evidence ran a different requirement than PRIME imposes |
+| `STAGED_UNTESTED` | no evaluation examined exactly the bytes that would go live |
+| `EXECUTION_EVIDENCE_INCOMPLETE` | a required check, or the agent's own exit, is not admissible |
+| `VERIFIER_EXECUTION_IDENTITY_MISMATCH` | the verifiers that executed are not the declared ones |
+| `CHECKPOINT_UNWITNESSED` | a return target was never live PRIME (no witness) |
+| `IDENTITY_ABSENT` | a required identity is missing; `details.absentInputs` names it (damaged or hand-edited stores only) |
+| `MEASUREMENT_ABSENT` | no PRIME watcher, or conflicts or foreign writes could not be measured |
+| `PRIME_CHANGED` | PRIME's watcher generation moved during the decision |
+| `WATCH_INCOMPLETE` | a registered root is not being watched; `doctor` lists it |
+| `CHECKPOINT_MISMATCH` | a return target's witness disagrees with it |
+| `EVIDENCE_SUBJECT_MISMATCH` | the evaluation speaking for a world, or a return vehicle, is bound to another world |
+
+`OWNER_MISMATCH` (code 3) is retired and never produced. `doctor` reports
+`promotionReadiness`: pending transactions, watch coverage, every VALID world as fresh, needing
+revalidation, or not revalidatable (missing payload, base or declared manifest), and with
+`--refresh` the foreign-write measurement a prepare would take now.
 
 ## 10.3 Status document and daemon protocol
 
