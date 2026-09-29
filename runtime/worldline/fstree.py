@@ -10,6 +10,7 @@ shutil.rmtree's descriptor-based walk, which does not follow links either.
 """
 from __future__ import annotations
 
+import errno
 import os
 import shutil
 import stat
@@ -51,8 +52,10 @@ def grant_owner_access(path: str | bytes | os.PathLike) -> None:
             name = names.pop()
             try:
                 child = os.open(name, _PATH, dir_fd=fd)
-            except OSError:
-                continue  # gone, or replaced by something that is not a directory
+            except OSError as exc:
+                if exc.errno in (errno.ENOENT, errno.ENOTDIR, errno.ELOOP):
+                    continue  # gone, or replaced by something that is not a directory
+                raise  # out of descriptors or anything else: not the same as "gone" (review of 4490013)
             try:
                 children = _owner_accessible_children(child)
             except BaseException:

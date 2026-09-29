@@ -536,6 +536,58 @@ class RelocateAStore(unittest.TestCase):
             report = self.relocation().run(dry_run=True)
         self.assertEqual(report["mountsInsideCopy"], ["data/live"])
 
+    def test_a_real_bind_mount_inside_the_copy_refuses(self) -> None:
+        # Review of 4490013: a bind mount on the same filesystem has the same device number;
+        # the old store's `live` bound over the copy's got the old store rewritten.
+        bwrap = shutil.which("bwrap")
+        if bwrap is None:
+            self.skipTest("bwrap is required to make a mount without privileges")
+        old_live = _tree_digest(self.old.data / "live")
+        code = ("import sys; from worldline.relocate import main; "
+                "sys.exit(main(sys.argv[1:]))")
+        arguments = ["--from-data", str(self.old.data), "--from-state", str(self.old.state),
+                     "--to-data", str(self.new.data), "--to-state", str(self.new.state)]
+        result = subprocess.run(
+            [bwrap, "--dev-bind", "/", "/", "--bind", str(self.old.data / "live"), str(self.new.data / "live"),
+             "--", sys.executable, "-B", "-c", code, *arguments],
+            env={**os.environ, "PYTHONPATH": str(REPO / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"},
+            capture_output=True, timeout=120)
+        if b"No permissions to creating new namespace" in result.stderr or b"setting up uid map" in result.stderr:
+            self.skipTest("unprivileged user namespaces are not available")
+        self.assertEqual(result.returncode, 1, result.stderr.decode(errors="replace")[-2000:])
+        self.assertIn(b"data/live", result.stderr)
+        self.assertEqual(_tree_digest(self.old.data / "live"), old_live)
+
+    def test_a_work_directory_outside_the_overlay_layout_refuses(self) -> None:
+        # Review of 4490013: any unreadable `work/work` was exempt, even inside PRIME's content.
+        planted = self.copy_content() / "work" / "work"
+        planted.mkdir(parents=True)
+        os.chmod(planted, 0)
+        self.addCleanup(os.chmod, planted, 0o700)
+        report = self.relocation().run(dry_run=True)
+        self.assertEqual(len(report["unreadableDirectories"]), 1, report["unreadableDirectories"])
+
+    def test_a_link_named_like_the_database_is_still_checked(self) -> None:
+        journal = self.new.state / "worldline.sqlite3-journal"
+        journal.symlink_to(self.old.state / "worldline.sqlite3")
+        refused = self.relocation().run(dry_run=True)["refusedFiles"]
+        self.assertTrue(any("worldline.sqlite3-journal" in entry for entry in refused), refused)
+
+    def test_a_directory_at_the_lock_path_refuses_by_name(self) -> None:
+        lock = self.new.state / "worldlined.lock"
+        lock.unlink(missing_ok=True)   # the copy carries the fixture daemon's lock file
+        lock.mkdir()
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation().run()
+        self.assertIn("cannot be opened as a file", caught.exception.message)
+
+    def test_a_deeply_nested_record_is_refused_by_name(self) -> None:
+        from worldline.relocate import main
+        record = next(iter(sorted((self.new.state / "transactions").glob("*.json"))))
+        record.write_bytes(b"[" * 100000 + os.fsencode(self.old.data) + b"]" * 100000)
+        self.assertEqual(main(["--from-data", str(self.old.data), "--from-state", str(self.old.state),
+                               "--to-data", str(self.new.data), "--to-state", str(self.new.state), "--dry-run"]), 1)
+
     def test_revalidation_records_are_kept_and_other_meta_rows_refused(self) -> None:
         connection = sqlite3.connect(self.new.state / "worldline.sqlite3")
         try:

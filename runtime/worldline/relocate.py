@@ -43,8 +43,8 @@ from .canonical import atomic_write_json, canonical_bytes
 from .core import Core
 from .errors import WorldlineError
 from .model import NONTERMINAL_STATES
-from .paths import (LIVE_MARKER, WorldlinePaths, acquire_store_lock, store_lock_held_elsewhere,
-                    store_lock_intact, xattr_risks)
+from .paths import (LIVE_MARKER, WorldlinePaths, _unescape_mount_path, acquire_store_lock,
+                    store_lock_held_elsewhere, store_lock_intact, xattr_risks)
 
 # (table, column) pairs that hold a location in the store. Nothing else in the database may.
 LOCATION_COLUMNS = (
@@ -284,9 +284,29 @@ class Relocation:
         return sorted(holders)
 
     @staticmethod
-    def _overlay_work_directory(relative: tuple[str, ...]) -> bool:
-        """overlayfs makes `<workdir>/work` 0000; it holds only transient kernel state."""
-        return len(relative) >= 2 and relative[-1] == "work" and relative[-2] == "work"
+    def _overlay_work_directory(base: str, relative: tuple[str, ...]) -> bool:
+        """overlayfs makes `<workdir>/work` 0000; it holds only transient kernel state. Only the
+        layout the daemon makes, `overlays/<world>/<root key>/work/work`, qualifies: a 0000
+        `work/work` anywhere else (inside PRIME's content, say) is refused (review of 4490013)."""
+        return (base == "data" and len(relative) == 5 and relative[0] == "overlays"
+                and relative[3] == "work" and relative[4] == "work")
+
+    def _mounts_inside(self) -> list[str]:
+        """Mount points strictly inside the copy, from the mount table. A bind mount on the same
+        filesystem has the same device number, so comparing devices missed it and the relocation
+        rewrote the old store through it (review of 4490013)."""
+        roots = [(base, os.path.realpath(root)) for base, root in (("data", self.new_data), ("state", self.new_state))]
+        found: list[str] = []
+        with open("/proc/self/mountinfo", encoding="utf-8", errors="surrogateescape") as stream:
+            for line in stream:
+                fields = line.split()
+                if len(fields) < 5:
+                    continue
+                point = _unescape_mount_path(fields[4])
+                for base, root in roots:
+                    if point.startswith(root + os.sep):
+                        found.append(f"{base}/{os.path.relpath(point, root)}")
+        return sorted(set(found))
 
     def _walk_copy(self) -> dict[str, Any]:
         """Every entry of the copy, each once:
@@ -329,12 +349,13 @@ class Relocation:
                         continue  # a link is not descended; a mount point is already refused
                     if os.access(path, os.R_OK | os.X_OK):
                         readable.append(entry)
-                    elif self._overlay_work_directory(tuple(Path(os.path.relpath(path, root)).parts)):
+                    elif self._overlay_work_directory(base, tuple(Path(os.path.relpath(path, root)).parts)):
                         work_directories += 1
                     else:
                         unreadable.append(f"{base}/{os.path.relpath(path, root)}")
                 subdirectories[:] = readable
         linked_outside = [where for links, found, where in inodes.values() if found < links]
+        mounts = sorted(set(mounts) | set(self._mounts_inside()))
         return {
             "foreignOwned": {"count": foreign_count, "sample": foreign,
                              "overlayWorkDirectoriesNotDescended": work_directories},
@@ -447,8 +468,9 @@ class Relocation:
                 for name in files + directory_links:  # os.walk lists links to files among files
                     path = os.path.join(directory, name)
                     relative = tuple(Path(path).relative_to(root).parts)
-                    if base == "state" and len(relative) == 1 and relative[0] in _DATABASE_FILES:
-                        continue  # read through SQL, not as bytes
+                    if (base == "state" and len(relative) == 1 and relative[0] in _DATABASE_FILES
+                            and stat.S_ISREG(os.lstat(path).st_mode)):
+                        continue  # read through SQL, not as bytes; a link by that name is checked below
                     link = os.path.islink(path)
                     if link:
                         problem = self._link_problem(relative, base, path)
@@ -547,13 +569,19 @@ class Relocation:
         if os.geteuid() == 0:
             raise _refuse("run as the account that will own the store, not as root")
         if dry_run:
-            if store_lock_held_elsewhere(self.new_state):
+            try:
+                held = store_lock_held_elsewhere(self.new_state)
+            except WorldlineError as exc:
+                raise _refuse(exc.message) from exc
+            if held:
                 raise _refuse("the copy's store lock is held: a daemon is using the copy; stop it first")
             return self._run(dry_run=True, lock=None)
         try:
             lock = acquire_store_lock(self.new_state, holder="worldline-relocate", create_directory=False)
         except WorldlineError as exc:
-            raise _refuse(f"the copy's store lock is held: a daemon is using the copy; stop it first ({exc.message})") from exc
+            if exc.code == "DAEMON_ALREADY_RUNNING":
+                raise _refuse("the copy's store lock is held: a daemon is using the copy; stop it first") from exc
+            raise _refuse(exc.message) from exc
         try:
             return self._run(dry_run=False, lock=lock)
         finally:
@@ -715,7 +743,7 @@ def main(argv: list[str] | None = None) -> int:
     except WorldlineError as exc:
         print(json.dumps({"state": "REFUSED", **exc.as_dict()}, indent=2, sort_keys=True), file=sys.stderr)
         return 1
-    except (OSError, MemoryError, sqlite3.Error, ValueError) as exc:
+    except (OSError, MemoryError, RecursionError, sqlite3.Error, ValueError) as exc:
         # A corrupt database, a record that is not JSON, a vanished file: named, never a
         # traceback (review of 796cb02 found the first two escaping).
         refused = _refuse(f"relocation stopped: {exc.__class__.__name__}: {exc}")

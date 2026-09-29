@@ -138,6 +138,36 @@ class PruneNeverDeletesOutsideTheStore(unittest.TestCase):
         finally:
             fixture.close()
 
+    def test_a_world_with_any_directory_outside_the_store_keeps_all_of_them(self) -> None:
+        # Review of 4490013: the first directories were removed before a later one was refused,
+        # losing a payload without a record. Every directory is checked first now.
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+        try:
+            work, client, paths = fixture.work, fixture.client, fixture.paths
+            client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            shown = client.request("show", {"world": "archived"})
+            overlay = paths.overlays / shown["instance_id"]
+            self.assertTrue(overlay.is_dir())
+            payload = Path(shown["payload_path"])
+            outside = Path(fixture.temporary.name) / "outside-the-store"
+            parent_mode, payload_mode = payload.parent.stat().st_mode, payload.stat().st_mode
+            os.chmod(payload.parent, parent_mode | 0o700)
+            os.chmod(payload, payload_mode | 0o700)
+            os.rename(payload, outside)
+            os.chmod(outside, payload_mode)
+            payload.symlink_to(outside, target_is_directory=True)
+            os.chmod(payload.parent, parent_mode)
+            result = client.request("prune", {"dryRun": False, "confirmed": True})
+            self.assertNotIn("archived", result["pruned"])
+            self.assertTrue(overlay.is_dir())          # the directory inside the store was kept too
+            self.assertTrue(outside.is_dir())
+        finally:
+            fixture.close()
+
     def test_links_in_a_pruned_tree_are_never_followed(self) -> None:
         # Review of 796cb02: making each directory writable before removal followed links, so an
         # agent's upper layer with a link to PRIME's content (or anywhere the account owns) had

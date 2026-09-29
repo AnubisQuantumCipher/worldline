@@ -89,9 +89,10 @@ report files are never admissible.
     is `0710` with the group, and everything else stays `0700`. The data directory is the gate:
     it opens only at daemon start after the content check, and closes if content turns out unsafe
     while the daemon runs. Since 1.7.1 `worldlined` takes a lock in the store's state directory
-    before it builds anything and closes the gate once it is the store's only daemon, so a second
-    start neither touches a running daemon's gate nor writes its store, and a start that refuses,
-    or a daemon that fails, leaves the gate closed.
+    before it validates or builds anything and closes the gate once it is the store's only daemon,
+    so a second start neither touches a running daemon's gate nor writes its store, and a start or
+    configuration that refuses, or a daemon that fails in Python, leaves the gate closed. A daemon
+    killed outright leaves it as it was until the next start.
   - Content they can reach must be owned by the daemon and carry no other-write bit, no
     group-write bit outside the daemon's own group, no extended ACL (any `system.*acl*` xattr), no
     file capability (`security.capability`), and no setuid, setgid or sticky bit
@@ -177,7 +178,9 @@ report files are never admissible.
   Before 1.7.0 a `-c` denylist was the only defence, and it could not name filter drivers; that
   list remains as a second layer. Memory and tasks used inside the sandbox are charged to the
   daemon's cgroup: the shipped unit's `MemoryMax=4G`, `MemorySwapMax=0` and `TasksMax=4096` bound
-  them, and inspection runs with OOM score 1000 so the kernel kills it before the daemon.
+  them, inspection runs with OOM score 1000 (code a repository makes git run can lower it toward
+  the unit's floor), and `OOMPolicy=continue` keeps an OOM kill in the cgroup from stopping the
+  daemon. A git killed by any signal refuses the inspection instead of becoming a fact.
 - **Release assurance of an exact commit (1.3.0; private host roster, 1.5.0).** A version is
   published only after `scripts/release_gate.py` accepts the full assurance report of the tagged
   commit, produced in the same workflow run (`docs/release-process.md`). One roster

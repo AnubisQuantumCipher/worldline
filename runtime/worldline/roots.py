@@ -205,22 +205,18 @@ class RootManager:
                     target = os.fsencode(generation_payload / candidate.root_key)
                     live = os.fsencode(self.paths.live / candidate.root_key)
                     os.rename(candidate.raw_path, target)
-                    try:
-                        os.symlink(target, live)
-                        os.symlink(live, candidate.raw_path)
-                    except BaseException:
-                        if os.path.lexists(candidate.raw_path):
-                            os.unlink(candidate.raw_path)
-                        if os.path.lexists(live):
-                            os.unlink(live)
-                        os.rename(target, candidate.raw_path)
-                        raise
+                    # Recorded the moment it is in the store: anything after this that fails
+                    # (a link, a directory flush on a parent this account may write but not read)
+                    # is undone by the rollback, which moves it back (review of 4490013: a flush
+                    # that failed before this was recorded had the discard delete the only copy).
+                    moved.append((candidate, target, live))
+                    os.symlink(target, live)
+                    os.symlink(live, candidate.raw_path)
                     fsync_directory(Path(os.fsdecode(os.path.dirname(candidate.raw_path))))
                     fsync_directory(self.paths.live)
-                    moved.append((candidate, target, live))
         except BaseException:
             self._rollback_registration(moved)
-            self._discard_registration_generation(generation_payload, moved)
+            self._discard_registration_generation(generation_payload, moved, candidates)
             raise
 
         previous_primary = next((item["root_key"] for item in self.store.roots() if item["primary_root"]), None)
@@ -242,7 +238,7 @@ class RootManager:
                     )
         except BaseException:
             self._rollback_registration(moved)
-            self._discard_registration_generation(generation_payload, moved)
+            self._discard_registration_generation(generation_payload, moved, candidates)
             raise
 
         try:
@@ -260,16 +256,18 @@ class RootManager:
                 if previous_primary is not None:
                     connection.execute("UPDATE roots SET primary_root=1 WHERE root_key=?", (previous_primary,))
             self._rollback_registration(moved)
-            self._discard_registration_generation(generation_payload, moved)
+            self._discard_registration_generation(generation_payload, moved, candidates)
             raise
         return {"roots": summary, "prime": world.content_id, "generation": generation_id}
 
     @staticmethod
-    def _discard_registration_generation(generation_payload: Path, moved) -> None:
+    def _discard_registration_generation(generation_payload: Path, moved, candidates=()) -> None:
         """Remove a refused registration's generation only once every root it moved in has been
         moved back. A root still there is the operator's own directory, and the only copy of
-        it: the generation is kept, and the doctor reports it as unreferenced data."""
-        stranded = [os.fsdecode(target) for _candidate, target, _live in moved if os.path.lexists(target)]
+        it: the generation is kept, and the doctor reports it as unreferenced data. What is in
+        the payload decides, not only what was recorded as moved."""
+        keys = {candidate.root_key for candidate in candidates} | {candidate.root_key for candidate, _t, _l in moved}
+        stranded = [str(generation_payload / key) for key in sorted(keys) if os.path.lexists(generation_payload / key)]
         if stranded:
             _LOG.error("registration refused and could not move back %s; kept in %s",
                        ", ".join(stranded), generation_payload.parent)
@@ -278,9 +276,11 @@ class RootManager:
 
     def _rollback_registration(self, moved: Iterable[tuple[RootCandidate, bytes, bytes]]) -> None:
         for candidate, target, live in reversed(list(moved)):
-            if os.path.islink(candidate.raw_path):
+            # Only the links registration made are removed; anything else now at the operator's
+            # path is left, and the root then stays in the generation, which is kept.
+            if os.path.islink(candidate.raw_path) and os.readlink(candidate.raw_path) == live:
                 os.unlink(candidate.raw_path)
-            if os.path.lexists(live):
+            if os.path.islink(live) and os.readlink(live) == target:
                 os.unlink(live)
             if os.path.lexists(target) and not os.path.lexists(candidate.raw_path):
                 os.rename(target, candidate.raw_path)

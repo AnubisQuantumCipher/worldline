@@ -299,6 +299,74 @@ class RefusedRegistrationKeepsTheDirectory(unittest.TestCase):
             self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), gate_before)
 
 
+class RegistrationThatFailsMidwayKeepsTheDirectory(unittest.TestCase):
+    """Review of 4490013: a failure after the move but before it was recorded (a directory flush
+    on a parent the account may write but not read) had the discard delete the only copy."""
+
+    def test_a_flush_that_fails_after_the_move_leaves_the_directory_in_place(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="worldline-register-midway-") as temporary:
+            root = Path(temporary)
+            paths = WorldlinePaths.from_environment(environment(root))
+            store = StateStore(paths, Core.shared())
+            self.addCleanup(store.close)
+            project = root / "project"
+            project.mkdir()
+            (project / "README").write_text("the only copy\n")
+            with mock.patch("worldline.roots.fsync_directory", side_effect=PermissionError(13, "Permission denied")):
+                with self.assertRaises(PermissionError):
+                    RootManager(paths, store, core=Core.shared(), toolchains=()).register([project], confirmed=True)
+            self.assertTrue(project.is_dir() and not project.is_symlink())
+            self.assertEqual((project / "README").read_text(), "the only copy\n")
+            self.assertEqual(store.roots(), [])
+
+
+class MaterializationOfReadOnlyDirectories(unittest.TestCase):
+    """Review of 4490013: a directory created with its recorded 0555 could not receive its own
+    entries, so a root holding one could never be copied again."""
+
+    def test_a_read_only_directory_with_content_is_copied(self) -> None:
+        from worldline.manifest import Manifest
+        with tempfile.TemporaryDirectory(prefix="worldline-readonly-dir-") as temporary:
+            source = Path(temporary) / "source"
+            (source / "vendored").mkdir(parents=True)
+            (source / "vendored" / "lib.txt").write_text("vendored\n")
+            os.chmod(source / "vendored", 0o555)
+            copy = Path(temporary) / "copy"
+            try:
+                manifest = Manifest.capture(source, root_key="k" * 64, kind="filesystem", core=Core.shared())
+                Manifest.materialize(manifest, source, copy, core=Core.shared())
+                self.assertEqual((copy / "vendored" / "lib.txt").read_text(), "vendored\n")
+                self.assertEqual(stat.S_IMODE((copy / "vendored").stat().st_mode), 0o555)
+            finally:
+                for directory in (source / "vendored", copy / "vendored"):
+                    if directory.is_dir():
+                        os.chmod(directory, 0o755)
+
+
+class StoreLockRefusesWhatIsNotItsOwnFile(unittest.TestCase):
+    def test_a_directory_link_or_hard_link_at_the_lock_path_refuses_by_name(self) -> None:
+        from worldline.paths import acquire_store_lock
+        with tempfile.TemporaryDirectory(prefix="worldline-lockfile-") as temporary:
+            state = Path(temporary) / "state"
+            state.mkdir()
+            elsewhere = Path(temporary) / "other-store-lock"
+            elsewhere.write_text("4242 worldlined\n")
+            for make in ("directory", "symlink", "hardlink"):
+                with self.subTest(make=make):
+                    lock = state / "worldlined.lock"
+                    if make == "directory":
+                        lock.mkdir()
+                    elif make == "symlink":
+                        lock.symlink_to(elsewhere)
+                    else:
+                        os.link(elsewhere, lock)
+                    with self.assertRaises(WorldlineError) as caught:
+                        acquire_store_lock(state, holder="test", create_directory=False)
+                    self.assertEqual(caught.exception.code, "UNSAFE_STORE")
+                    self.assertEqual(elsewhere.read_text(), "4242 worldlined\n")  # never rewritten
+                    lock.rmdir() if make == "directory" else lock.unlink()
+
+
 @needs_supplementary
 class StartupOrdersTheGateAfterTheLock(unittest.TestCase):
     """Review of 796cb02: a second start closed a running daemon's gate before its lock refused
@@ -325,6 +393,20 @@ class StartupOrdersTheGateAfterTheLock(unittest.TestCase):
             self.assertIn(b"DAEMON_ALREADY_RUNNING", result.stderr)
             self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o710)
             self.assertFalse(paths.database.exists())      # nothing was built
+
+    def test_a_configuration_that_refuses_still_closes_the_gate(self) -> None:
+        # Review of 4490013: INVALID_CLIENT_MODE was raised before the store lock, so the gate a
+        # previous run opened stayed open while the unit kept failing.
+        with tempfile.TemporaryDirectory(prefix="worldline-refused-config-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()
+            broken = {**env, "WORLDLINE_CLIENT_UIDS": ""}   # client group without uids
+            result = self.daemon(broken)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"INVALID_CLIENT_MODE", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
 
     def test_a_start_that_refuses_after_the_lock_closes_the_gate(self) -> None:
         with tempfile.TemporaryDirectory(prefix="worldline-refused-start-") as temporary:
@@ -407,6 +489,23 @@ class DoctorReportsClientMode(unittest.TestCase):
         self.assertEqual(_host_mount_options("/var/lib/x/xdg-data/worldline", table.name)[1][:3], ["rw", "nosuid", "nodev"])
         self.assertEqual(_host_mount_options("/var/lib/xy", table.name)[0], "/")
         self.assertEqual(_host_mount_options("/var/lib/x y/z", table.name)[0], "/var/lib/x y")
+        # A mount covered by a later one is not the mount in use (review of 4490013): a nosuid
+        # mount at /var/lib/x, then a suid-capable one at /var/lib on top of the root.
+        with tempfile.NamedTemporaryFile("w", delete=False, dir=self.scratch()) as covered:
+            covered.write("32 2 253:0 / / rw,relatime shared:1 - ext4 /dev/vda rw\n"
+                          "90 32 253:0 /a /var/lib/x rw,nosuid,relatime shared:2 - ext4 /dev/vda rw\n"
+                          "95 32 253:0 /b /var/lib rw,relatime shared:3 - ext4 /dev/vda rw\n")
+        self.assertEqual(_host_mount_options("/var/lib/x/store", covered.name), ("/var/lib", ["rw", "relatime"]))
+
+    def test_nosuid_is_unknown_when_pid_1_is_not_the_hosts_init(self) -> None:
+        from worldline.paths import deployment_facts
+        real_read = Path.read_text
+
+        def read(self, *args, **kwargs):
+            return "python3\n" if str(self) == "/proc/1/comm" else real_read(self, *args, **kwargs)
+
+        with mock.patch.object(Path, "read_text", read):
+            self.assertEqual(deployment_facts(Path("/"))["storeNosuid"]["state"], "UNKNOWN")
 
     def scratch(self) -> str:
         directory = tempfile.mkdtemp(prefix="worldline-mounts-")

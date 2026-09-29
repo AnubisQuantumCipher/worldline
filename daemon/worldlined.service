@@ -18,6 +18,9 @@ UMask=0077
 MemoryMax=4G
 MemorySwapMax=0
 TasksMax=4096
+# An OOM kill inside this cgroup (inspection is the likely victim) must not stop the whole unit,
+# which is DefaultOOMPolicy=stop's behaviour; if the daemon itself is killed, Restart= applies.
+OOMPolicy=continue
 
 [Install]
 WantedBy=graphical-session.target

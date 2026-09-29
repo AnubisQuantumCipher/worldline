@@ -253,6 +253,18 @@ class GitSandboxLayout(unittest.TestCase):
                                capture_output=True, timeout=30)
         self.assertEqual(score.stdout.strip(), b"1000", score.stderr)
 
+    def test_a_git_killed_by_a_signal_is_not_a_fact(self) -> None:
+        # Review of 4490013: a child killed after launch (exit 137 in bwrap's report) was read by
+        # a check=False call such as `rev-parse --verify HEAD` as "no HEAD".
+        def killed(root, scratch, task_limit, status_fd=None):
+            return ["/bin/sh", "-c", f'printf "{{\\"exit-code\\": 137}}" >&{status_fd}; exit 137']
+
+        with mock.patch.object(GitAdapter, "_sandbox", side_effect=killed):
+            with self.assertRaises(WorldlineError) as caught:
+                GitAdapter(Core.shared())._run(os.fsencode(self.main), "rev-parse", "--verify", "HEAD", check=False)
+        self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
+        self.assertIn("signal 9", caught.exception.message)
+
     def test_git_outside_the_bound_directories_refuses_before_running(self) -> None:
         with mock.patch("worldline.linux.git.shutil.which", return_value="/opt/elsewhere/bin/git"):
             with self.assertRaises(WorldlineError) as caught:

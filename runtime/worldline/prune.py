@@ -146,34 +146,34 @@ class Pruner:
         removed_directories: list[str] = []
         pruned: list[str] = []
         failures: list[dict[str, str]] = []
+        store = os.path.realpath(self.paths.data)
         for entry in plan["worlds"]:
             world = self.store.world(entry["instanceId"])
-            refused = False
+            # Every directory is checked before any is removed: a world whose payload resolves
+            # outside the store keeps all of it, and stays retained (review of 4490013: removing
+            # the first directories before refusing a later one lost a payload without a record).
+            outside = [directory for directory in entry["directories"]
+                       if Path(directory).is_dir() and not os.path.realpath(directory).startswith(store + os.sep)]
+            if outside:
+                # A recorded location that resolves outside the store (a link planted in a copy,
+                # or a relocated store still pointing at its old home) is never deleted.
+                failures.extend({"path": directory, "error": f"resolves outside the store: {os.path.realpath(directory)}"}
+                                for directory in outside)
+                continue
+            partial: list[str] = []
             for directory in entry["directories"]:
                 path = Path(directory)
                 if not path.is_dir():
-                    continue
-                store = os.path.realpath(self.paths.data)
-                real = os.path.realpath(path)
-                if not real.startswith(store + os.sep):
-                    # A recorded location that resolves outside the store (a link planted in a
-                    # copy, or a relocated store still pointing at its old home) is never deleted.
-                    failures.append({"path": directory, "error": f"resolves outside the store: {real}"})
-                    refused = True
                     continue
                 size = _tree_bytes(path)
                 try:
                     _remove_tree(path)
                 except OSError as exc:
                     failures.append({"path": directory, "error": str(exc)})
-                    refused = True
+                    partial.append(directory)
                     continue
                 removed_bytes += size
                 removed_directories.append(directory)
-            if refused:
-                # Recorded as pruned only when every directory it owned is gone; the failures say
-                # why it was not (review of 796cb02: a refused directory was recorded as pruned).
-                continue
             for log_file in entry["logs"]:
                 try:
                     os.unlink(log_file)
@@ -181,15 +181,21 @@ class Pruner:
                     pass
                 except OSError as exc:
                     failures.append({"path": log_file, "error": str(exc)})
+            # A removal that failed part way still leaves the payload incomplete, so the world is
+            # recorded pruned; the event says which directories could not be removed.
             world.payload_pruned = True
             world.pruned_at = utc_now()
             self.store.save_world(world)
+            reason = f"payload pruned: {len(entry['directories'])} directories, {entry['bytes']} bytes"
+            if partial:
+                reason = (f"payload pruned in part: {len(entry['directories']) - len(partial)} of "
+                          f"{len(entry['directories'])} directories removed; not removed: {', '.join(partial)}")
             self.store.append_causal_event({
                 "schemaVersion": SCHEMA_VERSION,
                 "worldInstance": world.instance_id,
                 "kind": "prune",
                 "actor": "worldline",
-                "reason": f"payload pruned: {len(entry['directories'])} directories, {entry['bytes']} bytes",
+                "reason": reason,
             })
             pruned.append(world.alias)
         return {

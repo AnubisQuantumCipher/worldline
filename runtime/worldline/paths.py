@@ -95,11 +95,17 @@ def acquire_store_lock(state: Path, *, holder: str, create_directory: bool = Tru
     if create_directory:
         secure_directory(state)
     path = state / STORE_LOCK_NAME
-    descriptor = os.open(path, os.O_RDWR | os.O_CREAT | os.O_CLOEXEC | os.O_NOFOLLOW, 0o600)
+    try:
+        descriptor = os.open(path, os.O_RDWR | os.O_CREAT | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+    except OSError as exc:  # a link (ELOOP), a directory (EISDIR), not ours to open
+        raise WorldlineError("UNSAFE_STORE", f"the store lock cannot be opened as a file of its own: {path}: {exc}") from exc
     try:
         info = os.fstat(descriptor)
-        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid():
-            raise WorldlineError("UNSAFE_STORE", f"the store lock is not a regular file owned by uid {os.getuid()}: {path}")
+        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_nlink != 1:
+            # Checked before anything is written: a lock hard-linked into another store would
+            # otherwise be rewritten there (review of 4490013).
+            raise WorldlineError("UNSAFE_STORE",
+                                 f"the store lock is not a regular, unlinked-elsewhere file owned by uid {os.getuid()}: {path}")
         try:
             fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except OSError as exc:
@@ -118,9 +124,11 @@ def store_lock_held_elsewhere(state: Path) -> bool:
     """Whether another process holds the store lock, without creating or changing anything."""
     import fcntl
     try:
-        descriptor = os.open(state / STORE_LOCK_NAME, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
+        descriptor = os.open(state / STORE_LOCK_NAME, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
     except FileNotFoundError:
         return False
+    except OSError as exc:
+        raise WorldlineError("UNSAFE_STORE", f"the store lock cannot be read: {state / STORE_LOCK_NAME}: {exc}") from exc
     try:
         fcntl.flock(descriptor, fcntl.LOCK_SH | fcntl.LOCK_NB)
     except OSError:
@@ -128,6 +136,28 @@ def store_lock_held_elsewhere(state: Path) -> bool:
     finally:
         os.close(descriptor)
     return False
+
+
+def store_directories(env: Mapping[str, str] | None = None) -> tuple[Path, Path]:
+    """The store's data and state directories as WorldlinePaths.from_environment spells them,
+    without validating client mode: worldlined takes the store lock before it validates, so a
+    refused configuration can still close the gate (review of 4490013)."""
+    values = os.environ if env is None else env
+    home = _absolute(values.get("HOME", str(Path.home())))
+    data_home = _absolute(values.get("XDG_DATA_HOME", str(home / ".local/share")))
+    state_home = _absolute(values.get("XDG_STATE_HOME", str(home / ".local/state")))
+    return data_home / "worldline", state_home / "worldline"
+
+
+def close_gate_at(data: Path) -> None:
+    """Close a data directory to everyone but its owner, whatever mode configured it: 0700 on a
+    real directory this account owns. Closing only ever removes reach."""
+    try:
+        info = data.lstat()
+    except FileNotFoundError:
+        return
+    if stat.S_ISDIR(info.st_mode) and info.st_uid == os.getuid() and stat.S_IMODE(info.st_mode) != 0o700:
+        os.chmod(data, 0o700)
 
 
 def store_lock_intact(state: Path, descriptor: int) -> bool:
@@ -187,21 +217,36 @@ def _unescape_mount_path(field: str) -> str:
 
 
 def _host_mount_options(path: str, mountinfo: str = "/proc/1/mountinfo") -> tuple[str, list[str]]:
-    """The mount point and per-mount options of `path` as the host (PID 1's mount namespace)
-    has it mounted: the longest mount point containing it, the last one listed if stacked."""
-    best: tuple[str, list[str]] | None = None
+    """The mount holding `path` in PID 1's mount namespace, and its per-mount options.
+
+    Found by walking the mount tree from the root, following at each path prefix the mounts made
+    on the current one, the last one where several are stacked; a longest-prefix match took a
+    mount that a later one covered for the mount in use (review of 4490013)."""
+    entries: list[tuple[int, int, str, list[str]]] = []
     with open(mountinfo, encoding="utf-8", errors="surrogateescape") as stream:
         for line in stream:
             fields = line.split()
             if len(fields) < 6:
                 continue
-            point = _unescape_mount_path(fields[4])
-            inside = path == point or point == "/" or path.startswith(point.rstrip("/") + "/")
-            if inside and (best is None or len(point) >= len(best[0])):
-                best = (point, fields[5].split(","))
-    if best is None:
-        raise ValueError(f"no mount holds {path}")
-    return best
+            entries.append((int(fields[0]), int(fields[1]), _unescape_mount_path(fields[4]), fields[5].split(",")))
+    listed = {entry[0] for entry in entries}
+    roots = [entry for entry in entries if entry[2] == "/" and (entry[1] not in listed or entry[1] == entry[0])]
+    if not roots:
+        raise ValueError("the mount table has no root")
+
+    def on_top(current: tuple[int, int, str, list[str]], point: str) -> tuple[int, int, str, list[str]]:
+        while True:
+            covering = [entry for entry in entries if entry[1] == current[0] and entry[2] == point]
+            if not covering:
+                return current
+            current = covering[-1]
+
+    current = on_top(roots[-1], "/")
+    prefix = ""
+    for part in [part for part in path.split("/") if part]:
+        prefix += "/" + part
+        current = on_top(current, prefix)
+    return current[2], current[3]
 
 
 def deployment_facts(data: Path) -> dict[str, dict[str, Any]]:
@@ -224,11 +269,16 @@ def deployment_facts(data: Path) -> dict[str, dict[str, Any]]:
     except (OSError, ValueError) as exc:
         facts["protectedHardlinks"] = {"state": "UNKNOWN", "reason": str(exc)}
     try:
+        # PID 1 must be the host's init for its mount table to be the host's: under PrivatePIDs=
+        # or in a container, /proc/1 is this service's own namespace (review of 4490013).
+        init = Path("/proc/1/comm").read_text(encoding="utf-8").strip()
+        if os.getpid() == 1 or init != "systemd":
+            raise ValueError(f"PID 1 here is {init!r}, not the host's systemd")
         point, options = _host_mount_options(os.path.realpath(data))
         facts["storeNosuid"] = {"state": "OK" if "nosuid" in options else "MISSING", "mount": point,
                                 "view": "host (PID 1's mount table)"}
     except (OSError, ValueError) as exc:
-        facts["storeNosuid"] = {"state": "UNKNOWN", "reason": f"the host's mount table is not readable: {exc}"}
+        facts["storeNosuid"] = {"state": "UNKNOWN", "reason": f"the host's mount table cannot be read here: {exc}"}
     try:
         lines = Path("/proc/self/cgroup").read_text(encoding="utf-8").splitlines()
         unified = next(line[3:] for line in lines if line.startswith("0::"))
@@ -469,12 +519,7 @@ class WorldlinePaths:
         re-opens only after checking. A data directory that does not exist yet is created closed."""
         if self.client_gid is None:
             return
-        try:
-            info = self.data.lstat()
-        except FileNotFoundError:
-            return
-        if stat.S_ISDIR(info.st_mode) and info.st_uid == os.getuid():
-            os.chmod(self.data, 0o700)
+        close_gate_at(self.data)
 
     def share_live_chain(self) -> None:
         """Client mode: open the path to the CURRENT PRIME's content to the client group.
@@ -497,8 +542,10 @@ class WorldlinePaths:
                 raise WorldlineError("LIVE_MAPPING_BROKEN",
                                      f"live holds something other than mapping links: {mapping.name}")
             target = os.path.realpath(mapping)
-            if not target.startswith(store + os.sep) or not os.path.isdir(target):
-                raise WorldlineError("LIVE_MAPPING_BROKEN", f"live mapping does not resolve inside the store: {mapping.name}")
+            payload_areas = (os.path.join(store, "generations") + os.sep, os.path.join(store, "transactions") + os.sep)
+            if not target.startswith(payload_areas) or not os.path.isdir(target):
+                # The same rule as root_source: a mapping names a generation or transaction payload.
+                raise WorldlineError("LIVE_MAPPING_BROKEN", f"live mapping does not resolve to a payload in the store: {mapping.name}")
             self.assert_client_safe(target)
             parts = Path(target).relative_to(store).parts[:-1]
             current = Path(store)

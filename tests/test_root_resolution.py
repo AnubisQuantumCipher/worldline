@@ -270,6 +270,18 @@ class ClientModePrimeChainTests(_Registered):
         self.assertEqual(caught.exception.code, "LIVE_MAPPING_BROKEN")
         self.assertEqual(stat.S_IMODE(self.paths.data.stat().st_mode), 0o700)   # the gate stays shut
 
+    def test_a_mapping_must_name_a_payload(self) -> None:
+        # Review of 4490013: the start check accepted any directory inside the store as a
+        # mapping target while routing accepted payloads only.
+        live = self.paths.live / self.root["root_key"]
+        stray = self.paths.worlds / "not-a-payload"
+        stray.mkdir()
+        live.unlink()
+        live.symlink_to(stray)
+        with self.assertRaises(WorldlineError) as caught:
+            self.paths.share_live_chain()
+        self.assertEqual(caught.exception.code, "LIVE_MAPPING_BROKEN")
+
     def test_share_live_chain_opens_a_store_written_before_client_mode(self) -> None:
         source = Path(os.fsdecode(self.paths.root_source(self.root)))
         generation = source.parent.parent

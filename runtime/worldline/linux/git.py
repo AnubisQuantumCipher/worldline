@@ -230,6 +230,15 @@ class GitAdapter:
                 f"the repository sandbox did not start for {os.fsdecode(root)}",
                 {"stderr": result.stderr.decode("utf-8", "replace")[:2000]},
             )
+        if result.returncode > 128:
+            # Killed by a signal (the OOM killer, a task limit, a timeout), not a git answer: a
+            # `check=False` read such as `rev-parse --verify HEAD` must not record it as "no HEAD"
+            # (review of 4490013). git's own failures exit 128 or less.
+            raise WorldlineError(
+                "GIT_INSPECTION_FAILED",
+                f"git was stopped by signal {result.returncode - 128} while inspecting {os.fsdecode(root)}",
+                {"argv": list(args), "stderr": result.stderr.decode("utf-8", "replace")[:2000]},
+            )
         if check and result.returncode != 0:
             raise WorldlineError(
                 "GIT_INSPECTION_FAILED",

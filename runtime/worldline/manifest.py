@@ -348,7 +348,9 @@ class Manifest:
 
         for entry in directories:
             relative = path_from_b64(entry["pathB64"])
-            os.mkdir(os.path.join(destination, relative), mode=entry["mode"])
+            # Owner-writable while it is filled; the recorded mode is applied last, deepest first.
+            # Created with it, a 0555 directory could not receive its own entries (review of 4490013).
+            os.mkdir(os.path.join(destination, relative), mode=0o700)
 
         for entry in files:
             relative = path_from_b64(entry["pathB64"])
