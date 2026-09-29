@@ -1,5 +1,64 @@
 # Changelog
 
+## 1.7.2 — 2026-09-29 · relocating stores with payload-less worlds
+
+**Found by the rehearsal of the dedicated-account migration from the 1.7.1 release artifact, on
+a consistent copy of a production store.** No store migration is needed. Existing VALID worlds
+need revalidation before collapse, as after any release: the runtime changed.
+
+### Fixed
+
+- **`worldline-relocate` relocates a store that holds worlds without a payload.** The production
+  store under rehearsal had six retained worlds with no payload directory: two DEAD forks that
+  died before a payload existed, and four DEGRADED worlds whose payloads that store had itself
+  lost at some point (they have identities). 1.7.1's dry run said nothing about them, and its
+  real run rewrote the copy and then refused in verification ("retained world payloads are
+  missing from the new store"), so such a store could not be relocated at all.
+  - While planning, before anything is written, the relocation measures which retained worlds'
+    payloads are absent from the copy. The relocation cannot lose what the old store does not
+    have, so such a payload is exempt only on positive evidence that the old store lacks it too,
+    and the basis is reported for each (`payloadsAbsentBeforeRelocation`): seen absent in the
+    old store (`absent-in-old-store`), which counts only when the old store is present at its
+    recorded path and is this store (its generations, a live link for each root its database
+    records, at least one payload its database records seen present, and a record of this world
+    at this path) and the path is walked without following a link to a component that does not
+    exist; or attested absent by a caller who can see the
+    old store when the relocating account cannot (`attested-absent-in-old-store`, from
+    `--absent-in-old-store FILE`, a JSON list of instance ids; `-` reads it from standard
+    input, as a pipe from the operator delivers it). Each entry says whether the old store could be checked; the report counts the
+    attestation's ids, how many were used, lists unused ones and gives its SHA-256; a world
+    that cannot be exempted says why (the old store is not there, is not this store, cannot be
+    read, or does not record the world at that path). Verification
+    does not require exempt payloads, and its verdict then reads
+    `PRESENT_EXCEPT_ABSENT_FROM_OLD_STORE`. The old store's database is opened immutable, so it is
+    never written.
+  - Any other missing payload is a lost or incomplete copy: it is reported
+    (`payloadsMissingFromCopy`, with the reason) and the real run refuses before writing
+    anything. Neither world state nor a missing identity is evidence. The candidates of this
+    release got this wrong three times: `24b511d` exempted every absent payload (a VALID
+    world's payload missing from the copy only was relocated and reported present); `3416f89`
+    decided by state (a payload-less DEAD world is archived when a sibling collapses and then
+    refused the whole store); `ac9f621` took a world without an identity as never created
+    (finalization writes the payload before the identity, so such a world may still have one)
+    and a missing path as seen absent even when the old store was not there at all.
+  - A rerun on a copy whose rows were already rewritten exempts nothing, since a payload lost by
+    the first run would otherwise read as absent: re-stage a fresh copy instead.
+  - A payload that disappears after planning still refuses in verification.
+  - Reports list the first 50 worlds of each kind and count them all.
+  - A store that predates `payload_pruned` (schema 1) is read, not refused with an
+    `OperationalError`.
+
+### Known limits
+
+- An attestation is trusted as given: a caller who attests that the old store lacks a payload it
+  has makes the relocation accept that payload's absence from the copy. Proving the copy complete
+  remains the migration's, as before.
+- The old store's database is read immutable: rows or updates still only in its WAL (a running
+  daemon's) are not seen. A world found only there is not evidence, so its missing payload
+  refuses; a stale path is compared as recorded.
+- A world whose payload its own store lost stays recorded with its state; the relocation carries
+  it as it is.
+
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 
 **An independent review of 1.7.0 (commit ad64cd2) and a rehearsal of the dedicated-account

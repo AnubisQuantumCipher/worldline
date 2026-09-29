@@ -9,7 +9,11 @@ old prefixes to the new ones and proves the result:
 
 - every row of the six location columns lies under the new prefixes;
 - the live mapping and every prepared mapping resolve inside the new store, and every retained
-  world payload exists there;
+  world payload that was in the copy before relocation exists there. A payload absent from the
+  copy is exempt only on positive evidence that the old store lacks it too: seen absent in the
+  old store (which must be present at its recorded path and record this world there), or
+  attested absent by the caller (`--absent-in-old-store`); any other missing payload refuses
+  before anything is written;
 - the causal and receipt chains replay through the proved kernel;
 - nothing the daemon dereferences still names the old store. Any other mention of an old prefix
   is classified. Content (payload trees, world upper layers), hashed records (causal events,
@@ -22,12 +26,15 @@ The old copy is never opened for writing. Rolling back is starting the old daemo
 Run it as the account that will own the store (never root), on a copy that account already owns,
 with no daemon serving it: each is checked, and every rewrite is planned and every planning refusal
 raised before anything is written. The final verification (chains, mappings, payloads) runs after
-the writes; if it refuses, the copy stays rewritten, the old copy is intact, and a rerun is safe. It does not re-point the operator's root links; `worldline doctor`
+the writes; if it refuses, the copy stays rewritten and the old copy is intact. A rerun on that
+copy is safe, but exempts no missing payload: re-stage a fresh copy to relocate a store that holds
+worlds without a payload. It does not re-point the operator's root links; `worldline doctor`
 (rootIntegrity) shows them once the daemon runs.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -159,8 +166,11 @@ def _refuse(message: str, details: dict[str, Any] | None = None) -> WorldlineErr
 
 class Relocation:
     def __init__(self, *, old_data: Path, old_state: Path, new_data: Path, new_state: Path,
-                 core: Core | None = None) -> None:
+                 core: Core | None = None, absent_in_old_store: frozenset[str] = frozenset()) -> None:
         self.core = core or Core.shared()
+        # Instance ids the caller, who can see the old store, attests have no payload there.
+        self.absent_in_old_store = frozenset(absent_in_old_store)
+        self.attestation_sha256: str | None = None
         for name, value in (("old data", old_data), ("old state", old_state),
                             ("new data", new_data), ("new state", new_state)):
             if not value.is_absolute() or os.path.normpath(value) != str(value):
@@ -261,7 +271,8 @@ class Relocation:
 
     def _map(self, value: bytes, where: str) -> bytes:
         """The new location for a stored one. Already-new values are accepted, so a run that
-        stopped part way through can be repeated."""
+        stopped part way through can be repeated, except that a rerun exempts no missing payload
+        (`_payloads_absent`): on a store with such worlds, re-stage a fresh copy instead."""
         for old, new in zip(self.old, self.new):
             if value == old or value.startswith(old + b"/"):
                 mapped = new + value[len(old):]
@@ -274,6 +285,124 @@ class Relocation:
                       {"value": os.fsdecode(value)})
 
     # -- the three kinds of persisted location
+
+    def _old_store_records(self) -> tuple[dict[str, str] | None, str]:
+        """The old store's own record of each world's payload path, and why not when it cannot be
+        had: this account cannot read the old store, or the old data directory is not that store.
+        Absence in the old store is only evidence when the old store is there and is this store:
+        a store moved away, restored elsewhere or replaced by an empty directory read as "seen
+        absent" (review of ac9f621). The data directory must hold the store's generations, a live
+        mapping link for every root its database records, and at least one payload its database
+        records, seen present (review of 8df92a1: with no roots, a directory holding only
+        `generations/` passed). The database is opened immutable, because a read-only open of a
+        WAL database creates its -shm file and the old store is never written; rows or updates
+        still only in its WAL are not seen, and a world not recorded at this path is no evidence."""
+        data = os.fsdecode(self.old[0])
+        database = os.path.join(os.fsdecode(self.old[1]), "worldline.sqlite3")
+        try:
+            if not stat.S_ISDIR(os.lstat(data).st_mode):
+                return None, "the old data directory is not a directory"
+            if not stat.S_ISREG(os.lstat(database).st_mode):
+                return None, "the old store's database is not a file"
+        except FileNotFoundError:
+            return None, "the old store is not at its recorded path"
+        except OSError as exc:
+            return None, f"this account cannot read the old store ({exc.strerror})"
+        if not os.path.isdir(os.path.join(data, "generations")):
+            return None, "the old data directory holds no generations: it is not this store"
+        try:
+            connection = sqlite3.connect(f"file:{database}?mode=ro&immutable=1", uri=True)
+        except sqlite3.Error as exc:
+            return None, f"the old store's database cannot be read ({exc})"
+        try:
+            roots = [key for (key,) in connection.execute("SELECT root_key FROM roots")]
+            records = {instance: path for instance, path in connection.execute("SELECT instance_id, payload_path FROM worlds")}
+        except sqlite3.Error as exc:
+            return None, f"the old store's database cannot be read ({exc})"
+        finally:
+            connection.close()
+        if not all(os.path.islink(os.path.join(data, "live", key)) for key in roots):
+            return None, "the old data directory lacks a live mapping its database records: it is not this store"
+        if not any(self._old_store_has(path) for path in records.values()):
+            return None, "no payload the old store's database records is present there: it is not this store"
+        return records, ""
+
+    def _old_store_has(self, payload: str) -> bool | None:
+        """Whether the old store holds this payload directory: True, False, or None when this
+        account cannot tell. Walked one component at a time below the old data directory without
+        following links: only a component that does not exist is evidence of absence; a link, a
+        component this account cannot search, or any other error is not."""
+        root = os.fsdecode(self.old[0]).rstrip("/")
+        if not payload.startswith(root + "/"):
+            return None
+        current = root
+        for part in payload[len(root) + 1:].split("/"):
+            current = f"{current}/{part}"
+            try:
+                info = os.lstat(current)
+            except FileNotFoundError:
+                return False
+            except OSError:
+                return None
+            if stat.S_ISLNK(info.st_mode):
+                return None
+            if not stat.S_ISDIR(info.st_mode):
+                return None
+        return True
+
+    def _payloads_absent(self, connection: sqlite3.Connection) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+        """Retained worlds whose payload is not in the copy, measured before anything is rewritten:
+        (exempt, missing). The relocation cannot lose what the old store does not have, so such a
+        payload is exempt only on positive evidence that the old store lacks it too, and the
+        basis is reported: seen absent in the old store, which is present at its recorded path
+        and records this world with this payload (`absent-in-old-store`); or attested absent by a
+        caller who can see the old store when this account cannot
+        (`attested-absent-in-old-store`). A production store had six such worlds: two forks that
+        died before a payload existed, and four DEGRADED worlds whose payloads that store had
+        lost (rehearsal of 1.7.1). Neither world state nor a missing identity is evidence: a
+        payload-less DEAD world is archived when a sibling collapses (review of 3416f89), and
+        finalization writes the payload before the identity, so a world without one may still
+        have a payload (review of ac9f621). Any other missing payload is a lost or incomplete copy
+        and refuses while planning. On a rerun (the copy's rows already name the new store)
+        nothing is exempt, since a payload the first run lost would read as absent."""
+        columns = {row[1] for row in connection.execute("PRAGMA table_info(worlds)")}
+        query = "SELECT instance_id, alias, state, payload_path FROM worlds"
+        if "payload_pruned" in columns:   # absent from a store that never ran 1.2.0 or later
+            query += " WHERE payload_pruned=0"
+        new_data = str(self.new_data).rstrip("/") + "/"
+        exempt: list[dict[str, Any]] = []
+        missing: list[dict[str, Any]] = []
+        rows = connection.execute(query + " ORDER BY rowid").fetchall()
+        # What the copy's own rows say, lexically: a row already naming the new store was rewritten.
+        rerun = any(payload.startswith(new_data) for _i, _a, _s, payload in rows)
+        old_records, unseen = (None, "") if rerun else self._old_store_records()
+        for instance, alias, state, payload in rows:
+            mapped = os.fsdecode(self._map(os.fsencode(payload), "worlds.payload_path"))
+            if os.path.isdir(mapped):
+                continue
+            entry: dict[str, Any] = {"instanceId": instance, "alias": alias, "state": state}
+            in_old = None
+            why = unseen
+            if old_records is not None:
+                if old_records.get(instance) != payload:
+                    why = "the old store does not record this world at this path"
+                else:
+                    in_old = self._old_store_has(payload)
+                    why = "" if in_old is not None else "a directory on the way is a link or cannot be searched"
+            entry["oldStoreChecked"] = in_old is not None
+            if rerun:
+                entry["reason"] = "rerun on a rewritten copy"
+            elif in_old:
+                entry["reason"] = "present in the old store"
+            elif in_old is False:
+                entry["basis"] = "absent-in-old-store"
+            elif instance in self.absent_in_old_store:
+                entry["basis"] = "attested-absent-in-old-store"
+            else:
+                entry["reason"] = (f"no evidence that the old store lacks it ({why}), and no caller attested it "
+                                   "(--absent-in-old-store)")
+            (exempt if "basis" in entry else missing).append(entry)
+        return exempt, missing
 
     def _plan_database(self, connection: sqlite3.Connection) -> list[tuple[str, str, int, str]]:
         """Every location row's new value, computed (and refused) before anything is written."""
@@ -843,6 +972,8 @@ class Relocation:
             record_columns = self._scan_database(connection, skip_locations=True, records=True)
             found, refused = self._scan()
             walk = self._walk_copy()
+            absent, lost = self._payloads_absent(connection)
+            used = {item["instanceId"] for item in absent if item["basis"] == "attested-absent-in-old-store"}
             unsafe, unsafe_sample = self._live_unsafe_for_clients()
             report = {
                 "locationRows": {f"{table}.{column}": sum(1 for row in database_plan if row[:2] == (table, column))
@@ -852,6 +983,10 @@ class Relocation:
                 "recordColumnsKept": record_columns,
                 **walk,
                 "liveContentUnsafeForClients": {"count": unsafe, "sample": unsafe_sample},
+                "payloadsAbsentBeforeRelocation": {"count": len(absent), "sample": absent[:50]},
+                "payloadsMissingFromCopy": {"count": len(lost), "sample": lost[:50]},
+                "attestation": {"sha256": self.attestation_sha256, "ids": len(self.absent_in_old_store),
+                                "used": len(used), "unused": sorted(self.absent_in_old_store - used)[:50]},
             }
             if dry_run:
                 connection.execute("ROLLBACK")
@@ -862,6 +997,10 @@ class Relocation:
                 raise _refuse("the copy names the old store where it cannot be rewritten, holds entries "
                               "its account does not own, holds a mount, a file linked outside it or a "
                               "directory it cannot read", report)
+            if lost:
+                # Before anything is written (review of 24b511d: a VALID world's payload missing from
+                # the copy was relocated and reported PRESENT).
+                raise _refuse("retained world payloads are missing from the copy", report["payloadsMissingFromCopy"])
             self._lock_still_held(lock)
             for table, column, rowid, mapped in database_plan:
                 connection.execute(f"UPDATE {table} SET {column}=? WHERE rowid=?", (mapped, rowid))
@@ -874,7 +1013,8 @@ class Relocation:
         finally:
             if scratch is not None:
                 shutil.rmtree(scratch, ignore_errors=True)
-        # Idempotent from here: a rerun accepts values that are already new.
+        # Idempotent from here: a rerun accepts values that are already new (but exempts no missing
+        # payload; see _payloads_absent).
         for path, value, mode in records_plan:
             atomic_write_json(path, value, mode=mode)
         for link, mapped in links_plan:
@@ -895,18 +1035,21 @@ class Relocation:
         if database or refused:
             raise _refuse("the old store is still named where the daemon reads it",
                           {"databaseColumns": database, "files": refused[:200]})
-        verification = self.verify()
+        verification = self.verify(absent_before=frozenset(item["instanceId"] for item in absent))
         self._lock_still_held(lock)
         return {"state": "RELOCATED",
                 "rewritten": {"databaseRows": report["locationRows"], "transactionRecords": len(records_plan),
                               "mappingLinks": len(links_plan)},
                 "mentionsKept": found, "recordColumnsKept": report["recordColumnsKept"],
+                "payloadsAbsentBeforeRelocation": report["payloadsAbsentBeforeRelocation"],
+                "attestation": report["attestation"],
                 "liveContentUnsafeForClients": dict(zip(("count", "sample"), self._live_unsafe_for_clients())),
                 "verification": verification}
 
-    def verify(self) -> dict[str, Any]:
+    def verify(self, absent_before: frozenset[str] = frozenset()) -> dict[str, Any]:
         """The relocated store, read as the daemon will read it. Opening it as the daemon does
-        also sets its directories' modes and would migrate an older schema."""
+        also sets its directories' modes and would migrate an older schema. `absent_before` names
+        the retained worlds whose payload was already absent from the copy before relocation."""
         from .store import StateStore
 
         scratch = Path(tempfile.mkdtemp(prefix="worldline-relocate-"))
@@ -927,7 +1070,8 @@ class Relocation:
                         # The daemon's own rule (root_source): a link into a payload (review of 09f5c0b).
                         raise _refuse(f"live mapping for {root['root_key']} is not a link to a payload in the new store")
                 retained = [world for world in store.worlds() if not world.payload_pruned]
-                missing = [world.alias for world in retained if not Path(world.payload_path).is_dir()]
+                missing = [world.alias for world in retained
+                           if world.instance_id not in absent_before and not Path(world.payload_path).is_dir()]
                 if missing:
                     raise _refuse("retained world payloads are missing from the new store", {"worlds": missing[:50]})
                 outside = [world.alias for world in retained
@@ -947,7 +1091,9 @@ class Relocation:
                 store.close()
         finally:
             shutil.rmtree(scratch, ignore_errors=True)
-        return {"chains": chains, "roots": "RESOLVED", "payloads": "PRESENT"}
+        return {"chains": chains, "roots": "RESOLVED",
+                "payloads": "PRESENT" if not absent_before else "PRESENT_EXCEPT_ABSENT_FROM_OLD_STORE",
+                "payloadsAbsentBeforeRelocation": len(absent_before)}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -959,10 +1105,31 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--to-data", required=True, type=Path)
     parser.add_argument("--to-state", required=True, type=Path)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--absent-in-old-store", metavar="FILE",
+                        help="a JSON list of world instance ids whose payload the old store lacks, from a "
+                             "caller that can see the old store when this account cannot; - reads it from "
+                             "standard input")
     arguments = parser.parse_args(argv)
     try:
-        result = Relocation(old_data=arguments.from_data, old_state=arguments.from_state,
-                            new_data=arguments.to_data, new_state=arguments.to_state).run(dry_run=arguments.dry_run)
+        attested: frozenset[str] = frozenset()
+        digest = None
+        if arguments.absent_in_old_store is not None:
+            # `-` reads the descriptor already open: reopening /dev/stdin re-checks the pipe's owner,
+            # and a pipe from the operator is not the relocating account's to open.
+            if arguments.absent_in_old_store == "-":
+                raw = sys.stdin.buffer.read()
+            else:
+                raw = Path(arguments.absent_in_old_store).read_bytes()
+            digest = hashlib.sha256(raw).hexdigest()
+            value = json.loads(raw.decode("utf-8"))
+            if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+                raise _refuse("--absent-in-old-store must name a JSON list of instance ids")
+            attested = frozenset(value)
+        relocation = Relocation(old_data=arguments.from_data, old_state=arguments.from_state,
+                                new_data=arguments.to_data, new_state=arguments.to_state,
+                                absent_in_old_store=attested)
+        relocation.attestation_sha256 = digest
+        result = relocation.run(dry_run=arguments.dry_run)
     except WorldlineError as exc:
         print(json.dumps({"state": "REFUSED", **exc.as_dict()}, indent=2, sort_keys=True), file=sys.stderr)
         return 1
