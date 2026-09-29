@@ -265,16 +265,35 @@ class GitSandboxLayout(unittest.TestCase):
         self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
         self.assertIn("signal 9", caught.exception.message)
 
-    def test_a_failed_submodule_listing_is_refused_not_read_as_none(self) -> None:
-        # Review of 09f5c0b: a failing `submodule status` was recorded as "no submodules".
+    def test_a_listing_git_refuses_is_recorded_as_unreadable(self) -> None:
+        # Review of c7d89f1: refusing it broke an ordinary repository shape (an embedded checkout
+        # added with `git add -A`); review of 09f5c0b: it was recorded as "no submodules".
         head = subprocess.run(["git", "-C", str(self.main), "rev-parse", "HEAD"], check=True,
                               capture_output=True, text=True).stdout.strip()
-        # A gitlink with no mapping in .gitmodules anywhere (worktree, index or HEAD): git itself
-        # refuses `submodule status` with "no submodule mapping found", exit 128.
         subprocess.run(["git", "-C", str(self.main), "update-index", "--add", "--cacheinfo", f"160000,{head},libmodule"],
-                       check=True, capture_output=True)
-        with self.assertRaises(WorldlineError) as caught:
-            GitAdapter(Core.shared()).capture(self.main)
+                       check=True, capture_output=True)   # a gitlink with no mapping anywhere
+        captured = GitAdapter(Core.shared()).capture(self.main)
+        self.assertEqual(captured["submoduleListing"]["state"], "UNREADABLE")
+        self.assertIn("no submodule mapping", captured["submoduleListing"]["reason"])
+        self.assertNotIn("submoduleListing", GitAdapter(Core.shared()).capture(self.repo_without_gitlink()))
+
+    def repo_without_gitlink(self) -> Path:
+        plain = self.base / "plain"
+        plain.mkdir()
+        subprocess.run(["git", "init", "-q", str(plain)], check=True, capture_output=True)
+        return plain
+
+    def test_a_listing_refused_for_want_of_resources_is_refused(self) -> None:
+        real_run = GitAdapter._run
+
+        def starved(self, root, *args, **kwargs):
+            if args[:1] == ("submodule",):
+                return subprocess.CompletedProcess(list(args), 128, b"", b"fatal: cannot fork() for git-submodule\n")
+            return real_run(self, root, *args, **kwargs)
+
+        with mock.patch.object(GitAdapter, "_run", starved):
+            with self.assertRaises(WorldlineError) as caught:
+                GitAdapter(Core.shared()).capture(self.main)
         self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
 
     def test_an_alternates_entry_leaving_the_root_is_judged_without_lookups(self) -> None:

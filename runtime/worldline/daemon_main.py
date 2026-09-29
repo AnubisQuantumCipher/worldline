@@ -8,7 +8,7 @@ import signal
 
 from .app import WorldlineApplication
 from .errors import WorldlineError
-from .paths import WorldlinePaths, acquire_store_lock, close_gate_at, store_directories
+from .paths import WorldlinePaths, acquire_store_lock, close_gate_at, store_directories, store_lock_in_use
 
 
 async def _run(paths: WorldlinePaths) -> int:
@@ -49,10 +49,11 @@ def main(argv: list[str] | None = None) -> int:
         lock = acquire_store_lock(state, holder="worldlined")
     except WorldlineError as exc:
         log.error("%s", exc)
-        if exc.code == "UNSAFE_STORE":
-            # The lock path or the state directory is not what the daemon made: take clients off
-            # the store; a running daemon would hold a lock that is no longer this path's anyway
-            # (review of 09f5c0b).
+        if exc.code == "UNSAFE_STORE" and not store_lock_in_use(state):
+            # The lock path or the state directory is not what the daemon made, and no daemon holds
+            # the lock there: take clients off the store (review of 09f5c0b). A lock some process
+            # holds is a running daemon's, whose gate a second start must leave alone (review of
+            # c7d89f1).
             try:
                 close_gate_at(data)
             except OSError:

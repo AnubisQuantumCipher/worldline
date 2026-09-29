@@ -228,6 +228,60 @@ class RootSourceTests(_Registered):
         self.assertFalse(self.work.is_symlink())
         self.assertEqual((self.work / "state.txt").read_bytes(), b"prime bytes\n")
 
+    def test_a_root_written_to_during_removal_is_not_dropped(self) -> None:
+        # Review of c7d89f1: a file written into the root after its capture was lost.
+        from worldline.manifest import Manifest
+        real = Manifest.materialize
+        source = Path(os.fsdecode(self.paths.root_source(self.root)))
+
+        def and_meanwhile(*args, **kwargs):
+            result = real(*args, **kwargs)
+            (source / "late.txt").write_text("written during the removal\n")
+            return result
+
+        with mock.patch("worldline.roots.Manifest.materialize", side_effect=and_meanwhile):
+            with self.assertRaises(WorldlineError) as caught:
+                self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertEqual(caught.exception.code, "ROOT_CHANGED_DURING_REMOVAL")
+        self.assertTrue(self.work.is_symlink())
+        self.assertEqual((self.work / "late.txt").read_text(), "written during the removal\n")
+
+    def test_a_rollback_keeps_what_was_written_at_the_path_meanwhile(self) -> None:
+        # Review of c7d89f1: the rollback deleted the copy that stood at the operator's path,
+        # with anything an editor had written into it.
+        other = self._second_root("other-kept")
+        real = self.manager._publish_generation
+
+        def written_then_refused(**kwargs):
+            (self.work / "edited.txt").write_text("an editor saved this\n")
+            raise WorldlineError("SIMULATED", "publication refused after the swap")
+
+        with mock.patch.object(self.manager, "_publish_generation", side_effect=written_then_refused):
+            with self.assertRaises(WorldlineError):
+                self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertTrue(self.work.is_symlink())
+        kept = [p for p in self.work.parent.iterdir() if p.name.startswith(".worldline-removal-kept-")]
+        self.assertEqual(len(kept), 1)
+        self.assertEqual((kept[0] / "edited.txt").read_text(), "an editor saved this\n")
+        self.assertIn(other["root_key"], {item["root_key"] for item in self.store.roots()})
+
+    def test_a_remaining_repository_refused_for_its_content_still_refuses(self) -> None:
+        # Review of c7d89f1: removal tolerated NOT_A_GIT_ROOT from content (core.bare) in another
+        # root and published it without its facts.
+        import subprocess
+        repo = Path(self.temporary.name) / "bare-flagged"
+        repo.mkdir()
+        subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
+        (repo / "f.txt").write_text("x\n")
+        self.manager.register([repo], confirmed=True)
+        root = next(item for item in self.store.roots() if bytes(item["path"]) == os.fsencode(repo))
+        source = Path(os.fsdecode(self.paths.root_source(root)))
+        subprocess.run(["git", "-C", str(source), "config", "core.bare", "true"], check=True, capture_output=True)
+        with self.assertRaises(WorldlineError) as caught:
+            self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertEqual(caught.exception.code, "NOT_A_GIT_ROOT")
+        self.assertTrue(self.work.is_symlink())
+
     def test_two_roots_the_sandbox_cannot_inspect_can_both_be_removed(self) -> None:
         # Review of 09f5c0b: each removal was refused by the other root's capture.
         import subprocess
@@ -332,6 +386,23 @@ class ClientModePrimeChainTests(_Registered):
         with self.assertRaises(WorldlineError) as caught:
             self.paths.share_live_chain()
         self.assertEqual(caught.exception.code, "LIVE_MAPPING_BROKEN")
+
+    def test_a_removal_is_refused_before_the_swap_when_the_rest_is_unsafe_for_clients(self) -> None:
+        # Review of c7d89f1: the client-content check ran after the operator's path was swapped.
+        other = Path(self.temporary.name) / "unsafe-other"
+        other.mkdir()
+        (other / "state.txt").write_text("other\n")
+        self.manager.register([other], confirmed=True)
+        record = next(item for item in self.store.roots() if bytes(item["path"]) == os.fsencode(other))
+        os.chmod(Path(os.fsdecode(self.paths.root_source(record))) / "state.txt", 0o666)
+        with mock.patch.object(self.manager.atomic, "exchange", wraps=self.manager.atomic.exchange) as exchange:
+            with self.assertRaises(WorldlineError) as caught:
+                self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertEqual(caught.exception.code, "CLIENT_MODE_UNSAFE_CONTENT")
+        self.assertEqual(exchange.call_count, 0)   # refused before the operator's path was touched
+        self.assertTrue(self.work.is_symlink())
+        self.assertEqual([p.name for p in self.work.parent.iterdir()
+                          if p.name.startswith((".worldline-materialize-", ".worldline-removal-kept-"))], [])
 
     def test_share_live_chain_opens_a_store_written_before_client_mode(self) -> None:
         source = Path(os.fsdecode(self.paths.root_source(self.root)))

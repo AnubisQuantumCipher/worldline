@@ -466,9 +466,13 @@ trust you place in WORLDLINE.
      that its account owns every entry.
      - It does not prove the copy is complete. The copy step (as root, for overlay work
        directories) and its comparison belong to the migration.
-     - Its check for a process holding the database open sees only processes of its own uid. A
-       real run also holds the copy's store lock, the one `worldlined` takes before it opens
-       anything, so no daemon can start on the copy meanwhile; a dry run only checks it is free.
+     - Its check for a process holding the database open sees only processes of its own uid (in
+       any mount namespace). A real run also holds the copy's store lock, the one `worldlined`
+       takes before it opens anything, so no daemon can start on the copy meanwhile; a dry run only
+       checks it is free.
+     - A copy root on FUSE, a network filesystem or an idmapped mount, or one that is the old
+       store's location on the same device, refuses, judged from the mount table before anything
+       is written, whether or not the old store is visible to the relocating account.
      - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and
        nothing reads a path back out of it) and counts it; a mention of the old store in any
        other database column refuses.

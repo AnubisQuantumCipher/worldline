@@ -642,6 +642,68 @@ class RelocateAStore(unittest.TestCase):
             self.relocation().run(dry_run=True)
         self.assertNotIn("a daemon is using", caught.exception.message)
 
+    def test_a_lock_its_owner_cannot_write_fails_the_dry_run(self) -> None:
+        lock = self.new.state / STORE_LOCK_NAME
+        lock.unlink(missing_ok=True)
+        lock.write_text("")
+        os.chmod(lock, 0o400)
+        with self.assertRaises(WorldlineError):
+            self.relocation().run(dry_run=True)
+
+    def test_a_view_of_an_old_store_it_cannot_see_is_refused(self) -> None:
+        # Review of c7d89f1: with the old store unreadable to the relocating account (the
+        # dedicated-account migration), every identity check was skipped and the old store was
+        # rewritten through a bind of it at the copy's path.
+        bwrap = shutil.which("bwrap")
+        if bwrap is None:
+            self.skipTest("bwrap is required to make a mount without privileges")
+        old_live = _tree_digest(self.old.data / "live")
+        hidden = self.old.data.parent
+        code = ("import os, sys; os.chmod(sys.argv[1], 0); "
+                "from worldline.relocate import main; code = main(sys.argv[2:]); "
+                "os.chmod(sys.argv[1], 0o700); sys.exit(code)")
+        arguments = ["--from-data", str(self.old.data), "--from-state", str(self.old.state),
+                     "--to-data", str(self.new.data), "--to-state", str(self.new.state)]
+        result = subprocess.run(
+            [bwrap, "--dev-bind", "/", "/", "--bind", str(self.old.data), str(self.new.data),
+             "--", sys.executable, "-B", "-c", code, str(hidden), *arguments],
+            env={**os.environ, "PYTHONPATH": str(REPO / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"},
+            capture_output=True, timeout=120)
+        os.chmod(hidden, 0o700)
+        self.assertEqual(result.returncode, 1, result.stderr.decode(errors="replace")[-2000:])
+        self.assertIn(b"seen through a mount", result.stderr)
+        self.assertEqual(_tree_digest(self.old.data / "live"), old_live)
+
+    def test_a_holder_in_another_mount_namespace_is_found(self) -> None:
+        # Review of c7d89f1: mount ids differ between namespaces, so matching them missed it.
+        unshare = shutil.which("unshare")
+        if unshare is None:
+            self.skipTest("unshare is required")
+        ready = self.destination / "holder-ready"
+        holder = subprocess.Popen(
+            [unshare, "--user", "--map-current-user", "--mount", sys.executable, "-c",
+             "import sys, time; f = open(sys.argv[1], 'rb'); open(sys.argv[2], 'w').close(); time.sleep(60)",
+             str(self.new.state / "worldline.sqlite3"), str(ready)])
+        self.addCleanup(lambda: (holder.kill(), holder.wait()))
+        for _ in range(100):
+            if ready.exists():
+                break
+            time.sleep(0.05)
+        if holder.poll() is not None:
+            self.skipTest("unprivileged mount namespaces are not available")
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation().run(dry_run=True)
+        self.assertIn("open in another process", caught.exception.message)
+
+    def test_a_fifo_named_like_the_wal_is_refused_at_once(self) -> None:
+        # Review of c7d89f1: the holder check blocked opening it.
+        wal = self.new.state / "worldline.sqlite3-wal"
+        wal.unlink(missing_ok=True)
+        os.mkfifo(wal)
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation()
+        self.assertIn("not a regular file", caught.exception.message)
+
     def test_a_link_named_like_the_database_is_still_checked(self) -> None:
         journal = self.new.state / "worldline.sqlite3-journal"
         journal.symlink_to(self.old.state / "worldline.sqlite3")

@@ -55,7 +55,9 @@ _LOG = logging.getLogger("worldline.controller")
 
 def _require_alternates_inside(source: bytes) -> None:
     """Objects borrowed from outside the root (`objects/info/alternates`) are invisible to the
-    repository sandbox, so every capture of such a root refuses; say so before a capture does."""
+    repository sandbox, so every capture of such a root refuses; say so before a capture does.
+    Judged lexically: an entry that only leaves the root through a link inside it passes here and
+    is refused by the capture itself."""
     # Opened one component at a time without following links, like the index (review of 796cb02):
     # the path is the candidate's to shape, and a linked `alternates` had the host read any file.
     descriptors: list[int] = []

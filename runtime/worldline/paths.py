@@ -97,7 +97,7 @@ def acquire_store_lock(state: Path, *, holder: str, create_directory: bool = Tru
     if create_directory:
         try:
             secure_directory(state)
-        except PermissionError as exc:
+        except OSError as exc:  # permission, a file where a directory belongs, and the like
             raise WorldlineError("UNSAFE_STORE", f"the state directory cannot be created or checked: {state}: {exc}") from exc
     path = state / STORE_LOCK_NAME
     try:
@@ -136,9 +136,10 @@ def store_lock_held_elsewhere(state: Path) -> bool:
         raise WorldlineError("UNSAFE_STORE", f"the store lock cannot be read: {state / STORE_LOCK_NAME}: {exc}") from exc
     try:
         info = os.fstat(descriptor)
-        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_nlink != 1:
-            # The same checks the lock itself makes: a dry run must not pass what the real run
-            # refuses (review of 09f5c0b).
+        if (not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_nlink != 1
+                or not info.st_mode & stat.S_IWUSR):
+            # The same checks the lock itself makes, which opens it for writing: a dry run must not
+            # pass what the real run refuses (reviews of 09f5c0b and c7d89f1).
             raise WorldlineError("UNSAFE_STORE",
                                  f"the store lock is not a regular, unlinked-elsewhere file owned by uid {os.getuid()}: "
                                  f"{state / STORE_LOCK_NAME}")
@@ -170,6 +171,25 @@ def close_gate_at(data: Path) -> None:
         return
     if stat.S_ISDIR(info.st_mode) and info.st_uid == os.getuid() and stat.S_IMODE(info.st_mode) != 0o700:
         os.chmod(data, 0o700)
+
+
+def store_lock_in_use(state: Path) -> bool:
+    """Whether a process holds a lock on whatever regular file is at the store lock's path,
+    whatever else is wrong with it (a second link, a mode it cannot be written with)."""
+    import fcntl
+    try:
+        descriptor = os.open(state / STORE_LOCK_NAME, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
+    except OSError:
+        return False
+    try:
+        if not stat.S_ISREG(os.fstat(descriptor).st_mode):
+            return False
+        fcntl.flock(descriptor, fcntl.LOCK_SH | fcntl.LOCK_NB)
+    except OSError:
+        return True
+    finally:
+        os.close(descriptor)
+    return False
 
 
 def store_lock_intact(state: Path, descriptor: int) -> bool:
@@ -408,6 +428,12 @@ class WorldlinePaths:
                 raise WorldlineError("INVALID_CLIENT_MODE",
                                      "in client mode these must be spelled by their real paths: " + ", ".join(crooked))
         runtime = runtime_home / "worldline"
+        stores = [data_home / "worldline", state_home / "worldline", config_home / "worldline"]
+        if gids and any(_nested(first, second) for index, first in enumerate(stores) for second in stores[index + 1:]):
+            # Each is moded for its own purpose: with state inside data, keeping state 0700 closed
+            # a path clients traverse to PRIME (review of c7d89f1).
+            raise WorldlineError("INVALID_CLIENT_MODE",
+                                 "in client mode the data, state and config directories must be apart")
         if gids and any(_nested(runtime, other / "worldline") for other in (data_home, state_home, config_home)):
             # The runtime directory is opened to the client group; the store must never share it.
             raise WorldlineError("INVALID_CLIENT_MODE",

@@ -165,6 +165,14 @@ class ContentSafety(unittest.TestCase):
         os.chmod(self.tree / "sub", 0o777)
         WorldlinePaths.from_environment(environment(self.root / "plain")).assert_client_safe(self.tree)
 
+    def test_client_mode_refuses_state_inside_data(self) -> None:
+        # Review of c7d89f1: keeping state 0700 closed a directory clients traverse to PRIME.
+        env = environment(self.root / "nested", **CLIENT_ENV)
+        env["XDG_STATE_HOME"] = env["XDG_DATA_HOME"]
+        with self.assertRaises(WorldlineError) as caught:
+            WorldlinePaths.from_environment(env)
+        self.assertEqual(caught.exception.code, "INVALID_CLIENT_MODE")
+
     def test_the_daemons_primary_group_cannot_be_the_client_group(self) -> None:
         with self.assertRaises(WorldlineError) as caught:
             WorldlinePaths.from_environment(environment(
@@ -407,6 +415,25 @@ class StartupOrdersTheGateAfterTheLock(unittest.TestCase):
             self.assertEqual(result.returncode, 1, result.stderr)
             self.assertIn(b"INVALID_CLIENT_MODE", result.stderr)
             self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
+
+    def test_an_unsafe_lock_a_daemon_holds_leaves_its_gate_alone(self) -> None:
+        # Review of c7d89f1: a second start closed a running daemon's gate on a lock that had
+        # gained a second link.
+        import fcntl
+        with tempfile.TemporaryDirectory(prefix="worldline-held-unsafe-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()
+            lock = paths.state / STORE_LOCK_NAME
+            holder = os.open(lock, os.O_RDWR | os.O_CREAT, 0o600)
+            self.addCleanup(os.close, holder)
+            fcntl.flock(holder, fcntl.LOCK_EX)
+            os.link(lock, Path(temporary) / "second-link")
+            result = self.daemon(env)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"UNSAFE_STORE", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o710)
 
     def test_an_unsafe_lock_path_closes_the_gate(self) -> None:
         # Review of 09f5c0b: a start refused at the lock itself left a previous run's gate open.

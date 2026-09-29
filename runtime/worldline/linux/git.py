@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 import os
+import re
 from pathlib import Path
 import subprocess
 import shutil
@@ -11,6 +12,11 @@ from typing import Any, Mapping
 
 from ..core import Core, hash_id
 from ..errors import WorldlineError
+
+
+# git's own words for a fork, allocation or descriptor it could not get (bash's for its scripts).
+_RESOURCE_FAILURE = re.compile(r"cannot fork|fork: |Resource temporarily unavailable|Cannot allocate memory|"
+                               r"Too many open files|out of memory", re.IGNORECASE)
 
 
 class GitAdapter:
@@ -293,12 +299,25 @@ class GitAdapter:
             status = run("status", "--porcelain=v2", "--branch", "-z", extra_env=private, scratch=scratch).stdout
             staged = run("diff", "--cached", "--binary", "--no-ext-diff", "--no-textconv", extra_env=private, scratch=scratch).stdout
             worktree = run("diff", "--binary", "--no-ext-diff", "--no-textconv", extra_env=private, scratch=scratch).stdout
-            # Checked: a failure here (a fork refused inside the sandbox, say) was recorded as "no
-            # submodules" for a repository that has them (review of 09f5c0b).
-            submodules = run("submodule", "status", "--recursive", extra_env=private, scratch=scratch)
-        submodule_bytes = submodules.stdout
+            submodules = run("submodule", "status", "--recursive", check=False, extra_env=private, scratch=scratch)
+        listing: dict[str, Any] | None = None
+        if submodules.returncode != 0:
+            refusal = submodules.stderr.decode("utf-8", "replace")
+            if _RESOURCE_FAILURE.search(refusal):
+                # A fork or allocation refused inside the sandbox is not a fact about the
+                # repository: recorded as "no submodules" before (review of 09f5c0b).
+                raise WorldlineError(
+                    "GIT_INSPECTION_FAILED",
+                    f"git could not list the submodules of {os.fsdecode(raw_root)} for want of resources",
+                    {"stderr": refusal[:2000]})
+            # git's own refusal of the listing (a gitlink with no .gitmodules mapping, which
+            # `git add -A` over a nested checkout makes) is a fact about the repository: recorded
+            # as unreadable, not as "no submodules", and not refused, since the repository is
+            # otherwise ordinary (review of c7d89f1).
+            listing = {"state": "UNREADABLE", "reason": (refusal.strip().splitlines() or [""])[0][:200]}
+        submodule_bytes = submodules.stdout if submodules.returncode == 0 else b""
 
-        return {
+        facts = {
             "state": "CAPTURED",
             "head": head,
             "branch": branch,
@@ -312,6 +331,9 @@ class GitAdapter:
             "submoduleHash": hash_id(self.core.hash_bytes(submodule_bytes)),
             "submoduleRawB64": base64.b64encode(submodule_bytes).decode("ascii"),
         }
+        if listing is not None:
+            facts["submoduleListing"] = listing
+        return facts
 
     @classmethod
     def capability(cls) -> dict[str, Any]:

@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import socket
 import subprocess
 import sys
 import tempfile
@@ -342,6 +343,17 @@ class _FixtureDaemon:
         deadline = time.monotonic() + 15
         while not self.paths.socket.exists() and self.process.poll() is None and time.monotonic() < deadline:
             time.sleep(0.02)
+        # The socket file exists from bind(), before the server listens: wait until it accepts,
+        # or a request made at once is refused (a full-suite flake under load).
+        while self.process.poll() is None and time.monotonic() < deadline:
+            probe = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            try:
+                probe.connect(str(self.paths.socket))
+                break
+            except (ConnectionRefusedError, FileNotFoundError):
+                time.sleep(0.02)
+            finally:
+                probe.close()
         if self.process.poll() is not None or not self.paths.socket.exists():
             test.fail(self.error_log.read_text(encoding="utf-8", errors="replace"))
         self.client = DaemonClient(self.paths, timeout=120)

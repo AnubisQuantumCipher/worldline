@@ -187,8 +187,10 @@ class Manifest:
         allow_external_links: frozenset[bytes] = frozenset(),
     ) -> CapturedManifest:
         """`allow_external_links` names root-relative symlinks recorded as they are even when they
-        leave the root. Only `root remove` uses it, for a top-level `.git` link, since removal
-        recreates the operator's own link at its own path and never follows it."""
+        leave the root. Only `root remove` uses it, for a top-level `.git` link: of the root it
+        removes, which it recreates at the operator's own path, and of the other roots in a layout
+        the repository sandbox cannot inspect, which it copies into the generation it publishes.
+        The link is recreated, never followed."""
         verifier = core or Core.shared()
         raw_root = os.path.abspath(os.fsencode(root))
         raw_logical_root = raw_root if logical_root is None else os.path.abspath(os.fsencode(logical_root))

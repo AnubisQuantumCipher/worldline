@@ -76,6 +76,55 @@ _DATABASE_FILES = frozenset(("worldline.sqlite3", "worldline.sqlite3-wal", "worl
 ACTIVE_JOB_STATES = ("STARTING", "RUNNING", "FINALIZING")
 
 
+_VIEW_FILESYSTEMS = ("cifs", "smb3", "9p", "virtiofs", "ceph", "glusterfs", "afs", "davfs")
+
+
+def _mount_table(path: str = "/proc/self/mountinfo") -> list[dict[str, Any]]:
+    entries = []
+    with open(path, encoding="utf-8", errors="surrogateescape") as stream:
+        for line in stream:
+            fields = line.split()
+            if "-" not in fields or len(fields) < 7:
+                continue
+            dash = fields.index("-")
+            entries.append({"id": int(fields[0]), "parent": int(fields[1]), "device": fields[2],
+                            "root": _unescape_mount_path(fields[3]), "point": _unescape_mount_path(fields[4]),
+                            "options": fields[5].split(","), "fstype": fields[dash + 1]})
+    return entries
+
+
+def _holding_mount(path: str, entries: list[dict[str, Any]]) -> dict[str, Any]:
+    """The mount in use for `path`, walking the tree from the root as the kernel resolves it."""
+    listed = {entry["id"] for entry in entries}
+    roots = [entry for entry in entries if entry["point"] == "/" and (entry["parent"] not in listed or entry["parent"] == entry["id"])]
+    if not roots:
+        raise _refuse("the mount table has no root")
+
+    def on_top(current: dict[str, Any], point: str) -> dict[str, Any]:
+        seen = {current["id"]}
+        while True:
+            covering = [entry for entry in entries
+                        if entry["parent"] == current["id"] and entry["point"] == point and entry["id"] not in seen]
+            if not covering:
+                return current
+            current = covering[-1]
+            seen.add(current["id"])
+
+    current = on_top(roots[-1], "/")
+    prefix = ""
+    for part in [part for part in path.split("/") if part]:
+        prefix += "/" + part
+        current = on_top(current, prefix)
+    return current
+
+
+def _mount_source(path: str, entries: list[dict[str, Any]]) -> tuple[dict[str, Any], str]:
+    """The mount holding `path` and the path's location inside that mount's filesystem."""
+    mount = _holding_mount(path, entries)
+    inside = os.path.relpath(path, mount["point"])
+    return mount, os.path.normpath(os.path.join(mount["root"], "" if inside == "." else inside))
+
+
 def _fdinfo_identity(path: str) -> tuple[int, int] | None:
     """(mount id, inode) of an open descriptor, from its fdinfo; None when unreadable."""
     try:
@@ -139,6 +188,9 @@ class Relocation:
         # -shm, must each be a file of its own.
         for suffix in ("", "-wal", "-shm"):
             candidate = Path(str(self.database) + suffix)
+            if candidate.exists() and not candidate.is_symlink() and not stat.S_ISREG(candidate.lstat().st_mode):
+                # A FIFO there hung the holder check (review of c7d89f1).
+                raise _refuse(f"{candidate.name} in the copy is not a regular file")
             if candidate.is_symlink() or (candidate.exists() and candidate.stat().st_nlink != 1):
                 raise _refuse(f"{candidate.name} in the copy is linked elsewhere; copy it, do not link it")
             try:
@@ -282,32 +334,42 @@ class Relocation:
         return plan
 
     def _holders(self) -> list[int]:
-        """Processes this uid can see that hold the copy's database open, matched by mount id and
-        inode read from /proc/<pid>/fdinfo. Nothing is stat'ed through another process's
-        descriptor: one on a FUSE mount that stopped answering would hang the relocation (review
-        of 09f5c0b). A daemon serving the copy runs as the same account, so it is visible;
-        `BEGIN EXCLUSIVE` alone does not detect an idle WAL connection."""
-        identities: set[tuple[int, int]] = set()
+        """Processes this uid can see that hold the copy's database open, matched by device and
+        inode: each descriptor's mount id and inode come from /proc/<pid>/fdinfo, and the mount id
+        is mapped to its device through that process's own mount table, since mount ids differ
+        between mount namespaces (review of c7d89f1). Nothing is stat'ed through another
+        process's descriptor, which a hung FUSE mount would block (review of 09f5c0b), except on
+        a kernel whose fdinfo has no inode. A daemon serving the copy runs as the same account, so
+        it is visible; `BEGIN EXCLUSIVE` alone does not detect an idle WAL connection."""
+        identities: set[tuple[str, int]] = set()
         for suffix in ("", "-wal", "-shm"):
+            path = str(self.database) + suffix
             try:
-                descriptor = os.open(str(self.database) + suffix, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
+                info = os.lstat(path)
             except FileNotFoundError:
                 continue
+            if not stat.S_ISREG(info.st_mode):
+                raise _refuse(f"{Path(path).name} in the copy is not a regular file")
+            identities.add((f"{os.major(info.st_dev)}:{os.minor(info.st_dev)}", info.st_ino))
+            descriptor = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
             try:
-                identity = _fdinfo_identity(f"/proc/self/fdinfo/{descriptor}")
+                if _fdinfo_identity(f"/proc/self/fdinfo/{descriptor}") is None:
+                    return self._holders_by_stat()  # a kernel whose fdinfo has no inode
             finally:
                 os.close(descriptor)
-            if identity is not None:
-                identities.add(identity)
-            else:
-                return self._holders_by_stat()  # a kernel whose fdinfo has no inode
         holders: set[int] = set()
         for process in Path("/proc").iterdir():
             if not process.name.isdigit() or int(process.name) == os.getpid():
                 continue
             try:
+                devices: dict[int, str] | None = None
                 for info in (process / "fdinfo").iterdir():
-                    if _fdinfo_identity(str(info)) in identities:
+                    identity = _fdinfo_identity(str(info))
+                    if identity is None:
+                        continue
+                    if devices is None:
+                        devices = {entry["id"]: entry["device"] for entry in _mount_table(str(process / "mountinfo"))}
+                    if (devices.get(identity[0]), identity[1]) in identities:
                         holders.add(int(process.name))
             except OSError:
                 continue  # another uid's process, or gone
@@ -630,12 +692,17 @@ class Relocation:
                 raise _refuse(exc.message) from exc
             if held:
                 raise _refuse("the copy's store lock is held: a daemon is using the copy; stop it first")
+            self._refuse_mounted_views()
             return self._run(dry_run=True, lock=None)
         mounts = self._mounts_inside()
         if mounts:
             # Before the lock is written: a file bind of the old store's lock would otherwise be
             # rewritten first (review of 09f5c0b).
             raise _refuse("a mount inside the copy would have the relocation write through it", {"mounts": mounts[:50]})
+        # Both view checks before the lock is written or the database opened: through a view,
+        # those land in the old store (review of c7d89f1).
+        self._refuse_mounted_views()
+        self._refuse_views_of_the_old_store()
         try:
             lock = acquire_store_lock(self.new_state, holder="worldline-relocate", create_directory=False)
         except WorldlineError as exc:
@@ -646,6 +713,29 @@ class Relocation:
             return self._run(dry_run=False, lock=lock)
         finally:
             os.close(lock)
+
+    def _refuse_mounted_views(self) -> None:
+        """Whether a copy root is the old store seen through a mount, judged from the mount table
+        alone, so it holds when the relocating account cannot see the old store (the dedicated-
+        account migration): the copy's filesystem location must not overlap the old store's on the
+        same device, and a copy root on FUSE, a network filesystem or an idmapped mount is refused,
+        since those can present anything with any owner (review of c7d89f1)."""
+        entries = _mount_table()
+        pairs = [(("data", self.new_data), self.old[0]), (("state", self.new_state), self.old[1]),
+                 (("data", self.new_data), self.old[1]), (("state", self.new_state), self.old[0])]
+        for (base, new_root), old_root in pairs:
+            mount, source = _mount_source(os.path.realpath(new_root), entries)
+            if mount["fstype"].startswith(("fuse", "nfs")) or mount["fstype"] in _VIEW_FILESYSTEMS:
+                raise _refuse(f"the copy's {base} directory is on {mount['fstype']}, which can show another store as this one",
+                              {"mount": mount["point"]})
+            if "idmapped" in mount["options"]:
+                raise _refuse(f"the copy's {base} directory is on an idmapped mount", {"mount": mount["point"]})
+            old_mount, old_source = _mount_source(os.path.normpath(os.fsdecode(old_root)), entries)
+            if mount["device"] == old_mount["device"] and (
+                    source == old_source or source.startswith(old_source.rstrip("/") + "/")
+                    or old_source.startswith(source.rstrip("/") + "/")):
+                raise _refuse("the copy is the old store seen through a mount",
+                              {"copy": str(new_root), "old": os.fsdecode(old_root), "mount": mount["point"]})
 
     def _refuse_views_of_the_old_store(self) -> None:
         """A FUSE or network view of the old store at the copy's path has a device of its own, so
@@ -719,7 +809,6 @@ class Relocation:
                               "its account does not own, holds a mount, a file linked outside it or a "
                               "directory it cannot read", report)
             self._lock_still_held(lock)
-            self._refuse_views_of_the_old_store()
             for table, column, rowid, mapped in database_plan:
                 connection.execute(f"UPDATE {table} SET {column}=? WHERE rowid=?", (mapped, rowid))
             connection.execute("COMMIT")

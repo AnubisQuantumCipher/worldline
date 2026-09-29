@@ -188,6 +188,7 @@ class Pruner:
             partial: list[str] = []
             untouched: list[str] = []
             removed_here = 0
+            removed_for_world: list[str] = []
             for directory in entry["directories"]:
                 path = Path(directory)
                 if not path.is_dir():
@@ -204,13 +205,17 @@ class Pruner:
                     partial.append(directory)
                     continue
                 removed_here += 1
+                removed_for_world.append(directory)
                 removed_bytes += size
                 removed_directories.append(directory)
             if entry.get("leftover"):
                 continue  # already recorded as pruned; what could not be removed is offered again
-            if untouched and not removed_here and not partial:
-                # Nothing of it was removed: it stays retained, and the failures say why (review of
-                # 09f5c0b: it was recorded pruned with everything still in place, and never retried).
+            overlay = os.path.realpath(self.paths.overlays / world.instance_id)
+            payloads = [directory for directory in entry["directories"] if directory != overlay]
+            if untouched and not partial and not any(directory in removed_for_world for directory in payloads):
+                # Its payload is whole: nothing of it was removed, or only its overlay was. It stays
+                # retained, and the failures say why (reviews of 09f5c0b and c7d89f1: it was recorded
+                # pruned with its payload in place, and never offered again).
                 continue
             for log_file in entry["logs"]:
                 try:

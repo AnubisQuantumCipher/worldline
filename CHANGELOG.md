@@ -3,9 +3,9 @@
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 
 **An independent review of 1.7.0 (commit ad64cd2) and a rehearsal of the dedicated-account
-migration on a copy of a production store found the defects below; three more independent reviews,
-of the 1.7.1 candidates 796cb02, 4490013 and 09f5c0b, found more, including one that 796cb02
-introduced.
+migration on a copy of a production store found the defects below; four more independent reviews,
+of the 1.7.1 candidates 796cb02, 4490013, 09f5c0b and c7d89f1, found more, including defects the
+candidates' own fixes introduced.
 Each is fixed and tested, and each new test was run against the code it guards against and
 failed there.** No store migration is needed. Existing VALID worlds need revalidation before collapse, as
 after any release: the runtime changed.
@@ -27,12 +27,19 @@ after any release: the runtime changed.
     even when it leaves the root; the other roots in such a layout are captured the same way while
     it publishes what remains (the candidates refused the link as `EXTERNAL_SYMLINK`, then each
     removal was refused by the other roots' captures).
-- **`root remove` refuses before it changes anything.** It captures the remaining roots first; a
-  refusal there (a FIFO, a hard link to outside, the content check) now leaves every root, the
-  primary flag and the operator's path as they were. It used to swap the path first, and its
-  rollback then re-added the primary root while another was primary, left it half-removed, and
-  kept a full copy beside the path (fourth review; 1.7.0 too). The rollback now re-adds the root
-  before making it primary, always moves the path back, and removes the materialized copy.
+- **`root remove` refuses before it changes anything.** It captures the remaining roots and runs
+  the client-content check on that capture first, and re-reads the root it removes just before
+  the swap (`ROOT_CHANGED_DURING_REMOVAL` if anything was written into it meanwhile, which used to
+  be dropped). A refusal there (a FIFO, a hard link to outside, unsafe content, a write) leaves
+  every root, the primary flag and the operator's path as they were. It used to swap the path
+  first, and its rollback then re-added the primary root while another was primary, left it
+  half-removed, and kept a full copy beside the path (fourth review; 1.7.0 too). A refusal after
+  the swap now re-adds the root before making it primary and always moves the path back; the
+  copy that stood at the path is removed only if it is exactly what was materialized, and kept as
+  `.worldline-removal-kept-<id>` otherwise, and the prepared generation is removed unless it became
+  PRIME (fifth review). Other roots are captured without repository facts only when their layout
+  is what the sandbox cannot inspect; a repository refused for its content (`core.bare`) still
+  refuses.
   - The doctor also names a repository that borrows objects from outside itself
     (`objects/info/alternates`, `GIT_ALTERNATES_OUTSIDE_ROOT`), which the sandbox cannot read.
     It reads that file without following links and judges each entry lexically, so nothing the
@@ -64,10 +71,15 @@ after any release: the runtime changed.
     not set.
   - A task limit reached when the sandbox is created refuses as `GIT_SANDBOX_UNAVAILABLE`, as does
     a sandbox launcher killed by a signal. Inside a started sandbox, git killed by any signal, and
-    a failing `submodule status` (one of git's own processes refused a fork, say), refuse as
+    a submodule listing refused for want of resources (a fork git could not get), refuse as
     `GIT_INSPECTION_FAILED`, or `GIT_UNAVAILABLE` at the 15 s timeout. A git killed after launch was
     read by `rev-parse --verify HEAD` as "no HEAD", and a failed submodule listing as "no
     submodules" (third and fourth reviews).
+  - A submodule listing that git itself refuses (a gitlink with no `.gitmodules` mapping, which
+    `git add -A` over a nested checkout makes) is recorded as `submoduleListing: UNREADABLE` with
+    git's reason, not as "no submodules", and does not refuse the capture: refusing it, as the
+    fourth candidate did, made an ordinary repository uncapturable and every root in its store
+    unremovable (fifth review).
 - **`worldline doctor` probes the sandbox, not only git.** The `git` capability is
   `UNAVAILABLE`, with the reason, when bubblewrap, `prlimit` or `choom` is missing or the sandbox
   cannot start, for example with a git installed outside the system directories the sandbox binds.
@@ -88,7 +100,8 @@ after any release: the runtime changed.
   operator's group, and the operator is a client, so that content was client-writable and passed
   the start check. Any group other than the daemon's own now refuses
   (`CLIENT_MODE_UNSAFE_CONTENT`). A named member of the client group who is also in the daemon's
-  group refuses at startup (`INVALID_CLIENT_MODE`).
+  group refuses at startup (`INVALID_CLIENT_MODE`), and so do data, state and config
+  directories that are not apart from each other.
 - **Extended ACLs and file capabilities refuse.** Manifests record xattrs and materialization
   re-applies them. A `u:<client>:rwx` entry grants write while the mode bits show only its mask;
   any `system.*acl*` xattr counts, not only the two POSIX names. A `security.capability` xattr
@@ -100,7 +113,8 @@ after any release: the runtime changed.
   daemon's older lock in the runtime directory, and only then closes the gate. A second start
   used to close a running daemon's gate before its lock refused it, and to write the database
   first. A start that refuses after taking the store lock, a configuration that refuses, an
-  unsafe lock path, or a daemon that fails in Python closes the gate. The lock is
+  unsafe lock path that no process holds, or a daemon that fails in Python closes the gate; a
+  lock some process holds is a running daemon's, and its gate is left alone. The lock is
   `worldline-store.lock` in the state directory; a lock path that is a directory, a link or a
   file hard-linked elsewhere refuses as `UNSAFE_STORE` before anything is written to it. The
   runtime directory is not enough on its own: systemd removes it with the unit, lock file
@@ -143,12 +157,17 @@ after any release: the runtime changed.
   `worldlined` takes before it opens anything, and checks before writing and before reporting
   that the lock file was not replaced. A dry run, which writes nothing, checks only that the
   lock is free, with the same checks. The first candidate's `--daemon-lock` did not keep a daemon
-  out and is gone. The mount table is read before the lock is written (a file bind of the old
-  store's lock was rewritten first), and the copy's lock must not be the old store's own file.
-  A file made in each copy root must not appear in the old store: a FUSE or network view of it
-  has a device of its own. Processes holding the copy's database are found from
-  `/proc/<pid>/fdinfo`, never by `stat` through their descriptors, which a hung FUSE mount would
-  block.
+  out and is gone. Before the lock is written or the database opened: the mount table must show
+  no mount inside the copy; no copy root may be on FUSE, a network filesystem or an idmapped
+  mount; and no copy root may be, on the same device, the old store's location or overlap it.
+  These are read from the mount table alone, so they hold when the relocating account cannot see
+  the old store, as in the dedicated-account migration (fifth review: a bind of the old store at
+  the copy's path passed every other check there). The copy's lock must not be the old store's
+  own file, and, where the old store is visible, a file made in each copy root must not appear in
+  it. Processes holding the copy's database are found by device and inode from
+  `/proc/<pid>/fdinfo` and that process's own mount table (mount ids differ between namespaces),
+  without `stat` through their descriptors, which a hung FUSE mount would block, except on
+  kernels whose fdinfo has no inode. The database files must be regular files.
 - **Links:** the daemon makes only the live and prepared mapping links. Any other link in the
   copy refuses, except inside content: a payload below its root, and anything inside a world's
   overlay (its upper layer, the agent's runtime snapshot, a check's frozen inputs). A link that
@@ -198,19 +217,27 @@ after any release: the runtime changed.
   link planted in a copy, or a relocated store's leftovers) is reported under `failures`, nothing
   of that world is removed, and it stays retained. A world nothing of which could be removed stays
   retained too (fourth review: it was recorded pruned with everything in place). A removal that
-  fails part way records the world as pruned, since its payload is no longer whole, and the causal
-  event names what was not removed; a pruned world's overlay that is still there is offered again
-  by the next prune.
+  fails part way records the world as pruned if its payload is no longer whole, and the causal
+  event names what was not removed; if only its overlay went, it stays retained (fifth review). A
+  pruned world's overlay that is still there is offered again by the next prune.
 - **A root holding a read-only directory can be copied again.** Materialization created each
   directory with its recorded mode, so a non-empty 0555 directory could not receive its entries
   and every fork, reconcile or removal of that root failed (1.7.0 too; third review). Directories
   are filled first and given their modes last.
 - **A store path that exists as something other than a directory refuses as `UNSAFE_STORE`,**
   not a `FileExistsError` traceback.
+- **A `package.json` that is not an object** (`[]`) is recorded as an unreadable dependency file
+  instead of failing registration, reconcile and every capture of its root with an
+  `AttributeError` (1.7.0 too; fifth review).
 - **A daemon that resets the connection is `DAEMON_DISCONNECTED`,** not a `ConnectionResetError`
   traceback.
 
 ### Known limits
+
+- A leftover the daemon's account cannot remove (a private evaluation's worker copies, owned by
+  the account's subordinate uids, when the evaluation was killed before it reclaimed them) is
+  reported by every prune and keeps `worldline-relocate` refusing the store until it is removed by
+  hand. Directories a failed removal already made owner-accessible stay so.
 
 - The gate closes on a failed start and when a daemon fails in Python. A daemon that stops
   cleanly, or is killed outright (SIGKILL, the OOM killer), leaves it as it was, and the next

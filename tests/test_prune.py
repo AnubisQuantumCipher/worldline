@@ -272,6 +272,55 @@ class PruneRecordsOnlyWhatItRemoved(unittest.TestCase):
         self.assertEqual([entry for entry in plan()["worlds"] if entry.get("leftover")], [])
 
 
+class PruneKeepsAWorldWhosePayloadIsWhole(unittest.TestCase):
+    def test_only_the_overlay_removed_leaves_the_world_retained(self) -> None:
+        # Review of c7d89f1: payload untouched, overlay removed, and the world was recorded pruned.
+        import signal
+        from worldline.core import Core
+        from worldline.fstree import NothingRemoved, remove_tree
+        from worldline.prune import Pruner
+
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+
+        def cleanup() -> None:
+            for directory, subdirectories, _files in os.walk(fixture.temporary.name):
+                for name in subdirectories:
+                    path = os.path.join(directory, name)
+                    if not os.path.islink(path):
+                        os.chmod(path, os.stat(path).st_mode | 0o700)
+            fixture.temporary.cleanup()
+
+        self.addCleanup(cleanup)
+        try:
+            client = fixture.client
+            client.request("init", {"roots": [str(fixture.work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            instance = client.request("show", {"world": "archived"})["instance_id"]
+        finally:
+            fixture.process.send_signal(signal.SIGTERM)
+            fixture.process.wait(timeout=15)
+            fixture.errors.close()
+        store = StateStore(fixture.paths, Core.shared())
+        self.addCleanup(store.close)
+        pruner = Pruner(fixture.paths, store)
+        overlay = os.path.realpath(fixture.paths.overlays / instance)
+
+        def only_the_overlay(path, **kwargs):
+            if os.path.realpath(path) != overlay:
+                raise NothingRemoved(13, "denied", str(path))
+            remove_tree(path, **kwargs)
+
+        with mock.patch("worldline.prune.remove_tree", side_effect=only_the_overlay):
+            result = pruner.apply(pruner.plan(older_than_days=None, keep=None, logs=False))
+        self.assertNotIn("archived", result["pruned"])
+        self.assertFalse(store.world(instance).payload_pruned)
+        self.assertFalse(os.path.exists(overlay))
+        self.assertIn(instance, [entry["instanceId"] for entry in pruner.plan(older_than_days=None, keep=None, logs=False)["worlds"]])
+
+
 class StoreSchemaMigrations(unittest.TestCase):
     def _paths(self, root: Path) -> WorldlinePaths:
         env = {

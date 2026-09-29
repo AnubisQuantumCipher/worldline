@@ -333,7 +333,8 @@ def _dependency_record(root_key: str, root: bytes, format_name: str, files: list
         declared = _parse_dependency_group(format_name, files)
         state = "PARSED" if declared is not None else "UNAVAILABLE"
         reason = None if declared is not None else "format parser unavailable"
-    except (OSError, UnicodeError, json.JSONDecodeError, tomllib.TOMLDecodeError, TypeError, ValueError) as exc:
+    except (OSError, UnicodeError, json.JSONDecodeError, tomllib.TOMLDecodeError, TypeError, ValueError,
+            AttributeError) as exc:  # a package.json that is `[]` has no .get (review of c7d89f1)
         declared = None
         state = "UNAVAILABLE"
         reason = str(exc)

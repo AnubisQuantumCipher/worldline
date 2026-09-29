@@ -304,7 +304,10 @@ class RootManager:
             try:
                 repository = self.git.capture(source) if root["kind"] == "repo" else None
             except WorldlineError as exc:
-                if not (uninspectable_ok and exc.code in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT")):
+                if not (uninspectable_ok and exc.code in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT")
+                        and self._layout_uninspectable(source)):
+                    # Only the layout: a NOT_A_GIT_ROOT from content (core.bare) keeps refusing, or
+                    # removing another root would publish this one without its facts (review of c7d89f1).
                     raise
                 repository = None
                 if os.path.islink(os.path.join(source, b".git")):
@@ -326,6 +329,14 @@ class RootManager:
             self.store.update_root_generation(root_key, root["generation_id"], manifest.root_hash)
             manifests.append(manifest)
         return manifests
+
+    @staticmethod
+    def _layout_uninspectable(source: bytes) -> bool:
+        try:
+            GitAdapter._require_top_level_repository(source)
+        except WorldlineError:
+            return True
+        return False
 
     def capture_current(self, *, generation_id: str | None = None, exclude: frozenset[str] = frozenset(),
                         uninspectable_ok: bool = False) -> tuple[str, Path, list[CapturedManifest]]:
@@ -466,24 +477,41 @@ class RootManager:
         prepared = (self.capture_current(exclude=frozenset({root["root_key"]}), uninspectable_ok=True)
                     if remaining else None)
         stage = os.path.join(os.path.dirname(logical), f".worldline-materialize-{uuid.uuid4()}".encode("ascii"))
+
+        def recapture(path) -> str:
+            return Manifest.capture(path, logical_root=logical, root_key=root["root_key"], kind=root["kind"],
+                                    core=self.core, repository=repository,
+                                    allow_external_links=allow_external).root_hash
+
         try:
+            if prepared is not None:
+                # The client-content check, before the swap rather than in publication after it:
+                # a refusal then had the rollback discard whatever had been written at the
+                # operator's path meanwhile (review of c7d89f1).
+                for item in remaining:
+                    self.paths.assert_client_safe(prepared[1] / item["root_key"])
             Manifest.materialize(manifest, source, stage, core=self.core, allow_external_links=allow_external)
-        except BaseException:
+            if recapture(source) != manifest.root_hash:
+                # Written into the root after it was captured: the copy would silently drop it
+                # (review of c7d89f1). Nothing has changed yet; removing again is safe.
+                raise WorldlineError("ROOT_CHANGED_DURING_REMOVAL",
+                                     f"{root['display_path']} changed while it was being removed; remove it again")
+        except BaseException as exc:
             remove_tree(stage, ignore_errors=True)
             if prepared is not None:
                 remove_tree(prepared[1].parent, ignore_errors=True)
+            if isinstance(exc, WorldlineError) and exc.code == "CLIENT_MODE_UNSAFE_CONTENT":
+                self.paths.close_client_gate()  # a copy of what is live: live itself is unsafe
             raise
         was_primary = bool(root["primary_root"])
         with (self.watcher.owned_writes() if self.watcher is not None else nullcontext()):
             self.atomic.exchange(logical, stage)
-        publishing = False
         try:
             self.store.remove_root(root["root_key"])
             if remaining and was_primary:
                 self.store.set_primary_root(remaining[0]["root_key"])
             if prepared is not None:
                 generation_id, payload, manifests = prepared
-                publishing = True
                 world = self._publish_generation(
                     generation_id=generation_id,
                     generation_payload=payload,
@@ -517,12 +545,24 @@ class RootManager:
                 if was_primary:
                     self.store.set_primary_root(root["root_key"])
             finally:
-                # The operator's path is swapped back whatever the store did, and the copy that was
-                # materialized for it is removed instead of left beside the path.
+                # The operator's path is swapped back whatever the store did. The copy that stood
+                # there is removed only if it is still exactly what was materialized; anything
+                # written into it meanwhile is kept beside the path and logged (review of c7d89f1).
                 with (self.watcher.owned_writes() if self.watcher is not None else nullcontext()):
                     self.atomic.exchange(logical, stage)
-                remove_tree(stage, ignore_errors=True)
-                if prepared is not None and not publishing:
+                try:
+                    unchanged = recapture(stage) == manifest.root_hash
+                except (OSError, WorldlineError):
+                    unchanged = False
+                if unchanged:
+                    remove_tree(stage, ignore_errors=True)
+                else:
+                    kept = os.path.join(os.path.dirname(logical), f".worldline-removal-kept-{uuid.uuid4()}".encode("ascii"))
+                    os.rename(stage, kept)
+                    _LOG.error("root removal rolled back; what was written at %s meanwhile is kept in %s",
+                               root["display_path"], os.fsdecode(kept))
+                # The prepared generation is discarded unless publication made it PRIME.
+                if prepared is not None and self.store.get_meta("primeGeneration") != prepared[0]:
                     remove_tree(prepared[1].parent, ignore_errors=True)
             raise
 

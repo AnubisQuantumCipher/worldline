@@ -42,6 +42,15 @@ class EnvironmentTests(unittest.TestCase):
         )
         self.assertEqual(set(captured), {"LANG", "PATH"})
 
+    def test_a_package_json_that_is_not_an_object_is_unavailable_not_a_crash(self) -> None:
+        # Review of c7d89f1: `[]` raised AttributeError through registration and reconcile.
+        from worldline.environment import capture_dependencies
+        (self.root / "package.json").write_text("[]", encoding="utf-8")
+        records = capture_dependencies([("k" * 64, os.fsencode(self.root))], Core.shared())
+        npm = [record for record in records if record.get("format") == "npm"]
+        self.assertTrue(npm, records)
+        self.assertEqual(npm[0]["state"], "UNAVAILABLE")
+
     def test_the_recorded_environment_omits_the_xdg_homes_no_sandbox_passes(self) -> None:
         homes = {name: f"/home/someone/{name.lower()}" for name in
                  ("XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_STATE_HOME", "XDG_CACHE_HOME")}
