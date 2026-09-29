@@ -40,7 +40,12 @@ class EnvironmentTests(unittest.TestCase):
                 "DATABASE_PASSWORD": "secret",
             }
         )
-        self.assertEqual(set(captured), {"LANG", "PATH", "XDG_CONFIG_HOME"})
+        self.assertEqual(set(captured), {"LANG", "PATH"})
+
+    def test_the_recorded_environment_omits_the_xdg_homes_no_sandbox_passes(self) -> None:
+        homes = {name: f"/home/someone/{name.lower()}" for name in
+                 ("XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_STATE_HOME", "XDG_CACHE_HOME")}
+        self.assertEqual(safe_environment({"LANG": "C", **homes}), {"LANG": "C"})
 
     def test_dependency_names_and_unassessed_evidence_are_observed(self) -> None:
         (self.root / "pyproject.toml").write_text(

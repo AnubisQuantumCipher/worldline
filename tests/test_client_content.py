@@ -10,15 +10,19 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+import shutil
 import stat
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
 
 from worldline.core import Core
+from worldline.daemon import WorldlineDaemon
 from worldline.errors import WorldlineError
 from worldline.paths import WorldlinePaths
 from worldline.roots import RootManager
+from worldline.status import StatusPublisher
 from worldline.store import StateStore
 
 from tests.test_lifecycle_integrity import _FixtureDaemon
@@ -90,17 +94,28 @@ class ContentSafety(unittest.TestCase):
                 self.assertGreaterEqual(details["count"], 1)
                 os.chmod(path, 0o755 if path.is_dir() else 0o644)
 
-    def test_group_write_matters_only_for_the_client_group(self) -> None:
+    def test_group_write_is_allowed_only_in_the_daemons_own_group(self) -> None:
         # A umask-002 host puts g+w on everything a world writes; that grants a client nothing
-        # while the entry carries the daemon's own group, which clients are never in.
+        # while the entry carries the daemon's own group, which no client may be in. Any other
+        # group may hold a client (a migration that chowned only the owner keeps the operator's
+        # group, and the operator is a client), so its write bit is refused (review of ad64cd2).
         file = self.tree / "sub" / "file.txt"
         os.chmod(file, 0o664)
         os.chmod(self.tree / "sub", 0o775)
         self.paths.assert_client_safe(self.tree)
-        os.chown(file, -1, SUPPLEMENTARY_GID)   # now the client group could write it
+        os.chown(file, -1, SUPPLEMENTARY_GID)   # a group other than the daemon's
         details = self.refuses()
         self.assertEqual(details["count"], 1)
         self.assertIn(f"gid={SUPPLEMENTARY_GID}", details["entries"][0])
+
+    @unittest.skipIf(shutil.which("setfacl") is None, "setfacl is unavailable")
+    def test_an_extended_acl_refuses_even_when_the_mode_looks_safe(self) -> None:
+        file = self.tree / "sub" / "file.txt"
+        applied = subprocess.run(["setfacl", "-m", "u:65534:rwx", str(file)], capture_output=True)
+        if applied.returncode != 0:
+            self.skipTest(f"this filesystem takes no ACLs: {applied.stderr!r}")
+        details = self.refuses()
+        self.assertTrue(any(" acl " in entry for entry in details["entries"]), details)
 
     def test_content_the_daemon_does_not_own_refuses(self) -> None:
         with mock.patch("worldline.paths.os.getuid", return_value=os.getuid() + 1):
@@ -139,6 +154,37 @@ class StartupRefusesUnsafePrime(unittest.TestCase):
 
 
 @needs_supplementary
+class DaemonStartClosesTheGate(unittest.IsolatedAsyncioTestCase):
+    async def test_a_start_that_refuses_leaves_a_previously_opened_gate_closed(self) -> None:
+        # Review of ad64cd2: a start over unsafe content exited with the gate a previous run
+        # had opened still open.
+        with tempfile.TemporaryDirectory(prefix="worldline-client-gate-start-") as temporary:
+            root = Path(temporary)
+            owner = WorldlinePaths.from_environment(environment(root))
+            store = StateStore(owner, Core.shared())
+            work = root / "work"
+            work.mkdir()
+            (work / "state.txt").write_text("prime\n")
+            RootManager(owner, store, core=Core.shared(), toolchains=()).register([work], confirmed=True)
+            content = Path(os.path.realpath(owner.live / store.roots()[0]["root_key"]))
+            store.close()
+            client = WorldlinePaths.from_environment(environment(root, **CLIENT_ENV))
+            client.share_live_chain()                      # a previous, healthy start
+            self.assertEqual(stat.S_IMODE(client.data.stat().st_mode), 0o710)
+            os.chmod(content, 0o777)                       # content turns unsafe while stopped
+            store = StateStore(client, Core.shared())
+            daemon = WorldlineDaemon(client, store, StatusPublisher(client, store, lambda: {}))
+            try:
+                with self.assertRaises(WorldlineError) as caught:
+                    await daemon.start()
+                self.assertEqual(caught.exception.code, "CLIENT_MODE_UNSAFE_CONTENT")
+                self.assertEqual(stat.S_IMODE(client.data.stat().st_mode), 0o700)
+            finally:
+                await daemon.stop()
+                store.close()
+
+
+@needs_supplementary
 class CollapseRefusesUnsafeContent(unittest.TestCase):
     def fixture(self, agent: str) -> _FixtureDaemon:
         with mock.patch.dict(os.environ, CLIENT_ENV):
@@ -172,6 +218,58 @@ class CollapseRefusesUnsafeContent(unittest.TestCase):
         content = Path(os.path.realpath(fixture.work))
         self.assertEqual(stat.S_IMODE(content.parent.stat().st_mode), 0o710)
         self.assertEqual(content.parent.stat().st_gid, SUPPLEMENTARY_GID)
+
+
+class DoctorReportsClientMode(unittest.TestCase):
+    """The deployment requirements a client-mode daemon can observe are reported, never assumed."""
+
+    @needs_supplementary
+    def test_the_doctor_names_the_gate_and_the_host_facts(self) -> None:
+        with mock.patch.dict(os.environ, CLIENT_ENV):
+            fixture = _FixtureDaemon(self, _ORDINARY_AGENT)
+        self.addCleanup(fixture.close)
+        fixture.client.request("init", {"roots": [str(fixture.work)], "kind": None, "primary": None, "confirmed": True})
+        report = fixture.client.request("doctor", {})["clientMode"]
+        self.assertTrue(report["enabled"])
+        self.assertEqual(report["clientGid"], SUPPLEMENTARY_GID)
+        self.assertEqual(report["clientUids"], [os.getuid() + 4242])
+        self.assertEqual(report["gate"], "OPEN")
+        self.assertEqual(set(report["deployment"]), {"protectedHardlinks", "storeNosuid", "memoryMax", "tasksMax"})
+        for name, fact in report["deployment"].items():
+            with self.subTest(fact=name):
+                self.assertIn(fact["state"], {"OK", "MISSING", "UNKNOWN"})
+
+    def test_an_owner_only_daemon_reports_client_mode_off(self) -> None:
+        with mock.patch.dict(os.environ):
+            for name in ("WORLDLINE_CLIENT_GID", "WORLDLINE_CLIENT_UIDS"):
+                os.environ.pop(name, None)
+            fixture = _FixtureDaemon(self, _ORDINARY_AGENT)
+        self.addCleanup(fixture.close)
+        self.assertEqual(fixture.client.request("doctor", {})["clientMode"], {"enabled": False})
+
+    def test_each_fact_is_read_and_a_fact_that_cannot_be_read_is_unknown(self) -> None:
+        from worldline.paths import deployment_facts
+        real_read = Path.read_text
+
+        def host(self, *args, **kwargs):
+            name = str(self)
+            if name == "/proc/sys/fs/protected_hardlinks":
+                return "0\n"
+            if name.endswith("/memory.max"):
+                return "4294967296\n"
+            if name.endswith("/pids.max"):
+                raise PermissionError(13, "Permission denied", name)
+            return real_read(self, *args, **kwargs)
+
+        with tempfile.TemporaryDirectory() as store, mock.patch.object(Path, "read_text", host):
+            facts = deployment_facts(Path(store))
+        self.assertEqual(facts["protectedHardlinks"], {"state": "MISSING", "value": "0"})
+        self.assertEqual(facts["memoryMax"]["state"], "OK")
+        self.assertEqual(facts["memoryMax"]["value"], "4294967296")
+        self.assertEqual(facts["tasksMax"]["state"], "UNKNOWN")
+        self.assertIn(facts["storeNosuid"]["state"], {"OK", "MISSING"})
+        with mock.patch("worldline.paths.os.statvfs", side_effect=OSError(5, "I/O error")):
+            self.assertEqual(deployment_facts(Path("/"))["storeNosuid"]["state"], "UNKNOWN")
 
 
 if __name__ == "__main__":

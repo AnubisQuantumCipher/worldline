@@ -18,9 +18,12 @@ from .core import Core, hash_id
 from .manifest import display_path, path_b64
 
 _SECRET_NAME = re.compile(r"(?:TOKEN|KEY|PASSWORD|PASSWD|SECRET|CREDENTIAL|AUTH|COOKIE)", re.IGNORECASE)
+# The account's XDG_*_HOME variables are not here: they name directories inside the daemon's HOME,
+# which every sandbox masks, so no sandbox passes them (namespaces.py) and a world's recorded
+# environment must not claim it had them (review of ad64cd2).
 _SAFE_EXACT = {
     "LANG", "LANGUAGE", "TERM", "COLORTERM", "EDITOR", "VISUAL", "PAGER", "PATH",
-    "XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_CACHE_HOME", "XDG_STATE_HOME", "XDG_RUNTIME_DIR",
+    "XDG_RUNTIME_DIR",
     "RUSTUP_TOOLCHAIN", "GPR_PROJECT_PATH", "ADA_PROJECT_PATH", "VIRTUAL_ENV", "CONDA_DEFAULT_ENV",
 }
 _SAFE_PREFIXES = ("LC_", "MISE_", "ASDF_", "GNAT_", "PYENV_", "NVM_")

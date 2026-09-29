@@ -15,6 +15,7 @@ from pathlib import Path
 import stat
 import tempfile
 import unittest
+from unittest import mock
 
 from worldline.causal import CausalIndexer
 from worldline.core import Core
@@ -133,6 +134,30 @@ class RootSourceTests(_Registered):
             Pruner(self.paths, self.store).plan(older_than_days=None, keep=None, logs=False)
         self.assertEqual(caught.exception.code, "LIVE_MAPPING_BROKEN")
 
+    def test_a_root_the_sandbox_cannot_inspect_is_reported_and_still_removable(self) -> None:
+        # A repository root registered before 1.7.x whose `.git` became a file (a linked worktree):
+        # captures refuse it by name, the doctor must say so, and `root remove` must still work.
+        import subprocess
+        repo = Path(self.temporary.name) / "repo-root"
+        repo.mkdir()
+        subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
+        (repo / "f.txt").write_text("x\n")
+        subprocess.run(["git", "-C", str(repo), "add", "f.txt"], check=True, capture_output=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.email=a@b.c", "-c", "user.name=a",
+                        "commit", "-qm", "init"], check=True, capture_output=True)
+        self.manager.register([repo], confirmed=True)
+        root = next(item for item in self.store.roots() if bytes(item["path"]) == os.fsencode(repo))
+        source = Path(os.fsdecode(self.paths.root_source(root)))
+        (source / ".git").rename(source / "moved-git")
+        (source / ".git").write_text(f"gitdir: {source / 'moved-git'}\n")
+        from worldline.controller import RuntimeController
+        report = RuntimeController._root_integrity(mock.Mock(store=self.store, paths=self.paths))
+        entry = next(item for item in report["roots"] if item["rootKey"] == root["root_key"])
+        self.assertEqual(entry["state"], "BROKEN")
+        self.assertIn("GIT_LINKED_WORKTREE_UNSUPPORTED", entry["reason"])
+        self.manager.remove(root["root_key"], confirmed=True)
+        self.assertTrue((repo / "f.txt").is_file())
+
     def test_why_does_not_leave_the_root(self) -> None:
         outside = Path(self.temporary.name) / "secret.txt"
         outside.write_bytes(b"daemon-only line\n")
@@ -165,10 +190,13 @@ class ClientModePrimeChainTests(_Registered):
         content = Path(os.fsdecode(self.paths.root_source(self.root)))
         os.chmod(content, 0o777)
         self.store.set_meta("dirty", True)
+        generations = sorted(p.name for p in self.paths.generations.iterdir())
         with self.assertRaises(WorldlineError) as caught:
             self.manager.reconcile()
         self.assertEqual(caught.exception.code, "CLIENT_MODE_UNSAFE_CONTENT")
         self.assertEqual(stat.S_IMODE(self.paths.data.stat().st_mode), 0o700)
+        # The refused copy is not kept (review of ad64cd2: each refusal left a full copy behind).
+        self.assertEqual(sorted(p.name for p in self.paths.generations.iterdir()), generations)
 
     def test_the_chain_to_prime_is_traverse_only_for_the_client_group(self) -> None:
         self.paths.share_live_chain()  # what daemon start does

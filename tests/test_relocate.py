@@ -274,6 +274,190 @@ class RelocateAStore(unittest.TestCase):
         result = self.relocation().run(dry_run=True)
         self.assertGreaterEqual(result["liveContentUnsafeForClients"]["count"], 1)
 
+    def test_group_write_outside_the_accounts_group_is_reported(self) -> None:
+        other = next((gid for gid in os.getgroups() if gid != os.getegid()), None)
+        if other is None:
+            self.skipTest("needs a supplementary group")
+        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
+        target = Path(os.path.realpath(live))
+        victim = next(p for p in sorted(target.iterdir()) if p.is_file())
+        os.chown(victim, -1, other)
+        os.chmod(victim, 0o664)
+        result = self.relocation().run(dry_run=True)
+        self.assertEqual(result["liveContentUnsafeForClients"]["count"], 1)
+
+    def test_sockets_and_fifos_in_the_copy_are_skipped_not_fatal(self) -> None:
+        # Relocating production's copy crashed on a dead world's socket (ENXIO on open).
+        import socket as socket_module
+        runtime = self.new.data / "overlays" / "dead-world" / "agent-runtime"
+        runtime.mkdir(parents=True)
+        server = socket_module.socket(socket_module.AF_UNIX, socket_module.SOCK_STREAM)
+        self.addCleanup(server.close)
+        previous = os.getcwd()
+        os.chdir(runtime)  # a relative bind: the absolute path is longer than AF_UNIX allows
+        try:
+            server.bind("4.sock")
+        finally:
+            os.chdir(previous)
+        os.mkfifo(runtime / "pipe")
+        result = self.relocation().run(dry_run=True)
+        self.assertEqual(result["refusedFiles"], [])
+
+    def test_a_copy_reached_through_a_symlinked_directory_is_refused(self) -> None:
+        # Review of ad64cd2: a "copy" that was the old store behind a link got the old store
+        # rewritten in place. A link as the directory itself, and a link as one of its parents.
+        alias = self.destination / "alias-state"
+        alias.symlink_to(self.old.state, target_is_directory=True)
+        with self.assertRaises(WorldlineError) as caught:
+            Relocation(old_data=self.old.data, old_state=self.old.state, new_data=self.new.data, new_state=alias)
+        self.assertIn("not a real directory", caught.exception.message)
+        parent = self.destination / "alias-parent"
+        parent.symlink_to(self.old.state.parent, target_is_directory=True)
+        with self.assertRaises(WorldlineError) as caught:
+            Relocation(old_data=self.old.data, old_state=self.old.state, new_data=self.new.data,
+                       new_state=parent / self.old.state.name)
+        self.assertIn("spelled by its real path", caught.exception.message)
+        self.assertEqual((_tree_digest(self.old.data), _tree_digest(self.old.state)), self.old_digest)
+
+    def test_the_copy_may_not_overlap_the_old_store(self) -> None:
+        inner = self.old.data / "generations" / "nested-copy"
+        inner.mkdir()
+        self.addCleanup(inner.rmdir)
+        with self.assertRaises(WorldlineError) as caught:
+            Relocation(old_data=self.old.data, old_state=self.old.state, new_data=inner, new_state=self.new.state)
+        # One prefix inside another is refused by name before the real paths are compared.
+        self.assertIn("contain one another", caught.exception.message)
+        # Spelled apart (the old store through a link), the real paths still overlap.
+        alias = self.destination / "old-alias"
+        alias.symlink_to(self.old.data.parent, target_is_directory=True)
+        with self.assertRaises(WorldlineError) as caught:
+            Relocation(old_data=alias / self.old.data.name, old_state=self.old.state,
+                       new_data=inner, new_state=self.new.state)
+        self.assertIn("overlap", caught.exception.message)
+
+    def test_a_bind_mounted_copy_is_refused_by_identity(self) -> None:
+        # A bind mount is the same directory under another name; realpath cannot see it. The
+        # identity check is exercised here by making os.stat report the old store's identity.
+        real_stat = os.stat
+
+        def same_identity(path, *args, **kwargs):
+            if os.fspath(path) == str(self.new.state):
+                return real_stat(self.old.state, *args, **kwargs)
+            return real_stat(path, *args, **kwargs)
+
+        with mock.patch("worldline.relocate.os.stat", side_effect=same_identity):
+            with self.assertRaises(WorldlineError) as caught:
+                self.relocation()
+        self.assertIn("under another name", caught.exception.message)
+
+    def test_a_recorded_location_that_links_back_into_the_old_store_is_refused_while_planning(self) -> None:
+        # The events file is recorded in causal_events.canonical_path; a link there would have the
+        # relocated daemon read the old store's file. Refused before anything is written.
+        events = self.new.state / "events"
+        victim = next(p for p in sorted(events.iterdir()) if p.is_file())
+        victim.unlink()
+        victim.symlink_to(self.old.state / "events" / victim.name)
+        database = (self.new.state / "worldline.sqlite3").read_bytes()
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation().run()
+        self.assertIn("resolves outside the new store", caught.exception.message)
+        self.assertEqual((self.new.state / "worldline.sqlite3").read_bytes(), database)
+        self.assertEqual((_tree_digest(self.old.data), _tree_digest(self.old.state)), self.old_digest)
+
+    def _set_column(self, alias: str, column: str, transform) -> bytes:
+        connection = sqlite3.connect(self.new.state / "worldline.sqlite3")
+        try:
+            (value,) = connection.execute(f"SELECT {column} FROM worlds WHERE alias=?", (alias,)).fetchone()
+            changed = transform(value)
+            connection.execute(f"UPDATE worlds SET {column}=? WHERE alias=?", (changed, alias))
+            connection.commit()
+        finally:
+            connection.close()
+        return changed
+
+    def test_a_world_evidence_record_that_names_the_old_store_is_kept_byte_for_byte(self) -> None:
+        # Production's store holds one: a private evaluator's check recorded its sandbox command
+        # line, with bind sources in the world's overlay. The evidence is hashed into the world's
+        # identity; it is a record of where the check ran, not a location anything opens.
+        recorded = str(self.old.data / "overlays" / "x" / "checks" / "exam" / "frozen" / "0")
+        evidence = self._set_column("sibling", "evidence",
+                                    lambda value: json.dumps({**json.loads(value), "recordedBind": recorded}).encode())
+        plan = self.relocation().run(dry_run=True)
+        self.assertEqual(plan["refusedDatabaseColumns"], {})
+        self.assertEqual(plan["recordColumnsKept"], {"worlds.evidence": 1})
+        result = self.relocation().run()
+        self.assertEqual(result["state"], "RELOCATED")
+        self.assertEqual(result["recordColumnsKept"], {"worlds.evidence": 1})
+        connection = sqlite3.connect(f"file:{self.new.state / 'worldline.sqlite3'}?mode=ro", uri=True)
+        try:
+            (kept,) = connection.execute("SELECT evidence FROM worlds WHERE alias='sibling'").fetchone()
+        finally:
+            connection.close()
+        self.assertEqual(kept, evidence)
+
+    def test_any_other_column_that_names_the_old_store_refuses(self) -> None:
+        self._set_column("sibling", "cause", lambda value: f"{value} {self.old.state}/elsewhere")
+        plan = self.relocation().run(dry_run=True)
+        self.assertEqual(plan["refusedDatabaseColumns"], {"worlds.cause": 1})
+        self.assertEqual(plan["recordColumnsKept"], {})
+        with self.assertRaises(WorldlineError):
+            self.relocation().run()
+        self.assertEqual((_tree_digest(self.old.data), _tree_digest(self.old.state)), self.old_digest)
+
+    def test_links_where_the_daemon_makes_none_are_refused(self) -> None:
+        manifests = sorted(path for path in (self.new.data / "generations").glob("*/manifests/*") if path.is_file())
+        self.assertTrue(manifests)
+        victim = manifests[0]
+        outside = self.destination / "outside" / victim.name
+        outside.parent.mkdir()
+        shutil.copy2(victim, outside)
+        victim.unlink()
+        victim.symlink_to(outside)
+        refused = self.relocation().run(dry_run=True)["refusedFiles"]
+        self.assertTrue(any(victim.name in entry and "where the daemon makes none" in entry for entry in refused), refused)
+        with self.assertRaises(WorldlineError):
+            self.relocation().run()
+        self.assertEqual((_tree_digest(self.old.data), _tree_digest(self.old.state)), self.old_digest)
+
+    def test_a_content_link_into_the_old_store_is_refused_and_a_harmless_one_kept(self) -> None:
+        # Before relocation the copy's live links still name the old store: map the target.
+        live = next(p for p in sorted(self.new.live.iterdir()) if p.is_symlink())
+        target = os.readlink(live)
+        self.assertTrue(target.startswith(str(self.old.data) + "/"), target)
+        content = Path(str(self.new.data) + target[len(str(self.old.data)):])
+        self.assertTrue(content.is_dir())
+        (content / "harmless").symlink_to("/usr/bin/true")
+        self.assertEqual(self.relocation().run(dry_run=True)["refusedFiles"], [])
+        (content / "sneaky").symlink_to(os.path.relpath(self.old.data / "live", content))
+        refused = self.relocation().run(dry_run=True)["refusedFiles"]
+        self.assertTrue(any("sneaky" in entry and "resolves into the old store" in entry for entry in refused), refused)
+        self.assertFalse(any("harmless" in entry for entry in refused), refused)
+
+    def test_each_entry_is_counted_once(self) -> None:
+        relocation = self.relocation()
+        walked = 0
+        for root in (self.new.data, self.new.state):
+            for directory, subdirectories, files in os.walk(root):
+                walked += len(subdirectories) + len(files)
+                subdirectories[:] = [d for d in subdirectories if not os.path.islink(os.path.join(directory, d))
+                                     and os.access(os.path.join(directory, d), os.R_OK | os.X_OK)]
+            walked += 1  # the root itself
+        with mock.patch("worldline.relocate.os.geteuid", return_value=os.getuid() + 1):
+            count, _sample, _undescended = relocation._foreign_entries()
+        self.assertEqual(count, walked)
+
+    def test_a_held_daemon_lock_refuses_the_run(self) -> None:
+        import fcntl
+        from worldline.relocate import main
+        lock_path = self.destination / "worldlined.lock"
+        holder = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o600)
+        self.addCleanup(os.close, holder)
+        fcntl.flock(holder, fcntl.LOCK_EX)
+        code = main(["--from-data", str(self.old.data), "--from-state", str(self.old.state),
+                     "--to-data", str(self.new.data), "--to-state", str(self.new.state),
+                     "--dry-run", "--daemon-lock", str(lock_path)])
+        self.assertEqual(code, 1)
+
     def test_nested_or_relative_directories_are_refused(self) -> None:
         for arguments in ({"new_data": self.old.data / "inner"}, {"old_data": Path("relative/data")}):
             with self.subTest(arguments=str(arguments)):

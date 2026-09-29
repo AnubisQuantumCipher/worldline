@@ -6,9 +6,10 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 from worldline.controller import RuntimeController
-from worldline.core import Core
+from worldline.core import Core, hash_id
 from worldline.errors import WorldlineError
 from worldline.linux.git import GitAdapter
 from worldline.model import validate_alias, validate_user_alias
@@ -135,7 +136,13 @@ class GitFilterDriversAreContained(unittest.TestCase):
 
 
 class GitSandboxLayout(unittest.TestCase):
-    """What the repository sandbox binds, and what it refuses to (review of 80007ba)."""
+    """What the repository sandbox binds and refuses (reviews of 80007ba and ad64cd2).
+
+    Only a repository's own top-level directory is inspected, with its `.git` a real directory
+    inside it. A `.git` FILE names a directory elsewhere, chosen by the content being inspected:
+    binding it once put another repository's committed content into a world's recorded facts."""
+
+    SECRET = "SECRET-DEPLOY-KEY-OF-ANOTHER-REPOSITORY"
 
     def setUp(self) -> None:
         if subprocess.run(["git", "--version"], capture_output=True).returncode != 0:
@@ -145,40 +152,41 @@ class GitSandboxLayout(unittest.TestCase):
         self.base = Path(self.temporary.name)
         self.main = self.base / "main"
         self.main.mkdir()
-        git = lambda *args: subprocess.run(["git", "-C", str(self.main), *args], check=True, capture_output=True)
-        git("init", "-q", "-b", "main")
-        (self.main / "f.txt").write_text("original\n", encoding="utf-8")
-        git("add", "f.txt")
-        git("-c", "user.email=a@b.c", "-c", "user.name=a", "commit", "-qm", "init")
-        self.git = git
+        self.git = lambda *args: subprocess.run(["git", "-C", str(self.main), *args], check=True, capture_output=True)
+        self.git("init", "-q", "-b", "main")
+        (self.main / "secret.txt").write_text(self.SECRET + "\n", encoding="utf-8")
+        (self.main / "sub").mkdir()
+        (self.main / "sub" / "f.txt").write_text("in a subdirectory\n", encoding="utf-8")
+        self.git("add", "secret.txt", "sub/f.txt")
+        self.git("-c", "user.email=a@b.c", "-c", "user.name=a", "commit", "-qm", "init")
 
-    def test_a_linked_worktree_root_is_captured(self) -> None:
-        # Its .git is a file naming a directory outside the root; 80007ba refused every such root.
-        linked = self.base / "linked"
-        self.git("worktree", "add", "-q", "-b", "feature", str(linked))
-        (linked / "f.txt").write_text("edited in the worktree\n", encoding="utf-8")
-        binds = GitAdapter._git_directories(os.fsencode(linked))
-        self.assertEqual([os.fsdecode(b) for b in binds],
-                         [os.path.realpath(self.main / ".git" / "worktrees" / "linked"), os.path.realpath(self.main / ".git")])
-        captured = GitAdapter(Core.shared()).capture(linked)
-        self.assertEqual((captured["state"], captured["branch"]), ("CAPTURED", "feature"))
-        self.assertIsNotNone(captured["head"])
-        self.assertIsNotNone(captured["indexHash"])
-        self.assertIn(b"edited in the worktree", base64.b64decode(captured["worktreeDiffRawB64"]))
-
-    def test_a_git_file_naming_a_directory_that_is_not_a_git_directory_binds_nothing(self) -> None:
-        secrets = self.base / "secrets"
-        secrets.mkdir()
-        (secrets / "key").write_text("do not show me to a sandbox\n", encoding="utf-8")
-        root = self.base / "hostile"
-        root.mkdir()
-        (root / ".git").write_text(f"gitdir: {secrets}\n", encoding="utf-8")
-        self.assertEqual(GitAdapter._git_directories(os.fsencode(root)), [])
-        argv = GitAdapter._sandbox(os.fsencode(root), None, [])
-        self.assertNotIn(str(secrets), argv)
+    def refused(self, root: Path, code: str) -> WorldlineError:
         with self.assertRaises(WorldlineError) as caught:
             GitAdapter(Core.shared()).capture(root)
-        self.assertIn(caught.exception.code, ("GIT_INSPECTION_FAILED", "NOT_A_GIT_ROOT"))
+        self.assertEqual(caught.exception.code, code)
+        return caught.exception
+
+    def test_a_git_file_naming_another_repository_binds_and_leaks_nothing(self) -> None:
+        hostile = self.base / "hostile"
+        hostile.mkdir()
+        (hostile / ".git").write_text(f"gitdir: {self.main / '.git'}\n", encoding="utf-8")
+        self.refused(hostile, "GIT_LINKED_WORKTREE_UNSUPPORTED")
+        argv = GitAdapter._sandbox(os.fsencode(hostile), None, GitAdapter._task_limit())
+        self.assertFalse(any(str(self.main) in item for item in argv), "another repository was bound")
+
+    def test_a_linked_worktree_root_is_refused_by_name(self) -> None:
+        linked = self.base / "linked"
+        self.git("worktree", "add", "-q", "-b", "feature", str(linked))
+        self.refused(linked, "GIT_LINKED_WORKTREE_UNSUPPORTED")
+
+    def test_a_link_named_git_is_refused_by_name(self) -> None:
+        linked = self.base / "linked-dir"
+        linked.mkdir()
+        (linked / ".git").symlink_to(self.main / ".git")
+        self.refused(linked, "GIT_LINKED_WORKTREE_UNSUPPORTED")
+
+    def test_a_subdirectory_of_a_repository_is_refused_by_name(self) -> None:
+        self.refused(self.main / "sub", "NOT_A_GIT_ROOT")
 
     def test_an_index_link_that_leaves_the_root_is_not_read(self) -> None:
         outside = self.base / "outside-secret"
@@ -186,21 +194,50 @@ class GitSandboxLayout(unittest.TestCase):
         index = self.main / ".git" / "index"
         index.unlink()
         index.symlink_to(outside)
-        self.assertIsNone(GitAdapter._contained_index(os.fsencode(self.main), os.fsencode(index), []))
+        self.assertIsNone(GitAdapter._read_index(os.fsencode(self.main)))
         captured = GitAdapter(Core.shared()).capture(self.main)
         self.assertEqual(captured["state"], "CAPTURED")
         self.assertIsNone(captured["indexHash"])
 
-    def test_the_sandbox_limits_processes_and_its_tmpfs(self) -> None:
-        argv = GitAdapter._sandbox(os.fsencode(self.main), None, [])
+    def test_an_ordinary_index_is_hashed_from_the_bytes_that_are_copied(self) -> None:
+        captured = GitAdapter(Core.shared()).capture(self.main)
+        expected = hash_id(Core.shared().hash_file(self.main / ".git" / "index"))
+        self.assertEqual(captured["indexHash"], expected)
+
+    def test_a_sandbox_that_does_not_start_refuses_instead_of_recording_a_fact(self) -> None:
+        # Review of ad64cd2: a launch failure during `rev-parse --verify HEAD` (check=False) was
+        # recorded as head=None for a repository that has a HEAD.
+        with mock.patch.object(GitAdapter, "_task_limit", return_value=1):
+            self.refused(self.main, "GIT_SANDBOX_UNAVAILABLE")
+
+    def test_the_doctor_names_a_layout_the_sandbox_cannot_inspect(self) -> None:
+        from worldline.controller import _require_alternates_inside
+        alternates = self.main / ".git" / "objects" / "info" / "alternates"
+        alternates.parent.mkdir(parents=True, exist_ok=True)
+        alternates.write_text(str(self.base / "elsewhere" / "objects") + "\n", encoding="utf-8")
+        with self.assertRaises(WorldlineError) as caught:
+            _require_alternates_inside(os.fsencode(self.main))
+        self.assertEqual(caught.exception.code, "GIT_ALTERNATES_OUTSIDE_ROOT")
+        alternates.unlink()
+        _require_alternates_inside(os.fsencode(self.main))
+
+    def test_the_sandbox_limits_tasks_and_forbids_nested_user_namespaces(self) -> None:
+        limit = GitAdapter._task_limit()
+        argv = GitAdapter._sandbox(os.fsencode(self.main), None, limit)
         self.assertTrue(argv[0].endswith("prlimit"))
-        soft, hard = argv[1].removeprefix("--nproc=").split(":")
-        self.assertEqual(soft, hard)
-        own = GitAdapter._uid_tasks(os.getuid())
-        self.assertGreater(int(soft), own)
-        self.assertLessEqual(int(soft), own + GitAdapter._EXTRA_TASKS + 128)
+        self.assertEqual(argv[1], f"--nproc={limit}:{limit}")
+        self.assertGreater(limit, GitAdapter._uid_tasks(os.getuid()))
+        for flag in ("--unshare-user", "--disable-userns"):
+            self.assertIn(flag, argv)
         size = argv.index("--size")
         self.assertEqual(argv[size + 1:size + 4], [str(GitAdapter._TMPFS_BYTES), "--tmpfs", "/tmp"])
+        # Demonstrated, not assumed: inside the sandbox a new user namespace cannot be made, so
+        # a fresh RLIMIT_NPROC count cannot be had that way.
+        nested = subprocess.run([*argv, "/usr/bin/unshare", "--user", "/usr/bin/true"],
+                                capture_output=True, timeout=30)
+        self.assertNotEqual(nested.returncode, 0, nested.stderr)
+        plain = subprocess.run([*argv, "/usr/bin/true"], capture_output=True, timeout=30)
+        self.assertEqual(plain.returncode, 0, plain.stderr)
 
 
 class AliasValidation(unittest.TestCase):

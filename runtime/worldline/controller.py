@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 from typing import Any, Callable
 import uuid
@@ -26,12 +27,13 @@ from .fork import ForkManager
 from .ghosts import GhostManager
 from .anchor import AnchorLedger
 from .prune import Pruner, require_payload
+from .linux.git import GitAdapter
 from .linux.hyprland import HyprlandAdapter
 from .linux.inotify import InotifyWatcher
 from .linux.namespaces import BubblewrapSandbox
 from .admission import AdmissionAuthority, Gate, Ledger
 from .linux.systemd import SystemdAdapter
-from .paths import WorldlinePaths
+from .paths import WorldlinePaths, deployment_facts
 from .reconcile import PrimeChangeTracker
 from .returning import ReturnManager
 from .revalidate import Revalidator
@@ -50,6 +52,26 @@ _ROOT_KEY = re.compile(r"[0-9a-f]{64}")
 
 
 _LOG = logging.getLogger("worldline.controller")
+
+def _require_alternates_inside(source: bytes) -> None:
+    """Objects borrowed from outside the root (`objects/info/alternates`) are invisible to the
+    repository sandbox, so every capture of such a root refuses; say so before a capture does."""
+    alternates = os.path.join(source, b".git", b"objects", b"info", b"alternates")
+    try:
+        with open(alternates, "rb") as stream:
+            entries = [line.strip() for line in stream.read(65536).splitlines() if line.strip()]
+    except OSError:
+        return
+    objects = os.path.realpath(os.path.join(source, b".git", b"objects"))
+    root = os.path.realpath(source)
+    for entry in entries:
+        resolved = os.path.realpath(entry if os.path.isabs(entry) else os.path.join(objects, entry))
+        if not (resolved == root or resolved.startswith(root + b"/")):
+            raise WorldlineError(
+                "GIT_ALTERNATES_OUTSIDE_ROOT",
+                f"{os.fsdecode(source)} borrows objects from {os.fsdecode(resolved)}, which the repository "
+                "sandbox cannot see; repack the repository (git repack -a -d) and remove the alternates file")
+
 
 class RuntimeController:
     def __init__(
@@ -645,6 +667,7 @@ class RuntimeController:
             raise InvalidRequest("doctor accepts only refresh")
         snapshot = self.capabilities.snapshot(refresh=bool(args.get("refresh", False)))
         snapshot["rootIntegrity"] = self._root_integrity()
+        snapshot["clientMode"] = self._client_mode_report()
         snapshot["storeIntegrity"] = self._store_integrity()
         snapshot["receiptCoverage"] = self._receipt_coverage()
         snapshot["recovery"] = self._recovery_report()
@@ -693,6 +716,25 @@ class RuntimeController:
             return {"state": "DRY_RUN", **plan}
         result = self.pruner.apply(plan)
         return {"state": "PRUNED", **result, "plan": plan}
+
+    def _client_mode_report(self) -> dict[str, Any]:
+        """Whether clients are served, whether the gate into the store is open, and the host
+        facts a client-mode deployment needs that the daemon can observe (SECURITY.md limit 7)."""
+        if self.paths.client_gid is None:
+            return {"enabled": False}
+        try:
+            info = os.stat(self.paths.data)
+            opened = stat.S_IMODE(info.st_mode) == 0o710 and info.st_gid == self.paths.client_gid
+            gate = "OPEN" if opened else "CLOSED"
+        except OSError:
+            gate = "UNKNOWN"
+        return {
+            "enabled": True,
+            "clientGid": self.paths.client_gid,
+            "clientUids": list(self.paths.client_uids),
+            "gate": gate,
+            "deployment": deployment_facts(self.paths.data),
+        }
 
     def _anchor_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if args:
@@ -847,10 +889,13 @@ class RuntimeController:
                 # Exactly what every capture enforces (review of ff201cd: the doctor said OK for a
                 # root whose live mapping resolved outside the store, which every capture refuses).
                 try:
-                    self.paths.root_source(root)
+                    source = self.paths.root_source(root)
+                    if root["kind"] == "repo":
+                        GitAdapter._require_top_level_repository(source)
+                        _require_alternates_inside(source)
                 except WorldlineError as exc:
                     state = "BROKEN"
-                    detail = exc.message
+                    detail = f"{exc.code}: {exc.message}"
                     healthy = False
             roots.append({
                 "path": root["display_path"],

@@ -96,6 +96,45 @@ class PruneReclaimsOnlyWhatNothingRefersTo(unittest.TestCase):
             fixture.close()
 
 
+class PruneNeverDeletesOutsideTheStore(unittest.TestCase):
+    def test_a_payload_that_resolves_outside_the_store_is_kept_and_reported(self) -> None:
+        # A recorded location can resolve outside the store through a link planted in a copy, or
+        # a relocated store's leftovers. Prune reports it as a failure and deletes nothing there.
+        fixture = _FixtureDaemon(self, _QUICK_AGENT)
+        try:
+            work, client = fixture.work, fixture.client
+            client.request("init", {"roots": [str(work)], "kind": None, "primary": None, "confirmed": True})
+            for name in ("kept", "archived"):
+                self.assertEqual(client.request("fork", {"name": name, "mission": name, "agent": "fixture", "wait": True})["state"], "VALID")
+            prepared = client.request("collapse.prepare", {"world": "kept"})
+            client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})
+            self.assertEqual(client.request("show", {"world": "archived"})["state"], "ARCHIVED")
+            payload = Path(client.request("show", {"world": "archived"})["payload_path"])
+            outside = Path(fixture.temporary.name) / "outside-the-store"
+            # Moving a directory to another parent rewrites its "..": it and its parent must be writable.
+            parent_mode, payload_mode = payload.parent.stat().st_mode, payload.stat().st_mode
+            os.chmod(payload.parent, parent_mode | 0o700)
+            os.chmod(payload, payload_mode | 0o700)
+            os.rename(payload, outside)
+            os.chmod(outside, payload_mode)
+            payload.symlink_to(outside, target_is_directory=True)
+            os.chmod(payload.parent, parent_mode)
+            before = sorted(str(item.relative_to(outside)) for item in outside.rglob("*"))
+            self.assertTrue(before)
+
+            plan = client.request("prune", {"dryRun": True})
+            self.assertIn(str(outside), [item["path"] for item in plan["directories"]])
+            result = client.request("prune", {"dryRun": False, "confirmed": True})
+            self.assertEqual(result["state"], "PRUNED")
+            self.assertTrue(any(failure["path"] == str(outside) and "resolves outside the store" in failure["error"]
+                                for failure in result["failures"]), result["failures"])
+            self.assertNotIn(str(outside), result["directories"])
+            self.assertEqual(sorted(str(item.relative_to(outside)) for item in outside.rglob("*")), before)
+            self.assertEqual(client.request("doctor", {})["storeIntegrity"]["state"], "OK")
+        finally:
+            fixture.close()
+
+
 class StoreSchemaMigrations(unittest.TestCase):
     def _paths(self, root: Path) -> WorldlinePaths:
         env = {

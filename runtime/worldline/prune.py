@@ -162,6 +162,13 @@ class Pruner:
                 path = Path(directory)
                 if not path.is_dir():
                     continue
+                store = os.path.realpath(self.paths.data)
+                real = os.path.realpath(path)
+                if not real.startswith(store + os.sep):
+                    # A recorded location that resolves outside the store (a link planted in a
+                    # copy, or a relocated store still pointing at its old home) is never deleted.
+                    failures.append({"path": directory, "error": f"resolves outside the store: {real}"})
+                    continue
                 size = _tree_bytes(path)
                 try:
                     _remove_tree(path)

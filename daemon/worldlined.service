@@ -11,6 +11,11 @@ RestartSec=2
 RuntimeDirectory=worldline
 RuntimeDirectoryMode=0700
 UMask=0077
+# Repository inspection runs sandboxed as a child of the daemon, inside this cgroup: these bound
+# what a hostile repository's configuration can make it use. Worlds, checks and services run in
+# their own transient units with their own limits.
+MemoryMax=4G
+TasksMax=4096
 
 [Install]
 WantedBy=graphical-session.target

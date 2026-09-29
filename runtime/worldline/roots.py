@@ -329,8 +329,11 @@ class RootManager:
         except WorldlineError as exc:
             if exc.code == "CLIENT_MODE_UNSAFE_CONTENT":
                 # A reconcile copies what is live, so live itself is unsafe: take every client
-                # off the store rather than only refusing the copy (review of ff201cd).
+                # off the store rather than only refusing the copy (review of ff201cd), and
+                # do not keep the refused copy (review of ad64cd2: every status request left
+                # another full, unchecked copy behind).
                 self.paths.close_client_gate()
+                shutil.rmtree(generation_payload.parent, ignore_errors=True)
             raise
         dependency_roots = [
             (root_key, self.paths.root_source(root)) for root_key, root in sorted(roots.items())
@@ -381,7 +384,15 @@ class RootManager:
         root = self.store.root(value)
         logical = bytes(root["path"])
         source = self.paths.root_source(root)
-        repository = self.git.capture(source) if root["kind"] == "repo" else None
+        try:
+            repository = self.git.capture(source) if root["kind"] == "repo" else None
+        except WorldlineError as exc:
+            if exc.code not in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT"):
+                raise
+            # A root registered before 1.7.x whose layout the repository sandbox cannot inspect
+            # (a linked worktree, a `.git` link, a subdirectory) must still be removable. Removal
+            # copies the payload's bytes, `.git` included, whatever the repository facts say.
+            repository = None
         manifest = Manifest.capture(
             source,
             logical_root=logical,

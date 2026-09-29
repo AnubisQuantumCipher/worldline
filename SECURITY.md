@@ -3,7 +3,7 @@
 This document states plainly what WORLDLINE defends against, what it does not, and where its
 claims end. It is deliberately conservative: a guarantee is listed under "Holds" only if it was
 verified in code or demonstrated, and everything else is named as a limit rather than left
-implied. Last reviewed 2026-09-28, against release 1.7.0 (the audit of record is still
+implied. Last reviewed 2026-09-29, against release 1.7.1 (the audit of record is still
 `SECURITY-AUDIT-2026-09-02.md`; the adversarial reviews since then are summarized in
 `CHANGELOG.md`).
 
@@ -86,13 +86,17 @@ report files are never admissible.
   - The daemon serves its own uid and the listed ones and refuses every other peer with
     `PEER_UID_MISMATCH`.
   - Clients can traverse to PRIME's content, but cannot list any store directory: the path to it
-    is `0710` with the group, and everything else stays `0700`. The data directory is the gate: it
-    opens only at daemon start after the content check, and closes if content turns out unsafe.
+    is `0710` with the group, and everything else stays `0700`. The data directory is the gate:
+    every daemon start closes it first and opens it only after the content check, and it closes
+    if content turns out unsafe while the daemon runs (1.7.1: a refused start no longer leaves a
+    previous run's open gate open).
   - Content they can reach must be owned by the daemon and carry no other-write bit, no
-    group-write bit on an entry of the client group, and no setuid, setgid or sticky bit
-    (`CLIENT_MODE_UNSAFE_CONTENT`). This is checked at
-    collapse and return prepare, when a generation is published, and at daemon start. A client
-    group equal to the daemon's primary group is refused.
+    group-write bit outside the daemon's own group, no extended POSIX ACL, and no setuid, setgid
+    or sticky bit (`CLIENT_MODE_UNSAFE_CONTENT`; the group and ACL rules are 1.7.1). This is
+    checked at collapse and return prepare, when a generation is published, and at daemon start.
+    A client group equal to the daemon's primary group is refused.
+  - The routing check compares the live directory by device and inode, resolved in the daemon's
+    own namespace (1.7.1).
   - `init`, `root add`, `root remove` and `switch` refuse clients
     (`OPERATION_NEEDS_DAEMON_ACCOUNT`).
   - The client checks the socket's `SO_PEERCRED` against `WORLDLINE_DAEMON_UID`, or its own
@@ -149,16 +153,21 @@ report files are never admissible.
   and it is the sandbox that stops one that tries. That escape was shown to fail inside the
   ordinary world/check sandbox, where user namespaces are disabled; this document does not
   extend the claim to the private evaluator's roles (limit 5).
-- **Repository inspection runs in a sandbox (1.7.0; hardened since 1.0.1).** Registered repos
-  and world repos are untrusted. Every host-side `git` process runs in its own bubblewrap
-  sandbox: no network, read-only system directories, a bounded tmpfs, a task limit, and only
-  the inspected root (read-only), a linked worktree's own git directories (read-only, bound only
-  when they are real git directories) and a private scratch directory from the host. The index
-  file is read on the host only when it lies inside those. Anything a repository's configuration
-  makes git run, such as a filter driver, reaches nothing. Before 1.7.0 a `-c` denylist was the
-  only defence, and it could not name filter drivers; that list remains as a second layer.
-  Memory used inside the sandbox is charged to the daemon's cgroup: the unit's `MemoryMax=`
-  bounds it.
+- **Repository inspection runs in a sandbox (1.7.0, tightened in 1.7.1; hardened since
+  1.0.1).** Registered repos and world repos are untrusted. Every host-side `git` process runs in
+  its own bubblewrap sandbox: no network, no capabilities, no nested user namespace, read-only
+  system directories, a bounded tmpfs, a task limit, and nothing of the host except the
+  inspected root (read-only) and a private scratch directory. Only a repository's top-level
+  directory, with `.git` a real directory inside it, is inspected; a linked worktree, a `.git`
+  link or a subdirectory refuses by name, because git would need directories that content inside
+  the root names (1.7.0 bound them, and a `.git` file naming another repository put its content
+  into a world's facts). The index is read on the host at `<root>/.git/index` through one
+  descriptor that refuses links, and the bytes hashed are the bytes copied. A sandbox that does
+  not start refuses (`GIT_SANDBOX_UNAVAILABLE`) instead of being read as a repository fact.
+  Anything a repository's configuration makes git run, such as a filter driver, reaches nothing.
+  Before 1.7.0 a `-c` denylist was the only defence, and it could not name filter drivers; that
+  list remains as a second layer. Memory and tasks used inside the sandbox are charged to the
+  daemon's cgroup: the shipped unit's `MemoryMax=4G` and `TasksMax=4096` bound them.
 - **Release assurance of an exact commit (1.3.0; private host roster, 1.5.0).** A version is
   published only after `scripts/release_gate.py` accepts the full assurance report of the tagged
   commit, produced in the same workflow run (`docs/release-process.md`). One roster
@@ -426,10 +435,14 @@ trust you place in WORLDLINE.
      a `0600` or `0640` file stays unreadable to them directly. Through daemon requests (`why`,
      `show`, `inspect`) they see PRIME content whatever its modes. Earlier PRIMEs' committed
      payloads stay readable by id until `prune`. They cannot list any store directory, and
-     reachable content refuses other-write, a group-write bit for the client group, and special bits.
+     reachable content refuses other-write, a group-write bit outside the daemon's own group, an
+     extended ACL, and special bits.
    - The routing check reads the registered root links. The daemon account therefore needs
      search permission on the directories above them, for example the operator's HOME. Without
-     it every capture refuses, which fails closed.
+     it every capture refuses, which fails closed. It runs on the daemon's event loop: a
+     registered path under a mount that stops answering (a FUSE mount whose device went away)
+     blocks the daemon until it answers. A unit with `ProtectHome=tmpfs` and a read-only bind of
+     the project directory keeps the home directory's other mounts out of the daemon's view.
    - `worldline shell` (`SHELL_UNAVAILABLE_TO_CLIENT`) and `switch`
      (`OPERATION_NEEDS_DAEMON_ACCOUNT`) need the daemon's own account, and refuse from clients.
      Agent adapters mount the credential files of the account the daemon runs as, so a
@@ -440,12 +453,20 @@ trust you place in WORLDLINE.
      - It does not prove the copy is complete. The copy step (as root, for overlay work
        directories) and its comparison belong to the migration.
      - Its check for a process holding the database open sees only processes of its own uid.
+       `--daemon-lock` holds the new daemon's lock for the run, so that daemon cannot start.
+     - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and
+       nothing reads a path back out of it) and counts it; a mention of the old store in any
+       other database column refuses.
      - Directories it cannot read (overlay work directories are `0000`) are checked for ownership
        but not descended; the report counts them.
-   - Deployment requirements that WORLDLINE does not enforce:
+   - Deployment requirements that WORLDLINE does not enforce (`worldline doctor` reports the
+     ones it can observe under `clientMode.deployment`, each `OK`, `MISSING` or `UNKNOWN`):
      - `RestrictSUIDSGID=yes` on the unit, and on the account's user manager (jobs run there);
-     - `MemoryMax=` on the unit, which bounds repository inspection;
-     - a `nosuid` store mount;
+     - `MemoryMax=` and `TasksMax=` on the unit, which bound repository inspection (reported);
+     - a `nosuid` store mount (reported);
+     - `fs.protected_hardlinks=1` (reported). Without it a client can hard-link a PRIME file it
+       can read into a directory of its own, and every capture of PRIME then refuses
+       `EXTERNAL_HARDLINK` until the link is found: a denial of service;
      - a regular (non-system) uid for the account, so journald keeps its user journal, which job
        supervision reads;
      - search permission for clients above the data and runtime directories.

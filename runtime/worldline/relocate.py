@@ -13,15 +13,16 @@ old prefixes to the new ones and proves the result:
 - the causal and receipt chains replay through the proved kernel;
 - nothing the daemon dereferences still names the old store. Any other mention of an old prefix
   is classified. Content (payload trees, world upper layers), hashed records (causal events,
-  receipts, manifests), agent output and the snapshots given to agents are kept byte for byte
-  and counted in the report. A mention anywhere else, including any other database column,
-  refuses the relocation.
+  receipts, manifests, and each world's evidence column), agent output and the snapshots given
+  to agents are kept byte for byte and counted in the report. A mention anywhere else, including
+  any other database column, refuses the relocation.
 
 The old copy is never opened for writing. Rolling back is starting the old daemon again.
 
 Run it as the account that will own the store (never root), on a copy that account already owns,
-with no daemon serving it: each is checked, and every rewrite is planned and every refusal raised
-before anything is written. It does not re-point the operator's root links; `worldline doctor`
+with no daemon serving it: each is checked, and every rewrite is planned and every planning refusal
+raised before anything is written. The final verification (chains, mappings, payloads) runs after
+the writes; if it refuses, the copy stays rewritten, the old copy is intact, and a rerun is safe. It does not re-point the operator's root links; `worldline doctor`
 (rootIntegrity) shows them once the daemon runs.
 """
 from __future__ import annotations
@@ -42,7 +43,7 @@ from .canonical import atomic_write_json, canonical_bytes
 from .core import Core
 from .errors import WorldlineError
 from .model import NONTERMINAL_STATES
-from .paths import WorldlinePaths
+from .paths import WorldlinePaths, has_extended_acl
 
 # (table, column) pairs that hold a location in the store. Nothing else in the database may.
 LOCATION_COLUMNS = (
@@ -53,6 +54,12 @@ LOCATION_COLUMNS = (
     ("transactions", "prepared_path"),
     ("receipts", "canonical_path"),
 )
+# (table, column) pairs that hold hashed records. A world's evidence is covered by its evidence
+# root, which its components and so its content id cover; it records where a check ran (a private
+# evaluator's sandbox command line and frozen inputs), and nothing reads a path back out of it (the
+# evaluator opens only the paths of the run it is executing). Kept byte for byte, like the hashed
+# record files, and counted; rewriting it would change the identity of every world it belongs to.
+RECORD_COLUMNS = (("worlds", "evidence"),)
 OPEN_TRANSACTION_STATES = ("PREPARED", "AUTHORIZED")
 ACTIVE_JOB_STATES = ("STARTING", "RUNNING", "FINALIZING")
 
@@ -82,6 +89,26 @@ class Relocation:
                     raise _refuse("old and new directories must not contain one another's names",
                                   {"first": os.fsdecode(first), "second": os.fsdecode(second)})
         self.new_data, self.new_state = new_data, new_state
+        # The copy must be a copy: spelled by its real path (a symlinked parent could lead back
+        # into the old store), apart from the old store, and not the same directory under another
+        # name (a bind mount). Each of these once had the OLD store rewritten in place (review of
+        # ad64cd2). When the old store is not visible to this account the comparison is skipped;
+        # ownership then separates them (the copy must be this account's, the old store is not).
+        for name, value in (("new data", new_data), ("new state", new_state)):
+            if os.path.realpath(value) != str(value):
+                raise _refuse(f"{name} directory must be spelled by its real path: {value} is {os.path.realpath(value)}")
+        for old_value, new_value in ((old_data, new_data), (old_state, new_state), (old_data, new_state), (old_state, new_data)):
+            old_real, new_real = os.path.realpath(old_value), os.path.realpath(new_value)
+            if old_real == new_real or new_real.startswith(old_real + os.sep) or old_real.startswith(new_real + os.sep):
+                raise _refuse("the copy and the old store overlap", {"old": old_real, "new": new_real})
+            try:
+                old_info, new_info = os.stat(old_value), os.stat(new_value)
+            except OSError:
+                continue
+            if (old_info.st_dev, old_info.st_ino) == (new_info.st_dev, new_info.st_ino):
+                raise _refuse("the copy is the old store under another name (a bind mount?)",
+                              {"old": str(old_value), "new": str(new_value)})
+        self.old_real = tuple(os.fsencode(os.path.realpath(value)) for value in (old_data, old_state))
         self.database = new_state / "worldline.sqlite3"
         if self.database.is_symlink() or not self.database.is_file():
             raise _refuse(f"no store database file at {self.database}")
@@ -92,11 +119,43 @@ class Relocation:
             candidate = Path(str(self.database) + suffix)
             if candidate.is_symlink() or (candidate.exists() and candidate.stat().st_nlink != 1):
                 raise _refuse(f"{candidate.name} in the copy is linked elsewhere; copy it, do not link it")
+            try:
+                old_info = os.stat(os.path.join(old_state, "worldline.sqlite3" + suffix))
+            except OSError:
+                continue
+            if candidate.exists():
+                new_info = candidate.stat()
+                if (old_info.st_dev, old_info.st_ino) == (new_info.st_dev, new_info.st_ino):
+                    raise _refuse(f"{candidate.name} in the copy is the old store's own file")
 
     # -- mapping one location
 
     def _mentions(self, value: bytes) -> bool:
         return any(prefix in value for prefix in self.old)
+
+    def _file_mentions(self, path: str) -> bool | None:
+        """Whether a regular file mentions an old prefix, streamed so a large payload file is never
+        held whole; None for anything that is not a regular file. Sockets, FIFOs and devices hold no
+        bytes to rewrite, and opening one can fail or block (a dead world's runtime keeps its
+        sockets: relocating production's store once crashed on one)."""
+        if not stat.S_ISREG(os.lstat(path).st_mode):
+            return None  # checked before opening: open() on a socket fails outright (ENXIO)
+        descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK)
+        try:
+            if not stat.S_ISREG(os.fstat(descriptor).st_mode):
+                return None
+            overlap = max(len(prefix) for prefix in self.old) - 1
+            tail = b""
+            while True:
+                chunk = os.read(descriptor, 1 << 20)
+                if not chunk:
+                    return False
+                window = tail + chunk
+                if self._mentions(window):
+                    return True
+                tail = window[-overlap:] if overlap > 0 else b""
+        finally:
+            os.close(descriptor)
 
     def _map(self, value: bytes, where: str) -> bytes:
         """The new location for a stored one. Already-new values are accepted, so a run that
@@ -122,9 +181,23 @@ class Relocation:
                 if not isinstance(value, str):
                     raise _refuse(f"{table}.{column} holds a non-text location", {"rowid": rowid})
                 mapped = os.fsdecode(self._map(os.fsencode(value), f"{table}.{column}"))
+                self._require_inside_new(mapped, f"{table}.{column}")
                 if mapped != value:
                     plan.append((table, column, rowid, mapped))
         return plan
+
+    def _inside_new(self, path: str | bytes) -> bool:
+        real = os.path.realpath(os.fsencode(path))
+        return any(real == base or real.startswith(base + b"/")
+                   for base in (os.path.realpath(os.fsencode(self.new_data)), os.path.realpath(os.fsencode(self.new_state))))
+
+    def _require_inside_new(self, location: str, where: str) -> None:
+        """A recorded location that exists in the copy must resolve inside the new store. Checked
+        while planning, before anything is written: a link inside the copy could otherwise lead a
+        rewritten location back into the old store (review of ad64cd2)."""
+        if os.path.lexists(location) and not self._inside_new(location):
+            raise _refuse(f"{where}: a recorded location resolves outside the new store",
+                          {"location": location, "resolves": os.path.realpath(location)})
 
     def _rewrite_json_strings(self, value: Any, where: str) -> Any:
         if isinstance(value, dict):
@@ -141,6 +214,9 @@ class Relocation:
         if not directory.is_dir():
             return plan
         for path in sorted(directory.glob("*.json")):
+            info = path.lstat()
+            if not stat.S_ISREG(info.st_mode):
+                raise _refuse(f"transaction record is not a regular file: {path.name}")
             raw = path.read_bytes()
             if not self._mentions(raw):
                 continue
@@ -211,7 +287,9 @@ class Relocation:
         sample: list[str] = []
         for root in (self.new_data, self.new_state):
             for directory, subdirectories, files in os.walk(root):
-                for name in (directory, *[os.path.join(directory, entry) for entry in subdirectories + files]):
+                # Each entry once: the directory itself only at the top, then its children.
+                entries = [os.path.join(directory, entry) for entry in subdirectories + files]
+                for name in ([directory] if directory == str(root) else []) + entries:
                     info = os.lstat(name)
                     if info.st_uid != uid:
                         count += 1
@@ -226,11 +304,12 @@ class Relocation:
         return count, sample, undescended
 
     def _live_unsafe_for_clients(self) -> tuple[int, list[str]]:
-        """PRIME content a client-mode daemon would refuse at start (other write, or a setuid,
-        setgid or sticky bit): reported so a migration learns it before starting. Group-write
-        bits are not reported: they matter only on an entry of the client group, and this copy's
-        entries carry the account's own group."""
+        """PRIME content a client-mode daemon would refuse at start: other-write, group-write on
+        an entry outside the account's own group (a migration that chowned only the owner keeps
+        the operator's group, and the operator is a client), an extended ACL, or a setuid, setgid
+        or sticky bit. Reported so a migration learns it before starting the daemon."""
         flags = stat.S_IWOTH | stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
+        own_group = os.getegid()
         count = 0
         sample: list[str] = []
         live = self.new_data / "live"
@@ -241,7 +320,11 @@ class Relocation:
             for directory, subdirectories, files in os.walk(target):
                 for name in (directory, *[os.path.join(directory, entry) for entry in subdirectories + files]):
                     info = os.lstat(name)
-                    if not stat.S_ISLNK(info.st_mode) and stat.S_IMODE(info.st_mode) & flags:
+                    if stat.S_ISLNK(info.st_mode):
+                        continue
+                    mode = stat.S_IMODE(info.st_mode)
+                    if (mode & flags or (mode & stat.S_IWGRP and info.st_gid != own_group)
+                            or has_extended_acl(name)):
                         count += 1
                         if len(sample) < 20:
                             sample.append(f"{stat.S_IMODE(info.st_mode):04o} {link.name[:12]}/{os.path.relpath(name, target)}")
@@ -288,23 +371,29 @@ class Relocation:
         refused: list[str] = []
         for base, root in (("data", self.new_data), ("state", self.new_state)):
             for directory, subdirectories, files in os.walk(root):
-                links = [name for name in files + subdirectories if os.path.islink(os.path.join(directory, name))]
+                directory_links = [name for name in subdirectories if os.path.islink(os.path.join(directory, name))]
                 # Overlay work directories are 000 by design; they hold content, never a location.
                 subdirectories[:] = [name for name in subdirectories
-                                     if name not in links
+                                     if name not in directory_links
                                      and os.access(os.path.join(directory, name), os.R_OK | os.X_OK)]
-                for name in files + links:
+                for name in files + directory_links:  # os.walk lists links to files among files
                     path = os.path.join(directory, name)
                     relative = tuple(Path(path).relative_to(root).parts)
                     if base == "state" and relative[0].startswith("worldline.sqlite3"):
                         continue  # read through SQL, not as bytes
-                    link = name in links
+                    link = os.path.islink(path)
+                    if link:
+                        problem = self._link_problem(relative, base, path)
+                        if problem:
+                            refused.append(f"{base}/{'/'.join(relative)} ({problem})")
+                            continue
                     try:
                         if link:
                             mentioned = self._mentions(os.readlink(os.fsencode(path)))
                         else:
-                            with open(path, "rb") as stream:
-                                mentioned = self._mentions(stream.read())
+                            mentioned = self._file_mentions(path)
+                            if mentioned is None:
+                                continue  # not a regular file: nothing in it can name a location
                     except PermissionError:
                         refused.append(f"{base}/{'/'.join(relative)} (unreadable)")
                         continue
@@ -317,12 +406,36 @@ class Relocation:
                         found[kind] = found.get(kind, 0) + 1
         return found, refused
 
-    def _scan_database(self, connection: sqlite3.Connection, *, skip_locations: bool) -> dict[str, int]:
-        """Rows per column that mention an old prefix (location columns omitted when asked)."""
+    def _link_problem(self, relative: tuple[str, ...], base: str, path: str) -> str | None:
+        """Why a symlink in the copy may not stay, or None. The daemon itself makes only the live
+        and prepared mapping links; content (a payload below its root, a world's upper layer) may
+        hold links of its own. A link anywhere else, or any link resolving into the old store,
+        would have the relocated daemon read, and prune delete, inside the old copy."""
+        location = self._classify(relative, base, link=True) == "location"
+        real = os.path.realpath(os.fsencode(path))
+        into_old = any(real == old or real.startswith(old + b"/") for old in self.old_real)
+        if location:
+            return None  # rewritten; a mapping link must then resolve inside the new store (verify)
+        if into_old:
+            return "resolves into the old store"
+        head = relative[:1]
+        content = ((head in (("generations",), ("transactions",), ("worlds",)) and len(relative) > 4
+                    and relative[2] == "payload")
+                   or (head == ("overlays",) and len(relative) > 3))
+        if base == "data" and content:
+            return None
+        return "a link where the daemon makes none"
+
+    def _scan_database(self, connection: sqlite3.Connection, *, skip_locations: bool,
+                       records: bool = False) -> dict[str, int]:
+        """Rows per column that mention an old prefix: the record columns when `records`, else every
+        other column (location columns omitted when asked)."""
         found: dict[str, int] = {}
         tables = [row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")]
         for table in tables:
             for column in [row[1] for row in connection.execute(f"PRAGMA table_info({table})")]:
+                if ((table, column) in RECORD_COLUMNS) != records:
+                    continue
                 if skip_locations and (table, column) in LOCATION_COLUMNS:
                     continue
                 count = 0
@@ -382,6 +495,7 @@ class Relocation:
             records_plan = self._plan_transaction_records()
             links_plan = self._plan_mapping_links()
             stray_columns = self._scan_database(connection, skip_locations=True)
+            record_columns = self._scan_database(connection, skip_locations=True, records=True)
             found, refused = self._scan()
             foreign, foreign_sample, undescended = self._foreign_entries()
             unsafe, unsafe_sample = self._live_unsafe_for_clients()
@@ -390,6 +504,7 @@ class Relocation:
                                  for table, column in LOCATION_COLUMNS},
                 "transactionRecords": len(records_plan), "mappingLinks": len(links_plan),
                 "mentions": found, "refusedFiles": refused[:200], "refusedDatabaseColumns": stray_columns,
+                "recordColumnsKept": record_columns,
                 "foreignOwned": {"count": foreign, "sample": foreign_sample,
                                  "unreadableDirectoriesNotDescended": undescended},
                 "liveContentUnsafeForClients": {"count": unsafe, "sample": unsafe_sample},
@@ -436,7 +551,8 @@ class Relocation:
         return {"state": "RELOCATED",
                 "rewritten": {"databaseRows": report["locationRows"], "transactionRecords": len(records_plan),
                               "mappingLinks": len(links_plan)},
-                "mentionsKept": found, "verification": self.verify()}
+                "mentionsKept": found, "recordColumnsKept": report["recordColumnsKept"],
+                "verification": self.verify()}
 
     def verify(self) -> dict[str, Any]:
         """The relocated store, read as the daemon will read it."""
@@ -467,6 +583,13 @@ class Relocation:
                     # A path under the new prefix can still resolve into the old store through a
                     # link inside the copy (review of ff201cd).
                     raise _refuse("retained world payloads resolve outside the new store", {"worlds": outside[:50]})
+                connection = sqlite3.connect(f"file:{self.database}?mode=ro", uri=True)
+                try:  # a Connection's `with` commits; it does not close
+                    for table, column in LOCATION_COLUMNS:
+                        for (value,) in connection.execute(f"SELECT {column} FROM {table}"):
+                            self._require_inside_new(value, f"{table}.{column}")
+                finally:
+                    connection.close()
             finally:
                 store.close()
         finally:
@@ -483,13 +606,31 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--to-data", required=True, type=Path)
     parser.add_argument("--to-state", required=True, type=Path)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--daemon-lock", type=Path,
+                        help="the new daemon's worldlined.lock: held for the run, so it cannot start meanwhile")
     arguments = parser.parse_args(argv)
+    lock = None
     try:
+        if arguments.daemon_lock is not None:
+            import fcntl
+            arguments.daemon_lock.parent.mkdir(parents=True, exist_ok=True)
+            lock = os.open(arguments.daemon_lock, os.O_RDWR | os.O_CREAT | os.O_CLOEXEC, 0o600)
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError as exc:
+                raise _refuse(f"a daemon holds {arguments.daemon_lock}; stop it first") from exc
         result = Relocation(old_data=arguments.from_data, old_state=arguments.from_state,
                             new_data=arguments.to_data, new_state=arguments.to_state).run(dry_run=arguments.dry_run)
     except WorldlineError as exc:
         print(json.dumps({"state": "REFUSED", **exc.as_dict()}, indent=2, sort_keys=True), file=sys.stderr)
         return 1
+    except (OSError, MemoryError) as exc:
+        refused = _refuse(f"relocation stopped: {exc.__class__.__name__}: {exc}")
+        print(json.dumps({"state": "REFUSED", **refused.as_dict()}, indent=2, sort_keys=True), file=sys.stderr)
+        return 1
+    finally:
+        if lock is not None:
+            os.close(lock)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
 

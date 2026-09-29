@@ -65,17 +65,72 @@ def _nested(first: Path, second: Path) -> bool:
     return False
 
 
-# Content a client can reach must be read-only to it: no other-write bit, no group-write bit on
-# an entry whose group IS the client group, and no special bit (a setuid or setgid file there
-# would run as the daemon account for anyone who can reach it). A group-write bit on an entry of
-# the daemon's own group grants clients nothing, since a client in that group is refused, and
-# hosts with umask 002 put that bit on everything a world writes.
+# Content a client can reach must be read-only to it:
+# - no other-write bit;
+# - a group-write bit only on an entry of the daemon's OWN group. No client may be in that group
+#   (from_environment refuses it); any other group (the operator's, kept by a migration that
+#   chowned only the owner) may hold a client, so its write bit is a client's write bit.
+#   Hosts with umask 002 put that bit on everything a world writes, in the daemon's group;
+# - no extended POSIX ACL. Manifests record ACLs and materialization re-applies them, and a
+#   `u:<client>:rwx` entry grants write while the mode bits show only its mask;
+# - no special bit (a setuid or setgid file there would run as the daemon account for anyone
+#   who can reach it).
 _CLIENT_SPECIAL_BITS = stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX
+_ACL_XATTRS = frozenset(("system.posix_acl_access", "system.posix_acl_default"))
 
 
-def client_unsafe(mode: int, gid: int, client_gid: int) -> bool:
+def has_extended_acl(path: str | bytes) -> bool:
+    try:
+        names = os.listxattr(path, follow_symlinks=False)
+    except OSError:
+        return False  # a filesystem without xattrs has no ACLs
+    return any(name in _ACL_XATTRS for name in names)
+
+
+def deployment_facts(data: Path) -> dict[str, dict[str, Any]]:
+    """What a client-mode deployment needs from its host that the daemon can observe, each
+    `OK`, `MISSING` or `UNKNOWN` (never assumed). Reported by `doctor`; nothing is enforced:
+    - fs.protected_hardlinks=1. Without it a client hard-links a PRIME file it can read into a
+      directory of its own, and every capture of PRIME refuses EXTERNAL_HARDLINK until the link
+      is found (review of ad64cd2);
+    - a nosuid store mount;
+    - the unit's MemoryMax= and TasksMax=, which bound repository inspection (it runs in the
+      daemon's own cgroup).
+    RestrictSUIDSGID= on the unit and on the account's user manager cannot be read from here."""
+    facts: dict[str, dict[str, Any]] = {}
+    try:
+        value = Path("/proc/sys/fs/protected_hardlinks").read_text(encoding="ascii").strip()
+        facts["protectedHardlinks"] = {"state": "OK" if value == "1" else "MISSING", "value": value}
+    except (OSError, ValueError) as exc:
+        facts["protectedHardlinks"] = {"state": "UNKNOWN", "reason": str(exc)}
+    try:
+        nosuid = bool(os.statvfs(data).f_flag & os.ST_NOSUID)
+        facts["storeNosuid"] = {"state": "OK" if nosuid else "MISSING"}
+    except OSError as exc:
+        facts["storeNosuid"] = {"state": "UNKNOWN", "reason": str(exc)}
+    try:
+        lines = Path("/proc/self/cgroup").read_text(encoding="utf-8").splitlines()
+        unified = next(line[3:] for line in lines if line.startswith("0::"))
+        group = Path("/sys/fs/cgroup") / unified.lstrip("/")
+    except (OSError, ValueError, StopIteration) as exc:
+        group = None
+        reason = f"no cgroup v2 membership: {exc}" if str(exc) else "no cgroup v2 membership"
+    for name, control in (("memoryMax", "memory.max"), ("tasksMax", "pids.max")):
+        if group is None:
+            facts[name] = {"state": "UNKNOWN", "reason": reason}
+            continue
+        try:
+            value = (group / control).read_text(encoding="ascii").strip()
+        except (OSError, ValueError) as exc:
+            facts[name] = {"state": "UNKNOWN", "reason": str(exc)}
+            continue
+        facts[name] = {"state": "MISSING" if value == "max" else "OK", "value": value, "cgroup": str(group)}
+    return facts
+
+
+def client_unsafe(mode: int, gid: int, daemon_gid: int) -> bool:
     return bool(mode & stat.S_IWOTH or mode & _CLIENT_SPECIAL_BITS
-                or (mode & stat.S_IWGRP and gid == client_gid))
+                or (mode & stat.S_IWGRP and gid != daemon_gid))
 
 
 def secure_directory(path: Path, *, create: bool = True, shared_gid: int | None = None,
@@ -245,7 +300,7 @@ class WorldlinePaths:
         if self.client_gid is None:
             return
         uid = os.getuid()
-        client_gid = self.client_gid
+        daemon_gid = os.getgid()
         root = os.fsencode(directory)
         unsafe: list[str] = []
         unreadable: list[str] = []
@@ -254,9 +309,10 @@ class WorldlinePaths:
             info = os.lstat(path)
             if stat.S_ISLNK(info.st_mode):
                 return  # a link's own mode is meaningless; its target is inspected where it lies
-            if info.st_uid != uid or client_unsafe(stat.S_IMODE(info.st_mode), info.st_gid, client_gid):
-                unsafe.append(f"{stat.S_IMODE(info.st_mode):04o} uid={info.st_uid} gid={info.st_gid} "
-                              f"{os.fsdecode(os.path.relpath(path, root))}")
+            acl = has_extended_acl(path)
+            if info.st_uid != uid or client_unsafe(stat.S_IMODE(info.st_mode), info.st_gid, daemon_gid) or acl:
+                unsafe.append(f"{stat.S_IMODE(info.st_mode):04o} uid={info.st_uid} gid={info.st_gid}"
+                              f"{' acl' if acl else ''} {os.fsdecode(os.path.relpath(path, root))}")
 
         inspect(root)
         for current, subdirectories, files in os.walk(root, onerror=lambda error: unreadable.append(str(error))):
@@ -266,7 +322,8 @@ class WorldlinePaths:
             raise WorldlineError(
                 "CLIENT_MODE_UNSAFE_CONTENT",
                 "content a client can reach must be owned by the daemon, carry no other-write bit, "
-                "no group-write bit for the client group, and no setuid, setgid or sticky bit",
+                "no group-write bit outside the daemon's own group, no extended ACL, and no setuid, "
+                "setgid or sticky bit",
                 {"directory": os.fsdecode(root), "count": len(unsafe), "entries": unsafe[:50],
                  "unreadable": unreadable[:20]})
 
@@ -328,7 +385,18 @@ class WorldlinePaths:
         if not os.path.isabs(routed):
             routed = os.path.join(os.path.dirname(raw), routed)
         parent, name = os.path.split(routed.rstrip(b"/"))
-        if name != os.fsencode(root_key) or os.path.realpath(parent) != os.path.realpath(os.path.dirname(live)):
+        # Compared by kernel identity, resolved in this namespace: every component must exist and
+        # be searchable here. A lexical realpath skipped a component it could not see and popped the
+        # `..` after it, so a link the daemon cannot follow was reported as routing (review of ad64cd2).
+        try:
+            parent_identity = os.stat(parent)
+            live_identity = os.stat(os.path.dirname(live))
+        except OSError as exc:
+            raise WorldlineError(
+                "LIVE_MAPPING_BROKEN",
+                f"managed root does not route through the live mapping: {os.fsdecode(raw)}") from exc
+        if (name != os.fsencode(root_key)
+                or (parent_identity.st_dev, parent_identity.st_ino) != (live_identity.st_dev, live_identity.st_ino)):
             raise WorldlineError(
                 "LIVE_MAPPING_BROKEN",
                 f"managed root does not route through the live mapping: {os.fsdecode(raw)}")
