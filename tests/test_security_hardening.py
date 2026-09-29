@@ -265,6 +265,25 @@ class GitSandboxLayout(unittest.TestCase):
         self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
         self.assertIn("signal 9", caught.exception.message)
 
+    def test_a_process_git_started_that_was_killed_is_not_a_fact(self) -> None:
+        # Review of 300543c: a killed child of `submodule status` made git exit 128, recorded as an
+        # UNREADABLE listing, or exit 0 after retrying `describe` another way, which changes the
+        # listing. git says "died of signal" either way; simulated by adding its words.
+        real_run = subprocess.run
+        for code in (0, 128):
+            def killed_child(argv, *args, _code=code, **kwargs):
+                result = real_run(argv, *args, **kwargs)
+                if "submodule" in argv:
+                    result = subprocess.CompletedProcess(result.args, _code, result.stdout,
+                                                         result.stderr + b"error: git died of signal 9\n")
+                return result
+
+            with self.subTest(exit=code), mock.patch("worldline.linux.git.subprocess.run", side_effect=killed_child):
+                with self.assertRaises(WorldlineError) as caught:
+                    GitAdapter(Core.shared()).capture(self.main)
+                self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
+                self.assertIn("stopped by a signal", caught.exception.message)
+
     def test_a_listing_git_refuses_is_recorded_as_unreadable(self) -> None:
         # Review of c7d89f1: refusing it broke an ordinary repository shape (an embedded checkout
         # added with `git add -A`); review of 09f5c0b: it was recorded as "no submodules".

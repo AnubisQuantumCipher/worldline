@@ -704,11 +704,64 @@ class RelocateAStore(unittest.TestCase):
             self.relocation()
         self.assertIn("not a regular file", caught.exception.message)
 
+    def test_a_fifo_named_like_the_journal_is_refused_at_once(self) -> None:
+        # Review of 300543c: SQLite looks for a rollback journal before it learns the database is
+        # in WAL mode, so a FIFO there passed the dry run and hung the real run under the lock.
+        journal = self.new.state / "worldline.sqlite3-journal"
+        journal.unlink(missing_ok=True)
+        os.mkfifo(journal)
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation()
+        self.assertIn("worldline.sqlite3-journal in the copy is not a regular file", caught.exception.message)
+
+    def test_a_held_copy_refuses_before_anything_is_written_into_it(self) -> None:
+        # Review of 300543c: the canary was written into the copy's data and state directories
+        # before the lock refused, so a kill in between left it in a live store.
+        from worldline.paths import acquire_store_lock
+        (self.new.state / STORE_LOCK_NAME).unlink(missing_ok=True)
+        held = acquire_store_lock(self.new.state, holder="a daemon on the copy", create_directory=False)
+        self.addCleanup(os.close, held)
+        relocation = self.relocation()
+        with mock.patch.object(Relocation, "_refuse_views_of_the_old_store") as canary:
+            with self.assertRaises(WorldlineError) as caught:
+                relocation.run()
+        self.assertIn("a daemon is using the copy", caught.exception.message)
+        canary.assert_not_called()
+
+    def test_a_holder_is_found_when_stat_reports_another_device(self) -> None:
+        # Review of 300543c: on btrfs, stat reports a subvolume's own device and mountinfo the
+        # filesystem's, so matching the copy's stat identity against holders' mount tables never
+        # matched. Simulated by a stat that reports another device for the copy's database.
+        holder = subprocess.Popen(
+            [sys.executable, "-c", "import sys, time; f = open(sys.argv[1], 'rb'); print('open', flush=True); time.sleep(60)",
+             str(self.new.database)], stdout=subprocess.PIPE, text=True)
+        self.addCleanup(holder.wait)
+        self.addCleanup(holder.kill)
+        self.assertEqual(holder.stdout.readline().strip(), "open")
+        relocation = self.relocation()
+        real_lstat = os.lstat
+        database = str(self.new.database)
+
+        def subvolume_lstat(path, *args, **kwargs):
+            info = real_lstat(path, *args, **kwargs)
+            if os.fsdecode(path).startswith(database):
+                values = list(info[:10])
+                values[2] = os.makedev(0, 4242)
+                return os.stat_result(values)
+            return info
+
+        with mock.patch("worldline.relocate.os.lstat", side_effect=subvolume_lstat):
+            holders = relocation._holders()
+        self.assertIn(holder.pid, holders)
+
     def test_a_link_named_like_the_database_is_still_checked(self) -> None:
+        # Since the review of 300543c the -journal gets the database's own checks, so a link there
+        # refuses the relocation at once instead of being listed among the refused files.
         journal = self.new.state / "worldline.sqlite3-journal"
         journal.symlink_to(self.old.state / "worldline.sqlite3")
-        refused = self.relocation().run(dry_run=True)["refusedFiles"]
-        self.assertTrue(any("worldline.sqlite3-journal" in entry for entry in refused), refused)
+        with self.assertRaises(WorldlineError) as caught:
+            self.relocation()
+        self.assertIn("worldline.sqlite3-journal in the copy is linked elsewhere", caught.exception.message)
 
     def test_a_directory_at_the_lock_path_refuses_by_name(self) -> None:
         lock = self.new.state / STORE_LOCK_NAME
@@ -716,7 +769,10 @@ class RelocateAStore(unittest.TestCase):
         lock.mkdir()
         with self.assertRaises(WorldlineError) as caught:
             self.relocation().run()
-        self.assertIn("cannot be opened as a file", caught.exception.message)
+        # Refused by the read-only check that now runs before anything is written into the copy
+        # (review of 300543c), rather than by the lock's own open.
+        self.assertEqual(caught.exception.code, "RELOCATION_REFUSED")
+        self.assertIn("the store lock is not a regular", caught.exception.message)
 
     def test_a_deeply_nested_record_is_refused_by_name(self) -> None:
         from worldline.relocate import main
@@ -768,3 +824,50 @@ class RelocateAStore(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+
+class RelocationViewsThroughSymlinks(unittest.TestCase):
+    def test_a_view_of_an_old_store_named_through_a_symlink_is_refused(self) -> None:
+        # Review of 300543c: the old store is recorded by the path its daemon was given, and the
+        # mount-table check looked that path up lexically; under a symlinked home (/home ->
+        # var/home) it found the wrong mount, and a bind of the old data at the copy's path was
+        # relocated in place, rewriting the old store.
+        from worldline.store import StateStore
+        bwrap = shutil.which("bwrap")
+        if bwrap is None:
+            self.skipTest("bwrap is required to make a mount without privileges")
+        with tempfile.TemporaryDirectory(prefix="worldline-view-symlinked-") as temporary:
+            base = Path(temporary)
+            (base / "hidden").mkdir()
+            (base / "link").symlink_to("hidden")
+            old = base / "link" / "old"
+            paths = WorldlinePaths(home=base / "home", data=old / "data", state=old / "state",
+                                   runtime=base / "runtime", config=base / "config")
+            StateStore(paths).close()
+            content = old / "data" / "generations" / "g1" / "payload" / "rk1"
+            (content / "sub").mkdir(parents=True)
+            (content / "f.txt").write_text("prime content\n")
+            (old / "data" / "live" / "rk1").symlink_to(content, target_is_directory=True)
+            new = base / "new"
+            new.mkdir()
+            shutil.copytree(old / "state", new / "state", symlinks=True)
+            (new / "data").mkdir()
+            mapping = base / "hidden" / "old" / "data" / "live" / "rk1"
+            before = os.readlink(mapping)
+            code = ("import os, sys; os.chmod(sys.argv[1], 0); "
+                    "from worldline.relocate import main; code = main(sys.argv[2:]); "
+                    "os.chmod(sys.argv[1], 0o755); sys.exit(code)")
+            arguments = ["--from-data", str(old / "data"), "--from-state", str(old / "state"),
+                         "--to-data", str(new / "data"), "--to-state", str(new / "state")]
+            try:
+                result = subprocess.run(
+                    [bwrap, "--dev-bind", "/", "/", "--bind", str(base / "hidden" / "old" / "data"), str(new / "data"),
+                     "--", sys.executable, "-B", "-c", code, str(base / "hidden"), *arguments],
+                    env={**os.environ, "PYTHONPATH": str(REPO / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"},
+                    capture_output=True, timeout=120)
+            finally:
+                os.chmod(base / "hidden", 0o755)
+            self.assertEqual(result.returncode, 1, result.stderr.decode(errors="replace")[-2000:])
+            self.assertIn(b"seen through a mount", result.stderr)
+            self.assertEqual(os.readlink(mapping), before)

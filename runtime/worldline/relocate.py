@@ -73,6 +73,9 @@ _INSTANCE_ID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9
 _ROOT_KEY = re.compile(r"[0-9a-f]{64}")
 _DATABASE_FILES = frozenset(("worldline.sqlite3", "worldline.sqlite3-wal", "worldline.sqlite3-shm",
                              "worldline.sqlite3-journal"))
+# SQLite looks for a rollback journal before it learns the database is in WAL mode: a FIFO named
+# -journal hung the real run while it held the store lock (review of 300543c).
+_DATABASE_SUFFIXES = ("", "-wal", "-shm", "-journal")
 ACTIVE_JOB_STATES = ("STARTING", "RUNNING", "FINALIZING")
 
 
@@ -184,9 +187,9 @@ class Relocation:
         if self.database.is_symlink() or not self.database.is_file():
             raise _refuse(f"no store database file at {self.database}")
         # The database is the only file rewritten in place. A hard-linked or symlinked copy could
-        # share it with the old store (review of ff201cd): the copy's database, and its -wal and
-        # -shm, must each be a file of its own.
-        for suffix in ("", "-wal", "-shm"):
+        # share it with the old store (review of ff201cd): the copy's database, and its -wal, -shm
+        # and -journal, must each be a file of its own.
+        for suffix in _DATABASE_SUFFIXES:
             candidate = Path(str(self.database) + suffix)
             if candidate.exists() and not candidate.is_symlink() and not stat.S_ISREG(candidate.lstat().st_mode):
                 # A FIFO there hung the holder check (review of c7d89f1).
@@ -342,7 +345,8 @@ class Relocation:
         a kernel whose fdinfo has no inode. A daemon serving the copy runs as the same account, so
         it is visible; `BEGIN EXCLUSIVE` alone does not detect an idle WAL connection."""
         identities: set[tuple[str, int]] = set()
-        for suffix in ("", "-wal", "-shm"):
+        own_devices: dict[int, str] | None = None
+        for suffix in _DATABASE_SUFFIXES:
             path = str(self.database) + suffix
             try:
                 info = os.lstat(path)
@@ -353,10 +357,18 @@ class Relocation:
             identities.add((f"{os.major(info.st_dev)}:{os.minor(info.st_dev)}", info.st_ino))
             descriptor = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
             try:
-                if _fdinfo_identity(f"/proc/self/fdinfo/{descriptor}") is None:
-                    return self._holders_by_stat()  # a kernel whose fdinfo has no inode
+                own = _fdinfo_identity(f"/proc/self/fdinfo/{descriptor}")
             finally:
                 os.close(descriptor)
+            if own is None:
+                return self._holders_by_stat()  # a kernel whose fdinfo has no inode
+            # The copy's identity the way each holder's is read: mount id to device through a mount
+            # table. On btrfs, stat reports a subvolume's own device and mountinfo the
+            # filesystem's, so the stat identity alone never matched (review of 300543c).
+            if own_devices is None:
+                own_devices = {entry["id"]: entry["device"] for entry in _mount_table()}
+            if own[0] in own_devices:
+                identities.add((own_devices[own[0]], own[1]))
         holders: set[int] = set()
         for process in Path("/proc").iterdir():
             if not process.name.isdigit() or int(process.name) == os.getpid():
@@ -377,7 +389,7 @@ class Relocation:
 
     def _holders_by_stat(self) -> list[int]:
         identities = set()
-        for suffix in ("", "-wal", "-shm"):
+        for suffix in _DATABASE_SUFFIXES:
             try:
                 info = os.stat(str(self.database) + suffix)
             except FileNotFoundError:
@@ -685,13 +697,15 @@ class Relocation:
         before it opens anything); a dry run, which writes nothing, only checks it is free."""
         if os.geteuid() == 0:
             raise _refuse("run as the account that will own the store, not as root")
+        # Read only, before the canary or anything else is written into the copy: a daemon using the
+        # copy refuses the run without the relocation leaving a file in its store (review of 300543c).
+        try:
+            held = store_lock_held_elsewhere(self.new_state)
+        except WorldlineError as exc:
+            raise _refuse(exc.message) from exc
+        if held:
+            raise _refuse("the copy's store lock is held: a daemon is using the copy; stop it first")
         if dry_run:
-            try:
-                held = store_lock_held_elsewhere(self.new_state)
-            except WorldlineError as exc:
-                raise _refuse(exc.message) from exc
-            if held:
-                raise _refuse("the copy's store lock is held: a daemon is using the copy; stop it first")
             self._refuse_mounted_views()
             return self._run(dry_run=True, lock=None)
         mounts = self._mounts_inside()
@@ -730,7 +744,10 @@ class Relocation:
                               {"mount": mount["point"]})
             if "idmapped" in mount["options"]:
                 raise _refuse(f"the copy's {base} directory is on an idmapped mount", {"mount": mount["point"]})
-            old_mount, old_source = _mount_source(os.path.normpath(os.fsdecode(old_root)), entries)
+            # Resolved as far as this account can see: a store records its paths unresolved, and an
+            # old store under a symlinked home (/home -> var/home) named lexically was looked up
+            # on the wrong mount (review of 300543c).
+            old_mount, old_source = _mount_source(os.path.realpath(os.fsdecode(old_root)), entries)
             if mount["device"] == old_mount["device"] and (
                     source == old_source or source.startswith(old_source.rstrip("/") + "/")
                     or old_source.startswith(source.rstrip("/") + "/")):
@@ -772,7 +789,7 @@ class Relocation:
             # Opening a database can checkpoint its WAL and create or delete -wal/-shm. A dry run
             # plans against a private copy, so the copy under relocation is not touched at all.
             scratch = tempfile.mkdtemp(prefix="worldline-relocate-plan-")
-            for suffix in ("", "-wal", "-shm"):
+            for suffix in _DATABASE_SUFFIXES:
                 source = str(self.database) + suffix
                 if os.path.exists(source):
                     shutil.copy2(source, os.path.join(scratch, "worldline.sqlite3" + suffix))

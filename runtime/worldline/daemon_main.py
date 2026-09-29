@@ -47,13 +47,13 @@ def main(argv: list[str] | None = None) -> int:
         # relocation, must not do (review of 796cb02); and a configuration that refuses must still
         # be able to close the gate a previous run opened (review of 4490013).
         lock = acquire_store_lock(state, holder="worldlined")
-    except WorldlineError as exc:
+    except (WorldlineError, OSError) as exc:
         log.error("%s", exc)
-        if exc.code == "UNSAFE_STORE" and not store_lock_in_use(state):
-            # The lock path or the state directory is not what the daemon made, and no daemon holds
-            # the lock there: take clients off the store (review of 09f5c0b). A lock some process
-            # holds is a running daemon's, whose gate a second start must leave alone (review of
-            # c7d89f1).
+        if getattr(exc, "code", None) != "DAEMON_ALREADY_RUNNING" and not store_lock_in_use(state):
+            # The lock path or the state directory is not what the daemon made, or the lock could
+            # not be taken or written, and no daemon holds it there: take clients off the store
+            # (reviews of 09f5c0b and 300543c). A lock some process holds is a running daemon's,
+            # whose gate a second start must leave alone (review of c7d89f1).
             try:
                 close_gate_at(data)
             except OSError:

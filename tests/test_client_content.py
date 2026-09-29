@@ -307,6 +307,29 @@ class RefusedRegistrationKeepsTheDirectory(unittest.TestCase):
             self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), gate_before)
 
 
+    def test_unsafe_content_refuses_before_anything_moves(self) -> None:
+        # Review of 300543c: the check ran only after the move and the database commit, so a
+        # registration killed in between left content every later client-mode start refused.
+        with tempfile.TemporaryDirectory(prefix="worldline-register-precheck-") as temporary:
+            root = Path(temporary)
+            paths = WorldlinePaths.from_environment(environment(root, **CLIENT_ENV))
+            store = StateStore(paths, Core.shared())
+            self.addCleanup(store.close)
+            project = root / "project"
+            project.mkdir()
+            (project / "open.txt").write_text("anyone may write this\n")
+            os.chmod(project / "open.txt", 0o666)
+            manager = RootManager(paths, store, core=Core.shared(), toolchains=())
+            with mock.patch("worldline.roots.os.rename", wraps=os.rename) as renamed:
+                with self.assertRaises(WorldlineError) as caught:
+                    manager.register([project], confirmed=True)
+            self.assertEqual(caught.exception.code, "CLIENT_MODE_UNSAFE_CONTENT")
+            renamed.assert_not_called()
+            self.assertEqual(store.roots(), [])
+            self.assertEqual(list(paths.generations.iterdir()), [])
+            self.assertTrue(project.is_dir() and not project.is_symlink())
+
+
 class RegistrationThatFailsMidwayKeepsTheDirectory(unittest.TestCase):
     """Review of 4490013: a failure after the move but before it was recorded (a directory flush
     on a parent the account may write but not read) had the discard delete the only copy."""
@@ -460,6 +483,103 @@ class StartupOrdersTheGateAfterTheLock(unittest.TestCase):
             self.assertEqual(result.returncode, 1, result.stderr)
             self.assertIn(b"UNSAFE_STORE", result.stderr)
             self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
+
+
+    def test_a_state_home_that_is_a_file_refuses_by_name_and_closes_the_gate(self) -> None:
+        # Review of c7d89f1 (G11b): XDG_STATE_HOME a regular file raised an unnamed
+        # NotADirectoryError and left the gate open (fixed in 300543c; tested since its review).
+        with tempfile.TemporaryDirectory(prefix="worldline-state-file-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()
+            state_home = Path(env["XDG_STATE_HOME"])
+            shutil.rmtree(state_home)
+            state_home.write_text("not a directory\n")
+            result = self.daemon(env)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"UNSAFE_STORE", result.stderr)
+            self.assertNotIn(b"Traceback", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
+
+    def test_a_held_lock_its_owner_cannot_read_leaves_its_gate_alone(self) -> None:
+        # Review of 300543c: the in-use check opened the lock to probe it, so a running daemon's
+        # lock made 0000 or 0200 read as free and a second start closed that daemon's gate.
+        import fcntl
+        if os.geteuid() == 0:
+            self.skipTest("root opens a file whatever its mode")
+        for mode in (0o000, 0o200):
+            with self.subTest(mode=oct(mode)), tempfile.TemporaryDirectory(prefix="worldline-held-unreadable-") as temporary:
+                env = environment(Path(temporary), **CLIENT_ENV)
+                paths = WorldlinePaths.from_environment(env)
+                paths.ensure()
+                paths.share_live_chain()
+                lock = paths.state / STORE_LOCK_NAME
+                holder = os.open(lock, os.O_RDWR | os.O_CREAT, 0o600)
+                try:
+                    fcntl.flock(holder, fcntl.LOCK_EX)
+                    os.chmod(lock, mode)
+                    result = self.daemon(env)
+                finally:
+                    os.close(holder)
+                    os.chmod(lock, 0o600)
+                self.assertEqual(result.returncode, 1, result.stderr)
+                self.assertIn(b"UNSAFE_STORE", result.stderr)
+                self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o710)
+
+    def test_a_state_directory_linked_to_another_store_closes_the_gate(self) -> None:
+        # Review of 300543c: the in-use check followed the link and found the other store's
+        # daemon holding its own lock, so this store's gate stayed open with no daemon serving it.
+        from worldline.paths import acquire_store_lock
+        with tempfile.TemporaryDirectory(prefix="worldline-state-link-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()
+            other = Path(temporary) / "other-store-state"
+            other.mkdir(mode=0o700)
+            held = acquire_store_lock(other, holder="another store's daemon", create_directory=False)
+            self.addCleanup(os.close, held)
+            shutil.rmtree(paths.state)
+            paths.state.symlink_to(other)
+            result = self.daemon(env)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"UNSAFE_STORE", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
+
+    def test_a_lock_that_cannot_be_written_closes_the_gate(self) -> None:
+        # Review of 300543c: writing the holder into the lock raised a bare OSError (a full disk;
+        # here a zero file-size limit), which left a previous run's gate open.
+        import resource
+        with tempfile.TemporaryDirectory(prefix="worldline-lock-unwritable-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            paths = WorldlinePaths.from_environment(env)
+            paths.ensure()
+            paths.share_live_chain()
+            repo = Path(__file__).resolve().parents[1]
+            result = subprocess.run(
+                [sys.executable, "-B", "-m", "worldline.daemon_main"],
+                env={**os.environ, **env, "PYTHONPATH": str(repo / "runtime"), "PYTHONDONTWRITEBYTECODE": "1"},
+                capture_output=True, timeout=60,
+                preexec_fn=lambda: resource.setrlimit(resource.RLIMIT_FSIZE, (0, 0)))
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertIn(b"UNSAFE_STORE", result.stderr)
+            self.assertIn(b"cannot be written", result.stderr)
+            self.assertEqual(stat.S_IMODE(paths.data.stat().st_mode), 0o700)
+
+
+@needs_supplementary
+class ClientModeStoreDirectories(unittest.TestCase):
+    def test_state_and_config_may_share_a_directory_but_data_stays_apart(self) -> None:
+        # Review of 300543c: the rule refused config == state too, which has no gate problem.
+        with tempfile.TemporaryDirectory(prefix="worldline-shared-config-") as temporary:
+            env = environment(Path(temporary), **CLIENT_ENV)
+            WorldlinePaths.from_environment({**env, "XDG_CONFIG_HOME": env["XDG_STATE_HOME"]})
+            for name in ("XDG_STATE_HOME", "XDG_CONFIG_HOME"):
+                with self.subTest(inside_data=name):
+                    with self.assertRaises(WorldlineError) as caught:
+                        WorldlinePaths.from_environment({**env, name: env["XDG_DATA_HOME"]})
+                    self.assertEqual(caught.exception.code, "INVALID_CLIENT_MODE")
 
 
 class DoctorReportsClientMode(unittest.TestCase):

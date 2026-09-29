@@ -201,6 +201,62 @@ class RootSourceTests(_Registered):
         self.assertEqual((repo / ".git").readlink(), elsewhere)
         self.assertEqual((repo / "f.txt").read_text(), "x\n")
 
+    def _repository_root(self, name: str) -> tuple[Path, dict]:
+        import subprocess
+        repo = Path(self.temporary.name) / name
+        repo.mkdir()
+        subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
+        (repo / "f.txt").write_text("x\n")
+        subprocess.run(["git", "-C", str(repo), "add", "f.txt"], check=True, capture_output=True)
+        subprocess.run(["git", "-C", str(repo), "-c", "user.email=a@b.c", "-c", "user.name=a",
+                        "commit", "-qm", "init"], check=True, capture_output=True)
+        self.manager.register([repo], confirmed=True)
+        root = next(item for item in self.store.roots() if bytes(item["path"]) == os.fsencode(repo))
+        return repo, root
+
+    def _break_repository(self, root: dict) -> None:
+        source = Path(os.fsdecode(self.paths.root_source(root)))
+        with open(source / ".git" / "config", "a", encoding="utf-8") as stream:
+            stream.write("[core\n")   # git refuses the whole repository: bad config line
+
+    def test_a_root_whose_repository_git_refuses_can_still_be_removed(self) -> None:
+        # Review of 300543c: its own repository facts are never published again, yet a git refusal
+        # of them refused its removal.
+        repo, root = self._repository_root("bad-config")
+        self._break_repository(root)
+        self.manager.remove(root["root_key"], confirmed=True)
+        self.assertTrue(repo.is_dir() and not repo.is_symlink())
+        self.assertEqual((repo / "f.txt").read_text(), "x\n")
+
+    def test_a_remaining_root_git_refuses_is_named_by_its_path(self) -> None:
+        # Review of 300543c: the refusal named the store's payload path, not the root to repair.
+        _repo, other = self._repository_root("bad-other")
+        self._break_repository(other)
+        with self.assertRaises(WorldlineError) as caught:
+            self.manager.remove(self.root["root_key"], confirmed=True)
+        self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
+        self.assertEqual(caught.exception.details["root"], other["display_path"])
+        self.assertTrue(self.work.is_symlink())
+
+    def test_a_refused_publish_leaves_no_copy_behind(self) -> None:
+        # Review of 300543c: status reconciles while the store is dirty, and each reconcile whose
+        # publication refused kept a full copy of every root.
+        before = sorted(item.name for item in self.paths.generations.iterdir())
+        self.store.set_meta("dirty", True)
+        with mock.patch.object(self.manager.environment, "capture", side_effect=RuntimeError("refused late")):
+            for _attempt in range(2):
+                with self.assertRaises(RuntimeError):
+                    self.manager.reconcile()
+        self.assertEqual(sorted(item.name for item in self.paths.generations.iterdir()), before)
+
+    def test_a_dependency_file_nested_too_deep_is_recorded_not_raised(self) -> None:
+        # Review of 300543c: the parser's RecursionError escaped every capture of the store.
+        source = Path(os.fsdecode(self.paths.root_source(self.root)))
+        (source / "package.json").write_text('{"dependencies": ' + "[" * 100000 + "]" * 100000 + "}")
+        self.store.set_meta("dirty", True)
+        world = self.manager.reconcile()
+        self.assertNotEqual(world.content_id, self.prime)
+
     def _second_root(self, name: str) -> dict:
         other = Path(self.temporary.name) / name
         other.mkdir()

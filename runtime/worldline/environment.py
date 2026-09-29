@@ -334,7 +334,9 @@ def _dependency_record(root_key: str, root: bytes, format_name: str, files: list
         state = "PARSED" if declared is not None else "UNAVAILABLE"
         reason = None if declared is not None else "format parser unavailable"
     except (OSError, UnicodeError, json.JSONDecodeError, tomllib.TOMLDecodeError, TypeError, ValueError,
-            AttributeError) as exc:  # a package.json that is `[]` has no .get (review of c7d89f1)
+            AttributeError, RecursionError) as exc:
+        # A package.json that is `[]` has no .get (review of c7d89f1); one nested deeper than the
+        # parser recurses raised out of every capture (review of 300543c).
         declared = None
         state = "UNAVAILABLE"
         reason = str(exc)

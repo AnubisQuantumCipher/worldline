@@ -321,6 +321,83 @@ class PruneKeepsAWorldWhosePayloadIsWhole(unittest.TestCase):
         self.assertIn(instance, [entry["instanceId"] for entry in pruner.plan(older_than_days=None, keep=None, logs=False)["worlds"]])
 
 
+class PruneDecidesFromTheWorldsOwnPayload(unittest.TestCase):
+    """Review of 300543c: a world was recorded pruned with its own payload whole when its payload
+    could not be touched and its overlay's removal failed part way, and when its payload was
+    another world's base; a payload a pruned world shared was then never reclaimed."""
+
+    def setUp(self) -> None:
+        from worldline.prune import Pruner
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-prune-own-payload-")
+        self.addCleanup(self.temporary.cleanup)
+        base = Path(self.temporary.name)
+        self.paths = WorldlinePaths(home=base / "home", data=base / "data", state=base / "state",
+                                    runtime=base / "runtime", config=base / "config")
+        self.store = StateStore(self.paths)
+        self.addCleanup(self.store.close)
+        self.pruner = Pruner(self.paths, self.store)
+
+    def world(self, alias: str, state: WorldState, base_payload: str | None = None) -> World:
+        world = World.create(alias=alias, parent_instance=None, parent_content="0" * 64, cause="m", actor="fixture",
+                             payload_path=Path("/nowhere"),
+                             base_payload_path=Path(base_payload or (self.paths.data / "generations" / "gone" / "payload")),
+                             base_root="0" * 64, root_set_hash="0" * 64, mission_hash="0" * 64)
+        world.payload_path = str(self.paths.worlds / world.instance_id / "payload")
+        (Path(world.payload_path) / "rk1").mkdir(parents=True)
+        (Path(world.payload_path) / "rk1" / "result.txt").write_text("the world's own content\n")
+        world.state, world.ended = state, world.born
+        self.store.insert_world(world)
+        (self.paths.overlays / world.instance_id / "rk1" / "upper").mkdir(parents=True)
+        (self.paths.overlays / world.instance_id / "rk1" / "upper" / "agent-output.txt").write_text("agent work\n")
+        return world
+
+    def prune(self) -> dict:
+        return self.pruner.apply(self.pruner.plan(older_than_days=None, keep=None, logs=False))
+
+    def test_a_payload_untouched_with_its_overlay_removed_in_part_stays_retained(self) -> None:
+        from worldline.fstree import NothingRemoved
+        dead = self.world("dead", WorldState.DEAD)
+        payload = os.path.realpath(dead.payload_path)
+
+        def failing(path, **kwargs):
+            if os.path.realpath(path) == payload:
+                raise NothingRemoved(13, "denied", str(path))
+            raise OSError(13, "denied part way", str(path))   # the overlay, in part
+
+        with mock.patch("worldline.prune.remove_tree", side_effect=failing):
+            result = self.prune()
+        self.assertNotIn("dead", result["pruned"])
+        self.assertFalse(self.store.world(dead.instance_id).payload_pruned)
+        self.assertTrue((Path(dead.payload_path) / "rk1" / "result.txt").exists())
+
+    def test_a_shared_payload_keeps_its_world_retained_and_is_reclaimed_later(self) -> None:
+        parent = self.world("parent", WorldState.DEAD)
+        child = self.world("child", WorldState.VALID, base_payload=parent.payload_path)
+        first = self.prune()
+        self.assertNotIn("parent", first["pruned"])                      # only its overlay went
+        self.assertFalse(self.store.world(parent.instance_id).payload_pruned)
+        self.assertTrue((Path(parent.payload_path) / "rk1" / "result.txt").exists())
+        archived = self.store.world(child.instance_id)
+        archived.state = WorldState.ARCHIVED
+        self.store.save_world(archived)
+        second = self.prune()
+        self.assertIn("parent", second["pruned"])
+        self.assertIn("child", second["pruned"])
+        self.assertFalse(os.path.exists(parent.payload_path))
+
+    def test_a_payload_only_a_pruned_world_names_is_reclaimed(self) -> None:
+        # A world recorded pruned with its payload in place (as 300543c and earlier did) no longer
+        # counts as referring to that payload.
+        parent = self.world("parent", WorldState.DEAD)
+        child = self.world("child", WorldState.ARCHIVED, base_payload=parent.payload_path)
+        marked = self.store.world(parent.instance_id)
+        marked.payload_pruned = True
+        self.store.save_world(marked)
+        result = self.prune()
+        self.assertIn("child", result["pruned"])
+        self.assertFalse(os.path.exists(parent.payload_path))
+
+
 class StoreSchemaMigrations(unittest.TestCase):
     def _paths(self, root: Path) -> WorldlinePaths:
         env = {

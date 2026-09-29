@@ -90,10 +90,16 @@ report files are never admissible.
     it opens only at daemon start after the content check, and closes if content turns out unsafe
     while the daemon runs. Since 1.7.1 `worldlined` takes a lock in the store's state directory
     before it validates or builds anything and closes the gate once it is the store's only daemon,
-    so a second start neither touches a running daemon's gate nor writes its store, and a start or
-    configuration that refuses after that lock, an unsafe lock path, or a daemon that fails in
-    Python, leaves the gate closed. A daemon that stops cleanly or is killed outright leaves it as
-    it was until the next start, which closes it and checks again before opening it.
+    so a second start neither writes a running daemon's store nor touches its gate: whether the
+    lock is held is read from the kernel's lock table, which counts a lock its owner made
+    unreadable. The gate is left closed by a start or configuration that refuses after that lock,
+    by a lock that cannot be taken or written while no process holds it (an unsafe lock path, a
+    state path that is not a real directory of the daemon's, a full disk), and by a daemon that
+    fails in Python. It is left as it was by a daemon that stops cleanly or is killed outright,
+    until the next start, which closes it and checks again before opening it; by a configuration
+    whose store directories cannot be named (a relative XDG path), which refuses before the lock;
+    and by a start refused on a lock file hard-linked to another store's held lock, which cannot
+    be told from this store's own.
   - Content they can reach must be owned by the daemon and carry no other-write bit, no
     group-write bit outside the daemon's own group, no extended ACL (any `system.*acl*` xattr), no
     file capability (`security.capability`), and no setuid, setgid or sticky bit
@@ -181,7 +187,8 @@ report files are never admissible.
   daemon's cgroup: the shipped unit's `MemoryMax=4G`, `MemorySwapMax=0` and `TasksMax=4096` bound
   them, inspection runs with OOM score 1000 (code a repository makes git run can lower it toward
   the unit's floor), and `OOMPolicy=continue` keeps an OOM kill in the cgroup from stopping the
-  daemon. A git killed by any signal refuses the inspection instead of becoming a fact.
+  daemon. A git killed by any signal, or reporting that a process it started was killed (`died of
+  signal`), refuses the inspection instead of becoming a fact.
 - **Release assurance of an exact commit (1.3.0; private host roster, 1.5.0).** A version is
   published only after `scripts/release_gate.py` accepts the full assurance report of the tagged
   commit, produced in the same workflow run (`docs/release-process.md`). One roster
@@ -467,12 +474,15 @@ trust you place in WORLDLINE.
      - It does not prove the copy is complete. The copy step (as root, for overlay work
        directories) and its comparison belong to the migration.
      - Its check for a process holding the database open sees only processes of its own uid (in
-       any mount namespace). A real run also holds the copy's store lock, the one `worldlined`
-       takes before it opens anything, so no daemon can start on the copy meanwhile; a dry run only
-       checks it is free.
+       any mount namespace), matched by the device and inode their own mount tables and fdinfo
+       give, which the copy's identity is read the same way as (on btrfs `stat` alone never
+       matched). A real run also holds the copy's store lock, the one `worldlined` takes before it
+       opens anything, so no daemon can start on the copy meanwhile; both runs first check,
+       reading only, that it is free, before anything is written into the copy.
      - A copy root on FUSE, a network filesystem or an idmapped mount, or one that is the old
        store's location on the same device, refuses, judged from the mount table before anything
-       is written, whether or not the old store is visible to the relocating account.
+       is written, whether or not the old store is visible to the relocating account; the old
+       store's paths are resolved as far as that account can see first (a symlinked home).
      - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and
        nothing reads a path back out of it) and counts it; a mention of the old store in any
        other database column refuses.

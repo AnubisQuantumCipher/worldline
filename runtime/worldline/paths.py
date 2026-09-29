@@ -117,8 +117,11 @@ def acquire_store_lock(state: Path, *, holder: str, create_directory: bool = Tru
             raise WorldlineError(
                 "DAEMON_ALREADY_RUNNING",
                 f"{path} is held: a worldlined or worldline-relocate is using this store") from exc
-        os.ftruncate(descriptor, 0)
-        os.write(descriptor, f"{os.getpid()} {holder}\n".encode("ascii"))
+        try:
+            os.ftruncate(descriptor, 0)
+            os.write(descriptor, f"{os.getpid()} {holder}\n".encode("ascii"))
+        except OSError as exc:  # a full disk, a file-size limit: refused by name (review of 300543c)
+            raise WorldlineError("UNSAFE_STORE", f"the store lock cannot be written: {path}: {exc}") from exc
         return descriptor
     except BaseException:
         os.close(descriptor)
@@ -174,9 +177,25 @@ def close_gate_at(data: Path) -> None:
 
 
 def store_lock_in_use(state: Path) -> bool:
-    """Whether a process holds a lock on whatever regular file is at the store lock's path,
-    whatever else is wrong with it (a second link, a mode it cannot be written with)."""
+    """Whether a process holds a lock on the regular file at the store lock's path, whatever else
+    is wrong with it (a second link, a mode it cannot be written with). Decided from the kernel's
+    lock table first, which needs no open: a lock its owner made unreadable (0000, 0200) is still
+    a running daemon's (review of 300543c). A state path that is not a real directory of this
+    account's is not this store's, and a lock reached through it is some other store's: not in
+    use here. A lock file hard-linked to another store's held lock cannot be told apart from this
+    store's own and reads as in use (SECURITY.md)."""
     import fcntl
+    try:
+        directory = os.lstat(state)
+        info = os.lstat(state / STORE_LOCK_NAME)
+    except OSError:
+        return False
+    if not stat.S_ISDIR(directory.st_mode) or directory.st_uid != os.getuid() or not stat.S_ISREG(info.st_mode):
+        return False
+    if _flock_listed(info):
+        return True
+    # Not listed: the table may not show this filesystem's identities (btrfs subvolumes and
+    # overlays report other devices there) or this process's view of /proc may hide the holder.
     try:
         descriptor = os.open(state / STORE_LOCK_NAME, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
     except OSError:
@@ -189,6 +208,23 @@ def store_lock_in_use(state: Path) -> bool:
         return True
     finally:
         os.close(descriptor)
+    return False
+
+
+def _flock_listed(info: os.stat_result) -> bool:
+    """Whether /proc/locks lists an flock on this device and inode. Unreadable reads as not."""
+    wanted = f"{os.major(info.st_dev):02x}:{os.minor(info.st_dev):02x}:{info.st_ino}"
+    try:
+        with open("/proc/locks", encoding="ascii", errors="replace") as table:
+            lines = table.read(1 << 24).splitlines()
+    except OSError:
+        return False
+    for line in lines:
+        fields = line.split()
+        if len(fields) > 1 and fields[1] == "->":  # a waiter, not a holder
+            continue
+        if len(fields) >= 6 and fields[1] == "FLOCK" and fields[5] == wanted:
+            return True
     return False
 
 
@@ -428,12 +464,14 @@ class WorldlinePaths:
                 raise WorldlineError("INVALID_CLIENT_MODE",
                                      "in client mode these must be spelled by their real paths: " + ", ".join(crooked))
         runtime = runtime_home / "worldline"
-        stores = [data_home / "worldline", state_home / "worldline", config_home / "worldline"]
-        if gids and any(_nested(first, second) for index, first in enumerate(stores) for second in stores[index + 1:]):
-            # Each is moded for its own purpose: with state inside data, keeping state 0700 closed
-            # a path clients traverse to PRIME (review of c7d89f1).
+        data_store = data_home / "worldline"
+        if gids and any(_nested(data_store, other / "worldline") for other in (state_home, config_home)):
+            # The data directory is the client gate and is moded for clients; state and config stay
+            # 0700. With state inside data, keeping state 0700 closed a path clients traverse to
+            # PRIME (review of c7d89f1). State and config may share a directory: both are private
+            # (review of 300543c).
             raise WorldlineError("INVALID_CLIENT_MODE",
-                                 "in client mode the data, state and config directories must be apart")
+                                 "in client mode the data directory must be apart from state and config")
         if gids and any(_nested(runtime, other / "worldline") for other in (data_home, state_home, config_home)):
             # The runtime directory is opened to the client group; the store must never share it.
             raise WorldlineError("INVALID_CLIENT_MODE",

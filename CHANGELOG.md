@@ -3,11 +3,11 @@
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 
 **An independent review of 1.7.0 (commit ad64cd2) and a rehearsal of the dedicated-account
-migration on a copy of a production store found the defects below; four more independent reviews,
-of the 1.7.1 candidates 796cb02, 4490013, 09f5c0b and c7d89f1, found more, including defects the
-candidates' own fixes introduced.
-Each is fixed and tested, and each new test was run against the code it guards against and
-failed there.** No store migration is needed. Existing VALID worlds need revalidation before collapse, as
+migration on a copy of a production store found the defects below; five more independent reviews,
+of the 1.7.1 candidates 796cb02, 4490013, 09f5c0b, c7d89f1 and 300543c, found more, including
+defects the candidates' own fixes introduced.
+Each is fixed and tested, except those named under Known limits, and each new test was run
+against the code it guards against and failed there.** No store migration is needed. Existing VALID worlds need revalidation before collapse, as
 after any release: the runtime changed.
 
 ### Security: repository inspection
@@ -37,9 +37,14 @@ after any release: the runtime changed.
   the swap now re-adds the root before making it primary and always moves the path back; the
   copy that stood at the path is removed only if it is exactly what was materialized, and kept as
   `.worldline-removal-kept-<id>` otherwise, and the prepared generation is removed unless it became
-  PRIME (fifth review). Other roots are captured without repository facts only when their layout
-  is what the sandbox cannot inspect; a repository refused for its content (`core.bare`) still
-  refuses.
+  PRIME (fifth review); where it was kept, the refusal says so (`keptAt`). Other roots are
+  captured without repository facts only when their layout is what the sandbox cannot inspect; a
+  repository refused for its content (`core.bare`, a bad line in its `.git/config`) still refuses,
+  and the refusal names that root by its path, not the store's (sixth review). The root being
+  removed needs no repository facts, since removal copies its bytes and compares them on both
+  reads with the same facts: a git refusal of its own repository no longer refuses its removal
+  (sixth review). A write that lands after the re-read and before the swap is not caught (Known
+  limits).
   - The doctor also names a repository that borrows objects from outside itself
     (`objects/info/alternates`, `GIT_ALTERNATES_OUTSIDE_ROOT`), which the sandbox cannot read.
     It reads that file without following links and judges each entry lexically, so nothing the
@@ -70,9 +75,11 @@ after any release: the runtime changed.
     `memory.max` does not cover swap. 1.7.0's notes relied on a memory bound the shipped unit did
     not set.
   - A task limit reached when the sandbox is created refuses as `GIT_SANDBOX_UNAVAILABLE`, as does
-    a sandbox launcher killed by a signal. Inside a started sandbox, git killed by any signal, and
-    a submodule listing refused for want of resources (a fork git could not get), refuse as
-    `GIT_INSPECTION_FAILED`, or `GIT_UNAVAILABLE` at the 15 s timeout. A git killed after launch was
+    a sandbox launcher killed by a signal. Inside a started sandbox, git killed by any signal, a
+    process git started that was killed (git's own `died of signal`, whether git then exits 128,
+    or exits 0 after retrying another way, as `submodule status` retries `describe`: sixth
+    review), and a submodule listing refused for want of resources (a fork git could not get),
+    refuse as `GIT_INSPECTION_FAILED`, or `GIT_UNAVAILABLE` at the 15 s timeout. A git killed after launch was
     read by `rev-parse --verify HEAD` as "no HEAD", and a failed submodule listing as "no
     submodules" (third and fourth reviews).
   - A submodule listing that git itself refuses (a gitlink with no `.gitmodules` mapping, which
@@ -100,8 +107,10 @@ after any release: the runtime changed.
   operator's group, and the operator is a client, so that content was client-writable and passed
   the start check. Any group other than the daemon's own now refuses
   (`CLIENT_MODE_UNSAFE_CONTENT`). A named member of the client group who is also in the daemon's
-  group refuses at startup (`INVALID_CLIENT_MODE`), and so do data, state and config
-  directories that are not apart from each other.
+  group refuses at startup (`INVALID_CLIENT_MODE`), and so does a data directory that is not
+  apart from the state and config directories (the data directory is the gate and is moded for
+  clients; state and config stay 0700 and may share a directory: sixth review, the candidate
+  refused that too).
 - **Extended ACLs and file capabilities refuse.** Manifests record xattrs and materialization
   re-applies them. A `u:<client>:rwx` entry grants write while the mode bits show only its mask;
   any `system.*acl*` xattr counts, not only the two POSIX names. A `security.capability` xattr
@@ -112,9 +121,15 @@ after any release: the runtime changed.
   store's state directory before it validates its configuration or builds anything, then the
   daemon's older lock in the runtime directory, and only then closes the gate. A second start
   used to close a running daemon's gate before its lock refused it, and to write the database
-  first. A start that refuses after taking the store lock, a configuration that refuses, an
-  unsafe lock path that no process holds, or a daemon that fails in Python closes the gate; a
-  lock some process holds is a running daemon's, and its gate is left alone. The lock is
+  first. The gate closes when a start refuses after taking the store lock, when the
+  configuration refuses (it is validated after the lock), when the lock cannot be taken or
+  written and no process holds it (an unsafe lock path, a state path that is not a real
+  directory of the daemon's, a full disk), and when a daemon fails in Python after the lock. A
+  lock some process holds is a running daemon's, and its gate is left alone; whether one is held
+  is read from the kernel's lock table, so a running daemon's lock that its owner made unreadable
+  still counts (sixth review), and a lock reached through a state path that is a link counts for
+  nothing (sixth review: another store's daemon kept this gate open). What the gate does not
+  cover is under Known limits. The lock is
   `worldline-store.lock` in the state directory; a lock path that is a directory, a link or a
   file hard-linked elsewhere refuses as `UNSAFE_STORE` before anything is written to it. The
   runtime directory is not enough on its own: systemd removes it with the unit, lock file
@@ -127,9 +142,13 @@ after any release: the runtime changed.
   exist and be searchable in the daemon's namespace. 1.7.0 used a lexical `realpath`, which
   skipped a component it could not see and popped the `..` after it, so a link the daemon cannot
   follow was reported as routing.
-- **A refused reconcile or remove leaves no copy behind,** whether the content check refused it
-  or the capture did (a FIFO, an external hard link, a git layout the sandbox cannot inspect).
-  Before, each refused `status` request left another full copy of the roots.
+- **A refused reconcile or remove leaves no copy behind,** whether the content check refused it,
+  the capture did (a FIFO, an external hard link, a git layout the sandbox cannot inspect), or
+  publication did after the copy was made (sixth review). Before, each refused `status` request
+  left another full copy of the roots.
+- **A registration checks client-mode content before anything moves.** The check after the move
+  stays; a registration killed between its database commit and that check left content that every
+  later client-mode start refused (sixth review; 1.7.0 too).
 - **`worldline doctor` reports client mode** (`clientMode`): the client group and uids; the gate
   as `OPEN`, `CLOSED` or `UNSAFE` with the mode, group and ACL it found; and the host facts the
   daemon can observe, each `OK`, `MISSING` or `UNKNOWN`: `fs.protected_hardlinks`, a `nosuid`
@@ -150,13 +169,17 @@ after any release: the runtime changed.
   the old store, a copy that is the old store under another name (a bind mount: same device and
   inode), a database file that is the old store's own, a mount anywhere inside the copy, and a
   file hard-linked to anything outside the copy each once had the relocation, or the relocated
-  daemon, write the old store. Each now refuses. Mounts are found in the mount table: a bind
+  daemon, write the old store. Each now refuses. The old store's paths are resolved as far as the
+  relocating account can see before they are looked up in the mount table: a store records the
+  path its daemon was given, and under a symlinked home (`/home -> var/home`) a bind of the old
+  store at the copy's path was relocated in place (sixth review, demonstrated). Mounts are found in the mount table: a bind
   mount on the same filesystem has the same device number, and the second candidate, comparing
   devices, still rewrote the old store through one (third review, demonstrated).
 - **One user of the copy at a time.** A real run holds the copy's store lock, the one
   `worldlined` takes before it opens anything, and checks before writing and before reporting
-  that the lock file was not replaced. A dry run, which writes nothing, checks only that the
-  lock is free, with the same checks. The first candidate's `--daemon-lock` did not keep a daemon
+  that the lock file was not replaced. Both runs first check, reading only, that the lock is free,
+  so a daemon using the copy refuses the run before anything is written into it (sixth review: a
+  canary file was written into the copy first). The first candidate's `--daemon-lock` did not keep a daemon
   out and is gone. Before the lock is written or the database opened: the mount table must show
   no mount inside the copy; no copy root may be on FUSE, a network filesystem or an idmapped
   mount; and no copy root may be, on the same device, the old store's location or overlap it.
@@ -167,7 +190,11 @@ after any release: the runtime changed.
   it. Processes holding the copy's database are found by device and inode from
   `/proc/<pid>/fdinfo` and that process's own mount table (mount ids differ between namespaces),
   without `stat` through their descriptors, which a hung FUSE mount would block, except on
-  kernels whose fdinfo has no inode. The database files must be regular files.
+  kernels whose fdinfo has no inode. The copy's own identity is read the same way, from its own
+  fdinfo and mount table, as well as from `stat`: on btrfs, `stat` reports a subvolume's device
+  and the mount table the filesystem's, and no holder ever matched (sixth review). The database
+  files, `-journal` included, must be regular files of their own (sixth review: a FIFO named
+  `-journal` hung the real run under the lock).
 - **Links:** the daemon makes only the live and prepared mapping links. Any other link in the
   copy refuses, except inside content: a payload below its root, and anything inside a world's
   overlay (its upper layer, the agent's runtime snapshot, a check's frozen inputs). A link that
@@ -217,18 +244,23 @@ after any release: the runtime changed.
   link planted in a copy, or a relocated store's leftovers) is reported under `failures`, nothing
   of that world is removed, and it stays retained. A world nothing of which could be removed stays
   retained too (fourth review: it was recorded pruned with everything in place). A removal that
-  fails part way records the world as pruned if its payload is no longer whole, and the causal
-  event names what was not removed; if only its overlay went, it stays retained (fifth review). A
-  pruned world's overlay that is still there is offered again by the next prune.
+  fails part way records the world as pruned if its own payload is no longer whole, and the causal
+  event names what was not removed. Whether it is pruned is decided from its own payload alone: a
+  world whose payload is whole stays retained whatever else of it went, including when its
+  overlay's removal also failed part way, and when its payload is another world's base and was
+  therefore not offered (fifth and sixth reviews). A pruned world no longer counts as referring to
+  a payload, so one it shared is reclaimed once no live world names it (sixth review: it was never
+  reclaimed). A pruned world's overlay that is still there is offered again by the next prune.
 - **A root holding a read-only directory can be copied again.** Materialization created each
   directory with its recorded mode, so a non-empty 0555 directory could not receive its entries
   and every fork, reconcile or removal of that root failed (1.7.0 too; third review). Directories
   are filled first and given their modes last.
 - **A store path that exists as something other than a directory refuses as `UNSAFE_STORE`,**
   not a `FileExistsError` traceback.
-- **A `package.json` that is not an object** (`[]`) is recorded as an unreadable dependency file
-  instead of failing registration, reconcile and every capture of its root with an
-  `AttributeError` (1.7.0 too; fifth review).
+- **A `package.json` that is not an object** (`[]`), **or that is nested deeper than the parser
+  recurses,** is recorded as an unreadable dependency file instead of failing registration,
+  reconcile and every capture of its root with an `AttributeError` (1.7.0 too; fifth review) or a
+  `RecursionError` (sixth review).
 - **A daemon that resets the connection is `DAEMON_DISCONNECTED`,** not a `ConnectionResetError`
   traceback.
 
@@ -239,9 +271,27 @@ after any release: the runtime changed.
   reported by every prune and keeps `worldline-relocate` refusing the store until it is removed by
   hand. Directories a failed removal already made owner-accessible stay so.
 
-- The gate closes on a failed start and when a daemon fails in Python. A daemon that stops
-  cleanly, or is killed outright (SIGKILL, the OOM killer), leaves it as it was, and the next
-  start closes it and checks again before opening it.
+- The gate closes on a failed start and when a daemon fails in Python, once the start has named
+  its store. A daemon that stops cleanly, or is killed outright (SIGKILL, the OOM killer), leaves
+  it as it was, and the next start closes it and checks again before opening it. A configuration
+  whose store directories cannot be named (a relative `XDG_STATE_HOME`) refuses before the lock
+  and leaves the gate as it was. A store lock that is a hard link of another store's held lock
+  cannot be told from this store's own held lock, so a start refused on it leaves this gate alone
+  (only the daemon account or root can make one).
+- Daemons from earlier 1.7.1 candidates used other store-lock names and are not excluded by this
+  one: stop them first, as for 1.7.0. Every `flock` error, not only "held" (`ENOLCK` too), reads
+  as a lock in use; that refuses rather than risking a second daemon.
+- `root remove` re-reads the root just before the swap. A write into the root after that re-read
+  and before the swap is kept only in the store's previous payload, not at the operator's path:
+  stop writers into a root before removing it. A rollback keeps a full copy beside the path
+  whenever anything about the copy changed, its mtime included (an editor's temporary file).
+- A repository's content can make a submodule listing read like a resource failure (a gitlink at
+  a path named `cannot fork`), which refuses that repository's captures by name.
+- The doctor does not report `OOMPolicy`, and the `git` capability's version is that of the git
+  on the daemon's `PATH`; inspection always runs the one in `/usr/bin` or `/bin`.
+- On btrfs, the relocation's holder check matches by the filesystem's device and the inode, so a
+  file with the same inode number in another subvolume of the same filesystem, held open, refuses
+  the relocation.
 - Repository inspection runs the git in `/usr/bin` or `/bin`; a git installed elsewhere
   (`/usr/local/bin`) is refused by the doctor's probe and by every capture.
 - `OOMPolicy=continue` is set by the shipped unit; a deployment that writes its own unit sets it

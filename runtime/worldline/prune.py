@@ -90,7 +90,9 @@ class Pruner:
 
         referenced: set[str] = set()
         for world in worlds:
-            if world.instance_id in pruning:
+            # A pruned world can never be returned, so what it names is no one's: a payload it
+            # shared stays reclaimable once no live world names it (review of 300543c).
+            if world.instance_id in pruning or world.payload_pruned:
                 continue
             for reference in (world.payload_path, world.base_payload_path):
                 referenced.add(os.path.realpath(reference))
@@ -210,12 +212,13 @@ class Pruner:
                 removed_directories.append(directory)
             if entry.get("leftover"):
                 continue  # already recorded as pruned; what could not be removed is offered again
-            overlay = os.path.realpath(self.paths.overlays / world.instance_id)
-            payloads = [directory for directory in entry["directories"] if directory != overlay]
-            if untouched and not partial and not any(directory in removed_for_world for directory in payloads):
-                # Its payload is whole: nothing of it was removed, or only its overlay was. It stays
-                # retained, and the failures say why (reviews of 09f5c0b and c7d89f1: it was recorded
-                # pruned with its payload in place, and never offered again).
+            payload = os.path.realpath(world.payload_path)
+            if os.path.isdir(payload) and payload not in removed_for_world and payload not in partial:
+                # Its own payload is whole: it could not be touched, or it is another world's base
+                # and was not offered. The world stays retained, whatever else of it went (its
+                # overlay is scratch), and the failures say why. Decided from the payload alone
+                # (reviews of 09f5c0b, c7d89f1 and 300543c: it was recorded pruned with its payload
+                # in place when the overlay's removal also failed, or when the payload was shared).
                 continue
             for log_file in entry["logs"]:
                 try:

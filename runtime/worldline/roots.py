@@ -189,6 +189,12 @@ class RootManager:
                 "root registration moves the exact roots behind WORLDLINE live mappings",
                 {"roots": summary},
             )
+        # Client mode: unsafe content refuses before anything moves or is recorded. The check after
+        # the move stays, since the content can change in between; but a registration killed after
+        # its database commit left content that every later client-mode start refused (review of
+        # 300543c).
+        for candidate in candidates:
+            self.paths.assert_client_safe(candidate.raw_path)
 
         generation_id = str(uuid.uuid4())
         generation_payload = self.prime.new_generation(generation_id=generation_id)
@@ -308,6 +314,9 @@ class RootManager:
                         and self._layout_uninspectable(source)):
                     # Only the layout: a NOT_A_GIT_ROOT from content (core.bare) keeps refusing, or
                     # removing another root would publish this one without its facts (review of c7d89f1).
+                    # Named by the operator's path: the error names the store's payload path, which
+                    # says nothing about which root to repair (review of 300543c).
+                    exc.details = {**(exc.details or {}), "root": root["display_path"]}
                     raise
                 repository = None
                 if os.path.islink(os.path.join(source, b".git")):
@@ -427,12 +436,20 @@ class RootManager:
         if not self.store.get_meta("dirty", False):
             return self.store.prime()
         generation_id, payload, manifests = self.capture_current()
-        return self._publish_generation(
-            generation_id=generation_id,
-            generation_payload=payload,
-            cause=cause,
-            supplied_manifests=manifests,
-        )
+        try:
+            return self._publish_generation(
+                generation_id=generation_id,
+                generation_payload=payload,
+                cause=cause,
+                supplied_manifests=manifests,
+            )
+        except BaseException:
+            # A fresh copy of what is live: a refused publish must not keep it. status reconciles
+            # while the store is dirty, so each refused attempt left another full copy (review of
+            # 300543c). Kept only if it did become PRIME before the failure.
+            if self.store.get_meta("primeGeneration") != generation_id:
+                remove_tree(payload.parent, ignore_errors=True)
+            raise
 
     def remove(self, value: str, *, confirmed: bool = False) -> dict[str, Any]:
         self._assert_root_set_mutable()
@@ -443,14 +460,18 @@ class RootManager:
         try:
             repository = self.git.capture(source) if root["kind"] == "repo" else None
         except WorldlineError as exc:
-            if exc.code not in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT"):
+            if exc.code not in ("GIT_LINKED_WORKTREE_UNSUPPORTED", "NOT_A_GIT_ROOT", "GIT_INSPECTION_FAILED",
+                                "GIT_SANDBOX_UNAVAILABLE", "GIT_UNAVAILABLE"):
                 raise
-            # A root registered before 1.7.x whose layout the repository sandbox cannot inspect
-            # (a linked worktree, a `.git` link, a subdirectory) must still be removable. Removal
-            # copies the payload's bytes, `.git` included, whatever the repository facts say; a
-            # top-level `.git` link is recreated as it is even when it leaves the root, since it is
-            # the operator's own link at its own path (review of 796cb02: it was refused as
-            # EXTERNAL_SYMLINK, so the doctor said remove it and remove would not).
+            # The root being removed is never published again, so its repository facts are not
+            # needed: removal copies the payload's bytes, `.git` included, and compares them with
+            # the same facts on both reads. A root registered before 1.7.x whose layout the
+            # repository sandbox cannot inspect (a linked worktree, a `.git` link, a subdirectory)
+            # must still be removable, and so must one whose repository git refuses (a bad line in
+            # its `.git/config`, review of 300543c). A top-level `.git` link is recreated as it is
+            # even when it leaves the root, since it is the operator's own link at its own path
+            # (review of 796cb02: it was refused as EXTERNAL_SYMLINK, so the doctor said remove it
+            # and remove would not).
             repository = None
             if os.path.islink(os.path.join(source, b".git")):
                 allow_external = frozenset({b".git"})
@@ -525,7 +546,7 @@ class RootManager:
                 self.store.set_meta("primeGeneration", None)
                 self.store.set_meta("dirty", False)
                 prime_id = None
-        except BaseException:
+        except BaseException as failure:
             try:
                 try:
                     self.store.root(root["root_key"])
@@ -561,6 +582,8 @@ class RootManager:
                     os.rename(stage, kept)
                     _LOG.error("root removal rolled back; what was written at %s meanwhile is kept in %s",
                                root["display_path"], os.fsdecode(kept))
+                    if isinstance(failure, WorldlineError):  # said in the refusal too (review of 300543c)
+                        failure.details = {**(failure.details or {}), "keptAt": os.fsdecode(kept)}
                 # The prepared generation is discarded unless publication made it PRIME.
                 if prepared is not None and self.store.get_meta("primeGeneration") != prepared[0]:
                     remove_tree(prepared[1].parent, ignore_errors=True)
