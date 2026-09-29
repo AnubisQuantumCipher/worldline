@@ -11,17 +11,6 @@ from worldline.transaction import CollapseTransaction
 
 
 class EvaluatorProfileBinding(unittest.TestCase):
-    def test_promotion_rejects_check_record_from_another_profile(self) -> None:
-        manager = object.__new__(CollapseTransaction)
-        manager.core = Core.shared()
-        current = {"policy": {"requiredChecks": ["exam"], "canonical": {"checks": [
-            {"id": "exam", "format": "junit", "profile": "private-evaluator-v1"}
-        ]}}, "verifiers": []}
-        result = {"id": "exam", "format": "junit", "profile": "legacy",
-                  "status": "PASS", "exitCode": 0, "resultChannel": {"accepted": True}}
-        identity = manager._execution_identity(None, current, recorded_checks=[result])
-        self.assertFalse(identity["complete"])
-
     def test_a_record_whose_only_defect_is_its_profile_is_refused_for_that(self) -> None:
         # An exit-format record: report integrity is not in play, the run completed and
         # passed, and only the evaluator profile differs from what the policy declares.

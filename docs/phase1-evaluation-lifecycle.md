@@ -103,6 +103,10 @@ runtime.
      (`sourceSha256` present).
   2. The agent's own exit. It is judged from the subject's finalization record, because no
      revalidation re-runs it.
+     - Records written by runners 1.3.0–1.4.x carry no `origin`. They are recognised by their
+       exact shape (`finalize.runner_agent_record`).
+     - Records from before 1.3.0 carry no supervision, so nothing observed the agent's exit.
+       They are refused.
 
   A project with no policy has declared nothing, so its collapse is refused
   (EXECUTION_EVIDENCE_INCOMPLETE). A policy file whose `checks` is `[]` is an explicit

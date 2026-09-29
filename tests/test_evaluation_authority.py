@@ -267,6 +267,19 @@ class EvaluationAuthorityTests(unittest.TestCase):
                 identity = manager._execution_identity(SimpleNamespace(evidence=evidence), current, recorded_checks=[])
                 self.assertFalse(identity["complete"])
                 self.assertTrue(any(problem.startswith("agent:") for problem in identity["problems"]), identity["problems"])
+        # A world forked before 1.5.0: the runner wrote no `origin`. Recognised by its exact
+        # shape and still judged by the kernel (a failed or stopped legacy agent is refused).
+        legacy = {k: v for k, v in agent_pass_result().items() if k != "origin"}
+        legacy.update({"argv": ["agent"], "rawEventHash": "sha256:" + "00" * 32, "stderrHash": "sha256:" + "00" * 32})
+        identity = manager._execution_identity(SimpleNamespace(evidence={"checks": [legacy]}), current, recorded_checks=[])
+        self.assertTrue(identity["complete"], identity["problems"])
+        self.assertTrue(identity["legacyAgentRecord"])
+        for label, variant in (("failed", {**legacy, "status": "FAIL", "exitCode": 1}),
+                               ("stopped", {**legacy, "supervision": {"kind": "STOPPED"}}),
+                               ("channel", {**legacy, "resultChannel": {"accepted": True}}),
+                               ("no event hash", {k: v for k, v in legacy.items() if k != "rawEventHash"})):
+            with self.subTest(legacy=label):
+                self.assertFalse(manager._execution_identity(SimpleNamespace(evidence={"checks": [variant]}), current, recorded_checks=[])["complete"])
         # A revalidation's records cannot stand in for it: they never carry the agent.
         failed = SimpleNamespace(evidence={"checks": [{**agent_pass_result(), "status": "FAIL", "exitCode": 1}]})
         self.assertFalse(manager._execution_identity(failed, current, recorded_checks=[agent_pass_result()])["complete"])

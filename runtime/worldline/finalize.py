@@ -217,6 +217,24 @@ ENGINE_DECLARATIONS: dict[str, CheckDeclaration] = {
 }
 
 
+def runner_agent_record(record: Any) -> tuple[Any, bool]:
+    """The agent record as the kernel should read it, and whether a legacy shape was mapped.
+
+    Runners before 1.5.0 wrote the agent's own record without `origin`, and a missing origin is
+    classified as an external result, which such a record can never complete as. That record
+    is recognised by the exact shape only the runner produced -- id `agent`, kind `build`, format
+    `exit`, a supervision mapping and a raw-event hash, with no result channel and no verifier
+    bundle -- and read as origin `agent`. The kernel's agent branch still requires a supervised,
+    unstopped run with an integer exit. Anything else is passed through unchanged.
+    """
+    if (isinstance(record, Mapping) and record.get("id") == "agent" and "origin" not in record
+            and record.get("kind") == "build" and record.get("format") == "exit"
+            and "resultChannel" not in record and "executedVerifierSet" not in record
+            and isinstance(record.get("supervision"), Mapping) and "rawEventHash" in record):
+        return {**record, "origin": "agent"}, True
+    return record, False
+
+
 def check_declarations(requirement: Mapping[str, Any] | None) -> dict[str, CheckDeclaration]:
     """Per-check declarations from a requirement record (`requirements()`/`current_requirements()`).
 

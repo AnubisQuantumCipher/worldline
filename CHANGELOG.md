@@ -71,7 +71,13 @@ end in `tests/test_evaluation_lifecycle_promotion.py`.
   kernel's classification, which admits none of them.
 - Unchanged, deliberately: a PASS from an examiner whose staged bundle has unsatisfied imports
   is still a completed pass. The import analysis cannot tell a missing helper from the module
-  under test. A FAIL with such a gap is still EVALUATOR_INCOMPLETE.
+  under test. A FAIL with such a gap is EVALUATOR_INCOMPLETE. This was already so for
+  supervised checks. It is new for an agent-origin record, where it is inadmissible either way.
+- The agent record of a world forked by 1.3.0–1.4.x carries no `origin`. It is recognised by the
+  exact shape the runner wrote, so revalidated worlds of that age stay promotable. A world
+  forked before 1.3.0 has an agent record with no supervision at all: nothing observed its
+  agent's exit, so it cannot be promoted, even after revalidation. Return to a PRIME generation
+  instead, or fork again.
 
 ### Proof and ABI
 

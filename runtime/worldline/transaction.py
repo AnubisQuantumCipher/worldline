@@ -18,7 +18,7 @@ from .delta import Delta
 from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, effective_evidence, verify_context
 from .errors import ConflictError, WorldlineError
 from .executed import NO_BUNDLE_IDENTITY, bundle_identity
-from .finalize import ENGINE_DECLARATIONS, check_declarations, required_roster, roster_decision
+from .finalize import ENGINE_DECLARATIONS, check_declarations, required_roster, roster_decision, runner_agent_record
 from .environment import capture_dependencies
 from .linux.atomic import AtomicExchange
 from .linux.git import GitAdapter
@@ -696,6 +696,12 @@ class CollapseTransaction:
         # the DEGRADED one). A subject with no finalization agent record is refused.
         finalization = subject.evidence.get("checks") if subject is not None and isinstance(subject.evidence, dict) else None
         agent_record = next((item for item in (finalization or ()) if isinstance(item, Mapping) and item.get("id") == "agent"), None)
+        # Worlds forked before 1.5.0 carry the runner's agent record without `origin`.
+        agent_record, legacy_agent = runner_agent_record(agent_record)
+        # The slot holds the runner's own agent record and nothing else: a record of another
+        # origin (a 1.7.3 policy check that took the id `agent`, say) is not the agent's exit.
+        if isinstance(agent_record, Mapping) and agent_record.get("origin") != "agent":
+            agent_record = None
         agent = roster_decision(["agent"], {"agent": agent_record} if agent_record is not None else {},
                                 {"agent": ENGINE_DECLARATIONS["agent"]}, empty_declared=False, core=self.core)
         declared_bundles: dict[str, list[tuple[str, str, str]]] = {}
@@ -735,7 +741,8 @@ class CollapseTransaction:
         complete = roster["complete"] is True and agent["complete"] is True
         return {"complete": complete, "expected": bundle_identity(expected_members),
                 "actual": bundle_identity(actual_members), "mode": "candidate-evaluation",
-                "problems": problems, "requiredChecks": ["agent", *required], "emptyDeclared": empty_declared}
+                "problems": problems, "requiredChecks": ["agent", *required], "emptyDeclared": empty_declared,
+                "legacyAgentRecord": legacy_agent}
 
     def _freshness(self, candidate: World, *, kind: str, return_of: str | None) -> dict[str, Any]:
         """Evidence freshness at the promotion boundary (Python-enforced; the kernel proves that
