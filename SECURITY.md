@@ -500,12 +500,12 @@ trust you place in WORLDLINE.
        On btrfs a held file with the same inode number in another subvolume of the same
        filesystem reads as a holder and refuses the relocation.
      - Every retained world's payload that is in the copy before relocation must be there after
-       it. Only a DEAD or DEGRADED world whose payload is absent from the copy (and, where the
-       old store is visible, from the old store) is reported as never created
-       (`payloadsAbsentBeforeRelocation`, 1.7.2); any other missing payload refuses before
-       anything is written (`payloadsMissingFromCopy`), and a rerun on a rewritten copy exempts
-       nothing. Where the old store is not visible, "never created" rests on the world's state
-       alone.
+       it. A payload absent from the copy is exempt only on evidence that the old store lacks it
+       too: seen absent there, attested absent by a caller who can see it
+       (`--absent-in-old-store`), or a world that never received its identity; each basis is
+       reported (`payloadsAbsentBeforeRelocation`, 1.7.2). Any other missing payload refuses
+       before anything is written (`payloadsMissingFromCopy`), and a rerun on a rewritten copy
+       exempts nothing. An attestation is trusted as given.
      - It keeps each world's evidence byte for byte (it is hashed into the world's identity, and
        nothing reads a path back out of it) and counts it; a mention of the old store in any
        other database column refuses.

@@ -8,27 +8,43 @@ need revalidation before collapse, as after any release: the runtime changed.
 
 ### Fixed
 
-- **`worldline-relocate` relocates a store that holds worlds without a payload.** A fork that
-  dies before its payload exists leaves a retained world (DEAD, DEGRADED) with no payload
-  directory; the production store under rehearsal had six. 1.7.1's dry run said nothing about
-  them, and its real run rewrote the copy and then refused in verification ("retained world
-  payloads are missing from the new store"), so such a store could not be relocated at all.
+- **`worldline-relocate` relocates a store that holds worlds without a payload.** The production
+  store under rehearsal had six retained worlds with no payload directory: two DEAD forks that
+  died before a payload existed, and four DEGRADED worlds whose payloads that store had itself
+  lost at some point (they have identities). 1.7.1's dry run said nothing about them, and its
+  real run rewrote the copy and then refused in verification ("retained world payloads are
+  missing from the new store"), so such a store could not be relocated at all.
   - While planning, before anything is written, the relocation measures which retained worlds'
-    payloads are absent from the copy. A DEAD or DEGRADED world whose payload is absent from the
-    copy, and, where the old store is visible to the relocating account, from the old store too,
-    is reported (`payloadsAbsentBeforeRelocation`) and not required by verification, whose
-    verdict then reads `PRESENT_EXCEPT_NEVER_CREATED`.
-  - Any other missing payload (a world that can still be returned to, collapsed or revalidated,
-    or a payload the old store still has) is a lost or incomplete copy: it is reported
+    payloads are absent from the copy. The relocation cannot lose what the old store does not
+    have, so such a payload is exempt only on evidence that the old store lacks it too, and the
+    basis is reported for each (`payloadsAbsentBeforeRelocation`): seen absent in the old store
+    (`absent-in-old-store`); attested absent by a caller who can see the old store when the
+    relocating account cannot (`attested-absent-in-old-store`, from `--absent-in-old-store FILE`,
+    a JSON list of instance ids); or a world that never received its identity (`never-created`:
+    finalization writes the payload before the identity). Each entry says whether the old store
+    could be checked. Verification does not require exempt payloads, and its verdict then reads
+    `PRESENT_EXCEPT_ABSENT_FROM_OLD_STORE`.
+  - Any other missing payload is a lost or incomplete copy: it is reported
     (`payloadsMissingFromCopy`, with the reason) and the real run refuses before writing
-    anything. The first candidate of this release exempted every absent payload, whatever the
-    world's state (review of `24b511d`).
+    anything. World state decides nothing. The first candidate of this release exempted every
+    absent payload (review of `24b511d`: a VALID world's payload missing from the copy only was
+    relocated and reported present); the second exempted DEAD and DEGRADED worlds by state
+    (review of `3416f89`: a payload-less DEAD world is archived when a sibling collapses, and
+    then refused the whole store, and a DEGRADED payload lost by the copy passed unseen).
   - A rerun on a copy whose rows were already rewritten exempts nothing, since a payload lost by
-    the first run would otherwise read as never there: re-stage a fresh copy instead.
+    the first run would otherwise read as absent: re-stage a fresh copy instead.
   - A payload that disappears after planning still refuses in verification.
   - Reports list the first 50 worlds of each kind and count them all.
   - A store that predates `payload_pruned` (schema 1) is read, not refused with an
     `OperationalError`.
+
+### Known limits
+
+- An attestation is trusted as given: a caller who attests that the old store lacks a payload it
+  has makes the relocation accept that payload's absence from the copy. Proving the copy complete
+  remains the migration's, as before.
+- A world whose payload its own store lost stays recorded with its state; the relocation carries
+  it as it is.
 
 ## 1.7.1 — 2026-09-29 · review and rehearsal hardening
 

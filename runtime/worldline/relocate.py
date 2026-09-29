@@ -9,8 +9,10 @@ old prefixes to the new ones and proves the result:
 
 - every row of the six location columns lies under the new prefixes;
 - the live mapping and every prepared mapping resolve inside the new store, and every retained
-  world payload that was in the copy before relocation exists there (a DEAD or DEGRADED world
-  whose payload never existed is reported, not required; any other missing payload refuses);
+  world payload that was in the copy before relocation exists there. A payload absent from the
+  copy is exempt only on evidence that the old store lacks it too: seen absent there, attested
+  absent by the caller (`--absent-in-old-store`), or never created (the world has no identity);
+  any other missing payload refuses before anything is written;
 - the causal and receipt chains replay through the proved kernel;
 - nothing the daemon dereferences still names the old store. Any other mention of an old prefix
   is classified. Content (payload trees, world upper layers), hashed records (causal events,
@@ -162,8 +164,10 @@ def _refuse(message: str, details: dict[str, Any] | None = None) -> WorldlineErr
 
 class Relocation:
     def __init__(self, *, old_data: Path, old_state: Path, new_data: Path, new_state: Path,
-                 core: Core | None = None) -> None:
+                 core: Core | None = None, absent_in_old_store: frozenset[str] = frozenset()) -> None:
         self.core = core or Core.shared()
+        # Instance ids the caller, who can see the old store, attests have no payload there.
+        self.absent_in_old_store = frozenset(absent_in_old_store)
         for name, value in (("old data", old_data), ("old state", old_state),
                             ("new data", new_data), ("new state", new_state)):
             if not value.is_absolute() or os.path.normpath(value) != str(value):
@@ -264,7 +268,8 @@ class Relocation:
 
     def _map(self, value: bytes, where: str) -> bytes:
         """The new location for a stored one. Already-new values are accepted, so a run that
-        stopped part way through can be repeated."""
+        stopped part way through can be repeated, except that a rerun exempts no missing payload
+        (`_payloads_absent`): on a store with such worlds, re-stage a fresh copy instead."""
         for old, new in zip(self.old, self.new):
             if value == old or value.startswith(old + b"/"):
                 mapped = new + value[len(old):]
@@ -278,45 +283,64 @@ class Relocation:
 
     # -- the three kinds of persisted location
 
-    # A fork that dies before its payload exists leaves a retained world in one of these states.
-    # Any other retained world (VALID, ARCHIVED, COLLAPSED, ...) can be returned to, collapsed or
-    # revalidated, so its payload must be there (review of 24b511d).
-    _PAYLOAD_MAY_NEVER_HAVE_EXISTED = frozenset({"DEAD", "DEGRADED"})
+    @staticmethod
+    def _old_store_has(payload: str) -> bool | None:
+        """Whether the old store holds this payload directory: True, False, or None when this
+        account cannot tell (a directory on the way it cannot search, as the operator's 0700 home
+        is to a dedicated account)."""
+        try:
+            info = os.stat(payload)
+        except FileNotFoundError:
+            return False          # every directory on the way was searched: it is not there
+        except OSError:
+            return None
+        return stat.S_ISDIR(info.st_mode)
 
-    def _payloads_absent(self, connection: sqlite3.Connection) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    def _payloads_absent(self, connection: sqlite3.Connection) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
         """Retained worlds whose payload is not in the copy, measured before anything is rewritten:
-        (exempt, missing). A DEAD or DEGRADED world whose payload is absent from the copy, and, where
-        the old store is visible, from the old store too, is a fork that died before its payload
-        existed (a production store had six): the relocation cannot lose what was never there, so
-        it is reported and verification does not require it (1.7.1 refused such a store after
-        rewriting it: rehearsal of 1.7.1). Any other missing payload is a lost or incomplete copy
-        and refuses while planning. On a rerun (the copy's rows already name the new store) nothing
-        is exempt: a payload the first run lost would otherwise read as never there."""
+        (exempt, missing). The relocation cannot lose what the old store does not have, so a
+        payload absent from the copy is exempt on evidence that the old store lacks it too, and the
+        basis is reported: seen absent there (`absent-in-old-store`); attested absent by a caller
+        who can see it, when this account cannot (`attested-absent-in-old-store`); or never
+        created, a world that never received its identity (`never-created`: finalization writes
+        the payload before the identity). A production store had six such worlds: two forks that
+        died first, and four DEGRADED worlds whose payloads its own store had lost (rehearsal of
+        1.7.1). Any other missing payload is a lost or incomplete copy and refuses while
+        planning; world state decides nothing (review of 3416f89: a payload-less DEAD world is
+        archived when a sibling collapses). On a rerun (the copy's rows already name the new
+        store) nothing is exempt, since a payload the first run lost would read as absent."""
         columns = {row[1] for row in connection.execute("PRAGMA table_info(worlds)")}
-        query = "SELECT instance_id, alias, state, payload_path FROM worlds"
+        query = "SELECT instance_id, alias, state, payload_path, {} FROM worlds".format(
+            "content_id" if "content_id" in columns else "'unknown'")
         if "payload_pruned" in columns:   # absent from a store that never ran 1.2.0 or later
             query += " WHERE payload_pruned=0"
         new_data = str(self.new_data).rstrip("/") + "/"
-        exempt: list[dict[str, str]] = []
-        missing: list[dict[str, str]] = []
+        exempt: list[dict[str, Any]] = []
+        missing: list[dict[str, Any]] = []
         rows = connection.execute(query + " ORDER BY rowid").fetchall()
         # What the copy's own rows say, lexically: a row already naming the new store was rewritten.
-        rerun = any(payload.startswith(new_data) for *_rest, payload in rows)
-        for instance, alias, state, payload in rows:
+        rerun = any(payload.startswith(new_data) for _i, _a, _s, payload, _c in rows)
+        for instance, alias, state, payload, identity in rows:
             mapped = os.fsdecode(self._map(os.fsencode(payload), "worlds.payload_path"))
             if os.path.isdir(mapped):
                 continue
-            entry = {"instanceId": instance, "alias": alias, "state": state}
-            # False when the old store is not visible to this account (unknown): the state rule
-            # then decides alone.
-            in_old = not rerun and os.path.isdir(payload)
-            if rerun or state not in self._PAYLOAD_MAY_NEVER_HAVE_EXISTED or in_old:
-                entry["reason"] = ("rerun on a rewritten copy" if rerun else
-                                   f"a {state} world needs its payload"
-                                   if state not in self._PAYLOAD_MAY_NEVER_HAVE_EXISTED else "present in the old store")
-                missing.append(entry)
+            entry: dict[str, Any] = {"instanceId": instance, "alias": alias, "state": state}
+            in_old = None if rerun else self._old_store_has(payload)
+            entry["oldStoreChecked"] = in_old is not None
+            if rerun:
+                entry["reason"] = "rerun on a rewritten copy"
+            elif in_old:
+                entry["reason"] = "present in the old store"
+            elif in_old is False:
+                entry["basis"] = "absent-in-old-store"
+            elif instance in self.absent_in_old_store:
+                entry["basis"] = "attested-absent-in-old-store"
+            elif identity is None:
+                entry["basis"] = "never-created"
             else:
-                exempt.append(entry)
+                entry["reason"] = ("this account cannot see the old store; attest that it lacks this payload "
+                                   "(--absent-in-old-store) or relocate where the old store is visible")
+            (exempt if "basis" in entry else missing).append(entry)
         return exempt, missing
 
     def _plan_database(self, connection: sqlite3.Connection) -> list[tuple[str, str, int, str]]:
@@ -925,7 +949,8 @@ class Relocation:
         finally:
             if scratch is not None:
                 shutil.rmtree(scratch, ignore_errors=True)
-        # Idempotent from here: a rerun accepts values that are already new.
+        # Idempotent from here: a rerun accepts values that are already new (but exempts no missing
+        # payload; see _payloads_absent).
         for path, value, mode in records_plan:
             atomic_write_json(path, value, mode=mode)
         for link, mapped in links_plan:
@@ -1002,7 +1027,7 @@ class Relocation:
         finally:
             shutil.rmtree(scratch, ignore_errors=True)
         return {"chains": chains, "roots": "RESOLVED",
-                "payloads": "PRESENT" if not absent_before else "PRESENT_EXCEPT_NEVER_CREATED",
+                "payloads": "PRESENT" if not absent_before else "PRESENT_EXCEPT_ABSENT_FROM_OLD_STORE",
                 "payloadsAbsentBeforeRelocation": len(absent_before)}
 
 
@@ -1015,10 +1040,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--to-data", required=True, type=Path)
     parser.add_argument("--to-state", required=True, type=Path)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--absent-in-old-store", type=Path, metavar="FILE",
+                        help="a JSON list of world instance ids whose payload the old store lacks, from a "
+                             "caller that can see the old store when this account cannot")
     arguments = parser.parse_args(argv)
     try:
+        attested: frozenset[str] = frozenset()
+        if arguments.absent_in_old_store is not None:
+            value = json.loads(arguments.absent_in_old_store.read_text(encoding="utf-8"))
+            if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+                raise _refuse("--absent-in-old-store must name a JSON list of instance ids")
+            attested = frozenset(value)
         result = Relocation(old_data=arguments.from_data, old_state=arguments.from_state,
-                            new_data=arguments.to_data, new_state=arguments.to_state).run(dry_run=arguments.dry_run)
+                            new_data=arguments.to_data, new_state=arguments.to_state,
+                            absent_in_old_store=attested).run(dry_run=arguments.dry_run)
     except WorldlineError as exc:
         print(json.dumps({"state": "REFUSED", **exc.as_dict()}, indent=2, sort_keys=True), file=sys.stderr)
         return 1
