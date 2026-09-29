@@ -20,12 +20,15 @@ need revalidation before collapse, as after any release: the runtime changed.
     and the basis is reported for each (`payloadsAbsentBeforeRelocation`): seen absent in the
     old store (`absent-in-old-store`), which counts only when the old store is present at its
     recorded path and is this store (its generations, a live link for each root its database
-    records, and a record of this world at this path) and the path is walked without following
-    a link to a component that does not exist; or attested absent by a caller who can see the
+    records, at least one payload its database records seen present, and a record of this world
+    at this path) and the path is walked without following a link to a component that does not
+    exist; or attested absent by a caller who can see the
     old store when the relocating account cannot (`attested-absent-in-old-store`, from
     `--absent-in-old-store FILE`, a JSON list of instance ids; `-` reads it from standard
     input, as a pipe from the operator delivers it). Each entry says whether the old store could be checked; the report counts the
-    attestation's ids, how many were used, lists unused ones and gives its SHA-256. Verification
+    attestation's ids, how many were used, lists unused ones and gives its SHA-256; a world
+    that cannot be exempted says why (the old store is not there, is not this store, cannot be
+    read, or does not record the world at that path). Verification
     does not require exempt payloads, and its verdict then reads
     `PRESENT_EXCEPT_ABSENT_FROM_OLD_STORE`. The old store's database is opened immutable, so it is
     never written.
@@ -50,8 +53,9 @@ need revalidation before collapse, as after any release: the runtime changed.
 - An attestation is trusted as given: a caller who attests that the old store lacks a payload it
   has makes the relocation accept that payload's absence from the copy. Proving the copy complete
   remains the migration's, as before.
-- The old store's database is read immutable: rows still only in its WAL (a running daemon's)
-  are not seen, and a world found only there is not evidence, so its missing payload refuses.
+- The old store's database is read immutable: rows or updates still only in its WAL (a running
+  daemon's) are not seen. A world found only there is not evidence, so its missing payload
+  refuses; a stale path is compared as recorded.
 - A world whose payload its own store lost stays recorded with its state; the relocation carries
   it as it is.
 

@@ -286,34 +286,46 @@ class Relocation:
 
     # -- the three kinds of persisted location
 
-    def _old_store_records(self) -> dict[str, str] | None:
-        """The old store's own record of each world's payload path, or None when this account
-        cannot read it or the old data directory is not that store's. Absence in the old store is
-        only evidence when the old store is there and is this store: a store moved away, restored
-        elsewhere or replaced by an empty directory read as "seen absent" (review of ac9f621).
-        The data directory must hold the store's generations and a live mapping link for every
-        root its database records. The database is opened immutable: a read-only open of a WAL
-        database creates its -shm file, and the old store is never written (a WAL this ignores
-        can only hide a world, which then refuses)."""
+    def _old_store_records(self) -> tuple[dict[str, str] | None, str]:
+        """The old store's own record of each world's payload path, and why not when it cannot be
+        had: this account cannot read the old store, or the old data directory is not that store.
+        Absence in the old store is only evidence when the old store is there and is this store:
+        a store moved away, restored elsewhere or replaced by an empty directory read as "seen
+        absent" (review of ac9f621). The data directory must hold the store's generations, a live
+        mapping link for every root its database records, and at least one payload its database
+        records, seen present (review of 8df92a1: with no roots, a directory holding only
+        `generations/` passed). The database is opened immutable, because a read-only open of a
+        WAL database creates its -shm file and the old store is never written; rows or updates
+        still only in its WAL are not seen, and a world not recorded at this path is no evidence."""
         data = os.fsdecode(self.old[0])
         database = os.path.join(os.fsdecode(self.old[1]), "worldline.sqlite3")
         try:
-            if not stat.S_ISDIR(os.lstat(data).st_mode) or not os.path.isdir(os.path.join(data, "generations")):
-                return None
+            if not stat.S_ISDIR(os.lstat(data).st_mode):
+                return None, "the old data directory is not a directory"
             if not stat.S_ISREG(os.lstat(database).st_mode):
-                return None
+                return None, "the old store's database is not a file"
+        except FileNotFoundError:
+            return None, "the old store is not at its recorded path"
+        except OSError as exc:
+            return None, f"this account cannot read the old store ({exc.strerror})"
+        if not os.path.isdir(os.path.join(data, "generations")):
+            return None, "the old data directory holds no generations: it is not this store"
+        try:
             connection = sqlite3.connect(f"file:{database}?mode=ro&immutable=1", uri=True)
-        except (OSError, sqlite3.Error):
-            return None
+        except sqlite3.Error as exc:
+            return None, f"the old store's database cannot be read ({exc})"
         try:
             roots = [key for (key,) in connection.execute("SELECT root_key FROM roots")]
-            if not all(os.path.islink(os.path.join(data, "live", key)) for key in roots):
-                return None
-            return {instance: path for instance, path in connection.execute("SELECT instance_id, payload_path FROM worlds")}
-        except sqlite3.Error:
-            return None
+            records = {instance: path for instance, path in connection.execute("SELECT instance_id, payload_path FROM worlds")}
+        except sqlite3.Error as exc:
+            return None, f"the old store's database cannot be read ({exc})"
         finally:
             connection.close()
+        if not all(os.path.islink(os.path.join(data, "live", key)) for key in roots):
+            return None, "the old data directory lacks a live mapping its database records: it is not this store"
+        if not any(self._old_store_has(path) for path in records.values()):
+            return None, "no payload the old store's database records is present there: it is not this store"
+        return records, ""
 
     def _old_store_has(self, payload: str) -> bool | None:
         """Whether the old store holds this payload directory: True, False, or None when this
@@ -363,15 +375,20 @@ class Relocation:
         rows = connection.execute(query + " ORDER BY rowid").fetchall()
         # What the copy's own rows say, lexically: a row already naming the new store was rewritten.
         rerun = any(payload.startswith(new_data) for _i, _a, _s, payload in rows)
-        old_records = None if rerun else self._old_store_records()
+        old_records, unseen = (None, "") if rerun else self._old_store_records()
         for instance, alias, state, payload in rows:
             mapped = os.fsdecode(self._map(os.fsencode(payload), "worlds.payload_path"))
             if os.path.isdir(mapped):
                 continue
             entry: dict[str, Any] = {"instanceId": instance, "alias": alias, "state": state}
             in_old = None
-            if old_records is not None and old_records.get(instance) == payload:
-                in_old = self._old_store_has(payload)
+            why = unseen
+            if old_records is not None:
+                if old_records.get(instance) != payload:
+                    why = "the old store does not record this world at this path"
+                else:
+                    in_old = self._old_store_has(payload)
+                    why = "" if in_old is not None else "a directory on the way is a link or cannot be searched"
             entry["oldStoreChecked"] = in_old is not None
             if rerun:
                 entry["reason"] = "rerun on a rewritten copy"
@@ -382,8 +399,8 @@ class Relocation:
             elif instance in self.absent_in_old_store:
                 entry["basis"] = "attested-absent-in-old-store"
             else:
-                entry["reason"] = ("no evidence that the old store lacks it: this account cannot check the old "
-                                   "store, and no caller attested it (--absent-in-old-store)")
+                entry["reason"] = (f"no evidence that the old store lacks it ({why}), and no caller attested it "
+                                   "(--absent-in-old-store)")
             (exempt if "basis" in entry else missing).append(entry)
         return exempt, missing
 

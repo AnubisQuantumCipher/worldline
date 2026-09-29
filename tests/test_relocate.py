@@ -775,7 +775,7 @@ class RelocateAStore(unittest.TestCase):
     def test_an_old_store_it_cannot_see_needs_evidence(self) -> None:
         # Review of 3416f89: where the old store was not visible, a DEGRADED payload lost by the
         # copy was exempted as never created. Without sight of it, only an attestation from a
-        # caller who can see it, or a world that never received its identity, exempts.
+        # caller who can see it exempts.
         self._world_without_payload("sibling", "DEGRADED", old_too=False)
         self._hide_old_data()
         planned = self.relocation().run(dry_run=True)
@@ -917,7 +917,44 @@ class RelocateAStore(unittest.TestCase):
         connection.execute("INSERT INTO worlds VALUES ('i', 'gone', 'DEAD', ?)",
                            (str(self.old.data / "worlds" / "i" / "payload"),))
         exempt, missing = self.relocation()._payloads_absent(connection)
-        self.assertEqual([item["alias"] for item in exempt + missing], ["gone"])
+        self.assertEqual(exempt, [])
+        self.assertEqual([item["alias"] for item in missing], ["gone"])
+        self.assertIn("does not record this world", missing[0]["reason"])
+
+    def test_an_old_store_without_roots_needs_a_payload_seen_present(self) -> None:
+        # Review of 8df92a1: with no roots recorded, the live-link check passed vacuously, and a
+        # directory holding only generations/ at the old path read as the old store.
+        self._world_without_payload("sibling", "VALID", old_too=False)
+        connection = sqlite3.connect(self.old.database)
+        try:
+            connection.execute("DELETE FROM roots")
+            connection.commit()
+        finally:
+            connection.close()
+        aside = self.old.data.with_name(self.old.data.name + ".aside")
+        os.rename(self.old.data, aside)
+        (self.old.data / "generations").mkdir(parents=True)
+        try:
+            planned = self.relocation().run(dry_run=True)
+        finally:
+            shutil.rmtree(self.old.data)
+            os.rename(aside, self.old.data)
+        self.assertEqual(planned["payloadsAbsentBeforeRelocation"]["count"], 0)
+        self.assertIn("no payload the old store's database records is present there",
+                      planned["payloadsMissingFromCopy"]["sample"][0]["reason"])
+
+    def test_a_readable_old_store_that_is_not_this_one_says_so(self) -> None:
+        # Review of 8df92a1: every undecidable case read "cannot check the old store", steering the
+        # operator to an attestation instead of the store.
+        self._world_without_payload("sibling", "DEAD")
+        live = next(link for link in sorted(self.old.live.iterdir()) if link.is_symlink())
+        target = os.readlink(live)
+        live.unlink()
+        try:
+            planned = self.relocation().run(dry_run=True)
+        finally:
+            live.symlink_to(target)
+        self.assertIn("lacks a live mapping", planned["payloadsMissingFromCopy"]["sample"][0]["reason"])
 
     def test_a_fifo_named_like_the_wal_is_refused_at_once(self) -> None:
         # Review of c7d89f1: the holder check blocked opening it.

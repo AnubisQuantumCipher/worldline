@@ -502,7 +502,8 @@ trust you place in WORLDLINE.
      - Every retained world's payload that is in the copy before relocation must be there after
        it. A payload absent from the copy is exempt only on positive evidence that the old store
        lacks it too: seen absent there, when the old store is present at its recorded path, is
-       this store and records the world at that path, walked without following links; or
+       this store (generations, its roots' live links, at least one recorded payload seen
+       present) and records the world at that path, walked without following links; or
        attested absent by a caller who can see the old store (`--absent-in-old-store`). Each
        basis is reported (`payloadsAbsentBeforeRelocation`, 1.7.2). Any other missing payload
        refuses before anything is written (`payloadsMissingFromCopy`), and a rerun on a
