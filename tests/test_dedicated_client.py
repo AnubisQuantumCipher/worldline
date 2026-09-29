@@ -41,6 +41,15 @@ SUPPLEMENTARY_GID = next((gid for gid in os.getgroups() if gid != os.getgid()), 
 needs_supplementary = unittest.skipIf(SUPPLEMENTARY_GID is None, "needs a supplementary group")
 
 
+def _has_account(uid: int) -> bool:
+    import pwd
+    try:
+        pwd.getpwuid(uid)
+        return True
+    except KeyError:
+        return False
+
+
 def environment(root: Path, **extra: str) -> dict[str, str]:
     env = {
         "HOME": str(root / "home"),
@@ -66,11 +75,29 @@ class ClientModeEnvironment(unittest.TestCase):
         self.assertEqual((paths.client_gid, paths.client_uids, paths.daemon_uid), (None, (), None))
 
     def test_listed_group_uids_and_daemon_uid_parse(self) -> None:
+        import pwd
+        free = [uid for uid in range(424242, 424300) if not _has_account(uid)][:2]
         paths = WorldlinePaths.from_environment(environment(
-            self.root, WORLDLINE_CLIENT_GID="970", WORLDLINE_CLIENT_UIDS="1000,1002",
+            self.root, WORLDLINE_CLIENT_GID="970", WORLDLINE_CLIENT_UIDS=",".join(map(str, free)),
             WORLDLINE_DAEMON_UID="969"))
         self.assertEqual((paths.client_gid, paths.client_uids, paths.daemon_uid),
-                         (970, (1000, 1002), 969))
+                         (970, tuple(free), 969))
+
+    def test_a_client_in_the_daemons_group_is_refused(self) -> None:
+        # This user's primary group is the (test) daemon's group.
+        with self.assertRaises(WorldlineError) as caught:
+            WorldlinePaths.from_environment(environment(
+                self.root, WORLDLINE_CLIENT_GID="970", WORLDLINE_CLIENT_UIDS=str(os.getuid())))
+        self.assertEqual(caught.exception.code, "INVALID_CLIENT_MODE")
+
+    def test_client_mode_needs_real_spellings(self) -> None:
+        env = environment(self.root, WORLDLINE_CLIENT_GID="970", WORLDLINE_CLIENT_UIDS="424242")
+        (self.root / "data-link").symlink_to(env["XDG_DATA_HOME"])
+        env["XDG_DATA_HOME"] = str(self.root / "data-link")
+        with self.assertRaises(WorldlineError) as caught:
+            WorldlinePaths.from_environment(env)
+        self.assertEqual(caught.exception.code, "INVALID_CLIENT_MODE")
+        self.assertIn("XDG_DATA_HOME", caught.exception.message)
 
     def test_malformed_or_incomplete_client_mode_is_refused(self) -> None:
         for extra in ({"WORLDLINE_CLIENT_UIDS": "1000"},  # uids without their group
@@ -316,6 +343,28 @@ class ReviewRepairs(unittest.TestCase):
         self.assertIn(str(paths.home), masked)
         self.assertNotIn("/home/sicarii", masked)
         self.assertEqual(argv[argv.index("HOME") + 1], str(paths.home))
+
+    def test_a_home_spelled_through_a_link_is_masked_where_it_really_is(self) -> None:
+        real = self.root / "real-home"
+        real.mkdir()
+        spelled = self.root / "spelled-home"
+        spelled.symlink_to(real)
+        paths = WorldlinePaths(home=spelled, data=real / "d", state=real / "s", config=real / "c",
+                               runtime=self.root / "rt")
+        target = Path(f"/tmp/worldline-mask-test-{uuid.uuid4()}")
+        root = OverlayRoot("fixture", self.root / "lower", self.root / "upper", self.root / "work", target)
+        spec = SandboxSpec(instance_id=str(uuid.uuid4()), argv=("/usr/bin/true",), cwd=target,
+                           environment={"PATH": "/usr/bin", "XDG_DATA_HOME": str(real / "d"),
+                                        "XDG_CONFIG_HOME": str(real / "c"), "LANG": "C"},
+                           roots=(root,), runtime=self.root)
+        argv = list(BubblewrapSandbox(paths, executable="/usr/bin/bwrap").build_argv(spec))
+        masked = {argv[index + 1] for index, value in enumerate(argv) if value == "--tmpfs"}
+        self.assertIn(str(real), masked)          # where the content is
+        self.assertNotIn(str(spelled), masked)    # bwrap cannot mount onto a link
+        environment_names = {argv[index + 1] for index, value in enumerate(argv) if value == "--setenv"}
+        self.assertNotIn("XDG_DATA_HOME", environment_names)
+        self.assertNotIn("XDG_CONFIG_HOME", environment_names)
+        self.assertIn("LANG", environment_names)
 
     def test_an_existing_permissive_lock_is_made_owner_only(self) -> None:
         runtime = self.root / "runtime"

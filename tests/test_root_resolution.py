@@ -95,6 +95,21 @@ class RootSourceTests(_Registered):
             self.paths.root_source(self.root)
         self.assertEqual(caught.exception.code, "LIVE_MAPPING_BROKEN")
 
+    def test_equivalent_spellings_of_the_live_entry_still_route(self) -> None:
+        live = self.paths.live / self.root["root_key"]
+        linked_home = Path(self.temporary.name) / "home-link"
+        linked_home.symlink_to(self.paths.data.parent)
+        spellings = (
+            f"{live}/",                                                    # trailing slash
+            str(self.paths.data) + "//live/" + self.root["root_key"],      # doubled slash
+            str(linked_home / "worldline" / "live" / self.root["root_key"]),  # through a link
+            os.path.relpath(live, self.work.parent),                       # relative
+        )
+        for spelling in spellings:
+            with self.subTest(spelling=spelling):
+                self.repoint(Path(spelling))
+                self.assertEqual(self.paths.root_source(self.root), os.path.realpath(os.fsencode(live)))
+
     def test_a_real_directory_at_the_registered_path_is_refused(self) -> None:
         # What an interrupted `root remove` leaves; the doctor already calls it BROKEN.
         self.work.unlink()
@@ -134,7 +149,29 @@ class ClientModePrimeChainTests(_Registered):
         info = path.lstat()
         return stat.S_IMODE(info.st_mode), info.st_gid
 
+    def test_the_data_directory_is_a_gate_opened_only_after_the_check(self) -> None:
+        self.assertEqual(stat.S_IMODE(self.paths.data.stat().st_mode), 0o700)   # created closed
+        self.paths.share_live_chain()
+        self.assertEqual(self._mode_and_group(self.paths.data), (0o710, SUPPLEMENTARY_GID))
+        self.paths.ensure()                                                       # leaves it open
+        self.assertEqual(self._mode_and_group(self.paths.data)[0], 0o710)
+        self.paths.close_client_gate()
+        self.assertEqual(stat.S_IMODE(self.paths.data.stat().st_mode), 0o700)
+        self.paths.ensure()                                                       # leaves it closed
+        self.assertEqual(stat.S_IMODE(self.paths.data.stat().st_mode), 0o700)
+
+    def test_unsafe_live_content_found_while_running_closes_the_gate(self) -> None:
+        self.paths.share_live_chain()
+        content = Path(os.fsdecode(self.paths.root_source(self.root)))
+        os.chmod(content, 0o777)
+        self.store.set_meta("dirty", True)
+        with self.assertRaises(WorldlineError) as caught:
+            self.manager.reconcile()
+        self.assertEqual(caught.exception.code, "CLIENT_MODE_UNSAFE_CONTENT")
+        self.assertEqual(stat.S_IMODE(self.paths.data.stat().st_mode), 0o700)
+
     def test_the_chain_to_prime_is_traverse_only_for_the_client_group(self) -> None:
+        self.paths.share_live_chain()  # what daemon start does
         source = Path(os.fsdecode(self.paths.root_source(self.root)))
         chain = [self.paths.data, self.paths.live]
         current = Path(os.path.realpath(self.paths.data))

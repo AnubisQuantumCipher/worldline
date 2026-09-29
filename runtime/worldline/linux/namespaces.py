@@ -192,9 +192,12 @@ class BubblewrapSandbox:
         configured spelling and by its resolved one. Anywhere else it is not mounted."""
         masks: list[str] = []
         systems = [Path(system) for system in (*_SYSTEM_READONLY, "/boot")]
+        homes = {home, Path(os.path.realpath(home))}
         for configured in (self.paths.data, self.paths.state, self.paths.config, self.paths.runtime):
             for private in dict.fromkeys((configured, Path(os.path.realpath(configured)))):
-                if home == private or home in private.parents:
+                if os.path.islink(private):
+                    continue  # bwrap cannot mount onto a link; its resolved spelling is covered
+                if any(masked == private or masked in private.parents for masked in homes):
                     continue
                 if any(system == private or system in private.parents for system in systems):
                     masks.extend(("--tmpfs", str(private)))
@@ -261,7 +264,14 @@ class BubblewrapSandbox:
         if "/var" not in overlay_targets:
             arguments.extend(("--tmpfs", "/var/tmp"))
         arguments.extend(self._directory_arguments(home.parent))
-        arguments.extend(("--tmpfs", str(home)))
+        if not os.path.islink(home):
+            arguments.extend(("--tmpfs", str(home)))
+        real_home = Path(os.path.realpath(home))
+        if real_home != home:
+            # A HOME spelled through a link: the link's target is where the content is, and a
+            # system bind or overlay would show it there.
+            arguments.extend(self._directory_arguments(real_home.parent))
+            arguments.extend(("--tmpfs", str(real_home)))
         # Nothing WORLDLINE runs may read its own store. Masking the HOME above covers a store
         # under it; a dedicated account's store elsewhere (/var/lib/...) would otherwise be
         # visible through the system binds and overlays, signing key included. Bind SOURCES
@@ -307,7 +317,10 @@ class BubblewrapSandbox:
             arguments.extend(self._overlay_arguments(root))
 
         environment = {
-            **{key: value for key, value in spec.environment.items()},
+            # The account's XDG homes name directories inside the masked HOME that the sandbox
+            # does not have; tools then use their HOME-relative defaults, where projections land.
+            **{key: value for key, value in spec.environment.items()
+               if key not in ("XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_STATE_HOME", "XDG_CACHE_HOME")},
             "HOME": str(home),
             "USER": home.name,
             "LOGNAME": home.name,

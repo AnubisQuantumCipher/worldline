@@ -38,6 +38,25 @@ def _identity_list(value: str | None, name: str) -> tuple[int, ...]:
     return items
 
 
+def _refuse_clients_in_daemon_group(uids: tuple[int, ...]) -> None:
+    """A listed client must not share the daemon's primary group: content the daemon creates
+    carries that group, so its group bits would be the client's."""
+    import grp
+    import pwd
+    try:
+        daemon_group = grp.getgrgid(os.getgid())
+    except KeyError:
+        return
+    for uid in uids:
+        try:
+            entry = pwd.getpwuid(uid)
+        except KeyError:
+            continue  # no account: it has no primary group and no named membership
+        if entry.pw_gid == os.getgid() or entry.pw_name in daemon_group.gr_mem:
+            raise WorldlineError("INVALID_CLIENT_MODE",
+                                 f"client uid {uid} is in the daemon account's group {daemon_group.gr_name}")
+
+
 def _nested(first: Path, second: Path) -> bool:
     """Whether either path contains the other, as spelled or as resolved through symlinks."""
     for a, b in ((first, second), (Path(os.path.realpath(first)), Path(os.path.realpath(second)))):
@@ -122,6 +141,17 @@ class WorldlinePaths:
             # would be the clients' write bits.
             raise WorldlineError("INVALID_CLIENT_MODE",
                                  "the client group must not be the daemon account's primary group")
+        if gids:
+            _refuse_clients_in_daemon_group(uids)
+            spelled = {"HOME": home, "XDG_DATA_HOME": data_home, "XDG_STATE_HOME": state_home,
+                       "XDG_CONFIG_HOME": config_home, "XDG_RUNTIME_DIR": runtime_home}
+            crooked = sorted(name for name, value in spelled.items()
+                             if value.exists() and Path(os.path.realpath(value)) != value)
+            if crooked:
+                # Masks and gates are applied by path; a spelling through a symlink would put them
+                # on the link while the real directory stayed reachable.
+                raise WorldlineError("INVALID_CLIENT_MODE",
+                                     "in client mode these must be spelled by their real paths: " + ", ".join(crooked))
         runtime = runtime_home / "worldline"
         if gids and any(_nested(runtime, other / "worldline") for other in (data_home, state_home, config_home)):
             # The runtime directory is opened to the client group; the store must never share it.
@@ -231,6 +261,13 @@ class WorldlinePaths:
                 {"directory": os.fsdecode(root), "count": len(unsafe), "entries": unsafe[:50],
                  "unreadable": unreadable[:20]})
 
+    def close_client_gate(self) -> None:
+        """Client mode: withdraw every client's reach into the store. The data directory is the
+        root of the client path, so 0700 there closes all of it. Used when reachable content
+        turns out unsafe while the daemon runs; the next start re-opens only after checking."""
+        if self.client_gid is not None:
+            os.chmod(self.data, 0o700)
+
     def share_live_chain(self) -> None:
         """Client mode: open the path to the CURRENT PRIME's content to the client group.
 
@@ -255,6 +292,8 @@ class WorldlinePaths:
             for part in parts:
                 current = current / part
                 secure_directory(current, create=False, shared_gid=self.client_gid, shared_mode=0o710)
+        # The gate opens last, once everything below it has been checked.
+        secure_directory(self.data, create=False, shared_gid=self.client_gid, shared_mode=0o710)
 
     def root_source(self, root: Mapping[str, Any]) -> bytes:
         """The store directory holding a managed root's content, resolved through WORLDLINE's own
@@ -274,7 +313,13 @@ class WorldlinePaths:
             raise WorldlineError(
                 "LIVE_MAPPING_BROKEN",
                 f"managed root is not a WORLDLINE symlink: {os.fsdecode(raw)}") from exc
-        if routed != live:
+        # The link must name the entry `<root key>` in the live directory. The directory is
+        # compared resolved, so a HOME reached through a symlink, a doubled or trailing slash, or
+        # a relative spelling still routes; a link straight to a payload does not.
+        if not os.path.isabs(routed):
+            routed = os.path.join(os.path.dirname(raw), routed)
+        parent, name = os.path.split(routed.rstrip(b"/"))
+        if name != os.fsencode(root_key) or os.path.realpath(parent) != os.path.realpath(os.path.dirname(live)):
             raise WorldlineError(
                 "LIVE_MAPPING_BROKEN",
                 f"managed root does not route through the live mapping: {os.fsdecode(raw)}")
@@ -303,7 +348,21 @@ class WorldlinePaths:
         ):
             if path == self.runtime:
                 secure_directory(path, shared_gid=self.client_gid)
-            elif path in (self.data, self.live, self.generations):
+            elif path == self.data and self.client_gid is not None:
+                # The gate: created closed, and left as it is (open 0710 or closed 0700) by the
+                # many callers of ensure(). Only share_live_chain opens it, after checking what
+                # clients would reach; close_client_gate closes it.
+                self._client_gate(path)
+            elif path in (self.live, self.generations):
                 self.prime_directory(path)
             else:
                 secure_directory(path)
+
+    def _client_gate(self, path: Path) -> None:
+        path.mkdir(mode=0o700, parents=True, exist_ok=True)
+        info = path.lstat()
+        if stat.S_ISLNK(info.st_mode) or not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid():
+            raise WorldlineError("UNSAFE_STORE", f"store path is not a real directory owned by uid {os.getuid()}: {path}")
+        opened = stat.S_IMODE(info.st_mode) == 0o710 and info.st_gid == self.client_gid
+        if not opened and stat.S_IMODE(info.st_mode) != 0o700:
+            os.chmod(path, 0o700)

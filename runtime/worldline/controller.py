@@ -834,7 +834,6 @@ class RuntimeController:
         healthy = True
         for root in self.store.roots():
             raw = os.fsdecode(bytes(root["path"]))
-            expected = os.fsencode(self.paths.live / root["root_key"])
             state = "OK"
             detail: str | None = None
             if not os.path.islink(raw):
@@ -844,10 +843,15 @@ class RuntimeController:
                     "not reach the user's files (likely an interrupted `root remove`)"
                 ) if os.path.exists(raw) else "registered root path is missing"
                 healthy = False
-            elif os.readlink(os.fsencode(raw)) != expected:
-                state = "BROKEN"
-                detail = "registered root symlink does not route through the live mapping"
-                healthy = False
+            else:
+                # Exactly what every capture enforces (review of ff201cd: the doctor said OK for a
+                # root whose live mapping resolved outside the store, which every capture refuses).
+                try:
+                    self.paths.root_source(root)
+                except WorldlineError as exc:
+                    state = "BROKEN"
+                    detail = exc.message
+                    healthy = False
             roots.append({
                 "path": root["display_path"],
                 "rootKey": root["root_key"],

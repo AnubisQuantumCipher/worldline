@@ -323,8 +323,15 @@ class RootManager:
         roots = {item["root_key"]: item for item in self.store.roots()}
         # Client mode: a new generation becomes PRIME and clients can reach it. Registration
         # brings in the operator's modes; reconcile and remove re-capture what is live.
-        for root_key in roots:
-            self.paths.assert_client_safe(generation_payload / root_key)
+        try:
+            for root_key in roots:
+                self.paths.assert_client_safe(generation_payload / root_key)
+        except WorldlineError as exc:
+            if exc.code == "CLIENT_MODE_UNSAFE_CONTENT":
+                # A reconcile copies what is live, so live itself is unsafe: take every client
+                # off the store rather than only refusing the copy (review of ff201cd).
+                self.paths.close_client_gate()
+            raise
         dependency_roots = [
             (root_key, self.paths.root_source(root)) for root_key, root in sorted(roots.items())
         ]
