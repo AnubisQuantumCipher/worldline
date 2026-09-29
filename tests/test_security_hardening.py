@@ -141,16 +141,21 @@ class GitFilterDriversAreContained(unittest.TestCase):
         # of 0fa069c: a report glued to the filter's partial output, and a SIGPIPE kill, which
         # git reports only as `external filter ... failed 141`, escaped too.
         killer = self.repo / "killer.sh"
-        for case, body, reported in (("quoted %f", "kill -9 $$", "died of signal 9"),
-                                     ("glued to partial output", "printf cleaning >&2; kill -9 $$", "died of signal 9"),
-                                     ("SIGPIPE", "kill -PIPE $$", "failed 141")):
+        # git names the kill in one of its two forms, depending on whether the shell it runs the
+        # filter command with execs it: where /bin/sh is bash it does, and git sees the signal;
+        # where it is dash (the hosted runner, same git 2.55.0) it does not, and git sees exit 137
+        # and reports only `failed 137`. Either form refuses.
+        for case, body, reported in (("quoted %f", "kill -9 $$", r"died of signal 9|failed 137"),
+                                     ("glued to partial output", "printf cleaning >&2; kill -9 $$",
+                                      r"died of signal 9|failed 137"),
+                                     ("SIGPIPE", "kill -PIPE $$", r"died of signal 13|failed 141")):
             with self.subTest(case=case):
                 killer.write_text(f"#!/bin/sh\n{body}\n", encoding="utf-8")
                 self.git("config", "filter.evil.clean", f"sh {killer} %f")
                 with self.assertRaises(WorldlineError) as caught:
                     GitAdapter(Core.shared()).capture(self.repo)
                 self.assertEqual(caught.exception.code, "GIT_INSPECTION_FAILED")
-                self.assertIn(reported, caught.exception.message)
+                self.assertRegex(caught.exception.message, reported)
 
     def test_kill_reports_are_told_from_lines_that_only_quote_one(self) -> None:
         from worldline.linux.git import _child_kill_report
