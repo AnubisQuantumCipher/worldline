@@ -175,7 +175,8 @@ access to the store; the others arise in normal operation or from host condition
   RECOVERY_FAILED otherwise), and a taken PRIME identity by name (CHECKPOINT_IDENTITY_TAKEN).
   The watcher is re-pointed after every commit attempt; if it cannot be rebuilt, PRIME is left
   unwatched (which refuses) rather than watched by a closed watcher, and the failure never
-  replaces the commit's own error.
+  replaces the commit's own error. With automatic ghosts enabled, a successful commit whose
+  rebuild fails is still reported as an error (see Known limitations).
 - Materialized revalidation inputs left by a killed daemon are removed at the next start.
 - `prepare` and `fork` drain the watcher before deciding whether to reconcile, so a write the
   watcher had already seen is reconciled rather than refused as unaccounted.
@@ -243,6 +244,18 @@ fixed in a later release rather than changed after review began.
   materialized (XATTR_NOT_APPLICABLE): fork, prepare and revalidation refuse such a tree.
 - Revalidation copies the payload once per run and needs free space for it; the copy is not
   under resource admission.
+
+One more was found by the last review round, in this release's own repair of the watcher
+rebuild. It also refuses rather than authorizes, and it is stated here so the freeze ends:
+
+- With automatic ghosts enabled, a collapse or return that commits but whose watcher rebuild
+  then fails (`inotify_init1` refused: EMFILE or ENOMEM) is answered PRIME_WATCH_UNAVAILABLE,
+  "no registered root could be watched", although PRIME moved and the receipt was written. The
+  ghost freeze that follows every commit refuses with no watcher, and its error replaces the
+  commit's result. Check `worldline status` or the receipt before retrying; a retry of the same
+  transaction is refused INVALID_TRANSACTION_STATE. That PRIME generation gets no automatic
+  ghosts. In 1.8.0 the same rebuild failure replaced the result with INOTIFY_UNAVAILABLE. With
+  ghosts disabled the commit's result is reported.
 
 ## 1.8.0 — 2026-09-29 · evaluation lifecycle authority
 
