@@ -808,8 +808,12 @@ class RuntimeController:
             current, report["requirementError"] = None, exc.code
         roots = self.store.roots()
         worlds: dict[str, list[dict[str, Any]]] = {"fresh": [], "needsRevalidation": [], "notRevalidatable": []}
+        prime = self.store.prime()
         for world in self.store.worlds():
-            if world.state is not WorldState.VALID or world.world_kind == "system":
+            # Candidates only: PRIME and the generations WORLDLINE itself made are return
+            # points, not worlds anyone revalidates or collapses (review of a23c265).
+            if (world.state is not WorldState.VALID or world.world_kind == "system" or world.actor == "worldline"
+                    or (prime is not None and world.instance_id == prime.instance_id)):
                 continue
             row = {"instanceId": world.instance_id, "alias": world.alias}
             payload = Path(world.payload_path) if world.payload_path else None

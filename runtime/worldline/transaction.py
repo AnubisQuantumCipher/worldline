@@ -125,6 +125,10 @@ class CollapseTransaction:
         self._assert_recovery_complete()
         if kind not in {"collapse", "return"}:
             raise WorldlineError("INVALID_TRANSACTION", f"unsupported transaction kind: {kind}")
+        # Drain the watcher first: a write it has already seen marks PRIME dirty only when its
+        # events are consumed, and such a write is reconciled into a generation, never refused
+        # as unaccounted (review of a23c265).
+        self._generation()
         if self.reconcile_prime is not None and self.store.get_meta("dirty", False):
             self.reconcile_prime()
         candidate = self.store.world(candidate_value)
@@ -356,7 +360,7 @@ class CollapseTransaction:
                     transactionId=transaction_id,
                     decision=decision,
                     conflicts=conflicts,
-                    contamination=candidate.contamination,
+                    contamination=self._reported_contamination(candidate, decision_inputs["foreignWrites"]),
                     untestedPaths=untested_paths[:50],
                     validation={k: freshness.get(k) for k in ("mode", "requirementHash", "candidateRequirementHash", "witness")},
                     absentInputs=decision_inputs.get("absent", []),
@@ -503,15 +507,16 @@ class CollapseTransaction:
             self._set_state(record, "DENIED", error={"code": decision})
             if decision == "FOREIGN_MANAGED_WRITE":
                 self._note_unaccounted_write(self.store.prime(), (record.get("decisionInputsAtCommit") or {}).get("foreignWrites") or {})
-            if decision == "VALIDATION_CONTEXT_MISMATCH":
-                raise WorldlineError("EVIDENCE_STALE", "the requirements changed between preparation and commit; the prepared evidence no longer applies", {"decision": decision, "preparedRequirementHash": record["validation"].get("requirementHash"), "currentRequirementHash": current_requirement["requirementHash"]})
-            if decision == "PRIME_CHANGED":
-                raise WorldlineError("PRIME_CHANGED_DURING_CAPTURE", "PRIME changed during collapse authorization", {"decision": decision, "transactionId": transaction_id})
             inputs_at_commit = record.get("decisionInputsAtCommit") or {}
-            raise WorldlineError(decision, f"proved core denied collapse: {decision}",
-                                 {"decision": decision, "transactionId": transaction_id,
-                                  "absentInputs": inputs_at_commit.get("absent", []),
-                                  "foreignWrites": inputs_at_commit.get("foreignWrites")})
+            details = {"decision": decision, "transactionId": transaction_id,
+                       "absentInputs": inputs_at_commit.get("absent", []),
+                       "foreignWrites": inputs_at_commit.get("foreignWrites"),
+                       "contamination": self._reported_contamination(candidate, inputs_at_commit.get("foreignWrites") or {})}
+            if decision == "VALIDATION_CONTEXT_MISMATCH":
+                raise WorldlineError("EVIDENCE_STALE", "the requirements changed between preparation and commit; the prepared evidence no longer applies", {**details, "preparedRequirementHash": record["validation"].get("requirementHash"), "currentRequirementHash": current_requirement["requirementHash"]})
+            if decision == "PRIME_CHANGED":
+                raise WorldlineError("PRIME_CHANGED_DURING_CAPTURE", "PRIME changed during collapse authorization", details)
+            raise WorldlineError(decision, f"proved core denied collapse: {decision}", details)
         record["commitRequirementHash"] = current_requirement["requirementHash"]
         self._set_state(record, "AUTHORIZED")
         # File contents were fsynced during staging, but the directory entries that link them
@@ -520,10 +525,20 @@ class CollapseTransaction:
         # whose dirents never reached disk — recovery re-hashes survivors and would enshrine a
         # torn tree as COMMITTED otherwise.
         self._fsync_payload_tree(Path(record["stagingPayload"]))
+        # The kernel's generation pair ends at the decision; the fsync above takes time in
+        # proportion to the tree. PRIME must still be at the generation the decision saw, or a
+        # write in between would be displaced without being recorded (review of a23c265). What
+        # remains is the moment between this read and the exchange.
+        decided = ((record.get("decisionInputsAtCommit") or {}).get("generations") or {}).get("after")
+        now = self._generation()
+        if now is None or now != decided:
+            code = "PRIME_WATCH_UNAVAILABLE" if now is None else "PRIME_CHANGED_DURING_CAPTURE"
+            self._set_state(record, "ABORTED", error={"code": code})
+            raise WorldlineError(code, "PRIME changed between the collapse decision and the exchange; prepare again",
+                                 {"transactionId": transaction_id, "decidedGeneration": decided, "generationNow": now})
         exchanged = False
         try:
-            # Decide refused unless a watcher measured PRIME, so one exists here; stated as a
-            # refusal rather than an assert, which -O would remove.
+            # Checked just above; stated as a refusal rather than an assert, which -O removes.
             if self.watcher is None:
                 raise WorldlineError("PRIME_WATCH_UNAVAILABLE", "no PRIME watcher; the exchange cannot be attributed")
             with self.watcher.owned_writes():
@@ -611,6 +626,16 @@ class CollapseTransaction:
         watched = None if self.watcher is None else self._watch_set_digest(self.watcher.watched_roots())
         return self._watch_set_digest(registered), watched
 
+    @staticmethod
+    def _reported_contamination(candidate: World, foreign: Mapping[str, Any]) -> list[Any]:
+        """What a refusal reports as contamination: the candidate's recorded entries, plus the
+        measured foreign write, so a consumer that reads only `contamination` does not show
+        "none" for a FOREIGN_MANAGED_WRITE refusal (review of a23c265)."""
+        reported = list(candidate.contamination or [])
+        if foreign.get("state") == "FOUND" and foreign.get("measuredBy") == "live-capture-vs-prime-record":
+            reported.append({"measuredBy": foreign["measuredBy"], "differing": list(foreign.get("differing") or [])})
+        return reported
+
     def readiness(self, *, measure_foreign: bool) -> dict[str, Any]:
         """The promotion inputs doctor reports without deciding anything (1.9.0): watch coverage,
         and -- only when asked, since it captures every live root -- the foreign-write
@@ -622,12 +647,18 @@ class CollapseTransaction:
             "state": ("NO_WATCHER" if self.watcher is None else
                       "COMPLETE" if registered is not None and registered == watched else "INCOMPLETE"),
             "unwatchedRoots": [key for key in root_keys if key not in watched_keys],
+            "faults": dict(getattr(self.watcher, "coverage_faults", dict)()) if self.watcher is not None else {},
             "generation": self._generation(),
         }
         foreign: dict[str, Any] = {"state": None, "measuredWith": "doctor --refresh"}
         if measure_foreign:
-            state, detail = self._foreign_writes(self._capture_current_roots(), self.store.prime(), None)
-            foreign = {"state": state, **detail}
+            try:
+                state, detail = self._foreign_writes(self._capture_current_roots(), self.store.prime(), None)
+                foreign = {"state": state, **detail}
+            except WorldlineError as exc:
+                # The live capture refused (a special file, a broken mapping, ...): the report
+                # says so instead of failing, since that is when the operator needs doctor.
+                foreign = {"state": "UNMEASURED", "measuredBy": "live-capture-vs-prime-record", "error": exc.as_dict()}
         # A reported write not yet reconciled also differs from the record; the next status or
         # prepare records it as a PRIME generation, so it is not a foreign write.
         foreign["primeDirty"] = bool(self.store.get_meta("dirty", False))
@@ -683,7 +714,10 @@ class CollapseTransaction:
         payload) stand for it, and a missing one leaves the tested root absent."""
         examined = freshness.get("examinedContentRoot")
         if isinstance(examined, str):
-            return examined, None, "evaluation-examined-root"
+            # A revalidation examines its world's declared manifests; when they are the bytes it
+            # names, they also say path by path what it examined (for untestedPaths).
+            declared = candidate_manifests if candidate_declared and content_root_set(candidate_manifests, self.core) == examined else None
+            return examined, declared, "evaluation-examined-root"
         if freshness.get("mode") == "re-application":
             finalized = self._finalized_manifests(self.store.world(freshness["subject"]), roots)
             if finalized is None:
@@ -1338,15 +1372,35 @@ class CollapseTransaction:
     def _load_record(self, transaction_id: str) -> dict[str, Any]:
         row = self.store.transaction_record(transaction_id)
         path = Path(row["prepared_path"])
+        # The store records absolute paths. A copy of a store that was not relocated still names
+        # the ORIGINAL store's files, and recovery on it would abort the original's transaction and
+        # delete its staging (review of a23c265). Nothing outside this store is read or written.
+        self._require_own(path, self.paths.transactions, transaction_id, "preparedPath")
         try:
             record = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as exc:
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"cannot read prepared transaction {transaction_id}") from exc
         if record.get("schemaVersion") != SCHEMA_VERSION or record.get("transactionId") != transaction_id:
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"prepared transaction identity mismatch: {transaction_id}")
+        self._require_own(Path(str(record.get("preparedPath") or "")), self.paths.transactions, transaction_id, "preparedPath")
+        for key in ("stagingPayload", "preparedMapping"):
+            if record.get(key) is not None:
+                self._require_own(Path(str(record[key])), self.data_transactions / transaction_id, transaction_id, key)
         if row["state"] != record.get("state"):
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"database and prepared transaction state differ: {transaction_id}")
         return record
+
+    @staticmethod
+    def _require_own(path: Path, directory: Path, transaction_id: str, field: str) -> None:
+        """Refuse a record path that is not inside this store's own directory for it."""
+        try:
+            inside = os.path.commonpath([os.path.abspath(path), os.path.abspath(directory)]) == os.path.abspath(directory)
+        except ValueError:
+            inside = False
+        if not path.is_absolute() or not inside:
+            raise WorldlineError("TRANSACTION_RECORD_FOREIGN",
+                                 f"transaction {transaction_id} names a {field} outside this store; was the store copied without relocating it?",
+                                 {"transactionId": transaction_id, "field": field, "path": str(path), "expectedUnder": str(directory)})
 
     def _set_state(
         self,

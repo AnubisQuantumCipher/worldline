@@ -16,6 +16,7 @@ import sys
 import tempfile
 from typing import Any, Callable
 import unittest
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -348,6 +349,8 @@ class G_DoctorPromotionReadiness(unittest.TestCase):
             self.assertEqual(report["watchCoverage"]["unwatchedRoots"], [])
             self.assertIsNone(report["foreignWrites"]["state"])  # not captured without --refresh
             self.assertEqual([w["alias"] for w in report["validWorlds"]["fresh"]], ["alpha"])
+            # PRIME and WORLDLINE's own generations are return points, not candidates.
+            self.assertEqual(report["validWorlds"]["needsRevalidation"], [])
             self.assertEqual(report["validWorlds"]["notRevalidatable"], [])
             refreshed = lab.client.request("doctor", {"refresh": True})["promotionReadiness"]
             self.assertEqual(refreshed["foreignWrites"]["state"], "NONE_FOUND")
@@ -394,6 +397,318 @@ class H_RequirementIdentity(unittest.TestCase):
         from worldline.validation import execution_context
         self.assertIsNone(execution_context(None)["resourcePolicy"])
         self.assertRegex(execution_context(None)["kernelLibrarySha256"], r"^[0-9a-f]{64}$")
+
+
+class I_TamperedCandidateRow(_InProcess):
+    """Each identity pair has two producers; a store edit that restates one side is caught by the
+    other (review of a23c265: base, delta and root set had no end-to-end test)."""
+
+    def restated(self, alias: str, **fields: Any) -> Any:
+        world = self.candidate(alias)
+        for name, value in fields.items():
+            setattr(world, name, value)
+        self.store.save_world(world)
+        return world
+
+    def test_a_restated_base_is_a_base_mismatch(self) -> None:
+        world = self.restated("alpha", base_root=hash_id(bytes([3]) * 32))
+        self.denied(lambda: self.transaction.prepare(world.alias), "BASE_MISMATCH")
+
+    def test_a_restated_delta_is_a_delta_mismatch(self) -> None:
+        world = self.restated("alpha", delta_hash=hash_id(bytes([4]) * 32))
+        self.denied(lambda: self.transaction.prepare(world.alias), "DELTA_MISMATCH")
+
+    def test_a_restated_root_set_is_a_root_set_mismatch(self) -> None:
+        world = self.restated("alpha", root_set_hash=hash_id(bytes([5]) * 32))
+        self.denied(lambda: self.transaction.prepare(world.alias), "ROOT_SET_MISMATCH")
+
+    def test_missing_declared_manifests_leave_the_tested_root_absent(self) -> None:
+        world = self.candidate("alpha")
+        manifests = Path(world.payload_path) / "manifests"
+        os.chmod(manifests, stat.S_IMODE(manifests.stat().st_mode) | 0o700)
+        for item in manifests.iterdir():
+            item.unlink()
+        error = self.denied(lambda: self.transaction.prepare(world.alias), "STAGED_UNTESTED")
+        _path, record = self.record(error.details["transactionId"])
+        self.assertIsNone(record["testedRoot"])
+        self.assertEqual(record["decisionInputs"]["testedRootSource"], "declared-manifests-missing")
+
+    def test_an_edited_payload_with_its_delta_restated_and_manifests_gone_is_not_tested(self) -> None:
+        # The 1.8.0 defect: with write access to the store, delete the declared manifests, edit
+        # the payload and restate the row's delta. 1.8.0 re-captured the edited payload as
+        # "tested" and committed it; 1.9.0 has no tested root to cover it.
+        from worldline.delta import Delta
+        from worldline.manifest import Manifest
+        world = self.candidate("alpha")
+        payload = Path(world.payload_path)
+        manifests = payload / "manifests"
+        os.chmod(manifests, stat.S_IMODE(manifests.stat().st_mode) | 0o700)
+        for item in manifests.iterdir():
+            item.unlink()
+        target = payload / self.key / "state.txt"
+        os.chmod(target.parent, stat.S_IMODE(target.parent.stat().st_mode) | 0o700)
+        if target.exists():
+            os.chmod(target, stat.S_IMODE(target.stat().st_mode) | 0o600)
+        target.write_text("never evaluated", encoding="utf-8")
+        root = self.store.roots()[0]
+        capture = lambda directory: Manifest.capture(directory, logical_root=bytes(root["path"]), root_key=self.key,
+                                                     kind=root["kind"], core=self.core)
+        world.delta_hash = Delta.compute_all({self.key: capture(Path(world.base_payload_path) / self.key)},
+                                             {self.key: capture(payload / self.key)}, self.core).delta_hash
+        self.store.save_world(world)
+        self.denied(lambda: self.transaction.prepare(world.alias), "STAGED_UNTESTED")
+
+
+class _EventWatcher(FakeWatcher):
+    """A watcher whose generation moves only when a test says a PRIME event happened."""
+
+    def event(self) -> None:
+        self.generation += 1
+
+
+class J_StabilityWindow(_InProcess):
+    """The generation pair spans the requirement read, the capture and merge, and the staged
+    evaluation at prepare, and the requirement read through the decision at commit; a PRIME
+    event anywhere inside is PRIME_CHANGED, one after the decision is not (review of a23c265:
+    a watcher moving on every read could not tell)."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.watcher = _EventWatcher(self.paths, self.store)
+        self.transaction.watcher = self.watcher
+
+    def requirement_read_with_event(self):
+        import worldline.transaction as module
+        real = module.current_requirements
+
+        def during(*args: Any, **kwargs: Any) -> Any:
+            self.watcher.event()
+            return real(*args, **kwargs)
+        return mock.patch.object(module, "current_requirements", during)
+
+    def test_an_event_during_the_requirement_read_at_prepare_is_prime_changed(self) -> None:
+        alpha = self.candidate("alpha")
+        with self.requirement_read_with_event():
+            self.denied(lambda: self.transaction.prepare(alpha.alias), "PRIME_CHANGED", code="PRIME_CHANGED_DURING_CAPTURE")
+
+    def test_an_event_during_the_staged_evaluation_is_prime_changed(self) -> None:
+        alpha = self.candidate("alpha")
+        self.write_live("other.txt", "moved")
+        self.reconciled()
+        validate = _staged_validator(self)
+
+        def during(*args: Any) -> dict[str, Any]:
+            self.watcher.event()
+            return validate(*args)
+        self.transaction.validator = during
+        self.denied(lambda: self.transaction.prepare(alpha.alias), "PRIME_CHANGED", code="PRIME_CHANGED_DURING_CAPTURE")
+
+    def test_an_event_after_the_prepare_decision_does_not_refuse_it(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        self.assertEqual(prepared.decision, "AUTHORIZED")
+        self.watcher.event()  # after the decision: the next commit starts a new window
+
+    def test_an_event_during_the_requirement_read_at_commit_is_prime_changed(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        with self.requirement_read_with_event():
+            self.denied(lambda: self.transaction.commit(prepared.transaction_id), "PRIME_CHANGED", code="PRIME_CHANGED_DURING_CAPTURE")
+
+    def test_an_event_between_the_commit_decision_and_the_exchange_aborts(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        real = self.transaction._fsync_payload_tree
+
+        def during(path: Path) -> None:
+            real(path)
+            self.watcher.event()
+        self.transaction._fsync_payload_tree = during
+        before, receipts = tree_bytes(self.work), len(self.store.receipts())
+        with self.assertRaises(WorldlineError) as raised:
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(raised.exception.code, "PRIME_CHANGED_DURING_CAPTURE")
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "ABORTED")
+        self.assertEqual((tree_bytes(self.work), len(self.store.receipts())), (before, receipts))
+
+
+class K_EvidenceAdmissionRules(_InProcess):
+    """The 1.9.0 rules for evidence it writes, driven through the real promotion path."""
+
+    RECORD = {"id": "extra", "format": "exit", "profile": "legacy", "status": "PASS", "origin": "supervisor",
+              "exitCode": 0, "resultChannel": {"accepted": True}, "executedVerifierSet": None}
+
+    def setUp(self) -> None:
+        super().setUp()
+        from freshness_support import EXTRA_CHECK, policy
+        self.write_live(".worldline.json", json.dumps(policy(EXTRA_CHECK)))
+        self.reconciled()
+
+    def with_record(self, alias: str, record: dict[str, Any]) -> Any:
+        world = synthetic_candidate(self.paths, self.store, self.core, alias, {"state.txt": alias})
+        world.evidence = {"checks": [record]}
+        self.store.save_world(world)
+        attach_fresh_context(self.store, world, core=self.core)
+        return self.store.world(alias)
+
+    def test_the_stated_record_authorizes(self) -> None:
+        self.assertEqual(self.transaction.prepare(self.with_record("good", dict(self.RECORD)).alias).decision, "AUTHORIZED")
+
+    def test_a_policy_record_without_a_profile_is_not_admitted(self) -> None:
+        record = {k: v for k, v in self.RECORD.items() if k != "profile"}
+        world = self.with_record("unprofiled", record)
+        self.denied(lambda: self.transaction.prepare(world.alias), "EXECUTION_EVIDENCE_INCOMPLETE")
+
+    def test_a_record_that_does_not_state_what_executed_is_absent(self) -> None:
+        record = {k: v for k, v in self.RECORD.items() if k != "executedVerifierSet"}
+        world = self.with_record("unstated", record)
+        error = self.denied(lambda: self.transaction.prepare(world.alias), "IDENTITY_ABSENT")
+        self.assertIn("executed_verifiers", error.details["absentInputs"])
+
+    def test_a_record_naming_a_bundle_the_check_does_not_declare_does_not_match(self) -> None:
+        record = {**self.RECORD, "executedVerifierSet": {"identity": hash_id(bytes([9]) * 32), "stable": True}}
+        world = self.with_record("undeclared", record)
+        self.denied(lambda: self.transaction.prepare(world.alias), "VERIFIER_EXECUTION_IDENTITY_MISMATCH")
+
+    def test_engine_records_match_by_origin_and_never_with_a_profile(self) -> None:
+        from worldline.finalize import ENGINE_DECLARATIONS, _declaration_matches
+        agent = {"id": "agent", "format": "exit", "origin": "agent", "status": "PASS"}
+        self.assertTrue(_declaration_matches(agent, ENGINE_DECLARATIONS["agent"]))
+        self.assertFalse(_declaration_matches({**agent, "profile": "legacy"}, ENGINE_DECLARATIONS["agent"]))
+        self.assertFalse(_declaration_matches({**agent, "origin": "supervisor"}, ENGINE_DECLARATIONS["agent"]))
+
+
+class L_MeasurementProducers(_InProcess):
+    def test_every_component_is_compared(self) -> None:
+        from types import SimpleNamespace
+        from worldline.manifest import Manifest
+        live = self.transaction._capture_current_roots()
+        components = Manifest.component_roots(live.values(), self.core)
+        self.assertEqual(self.transaction._foreign_writes(live, SimpleNamespace(components=components), None)[0], "NONE_FOUND")
+        for name in ("filesystem", "config", "repository"):
+            with self.subTest(component=name):
+                recorded = {**components, name: hash_id(bytes([6]) * 32)}
+                state, detail = self.transaction._foreign_writes(live, SimpleNamespace(components=recorded), None)
+                self.assertEqual((state, detail["differing"]), ("FOUND", [name]))
+
+    def test_an_unreported_write_after_prepare_is_refused_at_commit(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        self.write_live("late.txt", "after the decision, before commit")
+        with self.assertRaises(WorldlineError) as raised:
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(raised.exception.code, "PRIME_CHANGED_AFTER_PREPARE")
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "DENIED")
+
+    def test_fork_refuses_without_a_watcher(self) -> None:
+        checkpoints = CheckpointManager(self.paths, self.store, core=self.core)
+        checkpoints.watcher = None
+        with self.assertRaises(WorldlineError) as raised:
+            checkpoints.freeze()
+        self.assertEqual(raised.exception.code, "PRIME_WATCH_UNAVAILABLE")
+
+    def test_a_write_the_watcher_reported_is_reconciled_not_refused(self) -> None:
+        class Reporting(FakeWatcher):
+            # The daemon's tracker marks PRIME dirty when the watcher's events are drained.
+            def synchronized_generation(inner) -> int:
+                if inner.pending:
+                    inner.pending = False
+                    inner.generation += 1
+                    self.store.set_meta("dirty", True)
+                return inner.generation
+        watcher = Reporting(self.paths, self.store)
+        watcher.pending = False
+        self.transaction.watcher = watcher
+        alpha = self.candidate("alpha")
+        self.write_live("reported.txt", "the watcher saw this")
+        watcher.pending = True
+        self.transaction.validator = _staged_validator(self)
+        self.assertEqual(self.transaction.prepare(alpha.alias).decision, "AUTHORIZED")
+        kinds = [item["event"].get("kind") for w in self.store.worlds() for item in self.store.causal_events_for_world(w.instance_id)]
+        self.assertNotIn("unaccounted-write", kinds)
+
+    def test_a_kernel_library_that_cannot_be_read_is_refused(self) -> None:
+        from types import SimpleNamespace
+        import worldline.validation as validation
+        saved = dict(validation._KERNEL_LIBRARY_CACHE)
+        validation._KERNEL_LIBRARY_CACHE.clear()
+        try:
+            with mock.patch.object(validation.Core, "shared", return_value=SimpleNamespace(library_path="/nonexistent/libworldline_core.so")):
+                with self.assertRaises(WorldlineError) as raised:
+                    validation.execution_context(None)
+            self.assertEqual(raised.exception.code, "REQUIREMENT_IDENTITY_UNAVAILABLE")
+        finally:
+            validation._KERNEL_LIBRARY_CACHE.clear()
+            validation._KERNEL_LIBRARY_CACHE.update(saved)
+
+
+class M_SymlinkTargets(_InProcess):
+    def test_a_retargeted_link_in_prime_is_not_covered_by_evidence_for_the_old_target(self) -> None:
+        # Review of a23c265: content roots ignored symlink targets, so a link retargeted in PRIME
+        # after the fork left tested == staged and went live with no evaluation.
+        live = self.live()
+        os.chmod(live, stat.S_IMODE(live.stat().st_mode) | 0o200)
+        (live / "v1.txt").write_text("v1", encoding="utf-8")
+        (live / "v2.txt").write_text("v2", encoding="utf-8")
+        os.symlink("v1.txt", live / "shared.txt")
+        self.reconciled()
+        alpha = self.candidate("alpha")
+        live = self.live()
+        os.chmod(live, stat.S_IMODE(live.stat().st_mode) | 0o200)
+        (live / "shared.txt").unlink()
+        os.symlink("v2.txt", live / "shared.txt")
+        self.reconciled()
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "STAGED_UNTESTED")
+        self.assertTrue(any(p.endswith(":shared.txt") for p in error.details["untestedPaths"]), error.details["untestedPaths"])
+
+    def test_content_roots_differ_by_link_target(self) -> None:
+        from worldline.manifest import Manifest
+        from worldline.validation import content_root_set
+        roots = []
+        for target in ("x", "y"):
+            directory = Path(self.temporary.name) / f"links-{target}"
+            directory.mkdir()
+            os.symlink(target, directory / "l")
+            roots.append(content_root_set({"k": Manifest.capture(directory, logical_root=bytes(directory), root_key="k",
+                                                                  kind="filesystem", core=self.core)}, self.core))
+        self.assertNotEqual(roots[0], roots[1])
+
+
+class N_RevalidatedWorlds(unittest.TestCase):
+    """Review of a23c265: a revalidation identified what it examined by a capture of the
+    read-only finalized payload, so its examined root never equalled the staged tree and every
+    collapse of a revalidated world re-ran all checks as a staged evaluation."""
+
+    def test_a_revalidated_world_is_covered_by_its_own_revalidation(self) -> None:
+        lab = FreshnessLab(self)
+        try:
+            lab.init()
+            self.assertEqual(lab.fork("alpha")["state"], "VALID")
+            self.assertEqual(lab.revalidate("alpha")["outcome"], "PASS")
+            prepared = lab.prepare("alpha")
+            self.assertEqual(prepared["decision"], "AUTHORIZED")
+            self.assertEqual(prepared["tested_root"], prepared["staged_content_root"])
+            self.assertIsNone(prepared["staged_validation"])
+            self.assertEqual(prepared["untested_paths"], [])
+            self.assertEqual(prepared["validation"]["source"].split(":")[0], "revalidation")
+            self.assertEqual(lab.commit(prepared["transaction_id"])["state"], "COMMITTED")
+        finally:
+            lab.close()
+
+    def test_a_payload_whose_modes_differ_from_its_declared_manifest_is_not_revalidated(self) -> None:
+        lab = FreshnessLab(self)
+        try:
+            lab.init()
+            self.assertEqual(lab.fork("alpha")["state"], "VALID")
+            lab.stop()
+            store = lab.open_store()
+            try:
+                payload = Path(store.world("alpha").payload_path)
+                key = store.roots()[0]["root_key"]
+            finally:
+                store.close()
+            target = payload / key / "candidate.txt"
+            os.chmod(target, stat.S_IMODE(target.stat().st_mode) | 0o111)  # a mode edit, bytes unchanged
+            lab.start()
+            self.assertEqual(lab.refusal(lab.revalidate, "alpha").code, "PAYLOAD_INTEGRITY_FAILED")
+        finally:
+            lab.close()
 
 
 if __name__ == "__main__":

@@ -10,6 +10,7 @@ from pathlib import Path
 import unittest
 
 from worldline.core import (
+    COLLAPSE_DECISIONS,
     ABI_VERSION,
     CCollapseRequest,
     CEvaluationClassification,
@@ -249,6 +250,43 @@ class EvaluationAuthorityTests(unittest.TestCase):
             with self.subTest(malformed=label):
                 self.assertEqual(self.core._lib.wl_collapse_decide(ctypes.byref(request(change=change))), 255)
         self.assertEqual(self.core._lib.wl_collapse_decide(None), 255)
+
+        # Each slot a mode ignores must be empty on its own (review of a23c265: the combined
+        # case above could not tell which conjunct refused).
+        def clear(field) -> None:
+            field.present = 0
+            field.value = (ctypes.c_uint8 * 32)()
+
+        def checkpoint(r) -> None:
+            r.evaluation_mode, r.roster_complete = 1, 0
+            clear(r.evaluated_requirement)
+            clear(r.executed_verifiers)
+            put(r.expected_checkpoint, 21)
+            put(r.witnessed_checkpoint, 21)
+
+        decide = lambda value: self.core._lib.wl_collapse_decide(ctypes.byref(value))
+        self.assertEqual(decide(request(mode=checkpoint)), 0)
+        singles = {
+            "expected checkpoint alone in candidate mode": lambda r: put(r.expected_checkpoint, 21),
+            "evaluated requirement alone in checkpoint mode": lambda r: (checkpoint(r), put(r.evaluated_requirement, 8)),
+            "executed verifiers alone in checkpoint mode": lambda r: (checkpoint(r), put(r.executed_verifiers, 9)),
+            "roster byte alone in checkpoint mode": lambda r: (checkpoint(r), setattr(r, "roster_complete", 1)),
+        }
+        for label, change in singles.items():
+            with self.subTest(ignored_slot=label):
+                self.assertEqual(decide(request(change=change)), 255)
+
+        # Counters are little-endian 64-bit: a difference in any byte is a different generation.
+        def counters(before: int, after: int):
+            def change(r) -> None:
+                r.generation_before.value_le = (ctypes.c_uint8 * 8)(*before.to_bytes(8, "little"))
+                r.generation_after.value_le = (ctypes.c_uint8 * 8)(*after.to_bytes(8, "little"))
+            return change
+        prime_changed = next(code for code, name in COLLAPSE_DECISIONS.items() if name == "PRIME_CHANGED")
+        for before, after in ((0, 1 << 8), (0, 1 << 56), (1 << 56, 1 << 57), ((1 << 64) - 1, (1 << 64) - 2)):
+            with self.subTest(before=before, after=after):
+                self.assertEqual(decide(request(change=counters(before, after))), prime_changed)
+        self.assertEqual(decide(request(change=counters((1 << 56) + 257, (1 << 56) + 257))), 0)
 
     def test_the_library_is_the_abi_generation_this_runtime_expects(self) -> None:
         self.assertEqual(self.core._lib.wl_abi_version(), ABI_VERSION)

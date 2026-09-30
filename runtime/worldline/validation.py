@@ -462,14 +462,18 @@ def differences(candidate_requirement: Mapping[str, Any], current_requirement: M
 
 # ----- tested bytes vs staged bytes -----------------------------------------------------------
 
-_CONTENT_FIELDS = ("pathB64", "type", "mode", "contentHash", "size", "target", "xattrs", "acls")
+# A symlink's target is recorded as `targetB64` (Manifest.capture). Before 1.9.0 this tuple named
+# `target`, a key no entry has, so two trees differing only in where a link points had the same
+# content root (review of a23c265). The domain tag moved to v2 with the fix, so no content root
+# computed the old way can ever equal one computed now.
+_CONTENT_FIELDS = ("pathB64", "type", "mode", "contentHash", "size", "targetB64", "xattrs", "acls")
 
 
 def content_entries(manifest: Any) -> list[dict[str, Any]]:
     """The content-bearing part of a manifest: every entry's path, type, mode, bytes identity,
     symlink target and security attributes. Timestamps, hard-link grouping, root-directory
-    metadata and repository facts are excluded: they differ between a payload and a staged copy
-    of the same bytes."""
+    metadata, ownership and repository facts are excluded: they differ between a payload and a
+    staged copy of the same bytes."""
     return [{k: e[k] for k in _CONTENT_FIELDS if k in e} for e in manifest.value["entries"]]
 
 
@@ -477,7 +481,17 @@ def content_root_set(manifests: Mapping[str, Any], core: Core | None = None) -> 
     """One identity for the content of a whole root set (root key -> manifest)."""
     verifier = core or Core.shared()
     value = {root_key: content_entries(manifests[root_key]) for root_key in sorted(manifests)}
-    return hash_id(verifier.hash_bytes(b"worldline-content-root-set-v1" + canonical_bytes(value)))
+    return hash_id(verifier.hash_bytes(b"worldline-content-root-set-v2" + canonical_bytes(value)))
+
+
+def readonly_content_entries(manifest: Any) -> list[dict[str, Any]]:
+    """`content_entries` with the write bits cleared, the view finalization leaves: a finalized
+    payload is its declared manifests' bytes made read-only (finalize._make_readonly)."""
+    entries = content_entries(manifest)
+    for entry in entries:
+        if isinstance(entry.get("mode"), int):
+            entry["mode"] &= ~0o222
+    return entries
 
 
 def content_differences(candidate: Mapping[str, Any], staged: Mapping[str, Any]) -> list[str]:

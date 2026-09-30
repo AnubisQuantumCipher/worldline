@@ -131,6 +131,10 @@ class CoreAbiTests(unittest.TestCase):
         self.assertEqual(self.core.collapse_decide(checkpoint), "AUTHORIZED")
         self.assertEqual(self.core.collapse_decide(replace(checkpoint, witnessed_checkpoint=None)), "CHECKPOINT_UNWITNESSED")
         self.assertEqual(self.core.collapse_decide(replace(checkpoint, witnessed_checkpoint=bad)), "CHECKPOINT_MISMATCH")
+        # A witnessed checkpoint still needs evidence of exactly the bytes going live.
+        self.assertEqual(self.core.collapse_decide(replace(checkpoint, tested_root=None)), "STAGED_UNTESTED")
+        self.assertEqual(self.core.collapse_decide(replace(checkpoint, tested_root=bad)), "STAGED_UNTESTED")
+        self.assertEqual(self.core.collapse_decide(replace(checkpoint, expected_checkpoint=None)), "IDENTITY_ABSENT")
         # OWNER_MISMATCH is retired: no request reaches it.
         self.assertNotIn("OWNER_MISMATCH", {self.core.collapse_decide(supplied) for supplied, _ in cases})
         # A zero digest is the old sentinel for "nothing"; the encoder refuses it.

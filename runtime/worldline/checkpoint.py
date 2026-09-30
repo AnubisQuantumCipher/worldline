@@ -48,6 +48,10 @@ class CheckpointManager:
         self.git = GitAdapter(self.core)
 
     def freeze(self) -> FrozenParent:
+        # Drain the watcher before the dirty check, as prepare does: a write it has already seen
+        # is reconciled here rather than frozen into the fork unrecorded.
+        if self.watcher is not None:
+            self.watcher.synchronized_generation()
         if self.reconcile is not None and self.store.get_meta("dirty", False):
             self.reconcile()
         parent = self.store.prime()
@@ -58,7 +62,7 @@ class CheckpointManager:
             # was copied, and the collapse decision would refuse the world later anyway
             # (MEASUREMENT_ABSENT). Refuse at the start instead.
             raise WorldlineError("PRIME_WATCH_UNAVAILABLE",
-                                 "PRIME is not being watched (inotify unavailable or no root mappable); "
+                                 "PRIME is not being watched (no registered root could be watched); "
                                  "`worldline doctor` shows why")
         generation_id = str(uuid.uuid4())
         generation = self.paths.generations / generation_id

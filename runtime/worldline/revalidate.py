@@ -20,7 +20,7 @@ from __future__ import annotations
 import os
 import uuid
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from . import SCHEMA_VERSION
 from .core import Core
@@ -37,7 +37,7 @@ from .paths import secure_directory
 from .project import ProjectConfig
 from .store import StateStore
 from .trusted import trusted_inline
-from .validation import content_root_set, build_context, current_requirements, resolve_verifiers
+from .validation import content_root_set, build_context, current_requirements, readonly_content_entries, resolve_verifiers
 
 
 class Revalidator:
@@ -102,6 +102,7 @@ class Revalidator:
             prime_at_fork={"instanceId": world.parent_instance, "contentId": world.parent_content, "generation": None if parent is None else parent.instance_id},
             protected_delta=lambda: Delta.compute_all(base_manifests, candidate_manifests, self.core),
             source="revalidation",
+            declared=candidate_manifests,
         )
         entry = {"worldInstance": world.instance_id, "worldContentId": world.content_id, **entry}
         key = f"validation:{world.instance_id}"
@@ -129,7 +130,8 @@ class Revalidator:
         self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": candidate.instance_id, "kind": "staged-validation", "actor": "worldline", "outcome": entry["outcome"], "validationId": entry["validationId"], "requirementHash": entry["requirementHash"], "stagedContentRoot": staged_content_root})
         return {"stagedContentRoot": staged_content_root, **entry}
 
-    def _evaluate(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any, source: str) -> dict[str, Any]:
+    def _evaluate(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any, source: str,
+                  declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
         roots = self.store.roots()
         primary = next((r for r in roots if r["primary_root"]), None)
         if primary is None:
@@ -149,7 +151,20 @@ class Revalidator:
         # after the last one (1.9.0). Promotion compares it with the bytes that would go live;
         # a tree that moved under the checks is refused rather than attributed to either state.
         examined = self._source_manifests(source_dir, roots)
-        examined_content_root = content_root_set(examined, self.core)
+        observed_content_root = content_root_set(examined, self.core)
+        if declared is None:
+            examined_content_root = observed_content_root
+        else:
+            # A revalidation examines the finalized payload, which is the declared manifests'
+            # bytes made read-only. It is identified by those manifests -- the view promotion
+            # compares with the staged tree -- after checking the payload is exactly them apart
+            # from the write bits finalization cleared (review of a23c265: identified by the
+            # read-only capture, no revalidation could ever cover the staged bytes).
+            for key in sorted(examined):
+                if key not in declared or readonly_content_entries(examined[key]) != readonly_content_entries(declared[key]):
+                    raise WorldlineError("PAYLOAD_INTEGRITY_FAILED",
+                                         f"the payload under revalidation is not the bytes its declared manifest states (root {key})")
+            examined_content_root = content_root_set(declared, self.core)
         try:
             # THREE snapshots, kept apart:
             #   overlays        the bytes UNDER EVALUATION -- source_dir (for a revalidation, the
@@ -221,7 +236,7 @@ class Revalidator:
             if private_id is not None:
                 self._discard(self.paths.overlays / private_id)
             self._discard(self.paths.overlays / validation_id)
-        if content_root_set(self._source_manifests(source_dir, roots), self.core) != examined_content_root:
+        if content_root_set(self._source_manifests(source_dir, roots), self.core) != observed_content_root:
             raise WorldlineError("REVALIDATION_INPUT_CHANGED",
                                  "the tree under evaluation changed while the checks ran")
         # The roster is the one promotion will impose: the current requirement's required checks

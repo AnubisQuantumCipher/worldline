@@ -179,15 +179,32 @@ def sentinels(module: str, root: Path = RUNTIME) -> list[tuple[str, str, int, st
     tree = ast.parse((root / module).read_text(encoding="utf-8"))
     found: list[tuple[str, str, int, str]] = []
 
+    def width(node: ast.AST) -> int | None:
+        # A digest width spelled as a literal or as the runtime's own constant (review of
+        # a23c265: `bytes(HASH_BYTES)` escaped the literal-only match).
+        if isinstance(node, ast.Constant) and node.value in (32, 64):
+            return node.value
+        if isinstance(node, (ast.Name, ast.Attribute)) and getattr(node, "id", getattr(node, "attr", None)) == "HASH_BYTES":
+            return 32
+        return None
+
+    def profile_get(node: ast.AST) -> bool:
+        return (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "get"
+                and node.args and isinstance(node.args[0], ast.Constant) and node.args[0].value == "profile")
+
     def spelling(node: ast.AST) -> str | None:
         if (isinstance(node, ast.Call) and getattr(node.func, "id", None) == "bytes" and len(node.args) == 1
-                and isinstance(node.args[0], ast.Constant) and node.args[0].value == 32):
+                and width(node.args[0]) is not None):
             return "bytes(32)"
         if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):
             for unit, count in ((node.left, node.right), (node.right, node.left)):
                 if (isinstance(unit, ast.Constant) and isinstance(unit.value, (bytes, str)) and len(unit.value) == 1
-                        and isinstance(count, ast.Constant) and count.value in (32, 64)):
-                    return f"{unit.value!r} * {count.value}"
+                        and width(count) is not None):
+                    return f"{unit.value!r} * {width(count)}"
+        if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or) and profile_get(node.values[0]):
+            return ".get('profile', default)"
+        if isinstance(node, ast.IfExp) and (profile_get(node.test) or profile_get(node.body)) and isinstance(node.orelse, ast.Constant):
+            return ".get('profile', default)"
         if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or) and any(
                 isinstance(value, ast.Name) and value.id == "NO_BUNDLE_IDENTITY" for value in node.values[1:]):
             return "or NO_BUNDLE_IDENTITY"
@@ -222,13 +239,18 @@ class NoSentinelIdentities(unittest.TestCase):
             "def d(x):\n    return x or NO_BUNDLE_IDENTITY\n"
             "def e(item):\n    return item.get('profile', 'legacy')\n"
             "def f(item):\n    return item.get('profile')\n"
+            "def g():\n    return bytes(HASH_BYTES)\n"
+            "def h():\n    return b'\\x00' * core.HASH_BYTES\n"
+            "def i(item):\n    return item.get('profile') or 'legacy'\n"
+            "def j(item):\n    return item.get('profile') if item.get('profile') else 'legacy'\n"
         )
         with tempfile.TemporaryDirectory() as temporary:
             probe = Path(temporary) / "probe.py"
             probe.write_text(source, encoding="utf-8")
             hits = sentinels(probe.name, Path(temporary))
         self.assertEqual([text for _module, _function, _line, text in hits],
-                         ["bytes(32)", "b'\\xff' * 32", "'0' * 64", "or NO_BUNDLE_IDENTITY", ".get('profile', default)"])
+                         ["bytes(32)", "b'\\xff' * 32", "'0' * 64", "or NO_BUNDLE_IDENTITY", ".get('profile', default)",
+                          "bytes(32)", "b'\\x00' * 32", ".get('profile', default)", ".get('profile', default)"])
 
     def test_collapse_input_has_no_defaults(self) -> None:
         import dataclasses
@@ -241,6 +263,58 @@ class NoSentinelIdentities(unittest.TestCase):
                 self.assertIs(field.default_factory, dataclasses.MISSING)
         with self.assertRaises(TypeError):
             CollapseInput(candidate_state="VALID")  # every other input missing
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class ContractPins(unittest.TestCase):
+    """The contracts this release claims are pinned in verify_proof_manifest.CONTRACT_PINS
+    (review of a23c265: the check floor cannot see a deleted Post clause, and the C boundary
+    is exempt from the SPARK_Mode screen)."""
+
+    def setUp(self) -> None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("verify_proof_manifest", ROOT / "verify_proof_manifest.py")
+        self.verifier = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.verifier)
+
+    def test_the_tree_matches_every_pin(self) -> None:
+        for key, pinned in self.verifier.CONTRACT_PINS.items():
+            with self.subTest(key=key):
+                self.assertEqual(self.verifier.contract_pin(ROOT, key), pinned)
+
+    def test_collapse_decide_is_only_the_null_check_and_the_proved_call(self) -> None:
+        body = self.verifier.contract_text(ROOT, "core/worldline-c_api.adb#Collapse_Decide")
+        self.assertEqual(body, (
+            "function Collapse_Decide (Request : C_Collapse_Request_Access) return Interfaces.Unsigned_8 is "
+            "begin if Request = null then return Collapse_Wire.Invalid_Request; end if; "
+            "return Collapse_Wire.Decide_Wire (Request.all); "
+            "exception when others => return Collapse_Wire.Invalid_Request; end Collapse_Decide;"))
+
+    def test_a_weakened_postcondition_or_a_shortcut_changes_its_pin(self) -> None:
+        import shutil
+        import tempfile
+        edits = {
+            "core/worldline-collapse.ads": ("and then Decide'Result /= Owner_Mismatch", "and then True"),
+            "core/worldline-collapse_wire.ads": ("and then (if R.Phase = 1 then R.Actual_Staged_Root.Present = 0)", ""),
+            "core/worldline-c_api.adb#Collapse_Decide": ("return Collapse_Wire.Decide_Wire (Request.all);", "return 0;"),
+        }
+        for key, (old, new) in edits.items():
+            relative = key.partition("#")[0]
+            with self.subTest(key=key), tempfile.TemporaryDirectory() as temporary:
+                target = Path(temporary) / relative
+                target.parent.mkdir(parents=True)
+                shutil.copy2(ROOT / relative, target)
+                text = target.read_text(encoding="utf-8")
+                self.assertIn(old, text)
+                target.write_text(text.replace(old, new, 1), encoding="utf-8")
+                self.assertNotEqual(self.verifier.contract_pin(Path(temporary), key), self.verifier.CONTRACT_PINS[key])
+
+    def test_comments_and_layout_do_not_move_a_pin(self) -> None:
+        text = "function F return Boolean   -- a comment\n  is (True);\n"
+        self.assertEqual(self.verifier.normalized_ada(text), "function F return Boolean is (True);")
+        self.assertEqual(self.verifier.normalized_ada('X : String := "a -- b"; -- note'), 'X : String := "a -- b";')
 
 
 if __name__ == "__main__":

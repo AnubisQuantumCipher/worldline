@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import tempfile
 from threading import Event
+import time
 import unittest
 
 from worldline.errors import WorldlineError
@@ -58,6 +59,63 @@ class InotifyTests(unittest.TestCase):
                 lambda: (self.root / "raced.txt").write_text("changed", encoding="utf-8"),
             )
         self.assertEqual(caught.exception.code, "PRIME_CHANGED_DURING_CAPTURE")
+
+
+class WatchCoverageTests(unittest.TestCase):
+    """What watched_roots reports is what the collapse decision compares with the registered
+    roots (1.9.0): a root the watcher does not fully cover must not be reported as watched."""
+
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-inotify-coverage-")
+        self.root = Path(self.temporary.name) / "root"
+        self.root.mkdir()
+        self.watcher = InotifyWatcher([("fixture", self.root)], lambda _event: None)
+
+    def tearDown(self) -> None:
+        self.watcher.close()
+        self.temporary.cleanup()
+
+    def watched(self) -> list[str]:
+        self.watcher.synchronized_generation()  # drain what the kernel has queued
+        return [key for key, _path in self.watcher.watched_roots()]
+
+    def eventually(self, condition) -> None:
+        for _ in range(100):
+            if condition():
+                return
+            time.sleep(0.02)
+        self.fail("condition never held")
+
+    def test_a_removed_root_is_not_watched(self) -> None:
+        self.assertEqual(self.watched(), ["fixture"])
+        self.root.rmdir()
+        self.eventually(lambda: self.watched() == [])
+
+    def test_a_moved_and_replaced_root_is_not_watched_until_reconciled(self) -> None:
+        self.root.rename(Path(self.temporary.name) / "old")
+        self.root.mkdir()
+        self.eventually(lambda: self.watched() == [])
+        self.assertIn("fixture", self.watcher.coverage_faults())
+        self.watcher.mark_reconciled()  # a reconcile re-captured PRIME: coverage is restored
+        self.assertEqual(self.watched(), ["fixture"])
+        self.assertEqual(self.watcher.coverage_faults(), {})
+
+    def test_a_directory_created_after_start_is_watched_to_its_depth(self) -> None:
+        nested = self.root / "a" / "b"
+        nested.mkdir(parents=True)
+        self.eventually(lambda: any(relative == b"a/b" for _key, _root, relative in self.watcher._watches.values()))
+        before = self.watcher.synchronized_generation()
+        (nested / "file.txt").write_text("x", encoding="utf-8")
+        self.eventually(lambda: self.watcher.synchronized_generation() > before)
+        self.assertEqual(self.watched(), ["fixture"])
+
+    def test_a_dead_reader_thread_leaves_nothing_watched(self) -> None:
+        def broken(*_args):
+            raise RuntimeError("reader failure")
+        self.watcher._consume = broken
+        (self.root / "trigger.txt").write_text("x", encoding="utf-8")
+        self.eventually(lambda: "*" in self.watcher.coverage_faults())
+        self.assertEqual(self.watcher.watched_roots(), [])
 
 
 if __name__ == "__main__":
