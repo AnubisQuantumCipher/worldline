@@ -232,9 +232,10 @@ manifest = {
         "proved": ["Worldline SPARK policy units", "Attest.SHA256 absence of runtime error"],
         "notProved": [
             "C/Python/QML boundary: the C ABI entry points in worldline-c_api (SPARK_Mode Off:"
-            " pointer dereference, exception handlers, file and byte hashing marshalling) and the"
-            " Python mapping of observations to the kernel's finite categories; the collapse"
-            " request decode itself is proved (Worldline.Collapse_Wire)",
+            " pointer dereference, exception handlers, file and byte hashing marshalling, and the"
+            " decoding and validation of evaluation observations, classifications and presence"
+            " records) and the Python mapping of observations to the kernel's finite categories;"
+            " the collapse request's decode and validation are proved (Worldline.Collapse_Wire)",
             "OS syscalls and filesystem behavior",
         ],
         "assumptions": [

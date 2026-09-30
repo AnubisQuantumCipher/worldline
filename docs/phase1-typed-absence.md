@@ -8,8 +8,9 @@ stability, tested/staged equality).
   explicit presence.
 - `Worldline.Collapse.Decide` takes those optionals, three tri-state measurements, and the
   generation and watch-set pairs, and its postcondition states the whole rule.
-- `Worldline.Collapse_Wire` validates and decodes the C request in SPARK. The unproved C layer
-  now only dereferences the pointer and catches exceptions.
+- `Worldline.Collapse_Wire` validates and decodes the C request in SPARK. For the collapse
+  decision, the unproved C layer only dereferences the pointer and catches exceptions; its body
+  is pinned by digest (see "Proof").
 - Python produces each input from a named source, passes what it could not establish as
   absent, and records what it passed (`decisionInputs`, `absentInputs`).
 
@@ -70,18 +71,28 @@ name them; the runtime follows them.
   candidate carrying recorded `contamination` is FOUND.
 - **T3: the watcher is required.** Without one, both generations are absent and the kernel
   refuses MEASUREMENT_ABSENT. `fork` refuses PRIME_WATCH_UNAVAILABLE at its freeze, in Python.
-  A root the watcher is not watching makes the watch sets differ (WATCH_INCOMPLETE).
+  A root the watcher is not completely watching makes the watch sets differ (WATCH_INCOMPLETE):
+  its root watch was dropped, the root directory moved (IN_MOVE_SELF), part of its tree could
+  not be watched, or the reader thread stopped. Each directory is watched before it is listed.
+  Prepare and the fork's freeze drain the watcher before deciding whether to reconcile, and
+  commit re-reads the generation just before the exchange.
 - **T4: the staged root is a commit obligation.** At prepare only the merge's capture exists,
   and the wire requires the other side absent. At commit the kernel compares it with a
   recapture; the Python pre-check is gone.
 - **T5: no tested := staged.** The tested root is what the candidate's evidence examined:
-  - a revalidation's recorded `examinedContentRoot`;
+  - a revalidation's recorded `examinedContentRoot`, which is the content root of the world's
+    declared manifests after checking that the read-only payload is exactly their bytes
+    (modes compared without the write bits finalization clears);
   - for a re-application, the world's finalized manifests as declared;
   - otherwise the candidate's declared manifests, and if one is missing, absent.
 
   When PRIME moved, a staged evaluation runs and the kernel decides whether it covers the staged
   bytes. A staged FAIL is still STAGED_UNTESTED.
-- **T6: no sentinel identities.** A conflict has no staged tree: null in the record and the
+- **T6: content roots name every content field.** A content root covers each entry's path,
+  type, mode, bytes, symlink target and security attributes. The symlink target was left out
+  from 1.3.0 until this release (the field was misnamed); the domain tag moved to v2 with the
+  fix, so no earlier value can compare equal.
+- **T6a: no sentinel identities.** A conflict has no staged tree: null in the record and the
   literal `"absent"` in the store's NOT NULL column. `NO_BUNDLE_IDENTITY` is used only where a
   declaration or a record states that no bundle executed; a missing key makes the whole
   executed-verifier identity absent. An unreadable kernel library or resource policy refuses
@@ -89,6 +100,9 @@ name them; the runtime follows them.
   never handed to the kernel: `store.CHAIN_GENESIS` (the chains' first predecessor) and
   `prime.GENESIS_PARENT` (the first PRIME's parent content). Both are part of bytes already
   written, so they cannot change.
+- **T8: recovery stays in its own store.** The store records absolute paths. A transaction
+  record naming a path outside this store (a copy that was not relocated) is quarantined as
+  TRANSACTION_RECORD_FOREIGN, and nothing is written or deleted.
 - **T7: no store migration.** Every new fact lives in the prepared transaction's JSON record
   (`recordSchema: 2`, `decisionInputs`, `decisionInputsAtCommit`). Commit refuses a record
   without `decisionInputs` (TRANSACTION_RECORD_LEGACY). Every key 1.8.0's recovery and
@@ -96,7 +110,7 @@ name them; the runtime follows them.
 
 ## Defects closed (reproduced on 1.8.0 first)
 
-One script ran five scenarios against the released 1.8.0 tree and the 1.9.0 candidate, each in
+One script ran six scenarios against the released 1.8.0 tree and the 1.9.0 candidate, each in
 an isolated store. The script and both result files are retained with the release evidence. On
 1.8.0 every scenario was AUTHORIZED and COMMITTED:
 
@@ -105,9 +119,13 @@ an isolated store. The script and both result files are retained with the releas
    1.9.0 refuses it with FOREIGN_MANAGED_WRITE and records it.
 2. **No watcher.** 1.9.0: MEASUREMENT_ABSENT.
 3. **A watcher watching none of the roots.** 1.9.0: WATCH_INCOMPLETE.
-4. **Declared manifests missing.** Whatever the payload held was treated as tested. 1.9.0:
-   STAGED_UNTESTED.
+4. **Declared manifests missing** (needs write access to the store: manifests deleted, payload
+   edited, the row's delta restated). The edited payload was treated as tested and went live.
+   1.9.0: STAGED_UNTESTED.
 5. **A staged PASS for a tree other than the staged one.** 1.9.0: STAGED_UNTESTED.
+6. **A symlink in PRIME retargeted after the candidate's evaluation.** Content roots ignored link
+   targets, so the staged tree looked tested. 1.9.0: STAGED_UNTESTED. Found by the adversarial
+   review of this release.
 
 `tests/test_typed_absence.py` tests the 1.9.0 side end to end. It also covers:
 
@@ -128,9 +146,19 @@ Each unit must list as many proved subprograms as it analyzed. `Worldline.Collap
 and `Decide_Wire` join the required proved subprograms. `Well_Formed` is an expression function
 proved with them.
 
+The floor counts checks, and GNATprove counts a whole postcondition as one check, so deleting a
+clause of `Decide`'s postcondition would not move it. The contracts are therefore pinned:
+`verify_proof_manifest.CONTRACT_PINS` holds a SHA-256 of each contract specification
+(`worldline-collapse.ads`, `worldline-collapse_wire.ads`, `worldline-identities.ads`,
+`worldline-evaluation.ads`, `worldline-transitions.ads`) with comments and layout removed, and
+of `Collapse_Decide`'s body in `worldline-c_api.adb`. The verifier, run by `prove.sh`, the
+installer and assurance, refuses any difference; changing a contract means deliberately
+updating its pin (`verify_proof_manifest.py --print-contract-pins`).
+
 **Not proved (boundary).** The C entry points in `worldline-c_api` (`SPARK_Mode => Off`) are
-outside the proof: pointer dereference, exception handlers, and file and byte hashing
-marshalling. So is the Python mapping of observations to the kernel's inputs. The runtime
+outside the proof: pointer dereference, exception handlers, file and byte hashing marshalling,
+and the decoding and validation of evaluation observations, classifications and presence
+records (the collapse request's decode is proved, in `Collapse_Wire`). So is the Python mapping of observations to the kernel's inputs. The runtime
 refuses a library that is not ABI generation 5, or whose sizes or named offsets differ from
 its ctypes records (selectors 0, 4 and 5 are new). `tests/test_abi_layout.py` also compiles
 the header and compares every offset and code table.
@@ -166,6 +194,12 @@ the header and compares every offset and code table.
 
 - The foreign-write measurement compares two captures. A write made and undone between them is
   not seen, and a write the watcher reported is a PRIME generation, not contamination.
+- Ownership is not measured: manifests record modes, timestamps, extended attributes and ACLs,
+  not uid or gid, so a `chown` or `chgrp` in live PRIME is not a foreign write.
+- A write in the moment between commit's last generation read and the exchange is attributed
+  to the exchange.
+- Content roots leave out timestamps, hard-link grouping, root-directory metadata and
+  repository facts; two trees differing only there are the same content.
 - Typed absence makes a missing value refuse. It does not make a present value true: a runtime
   that states a wrong digest on both sides of a pair still satisfies the proof.
 - The census in `doctor` reports what promotion will refuse. It changes nothing and repairs

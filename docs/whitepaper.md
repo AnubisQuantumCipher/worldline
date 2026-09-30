@@ -174,10 +174,12 @@ x86_64 runner, which is also the portability check for the Mac Pro.
 
 ## 6.4 What is not proved
 
-The C entry points (pointer dereference, exception handlers, hashing marshalling; the
-collapse request's decoding is proved since 1.9.0), the Python/QML boundary, the operating
-system, overlayfs, bubblewrap, systemd, SQLite, and the filesystem's behaviour under crash are
-outside the proof. Receipts list this under
+The C entry points (pointer dereference, exception handlers, hashing marshalling, and the
+decoding and validation of evaluation observations; the collapse request's decoding is proved
+since 1.9.0), the Python/QML boundary, the operating system, overlayfs, bubblewrap, systemd,
+SQLite, and the filesystem's behaviour under crash are outside the proof. Since 1.9.0 the
+contract specifications are pinned by digest, because the proof's check count cannot see a
+postcondition clause removed. Receipts list this under
 `boundary.notProved`. The runtime's honesty about its inputs is enforced by tests, fault
 injection (disk full, `kill -9` with a prepared transaction, hostile root contents), and the
 boundary suite, not by proof.
@@ -245,7 +247,8 @@ the kernel refuses, the runtime records an `unaccounted-write` causal event and 
 dirty, and the next status or prepare reconciles the change into its own PRIME generation, so a
 retry proceeds on a PRIME that records it. A PRIME record without those components is
 unmeasured, which the kernel also refuses. A write the watcher reported is reconciled before
-prepare and is not contamination; a write made and undone between two captures is not seen.
+prepare and is not contamination; a write made and undone between two captures is not seen;
+and ownership (uid/gid) is not recorded in manifests, so it is not measured.
 Receipts state the measurement (`foreignWorldContamination.measuredBy`).
 
 ## 8.2 Prepare, commit, recover

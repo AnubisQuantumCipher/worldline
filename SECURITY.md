@@ -375,7 +375,10 @@ trust you place in WORLDLINE.
    live. Since 1.9.0 each identity has its own type and explicit presence: two absent values are
    never equal, and nothing absent or unmeasured is ever `Authorized`. The manifest's own
    boundary lists the C entry points (pointer dereference, exception handlers, hashing
-   marshalling), the Python/QML boundary, and OS syscalls and filesystem behaviour as not proved. Everything that decides *what* is hashed,
+   marshalling, and the decoding and validation of evaluation observations), the Python/QML
+   boundary, and OS syscalls and filesystem behaviour as not proved. Because GNATprove counts a
+   whole postcondition as one check, the contracts are also pinned by digest in
+   `verify_proof_manifest.py`, so a weakened contract is refused rather than counted. Everything that decides *what* is hashed,
    compared and enforced is Python, covered by tests rather than proof: manifests, requirement
    and content identities, what enters the execution-identity comparison, report collection and
    admission, resource admission, the sandbox, and the whole private evaluator — its namespace
@@ -388,8 +391,9 @@ trust you place in WORLDLINE.
    would still satisfy the proof. Foreign managed writes are measured (1.9.0) by comparing a
    capture of live PRIME with the components the PRIME record states: a write nothing reported is
    refused, and marks PRIME for reconciliation. A write the watcher reported becomes a PRIME
-   generation rather than a foreign write, and a write made and undone between two captures is
-   not seen. Freshness is identity comparison, not re-execution — a `PASS`
+   generation rather than a foreign write, a write made and undone between two captures is not
+   seen, and ownership (uid/gid) is not part of a manifest, so a `chown` or `chgrp` is not
+   measured at all. Freshness is identity comparison, not re-execution — a `PASS`
    revalidation or staged validation is evidence about the bytes it names at the time it ran, in
    the same sandbox finalization uses, and stored contexts live in the same same-uid-writable
    store as everything else. Since 1.1.0 the transaction lifecycle (PREPARED → AUTHORIZED →

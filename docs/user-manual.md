@@ -553,7 +553,9 @@ Every command accepts `--json`; exit `0` success, `1` a named error (`worldline:
 `STAGED_ROOT_MISMATCH`, `PAYLOAD_INTEGRITY_FAILED`, `PAYLOAD_PRUNED`, `PRUNE_BLOCKED`,
 `EVIDENCE_STALE`, `EVIDENCE_CONTEXT_MISSING`, `EVIDENCE_CONTEXT_INVALID`,
 `VERIFIER_MODIFIED_BY_CANDIDATE`, `CANDIDATE_CHANGED_AFTER_PREPARE`, `TRANSACTION_RECORD_LEGACY`,
-`PRIME_WATCH_UNAVAILABLE`, `REQUIREMENT_IDENTITY_UNAVAILABLE`
+`PRIME_WATCH_UNAVAILABLE`, `REQUIREMENT_IDENTITY_UNAVAILABLE`, `TRANSACTION_RECORD_FOREIGN`
+(a transaction record naming a path outside this store: a store copied without
+`worldline-relocate`; recovery quarantines it and writes nothing)
 (a kernel refusal at prepare arrives as `CONFLICT` with `details.decision`; at commit as the
 decision's own name, except `VALIDATION_CONTEXT_MISMATCH` → `EVIDENCE_STALE` and
 `PRIME_CHANGED` → `PRIME_CHANGED_DURING_CAPTURE`, which also carry `details.decision`),
@@ -582,14 +584,16 @@ The kernel's decisions (`details.decision`), with the 1.9.0 additions last:
 | `IDENTITY_ABSENT` | a required identity is missing; `details.absentInputs` names it (damaged or hand-edited stores only) |
 | `MEASUREMENT_ABSENT` | no PRIME watcher, or conflicts or foreign writes could not be measured |
 | `PRIME_CHANGED` | PRIME's watcher generation moved during the decision |
-| `WATCH_INCOMPLETE` | a registered root is not being watched; `doctor` lists it |
+| `WATCH_INCOMPLETE` | a registered root is not completely watched (moved, removed, partly unwatchable, or the watcher's reader stopped); `doctor` lists it and why |
 | `CHECKPOINT_MISMATCH` | a return target's witness disagrees with it |
 | `EVIDENCE_SUBJECT_MISMATCH` | the evaluation speaking for a world, or a return vehicle, is bound to another world |
 
 `OWNER_MISMATCH` (code 3) is retired and never produced. `doctor` reports
-`promotionReadiness`: pending transactions, watch coverage, every VALID world as fresh, needing
-revalidation, or not revalidatable (missing payload, base or declared manifest), and with
-`--refresh` the foreign-write measurement a prepare would take now.
+`promotionReadiness`: pending transactions, watch coverage (with the reason for each unwatched
+root), every VALID candidate as fresh, needing revalidation, or not revalidatable (missing
+payload, base or declared manifest), and with `--refresh` the foreign-write measurement a
+prepare would take now (UNMEASURED, with the error, if the live capture cannot be taken). Run it
+on the installed daemon; never start a daemon on a copy of a store that was not relocated.
 
 ## 10.3 Status document and daemon protocol
 
