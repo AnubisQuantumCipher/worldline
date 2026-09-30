@@ -35,7 +35,9 @@ UNANALYZED_BOUNDARY = {"worldline-c_api"}
 # floor cannot see a postcondition clause deleted -- GNATprove counts a whole Post as one check --
 # and the C boundary is exempt from the SPARK_Mode screen, so neither the count nor the coverage
 # parse notices a weakened Decide or a policy shortcut in Collapse_Decide. Each pin covers a
-# specification's text with comments and layout removed, or one C-boundary subprogram's body.
+# specification's text with comments and layout removed, or the whole unproved C boundary body
+# (a pin on Collapse_Decide's text alone could be sidestepped by a declaration elsewhere in the
+# file that its unqualified names resolve to; review of 19d0297).
 # Changing a pinned contract is a deliberate edit of this table; derive the values with
 # `python3 verify_proof_manifest.py --print-contract-pins`, never by hand.
 CONTRACT_PINS = {
@@ -48,7 +50,7 @@ CONTRACT_PINS = {
     "core/worldline-identities.ads": "ceed7b08935c05d52014b8f7e8d68f8b8876214428be145aa88bf2878cabca21",
     "core/worldline-evaluation.ads": "06f281db13982fa57cb96391c54e4d53268577b52422d5f6e640804a016c3b9e",
     "core/worldline-transitions.ads": "1b332423aa2136df53ac2feb3ee8dd4c0aeea1bf0c372cde9b1d614079d7bfd1",
-    "core/worldline-c_api.adb#Collapse_Decide": "ac2e8ef5029d2c1dc201d5cfa4881ab836110f8fa67a507d268662ffa452b77f",
+    "core/worldline-c_api.adb": "ad9eb91aa00ce9165166057bca7562fd268bf16d94f0b8c42a4fc696a707b0e3",
 }
 
 

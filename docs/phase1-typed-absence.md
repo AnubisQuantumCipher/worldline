@@ -9,8 +9,8 @@ stability, tested/staged equality).
 - `Worldline.Collapse.Decide` takes those optionals, three tri-state measurements, and the
   generation and watch-set pairs, and its postcondition states the whole rule.
 - `Worldline.Collapse_Wire` validates and decodes the C request in SPARK. For the collapse
-  decision, the unproved C layer only dereferences the pointer and catches exceptions; its body
-  is pinned by digest (see "Proof").
+  decision, the unproved C layer only dereferences the pointer and catches exceptions; the whole
+  C boundary body is pinned by digest (see "Proof").
 - Python produces each input from a named source, passes what it could not establish as
   absent, and records what it passed (`decisionInputs`, `absentInputs`).
 
@@ -112,8 +112,15 @@ name them; the runtime follows them.
 - **T9: recovery records the committed tree.** Prepare keeps the staged manifests beside the
   transaction. A recovery finishing an exchange that already happened publishes PRIME from
   them when live PRIME no longer has the staged root, records an `unaccounted-write`, and marks
-  PRIME dirty; the offline change becomes its own generation. Recovery still commits without
-  asking `Decide` again (item 7).
+  PRIME dirty; the offline change becomes its own generation. A transaction prepared by an
+  earlier release has no staged record, so its recovery uses the live capture and records the
+  difference the same way. Replay is idempotent; an I/O error quarantines the transaction
+  (RECOVERY_IO_FAILED) instead of stopping the daemon. Recovery still commits without asking
+  `Decide` again (item 7).
+- **T10: the published identity is checked before the exchange.** World content ids are
+  unique. Before exchanging, commit computes the identity the PRIME generation it would publish
+  gets, and refuses CHECKPOINT_IDENTITY_TAKEN (ABORTED, nothing changed) if a world already
+  holds it; in 1.8.0 a leftover return vehicle made that publish fail after the exchange.
 - **T7: no store migration.** Every new fact lives in the prepared transaction's JSON record
   (`recordSchema: 2`, `decisionInputs`, `decisionInputsAtCommit`). Commit refuses a record
   without `decisionInputs` (TRANSACTION_RECORD_LEGACY). Every key 1.8.0's recovery and
@@ -163,9 +170,10 @@ clause of `Decide`'s postcondition would not move it. The contracts are therefor
 (`worldline-collapse.ads`, `worldline-collapse_wire.ads`, `worldline-identities.ads`,
 `worldline-evaluation.ads`, `worldline-transitions.ads`), of the types they rest on
 (`worldline.ads`, `attest/attest.ads`, `attest/attest-sha256.ads`), of the C export table
-(`worldline-c_api.ads`), each with comments and layout removed, and of `Collapse_Decide`'s body
-in `worldline-c_api.adb`; it also checks that `wl_collapse_decide` is bound exactly once, to
-`Collapse_Decide`. The verifier, run by `prove.sh`, the
+(`worldline-c_api.ads`) and of the whole unproved C boundary body (`worldline-c_api.adb`),
+each with comments and layout removed; it also checks that `wl_collapse_decide` is bound
+exactly once, to `Collapse_Decide`. Pins cover text: a body the proof covers
+(`worldline-collapse.adb`, `worldline-collapse_wire.adb`) is guarded by the proof, not by a pin. The verifier, run by `prove.sh`, the
 installer and assurance, refuses any difference; changing a contract means deliberately
 updating its pin (`verify_proof_manifest.py --print-contract-pins`).
 

@@ -47,6 +47,12 @@ requirements-to-contract table is in `docs/phase1-typed-absence.md`.
     cannot be watched completely never stops the daemon from starting.
   - **STORE_NOT_RELOCATED** (at daemon start) — the store's records name another store's files:
     it was copied without `worldline-relocate`.
+  - **CHECKPOINT_IDENTITY_TAKEN** (at commit, before the exchange; the transaction is ABORTED
+    and nothing changes) — the PRIME generation the commit would publish has the identity of an
+    existing world. A declined `return` leaves its vehicle holding exactly that identity; in 1.8.0
+    such a commit exchanged live PRIME and then failed to record it.
+  - **RECOVERY_IO_FAILED** (at start) — recovery met an I/O error finishing a transaction; the
+    transaction is quarantined and the daemon starts, as for any unrecoverable transaction.
   - **FOREIGN_MANAGED_WRITE** — live PRIME content differs from the PRIME record and the
     watcher did not report it. The refusal marks PRIME dirty; the next status or prepare
     records the change as a PRIME generation, and a retry proceeds.
@@ -150,9 +156,16 @@ access to the store; the others arise in normal operation or from host condition
   tree, and a revalidated world's own evidence covers its collapse when PRIME has not moved.
   Each revalidation now copies the payload once.
 - A recovery that finishes an exchange the daemon did not live to record publishes PRIME from
-  the staged tree prepare recorded (kept beside the transaction), not from a capture of live
-  PRIME. A write made while no daemon ran is recorded (`unaccounted-write`) and reconciled into
-  its own generation, instead of being folded into the collapse.
+  the staged tree prepare recorded (kept beside the transaction by 1.9.0), not from a capture of
+  live PRIME, when live PRIME no longer has the staged root. A write made while no daemon ran is
+  recorded (`unaccounted-write`) and reconciled into its own generation, instead of being folded
+  into the collapse. A transaction prepared by an earlier release has no such record; its
+  recovery still uses the live capture, and records the difference the same way.
+- Recovery replay is idempotent over the read-only records it copied the first time (1.8.0 and
+  earlier stopped the daemon from starting with PermissionError), and an exchange that renamed
+  but failed afterwards (a directory fsync) stays AUTHORIZED for recovery instead of being
+  recorded ABORTED while its bytes are live.
+- Materialized revalidation inputs left by a killed daemon are removed at the next start.
 - `prepare` and `fork` drain the watcher before deciding whether to reconcile, so a write the
   watcher had already seen is reconciled rather than refused as unaccounted.
 - The watcher watches each directory before listing it, reports a root whose tree it could not
@@ -177,9 +190,11 @@ access to the store; the others arise in normal operation or from host condition
   themselves are now pinned: `verify_proof_manifest.py` holds a digest of each contract
   specification (collapse, collapse wire, identities, evaluation, transitions), of the types
   they rest on (`worldline.ads`, `attest.ads`, `attest-sha256.ads`), of the C export table
-  (`worldline-c_api.ads`) and of `Collapse_Decide`'s body, checks that `wl_collapse_decide` is
-  bound exactly once and to `Collapse_Decide`, and refuses any change that does not update a pin
-  deliberately. The gate checks the pins before it writes the manifest.
+  (`worldline-c_api.ads`) and of the whole unproved C boundary body (`worldline-c_api.adb`),
+  checks that `wl_collapse_decide` is bound exactly once and to `Collapse_Decide`, and refuses a
+  change to any pinned text that does not update its pin deliberately. The gate checks the pins
+  before it writes the manifest. Pins cover text: a change to an unpinned file (a body such as
+  `worldline-collapse.adb` is covered by the proof instead) is not a pin failure.
   `Decide`'s postcondition states that `Authorized` is exactly `All_Hold`, that nothing absent
   or unmeasured is authorized, that OWNER_MISMATCH is never returned, and for every refusal
   that what it names is actually the case. `Decide_Wire`'s postcondition states that a
@@ -198,6 +213,23 @@ access to the store; the others arise in normal operation or from host condition
 - **Not measured** (stated, not hidden): ownership (uid/gid) is not part of a manifest, so a
   `chown` or `chgrp` in live PRIME is not a foreign write; a write in the moment between the
   last generation read and the exchange is attributed to the exchange.
+
+### Known limitations (pre-existing, refuse safely; scheduled, not fixed in this release)
+
+These were found by the adversarial review of this release. Each predates 1.9.0 and each
+refuses rather than authorizes, so under the release's freeze rule they are stated here and
+fixed in a later release rather than changed after review began.
+
+- A read-only directory in PRIME (mode 0555 with contents) makes every collapse prepare fail
+  with STORAGE_ERROR: the merge creates staged directories with their final mode before filling
+  them. Present since 1.0.0.
+- A declined `return` cannot be retried at the same PRIME (WORLD_CONFLICT), and each attempt
+  leaves a frozen generation and a vehicle payload; its leftover vehicle also makes a later
+  collapse of that world refuse CHECKPOINT_IDENTITY_TAKEN until PRIME moves.
+- A hard-link group whose files carry extended attributes and a read-only mode cannot be
+  materialized (XATTR_NOT_APPLICABLE): fork, prepare and revalidation refuse such a tree.
+- Revalidation copies the payload once per run and needs free space for it; the copy is not
+  under resource admission.
 
 ## 1.8.0 — 2026-09-29 · evaluation lifecycle authority
 

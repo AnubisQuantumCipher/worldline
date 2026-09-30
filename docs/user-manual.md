@@ -559,8 +559,13 @@ Every command accepts `--json`; exit `0` success, `1` a named error (`worldline:
 (a kernel refusal at prepare arrives as `CONFLICT` with `details.decision`, except
 `PRIME_CHANGED`, which arrives as `PRIME_CHANGED_DURING_CAPTURE`; at commit as the decision's
 own name, except `VALIDATION_CONTEXT_MISMATCH` → `EVIDENCE_STALE` and `PRIME_CHANGED` →
-`PRIME_CHANGED_DURING_CAPTURE`; each carries `details.decision` and `details.transactionId`),
+`PRIME_CHANGED_DURING_CAPTURE`; each carries `details.decision` and `details.transactionId`; a
+change between the commit decision and the exchange is refused by the exchange guard, not the
+kernel, and carries `details.refusedBy: "exchange-guard"` instead of a decision),
 `STORE_NOT_RELOCATED` (the daemon refuses to start on a copy of a store that was not relocated),
+`CHECKPOINT_IDENTITY_TAKEN` (commit refused before the exchange: the generation it would publish
+has the identity of an existing world, typically a declined return's vehicle),
+`RECOVERY_IO_FAILED` (recovery quarantined a transaction on an I/O error; the daemon still starts),
 `ROOT_SET_BUSY`, `RETURN_POINT_INCOMPLETE`, `ADAPTER_UNAVAILABLE`, `ADAPTER_AUTH_UNAVAILABLE`,
 `TIMEOUT`, `USER_CANCELLED`, `DISK_FULL`, `STORAGE_ERROR`, `NETGUARD_UNAVAILABLE`,
 `UNSUPPORTED_SCHEMA`, `GHOSTS_DISABLED`, `SYSTEM_ROOT_COLLAPSE_UNSUPPORTED`,
