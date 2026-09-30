@@ -484,15 +484,6 @@ def content_root_set(manifests: Mapping[str, Any], core: Core | None = None) -> 
     return hash_id(verifier.hash_bytes(b"worldline-content-root-set-v2" + canonical_bytes(value)))
 
 
-def readonly_content_entries(manifest: Any) -> list[dict[str, Any]]:
-    """`content_entries` with the write bits cleared, the view finalization leaves: a finalized
-    payload is its declared manifests' bytes made read-only (finalize._make_readonly)."""
-    entries = content_entries(manifest)
-    for entry in entries:
-        if isinstance(entry.get("mode"), int):
-            entry["mode"] &= ~0o222
-    return entries
-
 
 def content_differences(candidate: Mapping[str, Any], staged: Mapping[str, Any]) -> list[str]:
     """Paths whose content-bearing entry differs between the tested candidate and the staged

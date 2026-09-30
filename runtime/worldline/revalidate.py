@@ -37,7 +37,7 @@ from .paths import secure_directory
 from .project import ProjectConfig
 from .store import StateStore
 from .trusted import trusted_inline
-from .validation import content_root_set, build_context, current_requirements, readonly_content_entries, resolve_verifiers
+from .validation import content_root_set, build_context, current_requirements, resolve_verifiers
 
 
 class Revalidator:
@@ -132,6 +132,31 @@ class Revalidator:
 
     def _evaluate(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any, source: str,
                   declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
+        if declared is None:
+            return self._evaluate_tree(source_dir=source_dir, subject=subject, prime_at_fork=prime_at_fork,
+                                       protected_delta=protected_delta, source=source)
+        # A revalidation examines exactly what its world's declared manifests state -- bytes,
+        # modes, attributes -- because that is what promotion compares with the staged tree. The
+        # finalized payload is read-only (finalization clears the write bits), so checks run over
+        # it would see modes the manifests do not state and a promotion would then install
+        # (review of 0ee1112). The declared manifests are materialized from the payload into a
+        # daemon-owned scratch tree, verified entry for entry, and the checks run over that.
+        input_directory = secure_directory(self.paths.overlays / f"revalidation-input-{uuid.uuid4()}")
+        try:
+            for key, manifest in declared.items():
+                try:
+                    Manifest.materialize(manifest, source_dir / key, input_directory / key, core=self.core)
+                except WorldlineError as exc:
+                    raise WorldlineError("PAYLOAD_INTEGRITY_FAILED",
+                                         f"the payload under revalidation is not the bytes its declared manifest states (root {key})",
+                                         {"rootKey": key, "cause": exc.as_dict()}) from exc
+            return self._evaluate_tree(source_dir=input_directory, subject=subject, prime_at_fork=prime_at_fork,
+                                       protected_delta=protected_delta, source=source, declared=declared)
+        finally:
+            self._discard(input_directory)
+
+    def _evaluate_tree(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any,
+                       source: str, declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
         roots = self.store.roots()
         primary = next((r for r in roots if r["primary_root"]), None)
         if primary is None:
@@ -147,25 +172,20 @@ class Revalidator:
         )
         primary_target = Path(os.fsdecode(bytes(primary["path"])))
         private_id: str | None = None
-        # What this evaluation examines, identified before any check runs and verified again
-        # after the last one (1.9.0). Promotion compares it with the bytes that would go live;
-        # a tree that moved under the checks is refused rather than attributed to either state.
-        examined = self._source_manifests(source_dir, roots)
-        observed_content_root = content_root_set(examined, self.core)
-        if declared is None:
-            examined_content_root = observed_content_root
-        else:
-            # A revalidation examines the finalized payload, which is the declared manifests'
-            # bytes made read-only. It is identified by those manifests -- the view promotion
-            # compares with the staged tree -- after checking the payload is exactly them apart
-            # from the write bits finalization cleared (review of a23c265: identified by the
-            # read-only capture, no revalidation could ever cover the staged bytes).
-            for key in sorted(examined):
-                if key not in declared or readonly_content_entries(examined[key]) != readonly_content_entries(declared[key]):
-                    raise WorldlineError("PAYLOAD_INTEGRITY_FAILED",
-                                         f"the payload under revalidation is not the bytes its declared manifest states (root {key})")
-            examined_content_root = content_root_set(declared, self.core)
         try:
+            # What this evaluation examines, identified before any check runs and verified again
+            # after the last one (1.9.0). Promotion compares it with the bytes that would go
+            # live; a tree that moved under the checks is refused rather than attributed to
+            # either state. Inside the try, so a refusal here still discards the overlay
+            # scratch (review of 0ee1112).
+            examined = self._source_manifests(source_dir, roots)
+            observed_content_root = content_root_set(examined, self.core)
+            examined_content_root = observed_content_root
+            if declared is not None and observed_content_root != content_root_set(declared, self.core):
+                # The materialized input is verified against its manifest as it is written;
+                # this states the equality where the examined root is recorded.
+                raise WorldlineError("PAYLOAD_INTEGRITY_FAILED",
+                                     "the tree under revalidation is not the bytes its declared manifests state")
             # THREE snapshots, kept apart:
             #   overlays        the bytes UNDER EVALUATION -- source_dir (for a revalidation, the
             #                   candidate's own finalized payload; for a staged merge, the staged

@@ -261,6 +261,14 @@ class CollapseTransaction:
                                          {"verifiers": staged_validation["context"]["verifiersModifiedByCandidate"]})
             if not conflicts:
                 self._create_mapping(mapping, payload, roots, transaction_id)
+                # The staged tree as the merge captured it, kept beside (never inside) the roots,
+                # so a recovery after the exchange can publish what was committed even if the live
+                # tree moved while the daemon was down (review of 0ee1112).
+                # Named `manifests` so relocation classifies it as the hashed record it is.
+                staged_record = transaction_directory / "manifests"
+                staged_record.mkdir(mode=0o700)
+                for root_key, manifest in staged_manifests.items():
+                    manifest.save(staged_record / f"{root_key}.json")
 
             subject = self.store.world(return_of) if return_of else candidate
             current = freshness["current"]
@@ -535,7 +543,8 @@ class CollapseTransaction:
             code = "PRIME_WATCH_UNAVAILABLE" if now is None else "PRIME_CHANGED_DURING_CAPTURE"
             self._set_state(record, "ABORTED", error={"code": code})
             raise WorldlineError(code, "PRIME changed between the collapse decision and the exchange; prepare again",
-                                 {"transactionId": transaction_id, "decidedGeneration": decided, "generationNow": now})
+                                 {"decision": "PRIME_CHANGED" if now is not None else "MEASUREMENT_ABSENT",
+                                  "transactionId": transaction_id, "decidedGeneration": decided, "generationNow": now})
         exchanged = False
         try:
             # Checked just above; stated as a refusal rather than an assert, which -O removes.
@@ -659,6 +668,9 @@ class CollapseTransaction:
                 # The live capture refused (a special file, a broken mapping, ...): the report
                 # says so instead of failing, since that is when the operator needs doctor.
                 foreign = {"state": "UNMEASURED", "measuredBy": "live-capture-vs-prime-record", "error": exc.as_dict()}
+            except OSError as exc:  # an unreadable directory, and the like (review of 0ee1112)
+                foreign = {"state": "UNMEASURED", "measuredBy": "live-capture-vs-prime-record",
+                           "error": {"code": "CAPTURE_FAILED", "message": str(exc), "details": {"errno": exc.errno}}}
         # A reported write not yet reconciled also differs from the record; the next status or
         # prepare records it as a PRIME generation, so it is not a foreign write.
         foreign["primeDirty"] = bool(self.store.get_meta("dirty", False))
@@ -1016,7 +1028,11 @@ class CollapseTransaction:
         staged_manifests: Mapping[str, CapturedManifest] | None = None,
     ) -> dict[str, Any]:
         candidate = self.store.world(record["candidateWorld"])
-        manifests = dict(staged_manifests or self._capture_staged(record))
+        moved_offline = False
+        if staged_manifests is not None:
+            manifests = dict(staged_manifests)
+        else:
+            manifests, moved_offline = self._recovered_manifests(record)
         manifests_directory = Path(record["stagingPayload"]) / "manifests"
         manifests_directory.mkdir(mode=0o700, exist_ok=True)
         for root_key, manifest in manifests.items():
@@ -1090,6 +1106,18 @@ class CollapseTransaction:
             self._set_state(record, "AUTHORIZED")
         if record["state"] == "AUTHORIZED":
             self._set_state(record, "COMMITTED", committed=True)
+        if moved_offline:
+            # Live PRIME is not the tree that was committed: something wrote to it while no
+            # daemon ran. PRIME records the committed tree; the difference is recorded and PRIME
+            # marked dirty, so the next status or prepare reconciles it into its own generation
+            # instead of folding it into this collapse.
+            prime_now = self.store.prime()
+            self.store.set_meta("dirty", True)
+            self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION,
+                                            "worldInstance": prime_now.instance_id if prime_now is not None else candidate.instance_id,
+                                            "kind": "unaccounted-write", "actor": "worldline",
+                                            "reason": "live PRIME differed from the committed staged tree at recovery",
+                                            "transactionId": record["transactionId"]})
         receipt_row = self.store.receipt_for_transaction(record["transactionId"])
         if receipt_row is None:
             receipt = self.receipts.append(
@@ -1321,6 +1349,26 @@ class CollapseTransaction:
             for root in self.store.roots()
         }
 
+    def _recovered_manifests(self, record: Mapping[str, Any]) -> tuple[dict[str, CapturedManifest], bool]:
+        """The committed staged tree, for a recovery that finishes an exchange which already
+        happened. The live tree IS the staging payload by then; if it still has the staged root
+        prepare recorded, it is used. Otherwise the manifests prepare persisted are, when they
+        state that root, and the caller records the difference (moved_offline)."""
+        live = self._capture_staged(record)
+        expected = record.get("stagedRoot")
+        if Manifest.root_set_hash(live.values(), self.core) == expected:
+            return live, False
+        persisted_directory = Path(record["stagingPayload"]).parent / "manifests"
+        persisted: dict[str, CapturedManifest] = {}
+        for root in self.store.roots():
+            path = persisted_directory / f"{root['root_key']}.json"
+            if not path.is_file():
+                return live, True  # nothing states the committed tree; keep what is live, recorded
+            persisted[root["root_key"]] = Manifest.load(path, self.core)
+        if Manifest.root_set_hash(persisted.values(), self.core) != expected:
+            return live, True
+        return persisted, True
+
     def _capture_staged(self, record: Mapping[str, Any]) -> dict[str, CapturedManifest]:
         payload = Path(record["stagingPayload"])
         return {
@@ -1392,9 +1440,12 @@ class CollapseTransaction:
 
     @staticmethod
     def _require_own(path: Path, directory: Path, transaction_id: str, field: str) -> None:
-        """Refuse a record path that is not inside this store's own directory for it."""
+        """Refuse a record path that is not inside this store's own directory for it. Compared
+        resolved, so the same store reached through a symlink is still its own (review of
+        0ee1112), while a copy's paths resolve into the original and are refused."""
         try:
-            inside = os.path.commonpath([os.path.abspath(path), os.path.abspath(directory)]) == os.path.abspath(directory)
+            own = os.path.realpath(directory)
+            inside = os.path.commonpath([os.path.realpath(path), own]) == own
         except ValueError:
             inside = False
         if not path.is_absolute() or not inside:

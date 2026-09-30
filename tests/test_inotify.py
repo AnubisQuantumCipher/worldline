@@ -118,5 +118,44 @@ class WatchCoverageTests(unittest.TestCase):
         self.assertEqual(self.watcher.watched_roots(), [])
 
 
+class WatchFaultTests(unittest.TestCase):
+    """A root the watcher cannot cover completely is reported, never fatal (review of 0ee1112:
+    an unreadable directory made the daemon unable to start)."""
+
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-inotify-faults-")
+        self.root = Path(self.temporary.name) / "root"
+        (self.root / "locked").mkdir(parents=True)
+
+    def tearDown(self) -> None:
+        os.chmod(self.root / "locked", 0o700)
+        self.temporary.cleanup()
+
+    def test_an_unreadable_directory_faults_its_root_and_is_restored_by_a_reconcile(self) -> None:
+        os.chmod(self.root / "locked", 0)
+        watcher = InotifyWatcher([("fixture", self.root)], lambda _event: None)
+        try:
+            watcher.synchronized_generation()
+            self.assertEqual(watcher.watched_roots(), [])
+            self.assertIn("fixture", watcher.coverage_faults())
+            os.chmod(self.root / "locked", 0o700)
+            watcher.mark_reconciled()
+            self.assertEqual([key for key, _path in watcher.watched_roots()], ["fixture"])
+        finally:
+            watcher.close()
+
+    def test_an_overflowed_queue_faults_every_root_until_the_next_reconcile(self) -> None:
+        from worldline.linux.inotify import _IN_Q_OVERFLOW
+        watcher = InotifyWatcher([("fixture", self.root)], lambda _event: None)
+        try:
+            watcher._consume(-1, _IN_Q_OVERFLOW, 0, b"")
+            self.assertEqual(watcher.watched_roots(), [])
+            self.assertTrue(watcher.dirty)
+            watcher.mark_reconciled()
+            self.assertEqual([key for key, _path in watcher.watched_roots()], ["fixture"])
+        finally:
+            watcher.close()
+
+
 if __name__ == "__main__":
     unittest.main()

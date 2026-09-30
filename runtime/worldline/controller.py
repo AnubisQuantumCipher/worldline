@@ -94,6 +94,35 @@ def _require_alternates_inside(source: bytes) -> None:
                 "alternates file")
 
 
+def assert_store_location(paths: WorldlinePaths, store: StateStore) -> None:
+    """Refuse a store whose records name another location. PRIME's payload and the live
+    mapping's links are paths relocation always rewrites, and a store copied without it still
+    points them at the original. Compared resolved, so a store reached through a symlink is
+    its own."""
+    data = os.path.realpath(paths.data)
+
+    def inside(path: str | os.PathLike[str] | bytes) -> bool:
+        resolved = os.path.realpath(os.fsdecode(path))
+        return resolved == data or resolved.startswith(data + os.sep)
+
+    foreign: list[str] = []
+    prime = store.prime()
+    if prime is not None and prime.payload_path and not inside(prime.payload_path):
+        foreign.append(str(prime.payload_path))
+    live = paths.live
+    if live.is_dir():
+        for entry in sorted(live.iterdir()):
+            if entry.is_symlink() and not inside(entry):
+                foreign.append(f"{entry} -> {os.readlink(entry)}")
+    if foreign:
+        raise WorldlineError(
+            "STORE_NOT_RELOCATED",
+            "this store's records name another store's files; it was copied without worldline-relocate, "
+            "and starting on it would act on the original",
+            {"store": data, "foreign": foreign[:10]},
+        )
+
+
 class RuntimeController:
     def __init__(
         self,
@@ -106,6 +135,11 @@ class RuntimeController:
     ) -> None:
         self.paths = paths
         self.store = store
+        # First, before anything that acts outside the store (releasing admission reservations,
+        # stopping orphaned units, exporting the anchor ledger, recovery): a copy of a store that
+        # was not relocated names the ORIGINAL store's files, and every one of those actions
+        # would reach the original (review of 0ee1112).
+        assert_store_location(paths, store)
         self.config = config
         self.capabilities = capabilities
         self.core = core or Core.shared()

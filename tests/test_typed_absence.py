@@ -687,11 +687,15 @@ class N_RevalidatedWorlds(unittest.TestCase):
             self.assertIsNone(prepared["staged_validation"])
             self.assertEqual(prepared["untested_paths"], [])
             self.assertEqual(prepared["validation"]["source"].split(":")[0], "revalidation")
+            record = json.loads((lab.paths.transactions / f"{prepared['transaction_id']}.json").read_text(encoding="utf-8"))
+            self.assertEqual(record["decisionInputs"]["testedRootSource"], "evaluation-examined-root")
             self.assertEqual(lab.commit(prepared["transaction_id"])["state"], "COMMITTED")
         finally:
             lab.close()
 
-    def test_a_payload_whose_modes_differ_from_its_declared_manifest_is_not_revalidated(self) -> None:
+    def test_a_mode_edit_to_the_read_only_payload_does_not_change_what_is_examined(self) -> None:
+        # The checks run over the declared manifests materialized with their recorded modes
+        # (review of 0ee1112), so the payload's own modes are not what is examined.
         lab = FreshnessLab(self)
         try:
             lab.init()
@@ -706,9 +710,221 @@ class N_RevalidatedWorlds(unittest.TestCase):
             target = payload / key / "candidate.txt"
             os.chmod(target, stat.S_IMODE(target.stat().st_mode) | 0o111)  # a mode edit, bytes unchanged
             lab.start()
-            self.assertEqual(lab.refusal(lab.revalidate, "alpha").code, "PAYLOAD_INTEGRITY_FAILED")
+            self.assertEqual(lab.revalidate("alpha")["outcome"], "PASS")
+            prepared = lab.prepare("alpha")
+            self.assertEqual(prepared["decision"], "AUTHORIZED")
+            self.assertEqual(prepared["tested_root"], prepared["staged_content_root"])
+            self.assertIsNone(prepared["staged_validation"])
         finally:
             lab.close()
+
+
+class O_RevalidationExaminesDeclaredBytes(_InProcess):
+    """Review of 0ee1112: a revalidation that recorded the declared manifests as examined while
+    its checks ran over the read-only payload let `return <world>` install modes (0666) that a
+    required check saw as 0444. The checks must see exactly what is recorded as examined."""
+
+    def test_checks_see_the_declared_modes_not_the_read_only_payload(self) -> None:
+        from freshness_support import EXTRA_CHECK, policy
+        from worldline.linux.namespaces import OverlayRoot
+        from worldline.manifest import Manifest
+        from worldline.revalidate import Revalidator
+        from worldline.validation import content_root_set
+        self.write_live(".worldline.json", json.dumps(policy(EXTRA_CHECK)))
+        self.reconciled()
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"candidate.txt": "x"})
+        payload = Path(world.payload_path)
+        os.chmod(payload / self.key / "candidate.txt", 0o666)
+        root = self.store.roots()[0]
+        declared = Manifest.capture(payload / self.key, logical_root=bytes(root["path"]), root_key=self.key,
+                                    kind=root["kind"], core=self.core)
+        (payload / "manifests" / f"{self.key}.json").unlink()
+        declared.save(payload / "manifests" / f"{self.key}.json")
+        for directory, _dirs, files in os.walk(payload / self.key):  # what finalization leaves
+            for path in [directory, *(os.path.join(directory, name) for name in files)]:
+                os.chmod(path, stat.S_IMODE(os.stat(path).st_mode) & ~0o222)
+        seen: dict[str, int] = {}
+        paths = self.paths
+
+        class Sandbox:
+            def overlay_roots(self, instance_id: str, roots: Any, **_: Any) -> tuple[Any, ...]:
+                result = []
+                for key, lower, target in roots:
+                    upper, work = paths.overlays / instance_id / key / "upper", paths.overlays / instance_id / key / "work"
+                    upper.mkdir(parents=True)
+                    work.mkdir()
+                    result.append(OverlayRoot(key, Path(lower).resolve(), upper, work, Path(target)))
+                return tuple(result)
+
+        class Checks:
+            def run(self, *, overlays: Any, **_: Any) -> list[dict[str, Any]]:
+                seen["mode"] = stat.S_IMODE((overlays[0].lower / "candidate.txt").stat().st_mode)
+                return [dict(K_EvidenceAdmissionRules.RECORD)]
+
+        entry = Revalidator(self.paths, self.store, None, Sandbox(), Checks(), core=self.core).revalidate(world.alias)
+        self.assertEqual(seen["mode"], 0o666)
+        self.assertEqual(entry["outcome"], "PASS")
+        self.assertEqual(entry["examinedContentRoot"], content_root_set({self.key: declared}, self.core))
+        self.assertEqual([p for p in self.paths.overlays.iterdir() if p.name.startswith("revalidation-input-")], [])
+
+
+class P_RecoveryAfterAnOfflineWrite(_InProcess):
+    """Review of 0ee1112: a recovery that finished an exchange which had already happened
+    recaptured live PRIME, so a write made while no daemon ran was folded into the collapse
+    generation with no event, and every later measurement took it as the baseline."""
+
+    def test_the_committed_tree_is_recorded_and_the_offline_write_is_reconciled_separately(self) -> None:
+        from types import SimpleNamespace
+        from worldline.manifest import Manifest
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._set_state(record, "AUTHORIZED")
+        self.transaction.atomic.exchange(self.paths.live, Path(record["preparedMapping"]))  # then the daemon died
+        self.write_live("offline.txt", "an editor saved this while no daemon ran")
+        recovered = self.transaction.recover_all()
+        self.assertEqual(recovered[0]["state"], "COMMITTED")
+        prime = self.store.prime()
+        live = self.transaction._capture_current_roots()
+        # PRIME records what was committed, not what is live now ...
+        self.assertEqual(self.transaction._foreign_writes(live, prime, None)[0], "FOUND")
+        # ... the difference is recorded, and PRIME is marked for reconciliation.
+        self.assertTrue(self.store.get_meta("dirty", False))
+        kinds = [item["event"].get("kind") for w in self.store.worlds() for item in self.store.causal_events_for_world(w.instance_id)]
+        self.assertIn("unaccounted-write", kinds)
+        self.roots.reconcile()
+        reconciled = self.store.prime()
+        self.assertNotEqual(reconciled.instance_id, prime.instance_id)
+        self.assertEqual(self.transaction._foreign_writes(self.transaction._capture_current_roots(), reconciled, None)[0], "NONE_FOUND")
+
+    def test_a_recovery_with_nothing_moved_records_no_difference(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._set_state(record, "AUTHORIZED")
+        self.transaction.atomic.exchange(self.paths.live, Path(record["preparedMapping"]))
+        self.assertEqual(self.transaction.recover_all()[0]["state"], "COMMITTED")
+        self.assertFalse(self.store.get_meta("dirty", False))
+        self.assertEqual(self.transaction._foreign_writes(self.transaction._capture_current_roots(), self.store.prime(), None)[0], "NONE_FOUND")
+
+
+class Q_RoundTwoPins(_InProcess):
+    """Fixes the second review found unpinned or missing (review of 0ee1112)."""
+
+    def revalidator(self, run):
+        from worldline.linux.namespaces import OverlayRoot
+        from worldline.revalidate import Revalidator
+        paths = self.paths
+
+        class Sandbox:
+            def overlay_roots(self, instance_id: str, roots: Any, **_: Any) -> tuple[Any, ...]:
+                result = []
+                for key, lower, target in roots:
+                    upper, work = paths.overlays / instance_id / key / "upper", paths.overlays / instance_id / key / "work"
+                    upper.mkdir(parents=True)
+                    work.mkdir()
+                    result.append(OverlayRoot(key, Path(lower).resolve(), upper, work, Path(target)))
+                return tuple(result)
+
+        class Checks:
+            def run(self, *, overlays: Any, **_: Any) -> list[dict[str, Any]]:
+                run(overlays)
+                return [dict(K_EvidenceAdmissionRules.RECORD)]
+        return Revalidator(self.paths, self.store, None, Sandbox(), Checks(), core=self.core)
+
+    def with_policy_check(self) -> None:
+        from freshness_support import EXTRA_CHECK, policy
+        self.write_live(".worldline.json", json.dumps(policy(EXTRA_CHECK)))
+        self.reconciled()
+
+    def test_a_tree_that_moves_under_the_checks_is_refused(self) -> None:
+        self.with_policy_check()
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"candidate.txt": "x"})
+
+        def mutate(overlays: Any) -> None:
+            (overlays[0].lower / "planted.txt").write_text("written while the checks ran", encoding="utf-8")
+        with self.assertRaises(WorldlineError) as raised:
+            self.revalidator(mutate).revalidate(world.alias)
+        self.assertEqual(raised.exception.code, "REVALIDATION_INPUT_CHANGED")
+        self.assertEqual([p.name for p in self.paths.overlays.iterdir()], [])  # nothing left behind
+
+    def test_a_file_with_an_extended_acl_is_revalidated(self) -> None:
+        import shutil
+        import subprocess
+        if shutil.which("setfacl") is None:
+            self.skipTest("setfacl is not installed")
+        from worldline.manifest import Manifest
+        from worldline.validation import content_root_set
+        self.with_policy_check()
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"candidate.txt": "x"})
+        payload = Path(world.payload_path)
+        subprocess.run(["setfacl", "-m", "u:nobody:rw", str(payload / self.key / "candidate.txt")], check=True)
+        root = self.store.roots()[0]
+        declared = Manifest.capture(payload / self.key, logical_root=bytes(root["path"]), root_key=self.key,
+                                    kind=root["kind"], core=self.core)
+        self.assertTrue(any(e.get("acls") for e in declared.value["entries"]))
+        (payload / "manifests" / f"{self.key}.json").unlink()
+        declared.save(payload / "manifests" / f"{self.key}.json")
+        for directory, _dirs, files in os.walk(payload / self.key):  # finalization's chmod a-w rewrites the ACL mask
+            for path in [directory, *(os.path.join(directory, name) for name in files)]:
+                os.chmod(path, stat.S_IMODE(os.stat(path).st_mode) & ~0o222)
+        entry = self.revalidator(lambda _overlays: None).revalidate(world.alias)
+        self.assertEqual(entry["outcome"], "PASS")
+        self.assertEqual(entry["examinedContentRoot"], content_root_set({self.key: declared}, self.core))
+
+    def test_the_prime_record_is_measured_again_at_commit(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        prime = self.store.prime()
+        prime.components = {**prime.components, "filesystem": hash_id(bytes([6]) * 32)}
+        self.store.save_world(prime)
+        error = self.denied(lambda: self.transaction.commit(prepared.transaction_id), "FOREIGN_MANAGED_WRITE", code="FOREIGN_MANAGED_WRITE")
+        self.assertEqual(error.details["foreignWrites"]["differing"], ["filesystem"])
+
+    def test_fork_drains_the_watcher_before_deciding_to_reconcile(self) -> None:
+        store = self.store
+
+        class Reporting(FakeWatcher):
+            pending = False
+
+            def synchronized_generation(inner) -> int:
+                if inner.pending:
+                    inner.pending = False
+                    inner.generation += 1
+                    store.set_meta("dirty", True)
+                return inner.generation
+        checkpoints = CheckpointManager(self.paths, self.store, core=self.core, reconcile=self.roots.reconcile)
+        checkpoints.watcher = Reporting(self.paths, self.store)
+        before = self.store.prime().instance_id
+        self.write_live("reported.txt", "the watcher saw this before the fork")
+        checkpoints.watcher.pending = True
+        checkpoints.freeze()
+        self.assertNotEqual(self.store.prime().instance_id, before)  # reconciled first
+        self.assertFalse(self.store.get_meta("dirty", False))
+
+    def test_recovery_on_an_unrelocated_copy_touches_nothing_of_the_original(self) -> None:
+        import shutil
+        from worldline.controller import assert_store_location
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        original_record = Path(self.store.transaction_record(prepared.transaction_id)["prepared_path"])
+        original_bytes = original_record.read_bytes()
+        self.store.close()
+        copy_root = Path(self.temporary.name + "-copy")
+        shutil.copytree(self.temporary.name, copy_root, symlinks=True)
+        try:
+            copy_paths, _env = isolated_paths(copy_root)
+            copy_store = StateStore(copy_paths, self.core)
+            try:
+                with self.assertRaises(WorldlineError) as refused:
+                    assert_store_location(copy_paths, copy_store)
+                self.assertEqual(refused.exception.code, "STORE_NOT_RELOCATED")
+                recovered = CollapseTransaction(copy_paths, copy_store, core=self.core).recover_all()
+                self.assertEqual(recovered[0]["error"]["code"], "TRANSACTION_RECORD_FOREIGN")
+            finally:
+                copy_store.close()
+        finally:
+            shutil.rmtree(copy_root, ignore_errors=True)
+            self.store = StateStore(self.paths, self.core)
+        self.assertEqual(original_record.read_bytes(), original_bytes)
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "PREPARED")
+        assert_store_location(self.paths, self.store)  # the original itself is its own
 
 
 if __name__ == "__main__":

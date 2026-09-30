@@ -45,7 +45,7 @@ ALLOWED_SAVED_READS = {
 }
 KERNEL_DECISION_SITES = {
     "finalize.py": "finalize",
-    "revalidate.py": "_evaluate",
+    "revalidate.py": "_evaluate_tree",
     "transaction.py": "_execution_identity",
 }
 

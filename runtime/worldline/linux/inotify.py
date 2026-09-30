@@ -73,8 +73,15 @@ class InotifyWatcher:
         self._roots = {root_key: os.path.abspath(os.fsencode(root)) for root_key, root in roots}
         self._faulted: dict[str, str] = {}
         self._dead = False
-        for root_key, root in self._roots.items():
-            self._add_tree(root_key, root)
+        try:
+            # A root that cannot be watched completely is a fault the collapse decision sees
+            # (WATCH_INCOMPLETE) and doctor reports; it never stops the daemon from starting
+            # (review of 0ee1112: an unreadable directory in PRIME made every restart fail).
+            for root_key, root in self._roots.items():
+                self._add_tree(root_key, root)
+        except BaseException:
+            os.close(self._fd)
+            raise
         self._thread = Thread(target=self._run, name="worldline-inotify", daemon=True)
         self._thread.start()
 
@@ -111,29 +118,41 @@ class InotifyWatcher:
             )
         self._watches[watch] = (root_key, root, relative)
 
-    def _add_tree(self, root_key: str, root: bytes, start: bytes = b"") -> None:
-        """Watch a directory and everything below it. Each directory is watched BEFORE it is
-        listed, so a subdirectory created after the listing is reported by its parent's watch
-        (IN_CREATE) rather than missed; an unreadable directory is an error, not a skipped
-        subtree (review of a23c265)."""
+    def _add_tree(self, root_key: str, root: bytes, start: bytes = b"") -> bool:
+        """Watch a directory and everything below it; True when all of it is watched. Each
+        directory is watched BEFORE it is listed, so a subdirectory created after the listing is
+        reported by its parent's watch (IN_CREATE) rather than missed (review of a23c265). A
+        directory that vanished again is skipped (its parent's watch reported that); one that
+        cannot be watched or listed faults the root, and the walk goes on (review of 0ee1112)."""
         absolute_start = root if not start else os.path.join(root, start)
         if not os.path.isdir(absolute_start) or os.path.islink(absolute_start):
-            raise WorldlineError("INOTIFY_WATCH_FAILED", f"watch root is not a directory: {display_path(absolute_start)}")
+            if start:
+                return True  # replaced by a non-directory since its event: nothing to watch
+            self._faulted[root_key] = f"watch root is not a directory: {display_path(absolute_start)}"
+            return False
+        complete = True
         pending = [start]
         while pending:
             relative = pending.pop()
-            self._add_watch(root_key, root, relative)
             absolute = root if not relative else os.path.join(root, relative)
             try:
+                self._add_watch(root_key, root, relative)
                 with os.scandir(absolute) as entries:
                     names = sorted(entry.name for entry in entries if entry.is_dir(follow_symlinks=False))
             except FileNotFoundError:
-                continue  # removed again since its creation event; its parent's watch reported it
+                continue
+            except WorldlineError as exc:
+                if (exc.details or {}).get("errno") == errno.ENOENT:
+                    continue
+                self._faulted[root_key] = exc.message
+                complete = False
+                continue
             except OSError as exc:
-                raise WorldlineError("INOTIFY_WATCH_FAILED",
-                                     f"could not list {display_path(absolute)}: {os.strerror(exc.errno or 0)}",
-                                     {"errno": exc.errno}) from exc
+                self._faulted[root_key] = f"could not list {display_path(absolute)}: {os.strerror(exc.errno or 0)}"
+                complete = False
+                continue
             pending.extend(name if not relative else relative + b"/" + name for name in reversed(names))
+        return complete
 
     def _run(self) -> None:
         poller = select.poll()
@@ -183,6 +202,10 @@ class InotifyWatcher:
             if mask & _IN_Q_OVERFLOW:
                 self._overflow = True
                 self._dirty = True
+                # Events were lost, a directory's creation among them perhaps: nothing is known to
+                # be completely watched until the next reconcile walks every tree again.
+                for root_key in self._roots:
+                    self._faulted[root_key] = "the event queue overflowed; the tree must be walked again"
                 event = {
                     "kind": "overflow",
                     "generation": self._generation,
@@ -222,13 +245,8 @@ class InotifyWatcher:
                     self._libc.inotify_rm_watch(self._fd, watch)
                     self._faulted[root_key] = "the root directory was moved or replaced"
                 if mask & _IN_ISDIR and mask & (_IN_CREATE | _IN_MOVED_TO):
-                    absolute = os.path.join(root, relative)
-                    if os.path.isdir(absolute) and not os.path.islink(absolute):
-                        try:
-                            self._add_tree(root_key, root, relative)
-                        except (WorldlineError, OSError) as exc:
-                            self._faulted[root_key] = str(exc)
-                            self._dirty = True
+                    if not self._add_tree(root_key, root, relative):
+                        self._dirty = True
             external = not owned
         if external:
             self._callback(event)
@@ -278,11 +296,9 @@ class InotifyWatcher:
                     if key == root_key:  # stale: they may follow a tree that is no longer here
                         self._watches.pop(watch, None)
                         self._libc.inotify_rm_watch(self._fd, watch)
-                try:
-                    self._add_tree(root_key, root)
-                except (WorldlineError, OSError):
-                    continue
-                self._faulted.pop(root_key, None)
+                reason = self._faulted.pop(root_key)
+                if not self._add_tree(root_key, root):
+                    self._faulted.setdefault(root_key, reason)
 
     def close(self) -> None:
         if self._stop.is_set():
