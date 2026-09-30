@@ -927,5 +927,144 @@ class Q_RoundTwoPins(_InProcess):
         assert_store_location(self.paths, self.store)  # the original itself is its own
 
 
+class R_RoundThreeRepairs(_InProcess):
+    """Repairs from the third review (of 19d0297); each fails with its repair reverted."""
+
+    def returns(self) -> ReturnManager:
+        checkpoints = watched(CheckpointManager(self.paths, self.store, core=self.core), self.paths, self.store)
+        return ReturnManager(self.paths, self.store, checkpoints, self.transaction, core=self.core)
+
+    def test_a_declined_return_does_not_let_a_collapse_commit_unrecorded(self) -> None:
+        alpha = self.candidate("alpha", {"state.txt": "alpha"})
+        # PRIME moves to a new generation with the same tree (a reconcile after a no-op change).
+        self.reconciled()
+        returns = self.returns()
+        vehicle = returns.prepare_candidate(returns.select(alpha.instance_id))
+        declined = self.transaction.prepare(vehicle.instance_id, kind="return", return_of=alpha.instance_id)
+        self.transaction.abort(declined.transaction_id)
+        prepared = self.transaction.prepare(alpha.alias)
+        self.assertEqual(prepared.decision, "AUTHORIZED")
+        before, receipts = tree_bytes(self.work), len(self.store.receipts())
+        with self.assertRaises(WorldlineError) as raised:
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(raised.exception.code, "CHECKPOINT_IDENTITY_TAKEN")
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "ABORTED")
+        self.assertEqual((tree_bytes(self.work), len(self.store.receipts())), (before, receipts))
+
+    def test_a_replayed_finish_over_read_only_records_succeeds(self) -> None:
+        alpha = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"state.txt": "alpha"})
+        attach_fresh_context(self.store, alpha, core=self.core)
+        records = Path(alpha.payload_path) / "manifests"
+        for name in ("environment.json", "evidence.json", "agent.json"):  # finalization leaves these 0400
+            (records / name).write_text("{}", encoding="utf-8")
+            os.chmod(records / name, 0o400)
+        prepared = self.transaction.prepare(alpha.alias)
+        self.assertEqual(self.transaction.commit(prepared.transaction_id)["state"], "COMMITTED")
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._finish_committed(record)  # the replay recovery performs
+
+    def test_a_replayed_publish_over_read_only_records_succeeds(self) -> None:
+        # PRIME moved after the fork, so the commit publishes a checkpoint and copies the
+        # candidate's read-only records into it; a replay meets those 0400 copies.
+        alpha = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"state.txt": "alpha"})
+        attach_fresh_context(self.store, alpha, core=self.core)
+        records = Path(alpha.payload_path) / "manifests"
+        for name in ("environment.json", "evidence.json", "agent.json"):
+            (records / name).write_text("{}", encoding="utf-8")
+            os.chmod(records / name, 0o400)
+        self.write_live("other.txt", "moved")
+        self.reconciled()
+        self.transaction.validator = _staged_validator(self)
+        prepared = self.transaction.prepare(alpha.alias)
+        self.assertEqual(self.transaction.commit(prepared.transaction_id)["state"], "COMMITTED")
+        self.assertNotEqual(self.store.prime().instance_id, alpha.instance_id)  # a checkpoint was published
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._finish_committed(record)
+
+    def test_recovery_quarantines_an_io_failure_instead_of_stopping_the_daemon(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        with mock.patch.object(self.transaction, "_recover_one", side_effect=PermissionError(13, "Permission denied")):
+            recovered = self.transaction.recover_all()
+        self.assertEqual(recovered[0]["state"], "UNRECOVERABLE")
+        self.assertEqual(recovered[0]["error"]["code"], "RECOVERY_IO_FAILED")
+        self.assertIn(prepared.transaction_id, self.transaction.unrecoverable)
+
+    def test_an_exchange_that_renamed_and_then_failed_is_left_for_recovery(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha", {"state.txt": "alpha"}).alias)
+        real = self.transaction.atomic.exchange
+
+        def rename_then_fail(live: Path, mapping: Path) -> None:
+            real(live, mapping)
+            raise OSError(5, "directory fsync failed")
+        self.transaction.atomic.exchange = rename_then_fail
+        with self.assertRaises(OSError):
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "AUTHORIZED")
+        self.transaction.atomic.exchange = real
+        self.assertEqual(self.transaction.recover_all()[0]["state"], "COMMITTED")
+        self.assertIsNotNone(self.store.receipt_for_transaction(prepared.transaction_id))
+
+    def test_the_daemon_refuses_to_start_on_an_unrelocated_copy(self) -> None:
+        import shutil
+        from worldline.app import WorldlineApplication
+        self.store.close()
+        copy_root = Path(self.temporary.name + "-copy")
+        shutil.copytree(self.temporary.name, copy_root, symlinks=True)
+        try:
+            copy_paths, _env = isolated_paths(copy_root)
+            with self.assertRaises(WorldlineError) as raised:
+                WorldlineApplication.build(copy_paths)
+            self.assertEqual(raised.exception.code, "STORE_NOT_RELOCATED")
+        finally:
+            shutil.rmtree(copy_root, ignore_errors=True)
+            self.store = StateStore(self.paths, self.core)
+
+    def test_the_same_store_reached_through_a_symlink_is_its_own(self) -> None:
+        from worldline.controller import assert_store_location
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        link = Path(self.temporary.name + "-link")
+        os.symlink(self.temporary.name, link)
+        try:
+            link_paths, _env = isolated_paths(link)
+            link_store = StateStore(link_paths, self.core)
+            try:
+                assert_store_location(link_paths, link_store)
+                recovered = CollapseTransaction(link_paths, link_store, core=self.core).recover_all()
+                self.assertEqual(recovered, [{"transactionId": prepared.transaction_id, "state": "ABORTED"}])
+            finally:
+                link_store.close()
+        finally:
+            link.unlink()
+
+    def test_a_refusal_before_the_checks_leaves_no_scratch(self) -> None:
+        from worldline.revalidate import Revalidator
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"state.txt": "alpha"})
+        revalidator = Q_RoundTwoPins.revalidator(self, lambda _overlays: None)
+        with mock.patch.object(Revalidator, "_source_manifests", side_effect=WorldlineError("STORAGE_ERROR", "injected")):
+            with self.assertRaises(WorldlineError):
+                revalidator.revalidate(world.alias)
+        self.assertEqual(list(self.paths.overlays.iterdir()), [])
+
+    def test_leftover_revalidation_inputs_are_swept_at_start(self) -> None:
+        from worldline.revalidate import Revalidator
+        leftover = self.paths.overlays / "revalidation-input-left-by-a-killed-daemon"
+        (leftover / "k").mkdir(parents=True)
+        (leftover / "k" / "copy.txt").write_text("a full payload copy", encoding="utf-8")
+        unrelated = self.paths.overlays / "not-an-input"
+        unrelated.mkdir()
+        swept = Revalidator(self.paths, self.store, None, None, None, core=self.core).sweep_inputs()
+        self.assertEqual(swept, [leftover.name])
+        self.assertEqual([p.name for p in self.paths.overlays.iterdir()], ["not-an-input"])
+
+    def test_a_materialize_error_that_is_not_about_the_bytes_keeps_its_name(self) -> None:
+        from worldline.manifest import Manifest
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"state.txt": "alpha"})
+        revalidator = Q_RoundTwoPins.revalidator(self, lambda _overlays: None)
+        with mock.patch.object(Manifest, "materialize", side_effect=WorldlineError("XATTR_NOT_APPLICABLE", "injected")):
+            with self.assertRaises(WorldlineError) as raised:
+                revalidator.revalidate(world.alias)
+        self.assertEqual(raised.exception.code, "XATTR_NOT_APPLICABLE")
+
+
 if __name__ == "__main__":
     unittest.main()

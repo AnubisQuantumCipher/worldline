@@ -148,11 +148,15 @@ class WatchFaultTests(unittest.TestCase):
         from worldline.linux.inotify import _IN_Q_OVERFLOW
         watcher = InotifyWatcher([("fixture", self.root)], lambda _event: None)
         try:
+            descriptors = set(watcher._watches)
             watcher._consume(-1, _IN_Q_OVERFLOW, 0, b"")
             self.assertEqual(watcher.watched_roots(), [])
             self.assertTrue(watcher.dirty)
             watcher.mark_reconciled()
             self.assertEqual([key for key, _path in watcher.watched_roots()], ["fixture"])
+            # The rebuild re-confirms the existing watches instead of dropping and re-adding
+            # them, so no write lands in an unwatched window (review of 19d0297).
+            self.assertEqual(set(watcher._watches), descriptors)
         finally:
             watcher.close()
 

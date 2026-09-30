@@ -245,7 +245,8 @@ class RuntimeController:
     def recover(self) -> dict[str, Any]:
         stopped = self.runner.services.stop_orphans()
         transactions = self.transactions.recover_all()
-        return {"stoppedOrphanJobs": stopped, "transactions": transactions}
+        swept = self.revalidator.sweep_inputs()
+        return {"stoppedOrphanJobs": stopped, "transactions": transactions, "sweptRevalidationInputs": swept}
 
     def _stop_writers(self, world) -> None:
         active = [

@@ -525,6 +525,13 @@ class CollapseTransaction:
             if decision == "PRIME_CHANGED":
                 raise WorldlineError("PRIME_CHANGED_DURING_CAPTURE", "PRIME changed during collapse authorization", details)
             raise WorldlineError(decision, f"proved core denied collapse: {decision}", details)
+        colliding = self._checkpoint_collision(record, candidate, staged_manifests)
+        if colliding is not None:
+            self._set_state(record, "ABORTED", error={"code": "CHECKPOINT_IDENTITY_TAKEN"})
+            raise WorldlineError("CHECKPOINT_IDENTITY_TAKEN",
+                                 f"the PRIME generation this commit would publish has the identity of existing world {colliding.alias}; "
+                                 "nothing was changed (a declined return leaves its vehicle holding that identity)",
+                                 {"transactionId": transaction_id, "world": colliding.alias})
         record["commitRequirementHash"] = current_requirement["requirementHash"]
         self._set_state(record, "AUTHORIZED")
         # File contents were fsynced during staging, but the directory entries that link them
@@ -543,8 +550,8 @@ class CollapseTransaction:
             code = "PRIME_WATCH_UNAVAILABLE" if now is None else "PRIME_CHANGED_DURING_CAPTURE"
             self._set_state(record, "ABORTED", error={"code": code})
             raise WorldlineError(code, "PRIME changed between the collapse decision and the exchange; prepare again",
-                                 {"decision": "PRIME_CHANGED" if now is not None else "MEASUREMENT_ABSENT",
-                                  "transactionId": transaction_id, "decidedGeneration": decided, "generationNow": now})
+                                 {"refusedBy": "exchange-guard", "transactionId": transaction_id,
+                                  "decidedGeneration": decided, "generationNow": now})
         exchanged = False
         try:
             # Checked just above; stated as a refusal rather than an assert, which -O removes.
@@ -555,7 +562,15 @@ class CollapseTransaction:
             exchanged = True
             return self._finish_committed(record, staged_manifests)
         except BaseException:
-            if not exchanged:
+            # The rename is the commit point. If it happened (the live marker names this
+            # transaction) and something after it failed -- the directory fsync, say -- the
+            # record stays AUTHORIZED for recovery to finish; ABORTED would say refused while the
+            # bytes are live (review of 19d0297).
+            try:
+                live_is_this = self._marker(self.paths.live) == transaction_id
+            except WorldlineError:
+                live_is_this = True  # unknown: leave it to recovery, which quarantines ambiguity
+            if not exchanged and not live_is_this:
                 self._set_state(record, "ABORTED", error={"code": "ATOMIC_EXCHANGE_FAILED"})
             raise
 
@@ -1041,7 +1056,14 @@ class CollapseTransaction:
         for name in ("environment.json", "evidence.json", "agent.json"):
             source = candidate_state / name
             if source.is_file():
-                shutil.copy2(source, manifests_directory / name)
+                destination = manifests_directory / name
+                if destination.exists() and (os.path.samefile(source, destination)
+                                             or destination.read_bytes() == source.read_bytes()):
+                    continue  # a replay (recovery), or the candidate that became PRIME itself
+                # A replay finds the read-only copy it made the first time; replace it rather
+                # than open it for writing (review of 19d0297).
+                destination.unlink(missing_ok=True)
+                shutil.copy2(source, destination)
         for root in self.store.roots():
             self.store.update_root_generation(
                 root["root_key"], record["transactionId"], manifests[root["root_key"]].root_hash
@@ -1061,18 +1083,7 @@ class CollapseTransaction:
             current_prime = self.store.prime()
             if current_prime is None or current_prime.content_id is None:
                 raise WorldlineError("RECOVERY_STATE_MISMATCH", "PRIME identity vanished after committed exchange")
-            staged_identity = hash_id(
-                self.core.world_id(
-                    {
-                        "parent": hash_bytes_from_id(current_prime.content_id),
-                        "filesystem": hash_bytes_from_id(components["filesystem"]),
-                        "config": hash_bytes_from_id(components["config"]),
-                        "repository": hash_bytes_from_id(components["repository"]),
-                        "environment": hash_bytes_from_id(candidate.components["environment"]),
-                        "evidence": hash_bytes_from_id(candidate.components["evidence"]),
-                    }
-                )
-            )
+            staged_identity = self._staged_identity(candidate, components, current_prime)
             if staged_identity == candidate.content_id:
                 if current_prime.instance_id != candidate.instance_id and current_prime.state in (
                     WorldState.VALID,
@@ -1183,6 +1194,10 @@ class CollapseTransaction:
             transaction_id = row["transaction_id"]
             try:
                 recovered.append(self._recover_one(transaction_id))
+            except OSError as exc:  # as promised above: quarantined, never raised (review of 19d0297)
+                error = {"code": "RECOVERY_IO_FAILED", "message": str(exc), "details": {"errno": exc.errno}}
+                self.unrecoverable[transaction_id] = error
+                recovered.append({"transactionId": transaction_id, "state": "UNRECOVERABLE", "error": error})
             except WorldlineError as exc:
                 self.unrecoverable[transaction_id] = exc.as_dict()
                 recovered.append(
@@ -1201,6 +1216,10 @@ class CollapseTransaction:
                 record = self._load_record(transaction_id)
                 self._finish_committed(record)
                 recovered.append({"transactionId": transaction_id, "state": "RECEIPT_RECOVERED"})
+            except OSError as exc:
+                error = {"code": "RECOVERY_IO_FAILED", "message": str(exc), "details": {"errno": exc.errno}}
+                self.unrecoverable[transaction_id] = error
+                recovered.append({"transactionId": transaction_id, "state": "RECEIPT_UNRECOVERABLE", "error": error})
             except WorldlineError as exc:
                 self.unrecoverable[transaction_id] = exc.as_dict()
                 recovered.append(
@@ -1348,6 +1367,40 @@ class CollapseTransaction:
             )
             for root in self.store.roots()
         }
+
+    def _staged_identity(self, candidate: World, components: Mapping[str, str], current_prime: World) -> str:
+        """The content identity the committed tree gets as PRIME: the candidate's own when it is
+        the same world, otherwise the checkpoint _finish_committed publishes."""
+        return hash_id(
+            self.core.world_id(
+                {
+                    "parent": hash_bytes_from_id(current_prime.content_id),
+                    "filesystem": hash_bytes_from_id(components["filesystem"]),
+                    "config": hash_bytes_from_id(components["config"]),
+                    "repository": hash_bytes_from_id(components["repository"]),
+                    "environment": hash_bytes_from_id(candidate.components["environment"]),
+                    "evidence": hash_bytes_from_id(candidate.components["evidence"]),
+                }
+            )
+        )
+
+    def _checkpoint_collision(self, record: Mapping[str, Any], candidate: World,
+                              staged_manifests: Mapping[str, CapturedManifest]) -> World | None:
+        """A world that already holds the identity the commit would publish, or None. World
+        content ids are unique; a leftover return vehicle can hold exactly that id, and a
+        publish that collides after the exchange would leave reality changed with no record
+        (review of 19d0297). Checked before the exchange instead."""
+        current_prime = self.store.prime()
+        if current_prime is None or current_prime.content_id is None:
+            return None
+        identity = self._staged_identity(candidate, Manifest.component_roots(staged_manifests.values(), self.core), current_prime)
+        if identity == candidate.content_id:
+            return None  # the candidate itself becomes PRIME; nothing new is published
+        try:
+            existing = self.store.world(identity)
+        except WorldlineError:
+            return None
+        return None if existing.alias == f"prime-{record['transactionId']}" else existing
 
     def _recovered_manifests(self, record: Mapping[str, Any]) -> tuple[dict[str, CapturedManifest], bool]:
         """The committed staged tree, for a recovery that finishes an exchange which already

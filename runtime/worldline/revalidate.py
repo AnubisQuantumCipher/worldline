@@ -50,6 +50,19 @@ class Revalidator:
         self.core = core or Core.shared()
         self.git = GitAdapter(self.core)
 
+    def sweep_inputs(self) -> list[str]:
+        """Remove materialized revalidation inputs a killed daemon left behind (review of
+        19d0297: each is a full copy of a payload, and nothing else ever removes it). Called at
+        start, when no revalidation can be running."""
+        removed = []
+        overlays = self.paths.overlays
+        if overlays.is_dir():
+            for entry in sorted(overlays.iterdir()):
+                if entry.name.startswith("revalidation-input-") and entry.is_dir() and not entry.is_symlink():
+                    self._discard(entry)
+                    removed.append(entry.name)
+        return removed
+
     def revalidate(self, world_value: str) -> dict[str, Any]:
         world = self.store.world(world_value)
         if world.state is not WorldState.VALID:
@@ -147,6 +160,8 @@ class Revalidator:
                 try:
                     Manifest.materialize(manifest, source_dir / key, input_directory / key, core=self.core)
                 except WorldlineError as exc:
+                    if exc.code != "COPY_VERIFICATION_FAILED":
+                        raise  # not about the bytes (an xattr this account may not set, storage, ...): its own name
                     raise WorldlineError("PAYLOAD_INTEGRITY_FAILED",
                                          f"the payload under revalidation is not the bytes its declared manifest states (root {key})",
                                          {"rootKey": key, "cause": exc.as_dict()}) from exc

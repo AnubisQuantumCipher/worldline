@@ -106,7 +106,7 @@ class InotifyWatcher:
         with self._state_lock:
             return self._overflow
 
-    def _add_watch(self, root_key: str, root: bytes, relative: bytes) -> None:
+    def _add_watch(self, root_key: str, root: bytes, relative: bytes) -> int:
         absolute = root if not relative else os.path.join(root, relative)
         watch = self._libc.inotify_add_watch(self._fd, absolute, _WATCH_MASK)
         if watch < 0:
@@ -117,8 +117,9 @@ class InotifyWatcher:
                 {"errno": error},
             )
         self._watches[watch] = (root_key, root, relative)
+        return watch
 
-    def _add_tree(self, root_key: str, root: bytes, start: bytes = b"") -> bool:
+    def _add_tree(self, root_key: str, root: bytes, start: bytes = b"", seen: set[int] | None = None) -> bool:
         """Watch a directory and everything below it; True when all of it is watched. Each
         directory is watched BEFORE it is listed, so a subdirectory created after the listing is
         reported by its parent's watch (IN_CREATE) rather than missed (review of a23c265). A
@@ -136,7 +137,9 @@ class InotifyWatcher:
             relative = pending.pop()
             absolute = root if not relative else os.path.join(root, relative)
             try:
-                self._add_watch(root_key, root, relative)
+                watch = self._add_watch(root_key, root, relative)
+                if seen is not None:
+                    seen.add(watch)
                 with os.scandir(absolute) as entries:
                     names = sorted(entry.name for entry in entries if entry.is_dir(follow_symlinks=False))
             except FileNotFoundError:
@@ -292,12 +295,19 @@ class InotifyWatcher:
                 root = self._roots.get(root_key)
                 if root is None or not os.path.isdir(root) or os.path.islink(root):
                     continue
-                for watch, (key, _root, _relative) in list(self._watches.items()):
-                    if key == root_key:  # stale: they may follow a tree that is no longer here
-                        self._watches.pop(watch, None)
-                        self._libc.inotify_rm_watch(self._fd, watch)
+                # Walk the tree again, adding watches first: inotify returns the existing
+                # descriptor for a directory already watched, so nothing that is covered stops
+                # being covered while the walk runs. Only descriptors the walk did not confirm --
+                # a moved root's old subtree, say -- are removed afterwards (review of 19d0297:
+                # removing first lost the writes that landed in between).
+                before = {watch for watch, (key, _root, _relative) in self._watches.items() if key == root_key}
+                seen: set[int] = set()
                 reason = self._faulted.pop(root_key)
-                if not self._add_tree(root_key, root):
+                complete = self._add_tree(root_key, root, seen=seen)
+                for watch in before - seen:
+                    self._watches.pop(watch, None)
+                    self._libc.inotify_rm_watch(self._fd, watch)
+                if not complete:
                     self._faulted.setdefault(root_key, reason)
 
     def close(self) -> None:

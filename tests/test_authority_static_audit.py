@@ -298,7 +298,7 @@ class ContractPins(unittest.TestCase):
         edits = {
             "core/worldline-collapse.ads": ("and then Decide'Result /= Owner_Mismatch", "and then True"),
             "core/worldline-collapse_wire.ads": ("and then (if R.Phase = 1 then R.Actual_Staged_Root.Present = 0)", ""),
-            "core/worldline-c_api.adb#Collapse_Decide": ("return Collapse_Wire.Decide_Wire (Request.all);", "return 0;"),
+            "core/worldline-c_api.adb": ("return Collapse_Wire.Decide_Wire (Request.all);", "return 0;"),
         }
         for key, (old, new) in edits.items():
             relative = key.partition("#")[0]
@@ -310,6 +310,53 @@ class ContractPins(unittest.TestCase):
                 self.assertIn(old, text)
                 target.write_text(text.replace(old, new, 1), encoding="utf-8")
                 self.assertNotEqual(self.verifier.contract_pin(Path(temporary), key), self.verifier.CONTRACT_PINS[key])
+
+    def test_the_pinned_set_is_exactly_the_claimed_contracts(self) -> None:
+        self.assertEqual(set(self.verifier.CONTRACT_PINS), {
+            "core/worldline.ads", "core/attest/attest.ads", "core/attest/attest-sha256.ads",
+            "core/worldline-c_api.ads", "core/worldline-c_api.adb",
+            "core/worldline-collapse.ads", "core/worldline-collapse_wire.ads", "core/worldline-identities.ads",
+            "core/worldline-evaluation.ads", "core/worldline-transitions.ads"})
+
+    def test_a_declaration_shadowing_the_proved_call_changes_the_boundary_pin(self) -> None:
+        import shutil
+        import tempfile
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "core/worldline-c_api.adb"
+            target.parent.mkdir(parents=True)
+            shutil.copy2(ROOT / "core/worldline-c_api.adb", target)
+            text = target.read_text(encoding="utf-8")
+            marker = "   function Collapse_Decide"
+            self.assertIn(marker, text)
+            target.write_text(text.replace(marker, "   package Collapse_Wire renames Worldline.Collapse_Wire;\n" + marker, 1), encoding="utf-8")
+            self.assertNotEqual(self.verifier.contract_pin(Path(temporary), "core/worldline-c_api.adb"),
+                                self.verifier.CONTRACT_PINS["core/worldline-c_api.adb"])
+
+    def test_the_export_must_be_bound_once_to_collapse_decide(self) -> None:
+        import shutil
+        import tempfile
+        self.assertEqual(self.verifier.export_problems(ROOT), [])
+        original = (ROOT / "core/worldline-c_api.ads").read_text(encoding="utf-8")
+        binding = 'External_Name => "wl_collapse_decide"'
+        cases = {
+            "moved": original.replace(binding, 'External_Name => "wl_collapse_decide_old"').replace(
+                'External_Name => "wl_transaction_transition_allowed"', binding),
+            "duplicated": original.replace('External_Name => "wl_transaction_transition_allowed"', binding),
+        }
+        for label, text in cases.items():
+            with self.subTest(label), tempfile.TemporaryDirectory() as temporary:
+                target = Path(temporary) / "core/worldline-c_api.ads"
+                target.parent.mkdir(parents=True)
+                target.write_text(text, encoding="utf-8")
+                self.assertTrue(self.verifier.export_problems(Path(temporary)))
+
+    def test_the_gate_checks_the_pins_before_it_writes_the_manifest(self) -> None:
+        gate = (ROOT / "prove.sh").read_text(encoding="utf-8")
+        check = gate.index("if contract_problems(root):")
+        self.assertLess(check, gate.index("manifest_path.write_text("))
+        self.assertLess(check, gate.index("PROOF GATE PASSED"))
+        verifier = (ROOT / "verify_proof_manifest.py").read_text(encoding="utf-8")
+        self.assertIn("problems = contract_problems(root)", verifier)
 
     def test_comments_and_layout_do_not_move_a_pin(self) -> None:
         text = "function F return Boolean   -- a comment\n  is (True);\n"
