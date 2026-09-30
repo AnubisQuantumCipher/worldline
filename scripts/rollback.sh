@@ -173,9 +173,12 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]] && command -v omarchy-restart
   if omarchy-restart-shell; then
     DESKTOP="ok"
   else
+    rc=$?
     DESKTOP="FAILED"
-    echo "rollback: the desktop shell restart FAILED; the engine and plugin are rolled back but the" >&2
-    echo "rollback: session may have no bar or plugin surfaces. Re-run omarchy-restart-shell." >&2
+    echo "rollback: the desktop shell restart FAILED (omarchy-restart-shell exited $rc); the engine and" >&2
+    echo "rollback: plugin are rolled back. If the restart refused before stopping the shell (a locked" >&2
+    echo "rollback: session, a missing shell config), the shell still runs the rolled-back plugin; if it" >&2
+    echo "rollback: failed after, the session may have no bar or plugin surfaces. Re-run omarchy-restart-shell." >&2
   fi
 fi
 

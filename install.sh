@@ -376,16 +376,23 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]]; then
   # plugin objects from its scan process's exit for a moment, and quickshell 0.3.1 frees its
   # IPC handler registry the instant the kill arrives, so a plugin object completing in that
   # window registers into freed memory and the shell segfaults instead of exiting
-  # (quickshell-mirror/quickshell#956). Two of the three shell crashes on the reference machine
-  # were this installer's rescan racing its own restart. The restart re-reads every plugin.
-  if omarchy-restart-shell; then
+  # (quickshell-mirror/quickshell#956). The shell crashes recorded on the reference machine
+  # coincided with this installer's rescan racing its own restart. The restart re-reads every
+  # plugin.
+  if ! command -v omarchy-restart-shell >/dev/null 2>&1; then
+    SHELL_RESTART="FAILED (omarchy-restart-shell not found)"
+    echo "install: omarchy-restart-shell was not found, so the desktop shell still runs the previous" >&2
+    echo "install: plugin commit. The engine is installed and verified; restart the shell to load it." >&2
+  elif omarchy-restart-shell; then
     SHELL_RESTART="ok"
   else
+    rc=$?
     SHELL_RESTART="FAILED"
-    echo "install: the desktop shell restart FAILED. The engine is installed and verified, but the" >&2
-    echo "install: shell was killed as part of the restart and may not have come back: expect no bar," >&2
-    echo "install: no plugin surfaces, or an unsecured session lock. Re-run omarchy-restart-shell," >&2
-    echo "install: or roll back with: scripts/rollback.sh $BACKUP" >&2
+    echo "install: the desktop shell restart FAILED (omarchy-restart-shell exited $rc). The engine is" >&2
+    echo "install: installed and verified. If the restart refused before stopping the shell (a locked" >&2
+    echo "install: session, a missing shell config), the shell still runs the previous plugin commit;" >&2
+    echo "install: if it failed after, expect no bar, no plugin surfaces, or an unsecured session lock." >&2
+    echo "install: Re-run omarchy-restart-shell, or roll back with: scripts/rollback.sh $BACKUP" >&2
   fi
 fi
 

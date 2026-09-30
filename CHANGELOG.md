@@ -3,24 +3,26 @@
 ## 1.9.1 — 2026-09-30 · installer shell restart, truthful docs
 
 **No change to the authority path, the kernel or the store.** This release fixes one installer
-defect and two places where the documentation claimed more than the code does.
+defect and places where the installer's output or the documentation claimed more than the code
+does.
 
 ### Upgrading
 
 - No store migration is needed. As after any release, revalidate VALID worlds before collapse,
   because the requirement identity includes the runtime tree.
-- The known limitations listed under 1.9.0 are unchanged.
+- The known limitations listed under 1.9.0 are unchanged. SECURITY.md now also names one more,
+  already stated in the Phase 1 documents: a later FAIL does not revoke a fresh earlier PASS.
 
 ### Fixed
 
 - **`install.sh` and `scripts/rollback.sh` no longer ask the desktop shell to rescan its plugins
   just before restarting it.**
   - A rescan keeps creating plugin objects for a moment after it returns. quickshell 0.3.1 frees
-    its IPC handler registry as soon as the restart's kill arrives, so an object that completes in
-    that window registers into freed memory and the shell segfaults instead of exiting
-    (quickshell-mirror/quickshell#956).
-  - Two of the three shell crashes on the reference machine were the installer's rescan racing
-    its own restart. The restart re-reads every plugin anyway.
+    its IPC handler registry as soon as the restart's kill arrives, so an object that completes
+    in that window registers into freed memory and the shell segfaults instead of exiting
+    (quickshell-mirror/quickshell#956). The shell crashes recorded on the reference machine
+    coincided with installer runs that rescanned and then restarted. The restart re-reads every
+    plugin anyway.
   - This carries the fix from the unmerged draft PR #7 onto the current release.
   - Tests:
     - `tests/test_rollback.py` runs the real rollback with a recording shim and asserts that no
@@ -28,18 +30,26 @@ defect and two places where the documentation claimed more than the code does.
     - The installer's post-build path has no automated control, so a second test reads the
       shipped `install.sh` restart block instead.
     - Both tests fail against the 1.9.0 scripts.
+- **A shell restart that fails is reported as what it may be.**
+  - `install.sh` said the shell "was killed as part of the restart" whenever
+    `omarchy-restart-shell` failed. It fails before stopping anything on a locked session or a
+    missing shell config, and then the previous plugin is still running.
+  - Both scripts now print the exit code and both possibilities.
+  - `install.sh` also names a missing `omarchy-restart-shell` instead of failing on
+    "command not found".
 
 ### Documentation
 
 - **The user manual no longer says a failed revalidation always leaves a world refused.** That
-  holds only once the earlier evidence is stale. `validation.effective_evidence` still takes the
-  newest PASS, so while an earlier PASS (from finalization or a revalidation) is fresh, a later
-  FAIL does not supersede it. The Phase 1 documents already stated this (item 5); the manual now
-  agrees with them.
-- **SECURITY.md's review line is current, and names who reviewed.** It said "last reviewed
-  against release 1.7.3" while describing 1.9.0 semantics. It now names 1.9.1. It also says
-  that every review, including the 2026-09-02 audit document, was carried out by AI agents and
-  checked against mechanical evidence, and that no human security audit is claimed.
+  holds only once the earlier evidence is stale. `validation.effective_evidence` takes the
+  newest PASS, so a failed revalidation never speaks but does not revoke a fresh earlier PASS,
+  from finalization or from a revalidation. The manual now says so and points to "What Python
+  still decides" in `docs/phase1-typed-absence.md` (roadmap Phase 1 item 5, "one effective
+  evaluation").
+- **SECURITY.md** names that as limit 8. Its review line said "last reviewed against release
+  1.7.3" while describing 1.9.0 semantics. It now names 1.9.1, and says that every review,
+  including the 2026-09-02 audit document, was carried out by AI agents and checked against
+  mechanical evidence, and that no human security audit is claimed.
 - **`docs/release-process.md` records the repository rules now in force.** `main` changes only
   through a merged pull request whose up-to-date head passed `assurance / assure`, and a pushed
   `v*` tag can be neither moved nor deleted. Both GitHub rulesets have no bypass actors.

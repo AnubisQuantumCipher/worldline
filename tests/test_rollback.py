@@ -339,9 +339,16 @@ class InstallerShellRestart(unittest.TestCase):
     def test_the_installer_does_not_rescan_plugins_before_restarting_the_shell(self) -> None:
         text = (REPO / "install.sh").read_text(encoding="utf-8")
         commands = [line.strip() for line in text.splitlines() if not line.strip().startswith("#")]
-        self.assertTrue(any(line.startswith("if omarchy-restart-shell") for line in commands),
+        self.assertTrue(any(line.startswith(("if omarchy-restart-shell", "elif omarchy-restart-shell"))
+                            for line in commands),
                         "the restart the control is about must still be there")
         self.assertFalse([line for line in commands if "rescanPlugins" in line])
+
+    def test_the_installer_names_a_missing_restart_command(self) -> None:
+        text = (REPO / "install.sh").read_text(encoding="utf-8")
+        self.assertIn("if ! command -v omarchy-restart-shell >/dev/null 2>&1; then", text,
+                      "without the probe a missing command reads as a shell killed by the restart")
+        self.assertIn('SHELL_RESTART="FAILED (omarchy-restart-shell not found)"', text)
 
 
 if __name__ == "__main__":

@@ -565,6 +565,17 @@ trust you place in WORLDLINE.
 
      There is no supported way to add a root in the dedicated layout.
 
+8. **Python chooses which evaluation speaks for a world, and a later failure does not revoke
+   an earlier pass.**
+   - `validation.effective_evidence` takes the newest PASS for the world's bytes. A revalidation
+     that fails never speaks.
+   - While an earlier PASS for the same bytes, from finalization or from a revalidation, is
+     still fresh, it keeps speaking.
+   - So a candidate whose checks pass once and fail on a later run can still be promoted on the
+     earlier PASS until the requirement changes.
+   - Planned: Phase 1 item 5, one effective evaluation. A newer evaluation supersedes, and a
+     superseded one never regains authority.
+
 ## Reporting
 
 This is a personal project on a single-user machine. Security notes and audit findings live
