@@ -218,9 +218,15 @@ class RuntimeController:
             _LOG.warning("anchor backfill skipped: %s", exc)
 
     def _refresh_watcher(self) -> None:
-        if self.watcher is not None:
-            self.watcher.close()
-            self.watcher = None
+        # Detach every component before closing the old watcher: if building the new one fails,
+        # they are left with none, which refuses (PRIME_WATCH_UNAVAILABLE, MEASUREMENT_ABSENT),
+        # never with a closed watcher whose frozen generation and root list still claim full
+        # coverage (review of fcbf132).
+        old, self.watcher, self.tracker = self.watcher, None, None
+        if hasattr(self, "roots"):
+            self.roots.watcher = self.checkpoint.watcher = self.transactions.watcher = None
+        if old is not None:
+            old.close()
         roots = []
         for root in self.store.roots():
             try:
@@ -249,6 +255,12 @@ class RuntimeController:
     def recover(self) -> dict[str, Any]:
         stopped = self.runner.services.stop_orphans()
         transactions = self.transactions.recover_all()
+        error = self.store.get_meta("watchError")
+        if not self.transactions.unrecoverable and isinstance(error, dict) and error.get("code") == "RECOVERY_INCOMPLETE":
+            # The quarantine a status re-capture reported is settled; recovery may have cleared
+            # `dirty`, so status would not re-capture and clear it (review of fcbf132).
+            self.store.set_meta("watchError", None)
+            self.store.set_meta("watchState", "HEALTHY")
         swept = self.revalidator.sweep_inputs()
         return {"stoppedOrphanJobs": stopped, "transactions": transactions, "sweptRevalidationInputs": swept}
 
@@ -532,18 +544,34 @@ class RuntimeController:
             raise InvalidRequest("collapse.commit requires transactionId")
         transaction = self.store.transaction_record(args["transactionId"])
         try:
-            result = self.transactions.commit(args["transactionId"])
-        finally:
-            # The atomic exchange swapped the `live` mapping, so every inotify watch is now pinned
-            # to the pre-collapse payload inodes. Rebuild the watcher against the new PRIME so the
-            # PRIME_CHANGED_DURING_CAPTURE generation guard and dirty/reconcile tracking do not go
-            # stale after the first collapse or return -- also when the commit raised after the
-            # exchange (review of 56a7146).
-            self._refresh_watcher()
+            try:
+                result = self.transactions.commit(args["transactionId"])
+            finally:
+                # The atomic exchange swapped the `live` mapping, so every inotify watch is now
+                # pinned to the pre-collapse payload inodes. Rebuild the watcher against the new
+                # PRIME -- also when the commit raised after the exchange (review of 56a7146). A
+                # failed rebuild is logged, never allowed to replace the commit's own error; it
+                # leaves PRIME unwatched, which refuses (review of fcbf132).
+                try:
+                    self._refresh_watcher()
+                except Exception:
+                    _LOG.exception("PRIME watcher could not be rebuilt after a commit; PRIME is unwatched")
+        except WorldlineError as exc:
+            if exc.code == "COMMIT_DURABILITY_UNCERTAIN" and (exc.details or {}).get("state") == "COMMITTED":
+                # Committed and recorded: what follows any commit follows this one too (a return's
+                # services, ghosts). A failure there is logged; the commit's report stands.
+                try:
+                    self._after_commit(transaction, context)
+                except Exception:
+                    _LOG.exception("post-commit steps failed after a commit settled in place")
+            raise
+        self._after_commit(transaction, context)
+        return result
+
+    def _after_commit(self, transaction: dict[str, Any], context: RequestContext) -> None:
         if transaction["kind"] == "return":
             self._restart_return_context()
         self._schedule_automatic_ghosts(context.daemon)
-        return result
 
     def _restart_return_context(self) -> None:
         prime = self.store.prime()

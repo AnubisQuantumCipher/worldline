@@ -1072,26 +1072,92 @@ class R_RoundThreeRepairs(_InProcess):
         finally:
             self.store = StateStore(self.paths, self.core)
 
-    def test_a_failed_commit_still_repoints_the_watcher(self) -> None:
+    def app(self):
         from worldline.app import WorldlineApplication
         self.store.close()
+        return WorldlineApplication.build(self.paths)
+
+    def close_app(self, app) -> None:
+        app.controller.close()
+        app.store.close()
+        self.store = StateStore(self.paths, self.core)
+
+    def test_a_commit_settled_in_place_repoints_the_watcher_and_runs_the_post_commit_steps(self) -> None:
+        from types import SimpleNamespace
+        app = self.app()
         try:
-            app = WorldlineApplication.build(self.paths)
-            try:
-                controller = app.controller
-                refreshed = []
-                failure = WorldlineError("COMMIT_DURABILITY_UNCERTAIN", "injected", {"state": "COMMITTED"})
-                with mock.patch.object(controller.store, "transaction_record", return_value={"kind": "collapse"}), \
-                        mock.patch.object(controller.transactions, "commit", side_effect=failure), \
-                        mock.patch.object(controller, "_refresh_watcher", side_effect=lambda: refreshed.append(1)):
-                    with self.assertRaises(WorldlineError):
-                        controller._collapse_commit({"transactionId": "t"}, None)
-                self.assertEqual(refreshed, [1])
-            finally:
-                app.controller.close()
-                app.store.close()
+            controller, calls = app.controller, []
+            failure = WorldlineError("COMMIT_DURABILITY_UNCERTAIN", "injected", {"state": "COMMITTED"})
+            with mock.patch.object(controller.store, "transaction_record", return_value={"kind": "return"}), \
+                    mock.patch.object(controller.transactions, "commit", side_effect=failure), \
+                    mock.patch.object(controller, "_refresh_watcher", side_effect=lambda: calls.append("refresh")), \
+                    mock.patch.object(controller, "_restart_return_context", side_effect=lambda: calls.append("return context")), \
+                    mock.patch.object(controller, "_schedule_automatic_ghosts", side_effect=lambda _daemon: calls.append("ghosts")):
+                with self.assertRaises(WorldlineError) as raised:
+                    controller._collapse_commit({"transactionId": "t"}, SimpleNamespace(daemon=None))
+            self.assertEqual(raised.exception.code, "COMMIT_DURABILITY_UNCERTAIN")
+            self.assertEqual(calls, ["refresh", "return context", "ghosts"])
         finally:
-            self.store = StateStore(self.paths, self.core)
+            self.close_app(app)
+
+    def test_a_watcher_that_cannot_be_rebuilt_leaves_prime_unwatched_not_falsely_watched(self) -> None:
+        from types import SimpleNamespace
+        import worldline.controller as module
+        app = self.app()
+        try:
+            controller = app.controller
+            refused = WorldlineError("CONFLICT", "the commit's own refusal")
+            unavailable = WorldlineError("INOTIFY_UNAVAILABLE", "injected", {"errno": 24})
+            with mock.patch.object(controller.store, "transaction_record", return_value={"kind": "collapse"}), \
+                    mock.patch.object(controller.transactions, "commit", side_effect=refused), \
+                    mock.patch.object(module, "InotifyWatcher", side_effect=unavailable):
+                with self.assertRaises(WorldlineError) as raised:
+                    controller._collapse_commit({"transactionId": "t"}, SimpleNamespace(daemon=None))
+            self.assertEqual(raised.exception.code, "CONFLICT")  # the refresh failure does not mask it
+            self.assertIsNone(controller.watcher)
+            self.assertEqual((controller.roots.watcher, controller.checkpoint.watcher, controller.transactions.watcher), (None, None, None))
+        finally:
+            self.close_app(app)
+
+    def test_a_quarantine_refuses_root_changes(self) -> None:
+        app = self.app()
+        try:
+            controller = app.controller
+            controller.transactions.unrecoverable = {"quarantined": {"code": "RECOVERY_IO_FAILED"}}
+            extra = Path(self.temporary.name) / "extra"
+            extra.mkdir()
+            roots_before = [root["root_key"] for root in controller.store.roots()]
+            for label, action in (("add", lambda: controller.roots.register([extra], confirmed=True)),
+                                  ("remove", lambda: controller.roots.remove(roots_before[0], confirmed=True))):
+                with self.subTest(label), self.assertRaises(WorldlineError) as raised:
+                    action()
+                self.assertEqual(raised.exception.code, "RECOVERY_INCOMPLETE")
+            self.assertEqual([root["root_key"] for root in controller.store.roots()], roots_before)
+        finally:
+            self.close_app(app)
+
+    def test_a_settled_quarantine_clears_its_status_report(self) -> None:
+        app = self.app()
+        try:
+            controller = app.controller
+            controller.store.set_meta("watchState", "DEGRADED")
+            controller.store.set_meta("watchError", {"code": "RECOVERY_INCOMPLETE", "message": "was quarantined"})
+            controller.recover()
+            self.assertIsNone(controller.store.get_meta("watchError"))
+            self.assertEqual(controller.store.get_meta("watchState"), "HEALTHY")
+        finally:
+            self.close_app(app)
+
+    def test_a_quarantined_programming_error_keeps_its_traceback_and_its_class(self) -> None:
+        import sqlite3
+        self.transaction.prepare(self.candidate("alpha").alias)
+        for injected, code in ((TypeError("a bug"), "RECOVERY_FAILED"), (sqlite3.IntegrityError("constraint"), "RECOVERY_FAILED"),
+                               (sqlite3.OperationalError("disk I/O error"), "RECOVERY_IO_FAILED")):
+            with self.subTest(type(injected).__name__), mock.patch.object(self.transaction, "_recover_one", side_effect=injected), \
+                    self.assertLogs("worldline.transaction", level="ERROR") as logged:
+                recovered = self.transaction.recover_all()
+            self.assertEqual(recovered[0]["error"]["code"], code)
+            self.assertTrue(any("Traceback" in line for line in logged.output), logged.output)
 
     def test_a_recovery_that_meets_a_taken_identity_quarantines_it_by_name(self) -> None:
         alpha = self.candidate("alpha", {"state.txt": "alpha"})

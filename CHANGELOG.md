@@ -166,12 +166,16 @@ access to the store; the others arise in normal operation or from host condition
   failed afterwards (a directory fsync, or finishing itself) is no longer recorded ABORTED while
   its bytes are live: the running daemon finishes it in place and reports
   COMMIT_DURABILITY_UNCERTAIN (committed and recorded, but the exchange could not be made
-  durable), and if finishing fails too it quarantines the transaction. A quarantine refuses
-  RECOVERY_INCOMPLETE for prepare, commit, the PRIME freeze behind fork and return, and
-  reconcile, until a restart's recovery settles it. Recovery quarantines any error rather than
-  stopping the daemon (RECOVERY_IO_FAILED for storage and database errors, RECOVERY_FAILED
-  otherwise), and a taken PRIME identity by name (CHECKPOINT_IDENTITY_TAKEN). The watcher is
-  re-pointed after every commit attempt, not only a successful one.
+  durable) after running the steps that follow any commit (a return's services, ghosts), and
+  if finishing fails too it quarantines the transaction. A quarantine refuses
+  RECOVERY_INCOMPLETE for prepare, commit, the PRIME freeze behind fork and return, reconcile,
+  and root add and remove, until a restart's recovery settles it; the settled quarantine's
+  status report is cleared. Recovery quarantines any error rather than stopping the daemon, and
+  logs it with its traceback (RECOVERY_IO_FAILED for storage and SQLite operational errors,
+  RECOVERY_FAILED otherwise), and a taken PRIME identity by name (CHECKPOINT_IDENTITY_TAKEN).
+  The watcher is re-pointed after every commit attempt; if it cannot be rebuilt, PRIME is left
+  unwatched (which refuses) rather than watched by a closed watcher, and the failure never
+  replaces the commit's own error.
 - Materialized revalidation inputs left by a killed daemon are removed at the next start.
 - `prepare` and `fork` drain the watcher before deciding whether to reconcile, so a write the
   watcher had already seen is reconciled rather than refused as unaccounted.

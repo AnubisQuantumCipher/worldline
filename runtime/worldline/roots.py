@@ -60,6 +60,12 @@ class RootManager:
         self.atomic = AtomicExchange()
 
     def _assert_root_set_mutable(self) -> None:
+        # A quarantined transaction is settled only by recovery, which replays its publish over
+        # the root set it was prepared with; a root change first would make that impossible
+        # (review of fcbf132).
+        gate = getattr(self, "recovery_gate", None)
+        if gate is not None:
+            gate()
         nonterminal = self.store.nonterminal_worlds()
         if nonterminal:
             raise WorldlineError(

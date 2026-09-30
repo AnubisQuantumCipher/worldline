@@ -566,8 +566,8 @@ kernel, and carries `details.refusedBy: "exchange-guard"` instead of a decision)
 `CHECKPOINT_IDENTITY_TAKEN` (commit refused before the exchange: the generation it would publish
 has the identity of an existing world, typically a declined return's vehicle),
 `RECOVERY_IO_FAILED` / `RECOVERY_FAILED` (recovery quarantined a transaction on a storage or
-other error; the daemon still starts, and `RECOVERY_INCOMPLETE` then refuses prepare, commit,
-fork, return and reconcile until a restart settles it), `COMMIT_DURABILITY_UNCERTAIN` (the
+other error, logged with its traceback; the daemon still starts, and `RECOVERY_INCOMPLETE` then
+refuses prepare, commit, fork, return, reconcile and root add/remove until a restart settles it), `COMMIT_DURABILITY_UNCERTAIN` (the
 collapse committed and was recorded, but completing the exchange failed; see `details.cause`),
 `ROOT_SET_BUSY`, `RETURN_POINT_INCOMPLETE`, `ADAPTER_UNAVAILABLE`, `ADAPTER_AUTH_UNAVAILABLE`,
 `TIMEOUT`, `USER_CANCELLED`, `DISK_FULL`, `STORAGE_ERROR`, `NETGUARD_UNAVAILABLE`,

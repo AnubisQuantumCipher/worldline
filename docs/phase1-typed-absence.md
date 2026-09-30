@@ -118,7 +118,8 @@ name them; the runtime follows them.
   (RECOVERY_IO_FAILED) instead of stopping the daemon, and a taken PRIME identity quarantines
   it by name (CHECKPOINT_IDENTITY_TAKEN). An exchange that renamed and then failed inside a
   running daemon is finished in place (COMMIT_DURABILITY_UNCERTAIN), or quarantined. A
-  quarantine refuses prepare, commit, the PRIME freeze behind fork and return, and reconcile.
+  quarantine refuses prepare, commit, the PRIME freeze behind fork and return, reconcile, and
+  root add and remove.
   Recovery still commits without asking `Decide` again (item 7).
 - **T10: the published identity is checked before the exchange.** World content ids are
   unique. Before exchanging, commit computes the identity the PRIME generation it would publish

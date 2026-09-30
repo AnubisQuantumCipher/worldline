@@ -1264,10 +1264,13 @@ class CollapseTransaction:
 
     @staticmethod
     def _recovery_error(exc: BaseException) -> dict[str, Any]:
-        """A quarantine record for an exception recovery (or an in-place finish) could not settle."""
+        """A quarantine record for an exception recovery (or an in-place finish) could not settle.
+        Logged with its traceback: a quarantine must not hide a programming error's file and line
+        (review of fcbf132)."""
+        _LOG.error("transaction quarantined: %s: %s", type(exc).__name__, exc, exc_info=exc)
         if isinstance(exc, WorldlineError):
             return exc.as_dict()
-        io = isinstance(exc, (OSError, sqlite3.Error))
+        io = isinstance(exc, (OSError, sqlite3.OperationalError))
         return {"code": "RECOVERY_IO_FAILED" if io else "RECOVERY_FAILED", "message": str(exc),
                 "details": {"errno": getattr(exc, "errno", None), "type": type(exc).__name__}}
 
