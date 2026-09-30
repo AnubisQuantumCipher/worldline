@@ -32,12 +32,15 @@ class EvaluatorProfileBinding(unittest.TestCase):
     def test_check_declarations_reads_the_policy_not_the_record(self) -> None:
         requirement = {"policy": {"canonical": {"checks": [
             {"id": "exam", "format": "junit", "profile": "private-evaluator-v1"},
-            {"id": "plain", "format": "exit"}], "protected": ["secret/**"]}},
+            {"id": "plain", "format": "exit", "profile": "legacy"},
+            {"id": "unstated", "format": "exit"}], "protected": ["secret/**"]}},
             "verifiers": [{"checkId": "exam", "rootKey": "k", "path": "exam.py", "sha256": "x"}]}
         declared = check_declarations(requirement)
         self.assertEqual(declared["exam"], CheckDeclaration("junit", "private-evaluator-v1", True))
         self.assertEqual(declared["plain"], CheckDeclaration("exit", "legacy", False))
-        self.assertEqual(declared["protected-paths"], CheckDeclaration("engine", "legacy", False))
+        # A check whose profile the policy does not state has no declaration (1.9.0: no default).
+        self.assertNotIn("unstated", declared)
+        self.assertEqual(declared["protected-paths"], CheckDeclaration("engine", None, False, origin="engine"))
         self.assertNotIn("agent", declared)
         self.assertEqual(check_declarations(None), {})
         self.assertEqual(check_declarations({"policy": "not a mapping"}), {})

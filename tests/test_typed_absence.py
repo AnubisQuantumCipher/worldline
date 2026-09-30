@@ -1,0 +1,1238 @@
+"""Phase 1 item 3 (1.9.0): typed absence and honest collapse inputs, end to end.
+
+Each refusal here is the proved kernel's, reached through the real prepare and commit paths
+with one input moved: a DENIED record, live PRIME unchanged, no receipt. The kernel tests
+(worldline_core_tests, the fuzz oracle, test_core_abi) cover every decision code in isolation;
+these show that each producer reaches the kernel with the value it claims, and that nothing
+absent is filled in on the way.
+"""
+from __future__ import annotations
+
+import json
+import os
+from pathlib import Path
+import stat
+import sys
+import tempfile
+from typing import Any, Callable
+import unittest
+from unittest import mock
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from worldline.checkpoint import CheckpointManager
+from worldline.core import Core, hash_id
+from worldline.errors import WorldlineError
+from worldline.returning import ReturnManager
+from worldline.roots import RootManager
+from worldline.store import StateStore
+from worldline.transaction import CollapseTransaction
+from worldline.validation import _digest, current_requirements
+
+from freshness_support import FreshnessLab, isolated_paths, synthetic_candidate, tree_bytes
+from validation_support import DECLARED_EMPTY_POLICY, attach_fresh_context
+from watch_support import FakeWatcher, watched
+
+
+class _InProcess(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory(prefix="worldline-typed-absence-")
+        root = Path(self.temporary.name)
+        self.paths, _env = isolated_paths(root)
+        self.core = Core.shared()
+        self.store = StateStore(self.paths, self.core)
+        self.work = root / "work"; self.work.mkdir()
+        (self.work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
+        (self.work / "state.txt").write_text("prime", encoding="utf-8")
+        (self.work / "other.txt").write_text("one", encoding="utf-8")
+        self.roots = RootManager(self.paths, self.store, core=self.core, toolchains=())
+        self.roots.register([self.work], confirmed=True)
+        self.transaction = watched(CollapseTransaction(self.paths, self.store, core=self.core, reconcile=self.roots.reconcile),
+                                   self.paths, self.store)
+        self.key = self.store.roots()[0]["root_key"]
+
+    def tearDown(self) -> None:
+        self.store.close()
+        self.temporary.cleanup()
+
+    def candidate(self, alias: str, changes: dict[str, str] | None = None) -> Any:
+        world = synthetic_candidate(self.paths, self.store, self.core, alias, changes or {"state.txt": alias})
+        attach_fresh_context(self.store, world, core=self.core)
+        return self.store.world(alias)
+
+    def live(self) -> Path:
+        return Path(os.path.realpath(self.work))
+
+    def write_live(self, relative: str, text: str) -> None:
+        # Live PRIME is a published generation with the candidate's modes; open it to a write
+        # the way an operator's editor would.
+        live = self.live()
+        target = live / relative
+        for path in (live, target):
+            if path.exists():
+                os.chmod(path, stat.S_IMODE(path.stat().st_mode) | 0o200)
+        target.write_text(text, encoding="utf-8")
+
+    def reconciled(self) -> None:
+        """What the daemon does for an external write: the watcher marks PRIME dirty and the
+        next status reconciles it into a PRIME generation."""
+        self.store.set_meta("dirty", True)
+        self.roots.reconcile()
+
+    def record(self, transaction_id: str) -> tuple[Path, dict[str, Any]]:
+        path = Path(self.store.transaction_record(transaction_id)["prepared_path"])
+        return path, json.loads(path.read_text(encoding="utf-8"))
+
+    def denied(self, action: Callable[[], Any], decision: str, *, code: str = "CONFLICT") -> WorldlineError:
+        before, prime, receipts = tree_bytes(self.work), self.store.prime().instance_id, len(self.store.receipts())
+        with self.assertRaises(WorldlineError) as raised:
+            action()
+        error = raised.exception
+        self.assertEqual((error.code, error.details.get("decision")), (code, decision), error.details)
+        self.assertEqual(self.store.transaction_record(error.details["transactionId"])["state"], "DENIED")
+        self.assertEqual(tree_bytes(self.work), before, "live PRIME bytes changed across a refusal")
+        self.assertEqual(self.store.prime().instance_id, prime, "PRIME moved across a refusal")
+        self.assertEqual(len(self.store.receipts()), receipts, "a refusal produced a receipt")
+        return error
+
+
+class A_EvidenceSubject(_InProcess):
+    """The evidence subject pair has two producers: the promotion's own arguments, and the
+    binding the speaking evaluation (or the return vehicle) carries."""
+
+    def returns(self) -> ReturnManager:
+        checkpoints = watched(CheckpointManager(self.paths, self.store, core=self.core), self.paths, self.store)
+        return ReturnManager(self.paths, self.store, checkpoints, self.transaction, core=self.core)
+
+    def test_a_context_rebound_to_another_world_with_its_hash_recomputed_is_refused(self) -> None:
+        alpha = self.candidate("alpha")
+        beta = self.candidate("beta")
+        context = json.loads(json.dumps(beta.evidence["validationContext"]))
+        context["candidate"]["instanceId"] = alpha.instance_id
+        context["contextHash"] = _digest({k: v for k, v in context.items() if k != "contextHash"}, self.core)
+        beta.evidence = {**beta.evidence, "validationContext": context}
+        self.store.save_world(beta)
+        self.denied(lambda: self.transaction.prepare("beta"), "EVIDENCE_SUBJECT_MISMATCH")
+
+    def test_an_edited_return_vehicle_is_refused(self) -> None:
+        start = self.store.prime()
+        self.assertEqual(self.transaction.commit(self.transaction.prepare(self.candidate("w").alias).transaction_id)["state"], "COMMITTED")
+        returns = self.returns()
+        vehicle = returns.prepare_candidate(returns.select(start.instance_id))
+        vehicle.mission_hash = hash_id(self.core.hash_bytes(b"a mission that is not this return"))
+        self.store.save_world(vehicle)
+        self.denied(lambda: self.transaction.prepare(vehicle.instance_id, kind="return", return_of=start.instance_id),
+                    "EVIDENCE_SUBJECT_MISMATCH")
+
+    def test_an_edited_return_of_at_commit_is_refused(self) -> None:
+        start = self.store.prime()
+        w = self.candidate("w")
+        self.assertEqual(self.transaction.commit(self.transaction.prepare("w").transaction_id)["state"], "COMMITTED")
+        returns = self.returns()
+        vehicle = returns.prepare_candidate(returns.select(start.instance_id))
+        prepared = self.transaction.prepare(vehicle.instance_id, kind="return", return_of=start.instance_id)
+        self.assertEqual(prepared.decision, "AUTHORIZED")
+        path, record = self.record(prepared.transaction_id)
+        record["returnOf"] = w.instance_id
+        path.write_text(json.dumps(record), encoding="utf-8")
+        self.denied(lambda: self.transaction.commit(prepared.transaction_id), "EVIDENCE_SUBJECT_MISMATCH",
+                    code="EVIDENCE_SUBJECT_MISMATCH")
+
+    def test_a_deleted_evidence_subject_is_absent_never_equal(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        path, record = self.record(prepared.transaction_id)
+        del record["decisionInputs"]["evidenceSubject"]
+        path.write_text(json.dumps(record), encoding="utf-8")
+        error = self.denied(lambda: self.transaction.commit(prepared.transaction_id), "IDENTITY_ABSENT", code="IDENTITY_ABSENT")
+        self.assertIn("evidence_subject", error.details["absentInputs"])
+
+    def test_a_record_that_does_not_state_conflicts_were_measured_is_unmeasured(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        path, record = self.record(prepared.transaction_id)
+        del record["decisionInputs"]["conflictsMeasured"]
+        path.write_text(json.dumps(record), encoding="utf-8")
+        self.denied(lambda: self.transaction.commit(prepared.transaction_id), "MEASUREMENT_ABSENT", code="MEASUREMENT_ABSENT")
+
+
+class B_StagedRoot(_InProcess):
+    def test_staging_tampered_between_prepare_and_commit_is_refused_by_the_kernel(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        _path, record = self.record(prepared.transaction_id)
+        staged = Path(record["stagingPayload"]) / self.key
+        os.chmod(staged, stat.S_IMODE(staged.stat().st_mode) | 0o700)
+        replacement = staged / ".tampered"
+        replacement.write_text("not what was prepared", encoding="utf-8")
+        os.replace(replacement, staged / "state.txt")  # a new inode: the candidate payload is untouched
+        self.denied(lambda: self.transaction.commit(prepared.transaction_id), "STAGED_ROOT_MISMATCH", code="STAGED_ROOT_MISMATCH")
+
+
+class C_ForeignWrites(_InProcess):
+    def test_an_unreported_write_is_refused_then_reconciled_and_authorized(self) -> None:
+        alpha = self.candidate("alpha")
+        prime = self.store.prime()
+        self.write_live("unreported.txt", "nobody told the watcher")
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "FOREIGN_MANAGED_WRITE")
+        self.assertEqual(error.details["foreignWrites"]["state"], "FOUND")
+        self.assertIn("filesystem", error.details["foreignWrites"]["differing"])
+        self.assertTrue(self.store.get_meta("dirty", False))
+        kinds = [item["event"].get("kind") for item in self.store.causal_events_for_world(prime.instance_id)]
+        self.assertIn("unaccounted-write", kinds)
+        # The retry reconciles first, since PRIME is dirty. The reconciled write is now PRIME
+        # content the candidate's evidence never examined, so a staged evaluation covers it.
+        self.transaction.validator = _staged_validator(self)
+        prepared = self.transaction.prepare(alpha.alias)
+        self.assertEqual(prepared.decision, "AUTHORIZED")
+        self.assertNotEqual(self.store.prime().instance_id, prime.instance_id)
+        self.assertEqual(self.transaction.commit(prepared.transaction_id)["state"], "COMMITTED")
+        receipt = self.store.receipt_for_transaction(prepared.transaction_id)["receipt"]
+        foreign = receipt["foreignWorldContamination"]
+        self.assertEqual((foreign["state"], foreign["measurement"], foreign["measuredBy"]),
+                         ("NONE", "NONE_FOUND", "live-capture-vs-prime-record"))
+
+    def test_a_prime_record_without_its_components_is_unmeasured(self) -> None:
+        alpha = self.candidate("alpha")
+        prime = self.store.prime()
+        prime.components = {name: value for name, value in prime.components.items() if name != "config"}
+        self.store.save_world(prime)
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "MEASUREMENT_ABSENT")
+        self.assertEqual(error.details["foreignWrites"]["state"], "UNMEASURED")
+        self.assertFalse(self.store.get_meta("dirty", False))
+
+    def test_recorded_contamination_is_a_foreign_write(self) -> None:
+        alpha = self.candidate("alpha")
+        alpha.contamination = [{"path": "state.txt", "by": "hand"}]
+        self.store.save_world(alpha)
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "FOREIGN_MANAGED_WRITE")
+        self.assertEqual(error.details["foreignWrites"]["measuredBy"], "recorded-contamination")
+        self.assertFalse(self.store.get_meta("dirty", False))
+
+
+class _MovingWatcher(FakeWatcher):
+    """A watcher whose generation moves on every read: PRIME changed while it was captured."""
+
+    def synchronized_generation(self) -> int:
+        self.generation += 1
+        return self.generation
+
+
+class D_WatchAndGeneration(_InProcess):
+    def test_a_root_the_watcher_is_not_watching_is_watch_incomplete(self) -> None:
+        alpha = self.candidate("alpha")
+        self.transaction.watcher.missing = {self.key}
+        self.denied(lambda: self.transaction.prepare(alpha.alias), "WATCH_INCOMPLETE")
+
+    def test_no_watcher_is_measurement_absent(self) -> None:
+        alpha = self.candidate("alpha")
+        self.transaction.watcher = None
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "MEASUREMENT_ABSENT")
+        self.assertTrue({"generation_before", "generation_after", "watched_set"} <= set(error.details["absentInputs"]),
+                        error.details["absentInputs"])
+
+    def test_a_generation_that_moves_during_prepare_is_prime_changed(self) -> None:
+        alpha = self.candidate("alpha")
+        self.transaction.watcher = _MovingWatcher(self.paths, self.store)
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "PRIME_CHANGED", code="PRIME_CHANGED_DURING_CAPTURE")
+        self.assertNotEqual(error.details["beforeGeneration"], error.details["afterGeneration"])
+
+    def test_a_generation_that_moves_during_commit_is_prime_changed(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        self.transaction.watcher = _MovingWatcher(self.paths, self.store)
+        self.denied(lambda: self.transaction.commit(prepared.transaction_id), "PRIME_CHANGED", code="PRIME_CHANGED_DURING_CAPTURE")
+
+
+def _staged_validator(test: _InProcess, **override: Any) -> Callable[..., dict[str, Any]]:
+    """A staged evaluation that ran the current requirement and records what it examined."""
+    def validate(payload: Path, candidate: Any, current_manifests: Any, staged_manifests: Any, staged_content_root: str) -> dict[str, Any]:
+        entry = {"validationId": "staged-fixture", "outcome": "PASS", "summary": "fixture",
+                 "requirementHash": current_requirements(test.store, None, test.core)["requirementHash"],
+                 "contextHash": None, "examinedContentRoot": staged_content_root, "results": [],
+                 "context": {}, "stagedContentRoot": staged_content_root}
+        entry.update(override)
+        return entry
+    return validate
+
+
+class E_StagedEvidence(_InProcess):
+    """PRIME moved under the candidate: the staged bytes are not the bytes its evidence examined.
+    The kernel accepts them only through a staged evaluation that examined exactly them."""
+
+    def moved(self, alias: str = "alpha") -> Any:
+        world = self.candidate(alias)
+        self.write_live("other.txt", f"moved under {alias}")
+        self.reconciled()
+        return world
+
+    def test_a_staged_evaluation_of_exactly_the_staged_bytes_authorizes(self) -> None:
+        alpha = self.moved()
+        self.transaction.validator = _staged_validator(self)
+        prepared = self.transaction.prepare(alpha.alias)
+        self.assertEqual(prepared.decision, "AUTHORIZED")
+        self.assertNotEqual(prepared.tested_root, prepared.staged_content_root)
+        self.assertEqual(prepared.staged_validation["examinedContentRoot"], prepared.staged_content_root)
+
+    def test_each_way_a_staged_evaluation_can_fail_to_cover_is_staged_untested(self) -> None:
+        cases = {
+            "examined other bytes": {"examinedContentRoot": hash_id(bytes([7]) * 32)},
+            "examined nothing it can name": {"examinedContentRoot": None},
+            "ran a stale requirement": {"requirementHash": hash_id(bytes([8]) * 32)},
+            "ran no requirement it can name": {"requirementHash": None},
+        }
+        for index, (label, override) in enumerate(cases.items()):
+            with self.subTest(label):
+                alpha = self.moved(f"alpha{index}")
+                self.transaction.validator = _staged_validator(self, **override)
+                self.denied(lambda: self.transaction.prepare(alpha.alias), "STAGED_UNTESTED")
+
+    def test_without_a_validator_moved_bytes_are_staged_untested(self) -> None:
+        alpha = self.moved()
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "STAGED_UNTESTED")
+        self.assertTrue(any(p.endswith(":other.txt") for p in error.details["untestedPaths"]))
+
+    def test_a_staged_run_that_rewrote_a_verifier_is_refused_by_name(self) -> None:
+        alpha = self.moved()
+        self.transaction.validator = _staged_validator(self, context={"verifiersModifiedByCandidate": ["exam.py (modified)"]})
+        with self.assertRaises(WorldlineError) as raised:
+            self.transaction.prepare(alpha.alias)
+        self.assertEqual(raised.exception.code, "VERIFIER_MODIFIED_BY_CANDIDATE")
+
+
+class F_RecordsAndReapplication(_InProcess):
+    def test_a_conflict_records_no_staged_root(self) -> None:
+        alpha = self.candidate("alpha", {"state.txt": "alpha"})
+        self.write_live("state.txt", "somebody else")
+        self.reconciled()
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "CONFLICT")
+        row = self.store.transaction_record(error.details["transactionId"])
+        self.assertEqual(row["staged_root"], "absent")
+        record = json.loads(Path(row["prepared_path"]).read_text(encoding="utf-8"))
+        self.assertIsNone(record["stagedRoot"])
+        self.assertIsNone(record["decisionInputs"]["stagedRoot"])
+
+    def _reapply_without_finalized_manifests(self) -> tuple[Any, ReturnManager]:
+        w = self.candidate("w", {"state.txt": "w"})
+        self.assertEqual(self.transaction.commit(self.transaction.prepare("w").transaction_id)["state"], "COMMITTED")
+        x = self.candidate("x", {"other.txt": "x"})
+        self.assertEqual(self.transaction.commit(self.transaction.prepare("x").transaction_id)["state"], "COMMITTED")
+        manifests = Path(self.store.world("w").payload_path) / "manifests"
+        os.chmod(manifests, stat.S_IMODE(manifests.stat().st_mode) | 0o700)
+        for item in manifests.iterdir():
+            item.unlink()
+        checkpoints = watched(CheckpointManager(self.paths, self.store, core=self.core), self.paths, self.store)
+        return self.store.world("w"), ReturnManager(self.paths, self.store, checkpoints, self.transaction, core=self.core)
+
+    def test_reapplication_without_finalized_manifests_and_no_validator_is_staged_untested(self) -> None:
+        w, returns = self._reapply_without_finalized_manifests()
+        error = self.denied(lambda: returns.execute(w.instance_id), "STAGED_UNTESTED")
+        self.assertEqual(error.details["validation"]["mode"], "re-application")
+        _path, record = self.record(error.details["transactionId"])
+        self.assertIsNone(record["testedRoot"])
+        self.assertEqual(record["decisionInputs"]["testedRootSource"], "finalized-manifests-missing")
+
+    def test_reapplication_without_finalized_manifests_authorizes_on_a_staged_evaluation(self) -> None:
+        w, returns = self._reapply_without_finalized_manifests()
+        self.transaction.validator = _staged_validator(self)
+        self.assertEqual(returns.execute(w.instance_id)["state"], "COMMITTED")
+
+
+class G_DoctorPromotionReadiness(unittest.TestCase):
+    """The census the 1.9.0 upgrade notes rely on: read-only, and it names what promotion
+    will refuse before anyone tries."""
+
+    def test_doctor_reports_readiness_and_measures_foreign_writes_only_on_refresh(self) -> None:
+        lab = FreshnessLab(self, policy_value=DECLARED_EMPTY_POLICY)
+        try:
+            lab.init()
+            self.assertEqual(lab.fork("alpha")["state"], "VALID")
+            report = lab.client.request("doctor", {})["promotionReadiness"]
+            self.assertEqual(report["pendingTransactions"], [])
+            self.assertEqual(report["watchCoverage"]["state"], "COMPLETE")
+            self.assertEqual(report["watchCoverage"]["unwatchedRoots"], [])
+            self.assertIsNone(report["foreignWrites"]["state"])  # not captured without --refresh
+            self.assertEqual([w["alias"] for w in report["validWorlds"]["fresh"]], ["alpha"])
+            # PRIME and WORLDLINE's own generations are return points, not candidates.
+            self.assertEqual(report["validWorlds"]["needsRevalidation"], [])
+            self.assertEqual(report["validWorlds"]["notRevalidatable"], [])
+            refreshed = lab.client.request("doctor", {"refresh": True})["promotionReadiness"]
+            self.assertEqual(refreshed["foreignWrites"]["state"], "NONE_FOUND")
+            self.assertFalse(refreshed["foreignWrites"]["primeDirty"])
+            prepared = lab.prepare("alpha")
+            pending = lab.client.request("doctor", {})["promotionReadiness"]["pendingTransactions"]
+            self.assertEqual(pending, [prepared["transaction_id"]])
+            # A VALID world whose declared manifests are gone cannot be revalidated.
+            lab.client.request("transaction.abort", {"transactionId": prepared["transaction_id"]})
+            self.assertEqual(lab.fork("beta")["state"], "VALID")
+            lab.stop()
+            store = lab.open_store()
+            try:
+                beta = store.world("beta")
+            finally:
+                store.close()
+            manifests = Path(beta.payload_path) / "manifests"
+            os.chmod(manifests, stat.S_IMODE(manifests.stat().st_mode) | 0o700)
+            for item in manifests.iterdir():
+                item.unlink()
+            lab.start()
+            report = lab.client.request("doctor", {})["promotionReadiness"]
+            self.assertEqual([(w["alias"], w["missing"]) for w in report["validWorlds"]["notRevalidatable"]], [("beta", ["manifest"])])
+        finally:
+            lab.close()
+
+
+class H_RequirementIdentity(unittest.TestCase):
+    def test_an_unreadable_resource_policy_is_refused_not_hashed_as_none(self) -> None:
+        from worldline.validation import execution_context
+
+        class Broken:
+            network_policy, network_allow, readonly_home_paths = "none", (), ()
+
+            @property
+            def resource_policy(self) -> Any:
+                raise OSError("policy file unreadable")
+
+        with self.assertRaises(WorldlineError) as raised:
+            execution_context(Broken())
+        self.assertEqual(raised.exception.code, "REQUIREMENT_IDENTITY_UNAVAILABLE")
+
+    def test_an_unconfigured_resource_policy_is_stated_as_none(self) -> None:
+        from worldline.validation import execution_context
+        self.assertIsNone(execution_context(None)["resourcePolicy"])
+        self.assertRegex(execution_context(None)["kernelLibrarySha256"], r"^[0-9a-f]{64}$")
+
+
+class I_TamperedCandidateRow(_InProcess):
+    """Each identity pair has two producers; a store edit that restates one side is caught by the
+    other (review of a23c265: base, delta and root set had no end-to-end test)."""
+
+    def restated(self, alias: str, **fields: Any) -> Any:
+        world = self.candidate(alias)
+        for name, value in fields.items():
+            setattr(world, name, value)
+        self.store.save_world(world)
+        return world
+
+    def test_a_restated_base_is_a_base_mismatch(self) -> None:
+        world = self.restated("alpha", base_root=hash_id(bytes([3]) * 32))
+        self.denied(lambda: self.transaction.prepare(world.alias), "BASE_MISMATCH")
+
+    def test_a_restated_delta_is_a_delta_mismatch(self) -> None:
+        world = self.restated("alpha", delta_hash=hash_id(bytes([4]) * 32))
+        self.denied(lambda: self.transaction.prepare(world.alias), "DELTA_MISMATCH")
+
+    def test_a_restated_root_set_is_a_root_set_mismatch(self) -> None:
+        world = self.restated("alpha", root_set_hash=hash_id(bytes([5]) * 32))
+        self.denied(lambda: self.transaction.prepare(world.alias), "ROOT_SET_MISMATCH")
+
+    def test_missing_declared_manifests_leave_the_tested_root_absent(self) -> None:
+        world = self.candidate("alpha")
+        manifests = Path(world.payload_path) / "manifests"
+        os.chmod(manifests, stat.S_IMODE(manifests.stat().st_mode) | 0o700)
+        for item in manifests.iterdir():
+            item.unlink()
+        error = self.denied(lambda: self.transaction.prepare(world.alias), "STAGED_UNTESTED")
+        _path, record = self.record(error.details["transactionId"])
+        self.assertIsNone(record["testedRoot"])
+        self.assertEqual(record["decisionInputs"]["testedRootSource"], "declared-manifests-missing")
+
+    def test_an_edited_payload_with_its_delta_restated_and_manifests_gone_is_not_tested(self) -> None:
+        # The 1.8.0 defect: with write access to the store, delete the declared manifests, edit
+        # the payload and restate the row's delta. 1.8.0 re-captured the edited payload as
+        # "tested" and committed it; 1.9.0 has no tested root to cover it.
+        from worldline.delta import Delta
+        from worldline.manifest import Manifest
+        world = self.candidate("alpha")
+        payload = Path(world.payload_path)
+        manifests = payload / "manifests"
+        os.chmod(manifests, stat.S_IMODE(manifests.stat().st_mode) | 0o700)
+        for item in manifests.iterdir():
+            item.unlink()
+        target = payload / self.key / "state.txt"
+        os.chmod(target.parent, stat.S_IMODE(target.parent.stat().st_mode) | 0o700)
+        if target.exists():
+            os.chmod(target, stat.S_IMODE(target.stat().st_mode) | 0o600)
+        target.write_text("never evaluated", encoding="utf-8")
+        root = self.store.roots()[0]
+        capture = lambda directory: Manifest.capture(directory, logical_root=bytes(root["path"]), root_key=self.key,
+                                                     kind=root["kind"], core=self.core)
+        world.delta_hash = Delta.compute_all({self.key: capture(Path(world.base_payload_path) / self.key)},
+                                             {self.key: capture(payload / self.key)}, self.core).delta_hash
+        self.store.save_world(world)
+        self.denied(lambda: self.transaction.prepare(world.alias), "STAGED_UNTESTED")
+
+
+class _EventWatcher(FakeWatcher):
+    """A watcher whose generation moves only when a test says a PRIME event happened."""
+
+    def event(self) -> None:
+        self.generation += 1
+
+
+class J_StabilityWindow(_InProcess):
+    """The generation pair spans the requirement read, the capture and merge, and the staged
+    evaluation at prepare, and the requirement read through the decision at commit; a PRIME
+    event anywhere inside is PRIME_CHANGED, one after the decision is not (review of a23c265:
+    a watcher moving on every read could not tell)."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.watcher = _EventWatcher(self.paths, self.store)
+        self.transaction.watcher = self.watcher
+
+    def requirement_read_with_event(self):
+        import worldline.transaction as module
+        real = module.current_requirements
+
+        def during(*args: Any, **kwargs: Any) -> Any:
+            self.watcher.event()
+            return real(*args, **kwargs)
+        return mock.patch.object(module, "current_requirements", during)
+
+    def test_an_event_during_the_requirement_read_at_prepare_is_prime_changed(self) -> None:
+        alpha = self.candidate("alpha")
+        with self.requirement_read_with_event():
+            self.denied(lambda: self.transaction.prepare(alpha.alias), "PRIME_CHANGED", code="PRIME_CHANGED_DURING_CAPTURE")
+
+    def test_an_event_during_the_staged_evaluation_is_prime_changed(self) -> None:
+        alpha = self.candidate("alpha")
+        self.write_live("other.txt", "moved")
+        self.reconciled()
+        validate = _staged_validator(self)
+
+        def during(*args: Any) -> dict[str, Any]:
+            self.watcher.event()
+            return validate(*args)
+        self.transaction.validator = during
+        self.denied(lambda: self.transaction.prepare(alpha.alias), "PRIME_CHANGED", code="PRIME_CHANGED_DURING_CAPTURE")
+
+    def test_an_event_after_the_prepare_decision_does_not_refuse_it(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        self.assertEqual(prepared.decision, "AUTHORIZED")
+        self.watcher.event()  # after the decision: the next commit starts a new window
+
+    def test_an_event_during_the_requirement_read_at_commit_is_prime_changed(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        with self.requirement_read_with_event():
+            self.denied(lambda: self.transaction.commit(prepared.transaction_id), "PRIME_CHANGED", code="PRIME_CHANGED_DURING_CAPTURE")
+
+    def test_an_event_between_the_commit_decision_and_the_exchange_aborts(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        real = self.transaction._fsync_payload_tree
+
+        def during(path: Path) -> None:
+            real(path)
+            self.watcher.event()
+        self.transaction._fsync_payload_tree = during
+        before, receipts = tree_bytes(self.work), len(self.store.receipts())
+        with self.assertRaises(WorldlineError) as raised:
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(raised.exception.code, "PRIME_CHANGED_DURING_CAPTURE")
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "ABORTED")
+        self.assertEqual((tree_bytes(self.work), len(self.store.receipts())), (before, receipts))
+
+
+class K_EvidenceAdmissionRules(_InProcess):
+    """The 1.9.0 rules for evidence it writes, driven through the real promotion path."""
+
+    RECORD = {"id": "extra", "format": "exit", "profile": "legacy", "status": "PASS", "origin": "supervisor",
+              "exitCode": 0, "resultChannel": {"accepted": True}, "executedVerifierSet": None}
+
+    def setUp(self) -> None:
+        super().setUp()
+        from freshness_support import EXTRA_CHECK, policy
+        self.write_live(".worldline.json", json.dumps(policy(EXTRA_CHECK)))
+        self.reconciled()
+
+    def with_record(self, alias: str, record: dict[str, Any]) -> Any:
+        world = synthetic_candidate(self.paths, self.store, self.core, alias, {"state.txt": alias})
+        world.evidence = {"checks": [record]}
+        self.store.save_world(world)
+        attach_fresh_context(self.store, world, core=self.core)
+        return self.store.world(alias)
+
+    def test_the_stated_record_authorizes(self) -> None:
+        self.assertEqual(self.transaction.prepare(self.with_record("good", dict(self.RECORD)).alias).decision, "AUTHORIZED")
+
+    def test_a_policy_record_without_a_profile_is_not_admitted(self) -> None:
+        record = {k: v for k, v in self.RECORD.items() if k != "profile"}
+        world = self.with_record("unprofiled", record)
+        self.denied(lambda: self.transaction.prepare(world.alias), "EXECUTION_EVIDENCE_INCOMPLETE")
+
+    def test_a_record_that_does_not_state_what_executed_is_absent(self) -> None:
+        record = {k: v for k, v in self.RECORD.items() if k != "executedVerifierSet"}
+        world = self.with_record("unstated", record)
+        error = self.denied(lambda: self.transaction.prepare(world.alias), "IDENTITY_ABSENT")
+        self.assertIn("executed_verifiers", error.details["absentInputs"])
+
+    def test_a_record_naming_a_bundle_the_check_does_not_declare_does_not_match(self) -> None:
+        record = {**self.RECORD, "executedVerifierSet": {"identity": hash_id(bytes([9]) * 32), "stable": True}}
+        world = self.with_record("undeclared", record)
+        self.denied(lambda: self.transaction.prepare(world.alias), "VERIFIER_EXECUTION_IDENTITY_MISMATCH")
+
+    def test_engine_records_match_by_origin_and_never_with_a_profile(self) -> None:
+        from worldline.finalize import ENGINE_DECLARATIONS, _declaration_matches
+        agent = {"id": "agent", "format": "exit", "origin": "agent", "status": "PASS"}
+        self.assertTrue(_declaration_matches(agent, ENGINE_DECLARATIONS["agent"]))
+        self.assertFalse(_declaration_matches({**agent, "profile": "legacy"}, ENGINE_DECLARATIONS["agent"]))
+        self.assertFalse(_declaration_matches({**agent, "origin": "supervisor"}, ENGINE_DECLARATIONS["agent"]))
+
+
+class L_MeasurementProducers(_InProcess):
+    def test_every_component_is_compared(self) -> None:
+        from types import SimpleNamespace
+        from worldline.manifest import Manifest
+        live = self.transaction._capture_current_roots()
+        components = Manifest.component_roots(live.values(), self.core)
+        self.assertEqual(self.transaction._foreign_writes(live, SimpleNamespace(components=components), None)[0], "NONE_FOUND")
+        for name in ("filesystem", "config", "repository"):
+            with self.subTest(component=name):
+                recorded = {**components, name: hash_id(bytes([6]) * 32)}
+                state, detail = self.transaction._foreign_writes(live, SimpleNamespace(components=recorded), None)
+                self.assertEqual((state, detail["differing"]), ("FOUND", [name]))
+
+    def test_an_unreported_write_after_prepare_is_refused_at_commit(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        self.write_live("late.txt", "after the decision, before commit")
+        with self.assertRaises(WorldlineError) as raised:
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(raised.exception.code, "PRIME_CHANGED_AFTER_PREPARE")
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "DENIED")
+
+    def test_fork_refuses_without_a_watcher(self) -> None:
+        checkpoints = CheckpointManager(self.paths, self.store, core=self.core)
+        checkpoints.watcher = None
+        with self.assertRaises(WorldlineError) as raised:
+            checkpoints.freeze()
+        self.assertEqual(raised.exception.code, "PRIME_WATCH_UNAVAILABLE")
+
+    def test_a_write_the_watcher_reported_is_reconciled_not_refused(self) -> None:
+        class Reporting(FakeWatcher):
+            # The daemon's tracker marks PRIME dirty when the watcher's events are drained.
+            def synchronized_generation(inner) -> int:
+                if inner.pending:
+                    inner.pending = False
+                    inner.generation += 1
+                    self.store.set_meta("dirty", True)
+                return inner.generation
+        watcher = Reporting(self.paths, self.store)
+        watcher.pending = False
+        self.transaction.watcher = watcher
+        alpha = self.candidate("alpha")
+        self.write_live("reported.txt", "the watcher saw this")
+        watcher.pending = True
+        self.transaction.validator = _staged_validator(self)
+        self.assertEqual(self.transaction.prepare(alpha.alias).decision, "AUTHORIZED")
+        kinds = [item["event"].get("kind") for w in self.store.worlds() for item in self.store.causal_events_for_world(w.instance_id)]
+        self.assertNotIn("unaccounted-write", kinds)
+
+    def test_a_kernel_library_that_cannot_be_read_is_refused(self) -> None:
+        from types import SimpleNamespace
+        import worldline.validation as validation
+        saved = dict(validation._KERNEL_LIBRARY_CACHE)
+        validation._KERNEL_LIBRARY_CACHE.clear()
+        try:
+            with mock.patch.object(validation.Core, "shared", return_value=SimpleNamespace(library_path="/nonexistent/libworldline_core.so")):
+                with self.assertRaises(WorldlineError) as raised:
+                    validation.execution_context(None)
+            self.assertEqual(raised.exception.code, "REQUIREMENT_IDENTITY_UNAVAILABLE")
+        finally:
+            validation._KERNEL_LIBRARY_CACHE.clear()
+            validation._KERNEL_LIBRARY_CACHE.update(saved)
+
+
+class M_SymlinkTargets(_InProcess):
+    def test_a_retargeted_link_in_prime_is_not_covered_by_evidence_for_the_old_target(self) -> None:
+        # Review of a23c265: content roots ignored symlink targets, so a link retargeted in PRIME
+        # after the fork left tested == staged and went live with no evaluation.
+        live = self.live()
+        os.chmod(live, stat.S_IMODE(live.stat().st_mode) | 0o200)
+        (live / "v1.txt").write_text("v1", encoding="utf-8")
+        (live / "v2.txt").write_text("v2", encoding="utf-8")
+        os.symlink("v1.txt", live / "shared.txt")
+        self.reconciled()
+        alpha = self.candidate("alpha")
+        live = self.live()
+        os.chmod(live, stat.S_IMODE(live.stat().st_mode) | 0o200)
+        (live / "shared.txt").unlink()
+        os.symlink("v2.txt", live / "shared.txt")
+        self.reconciled()
+        error = self.denied(lambda: self.transaction.prepare(alpha.alias), "STAGED_UNTESTED")
+        self.assertTrue(any(p.endswith(":shared.txt") for p in error.details["untestedPaths"]), error.details["untestedPaths"])
+
+    def test_content_roots_differ_by_link_target(self) -> None:
+        from worldline.manifest import Manifest
+        from worldline.validation import content_root_set
+        roots = []
+        for target in ("x", "y"):
+            directory = Path(self.temporary.name) / f"links-{target}"
+            directory.mkdir()
+            os.symlink(target, directory / "l")
+            roots.append(content_root_set({"k": Manifest.capture(directory, logical_root=bytes(directory), root_key="k",
+                                                                  kind="filesystem", core=self.core)}, self.core))
+        self.assertNotEqual(roots[0], roots[1])
+
+
+class N_RevalidatedWorlds(unittest.TestCase):
+    """Review of a23c265: a revalidation identified what it examined by a capture of the
+    read-only finalized payload, so its examined root never equalled the staged tree and every
+    collapse of a revalidated world re-ran all checks as a staged evaluation."""
+
+    def test_a_revalidated_world_is_covered_by_its_own_revalidation(self) -> None:
+        lab = FreshnessLab(self)
+        try:
+            lab.init()
+            self.assertEqual(lab.fork("alpha")["state"], "VALID")
+            self.assertEqual(lab.revalidate("alpha")["outcome"], "PASS")
+            prepared = lab.prepare("alpha")
+            self.assertEqual(prepared["decision"], "AUTHORIZED")
+            self.assertEqual(prepared["tested_root"], prepared["staged_content_root"])
+            self.assertIsNone(prepared["staged_validation"])
+            self.assertEqual(prepared["untested_paths"], [])
+            self.assertEqual(prepared["validation"]["source"].split(":")[0], "revalidation")
+            record = json.loads((lab.paths.transactions / f"{prepared['transaction_id']}.json").read_text(encoding="utf-8"))
+            self.assertEqual(record["decisionInputs"]["testedRootSource"], "evaluation-examined-root")
+            self.assertEqual(lab.commit(prepared["transaction_id"])["state"], "COMMITTED")
+        finally:
+            lab.close()
+
+    def test_a_mode_edit_to_the_read_only_payload_does_not_change_what_is_examined(self) -> None:
+        # The checks run over the declared manifests materialized with their recorded modes
+        # (review of 0ee1112), so the payload's own modes are not what is examined.
+        lab = FreshnessLab(self)
+        try:
+            lab.init()
+            self.assertEqual(lab.fork("alpha")["state"], "VALID")
+            lab.stop()
+            store = lab.open_store()
+            try:
+                payload = Path(store.world("alpha").payload_path)
+                key = store.roots()[0]["root_key"]
+            finally:
+                store.close()
+            target = payload / key / "candidate.txt"
+            os.chmod(target, stat.S_IMODE(target.stat().st_mode) | 0o111)  # a mode edit, bytes unchanged
+            lab.start()
+            self.assertEqual(lab.revalidate("alpha")["outcome"], "PASS")
+            prepared = lab.prepare("alpha")
+            self.assertEqual(prepared["decision"], "AUTHORIZED")
+            self.assertEqual(prepared["tested_root"], prepared["staged_content_root"])
+            self.assertIsNone(prepared["staged_validation"])
+        finally:
+            lab.close()
+
+
+class O_RevalidationExaminesDeclaredBytes(_InProcess):
+    """Review of 0ee1112: a revalidation that recorded the declared manifests as examined while
+    its checks ran over the read-only payload let `return <world>` install modes (0666) that a
+    required check saw as 0444. The checks must see exactly what is recorded as examined."""
+
+    def test_checks_see_the_declared_modes_not_the_read_only_payload(self) -> None:
+        from freshness_support import EXTRA_CHECK, policy
+        from worldline.linux.namespaces import OverlayRoot
+        from worldline.manifest import Manifest
+        from worldline.revalidate import Revalidator
+        from worldline.validation import content_root_set
+        self.write_live(".worldline.json", json.dumps(policy(EXTRA_CHECK)))
+        self.reconciled()
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"candidate.txt": "x"})
+        payload = Path(world.payload_path)
+        os.chmod(payload / self.key / "candidate.txt", 0o666)
+        root = self.store.roots()[0]
+        declared = Manifest.capture(payload / self.key, logical_root=bytes(root["path"]), root_key=self.key,
+                                    kind=root["kind"], core=self.core)
+        (payload / "manifests" / f"{self.key}.json").unlink()
+        declared.save(payload / "manifests" / f"{self.key}.json")
+        for directory, _dirs, files in os.walk(payload / self.key):  # what finalization leaves
+            for path in [directory, *(os.path.join(directory, name) for name in files)]:
+                os.chmod(path, stat.S_IMODE(os.stat(path).st_mode) & ~0o222)
+        seen: dict[str, int] = {}
+        paths = self.paths
+
+        class Sandbox:
+            def overlay_roots(self, instance_id: str, roots: Any, **_: Any) -> tuple[Any, ...]:
+                result = []
+                for key, lower, target in roots:
+                    upper, work = paths.overlays / instance_id / key / "upper", paths.overlays / instance_id / key / "work"
+                    upper.mkdir(parents=True)
+                    work.mkdir()
+                    result.append(OverlayRoot(key, Path(lower).resolve(), upper, work, Path(target)))
+                return tuple(result)
+
+        class Checks:
+            def run(self, *, overlays: Any, **_: Any) -> list[dict[str, Any]]:
+                seen["mode"] = stat.S_IMODE((overlays[0].lower / "candidate.txt").stat().st_mode)
+                return [dict(K_EvidenceAdmissionRules.RECORD)]
+
+        entry = Revalidator(self.paths, self.store, None, Sandbox(), Checks(), core=self.core).revalidate(world.alias)
+        self.assertEqual(seen["mode"], 0o666)
+        self.assertEqual(entry["outcome"], "PASS")
+        self.assertEqual(entry["examinedContentRoot"], content_root_set({self.key: declared}, self.core))
+        self.assertEqual([p for p in self.paths.overlays.iterdir() if p.name.startswith("revalidation-input-")], [])
+
+
+class P_RecoveryAfterAnOfflineWrite(_InProcess):
+    """Review of 0ee1112: a recovery that finished an exchange which had already happened
+    recaptured live PRIME, so a write made while no daemon ran was folded into the collapse
+    generation with no event, and every later measurement took it as the baseline."""
+
+    def test_the_committed_tree_is_recorded_and_the_offline_write_is_reconciled_separately(self) -> None:
+        from types import SimpleNamespace
+        from worldline.manifest import Manifest
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._set_state(record, "AUTHORIZED")
+        self.transaction.atomic.exchange(self.paths.live, Path(record["preparedMapping"]))  # then the daemon died
+        self.write_live("offline.txt", "an editor saved this while no daemon ran")
+        recovered = self.transaction.recover_all()
+        self.assertEqual(recovered[0]["state"], "COMMITTED")
+        prime = self.store.prime()
+        live = self.transaction._capture_current_roots()
+        # PRIME records what was committed, not what is live now ...
+        self.assertEqual(self.transaction._foreign_writes(live, prime, None)[0], "FOUND")
+        # ... the difference is recorded, and PRIME is marked for reconciliation.
+        self.assertTrue(self.store.get_meta("dirty", False))
+        kinds = [item["event"].get("kind") for w in self.store.worlds() for item in self.store.causal_events_for_world(w.instance_id)]
+        self.assertIn("unaccounted-write", kinds)
+        self.roots.reconcile()
+        reconciled = self.store.prime()
+        self.assertNotEqual(reconciled.instance_id, prime.instance_id)
+        self.assertEqual(self.transaction._foreign_writes(self.transaction._capture_current_roots(), reconciled, None)[0], "NONE_FOUND")
+
+    def test_a_recovery_with_nothing_moved_records_no_difference(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._set_state(record, "AUTHORIZED")
+        self.transaction.atomic.exchange(self.paths.live, Path(record["preparedMapping"]))
+        self.assertEqual(self.transaction.recover_all()[0]["state"], "COMMITTED")
+        self.assertFalse(self.store.get_meta("dirty", False))
+        self.assertEqual(self.transaction._foreign_writes(self.transaction._capture_current_roots(), self.store.prime(), None)[0], "NONE_FOUND")
+
+
+class Q_RoundTwoPins(_InProcess):
+    """Fixes the second review found unpinned or missing (review of 0ee1112)."""
+
+    def revalidator(self, run):
+        from worldline.linux.namespaces import OverlayRoot
+        from worldline.revalidate import Revalidator
+        paths = self.paths
+
+        class Sandbox:
+            def overlay_roots(self, instance_id: str, roots: Any, **_: Any) -> tuple[Any, ...]:
+                result = []
+                for key, lower, target in roots:
+                    upper, work = paths.overlays / instance_id / key / "upper", paths.overlays / instance_id / key / "work"
+                    upper.mkdir(parents=True)
+                    work.mkdir()
+                    result.append(OverlayRoot(key, Path(lower).resolve(), upper, work, Path(target)))
+                return tuple(result)
+
+        class Checks:
+            def run(self, *, overlays: Any, **_: Any) -> list[dict[str, Any]]:
+                run(overlays)
+                return [dict(K_EvidenceAdmissionRules.RECORD)]
+        return Revalidator(self.paths, self.store, None, Sandbox(), Checks(), core=self.core)
+
+    def with_policy_check(self) -> None:
+        from freshness_support import EXTRA_CHECK, policy
+        self.write_live(".worldline.json", json.dumps(policy(EXTRA_CHECK)))
+        self.reconciled()
+
+    def test_a_tree_that_moves_under_the_checks_is_refused(self) -> None:
+        self.with_policy_check()
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"candidate.txt": "x"})
+
+        def mutate(overlays: Any) -> None:
+            (overlays[0].lower / "planted.txt").write_text("written while the checks ran", encoding="utf-8")
+        with self.assertRaises(WorldlineError) as raised:
+            self.revalidator(mutate).revalidate(world.alias)
+        self.assertEqual(raised.exception.code, "REVALIDATION_INPUT_CHANGED")
+        self.assertEqual([p.name for p in self.paths.overlays.iterdir()], [])  # nothing left behind
+
+    def test_a_file_with_an_extended_acl_is_revalidated(self) -> None:
+        import shutil
+        import subprocess
+        if shutil.which("setfacl") is None:
+            self.skipTest("setfacl is not installed")
+        from worldline.manifest import Manifest
+        from worldline.validation import content_root_set
+        self.with_policy_check()
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"candidate.txt": "x"})
+        payload = Path(world.payload_path)
+        subprocess.run(["setfacl", "-m", "u:nobody:rw", str(payload / self.key / "candidate.txt")], check=True)
+        root = self.store.roots()[0]
+        declared = Manifest.capture(payload / self.key, logical_root=bytes(root["path"]), root_key=self.key,
+                                    kind=root["kind"], core=self.core)
+        self.assertTrue(any(e.get("acls") for e in declared.value["entries"]))
+        (payload / "manifests" / f"{self.key}.json").unlink()
+        declared.save(payload / "manifests" / f"{self.key}.json")
+        for directory, _dirs, files in os.walk(payload / self.key):  # finalization's chmod a-w rewrites the ACL mask
+            for path in [directory, *(os.path.join(directory, name) for name in files)]:
+                os.chmod(path, stat.S_IMODE(os.stat(path).st_mode) & ~0o222)
+        entry = self.revalidator(lambda _overlays: None).revalidate(world.alias)
+        self.assertEqual(entry["outcome"], "PASS")
+        self.assertEqual(entry["examinedContentRoot"], content_root_set({self.key: declared}, self.core))
+
+    def test_the_prime_record_is_measured_again_at_commit(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        prime = self.store.prime()
+        prime.components = {**prime.components, "filesystem": hash_id(bytes([6]) * 32)}
+        self.store.save_world(prime)
+        error = self.denied(lambda: self.transaction.commit(prepared.transaction_id), "FOREIGN_MANAGED_WRITE", code="FOREIGN_MANAGED_WRITE")
+        self.assertEqual(error.details["foreignWrites"]["differing"], ["filesystem"])
+
+    def test_fork_drains_the_watcher_before_deciding_to_reconcile(self) -> None:
+        store = self.store
+
+        class Reporting(FakeWatcher):
+            pending = False
+
+            def synchronized_generation(inner) -> int:
+                if inner.pending:
+                    inner.pending = False
+                    inner.generation += 1
+                    store.set_meta("dirty", True)
+                return inner.generation
+        checkpoints = CheckpointManager(self.paths, self.store, core=self.core, reconcile=self.roots.reconcile)
+        checkpoints.watcher = Reporting(self.paths, self.store)
+        before = self.store.prime().instance_id
+        self.write_live("reported.txt", "the watcher saw this before the fork")
+        checkpoints.watcher.pending = True
+        checkpoints.freeze()
+        self.assertNotEqual(self.store.prime().instance_id, before)  # reconciled first
+        self.assertFalse(self.store.get_meta("dirty", False))
+
+    def test_recovery_on_an_unrelocated_copy_touches_nothing_of_the_original(self) -> None:
+        import shutil
+        from worldline.controller import assert_store_location
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        original_record = Path(self.store.transaction_record(prepared.transaction_id)["prepared_path"])
+        original_bytes = original_record.read_bytes()
+        self.store.close()
+        copy_root = Path(self.temporary.name + "-copy")
+        shutil.copytree(self.temporary.name, copy_root, symlinks=True)
+        try:
+            copy_paths, _env = isolated_paths(copy_root)
+            copy_store = StateStore(copy_paths, self.core)
+            try:
+                with self.assertRaises(WorldlineError) as refused:
+                    assert_store_location(copy_paths, copy_store)
+                self.assertEqual(refused.exception.code, "STORE_NOT_RELOCATED")
+                recovered = CollapseTransaction(copy_paths, copy_store, core=self.core).recover_all()
+                self.assertEqual(recovered[0]["error"]["code"], "TRANSACTION_RECORD_FOREIGN")
+            finally:
+                copy_store.close()
+        finally:
+            shutil.rmtree(copy_root, ignore_errors=True)
+            self.store = StateStore(self.paths, self.core)
+        self.assertEqual(original_record.read_bytes(), original_bytes)
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "PREPARED")
+        assert_store_location(self.paths, self.store)  # the original itself is its own
+
+
+class R_RoundThreeRepairs(_InProcess):
+    """Repairs from the third review (of 19d0297); each fails with its repair reverted."""
+
+    def returns(self) -> ReturnManager:
+        checkpoints = watched(CheckpointManager(self.paths, self.store, core=self.core), self.paths, self.store)
+        return ReturnManager(self.paths, self.store, checkpoints, self.transaction, core=self.core)
+
+    def test_a_declined_return_does_not_let_a_collapse_commit_unrecorded(self) -> None:
+        alpha = self.candidate("alpha", {"state.txt": "alpha"})
+        # PRIME moves to a new generation with the same tree (a reconcile after a no-op change).
+        self.reconciled()
+        returns = self.returns()
+        vehicle = returns.prepare_candidate(returns.select(alpha.instance_id))
+        declined = self.transaction.prepare(vehicle.instance_id, kind="return", return_of=alpha.instance_id)
+        self.transaction.abort(declined.transaction_id)
+        prepared = self.transaction.prepare(alpha.alias)
+        self.assertEqual(prepared.decision, "AUTHORIZED")
+        before, receipts = tree_bytes(self.work), len(self.store.receipts())
+        with self.assertRaises(WorldlineError) as raised:
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(raised.exception.code, "CHECKPOINT_IDENTITY_TAKEN")
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "ABORTED")
+        self.assertEqual((tree_bytes(self.work), len(self.store.receipts())), (before, receipts))
+
+    def test_a_replayed_finish_over_read_only_records_succeeds(self) -> None:
+        alpha = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"state.txt": "alpha"})
+        attach_fresh_context(self.store, alpha, core=self.core)
+        records = Path(alpha.payload_path) / "manifests"
+        for name in ("environment.json", "evidence.json", "agent.json"):  # finalization leaves these 0400
+            (records / name).write_text("{}", encoding="utf-8")
+            os.chmod(records / name, 0o400)
+        prepared = self.transaction.prepare(alpha.alias)
+        self.assertEqual(self.transaction.commit(prepared.transaction_id)["state"], "COMMITTED")
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._finish_committed(record)  # the replay recovery performs
+
+    def test_a_replayed_publish_over_read_only_records_succeeds(self) -> None:
+        # PRIME moved after the fork, so the commit publishes a checkpoint and copies the
+        # candidate's read-only records into it; a replay meets those 0400 copies.
+        alpha = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"state.txt": "alpha"})
+        attach_fresh_context(self.store, alpha, core=self.core)
+        records = Path(alpha.payload_path) / "manifests"
+        for name in ("environment.json", "evidence.json", "agent.json"):
+            (records / name).write_text("{}", encoding="utf-8")
+            os.chmod(records / name, 0o400)
+        self.write_live("other.txt", "moved")
+        self.reconciled()
+        self.transaction.validator = _staged_validator(self)
+        prepared = self.transaction.prepare(alpha.alias)
+        self.assertEqual(self.transaction.commit(prepared.transaction_id)["state"], "COMMITTED")
+        self.assertNotEqual(self.store.prime().instance_id, alpha.instance_id)  # a checkpoint was published
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._finish_committed(record)
+
+    def test_recovery_quarantines_an_io_failure_instead_of_stopping_the_daemon(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        with mock.patch.object(self.transaction, "_recover_one", side_effect=PermissionError(13, "Permission denied")):
+            recovered = self.transaction.recover_all()
+        self.assertEqual(recovered[0]["state"], "UNRECOVERABLE")
+        self.assertEqual(recovered[0]["error"]["code"], "RECOVERY_IO_FAILED")
+        self.assertIn(prepared.transaction_id, self.transaction.unrecoverable)
+
+    def test_an_exchange_that_renamed_and_then_failed_is_finished_in_place(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha", {"state.txt": "alpha"}).alias)
+        real = self.transaction.atomic.exchange
+
+        def rename_then_fail(live: Path, mapping: Path) -> None:
+            real(live, mapping)
+            raise OSError(5, "directory fsync failed")
+        self.transaction.atomic.exchange = rename_then_fail
+        with self.assertRaises(WorldlineError) as raised:
+            self.transaction.commit(prepared.transaction_id)
+        # The bytes are live, so the running daemon records them now (review of ab1d4bb), and says
+        # so rather than reporting a plain storage error (review of 56a7146).
+        self.assertEqual(raised.exception.code, "COMMIT_DURABILITY_UNCERTAIN")
+        self.assertEqual(raised.exception.details["state"], "COMMITTED")
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "COMMITTED")
+        self.assertIsNotNone(self.store.receipt_for_transaction(prepared.transaction_id))
+        self.assertEqual(self.transaction.unrecoverable, {})
+
+    def test_an_exchange_that_cannot_be_finished_in_place_is_quarantined(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha", {"state.txt": "alpha"}).alias)
+        real_finish = self.transaction._finish_committed
+        calls = []
+
+        def failing_finish(record: Any, staged: Any = None) -> Any:
+            calls.append(1)
+            raise OSError(28, "No space left on device")
+        self.transaction._finish_committed = failing_finish
+        with self.assertRaises(OSError):
+            self.transaction.commit(prepared.transaction_id)
+        self.assertIn(prepared.transaction_id, self.transaction.unrecoverable)
+        with self.assertRaises(WorldlineError) as blocked:
+            self.transaction.prepare(self.candidate("beta").alias)
+        self.assertEqual(blocked.exception.code, "RECOVERY_INCOMPLETE")
+        self.transaction._finish_committed = real_finish
+        self.assertEqual(self.transaction.recover_all()[0]["state"], "COMMITTED")  # the restart's recovery
+
+    def test_a_database_error_while_finishing_in_place_is_quarantined(self) -> None:
+        import sqlite3
+        prepared = self.transaction.prepare(self.candidate("alpha", {"state.txt": "alpha"}).alias)
+        real_exchange, real_finish = self.transaction.atomic.exchange, self.transaction._finish_committed
+
+        def rename_then_fail(live: Path, mapping: Path) -> None:
+            real_exchange(live, mapping)
+            raise OSError(5, "directory fsync failed")
+
+        def finish_fails(record: Any, staged: Any = None) -> Any:
+            raise sqlite3.OperationalError("disk I/O error (injected)")
+        self.transaction.atomic.exchange, self.transaction._finish_committed = rename_then_fail, finish_fails
+        with self.assertRaises(OSError):
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(self.transaction.unrecoverable[prepared.transaction_id]["code"], "RECOVERY_IO_FAILED")
+        self.transaction.atomic.exchange, self.transaction._finish_committed = real_exchange, real_finish
+
+    def test_recovery_quarantines_a_database_error(self) -> None:
+        import sqlite3
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        with mock.patch.object(self.transaction, "_recover_one", side_effect=sqlite3.OperationalError("database is locked")):
+            recovered = self.transaction.recover_all()
+        self.assertEqual((recovered[0]["state"], recovered[0]["error"]["code"]), ("UNRECOVERABLE", "RECOVERY_IO_FAILED"))
+        self.assertIn(prepared.transaction_id, self.transaction.unrecoverable)
+
+    def test_a_quarantine_stops_fork_return_and_reconcile_too(self) -> None:
+        from worldline.app import WorldlineApplication
+        self.store.close()
+        try:
+            app = WorldlineApplication.build(self.paths)
+            try:
+                controller = app.controller
+                controller.transactions.unrecoverable = {"quarantined": {"code": "RECOVERY_IO_FAILED"}}
+                before = len(controller.store.worlds())
+                for label, action in (("freeze (fork and return vehicles)", controller.checkpoint.freeze),
+                                      ("return vehicle", lambda: controller.returns.prepare_candidate(controller.store.prime())),
+                                      ("reconcile", lambda: (controller.store.set_meta("dirty", True), controller.roots.reconcile()))):
+                    with self.subTest(label), self.assertRaises(WorldlineError) as raised:
+                        action()
+                    self.assertEqual(raised.exception.code, "RECOVERY_INCOMPLETE")
+                self.assertEqual(len(controller.store.worlds()), before)  # no vehicle or generation minted
+            finally:
+                app.controller.close()
+                app.store.close()
+        finally:
+            self.store = StateStore(self.paths, self.core)
+
+    def app(self):
+        from worldline.app import WorldlineApplication
+        self.store.close()
+        return WorldlineApplication.build(self.paths)
+
+    def close_app(self, app) -> None:
+        app.controller.close()
+        app.store.close()
+        self.store = StateStore(self.paths, self.core)
+
+    def test_a_commit_settled_in_place_repoints_the_watcher_and_runs_the_post_commit_steps(self) -> None:
+        from types import SimpleNamespace
+        app = self.app()
+        try:
+            controller, calls = app.controller, []
+            failure = WorldlineError("COMMIT_DURABILITY_UNCERTAIN", "injected", {"state": "COMMITTED"})
+            with mock.patch.object(controller.store, "transaction_record", return_value={"kind": "return"}), \
+                    mock.patch.object(controller.transactions, "commit", side_effect=failure), \
+                    mock.patch.object(controller, "_refresh_watcher", side_effect=lambda: calls.append("refresh")), \
+                    mock.patch.object(controller, "_restart_return_context", side_effect=lambda: calls.append("return context")), \
+                    mock.patch.object(controller, "_schedule_automatic_ghosts", side_effect=lambda _daemon: calls.append("ghosts")):
+                with self.assertRaises(WorldlineError) as raised:
+                    controller._collapse_commit({"transactionId": "t"}, SimpleNamespace(daemon=None))
+            self.assertEqual(raised.exception.code, "COMMIT_DURABILITY_UNCERTAIN")
+            self.assertEqual(calls, ["refresh", "return context", "ghosts"])
+        finally:
+            self.close_app(app)
+
+    def test_a_watcher_that_cannot_be_rebuilt_leaves_prime_unwatched_not_falsely_watched(self) -> None:
+        from types import SimpleNamespace
+        import worldline.controller as module
+        app = self.app()
+        try:
+            controller = app.controller
+            refused = WorldlineError("CONFLICT", "the commit's own refusal")
+            unavailable = WorldlineError("INOTIFY_UNAVAILABLE", "injected", {"errno": 24})
+            with mock.patch.object(controller.store, "transaction_record", return_value={"kind": "collapse"}), \
+                    mock.patch.object(controller.transactions, "commit", side_effect=refused), \
+                    mock.patch.object(module, "InotifyWatcher", side_effect=unavailable):
+                with self.assertRaises(WorldlineError) as raised:
+                    controller._collapse_commit({"transactionId": "t"}, SimpleNamespace(daemon=None))
+            self.assertEqual(raised.exception.code, "CONFLICT")  # the refresh failure does not mask it
+            self.assertIsNone(controller.watcher)
+            self.assertEqual((controller.roots.watcher, controller.checkpoint.watcher, controller.transactions.watcher), (None, None, None))
+        finally:
+            self.close_app(app)
+
+    def test_a_quarantine_refuses_root_changes(self) -> None:
+        app = self.app()
+        try:
+            controller = app.controller
+            controller.transactions.unrecoverable = {"quarantined": {"code": "RECOVERY_IO_FAILED"}}
+            extra = Path(self.temporary.name) / "extra"
+            extra.mkdir()
+            roots_before = [root["root_key"] for root in controller.store.roots()]
+            for label, action in (("add", lambda: controller.roots.register([extra], confirmed=True)),
+                                  ("remove", lambda: controller.roots.remove(roots_before[0], confirmed=True))):
+                with self.subTest(label), self.assertRaises(WorldlineError) as raised:
+                    action()
+                self.assertEqual(raised.exception.code, "RECOVERY_INCOMPLETE")
+            self.assertEqual([root["root_key"] for root in controller.store.roots()], roots_before)
+        finally:
+            self.close_app(app)
+
+    def test_a_settled_quarantine_clears_its_status_report(self) -> None:
+        app = self.app()
+        try:
+            controller = app.controller
+            controller.store.set_meta("watchState", "DEGRADED")
+            controller.store.set_meta("watchError", {"code": "RECOVERY_INCOMPLETE", "message": "was quarantined"})
+            controller.recover()
+            self.assertIsNone(controller.store.get_meta("watchError"))
+            self.assertEqual(controller.store.get_meta("watchState"), "HEALTHY")
+        finally:
+            self.close_app(app)
+
+    def test_a_quarantined_programming_error_keeps_its_traceback_and_its_class(self) -> None:
+        import sqlite3
+        self.transaction.prepare(self.candidate("alpha").alias)
+        for injected, code in ((TypeError("a bug"), "RECOVERY_FAILED"), (sqlite3.IntegrityError("constraint"), "RECOVERY_FAILED"),
+                               (sqlite3.OperationalError("disk I/O error"), "RECOVERY_IO_FAILED")):
+            with self.subTest(type(injected).__name__), mock.patch.object(self.transaction, "_recover_one", side_effect=injected), \
+                    self.assertLogs("worldline.transaction", level="ERROR") as logged:
+                recovered = self.transaction.recover_all()
+            self.assertEqual(recovered[0]["error"]["code"], code)
+            self.assertTrue(any("Traceback" in line for line in logged.output), logged.output)
+
+    def test_a_recovery_that_meets_a_taken_identity_quarantines_it_by_name(self) -> None:
+        alpha = self.candidate("alpha", {"state.txt": "alpha"})
+        self.reconciled()  # PRIME moves to a same-tree generation: the commit will publish a checkpoint
+        prepared = self.transaction.prepare(alpha.alias)
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._set_state(record, "AUTHORIZED")
+        self.transaction.atomic.exchange(self.paths.live, Path(record["preparedMapping"]))  # then the daemon died
+        returns = self.returns()
+        returns.prepare_candidate(returns.select(alpha.instance_id))  # a vehicle takes that identity
+        recovered = self.transaction.recover_all()
+        self.assertEqual(recovered[0]["state"], "UNRECOVERABLE")
+        self.assertEqual(recovered[0]["error"]["code"], "CHECKPOINT_IDENTITY_TAKEN")
+
+    def test_the_daemon_refuses_to_start_on_an_unrelocated_copy(self) -> None:
+        import shutil
+        from worldline.app import WorldlineApplication
+        self.store.close()
+        copy_root = Path(self.temporary.name + "-copy")
+        shutil.copytree(self.temporary.name, copy_root, symlinks=True)
+        try:
+            copy_paths, _env = isolated_paths(copy_root)
+            with self.assertRaises(WorldlineError) as raised:
+                WorldlineApplication.build(copy_paths)
+            self.assertEqual(raised.exception.code, "STORE_NOT_RELOCATED")
+        finally:
+            shutil.rmtree(copy_root, ignore_errors=True)
+            self.store = StateStore(self.paths, self.core)
+
+    def test_the_same_store_reached_through_a_symlink_is_its_own(self) -> None:
+        from worldline.controller import assert_store_location
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        link = Path(self.temporary.name + "-link")
+        os.symlink(self.temporary.name, link)
+        try:
+            link_paths, _env = isolated_paths(link)
+            link_store = StateStore(link_paths, self.core)
+            try:
+                assert_store_location(link_paths, link_store)
+                recovered = CollapseTransaction(link_paths, link_store, core=self.core).recover_all()
+                self.assertEqual(recovered, [{"transactionId": prepared.transaction_id, "state": "ABORTED"}])
+            finally:
+                link_store.close()
+        finally:
+            link.unlink()
+
+    def test_a_refusal_before_the_checks_leaves_no_scratch(self) -> None:
+        from worldline.revalidate import Revalidator
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"state.txt": "alpha"})
+        revalidator = Q_RoundTwoPins.revalidator(self, lambda _overlays: None)
+        with mock.patch.object(Revalidator, "_source_manifests", side_effect=WorldlineError("STORAGE_ERROR", "injected")):
+            with self.assertRaises(WorldlineError):
+                revalidator.revalidate(world.alias)
+        self.assertEqual(list(self.paths.overlays.iterdir()), [])
+
+    def test_leftover_revalidation_inputs_are_swept_at_start(self) -> None:
+        from worldline.revalidate import Revalidator
+        leftover = self.paths.overlays / "revalidation-input-left-by-a-killed-daemon"
+        (leftover / "k").mkdir(parents=True)
+        (leftover / "k" / "copy.txt").write_text("a full payload copy", encoding="utf-8")
+        unrelated = self.paths.overlays / "not-an-input"
+        unrelated.mkdir()
+        swept = Revalidator(self.paths, self.store, None, None, None, core=self.core).sweep_inputs()
+        self.assertEqual(swept, [leftover.name])
+        self.assertEqual([p.name for p in self.paths.overlays.iterdir()], ["not-an-input"])
+
+    def test_a_materialize_error_that_is_not_about_the_bytes_keeps_its_name(self) -> None:
+        from worldline.manifest import Manifest
+        world = synthetic_candidate(self.paths, self.store, self.core, "alpha", {"state.txt": "alpha"})
+        revalidator = Q_RoundTwoPins.revalidator(self, lambda _overlays: None)
+        with mock.patch.object(Manifest, "materialize", side_effect=WorldlineError("XATTR_NOT_APPLICABLE", "injected")):
+            with self.assertRaises(WorldlineError) as raised:
+                revalidator.revalidate(world.alias)
+        self.assertEqual(raised.exception.code, "XATTR_NOT_APPLICABLE")
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -30,6 +30,7 @@ from .prune import Pruner, require_payload
 from .linux.git import GitAdapter
 from .linux.hyprland import HyprlandAdapter
 from .linux.inotify import InotifyWatcher
+from .model import WorldState
 from .linux.namespaces import BubblewrapSandbox
 from .admission import AdmissionAuthority, Gate, Ledger
 from .linux.systemd import SystemdAdapter
@@ -93,6 +94,35 @@ def _require_alternates_inside(source: bytes) -> None:
                 "alternates file")
 
 
+def assert_store_location(paths: WorldlinePaths, store: StateStore) -> None:
+    """Refuse a store whose records name another location. PRIME's payload and the live
+    mapping's links are paths relocation always rewrites, and a store copied without it still
+    points them at the original. Compared resolved, so a store reached through a symlink is
+    its own."""
+    data = os.path.realpath(paths.data)
+
+    def inside(path: str | os.PathLike[str] | bytes) -> bool:
+        resolved = os.path.realpath(os.fsdecode(path))
+        return resolved == data or resolved.startswith(data + os.sep)
+
+    foreign: list[str] = []
+    prime = store.prime()
+    if prime is not None and prime.payload_path and not inside(prime.payload_path):
+        foreign.append(str(prime.payload_path))
+    live = paths.live
+    if live.is_dir():
+        for entry in sorted(live.iterdir()):
+            if entry.is_symlink() and not inside(entry):
+                foreign.append(f"{entry} -> {os.readlink(entry)}")
+    if foreign:
+        raise WorldlineError(
+            "STORE_NOT_RELOCATED",
+            "this store's records name another store's files; it was copied without worldline-relocate, "
+            "and starting on it would act on the original",
+            {"store": data, "foreign": foreign[:10]},
+        )
+
+
 class RuntimeController:
     def __init__(
         self,
@@ -105,6 +135,11 @@ class RuntimeController:
     ) -> None:
         self.paths = paths
         self.store = store
+        # First, before anything that acts outside the store (releasing admission reservations,
+        # stopping orphaned units, exporting the anchor ledger, recovery): a copy of a store that
+        # was not relocated names the ORIGINAL store's files, and every one of those actions
+        # would reach the original (review of 0ee1112).
+        assert_store_location(paths, store)
         self.config = config
         self.capabilities = capabilities
         self.core = core or Core.shared()
@@ -158,6 +193,10 @@ class RuntimeController:
             config=config,
             validator=self.revalidator.validate_staged,
         )
+        # A quarantined transaction stops everything that freezes or publishes PRIME, not only
+        # prepare and commit (review of 56a7146).
+        self.checkpoint.recovery_gate = self.transactions._assert_recovery_complete
+        self.roots.recovery_gate = self.transactions._assert_recovery_complete
         self.pruner = Pruner(paths, store)
         restrictive = config.network_policy != "shared"
         self.runner.checks.network = "none" if restrictive else "shared"
@@ -179,9 +218,15 @@ class RuntimeController:
             _LOG.warning("anchor backfill skipped: %s", exc)
 
     def _refresh_watcher(self) -> None:
-        if self.watcher is not None:
-            self.watcher.close()
-            self.watcher = None
+        # Detach every component before closing the old watcher: if building the new one fails,
+        # they are left with none, which refuses (PRIME_WATCH_UNAVAILABLE, MEASUREMENT_ABSENT),
+        # never with a closed watcher whose frozen generation and root list still claim full
+        # coverage (review of fcbf132).
+        old, self.watcher, self.tracker = self.watcher, None, None
+        if hasattr(self, "roots"):
+            self.roots.watcher = self.checkpoint.watcher = self.transactions.watcher = None
+        if old is not None:
+            old.close()
         roots = []
         for root in self.store.roots():
             try:
@@ -210,7 +255,14 @@ class RuntimeController:
     def recover(self) -> dict[str, Any]:
         stopped = self.runner.services.stop_orphans()
         transactions = self.transactions.recover_all()
-        return {"stoppedOrphanJobs": stopped, "transactions": transactions}
+        error = self.store.get_meta("watchError")
+        if not self.transactions.unrecoverable and isinstance(error, dict) and error.get("code") == "RECOVERY_INCOMPLETE":
+            # The quarantine a status re-capture reported is settled; recovery may have cleared
+            # `dirty`, so status would not re-capture and clear it (review of fcbf132).
+            self.store.set_meta("watchError", None)
+            self.store.set_meta("watchState", "HEALTHY")
+        swept = self.revalidator.sweep_inputs()
+        return {"stoppedOrphanJobs": stopped, "transactions": transactions, "sweptRevalidationInputs": swept}
 
     def _stop_writers(self, world) -> None:
         active = [
@@ -491,16 +543,35 @@ class RuntimeController:
         if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
             raise InvalidRequest("collapse.commit requires transactionId")
         transaction = self.store.transaction_record(args["transactionId"])
-        result = self.transactions.commit(args["transactionId"])
-        # The atomic exchange swapped the `live` mapping, so every inotify watch is now pinned
-        # to the pre-collapse payload inodes. Rebuild the watcher against the new PRIME so the
-        # PRIME_CHANGED_DURING_CAPTURE generation guard and dirty/reconcile tracking do not go
-        # stale after the first collapse or return.
-        self._refresh_watcher()
+        try:
+            try:
+                result = self.transactions.commit(args["transactionId"])
+            finally:
+                # The atomic exchange swapped the `live` mapping, so every inotify watch is now
+                # pinned to the pre-collapse payload inodes. Rebuild the watcher against the new
+                # PRIME -- also when the commit raised after the exchange (review of 56a7146). A
+                # failed rebuild is logged, never allowed to replace the commit's own error; it
+                # leaves PRIME unwatched, which refuses (review of fcbf132).
+                try:
+                    self._refresh_watcher()
+                except Exception:
+                    _LOG.exception("PRIME watcher could not be rebuilt after a commit; PRIME is unwatched")
+        except WorldlineError as exc:
+            if exc.code == "COMMIT_DURABILITY_UNCERTAIN" and (exc.details or {}).get("state") == "COMMITTED":
+                # Committed and recorded: what follows any commit follows this one too (a return's
+                # services, ghosts). A failure there is logged; the commit's report stands.
+                try:
+                    self._after_commit(transaction, context)
+                except Exception:
+                    _LOG.exception("post-commit steps failed after a commit settled in place")
+            raise
+        self._after_commit(transaction, context)
+        return result
+
+    def _after_commit(self, transaction: dict[str, Any], context: RequestContext) -> None:
         if transaction["kind"] == "return":
             self._restart_return_context()
         self._schedule_automatic_ghosts(context.daemon)
-        return result
 
     def _restart_return_context(self) -> None:
         prime = self.store.prime()
@@ -692,6 +763,7 @@ class RuntimeController:
         snapshot["receiptCoverage"] = self._receipt_coverage()
         snapshot["recovery"] = self._recovery_report()
         snapshot["openTransactions"] = self._open_transactions()
+        snapshot["promotionReadiness"] = self._promotion_readiness(measure_foreign=bool(args.get("refresh", False)))
         snapshot["unsupervisedWorlds"] = self._unsupervised_worlds()
         snapshot["storeUsage"] = self.pruner.usage()
         snapshot["networkPolicy"] = {"policy": self.config.network_policy, "allow": list(self.config.network_allow)}
@@ -792,6 +864,48 @@ class RuntimeController:
             for item in self.transactions.listing()
             if item["state"] in {"PREPARED", "AUTHORIZED"}
         ]
+
+    def _promotion_readiness(self, *, measure_foreign: bool) -> dict[str, Any]:
+        """Read-only census of what 1.9.0 promotion will refuse and why (plan step 10): pending
+        transactions (recovery aborts them at the next start), watch coverage, the foreign-write
+        measurement (with --refresh), and every VALID world's standing -- fresh, needing
+        revalidation, or not revalidatable for a missing payload, base or declared manifest."""
+        report: dict[str, Any] = {"pendingTransactions": [item["transactionId"] for item in self._open_transactions()]}
+        report.update(self.transactions.readiness(measure_foreign=measure_foreign))
+        try:
+            current = current_requirements(self.store, self.config, self.core)["requirementHash"]
+        except WorldlineError as exc:
+            current, report["requirementError"] = None, exc.code
+        roots = self.store.roots()
+        worlds: dict[str, list[dict[str, Any]]] = {"fresh": [], "needsRevalidation": [], "notRevalidatable": []}
+        prime = self.store.prime()
+        for world in self.store.worlds():
+            # Candidates only: PRIME and the generations WORLDLINE itself made are return
+            # points, not worlds anyone revalidates or collapses (review of a23c265).
+            if (world.state is not WorldState.VALID or world.world_kind == "system" or world.actor == "worldline"
+                    or (prime is not None and world.instance_id == prime.instance_id)):
+                continue
+            row = {"instanceId": world.instance_id, "alias": world.alias}
+            payload = Path(world.payload_path) if world.payload_path else None
+            base = Path(world.base_payload_path) if world.base_payload_path else None
+            missing = []
+            if payload is None or not payload.is_dir():
+                missing.append("payload")
+            if base is None or not base.is_dir():
+                missing.append("base")
+            if payload is not None and payload.is_dir() and any(
+                    not (payload / "manifests" / f"{root['root_key']}.json").is_file() for root in roots):
+                missing.append("manifest")
+            context, source = effective_context(self.store, world)
+            evaluated = context.get("requirementHash") if isinstance(context, dict) else None
+            if missing:
+                worlds["notRevalidatable"].append({**row, "missing": missing})
+            elif evaluated is not None and evaluated == current:
+                worlds["fresh"].append({**row, "evidence": source})
+            else:
+                worlds["needsRevalidation"].append({**row, "evidence": source if context else None})
+        report["validWorlds"] = worlds
+        return report
 
     def _unsupervised_worlds(self) -> list[dict[str, Any]]:
         # After the startup sweep this should be empty; if it is not, something created a

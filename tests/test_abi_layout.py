@@ -18,6 +18,8 @@ from worldline.core import (
     CEvaluationObservations,
     CEvidencePresence,
     COLLAPSE_DECISIONS,
+    COptionalCounter,
+    COptionalHash,
     Core,
     EVALUATION_EXECUTIONS,
 )
@@ -29,6 +31,8 @@ STRUCTS = {
     "wl_evaluation_observations": (1, CEvaluationObservations),
     "wl_evaluation_classification": (2, CEvaluationClassification),
     "wl_evidence_presence": (3, CEvidencePresence),
+    "wl_optional_hash": (4, COptionalHash),
+    "wl_optional_counter": (5, COptionalCounter),
 }
 
 
@@ -38,7 +42,7 @@ def header_fields(struct: str) -> list[str]:
     if body is None:
         raise AssertionError(f"struct {struct} is not in the header")
     without_comments = re.sub(r"/\*.*?\*/", "", body.group(1), flags=re.S)
-    return re.findall(r"uint8_t\s+(\w+)\s*(?:\[[^]]*\])?\s*;", without_comments)
+    return re.findall(r"(?:uint8_t|struct\s+\w+)\s+(\w+)\s*(?:\[[^]]*\])?\s*;", without_comments)
 
 
 class AbiLayout(unittest.TestCase):
@@ -70,7 +74,7 @@ class AbiLayout(unittest.TestCase):
         import worldline.core as core_module
         fields = list(CCollapseRequest._fields_)
         mode = next(i for i, (name, _t) in enumerate(fields) if name == "evaluation_mode")
-        fields[mode], fields[mode + 1] = fields[mode + 1], fields[mode]
+        fields[mode], fields[mode + 1] = fields[mode + 1], fields[mode]  # evaluation_mode <-> conflicts
         swapped = type("SwappedCollapseRequest", (ctypes.Structure,), {"_fields_": fields})
         self.assertEqual(ctypes.sizeof(swapped), ctypes.sizeof(CCollapseRequest))
         layouts = tuple((selector, swapped if record is CCollapseRequest else record)
@@ -121,7 +125,7 @@ class AbiLayout(unittest.TestCase):
                 for name, _type in record._fields_:
                     self.assertEqual(int(seen[f"{struct} {name}"]), getattr(record, name).offset, name)
         self.assertEqual(int(seen["abi"]), ABI_VERSION)
-        self.assertEqual(int(seen["collapse-layout"]), 4)
+        self.assertEqual(int(seen["collapse-layout"]), 5)
 
     def test_header_codes_match_the_runtime_tables(self) -> None:
         text = HEADER.read_text(encoding="utf-8")

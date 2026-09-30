@@ -1,55 +1,19 @@
 with Interfaces;
 with Interfaces.C;
 with System;
+with Worldline.Collapse_Wire;
 
 package Worldline.C_API with SPARK_Mode => Off is
 
-   subtype C_Hash_Index is Natural range 0 .. 31;
-   type C_Hash is array (C_Hash_Index) of Interfaces.Unsigned_8
-     with Convention => C;
 
-   type C_Collapse_Request is record
-      Candidate_State            : Interfaces.Unsigned_8;
-      Has_Conflicts              : Interfaces.Unsigned_8;
-      Has_Foreign_Managed_Writes : Interfaces.Unsigned_8;
-      Reserved                   : Interfaces.Unsigned_8;
-      Expected_Parent            : C_Hash;
-      Candidate_Parent           : C_Hash;
-      Expected_Owner             : C_Hash;
-      Candidate_Owner            : C_Hash;
-      Expected_Base              : C_Hash;
-      Candidate_Base             : C_Hash;
-      Expected_Delta             : C_Hash;
-      Candidate_Delta            : C_Hash;
-      Expected_Root_Set          : C_Hash;
-      Candidate_Root_Set         : C_Hash;
-      Expected_Staged_Root       : C_Hash;
-      Actual_Staged_Root         : C_Hash;
-      Expected_Validation_Context  : C_Hash;
-      Candidate_Validation_Context : C_Hash;
-      Tested_Root                  : C_Hash;
-      Staged_Content_Root          : C_Hash;
-      --  Appended for 1.5.0. Existing field offsets are unchanged.
-      Execution_Evidence_Complete  : Interfaces.Unsigned_8;
-      Reserved_2                   : Interfaces.Unsigned_8;
-      Reserved_3                   : Interfaces.Unsigned_8;
-      Reserved_4                   : Interfaces.Unsigned_8;
-      Expected_Executed_Verifier   : C_Hash;
-      Actual_Executed_Verifier     : C_Hash;
-      --  Appended for 1.8.0 (request layout 4). Existing offsets unchanged.
-      Evaluation_Mode              : Interfaces.Unsigned_8;
-      Checkpoint_Witnessed         : Interfaces.Unsigned_8;
-      Reserved_5                   : Interfaces.Unsigned_8;
-      Reserved_6                   : Interfaces.Unsigned_8;
-      Expected_Checkpoint          : C_Hash;
-      Witnessed_Checkpoint         : C_Hash;
-   end record
-     with Convention => C;
+   --  The collapse request (ABI generation 5) is Worldline.Collapse_Wire's
+   --  Raw_Request; its decoding is proved there.
+   subtype C_Collapse_Request is Collapse_Wire.Raw_Request;
 
    --  The ABI generation of this library: request layouts, record layouts and
    --  the meaning of every exported code. The runtime refuses to load a
    --  library that reports a different generation.
-   ABI_Version : constant Interfaces.Unsigned_32 := 4;
+   ABI_Version : constant Interfaces.Unsigned_32 := 5;
 
    type C_Collapse_Request_Access is access constant C_Collapse_Request
      with Convention => C;
@@ -201,7 +165,8 @@ package Worldline.C_API with SPARK_Mode => Off is
 
    --  Byte size of an exported record as this library lays it out:
    --  0 collapse request, 1 evaluation observations, 2 evaluation
-   --  classification, 3 evidence presence. 0 for an unknown selector.
+   --  classification, 3 evidence presence, 4 optional hash, 5 optional
+   --  counter. 0 for an unknown selector.
    function Layout_Size
      (Selector : Interfaces.Unsigned_8) return Interfaces.C.size_t
      with Export, Convention => C, External_Name => "wl_layout_size";

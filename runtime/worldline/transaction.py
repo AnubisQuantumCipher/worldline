@@ -8,11 +8,12 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sqlite3
 import uuid
 from typing import Any, Callable, Mapping, Sequence
 
 from . import SCHEMA_VERSION
-from .canonical import atomic_write_json, fsync_directory
+from .canonical import atomic_write_json, canonical_bytes, fsync_directory
 from .core import CollapseInput, Core, hash_bytes_from_id, hash_id
 from .delta import Delta
 from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, effective_evidence, verify_context
@@ -125,6 +126,10 @@ class CollapseTransaction:
         self._assert_recovery_complete()
         if kind not in {"collapse", "return"}:
             raise WorldlineError("INVALID_TRANSACTION", f"unsupported transaction kind: {kind}")
+        # Drain the watcher first: a write it has already seen marks PRIME dirty only when its
+        # events are consumed, and such a write is reconciled into a generation, never refused
+        # as unaccounted (review of a23c265).
+        self._generation()
         if self.reconcile_prime is not None and self.store.get_meta("dirty", False):
             self.reconcile_prime()
         candidate = self.store.world(candidate_value)
@@ -161,6 +166,11 @@ class CollapseTransaction:
         expected_parent_content = parent_world.content_id
 
         roots = self.store.roots()
+        # PRIME stability (1.9.0): the watcher's generation is read BEFORE the requirement read
+        # and again just before the decision, and the kernel compares the two. A missing
+        # watcher is an absent measurement, which the kernel refuses; it is no longer a skipped
+        # guard.
+        generation_before = self._generation()
         # Evidence freshness (1.3.0): before anything is staged, the candidate's evidence must
         # have been evaluated against exactly the requirements the CURRENT PRIME imposes. A
         # refusal here is recorded on the causal log and never creates a transaction.
@@ -174,13 +184,13 @@ class CollapseTransaction:
         self.paths.prime_directory(transaction_directory)
         self.paths.prime_directory(payload)
         self.paths.prime_directory(mapping)
-        before_generation = self.watcher.synchronized_generation() if self.watcher is not None else None
 
         base_manifests: dict[str, CapturedManifest] = {}
         current_manifests: dict[str, CapturedManifest] = {}
         candidate_manifests: dict[str, CapturedManifest] = {}
         staged_manifests: dict[str, CapturedManifest] = {}
         conflicts: list[dict[str, Any]] = []
+        candidate_declared = True
         try:
             for root in roots:
                 root_key = root["root_key"]
@@ -195,6 +205,9 @@ class CollapseTransaction:
                             f"{label} payload is missing root {root_key}",
                             {"path": os.fsdecode(source)},
                         )
+                # The candidate's finalization declared a manifest for each root; one that is
+                # missing is not silently re-captured into "tested" bytes (1.9.0).
+                candidate_declared = candidate_declared and self._declared_manifest_present(candidate_source, root)
                 base_manifest = self._capture_payload(source=base_source, logical=logical, root=root)
                 current_manifest = self._capture(source=current_source, logical=logical, root=root)
                 candidate_manifest = self._capture_payload(source=candidate_source, logical=logical, root=root)
@@ -219,15 +232,6 @@ class CollapseTransaction:
                 if merge.staged is not None:
                     staged_manifests[root_key] = merge.staged
 
-            if self.watcher is not None:
-                after_generation = self.watcher.synchronized_generation()
-                if before_generation != after_generation:
-                    raise WorldlineError(
-                        "PRIME_CHANGED_DURING_CAPTURE",
-                        "PRIME changed while collapse staging was copied and hashed",
-                        {"beforeGeneration": before_generation, "afterGeneration": after_generation},
-                    )
-
             # Client mode: the staged payload becomes PRIME, which clients can reach. Its modes
             # are the candidate's; refuse any a client could write through before a transaction
             # exists (the staging is removed by the handler below).
@@ -239,70 +243,69 @@ class CollapseTransaction:
             base_root = Manifest.root_set_hash(base_manifests.values(), self.core)
             before_root = Manifest.root_set_hash(current_manifests.values(), self.core)
             candidate_root = Manifest.root_set_hash(candidate_manifests.values(), self.core)
-            staged_root = hash_id(bytes(32)) if conflicts else Manifest.root_set_hash(staged_manifests.values(), self.core)
-            # The bytes that will become live must be the bytes that were tested. Candidate-only
-            # evidence cannot authorize a staged merge whose content differs from the candidate
-            # (the kernel decides STAGED_UNTESTED on this pair); with conflicts the pair is
-            # neutral so the more specific CONFLICT decision is reported.
-            tested_root = content_root_set(candidate_manifests, self.core)
-            tested_manifests = candidate_manifests
-            if freshness.get("mode") == "re-application":
-                # The evidence being relied on attests to the subject world's FINALIZED bytes.
-                # A world that has since been live (it became PRIME and was displaced) carries
-                # the displaced state in its payload directory; those bytes were never tested by
-                # that evidence. Judge the merge against the declared finalization manifests.
-                finalized = self._finalized_manifests(self.store.world(freshness["subject"]), roots)
-                if finalized is None:
-                    tested_root = hash_id(bytes(32))
-                    tested_manifests = {}
-                else:
-                    tested_root = content_root_set(finalized, self.core)
-                    tested_manifests = finalized
-            staged_content_root = tested_root if conflicts else content_root_set(staged_manifests, self.core)
-            untested_paths = [] if conflicts else content_differences(tested_manifests, staged_manifests)
+            # A conflicted merge has no staged tree: absent, never a zero digest. The kernel
+            # reports CONFLICT before it looks for the staged identities.
+            staged_root = None if conflicts else Manifest.root_set_hash(staged_manifests.values(), self.core)
+            staged_content_root = None if conflicts else content_root_set(staged_manifests, self.core)
+            tested_root, tested_manifests, tested_source = self._tested_root(
+                freshness, candidate, candidate_manifests, candidate_declared, roots)
+            untested_paths = [] if conflicts else content_differences(tested_manifests or {}, staged_manifests)
             staged_validation: dict[str, Any] | None = None
             if not conflicts and staged_content_root != tested_root and self.validator is not None:
-                # PRIME moved under the candidate and the merge produced bytes nobody tested.
-                # The candidate's evidence cannot speak for them; the current checks run over the
-                # staged result itself and, only if they pass, the staged content becomes the
-                # tested content. Otherwise the kernel refuses STAGED_UNTESTED.
+                # The bytes that would go live are not the bytes the evidence examined (PRIME
+                # moved under the candidate, or the examined bytes are unknown). The current
+                # checks run over the staged tree itself; the kernel then decides whether THAT
+                # evaluation covers the staged bytes. Nothing here promotes its outcome.
                 staged_validation = self.validator(payload, candidate, current_manifests, staged_manifests, staged_content_root)
-                if staged_validation["outcome"] == "PASS":
-                    tested_root = staged_content_root
+                if (staged_validation.get("context") or {}).get("verifiersModifiedByCandidate"):
+                    raise WorldlineError("VERIFIER_MODIFIED_BY_CANDIDATE", "the staged merge result carries a rewritten authoritative verifier",
+                                         {"verifiers": staged_validation["context"]["verifiersModifiedByCandidate"]})
             if not conflicts:
                 self._create_mapping(mapping, payload, roots, transaction_id)
+                # The staged tree as the merge captured it, kept beside (never inside) the roots,
+                # so a recovery after the exchange can publish what was committed even if the live
+                # tree moved while the daemon was down (review of 0ee1112).
+                # Named `manifests` so relocation classifies it as the hashed record it is.
+                staged_record = transaction_directory / "manifests"
+                staged_record.mkdir(mode=0o700)
+                for root_key, manifest in staged_manifests.items():
+                    manifest.save(staged_record / f"{root_key}.json")
 
-            owner = hash_id(self.core.hash_bytes(b"worldline-mutable-owner-v1" + candidate.instance_id.encode("ascii")))
-            decision = self.core.collapse_decide(
-                CollapseInput(
-                    candidate_state=candidate.state.value,
-                    has_conflicts=bool(conflicts),
-                    has_foreign_managed_writes=bool(candidate.contamination),
-                    expected_parent=hash_bytes_from_id(expected_parent_content),
-                    candidate_parent=hash_bytes_from_id(candidate.parent_content),
-                    expected_owner=hash_bytes_from_id(owner),
-                    candidate_owner=hash_bytes_from_id(owner),
-                    expected_base=hash_bytes_from_id(candidate.base_root),
-                    candidate_base=hash_bytes_from_id(base_root),
-                    expected_delta=hash_bytes_from_id(candidate.delta_hash),
-                    candidate_delta=hash_bytes_from_id(delta.delta_hash),
-                    expected_root_set=hash_bytes_from_id(root_set),
-                    candidate_root_set=hash_bytes_from_id(candidate.root_set_hash),
-                    expected_staged_root=hash_bytes_from_id(staged_root),
-                    actual_staged_root=hash_bytes_from_id(staged_root),
-                    expected_validation_context=hash_bytes_from_id(freshness["requirementHash"]),
-                    candidate_validation_context=hash_bytes_from_id(freshness["candidateRequirementHash"]),
-                    tested_root=hash_bytes_from_id(tested_root),
-                    staged_content_root=hash_bytes_from_id(staged_content_root),
-                    # Execution-time verifier identity. Expected from the policy's resolved
-                    # verifier list, actual from what the runner recorded having staged — two
-                    # sources, so the equality the kernel proves is a real comparison.
-                    execution_evidence_complete=freshness["execution"]["complete"] is True,
-                    expected_executed_verifier=hash_bytes_from_id(freshness["execution"]["expected"]),
-                    actual_executed_verifier=hash_bytes_from_id(freshness["execution"]["actual"]),
-                    **self._checkpoint_fields(freshness),
-                )
+            subject = self.store.world(return_of) if return_of else candidate
+            current = freshness["current"]
+            staged_block = self._staged_block(subject, current, staged_validation)
+            foreign_state, foreign_detail = self._foreign_writes(current_manifests, current_prime, candidate)
+            registered_watch, watched = self._watch_sets()
+            expected_subject, claimed_subject = self._subject_pair(freshness, candidate, return_of)
+            decision_inputs = {
+                "schemaVersion": 1,
+                "expectedSubject": expected_subject,
+                "evidenceSubject": claimed_subject,
+                "stagedRoot": staged_root,
+                "testedRoot": tested_root,
+                "testedRootSource": tested_source,
+                "primary": {
+                    "evaluatedRequirement": freshness.get("candidateRequirementHash"),
+                    "rosterComplete": freshness["execution"].get("complete") is True,
+                    "declaredVerifiers": freshness["execution"].get("expected"),
+                    "executedVerifiers": freshness["execution"].get("actual"),
+                },
+                "staged": staged_block,
+                "conflictsMeasured": True,
+                "foreignWrites": {"state": foreign_state, **foreign_detail},
+                "watchSets": {"registered": registered_watch, "watched": watched},
+            }
+            decision_inputs["generations"] = {"before": generation_before, "after": self._generation()}
+            decision = self._decide(
+                phase="PREPARE", kind_mode=freshness["mode"], candidate=candidate, subject=subject,
+                expected_parent=expected_parent_content, base_root=base_root, delta_hash=delta.delta_hash,
+                root_set=root_set, expected_staged_root=staged_root, actual_staged_root=None,
+                staged_content_root=staged_content_root, conflicts=bool(conflicts),
+                current_requirement=current["requirementHash"], inputs=decision_inputs,
+                witness=freshness.get("witness"),
             )
+            if decision == "FOREIGN_MANAGED_WRITE":
+                self._note_unaccounted_write(current_prime, decision_inputs["foreignWrites"])
             generated = candidate.evidence.get("metrics", {}).get("generatedClassifiers", [])
             if not isinstance(generated, list):
                 generated = []
@@ -325,14 +328,17 @@ class CollapseTransaction:
                 "candidateRoot": candidate_root,
                 "deltaHash": delta.delta_hash,
                 "delta": {**delta.value, "deltaHash": delta.delta_hash, "baseRoot": base_root},
+                # The transactions table column is NOT NULL: a conflicted merge's absent staged
+                # root is stored as the literal "absent" there (1.9.0) and as null here.
                 "stagedRoot": staged_root,
                 "rootSetHash": root_set,
-                "ownerHash": owner,
                 "conflicts": conflicts,
                 "contamination": candidate.contamination,
-                "validation": freshness,
+                "validation": {k: v for k, v in freshness.items() if k != "current"},
                 "testedRoot": tested_root,
                 "stagedContentRoot": staged_content_root,
+                "recordSchema": 2,
+                "decisionInputs": decision_inputs,
                 "untestedPaths": untested_paths[:200],
                 "stagedValidation": staged_validation,
                 "returnOf": return_of,
@@ -352,17 +358,25 @@ class CollapseTransaction:
                 # copy) will never be used; drop it now so repeated conflicted collapses do not
                 # grow the store without bound. The signed transaction record itself is kept.
                 shutil.rmtree(transaction_directory, ignore_errors=True)
+                if decision == "PRIME_CHANGED":
+                    # The operator-visible code 1.8.0 raised for the same fact; the kernel decided it.
+                    raise WorldlineError("PRIME_CHANGED_DURING_CAPTURE", "PRIME changed while collapse staging was copied and hashed",
+                                         {"decision": decision, "transactionId": transaction_id,
+                                          "beforeGeneration": decision_inputs["generations"]["before"],
+                                          "afterGeneration": decision_inputs["generations"]["after"]})
                 raise ConflictError(
                     f"collapse denied: {decision}",
                     transactionId=transaction_id,
                     decision=decision,
                     conflicts=conflicts,
-                    contamination=candidate.contamination,
+                    contamination=self._reported_contamination(candidate, decision_inputs["foreignWrites"]),
                     untestedPaths=untested_paths[:50],
                     validation={k: freshness.get(k) for k in ("mode", "requirementHash", "candidateRequirementHash", "witness")},
+                    absentInputs=decision_inputs.get("absent", []),
+                    foreignWrites=decision_inputs["foreignWrites"],
                     execution={k: (freshness.get("execution") or {}).get(k)
                                for k in ("complete", "expected", "actual", "mode", "problems")},
-                    stagedValidation=None if staged_validation is None else {k: staged_validation.get(k) for k in ("validationId", "outcome", "summary", "failed", "results")},
+                    stagedValidation=None if staged_validation is None else {k: staged_validation.get(k) for k in ("validationId", "outcome", "summary", "failed", "examinedContentRoot", "results")},
                 )
             return PreparedTransaction(
                 transaction_id=transaction_id,
@@ -385,7 +399,7 @@ class CollapseTransaction:
                 tested_root=tested_root,
                 staged_content_root=staged_content_root,
                 untested_paths=untested_paths[:50],
-                staged_validation=None if staged_validation is None else {k: staged_validation.get(k) for k in ("validationId", "outcome", "summary", "failed", "requirementHash", "contextHash", "results")},
+                staged_validation=None if staged_validation is None else {k: staged_validation.get(k) for k in ("validationId", "outcome", "summary", "failed", "requirementHash", "contextHash", "examinedContentRoot", "results")},
             )
         except BaseException:
             if not (self.paths.transactions / f"{transaction_id}.json").exists():
@@ -465,9 +479,12 @@ class CollapseTransaction:
             raise WorldlineError("TRANSACTION_DENIED", "a denied transaction can never commit")
         if record["state"] != "PREPARED":
             raise WorldlineError("INVALID_TRANSACTION_STATE", f"cannot commit transaction in {record['state']}")
+        if not isinstance(record.get("decisionInputs"), Mapping) or "validation" not in record:
+            self._set_state(record, "DENIED", error={"code": "TRANSACTION_RECORD_LEGACY"})
+            raise WorldlineError("TRANSACTION_RECORD_LEGACY", "this transaction was prepared by an earlier runtime; abort it and prepare again")
         candidate = self.store.world(record["candidateWorld"])
         self.stop_writers(candidate)
-        before_generation = self.watcher.synchronized_generation() if self.watcher is not None else None
+        generation_before = self._generation()
         current_manifests = self._capture_current_roots()
         if Manifest.root_set_hash(current_manifests.values(), self.core) != record["beforeRoot"]:
             self._set_state(record, "DENIED", error={"code": "PRIME_CHANGED_AFTER_PREPARE"})
@@ -475,11 +492,10 @@ class CollapseTransaction:
                 "PRIME_CHANGED_AFTER_PREPARE",
                 "PRIME changed after collapse preparation; prepare again",
             )
+        # The staged tree is recaptured; the kernel compares it with the merge's capture recorded
+        # at prepare (Staged_Root_Mismatch). No Python comparison stands in for that.
         staged_manifests = self._capture_staged(record)
         staged_root = Manifest.root_set_hash(staged_manifests.values(), self.core)
-        if staged_root != record["stagedRoot"]:
-            self._set_state(record, "DENIED", error={"code": "STAGED_ROOT_MISMATCH"})
-            raise WorldlineError("STAGED_ROOT_MISMATCH", "staged collapse payload changed after preparation")
         # The candidate payload itself must still be the bytes that were prepared: evidence and
         # receipts name the candidate, so a payload altered after preparation cannot commit
         # even though the staged copy is what would be exchanged.
@@ -490,20 +506,33 @@ class CollapseTransaction:
         if Manifest.root_set_hash(candidate_manifests_now.values(), self.core) != record["candidateRoot"]:
             self._set_state(record, "DENIED", error={"code": "CANDIDATE_CHANGED_AFTER_PREPARE"})
             raise WorldlineError("CANDIDATE_CHANGED_AFTER_PREPARE", "the candidate payload changed after preparation; prepare again")
-        if "validation" not in record or "testedRoot" not in record:
-            self._set_state(record, "DENIED", error={"code": "TRANSACTION_RECORD_LEGACY"})
-            raise WorldlineError("TRANSACTION_RECORD_LEGACY", "this transaction was prepared by a runtime without validation contexts; abort it and prepare again")
         current_requirement = current_requirements(self.store, self.config, self.core)
-        if self.watcher is not None and before_generation != self.watcher.synchronized_generation():
-            self._set_state(record, "DENIED", error={"code": "PRIME_CHANGED_DURING_CAPTURE"})
-            raise WorldlineError("PRIME_CHANGED_DURING_CAPTURE", "PRIME changed during collapse authorization")
-
-        decision = self._authorize(record, candidate, staged_root, current_requirement_hash=current_requirement["requirementHash"], staged_content_root=content_root_set(staged_manifests, self.core))
+        decision = self._authorize(record, candidate, current_manifests=current_manifests,
+                                   staged_root=staged_root,
+                                   staged_content_root=content_root_set(staged_manifests, self.core),
+                                   current_requirement=current_requirement,
+                                   generation_before=generation_before)
         if decision != "AUTHORIZED":
             self._set_state(record, "DENIED", error={"code": decision})
+            if decision == "FOREIGN_MANAGED_WRITE":
+                self._note_unaccounted_write(self.store.prime(), (record.get("decisionInputsAtCommit") or {}).get("foreignWrites") or {})
+            inputs_at_commit = record.get("decisionInputsAtCommit") or {}
+            details = {"decision": decision, "transactionId": transaction_id,
+                       "absentInputs": inputs_at_commit.get("absent", []),
+                       "foreignWrites": inputs_at_commit.get("foreignWrites"),
+                       "contamination": self._reported_contamination(candidate, inputs_at_commit.get("foreignWrites") or {})}
             if decision == "VALIDATION_CONTEXT_MISMATCH":
-                raise WorldlineError("EVIDENCE_STALE", "the requirements changed between preparation and commit; the prepared evidence no longer applies", {"decision": decision, "preparedRequirementHash": record["validation"].get("requirementHash"), "currentRequirementHash": current_requirement["requirementHash"]})
-            raise WorldlineError(decision, f"proved core denied collapse: {decision}")
+                raise WorldlineError("EVIDENCE_STALE", "the requirements changed between preparation and commit; the prepared evidence no longer applies", {**details, "preparedRequirementHash": record["validation"].get("requirementHash"), "currentRequirementHash": current_requirement["requirementHash"]})
+            if decision == "PRIME_CHANGED":
+                raise WorldlineError("PRIME_CHANGED_DURING_CAPTURE", "PRIME changed during collapse authorization", details)
+            raise WorldlineError(decision, f"proved core denied collapse: {decision}", details)
+        colliding = self._checkpoint_collision(record, candidate, staged_manifests)
+        if colliding is not None:
+            self._set_state(record, "ABORTED", error={"code": "CHECKPOINT_IDENTITY_TAKEN"})
+            raise WorldlineError("CHECKPOINT_IDENTITY_TAKEN",
+                                 f"the PRIME generation this commit would publish has the identity of existing world {colliding.alias}; "
+                                 "nothing was changed (a declined return leaves its vehicle holding that identity)",
+                                 {"transactionId": transaction_id, "world": colliding.alias})
         record["commitRequirementHash"] = current_requirement["requirementHash"]
         self._set_state(record, "AUTHORIZED")
         # File contents were fsynced during staging, but the directory entries that link them
@@ -512,90 +541,311 @@ class CollapseTransaction:
         # whose dirents never reached disk — recovery re-hashes survivors and would enshrine a
         # torn tree as COMMITTED otherwise.
         self._fsync_payload_tree(Path(record["stagingPayload"]))
+        # The kernel's generation pair ends at the decision; the fsync above takes time in
+        # proportion to the tree. PRIME must still be at the generation the decision saw, or a
+        # write in between would be displaced without being recorded (review of a23c265). What
+        # remains is the moment between this read and the exchange.
+        decided = ((record.get("decisionInputsAtCommit") or {}).get("generations") or {}).get("after")
+        now = self._generation()
+        if now is None or now != decided:
+            code = "PRIME_WATCH_UNAVAILABLE" if now is None else "PRIME_CHANGED_DURING_CAPTURE"
+            self._set_state(record, "ABORTED", error={"code": code})
+            raise WorldlineError(code, "PRIME changed between the collapse decision and the exchange; prepare again",
+                                 {"refusedBy": "exchange-guard", "transactionId": transaction_id,
+                                  "decidedGeneration": decided, "generationNow": now})
         exchanged = False
         try:
-            context = self.watcher.owned_writes() if self.watcher is not None else _NullContext()
-            with context:
+            # Checked just above; stated as a refusal rather than an assert, which -O removes.
+            if self.watcher is None:
+                raise WorldlineError("PRIME_WATCH_UNAVAILABLE", "no PRIME watcher; the exchange cannot be attributed")
+            with self.watcher.owned_writes():
                 self.atomic.exchange(self.paths.live, Path(record["preparedMapping"]))
             exchanged = True
             return self._finish_committed(record, staged_manifests)
-        except BaseException:
-            if not exchanged:
+        except BaseException as failure:
+            # The rename is the commit point. If it did not happen, the transaction is ABORTED.
+            # If it happened (the live marker names this transaction) and something after it
+            # failed -- the directory fsync, or the finishing itself -- a running daemon must not
+            # keep serving with an exchange nobody recorded (reviews of 19d0297 and ab1d4bb): it is
+            # finished now, as recovery would, and if that is impossible it is quarantined, which
+            # stops every mutation until a restart's recovery settles it.
+            try:
+                live_is_this: bool | None = self._marker(self.paths.live) == transaction_id
+            except WorldlineError:
+                live_is_this = None
+            if not exchanged and live_is_this is False:
                 self._set_state(record, "ABORTED", error={"code": "ATOMIC_EXCHANGE_FAILED"})
+            else:
+                settled = False
+                if not exchanged and live_is_this:
+                    try:
+                        self._finish_committed(record, staged_manifests)
+                        settled = True
+                    except Exception as finishing:  # a database error too (review of 56a7146)
+                        failure = finishing
+                if settled:
+                    raise WorldlineError(
+                        "COMMIT_DURABILITY_UNCERTAIN",
+                        "the collapse committed and was recorded, but completing the exchange failed; "
+                        "the receipt stands, and a crash before the storage recovers could still lose it",
+                        {"transactionId": transaction_id, "state": "COMMITTED", "cause": str(failure)}) from failure
+                self.unrecoverable[transaction_id] = self._recovery_error(failure)
             raise
 
-    def _authorize(self, record: dict[str, Any], candidate: World, staged_root: str, *, current_requirement_hash: str | None = None, staged_content_root: str | None = None) -> str:
-        # Records prepared before parentContentExpected existed carry only the claim; for those
-        # the comparison degrades to the 1.0 behaviour rather than failing recovery outright.
-        expected_parent = record.get("parentContentExpected") or record["parentWorld"]
+    def _authorize(self, record: dict[str, Any], candidate: World, *, current_manifests: Mapping[str, CapturedManifest],
+                   staged_root: str, staged_content_root: str, current_requirement: Mapping[str, Any],
+                   generation_before: int | None) -> str:
+        """The commit's decision: every input recomputed now from the store and the live tree,
+        except the facts only prepare observed (the evidence subject the speaking evaluation was
+        bound to, the tested root, the evaluations' verdicts), which come from the prepared
+        record. Nothing absent is filled in: a missing field is passed as absent."""
+        inputs = dict(record["decisionInputs"])
         validation = record.get("validation") or {}
-        # At commit the CURRENT requirement hash is recomputed and compared, by the kernel,
-        # with the requirement the candidate's evidence was bound to at preparation. For a
-        # checkpoint return both sides are the current hash (documented: no evidence applies).
-        expected_context = current_requirement_hash or validation.get("requirementHash") or hash_id(bytes(32))
-        # In checkpoint-return mode the kernel does not consult the context pair (there is no
-        # candidate evaluation); what it consults is the lineage witness recorded at prepare.
-        candidate_context = validation.get("candidateRequirementHash")
-        # The prepared record stores the whole freshness document under "validation", so the
-        # execution facts live there. Reading the wrong nesting silently produced "incomplete"
-        # for every commit, which is the correct direction to fail but the wrong reason.
-        prepared_execution = dict((record.get("validation") or {}).get("execution")
-                                  or record.get("execution") or {})
-        tested = record.get("testedRoot") or hash_id(bytes(32))
-        staged_content = staged_content_root or record.get("stagedContentRoot") or hash_id(bytes(32))
-        return self.core.collapse_decide(
-            CollapseInput(
-                candidate_state=candidate.state.value,
-                has_conflicts=bool(record["conflicts"]),
-                has_foreign_managed_writes=bool(record["contamination"]),
-                expected_parent=hash_bytes_from_id(expected_parent),
-                candidate_parent=hash_bytes_from_id(candidate.parent_content),
-                expected_owner=hash_bytes_from_id(record["ownerHash"]),
-                candidate_owner=hash_bytes_from_id(record["ownerHash"]),
-                expected_base=hash_bytes_from_id(candidate.base_root),
-                candidate_base=hash_bytes_from_id(record["baseRoot"]),
-                expected_delta=hash_bytes_from_id(candidate.delta_hash or hash_id(bytes(32))),
-                candidate_delta=hash_bytes_from_id(record["deltaHash"]),
-                expected_root_set=hash_bytes_from_id(record["rootSetHash"]),
-                candidate_root_set=hash_bytes_from_id(candidate.root_set_hash),
-                expected_staged_root=hash_bytes_from_id(record["stagedRoot"]),
-                actual_staged_root=hash_bytes_from_id(staged_root),
-                expected_validation_context=hash_bytes_from_id(expected_context),
-                candidate_validation_context=hash_bytes_from_id(candidate_context or hash_id(bytes(32))),
-                # The same two established facts the prepare decided on. Recomputing them here
-                # from a tree that has since moved would decide on different evidence than the
-                # one that was authorised; a policy change between prepare and commit is caught
-                # separately, as EVIDENCE_STALE.
-                execution_evidence_complete=prepared_execution.get("complete") is True,
-                expected_executed_verifier=hash_bytes_from_id(
-                    prepared_execution.get("expected") or NO_BUNDLE_IDENTITY),
-                actual_executed_verifier=hash_bytes_from_id(
-                    prepared_execution.get("actual") or hash_id(b"\xff" * 32)),
-                tested_root=hash_bytes_from_id(tested),
-                staged_content_root=hash_bytes_from_id(staged_content),
-                **self._checkpoint_fields(validation),
-            )
+        return_of = record.get("returnOf")
+        subject = self.store.world(return_of) if return_of else candidate
+        primary = inputs.get("primary") if isinstance(inputs.get("primary"), Mapping) else {}
+        prime = self.store.prime()
+        foreign_state, foreign_detail = self._foreign_writes(current_manifests, prime, candidate)
+        registered_watch, watched = self._watch_sets()
+        expected_subject, _unused = self._subject_pair(validation, candidate, return_of)
+        witness = self._checkpoint_witness(subject) if validation.get("mode") == "checkpoint-return" else None
+        inputs.update({
+            "expectedSubject": expected_subject,
+            "foreignWrites": {"state": foreign_state, **foreign_detail},
+            "watchSets": {"registered": registered_watch, "watched": watched},
+            "primary": {**primary, "declaredVerifiers": self._declared_verifiers(current_requirement)},
+        })
+        inputs["generations"] = {"before": generation_before, "after": self._generation()}
+        record["decisionInputsAtCommit"] = {k: inputs[k] for k in ("expectedSubject", "foreignWrites", "watchSets", "generations")}
+        decision = self._decide(
+            phase="COMMIT", kind_mode=validation.get("mode"), candidate=candidate, subject=subject,
+            expected_parent=record.get("parentContentExpected"), base_root=record.get("baseRoot"),
+            delta_hash=record.get("deltaHash"), root_set=self.prime.root_set_hash(self.store.roots()),
+            expected_staged_root=inputs.get("stagedRoot"), actual_staged_root=staged_root,
+            staged_content_root=staged_content_root, conflicts=bool(record.get("conflicts")),
+            current_requirement=current_requirement["requirementHash"], inputs=inputs, witness=witness,
         )
+        record["decisionInputsAtCommit"]["absent"] = inputs.get("absent", [])
+        return decision
+
+    # -- 1.9.0 decision inputs: every identity from a named producer, absent as None ---------
+
+    def _note_unaccounted_write(self, prime: World | None, measurement: Mapping[str, Any]) -> None:
+        """Live PRIME differs from its record and nothing reported it. The refusal stands; the
+        change is recorded and PRIME marked dirty, so the next status or prepare reconciles it
+        into a PRIME generation and a retry can proceed."""
+        if prime is None or measurement.get("measuredBy") != "live-capture-vs-prime-record":
+            return
+        self.store.set_meta("dirty", True)
+        self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": prime.instance_id,
+                                        "kind": "unaccounted-write", "actor": "worldline",
+                                        "reason": "live PRIME differs from its record: " + ", ".join(measurement.get("differing") or [])})
 
     @staticmethod
-    def _checkpoint_fields(freshness: Mapping[str, Any]) -> dict[str, Any]:
-        """The evaluation mode and checkpoint witness for Decide, from a freshness document.
+    def _identity(value: Any) -> bytes | None:
+        """A sha256:<hex> identity as its 32 bytes; anything else is absent."""
+        if not isinstance(value, str) or not value.startswith("sha256:"):
+            return None
+        return hash_bytes_from_id(value)
 
-        Anything but an explicit checkpoint-return document is a candidate evaluation, whose
-        witness fields keep CollapseInput's refusing defaults. A checkpoint return without a
-        recorded witness is passed as unwitnessed, and the kernel refuses it.
-        """
-        if freshness.get("mode") != "checkpoint-return":
-            return {"mode": "CANDIDATE_EVALUATION"}
-        witness = freshness.get("witness")
-        if not isinstance(witness, Mapping) or not witness.get("witnessed") or not witness.get("expected"):
-            return {"mode": "CHECKPOINT_RETURN", "checkpoint_witnessed": False}
-        return {
-            "mode": "CHECKPOINT_RETURN",
-            "checkpoint_witnessed": True,
-            "expected_checkpoint": hash_bytes_from_id(str(witness["expected"])),
-            "witnessed_checkpoint": hash_bytes_from_id(str(witness["witnessed"])),
+    def _generation(self) -> int | None:
+        return None if self.watcher is None else int(self.watcher.synchronized_generation())
+
+    def _watch_set_digest(self, pairs: Sequence[tuple[str, bytes]]) -> str:
+        value = sorted([str(key), base64.b64encode(bytes(path)).decode("ascii")] for key, path in pairs)
+        return hash_id(self.core.hash_bytes(b"worldline-watch-set-v1" + canonical_bytes(value)))
+
+    def _watch_sets(self) -> tuple[str | None, str | None]:
+        """The registered roots, and the roots the PRIME watcher is actually watching, each as a
+        digest over (root key, resolved source path). An unresolvable root leaves the registered
+        side absent; no watcher leaves the watched side absent. The kernel decides."""
+        registered: list[tuple[str, bytes]] = []
+        for root in self.store.roots():
+            try:
+                registered.append((root["root_key"], os.fsencode(self.paths.root_source(root))))
+            except WorldlineError:
+                return None, (None if self.watcher is None else self._watch_set_digest(self.watcher.watched_roots()))
+        watched = None if self.watcher is None else self._watch_set_digest(self.watcher.watched_roots())
+        return self._watch_set_digest(registered), watched
+
+    @staticmethod
+    def _reported_contamination(candidate: World, foreign: Mapping[str, Any]) -> list[Any]:
+        """What a refusal reports as contamination: the candidate's recorded entries, plus the
+        measured foreign write, so a consumer that reads only `contamination` does not show
+        "none" for a FOREIGN_MANAGED_WRITE refusal (review of a23c265)."""
+        reported = list(candidate.contamination or [])
+        if foreign.get("state") == "FOUND" and foreign.get("measuredBy") == "live-capture-vs-prime-record":
+            reported.append({"measuredBy": foreign["measuredBy"], "differing": list(foreign.get("differing") or [])})
+        return reported
+
+    def readiness(self, *, measure_foreign: bool) -> dict[str, Any]:
+        """The promotion inputs doctor reports without deciding anything (1.9.0): watch coverage,
+        and -- only when asked, since it captures every live root -- the foreign-write
+        measurement a prepare would take now."""
+        registered, watched = self._watch_sets()
+        root_keys = sorted(root["root_key"] for root in self.store.roots())
+        watched_keys = sorted({key for key, _path in self.watcher.watched_roots()}) if self.watcher is not None else []
+        coverage = {
+            "state": ("NO_WATCHER" if self.watcher is None else
+                      "COMPLETE" if registered is not None and registered == watched else "INCOMPLETE"),
+            "unwatchedRoots": [key for key in root_keys if key not in watched_keys],
+            "faults": dict(getattr(self.watcher, "coverage_faults", dict)()) if self.watcher is not None else {},
+            "generation": self._generation(),
         }
+        foreign: dict[str, Any] = {"state": None, "measuredWith": "doctor --refresh"}
+        if measure_foreign:
+            try:
+                state, detail = self._foreign_writes(self._capture_current_roots(), self.store.prime(), None)
+                foreign = {"state": state, **detail}
+            except WorldlineError as exc:
+                # The live capture refused (a special file, a broken mapping, ...): the report
+                # says so instead of failing, since that is when the operator needs doctor.
+                foreign = {"state": "UNMEASURED", "measuredBy": "live-capture-vs-prime-record", "error": exc.as_dict()}
+            except OSError as exc:  # an unreadable directory, and the like (review of 0ee1112)
+                foreign = {"state": "UNMEASURED", "measuredBy": "live-capture-vs-prime-record",
+                           "error": {"code": "CAPTURE_FAILED", "message": str(exc), "details": {"errno": exc.errno}}}
+        # A reported write not yet reconciled also differs from the record; the next status or
+        # prepare records it as a PRIME generation, so it is not a foreign write.
+        foreign["primeDirty"] = bool(self.store.get_meta("dirty", False))
+        return {"watchCoverage": coverage, "foreignWrites": foreign}
+
+    def _foreign_writes(self, live: Mapping[str, CapturedManifest], prime: World | None, candidate: World | None) -> tuple[str, dict[str, Any]]:
+        """Foreign managed writes, measured (whitepaper 8.1: a change in PRIME made by something
+        other than a WORLDLINE commit). The component roots of the capture of live PRIME just
+        taken are compared with the components the PRIME record states. A PRIME record without
+        them is UNMEASURED. A candidate carrying recorded contamination is FOUND."""
+        if candidate is not None and candidate.contamination:
+            return "FOUND", {"measuredBy": "recorded-contamination", "differing": ["contamination"]}
+        recorded = (prime.components or {}) if prime is not None else {}
+        keys = ("filesystem", "config", "repository")
+        if prime is None or any(not isinstance(recorded.get(key), str) for key in keys):
+            return "UNMEASURED", {"measuredBy": "live-capture-vs-prime-record", "differing": []}
+        live_components = Manifest.component_roots(live.values(), self.core)
+        differing = [key for key in keys if live_components.get(key) != recorded.get(key)]
+        return ("FOUND" if differing else "NONE_FOUND"), {"measuredBy": "live-capture-vs-prime-record", "differing": differing}
+
+    def _subject_digest(self, instance: Any, binding: str) -> str | None:
+        if not isinstance(instance, str) or not instance:
+            return None
+        return hash_id(self.core.hash_bytes(b"worldline-subject-v1" + canonical_bytes([instance, binding])))
+
+    def _return_binding(self, return_of: str) -> str:
+        # The formula returning.prepare_candidate uses for the vehicle's mission hash.
+        return hash_id(self.core.hash_bytes(b"worldline-return-v1" + return_of.encode("ascii")))
+
+    def _subject_pair(self, freshness: Mapping[str, Any], candidate: World, return_of: str | None) -> tuple[str | None, str | None]:
+        """The world the promotion is about, and the world the speaking evidence -- or the return
+        vehicle -- is bound to. Different records produce the two sides: the promotion's own
+        arguments on one, the evidence context's binding and the vehicle's mission hash on the
+        other. (1.9.0 replaces the owner pair, which had one producer.)"""
+        if return_of:
+            expected = self._subject_digest(return_of, self._return_binding(return_of))
+            evidence_instance = return_of if freshness.get("mode") == "checkpoint-return" else freshness.get("evidenceInstance")
+            claimed = self._subject_digest(evidence_instance, candidate.mission_hash or "")
+        else:
+            expected = self._subject_digest(candidate.instance_id, "")
+            claimed = self._subject_digest(freshness.get("evidenceInstance"), "")
+        return expected, claimed
+
+    def _declared_manifest_present(self, source: bytes, root: Mapping[str, Any]) -> bool:
+        manifest_path = Path(os.fsdecode(os.path.dirname(source))) / "manifests" / f"{root['root_key']}.json"
+        return manifest_path.is_file()
+
+    def _tested_root(self, freshness: Mapping[str, Any], candidate: World,
+                     candidate_manifests: Mapping[str, CapturedManifest], candidate_declared: bool,
+                     roots: list[dict[str, Any]]) -> tuple[str | None, Mapping[str, CapturedManifest] | None, str]:
+        """What the speaking evaluation examined, or absent. A revalidation records the content
+        root it examined; otherwise the finalization's declared manifests (verified against the
+        payload) stand for it, and a missing one leaves the tested root absent."""
+        examined = freshness.get("examinedContentRoot")
+        if isinstance(examined, str):
+            # A revalidation examines its world's declared manifests; when they are the bytes it
+            # names, they also say path by path what it examined (for untestedPaths).
+            declared = candidate_manifests if candidate_declared and content_root_set(candidate_manifests, self.core) == examined else None
+            return examined, declared, "evaluation-examined-root"
+        if freshness.get("mode") == "re-application":
+            finalized = self._finalized_manifests(self.store.world(freshness["subject"]), roots)
+            if finalized is None:
+                return None, None, "finalized-manifests-missing"
+            return content_root_set(finalized, self.core), finalized, "finalized-manifests"
+        if not candidate_declared:
+            return None, None, "declared-manifests-missing"
+        return content_root_set(candidate_manifests, self.core), candidate_manifests, "declared-manifests"
+
+    def _declared_verifiers(self, current: Mapping[str, Any]) -> str:
+        required, _declared_empty = required_roster(current)
+        bundles: dict[str, list[tuple[str, str, str]]] = {}
+        for entry in current.get("verifiers") or ():
+            bundles.setdefault(str(entry.get("checkId")), []).append(
+                (str(entry.get("rootKey")), str(entry.get("path")), str(entry.get("sha256"))))
+        return bundle_identity([("", check_id, bundle_identity(bundles[check_id]) if bundles.get(check_id) else NO_BUNDLE_IDENTITY)
+                                for check_id in required])
+
+    def _staged_block(self, subject: World, current: Mapping[str, Any], staged: Mapping[str, Any] | None) -> dict[str, Any]:
+        """The staged-merge evaluation as the kernel reads it: the requirement it ran against,
+        the kernel's roster verdict over its records (the agent judged from the subject's
+        finalization), the verifier set it executed, and the content root it examined."""
+        if staged is None:
+            return {"ran": False, "evaluatedRequirement": None, "rosterComplete": False,
+                    "executedVerifiers": None, "examinedRoot": None}
+        identity = self._execution_identity(subject, current, recorded_checks=staged.get("results") or [])
+        return {"ran": True, "validationId": staged.get("validationId"),
+                "evaluatedRequirement": staged.get("requirementHash"),
+                "rosterComplete": identity["complete"] is True,
+                "executedVerifiers": identity["actual"],
+                "examinedRoot": staged.get("examinedContentRoot"),
+                "problems": identity["problems"]}
+
+    def _decide(self, *, phase: str, kind_mode: Any, candidate: World, subject: World, expected_parent: Any,
+                base_root: Any, delta_hash: Any, root_set: Any, expected_staged_root: Any, actual_staged_root: Any,
+                staged_content_root: Any, conflicts: bool, current_requirement: Any, inputs: dict[str, Any],
+                witness: Mapping[str, Any] | None) -> str:
+        checkpoint = kind_mode == "checkpoint-return"
+        primary = inputs.get("primary") if isinstance(inputs.get("primary"), Mapping) else {}
+        staged = inputs.get("staged") if isinstance(inputs.get("staged"), Mapping) else {}
+        generations = inputs.get("generations") if isinstance(inputs.get("generations"), Mapping) else {}
+        watch = inputs.get("watchSets") if isinstance(inputs.get("watchSets"), Mapping) else {}
+        values = CollapseInput(
+            candidate_state=candidate.state.value,
+            phase=phase,
+            mode="CHECKPOINT_RETURN" if checkpoint else "CANDIDATE_EVALUATION",
+            # The merge measured conflicts only if the record says so; a record without that
+            # statement is unmeasured, never "none found".
+            conflicts="FOUND" if conflicts else ("NONE_FOUND" if inputs.get("conflictsMeasured") is True else "UNMEASURED"),
+            foreign_writes=str((inputs.get("foreignWrites") or {}).get("state") or "UNMEASURED"),
+            roster_complete=False if checkpoint else primary.get("rosterComplete") is True,
+            staged_roster_complete=staged.get("rosterComplete") is True,
+            expected_parent=self._identity(expected_parent),
+            candidate_parent=self._identity(candidate.parent_content),
+            expected_subject=self._identity(inputs.get("expectedSubject")),
+            evidence_subject=self._identity(inputs.get("evidenceSubject")),
+            expected_base=self._identity(candidate.base_root),
+            candidate_base=self._identity(base_root),
+            expected_delta=self._identity(candidate.delta_hash),
+            candidate_delta=self._identity(delta_hash),
+            expected_root_set=self._identity(root_set),
+            candidate_root_set=self._identity(candidate.root_set_hash),
+            expected_staged_root=self._identity(expected_staged_root),
+            actual_staged_root=None if phase == "PREPARE" else self._identity(actual_staged_root),
+            staged_content_root=self._identity(staged_content_root),
+            tested_root=self._identity(inputs.get("testedRoot")),
+            current_requirement=self._identity(current_requirement),
+            evaluated_requirement=None if checkpoint else self._identity(primary.get("evaluatedRequirement")),
+            declared_verifiers=self._identity(primary.get("declaredVerifiers")),
+            executed_verifiers=None if checkpoint else self._identity(primary.get("executedVerifiers")),
+            staged_evaluated_requirement=self._identity(staged.get("evaluatedRequirement")),
+            staged_executed_verifiers=self._identity(staged.get("executedVerifiers")),
+            staged_examined_root=self._identity(staged.get("examinedRoot")),
+            expected_checkpoint=self._identity(subject.content_id) if checkpoint else None,
+            witnessed_checkpoint=self._identity((witness or {}).get("witnessed")) if checkpoint else None,
+            registered_watch_set=self._identity(watch.get("registered")),
+            watched_set=self._identity(watch.get("watched")),
+            generation_before=generations.get("before") if type(generations.get("before")) is int else None,
+            generation_after=generations.get("after") if type(generations.get("after")) is int else None,
+        )
+        inputs["absent"] = sorted(name for name in CollapseInput.__slots__
+                                  if getattr(values, name) is None)
+        return self.core.collapse_decide(values)
 
     # Far beyond any real store; a longer walk is treated as no witness rather than as a pass.
     _LINEAGE_LIMIT = 1_000_000
@@ -666,7 +916,7 @@ class CollapseTransaction:
             "policySourceSha256": validation.get("policySourceSha256"),
             "testedRoot": record.get("testedRoot"),
             "stagedContentRoot": record.get("stagedContentRoot"),
-            "stagedValidation": None if not isinstance(staged, dict) else {k: staged.get(k) for k in ("validationId", "outcome", "summary", "requirementHash", "contextHash", "evaluatedAt")},
+            "stagedValidation": None if not isinstance(staged, dict) else {k: staged.get(k) for k in ("validationId", "outcome", "summary", "requirementHash", "contextHash", "evaluatedAt", "examinedContentRoot")},
             "untestedPathCount": len(record.get("untestedPaths") or []),
         }
 
@@ -720,18 +970,29 @@ class CollapseTransaction:
         agent_refused = {item["id"]: item["reason"] for item in agent["refused"]}
         expected_members: list[tuple[str, str, str]] = []
         actual_members: list[tuple[str, str, str]] = []
+        # A member the records cannot state is ABSENT, and one absent member makes the whole
+        # executed identity absent (1.9.0): no "" or placeholder stands in for it. "Ran no bundle"
+        # is a stated fact only when the record carries the executedVerifierSet key with null, or
+        # the result is the engine's own.
+        actual_absent = False
         for check_id in required:
             bundle = declared_bundles.get(check_id, [])
             expected_members.append(("", check_id, bundle_identity(bundle) if bundle else NO_BUNDLE_IDENTITY))
-            if check_id in refused:
-                actual_members.append(("", check_id, ""))
+            record_ = recorded.get(check_id)
+            if check_id in refused or not isinstance(record_, Mapping):
+                actual_absent = True
                 continue
-            if not bundle:
+            executed = record_.get("executedVerifierSet")
+            if isinstance(executed, Mapping):
+                identity = executed.get("identity")
+                if isinstance(identity, str) and identity:
+                    actual_members.append(("", check_id, identity))
+                else:
+                    actual_absent = True
+            elif ("executedVerifierSet" in record_ and executed is None) or record_.get("origin") == "engine":
                 actual_members.append(("", check_id, NO_BUNDLE_IDENTITY))
-                continue
-            executed = recorded[check_id].get("executedVerifierSet")
-            identity = executed.get("identity") if isinstance(executed, Mapping) else None
-            actual_members.append(("", check_id, str(identity) if identity else ""))
+            else:
+                actual_absent = True
         problems = [f"{check_id}: {reason}" for check_id, reason in {**agent_refused, **refused}.items()]
         if not roster["complete"] and not required:
             problems.append("no .worldline.json declares what a collapse requires; add one"
@@ -740,7 +1001,7 @@ class CollapseTransaction:
         # declared) and the agent's own finalization exit.
         complete = roster["complete"] is True and agent["complete"] is True
         return {"complete": complete, "expected": bundle_identity(expected_members),
-                "actual": bundle_identity(actual_members), "mode": "candidate-evaluation",
+                "actual": None if actual_absent else bundle_identity(actual_members), "mode": "candidate-evaluation",
                 "problems": problems, "requiredChecks": ["agent", *required], "emptyDeclared": empty_declared,
                 "legacyAgentRecord": legacy_agent}
 
@@ -769,16 +1030,18 @@ class CollapseTransaction:
         # WORLDLINE-made world that never became live is refused there as CHECKPOINT_UNWITNESSED.
         checkpoint_return = kind == "return" and subject.actor == "worldline"
         if checkpoint_return:
-            return {"mode": "checkpoint-return", "requirementHash": current["requirementHash"], "candidateRequirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "contextHash": None, "source": None,
-                    "witness": self._checkpoint_witness(subject),
-                    # No candidate evaluation exists, and none is claimed: the kernel does not
-                    # consult these fields in this mode, and they say "nothing" rather than
-                    # "complete".
-                    "execution": {"complete": False, "expected": NO_BUNDLE_IDENTITY, "actual": NO_BUNDLE_IDENTITY,
+            return {"mode": "checkpoint-return", "requirementHash": current["requirementHash"], "candidateRequirementHash": None, "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "contextHash": None, "source": None,
+                    "witness": self._checkpoint_witness(subject), "current": current,
+                    # No candidate evaluation exists, and none is claimed: absent, not "complete"
+                    # and not a token. The declared verifiers are kept: a staged-merge evaluation
+                    # may still have to cover the staged bytes.
+                    "execution": {"complete": False, "expected": self._declared_verifiers(current), "actual": None,
                                   "mode": "no-candidate-evaluation", "problems": [], "requiredChecks": []}}
         context, source, recorded_checks = effective_evidence(self.store, subject)
         try:
-            context = verify_context(context, candidate_instance=subject.instance_id, core=self.core)
+            # 1.9.0: which world the context is bound to is not decided here; it is carried to
+            # the kernel as the evidence subject (EVIDENCE_SUBJECT_MISMATCH).
+            context = verify_context(context, candidate_instance=None, core=self.core)
             if context.get("verifiersModifiedByCandidate"):
                 raise WorldlineError("VERIFIER_MODIFIED_BY_CANDIDATE", "the candidate changed an authoritative verifier its own evidence depends on", {"verifiers": context["verifiersModifiedByCandidate"]})
             if context["requirementHash"] != current["requirementHash"]:
@@ -787,6 +1050,9 @@ class CollapseTransaction:
             self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": subject.instance_id, "kind": "promotion-refused", "actor": "worldline", "reason": exc.code, "details": exc.details if hasattr(exc, "details") else None, "transactionKind": kind})
             raise
         return {"mode": "re-application" if kind == "return" else "collapse", "requirementHash": current["requirementHash"], "candidateRequirementHash": context["requirementHash"], "contextHash": context["contextHash"], "source": source, "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "evaluatedAt": context.get("evaluatedAt"),
+                "evidenceInstance": (context.get("candidate") or {}).get("instanceId"),
+                "examinedContentRoot": context.get("examinedContentRoot"),
+                "current": current,
                 "execution": self._execution_identity(subject, current, recorded_checks=recorded_checks)}
 
     def _finish_committed(
@@ -795,7 +1061,11 @@ class CollapseTransaction:
         staged_manifests: Mapping[str, CapturedManifest] | None = None,
     ) -> dict[str, Any]:
         candidate = self.store.world(record["candidateWorld"])
-        manifests = dict(staged_manifests or self._capture_staged(record))
+        moved_offline = False
+        if staged_manifests is not None:
+            manifests = dict(staged_manifests)
+        else:
+            manifests, moved_offline = self._recovered_manifests(record)
         manifests_directory = Path(record["stagingPayload"]) / "manifests"
         manifests_directory.mkdir(mode=0o700, exist_ok=True)
         for root_key, manifest in manifests.items():
@@ -804,7 +1074,14 @@ class CollapseTransaction:
         for name in ("environment.json", "evidence.json", "agent.json"):
             source = candidate_state / name
             if source.is_file():
-                shutil.copy2(source, manifests_directory / name)
+                destination = manifests_directory / name
+                if destination.exists() and (os.path.samefile(source, destination)
+                                             or destination.read_bytes() == source.read_bytes()):
+                    continue  # a replay (recovery), or the candidate that became PRIME itself
+                # A replay finds the read-only copy it made the first time; replace it rather
+                # than open it for writing (review of 19d0297).
+                destination.unlink(missing_ok=True)
+                shutil.copy2(source, destination)
         for root in self.store.roots():
             self.store.update_root_generation(
                 root["root_key"], record["transactionId"], manifests[root["root_key"]].root_hash
@@ -824,18 +1101,19 @@ class CollapseTransaction:
             current_prime = self.store.prime()
             if current_prime is None or current_prime.content_id is None:
                 raise WorldlineError("RECOVERY_STATE_MISMATCH", "PRIME identity vanished after committed exchange")
-            staged_identity = hash_id(
-                self.core.world_id(
-                    {
-                        "parent": hash_bytes_from_id(current_prime.content_id),
-                        "filesystem": hash_bytes_from_id(components["filesystem"]),
-                        "config": hash_bytes_from_id(components["config"]),
-                        "repository": hash_bytes_from_id(components["repository"]),
-                        "environment": hash_bytes_from_id(candidate.components["environment"]),
-                        "evidence": hash_bytes_from_id(candidate.components["evidence"]),
-                    }
-                )
-            )
+            staged_identity = self._staged_identity(candidate, components, current_prime)
+            if staged_identity != candidate.content_id:
+                try:
+                    holder = self.store.world(staged_identity)
+                except WorldlineError:
+                    holder = None
+                if holder is not None and holder.alias != f"prime-{record['transactionId']}":
+                    # commit checks this before its exchange; a recovery (or an in-process finish)
+                    # can meet it only if a world took the identity since. Named, and quarantined
+                    # by the caller, instead of failing with NOT_FOUND inside the publish.
+                    raise WorldlineError("CHECKPOINT_IDENTITY_TAKEN",
+                                         f"the PRIME generation this transaction must publish has the identity of world {holder.alias}",
+                                         {"transactionId": record["transactionId"], "world": holder.alias})
             if staged_identity == candidate.content_id:
                 if current_prime.instance_id != candidate.instance_id and current_prime.state in (
                     WorldState.VALID,
@@ -869,6 +1147,18 @@ class CollapseTransaction:
             self._set_state(record, "AUTHORIZED")
         if record["state"] == "AUTHORIZED":
             self._set_state(record, "COMMITTED", committed=True)
+        if moved_offline:
+            # Live PRIME is not the tree that was committed: something wrote to it while no
+            # daemon ran. PRIME records the committed tree; the difference is recorded and PRIME
+            # marked dirty, so the next status or prepare reconciles it into its own generation
+            # instead of folding it into this collapse.
+            prime_now = self.store.prime()
+            self.store.set_meta("dirty", True)
+            self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION,
+                                            "worldInstance": prime_now.instance_id if prime_now is not None else candidate.instance_id,
+                                            "kind": "unaccounted-write", "actor": "worldline",
+                                            "reason": "live PRIME differed from the committed staged tree at recovery",
+                                            "transactionId": record["transactionId"]})
         receipt_row = self.store.receipt_for_transaction(record["transactionId"])
         if receipt_row is None:
             receipt = self.receipts.append(
@@ -882,6 +1172,7 @@ class CollapseTransaction:
                 generated=record.get("generated", []),
                 dependency_changes=record.get("dependencyChanges", []),
                 evidence_binding=self._evidence_binding(record),
+                foreign_measurement=(record.get("decisionInputsAtCommit") or record.get("decisionInputs") or {}).get("foreignWrites"),
             )
             self.store.append_causal_event(
                 {
@@ -925,19 +1216,18 @@ class CollapseTransaction:
         # the two durably disagreeing) is quarantined and reported instead of raised: an
         # unraisable startup would deny every read-only diagnostic — doctor, log, list, why —
         # and leave the operator with no route back except hand-editing JSON and SQLite.
-        # Mutations are gated separately in prepare()/commit(), so this is fail-open for
-        # diagnosis and fail-closed for anything that could touch PRIME.
+        # Everything that could touch PRIME is gated on it -- prepare, commit, the fork/return
+        # freeze and reconcile -- so this is fail-open for diagnosis and fail-closed for PRIME.
         recovered: list[dict[str, Any]] = []
         self.unrecoverable = {}
         for row in self.store.transactions_in_state(("PREPARED", "AUTHORIZED")):
             transaction_id = row["transaction_id"]
             try:
                 recovered.append(self._recover_one(transaction_id))
-            except WorldlineError as exc:
-                self.unrecoverable[transaction_id] = exc.as_dict()
-                recovered.append(
-                    {"transactionId": transaction_id, "state": "UNRECOVERABLE", "error": exc.as_dict()}
-                )
+            except Exception as exc:  # as promised above: quarantined, never raised (reviews of 19d0297, 56a7146)
+                error = self._recovery_error(exc)
+                self.unrecoverable[transaction_id] = error
+                recovered.append({"transactionId": transaction_id, "state": "UNRECOVERABLE", "error": error})
         # A crash between the COMMITTED state write and the receipt append leaves a committed
         # collapse with no receipt and no causal event, permanently: the chains stay internally
         # consistent, so `log --verify` passes over the hole. Replaying _finish_committed for a
@@ -951,11 +1241,10 @@ class CollapseTransaction:
                 record = self._load_record(transaction_id)
                 self._finish_committed(record)
                 recovered.append({"transactionId": transaction_id, "state": "RECEIPT_RECOVERED"})
-            except WorldlineError as exc:
-                self.unrecoverable[transaction_id] = exc.as_dict()
-                recovered.append(
-                    {"transactionId": transaction_id, "state": "RECEIPT_UNRECOVERABLE", "error": exc.as_dict()}
-                )
+            except Exception as exc:
+                error = self._recovery_error(exc)
+                self.unrecoverable[transaction_id] = error
+                recovered.append({"transactionId": transaction_id, "state": "RECEIPT_UNRECOVERABLE", "error": error})
         return recovered
 
     def _recover_one(self, transaction_id: str) -> dict[str, Any]:
@@ -972,6 +1261,18 @@ class CollapseTransaction:
             "transaction generation marker does not identify one commit state",
             {"transactionId": transaction_id, "liveMarker": live_marker, "preparedMarker": prepared_marker},
         )
+
+    @staticmethod
+    def _recovery_error(exc: BaseException) -> dict[str, Any]:
+        """A quarantine record for an exception recovery (or an in-place finish) could not settle.
+        Logged with its traceback: a quarantine must not hide a programming error's file and line
+        (review of fcbf132)."""
+        _LOG.error("transaction quarantined: %s: %s", type(exc).__name__, exc, exc_info=exc)
+        if isinstance(exc, WorldlineError):
+            return exc.as_dict()
+        io = isinstance(exc, (OSError, sqlite3.OperationalError))
+        return {"code": "RECOVERY_IO_FAILED" if io else "RECOVERY_FAILED", "message": str(exc),
+                "details": {"errno": getattr(exc, "errno", None), "type": type(exc).__name__}}
 
     def _assert_recovery_complete(self) -> None:
         if getattr(self, "unrecoverable", None):
@@ -1099,6 +1400,60 @@ class CollapseTransaction:
             for root in self.store.roots()
         }
 
+    def _staged_identity(self, candidate: World, components: Mapping[str, str], current_prime: World) -> str:
+        """The content identity the committed tree gets as PRIME: the candidate's own when it is
+        the same world, otherwise the checkpoint _finish_committed publishes."""
+        return hash_id(
+            self.core.world_id(
+                {
+                    "parent": hash_bytes_from_id(current_prime.content_id),
+                    "filesystem": hash_bytes_from_id(components["filesystem"]),
+                    "config": hash_bytes_from_id(components["config"]),
+                    "repository": hash_bytes_from_id(components["repository"]),
+                    "environment": hash_bytes_from_id(candidate.components["environment"]),
+                    "evidence": hash_bytes_from_id(candidate.components["evidence"]),
+                }
+            )
+        )
+
+    def _checkpoint_collision(self, record: Mapping[str, Any], candidate: World,
+                              staged_manifests: Mapping[str, CapturedManifest]) -> World | None:
+        """A world that already holds the identity the commit would publish, or None. World
+        content ids are unique; a leftover return vehicle can hold exactly that id, and a
+        publish that collides after the exchange would leave reality changed with no record
+        (review of 19d0297). Checked before the exchange instead."""
+        current_prime = self.store.prime()
+        if current_prime is None or current_prime.content_id is None:
+            return None
+        identity = self._staged_identity(candidate, Manifest.component_roots(staged_manifests.values(), self.core), current_prime)
+        if identity == candidate.content_id:
+            return None  # the candidate itself becomes PRIME; nothing new is published
+        try:
+            existing = self.store.world(identity)
+        except WorldlineError:
+            return None
+        return None if existing.alias == f"prime-{record['transactionId']}" else existing
+
+    def _recovered_manifests(self, record: Mapping[str, Any]) -> tuple[dict[str, CapturedManifest], bool]:
+        """The committed staged tree, for a recovery that finishes an exchange which already
+        happened. The live tree IS the staging payload by then; if it still has the staged root
+        prepare recorded, it is used. Otherwise the manifests prepare persisted are, when they
+        state that root, and the caller records the difference (moved_offline)."""
+        live = self._capture_staged(record)
+        expected = record.get("stagedRoot")
+        if Manifest.root_set_hash(live.values(), self.core) == expected:
+            return live, False
+        persisted_directory = Path(record["stagingPayload"]).parent / "manifests"
+        persisted: dict[str, CapturedManifest] = {}
+        for root in self.store.roots():
+            path = persisted_directory / f"{root['root_key']}.json"
+            if not path.is_file():
+                return live, True  # nothing states the committed tree; keep what is live, recorded
+            persisted[root["root_key"]] = Manifest.load(path, self.core)
+        if Manifest.root_set_hash(persisted.values(), self.core) != expected:
+            return live, True
+        return persisted, True
+
     def _capture_staged(self, record: Mapping[str, Any]) -> dict[str, CapturedManifest]:
         payload = Path(record["stagingPayload"])
         return {
@@ -1150,15 +1505,38 @@ class CollapseTransaction:
     def _load_record(self, transaction_id: str) -> dict[str, Any]:
         row = self.store.transaction_record(transaction_id)
         path = Path(row["prepared_path"])
+        # The store records absolute paths. A copy of a store that was not relocated still names
+        # the ORIGINAL store's files, and recovery on it would abort the original's transaction and
+        # delete its staging (review of a23c265). Nothing outside this store is read or written.
+        self._require_own(path, self.paths.transactions, transaction_id, "preparedPath")
         try:
             record = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as exc:
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"cannot read prepared transaction {transaction_id}") from exc
         if record.get("schemaVersion") != SCHEMA_VERSION or record.get("transactionId") != transaction_id:
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"prepared transaction identity mismatch: {transaction_id}")
+        self._require_own(Path(str(record.get("preparedPath") or "")), self.paths.transactions, transaction_id, "preparedPath")
+        for key in ("stagingPayload", "preparedMapping"):
+            if record.get(key) is not None:
+                self._require_own(Path(str(record[key])), self.data_transactions / transaction_id, transaction_id, key)
         if row["state"] != record.get("state"):
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"database and prepared transaction state differ: {transaction_id}")
         return record
+
+    @staticmethod
+    def _require_own(path: Path, directory: Path, transaction_id: str, field: str) -> None:
+        """Refuse a record path that is not inside this store's own directory for it. Compared
+        resolved, so the same store reached through a symlink is still its own (review of
+        0ee1112), while a copy's paths resolve into the original and are refused."""
+        try:
+            own = os.path.realpath(directory)
+            inside = os.path.commonpath([os.path.realpath(path), own]) == own
+        except ValueError:
+            inside = False
+        if not path.is_absolute() or not inside:
+            raise WorldlineError("TRANSACTION_RECORD_FOREIGN",
+                                 f"transaction {transaction_id} names a {field} outside this store; was the store copied without relocating it?",
+                                 {"transactionId": transaction_id, "field": field, "path": str(path), "expectedUnder": str(directory)})
 
     def _set_state(
         self,
@@ -1203,12 +1581,4 @@ class CollapseTransaction:
                 return True
             seen.add(current)
             current = self.store.world(current).parent_instance
-        return False
-
-
-class _NullContext:
-    def __enter__(self) -> None:
-        return None
-
-    def __exit__(self, _type: Any, _value: Any, _traceback: Any) -> bool:
         return False

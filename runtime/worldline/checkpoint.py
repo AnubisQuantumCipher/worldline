@@ -44,15 +44,31 @@ class CheckpointManager:
         self.core = core or Core.shared()
         self.watcher = watcher
         self.reconcile = reconcile
+        # Set by the controller: refuses while a transaction is quarantined, so nothing freezes
+        # PRIME (a fork, a return's vehicle) that could take the identity recovery must publish.
+        self.recovery_gate: Any = None
         self.prime = PrimeManager(paths, store, self.core)
         self.git = GitAdapter(self.core)
 
     def freeze(self) -> FrozenParent:
+        if self.recovery_gate is not None:
+            self.recovery_gate()
+        # Drain the watcher before the dirty check, as prepare does: a write it has already seen
+        # is reconciled here rather than frozen into the fork unrecorded.
+        if self.watcher is not None:
+            self.watcher.synchronized_generation()
         if self.reconcile is not None and self.store.get_meta("dirty", False):
             self.reconcile()
         parent = self.store.prime()
         if parent is None or parent.content_id is None:
             raise WorldlineError("NO_PRIME", "fork requires an initialized PRIME")
+        if self.watcher is None and self.store.roots():
+            # 1.9.0: without a PRIME watcher nothing tells this freeze that PRIME moved while it
+            # was copied, and the collapse decision would refuse the world later anyway
+            # (MEASUREMENT_ABSENT). Refuse at the start instead.
+            raise WorldlineError("PRIME_WATCH_UNAVAILABLE",
+                                 "PRIME is not being watched (no registered root could be watched); "
+                                 "`worldline doctor` shows why")
         generation_id = str(uuid.uuid4())
         generation = self.paths.generations / generation_id
         payload = generation / "payload"

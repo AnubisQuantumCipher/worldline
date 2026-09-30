@@ -354,6 +354,14 @@ class ReturnAfterTheCheckpointWasLive(unittest.TestCase):
             try:
                 client = second.client
                 self.assertEqual(client.request("fork", {"name": "second", "mission": "again", "agent": "second", "wait": True})["state"], "VALID")
+                # Nothing reported those writes, so live PRIME differs from its record: the
+                # kernel refuses FOREIGN_MANAGED_WRITE and PRIME is marked dirty (1.9.0). The
+                # retry reconciles the writes into a PRIME generation and proceeds.
+                with self.assertRaises(WorldlineError) as raised:
+                    client.request("collapse.prepare", {"world": "second"})
+                self.assertEqual(raised.exception.details["decision"], "FOREIGN_MANAGED_WRITE")
+                self.assertEqual(raised.exception.details["foreignWrites"]["state"], "FOUND")
+                self.assertIn("filesystem", raised.exception.details["foreignWrites"]["differing"])
                 prepared = client.request("collapse.prepare", {"world": "second"})
                 self.assertEqual(prepared["decision"], "AUTHORIZED")
                 committed = client.request("collapse.commit", {"transactionId": prepared["transaction_id"]})

@@ -13,6 +13,12 @@ from .model import World, WorldState
 from .paths import WorldlinePaths
 from .store import StateStore
 
+# The parent content of the first PRIME, which has none. It is part of that world's content-id
+# preimage, so its bytes never change. It is never a collapse input: promotion's expected parent
+# is the candidate's parent world's own content id, and were this value ever passed, the
+# collapse encoder refuses a present all-zero digest (INVALID_HASH) before the kernel is asked.
+GENESIS_PARENT = hash_id(bytes(32))
+
 
 @dataclass(frozen=True, slots=True)
 class Generation:
@@ -72,7 +78,7 @@ class PrimeManager:
                 {"supplied": sorted(generation.component_roots)},
             )
         current = self.store.prime()
-        parent_content = hash_id(bytes(32)) if current is None else current.content_id
+        parent_content = GENESIS_PARENT if current is None else current.content_id
         if parent_content is None:
             raise WorldlineError("INCOMPLETE_WORLD", "current PRIME has no content identity")
         mission_hash = hash_id(

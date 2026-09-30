@@ -44,14 +44,20 @@ def matching_declaration(result: dict[str, Any]) -> CheckDeclaration:
     """The declaration a policy would have made for exactly this record.
 
     For unit tests of classification and report integrity, which are about the record, not
-    about whether it matches a policy. Declaration mismatch has its own tests.
+    about whether it matches a policy. Declaration mismatch has its own tests. WORLDLINE's own
+    results (origin agent or engine) are declared by origin with no profile (1.9.0).
     """
+    if result.get("origin") in ("agent", "engine"):
+        return CheckDeclaration(result.get("format"), None, False, origin=result["origin"])
     return CheckDeclaration(result.get("format"), result.get("profile", "legacy"),
                             result.get("executedVerifierSet") is not None)
 
 
 def evaluate(result: dict[str, Any]) -> dict[str, Any]:
-    """evaluation_record against the record's own matching declaration (see above)."""
+    """evaluation_record against the record's own matching declaration (see above). A policy
+    record states its profile, as the runner always writes it (1.9.0 no longer defaults it)."""
+    if result.get("origin") not in ("agent", "engine") and "profile" not in result:
+        result = {**result, "profile": "legacy"}
     return evaluation_record(result, declared=matching_declaration(result))
 
 

@@ -20,7 +20,7 @@ from __future__ import annotations
 import os
 import uuid
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from . import SCHEMA_VERSION
 from .core import Core
@@ -37,7 +37,7 @@ from .paths import secure_directory
 from .project import ProjectConfig
 from .store import StateStore
 from .trusted import trusted_inline
-from .validation import build_context, current_requirements, resolve_verifiers
+from .validation import content_root_set, build_context, current_requirements, resolve_verifiers
 
 
 class Revalidator:
@@ -49,6 +49,19 @@ class Revalidator:
         self.checks = checks
         self.core = core or Core.shared()
         self.git = GitAdapter(self.core)
+
+    def sweep_inputs(self) -> list[str]:
+        """Remove materialized revalidation inputs a killed daemon left behind (review of
+        19d0297: each is a full copy of a payload, and nothing else ever removes it). Called at
+        start, when no revalidation can be running."""
+        removed = []
+        overlays = self.paths.overlays
+        if overlays.is_dir():
+            for entry in sorted(overlays.iterdir()):
+                if entry.name.startswith("revalidation-input-") and entry.is_dir() and not entry.is_symlink():
+                    self._discard(entry)
+                    removed.append(entry.name)
+        return removed
 
     def revalidate(self, world_value: str) -> dict[str, Any]:
         world = self.store.world(world_value)
@@ -102,6 +115,7 @@ class Revalidator:
             prime_at_fork={"instanceId": world.parent_instance, "contentId": world.parent_content, "generation": None if parent is None else parent.instance_id},
             protected_delta=lambda: Delta.compute_all(base_manifests, candidate_manifests, self.core),
             source="revalidation",
+            declared=candidate_manifests,
         )
         entry = {"worldInstance": world.instance_id, "worldContentId": world.content_id, **entry}
         key = f"validation:{world.instance_id}"
@@ -129,7 +143,35 @@ class Revalidator:
         self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": candidate.instance_id, "kind": "staged-validation", "actor": "worldline", "outcome": entry["outcome"], "validationId": entry["validationId"], "requirementHash": entry["requirementHash"], "stagedContentRoot": staged_content_root})
         return {"stagedContentRoot": staged_content_root, **entry}
 
-    def _evaluate(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any, source: str) -> dict[str, Any]:
+    def _evaluate(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any, source: str,
+                  declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
+        if declared is None:
+            return self._evaluate_tree(source_dir=source_dir, subject=subject, prime_at_fork=prime_at_fork,
+                                       protected_delta=protected_delta, source=source)
+        # A revalidation examines exactly what its world's declared manifests state -- bytes,
+        # modes, attributes -- because that is what promotion compares with the staged tree. The
+        # finalized payload is read-only (finalization clears the write bits), so checks run over
+        # it would see modes the manifests do not state and a promotion would then install
+        # (review of 0ee1112). The declared manifests are materialized from the payload into a
+        # daemon-owned scratch tree, verified entry for entry, and the checks run over that.
+        input_directory = secure_directory(self.paths.overlays / f"revalidation-input-{uuid.uuid4()}")
+        try:
+            for key, manifest in declared.items():
+                try:
+                    Manifest.materialize(manifest, source_dir / key, input_directory / key, core=self.core)
+                except WorldlineError as exc:
+                    if exc.code != "COPY_VERIFICATION_FAILED":
+                        raise  # not about the bytes (an xattr this account may not set, storage, ...): its own name
+                    raise WorldlineError("PAYLOAD_INTEGRITY_FAILED",
+                                         f"the payload under revalidation is not the bytes its declared manifest states (root {key})",
+                                         {"rootKey": key, "cause": exc.as_dict()}) from exc
+            return self._evaluate_tree(source_dir=input_directory, subject=subject, prime_at_fork=prime_at_fork,
+                                       protected_delta=protected_delta, source=source, declared=declared)
+        finally:
+            self._discard(input_directory)
+
+    def _evaluate_tree(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any,
+                       source: str, declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
         roots = self.store.roots()
         primary = next((r for r in roots if r["primary_root"]), None)
         if primary is None:
@@ -146,6 +188,19 @@ class Revalidator:
         primary_target = Path(os.fsdecode(bytes(primary["path"])))
         private_id: str | None = None
         try:
+            # What this evaluation examines, identified before any check runs and verified again
+            # after the last one (1.9.0). Promotion compares it with the bytes that would go
+            # live; a tree that moved under the checks is refused rather than attributed to
+            # either state. Inside the try, so a refusal here still discards the overlay
+            # scratch (review of 0ee1112).
+            examined = self._source_manifests(source_dir, roots)
+            observed_content_root = content_root_set(examined, self.core)
+            examined_content_root = observed_content_root
+            if declared is not None and observed_content_root != content_root_set(declared, self.core):
+                # The materialized input is verified against its manifest as it is written;
+                # this states the equality where the examined root is recorded.
+                raise WorldlineError("PAYLOAD_INTEGRITY_FAILED",
+                                     "the tree under revalidation is not the bytes its declared manifests state")
             # THREE snapshots, kept apart:
             #   overlays        the bytes UNDER EVALUATION -- source_dir (for a revalidation, the
             #                   candidate's own finalized payload; for a staged merge, the staged
@@ -184,7 +239,7 @@ class Revalidator:
                 # change an examiner's judgment just as file bytes can. Ordinary preparatory
                 # checks may run, but their scratch changes cannot be credited to an unchanged
                 # source candidate.
-                baseline = self._source_manifests(source_dir, roots)
+                baseline = examined
                 private_id = str(uuid.uuid4())
                 snapshot, binding, manifests = self._capture_private_input(
                     validation_id, private_id, overlays, roots, primary_target)
@@ -216,6 +271,9 @@ class Revalidator:
             if private_id is not None:
                 self._discard(self.paths.overlays / private_id)
             self._discard(self.paths.overlays / validation_id)
+        if content_root_set(self._source_manifests(source_dir, roots), self.core) != observed_content_root:
+            raise WorldlineError("REVALIDATION_INPUT_CHANGED",
+                                 "the tree under evaluation changed while the checks ran")
         # The roster is the one promotion will impose: the current requirement's required checks
         # plus protected-paths when the policy protects anything, judged by the kernel.
         required, empty_declared = required_roster(current)
@@ -246,6 +304,7 @@ class Revalidator:
             evaluated_at=utc_now(),
             core=self.core,
             source=source,
+            examined_content_root=examined_content_root,
         )
         results_by_id = {r["id"]: r for r in results}
         roster = roster_decision(required, results_by_id, declarations,
@@ -267,11 +326,13 @@ class Revalidator:
             "evaluatedAt": context["evaluatedAt"],
             "requirementHash": current["requirementHash"],
             "contextHash": context["contextHash"],
+            "examinedContentRoot": examined_content_root,
             # Execution-identity fields are preserved, not projected away: promotion reads the
             # executedVerifierSet identity, executionBinding and evaluation from the evaluation
             # that speaks for the world, and for a revalidation that is THIS entry.
             "results": [{"id": r.get("id"), "format": r.get("format"),
-                         "profile": r.get("profile", "legacy"),
+                         # Stated only when the record states it; never defaulted (1.9.0).
+                         **({"profile": r["profile"]} if "profile" in r else {}),
                          "status": r.get("status"), "required": r.get("required"),
                          "reason": r.get("reason"), "executedVerifierSet": r.get("executedVerifierSet"),
                          "executionBinding": r.get("executionBinding"), "evaluation": r.get("evaluation"),

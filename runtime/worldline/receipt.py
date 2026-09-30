@@ -28,6 +28,7 @@ class ReceiptBuilder:
         generated: Sequence[dict[str, str]] = (),
         dependency_changes: Sequence[dict[str, Any]] = (),
         evidence_binding: Mapping[str, Any] | None = None,
+        foreign_measurement: Mapping[str, Any] | None = None,
     ) -> dict[str, Any]:
         previous = self.store.last_receipt()
         previous_id = None if previous is None else previous["receipt_id"]
@@ -62,8 +63,12 @@ class ReceiptBuilder:
                 "summary": delta["summary"],
             },
             "foreignWorldContamination": {
-                "state": "NONE" if not contamination else "DETECTED",
+                "state": "NONE" if not contamination and (foreign_measurement or {}).get("state") != "FOUND" else "DETECTED",
                 "writes": list(contamination),
+                # 1.9.0: what was measured, and how. Absent for receipts of transactions prepared
+                # before the measurement existed.
+                **({"measuredBy": foreign_measurement.get("measuredBy"),
+                    "measurement": foreign_measurement.get("state")} if foreign_measurement else {}),
             },
             "mergeSet": {
                 "files": files,
@@ -92,6 +97,7 @@ class ReceiptBuilder:
                 "SHA-256 collision resistance is outside the SPARK proof.",
                 "Evidence freshness is decided by comparing requirement and content identities computed by the runtime; the SPARK kernel proves only that unequal identities are never AUTHORIZED.",
                 "Checks are not re-run at commit; a PASS revalidation or staged validation is evidence about the bytes it names at the time it ran.",
+                "Foreign writes are measured by comparing a capture of live PRIME with the PRIME record's components; writes the watcher reported before preparation become PRIME generations, not contamination.",
             ],
         }
         preimage = dict(receipt)

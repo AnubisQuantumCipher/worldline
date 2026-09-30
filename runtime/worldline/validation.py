@@ -213,17 +213,17 @@ def resolve_verifiers(
 _KERNEL_LIBRARY_CACHE: dict[str, str] = {}
 
 
-def _kernel_library_sha256() -> str | None:
+def _kernel_library_sha256() -> str:
+    # 1.9.0: an identity that cannot be read is refused, never hashed as null. Two unreadable
+    # libraries must not yield the same requirement.
     try:
         path = Path(Core.shared().library_path)
-    except Exception:  # noqa: BLE001 - the identity records absence rather than failing evidence
-        return None
-    key = str(path)
-    if key not in _KERNEL_LIBRARY_CACHE:
-        try:
+        key = str(path)
+        if key not in _KERNEL_LIBRARY_CACHE:
             _KERNEL_LIBRARY_CACHE[key] = _sha256_file(path)
-        except OSError:
-            return None
+    except Exception as exc:  # noqa: BLE001 - any failure leaves the identity unknown
+        raise WorldlineError("REQUIREMENT_IDENTITY_UNAVAILABLE",
+                             "the proved kernel library cannot be identified; no requirement can be stated") from exc
     return _KERNEL_LIBRARY_CACHE[key]
 
 
@@ -258,11 +258,14 @@ def execution_context(config: Any, adapter_name: str | None = None) -> dict[str,
 
 
 def _resource_policy_canonical(config: Any) -> dict[str, Any] | None:
+    # None only when no resource policy is configured; a policy that cannot be read is refused
+    # rather than hashed as if none were configured (1.9.0).
     try:
         policy = getattr(config, "resource_policy", None)
-    except Exception:  # noqa: BLE001 - an unreadable policy must not break the identity
-        return None
-    return policy.canonical() if policy is not None else None
+        return policy.canonical() if policy is not None else None
+    except Exception as exc:  # noqa: BLE001 - any failure leaves the identity unknown
+        raise WorldlineError("REQUIREMENT_IDENTITY_UNAVAILABLE",
+                             "the resource policy cannot be read; no requirement can be stated") from exc
 
 
 def requirements(project: ProjectConfig, roots: Sequence[Mapping[str, Any]], sources: Mapping[str, Path], config: Any, policy_source_sha256: str | None, core: Core | None = None) -> dict[str, Any]:
@@ -345,9 +348,12 @@ def build_context(
     evaluated_at: str,
     core: Core | None = None,
     source: str = "finalization",
+    examined_content_root: str | None = None,
 ) -> dict[str, Any]:
     """The full context bound to one evaluation. Informational fields (adapter, model argv,
-    times) are recorded but are NOT part of the requirement hash."""
+    times) are recorded but are NOT part of the requirement hash. A revalidation also records
+    the content root of the bytes it examined (1.9.0), inside the context hash, so promotion can
+    compare what was examined with what would go live."""
     # A verifier the candidate rewrote, deleted, or redirected (turned into a symlink or other
     # non-regular file, which resolve_verifiers leaves out) is named here, and so is any file
     # the candidate ADDED inside a verifier scope (a shadow package or module beside the exam
@@ -367,7 +373,7 @@ def build_context(
         "primeAtFork": dict(prime_at_fork),
         "roots": sorted(({"rootKey": r["root_key"], "path": (os.fsdecode(bytes(r["path"])) if isinstance(r["path"], (bytes, bytearray)) else str(r["path"])), "kind": r["kind"]} for r in roots), key=lambda r: r["rootKey"]),
         "results": [{"id": r.get("id"), "status": r.get("status"), "required": r.get("required"),
-                     "format": r.get("format"), "profile": r.get("profile", "legacy"),
+                     "format": r.get("format"), **({"profile": r["profile"]} if "profile" in r else {}),
                      "exitCode": r.get("exitCode"),
                      "candidateSnapshot": r.get("candidateSnapshot"),
                      "privateReport": r.get("privateReport"),
@@ -379,11 +385,13 @@ def build_context(
         "evaluatedAt": evaluated_at,
         "source": source,
     }
+    if examined_content_root is not None:
+        value["examinedContentRoot"] = examined_content_root
     value["contextHash"] = _digest({k: v for k, v in value.items() if k != "contextHash"}, core)
     return value
 
 
-def verify_context(context: Any, *, candidate_instance: str, core: Core | None = None) -> dict[str, Any]:
+def verify_context(context: Any, *, candidate_instance: str | None, core: Core | None = None) -> dict[str, Any]:
     """Structural and integrity verification of a stored context. Raises with a stable code."""
     if context is None:
         raise WorldlineError("EVIDENCE_CONTEXT_MISSING", "the candidate's evidence carries no validation context; run `worldline revalidate` or fork a new candidate")
@@ -396,7 +404,9 @@ def verify_context(context: Any, *, candidate_instance: str, core: Core | None =
     if not isinstance(requirement, dict) or requirement_hash(requirement, core) != requirement.get("requirementHash") or context.get("requirementHash") != requirement.get("requirementHash"):
         raise WorldlineError("EVIDENCE_CONTEXT_INVALID", "the requirement half of the validation context does not hash to its recorded identity")
     bound = (context.get("candidate") or {}).get("instanceId")
-    if bound != candidate_instance:
+    # candidate_instance None: the caller carries the binding to the kernel instead (1.9.0
+    # promotion); the status display still asks here.
+    if candidate_instance is not None and bound != candidate_instance:
         raise WorldlineError("EVIDENCE_CONTEXT_INVALID", "the validation context belongs to a different world", {"boundTo": bound, "candidate": candidate_instance})
     return context
 
@@ -452,14 +462,18 @@ def differences(candidate_requirement: Mapping[str, Any], current_requirement: M
 
 # ----- tested bytes vs staged bytes -----------------------------------------------------------
 
-_CONTENT_FIELDS = ("pathB64", "type", "mode", "contentHash", "size", "target", "xattrs", "acls")
+# A symlink's target is recorded as `targetB64` (Manifest.capture). Before 1.9.0 this tuple named
+# `target`, a key no entry has, so two trees differing only in where a link points had the same
+# content root (review of a23c265). The domain tag moved to v2 with the fix, so no content root
+# computed the old way can ever equal one computed now.
+_CONTENT_FIELDS = ("pathB64", "type", "mode", "contentHash", "size", "targetB64", "xattrs", "acls")
 
 
 def content_entries(manifest: Any) -> list[dict[str, Any]]:
     """The content-bearing part of a manifest: every entry's path, type, mode, bytes identity,
     symlink target and security attributes. Timestamps, hard-link grouping, root-directory
-    metadata and repository facts are excluded: they differ between a payload and a staged copy
-    of the same bytes."""
+    metadata, ownership and repository facts are excluded: they differ between a payload and a
+    staged copy of the same bytes."""
     return [{k: e[k] for k in _CONTENT_FIELDS if k in e} for e in manifest.value["entries"]]
 
 
@@ -467,7 +481,8 @@ def content_root_set(manifests: Mapping[str, Any], core: Core | None = None) -> 
     """One identity for the content of a whole root set (root key -> manifest)."""
     verifier = core or Core.shared()
     value = {root_key: content_entries(manifests[root_key]) for root_key in sorted(manifests)}
-    return hash_id(verifier.hash_bytes(b"worldline-content-root-set-v1" + canonical_bytes(value)))
+    return hash_id(verifier.hash_bytes(b"worldline-content-root-set-v2" + canonical_bytes(value)))
+
 
 
 def content_differences(candidate: Mapping[str, Any], staged: Mapping[str, Any]) -> list[str]:

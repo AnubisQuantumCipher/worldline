@@ -5,7 +5,6 @@ with Attest.SHA256;
 with System.Address_To_Access_Conversions;
 with System.Storage_Elements;
 with Worldline.Causal_Graph;
-with Worldline.Collapse;
 with Worldline.Evaluation;
 with Worldline.Receipts;
 with Worldline.Transitions;
@@ -27,8 +26,6 @@ package body Worldline.C_API with SPARK_Mode => Off is
    Error_IO               : constant Interfaces.C.int := 2;
    Error_Too_Large        : constant Interfaces.C.int := 3;
    Error_Internal         : constant Interfaces.C.int := 4;
-
-   Invalid_Collapse_Request : constant Interfaces.Unsigned_8 := 255;
 
    Chunk_Length : constant Positive :=
      Attest.SHA256.Block_Bytes * Attest.SHA256.Block_Bytes;
@@ -64,15 +61,6 @@ package body Worldline.C_API with SPARK_Mode => Off is
       end loop;
       return Result;
    end Read_Hash;
-
-   function To_Hash (Value : C_Hash) return Hash is
-      Result : Hash;
-   begin
-      for I in Result'Range loop
-         Result (I) := Value (C_Hash_Index (I - Result'First));
-      end loop;
-      return Result;
-   end To_Hash;
 
    procedure Write_Hash (Base : System.Address; Value : Hash) is
    begin
@@ -330,68 +318,14 @@ package body Worldline.C_API with SPARK_Mode => Off is
    function Collapse_Decide
      (Request : C_Collapse_Request_Access) return Interfaces.Unsigned_8
    is
-      Last_State : constant Interfaces.Unsigned_8 :=
-        Interfaces.Unsigned_8
-          (Transitions.World_State'Pos (Transitions.World_State'Last));
    begin
-      if Request = null
-        or else Request.Reserved /= 0
-        or else Request.Reserved_2 /= 0
-        or else Request.Reserved_3 /= 0
-        or else Request.Reserved_4 /= 0
-        or else Request.Reserved_5 /= 0
-        or else Request.Reserved_6 /= 0
-        or else Request.Has_Conflicts > 1
-        or else Request.Has_Foreign_Managed_Writes > 1
-        or else Request.Execution_Evidence_Complete > 1
-        or else Request.Checkpoint_Witnessed > 1
-        or else Request.Evaluation_Mode >
-          Collapse.Evaluation_Mode'Pos (Collapse.Evaluation_Mode'Last)
-        or else Request.Candidate_State > Last_State
-      then
-         return Invalid_Collapse_Request;
+      if Request = null then
+         return Collapse_Wire.Invalid_Request;
       end if;
-
-      declare
-         Native_Request : constant Collapse.Collapse_Request :=
-           (Candidate_State =>
-              Transitions.World_State'Val
-                (Integer (Request.Candidate_State)),
-            Has_Conflicts => Request.Has_Conflicts = 1,
-            Has_Foreign_Managed_Writes =>
-              Request.Has_Foreign_Managed_Writes = 1,
-            Expected_Parent => To_Hash (Request.Expected_Parent),
-            Candidate_Parent => To_Hash (Request.Candidate_Parent),
-            Expected_Owner => To_Hash (Request.Expected_Owner),
-            Candidate_Owner => To_Hash (Request.Candidate_Owner),
-            Expected_Base => To_Hash (Request.Expected_Base),
-            Candidate_Base => To_Hash (Request.Candidate_Base),
-            Expected_Delta => To_Hash (Request.Expected_Delta),
-            Candidate_Delta => To_Hash (Request.Candidate_Delta),
-            Expected_Root_Set => To_Hash (Request.Expected_Root_Set),
-            Candidate_Root_Set => To_Hash (Request.Candidate_Root_Set),
-            Expected_Staged_Root => To_Hash (Request.Expected_Staged_Root),
-            Actual_Staged_Root => To_Hash (Request.Actual_Staged_Root),
-            Expected_Validation_Context =>
-              To_Hash (Request.Expected_Validation_Context),
-            Candidate_Validation_Context =>
-              To_Hash (Request.Candidate_Validation_Context),
-            Tested_Root => To_Hash (Request.Tested_Root),
-            Staged_Content_Root => To_Hash (Request.Staged_Content_Root),
-            Execution_Evidence_Complete => Request.Execution_Evidence_Complete = 1,
-            Expected_Executed_Verifier => To_Hash (Request.Expected_Executed_Verifier),
-            Actual_Executed_Verifier => To_Hash (Request.Actual_Executed_Verifier),
-            Mode => Collapse.Evaluation_Mode'Val (Integer (Request.Evaluation_Mode)),
-            Checkpoint_Witnessed => Request.Checkpoint_Witnessed = 1,
-            Expected_Checkpoint => To_Hash (Request.Expected_Checkpoint),
-            Witnessed_Checkpoint => To_Hash (Request.Witnessed_Checkpoint));
-      begin
-         return Interfaces.Unsigned_8
-           (Collapse.Decision'Pos (Collapse.Decide (Native_Request)));
-      end;
+      return Collapse_Wire.Decide_Wire (Request.all);
    exception
       when others =>
-         return Invalid_Collapse_Request;
+         return Collapse_Wire.Invalid_Request;
    end Collapse_Decide;
 
    function Evaluation_Classify
@@ -604,6 +538,8 @@ package body Worldline.C_API with SPARK_Mode => Off is
          when 1 => return C_Evaluation_Observations'Size / 8;
          when 2 => return C_Evaluation_Classification'Size / 8;
          when 3 => return C_Evidence_Presence'Size / 8;
+         when 4 => return Collapse_Wire.Raw_Optional_Hash'Size / 8;
+         when 5 => return Collapse_Wire.Raw_Optional_Counter'Size / 8;
          when others => return 0;
       end case;
    end Layout_Size;
@@ -615,15 +551,19 @@ package body Worldline.C_API with SPARK_Mode => Off is
    is
       use System.Storage_Elements;
       Unknown : constant Interfaces.C.size_t := Interfaces.C.size_t'Last;
-      Collapse_Probe    : C_Collapse_Request;
+      Collapse_Probe    : Collapse_Wire.Raw_Request;
       Observation_Probe : C_Evaluation_Observations;
       Class_Probe       : C_Evaluation_Classification;
       Presence_Probe    : C_Evidence_Presence;
+      Hash_Probe        : Collapse_Wire.Raw_Optional_Hash;
+      Counter_Probe     : Collapse_Wire.Raw_Optional_Counter;
       --  Only the components' 'Position is read; no value is.
       pragma Warnings (Off, Collapse_Probe);
       pragma Warnings (Off, Observation_Probe);
       pragma Warnings (Off, Class_Probe);
       pragma Warnings (Off, Presence_Probe);
+      pragma Warnings (Off, Hash_Probe);
+      pragma Warnings (Off, Counter_Probe);
    begin
       if Name = System.Null_Address or else Name_Len = 0 or else Name_Len > 64 then
          return Unknown;
@@ -637,13 +577,16 @@ package body Worldline.C_API with SPARK_Mode => Off is
          case Selector is
             when 0 =>
                if Text = "candidate_state" then return Interfaces.C.size_t (Collapse_Probe.Candidate_State'Position);
-               elsif Text = "has_conflicts" then return Interfaces.C.size_t (Collapse_Probe.Has_Conflicts'Position);
-               elsif Text = "has_foreign_managed_writes" then return Interfaces.C.size_t (Collapse_Probe.Has_Foreign_Managed_Writes'Position);
-               elsif Text = "reserved" then return Interfaces.C.size_t (Collapse_Probe.Reserved'Position);
+               elsif Text = "phase" then return Interfaces.C.size_t (Collapse_Probe.Phase'Position);
+               elsif Text = "evaluation_mode" then return Interfaces.C.size_t (Collapse_Probe.Evaluation_Mode'Position);
+               elsif Text = "conflicts" then return Interfaces.C.size_t (Collapse_Probe.Conflicts'Position);
+               elsif Text = "foreign_writes" then return Interfaces.C.size_t (Collapse_Probe.Foreign_Writes'Position);
+               elsif Text = "roster_complete" then return Interfaces.C.size_t (Collapse_Probe.Roster_Complete'Position);
+               elsif Text = "staged_roster_complete" then return Interfaces.C.size_t (Collapse_Probe.Staged_Roster_Complete'Position);
                elsif Text = "expected_parent" then return Interfaces.C.size_t (Collapse_Probe.Expected_Parent'Position);
                elsif Text = "candidate_parent" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Parent'Position);
-               elsif Text = "expected_owner" then return Interfaces.C.size_t (Collapse_Probe.Expected_Owner'Position);
-               elsif Text = "candidate_owner" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Owner'Position);
+               elsif Text = "expected_subject" then return Interfaces.C.size_t (Collapse_Probe.Expected_Subject'Position);
+               elsif Text = "evidence_subject" then return Interfaces.C.size_t (Collapse_Probe.Evidence_Subject'Position);
                elsif Text = "expected_base" then return Interfaces.C.size_t (Collapse_Probe.Expected_Base'Position);
                elsif Text = "candidate_base" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Base'Position);
                elsif Text = "expected_delta" then return Interfaces.C.size_t (Collapse_Probe.Expected_Delta'Position);
@@ -652,22 +595,21 @@ package body Worldline.C_API with SPARK_Mode => Off is
                elsif Text = "candidate_root_set" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Root_Set'Position);
                elsif Text = "expected_staged_root" then return Interfaces.C.size_t (Collapse_Probe.Expected_Staged_Root'Position);
                elsif Text = "actual_staged_root" then return Interfaces.C.size_t (Collapse_Probe.Actual_Staged_Root'Position);
-               elsif Text = "expected_validation_context" then return Interfaces.C.size_t (Collapse_Probe.Expected_Validation_Context'Position);
-               elsif Text = "candidate_validation_context" then return Interfaces.C.size_t (Collapse_Probe.Candidate_Validation_Context'Position);
-               elsif Text = "tested_root" then return Interfaces.C.size_t (Collapse_Probe.Tested_Root'Position);
                elsif Text = "staged_content_root" then return Interfaces.C.size_t (Collapse_Probe.Staged_Content_Root'Position);
-               elsif Text = "execution_evidence_complete" then return Interfaces.C.size_t (Collapse_Probe.Execution_Evidence_Complete'Position);
-               elsif Text = "reserved_2" then return Interfaces.C.size_t (Collapse_Probe.Reserved_2'Position);
-               elsif Text = "reserved_3" then return Interfaces.C.size_t (Collapse_Probe.Reserved_3'Position);
-               elsif Text = "reserved_4" then return Interfaces.C.size_t (Collapse_Probe.Reserved_4'Position);
-               elsif Text = "expected_executed_verifier" then return Interfaces.C.size_t (Collapse_Probe.Expected_Executed_Verifier'Position);
-               elsif Text = "actual_executed_verifier" then return Interfaces.C.size_t (Collapse_Probe.Actual_Executed_Verifier'Position);
-               elsif Text = "evaluation_mode" then return Interfaces.C.size_t (Collapse_Probe.Evaluation_Mode'Position);
-               elsif Text = "checkpoint_witnessed" then return Interfaces.C.size_t (Collapse_Probe.Checkpoint_Witnessed'Position);
-               elsif Text = "reserved_5" then return Interfaces.C.size_t (Collapse_Probe.Reserved_5'Position);
-               elsif Text = "reserved_6" then return Interfaces.C.size_t (Collapse_Probe.Reserved_6'Position);
+               elsif Text = "tested_root" then return Interfaces.C.size_t (Collapse_Probe.Tested_Root'Position);
+               elsif Text = "current_requirement" then return Interfaces.C.size_t (Collapse_Probe.Current_Requirement'Position);
+               elsif Text = "evaluated_requirement" then return Interfaces.C.size_t (Collapse_Probe.Evaluated_Requirement'Position);
+               elsif Text = "declared_verifiers" then return Interfaces.C.size_t (Collapse_Probe.Declared_Verifiers'Position);
+               elsif Text = "executed_verifiers" then return Interfaces.C.size_t (Collapse_Probe.Executed_Verifiers'Position);
+               elsif Text = "staged_evaluated_requirement" then return Interfaces.C.size_t (Collapse_Probe.Staged_Evaluated_Requirement'Position);
+               elsif Text = "staged_executed_verifiers" then return Interfaces.C.size_t (Collapse_Probe.Staged_Executed_Verifiers'Position);
+               elsif Text = "staged_examined_root" then return Interfaces.C.size_t (Collapse_Probe.Staged_Examined_Root'Position);
                elsif Text = "expected_checkpoint" then return Interfaces.C.size_t (Collapse_Probe.Expected_Checkpoint'Position);
                elsif Text = "witnessed_checkpoint" then return Interfaces.C.size_t (Collapse_Probe.Witnessed_Checkpoint'Position);
+               elsif Text = "registered_watch_set" then return Interfaces.C.size_t (Collapse_Probe.Registered_Watch_Set'Position);
+               elsif Text = "watched_set" then return Interfaces.C.size_t (Collapse_Probe.Watched_Set'Position);
+               elsif Text = "generation_before" then return Interfaces.C.size_t (Collapse_Probe.Generation_Before'Position);
+               elsif Text = "generation_after" then return Interfaces.C.size_t (Collapse_Probe.Generation_After'Position);
                end if;
             when 1 =>
                if Text = "source" then return Interfaces.C.size_t (Observation_Probe.Source'Position);
@@ -696,11 +638,20 @@ package body Worldline.C_API with SPARK_Mode => Off is
                elsif Text = "declaration_matches" then return Interfaces.C.size_t (Presence_Probe.Declaration_Matches'Position);
                elsif Text = "bundle_identified" then return Interfaces.C.size_t (Presence_Probe.Bundle_Identified'Position);
                end if;
+            when 4 =>
+               if Text = "present" then return Interfaces.C.size_t (Hash_Probe.Present'Position);
+               elsif Text = "value" then return Interfaces.C.size_t (Hash_Probe.Value'Position);
+               end if;
+            when 5 =>
+               if Text = "present" then return Interfaces.C.size_t (Counter_Probe.Present'Position);
+               elsif Text = "value_le" then return Interfaces.C.size_t (Counter_Probe.Value_LE'Position);
+               end if;
             when others => null;
          end case;
       end;
       return Unknown;
    end Layout_Offset;
+
 
 
 end Worldline.C_API;

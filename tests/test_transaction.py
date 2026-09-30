@@ -18,6 +18,7 @@ from worldline.store import StateStore
 from worldline.transaction import CollapseTransaction
 
 from validation_support import DECLARED_EMPTY_POLICY, attach_fresh_context
+from watch_support import watched  # noqa: E402
 
 
 class CollapseTransactionTests(unittest.TestCase):
@@ -42,7 +43,7 @@ class CollapseTransactionTests(unittest.TestCase):
         (self.work / "state.txt").write_text("prime", encoding="utf-8")
         (self.work / ".worldline.json").write_text(json.dumps(DECLARED_EMPTY_POLICY), encoding="utf-8")
         self.roots.register([self.work], confirmed=True)
-        self.transaction = CollapseTransaction(self.paths, self.store, core=self.core)
+        self.transaction = watched(CollapseTransaction(self.paths, self.store, core=self.core), self.paths, self.store)
         self.sequence = 0
 
     def tearDown(self) -> None:
@@ -83,6 +84,9 @@ class CollapseTransactionTests(unittest.TestCase):
             kind=root["kind"],
             core=self.core,
         )
+        # A finalized world declares its manifests; promotion reads them as the tested bytes.
+        (candidate_directory / "manifests").mkdir(mode=0o700, exist_ok=True)
+        candidate_manifest.save(candidate_directory / "manifests" / f"{root_key}.json")
         delta = Delta.compute_all({root_key: base_manifest}, {root_key: candidate_manifest}, self.core)
         parent = self.store.prime()
         world = World.create(

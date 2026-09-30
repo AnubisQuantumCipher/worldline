@@ -1,5 +1,262 @@
 # Changelog
 
+## 1.9.0 — 2026-09-29 · typed absence and honest collapse inputs
+
+**The collapse decision no longer accepts a missing value as a matching one, and every input it
+consults is measured.** Each identity is its own SPARK type with explicit presence; two absent
+values are never equal, and nothing absent or unmeasured is ever authorized. Foreign managed
+writes, PRIME stability and watch coverage are measured and decided in the kernel. The request
+is decoded and validated by a proved SPARK unit instead of unproved C-boundary code. The
+requirements-to-contract table is in `docs/phase1-typed-absence.md`.
+
+### Upgrading
+
+- **Install the library and runtime together.** The collapse request is ABI generation 5. A
+  generation-4 library or runtime is refused at load, as in 1.8.0.
+- **No store migration.** The SQLite schema (`user_version` 2), every table and column, world
+  content identities, and the causal and receipt chain bytes are unchanged. Content roots (the
+  identity of what an evaluation examined) now include symlink targets and use a new domain
+  tag, so none computed by an earlier release compares equal to one computed now.
+- **Pending transactions.** A PREPARED or AUTHORIZED transaction does not survive a daemon
+  restart. At first start, recovery aborts it (`RECOVERED_BEFORE_COMMIT`), or finishes it when
+  the live marker shows its exchange already happened. Prepare again. A rollback does the same.
+- **Revalidate VALID worlds before collapse, as after every release.** The requirement identity
+  includes the engine version, runtime tree and kernel library, so every stored evaluation is
+  stale after an upgrade. The stricter evidence rules below therefore apply only to evidence
+  1.9.0 writes, and 1.9.0 revalidation writes it in the required form.
+- Worlds that are not VALID (ARCHIVED or COLLAPSED candidates) cannot be revalidated.
+  Re-applying them stays refused with EVIDENCE_STALE, as after any upgrade. Also unchanged:
+  - checkpoint returns to `prime-*` generations, witnessed as in 1.8.0, including the genesis
+    PRIME;
+  - pre-1.3 worlds are not promotable;
+  - pruned or payload-less worlds are refused (PAYLOAD_PRUNED / INCOMPLETE_WORLD).
+- **Upgrading directly from 1.7.3:** every 1.8.0 note also applies.
+  - A project with no `.worldline.json` cannot collapse.
+  - Pre-1.3 worlds are not promotable.
+  - A PRIME from before the last root was removed, and a COLLAPSED `return-*` that published a
+    generation, are no longer return points.
+- **New refusals:**
+  - **MEASUREMENT_ABSENT** — no PRIME watcher (no registered root could be watched), or
+    conflicts or foreign writes could not be measured. 1.8.0 skipped the PRIME-stability guard
+    here. `fork` refuses PRIME_WATCH_UNAVAILABLE for the same reason. (Without inotify at all
+    the daemon does not start, as before.)
+  - **WATCH_INCOMPLETE** — a registered root is not completely watched: a broken mapping, a
+    root directory that went away or was moved, part of its tree that could not be watched (an
+    unreadable directory, say), an overflowed event queue, or a watcher whose reader stopped.
+    `doctor` lists the unwatched roots and why; the next reconcile walks them again. A root that
+    cannot be watched completely never stops the daemon from starting.
+  - **STORE_NOT_RELOCATED** (at daemon start) — the store's records name another store's files:
+    it was copied without `worldline-relocate`.
+  - **CHECKPOINT_IDENTITY_TAKEN** (at commit, before the exchange; the transaction is ABORTED
+    and nothing changes) — the PRIME generation the commit would publish has the identity of an
+    existing world. A declined `return` leaves its vehicle holding exactly that identity; in 1.8.0
+    such a commit exchanged live PRIME and then failed to record it.
+  - **RECOVERY_IO_FAILED** (at start) — recovery met an I/O error finishing a transaction; the
+    transaction is quarantined and the daemon starts, as for any unrecoverable transaction.
+  - **FOREIGN_MANAGED_WRITE** — live PRIME content differs from the PRIME record and the
+    watcher did not report it. The refusal marks PRIME dirty; the next status or prepare
+    records the change as a PRIME generation, and a retry proceeds.
+  - **PRIME_CHANGED** (the error code is still PRIME_CHANGED_DURING_CAPTURE, at prepare and at
+    commit) — PRIME changed while the decision was being made. The window runs from the
+    requirement read through the capture, merge and staged-merge evaluation to the decision, and
+    the refusal leaves a DENIED transaction record. A change between the commit decision and the
+    exchange aborts the transaction with the same code.
+  - **STAGED_UNTESTED**, now also in three new cases:
+    - the bytes a staged-merge evaluation examined differ from the staged bytes;
+    - a candidate whose declared finalization manifests are missing, where no staged
+      evaluation covers the result. 1.8.0 re-captured the candidate silently;
+    - a symlink in PRIME retargeted since the candidate was evaluated (content roots ignored
+      link targets since 1.3.0).
+  - **IDENTITY_ABSENT** — a required identity is missing from a world row or prepared record.
+    Only damaged or hand-edited stores produce it.
+  - **EVIDENCE_SUBJECT_MISMATCH** — the evaluation speaking for a world was bound to another
+    world (previously EVIDENCE_CONTEXT_INVALID "belongs to a different world", decided in
+    Python), or a return vehicle names another subject.
+  - **CHECKPOINT_MISMATCH** — a witness exists but disagrees. CHECKPOINT_UNWITNESSED now means
+    no witness.
+  - **REQUIREMENT_IDENTITY_UNAVAILABLE** — the kernel library or the resource policy cannot be
+    read, so no requirement can be stated. 1.8.0 hashed the unreadable value as null.
+  - **TRANSACTION_RECORD_FOREIGN** — a transaction record names a path outside this store (a
+    store copied without `worldline-relocate`). Recovery quarantines it and writes nothing;
+    earlier releases aborted the ORIGINAL store's transaction and deleted its staging.
+  - For evidence written by 1.9.0:
+    - a policy-check record must state its profile;
+    - a check with no declared verifier must record that none executed;
+    - a record that ran an undeclared bundle does not match.
+- **Codes.** OWNER_MISMATCH (3) is never produced. Codes 15–20 are new. Consumers of the header
+  and the desktop plugin must learn them.
+- **Receipts.** `foreignWorldContamination.state` now reports a measurement, with
+  `measuredBy` and `measurement`. The receipt keys are otherwise unchanged. The evidence
+  binding's `stagedValidation` gains `examinedContentRoot`. A FOREIGN_MANAGED_WRITE refusal
+  lists the measurement under `details.contamination` as well as `details.foreignWrites`.
+- **Before installing,** list pending transactions with `worldline transaction list` on the
+  running release (they are aborted at the first start of the new one). **After installing and
+  before the first collapse,** run `worldline doctor --refresh` on the new daemon and read
+  `promotionReadiness`: the foreign-write measurement, unwatched roots and why, and the VALID
+  worlds that are fresh, need revalidation, or cannot be revalidated (missing manifest, payload
+  or base). Never start a daemon on a copy of a store that was not relocated with
+  `worldline-relocate`: the store records absolute paths. 1.9.0 refuses to start on such a copy
+  (STORE_NOT_RELOCATED); earlier releases started and acted on the original, aborting its
+  transactions, stopping its running agents and overwriting its exported anchor ledger.
+
+### Security: collapse inputs that were assumed, not measured (every deployment)
+
+Each defect below was reproduced on released 1.8.0 before it was fixed, by one script run
+against both trees (retained with the release evidence). On 1.8.0 every scenario was
+AUTHORIZED and COMMITTED; on 1.9.0 each is refused by the kernel with the decision named. The
+1.9.0 side is also tested end to end in `tests/test_typed_absence.py`. The fourth needs write
+access to the store; the others arise in normal operation or from host conditions.
+
+- **An unreported write into live PRIME went live under a receipt that denied it.** A file
+  written into a managed root with no watcher event was carried into the new PRIME, and the
+  receipt stated `foreignWorldContamination: NONE` with nothing measured. No PRIME generation
+  or causal event ever recorded the write. 1.9.0 refuses FOREIGN_MANAGED_WRITE, records an
+  `unaccounted-write` event, and reconciles the change into its own generation before a retry.
+- **No watcher meant no stability guard.** With no PRIME watcher (no registered root could be
+  watched), prepare and commit skipped the generation check and authorized. 1.9.0 refuses
+  MEASUREMENT_ABSENT.
+- **Partial watch coverage was invisible.** A watcher watching none of the registered roots
+  still authorized. 1.9.0 compares the registered roots with the roots actually watched and
+  refuses WATCH_INCOMPLETE.
+- **A missing declared manifest was silently re-captured as "tested".** With write access to
+  the store, delete a candidate's declared manifests after its evaluation, edit its payload and
+  restate the row's delta: prepare captured whatever the payload held, treated it as the bytes
+  the evidence covered, and committed the edited bytes. 1.9.0 leaves the tested root absent:
+  STAGED_UNTESTED unless a staged evaluation covers the staged bytes.
+- **A staged PASS was trusted for bytes it never named.** After a staged-merge evaluation
+  passed, prepare set the tested root to the staged root, whatever that evaluation had
+  examined. 1.9.0 keeps the tested root as what the candidate's evidence examined; the kernel
+  accepts the staged bytes only if the staged evaluation ran the current requirement with a
+  complete roster and the declared verifiers over exactly those bytes.
+- **A symlink retargeted in PRIME went live unevaluated.** Content roots, the identity of what
+  an evaluation examined, left out symlink targets (the field was misnamed since 1.3.0). With
+  PRIME's `shared.txt -> v1.txt` retargeted to `v2.txt` after a candidate was evaluated, the
+  staged tree looked tested and was committed. 1.9.0 includes the target: STAGED_UNTESTED
+  unless a staged evaluation covers it. Found by the adversarial review of this release.
+
+### Changed
+
+- The owner pair is retired: it was one computed value passed to both sides, so it constrained
+  nothing. An evidence-subject pair replaces it, produced from the promotion's own arguments on
+  one side and from the speaking evaluation's binding (or the return vehicle's mission hash) on
+  the other. The Python "belongs to a different world" check no longer decides promotion; the
+  structural and hash checks of a validation context stay.
+- The staged-root comparison at commit is the kernel's (STAGED_ROOT_MISMATCH with a DENIED
+  record); the Python pre-check is gone. At prepare the staged root is one observation and
+  equality is a commit obligation.
+- Commit refuses a prepared record written by an earlier runtime (TRANSACTION_RECORD_LEGACY),
+  and treats a record that does not state that conflicts were measured as unmeasured.
+- A conflicted merge records no staged root: null in the transaction record, the literal
+  `"absent"` in the store, never a zero digest.
+- Revalidation records the content root it examined before any check runs, and refuses
+  REVALIDATION_INPUT_CHANGED if the tree moved while the checks ran. The checks run over the
+  world's declared manifests materialized into a daemon-owned scratch tree (verified entry for
+  entry, PAYLOAD_INTEGRITY_FAILED otherwise), not over the read-only payload, so what they
+  examine -- bytes, modes, attributes -- is exactly what promotion compares with the staged
+  tree, and a revalidated world's own evidence covers its collapse when PRIME has not moved.
+  Each revalidation now copies the payload once.
+- A recovery that finishes an exchange the daemon did not live to record publishes PRIME from
+  the staged tree prepare recorded (kept beside the transaction by 1.9.0), not from a capture of
+  live PRIME, when live PRIME no longer has the staged root. A write made while no daemon ran is
+  recorded (`unaccounted-write`) and reconciled into its own generation, instead of being folded
+  into the collapse. A transaction prepared by an earlier release has no such record; its
+  recovery still uses the live capture, and records the difference the same way.
+- Recovery replay is idempotent over the read-only records it copied the first time (1.8.0 and
+  earlier stopped the daemon from starting with PermissionError). An exchange that renamed but
+  failed afterwards (a directory fsync, or finishing itself) is no longer recorded ABORTED while
+  its bytes are live: the running daemon finishes it in place and reports
+  COMMIT_DURABILITY_UNCERTAIN (committed and recorded, but the exchange could not be made
+  durable) after running the steps that follow any commit (a return's services, ghosts), and
+  if finishing fails too it quarantines the transaction. A quarantine refuses
+  RECOVERY_INCOMPLETE for prepare, commit, the PRIME freeze behind fork and return, reconcile,
+  and root add and remove, until a restart's recovery settles it; the settled quarantine's
+  status report is cleared. Recovery quarantines any error rather than stopping the daemon, and
+  logs it with its traceback (RECOVERY_IO_FAILED for storage and SQLite operational errors,
+  RECOVERY_FAILED otherwise), and a taken PRIME identity by name (CHECKPOINT_IDENTITY_TAKEN).
+  The watcher is re-pointed after every commit attempt; if it cannot be rebuilt, PRIME is left
+  unwatched (which refuses) rather than watched by a closed watcher, and the failure never
+  replaces the commit's own error. With automatic ghosts enabled, a successful commit whose
+  rebuild fails is still reported as an error (see Known limitations).
+- Materialized revalidation inputs left by a killed daemon are removed at the next start.
+- `prepare` and `fork` drain the watcher before deciding whether to reconcile, so a write the
+  watcher had already seen is reconciled rather than refused as unaccounted.
+- The watcher watches each directory before listing it, reports a root whose tree it could not
+  watch completely, and drops a root directory that was moved (IN_MOVE_SELF) instead of
+  following the old inode; a stopped reader thread leaves nothing reported as watched.
+- WORLDLINE's own agent and protected-paths records are declared by origin with no profile;
+  policy checks match only on an explicitly recorded profile.
+- `doctor` gains `promotionReadiness` (read-only): pending transactions, watch coverage, the
+  VALID-world census, and with `--refresh` the foreign-write measurement.
+- A kernel refusal at commit, including EVIDENCE_STALE and PRIME_CHANGED_DURING_CAPTURE,
+  carries `details.decision`, `details.transactionId`, `details.absentInputs` and
+  `details.foreignWrites`.
+- `doctor --refresh` reports a live capture it cannot take as an UNMEASURED foreign-write
+  measurement instead of failing, and the census leaves out PRIME and WORLDLINE's own
+  generations.
+
+### Proof and ABI
+
+- **Proof.** 251 checks proved, none justified, no `pragma Assume`; the floor rises from 156 to
+  251. `Worldline.Collapse_Wire.Decode` and `Decide_Wire` join the required proved subprograms.
+  The floor counts checks, and GNATprove counts a whole postcondition as one, so the contracts
+  themselves are now pinned: `verify_proof_manifest.py` holds a digest of each contract
+  specification (collapse, collapse wire, identities, evaluation, transitions), of the types
+  they rest on (`worldline.ads`, `attest.ads`, `attest-sha256.ads`), of the C export table
+  (`worldline-c_api.ads`), of the whole unproved C boundary body (`worldline-c_api.adb`) and of
+  the five project files that decide which file is compiled as each unit; checks that
+  `wl_collapse_decide` is bound exactly once and to `Collapse_Decide`; refuses any Ada source
+  under `core/` outside the pinned set; and refuses a change to any pinned text that does not
+  update its pin deliberately. The gate checks the pins before it writes the manifest. Pins
+  cover text: a body the proof covers (such as `worldline-collapse.adb`) is guarded by the proof
+  instead.
+  `Decide`'s postcondition states that `Authorized` is exactly `All_Hold`, that nothing absent
+  or unmeasured is authorized, that OWNER_MISMATCH is never returned, and for every refusal
+  that what it names is actually the case. `Decide_Wire`'s postcondition states that a
+  malformed request is 255 and a well-formed one is exactly `Decide` of its decoding.
+- **ABI generation 5.** `wl_collapse_request` is a fresh all-`uint8_t` layout with no padding
+  or reserved bytes: seven scalar bytes, 25 optional hashes (`wl_optional_hash`) and two
+  optional counters (`wl_optional_counter`). `wl_layout_size` and `wl_layout_offset` report the
+  new record (selector 0) and the two optional records (selectors 4 and 5) by field name.
+- The kernel tests cover every decision code, each required identity absent on one side and on
+  both, both phases, the staged-evidence cases and the checkpoint cases. A 20000-iteration fuzz
+  run draws every pair (the watch sets and each staged value included) independently, compares
+  `Decide` with an independent oracle, checks every refusal's reason against the oracle's own
+  restatement, and requires every decision but OWNER_MISMATCH to occur. The wire tests cover a
+  null request, each class of malformed encoding, each ignored slot on its own, and multi-byte
+  counters.
+- **Not measured** (stated, not hidden): ownership (uid/gid) is not part of a manifest, so a
+  `chown` or `chgrp` in live PRIME is not a foreign write; a write in the moment between the
+  last generation read and the exchange is attributed to the exchange.
+
+### Known limitations (pre-existing, refuse safely; scheduled, not fixed in this release)
+
+These were found by the adversarial review of this release. Each predates 1.9.0 and each
+refuses rather than authorizes, so under the release's freeze rule they are stated here and
+fixed in a later release rather than changed after review began.
+
+- A read-only directory in PRIME (mode 0555 with contents) makes every collapse prepare fail
+  with STORAGE_ERROR: the merge creates staged directories with their final mode before filling
+  them. Present since 1.0.0.
+- A declined `return` cannot be retried at the same PRIME (WORLD_CONFLICT), and each attempt
+  leaves a frozen generation and a vehicle payload; its leftover vehicle also makes a later
+  collapse of that world refuse CHECKPOINT_IDENTITY_TAKEN until PRIME moves.
+- A hard-link group whose files carry extended attributes and a read-only mode cannot be
+  materialized (XATTR_NOT_APPLICABLE): fork, prepare and revalidation refuse such a tree.
+- Revalidation copies the payload once per run and needs free space for it; the copy is not
+  under resource admission.
+
+One more was found by the last review round, in this release's own repair of the watcher
+rebuild. It also refuses rather than authorizes, and it is stated here so the freeze ends:
+
+- With automatic ghosts enabled, a collapse or return that commits but whose watcher rebuild
+  then fails (`inotify_init1` refused: EMFILE or ENOMEM) is answered PRIME_WATCH_UNAVAILABLE,
+  "no registered root could be watched", although PRIME moved and the receipt was written. The
+  ghost freeze that follows every commit refuses with no watcher, and its error replaces the
+  commit's result. Check `worldline status` or the receipt before retrying; a retry of the same
+  transaction is refused INVALID_TRANSACTION_STATE. That PRIME generation gets no automatic
+  ghosts. In 1.8.0 the same rebuild failure replaced the result with INOTIFY_UNAVAILABLE. With
+  ghosts disabled the commit's result is reported.
+
 ## 1.8.0 — 2026-09-29 · evaluation lifecycle authority
 
 **The proved core now decides whether a world's evaluation can promote it, and four ways to

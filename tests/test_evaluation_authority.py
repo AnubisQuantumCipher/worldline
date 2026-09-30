@@ -10,6 +10,7 @@ from pathlib import Path
 import unittest
 
 from worldline.core import (
+    COLLAPSE_DECISIONS,
     ABI_VERSION,
     CCollapseRequest,
     CEvaluationClassification,
@@ -27,8 +28,8 @@ from worldline.transaction import CollapseTransaction
 from validation_support import agent_pass_result
 
 FULL = EvidencePresence(True, True, True, True, True)
-SUPERVISED_PASS = {"id": "exam", "format": "exit", "status": "PASS", "origin": "supervisor",
-                   "exitCode": 0, "resultChannel": {"accepted": True}}
+SUPERVISED_PASS = {"id": "exam", "format": "exit", "profile": "legacy", "status": "PASS", "origin": "supervisor",
+                   "exitCode": 0, "resultChannel": {"accepted": True}, "executedVerifierSet": None}
 EXIT_DECLARED = CheckDeclaration("exit", "legacy", False)
 
 # Spec section 4, written out independently of the Ada body: the only allowed steps.
@@ -201,22 +202,91 @@ class EvaluationAuthorityTests(unittest.TestCase):
         too_many = (ctypes.c_uint8 * 4097)(*([1] * 4097))
         self.assertEqual(self.core._lib.wl_evaluation_roster_complete(too_many, 4097, 0), 255)
 
-    def test_collapse_request_boolean_and_reserved_bytes_are_validated(self) -> None:
-        def request(**overrides: int) -> CCollapseRequest:
+    def test_collapse_request_wire_encodings_are_validated(self) -> None:
+        # ABI generation 5: every Boolean and enum byte in range, every presence byte 0 or 1, an
+        # absent value all zero, a present hash never all zero, and no value in a slot the
+        # request's mode or phase does not consult. Anything else is 255, never a decision.
+        values = {"expected_parent": 1, "candidate_parent": 1, "expected_subject": 2, "evidence_subject": 2,
+                  "expected_base": 3, "candidate_base": 3, "expected_delta": 4, "candidate_delta": 4,
+                  "expected_root_set": 5, "candidate_root_set": 5, "expected_staged_root": 6,
+                  "actual_staged_root": 6, "staged_content_root": 7, "tested_root": 7,
+                  "current_requirement": 8, "evaluated_requirement": 8, "declared_verifiers": 9,
+                  "executed_verifiers": 9, "registered_watch_set": 10, "watched_set": 10}
+
+        def put(field, byte: int) -> None:
+            field.present = 1
+            field.value = (ctypes.c_uint8 * 32)(*([byte] * 32))
+
+        def request(**overrides) -> CCollapseRequest:
             value = CCollapseRequest()
-            value.candidate_state = 2
-            value.execution_evidence_complete = 1
-            for name in ("expected_executed_verifier", "actual_executed_verifier"):
-                ctypes.memmove(ctypes.addressof(value) + getattr(CCollapseRequest, name).offset, b"\x07" * 32, 32)
-            for name, byte in overrides.items():
-                setattr(value, name, byte)
+            value.candidate_state, value.phase, value.evaluation_mode = 2, 0, 0
+            value.conflicts, value.foreign_writes, value.roster_complete = 1, 1, 1
+            for name, byte in values.items():
+                put(getattr(value, name), byte)
+            for name in ("generation_before", "generation_after"):
+                getattr(value, name).present = 1
+                getattr(value, name).value_le[0] = 41
+            for name, change in overrides.items():
+                change(value)
             return value
+
         self.assertEqual(self.core._lib.wl_collapse_decide(ctypes.byref(request())), 0)
-        for name, byte in (("execution_evidence_complete", 2), ("has_conflicts", 2), ("reserved", 1),
-                           ("reserved_2", 1), ("reserved_3", 1), ("reserved_4", 1), ("reserved_5", 1),
-                           ("reserved_6", 1), ("evaluation_mode", 2), ("checkpoint_witnessed", 2)):
-            with self.subTest(field=name):
-                self.assertEqual(self.core._lib.wl_collapse_decide(ctypes.byref(request(**{name: byte}))), 255)
+        malformed = {
+            "presence byte 2": lambda r: setattr(r.expected_parent, "present", 2),
+            "absent with a value": lambda r: (setattr(r.expected_parent, "present", 0)),
+            "present all-zero hash": lambda r: setattr(r.tested_root, "value", (ctypes.c_uint8 * 32)()),
+            "absent counter with bytes": lambda r: setattr(r.generation_before, "present", 0),
+            "candidate state": lambda r: setattr(r, "candidate_state", 7),
+            "phase": lambda r: setattr(r, "phase", 2),
+            "mode": lambda r: setattr(r, "evaluation_mode", 2),
+            "conflicts": lambda r: setattr(r, "conflicts", 3),
+            "foreign writes": lambda r: setattr(r, "foreign_writes", 3),
+            "roster byte": lambda r: setattr(r, "roster_complete", 2),
+            "prepare with a second capture": lambda r: setattr(r, "phase", 1),
+            "checkpoint field in candidate mode": lambda r: put(r.witnessed_checkpoint, 20),
+            "checkpoint mode with primary evidence": lambda r: setattr(r, "evaluation_mode", 1),
+        }
+        for label, change in malformed.items():
+            with self.subTest(malformed=label):
+                self.assertEqual(self.core._lib.wl_collapse_decide(ctypes.byref(request(change=change))), 255)
+        self.assertEqual(self.core._lib.wl_collapse_decide(None), 255)
+
+        # Each slot a mode ignores must be empty on its own (review of a23c265: the combined
+        # case above could not tell which conjunct refused).
+        def clear(field) -> None:
+            field.present = 0
+            field.value = (ctypes.c_uint8 * 32)()
+
+        def checkpoint(r) -> None:
+            r.evaluation_mode, r.roster_complete = 1, 0
+            clear(r.evaluated_requirement)
+            clear(r.executed_verifiers)
+            put(r.expected_checkpoint, 21)
+            put(r.witnessed_checkpoint, 21)
+
+        decide = lambda value: self.core._lib.wl_collapse_decide(ctypes.byref(value))
+        self.assertEqual(decide(request(mode=checkpoint)), 0)
+        singles = {
+            "expected checkpoint alone in candidate mode": lambda r: put(r.expected_checkpoint, 21),
+            "evaluated requirement alone in checkpoint mode": lambda r: (checkpoint(r), put(r.evaluated_requirement, 8)),
+            "executed verifiers alone in checkpoint mode": lambda r: (checkpoint(r), put(r.executed_verifiers, 9)),
+            "roster byte alone in checkpoint mode": lambda r: (checkpoint(r), setattr(r, "roster_complete", 1)),
+        }
+        for label, change in singles.items():
+            with self.subTest(ignored_slot=label):
+                self.assertEqual(decide(request(change=change)), 255)
+
+        # Counters are little-endian 64-bit: a difference in any byte is a different generation.
+        def counters(before: int, after: int):
+            def change(r) -> None:
+                r.generation_before.value_le = (ctypes.c_uint8 * 8)(*before.to_bytes(8, "little"))
+                r.generation_after.value_le = (ctypes.c_uint8 * 8)(*after.to_bytes(8, "little"))
+            return change
+        prime_changed = next(code for code, name in COLLAPSE_DECISIONS.items() if name == "PRIME_CHANGED")
+        for before, after in ((0, 1 << 8), (0, 1 << 56), (1 << 56, 1 << 57), ((1 << 64) - 1, (1 << 64) - 2)):
+            with self.subTest(before=before, after=after):
+                self.assertEqual(decide(request(change=counters(before, after))), prime_changed)
+        self.assertEqual(decide(request(change=counters((1 << 56) + 257, (1 << 56) + 257))), 0)
 
     def test_the_library_is_the_abi_generation_this_runtime_expects(self) -> None:
         self.assertEqual(self.core._lib.wl_abi_version(), ABI_VERSION)
@@ -230,7 +300,7 @@ class EvaluationAuthorityTests(unittest.TestCase):
         manager.core = self.core
         subject = SimpleNamespace(evidence={"checks": [agent_pass_result()]})
         current = {"policy": {"requiredChecks": ["exam"], "sourceSha256": "ab" * 32, "canonical": {
-            "checks": [{"id": "exam", "format": "exit"}], "protected": []}}, "verifiers": []}
+            "checks": [{"id": "exam", "format": "exit", "profile": "legacy"}], "protected": []}}, "verifiers": []}
         self.assertTrue(manager._execution_identity(subject, current, recorded_checks=[SUPERVISED_PASS])["complete"])
         # A completed FAIL: 1.7.3 checked only that execution reached the examiner.
         completed_fail = {**SUPERVISED_PASS, "status": "FAIL", "exitCode": 1}

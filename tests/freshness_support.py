@@ -386,6 +386,9 @@ def synthetic_candidate(paths: WorldlinePaths, store: StateStore, core: Core, al
         target.write_text(content, encoding="utf-8")
     base_manifest = Manifest.capture(base_directory / root_key, logical_root=logical, root_key=root_key, kind=root["kind"], core=core)
     candidate_manifest = Manifest.capture(candidate_directory / root_key, logical_root=logical, root_key=root_key, kind=root["kind"], core=core)
+    # A finalized world declares its manifests; promotion reads them as the tested bytes.
+    (candidate_directory / "manifests").mkdir(mode=0o700, exist_ok=True)
+    candidate_manifest.save(candidate_directory / "manifests" / f"{root_key}.json")
     delta = Delta.compute_all({root_key: base_manifest}, {root_key: candidate_manifest}, core)
     parent = store.prime()
     world = World.create(

@@ -16,7 +16,9 @@ from .errors import NotFound, WorldlineError
 from .model import NONTERMINAL_STATES, World, WorldState, utc_now
 from .paths import WorldlinePaths
 
-_ZERO_HASH = bytes(32)
+# The predecessor of the first link in the causal and receipt chains. Its bytes are part of every
+# chain hash already written, so they never change; it is never handed to the kernel as an identity.
+CHAIN_GENESIS = bytes(32)
 
 # The SQLite schema version (PRAGMA user_version). Independent of SCHEMA_VERSION, which names the
 # document formats (status, events, receipts) and stays 1. Bump this when a table changes and add
@@ -624,7 +626,7 @@ class StateStore:
             previous_row = self._connection.execute(
                 "SELECT chain_hash,ordinal FROM causal_events ORDER BY rowid DESC LIMIT 1"
             ).fetchone()
-            previous = _ZERO_HASH if previous_row is None else hash_bytes_from_id(previous_row["chain_hash"])
+            previous = CHAIN_GENESIS if previous_row is None else hash_bytes_from_id(previous_row["chain_hash"])
             chain = self.core.causal_link(previous, event_root)
             event_id = hash_id(chain)
             path = self.paths.events / f"{chain.hex()}.json"
@@ -706,7 +708,10 @@ class StateStore:
                 (
                     record["transactionId"], record["kind"], record["state"], record["candidateWorld"],
                     record["preparedPath"], record["beforeRoot"], record["baseRoot"], record["candidateRoot"],
-                    record["deltaHash"], record["stagedRoot"], record["rootSetHash"],
+                    # NOT NULL column: a conflicted merge's absent staged root is the literal
+                    # "absent" (1.9.0), never a zero digest.
+                    record["deltaHash"], record["stagedRoot"] if record["stagedRoot"] is not None else "absent",
+                    record["rootSetHash"],
                     record["generationMarker"], record.get("createdAt", utc_now()),
                 ),
             )
@@ -778,7 +783,7 @@ class StateStore:
                 "receipt does not name the current predecessor",
                 {"expected": expected_previous_id, "supplied": receipt["previousReceipt"]},
             )
-        previous_hash = _ZERO_HASH if previous_row is None else hash_bytes_from_id(previous_row["chain_hash"])
+        previous_hash = CHAIN_GENESIS if previous_row is None else hash_bytes_from_id(previous_row["chain_hash"])
         chain = self.core.receipt_link(previous_hash, root)
         path = self.paths.receipts / f"{chain.hex()}.json"
         atomic_write(path, payload)
@@ -818,7 +823,7 @@ class StateStore:
         return None
 
     def verify_chains(self) -> dict[str, int]:
-        previous = _ZERO_HASH
+        previous = CHAIN_GENESIS
         causal_count = 0
         with self._lock:
             causal_rows = self._connection.execute("SELECT * FROM causal_events ORDER BY rowid").fetchall()
@@ -832,7 +837,7 @@ class StateStore:
             previous = chain
             causal_count += 1
 
-        previous = _ZERO_HASH
+        previous = CHAIN_GENESIS
         previous_receipt: str | None = None
         receipt_count = 0
         for row in receipt_rows:

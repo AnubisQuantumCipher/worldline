@@ -7,7 +7,8 @@ with Worldline;
 with Worldline.Ancestry;
 with Worldline.C_API;
 with Worldline.Causal_Graph;
-with Worldline.Collapse;
+with Worldline.Collapse_Wire;
+with Worldline_Collapse_Checks;
 with Worldline.Evaluation;
 with Worldline.Receipts;
 with Worldline.Transitions;
@@ -16,7 +17,6 @@ with System;
 
 procedure Worldline_Core_Tests is
    use type Worldline.Hash;
-   use type Worldline.Collapse.Decision;
    use type Worldline.Transitions.Transaction_State;
    use type Worldline.Evaluation.Execution_State;
    use type Worldline.Evaluation.Outcome;
@@ -50,39 +50,10 @@ procedure Worldline_Core_Tests is
       16#27#, 16#ae#, 16#41#, 16#e4#, 16#64#, 16#9b#, 16#93#, 16#4c#,
       16#a4#, 16#95#, 16#99#, 16#1b#, 16#78#, 16#52#, 16#b8#, 16#55#];
 
-   Request : Worldline.Collapse.Collapse_Request :=
-     (Candidate_State => Worldline.Transitions.Valid,
-      Has_Conflicts => False,
-      Has_Foreign_Managed_Writes => False,
-      Expected_Parent => H1,
-      Candidate_Parent => H1,
-      Expected_Owner => H2,
-      Candidate_Owner => H2,
-      Expected_Base => H3,
-      Candidate_Base => H3,
-      Expected_Delta => H4,
-      Candidate_Delta => H4,
-      Expected_Root_Set => H5,
-      Candidate_Root_Set => H5,
-      Expected_Staged_Root => H6,
-      Actual_Staged_Root => H6,
-      Expected_Validation_Context => H1,
-      Candidate_Validation_Context => H1,
-      Tested_Root => H2,
-      Staged_Content_Root => H2,
-      Execution_Evidence_Complete => True,
-      Expected_Executed_Verifier => H7,
-      Actual_Executed_Verifier => H7,
-      Mode => Worldline.Collapse.Candidate_Evaluation,
-      Checkpoint_Witnessed => False,
-      Expected_Checkpoint => H0,
-      Witnessed_Checkpoint => H0);
-
    Full_Presence : constant Worldline.Evaluation.Evidence_Presence :=
      (Record_Identified | Verdict_Recorded | Binding_Established |
       Declaration_Matches | Bundle_Identified => True);
 
-   C_Request : aliased Worldline.C_API.C_Collapse_Request;
    C_Value : aliased Worldline.C_API.C_Evaluation_Classification;
    C_Presence : aliased Worldline.C_API.C_Evidence_Presence :=
      (others => 1);
@@ -352,9 +323,9 @@ begin
         (C_Value'Unchecked_Access, 1, null) = 255,
       "null presence accepted");
 
-   Check (Worldline.C_API.ABI_Generation = 4, "ABI generation is not 4");
+   Check (Worldline.C_API.ABI_Generation = 5, "ABI generation is not 5");
    Check
-     (Worldline.C_API.Layout_Size (0) = C_Request'Size / 8
+     (Worldline.C_API.Layout_Size (0) = Worldline.Collapse_Wire.Raw_Request'Size / 8
       and then Worldline.C_API.Layout_Size (3) = 5
       and then Worldline.C_API.Layout_Size (9) = 0,
       "layout sizes misreported");
@@ -364,7 +335,9 @@ begin
    begin
       Check
         (Offset (0, "candidate_state") = 0
-         and then Offset (0, "expected_parent") = 4
+         and then Offset (0, "expected_parent") = 7
+         and then Offset (4, "value") = 1
+         and then Offset (5, "value_le") = 1
          and then Offset (3, "bundle_identified") = 4
          and then Offset (3, "nonexistent") = Interfaces.C.size_t'Last
          and then Offset (9, "candidate_state") = Interfaces.C.size_t'Last
@@ -390,180 +363,8 @@ begin
      (Evaluation_Result.Execution /= Worldline.Evaluation.Completed,
       "missing supervised exit became completed");
 
-   Check
-     (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Authorized,
-      "valid collapse denied");
-   Request.Candidate_State := Worldline.Transitions.Dead;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Invalid_Candidate,
-      "dead candidate authorized");
-   Request.Candidate_State := Worldline.Transitions.Valid;
-   Request.Candidate_Parent := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Parent_Mismatch,
-      "parent mismatch missed");
-   Request.Candidate_Parent := H1;
-   Request.Candidate_Owner := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Owner_Mismatch,
-      "owner mismatch missed");
-   Request.Candidate_Owner := H2;
-   Request.Candidate_Base := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Base_Mismatch,
-      "base mismatch missed");
-   Request.Candidate_Base := H3;
-   Request.Candidate_Delta := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Delta_Mismatch,
-      "delta mismatch missed");
-   Request.Candidate_Delta := H4;
-   Request.Candidate_Root_Set := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Root_Set_Mismatch,
-      "root-set mismatch missed");
-   Request.Candidate_Root_Set := H5;
-   Request.Actual_Staged_Root := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Staged_Root_Mismatch,
-      "staged-root mismatch missed");
-   Request.Actual_Staged_Root := H6;
-   Request.Candidate_Validation_Context := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Validation_Context_Mismatch,
-      "validation-context mismatch missed");
-   Request.Candidate_Validation_Context := H1;
-   Request.Staged_Content_Root := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Staged_Untested,
-      "untested staged result authorized");
-   Request.Staged_Content_Root := H2;
-   --  Execution-time verifier identity: a result nobody can attach to the examiner WORLDLINE
-   --  authorised is not an ordinary pass, and an incomplete roster is not a satisfied one.
-   Request.Execution_Evidence_Complete := False;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Execution_Evidence_Incomplete,
-      "incomplete execution evidence authorized");
-   Request.Execution_Evidence_Complete := True;
-   Request.Actual_Executed_Verifier := H3;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Verifier_Execution_Identity_Mismatch,
-      "a candidate judged by a different examiner was authorized");
-   Request.Actual_Executed_Verifier := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Authorized,
-      "restoring the execution identity did not re-authorize");
-   --  Checkpoint return: no candidate evaluation is consulted, and the case
-   --  must carry a lineage witness rather than pass by having nothing to check.
-   Request.Mode := Worldline.Collapse.Checkpoint_Return;
-   Request.Execution_Evidence_Complete := False;
-   Request.Candidate_Validation_Context := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Checkpoint_Unwitnessed,
-      "an unwitnessed checkpoint return was authorized");
-   Request.Checkpoint_Witnessed := True;
-   Request.Expected_Checkpoint := H3;
-   Request.Witnessed_Checkpoint := H4;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Checkpoint_Unwitnessed,
-      "a checkpoint witness naming other content was accepted");
-   Request.Witnessed_Checkpoint := H3;
-   Check
-     (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Authorized,
-      "a witnessed checkpoint return was denied");
-   Request.Staged_Content_Root := H7;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Staged_Untested,
-      "checkpoint mode skipped the tested-bytes obligation");
-   Request.Staged_Content_Root := H2;
-   Request.Mode := Worldline.Collapse.Candidate_Evaluation;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Validation_Context_Mismatch,
-      "a checkpoint witness authorized a candidate evaluation");
-   Request.Candidate_Validation_Context := H1;
-   Request.Execution_Evidence_Complete := True;
-   Request.Checkpoint_Witnessed := False;
-   Request.Has_Conflicts := True;
-   Check
-     (Worldline.Collapse.Decide (Request) = Worldline.Collapse.Conflict,
-      "conflict missed");
-   Request.Has_Conflicts := False;
-   Request.Has_Foreign_Managed_Writes := True;
-   Check
-     (Worldline.Collapse.Decide (Request) =
-        Worldline.Collapse.Foreign_Managed_Write,
-      "foreign write missed");
-
-   --  C boundary: every Boolean byte is 0 or 1, every reserved byte is 0.
-   C_Request := (Candidate_State => 2, others => <>);
-   C_Request.Has_Conflicts := 0;
-   C_Request.Has_Foreign_Managed_Writes := 0;
-   C_Request.Reserved := 0;
-   C_Request.Execution_Evidence_Complete := 1;
-   C_Request.Reserved_2 := 0;
-   C_Request.Reserved_3 := 0;
-   C_Request.Reserved_4 := 0;
-   C_Request.Evaluation_Mode := 0;
-   C_Request.Checkpoint_Witnessed := 0;
-   C_Request.Reserved_5 := 0;
-   C_Request.Reserved_6 := 0;
-   C_Request.Expected_Parent := [others => 1];
-   C_Request.Candidate_Parent := [others => 1];
-   C_Request.Expected_Owner := [others => 1];
-   C_Request.Candidate_Owner := [others => 1];
-   C_Request.Expected_Base := [others => 1];
-   C_Request.Candidate_Base := [others => 1];
-   C_Request.Expected_Delta := [others => 1];
-   C_Request.Candidate_Delta := [others => 1];
-   C_Request.Expected_Root_Set := [others => 1];
-   C_Request.Candidate_Root_Set := [others => 1];
-   C_Request.Expected_Staged_Root := [others => 1];
-   C_Request.Actual_Staged_Root := [others => 1];
-   C_Request.Expected_Validation_Context := [others => 1];
-   C_Request.Candidate_Validation_Context := [others => 1];
-   C_Request.Tested_Root := [others => 1];
-   C_Request.Staged_Content_Root := [others => 1];
-   C_Request.Expected_Executed_Verifier := [others => 1];
-   C_Request.Actual_Executed_Verifier := [others => 1];
-   C_Request.Expected_Checkpoint := [others => 0];
-   C_Request.Witnessed_Checkpoint := [others => 0];
-   Check
-     (Worldline.C_API.Collapse_Decide (C_Request'Unchecked_Access) = 0,
-      "valid C collapse request denied");
-   for Field in 1 .. 8 loop
-      declare
-         Bad : aliased Worldline.C_API.C_Collapse_Request := C_Request;
-      begin
-         case Field is
-            when 1 => Bad.Execution_Evidence_Complete := 2;
-            when 2 => Bad.Reserved_2 := 1;
-            when 3 => Bad.Reserved_3 := 1;
-            when 4 => Bad.Reserved_4 := 1;
-            when 5 => Bad.Reserved_5 := 1;
-            when 6 => Bad.Reserved_6 := 1;
-            when 7 => Bad.Evaluation_Mode := 2;
-            when others => Bad.Checkpoint_Witnessed := 2;
-         end case;
-         Check
-           (Worldline.C_API.Collapse_Decide (Bad'Unchecked_Access) = 255,
-            "malformed C collapse byte accepted");
-      end;
-   end loop;
+   --  The collapse decision and its wire decode (1.9.0).
+   Worldline_Collapse_Checks.Run;
 
    Linked := Worldline.Causal_Graph.Link (H0, H1);
    Worldline.Causal_Graph.Append (Causal, H0, H1);

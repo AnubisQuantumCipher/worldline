@@ -60,6 +60,12 @@ class RootManager:
         self.atomic = AtomicExchange()
 
     def _assert_root_set_mutable(self) -> None:
+        # A quarantined transaction is settled only by recovery, which replays its publish over
+        # the root set it was prepared with; a root change first would make that impossible
+        # (review of fcbf132).
+        gate = getattr(self, "recovery_gate", None)
+        if gate is not None:
+            gate()
         nonterminal = self.store.nonterminal_worlds()
         if nonterminal:
             raise WorldlineError(
@@ -463,6 +469,11 @@ class RootManager:
     def reconcile(self, *, cause: str = "External managed-root change"):
         if not self.store.get_meta("dirty", False):
             return self.store.prime()
+        # While a transaction is quarantined, live PRIME may hold an exchange nobody recorded;
+        # recording it now would call WORLDLINE's own collapse an external change.
+        gate = getattr(self, "recovery_gate", None)
+        if gate is not None:
+            gate()
         generation_id, payload, manifests = self.capture_current()
         try:
             return self._publish_generation(
