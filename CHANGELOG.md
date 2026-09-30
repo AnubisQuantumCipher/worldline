@@ -34,18 +34,23 @@ does.
   - `install.sh` said the shell "was killed as part of the restart" whenever
     `omarchy-restart-shell` failed. It fails before stopping anything on a locked session or a
     missing shell config, and then the previous plugin is still running.
-  - Both scripts now print the exit code and both possibilities.
+  - Both scripts now print the exit code and both possibilities. In the refused case, the
+    WORLDLINE service still runs the previous plugin commit. Other plugin parts may already have
+    reloaded, because updating the checkout wakes the shell's plugin watcher.
   - `install.sh` also names a missing `omarchy-restart-shell` instead of failing on
     "command not found".
 
 ### Documentation
 
 - **The user manual no longer says a failed revalidation always leaves a world refused.** That
-  holds only once the earlier evidence is stale. `validation.effective_evidence` takes the
-  newest PASS, so a failed revalidation never speaks but does not revoke a fresh earlier PASS,
-  from finalization or from a revalidation. The manual now says so and points to "What Python
-  still decides" in `docs/phase1-typed-absence.md` (roadmap Phase 1 item 5, "one effective
-  evaluation").
+  holds only once the earlier evidence is stale. The manual now states the rule
+  `validation.effective_evidence` applies. The newest PASS for the world's bytes speaks, fresh
+  or not, or else the finalization evidence, and a FAIL never speaks.
+  - So a failed revalidation does not revoke an earlier PASS. That PASS authorizes whenever its
+    requirement equals the current one, including again after a revert.
+  - A newer PASS under another requirement hides an older fresh one, which refuses as stale.
+  - The manual points to "What Python still decides" in `docs/phase1-typed-absence.md`
+    (roadmap Phase 1 item 5, "one effective evaluation").
 - **SECURITY.md** names that as limit 8. Its review line said "last reviewed against release
   1.7.3" while describing 1.9.0 semantics. It now names 1.9.1, and says that every review,
   including the 2026-09-02 audit document, was carried out by AI agents and checked against

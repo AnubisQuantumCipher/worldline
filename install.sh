@@ -381,8 +381,9 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]]; then
   # plugin.
   if ! command -v omarchy-restart-shell >/dev/null 2>&1; then
     SHELL_RESTART="FAILED (omarchy-restart-shell not found)"
-    echo "install: omarchy-restart-shell was not found, so the desktop shell still runs the previous" >&2
-    echo "install: plugin commit. The engine is installed and verified; restart the shell to load it." >&2
+    echo "install: omarchy-restart-shell was not found, so the desktop shell was not restarted: its" >&2
+    echo "install: WORLDLINE service still runs the previous plugin commit (other plugin parts may" >&2
+    echo "install: already have reloaded). The engine is installed and verified; restart the shell." >&2
   elif omarchy-restart-shell; then
     SHELL_RESTART="ok"
   else
@@ -390,8 +391,9 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]]; then
     SHELL_RESTART="FAILED"
     echo "install: the desktop shell restart FAILED (omarchy-restart-shell exited $rc). The engine is" >&2
     echo "install: installed and verified. If the restart refused before stopping the shell (a locked" >&2
-    echo "install: session, a missing shell config), the shell still runs the previous plugin commit;" >&2
-    echo "install: if it failed after, expect no bar, no plugin surfaces, or an unsecured session lock." >&2
+    echo "install: session, a missing shell config), the shell was not restarted and its WORLDLINE" >&2
+    echo "install: service still runs the previous plugin commit; if it failed after, expect no bar," >&2
+    echo "install: no plugin surfaces, or an unsecured session lock." >&2
     echo "install: Re-run omarchy-restart-shell, or roll back with: scripts/rollback.sh $BACKUP" >&2
   fi
 fi
