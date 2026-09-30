@@ -3,9 +3,11 @@
 This document states plainly what WORLDLINE defends against, what it does not, and where its
 claims end. It is deliberately conservative: a guarantee is listed under "Holds" only if it was
 verified in code or demonstrated, and everything else is named as a limit rather than left
-implied. Last reviewed 2026-09-29, against release 1.7.3 (the audit of record is still
-`SECURITY-AUDIT-2026-09-02.md`; the adversarial reviews since then are summarized in
-`CHANGELOG.md`).
+implied. Last reviewed 2026-09-30, against release 1.9.1. Every review of WORLDLINE,
+including `SECURITY-AUDIT-2026-09-02.md`, was carried out by AI agents and checked against
+mechanical evidence (proofs, contract pins, reproductions, exact-commit assurance); no human
+security audit is claimed. The reviews since 2026-09-02 are summarized, release by release, in
+`CHANGELOG.md`.
 
 ## The adversary WORLDLINE is built for
 

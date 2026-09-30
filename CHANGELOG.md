@@ -1,5 +1,49 @@
 # Changelog
 
+## 1.9.1 — 2026-09-30 · installer shell restart, truthful docs
+
+**No change to the authority path, the kernel or the store.** This release fixes one installer
+defect and two places where the documentation claimed more than the code does.
+
+### Upgrading
+
+- No store migration is needed. As after any release, revalidate VALID worlds before collapse,
+  because the requirement identity includes the runtime tree.
+- The known limitations listed under 1.9.0 are unchanged.
+
+### Fixed
+
+- **`install.sh` and `scripts/rollback.sh` no longer ask the desktop shell to rescan its plugins
+  just before restarting it.**
+  - A rescan keeps creating plugin objects for a moment after it returns. quickshell 0.3.1 frees
+    its IPC handler registry as soon as the restart's kill arrives, so an object that completes in
+    that window registers into freed memory and the shell segfaults instead of exiting
+    (quickshell-mirror/quickshell#956).
+  - Two of the three shell crashes on the reference machine were the installer's rescan racing
+    its own restart. The restart re-reads every plugin anyway.
+  - This carries the fix from the unmerged draft PR #7 onto the current release.
+  - Tests:
+    - `tests/test_rollback.py` runs the real rollback with a recording shim and asserts that no
+      rescan is issued.
+    - The installer's post-build path has no automated control, so a second test reads the
+      shipped `install.sh` restart block instead.
+    - Both tests fail against the 1.9.0 scripts.
+
+### Documentation
+
+- **The user manual no longer says a failed revalidation always leaves a world refused.** That
+  holds only once the earlier evidence is stale. `validation.effective_evidence` still takes the
+  newest PASS, so while an earlier PASS (from finalization or a revalidation) is fresh, a later
+  FAIL does not supersede it. The Phase 1 documents already stated this (item 5); the manual now
+  agrees with them.
+- **SECURITY.md's review line is current, and names who reviewed.** It said "last reviewed
+  against release 1.7.3" while describing 1.9.0 semantics. It now names 1.9.1. It also says
+  that every review, including the 2026-09-02 audit document, was carried out by AI agents and
+  checked against mechanical evidence, and that no human security audit is claimed.
+- **`docs/release-process.md` records the repository rules now in force.** `main` changes only
+  through a merged pull request whose up-to-date head passed `assurance / assure`, and a pushed
+  `v*` tag can be neither moved nor deleted. Both GitHub rulesets have no bypass actors.
+
 ## 1.9.0 — 2026-09-29 · typed absence and honest collapse inputs
 
 **The collapse decision no longer accepts a missing value as a matching one, and every input it

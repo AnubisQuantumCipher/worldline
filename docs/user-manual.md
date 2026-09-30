@@ -409,7 +409,10 @@ When the policy, a verifier, the engine or the network policy changed after a wo
 finalized, its evidence is stale and every promotion is refused. `revalidate` runs the current
 checks again over the candidate's own finalized bytes (in the check sandbox; the payload is
 read-only underneath) and stores the resulting context beside the world, bound to its content
-identity. Only a `PASS` outcome speaks for the world afterwards; a `FAIL` leaves it refused.
+identity. After stale evidence, only a `PASS` outcome speaks for the world; a `FAIL` leaves it
+refused. While the world's earlier evidence is still fresh, a revalidation that fails does not yet
+supersede an earlier `PASS`: the earlier evaluation can still speak for the world (a stated
+limitation; see `docs/phase1-typed-absence.md`, Phase 1 item 5).
 Revalidation never changes a world's state, payload or evidence manifest, and it does not
 re-run the agent. Worlds finalized by 1.2.x carry no context (`EVIDENCE_CONTEXT_MISSING`) and
 take the same path.

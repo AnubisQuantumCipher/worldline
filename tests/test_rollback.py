@@ -317,6 +317,32 @@ class RollbackControls(unittest.TestCase):
         self.assertIn("desktop shell restart FAILED", proc.stdout)
         self.assertIn("desktop shell: FAILED", proc.stdout)
 
+    def test_the_desktop_restart_is_not_preceded_by_a_plugin_rescan(self) -> None:
+        # A rescan still completing plugin objects when the restart's kill lands segfaults
+        # quickshell 0.3.1 (quickshell-mirror/quickshell#956); the restart re-reads every plugin.
+        calls = Path(self.temporary.name) / "desktop-calls.log"
+        recorder = f'#!/bin/sh\necho "$(basename "$0") $*" >> "{calls}"\nexit 0\n'
+        for name in ("hyprctl", "omarchy-shell", "omarchy-restart-shell"):
+            (self.shims / name).write_text(recorder, encoding="utf-8")
+            os.chmod(self.shims / name, 0o755)
+        proc = self.run_rollback(self.make_backup(), env_extra={"WORLDLINE_NO_SHELL_RESTART": "0"})
+        self.assertEqual(proc.returncode, 0, proc.stdout)
+        recorded = calls.read_text(encoding="utf-8").splitlines()
+        self.assertIn("omarchy-restart-shell ", recorded, "the control must reach the restart")
+        self.assertFalse([line for line in recorded if "rescanPlugins" in line], recorded)
+
+
+class InstallerShellRestart(unittest.TestCase):
+    """The installer's post-build path has no automated control (tests/test_install_guards.py says
+    why), so the shipped script's restart block is read instead of run."""
+
+    def test_the_installer_does_not_rescan_plugins_before_restarting_the_shell(self) -> None:
+        text = (REPO / "install.sh").read_text(encoding="utf-8")
+        commands = [line.strip() for line in text.splitlines() if not line.strip().startswith("#")]
+        self.assertTrue(any(line.startswith("if omarchy-restart-shell") for line in commands),
+                        "the restart the control is about must still be there")
+        self.assertFalse([line for line in commands if "rescanPlugins" in line])
+
 
 if __name__ == "__main__":
     unittest.main()

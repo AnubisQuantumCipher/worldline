@@ -371,7 +371,13 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]]; then
   # omarchy-restart-shell KILLS the running shell before relaunching it, and can exit non-zero
   # with the shell down or the session lock not re-secured. Printing a successful install over
   # that would be a lie about the state of the desktop, so its outcome is kept and shown.
-  omarchy-shell -q shell rescanPlugins || echo "install: rescanPlugins failed; the shell may not see the new plugin commit." >&2
+  #
+  # Never ask the shell to rescan its plugins right before that kill. A rescan keeps creating
+  # plugin objects from its scan process's exit for a moment, and quickshell 0.3.1 frees its
+  # IPC handler registry the instant the kill arrives, so a plugin object completing in that
+  # window registers into freed memory and the shell segfaults instead of exiting
+  # (quickshell-mirror/quickshell#956). Two of the three shell crashes on the reference machine
+  # were this installer's rescan racing its own restart. The restart re-reads every plugin.
   if omarchy-restart-shell; then
     SHELL_RESTART="ok"
   else
