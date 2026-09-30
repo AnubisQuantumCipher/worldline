@@ -313,6 +313,8 @@ class ContractPins(unittest.TestCase):
 
     def test_the_pinned_set_is_exactly_the_claimed_contracts(self) -> None:
         self.assertEqual(set(self.verifier.CONTRACT_PINS), {
+            "worldline.gpr", "core/worldline_core.gpr", "core/worldline_core_sources.gpr", "core/attest_sha256.gpr",
+            "tests/worldline_tests.gpr",
             "core/worldline.ads", "core/attest/attest.ads", "core/attest/attest-sha256.ads",
             "core/worldline-c_api.ads", "core/worldline-c_api.adb",
             "core/worldline-collapse.ads", "core/worldline-collapse_wire.ads", "core/worldline-identities.ads",
@@ -357,6 +359,45 @@ class ContractPins(unittest.TestCase):
         self.assertLess(check, gate.index("PROOF GATE PASSED"))
         verifier = (ROOT / "verify_proof_manifest.py").read_text(encoding="utf-8")
         self.assertIn("problems = contract_problems(root)", verifier)
+
+    def test_a_project_file_that_redirects_a_unit_or_a_stray_source_is_refused(self) -> None:
+        import shutil
+        import tempfile
+        with tempfile.TemporaryDirectory() as temporary:
+            tree = Path(temporary)
+            shutil.copytree(ROOT / "core", tree / "core")
+            shutil.copy2(ROOT / "worldline.gpr", tree / "worldline.gpr")
+            (tree / "tests").mkdir()
+            shutil.copy2(ROOT / "tests/worldline_tests.gpr", tree / "tests/worldline_tests.gpr")
+            self.assertEqual(self.verifier.contract_problems(tree), [])
+            sources = tree / "core/worldline_core_sources.gpr"
+            sources.write_text(sources.read_text(encoding="utf-8").replace('for Source_Dirs use (".");', 'for Source_Dirs use ("boundary", ".");'), encoding="utf-8")
+            (tree / "core/boundary").mkdir()
+            shutil.copy2(ROOT / "core/worldline-c_api.adb", tree / "core/boundary/worldline-c_api.adb")
+            problems = self.verifier.contract_problems(tree)
+            self.assertTrue(any("core/worldline_core_sources.gpr" in problem for problem in problems), problems)
+            self.assertTrue(any("core/boundary/worldline-c_api.adb" in problem for problem in problems), problems)
+
+    def test_the_verifier_refuses_a_changed_contract(self) -> None:
+        import shutil
+        import subprocess
+        import sys
+        import tempfile
+        with tempfile.TemporaryDirectory() as temporary:
+            tree = Path(temporary)
+            for name in ("verify_proof_manifest.py", "proof-manifest.json", "worldline.gpr"):
+                shutil.copy2(ROOT / name, tree / name)
+            shutil.copytree(ROOT / "core", tree / "core")
+            (tree / "tests").mkdir()
+            shutil.copy2(ROOT / "tests/worldline_tests.gpr", tree / "tests/worldline_tests.gpr")
+            run = lambda: subprocess.run([sys.executable, "verify_proof_manifest.py", "--sources-only"], cwd=tree,
+                                         capture_output=True, text=True, env={"PYTHONDONTWRITEBYTECODE": "1"})
+            self.assertEqual(run().returncode, 0)
+            spec = tree / "core/worldline-collapse.ads"
+            spec.write_text(spec.read_text(encoding="utf-8").replace("and then Decide'Result /= Owner_Mismatch", "and then True", 1), encoding="utf-8")
+            refused = run()
+            self.assertNotEqual(refused.returncode, 0)
+            self.assertIn("pinned contract changed: core/worldline-collapse.ads", refused.stderr)
 
     def test_comments_and_layout_do_not_move_a_pin(self) -> None:
         text = "function F return Boolean   -- a comment\n  is (True);\n"

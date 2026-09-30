@@ -561,17 +561,32 @@ class CollapseTransaction:
                 self.atomic.exchange(self.paths.live, Path(record["preparedMapping"]))
             exchanged = True
             return self._finish_committed(record, staged_manifests)
-        except BaseException:
-            # The rename is the commit point. If it happened (the live marker names this
-            # transaction) and something after it failed -- the directory fsync, say -- the
-            # record stays AUTHORIZED for recovery to finish; ABORTED would say refused while the
-            # bytes are live (review of 19d0297).
+        except BaseException as failure:
+            # The rename is the commit point. If it did not happen, the transaction is ABORTED.
+            # If it happened (the live marker names this transaction) and something after it
+            # failed -- the directory fsync, or the finishing itself -- a running daemon must not
+            # keep serving with an exchange nobody recorded (reviews of 19d0297 and ab1d4bb): it is
+            # finished now, as recovery would, and if that is impossible it is quarantined, which
+            # stops every mutation until a restart's recovery settles it.
             try:
-                live_is_this = self._marker(self.paths.live) == transaction_id
+                live_is_this: bool | None = self._marker(self.paths.live) == transaction_id
             except WorldlineError:
-                live_is_this = True  # unknown: leave it to recovery, which quarantines ambiguity
-            if not exchanged and not live_is_this:
+                live_is_this = None
+            if not exchanged and live_is_this is False:
                 self._set_state(record, "ABORTED", error={"code": "ATOMIC_EXCHANGE_FAILED"})
+            else:
+                settled = False
+                if not exchanged and live_is_this:
+                    try:
+                        self._finish_committed(record, staged_manifests)
+                        settled = True
+                    except (WorldlineError, OSError) as finishing:
+                        failure = finishing
+                if not settled:
+                    self.unrecoverable[transaction_id] = (
+                        failure.as_dict() if isinstance(failure, WorldlineError) else
+                        {"code": "RECOVERY_IO_FAILED" if isinstance(failure, OSError) else "EXCHANGE_UNSETTLED",
+                         "message": str(failure), "details": {"errno": getattr(failure, "errno", None)}})
             raise
 
     def _authorize(self, record: dict[str, Any], candidate: World, *, current_manifests: Mapping[str, CapturedManifest],
@@ -1084,6 +1099,18 @@ class CollapseTransaction:
             if current_prime is None or current_prime.content_id is None:
                 raise WorldlineError("RECOVERY_STATE_MISMATCH", "PRIME identity vanished after committed exchange")
             staged_identity = self._staged_identity(candidate, components, current_prime)
+            if staged_identity != candidate.content_id:
+                try:
+                    holder = self.store.world(staged_identity)
+                except WorldlineError:
+                    holder = None
+                if holder is not None and holder.alias != f"prime-{record['transactionId']}":
+                    # commit checks this before its exchange; a recovery (or an in-process finish)
+                    # can meet it only if a world took the identity since. Named, and quarantined
+                    # by the caller, instead of failing with NOT_FOUND inside the publish.
+                    raise WorldlineError("CHECKPOINT_IDENTITY_TAKEN",
+                                         f"the PRIME generation this transaction must publish has the identity of world {holder.alias}",
+                                         {"transactionId": record["transactionId"], "world": holder.alias})
             if staged_identity == candidate.content_id:
                 if current_prime.instance_id != candidate.instance_id and current_prime.state in (
                     WorldState.VALID,

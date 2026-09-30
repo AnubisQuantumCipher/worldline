@@ -162,9 +162,11 @@ access to the store; the others arise in normal operation or from host condition
   into the collapse. A transaction prepared by an earlier release has no such record; its
   recovery still uses the live capture, and records the difference the same way.
 - Recovery replay is idempotent over the read-only records it copied the first time (1.8.0 and
-  earlier stopped the daemon from starting with PermissionError), and an exchange that renamed
-  but failed afterwards (a directory fsync) stays AUTHORIZED for recovery instead of being
-  recorded ABORTED while its bytes are live.
+  earlier stopped the daemon from starting with PermissionError). An exchange that renamed but
+  failed afterwards (a directory fsync, or finishing itself) is no longer recorded ABORTED while
+  its bytes are live: the running daemon finishes it in place, and if that fails it quarantines
+  it, which stops every mutation until a restart's recovery settles it. A recovery that meets a
+  taken PRIME identity quarantines the transaction as CHECKPOINT_IDENTITY_TAKEN.
 - Materialized revalidation inputs left by a killed daemon are removed at the next start.
 - `prepare` and `fork` drain the watcher before deciding whether to reconcile, so a write the
   watcher had already seen is reconciled rather than refused as unaccounted.
@@ -190,11 +192,13 @@ access to the store; the others arise in normal operation or from host condition
   themselves are now pinned: `verify_proof_manifest.py` holds a digest of each contract
   specification (collapse, collapse wire, identities, evaluation, transitions), of the types
   they rest on (`worldline.ads`, `attest.ads`, `attest-sha256.ads`), of the C export table
-  (`worldline-c_api.ads`) and of the whole unproved C boundary body (`worldline-c_api.adb`),
-  checks that `wl_collapse_decide` is bound exactly once and to `Collapse_Decide`, and refuses a
-  change to any pinned text that does not update its pin deliberately. The gate checks the pins
-  before it writes the manifest. Pins cover text: a change to an unpinned file (a body such as
-  `worldline-collapse.adb` is covered by the proof instead) is not a pin failure.
+  (`worldline-c_api.ads`), of the whole unproved C boundary body (`worldline-c_api.adb`) and of
+  the five project files that decide which file is compiled as each unit; checks that
+  `wl_collapse_decide` is bound exactly once and to `Collapse_Decide`; refuses any Ada source
+  under `core/` outside the pinned set; and refuses a change to any pinned text that does not
+  update its pin deliberately. The gate checks the pins before it writes the manifest. Pins
+  cover text: a body the proof covers (such as `worldline-collapse.adb`) is guarded by the proof
+  instead.
   `Decide`'s postcondition states that `Authorized` is exactly `All_Hold`, that nothing absent
   or unmeasured is authorized, that OWNER_MISMATCH is never returned, and for every refusal
   that what it names is actually the case. `Decide_Wire`'s postcondition states that a

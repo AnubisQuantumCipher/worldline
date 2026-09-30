@@ -41,6 +41,13 @@ UNANALYZED_BOUNDARY = {"worldline-c_api"}
 # Changing a pinned contract is a deliberate edit of this table; derive the values with
 # `python3 verify_proof_manifest.py --print-contract-pins`, never by hand.
 CONTRACT_PINS = {
+    # The project files decide which file is compiled as each unit; a pin on a source's text
+    # binds nothing if they may redirect it (review of ab1d4bb).
+    "worldline.gpr": "edc9682fe5cb62ab041cc586de03c59e1d30cd0de7d8dcc7646ebe50ce6c0021",
+    "core/worldline_core.gpr": "0e1b7c0bf5bbcab516e544c63aa29302d1bc2602886e7ee3e0a535d977c4cebf",
+    "core/worldline_core_sources.gpr": "fc7be69ee1d21269d12f600a3dab22b53c21362d178280d5f8ddcacf5c09802c",
+    "core/attest_sha256.gpr": "5d75d10379e9397a9e08517d56728b2f53479fd7c0e9dff3b5dccaa8e8c0f9ee",
+    "tests/worldline_tests.gpr": "d452b39691f23078635cb829b0ef94040342cefec9288cd4cccb821a51ca6a82",
     "core/worldline.ads": "4e08ff1dedc1f28b526a19b37c343b2d71f5f1e35409abda2afdbd92a73ab866",
     "core/attest/attest.ads": "bb777936dfaf882e68b399dd2fdfc531e5edd0d24b5b01a6d0906161aa89e587",
     "core/attest/attest-sha256.ads": "1d38534d6bcaa9a6646225db8f26f0a7b940444cda3ed0d109816119d51bff05",
@@ -103,8 +110,18 @@ def export_problems(root: Path) -> list[str]:
     return problems
 
 
+# The only Ada sources the core library may be built from. Anything else under core/, at any
+# depth, could be selected by a project file instead of a pinned unit.
+def stray_sources(root: Path) -> list[str]:
+    allowed = {f"core/{path.name}" for path in (root / "core").glob("*.ad[bs]")}
+    allowed |= {"core/attest/attest.ads", "core/attest/attest-sha256.ads", "core/attest/attest-sha256.adb"}
+    found = {path.relative_to(root).as_posix() for path in (root / "core").rglob("*.ad[bs]")}
+    return sorted(found - allowed)
+
+
 def contract_problems(root: Path) -> list[str]:
     problems = export_problems(root)
+    problems += [f"an Ada source outside the pinned set could be compiled into the core: {path}" for path in stray_sources(root)]
     for key, pinned in CONTRACT_PINS.items():
         try:
             actual = contract_pin(root, key)

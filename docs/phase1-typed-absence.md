@@ -115,7 +115,9 @@ name them; the runtime follows them.
   PRIME dirty; the offline change becomes its own generation. A transaction prepared by an
   earlier release has no staged record, so its recovery uses the live capture and records the
   difference the same way. Replay is idempotent; an I/O error quarantines the transaction
-  (RECOVERY_IO_FAILED) instead of stopping the daemon. Recovery still commits without asking
+  (RECOVERY_IO_FAILED) instead of stopping the daemon, and a taken PRIME identity quarantines
+  it by name (CHECKPOINT_IDENTITY_TAKEN). An exchange that renamed and then failed inside a
+  running daemon is finished in place, or quarantined. Recovery still commits without asking
   `Decide` again (item 7).
 - **T10: the published identity is checked before the exchange.** World content ids are
   unique. Before exchanging, commit computes the identity the PRIME generation it would publish
@@ -170,9 +172,12 @@ clause of `Decide`'s postcondition would not move it. The contracts are therefor
 (`worldline-collapse.ads`, `worldline-collapse_wire.ads`, `worldline-identities.ads`,
 `worldline-evaluation.ads`, `worldline-transitions.ads`), of the types they rest on
 (`worldline.ads`, `attest/attest.ads`, `attest/attest-sha256.ads`), of the C export table
-(`worldline-c_api.ads`) and of the whole unproved C boundary body (`worldline-c_api.adb`),
-each with comments and layout removed; it also checks that `wl_collapse_decide` is bound
-exactly once, to `Collapse_Decide`. Pins cover text: a body the proof covers
+(`worldline-c_api.ads`), of the whole unproved C boundary body (`worldline-c_api.adb`) and of
+the five project files that select what is compiled (`worldline.gpr`, `core/*.gpr`,
+`tests/worldline_tests.gpr`), each with comments and layout removed. It also checks that
+`wl_collapse_decide` is bound exactly once, to `Collapse_Decide`, and refuses any Ada source
+under `core/` outside the pinned set, so no project-file edit or stray file can compile a
+different boundary. Pins cover text: a body the proof covers
 (`worldline-collapse.adb`, `worldline-collapse_wire.adb`) is guarded by the proof, not by a pin. The verifier, run by `prove.sh`, the
 installer and assurance, refuses any difference; changing a contract means deliberately
 updating its pin (`verify_proof_manifest.py --print-contract-pins`).

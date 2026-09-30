@@ -989,7 +989,7 @@ class R_RoundThreeRepairs(_InProcess):
         self.assertEqual(recovered[0]["error"]["code"], "RECOVERY_IO_FAILED")
         self.assertIn(prepared.transaction_id, self.transaction.unrecoverable)
 
-    def test_an_exchange_that_renamed_and_then_failed_is_left_for_recovery(self) -> None:
+    def test_an_exchange_that_renamed_and_then_failed_is_finished_in_place(self) -> None:
         prepared = self.transaction.prepare(self.candidate("alpha", {"state.txt": "alpha"}).alias)
         real = self.transaction.atomic.exchange
 
@@ -999,10 +999,41 @@ class R_RoundThreeRepairs(_InProcess):
         self.transaction.atomic.exchange = rename_then_fail
         with self.assertRaises(OSError):
             self.transaction.commit(prepared.transaction_id)
-        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "AUTHORIZED")
-        self.transaction.atomic.exchange = real
-        self.assertEqual(self.transaction.recover_all()[0]["state"], "COMMITTED")
+        # The bytes are live, so the running daemon records them now (review of ab1d4bb).
+        self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "COMMITTED")
         self.assertIsNotNone(self.store.receipt_for_transaction(prepared.transaction_id))
+        self.assertEqual(self.transaction.unrecoverable, {})
+
+    def test_an_exchange_that_cannot_be_finished_in_place_is_quarantined(self) -> None:
+        prepared = self.transaction.prepare(self.candidate("alpha", {"state.txt": "alpha"}).alias)
+        real_finish = self.transaction._finish_committed
+        calls = []
+
+        def failing_finish(record: Any, staged: Any = None) -> Any:
+            calls.append(1)
+            raise OSError(28, "No space left on device")
+        self.transaction._finish_committed = failing_finish
+        with self.assertRaises(OSError):
+            self.transaction.commit(prepared.transaction_id)
+        self.assertIn(prepared.transaction_id, self.transaction.unrecoverable)
+        with self.assertRaises(WorldlineError) as blocked:
+            self.transaction.prepare(self.candidate("beta").alias)
+        self.assertEqual(blocked.exception.code, "RECOVERY_INCOMPLETE")
+        self.transaction._finish_committed = real_finish
+        self.assertEqual(self.transaction.recover_all()[0]["state"], "COMMITTED")  # the restart's recovery
+
+    def test_a_recovery_that_meets_a_taken_identity_quarantines_it_by_name(self) -> None:
+        alpha = self.candidate("alpha", {"state.txt": "alpha"})
+        self.reconciled()  # PRIME moves to a same-tree generation: the commit will publish a checkpoint
+        prepared = self.transaction.prepare(alpha.alias)
+        record = self.transaction._load_record(prepared.transaction_id)
+        self.transaction._set_state(record, "AUTHORIZED")
+        self.transaction.atomic.exchange(self.paths.live, Path(record["preparedMapping"]))  # then the daemon died
+        returns = self.returns()
+        returns.prepare_candidate(returns.select(alpha.instance_id))  # a vehicle takes that identity
+        recovered = self.transaction.recover_all()
+        self.assertEqual(recovered[0]["state"], "UNRECOVERABLE")
+        self.assertEqual(recovered[0]["error"]["code"], "CHECKPOINT_IDENTITY_TAKEN")
 
     def test_the_daemon_refuses_to_start_on_an_unrelocated_copy(self) -> None:
         import shutil
