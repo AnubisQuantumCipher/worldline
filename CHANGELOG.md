@@ -1,5 +1,69 @@
 # Changelog
 
+## 1.9.1 — 2026-09-30 · installer shell restart, truthful docs
+
+**No change to the authority path, the kernel or the store.** This release fixes one installer
+defect and places where the installer's output or the documentation claimed more than the code
+does.
+
+### Upgrading
+
+- No store migration is needed. As after any release, revalidate VALID worlds before collapse,
+  because the requirement identity includes the runtime tree.
+- The known limitations listed under 1.9.0 are unchanged. SECURITY.md now also names one more,
+  already stated in the Phase 1 documents: a later FAIL does not revoke a fresh earlier PASS.
+
+### Fixed
+
+- **`install.sh` and `scripts/rollback.sh` no longer ask the desktop shell to rescan its plugins
+  just before restarting it.**
+  - A rescan keeps creating plugin objects for a moment after it returns. quickshell 0.3.1 frees
+    its IPC handler registry as soon as the restart's kill arrives, so an object that completes
+    in that window registers into freed memory and the shell segfaults instead of exiting
+    (quickshell-mirror/quickshell#956). The shell crashes recorded on the reference machine
+    coincided with installer runs that rescanned and then restarted. The restart re-reads every
+    plugin anyway.
+  - This carries the fix from the unmerged draft PR #7 onto the current release.
+  - Tests:
+    - `tests/test_rollback.py` runs the real rollback with a recording shim and asserts that no
+      rescan is issued.
+    - The installer's post-build path has no automated control, so a second test reads the
+      shipped `install.sh` restart block instead.
+    - Both tests fail against the 1.9.0 scripts.
+- **A shell restart that fails is reported as what it may be.**
+  - `install.sh` said the shell "was killed as part of the restart" whenever
+    `omarchy-restart-shell` failed. It fails before stopping anything on a locked session or a
+    missing shell config, and then the shell was never restarted.
+  - Both scripts now print the exit code and the three possibilities: refused before any kill,
+    restarted without re-securing the session lock, or down.
+  - In the refused case, a WORLDLINE service the shell already had keeps running the plugin
+    commit it was running: the previous one for `install.sh`, the one being rolled back for
+    `rollback.sh`. Other plugin parts may already have reloaded, because moving the checkout
+    wakes the shell's plugin watcher.
+  - `install.sh` also names a missing `omarchy-restart-shell` instead of failing on
+    "command not found".
+
+### Documentation
+
+- **The user manual no longer says a failed revalidation always leaves a world refused.** That
+  holds only once the earlier evidence is stale. The manual now states the rule
+  `validation.effective_evidence` applies. The newest PASS for the world's bytes speaks, fresh
+  or not, or else the finalization evidence, and a FAIL never speaks.
+  - So a failed revalidation does not revoke an earlier PASS. The newest PASS keeps speaking and
+    passes the freshness gate whenever its requirement equals the current one, including again
+    after a revert. The other promotion gates still apply to it.
+  - An older PASS never speaks while a newer one exists, even when it is fresh and the newer one
+    is stale. That case refuses as stale.
+  - The manual points to "What Python still decides" in `docs/phase1-typed-absence.md`
+    (roadmap Phase 1 item 5, "one effective evaluation").
+- **SECURITY.md** names that as limit 8. Its review line said "last reviewed against release
+  1.7.3" while describing 1.9.0 semantics. It now names 1.9.1, and says that every review,
+  including the 2026-09-02 audit document, was carried out by AI agents and checked against
+  mechanical evidence, and that no human security audit is claimed.
+- **`docs/release-process.md` records the repository rules now in force.** `main` changes only
+  through a merged pull request whose up-to-date head passed `assurance / assure`, and a pushed
+  `v*` tag can be neither moved nor deleted. Both GitHub rulesets have no bypass actors.
+
 ## 1.9.0 — 2026-09-29 · typed absence and honest collapse inputs
 
 **The collapse decision no longer accepts a missing value as a matching one, and every input it

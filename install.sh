@@ -371,15 +371,32 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]]; then
   # omarchy-restart-shell KILLS the running shell before relaunching it, and can exit non-zero
   # with the shell down or the session lock not re-secured. Printing a successful install over
   # that would be a lie about the state of the desktop, so its outcome is kept and shown.
-  omarchy-shell -q shell rescanPlugins || echo "install: rescanPlugins failed; the shell may not see the new plugin commit." >&2
-  if omarchy-restart-shell; then
+  #
+  # Never ask the shell to rescan its plugins right before that kill. A rescan keeps creating
+  # plugin objects from its scan process's exit for a moment, and quickshell 0.3.1 frees its
+  # IPC handler registry the instant the kill arrives, so a plugin object completing in that
+  # window registers into freed memory and the shell segfaults instead of exiting
+  # (quickshell-mirror/quickshell#956). The shell crashes recorded on the reference machine
+  # coincided with this installer's rescan racing its own restart. The restart re-reads every
+  # plugin.
+  if ! command -v omarchy-restart-shell >/dev/null 2>&1; then
+    SHELL_RESTART="FAILED (omarchy-restart-shell not found)"
+    echo "install: omarchy-restart-shell was not found, so the desktop shell was not restarted: a" >&2
+    echo "install: WORLDLINE service it already had keeps running the previous plugin commit (other" >&2
+    echo "install: plugin parts may already have reloaded). The engine is installed and verified;" >&2
+    echo "install: restart the shell." >&2
+  elif omarchy-restart-shell; then
     SHELL_RESTART="ok"
   else
+    rc=$?
     SHELL_RESTART="FAILED"
-    echo "install: the desktop shell restart FAILED. The engine is installed and verified, but the" >&2
-    echo "install: shell was killed as part of the restart and may not have come back: expect no bar," >&2
-    echo "install: no plugin surfaces, or an unsecured session lock. Re-run omarchy-restart-shell," >&2
-    echo "install: or roll back with: scripts/rollback.sh $BACKUP" >&2
+    echo "install: the desktop shell restart FAILED (omarchy-restart-shell exited $rc). The engine is" >&2
+    echo "install: installed and verified. If the restart refused before stopping the shell (a locked" >&2
+    echo "install: session, a missing shell config), the shell was not restarted and a WORLDLINE" >&2
+    echo "install: service it already had keeps running the previous plugin commit. If it restarted" >&2
+    echo "install: the shell but could not re-secure the session lock, lock the session now. Otherwise" >&2
+    echo "install: expect no bar or plugin surfaces." >&2
+    echo "install: Re-run omarchy-restart-shell, or roll back with: scripts/rollback.sh $BACKUP" >&2
   fi
 fi
 

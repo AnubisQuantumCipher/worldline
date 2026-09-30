@@ -3,9 +3,11 @@
 This document states plainly what WORLDLINE defends against, what it does not, and where its
 claims end. It is deliberately conservative: a guarantee is listed under "Holds" only if it was
 verified in code or demonstrated, and everything else is named as a limit rather than left
-implied. Last reviewed 2026-09-29, against release 1.7.3 (the audit of record is still
-`SECURITY-AUDIT-2026-09-02.md`; the adversarial reviews since then are summarized in
-`CHANGELOG.md`).
+implied. Last reviewed 2026-09-30, against release 1.9.1. Every review of WORLDLINE,
+including `SECURITY-AUDIT-2026-09-02.md`, was carried out by AI agents and checked against
+mechanical evidence (proofs, contract pins, reproductions, exact-commit assurance); no human
+security audit is claimed. The reviews since 2026-09-02 are summarized, release by release, in
+`CHANGELOG.md`.
 
 ## The adversary WORLDLINE is built for
 
@@ -562,6 +564,19 @@ trust you place in WORLDLINE.
      HOME but shares the host network under `network.policy: shared`.
 
      There is no supported way to add a root in the dedicated layout.
+
+8. **Python chooses which evaluation speaks for a world, and a later failure does not revoke
+   an earlier pass.**
+   - `validation.effective_evidence` takes the newest PASS for the world's bytes, fresh or not,
+     or the finalization evidence when no revalidation passed. A FAIL never speaks.
+   - So a candidate whose checks pass once and fail on a later run can still be promoted on its
+     newest PASS whenever that PASS's requirement equals the current one. That includes again
+     after the policy or the engine is reverted to it; the window does not end when the
+     requirement changes.
+   - An older PASS never speaks while a newer one exists, even when the older one is fresh and
+     the newer one is stale. The world is then refused as stale (this direction fails closed).
+   - Planned: Phase 1 item 5, one effective evaluation. A newer evaluation supersedes, and a
+     superseded one never regains authority.
 
 ## Reporting
 

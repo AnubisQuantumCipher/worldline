@@ -75,6 +75,14 @@ name (`scripts/release_gate.py`).
 - **Source-only archive.** The proved library is not shipped; the installer rebuilds it and
   re-runs the proof gate, and the library hash on another machine or architecture may differ
   from the one recorded by the assurance run.
+- **Repository rules (since 2026-09-30).** Two GitHub rulesets, with no bypass actors:
+  - On `main`: changes arrive only as a merge commit of a pull request. The
+    `assurance / assure` check from GitHub Actions must pass on a head that is up to date with
+    `main`. Deletion and force-pushes are refused.
+  - On `v*` tags: a pushed version tag cannot be moved or deleted.
+
+  These rules enforce the order above; they do not replace it. A rule applies only to a path it
+  covers, and anyone who administers the repository can change the rules.
 
 ## Operator recipe
 

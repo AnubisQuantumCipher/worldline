@@ -168,13 +168,20 @@ rm -f "$STATE/install-incomplete"
 DESKTOP="not attempted"
 if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]] && command -v omarchy-restart-shell >/dev/null 2>&1; then
   hyprctl reload >/dev/null 2>&1 || true
-  omarchy-shell -q shell rescanPlugins >/dev/null 2>&1 || true
+  # No rescan before the restart: a rescan still completing plugin objects when the kill lands
+  # segfaults quickshell 0.3.1 (quickshell-mirror/quickshell#956); the restart re-reads them.
   if omarchy-restart-shell; then
     DESKTOP="ok"
   else
+    rc=$?
     DESKTOP="FAILED"
-    echo "rollback: the desktop shell restart FAILED; the engine and plugin are rolled back but the" >&2
-    echo "rollback: session may have no bar or plugin surfaces. Re-run omarchy-restart-shell." >&2
+    echo "rollback: the desktop shell restart FAILED (omarchy-restart-shell exited $rc); the engine and" >&2
+    echo "rollback: plugin are rolled back. If the restart refused before stopping the shell (a locked" >&2
+    echo "rollback: session, a missing shell config), the shell was not restarted and a WORLDLINE" >&2
+    echo "rollback: service it already had keeps running the version being rolled back. If it" >&2
+    echo "rollback: restarted the shell but could not re-secure the session lock, lock the session" >&2
+    echo "rollback: now. Otherwise the session may have no bar or plugin surfaces. Re-run" >&2
+    echo "rollback: omarchy-restart-shell." >&2
   fi
 fi
 
