@@ -381,9 +381,10 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]]; then
   # plugin.
   if ! command -v omarchy-restart-shell >/dev/null 2>&1; then
     SHELL_RESTART="FAILED (omarchy-restart-shell not found)"
-    echo "install: omarchy-restart-shell was not found, so the desktop shell was not restarted: its" >&2
-    echo "install: WORLDLINE service still runs the previous plugin commit (other plugin parts may" >&2
-    echo "install: already have reloaded). The engine is installed and verified; restart the shell." >&2
+    echo "install: omarchy-restart-shell was not found, so the desktop shell was not restarted: a" >&2
+    echo "install: WORLDLINE service it already had keeps running the previous plugin commit (other" >&2
+    echo "install: plugin parts may already have reloaded). The engine is installed and verified;" >&2
+    echo "install: restart the shell." >&2
   elif omarchy-restart-shell; then
     SHELL_RESTART="ok"
   else
@@ -391,9 +392,10 @@ if [[ "${WORLDLINE_NO_SHELL_RESTART:-0}" != "1" ]]; then
     SHELL_RESTART="FAILED"
     echo "install: the desktop shell restart FAILED (omarchy-restart-shell exited $rc). The engine is" >&2
     echo "install: installed and verified. If the restart refused before stopping the shell (a locked" >&2
-    echo "install: session, a missing shell config), the shell was not restarted and its WORLDLINE" >&2
-    echo "install: service still runs the previous plugin commit; if it failed after, expect no bar," >&2
-    echo "install: no plugin surfaces, or an unsecured session lock." >&2
+    echo "install: session, a missing shell config), the shell was not restarted and a WORLDLINE" >&2
+    echo "install: service it already had keeps running the previous plugin commit. If it restarted" >&2
+    echo "install: the shell but could not re-secure the session lock, lock the session now. Otherwise" >&2
+    echo "install: expect no bar or plugin surfaces." >&2
     echo "install: Re-run omarchy-restart-shell, or roll back with: scripts/rollback.sh $BACKUP" >&2
   fi
 fi

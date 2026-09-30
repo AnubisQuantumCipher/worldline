@@ -34,9 +34,10 @@ does.
   - `install.sh` said the shell "was killed as part of the restart" whenever
     `omarchy-restart-shell` failed. It fails before stopping anything on a locked session or a
     missing shell config, and then the previous plugin is still running.
-  - Both scripts now print the exit code and both possibilities. In the refused case, the
-    WORLDLINE service still runs the previous plugin commit. Other plugin parts may already have
-    reloaded, because updating the checkout wakes the shell's plugin watcher.
+  - Both scripts now print the exit code and the three possibilities: refused before any kill,
+    restarted without re-securing the session lock, or down. In the refused case, a WORLDLINE
+    service the shell already had keeps running the previous plugin commit. Other plugin parts
+    may already have reloaded, because updating the checkout wakes the shell's plugin watcher.
   - `install.sh` also names a missing `omarchy-restart-shell` instead of failing on
     "command not found".
 
@@ -46,9 +47,10 @@ does.
   holds only once the earlier evidence is stale. The manual now states the rule
   `validation.effective_evidence` applies. The newest PASS for the world's bytes speaks, fresh
   or not, or else the finalization evidence, and a FAIL never speaks.
-  - So a failed revalidation does not revoke an earlier PASS. That PASS authorizes whenever its
-    requirement equals the current one, including again after a revert.
-  - A newer PASS under another requirement hides an older fresh one, which refuses as stale.
+  - So a failed revalidation does not revoke an earlier PASS. The newest PASS keeps speaking and
+    authorizes whenever its requirement equals the current one, including again after a revert.
+  - An older PASS never speaks while a newer one exists, even when it is fresh and the newer one
+    is stale. That case refuses as stale.
   - The manual points to "What Python still decides" in `docs/phase1-typed-absence.md`
     (roadmap Phase 1 item 5, "one effective evaluation").
 - **SECURITY.md** names that as limit 8. Its review line said "last reviewed against release

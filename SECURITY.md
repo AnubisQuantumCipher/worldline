@@ -569,12 +569,12 @@ trust you place in WORLDLINE.
    an earlier pass.**
    - `validation.effective_evidence` takes the newest PASS for the world's bytes, fresh or not,
      or the finalization evidence when no revalidation passed. A FAIL never speaks.
-   - So a candidate whose checks pass once and fail on a later run can still be promoted on the
-     earlier PASS whenever that PASS's requirement equals the current one. That includes again
+   - So a candidate whose checks pass once and fail on a later run can still be promoted on its
+     newest PASS whenever that PASS's requirement equals the current one. That includes again
      after the policy or the engine is reverted to it; the window does not end when the
      requirement changes.
-   - A newer PASS recorded under another requirement hides an older fresh one, and the world is
-     then refused as stale (this direction fails closed).
+   - An older PASS never speaks while a newer one exists, even when the older one is fresh and
+     the newer one is stale. The world is then refused as stale (this direction fails closed).
    - Planned: Phase 1 item 5, one effective evaluation. A newer evaluation supersedes, and a
      superseded one never regains authority.
 
