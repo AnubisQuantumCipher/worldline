@@ -556,9 +556,11 @@ Every command accepts `--json`; exit `0` success, `1` a named error (`worldline:
 `PRIME_WATCH_UNAVAILABLE`, `REQUIREMENT_IDENTITY_UNAVAILABLE`, `TRANSACTION_RECORD_FOREIGN`
 (a transaction record naming a path outside this store: a store copied without
 `worldline-relocate`; recovery quarantines it and writes nothing)
-(a kernel refusal at prepare arrives as `CONFLICT` with `details.decision`; at commit as the
-decision's own name, except `VALIDATION_CONTEXT_MISMATCH` → `EVIDENCE_STALE` and
-`PRIME_CHANGED` → `PRIME_CHANGED_DURING_CAPTURE`, which also carry `details.decision`),
+(a kernel refusal at prepare arrives as `CONFLICT` with `details.decision`, except
+`PRIME_CHANGED`, which arrives as `PRIME_CHANGED_DURING_CAPTURE`; at commit as the decision's
+own name, except `VALIDATION_CONTEXT_MISMATCH` → `EVIDENCE_STALE` and `PRIME_CHANGED` →
+`PRIME_CHANGED_DURING_CAPTURE`; each carries `details.decision` and `details.transactionId`),
+`STORE_NOT_RELOCATED` (the daemon refuses to start on a copy of a store that was not relocated),
 `ROOT_SET_BUSY`, `RETURN_POINT_INCOMPLETE`, `ADAPTER_UNAVAILABLE`, `ADAPTER_AUTH_UNAVAILABLE`,
 `TIMEOUT`, `USER_CANCELLED`, `DISK_FULL`, `STORAGE_ERROR`, `NETGUARD_UNAVAILABLE`,
 `UNSUPPORTED_SCHEMA`, `GHOSTS_DISABLED`, `SYSTEM_ROOT_COLLAPSE_UNSUPPORTED`,

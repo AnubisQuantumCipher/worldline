@@ -73,16 +73,19 @@ name them; the runtime follows them.
   refuses MEASUREMENT_ABSENT. `fork` refuses PRIME_WATCH_UNAVAILABLE at its freeze, in Python.
   A root the watcher is not completely watching makes the watch sets differ (WATCH_INCOMPLETE):
   its root watch was dropped, the root directory moved (IN_MOVE_SELF), part of its tree could
-  not be watched, or the reader thread stopped. Each directory is watched before it is listed.
+  not be watched, the event queue overflowed, or the reader thread stopped. Each directory is
+  watched before it is listed; a directory that cannot be watched faults its root and never
+  stops the daemon from starting, and the next reconcile walks faulted roots again.
   Prepare and the fork's freeze drain the watcher before deciding whether to reconcile, and
   commit re-reads the generation just before the exchange.
 - **T4: the staged root is a commit obligation.** At prepare only the merge's capture exists,
   and the wire requires the other side absent. At commit the kernel compares it with a
   recapture; the Python pre-check is gone.
 - **T5: no tested := staged.** The tested root is what the candidate's evidence examined:
-  - a revalidation's recorded `examinedContentRoot`, which is the content root of the world's
-    declared manifests after checking that the read-only payload is exactly their bytes
-    (modes compared without the write bits finalization clears);
+  - a revalidation's recorded `examinedContentRoot`. A revalidation runs its checks over the
+    world's declared manifests materialized into a daemon-owned scratch tree, verified entry
+    for entry, so the root it records is exactly what its checks examined (the read-only
+    payload would show them modes the manifests do not state);
   - for a re-application, the world's finalized manifests as declared;
   - otherwise the candidate's declared manifests, and if one is missing, absent.
 
@@ -102,7 +105,15 @@ name them; the runtime follows them.
   written, so they cannot change.
 - **T8: recovery stays in its own store.** The store records absolute paths. A transaction
   record naming a path outside this store (a copy that was not relocated) is quarantined as
-  TRANSACTION_RECORD_FOREIGN, and nothing is written or deleted.
+  TRANSACTION_RECORD_FOREIGN, and nothing is written or deleted. Before that, the daemon refuses
+  to start at all on a store whose PRIME payload or live links resolve outside it
+  (STORE_NOT_RELOCATED), since releasing reservations, stopping orphaned units and exporting the
+  anchor ledger would also reach the original.
+- **T9: recovery records the committed tree.** Prepare keeps the staged manifests beside the
+  transaction. A recovery finishing an exchange that already happened publishes PRIME from
+  them when live PRIME no longer has the staged root, records an `unaccounted-write`, and marks
+  PRIME dirty; the offline change becomes its own generation. Recovery still commits without
+  asking `Decide` again (item 7).
 - **T7: no store migration.** Every new fact lives in the prepared transaction's JSON record
   (`recordSchema: 2`, `decisionInputs`, `decisionInputsAtCommit`). Commit refuses a record
   without `decisionInputs` (TRANSACTION_RECORD_LEGACY). Every key 1.8.0's recovery and
@@ -150,8 +161,11 @@ The floor counts checks, and GNATprove counts a whole postcondition as one check
 clause of `Decide`'s postcondition would not move it. The contracts are therefore pinned:
 `verify_proof_manifest.CONTRACT_PINS` holds a SHA-256 of each contract specification
 (`worldline-collapse.ads`, `worldline-collapse_wire.ads`, `worldline-identities.ads`,
-`worldline-evaluation.ads`, `worldline-transitions.ads`) with comments and layout removed, and
-of `Collapse_Decide`'s body in `worldline-c_api.adb`. The verifier, run by `prove.sh`, the
+`worldline-evaluation.ads`, `worldline-transitions.ads`), of the types they rest on
+(`worldline.ads`, `attest/attest.ads`, `attest/attest-sha256.ads`), of the C export table
+(`worldline-c_api.ads`), each with comments and layout removed, and of `Collapse_Decide`'s body
+in `worldline-c_api.adb`; it also checks that `wl_collapse_decide` is bound exactly once, to
+`Collapse_Decide`. The verifier, run by `prove.sh`, the
 installer and assurance, refuses any difference; changing a contract means deliberately
 updating its pin (`verify_proof_manifest.py --print-contract-pins`).
 

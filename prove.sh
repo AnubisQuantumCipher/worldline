@@ -41,7 +41,11 @@ root = Path(sys.argv[1]).resolve()
 # the gate that writes the manifest and the check that reads it cannot disagree.
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(root))
-from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY  # noqa: E402
+from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY, contract_problems  # noqa: E402
+# The pinned contracts are checked before the manifest is written, so the gate never prints
+# PASSED for a tree whose contracts changed (review of 0ee1112).
+if contract_problems(root):
+    raise SystemExit("PROOF GATE FAILED: " + "; ".join(contract_problems(root)))
 out_path = (root / sys.argv[2]).resolve()
 lib_path = (root / sys.argv[3]).resolve()
 summary = out_path.read_text(encoding="utf-8")

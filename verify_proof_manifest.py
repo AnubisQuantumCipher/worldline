@@ -39,6 +39,10 @@ UNANALYZED_BOUNDARY = {"worldline-c_api"}
 # Changing a pinned contract is a deliberate edit of this table; derive the values with
 # `python3 verify_proof_manifest.py --print-contract-pins`, never by hand.
 CONTRACT_PINS = {
+    "core/worldline.ads": "4e08ff1dedc1f28b526a19b37c343b2d71f5f1e35409abda2afdbd92a73ab866",
+    "core/attest/attest.ads": "bb777936dfaf882e68b399dd2fdfc531e5edd0d24b5b01a6d0906161aa89e587",
+    "core/attest/attest-sha256.ads": "1d38534d6bcaa9a6646225db8f26f0a7b940444cda3ed0d109816119d51bff05",
+    "core/worldline-c_api.ads": "4ae114451090e2331041acdf183d5d129b8cfe116f71727d0c5fea10cecc1afa",
     "core/worldline-collapse.ads": "6bf3d3bdf08e75fa9114100dc7459c2ba7c37de21ae83e3acf8357244ed39b69",
     "core/worldline-collapse_wire.ads": "223bedbbe60ed2480ff4a1ad267122e1582f161daa4f8e661e1ad1a7600de3b5",
     "core/worldline-identities.ads": "ceed7b08935c05d52014b8f7e8d68f8b8876214428be145aa88bf2878cabca21",
@@ -81,6 +85,35 @@ def contract_pin(root: Path, key: str) -> str:
     return hashlib.sha256(contract_text(root, key).encode("utf-8")).hexdigest()
 
 
+def export_problems(root: Path) -> list[str]:
+    """The C symbol the runtime calls for the collapse decision must be bound exactly once, to
+    Collapse_Decide, whose body is pinned (review of 0ee1112: moving the binding to another
+    function left every pin intact)."""
+    text = normalized_ada((root / "core/worldline-c_api.ads").read_text(encoding="utf-8"))
+    bindings = text.count('External_Name => "wl_collapse_decide"')
+    declared = ('function Collapse_Decide (Request : C_Collapse_Request_Access) return Interfaces.Unsigned_8 '
+                'with Export, Convention => C, External_Name => "wl_collapse_decide";')
+    problems = []
+    if bindings != 1:
+        problems.append(f"wl_collapse_decide is bound {bindings} times")
+    if declared not in text:
+        problems.append("wl_collapse_decide is not bound to Collapse_Decide")
+    return problems
+
+
+def contract_problems(root: Path) -> list[str]:
+    problems = export_problems(root)
+    for key, pinned in CONTRACT_PINS.items():
+        try:
+            actual = contract_pin(root, key)
+        except (OSError, ValueError) as exc:
+            problems.append(f"pinned contract unreadable: {key}: {exc}")
+            continue
+        if actual != pinned:
+            problems.append(f"pinned contract changed: {key} (a deliberate change updates CONTRACT_PINS)")
+    return problems
+
+
 def expected_units(root: Path) -> set[str]:
     """Every SPARK unit the proof must cover: one per core specification, plus Attest."""
     units = {path.stem for path in (root / "core").glob("*.ads")}
@@ -111,15 +144,10 @@ def main() -> int:
         for key in CONTRACT_PINS:
             print(f'    "{key}": "{contract_pin(root, key)}",')
         return 0
-    for key, pinned in CONTRACT_PINS.items():
-        try:
-            actual = contract_pin(root, key)
-        except (OSError, ValueError) as exc:
-            print(f"pinned contract unreadable: {key}: {exc}", file=sys.stderr)
-            return 1
-        if actual != pinned:
-            print(f"pinned contract changed: {key} (a deliberate change updates CONTRACT_PINS)", file=sys.stderr)
-            return 1
+    problems = contract_problems(root)
+    if problems:
+        print("; ".join(problems), file=sys.stderr)
+        return 1
     manifest_path = root / "proof-manifest.json"
     if not manifest_path.is_file():
         print("proof manifest missing", file=sys.stderr)

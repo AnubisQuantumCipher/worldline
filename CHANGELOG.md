@@ -41,9 +41,12 @@ requirements-to-contract table is in `docs/phase1-typed-absence.md`.
     here. `fork` refuses PRIME_WATCH_UNAVAILABLE for the same reason. (Without inotify at all
     the daemon does not start, as before.)
   - **WATCH_INCOMPLETE** — a registered root is not completely watched: a broken mapping, a
-    root directory that went away or was moved, part of its tree that could not be watched, or
-    a watcher whose reader stopped. `doctor` lists the unwatched roots and why; the next
-    reconcile retries the watch, or restart the daemon.
+    root directory that went away or was moved, part of its tree that could not be watched (an
+    unreadable directory, say), an overflowed event queue, or a watcher whose reader stopped.
+    `doctor` lists the unwatched roots and why; the next reconcile walks them again. A root that
+    cannot be watched completely never stops the daemon from starting.
+  - **STORE_NOT_RELOCATED** (at daemon start) — the store's records name another store's files:
+    it was copied without `worldline-relocate`.
   - **FOREIGN_MANAGED_WRITE** — live PRIME content differs from the PRIME record and the
     watcher did not report it. The refusal marks PRIME dirty; the next status or prepare
     records the change as a PRIME generation, and a retry proceeds.
@@ -86,9 +89,9 @@ requirements-to-contract table is in `docs/phase1-typed-absence.md`.
   `promotionReadiness`: the foreign-write measurement, unwatched roots and why, and the VALID
   worlds that are fresh, need revalidation, or cannot be revalidated (missing manifest, payload
   or base). Never start a daemon on a copy of a store that was not relocated with
-  `worldline-relocate`: the store records absolute paths, and on a copy every root reports
-  LIVE_MAPPING_BROKEN (1.9.0 refuses to touch the original's transactions; earlier releases
-  did not).
+  `worldline-relocate`: the store records absolute paths. 1.9.0 refuses to start on such a copy
+  (STORE_NOT_RELOCATED); earlier releases started and acted on the original, aborting its
+  transactions, stopping its running agents and overwriting its exported anchor ledger.
 
 ### Security: collapse inputs that were assumed, not measured (every deployment)
 
@@ -140,10 +143,16 @@ access to the store; the others arise in normal operation or from host condition
 - A conflicted merge records no staged root: null in the transaction record, the literal
   `"absent"` in the store, never a zero digest.
 - Revalidation records the content root it examined before any check runs, and refuses
-  REVALIDATION_INPUT_CHANGED if the tree moved while the checks ran. It identifies what it
-  examined by the world's declared manifests, after checking the read-only payload is exactly
-  their bytes (PAYLOAD_INTEGRITY_FAILED otherwise, now including a mode change), so a
-  revalidated world's own evidence covers its collapse when PRIME has not moved.
+  REVALIDATION_INPUT_CHANGED if the tree moved while the checks ran. The checks run over the
+  world's declared manifests materialized into a daemon-owned scratch tree (verified entry for
+  entry, PAYLOAD_INTEGRITY_FAILED otherwise), not over the read-only payload, so what they
+  examine -- bytes, modes, attributes -- is exactly what promotion compares with the staged
+  tree, and a revalidated world's own evidence covers its collapse when PRIME has not moved.
+  Each revalidation now copies the payload once.
+- A recovery that finishes an exchange the daemon did not live to record publishes PRIME from
+  the staged tree prepare recorded (kept beside the transaction), not from a capture of live
+  PRIME. A write made while no daemon ran is recorded (`unaccounted-write`) and reconciled into
+  its own generation, instead of being folded into the collapse.
 - `prepare` and `fork` drain the watcher before deciding whether to reconcile, so a write the
   watcher had already seen is reconciled rather than refused as unaccounted.
 - The watcher watches each directory before listing it, reports a root whose tree it could not
@@ -166,8 +175,11 @@ access to the store; the others arise in normal operation or from host condition
   251. `Worldline.Collapse_Wire.Decode` and `Decide_Wire` join the required proved subprograms.
   The floor counts checks, and GNATprove counts a whole postcondition as one, so the contracts
   themselves are now pinned: `verify_proof_manifest.py` holds a digest of each contract
-  specification (collapse, collapse wire, identities, evaluation, transitions) and of
-  `Collapse_Decide`'s body, and refuses any change that does not update the pin deliberately.
+  specification (collapse, collapse wire, identities, evaluation, transitions), of the types
+  they rest on (`worldline.ads`, `attest.ads`, `attest-sha256.ads`), of the C export table
+  (`worldline-c_api.ads`) and of `Collapse_Decide`'s body, checks that `wl_collapse_decide` is
+  bound exactly once and to `Collapse_Decide`, and refuses any change that does not update a pin
+  deliberately. The gate checks the pins before it writes the manifest.
   `Decide`'s postcondition states that `Authorized` is exactly `All_Hold`, that nothing absent
   or unmeasured is authorized, that OWNER_MISMATCH is never returned, and for every refusal
   that what it names is actually the case. `Decide_Wire`'s postcondition states that a
