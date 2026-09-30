@@ -5,11 +5,14 @@ imposes (policy edited, verifier rewritten, engine upgraded, configuration chang
 at promotion with ``EVIDENCE_STALE``. Revalidation is the documented way back: the CURRENT
 PRIME's checks are run again, inside a sandbox, over the candidate's own finalized bytes, and
 the resulting validation context is stored beside the world (store meta
-``validation:<instance>``), bound to the world's content identity. Only a ``PASS`` outcome
-speaks for the world afterwards. A ``FAIL`` does not supersede an earlier ``PASS``: when the
-requirements changed, the older evidence is stale anyway and the world stays refused; when
-they did not, the earlier ``PASS`` (or the finalization's) still speaks. Letting the latest
-evaluation speak is Phase 1's "one effective evaluation" item, not this module's behaviour.
+``validation:<instance>``), bound to the world's content identity. The evaluation that speaks
+for the world is the newest ``PASS`` bound to its content, fresh or not, or else the
+finalization evidence (``validation.effective_evidence``). A ``FAIL`` never speaks, so it does
+not supersede an earlier ``PASS``: the newest ``PASS`` keeps speaking, and it passes the
+freshness gate whenever its requirement equals the current one, including again after the
+policy or the engine is reverted to it. An older ``PASS`` never speaks while a newer one
+exists. Letting the latest evaluation speak is Phase 1's "one effective evaluation" item, not
+this module's behaviour.
 
 Revalidation never changes the world's state, payload or evidence manifest: those are the
 finalization's. The candidate's ``agent`` check is not re-run; it is a property of the run

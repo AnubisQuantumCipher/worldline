@@ -410,13 +410,14 @@ finalized, its evidence is stale and every promotion is refused. `revalidate` ru
 checks again over the candidate's own finalized bytes (in the check sandbox; the payload is
 read-only underneath) and stores the resulting context beside the world, bound to its content
 identity. After stale evidence, only a `PASS` outcome speaks for the world; a `FAIL` leaves it
-refused. The evaluation that speaks is the newest `PASS` for the world's bytes, fresh or not,
-or the finalization evidence when no revalidation passed; a `FAIL` never speaks. So a failed
-revalidation does not revoke an earlier `PASS`: the newest `PASS` keeps speaking, and it
-authorizes whenever its requirement equals the current one, including again after the policy or
-the engine is reverted to it. An older `PASS` never speaks while a newer one exists, even when
-the older one is fresh and the newer one is stale; the world is then refused as stale. This is a stated limitation (SECURITY.md, limit 8), the roadmap's Phase 1
-item 5, "one effective evaluation"; see "What Python still decides" in
+refused. The evaluation that speaks is the newest `PASS` for the world's bytes, fresh or not, or
+the finalization evidence when no revalidation passed; a `FAIL` never speaks. So a failed
+revalidation does not revoke an earlier `PASS`: the newest `PASS` keeps speaking, and it passes
+the freshness gate whenever its requirement equals the current one (the other promotion gates
+still apply), including again after the policy or the engine is reverted to it. An older `PASS`
+never speaks while a newer one exists, even when the older one is fresh and the newer one is
+stale; the world is then refused as stale. This is a stated limitation (SECURITY.md, limit 8),
+the roadmap's Phase 1 item 5, "one effective evaluation"; see "What Python still decides" in
 `docs/phase1-typed-absence.md`.
 Revalidation never changes a world's state, payload or evidence manifest, and it does not
 re-run the agent. Worlds finalized by 1.2.x carry no context (`EVIDENCE_CONTEXT_MISSING`) and

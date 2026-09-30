@@ -33,11 +33,13 @@ does.
 - **A shell restart that fails is reported as what it may be.**
   - `install.sh` said the shell "was killed as part of the restart" whenever
     `omarchy-restart-shell` failed. It fails before stopping anything on a locked session or a
-    missing shell config, and then the previous plugin is still running.
+    missing shell config, and then the shell was never restarted.
   - Both scripts now print the exit code and the three possibilities: refused before any kill,
-    restarted without re-securing the session lock, or down. In the refused case, a WORLDLINE
-    service the shell already had keeps running the previous plugin commit. Other plugin parts
-    may already have reloaded, because updating the checkout wakes the shell's plugin watcher.
+    restarted without re-securing the session lock, or down.
+  - In the refused case, a WORLDLINE service the shell already had keeps running the plugin
+    commit it was running: the previous one for `install.sh`, the one being rolled back for
+    `rollback.sh`. Other plugin parts may already have reloaded, because moving the checkout
+    wakes the shell's plugin watcher.
   - `install.sh` also names a missing `omarchy-restart-shell` instead of failing on
     "command not found".
 
@@ -48,7 +50,8 @@ does.
   `validation.effective_evidence` applies. The newest PASS for the world's bytes speaks, fresh
   or not, or else the finalization evidence, and a FAIL never speaks.
   - So a failed revalidation does not revoke an earlier PASS. The newest PASS keeps speaking and
-    authorizes whenever its requirement equals the current one, including again after a revert.
+    passes the freshness gate whenever its requirement equals the current one, including again
+    after a revert. The other promotion gates still apply to it.
   - An older PASS never speaks while a newer one exists, even when it is fresh and the newer one
     is stale. That case refuses as stale.
   - The manual points to "What Python still decides" in `docs/phase1-typed-absence.md`
