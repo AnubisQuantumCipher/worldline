@@ -164,9 +164,14 @@ access to the store; the others arise in normal operation or from host condition
 - Recovery replay is idempotent over the read-only records it copied the first time (1.8.0 and
   earlier stopped the daemon from starting with PermissionError). An exchange that renamed but
   failed afterwards (a directory fsync, or finishing itself) is no longer recorded ABORTED while
-  its bytes are live: the running daemon finishes it in place, and if that fails it quarantines
-  it, which stops every mutation until a restart's recovery settles it. A recovery that meets a
-  taken PRIME identity quarantines the transaction as CHECKPOINT_IDENTITY_TAKEN.
+  its bytes are live: the running daemon finishes it in place and reports
+  COMMIT_DURABILITY_UNCERTAIN (committed and recorded, but the exchange could not be made
+  durable), and if finishing fails too it quarantines the transaction. A quarantine refuses
+  RECOVERY_INCOMPLETE for prepare, commit, the PRIME freeze behind fork and return, and
+  reconcile, until a restart's recovery settles it. Recovery quarantines any error rather than
+  stopping the daemon (RECOVERY_IO_FAILED for storage and database errors, RECOVERY_FAILED
+  otherwise), and a taken PRIME identity by name (CHECKPOINT_IDENTITY_TAKEN). The watcher is
+  re-pointed after every commit attempt, not only a successful one.
 - Materialized revalidation inputs left by a killed daemon are removed at the next start.
 - `prepare` and `fork` drain the watcher before deciding whether to reconcile, so a write the
   watcher had already seen is reconciled rather than refused as unaccounted.

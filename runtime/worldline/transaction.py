@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sqlite3
 import uuid
 from typing import Any, Callable, Mapping, Sequence
 
@@ -580,13 +581,15 @@ class CollapseTransaction:
                     try:
                         self._finish_committed(record, staged_manifests)
                         settled = True
-                    except (WorldlineError, OSError) as finishing:
+                    except Exception as finishing:  # a database error too (review of 56a7146)
                         failure = finishing
-                if not settled:
-                    self.unrecoverable[transaction_id] = (
-                        failure.as_dict() if isinstance(failure, WorldlineError) else
-                        {"code": "RECOVERY_IO_FAILED" if isinstance(failure, OSError) else "EXCHANGE_UNSETTLED",
-                         "message": str(failure), "details": {"errno": getattr(failure, "errno", None)}})
+                if settled:
+                    raise WorldlineError(
+                        "COMMIT_DURABILITY_UNCERTAIN",
+                        "the collapse committed and was recorded, but completing the exchange failed; "
+                        "the receipt stands, and a crash before the storage recovers could still lose it",
+                        {"transactionId": transaction_id, "state": "COMMITTED", "cause": str(failure)}) from failure
+                self.unrecoverable[transaction_id] = self._recovery_error(failure)
             raise
 
     def _authorize(self, record: dict[str, Any], candidate: World, *, current_manifests: Mapping[str, CapturedManifest],
@@ -1213,23 +1216,18 @@ class CollapseTransaction:
         # the two durably disagreeing) is quarantined and reported instead of raised: an
         # unraisable startup would deny every read-only diagnostic — doctor, log, list, why —
         # and leave the operator with no route back except hand-editing JSON and SQLite.
-        # Mutations are gated separately in prepare()/commit(), so this is fail-open for
-        # diagnosis and fail-closed for anything that could touch PRIME.
+        # Everything that could touch PRIME is gated on it -- prepare, commit, the fork/return
+        # freeze and reconcile -- so this is fail-open for diagnosis and fail-closed for PRIME.
         recovered: list[dict[str, Any]] = []
         self.unrecoverable = {}
         for row in self.store.transactions_in_state(("PREPARED", "AUTHORIZED")):
             transaction_id = row["transaction_id"]
             try:
                 recovered.append(self._recover_one(transaction_id))
-            except OSError as exc:  # as promised above: quarantined, never raised (review of 19d0297)
-                error = {"code": "RECOVERY_IO_FAILED", "message": str(exc), "details": {"errno": exc.errno}}
+            except Exception as exc:  # as promised above: quarantined, never raised (reviews of 19d0297, 56a7146)
+                error = self._recovery_error(exc)
                 self.unrecoverable[transaction_id] = error
                 recovered.append({"transactionId": transaction_id, "state": "UNRECOVERABLE", "error": error})
-            except WorldlineError as exc:
-                self.unrecoverable[transaction_id] = exc.as_dict()
-                recovered.append(
-                    {"transactionId": transaction_id, "state": "UNRECOVERABLE", "error": exc.as_dict()}
-                )
         # A crash between the COMMITTED state write and the receipt append leaves a committed
         # collapse with no receipt and no causal event, permanently: the chains stay internally
         # consistent, so `log --verify` passes over the hole. Replaying _finish_committed for a
@@ -1243,15 +1241,10 @@ class CollapseTransaction:
                 record = self._load_record(transaction_id)
                 self._finish_committed(record)
                 recovered.append({"transactionId": transaction_id, "state": "RECEIPT_RECOVERED"})
-            except OSError as exc:
-                error = {"code": "RECOVERY_IO_FAILED", "message": str(exc), "details": {"errno": exc.errno}}
+            except Exception as exc:
+                error = self._recovery_error(exc)
                 self.unrecoverable[transaction_id] = error
                 recovered.append({"transactionId": transaction_id, "state": "RECEIPT_UNRECOVERABLE", "error": error})
-            except WorldlineError as exc:
-                self.unrecoverable[transaction_id] = exc.as_dict()
-                recovered.append(
-                    {"transactionId": transaction_id, "state": "RECEIPT_UNRECOVERABLE", "error": exc.as_dict()}
-                )
         return recovered
 
     def _recover_one(self, transaction_id: str) -> dict[str, Any]:
@@ -1268,6 +1261,15 @@ class CollapseTransaction:
             "transaction generation marker does not identify one commit state",
             {"transactionId": transaction_id, "liveMarker": live_marker, "preparedMarker": prepared_marker},
         )
+
+    @staticmethod
+    def _recovery_error(exc: BaseException) -> dict[str, Any]:
+        """A quarantine record for an exception recovery (or an in-place finish) could not settle."""
+        if isinstance(exc, WorldlineError):
+            return exc.as_dict()
+        io = isinstance(exc, (OSError, sqlite3.Error))
+        return {"code": "RECOVERY_IO_FAILED" if io else "RECOVERY_FAILED", "message": str(exc),
+                "details": {"errno": getattr(exc, "errno", None), "type": type(exc).__name__}}
 
     def _assert_recovery_complete(self) -> None:
         if getattr(self, "unrecoverable", None):

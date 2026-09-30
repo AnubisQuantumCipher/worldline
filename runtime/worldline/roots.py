@@ -463,6 +463,11 @@ class RootManager:
     def reconcile(self, *, cause: str = "External managed-root change"):
         if not self.store.get_meta("dirty", False):
             return self.store.prime()
+        # While a transaction is quarantined, live PRIME may hold an exchange nobody recorded;
+        # recording it now would call WORLDLINE's own collapse an external change.
+        gate = getattr(self, "recovery_gate", None)
+        if gate is not None:
+            gate()
         generation_id, payload, manifests = self.capture_current()
         try:
             return self._publish_generation(

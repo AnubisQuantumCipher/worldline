@@ -193,6 +193,10 @@ class RuntimeController:
             config=config,
             validator=self.revalidator.validate_staged,
         )
+        # A quarantined transaction stops everything that freezes or publishes PRIME, not only
+        # prepare and commit (review of 56a7146).
+        self.checkpoint.recovery_gate = self.transactions._assert_recovery_complete
+        self.roots.recovery_gate = self.transactions._assert_recovery_complete
         self.pruner = Pruner(paths, store)
         restrictive = config.network_policy != "shared"
         self.runner.checks.network = "none" if restrictive else "shared"
@@ -527,12 +531,15 @@ class RuntimeController:
         if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
             raise InvalidRequest("collapse.commit requires transactionId")
         transaction = self.store.transaction_record(args["transactionId"])
-        result = self.transactions.commit(args["transactionId"])
-        # The atomic exchange swapped the `live` mapping, so every inotify watch is now pinned
-        # to the pre-collapse payload inodes. Rebuild the watcher against the new PRIME so the
-        # PRIME_CHANGED_DURING_CAPTURE generation guard and dirty/reconcile tracking do not go
-        # stale after the first collapse or return.
-        self._refresh_watcher()
+        try:
+            result = self.transactions.commit(args["transactionId"])
+        finally:
+            # The atomic exchange swapped the `live` mapping, so every inotify watch is now pinned
+            # to the pre-collapse payload inodes. Rebuild the watcher against the new PRIME so the
+            # PRIME_CHANGED_DURING_CAPTURE generation guard and dirty/reconcile tracking do not go
+            # stale after the first collapse or return -- also when the commit raised after the
+            # exchange (review of 56a7146).
+            self._refresh_watcher()
         if transaction["kind"] == "return":
             self._restart_return_context()
         self._schedule_automatic_ghosts(context.daemon)

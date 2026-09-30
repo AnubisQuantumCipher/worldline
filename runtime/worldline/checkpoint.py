@@ -44,10 +44,15 @@ class CheckpointManager:
         self.core = core or Core.shared()
         self.watcher = watcher
         self.reconcile = reconcile
+        # Set by the controller: refuses while a transaction is quarantined, so nothing freezes
+        # PRIME (a fork, a return's vehicle) that could take the identity recovery must publish.
+        self.recovery_gate: Any = None
         self.prime = PrimeManager(paths, store, self.core)
         self.git = GitAdapter(self.core)
 
     def freeze(self) -> FrozenParent:
+        if self.recovery_gate is not None:
+            self.recovery_gate()
         # Drain the watcher before the dirty check, as prepare does: a write it has already seen
         # is reconciled here rather than frozen into the fork unrecorded.
         if self.watcher is not None:

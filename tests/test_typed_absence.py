@@ -997,9 +997,12 @@ class R_RoundThreeRepairs(_InProcess):
             real(live, mapping)
             raise OSError(5, "directory fsync failed")
         self.transaction.atomic.exchange = rename_then_fail
-        with self.assertRaises(OSError):
+        with self.assertRaises(WorldlineError) as raised:
             self.transaction.commit(prepared.transaction_id)
-        # The bytes are live, so the running daemon records them now (review of ab1d4bb).
+        # The bytes are live, so the running daemon records them now (review of ab1d4bb), and says
+        # so rather than reporting a plain storage error (review of 56a7146).
+        self.assertEqual(raised.exception.code, "COMMIT_DURABILITY_UNCERTAIN")
+        self.assertEqual(raised.exception.details["state"], "COMMITTED")
         self.assertEqual(self.store.transaction_record(prepared.transaction_id)["state"], "COMMITTED")
         self.assertIsNotNone(self.store.receipt_for_transaction(prepared.transaction_id))
         self.assertEqual(self.transaction.unrecoverable, {})
@@ -1021,6 +1024,74 @@ class R_RoundThreeRepairs(_InProcess):
         self.assertEqual(blocked.exception.code, "RECOVERY_INCOMPLETE")
         self.transaction._finish_committed = real_finish
         self.assertEqual(self.transaction.recover_all()[0]["state"], "COMMITTED")  # the restart's recovery
+
+    def test_a_database_error_while_finishing_in_place_is_quarantined(self) -> None:
+        import sqlite3
+        prepared = self.transaction.prepare(self.candidate("alpha", {"state.txt": "alpha"}).alias)
+        real_exchange, real_finish = self.transaction.atomic.exchange, self.transaction._finish_committed
+
+        def rename_then_fail(live: Path, mapping: Path) -> None:
+            real_exchange(live, mapping)
+            raise OSError(5, "directory fsync failed")
+
+        def finish_fails(record: Any, staged: Any = None) -> Any:
+            raise sqlite3.OperationalError("disk I/O error (injected)")
+        self.transaction.atomic.exchange, self.transaction._finish_committed = rename_then_fail, finish_fails
+        with self.assertRaises(OSError):
+            self.transaction.commit(prepared.transaction_id)
+        self.assertEqual(self.transaction.unrecoverable[prepared.transaction_id]["code"], "RECOVERY_IO_FAILED")
+        self.transaction.atomic.exchange, self.transaction._finish_committed = real_exchange, real_finish
+
+    def test_recovery_quarantines_a_database_error(self) -> None:
+        import sqlite3
+        prepared = self.transaction.prepare(self.candidate("alpha").alias)
+        with mock.patch.object(self.transaction, "_recover_one", side_effect=sqlite3.OperationalError("database is locked")):
+            recovered = self.transaction.recover_all()
+        self.assertEqual((recovered[0]["state"], recovered[0]["error"]["code"]), ("UNRECOVERABLE", "RECOVERY_IO_FAILED"))
+        self.assertIn(prepared.transaction_id, self.transaction.unrecoverable)
+
+    def test_a_quarantine_stops_fork_return_and_reconcile_too(self) -> None:
+        from worldline.app import WorldlineApplication
+        self.store.close()
+        try:
+            app = WorldlineApplication.build(self.paths)
+            try:
+                controller = app.controller
+                controller.transactions.unrecoverable = {"quarantined": {"code": "RECOVERY_IO_FAILED"}}
+                before = len(controller.store.worlds())
+                for label, action in (("freeze (fork and return vehicles)", controller.checkpoint.freeze),
+                                      ("return vehicle", lambda: controller.returns.prepare_candidate(controller.store.prime())),
+                                      ("reconcile", lambda: (controller.store.set_meta("dirty", True), controller.roots.reconcile()))):
+                    with self.subTest(label), self.assertRaises(WorldlineError) as raised:
+                        action()
+                    self.assertEqual(raised.exception.code, "RECOVERY_INCOMPLETE")
+                self.assertEqual(len(controller.store.worlds()), before)  # no vehicle or generation minted
+            finally:
+                app.controller.close()
+                app.store.close()
+        finally:
+            self.store = StateStore(self.paths, self.core)
+
+    def test_a_failed_commit_still_repoints_the_watcher(self) -> None:
+        from worldline.app import WorldlineApplication
+        self.store.close()
+        try:
+            app = WorldlineApplication.build(self.paths)
+            try:
+                controller = app.controller
+                refreshed = []
+                failure = WorldlineError("COMMIT_DURABILITY_UNCERTAIN", "injected", {"state": "COMMITTED"})
+                with mock.patch.object(controller.store, "transaction_record", return_value={"kind": "collapse"}), \
+                        mock.patch.object(controller.transactions, "commit", side_effect=failure), \
+                        mock.patch.object(controller, "_refresh_watcher", side_effect=lambda: refreshed.append(1)):
+                    with self.assertRaises(WorldlineError):
+                        controller._collapse_commit({"transactionId": "t"}, None)
+                self.assertEqual(refreshed, [1])
+            finally:
+                app.controller.close()
+                app.store.close()
+        finally:
+            self.store = StateStore(self.paths, self.core)
 
     def test_a_recovery_that_meets_a_taken_identity_quarantines_it_by_name(self) -> None:
         alpha = self.candidate("alpha", {"state.txt": "alpha"})
