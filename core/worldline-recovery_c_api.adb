@@ -39,10 +39,15 @@ package body Worldline.Recovery_C_API with SPARK_Mode => Off is
       return R.Optional_Marker is
    begin
       if Present = 0 then
-         return (Present => False, Length => 0);
+         return Result : R.Optional_Marker (Present => False, Length => 0) do
+            null;
+         end return;
       end if;
-      return (Present => True, Length => R.Byte_Count (Length),
-              Value => Copy (Address, Length));
+      return Result : R.Optional_Marker
+        (Present => True, Length => R.Byte_Count (Length))
+      do
+         Result.Value := Copy (Address, Length);
+      end return;
    end Marker;
 
    function Select_Action
@@ -60,9 +65,22 @@ package body Worldline.Recovery_C_API with SPARK_Mode => Off is
       then
          return 255;
       end if;
-      return R.Recovery_Action'Pos (R.Select_Action
-        (Copy (Expected, Expected_Length), Marker (Live_Present, Live, Live_Length),
-         Marker (Prepared_Present, Prepared, Prepared_Length)));
+      declare
+         Expected_Value : constant R.Identity_Bytes :=
+           Copy (Expected, Expected_Length);
+         Live_Value : constant R.Optional_Marker
+           (Present => Live_Present = 1,
+            Length => (if Live_Present = 1 then R.Byte_Count (Live_Length)
+                       else 0)) := Marker (Live_Present, Live, Live_Length);
+         Prepared_Value : constant R.Optional_Marker
+           (Present => Prepared_Present = 1,
+            Length => (if Prepared_Present = 1
+                       then R.Byte_Count (Prepared_Length) else 0)) :=
+             Marker (Prepared_Present, Prepared, Prepared_Length);
+      begin
+         return R.Recovery_Action'Pos
+           (R.Select_Action (Expected_Value, Live_Value, Prepared_Value));
+      end;
    exception
       when others => return 255;
    end Select_Action;

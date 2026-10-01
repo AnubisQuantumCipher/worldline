@@ -33,6 +33,12 @@ requires canonical descriptors, slot confinement and zero padding/frame. Only a
 complete usable kernel result can feed admission accounting; kernel unavailability
 leaves admission/reporting unknown and preserves the reservation file.
 
+The recovery C wrapper now constructs marker return values and caller objects
+with explicit presence and length constraints. The public nonlimited Ada type,
+its defaults, assignment/equality support and full marker relation are preserved.
+The original type-level storage warning and complete storage/native guarantees
+remain open.
+
 Full original and new module proof, ledger projection, reserve/release/consume
 lifecycle integration, marker custody and the complete recovery state machine
 remain OPEN. Pointer/representation and source-profile correspondence, resource
