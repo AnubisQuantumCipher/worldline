@@ -18,7 +18,7 @@ import sqlite3
 import stat
 from threading import RLock
 
-from .pending_kernel import Intent, PendingKernel, Reason
+from .pending_kernel_v2 import Intent, PendingKernel, Reason
 
 
 class PendingRefused(RuntimeError):
@@ -288,7 +288,8 @@ class PendingJournal:
                                              and row["linked_payload"] != expected):
                 raise PendingRefused("JOURNAL_RECORD_CONFLICT")
             typed.append(Intent(self.store, row["subject"], row["content"], row["run"],
-                                row["epoch"], previous, row["linked_payload"] is not None))
+                                row["epoch"], previous, row["linked_payload"] is not None,
+                                row["requirement"]))
         return rows, typed
 
     def _target_prefix(self, subject: bytes, journal_rows: list[sqlite3.Row]):
@@ -331,14 +332,15 @@ class PendingJournal:
                     "epochMagnitudeLE": base64.b64encode(proposed).decode("ascii")})
                 plan = self.kernel.decide(typed, store_id=self.store, subject=subject_bytes,
                     content=content_bytes, run=run, authority=authority, target=target,
-                    proposed_epoch=proposed, replay=False)
-                if plan.reason is not Reason.RESERVE_NEW or plan.epoch != proposed:
+                    proposed_epoch=proposed, replay=False, requirement=required)
+                if (plan.reason is not Reason.RESERVE_NEW or plan.epoch != proposed
+                        or plan.requirement != required):
                     raise PendingRefused("BEGIN_REFUSED:" + plan.reason.name)
             payload = row_payload(store=self.store, subject=subject_bytes,
-                content=content_bytes, requirement=required, run=run, epoch=plan.epoch,
+                content=content_bytes, requirement=plan.requirement, run=run, epoch=plan.epoch,
                 previous=authority)
             self.journal.execute("INSERT INTO intents VALUES(?,?,?,?,?,?,?,?)",
-                (run, subject_bytes, content_bytes, required, plan.epoch,
+                (run, subject_bytes, content_bytes, plan.requirement, plan.epoch,
                  None if authority is None else authority[0],
                  None if authority is None else authority[1], payload))
             self.journal.execute("INSERT INTO heads VALUES(?,?,?) ON CONFLICT(subject) "
@@ -403,11 +405,12 @@ class PendingJournal:
                 latest = rows[-1]
                 plan = self.kernel.decide(typed, store_id=self.store, subject=subject,
                     content=latest["content"], run=latest["run"], authority=authority,
-                    target=target, proposed_epoch=b"", replay=True)
+                    target=target, proposed_epoch=b"", replay=True,
+                    requirement=latest["requirement"])
                 if plan.reason not in (Reason.WRITE_PENDING, Reason.ACKNOWLEDGE_LINK,
                                        Reason.ALREADY_LINKED):
                     raise PendingRefused("DISCOVERY_REFUSED:" + plan.reason.name)
-                if plan.selected < 1 or plan.epoch != latest["epoch"] or \
+                if plan.requirement != latest["requirement"] or plan.selected < 1 or plan.epoch != latest["epoch"] or \
                         rows[plan.selected - 1]["run"] != latest["run"]:
                     raise PendingRefused("KERNEL_SELECTED_IDENTITY_CONFLICT")
                 if plan.reason is not Reason.ALREADY_LINKED:
@@ -429,11 +432,11 @@ class PendingJournal:
                 target = self._target_prefix(subject, rows)
                 plan = self.kernel.decide(typed, store_id=self.store, subject=subject,
                     content=content, run=run, authority=authority, target=target,
-                    proposed_epoch=b"", replay=True)
+                    proposed_epoch=b"", replay=True, requirement=selected["requirement"])
                 if plan.reason not in (Reason.WRITE_PENDING, Reason.ACKNOWLEDGE_LINK,
                                        Reason.ALREADY_LINKED):
                     raise PendingRefused("REPLAY_REFUSED:" + plan.reason.name)
-                if plan.epoch != selected["epoch"] or plan.selected < 1 or \
+                if plan.requirement != selected["requirement"] or plan.epoch != selected["epoch"] or plan.selected < 1 or \
                         rows[plan.selected - 1]["run"] != run:
                     raise PendingRefused("KERNEL_SELECTED_IDENTITY_CONFLICT")
                 if plan.reason is Reason.WRITE_PENDING:
@@ -471,8 +474,9 @@ class PendingJournal:
                 latest = rows[-1]
                 plan = self.kernel.decide(typed, store_id=self.store, subject=subject_bytes,
                     content=latest["content"], run=latest["run"], authority=authority,
-                    target=target, proposed_epoch=b"", replay=True)
-                if plan.reason is not Reason.ALREADY_LINKED:
+                    target=target, proposed_epoch=b"", replay=True,
+                    requirement=latest["requirement"])
+                if plan.reason is not Reason.ALREADY_LINKED or plan.requirement != latest["requirement"]:
                     raise PendingRefused("SNAPSHOT_REFUSED:" + plan.reason.name)
             elif authority is not None:
                 raise PendingRefused("EMPTY_HISTORY_CURSOR_CONFLICT")

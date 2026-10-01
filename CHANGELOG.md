@@ -109,6 +109,19 @@ The full original proof, native/storage, protected observation/producer, complet
 terminal history and default integration guarantees remain engineering
 requirements. Phase 1 and D1 remain open; this is a source checkpoint.
 
+Pending intents now bind the exact optional requirement through additive ABI v2,
+while preserving ABI v1 and all existing records and controls. Completion can
+select any retained linked run and update only its pending history row, retaining
+all other rows. An older failure remains terminal for the same requirement even
+when a newer pass has completed.
+
+Checked standalone and combined builds, original resource/recovery, admission,
+evaluation and pending suites, the new requirement controls and direct Ada
+completion/lifecycle/resource controls pass against the exact combined source.
+The full original proof, protected capture, durable terminal/results/outbox
+recovery, native/storage, default integration, Phase 1 and D1 requirements
+remain open. This is a source checkpoint, without a version or release.
+
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 
 Implementation and review are in progress. The original guarantee targets remain fixed;
