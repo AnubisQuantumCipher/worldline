@@ -79,6 +79,38 @@ class ResourceKernelTests(unittest.TestCase):
             self.assertEqual(decision.outcome, RESOURCE_STATE_UNKNOWN)
             self.assertFalse(ledger.path.exists())
 
+    def test_report_uses_actual_kernel_decision(self):
+        with TemporaryDirectory() as directory, patch.object(Core, '_shared', self.core):
+            ledger = Ledger(Path(directory))
+            authority = AdmissionAuthority(
+                ledger, Floors(min_free_memory_bytes=2),
+                observer=lambda: AdmissionState('OBSERVED', mem_available_bytes=10))
+            policy = ResourcePolicy(memory_max_bytes=5)
+            before = authority.report(policy)
+            self.assertTrue(before['wouldAdmitNow'])
+            self.assertIsNone(before['resourceDecisionError'])
+            decision = authority.admit(workload='ordinary', policy=policy)
+            self.assertEqual(decision.outcome, ADMITTED)
+            retained = ledger.path.read_bytes()
+            after = authority.report(policy)
+            self.assertFalse(after['wouldAdmitNow'])
+            self.assertIsNone(after['resourceDecisionError'])
+            self.assertEqual(ledger.path.read_bytes(), retained)
+
+    def test_report_kernel_failure_is_unknown_and_preserves_ledger(self):
+        with TemporaryDirectory() as directory:
+            ledger = Ledger(Path(directory))
+            ledger._store([])
+            retained = ledger.path.read_bytes()
+            authority = AdmissionAuthority(
+                ledger, Floors(min_free_memory_bytes=2),
+                observer=lambda: AdmissionState('OBSERVED', mem_available_bytes=10))
+            with patch('worldline.admission.kernel_can_reserve', side_effect=CoreUnavailable('unavailable')):
+                report = authority.report(ResourcePolicy(memory_max_bytes=5))
+            self.assertIsNone(report['wouldAdmitNow'])
+            self.assertEqual(report['resourceDecisionError'], str(CoreUnavailable('unavailable')))
+            self.assertEqual(ledger.path.read_bytes(), retained)
+
 
 if __name__ == '__main__':
     unittest.main()

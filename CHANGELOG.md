@@ -10,6 +10,10 @@ state preservation on refusal. The isolated shared library builds, and ordinary
 Ada and real-library binding/admission fixtures pass. These are source/build
 milestones, not a completed Phase 1 or release assurance result.
 
+The capacity result in `wouldAdmitNow` now uses the same kernel call as admission.
+A missing or failing kernel leaves that result unknown and exposes a separate
+`resourceDecisionError`; reporting does not write reservations.
+
 Full module proof, the remaining numerical gates, ledger projection and
 reserve/release/consume lifecycle integration remain OPEN. Producer truth,
 pointer/representation and source-profile correspondence, resource epochs,

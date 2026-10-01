@@ -702,6 +702,16 @@ class AdmissionAuthority:
         headroom = None
         if state.state == "OBSERVED" and state.mem_available_bytes is not None:
             headroom = state.mem_available_bytes - withheld - self.floors.min_free_memory_bytes
+        would_admit = None
+        kernel_error = None
+        if state.state == "OBSERVED" and not ledger_error and headroom is not None:
+            try:
+                would_admit = kernel_can_reserve(
+                    state.mem_available_bytes, withheld,
+                    self.floors.min_free_memory_bytes,
+                    policy.memory_max_bytes or policy.memory_high_bytes or 0)
+            except (WorldlineError, ValueError, OverflowError, MemoryError) as exc:
+                kernel_error = str(exc)
         return {
             "state": state.as_dict(),
             "floors": {"minFreeMemoryBytes": self.floors.min_free_memory_bytes,
@@ -713,13 +723,13 @@ class AdmissionAuthority:
             "withheldBytes": withheld,
             "headroomBytes": headroom,
             "ledgerError": ledger_error,
+            "resourceDecisionError": kernel_error,
             "unmetered": policy.memory_max_bytes is None and policy.memory_high_bytes is None,
             "enforced": policy.enforcement == "cgroup2" and bool(policy.unit_properties()),
             # The same arithmetic admit() uses, including for an unmetered policy — a report
             # that said "yes" while headroom was already negative was the doctor telling an
             # operator the opposite of what the engine would do.
-            "wouldAdmitNow": None if state.state != "OBSERVED" or ledger_error or headroom is None else (
-                (policy.memory_max_bytes or policy.memory_high_bytes or 0) <= headroom),
+            "wouldAdmitNow": would_admit,
         }
 
 
