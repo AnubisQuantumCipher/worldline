@@ -289,35 +289,38 @@ package body Worldline.Resources with SPARK_Mode is
       if Count = 0 then
          return True;
       end if;
-      for Offset in 0 .. Count - 1 loop
-         Column := Subtract_Column
-           (Byte (Digit_At (Available, Offset)),
-            Byte (Digit_At (Withheld, Offset)),
-            Byte (Digit_At (Floor, Offset)),
-            Byte (Digit_At (Requested, Offset)), Previous);
-         declare
-            Remainder_Digit : constant Big_Natural :=
-              To_Big_Integer (Natural (Column.Remainder)) with Ghost;
-            Position : constant Big_Positive := Radix_Power (Offset) with Ghost;
-            Contribution : constant Big_Natural :=
-              Remainder_Digit * Position with Ghost;
-         begin
+      declare
+         --  These Ghost lifetimes enclose the loop. GNATprove does not support
+         --  iteration-local non-scalar objects before a loop invariant.
+         Remainder_Digit : Big_Natural := 0 with Ghost;
+         Position : Big_Positive := 1 with Ghost;
+         Contribution : Big_Natural := 0 with Ghost;
+      begin
+         for Offset in 0 .. Count - 1 loop
+            Column := Subtract_Column
+              (Byte (Digit_At (Available, Offset)),
+               Byte (Digit_At (Withheld, Offset)),
+               Byte (Digit_At (Floor, Offset)),
+               Byte (Digit_At (Requested, Offset)), Previous);
+            Remainder_Digit := To_Big_Integer (Natural (Column.Remainder));
+            Position := Radix_Power (Offset);
+            Contribution := Remainder_Digit * Position;
             pragma Assert (Remainder_Digit >= 0);
             pragma Assert (Position > 0);
             pragma Assert (Contribution >= 0);
             pragma Assert (Remainder_Value >= 0);
             Remainder_Value := Remainder_Value + Contribution;
-         end;
-         Previous := Column.Next;
-         pragma Loop_Invariant
-           (Remainder_Value < Radix_Power (Offset + 1));
-         pragma Loop_Invariant
-           (Prefix_Value (Available, Offset + 1)
-            + To_Big_Integer (Previous) * Radix_Power (Offset + 1)
-            = Prefix_Value (Withheld, Offset + 1)
-              + Prefix_Value (Floor, Offset + 1)
-              + Prefix_Value (Requested, Offset + 1) + Remainder_Value);
-      end loop;
+            Previous := Column.Next;
+            pragma Loop_Invariant
+              (Remainder_Value < Radix_Power (Offset + 1));
+            pragma Loop_Invariant
+              (Prefix_Value (Available, Offset + 1)
+               + To_Big_Integer (Previous) * Radix_Power (Offset + 1)
+               = Prefix_Value (Withheld, Offset + 1)
+                 + Prefix_Value (Floor, Offset + 1)
+                 + Prefix_Value (Requested, Offset + 1) + Remainder_Value);
+         end loop;
+      end;
       Complete_Prefix (Available, Count);
       Complete_Prefix (Withheld, Count);
       Complete_Prefix (Floor, Count);

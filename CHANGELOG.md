@@ -122,6 +122,18 @@ The full original proof, protected capture, durable terminal/results/outbox
 recovery, native/storage, default integration, Phase 1 and D1 requirements
 remain open. This is a source checkpoint, without a version or release.
 
+Resource loop proof values now live through the complete loop, preserving the
+original per-iteration equations and zero-count case. Epoch and reservation
+conservation bodies add complete carry, prefix, padding and mismatch proof
+computations while keeping their original public contracts and algorithms.
+
+The exact combined source passes the original standalone/combined builds,
+resource/recovery, admission, evaluation, pending and requirement suites, and
+all direct Ada controls. Every old and new helper/body/caller proof obligation,
+checked Ghost execution, native/storage, producer/default integration, Phase 1
+and D1 guarantee remains required. The earlier failed whole proof is retained.
+This is a source checkpoint without a version or release.
+
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 
 Implementation and review are in progress. The original guarantee targets remain fixed;
