@@ -300,7 +300,7 @@ package body Worldline.Resources with SPARK_Mode is
          --  loop-local composite declarations before a loop invariant.
          --  The complete snapshot is still assigned at each original capture
          --  point. Its checked copy, storage and lifetime are not free.
-         Before_Step : Byte_Array (State.Outstanding'Range) with Ghost;
+         Before_Step : Byte_Array (Original'Range) with Ghost;
       begin
          for Index in State.Outstanding'Range loop
             pragma Assert

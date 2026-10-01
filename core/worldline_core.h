@@ -367,6 +367,28 @@ size_t wl_layout_size(uint8_t selector);
  * size and every positional offset. */
 size_t wl_layout_offset(uint8_t selector, const char *name, size_t name_len);
 
+/* Additive reservation lifecycle ABI; complete owned extents stay live,
+ * readable/unchanged (inputs) or writable (output), disjoint for this call.
+ * The pointer custody premise is outside the SPARK plan proof.
+ */
+typedef struct {
+    size_t first;
+    size_t length;
+    uint8_t observed;
+} wl_reservation_lifecycle_row;
+uint32_t wl_reservation_lifecycle_abi_version(void);
+size_t wl_reservation_lifecycle_row_size(void);
+size_t wl_reservation_lifecycle_row_offset(uint8_t field);
+/* Return 0 invalid input, 1 invalid layout, 2 no change, 3 removal planned;
+ * typed refusals do not write removed; 255 means ignore every output.
+ * mode: 1 exact release, 2 reconciliation. observed: 0 unknown, 1 live, 2 gone.
+ */
+uint8_t wl_reservation_lifecycle_plan(
+    const uint8_t *data, size_t data_length,
+    const wl_reservation_lifecycle_row *rows, size_t row_count,
+    uint8_t mode, uint8_t present, size_t requested_first, size_t requested_length,
+    uint8_t *removed, size_t removed_length);
+
 #ifdef __cplusplus
 }
 #endif

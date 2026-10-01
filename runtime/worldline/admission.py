@@ -465,6 +465,25 @@ class Ledger:
             self._store(remaining)
             return True
 
+    def release_exact(self, reservation_id: str) -> bool:
+        """Kernel-backed path for the authority's already-normalized string ID.
+
+        The original direct release API below its own lock remains unchanged;
+        custom Python equality is a separate unresolved authority domain.
+        """
+        from .reservation_lifecycle import release_plan
+        with self.locked():
+            current = self._load()
+            try:
+                removed = release_plan([r.reservation_id for r in current], reservation_id)
+            except CoreUnavailable as exc:
+                raise WorldlineError(RESOURCE_STATE_UNKNOWN,
+                                     f"reservation release plan unavailable: {exc}") from exc
+            if not any(removed):
+                return False
+            self._store([r for r, drop in zip(current, removed) if not drop])
+            return True
+
     def attach_unit(self, reservation_id: str, unit: str) -> None:
         if not isinstance(unit, str) or not unit or "\n" in unit or "/" in unit:
             raise WorldlineError(RESOURCE_POLICY_INVALID, f"a reservation cannot name this unit: {unit!r}")
@@ -491,8 +510,15 @@ class Ledger:
                     return is_live(reservation)
                 except Exception:  # noqa: BLE001
                     return None
-            dropped = [r for r in current if verdict(r) is False]
-            live = [r for r in current if r not in dropped]
+            observations = [verdict(r) for r in current]
+            from .reservation_lifecycle import reconcile_plan
+            try:
+                removed = reconcile_plan([r.reservation_id for r in current], observations)
+            except CoreUnavailable as exc:
+                raise WorldlineError(RESOURCE_STATE_UNKNOWN,
+                                     f"reservation reconciliation plan unavailable: {exc}") from exc
+            dropped = [r for r, drop in zip(current, removed) if drop]
+            live = [r for r, drop in zip(current, removed) if not drop]
             if dropped:
                 self._store(live)
             return dropped
@@ -732,7 +758,15 @@ class AdmissionAuthority:
                         state=state.as_dict(), policy=policy.canonical())
 
     def release(self, reservation_id: str | None) -> bool:
-        return bool(reservation_id) and self.ledger.release(str(reservation_id))
+        if not bool(reservation_id):
+            return False
+        normalized = str(reservation_id)
+        if type(normalized) is str:
+            return self.ledger.release_exact(normalized)
+        # Preserve the existing custom-comparison domain if __str__ returned
+        # a string subclass. This legacy path remains an authority obligation;
+        # it is never selected as a fallback after a kernel refusal.
+        return self.ledger.release(normalized)
 
     def attach_unit(self, reservation_id: str | None, unit: str) -> None:
         if reservation_id:

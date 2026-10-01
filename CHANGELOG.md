@@ -66,6 +66,19 @@ the touched-module D1 gate, protected effects or release/production assurance.
 The retained proof manifest does not attest to the expanded core. Every original
 guarantee, accepted case, proof floor and scope remains required.
 
+Reservation release for normalized builtin strings and reconciliation now use
+`Resource_Reservation_Lifecycle` removal plans. Complete identities and typed
+liveness determine each removed row; unknown observations retain reservations.
+The original callback order and complete survivor records are preserved.
+Direct release and custom-comparison paths remain unchanged and remain required
+authority work.
+
+The reserve snapshot workspace now uses its already captured immutable array
+bounds. Its complete per-iteration capture and every original contract remain
+unchanged. Fresh checked builds, direct Ada controls, 53 real-library tests and
+29 unchanged admission tests pass. Complete strict proof, native/storage,
+epoch and reserve/consume guarantees remain required before Phase 1 closes.
+
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 
 Implementation and review are in progress. The original guarantee targets remain fixed;
