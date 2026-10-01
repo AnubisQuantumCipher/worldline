@@ -348,22 +348,33 @@ class SystemdAdapter:
     JOURNAL_FAILURE_RESULT = "d9b373ed55a64feb8242e02dbe79a49c"
     JOURNAL_WINDOW_SECONDS = 10.0  # bounded; slow hosts (CI runners) flush the user journal late
 
-    def journal_events(self, unit: str, since_us: int) -> list[dict[str, Any]] | None:
+    def journal_events(self, unit: str, since_us: int, *, _raw_observer=None) -> list[dict[str, Any]] | None:
         """The user manager's own journal entries about `unit` since `since_us`, structured.
         None when the journal cannot be read (then supervision is INDETERMINATE, never assumed)."""
         self._validate_unit(unit)
         journalctl = self.journalctl
         if journalctl is None:
             return None
-        result = subprocess.run(
-            [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager", f"--since=@{max(since_us // 1_000_000 - 2, 0)}"],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-            timeout=15,
-            env=self.environment,
-        )
+        if _raw_observer is None:
+            result = subprocess.run(
+                [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager", f"--since=@{max(since_us // 1_000_000 - 2, 0)}"],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+                timeout=15,
+                env=self.environment,
+            )
+        else:
+            from ..raw_observation import observed_process_call
+            journal_argv = [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager",
+                            f"--since=@{max(since_us // 1_000_000 - 2, 0)}"]
+            result = observed_process_call(
+                lambda: subprocess.run(journal_argv, stdin=subprocess.DEVNULL,
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+                    timeout=15, env=self.environment),
+                _raw_observer, {'schemaVersion': 1, 'site': 'journal-poll',
+                    'unit': unit, 'sinceUs': since_us, 'argv': journal_argv})
         if result.returncode != 0:
             return None
         manager_unit = f"user@{os.getuid()}.service"
@@ -400,7 +411,7 @@ class SystemdAdapter:
             )
         return events
 
-    def outcome(self, process: SystemdProcess, launcher_exit: int, *, stopped: bool = False) -> dict[str, Any]:
+    def outcome(self, process: SystemdProcess, launcher_exit: int, *, stopped: bool = False, _raw_observer=None) -> dict[str, Any]:
         """Structured supervision outcome for a finished launcher. Exactly one of:
         SUPERVISED (the manager started the unit; the workload's exit is authoritative),
         LAUNCH_FAILED (the launcher ended without the manager ever starting the unit),
@@ -409,8 +420,15 @@ class SystemdAdapter:
         deadline = time.monotonic() + self.JOURNAL_WINDOW_SECONDS
         events: list[dict[str, Any]] | None = None
         journal_readable = True
+        if _raw_observer is not None:
+            acquisition_ordinal = 0
+            def acquired(record):
+                nonlocal acquisition_ordinal
+                _raw_observer(acquisition_ordinal, record)
+                acquisition_ordinal += 1
         while True:
-            events = self.journal_events(process.unit, process.launched_at_us)
+            events = self.journal_events(process.unit, process.launched_at_us,
+                **({} if _raw_observer is None else {'_raw_observer': acquired}))
             if events is None:
                 journal_readable = False
                 events = []
@@ -442,10 +460,28 @@ class SystemdAdapter:
             kind = "INDETERMINATE"
         launcher_stderr = ""
         if kind != "SUPERVISED" and process.launcher.stderr is not None:
-            try:
-                launcher_stderr = process.launcher.stderr.read().decode("utf-8", "replace")[:400]
-            except (OSError, ValueError):
-                launcher_stderr = ""
+            if _raw_observer is None:
+                try:
+                    launcher_stderr = process.launcher.stderr.read().decode("utf-8", "replace")[:400]
+                except (OSError, ValueError):
+                    launcher_stderr = ""
+            else:
+                from ..raw_observation import (retain_observation, retain_during_unwind, optional_bytes,
+                    exception_observation)
+                try:
+                    reread = process.launcher.stderr.read()
+                except (OSError, ValueError) as error:
+                    retain_during_unwind(lambda: retain_observation(acquired, {'schemaVersion': 1,
+                        'site': 'launcher-stderr-reread', 'unit': process.unit,
+                        'readReturned': False, 'stderr': None,
+                        'exception': exception_observation(error)}))
+                    launcher_stderr = ""
+                else:
+                    retain_observation(acquired, {'schemaVersion': 1,
+                        'site': 'launcher-stderr-reread', 'unit': process.unit,
+                        'readReturned': True, 'stderr': optional_bytes(reread),
+                        'exception': None})
+                    launcher_stderr = reread.decode("utf-8", "replace")[:400]
         return {
             "kind": kind,
             "unit": process.unit,

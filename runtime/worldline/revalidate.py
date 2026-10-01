@@ -146,11 +146,36 @@ class Revalidator:
         self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": candidate.instance_id, "kind": "staged-validation", "actor": "worldline", "outcome": entry["outcome"], "validationId": entry["validationId"], "requirementHash": entry["requirementHash"], "stagedContentRoot": staged_content_root}, worldline_authored=True)
         return {"stagedContentRoot": staged_content_root, **entry}
 
+    def evaluate_retained(self, *, terminal, content_identity: str, source_dir: Path,
+                          subject: dict[str, Any], prime_at_fork: dict[str, Any],
+                          protected_delta: Any, source: str,
+                          declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
+        """Explicit private producer path. It is not the default authority path.
+        The writer observes this actual evaluator invocation and preserves its
+        complete result stream. Deployment/custody/full-wire gates still apply.
+        """
+        from .evaluation_writer import EngineEvaluationWriter
+        authoritative = self.store.world(subject['instanceId'])
+        if authoritative.instance_id != subject['instanceId'] or authoritative.content_id != content_identity:
+            raise WorldlineError('EVALUATION_CONTENT_BINDING_MISMATCH', 'stored world identity differs from explicit evaluation binding')
+        writer = EngineEvaluationWriter(terminal, authoritative.content_id)
+        try:
+            return self._evaluate(source_dir=source_dir, subject=subject,
+                prime_at_fork=prime_at_fork, protected_delta=protected_delta,
+                source=source, declared=declared, _terminal_writer=writer)
+        except BaseException as original:
+            try:
+                writer.interrupted(original)
+            except BaseException as retention_error:
+                # Both failures remain visible; no successful result is returned.
+                original.add_note("terminal observation retention also failed: " + str(retention_error))
+            raise
+
     def _evaluate(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any, source: str,
-                  declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
+                  declared: Mapping[str, CapturedManifest] | None = None, _terminal_writer=None) -> dict[str, Any]:
         if declared is None:
             return self._evaluate_tree(source_dir=source_dir, subject=subject, prime_at_fork=prime_at_fork,
-                                       protected_delta=protected_delta, source=source)
+                                       protected_delta=protected_delta, source=source, **({} if _terminal_writer is None else {"_terminal_writer": _terminal_writer}))
         # A revalidation examines exactly what its world's declared manifests state -- bytes,
         # modes, attributes -- because that is what promotion compares with the staged tree. The
         # finalized payload is read-only (finalization clears the write bits), so checks run over
@@ -169,12 +194,12 @@ class Revalidator:
                                          f"the payload under revalidation is not the bytes its declared manifest states (root {key})",
                                          {"rootKey": key, "cause": exc.as_dict()}) from exc
             return self._evaluate_tree(source_dir=input_directory, subject=subject, prime_at_fork=prime_at_fork,
-                                       protected_delta=protected_delta, source=source, declared=declared)
+                                       protected_delta=protected_delta, source=source, declared=declared, **({} if _terminal_writer is None else {"_terminal_writer": _terminal_writer}))
         finally:
             self._discard(input_directory)
 
     def _evaluate_tree(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any,
-                       source: str, declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
+                       source: str, declared: Mapping[str, CapturedManifest] | None = None, _terminal_writer=None) -> dict[str, Any]:
         roots = self.store.roots()
         primary = next((r for r in roots if r["primary_root"]), None)
         if primary is None:
@@ -204,6 +229,17 @@ class Revalidator:
                 # this states the equality where the examined root is recorded.
                 raise WorldlineError("PAYLOAD_INTEGRITY_FAILED",
                                      "the tree under revalidation is not the bytes its declared manifests state")
+            if _terminal_writer is not None:
+                actual_subject = self.store.world(subject['instanceId'])
+                if actual_subject.content_id != _terminal_writer.content_identity:
+                    raise WorldlineError('EVALUATION_CONTENT_BINDING_MISMATCH', 'stored world content changed before evaluation')
+                if 'stagedContentRoot' in subject and subject['stagedContentRoot'] != observed_content_root:
+                    raise WorldlineError('EVALUATION_CONTENT_BINDING_MISMATCH', 'captured staged root differs from declared subject root')
+                _terminal_writer.begin(subject, current, source,
+                    measured={'worldInstance': actual_subject.instance_id, 'contentId': actual_subject.content_id,
+                              'storedRootSetHash': actual_subject.root_set_hash, 'observedContentRoot': observed_content_root,
+                              'scratchId': validation_id, 'manifests': {key: value.value for key, value in examined.items()}},
+                    declarations=check_declarations(current), core=self.core)
             # THREE snapshots, kept apart:
             #   overlays        the bytes UNDER EVALUATION -- source_dir (for a revalidation, the
             #                   candidate's own finalized payload; for a staged merge, the staged
@@ -233,7 +269,7 @@ class Revalidator:
             results = list(self.checks.run(
                 world_instance=validation_id, overlays=overlays, primary_target=primary_target,
                 checks=legacy, verifier_sources=evaluator_sources, verifiers=prime_verifiers,
-                logical_roots=logical_roots)) if legacy else []
+                logical_roots=logical_roots, **({} if _terminal_writer is None else {"_observation_writer": _terminal_writer}))) if legacy else []
             if private:
                 # A revalidation cannot silently promote outputs that only exist in its
                 # scratch overlay. The private examiner gets a daemon-owned copy of the merged
@@ -264,7 +300,7 @@ class Revalidator:
                     world_instance=private_id, overlays=private_overlays,
                     primary_target=primary_target, checks=private,
                     verifier_sources=evaluator_sources, verifiers=prime_verifiers,
-                    logical_roots=logical_roots, candidate_snapshot=binding))
+                    logical_roots=logical_roots, candidate_snapshot=binding, **({} if _terminal_writer is None else {"_observation_writer": _terminal_writer})))
                 observed = self._source_manifests(snapshot, roots)
                 if any(observed[key].canonical != expected.canonical
                        for key, expected in manifests.items()):
@@ -274,9 +310,19 @@ class Revalidator:
             if private_id is not None:
                 self._discard(self.paths.overlays / private_id)
             self._discard(self.paths.overlays / validation_id)
-        if content_root_set(self._source_manifests(source_dir, roots), self.core) != observed_content_root:
-            raise WorldlineError("REVALIDATION_INPUT_CHANGED",
-                                 "the tree under evaluation changed while the checks ran")
+        if _terminal_writer is None:
+            if content_root_set(self._source_manifests(source_dir, roots), self.core) != observed_content_root:
+                raise WorldlineError("REVALIDATION_INPUT_CHANGED",
+                                     "the tree under evaluation changed while the checks ran")
+        else:
+            _terminal_post_manifests = self._source_manifests(source_dir, roots)
+            _terminal_post_root = content_root_set(_terminal_post_manifests, self.core)
+            if _terminal_post_root != observed_content_root:
+                raise WorldlineError("REVALIDATION_INPUT_CHANGED",
+                                     "the tree under evaluation changed while the checks ran")
+        if _terminal_writer is not None:
+            from .evaluation_terminal import value_bytes, bytes_value
+            _terminal_runner_results = bytes_value(value_bytes(results))
         # The roster is the one promotion will impose: the current requirement's required checks
         # plus protected-paths when the policy protects anything, judged by the kernel.
         required, empty_declared = required_roster(current)
@@ -319,7 +365,7 @@ class Revalidator:
             failed.append("roster-undeclared")
         if context["verifiersModifiedByCandidate"]:
             failed.append("verifiers-modified")
-        return {
+        entry = {
             "schemaVersion": SCHEMA_VERSION,
             "validationId": validation_id,
             "source": source,
@@ -349,6 +395,14 @@ class Revalidator:
             "verifiersModifiedByCandidate": context["verifiersModifiedByCandidate"],
             "context": context,
         }
+        if _terminal_writer is not None:
+            return _terminal_writer.finish(entry, raw_results=results, runner_results=_terminal_runner_results,
+                                           post_measurement={'observedContentRoot': _terminal_post_root,
+                                                             'examinedContentRoot': examined_content_root,
+                                                             'manifests': {key: value.value for key, value in _terminal_post_manifests.items()}},
+                                           required=required, empty_declared=empty_declared,
+                                           declarations=declarations, core=self.core)
+        return entry
 
     def _source_manifests(self, directory: Path, roots: list[dict[str, Any]]) -> dict[str, CapturedManifest]:
         result: dict[str, CapturedManifest] = {}

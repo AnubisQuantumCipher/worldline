@@ -134,6 +134,21 @@ checked Ghost execution, native/storage, producer/default integration, Phase 1
 and D1 guarantee remains required. The earlier failed whole proof is retained.
 This is a source checkpoint without a version or release.
 
+Evaluation terminal capture now has an explicit engine hook, typed completion
+roster and owned C/Python transport. It retains ordered invocation returns and
+raw observations, distinguishes a genuine required FAIL from PASS promotion,
+and emits a completion record only after typed completion admission. ERROR
+projections retain partial results and actual return/recapture observations;
+missing return evidence stays unknown. Repeated journal polls carry occurrence
+identities, and observation-retention errors remain visible through cleanup.
+
+The exact combined source passes all original and additive checked standalone,
+aggregate, real-library and direct Ada controls. Protected capture and raw-wire
+provenance, durable atomicity and anti-rollback, default consumer integration,
+all original and new proof/body/caller obligations, native pointer/storage/work,
+D1 and complete Phase 1 guarantees remain OPEN. Earlier full-proof failures are
+retained. This is a source checkpoint without a version, tag or release.
+
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 
 Implementation and review are in progress. The original guarantee targets remain fixed;

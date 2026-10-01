@@ -270,15 +270,18 @@ class PrivateEvaluator:
     def __init__(self, systemd: Any):
         self.systemd = systemd
 
-    def run(self, spec: PrivateEvaluationSpec, *, resource_properties: Sequence[str] = ()) -> dict[str, Any]:
+    def run(self, spec: PrivateEvaluationSpec, *, resource_properties: Sequence[str] = (), _supervision_observer=None) -> dict[str, Any]:
         """Run a trusted Python examiner. Never interpret or admit its report here."""
         from ..errors import WorldlineError
         try:
-            return self._run(spec, resource_properties)
+            return self._run(spec, resource_properties, **({} if _supervision_observer is None else {'_supervision_observer': _supervision_observer}))
         except (BackendFailure, OSError, ValueError) as exc:
+            if _supervision_observer is not None:
+                from ..raw_observation import retention_failed
+                if retention_failed(exc): raise
             raise WorldlineError(getattr(exc, "code", "PRIVATE_EVALUATOR_FAILED"), str(exc)) from exc
 
-    def _run(self, spec: PrivateEvaluationSpec, resource_properties: Sequence[str]) -> dict[str, Any]:
+    def _run(self, spec: PrivateEvaluationSpec, resource_properties: Sequence[str], *, _supervision_observer=None) -> dict[str, Any]:
         _validate_spec(spec)
         bubblewrap = _bubblewrap_identity(spec.bubblewrap_executable)
         spec.runtime.mkdir(mode=0o700)
@@ -351,7 +354,8 @@ class PrivateEvaluator:
             self.systemd.stop(process.unit)
             process.launcher.communicate(timeout=20)
             raise
-        supervision = self.systemd.outcome(process, process.launcher.returncode)
+        supervision = self.systemd.outcome(process, process.launcher.returncode,
+            **({} if _supervision_observer is None else {'_raw_observer': _supervision_observer}))
         evidence_path = spec.runtime / "boundary.json"
         if not evidence_path.is_file():
             _refuse("private bootstrap produced no boundary evidence: " + stderr.decode("utf-8", "replace")[-2000:],

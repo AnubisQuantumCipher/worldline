@@ -50,6 +50,7 @@ class CheckRunner:
         verifiers: Sequence[Mapping[str, Any]] = (),
         logical_roots: Mapping[str, str] | None = None,
         candidate_snapshot: Mapping[str, Any] | None = None,
+        _observation_writer=None,
     ) -> list[dict[str, Any]]:
         """`verifiers` is the resolved verifier set for this policy, as `resolve_verifiers`
         returns it; each check takes the members that name it. Passing it is what lets a check be
@@ -66,18 +67,31 @@ class CheckRunner:
             by_check.setdefault(str(entry.get("checkId")), []).append(entry)
         results: list[dict[str, Any]] = []
         for check in checks:
-            results.append(
-                self._run_one(
-                    world_instance=world_instance,
-                    overlays=overlays,
-                    primary_target=primary_target,
-                    check=check,
-                    verifier_entries=by_check.get(check.id, ()),
-                    verifier_sources=verifier_sources,
-                    logical_roots=logical_roots,
-                    candidate_snapshot=candidate_snapshot,
+            try:
+                results.append(
+                    self._run_one(
+                        world_instance=world_instance,
+                        overlays=overlays,
+                        primary_target=primary_target,
+                        check=check,
+                        verifier_entries=by_check.get(check.id, ()),
+                        verifier_sources=verifier_sources,
+                        logical_roots=logical_roots,
+                        candidate_snapshot=candidate_snapshot,
+                        **({} if _observation_writer is None else {"_observation_writer": _observation_writer}),
+                    )
                 )
-            )
+            except BaseException as original:
+                if _observation_writer is not None:
+                    try:
+                        _observation_writer.invocation_exception(world_instance=world_instance,
+                                                                 check=check.id, error=original)
+                    except BaseException as retention_error:
+                        original.add_note('invocation exception retention also failed: ' + str(retention_error))
+                raise
+            if _observation_writer is not None:
+                _observation_writer.invocation_result(world_instance=world_instance,
+                                                       check=check.id, result=results[-1])
         return results
 
     def _run_one(
@@ -91,8 +105,12 @@ class CheckRunner:
         verifier_entries: Sequence[Mapping[str, Any]] = (),
         logical_roots: Mapping[str, str] | None = None,
         candidate_snapshot: Mapping[str, Any] | None = None,
+        _observation_writer=None,
     ) -> dict[str, Any]:
         run_id = str(uuid.uuid4())
+        if _observation_writer is not None:
+            _observation_writer.invocation_started(world_instance=world_instance, check=check.id,
+                invocation=run_id, candidate_snapshot=candidate_snapshot, verifier_entries=verifier_entries)
         # Validate again at the filesystem boundary: direct callers can construct a CheckSpec
         # without going through ProjectConfig.load. A path-like ID must never redirect the
         # cleanup below outside the daemon-owned check directory.
@@ -197,6 +215,7 @@ class CheckRunner:
                 run_id=run_id, world_instance=world_instance, runtime=runtime,
                 cwd=cwd, check=check, overlays=overlays, staged=staged,
                 argv=argv, rewrites=rewrites, candidate_snapshot=candidate_snapshot,
+                **({} if _observation_writer is None else {"_observation_writer": _observation_writer}),
             )
 
         # THE RECORD PRODUCER IS THE DAEMON, OUTSIDE THE SANDBOX.
@@ -233,19 +252,50 @@ class CheckRunner:
             runtime=runtime,
             readonly_mounts=((staged.staging, VERIFIER_MOUNT),) if staged is not None else (),
         )
+        if _observation_writer is not None:
+            from .raw_observation import guarded_cleanup
         started_ns = time.monotonic_ns()
-        with self.gate.guard(f"check:{check.id}") as _decision:
+        with (self.gate.guard(f"check:{check.id}") if _observation_writer is None else
+              guarded_cleanup(self.gate.guard(f"check:{check.id}"))) as _decision:
             process = self.systemd.launch(
                 run_id,
                 self.sandbox.build_argv(spec),
                 description=f"WORLDLINE check {check.id}",
                 resource_properties=self.gate.unit_properties(),
             )
-            examiner_stdout, examiner_stderr = process.launcher.communicate(timeout=600)
+            if _observation_writer is None:
+                examiner_stdout, examiner_stderr = process.launcher.communicate(timeout=600)
+            else:
+                from .raw_observation import optional_bytes, retain_observation, exception_observation
+                observe = lambda record: _observation_writer.invocation_raw(
+                    world_instance=world_instance, check=check.id,
+                    kind='legacy-process-exception', observed=record)
+                try:
+                    examiner_stdout, examiner_stderr = process.launcher.communicate(timeout=600)
+                except BaseException as original:
+                    try:
+                        retain_observation(observe, {
+                            'exception': exception_observation(original),
+                            'stdout': optional_bytes(getattr(original, 'output', None)),
+                            'stderr': optional_bytes(getattr(original, 'stderr', None)),
+                            'processReturnObserved': False})
+                    except BaseException as retention_error:
+                        original.add_note('available process observation retention also failed: ' + str(retention_error))
+                        original._worldline_retention_failed = True
+                    raise
+                retain_observation(lambda record: _observation_writer.invocation_raw(
+                    world_instance=world_instance, check=check.id,
+                    kind='legacy-process-return', observed=record),
+                    {'stdout': optional_bytes(examiner_stdout), 'stderr': optional_bytes(examiner_stderr),
+                     'launcherReturncode': process.launcher.returncode, 'processReturnObserved': True})
             # Supervisor-owned facts, from the service manager's own journal entries for this
             # unit. The candidate cannot write these: they are the manager's record of a process
             # it supervised, not anything reported from inside the sandbox.
-            supervision = self.systemd.outcome(process, process.launcher.returncode)
+            supervision = self.systemd.outcome(process, process.launcher.returncode,
+                **({} if _observation_writer is None else {'_raw_observer':
+                    lambda occurrence, record: _observation_writer.invocation_raw(
+                        world_instance=world_instance, check=check.id,
+                        kind='legacy-supervision-acquisition', occurrence=occurrence, observed=record)}))
         duration_ns = time.monotonic_ns() - started_ns
         executed: dict[str, Any] | None = None
         if staged is not None:
@@ -260,7 +310,11 @@ class CheckRunner:
                 # what it used to.
                 executed["stable"] = after == executed["identity"] and not changes
             finally:
-                staged.close()
+                if _observation_writer is None:
+                    staged.close()
+                else:
+                    from .raw_observation import cleanup_call
+                    cleanup_call(lambda: staged.close())
         observed = self._observed_exit(supervision, process.launcher.returncode)
         identity = {
             "id": check.id,
@@ -309,7 +363,10 @@ class CheckRunner:
         # reachable: a sibling under the same uid could have written it. For a format whose
         # verdict is the file contents (junit, gnatprove, benchmark) this is the report-trust
         # boundary, recorded honestly below.
-        result_bytes = self._read_result_file(check, overlays, primary_target)
+        result_bytes = self._read_result_file(check, overlays, primary_target,
+            **({} if _observation_writer is None else {'_raw_observer':
+                lambda record: _observation_writer.invocation_raw(world_instance=world_instance,
+                    check=check.id, kind='legacy-report', observed=record)}))
 
         gaps = (executed or {}).get("unsatisfiedImports") if executed else None
         parsed = self._parse(check, exit_status, stdout, stderr, result_bytes)
@@ -386,6 +443,7 @@ class CheckRunner:
         staged: ExecutionVerifierSet | None, argv: Sequence[str],
         rewrites: Sequence[Mapping[str, str]],
         candidate_snapshot: Mapping[str, Any] | None,
+        _observation_writer=None,
     ) -> dict[str, Any]:
         """Run one report-format check with a separate examiner and worker identity.
 
@@ -428,9 +486,23 @@ class CheckRunner:
                 runtime=runtime / "private-backend",
                 bubblewrap_executable=Path(self.sandbox.executable),
             )
-            with self.gate.guard(f"check:{check.id}"):
+            if _observation_writer is not None:
+                from .raw_observation import (guarded_cleanup, retain_observation,
+                    private_return_observation)
+            with (self.gate.guard(f"check:{check.id}") if _observation_writer is None else
+                  guarded_cleanup(self.gate.guard(f"check:{check.id}"))):
                 observed = PrivateEvaluator(self.systemd).run(
-                    spec, resource_properties=self.gate.unit_properties())
+                    spec, resource_properties=self.gate.unit_properties(),
+                    **({} if _observation_writer is None else {'_supervision_observer':
+                        lambda occurrence, record: _observation_writer.invocation_raw(
+                            world_instance=world_instance, check=check.id,
+                            kind='private-supervision-acquisition', occurrence=occurrence, observed=record)}))
+                if _observation_writer is not None:
+                    # The backend returned before the resource guard exits.
+                    retain_observation(lambda record: _observation_writer.invocation_raw(
+                        world_instance=world_instance, check=check.id,
+                        kind='private-process-return', observed=record),
+                        private_return_observation(observed))
             boundary = observed.get("boundary")
             supervision = observed.get("supervision")
             exit_status = self._observed_exit(
@@ -447,29 +519,58 @@ class CheckRunner:
                                      "private evaluator boundary or supervisor exit was not established")
             report, private_report = collect_private_report(
                 report_directory, run_id=run_id, check_id=check.id,
-                candidate_identity=candidate_identity, verifier_identity=verifier_identity)
+                candidate_identity=candidate_identity, verifier_identity=verifier_identity,
+                **({} if _observation_writer is None else {'_raw_observer':
+                    lambda kind, record: _observation_writer.invocation_raw(
+                        world_instance=world_instance, check=check.id, kind=kind, observed=record)}))
             # Retain bytes so the promotion boundary can recompute the report digest without
             # relying on a mutable runtime pathname. The size cap is enforced by the collector.
             private_report["payloadB64"] = base64.b64encode(report).decode("ascii")
         except (WorldlineError, OSError, ValueError) as exc:
+            if _observation_writer is not None:
+                from .raw_observation import retain_observation, retain_during_unwind, exception_observation, retention_failed
+                if retention_failed(exc): raise
+                retain_during_unwind(lambda: retain_observation(lambda record: _observation_writer.invocation_raw(
+                    world_instance=world_instance, check=check.id,
+                    kind='private-collection-exception', observed=record), exception_observation(exc)))
             failure = exc
         finally:
-            try:
-                after, changes = staged.reread()
-                executed = staged.as_evidence()
-                # The private backend injects this broker API before executing the trusted
-                # verifier. It is not a missing helper in the staged verifier directory.
-                executed["unsatisfiedImports"] = [
-                    gap for gap in executed.get("unsatisfiedImports", [])
-                    if gap.get("module") != "candidate"
-                ]
-                executed["privateRuntimeModules"] = ["candidate"]
-                executed["identityAfterExecution"] = after
-                executed["changedDuringExecution"] = changes
-                executed["argvRewrites"] = list(rewrites)
-                executed["stable"] = after == executed["identity"] and not changes
-            finally:
-                staged.close()
+            if _observation_writer is None:
+                try:
+                    after, changes = staged.reread()
+                    executed = staged.as_evidence()
+                    # The private backend injects this broker API before executing the trusted
+                    # verifier. It is not a missing helper in the staged verifier directory.
+                    executed["unsatisfiedImports"] = [
+                        gap for gap in executed.get("unsatisfiedImports", [])
+                        if gap.get("module") != "candidate"
+                    ]
+                    executed["privateRuntimeModules"] = ["candidate"]
+                    executed["identityAfterExecution"] = after
+                    executed["changedDuringExecution"] = changes
+                    executed["argvRewrites"] = list(rewrites)
+                    executed["stable"] = after == executed["identity"] and not changes
+                finally:
+                    staged.close()
+            else:
+                from .raw_observation import cleanup_scope, cleanup_call
+                with cleanup_scope():
+                    try:
+                        after, changes = staged.reread()
+                        executed = staged.as_evidence()
+                        # The private backend injects this broker API before executing the trusted
+                        # verifier. It is not a missing helper in the staged verifier directory.
+                        executed["unsatisfiedImports"] = [
+                            gap for gap in executed.get("unsatisfiedImports", [])
+                            if gap.get("module") != "candidate"
+                        ]
+                        executed["privateRuntimeModules"] = ["candidate"]
+                        executed["identityAfterExecution"] = after
+                        executed["changedDuringExecution"] = changes
+                        executed["argvRewrites"] = list(rewrites)
+                        executed["stable"] = after == executed["identity"] and not changes
+                    finally:
+                        cleanup_call(lambda: staged.close())
         duration_ns = time.monotonic_ns() - started_ns
         if failure is not None:
             reason = f"{getattr(failure, 'code', 'PRIVATE_EVALUATOR_FAILED')}: {failure}"
@@ -532,11 +633,13 @@ class CheckRunner:
         }
 
     def _read_result_file(self, check: "CheckSpec", overlays: Sequence[OverlayRoot],
-                          primary_target: Path) -> bytes | None:
+                          primary_target: Path, *, _raw_observer=None) -> bytes | None:
         """Read the check's declared result file host-side, from the primary overlay's upper
         layer, after the run. This is where a file the examiner CREATES lands (and where an
         existing file it modifies is copied up). It is candidate-reachable: the caller records
         that. Returns None when no result file is declared or none was produced."""
+        if _raw_observer is not None:
+            return self._read_result_file_observed(check, overlays, primary_target, _raw_observer)
         if check.result is None:
             return None
         primary = next((root for root in overlays if str(root.target) == str(primary_target)), None)
@@ -584,6 +687,84 @@ class CheckRunner:
             return None
         finally:
             os.close(directory_fd)
+
+    def _read_result_file_observed(self, check, overlays, primary_target, observer):
+        from .raw_observation import retain_read, retain_during_unwind, cleanup_call, retention_failed
+        emitted = False
+        opened = False
+        acquired = False
+        content = None
+        reached_eof = False
+        def emit():
+            nonlocal emitted
+            if not emitted:
+                # Mark before invoking so a failing sink is not invoked twice.
+                emitted = True
+                retain_during_unwind(lambda: retain_read(observer, content if acquired else None, reached_eof=reached_eof,
+                            acquired=acquired, details={'fileOpened': opened}))
+        try:
+            if check.result is None:
+                return None
+            primary = next((root for root in overlays if str(root.target) == str(primary_target)), None)
+            if primary is None:
+                return None
+            relative = check.result if check.cwd is None else os.path.join(check.cwd, check.result)
+            relative = os.path.normpath(relative)
+            if relative.startswith("..") or os.path.isabs(relative):
+                return None
+            parts = relative.split(os.sep)
+            directory_flags = os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC | os.O_NOFOLLOW
+            file_flags = os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK
+            try:
+                directory_fd = os.open(primary.upper, directory_flags)
+            except OSError as error:
+                if retention_failed(error): raise
+                return None
+            try:
+                for component in parts[:-1]:
+                    next_fd = os.open(component, directory_flags, dir_fd=directory_fd)
+                    cleanup_call(lambda: os.close(directory_fd))
+                    directory_fd = next_fd
+                report_fd = os.open(parts[-1], file_flags, dir_fd=directory_fd)
+                opened = True
+                try:
+                    before = os.fstat(report_fd)
+                    if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+                            or before.st_size > MAX_REPORT_BYTES):
+                        return None
+                    content = bytearray()
+                    try:
+                        while len(content) <= MAX_REPORT_BYTES:
+                            chunk = os.read(report_fd, min(65536, MAX_REPORT_BYTES + 1 - len(content)))
+                            acquired = True
+                            if not chunk:
+                                reached_eof = True
+                                break
+                            content.extend(chunk)
+                    finally:
+                        # Available full bytes/prefix are committed before the
+                        # following stability decision, parsing or descriptor close.
+                        emit()
+                    after = os.fstat(report_fd)
+                    if (len(content) > MAX_REPORT_BYTES or len(content) != after.st_size
+                            or (before.st_dev, before.st_ino, before.st_size,
+                                before.st_mtime_ns, before.st_ctime_ns) !=
+                               (after.st_dev, after.st_ino, after.st_size,
+                                after.st_mtime_ns, after.st_ctime_ns)):
+                        return None
+                    return bytes(content)
+                finally:
+                    try:
+                        emit()
+                    finally:
+                        cleanup_call(lambda: os.close(report_fd))
+            except OSError as error:
+                if retention_failed(error): raise
+                return None
+            finally:
+                cleanup_call(lambda: os.close(directory_fd))
+        finally:
+            emit()
 
     @staticmethod
     def _observed_exit(supervision: Mapping[str, Any], launcher_exit: int | None) -> dict[str, Any]:
