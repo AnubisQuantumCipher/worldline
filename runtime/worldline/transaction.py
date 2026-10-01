@@ -30,6 +30,7 @@ from .paths import WorldlinePaths
 from .prime import Generation, PrimeManager
 from .proof import ProofStatus
 from .receipt import ReceiptBuilder
+from .recovery_kernel import select_action as kernel_recovery_action
 from .store import StateStore
 
 _LOG = logging.getLogger("worldline.transaction")
@@ -1343,9 +1344,11 @@ class CollapseTransaction:
         record = self._load_record(transaction_id)
         live_marker = self._marker(self.paths.live)
         prepared_marker = self._marker(Path(record["preparedMapping"]))
-        if live_marker == transaction_id and prepared_marker != transaction_id:
+        action = kernel_recovery_action(
+            transaction_id, live_marker, prepared_marker, core=self.core)
+        if action == "FINISH_COMMITTED":
             return self._finish_committed(record)
-        if prepared_marker == transaction_id and live_marker != transaction_id:
+        if action == "ABORT_PREPARED":
             self._set_state(record, "ABORTED", error={"code": "RECOVERED_BEFORE_COMMIT"})
             return {"transactionId": transaction_id, "state": "ABORTED"}
         raise WorldlineError(

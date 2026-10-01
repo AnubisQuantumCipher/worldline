@@ -38,7 +38,7 @@ from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
 from .errors import WorldlineError
-from .resource_kernel import can_reserve as kernel_can_reserve
+from .resource_policy import PolicyDecision, decide_policy as kernel_decide_policy
 
 ADMITTED = "ADMITTED"
 RESOURCES_UNAVAILABLE = "RESOURCES_UNAVAILABLE"
@@ -560,6 +560,54 @@ class AdmissionAuthority:
                            "observedUsageBytes": used, "withheldBytes": withheld})
         return total, detail
 
+    def _numeric_policy(self, state: AdmissionState, policy: ResourcePolicy,
+                        outstanding_count: int, withheld: int,
+                        requested: int) -> tuple[PolicyDecision, tuple[tuple[str, int, int], ...]]:
+        # Preserve the original filesystem iteration order and the exact values
+        # used to format a returned refusal. A stable producer snapshot remains
+        # an independent obligation; this copy alone does not establish it.
+        rows = tuple((name, values["freeBytes"], values["freeInodes"])
+                     for name, values in state.disk.items())
+        numeric = kernel_decide_policy(
+            outstanding_count=outstanding_count,
+            concurrency_limit=policy.max_concurrent_workloads,
+            memory_pressure=state.memory_pressure_hundredths,
+            memory_pressure_ceiling=self.floors.max_memory_pressure_hundredths,
+            disks=tuple((free_bytes, free_inodes) for _, free_bytes, free_inodes in rows),
+            disk_byte_floor=self.floors.min_free_disk_bytes,
+            disk_inode_floor=self.floors.min_free_inodes,
+            available_memory=state.mem_available_bytes,
+            withheld_memory=withheld, memory_floor=self.floors.min_free_memory_bytes,
+            requested_memory=requested)
+        return numeric, rows
+
+    def _numeric_refusal_reason(self, numeric: PolicyDecision,
+                                rows: tuple[tuple[str, int, int], ...],
+                                state: AdmissionState, policy: ResourcePolicy,
+                                outstanding_count: int, withheld: int,
+                                requested: int, headroom: int) -> str:
+        # This dispatch formats the kernel's result; it never compares a resource
+        # quantity to grant/refuse admission. The binding validates the full schema.
+        if numeric.gate == "CONCURRENCY":
+            return (f"{outstanding_count} workloads already admitted and the concurrency ceiling is "
+                    f"{policy.max_concurrent_workloads}")
+        if numeric.gate == "PRESSURE":
+            return (f"memory pressure avg10 is {state.memory_pressure_hundredths / 100:.2f}%, above the"
+                    f" configured ceiling of {self.floors.max_memory_pressure_hundredths / 100:.2f}%")
+        if numeric.gate == "DISK_BYTES":
+            name, free_bytes, _ = rows[numeric.disk_index]
+            return (f"{name} has {free_bytes} bytes free, below the floor of"
+                    f" {self.floors.min_free_disk_bytes}")
+        if numeric.gate == "DISK_INODES":
+            name, _, free_inodes = rows[numeric.disk_index]
+            return (f"{name} has {free_inodes} inodes free, below the floor of"
+                    f" {self.floors.min_free_inodes}")
+        if numeric.gate == "CAPACITY":
+            return (f"{requested} bytes requested but only {headroom} are free to promise:"
+                    f" {state.mem_available_bytes} available, {withheld} withheld by"
+                    f" {outstanding_count} outstanding reservation(s), {self.floors.min_free_memory_bytes} held back as the floor")
+        raise WorldlineError(RESOURCE_STATE_UNKNOWN, "resource policy result has no known refusal reason")
+
     def admit(self, *, workload: str, policy: ResourcePolicy, memory_bytes: int | None = None) -> Decision:
         """observe -> lock -> account -> reserve -> authorize. The lock spans all four."""
         if not isinstance(workload, str) or not workload:
@@ -617,48 +665,19 @@ class AdmissionAuthority:
                 "accounted": not unmetered,
             }
 
-            limit = policy.max_concurrent_workloads
-            if limit is not None and len(current) >= limit:
-                return Decision(RESOURCES_UNAVAILABLE,
-                                f"{len(current)} workloads already admitted and the concurrency ceiling is {limit}",
-                                arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
-
-            if (state.memory_pressure_hundredths is not None
-                    and state.memory_pressure_hundredths > self.floors.max_memory_pressure_hundredths):
-                return Decision(RESOURCES_UNAVAILABLE,
-                                f"memory pressure avg10 is {state.memory_pressure_hundredths / 100:.2f}%, above the"
-                                f" configured ceiling of {self.floors.max_memory_pressure_hundredths / 100:.2f}%",
-                                arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
-
-            for name, values in state.disk.items():
-                if values["freeBytes"] < self.floors.min_free_disk_bytes:
-                    return Decision(RESOURCES_UNAVAILABLE,
-                                    f"{name} has {values['freeBytes']} bytes free, below the floor of"
-                                    f" {self.floors.min_free_disk_bytes}",
-                                    arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
-                if values["freeInodes"] < self.floors.min_free_inodes:
-                    return Decision(RESOURCES_UNAVAILABLE,
-                                    f"{name} has {values['freeInodes']} inodes free, below the floor of"
-                                    f" {self.floors.min_free_inodes}",
-                                    arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
-
-            # The floor applies to unmetered work too. Unmetered means unaccounted, not
-            # unguarded, and the shipped default is unmetered — so skipping this gate let a
-            # machine 1.9 GiB BELOW its own floor admit work with headroom already negative.
             try:
-                capacity_admissible = kernel_can_reserve(
-                    state.mem_available_bytes, withheld,
-                    self.floors.min_free_memory_bytes, request_bytes)
-            except (WorldlineError, ValueError, OverflowError, MemoryError) as exc:
+                numeric, disk_rows = self._numeric_policy(
+                    state, policy, len(current), withheld, request_bytes)
+            except (WorldlineError, ValueError, TypeError, KeyError, OverflowError, MemoryError) as exc:
                 return Decision(RESOURCE_STATE_UNKNOWN,
                                 f"resource kernel could not decide admission: {exc}",
                                 arithmetic=arithmetic, state=state.as_dict(),
                                 policy=policy.canonical())
-            if not capacity_admissible:
+            if not numeric.ready:
                 return Decision(RESOURCES_UNAVAILABLE,
-                                f"{request_bytes} bytes requested but only {headroom} are free to promise:"
-                                f" {state.mem_available_bytes} available, {withheld} withheld by"
-                                f" {len(current)} outstanding reservation(s), {self.floors.min_free_memory_bytes} held back as the floor",
+                                self._numeric_refusal_reason(
+                                    numeric, disk_rows, state, policy, len(current),
+                                    withheld, request_bytes, headroom),
                                 arithmetic=arithmetic, state=state.as_dict(), policy=policy.canonical())
 
             reservation = Reservation(
@@ -694,7 +713,8 @@ class AdmissionAuthority:
         """What `doctor` shows: the inputs, the floors, and whether work would be admitted now."""
         state = self._observer()
         try:
-            current = self.ledger.outstanding()
+            loaded = self.ledger.outstanding()
+            current = [r for r in loaded if self._is_live(r) is not False]
             ledger_error = None
         except WorldlineError as exc:
             current, ledger_error = [], str(exc.args[1] if len(exc.args) > 1 else exc)
@@ -706,11 +726,19 @@ class AdmissionAuthority:
         kernel_error = None
         if state.state == "OBSERVED" and not ledger_error and headroom is not None:
             try:
-                would_admit = kernel_can_reserve(
-                    state.mem_available_bytes, withheld,
-                    self.floors.min_free_memory_bytes,
-                    policy.memory_max_bytes or policy.memory_high_bytes or 0)
-            except (WorldlineError, ValueError, OverflowError, MemoryError) as exc:
+                declared = (policy.memory_max_bytes if policy.memory_max_bytes is not None
+                            else policy.memory_high_bytes)
+                requested = 0 if declared is None else declared
+                # These are the same request-representation/policy checks as
+                # admit(), not an alternate numerical resource decision.
+                if declared is not None:
+                    if isinstance(requested, bool) or not isinstance(requested, int) or requested <= 0:
+                        raise ValueError(f"requested memory must be a positive integer, got {requested!r}")
+                    if requested > MAX_MEMORY_BYTES:
+                        raise ValueError(f"requested memory exceeds the permitted maximum: {requested}")
+                numeric, _ = self._numeric_policy(state, policy, len(current), withheld, requested)
+                would_admit = numeric.ready
+            except (WorldlineError, ValueError, TypeError, KeyError, OverflowError, MemoryError) as exc:
                 kernel_error = str(exc)
         return {
             "state": state.as_dict(),
@@ -726,9 +754,8 @@ class AdmissionAuthority:
             "resourceDecisionError": kernel_error,
             "unmetered": policy.memory_max_bytes is None and policy.memory_high_bytes is None,
             "enforced": policy.enforcement == "cgroup2" and bool(policy.unit_properties()),
-            # The same arithmetic admit() uses, including for an unmetered policy — a report
-            # that said "yes" while headroom was already negative was the doctor telling an
-            # operator the opposite of what the engine would do.
+            # The same complete numeric policy admit() uses, including all earlier
+            # gates and an unmetered request. This read-only observation is not a reservation.
             "wouldAdmitNow": would_admit,
         }
 

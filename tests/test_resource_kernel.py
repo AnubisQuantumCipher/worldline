@@ -74,7 +74,7 @@ class ResourceKernelTests(unittest.TestCase):
             authority = AdmissionAuthority(
                 ledger, Floors(min_free_memory_bytes=2),
                 observer=lambda: AdmissionState('OBSERVED', mem_available_bytes=10))
-            with patch('worldline.admission.kernel_can_reserve', side_effect=CoreUnavailable('unavailable')):
+            with patch('worldline.admission.kernel_decide_policy', side_effect=CoreUnavailable('unavailable')):
                 decision = authority.admit(workload='ordinary', policy=ResourcePolicy(), memory_bytes=5)
             self.assertEqual(decision.outcome, RESOURCE_STATE_UNKNOWN)
             self.assertFalse(ledger.path.exists())
@@ -105,7 +105,7 @@ class ResourceKernelTests(unittest.TestCase):
             authority = AdmissionAuthority(
                 ledger, Floors(min_free_memory_bytes=2),
                 observer=lambda: AdmissionState('OBSERVED', mem_available_bytes=10))
-            with patch('worldline.admission.kernel_can_reserve', side_effect=CoreUnavailable('unavailable')):
+            with patch('worldline.admission.kernel_decide_policy', side_effect=CoreUnavailable('unavailable')):
                 report = authority.report(ResourcePolicy(memory_max_bytes=5))
             self.assertIsNone(report['wouldAdmitNow'])
             self.assertEqual(report['resourceDecisionError'], str(CoreUnavailable('unavailable')))

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — Phase 1 resource kernel checkpoint
+## Unreleased — Phase 1 authority kernel checkpoint
 
 The memory-capacity admission decision now calls `Worldline.Resources` through a
 separate C ABI. Quantities use arbitrary-length little-endian representations;
@@ -14,13 +14,25 @@ The capacity result in `wouldAdmitNow` now uses the same kernel call as admissio
 A missing or failing kernel leaves that result unknown and exposes a separate
 `resourceDecisionError`; reporting does not write reservations.
 
-Full module proof, the remaining numerical gates, ledger projection and
-reserve/release/consume lifecycle integration remain OPEN. Producer truth,
-pointer/representation and source-profile correspondence, resource epochs,
-recovery, complete Phase 1 proof and original touched-module D1/release obligations
-also remain OPEN. The retained proof manifest does not attest to this expanded
-core; it has not been regenerated as if the new obligations were proved. No
-original target, accepted case or proof floor is lowered.
+The remaining numerical resource gates now call `Resource_Admission`: concurrency,
+pressure, each filesystem's byte/inode floors in the original order, and capacity.
+The kernel accepts full signed magnitudes and distinguishes absent optional values.
+Admission writes a reservation only after a canonical Ready result. Reporting uses
+the same complete numerical policy and keeps liveness filtering read-only.
+
+Recovery marker selection now calls `Worldline.Recovery` with complete identities
+and explicit presence. SPARK selects finish, abort or ambiguous; Python dispatches
+the existing action. Present empty identities remain distinct from absent markers,
+and a missing kernel cannot select an action through a Python fallback.
+
+Full original and new module proof, ledger projection, reserve/release/consume
+lifecycle integration, marker custody and the complete recovery state machine
+remain OPEN. Pointer/representation and source-profile correspondence, resource
+epochs, checked Ghost execution cost and the optional-marker storage warning also
+require engineering closure. These source checkpoints do not complete Phase 1,
+the touched-module D1 gate, protected effects or release/production assurance.
+The retained proof manifest does not attest to the expanded core. Every original
+guarantee, accepted case, proof floor and scope remains required.
 
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 

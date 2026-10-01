@@ -51,6 +51,21 @@ extern "C" {
  * meaning of an exported code changes; the runtime refuses a library that reports another. */
 #define WL_ABI_VERSION 5u
 
+/* Separately versioned recovery selector. Caller-owned readable buffers must
+ * remain live/unchanged for the complete call. Presence is exactly 0 or 1;
+ * absent buffers are ignored, and present empty identities remain present.
+ * The selector does not authenticate marker custody or perform a mutation. */
+#define WL_RECOVERY_ABI_VERSION 1u
+#define WL_RECOVERY_FINISH_COMMITTED 0u
+#define WL_RECOVERY_ABORT_PREPARED 1u
+#define WL_RECOVERY_AMBIGUOUS 2u
+#define WL_RECOVERY_INVALID_REQUEST 255u
+uint32_t wl_recovery_abi_version(void);
+uint8_t wl_recovery_select(
+    const uint8_t *expected, size_t expected_length,
+    uint8_t live_present, const uint8_t *live, size_t live_length,
+    uint8_t prepared_present, const uint8_t *prepared, size_t prepared_length);
+
 /* Layout version of struct wl_collapse_request. The runtime and the library ship together;
  * a runtime built for a different layout must not call wl_collapse_decide. */
 #define WL_COLLAPSE_REQUEST_VERSION 5u
@@ -268,6 +283,45 @@ uint8_t wl_resources_can_reserve(
     const uint8_t *withheld, size_t withheld_length,
     const uint8_t *floor, size_t floor_length,
     const uint8_t *requested, size_t requested_length);
+/* Separate numeric policy ABI. Full magnitudes live in one private byte arena.
+ * first is a ONE-based arena index; length zero is zero. negative/present are
+ * exactly 0 or 1. An absent optional's quantity payload is ignored.
+ * Every pointer must remain aligned, live, readable (result writable), and
+ * unchanged for its complete extent throughout the call. Checked shape/extent
+ * arithmetic does not establish memory provenance or OS readability. */
+struct wl_policy_quantity { size_t first, length; uint8_t negative; };
+struct wl_policy_optional { uint8_t present; struct wl_policy_quantity value; };
+struct wl_policy_input {
+    struct wl_policy_quantity outstanding_count;
+    struct wl_policy_optional concurrency_limit, memory_pressure;
+    struct wl_policy_quantity memory_pressure_ceiling, disk_byte_floor, disk_inode_floor;
+    struct wl_policy_quantity available_memory, withheld_memory, memory_floor, requested_memory;
+};
+struct wl_policy_disk { struct wl_policy_quantity free_bytes, free_inodes; };
+enum wl_policy_check { WL_POLICY_PASSED, WL_POLICY_INSUFFICIENT,
+    WL_POLICY_INVALID_REPRESENTATION, WL_POLICY_NEGATIVE_DEBIT };
+enum wl_policy_gate { WL_POLICY_NO_GATE, WL_POLICY_CONCURRENCY, WL_POLICY_PRESSURE,
+    WL_POLICY_DISK_BYTES, WL_POLICY_DISK_INODES, WL_POLICY_CAPACITY };
+enum wl_policy_field { WL_POLICY_NO_FIELD, WL_POLICY_OUTSTANDING_COUNT,
+    WL_POLICY_CONCURRENCY_LIMIT, WL_POLICY_MEMORY_PRESSURE, WL_POLICY_MEMORY_PRESSURE_CEILING,
+    WL_POLICY_FREE_BYTES, WL_POLICY_DISK_BYTE_FLOOR, WL_POLICY_FREE_INODES,
+    WL_POLICY_DISK_INODE_FLOOR, WL_POLICY_AVAILABLE_MEMORY, WL_POLICY_WITHHELD_MEMORY,
+    WL_POLICY_MEMORY_FLOOR, WL_POLICY_REQUESTED_MEMORY };
+struct wl_policy_result {
+    uint8_t status, failed_gate, field, disk_present;
+    size_t disk_index; /* ONE-based original row index; zero when absent. */
+};
+uint32_t wl_resource_policy_abi_version(void);
+/* Selectors: quantity, optional, input, disk, result (in that order, from 1).
+ * Fields are each record's declaration order from 1. Unknown returns SIZE_MAX. */
+size_t wl_resource_policy_layout_size(uint8_t selector);
+size_t wl_resource_policy_layout_offset(uint8_t selector, uint8_t field);
+/* Transport: 0 => complete result; 255 => shape/exception, result must be ignored.
+ * Only canonical PASSED/NO_GATE/NO_FIELD/absent/zero means Ready. A transport
+ * success is not itself admission. Other statuses are refusal or unknown. */
+uint8_t wl_resource_policy_admit(const uint8_t *data, size_t data_length,
+    const struct wl_policy_input *input, const struct wl_policy_disk *disks,
+    size_t disk_count, struct wl_policy_result *result);
 size_t wl_layout_size(uint8_t selector);
 /* Offset of the field named `name` (as spelled in this header) of record `selector`; SIZE_MAX
  * for an unknown selector or name. Keyed by name: two equal-sized fields swapped keep every
