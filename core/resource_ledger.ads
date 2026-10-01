@@ -105,6 +105,17 @@ package Resource_Ledger with SPARK_Mode is
       return Valid_Big_Integer
    with Ghost, Global => null;
 
+   --  Closed recurrence independent of the iterative Prefix_Total producer.
+   --  No public validity/capacity precondition or numeric bound is added.
+   function Total_Reference
+     (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
+      return Valid_Big_Integer is
+     (if Count = 0 then To_Big_Integer (0)
+      else Total_Reference (Data, Rows, Count - 1) +
+        Row_Reference (Data, Rows, Count - 1))
+   with Ghost, Global => null,
+     Subprogram_Variant => (Decreases => Count);
+
    function Prefix_Total
      (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
       return Valid_Big_Integer
@@ -113,7 +124,8 @@ package Resource_Ledger with SPARK_Mode is
      Post => Prefix_Total'Result =
        (if Count = 0 then To_Big_Integer (0)
         else Prefix_Total (Data, Rows, Count - 1) +
-          Row_Reference (Data, Rows, Count - 1));
+          Row_Reference (Data, Rows, Count - 1)) and then
+       Prefix_Total'Result = Total_Reference (Data, Rows, Count);
 
    --  This is an exact storage relation, not a bound on accepted integers.
    --  The supplied total arena must hold every ordered partial sum. A caller

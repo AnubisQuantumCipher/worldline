@@ -1,0 +1,17 @@
+project Pending is
+   for Languages use ("Ada");
+   for Source_Dirs use ("core");
+   for Object_Dir use external ("PENDING_OBJECT_DIR", "obj");
+   for Library_Name use "evaluation_pending";
+   for Library_Dir use external ("PENDING_LIBRARY_DIR", "lib");
+   for Library_Kind use "dynamic";
+   for Library_Interface use
+     ("evaluation_pending", "evaluation_pending_c", "evaluation_epoch",
+      "resource_quantities", "spark", "spark.big_integers");
+   for Library_Standalone use "encapsulated";
+   for Library_Auto_Init use "true";
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnata", "-gnatVa", "-gnatwa", "-g", "-O0");
+   end Compiler;
+end Pending;

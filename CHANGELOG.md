@@ -92,6 +92,23 @@ Build warnings and the earlier failed build are retained. Full original and
 new proof, native/storage, custody, complete history and outer-domain
 guarantees remain required. This checkpoint does not close Phase 1 or D1.
 
+Pending evaluation now reserves an arbitrary-length epoch in a separate intent
+journal, links the pending row/head/outbox, and recovers unacknowledged intent
+through the SPARK relation. The C boundary checks its actual record layout and
+captures owned inputs; the producer validates its owned store schema.
+
+Signed resource proof computations retain their original recursive contracts
+and full-magnitude controls while removing duplicated producer work. A new
+reservation transition kernel checks full identities, predecessor/high-water
+epochs and conservation, preserving the entire prior state on refusal.
+
+Both checked builds, the existing 53-test resource/recovery group, 29 admission
+tests, 16 evaluation tests, 8 pending tests and all direct Ada controls pass
+against the exact combined source. Prior failures and warnings remain retained.
+The full original proof, native/storage, protected observation/producer, complete
+terminal history and default integration guarantees remain engineering
+requirements. Phase 1 and D1 remain open; this is a source checkpoint.
+
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 
 Implementation and review are in progress. The original guarantee targets remain fixed;

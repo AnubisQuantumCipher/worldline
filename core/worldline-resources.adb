@@ -3,6 +3,66 @@ package body Worldline.Resources with SPARK_Mode is
 
    --  Every lemma below has an ordinary checked Ghost body. Its Post,
    --  call-site Pre, recursion and arithmetic remain proof obligations.
+   --  Keep a complete quotient witness instead of asking the solver to infer
+   --  divisibility directly from recursive powers.  This is a candidate lemma
+   --  with an actual body, not an imported or assumed arithmetic theorem.
+   function Power_Quotient (Low, High : Byte_Count) return Big_Positive
+     with Ghost, Global => null,
+          Pre => Low <= High,
+          Post => Radix_Power (High) =
+            Radix_Power (Low) * Power_Quotient'Result,
+          Subprogram_Variant => (Decreases => High)
+   is
+   begin
+      if Low = High then
+         return 1;
+      else
+         declare
+            Previous : constant Big_Positive :=
+              Power_Quotient (Low, High - 1);
+         begin
+            pragma Assert
+              (Radix_Power (High - 1) = Radix_Power (Low) * Previous);
+            pragma Assert
+              (Radix_Power (High) = 256 * Radix_Power (High - 1));
+            return 256 * Previous;
+         end;
+      end if;
+   end Power_Quotient;
+
+   function Prefix_Quotient
+     (Value : Byte_Array; Low, High : Byte_Count) return Big_Natural
+     with Ghost, Global => null,
+          Pre => Low <= High,
+          Post => Prefix_Value (Value, High) = Prefix_Value (Value, Low)
+            + Radix_Power (Low) * Prefix_Quotient'Result,
+          Subprogram_Variant => (Decreases => High)
+   is
+   begin
+      if Low = High then
+         return 0;
+      else
+         declare
+            Previous : constant Big_Natural :=
+              Prefix_Quotient (Value, Low, High - 1);
+            Position : constant Big_Positive :=
+              Power_Quotient (Low, High - 1);
+            Digit : constant Big_Natural :=
+              To_Big_Integer (Digit_At (Value, High - 1));
+         begin
+            pragma Assert
+              (Prefix_Value (Value, High - 1) = Prefix_Value (Value, Low)
+               + Radix_Power (Low) * Previous);
+            pragma Assert
+              (Radix_Power (High - 1) = Radix_Power (Low) * Position);
+            pragma Assert
+              (Prefix_Value (Value, High) = Prefix_Value (Value, High - 1)
+               + Digit * Radix_Power (High - 1));
+            return Previous + Digit * Position;
+         end;
+      end if;
+   end Prefix_Quotient;
+
    procedure Power_Order (Low, High : Byte_Count)
      with Ghost, Global => null, Always_Terminates,
           Pre => Low <= High,
@@ -10,10 +70,15 @@ package body Worldline.Resources with SPARK_Mode is
             and then Radix_Power (High) mod Radix_Power (Low) = 0,
           Subprogram_Variant => (Decreases => High)
    is
+      Quotient : constant Big_Positive := Power_Quotient (Low, High);
    begin
       if Low < High then
          Power_Order (Low, High - 1);
       end if;
+      pragma Assert
+        (Radix_Power (High) = Radix_Power (Low) * Quotient);
+      pragma Assert
+        (Radix_Power (High) mod Radix_Power (Low) = 0);
    end Power_Order;
 
    procedure Complete_Prefix (Value : Byte_Array; Count : Byte_Count)
@@ -65,11 +130,19 @@ package body Worldline.Resources with SPARK_Mode is
                     Prefix_Value (Value, Low),
           Subprogram_Variant => (Decreases => High)
    is
+      Quotient : constant Big_Natural := Prefix_Quotient (Value, Low, High);
    begin
       if Low < High then
          Prefix_Modulus (Value, Low, High - 1);
          Power_Order (Low, High - 1);
       end if;
+      pragma Assert
+        (Prefix_Value (Value, High) = Prefix_Value (Value, Low)
+         + Radix_Power (Low) * Quotient);
+      pragma Assert (Prefix_Value (Value, Low) < Radix_Power (Low));
+      pragma Assert
+        (Prefix_Value (Value, High) mod Radix_Power (Low) =
+           Prefix_Value (Value, Low));
    end Prefix_Modulus;
 
    procedure Value_Modulus (Value : Byte_Array; Count : Byte_Count)
@@ -222,9 +295,19 @@ package body Worldline.Resources with SPARK_Mode is
             Byte (Digit_At (Withheld, Offset)),
             Byte (Digit_At (Floor, Offset)),
             Byte (Digit_At (Requested, Offset)), Previous);
-         Remainder_Value := Remainder_Value
-           + To_Big_Integer (Natural (Column.Remainder))
-             * Radix_Power (Offset);
+         declare
+            Remainder_Digit : constant Big_Natural :=
+              To_Big_Integer (Natural (Column.Remainder)) with Ghost;
+            Position : constant Big_Positive := Radix_Power (Offset) with Ghost;
+            Contribution : constant Big_Natural :=
+              Remainder_Digit * Position with Ghost;
+         begin
+            pragma Assert (Remainder_Digit >= 0);
+            pragma Assert (Position > 0);
+            pragma Assert (Contribution >= 0);
+            pragma Assert (Remainder_Value >= 0);
+            Remainder_Value := Remainder_Value + Contribution;
+         end;
          Previous := Column.Next;
          pragma Loop_Invariant
            (Remainder_Value < Radix_Power (Offset + 1));
