@@ -2,6 +2,15 @@
 
 ## Unreleased — Phase 1 authority kernel checkpoint
 
+Typed evaluation wire decoding and raw roster classification now preserve
+the planned isolation and unbound-bundle cases, separate confinement from
+report integrity, and retain every required completed failure across ordered
+duplicate observations. The new dependency includes total malformed-input
+refusal and ordinary Ada controls. The declared proof-source inventory now
+includes these units. The checked whole-source build and all retained ordinary
+actions pass; full proof, default authority migration, native behavior and
+protected producer/custody guarantees remain required and OPEN.
+
 The memory-capacity admission decision now calls `Worldline.Resources` through a
 separate C ABI. Quantities use arbitrary-length little-endian representations;
 zero requests still obey the floor, and kernel unavailability cannot grant

@@ -37,6 +37,22 @@ REQUIRED_PROVED = [
     "Worldline.Receipts.Link",
     "Worldline.Causal_Graph.Append",
     "Worldline.Causal_Graph.Link",
+    'Worldline.Evaluation_V2.Transition_Allowed',
+    'Worldline.Evaluation_V2.Advance',
+    'Worldline.Evaluation_V2.Classify',
+    'Worldline.Evaluation_V2.Admissible',
+    'Worldline.Evaluation_V2.Report_Integrity_Of',
+    'Worldline.Evaluation_V2.Confined_Report_Integrity_Of',
+    'Worldline.Evaluation_V2.Roster_Complete',
+    'Worldline.Evaluation_Wire.Decode',
+    'Worldline.Evaluation_Wire.Classify_Wire',
+    'Worldline.Evaluation_Wire.Admit_Wire',
+    'Worldline.Evaluation_Wire.Confined_Admit_Wire',
+    'Worldline.Evaluation_Wire.Roster_Wire',
+    'Evaluation_Raw_Roster.Selected',
+    'Evaluation_Raw_Roster.Failure_For_Check',
+    'Evaluation_Raw_Roster.Classify',
+    'Evaluation_Raw_Roster.Any_Completed_Failure',
 ]
 # The one unit not analyzed on purpose: the C ABI entry points (SPARK_Mode => Off) -- pointer
 # dereference, exception handlers, file and byte hashing marshalling, and the decoding and
@@ -56,6 +72,17 @@ UNANALYZED_BOUNDARY = {"worldline-c_api"}
 # pinned too. Receipts.Link and Causal_Graph.Link carry no postcondition (Global => null only),
 # so the value they return is set by their BODIES, which are pinned as well.
 CONTRACT_PINS = {
+    'core/worldline-evaluation_v2.ads': '8e1f18244b924a7c9c05c67fdf785491a910c9f7c59966381b38962c2f68a72c',
+    'core/worldline-evaluation_v2.adb': '2fc57758a66ac2c7aa9ef6e108fdcbf93b1b286fd64b6620d8bca54ce32312eb',
+    'core/worldline-evaluation_wire.ads': '8b190a32f057a30a700e3331bd72aa2cfc18c5d6f3540b824756197f09077c7a',
+    'core/worldline-evaluation_wire.adb': '30696c9e2b4be84aad47d406864213a176f494e07dbed6f6907efe601d3be530',
+    'core/evaluation_raw_roster.ads': '6bdb761e4be7a6dec36373293ffb7de064ddaa250a811ce9ebb6dcf2db69788b',
+    'core/evaluation_raw_roster.adb': 'ddd84ea2bc5a78453074ae15bf5b8318d71e37b13c7d73cccea0ee127ab30bcb',
+    'core/worldline-evaluation_report_facts.ads': 'f8bfee03303776b2825662bb1ce394fdf3c3e6acf3e7b1084500e50eba430f82',
+    'core/worldline-evaluation_report_facts.adb': 'ffdc1629f8eaef1ec4ab1bbc4fc988f2f1546dd8b5013ec4635888d77f8240fb',
+    'core/worldline-evaluation_report_wire.ads': 'a58347985c4242421c4114ecf61ddaf6f84229e62ab2114cd0947b7feee29b19',
+    'core/worldline-evaluation_report_wire.adb': '19ed101a83a9a9350a660cd7693a8be7ffee86557fa6d58e7959a0ae9973ff78',
+    'evaluation-wire-tests/evaluation_wire_tests.gpr': '8fde6733c882c9be99a7fbcdce0c6ba0a8eca138a4b68e65ec77efdc84160d89',
     # The project files decide which file is compiled as each unit; a pin on a source's text
     # binds nothing if they may redirect it (review of ab1d4bb).
     "worldline.gpr": "edc9682fe5cb62ab041cc586de03c59e1d30cd0de7d8dcc7646ebe50ce6c0021",
@@ -136,6 +163,12 @@ def export_problems(root: Path) -> list[str]:
 # Membership is not proof: every existing contract pin, source digest, expected-unit,
 # per-subprogram coverage and proof-floor check remains independently required.
 DECLARED_CORE_ADA_SOURCES = frozenset({
+    'core/worldline-evaluation_v2.ads',
+    'core/worldline-evaluation_v2.adb',
+    'core/worldline-evaluation_wire.ads',
+    'core/worldline-evaluation_wire.adb',
+    'core/evaluation_raw_roster.ads',
+    'core/evaluation_raw_roster.adb',
     'core/attest/attest-sha256.adb',
     'core/attest/attest-sha256.ads',
     'core/attest/attest.ads',
