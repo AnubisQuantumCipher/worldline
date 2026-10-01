@@ -25,6 +25,14 @@ and explicit presence. SPARK selects finish, abort or ambiguous; Python dispatch
 the existing action. Present empty identities remain distinct from absent markers,
 and a missing kernel cannot select an action through a Python fallback.
 
+Reservation withholding now has a separate `Resource_Ledger` kernel and owned
+C/Python transport. The kernel preserves reservation order, distinguishes absent
+usage from present zero, retains signed arbitrary-length quantities and computes
+both each withheld amount and the ordered total. Its complete result contract also
+requires canonical descriptors, slot confinement and zero padding/frame. Only a
+complete usable kernel result can feed admission accounting; kernel unavailability
+leaves admission/reporting unknown and preserves the reservation file.
+
 Full original and new module proof, ledger projection, reserve/release/consume
 lifecycle integration, marker custody and the complete recovery state machine
 remain OPEN. Pointer/representation and source-profile correspondence, resource

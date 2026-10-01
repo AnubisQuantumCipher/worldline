@@ -37,7 +37,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
-from .errors import WorldlineError
+from .errors import CoreUnavailable, WorldlineError
+from .resource_ledger import compute_ledger as kernel_compute_ledger
 from .resource_policy import PolicyDecision, decide_policy as kernel_decide_policy
 
 ADMITTED = "ADMITTED"
@@ -549,16 +550,22 @@ class AdmissionAuthority:
         self._is_live = is_live or (lambda reservation: True)
 
     def outstanding_withheld(self, reservations: Sequence[Reservation]) -> tuple[int, list[dict[str, Any]]]:
-        total = 0
+        observed = []
         detail: list[dict[str, Any]] = []
         for reservation in reservations:
             used = self._usage(reservation)
-            withheld = reservation.memory_bytes if used is None else max(0, reservation.memory_bytes - used)
-            total += withheld
+            observed.append((reservation.memory_bytes, used))
             detail.append({"reservationId": reservation.reservation_id, "workload": reservation.workload,
                            "reservedBytes": reservation.memory_bytes,
-                           "observedUsageBytes": used, "withheldBytes": withheld})
-        return total, detail
+                           "observedUsageBytes": used, "withheldBytes": None})
+        try:
+            projection = kernel_compute_ledger(observed)
+        except CoreUnavailable as exc:
+            # Keep observations already gathered, but no guessed accounting.
+            raise CoreUnavailable(exc.message, **{**exc.details, "reservations": detail}) from exc
+        for item, withheld in zip(detail, projection.withheld):
+            item["withheldBytes"] = withheld
+        return projection.total, detail
 
     def _numeric_policy(self, state: AdmissionState, policy: ResourcePolicy,
                         outstanding_count: int, withheld: int,
@@ -651,7 +658,16 @@ class AdmissionAuthority:
             # their capacity to someone else. Reconciliation is the only thing that removes a
             # record, and it refuses to act on an answer it did not get.
             current = [r for r in loaded if self._is_live(r) is not False]
-            withheld, detail = self.outstanding_withheld(current)
+            try:
+                withheld, detail = self.outstanding_withheld(current)
+            except CoreUnavailable as exc:
+                return Decision(RESOURCE_STATE_UNKNOWN,
+                                f"resource ledger kernel could not account reservations: {exc}",
+                                arithmetic={"kernelError": str(exc),
+                                            "reservations": exc.details.get("reservations", []),
+                                            "withheldByReservationsBytes": None,
+                                            "headroomBytes": None},
+                                state=state.as_dict(), policy=policy.canonical())
             assert state.mem_available_bytes is not None
             headroom = state.mem_available_bytes - withheld - self.floors.min_free_memory_bytes
             arithmetic = {
@@ -718,13 +734,17 @@ class AdmissionAuthority:
             ledger_error = None
         except WorldlineError as exc:
             current, ledger_error = [], str(exc.args[1] if len(exc.args) > 1 else exc)
-        withheld, detail = self.outstanding_withheld(current)
+        kernel_error = None
+        try:
+            withheld, detail = self.outstanding_withheld(current)
+        except CoreUnavailable as exc:
+            withheld, detail = None, exc.details.get("reservations", [])
+            kernel_error = str(exc)
         headroom = None
-        if state.state == "OBSERVED" and state.mem_available_bytes is not None:
+        if state.state == "OBSERVED" and state.mem_available_bytes is not None and withheld is not None:
             headroom = state.mem_available_bytes - withheld - self.floors.min_free_memory_bytes
         would_admit = None
-        kernel_error = None
-        if state.state == "OBSERVED" and not ledger_error and headroom is not None:
+        if state.state == "OBSERVED" and not ledger_error and kernel_error is None and headroom is not None:
             try:
                 declared = (policy.memory_max_bytes if policy.memory_max_bytes is not None
                             else policy.memory_high_bytes)

@@ -322,6 +322,35 @@ size_t wl_resource_policy_layout_offset(uint8_t selector, uint8_t field);
 uint8_t wl_resource_policy_admit(const uint8_t *data, size_t data_length,
     const struct wl_policy_input *input, const struct wl_policy_disk *disks,
     size_t disk_count, struct wl_policy_result *result);
+/* Ordered reservation arithmetic, ABI version 1. Quantities share the policy
+ * signed-magnitude layout; no semantic quantity is narrowed to a machine word.
+ * Rows, metadata and usage observations retain their caller order. Output slots
+ * name disjoint writable spans in detail_data. detail_data, total_data, details
+ * and result name mutually disjoint writable extents and cannot alias inputs.
+ * Every pointer must remain aligned and live for the declared full extent.
+ * Pointer custody/readability, storage sufficiency and producer truth remain
+ * separate obligations; this transport does not establish them. */
+struct wl_ledger_row {
+    struct wl_policy_quantity reserved;
+    struct wl_policy_optional used;
+    size_t output_first, output_length;
+};
+enum wl_ledger_status { WL_LEDGER_COMPUTED, WL_LEDGER_INVALID_INPUT,
+    WL_LEDGER_INVALID_OUTPUT_LAYOUT, WL_LEDGER_INSUFFICIENT_STORAGE };
+struct wl_ledger_result { uint8_t status; struct wl_policy_quantity total; };
+uint32_t wl_resource_ledger_abi_version(void);
+/* Selectors: quantity, optional, row, result from 1; fields in declaration order.
+ * Unknown selector/field returns SIZE_MAX; sizes include trailing padding. */
+size_t wl_resource_ledger_layout_size(uint8_t selector);
+size_t wl_resource_ledger_layout_offset(uint8_t selector, uint8_t field);
+/* Transport 0 supplies a complete typed status, 255 requires ignoring outputs.
+ * Only COMPUTED has usable numeric results. Every typed refusal empties all
+ * output descriptors and zeroes arenas. details has row_count quantities. */
+uint8_t wl_resource_ledger_compute(const uint8_t *data, size_t data_length,
+    const struct wl_ledger_row *rows, size_t row_count,
+    uint8_t *detail_data, size_t detail_length,
+    uint8_t *total_data, size_t total_length,
+    struct wl_policy_quantity *details, struct wl_ledger_result *result);
 size_t wl_layout_size(uint8_t selector);
 /* Offset of the field named `name` (as spelled in this header) of record `selector`; SIZE_MAX
  * for an unknown selector or name. Keyed by name: two equal-sized fields swapped keep every
