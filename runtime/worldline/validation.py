@@ -536,3 +536,63 @@ def effective_context(store: Any, world: Any) -> tuple[dict[str, Any] | None, st
     """The freshness context and its source. See `effective_evidence` for the coherent records."""
     context, source, _records = effective_evidence(store, world)
     return context, source
+
+
+def effective_evidence_at_cursor(store: Any, world: Any, *, requirement_hash: str | None,
+                                 current_head: Any, prepared_evidence: Any,
+                                 core: Core | None = None) -> tuple[dict[str, Any], str, list[dict[str, Any]]]:
+    """Additive complete-history entry; default promotion migration remains pending.
+
+    The producer must retain a stable complete ``evaluation-history-v1:<world>``
+    snapshot, with explicit run identity, epoch and lifecycle for finalization
+    and every attempt, plus independently obtained current/prepared cursors.
+    This interim supplied-fact boundary does not establish protected high-water,
+    write-ahead history, completion truth, rollback resistance or authority.
+    Those original targets remain mandatory before default-path migration.
+    Existing effective_evidence and checkpoint-return paths are unchanged.
+    """
+    from .evaluation_history import EvaluationRecord, EvaluationQuery, select_history
+    from .errors import CoreUnavailable
+
+    snapshot = store.get_meta(f"evaluation-history-v1:{world.instance_id}", None)
+    if (type(snapshot) is not dict or type(snapshot.get("schemaVersion")) is not int
+            or snapshot["schemaVersion"] != 1 or "finalization" not in snapshot
+            or type(snapshot.get("history")) is not list):
+        raise WorldlineError("EVALUATION_HISTORY_UNAVAILABLE", "complete typed evaluation history is unavailable")
+    final = snapshot["finalization"]
+    history = snapshot["history"]
+
+    def record(entry: Any) -> EvaluationRecord:
+        if type(entry) is not dict:
+            raise CoreUnavailable("evaluation history contains a non-record row")
+        # No filtering, default PASS, inferred epoch or generated run identity.
+        return EvaluationRecord(entry.get("worldInstance"), entry.get("worldContentId"),
+            entry.get("requirementHash"), entry.get("validationId"), entry.get("evaluationEpoch"),
+            entry.get("evaluationState"), entry.get("outcome"))
+
+    try:
+        selected = select_history(tuple(record(entry) for entry in history),
+            None if final is None else record(final),
+            EvaluationQuery(world.instance_id, world.content_id, requirement_hash,
+                            current_head, prepared_evidence), core=core)
+    except CoreUnavailable as exc:
+        raise WorldlineError("EVALUATION_HISTORY_UNAVAILABLE", str(exc)) from exc
+    if selected.reason != "READY":
+        raise WorldlineError(selected.reason, "the retained evaluation history does not authorize evidence",
+            {"head": {"kind": selected.head.kind, "index": selected.head.index},
+             "completedFailure": {"kind": selected.completed_failure.kind,
+                                  "index": selected.completed_failure.index}})
+    if selected.head.kind == "FINALIZATION":
+        entry, source = final, "finalization"
+    elif selected.head.kind == "HISTORY_ENTRY":
+        entry = history[selected.head.index]
+        source = f"revalidation:{entry.get('validationId')}"
+    else:
+        raise WorldlineError("EVALUATION_HISTORY_UNAVAILABLE", "kernel READY lacks an evidence reference")
+    context, records = entry.get("context"), entry.get("results")
+    if (type(context) is not dict or type(records) is not list
+            or any(type(item) is not dict for item in records)):
+        raise WorldlineError("EVALUATION_HISTORY_UNAVAILABLE", "selected evaluation payload is incomplete")
+    # Preserve the entire selected context and record objects from the same row.
+    # Existing context/execution verification is still required by any consumer.
+    return context, source, records

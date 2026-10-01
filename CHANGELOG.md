@@ -79,6 +79,19 @@ unchanged. Fresh checked builds, direct Ada controls, 53 real-library tests and
 29 unchanged admission tests pass. Complete strict proof, native/storage,
 epoch and reserve/consume guarantees remain required before Phase 1 closes.
 
+Evaluation history now has a separate SPARK selector and owned C/Python
+transport. It checks complete identities, arbitrary-length epoch magnitudes,
+the newest retained head and both supplied cursors. A retained completed FAIL
+for the current requirement remains terminal across later PASS rows.
+The explicitly supplied snapshot path is additive; durable producer and
+default validation/return integration still require implementation.
+
+The full checked library build, the existing 53-test resource/recovery group,
+29 admission tests, 16 evaluation-history tests and direct Ada controls pass.
+Build warnings and the earlier failed build are retained. Full original and
+new proof, native/storage, custody, complete history and outer-domain
+guarantees remain required. This checkpoint does not close Phase 1 or D1.
+
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 
 Implementation and review are in progress. The original guarantee targets remain fixed;

@@ -389,6 +389,27 @@ uint8_t wl_reservation_lifecycle_plan(
     uint8_t mode, uint8_t present, size_t requested_first, size_t requested_length,
     uint8_t *removed, size_t removed_length);
 
+/* Owned full-byte evaluation history transport. Inputs are live/aligned/readable
+ * immutable declared extents; output is live writable disjoint storage.
+ * No pointer/custody proof or durable history producer is implied. */
+typedef struct { uint8_t present; size_t first, length; } wl_evaluation_identity;
+typedef struct { uint8_t present; size_t first, length; } wl_evaluation_epoch;
+typedef struct { uint8_t present; wl_evaluation_epoch sequence;
+                 wl_evaluation_identity run; } wl_evaluation_cursor;
+typedef struct { wl_evaluation_identity subject, content, requirement, run;
+                 wl_evaluation_epoch sequence; uint8_t state, outcome; } wl_evaluation_row;
+typedef struct { wl_evaluation_identity subject, content, requirement;
+                 wl_evaluation_cursor current_head, prepared_evidence; } wl_evaluation_query;
+typedef struct { uint8_t reason, head_kind; size_t head_index;
+                 uint8_t failure_kind; size_t failure_index; } wl_evaluation_selection;
+uint32_t wl_evaluation_history_abi_version(void);
+size_t wl_evaluation_history_layout_size(uint8_t kind);
+size_t wl_evaluation_history_layout_offset(uint8_t kind, uint8_t field);
+uint8_t wl_evaluation_history_select(const uint8_t *data, size_t data_length,
+    const wl_evaluation_row *rows, size_t row_count, uint8_t final_present,
+    const wl_evaluation_row *final_row, const wl_evaluation_query *query,
+    wl_evaluation_selection *output);
+
 #ifdef __cplusplus
 }
 #endif
