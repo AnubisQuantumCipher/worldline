@@ -131,13 +131,98 @@ def export_problems(root: Path) -> list[str]:
     return problems
 
 
-# The only Ada sources the core library may be built from. Anything else under core/, at any
-# depth, could be selected by a project file instead of a pinned unit.
+# Fixed source inventory of the reviewed Phase 1 core. Adding or removing a unit requires
+# an explicit reviewed change here; discovering a file must never grant it permission.
+# Membership is not proof: every existing contract pin, source digest, expected-unit,
+# per-subprogram coverage and proof-floor check remains independently required.
+DECLARED_CORE_ADA_SOURCES = frozenset({
+    'core/attest/attest-sha256.adb',
+    'core/attest/attest-sha256.ads',
+    'core/attest/attest.ads',
+    'core/evaluation_completion.adb',
+    'core/evaluation_completion.ads',
+    'core/evaluation_completion_c.adb',
+    'core/evaluation_completion_c.ads',
+    'core/evaluation_completion_roster.adb',
+    'core/evaluation_completion_roster.ads',
+    'core/evaluation_epoch.adb',
+    'core/evaluation_epoch.ads',
+    'core/evaluation_history.adb',
+    'core/evaluation_history.ads',
+    'core/evaluation_pending.adb',
+    'core/evaluation_pending.ads',
+    'core/evaluation_pending_c.adb',
+    'core/evaluation_pending_c.ads',
+    'core/evaluation_pending_v2.adb',
+    'core/evaluation_pending_v2.ads',
+    'core/evaluation_pending_v2_c.adb',
+    'core/evaluation_pending_v2_c.ads',
+    'core/resource_admission.adb',
+    'core/resource_admission.ads',
+    'core/resource_ledger.adb',
+    'core/resource_ledger.ads',
+    'core/resource_quantities.adb',
+    'core/resource_quantities.ads',
+    'core/resource_reservation_lifecycle.adb',
+    'core/resource_reservation_lifecycle.ads',
+    'core/resource_reservation_transition.adb',
+    'core/resource_reservation_transition.ads',
+    'core/spark-big_integers.ads',
+    'core/spark.ads',
+    'core/worldline-ancestry.adb',
+    'core/worldline-ancestry.ads',
+    'core/worldline-c_api.adb',
+    'core/worldline-c_api.ads',
+    'core/worldline-causal_graph.adb',
+    'core/worldline-causal_graph.ads',
+    'core/worldline-collapse.adb',
+    'core/worldline-collapse.ads',
+    'core/worldline-collapse_wire.adb',
+    'core/worldline-collapse_wire.ads',
+    'core/worldline-evaluation.adb',
+    'core/worldline-evaluation.ads',
+    'core/worldline-evaluation_history_c_api.adb',
+    'core/worldline-evaluation_history_c_api.ads',
+    'core/worldline-evaluation_report_facts.adb',
+    'core/worldline-evaluation_report_facts.ads',
+    'core/worldline-evaluation_report_wire.adb',
+    'core/worldline-evaluation_report_wire.ads',
+    'core/worldline-identities.ads',
+    'core/worldline-receipts.adb',
+    'core/worldline-receipts.ads',
+    'core/worldline-recovery.adb',
+    'core/worldline-recovery.ads',
+    'core/worldline-recovery_c_api.adb',
+    'core/worldline-recovery_c_api.ads',
+    'core/worldline-reservation_lifecycle_c_api.adb',
+    'core/worldline-reservation_lifecycle_c_api.ads',
+    'core/worldline-resource_ledger_c_api.adb',
+    'core/worldline-resource_ledger_c_api.ads',
+    'core/worldline-resource_policy_c_api.adb',
+    'core/worldline-resource_policy_c_api.ads',
+    'core/worldline-resource_wire.adb',
+    'core/worldline-resource_wire.ads',
+    'core/worldline-resources.adb',
+    'core/worldline-resources.ads',
+    'core/worldline-resources_c_api.adb',
+    'core/worldline-resources_c_api.ads',
+    'core/worldline-transitions.adb',
+    'core/worldline-transitions.ads',
+    'core/worldline-world.adb',
+    'core/worldline-world.ads',
+    'core/worldline.ads',
+})
+
+
 def stray_sources(root: Path) -> list[str]:
-    allowed = {f"core/{path.name}" for path in (root / "core").glob("*.ad[bs]")}
-    allowed |= {"core/attest/attest.ads", "core/attest/attest-sha256.ads", "core/attest/attest-sha256.adb"}
+    """Ada files under core/ that are absent from the fixed reviewed inventory."""
     found = {path.relative_to(root).as_posix() for path in (root / "core").rglob("*.ad[bs]")}
-    return sorted(found - allowed)
+    return sorted(found - DECLARED_CORE_ADA_SOURCES)
+
+
+def missing_sources(root: Path) -> list[str]:
+    """Required core units cannot disappear when a fresh manifest is generated."""
+    return sorted(path for path in DECLARED_CORE_ADA_SOURCES if not (root / path).is_file())
 
 
 def contract_problems(root: Path) -> list[str]:
@@ -146,6 +231,7 @@ def contract_problems(root: Path) -> list[str]:
     except OSError as exc:
         return [f"pinned contract unreadable: core/worldline-c_api.ads: {exc}"]
     problems += [f"an Ada source outside the pinned set could be compiled into the core: {path}" for path in stray_sources(root)]
+    problems += [f"a required reviewed Ada source is missing: {path}" for path in missing_sources(root)]
     for key, pinned in CONTRACT_PINS.items():
         try:
             actual = contract_pin(root, key)
