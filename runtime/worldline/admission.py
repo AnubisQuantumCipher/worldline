@@ -39,6 +39,7 @@ from typing import Any, Callable, Iterable, Mapping, Sequence
 
 from .errors import CoreUnavailable, WorldlineError
 from .resource_ledger import compute_ledger as kernel_compute_ledger
+from .resource_ledger import compute_headroom as kernel_compute_headroom
 from .resource_policy import PolicyDecision, decide_policy as kernel_decide_policy
 
 ADMITTED = "ADMITTED"
@@ -669,7 +670,22 @@ class AdmissionAuthority:
                                             "headroomBytes": None},
                                 state=state.as_dict(), policy=policy.canonical())
             assert state.mem_available_bytes is not None
-            headroom = state.mem_available_bytes - withheld - self.floors.min_free_memory_bytes
+            try:
+                headroom = kernel_compute_headroom(
+                    state.mem_available_bytes, withheld, self.floors.min_free_memory_bytes)
+            except CoreUnavailable as exc:
+                return Decision(RESOURCE_STATE_UNKNOWN,
+                                f"resource headroom kernel could not account capacity: {exc}",
+                                arithmetic={"requestedBytes": request_bytes,
+                                            "memAvailableBytes": state.mem_available_bytes,
+                                            "withheldByReservationsBytes": withheld,
+                                            "reservations": detail,
+                                            "floorBytes": self.floors.min_free_memory_bytes,
+                                            "headroomBytes": None,
+                                            "outstandingCount": len(current),
+                                            "accounted": not unmetered,
+                                            "kernelError": str(exc)},
+                                state=state.as_dict(), policy=policy.canonical())
             arithmetic = {
                 "requestedBytes": request_bytes,
                 "memAvailableBytes": state.mem_available_bytes,
@@ -735,14 +751,20 @@ class AdmissionAuthority:
         except WorldlineError as exc:
             current, ledger_error = [], str(exc.args[1] if len(exc.args) > 1 else exc)
         kernel_error = None
-        try:
-            withheld, detail = self.outstanding_withheld(current)
-        except CoreUnavailable as exc:
-            withheld, detail = None, exc.details.get("reservations", [])
-            kernel_error = str(exc)
+        withheld, detail = None, []
+        if ledger_error is None:
+            try:
+                withheld, detail = self.outstanding_withheld(current)
+            except CoreUnavailable as exc:
+                withheld, detail = None, exc.details.get("reservations", [])
+                kernel_error = str(exc)
         headroom = None
         if state.state == "OBSERVED" and state.mem_available_bytes is not None and withheld is not None:
-            headroom = state.mem_available_bytes - withheld - self.floors.min_free_memory_bytes
+            try:
+                headroom = kernel_compute_headroom(
+                    state.mem_available_bytes, withheld, self.floors.min_free_memory_bytes)
+            except CoreUnavailable as exc:
+                kernel_error = str(exc)
         would_admit = None
         if state.state == "OBSERVED" and not ledger_error and kernel_error is None and headroom is not None:
             try:

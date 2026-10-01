@@ -155,18 +155,36 @@ package body Resource_Ledger with SPARK_Mode is
        Magnitude (Data, Result) =
          Magnitude (Data, (False,
            (if Data'Length = 0 then 1 else Data'First), Data'Length)) and then
-       Result.Negative = (Negative and then Magnitude (Data, Result) /= 0);
+       Result.Negative = (Negative and then Magnitude (Data, Result) /= 0) and then
+       Canonical_In_Slot
+         (Data, ((if Data'Length = 0 then 1 else Data'First), Data'Length),
+          Result);
 
    procedure Canonicalize
      (Data : Byte_Array; Negative : Boolean; Result : out Quantity) is
    begin
       Result := Empty;
       for I in reverse Data'Range loop
+         --  The reverse scan has observed every higher byte to be zero.
+         --  These are producer obligations over actual input bytes, not an
+         --  assumed canonical result or a restricted caller premise.
+         pragma Loop_Invariant (Result = Empty);
+         pragma Loop_Invariant
+           (for all J in Data'Range => (if J > I then Data (J) = 0));
          if Data (I) /= 0 then
             Result := (Negative, Data'First, I - Data'First + 1);
+            pragma Assert
+              (Canonical_In_Slot
+                 (Data, ((if Data'Length = 0 then 1 else Data'First),
+                         Data'Length), Result));
             return;
          end if;
       end loop;
+      pragma Assert (for all J in Data'Range => Data (J) = 0);
+      pragma Assert
+        (Canonical_In_Slot
+           (Data, ((if Data'Length = 0 then 1 else Data'First), Data'Length),
+            Result));
    end Canonicalize;
 
    function Binary_Reference
@@ -188,7 +206,10 @@ package body Resource_Ledger with SPARK_Mode is
           < Radix_Power (Output'Length)) and then
        (if Success then Span_Valid (Output, Result) and then
           Value (Output, Result) = Binary_Reference
-            (Left_Data, Right_Data, Left, Right, Negate_Right)
+            (Left_Data, Right_Data, Left, Right, Negate_Right) and then
+          Canonical_In_Slot
+            (Output, ((if Output'Length = 0 then 1 else Output'First),
+                      Output'Length), Result)
         else Result = Empty and then (for all I in Output'Range => Output (I) = 0));
 
    procedure Binary
@@ -210,6 +231,10 @@ package body Resource_Ledger with SPARK_Mode is
       if not Add_Magnitudes then
          Order := Magnitude_Order (Left_Data, Right_Data, Left, Right);
          if Order = Equal then
+            pragma Assert
+              (Canonical_In_Slot
+                 (Output, ((if Output'Length = 0 then 1 else Output'First),
+                           Output'Length), Result));
             Success := True;
             return;
          elsif Order = Less then
@@ -219,6 +244,9 @@ package body Resource_Ledger with SPARK_Mode is
       if Count > 0 then
          for Offset in 0 .. Count - 1 loop
             pragma Loop_Invariant (Carry <= 1);
+            pragma Loop_Invariant
+              (for all I in Output'Range =>
+                 (if I - Output'First >= Offset then Output (I) = 0));
             if Add_Magnitudes then
                Column := Digit (Left_Data, Left, Offset) +
                  Digit (Right_Data, Right, Offset) + Carry;
@@ -248,6 +276,9 @@ package body Resource_Ledger with SPARK_Mode is
             end if;
          end loop;
       end if;
+      pragma Assert
+        (for all I in Output'Range =>
+           (if I - Output'First >= Count then Output (I) = 0));
       if Add_Magnitudes and then Carry /= 0 then
          if Count < Output'Length then
             Output (Output'First + Count) := Byte (Carry);
@@ -257,6 +288,10 @@ package body Resource_Ledger with SPARK_Mode is
          end if;
       end if;
       Canonicalize (Output, Negative, Result);
+      pragma Assert
+        (Canonical_In_Slot
+           (Output, ((if Output'Length = 0 then 1 else Output'First),
+                     Output'Length), Result));
       Success := True;
    end Binary;
 
@@ -269,7 +304,10 @@ package body Resource_Ledger with SPARK_Mode is
      Post => Success =
        (abs Withheld_Reference (Data, Row) < Radix_Power (Output'Length)) and then
        (if Success then Span_Valid (Output, Result) and then
-          Value (Output, Result) = Withheld_Reference (Data, Row)
+          Value (Output, Result) = Withheld_Reference (Data, Row) and then
+          Canonical_In_Slot
+            (Output, ((if Output'Length = 0 then 1 else Output'First),
+                      Output'Length), Result)
         else Result = Empty and then (for all I in Output'Range => Output (I) = 0));
 
    procedure Compute_Row
@@ -282,6 +320,10 @@ package body Resource_Ledger with SPARK_Mode is
          Output := (others => 0);
          Result := Empty;
          Success := True;
+         pragma Assert
+           (Canonical_In_Slot
+              (Output, ((if Output'Length = 0 then 1 else Output'First),
+                        Output'Length), Result));
       else
          Binary (Data, Data, Row.Reserved, Row.Used.Value, True,
                  Output, Result, Success);
@@ -339,4 +381,32 @@ package body Resource_Ledger with SPARK_Mode is
       end loop;
       Status := Computed;
    end Compute;
+   procedure Compute_Headroom
+     (Data : Byte_Array; Available, Withheld, Floor : Quantity;
+      Output : out Byte_Array; Result : out Quantity;
+      Status : out Result_Status)
+   is
+      Workspace : Byte_Array (Output'Range);
+      Intermediate : Quantity := Empty;
+      Success : Boolean := False;
+   begin
+      Output := (others => 0);
+      Result := Empty;
+      Status := Invalid_Input;
+      if not Headroom_Input_Valid (Data, Available, Withheld, Floor) then
+         return;
+      end if;
+      Status := Insufficient_Storage;
+      Binary (Data, Data, Available, Withheld, True,
+              Workspace, Intermediate, Success);
+      if not Success then
+         return;
+      end if;
+      Binary (Workspace, Data, Intermediate, Floor, True,
+              Output, Result, Success);
+      if Success then
+         Status := Computed;
+      end if;
+   end Compute_Headroom;
+
 end Resource_Ledger;

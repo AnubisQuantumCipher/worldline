@@ -16,6 +16,7 @@ package body Resource_Quantities with SPARK_Mode is
       while Completed < Exponent loop
          pragma Loop_Invariant (Completed <= Exponent);
          pragma Loop_Invariant (Result >= 1);
+         pragma Loop_Invariant (Result = Power_Reference (Completed));
          pragma Loop_Invariant
            (if Completed = 0 then Result = 1
             else Result = To_Big_Integer (256) * Previous);
@@ -39,6 +40,9 @@ package body Resource_Quantities with SPARK_Mode is
       while Completed < Count loop
          pragma Loop_Invariant (Completed <= Count);
          pragma Loop_Invariant (Result >= 0 and then Place >= 1);
+         pragma Loop_Invariant
+           (Result = Prefix_Reference (Data, Q, Completed));
+         pragma Loop_Invariant (Place = Power_Reference (Completed));
          pragma Loop_Invariant
            (if Completed = 0 then Result = 0 and then Place = 1
             else Result = Previous_Result +
@@ -74,15 +78,104 @@ package body Resource_Quantities with SPARK_Mode is
       return Magnitude (Data, Q);
    end Value;
 
+   --  Proof-only induction over the closed independent prefix equations.
+   --  Every body, assertion, Pre at callers and termination variant is required.
+   procedure Prefix_Bounds
+     (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Subprogram_Variant => (Decreases => Count),
+     Post => Prefix_Reference (Data, Q, Count) >= 0 and then
+       Prefix_Reference (Data, Q, Count) < Power_Reference (Count);
+
+   procedure Prefix_Bounds
+     (Data : Byte_Array; Q : Quantity; Count : Byte_Count) is
+   begin
+      if Count > 0 then
+         Prefix_Bounds (Data, Q, Count - 1);
+         pragma Assert (Digit (Data, Q, Count - 1) <= 255);
+         pragma Assert
+           (Prefix_Reference (Data, Q, Count) =
+              Prefix_Reference (Data, Q, Count - 1) +
+                To_Big_Integer (Digit (Data, Q, Count - 1)) *
+                  Power_Reference (Count - 1));
+         pragma Assert
+           (Power_Reference (Count) =
+              To_Big_Integer (256) * Power_Reference (Count - 1));
+      end if;
+   end Prefix_Bounds;
+
+   procedure Prefix_Monotone
+     (Data : Byte_Array; Q : Quantity; Smaller, Larger : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Smaller <= Larger,
+     Subprogram_Variant => (Decreases => Larger),
+     Post => Prefix_Reference (Data, Q, Smaller) <=
+       Prefix_Reference (Data, Q, Larger);
+
+   procedure Prefix_Monotone
+     (Data : Byte_Array; Q : Quantity; Smaller, Larger : Byte_Count) is
+   begin
+      if Smaller < Larger then
+         Prefix_Monotone (Data, Q, Smaller, Larger - 1);
+         pragma Assert
+           (Prefix_Reference (Data, Q, Larger) >=
+              Prefix_Reference (Data, Q, Larger - 1));
+      end if;
+   end Prefix_Monotone;
+
+   procedure Prefix_Padding
+     (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Span_Valid (Data, Q) and then Q.Length <= Count,
+     Subprogram_Variant => (Decreases => Count),
+     Post => Prefix_Reference (Data, Q, Count) = Magnitude (Data, Q);
+
+   procedure Prefix_Padding
+     (Data : Byte_Array; Q : Quantity; Count : Byte_Count) is
+   begin
+      if Count > Q.Length then
+         Prefix_Padding (Data, Q, Count - 1);
+         pragma Assert (Digit (Data, Q, Count - 1) = 0);
+      else
+         pragma Assert
+           (Prefix_Reference (Data, Q, Count) =
+              Prefix_Value (Data, Q, Q.Length));
+      end if;
+   end Prefix_Padding;
+
+   procedure Borrow_Column_Facts (Debit, Credit, Next : Natural)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Debit <= 3 * 255 + 3 and then Credit <= 255 and then
+       Next = (if Debit <= Credit then 0 else (Debit - Credit - 1) / 256 + 1),
+     Post => Credit + 256 * Next >= Debit and then
+       Credit + 256 * Next - Debit <= 255;
+
+   procedure Borrow_Column_Facts (Debit, Credit, Next : Natural) is
+   begin
+      if Debit > Credit then
+         pragma Assert
+           (Debit - Credit - 1 =
+              256 * ((Debit - Credit - 1) / 256) +
+                (Debit - Credit - 1) mod 256);
+         pragma Assert ((Debit - Credit - 1) mod 256 < 256);
+      end if;
+   end Borrow_Column_Facts;
+
    function Is_Zero (Data : Byte_Array; Q : Quantity) return Boolean is
    begin
       if not Span_Valid (Data, Q) or else Q.Length = 0 then
          return True;
       end if;
       for Offset in 0 .. Q.Length - 1 loop
+         pragma Loop_Invariant
+           (Prefix_Reference (Data, Q, Offset) = 0);
          if Digit (Data, Q, Offset) /= 0 then
+            Prefix_Monotone (Data, Q, Offset + 1, Q.Length);
+            pragma Assert (Prefix_Reference (Data, Q, Offset + 1) > 0);
+            pragma Assert (Magnitude (Data, Q) > 0);
             return False;
          end if;
+         pragma Assert (Prefix_Reference (Data, Q, Offset + 1) = 0);
       end loop;
       return True;
    end Is_Zero;
@@ -102,20 +195,48 @@ package body Resource_Quantities with SPARK_Mode is
       if not Span_Valid (Data, Left) or else not Span_Valid (Data, Right) then
          return Invalid;
       end if;
+      Prefix_Padding (Data, Left, Count);
+      Prefix_Padding (Data, Right, Count);
       Left_Negative := Is_Negative (Data, Left);
       Right_Negative := Is_Negative (Data, Right);
       if Left_Negative /= Right_Negative then
          return (if Left_Negative then Less else Greater);
       end if;
+      pragma Assert
+        (Value (Data, Left) =
+           (if Left_Negative then -Magnitude (Data, Left)
+            else Magnitude (Data, Left)));
+      pragma Assert
+        (Value (Data, Right) =
+           (if Right_Negative then -Magnitude (Data, Right)
+            else Magnitude (Data, Right)));
       if Count = 0 then
          return Equal;
       end if;
       for Offset in reverse 0 .. Count - 1 loop
+         pragma Loop_Invariant
+           (Magnitude (Data, Left) - Magnitude (Data, Right) =
+              Prefix_Reference (Data, Left, Offset + 1) -
+                Prefix_Reference (Data, Right, Offset + 1));
+         Prefix_Bounds (Data, Left, Offset);
+         Prefix_Bounds (Data, Right, Offset);
          if Digit (Data, Left, Offset) < Digit (Data, Right, Offset) then
+            pragma Assert
+              (Prefix_Reference (Data, Left, Offset + 1) <
+                 Prefix_Reference (Data, Right, Offset + 1));
+            pragma Assert (Magnitude (Data, Left) < Magnitude (Data, Right));
             return (if Left_Negative then Greater else Less);
          elsif Digit (Data, Left, Offset) > Digit (Data, Right, Offset) then
+            pragma Assert
+              (Prefix_Reference (Data, Left, Offset + 1) >
+                 Prefix_Reference (Data, Right, Offset + 1));
+            pragma Assert (Magnitude (Data, Left) > Magnitude (Data, Right));
             return (if Left_Negative then Less else Greater);
          end if;
+         pragma Assert
+           (Magnitude (Data, Left) - Magnitude (Data, Right) =
+              Prefix_Reference (Data, Left, Offset) -
+                Prefix_Reference (Data, Right, Offset));
       end loop;
       return Equal;
    end Compare;
@@ -129,6 +250,8 @@ package body Resource_Quantities with SPARK_Mode is
          Byte_Count'Max (Floor.Length, Requested.Length));
       subtype Borrow is Natural range 0 .. 3;
       Previous : Borrow := 0;
+      Residue : Valid_Big_Integer := To_Big_Integer (0) with Ghost;
+      Place : Valid_Big_Integer := To_Big_Integer (1) with Ghost;
    begin
       if not Span_Valid (Data, Available) or else
         not Span_Valid (Data, Withheld) or else
@@ -137,10 +260,22 @@ package body Resource_Quantities with SPARK_Mode is
       then
          return False;
       end if;
+      Prefix_Padding (Data, Available, Count);
+      Prefix_Padding (Data, Withheld, Count);
+      Prefix_Padding (Data, Floor, Count);
+      Prefix_Padding (Data, Requested, Count);
       if Count = 0 then
          return True;
       end if;
       for Offset in 0 .. Count - 1 loop
+         pragma Loop_Invariant (Place = Power_Reference (Offset));
+         pragma Loop_Invariant (Residue >= 0 and then Residue < Place);
+         pragma Loop_Invariant
+           (Prefix_Reference (Data, Available, Offset) -
+              Prefix_Reference (Data, Withheld, Offset) -
+              Prefix_Reference (Data, Floor, Offset) -
+              Prefix_Reference (Data, Requested, Offset) =
+                Residue - To_Big_Integer (Previous) * Place);
          declare
             Debit : constant Natural := Digit (Data, Withheld, Offset) +
               Digit (Data, Floor, Offset) + Digit (Data, Requested, Offset) +
@@ -152,6 +287,18 @@ package body Resource_Quantities with SPARK_Mode is
             else
                Previous := (Debit - Credit - 1) / 256 + 1;
             end if;
+            Borrow_Column_Facts (Debit, Credit, Previous);
+            Residue := Residue +
+              To_Big_Integer (Credit + 256 * Previous - Debit) * Place;
+            Place := To_Big_Integer (256) * Place;
+            pragma Assert (Place = Power_Reference (Offset + 1));
+            pragma Assert (Residue >= 0 and then Residue < Place);
+            pragma Assert
+              (Prefix_Reference (Data, Available, Offset + 1) -
+                 Prefix_Reference (Data, Withheld, Offset + 1) -
+                 Prefix_Reference (Data, Floor, Offset + 1) -
+                 Prefix_Reference (Data, Requested, Offset + 1) =
+                   Residue - To_Big_Integer (Previous) * Place);
          end;
       end loop;
       return Previous = 0;

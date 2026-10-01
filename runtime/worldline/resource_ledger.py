@@ -185,3 +185,69 @@ def compute_ledger(rows: Sequence[tuple[int, int | None]], *,
     except (ValueError, TypeError, OverflowError, MemoryError, ctypes.ArgumentError) as exc:
         raise CoreUnavailable("resource ledger representation or storage could not be prepared",
                               exception_type=type(exc).__name__) from exc
+
+
+def _headroom_api(core: Core):
+    # Reuse the complete existing record size/offset/version admission. No
+    # numeric ledger computation is made by obtaining that function pointer.
+    _api(core)
+    try:
+        headroom = core._lib.wl_resource_ledger_headroom
+    except AttributeError as exc:
+        raise CoreUnavailable("the selected kernel has no resource headroom API") from exc
+    headroom.argtypes = [ctypes.c_void_p, ctypes.c_size_t,
+                         ctypes.POINTER(_Quantity), ctypes.POINTER(_Quantity),
+                         ctypes.POINTER(_Quantity), ctypes.c_void_p,
+                         ctypes.c_size_t, ctypes.POINTER(_Result)]
+    headroom.restype = ctypes.c_uint8
+    return headroom
+
+
+def _decode_headroom(result: _Result, output: bytes) -> int:
+    if result.status != 0:
+        raise CoreUnavailable("resource headroom kernel did not compute a value",
+                              status=int(result.status))
+    return _decode_quantity(output, result.total, (1, len(output)), "headroom")
+
+
+def compute_headroom(available: int, withheld: int, floor: int, *,
+                     core: Core | None = None) -> int:
+    """Obtain exact signed headroom from the actual selected kernel.
+
+    Every integer magnitude is carried in an owned byte arena, never a word.
+    Input bools retain the original integer-arithmetic behavior. Python only
+    encodes values, provisions extents and validates/decodes the canonical
+    result; it never computes the headroom or supplies an arithmetic fallback.
+    The capacity rule provisions a carry byte for each ordered subtraction.
+    Its full native/storage sufficiency proof remains a separate obligation.
+    """
+    try:
+        headroom = _headroom_api(core if core is not None else Core.shared())
+        arena = bytearray()
+        descriptors = []
+        for value in (available, withheld, floor):
+            if not isinstance(value, int):
+                raise CoreUnavailable("resource headroom quantities must be integers")
+            value = int(value)
+            magnitude = abs(value)
+            raw = magnitude.to_bytes((magnitude.bit_length() + 7) // 8, "little")
+            descriptors.append(_Quantity(_size(len(arena) + 1) if raw else 1,
+                                         _size(len(raw)), int(value < 0)))
+            arena.extend(raw)
+        capacity = _size(max(value.length for value in descriptors) + 2)
+        data = (ctypes.c_uint8 * _size(len(arena))).from_buffer_copy(arena)
+        output = (ctypes.c_uint8 * capacity)()
+        result = _Result()
+        transport = int(headroom(
+            ctypes.cast(data, ctypes.c_void_p), len(data),
+            *(ctypes.byref(value) for value in descriptors),
+            ctypes.cast(output, ctypes.c_void_p), len(output), ctypes.byref(result)))
+        if transport != 0:
+            raise CoreUnavailable("resource headroom kernel refused the wire representation",
+                                  transport=transport)
+        return _decode_headroom(result, bytes(output))
+    except CoreUnavailable:
+        raise
+    except (ValueError, TypeError, OverflowError, MemoryError, ctypes.ArgumentError) as exc:
+        raise CoreUnavailable("resource headroom representation or storage could not be prepared",
+                              exception_type=type(exc).__name__) from exc

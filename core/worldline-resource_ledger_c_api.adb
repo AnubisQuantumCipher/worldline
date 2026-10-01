@@ -175,4 +175,51 @@ package body Worldline.Resource_Ledger_C_API with SPARK_Mode => Off is
    exception
       when others => return 255;
    end Compute;
+   function Headroom
+     (Data : System.Address; Data_Length : Size;
+      Available, Withheld, Floor : System.Address;
+      Output : System.Address; Output_Length : Size;
+      Result : System.Address) return U8
+   is
+      Quantity_Size : constant Size := Quantity_C'Object_Size / System.Storage_Unit;
+   begin
+      if Data_Length > Size (Q.Byte_Count'Last) or else
+        Output_Length > Size (Q.Byte_Count'Last) or else
+        not Extent_Valid (Data, Data_Length) or else
+        not Extent_Valid (Output, Output_Length) or else
+        not Extent_Valid (Available, Quantity_Size, Quantity_C'Alignment) or else
+        not Extent_Valid (Withheld, Quantity_Size, Quantity_C'Alignment) or else
+        not Extent_Valid (Floor, Quantity_Size, Quantity_C'Alignment) or else
+        not Extent_Valid (Result, Result_C'Object_Size / System.Storage_Unit,
+                         Result_C'Alignment)
+      then
+         return 255;
+      end if;
+      declare
+         A : constant Quantity_C := As_Quantity (Available).all;
+         W : constant Quantity_C := As_Quantity (Withheld).all;
+         F : constant Quantity_C := As_Quantity (Floor).all;
+      begin
+         if not Shape (A) or else not Shape (W) or else not Shape (F) then
+            return 255;
+         end if;
+         declare
+            Arena : constant Q.Byte_Array := Copy_Data (Data, Data_Length);
+            Output_Arena : Q.Byte_Array (1 .. Q.Byte_Count (Output_Length));
+            Typed_Result : Q.Quantity;
+            Status : L.Result_Status;
+         begin
+            L.Compute_Headroom
+              (Arena, Decode (A), Decode (W), Decode (F),
+               Output_Arena, Typed_Result, Status);
+            Write_Data (Output, Output_Arena);
+            As_Result (Result).all :=
+              (Status => L.Result_Status'Pos (Status),
+               Total => Encode (Typed_Result));
+            return 0;
+         end;
+      end;
+   exception
+      when others => return 255;
+   end Headroom;
 end Worldline.Resource_Ledger_C_API;

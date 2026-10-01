@@ -3,6 +3,20 @@ with SPARK.Big_Integers;
 package body Resource_Admission with SPARK_Mode is
    use SPARK.Big_Integers;
 
+   function Numeric_Rejection
+     (Left_Value, Right_Value : Valid_Big_Integer;
+      Relation : Rejection_Relation) return Boolean is
+   begin
+      case Relation is
+         when At_Least =>
+            return Left_Value >= Right_Value;
+         when Above =>
+            return Left_Value > Right_Value;
+         when Below =>
+            return Left_Value < Right_Value;
+      end case;
+   end Numeric_Rejection;
+
    function Binary_Reference
      (Data : Byte_Array; Left, Right : Quantity;
       Relation : Rejection_Relation; Left_Field, Right_Field : Quantity_Field)
@@ -145,6 +159,14 @@ package body Resource_Admission with SPARK_Mode is
          return (Invalid_Representation, Right_Field);
       end if;
       Order := Compare (Data, Left, Right);
+      --  Additive proof projection of the unchanged Compare contract.
+      pragma Assert
+        ((case Relation is
+            when At_Least => Order = Equal or else Order = Greater,
+            when Above => Order = Greater,
+            when Below => Order = Less) =
+         Numeric_Rejection
+           (Value (Data, Left), Value (Data, Right), Relation));
       if (case Relation is
             when At_Least => Order = Equal or else Order = Greater,
             when Above => Order = Greater,
@@ -192,18 +214,22 @@ package body Resource_Admission with SPARK_Mode is
          R := Check_Binary
            (Data, P.Outstanding_Count, P.Concurrency_Limit.Value, At_Least,
             Outstanding_Count_Field, Concurrency_Limit_Field);
+         pragma Assert (R = Concurrency_Reference (Data, P));
          if R /= Pass then
             return At_Gate (Concurrency, R);
          end if;
       end if;
+      pragma Assert (Concurrency_Reference (Data, P) = Pass);
       if P.Memory_Pressure.Present then
          R := Check_Binary
            (Data, P.Memory_Pressure.Value, P.Memory_Pressure_Ceiling, Above,
             Memory_Pressure_Field, Memory_Pressure_Ceiling_Field);
+         pragma Assert (R = Pressure_Reference (Data, P));
          if R /= Pass then
             return At_Gate (Pressure, R);
          end if;
       end if;
+      pragma Assert (Pressure_Reference (Data, P) = Pass);
       for I in Disks'Range loop
          pragma Loop_Invariant
            (Concurrency_Reference (Data, P) = Pass and then
@@ -216,17 +242,33 @@ package body Resource_Admission with SPARK_Mode is
          R := Check_Binary
            (Data, Disks (I).Free_Bytes, P.Disk_Byte_Floor, Below,
             Free_Bytes_Field, Disk_Byte_Floor_Field);
+         pragma Assert (R = Disk_Bytes_Reference (Data, P, Disks (I)));
          if R /= Pass then
             return At_Disk (Disk_Bytes, I, R);
          end if;
          R := Check_Binary
            (Data, Disks (I).Free_Inodes, P.Disk_Inode_Floor, Below,
             Free_Inodes_Field, Disk_Inode_Floor_Field);
+         pragma Assert (R = Disk_Inodes_Reference (Data, P, Disks (I)));
          if R /= Pass then
             return At_Disk (Disk_Inodes, I, R);
          end if;
+         --  The processed current row joins the original strict prior prefix.
+         pragma Assert
+           (Concurrency_Reference (Data, P) = Pass and then
+            Pressure_Reference (Data, P) = Pass);
+         pragma Assert
+           (for all J in Disks'Range =>
+              (if J <= I then
+                 Disk_Bytes_Reference (Data, P, Disks (J)) = Pass and then
+                 Disk_Inodes_Reference (Data, P, Disks (J)) = Pass));
       end loop;
+      pragma Assert
+        (for all I in Disks'Range =>
+           Disk_Bytes_Reference (Data, P, Disks (I)) = Pass and then
+           Disk_Inodes_Reference (Data, P, Disks (I)) = Pass);
       R := Check_Capacity (Data, P);
+      pragma Assert (R = Capacity_Reference (Data, P));
       if R /= Pass then
          return At_Gate (Capacity, R);
       end if;

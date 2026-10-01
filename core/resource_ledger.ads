@@ -148,4 +148,63 @@ package Resource_Ledger with SPARK_Mode is
    with Global => null, Always_Terminates,
      Post => Result_Conforms
        (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total, Status);
+   --  Complete signed headroom projection. Input representations keep the
+   --  same total quantity domain, including empty and high-zero magnitudes.
+   function Headroom_Input_Valid
+     (Data : Byte_Array; Available, Withheld, Floor : Quantity)
+      return Boolean is
+     (Span_Valid (Data, Available) and then Span_Valid (Data, Withheld)
+        and then Span_Valid (Data, Floor))
+   with Global => null;
+
+   function Headroom_Reference
+     (Data : Byte_Array; Available, Withheld, Floor : Quantity)
+      return Valid_Big_Integer is
+     (if Headroom_Input_Valid (Data, Available, Withheld, Floor) then
+         Value (Data, Available) - Value (Data, Withheld) - Value (Data, Floor)
+      else To_Big_Integer (0))
+   with Ghost, Global => null;
+
+   --  Both the ordered intermediate and final signed magnitudes must fit.
+   --  This is caller-owned storage sufficiency, not a bound on input values.
+   function Headroom_Storage_Sufficient
+     (Data : Byte_Array; Available, Withheld, Floor : Quantity;
+      Capacity : Byte_Count) return Boolean is
+     (Headroom_Input_Valid (Data, Available, Withheld, Floor) and then
+        abs (Value (Data, Available) - Value (Data, Withheld)) <
+          Radix_Power (Capacity) and then
+        abs Headroom_Reference (Data, Available, Withheld, Floor) <
+          Radix_Power (Capacity))
+   with Ghost, Global => null;
+
+   function Headroom_Conforms
+     (Data : Byte_Array; Available, Withheld, Floor : Quantity;
+      Output : Byte_Array; Result : Quantity; Status : Result_Status)
+      return Boolean is
+     ((if not Headroom_Input_Valid (Data, Available, Withheld, Floor) then
+          Status = Invalid_Input
+       elsif not Headroom_Storage_Sufficient
+         (Data, Available, Withheld, Floor, Output'Length)
+       then Status = Insufficient_Storage
+       else Status = Computed) and then
+      (if Status = Computed then
+          Canonical_In_Slot
+            (Output, ((if Output'Length = 0 then 1 else Output'First),
+                      Output'Length), Result) and then
+          Value (Output, Result) =
+            Headroom_Reference (Data, Available, Withheld, Floor)
+       else Result = Empty and then
+          (for all I in Output'Range => Output (I) = 0)))
+   with Ghost, Global => null;
+
+   --  No public Pre; malformed spans and insufficient supplied storage have
+   --  exact typed refusals, never a partial or clamped numeric answer.
+   procedure Compute_Headroom
+     (Data : Byte_Array; Available, Withheld, Floor : Quantity;
+      Output : out Byte_Array; Result : out Quantity;
+      Status : out Result_Status)
+   with Global => null, Always_Terminates,
+     Post => Headroom_Conforms
+       (Data, Available, Withheld, Floor, Output, Result, Status);
+
 end Resource_Ledger;

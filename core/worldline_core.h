@@ -351,6 +351,16 @@ uint8_t wl_resource_ledger_compute(const uint8_t *data, size_t data_length,
     uint8_t *detail_data, size_t detail_length,
     uint8_t *total_data, size_t total_length,
     struct wl_policy_quantity *details, struct wl_ledger_result *result);
+/* Full signed headroom: available - withheld - floor. The three descriptors
+ * name live Quantity records over data. output/result are disjoint writable
+ * extents, do not alias inputs, and obey the same custody/alignment premises.
+ * The output extent must hold both the intermediate difference and final value.
+ * Transport/status/canonical-zero rules are identical to ledger_compute. */
+uint8_t wl_resource_ledger_headroom(const uint8_t *data, size_t data_length,
+    const struct wl_policy_quantity *available,
+    const struct wl_policy_quantity *withheld,
+    const struct wl_policy_quantity *floor,
+    uint8_t *output, size_t output_length, struct wl_ledger_result *result);
 size_t wl_layout_size(uint8_t selector);
 /* Offset of the field named `name` (as spelled in this header) of record `selector`; SIZE_MAX
  * for an unknown selector or name. Keyed by name: two equal-sized fields swapped keep every

@@ -10,5 +10,8 @@ package Worldline.Resource_Wire with SPARK_Mode is
      with Global => null,
           Post => Can_Reserve'Result =
             (not Available_Negative and then Resources.Fits_By_Addition
-              (Available, Withheld, Floor, Requested));
+              (Available, Withheld, Floor, Requested))
+            and then Can_Reserve'Result =
+              (not Available_Negative and then Resources.Fits_Mathematically
+                (Available, Withheld, Floor, Requested));
 end Worldline.Resource_Wire;

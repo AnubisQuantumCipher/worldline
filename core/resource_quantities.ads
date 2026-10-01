@@ -35,13 +35,34 @@ package Resource_Quantities with SPARK_Mode is
           Digit'Result = Natural (Data (Q.First + Offset))
         else Digit'Result = 0);
 
+   --  Closed mathematical recurrences independent of the iterative producer.
+   --  No imported theorem, fixed word bound, or validity Pre is used here.
+   function Power_Reference (Exponent : Byte_Count) return Valid_Big_Integer is
+     (if Exponent = 0 then To_Big_Integer (1)
+      else To_Big_Integer (256) * Power_Reference (Exponent - 1))
+   with Ghost, Global => null,
+     Subprogram_Variant => (Decreases => Exponent),
+     Post => Power_Reference'Result >= 1;
+
+   function Prefix_Reference
+     (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
+      return Valid_Big_Integer is
+     (if Count = 0 then To_Big_Integer (0)
+      else Prefix_Reference (Data, Q, Count - 1) +
+        To_Big_Integer (Digit (Data, Q, Count - 1)) *
+          Power_Reference (Count - 1))
+   with Ghost, Global => null,
+     Subprogram_Variant => (Decreases => Count),
+     Post => Prefix_Reference'Result >= 0;
+
    function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer
    with Ghost, Global => null,
      Subprogram_Variant => (Decreases => Exponent),
      Post => Radix_Power'Result >= 1 and then
        (if Exponent = 0 then Radix_Power'Result = 1
         else Radix_Power'Result =
-          To_Big_Integer (256) * Radix_Power (Exponent - 1));
+          To_Big_Integer (256) * Radix_Power (Exponent - 1)) and then
+       Radix_Power'Result = Power_Reference (Exponent);
 
    function Prefix_Value
      (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
@@ -52,7 +73,8 @@ package Resource_Quantities with SPARK_Mode is
        (if Count = 0 then Prefix_Value'Result = 0
         else Prefix_Value'Result = Prefix_Value (Data, Q, Count - 1) +
           To_Big_Integer (Digit (Data, Q, Count - 1)) *
-          Radix_Power (Count - 1));
+          Radix_Power (Count - 1)) and then
+       Prefix_Value'Result = Prefix_Reference (Data, Q, Count);
 
    function Magnitude (Data : Byte_Array; Q : Quantity)
       return Valid_Big_Integer

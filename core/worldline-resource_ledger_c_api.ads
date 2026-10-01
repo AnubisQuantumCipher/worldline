@@ -42,4 +42,17 @@ package Worldline.Resource_Ledger_C_API with SPARK_Mode => Off is
       Total_Data : System.Address; Total_Length : Size;
       Details : System.Address; Result : System.Address) return U8
      with Export, Convention => C, External_Name => "wl_resource_ledger_compute";
+   --  Additive signed headroom projection with the same owned-pointer
+   --  premises. Available, Withheld and Floor name Quantity_C records.
+   --  Output and Result are mutually disjoint and do not alias any input.
+   --  Result.Total holds the canonical headroom only when Status is Computed.
+   --  A typed refusal zeros Output and returns an empty result descriptor;
+   --  transport 255 still requires ignoring every output.
+   function Headroom
+     (Data : System.Address; Data_Length : Size;
+      Available, Withheld, Floor : System.Address;
+      Output : System.Address; Output_Length : Size;
+      Result : System.Address) return U8
+     with Export, Convention => C,
+       External_Name => "wl_resource_ledger_headroom";
 end Worldline.Resource_Ledger_C_API;

@@ -39,6 +39,24 @@ its defaults, assignment/equality support and full marker relation are preserved
 The original type-level storage warning and complete storage/native guarantees
 remain open.
 
+The resource quantities, ordered admission policy and reserve operation now
+carry additional closed mathematical reference contracts, induction lemmas
+and column/prefix conservation facts. Every original contract, runtime check,
+input domain and proof floor remains required alongside those new obligations.
+Checked Ghost work, recursion, native behavior and storage also require closure.
+
+Admission and read-only reporting now obtain signed headroom from
+`Resource_Ledger.Compute_Headroom` through an owned C/Python transport.
+Its complete result contract requires the exact ordered subtraction,
+canonical output and empty/zero refusal when either intermediate or
+final storage is insufficient. Python has no headroom arithmetic fallback.
+The numeric policy uses a fully specified comparison helper to keep
+controlled big-integer values alive through checked relation evaluation.
+
+An unreadable reservation ledger now leaves reported withheld memory, headroom
+and admission unknown. Reporting skips numeric projections of unknown records
+and preserves the ledger instead of treating the error as an empty accounting set.
+
 Full original and new module proof, ledger projection, reserve/release/consume
 lifecycle integration, marker custody and the complete recovery state machine
 remain OPEN. Pointer/representation and source-profile correspondence, resource
