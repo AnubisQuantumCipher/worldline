@@ -190,6 +190,81 @@ package body Evaluation_Epoch with SPARK_Mode is
       end;
    end Prefix_Tail;
 
+   --  Keep the scalar Euclidean witness separate from recursive byte-prefix
+   --  producers. These total Ghost bodies are additional proof obligations;
+   --  no imported theorem or unchecked assumption establishes their Posts.
+   procedure Positive_Multiple
+     (Place, Multiplier : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (if Place > 0 and then Multiplier >= 1 then
+       Place * Multiplier >= Place)
+   is
+   begin
+      if Place <= 0 or else Multiplier < 1 then
+         return;
+      end if;
+      declare
+         Excess : constant Valid_Big_Integer := Multiplier - 1;
+         Contribution : constant Valid_Big_Integer := Place * Excess;
+      begin
+         pragma Assert (Excess >= 0);
+         pragma Assert (Contribution >= 0);
+         pragma Assert (Place * Multiplier = Place + Contribution);
+         pragma Assert (Place * Multiplier >= Place);
+      end;
+   end Positive_Multiple;
+
+   procedure Remainder_From_Witness
+     (Low, Place, Tail : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (if Place > 0 and then Low >= 0 and then Low < Place
+                  and then Tail >= 0 then
+       (Low + Place * Tail) / Place = Tail and then
+       (Low + Place * Tail) mod Place = Low)
+   is
+   begin
+      if Place <= 0 or else Low < 0 or else Low >= Place or else Tail < 0 then
+         return;
+      end if;
+      declare
+         Whole : constant Valid_Big_Integer := Low + Place * Tail;
+         Quotient : constant Valid_Big_Integer := Whole / Place;
+         Remainder : constant Valid_Big_Integer := Whole mod Place;
+      begin
+         pragma Assert (Whole >= 0);
+         pragma Assert (Quotient >= 0);
+         pragma Assert (Remainder >= 0 and then Remainder < Place);
+         pragma Assert (Whole = Place * Quotient + Remainder);
+         if Quotient < Tail then
+            declare
+               Difference : constant Valid_Big_Integer := Tail - Quotient;
+            begin
+               pragma Assert (Difference >= 1);
+               Positive_Multiple (Place, Difference);
+               pragma Assert
+                 (Place * Tail = Place * Quotient + Place * Difference);
+               pragma Assert (Remainder = Low + Place * Difference);
+               pragma Assert (Remainder >= Place);
+               pragma Assert (False);
+            end;
+         elsif Quotient > Tail then
+            declare
+               Difference : constant Valid_Big_Integer := Quotient - Tail;
+            begin
+               pragma Assert (Difference >= 1);
+               Positive_Multiple (Place, Difference);
+               pragma Assert
+                 (Place * Quotient = Place * Tail + Place * Difference);
+               pragma Assert (Low = Remainder + Place * Difference);
+               pragma Assert (Low >= Place);
+               pragma Assert (False);
+            end;
+         end if;
+         pragma Assert (Quotient = Tail);
+         pragma Assert (Remainder = Low);
+      end;
+   end Remainder_From_Witness;
+
    procedure Prefix_Modulus
      (Data : Byte_Array; Q : Quantity; Low, High : Byte_Count)
    with Ghost, Global => null, Always_Terminates,
@@ -208,6 +283,8 @@ package body Evaluation_Epoch with SPARK_Mode is
          pragma Assert
            (Prefix_Value (Data, Q, High) = Prefix_Value (Data, Q, Low) +
               Radix_Power (Low) * Tail);
+         Remainder_From_Witness
+           (Prefix_Value (Data, Q, Low), Radix_Power (Low), Tail);
          pragma Assert
            (Prefix_Value (Data, Q, High) mod Radix_Power (Low) =
               Prefix_Value (Data, Q, Low));

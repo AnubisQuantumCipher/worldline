@@ -107,3 +107,226 @@ class RawObservationControls(unittest.TestCase):
                          b'/owned/private-report')
         self.assertEqual(encoded['stdout'], {'encoding': 'base64', 'payload': ''})
         self.assertIsNone(encoded['stderr'])
+
+
+class PrivateBackendAcquisitionControls(unittest.TestCase):
+    """Owned synthetic process replies and temporary files; no launch or host service."""
+    def setUp(self):
+        from unittest.mock import Mock
+        temporary = tempfile.TemporaryDirectory(prefix='worldline-private-acquisition-')
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        (self.root/'bootstrap-ready').write_bytes(b'ready')
+        self.boundary = self.root/'boundary.json'
+        self.boundary.write_bytes(b'{"rolesCompleted": true}\r\n')
+        self.spec = SimpleNamespace(runtime=self.root, run_id='owned-run',
+                                    timeout_seconds=20, report_directory=self.root/'report')
+        self.process = SimpleNamespace(unit='owned-private-unit', launcher=Mock(returncode=0))
+        self.process.launcher.communicate.return_value = (b'full stdout\x00\xff', b'full stderr\n')
+        self.systemd = SimpleNamespace(
+            _show=Mock(return_value={'NoNewPrivileges': 'no', 'MainPID': 'owned-pid'}),
+            stop=Mock(), outcome=Mock(return_value={'kind': 'SUPERVISED'}))
+        self.events = []
+
+    def capture(self, kind, occurrence, record):
+        # This owned round-trip also catches accidentally unencoded bytes.
+        self.events.append((kind, occurrence, json.loads(json.dumps(record))))
+
+    def collect(self, observer=None):
+        from worldline.linux.private_evaluator import PrivateEvaluator
+        return PrivateEvaluator(self.systemd)._collect_observed(
+            self.spec, self.process, self.capture if observer is None else observer)
+
+    def test_boundary_parse_failure_keeps_actual_return_and_original_file_bytes(self):
+        raw = b'{ordinary incomplete JSON\r\n'
+        self.boundary.write_bytes(raw)
+        with self.assertRaises(json.JSONDecodeError):
+            self.collect()
+        self.assertEqual([(kind, ordinal) for kind, ordinal, _ in self.events],
+                         [('private-communicate-acquisition', 0),
+                          ('private-boundary-acquisition', 1)])
+        returned = self.events[0][2]
+        self.assertTrue(returned['communicateReturned'])
+        self.assertEqual(returned['stdout'], optional_bytes(b'full stdout\x00\xff'))
+        self.assertEqual(returned['stderr'], optional_bytes(b'full stderr\n'))
+        self.assertIsNone(returned['exception'])
+        boundary = self.events[1][2]
+        self.assertEqual(boundary['bytes'], optional_bytes(raw))
+        self.assertTrue(boundary['readReturned'])
+        self.assertTrue(boundary['readReachedEof'])
+        self.systemd.stop.assert_not_called()
+
+    def test_boundary_decode_failure_keeps_undecodable_bytes(self):
+        raw = b'{"ordinary": "\xff"}'
+        self.boundary.write_bytes(raw)
+        with self.assertRaises(UnicodeDecodeError):
+            self.collect()
+        self.assertEqual(self.events[-1][2]['bytes'], optional_bytes(raw))
+
+    def test_supervision_failure_happens_after_actual_return_retention(self):
+        primary = ValueError('owned supervision parse failure')
+        def outcome(*_args, **_kwargs):
+            self.assertEqual(self.events[0][0], 'private-communicate-acquisition')
+            self.assertTrue(self.events[0][2]['communicateReturned'])
+            raise primary
+        self.systemd.outcome.side_effect = outcome
+        with self.assertRaises(ValueError) as caught:
+            self.collect()
+        self.assertIs(caught.exception, primary)
+        self.assertEqual([kind for kind, _ordinal, _record in self.events],
+                         ['private-communicate-acquisition'])
+
+    def test_timeout_and_cleanup_returns_have_distinct_truthful_occurrences(self):
+        from worldline.linux.private_evaluator import BackendFailure
+        timeout = subprocess.TimeoutExpired(['owned-command'], 20,
+                                            output=b'available prefix', stderr=None)
+        self.process.launcher.communicate.side_effect = [timeout, (b'complete output', b'')]
+        with self.assertRaises(BackendFailure) as caught:
+            self.collect()
+        self.assertEqual(caught.exception.code, 'PRIVATE_EVALUATOR_TIMEOUT')
+        self.assertEqual([ordinal for _kind, ordinal, _record in self.events], [0, 1])
+        first, second = [record for _kind, _ordinal, record in self.events]
+        self.assertFalse(first['communicateReturned'])
+        self.assertEqual(first['stdout'], optional_bytes(b'available prefix'))
+        self.assertIsNone(first['stderr'])
+        self.assertEqual(first['exception']['exceptionType'], 'TimeoutExpired')
+        self.assertTrue(second['communicateReturned'])
+        self.assertEqual(second['stdout'], optional_bytes(b'complete output'))
+        self.assertEqual(second['stderr'], optional_bytes(b''))
+        self.assertEqual(second['site'], 'timeout-cleanup')
+        self.systemd.stop.assert_called_once_with(self.process.unit)
+        self.systemd.outcome.assert_not_called()
+
+    def test_communication_error_survives_stop_error_and_retains_cleanup(self):
+        primary = OSError('owned communication failed')
+        self.process.launcher.communicate.side_effect = [primary, (b'cleanup stdout', None)]
+        self.systemd.stop.side_effect = OSError('owned stop report failed')
+        with self.assertRaises(OSError) as caught:
+            self.collect()
+        self.assertIs(caught.exception, primary)
+        self.assertFalse(self.events[0][2]['communicateReturned'])
+        self.assertIsNone(self.events[0][2]['stdout'])
+        self.assertTrue(self.events[1][2]['communicateReturned'])
+        self.assertEqual(self.events[1][2]['stdout'], optional_bytes(b'cleanup stdout'))
+        self.assertTrue(any('cleanup also failed' in note for note in primary.__notes__))
+
+    def test_successful_return_sink_failure_stays_primary_through_cleanup(self):
+        sink_error = OSError('owned acquisition store failed')
+        self.process.launcher.communicate.side_effect = [
+            (b'actual returned bytes', None), (b'actual cleanup bytes', b'')]
+        def observer(kind, occurrence, record):
+            self.capture(kind, occurrence, record)
+            if record['site'] == 'examiner-wait':
+                raise sink_error
+        self.systemd.stop.side_effect = OSError('owned cleanup stop failed')
+        with self.assertRaises(ObservationRetentionError) as caught:
+            self.collect(observer)
+        self.assertIs(caught.exception.__cause__, sink_error)
+        self.assertTrue(all(record['communicateReturned'] for _, _, record in self.events))
+        self.assertEqual([ordinal for _, ordinal, _ in self.events], [0, 1])
+        self.assertEqual(self.events[0][2]['stdout'], optional_bytes(b'actual returned bytes'))
+        self.systemd.outcome.assert_not_called()
+
+    def test_cleanup_sink_failure_marks_original_timeout_not_ordinary_refusal(self):
+        primary = subprocess.TimeoutExpired(['owned-command'], 20, output=b'prefix', stderr=b'')
+        self.process.launcher.communicate.side_effect = [primary, (b'cleanup return', None)]
+        def observer(kind, occurrence, record):
+            self.capture(kind, occurrence, record)
+            if record['site'] == 'timeout-cleanup':
+                raise OSError('owned cleanup store failed')
+        with self.assertRaises(subprocess.TimeoutExpired) as caught:
+            self.collect(observer)
+        self.assertIs(caught.exception, primary)
+        self.assertTrue(retention_failed(primary))
+        self.assertTrue(any('private communication cleanup also failed' in note
+                            for note in primary.__notes__))
+        self.assertTrue(self.events[1][2]['communicateReturned'])
+
+    def test_communication_exception_sink_failure_keeps_primary_and_available_bytes(self):
+        primary = OSError('owned communication failed after partial output')
+        primary.output = b'available output'
+        primary.stderr = b''
+        self.process.launcher.communicate.side_effect = [primary, (b'cleanup return', None)]
+        def observer(kind, occurrence, record):
+            self.capture(kind, occurrence, record)
+            if record['site'] == 'examiner-wait':
+                raise OSError('owned exception store failed')
+        with self.assertRaises(OSError) as caught:
+            self.collect(observer)
+        self.assertIs(caught.exception, primary)
+        self.assertTrue(retention_failed(primary))
+        self.assertFalse(self.events[0][2]['communicateReturned'])
+        self.assertEqual(self.events[0][2]['stdout'], optional_bytes(primary.output))
+        self.assertEqual(self.events[0][2]['stderr'], optional_bytes(b''))
+        self.assertTrue(self.events[1][2]['communicateReturned'])
+
+    def test_partial_boundary_read_keeps_bytes_and_original_error_on_close_failure(self):
+        from unittest.mock import Mock
+        from worldline.linux.private_evaluator import _PrivateAcquisitions
+        primary = OSError('owned boundary read failed')
+        stream = Mock()
+        stream.read.side_effect = [b'available raw prefix', primary]
+        stream.close.side_effect = OSError('owned boundary close failed')
+        acquisition = _PrivateAcquisitions(self.spec, self.process, self.capture)
+        with patch.object(Path, 'open', return_value=stream):
+            with self.assertRaises(OSError) as caught:
+                acquisition.boundary_bytes(self.boundary)
+        self.assertIs(caught.exception, primary)
+        record = self.events[0][2]
+        self.assertEqual(record['bytes'], optional_bytes(b'available raw prefix'))
+        self.assertFalse(record['readReturned'])
+        self.assertFalse(record['readReachedEof'])
+        self.assertTrue(any('cleanup also failed' in note for note in primary.__notes__))
+
+    def test_absent_and_empty_communication_bytes_stay_distinct(self):
+        self.process.launcher.communicate.return_value = (None, b'')
+        result = self.collect()
+        self.assertIsNone(self.events[0][2]['stdout'])
+        self.assertEqual(self.events[0][2]['stderr'], optional_bytes(b''))
+        self.assertIsNone(result['stdout'])
+        self.assertEqual(result['stderr'], b'')
+
+    def test_private_runner_threads_acquisitions_to_actual_writer_before_backend_return(self):
+        from contextlib import nullcontext
+        from unittest.mock import Mock
+        from worldline.evaluation_writer import EngineEvaluationWriter
+        from worldline.linux.private_evaluator import PrivateEvaluator
+        records = []
+        terminal = SimpleNamespace(observe_raw=lambda bound, invocation, kind, observed, **kw:
+            records.append((bound, invocation, kind, kw.get('occurrence'), observed)))
+        writer = EngineEvaluationWriter(terminal, 'owned-content')
+        writer.bound = object()
+        writer.invocations[('owned-world', 'owned-check')] = ('owned-invocation', {})
+        runner = CheckRunner.__new__(CheckRunner)
+        runner.systemd = self.systemd
+        runner.sandbox = SimpleNamespace(executable='/owned/bwrap-reference')
+        runner.gate = SimpleNamespace(guard=lambda _label: nullcontext(), unit_properties=lambda: ())
+        staged = SimpleNamespace(items=[object()], staging=self.root/'verifiers',
+            identity=lambda: 'owned-verifier', reread=lambda: ('owned-verifier', []),
+            as_evidence=lambda: {'identity': 'owned-verifier'}, close=Mock())
+        check = SimpleNamespace(id='owned-check', kind='tests', required=True,
+            format='junit', profile='private-evaluator-v1', covers=())
+        overlay = SimpleNamespace(root_key='owned-root', target=Path('/owned-target'), lower=self.root)
+        snapshot = {'worldInstance': 'owned-world', 'rootSetHash': 'owned-root-set',
+                    'rootManifests': {'owned-root': 'owned-root-observation'}}
+        self.systemd.outcome.side_effect = ValueError('owned supervision parse failure')
+        def run_owned(evaluator, spec, _properties, **observers):
+            # Actual public run wrapper and actual collector; no backend launch.
+            return evaluator._collect_observed(self.spec, self.process,
+                observers['_acquisition_observer'],
+                _supervision_observer=observers.get('_supervision_observer'))
+        with patch.object(PrivateEvaluator, '_run', new=run_owned), \
+             patch('worldline.checks.prepare_private_report', return_value=self.root/'report'):
+            result = runner._run_private(run_id='owned-run', world_instance='owned-world',
+                runtime=self.root, cwd=overlay.target, check=check, overlays=[overlay],
+                staged=staged, argv=(), rewrites=(), candidate_snapshot=snapshot,
+                _observation_writer=writer)
+        self.assertEqual(result['resultChannel']['stage'], 'PRIVATE_EVALUATOR_REFUSED')
+        returned = next(row for row in records if row[2] == 'private-communicate-acquisition')
+        self.assertIs(returned[0], writer.bound)
+        self.assertEqual(returned[1], 'owned-invocation')
+        self.assertEqual(returned[3], 0)
+        self.assertTrue(returned[4]['communicateReturned'])
+        self.assertEqual(returned[4]['stdout'], optional_bytes(b'full stdout\x00\xff'))
+        self.assertNotIn('private-process-return', [row[2] for row in records])
+        staged.close.assert_called_once()

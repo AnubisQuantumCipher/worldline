@@ -149,6 +149,23 @@ all original and new proof/body/caller obligations, native pointer/storage/work,
 D1 and complete Phase 1 guarantees remain OPEN. Earlier full-proof failures are
 retained. This is a source checkpoint without a version, tag or release.
 
+Pending-state construction now initializes every retained Base element before
+its original loop. Epoch and reservation-transition proof bodies add explicit
+modulus and product witnesses while preserving their full contracts and domains.
+
+The explicit evaluator capture hook retains actual communicate returns and
+exceptions, plus acquired boundary bytes, before parsing or cleanup. New typed
+report-fact and raw report-wire dependencies keep the original report-integrity
+equation separate from confinement. The completion C boundary rejects dependent
+flag encodings before admitting them to the typed relation; ordinary owned
+controls cover these paths.
+
+This checkpoint preserves every original guarantee, accepted case, proof floor
+and required coverage. Complete strict proof, raw-wire and roster migration,
+protected producer/custody/default integration, native/storage/work, D1 and
+complete Phase 1 remain OPEN. Prior failed attempts are retained. No version,
+tag or release is introduced.
+
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 
 Implementation and review are in progress. The original guarantee targets remain fixed;

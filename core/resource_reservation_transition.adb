@@ -236,6 +236,59 @@ package body Resource_Reservation_Transition with SPARK_Mode is
                + To_Big_Integer (Column) * Radix_Power (Offset));
    end Addition_Step;
 
+   --  Candidate multivariate arguments are unverified until GNATprove
+   --  establishes every body, invariant, assertion, Post and caller obligation.
+   --  JACKAL's Q[x] fragment refused this multivariate regrouping request.
+   --  All original assertions and contracts remain unchanged and required.
+   procedure Radix_Product_Regroup (Left, Right : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (To_Big_Integer (256) * Left) * Right =
+       (To_Big_Integer (256) * Right) * Left
+   is
+      Done : Natural := 0;
+      Left_Scale : Valid_Big_Integer := To_Big_Integer (0);
+      Right_Scale : Valid_Big_Integer := To_Big_Integer (0);
+   begin
+      while Done < 256 loop
+         pragma Loop_Invariant (Done <= 256);
+         pragma Loop_Invariant
+           (Left_Scale = To_Big_Integer (Done) * Left);
+         pragma Loop_Invariant
+           (Right_Scale = To_Big_Integer (Done) * Right);
+         pragma Loop_Invariant (Left_Scale * Right = Right_Scale * Left);
+         pragma Loop_Variant (Decreases => 256 - Done);
+         Left_Scale := Left_Scale + Left;
+         Right_Scale := Right_Scale + Right;
+         Done := Done + 1;
+      end loop;
+      pragma Assert (Done = 256);
+   end Radix_Product_Regroup;
+
+   procedure Positive_Factor_Cancellation
+     (Left, Right, Factor : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (if Factor > 0 and then Left * Factor = Right * Factor
+                then Left = Right)
+   is
+      Difference : constant Valid_Big_Integer := Left - Right;
+   begin
+      if Factor <= 0 or else Left * Factor /= Right * Factor then
+         return;
+      end if;
+      pragma Assert (Difference * Factor = 0);
+      pragma Assert (Factor >= 1);
+      if Difference < 0 then
+         pragma Assert (Difference <= -1);
+         pragma Assert (Difference * Factor <= -Factor);
+         pragma Assert (False);
+      elsif Difference > 0 then
+         pragma Assert (Difference >= 1);
+         pragma Assert (Difference * Factor >= Factor);
+         pragma Assert (False);
+      end if;
+      pragma Assert (Difference = 0);
+   end Positive_Factor_Cancellation;
+
    procedure Addition_Mismatch
      (Data : Byte_Array; Left, Right, Sum : Quantity;
       Offset : Byte_Count; Carry, Column, Bias : Natural)
@@ -279,10 +332,15 @@ package body Resource_Reservation_Transition with SPARK_Mode is
            ((To_Big_Integer (Column)
                - To_Big_Integer (Digit (Data, Sum, Offset))) * Place
                  = Radix_Power (Next) * Tail_Difference);
+         Radix_Product_Regroup (Place, Tail_Difference);
          pragma Assert
            ((To_Big_Integer (Column)
                - To_Big_Integer (Digit (Data, Sum, Offset))) * Place
                  = (To_Big_Integer (256) * Tail_Difference) * Place);
+         Positive_Factor_Cancellation
+           (To_Big_Integer (Column)
+              - To_Big_Integer (Digit (Data, Sum, Offset)),
+            To_Big_Integer (256) * Tail_Difference, Place);
          pragma Assert
            (To_Big_Integer (Column) =
               To_Big_Integer (256) * Tail_Difference

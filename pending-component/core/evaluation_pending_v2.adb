@@ -1,6 +1,10 @@
 package body Evaluation_Pending_V2 with SPARK_Mode is
    function Base_Of (J : Journal) return P.Journal is
-      Result : P.Journal (J'Range);
+      --  Initialize every result component from its corresponding actual input.
+      --  The null range reads no element; optional cursor variants are copied
+      --  exactly, rather than fabricated as a default present or absent value.
+      --  Keep the original loop and full projection invariant below.
+      Result : P.Journal (J'Range) := (for I in J'Range => J (I).Base);
    begin
       for I in J'Range loop
          Result (I) := J (I).Base;

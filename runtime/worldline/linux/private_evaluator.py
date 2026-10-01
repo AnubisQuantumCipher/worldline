@@ -266,22 +266,126 @@ def _bubblewrap_identity(requested: Path | None) -> dict[str, str]:
     return {"path": str(path), "sha256": digest}
 
 
+class _PrivateAcquisitions:
+    """Invocation-local observations, never report or boundary admission."""
+    def __init__(self, spec, process, observer):
+        self.spec = spec
+        self.process = process
+        self.observer = observer
+        self.next_occurrence = 0
+
+    def _start(self, kind, site):
+        occurrence = self.next_occurrence
+        self.next_occurrence += 1
+        return (lambda record: self.observer(kind, occurrence, record)), {
+            'schemaVersion': 1, 'runId': self.spec.run_id,
+            'unit': self.process.unit, 'site': site,
+            'occurrence': occurrence,
+        }
+
+    def communicate(self, timeout, *, site):
+        from ..raw_observation import (
+            optional_bytes, retain_observation, exception_observation,
+        )
+        observe, details = self._start('private-communicate-acquisition', site)
+        try:
+            stdout, stderr = self.process.launcher.communicate(timeout=timeout)
+        except BaseException as primary:
+            # Available exception output is distinct from an actual return.
+            # Preserve this primary even if the retention callback also fails.
+            try:
+                retain_observation(observe, {
+                    **details, 'communicateReturned': False,
+                    'stdout': optional_bytes(getattr(primary, 'output', None)),
+                    'stderr': optional_bytes(getattr(primary, 'stderr', None)),
+                    'launcherReturncode': self.process.launcher.returncode,
+                    'exception': exception_observation(primary),
+                })
+            except BaseException as secondary:
+                primary.add_note('available private communication retention also failed: ' +
+                                 type(secondary).__qualname__ + ': ' + str(secondary))
+                primary._worldline_retention_failed = True
+            raise
+        # This callback precedes supervision, parsing and the resource-guard exit.
+        retain_observation(observe, {
+            **details, 'communicateReturned': True,
+            'stdout': optional_bytes(stdout), 'stderr': optional_bytes(stderr),
+            'launcherReturncode': self.process.launcher.returncode,
+            'exception': None,
+        })
+        return stdout, stderr
+
+    def cleanup_communicate(self, timeout, *, site):
+        from ..raw_observation import retention_failed
+        primary = sys.exception()
+        try:
+            return self.communicate(timeout, site=site)
+        except BaseException as secondary:
+            if primary is None:
+                raise
+            primary.add_note('private communication cleanup also failed: ' +
+                             type(secondary).__qualname__ + ': ' + str(secondary))
+            if retention_failed(secondary):
+                primary._worldline_retention_failed = True
+
+    def boundary_bytes(self, path):
+        from ..raw_observation import (
+            optional_bytes, retain_observation, exception_observation, cleanup_call,
+        )
+        observe, details = self._start('private-boundary-acquisition', 'boundary-read')
+        details['pathBytes'] = optional_bytes(os.fsencode(path))
+        stream = None
+        content = None
+        try:
+            try:
+                stream = path.open('rb')
+                content = bytearray()
+                while True:
+                    chunk = stream.read(65536)
+                    if not chunk:
+                        break
+                    content.extend(chunk)
+            except BaseException as primary:
+                try:
+                    retain_observation(observe, {
+                        **details, 'readReturned': False, 'readReachedEof': False,
+                        'bytes': optional_bytes(content),
+                        'exception': exception_observation(primary),
+                    })
+                except BaseException as secondary:
+                    primary.add_note('available private boundary retention also failed: ' +
+                                     type(secondary).__qualname__ + ': ' + str(secondary))
+                    primary._worldline_retention_failed = True
+                raise
+            # Retain the original file bytes before any text decoding or JSON use.
+            payload = bytes(content)
+            retain_observation(observe, {
+                **details, 'readReturned': True, 'readReachedEof': True,
+                'bytes': optional_bytes(payload), 'exception': None,
+            })
+            return payload
+        finally:
+            if stream is not None:
+                cleanup_call(stream.close)
+
+
 class PrivateEvaluator:
     def __init__(self, systemd: Any):
         self.systemd = systemd
 
-    def run(self, spec: PrivateEvaluationSpec, *, resource_properties: Sequence[str] = (), _supervision_observer=None) -> dict[str, Any]:
+    def run(self, spec: PrivateEvaluationSpec, *, resource_properties: Sequence[str] = (), _supervision_observer=None, _acquisition_observer=None) -> dict[str, Any]:
         """Run a trusted Python examiner. Never interpret or admit its report here."""
         from ..errors import WorldlineError
         try:
-            return self._run(spec, resource_properties, **({} if _supervision_observer is None else {'_supervision_observer': _supervision_observer}))
+            return self._run(spec, resource_properties, **({} if _supervision_observer is None else {'_supervision_observer': _supervision_observer}),
+                **({} if _acquisition_observer is None else {'_acquisition_observer': _acquisition_observer}))
         except (BackendFailure, OSError, ValueError) as exc:
-            if _supervision_observer is not None:
+            if _supervision_observer is not None or _acquisition_observer is not None:
                 from ..raw_observation import retention_failed
                 if retention_failed(exc): raise
             raise WorldlineError(getattr(exc, "code", "PRIVATE_EVALUATOR_FAILED"), str(exc)) from exc
 
-    def _run(self, spec: PrivateEvaluationSpec, resource_properties: Sequence[str], *, _supervision_observer=None) -> dict[str, Any]:
+    def _run(self, spec: PrivateEvaluationSpec, resource_properties: Sequence[str], *, _supervision_observer=None, _acquisition_observer=None) -> dict[str, Any]:
         _validate_spec(spec)
         bubblewrap = _bubblewrap_identity(spec.bubblewrap_executable)
         spec.runtime.mkdir(mode=0o700)
@@ -335,6 +439,9 @@ class PrivateEvaluator:
         plan_path.chmod(0o600)
         process = self.systemd.launch_private_evaluator(
             spec.run_id, plan_path, helper, resource_properties=resource_properties)
+        if _acquisition_observer is not None:
+            return self._collect_observed(spec, process, _acquisition_observer,
+                                          _supervision_observer=_supervision_observer)
         try:
             deadline = time.monotonic() + BOOTSTRAP_HANDSHAKE_SECONDS
             while not (spec.runtime / "bootstrap-ready").exists():
@@ -361,6 +468,51 @@ class PrivateEvaluator:
             _refuse("private bootstrap produced no boundary evidence: " + stderr.decode("utf-8", "replace")[-2000:],
                     "PRIVATE_EVALUATOR_UNAVAILABLE")
         boundary = json.loads(evidence_path.read_text(encoding="utf-8"))
+        if boundary.get("error"):
+            _refuse(str(boundary["error"]), "PRIVATE_EVALUATOR_BOUNDARY_FAILED")
+        boundary["managerBootstrapProperties"] = unit_properties
+        boundary["bootstrapExitCode"] = process.launcher.returncode
+        return {"profileId": PROFILE_ID, "stdout": stdout, "stderr": stderr,
+                "exitCode": process.launcher.returncode, "supervision": supervision,
+                "boundary": boundary, "reportDirectory": spec.report_directory}
+
+    def _collect_observed(self, spec, process, observer, *, _supervision_observer=None):
+        from ..raw_observation import cleanup_call, retention_failed
+        acquisition = _PrivateAcquisitions(spec, process, observer)
+        try:
+            deadline = time.monotonic() + BOOTSTRAP_HANDSHAKE_SECONDS
+            while not (spec.runtime / "bootstrap-ready").exists():
+                if process.launcher.poll() is not None or time.monotonic() >= deadline:
+                    _refuse("mapped bootstrap did not become ready", "PRIVATE_EVALUATOR_UNAVAILABLE")
+                time.sleep(0.02)
+            unit_properties = self.systemd._show(process.unit, ("NoNewPrivileges", "MainPID"))
+            if not unit_properties or unit_properties.get("NoNewPrivileges") != "no":
+                _refuse("manager did not confirm mapping bootstrap NoNewPrivileges=no")
+            (spec.runtime / "bootstrap-go").write_text("GO\n")
+            stdout, stderr = acquisition.communicate(spec.timeout_seconds + 20,
+                                                     site='examiner-wait')
+        except subprocess.TimeoutExpired as primary:
+            cleanup_call(lambda: self.systemd.stop(process.unit))
+            acquisition.cleanup_communicate(20, site='timeout-cleanup')
+            if retention_failed(primary):
+                raise
+            _refuse("supervised private evaluator exceeded its deadline", "PRIVATE_EVALUATOR_TIMEOUT")
+        except BaseException:
+            cleanup_call(lambda: self.systemd.stop(process.unit))
+            acquisition.cleanup_communicate(20, site='exception-cleanup')
+            raise
+        supervision = self.systemd.outcome(process, process.launcher.returncode,
+            **({} if _supervision_observer is None else {'_raw_observer': _supervision_observer}))
+        evidence_path = spec.runtime / "boundary.json"
+        if not evidence_path.is_file():
+            _refuse("private bootstrap produced no boundary evidence: " + stderr.decode("utf-8", "replace")[-2000:],
+                    "PRIVATE_EVALUATOR_UNAVAILABLE")
+        payload = acquisition.boundary_bytes(evidence_path)
+        # Match Path.read_text's UTF-8 and universal-newline behavior while
+        # decoding only the owned, already retained bytes.
+        import io
+        with io.TextIOWrapper(io.BytesIO(payload), encoding='utf-8') as text_stream:
+            boundary = json.loads(text_stream.read())
         if boundary.get("error"):
             _refuse(str(boundary["error"]), "PRIVATE_EVALUATOR_BOUNDARY_FAILED")
         boundary["managerBootstrapProperties"] = unit_properties

@@ -487,3 +487,53 @@ class TerminalControls(unittest.TestCase):
         self.assertEqual(stored['context']['kind'], 'engine-run-return-not-observed')
         self.assertIsNone(stored['context']['engineRunReturnObserved'])
         self.assertIsNone(stored['context']['engineCapture'])
+
+
+    def test_native_fact_dependencies_refuse_before_terminal_retention(self):
+        from worldline.completion_kernel import Facts, KernelRefused
+        # Actual owned C requests through CompletionKernel, no process launch
+        # and no authorization inference. Each case isolates an original raw
+        # dependent relation; a typed negative is covered separately below.
+        malformed = [
+            {'exit_integer': 1},
+            {'bundle_stable': 1, 'bundle_is_mapping': 1},
+            {'bundle_stable': 1, 'bundle_present': 1},
+            {'bundle_changed': 1, 'bundle_is_mapping': 1},
+            {'bundle_changed': 1, 'bundle_present': 1},
+        ]
+        for index, updates in enumerate(malformed):
+            with self.subTest(observations=updates):
+                handle = self.pending.begin('native-invalid-' + str(index), 'content', 'req')
+                capture, rows = self.observation(handle)
+                facts = Facts()
+                for name, value in updates.items():
+                    setattr(facts, name, value)
+                raw = tuple(getattr(facts, name) for name, _type in Facts._fields_)
+                row = replace(rows[0], observations=raw)
+                with self.assertRaisesRegex(KernelRefused, 'COMPLETION_TRANSPORT_REFUSED'):
+                    self.terminal.retain(capture, (row,))
+                self.assertIsNone(self.terminal._intent(capture.bound.run))
+                self.assertEqual(self.terminal.discover(), ())
+
+    def test_native_fact_dependencies_preserve_original_valid_negative_encodings(self):
+        from worldline.completion_kernel import Facts
+        valid = [
+            {},
+            {'exit_present': 1, 'exit_integer': 1},
+            {'bundle_present': 1, 'bundle_is_mapping': 1, 'bundle_stable': 1},
+            {'bundle_present': 1, 'bundle_is_mapping': 1, 'bundle_changed': 1},
+            # The original predicate permits this ordinary absent-bundle
+            # observation when neither dependent stability bit claims a result.
+            {'bundle_is_mapping': 1},
+        ]
+        for index, updates in enumerate(valid):
+            with self.subTest(observations=updates):
+                handle = self.pending.begin('native-valid-' + str(index), 'content', 'req')
+                capture, rows = self.observation(handle)
+                facts = Facts()
+                for name, value in updates.items():
+                    setattr(facts, name, value)
+                raw = tuple(getattr(facts, name) for name, _type in Facts._fields_)
+                retained = self.terminal.retain(capture, (replace(rows[0], observations=raw),))
+                self.assertEqual(retained.run, handle.run)
+                self.assertIsNotNone(self.terminal._intent(capture.bound.run))

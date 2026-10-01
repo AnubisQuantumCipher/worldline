@@ -496,7 +496,11 @@ class CheckRunner:
                     **({} if _observation_writer is None else {'_supervision_observer':
                         lambda occurrence, record: _observation_writer.invocation_raw(
                             world_instance=world_instance, check=check.id,
-                            kind='private-supervision-acquisition', occurrence=occurrence, observed=record)}))
+                            kind='private-supervision-acquisition', occurrence=occurrence, observed=record),
+                        '_acquisition_observer':
+                        lambda kind, occurrence, record: _observation_writer.invocation_raw(
+                            world_instance=world_instance, check=check.id,
+                            kind=kind, occurrence=occurrence, observed=record)}))
                 if _observation_writer is not None:
                     # The backend returned before the resource guard exits.
                     retain_observation(lambda record: _observation_writer.invocation_raw(

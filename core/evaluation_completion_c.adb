@@ -257,7 +257,14 @@ package body Evaluation_Completion_C with SPARK_Mode => Off is
       and then F.Exit_Present <= 1 and then F.Exit_Integer <= 1
       and then F.Supervisor_Stopped <= 1 and then F.Bundle_Present <= 1
       and then F.Bundle_Is_Mapping <= 1 and then F.Bundle_Stable <= 1
-      and then F.Bundle_Changed <= 1 and then F.Unsatisfied_Imports <= 1);
+      and then F.Bundle_Changed <= 1 and then F.Unsatisfied_Imports <= 1
+      --  Preserve the original Evaluation_Classify dependent encoding guards.
+      --  These guards reject malformed transport, not an ordinary negative fact.
+      and then F.Exit_Integer <= F.Exit_Present
+      and then F.Bundle_Stable <= F.Bundle_Present
+      and then F.Bundle_Stable <= F.Bundle_Is_Mapping
+      and then F.Bundle_Changed <= F.Bundle_Present
+      and then F.Bundle_Changed <= F.Bundle_Is_Mapping);
    function Convert (F : Facts) return E.Observations is
      (E.Origin'Val (F.Source), E.Raw_Status'Val (F.Status),
       E.Channel_State'Val (F.Channel), E.Rejection_Stage'Val (F.Stage),
