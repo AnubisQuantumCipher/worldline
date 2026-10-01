@@ -41,7 +41,7 @@ root = Path(sys.argv[1]).resolve()
 # the gate that writes the manifest and the check that reads it cannot disagree.
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(root))
-from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY, contract_problems  # noqa: E402
+from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY, SummaryError, contract_problems, parse_summary  # noqa: E402
 # The pinned contracts are checked before the manifest is written, so the gate never prints
 # PASSED for a tree whose contracts changed (review of 0ee1112).
 if contract_problems(root):
@@ -50,18 +50,16 @@ out_path = (root / sys.argv[2]).resolve()
 lib_path = (root / sys.argv[3]).resolve()
 summary = out_path.read_text(encoding="utf-8")
 
-total_line = next((line for line in summary.splitlines() if line.startswith("Total")), None)
-if total_line is None:
-    raise SystemExit("prove: Total row missing from gnatprove summary")
-clean = re.sub(r"\([0-9]+%\)", "", total_line)
-fields = clean.split()
-if len(fields) != 6:
-    raise SystemExit(f"prove: cannot parse Total row: {total_line}")
-_, total_text, flow_text, prover_text, justified_text, unproved_text = fields
-parse_count = lambda value: 0 if value == "." else int(value)
-total = parse_count(total_text)
-justified = parse_count(justified_text)
-unproved = parse_count(unproved_text)
+# 1.9.2 (OB-085): the whole summary is parsed fail-closed -- every section and line recognized,
+# exactly one Total row, the categories summing to it column by column -- by the parser the
+# manifest verifier and the runtime share. A line it has never seen refuses the gate.
+try:
+    parsed = parse_summary(summary)
+except SummaryError as exc:
+    raise SystemExit(f"PROOF GATE FAILED: the gnatprove summary is not recognized: {exc}")
+total = parsed["total"]
+justified = parsed["justified"]
+unproved = parsed["unproved"]
 
 sources: dict[str, Path] = {
     "worldline.gpr": root / "worldline.gpr",
@@ -143,49 +141,23 @@ if spark_off:
 if total < MINIMUM_CHECKS:
     raise SystemExit(
         f"PROOF GATE FAILED: only {total} checks proved, expected at least {MINIMUM_CHECKS}; "
-        "if this reduction is intentional, lower MINIMUM_CHECKS deliberately in verify_proof_manifest.py"
+        "retain the pinned proof floor and required coverage; investigate missing analysis and "
+        "restore the implementation and proof obligations before retrying"
     )
 
-# Per-subprogram coverage, read from the same summary the counts came from. Fail closed: inside
-# the per-unit section every indented line must be the one proved form. Anything else --
-# "proof skipped", "not analyzed", a skipped flow analysis, a format this parser has never seen
-# -- is a coverage problem, never a line to ignore.
-_UNIT = re.compile(r"^in unit (\S+), (\d+) subprograms and packages out of (\d+) analyzed$")
-_SUBPROGRAM = re.compile(
-    r"^  (\S+) at (\S+) flow analyzed \(0 errors, \d+ checks, \d+ warnings and "
-    r"0 pragma Assume statements\) and proved \((\d+) checks\)$")
-units: dict[str, dict[str, int]] = {}
-subprograms: dict[str, dict[str, object]] = {}
-listed: dict[str, int] = {}
+# Per-subprogram coverage, read from the same summary the counts came from. The parser is fail
+# closed: inside the per-unit section every indented line must be the one proved form, and each
+# unit must list exactly as many proved subprograms as it says it analyzed. What remains here is
+# what the parse cannot know: units analyzed only in part, units with nothing analyzed, the
+# required subprograms and the declared boundary.
+units: dict[str, dict[str, int]] = parsed["units"]
+subprograms: dict[str, dict[str, object]] = parsed["subprograms"]
 coverage_problems: list[str] = []
-current_unit: str | None = None
-for line in summary.splitlines():
-    unit_match = _UNIT.match(line)
-    if unit_match:
-        current_unit = unit_match.group(1)
-        analyzed, available = int(unit_match.group(2)), int(unit_match.group(3))
-        units[current_unit] = {"analyzed": analyzed, "available": available}
-        listed[current_unit] = 0
-        if analyzed != available:
-            coverage_problems.append(f"unit {current_unit}: {analyzed} of {available} analyzed")
-        if current_unit not in UNANALYZED_BOUNDARY and available == 0:
-            coverage_problems.append(f"unit {current_unit}: nothing analyzed")
-        continue
-    if current_unit is None:
-        continue
-    if not line.startswith("  "):
-        current_unit = None
-        continue
-    sub_match = _SUBPROGRAM.match(line)
-    if sub_match is None:
-        coverage_problems.append(f"unit {current_unit}: not a proved subprogram: {line.strip()}")
-        continue
-    name, where, checks = sub_match.groups()
-    subprograms[name] = {"at": where, "checks": int(checks), "proved": True}
-    listed[current_unit] += 1
 for unit, counts in units.items():
-    if listed.get(unit, 0) != counts["analyzed"]:
-        coverage_problems.append(f"unit {unit}: {counts['analyzed']} analyzed but {listed.get(unit, 0)} listed as proved")
+    if counts["analyzed"] != counts["available"]:
+        coverage_problems.append(f"unit {unit}: {counts['analyzed']} of {counts['available']} analyzed")
+    if unit not in UNANALYZED_BOUNDARY and counts["available"] == 0:
+        coverage_problems.append(f"unit {unit}: nothing analyzed")
 for name in REQUIRED_PROVED:
     if name not in subprograms:
         coverage_problems.append(f"{name}: absent from the proof summary")
@@ -265,4 +237,6 @@ print(f"PROOF GATE PASSED — {total} checks, all proved, nothing assumed.")
 print(f"manifest        {manifest_path}")
 PY
 
-python3 "$ROOT/verify_proof_manifest.py"
+# The summary is re-read and re-derived, and its digest checked against the manifest just
+# written (1.9.2, OB-085): the manifest cannot describe a summary other than this one.
+python3 "$ROOT/verify_proof_manifest.py" --require-summary "$OUT"

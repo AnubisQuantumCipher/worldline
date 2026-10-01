@@ -167,10 +167,19 @@ current requirement with a complete roster and the declared verifiers over exact
 `prove.sh` runs GNATprove at level 3 over every kernel unit and fails unless every check is
 proved with nothing assumed and nothing justified (251 checks as of 1.9.0; the count is read
 from the gate's output, never typed). It writes
-`proof-manifest.json` with the library hash; the installer verifies the manifest before
-installing, and the runtime reports `invariantPreservation: PROVED` in a receipt only while the
-running library still matches. The continuous-integration workflow re-proves every build on an
+`proof-manifest.json` with the library hash. The installer preserves the pinned proof sources,
+the proof-run record and, when proof ran, its summary. The runtime reports
+`invariantPreservation: PROVED` only after the mapped library identity/hash, source and contract
+pins, recorded run, summary digest, counts and coverage pass the shared verifier. Each result
+is exposed in the receipt's `worldline-proof-status-v2` check list. A matching manifest without
+an accepted recorded run is `MANIFEST_ONLY`; an environment-selected library is `TEST_LIBRARY`;
+failed or unevaluable checks are `UNVERIFIED`. The continuous-integration workflow re-proves every build on an
 x86_64 runner, which is also the portability check for the Mac Pro.
+
+These implemented checks do not discharge the target of authenticated proof provenance and
+decision-time binding, or the project's end-to-end guarantees. OB-039 and the remaining OB-084
+work remain OPEN until the implementation and evidence reach those targets; accurate interim
+labels cannot close them.
 
 ## 6.4 What is not proved
 

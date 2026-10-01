@@ -15,6 +15,26 @@ from .project import ProjectConfig
 from .store import StateStore
 
 
+def claims_of(event: dict[str, Any], default_actor: str) -> dict[str, Any]:
+    """The actor, tool and reason an event records, with who made those claims (1.9.2):
+    `agent:<adapter>` for anything an agent's stdout supplied (a file-delta carries its source
+    event's origin), `worldline` for WORLDLINE's own records, and `not recorded (before 1.9.2)`
+    for events chained before origins were recorded, which cannot be authenticated now."""
+    origin = event.get("origin")
+    if origin == "agent":
+        label = f"agent:{event.get('adapter') or 'unknown'}"
+    elif origin == "worldline":
+        label = "worldline"
+    else:
+        label = "not recorded (before 1.9.2)"
+    return {
+        "origin": label,
+        "actor": event.get("actor", default_actor),
+        "tool": event.get("tool"),
+        "reason": event.get("reason") or "not supplied by adapter",
+    }
+
+
 class CausalIndexer:
     def __init__(self, store: StateStore) -> None:
         self.store = store
@@ -59,8 +79,12 @@ class CausalIndexer:
                 "pathDisplay": display,
                 "operation": operation["op"],
                 "evidence": evidence,
+                # Who made the claims this record carries (actor, tool, reason): the source
+                # event's origin, so an agent's statement stays labelled as the agent's (1.9.2).
+                **({"origin": source_value["origin"]} if source_value.get("origin") else {}),
+                **({"adapter": source_value["adapter"]} if source_value.get("adapter") else {}),
             }
-            link = self.store.append_causal_event(event)
+            link = self.store.append_causal_event(event, worldline_authored=True)
             line_ranges = self._ranges(
                 operation,
                 base_manifests[root_key],
@@ -188,7 +212,7 @@ class CausalIndexer:
                 raise NotFound("causal event", f"{path_value}:{line}")
             return self._checkpoint_attribution(path_value, line, prime, bystanders)
         row = chosen_row
-        event = json.loads(Path(row["canonical_path"]).read_text(encoding="utf-8"))
+        event = json.loads(self.store.read_canonical("events", row["canonical_path"]).decode("utf-8"))
         world = self.store.world(row["world_instance"])
         ancestors: list[dict[str, Any]] = []
         current = world
@@ -210,9 +234,10 @@ class CausalIndexer:
             "path": path_value,
             "line": line,
             "world": world.alias,
-            "actor": event.get("actor", world.actor),
             "mission": world.cause,
-            "reason": event.get("reason") or "not supplied by adapter",
+            # What an agent said about the change, kept apart from WORLDLINE's facts and labelled
+            # with who said it (1.9.2, OB-091).
+            "claims": claims_of(event, world.actor),
             "granularity": row["granularity"],
             "evidence": event.get("evidence", []),
             "ancestors": ancestors,
@@ -250,9 +275,9 @@ class CausalIndexer:
             "path": path_value,
             "line": line,
             "world": "PRIME",
-            "actor": "worldline",
             "mission": None,
-            "reason": "no world in PRIME's lineage changed this line; it dates from a checkpoint (registration or return)",
+            "claims": {"origin": "worldline", "actor": "worldline", "tool": None,
+                       "reason": "no world in PRIME's lineage changed this line; it dates from a checkpoint (registration or return)"},
             "granularity": "checkpoint",
             "evidence": [],
             "ancestors": ancestors,

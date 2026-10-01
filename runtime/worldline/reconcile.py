@@ -33,7 +33,8 @@ class PrimeChangeTracker:
                 "pathDisplay": event.get("pathDisplay"),
                 "inotifyMask": event["mask"],
                 "generation": event["generation"],
-            }
+            },
+            worldline_authored=True,
         )
 
     def reconcile(self, capture: Callable[[], Any]) -> Any:

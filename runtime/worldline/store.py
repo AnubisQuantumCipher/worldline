@@ -1,13 +1,17 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
+import errno
+import hashlib
 import json
+import logging
 import os
 from pathlib import Path
+import re
 import sqlite3
 import stat
 from threading import RLock
-from typing import Any, Iterator, Sequence
+from typing import Any, Callable, Iterator, Sequence
 
 from . import SCHEMA_VERSION
 from .canonical import atomic_write, canonical_bytes
@@ -15,6 +19,33 @@ from .core import Core, hash_bytes_from_id, hash_id
 from .errors import NotFound, WorldlineError
 from .model import NONTERMINAL_STATES, World, WorldState, utc_now
 from .paths import WorldlinePaths
+
+_LOG = logging.getLogger("worldline.store")
+
+# What only WORLDLINE writes on the causal chain (1.9.2, OB-091). An agent's stdout may name any
+# actor and kind; a line naming one of these would read as WORLDLINE's own record (or, for
+# "user", the operator's), so it is refused at ingestion and here. The kinds are every kind a
+# WORLDLINE writer appends (pinned by tests/test_causal.py against the writers themselves).
+RESERVED_EVENT_ACTORS = frozenset({"worldline", "system", "user"})
+RESERVED_EVENT_KINDS = frozenset({
+    "mission", "agent-invocation", "agent-invocation-result", "file-delta", "collapse-receipt",
+    "unaccounted-write", "promotion-refused", "revalidation", "staged-validation", "prune",
+    "external", "agent-claim-refused", "ghost-generation-superseded",
+})
+
+
+def reserved_event_claim(event: dict[str, Any]) -> str | None:
+    """Why an event may not be appended as an agent's claim, or None."""
+    actor = event.get("actor")
+    if isinstance(actor, str) and actor.strip().casefold() in RESERVED_EVENT_ACTORS:
+        return f"actor {actor!r} is reserved for WORLDLINE and the operator"
+    kind = str(event.get("kind", "event"))
+    if kind.strip().casefold() in RESERVED_EVENT_KINDS:
+        return f"kind {kind!r} is reserved for WORLDLINE's own records"
+    return None
+
+
+_CANONICAL_NAME = re.compile(r"[0-9a-f]{64}\.json")
 
 # The predecessor of the first link in the causal and receipt chains. Its bytes are part of every
 # chain hash already written, so they never change; it is never handed to the kernel as an identity.
@@ -185,6 +216,9 @@ class StateStore:
         self.paths.ensure()
         self.core = core or Core.shared()
         self._lock = RLock()
+        # Called with (eventId, canonical bytes) for every causal event appended, under the store
+        # lock (1.9.2, OB-088): the controller anchors each event as it is chained.
+        self.on_causal_append: Callable[[str, bytes], Any] | None = None
         self._connection = sqlite3.connect(
             self.paths.database,
             timeout=30.0,
@@ -615,9 +649,19 @@ class StateStore:
             swept_worlds += 1
         return {"jobs": swept_jobs, "worlds": swept_worlds}
 
-    def append_causal_event(self, event: dict[str, Any]) -> dict[str, str]:
+    def append_causal_event(self, event: dict[str, Any], *, worldline_authored: bool = False) -> dict[str, str]:
+        """Chain one causal event. Only WORLDLINE's own writers pass `worldline_authored`; any
+        other caller (agent ingestion) is refused a reserved actor or kind, so no new ingestion
+        path can enter a record that reads as WORLDLINE's (1.9.2, OB-091, defence in depth)."""
         if event.get("schemaVersion") != SCHEMA_VERSION:
             raise WorldlineError("INVALID_SCHEMA", "causal event schemaVersion must be literal 1")
+        if not worldline_authored:
+            refused = reserved_event_claim(event)
+            if refused is not None:
+                raise WorldlineError("RESERVED_EVENT_CLAIM", f"causal event refused: {refused}",
+                                     {"actor": event.get("actor"), "kind": event.get("kind")})
+        elif "origin" not in event:
+            event = {**event, "origin": "worldline"}
         world_instance = str(event.get("worldInstance", ""))
         self.world(world_instance)
         payload = canonical_bytes(event)
@@ -645,6 +689,12 @@ class StateStore:
                     str(path), utc_now(),
                 ),
             )
+            observer = self.on_causal_append
+            if observer is not None:
+                try:
+                    observer(event_id, payload)
+                except Exception as exc:  # the event is chained; verification reports it UNANCHORED
+                    _LOG.warning("causal event %s was not anchored: %s", event_id, exc)
         return {"eventId": event_id, "eventRoot": hash_id(event_root), "chainHash": hash_id(chain)}
 
     def add_line_ranges(self, ranges: Sequence[dict[str, Any]]) -> None:
@@ -822,18 +872,67 @@ class StateStore:
                 return {**row, "receipt": receipt}
         return None
 
+    def read_canonical(self, kind: str, canonical_path: str, *, chain_hash: str | None = None) -> bytes:
+        """A canonical event or receipt file, opened only beneath the store's own events/ or
+        receipts/ directory, without following a link (1.9.2, OB-196). A row naming any other
+        file, or a file whose name is not its chain hash, is refused: a rewritten row must not
+        point verification at a file of its choosing."""
+        base = self.paths.events if kind == "events" else self.paths.receipts
+        path = Path(str(canonical_path))
+        expected = None if chain_hash is None else chain_hash.removeprefix("sha256:") + ".json"
+        if (os.path.normpath(str(path.parent)) != os.path.normpath(str(base)) or not _CANONICAL_NAME.fullmatch(path.name)
+                or (expected is not None and path.name != expected)):
+            raise WorldlineError("CANONICAL_PATH_OUTSIDE_STORE",
+                                 f"a {kind[:-1]} row names a file outside the store's {base.name}/ directory: {canonical_path}",
+                                 {"kind": kind, "canonicalPath": str(canonical_path)})
+        try:
+            directory = os.open(base, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        except OSError as exc:
+            raise WorldlineError("CANONICAL_PATH_OUTSIDE_STORE", f"the store's {base.name}/ directory cannot be opened as itself: {exc}",
+                                 {"kind": kind}) from exc
+        try:
+            try:
+                descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK, dir_fd=directory)
+            except OSError as exc:
+                raise WorldlineError("CANONICAL_PATH_OUTSIDE_STORE" if exc.errno == errno.ELOOP else "CANONICAL_FILE_UNREADABLE",
+                                     f"cannot open {canonical_path} beneath the store: {exc}",
+                                     {"kind": kind, "canonicalPath": str(canonical_path)}) from exc
+            with os.fdopen(descriptor, "rb") as handle:
+                if not stat.S_ISREG(os.fstat(handle.fileno()).st_mode):
+                    raise WorldlineError("CANONICAL_PATH_OUTSIDE_STORE", f"{canonical_path} is not a regular file",
+                                         {"kind": kind, "canonicalPath": str(canonical_path)})
+                return handle.read()
+        finally:
+            os.close(directory)
+
     def verify_chains(self) -> dict[str, int]:
+        """Both chains, recomputed through the kernel's links from files read beneath the store
+        only, with every row's columns compared with the canonical record they index (1.9.2)."""
         previous = CHAIN_GENESIS
         causal_count = 0
         with self._lock:
             causal_rows = self._connection.execute("SELECT * FROM causal_events ORDER BY rowid").fetchall()
             receipt_rows = self._connection.execute("SELECT * FROM receipts ORDER BY rowid").fetchall()
         for row in causal_rows:
-            payload = Path(row["canonical_path"]).read_bytes()
+            payload = self.read_canonical("events", row["canonical_path"], chain_hash=row["chain_hash"])
             root = self.core.hash_bytes(b"worldline-event-v1" + payload)
             chain = self.core.causal_link(previous, root)
             if hash_id(previous) != row["predecessor"] or hash_id(root) != row["event_root"] or hash_id(chain) != row["chain_hash"]:
-                raise WorldlineError("CAUSAL_CHAIN_INVALID", f"causal chain broke at {row['event_id']}")
+                raise WorldlineError("CAUSAL_CHAIN_INVALID", f"causal chain broke at {row['event_id']}", {"eventId": row["event_id"]})
+            try:
+                event = json.loads(payload.decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise WorldlineError("CAUSAL_CHAIN_INVALID", f"causal event {row['event_id']} is not JSON") from exc
+            columns = {
+                "event_id": hash_id(chain), "world_instance": str(event.get("worldInstance", "")),
+                "kind": str(event.get("kind", "event")), "actor": event.get("actor"), "tool": event.get("tool"),
+                "reason": event.get("reason"), "path_b64": event.get("pathB64"), "path_display": event.get("pathDisplay"),
+                "line_start": event.get("lineStart"), "line_end": event.get("lineEnd"),
+            }
+            differing = sorted(name for name, value in columns.items() if row[name] != value)
+            if differing:
+                raise WorldlineError("CAUSAL_CHAIN_INVALID", f"causal event {row['event_id']}: row columns differ from the chained event",
+                                     {"eventId": row["event_id"], "columns": differing})
             previous = chain
             causal_count += 1
 
@@ -841,18 +940,52 @@ class StateStore:
         previous_receipt: str | None = None
         receipt_count = 0
         for row in receipt_rows:
-            payload = Path(row["canonical_path"]).read_bytes()
-            receipt = json.loads(payload.decode("utf-8"))
+            payload = self.read_canonical("receipts", row["canonical_path"], chain_hash=row["chain_hash"])
+            try:
+                receipt = json.loads(payload.decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise WorldlineError("RECEIPT_CHAIN_INVALID", f"receipt {row['receipt_id']} is not JSON") from exc
             if receipt.get("previousReceipt") != previous_receipt:
-                raise WorldlineError("RECEIPT_CHAIN_INVALID", f"receipt predecessor broke at {row['receipt_id']}")
+                raise WorldlineError("RECEIPT_CHAIN_INVALID", f"receipt predecessor broke at {row['receipt_id']}", {"receiptId": row["receipt_id"]})
             root = self.core.hash_bytes(b"worldline-receipt-record-v1" + payload)
             chain = self.core.receipt_link(previous, root)
             if hash_id(root) != row["receipt_root"] or hash_id(chain) != row["chain_hash"]:
-                raise WorldlineError("RECEIPT_CHAIN_INVALID", f"receipt chain broke at {row['receipt_id']}")
+                raise WorldlineError("RECEIPT_CHAIN_INVALID", f"receipt chain broke at {row['receipt_id']}", {"receiptId": row["receipt_id"]})
+            differing = sorted(name for name, value in (("receipt_id", receipt.get("receiptId")), ("transaction_id", receipt.get("transactionId")),
+                                                          ("previous_receipt", receipt.get("previousReceipt"))) if row[name] != value)
+            if differing:
+                raise WorldlineError("RECEIPT_CHAIN_INVALID", f"receipt {row['receipt_id']}: row columns differ from the chained receipt",
+                                     {"receiptId": row["receipt_id"], "columns": differing})
             previous = chain
             previous_receipt = row["receipt_id"]
             receipt_count += 1
         return {"causalEvents": causal_count, "receipts": receipt_count}
+
+    def anchor_items(self) -> dict[str, Any]:
+        """Every receipt and causal event as (identity, sha256 of its canonical bytes), read
+        beneath the store only: what the anchor's coverage is compared with (1.9.2, OB-089).
+        A row the confined reader refuses is returned as the error, never skipped."""
+        with self._lock:
+            receipt_rows = self._connection.execute("SELECT receipt_id,canonical_path,chain_hash FROM receipts ORDER BY rowid").fetchall()
+            event_rows = self._connection.execute("SELECT event_id,canonical_path,chain_hash FROM causal_events ORDER BY rowid").fetchall()
+        try:
+            return {
+                "receipts": [(row["receipt_id"], hashlib.sha256(self.read_canonical("receipts", row["canonical_path"], chain_hash=row["chain_hash"])).hexdigest())
+                             for row in receipt_rows],
+                "events": [(row["event_id"], hashlib.sha256(self.read_canonical("events", row["canonical_path"], chain_hash=row["chain_hash"])).hexdigest())
+                           for row in event_rows],
+            }
+        except WorldlineError as exc:
+            return {"error": {"code": exc.code, "message": exc.message}}
+
+    def canonical_for(self, kind: str, identity: str) -> bytes:
+        """The canonical bytes of one receipt or event by its identity, read beneath the store."""
+        table, column = ("receipts", "receipt_id") if kind == "receipts" else ("causal_events", "event_id")
+        with self._lock:
+            row = self._connection.execute(f"SELECT canonical_path,chain_hash FROM {table} WHERE {column}=?", (identity,)).fetchone()
+        if row is None:
+            raise NotFound(kind[:-1], identity)
+        return self.read_canonical(kind, row["canonical_path"], chain_hash=row["chain_hash"])
 
     def last_receipt(self) -> dict[str, Any] | None:
         with self._lock:

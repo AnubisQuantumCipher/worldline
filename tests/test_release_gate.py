@@ -36,7 +36,7 @@ def good_assurance() -> dict:
         "pythonTests": {"ran": 167, "ok": True, "failures": 0, "errors": 0, "skipped": 0, "verdictLine": "OK"},
         "proof": {
             "committedManifest": {"present": True, "sourceHashes": SOURCES},
-            "regeneratedManifest": {"present": True, "total": 130, "minimumChecks": 130, "unproved": 0, "justified": 0, "pragmaAssume": 0, "sourceHashes": SOURCES, "librarySha256": "d" * 64, "manifestSha256": "e" * 64},
+            "regeneratedManifest": {"present": True, "total": gate.MINIMUM_CHECKS, "minimumChecks": gate.MINIMUM_CHECKS, "unproved": 0, "justified": 0, "pragmaAssume": 0, "sourceHashes": SOURCES, "librarySha256": "d" * 64, "manifestSha256": "e" * 64},
             "consistent": True,
         },
         "toolchain": {"gnat": "GNAT 16.1.0"},
@@ -54,11 +54,16 @@ def good_facts() -> dict:
         "changelog": "# Changelog\n\n## 1.3.0 — 2026-09-21 · evidence freshness\n\n- things\n\n## 1.2.2 — old\n",
         "assurance": good_assurance(),
         "assurance_sha256": "3" * 64,
-        "committed_proof_manifest": {"sourceHashes": SOURCES, "proof": {"total": 130}},
+        "committed_proof_manifest": {"sourceHashes": SOURCES, "proof": {"total": gate.MINIMUM_CHECKS}},
         "remote_tag_sha": None,
         "release_exists": False,
         "artifacts": {"worldline-v1.3.0.tar.gz": "f" * 64, "worldline-v1.3.0.tar.gz.sha256": "1" * 64, "assurance.json": "3" * 64},
         "expected_artifacts": {"worldline-v1.3.0.tar.gz": "f" * 64, "worldline-v1.3.0.tar.gz.sha256": "1" * 64, "assurance.json": "3" * 64},
+        "plugin_compatibility": {
+            "schema": "worldline-plugin-compatibility-v1",
+            "plugin": {"commit": OTHER, "archiveSha256": "8" * 64, "tag": "v1.3.5"},
+            "codeSetSha256": "7" * 64,
+        },
     }
 
 
@@ -66,6 +71,20 @@ class ReleaseGateAcceptsOnlyTheExactAssuredCommit(unittest.TestCase):
     def test_known_good_control_is_accepted(self) -> None:
         verdict = gate.evaluate(**good_facts())
         self.assertTrue(verdict.accepted, verdict.reasons)
+
+    def test_pinned_proof_floor_is_required(self) -> None:
+        facts = good_facts()
+        facts["assurance"]["proof"]["regeneratedManifest"]["minimumChecks"] = None
+        verdict = gate.evaluate(**facts)
+        self.assertFalse(verdict.accepted)
+        self.assertTrue(any("pinned floor" in reason for reason in verdict.reasons))
+
+    def test_unnamed_plugin_is_not_release_ready(self) -> None:
+        facts = good_facts()
+        facts["plugin_compatibility"]["plugin"]["commit"] = None
+        verdict = gate.evaluate(**facts)
+        self.assertFalse(verdict.accepted)
+        self.assertTrue(any("no plugin commit" in reason for reason in verdict.reasons))
 
     def _rejected(self, mutate, needle: str) -> list[str]:
         facts = good_facts()
@@ -203,6 +222,7 @@ class ReleaseGateAcceptsOnlyTheExactAssuredCommit(unittest.TestCase):
             (root / "assurance.json").write_text(json.dumps(good_assurance()), encoding="utf-8")
             (root / "other-assurance.json").write_text(json.dumps(good_assurance()) + "\n", encoding="utf-8")
             (root / "proof-manifest.json").write_text(json.dumps({"sourceHashes": SOURCES}), encoding="utf-8")
+            (root / "plugin-compatibility.json").write_text(json.dumps(good_facts()["plugin_compatibility"]), encoding="utf-8")
             (root / "worldline-v1.3.0.tar.gz").write_bytes(b"archive")
             import hashlib
             digest = hashlib.sha256(b"archive").hexdigest()
@@ -211,13 +231,14 @@ class ReleaseGateAcceptsOnlyTheExactAssuredCommit(unittest.TestCase):
             base = [sys.executable, str(REPO / "scripts" / "release_gate.py"), "--release-sha", SHA, "--release-tree", TREE, "--tag", "v1.3.0", "--tag-target-sha", SHA,
                     "--version-file", str(root / "version.py"), "--changelog", str(root / "CHANGELOG.md"), "--assurance", str(root / "assurance.json"),
                     "--proof-manifest", str(root / "proof-manifest.json"), "--release-exists", "no",
+                    "--plugin-compatibility", str(root / "plugin-compatibility.json"),
                     "--artifact", f"worldline-v1.3.0.tar.gz={root / 'worldline-v1.3.0.tar.gz'}", "--expected-artifact", f"worldline-v1.3.0.tar.gz={digest}",
                     "--artifact", f"assurance.json={root / 'assurance.json'}", "--expected-artifact", f"assurance.json={assurance_digest}"]
             accepted = subprocess.run([*base, "--write-manifest", str(root / "release-manifest.json")], capture_output=True, text=True)
             self.assertEqual(accepted.returncode, 0, accepted.stdout + accepted.stderr)
             manifest = json.loads((root / "release-manifest.json").read_text(encoding="utf-8"))
             self.assertTrue(manifest["accepted"])
-            self.assertEqual(manifest["proof"]["total"], 130)
+            self.assertEqual(manifest["proof"]["total"], gate.MINIMUM_CHECKS)
             self.assertEqual(manifest["artifacts"], [{"name": "assurance.json", "sha256": assurance_digest},
                                                      {"name": "worldline-v1.3.0.tar.gz", "sha256": digest}])
             self.assertEqual(manifest["assurance"]["sha256"], assurance_digest)

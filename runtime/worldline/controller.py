@@ -30,7 +30,7 @@ from .prune import Pruner, require_payload
 from .linux.git import GitAdapter
 from .linux.hyprland import HyprlandAdapter
 from .linux.inotify import InotifyWatcher
-from .model import WorldState
+from .model import WorldState, utc_now
 from .linux.namespaces import BubblewrapSandbox
 from .admission import AdmissionAuthority, Gate, Ledger
 from .linux.systemd import SystemdAdapter
@@ -53,6 +53,13 @@ _ROOT_KEY = re.compile(r"[0-9a-f]{64}")
 
 
 _LOG = logging.getLogger("worldline.controller")
+
+
+def _post_commit_warning(step: str, exc: BaseException, **extra: Any) -> dict[str, Any]:
+    """A failure after a committed exchange, as the commit reports it: a warning, never the
+    result (1.9.2, OB-128)."""
+    return {"step": step, "code": getattr(exc, "code", type(exc).__name__),
+            "message": getattr(exc, "message", str(exc)), **extra}
 
 def _require_alternates_inside(source: bytes) -> None:
     """Objects borrowed from outside the root (`objects/info/alternates`) are invisible to the
@@ -180,7 +187,11 @@ class RuntimeController:
         self.gate = Gate(self.admission, config.resource_policy)
         self.runner = AgentRunner(paths, store, config, self.sandbox, self.systemd, self.gate, core=self.core)
         self.forks = ForkManager(paths, store, config, self.checkpoint, self.runner, core=self.core)
-        self.anchors = AnchorLedger(paths, config.anchor_export_path)
+        # 1.9.2: the witness and the key pin are named by the configuration; whether each is out
+        # of this account's reach is measured at every check. A start's alarm (store meta) is
+        # what the promotion guard consults between starts.
+        self.anchors = AnchorLedger(paths, config.anchor_export_path, pin_path=config.anchor_pin_path,
+                                    alarm=lambda: self.store.get_meta("anchorAlarm"))
         self.revalidator = Revalidator(paths, store, config, self.sandbox, self.runner.checks, core=self.core)
         self.transactions = CollapseTransaction(
             paths,
@@ -205,17 +216,25 @@ class RuntimeController:
         self.simulation = SystemSimulation(paths, store, self.sandbox, self.systemd, self.gate, core=self.core)
         self.ghosts = GhostManager(config, store)
         self._last_ghost_generation = self.store.get_meta("primeGeneration")
-        # Receipts that predate the anchor ledger are anchored now, in chain order, so coverage
-        # is complete from the first receipt rather than from the upgrade.
+        self._daemon: WorldlineDaemon | None = None
+        # The anchor at start (1.9.2): the store's chains are verified (confined) and the witness
+        # compared BEFORE anything is signed or exported; receipts and events that predate the
+        # anchor are then signed, and the witness brought up to date by appending. A rollback, a
+        # rewrite or a coverage mismatch signs nothing, leaves the witness as it was and raises an
+        # alarm that doctor reports and the promotion guard refuses on (OB-083, OB-089).
         try:
-            rows = [self.store.receipt_for_transaction(row["transaction_id"]) for row in self.store.receipts()]
-            self.anchors.backfill([row for row in rows if row is not None])
-            if self.anchors.export_path is not None and self.anchors.ledger_path.is_file():
-                exported = self.anchors.export()
-                if exported.get("state") == "FAILED":
-                    _LOG.warning("anchor export failed: %s", exported.get("reason"))
+            started = self.anchors.startup(verify_chains=self.store.verify_chains, items=self.store.anchor_items,
+                                           canonical=self.store.canonical_for)
         except (WorldlineError, OSError) as exc:
-            _LOG.warning("anchor backfill skipped: %s", exc)
+            started = {"alarm": {"code": getattr(exc, "code", "ANCHOR_START_FAILED"), "message": str(exc), "stage": "start"}}
+        self._anchor_start = started
+        self.store.set_meta("anchorAlarm", started.get("alarm"))
+        if started.get("alarm"):
+            _LOG.error("anchor alarm at start: %s", started["alarm"])
+        elif (started.get("export") or {}).get("state") in ("FAILED", "REFUSED"):
+            _LOG.warning("anchor export at start: %s", started["export"])
+        # From here every causal event is anchored as it is chained (OB-088).
+        self.store.on_causal_append = self.anchors.anchor_event
 
     def _refresh_watcher(self) -> None:
         # Detach every component before closing the old watcher: if building the new one fails,
@@ -255,6 +274,11 @@ class RuntimeController:
     def recover(self) -> dict[str, Any]:
         stopped = self.runner.services.stop_orphans()
         transactions = self.transactions.recover_all()
+        try:
+            ghosts = self._retry_pending_ghosts(self._daemon)
+        except Exception as exc:  # a start must not fail on ghosts; the record stays pending
+            _LOG.exception("pending automatic ghosts could not start at daemon start")
+            ghosts = {"state": "PENDING", "error": getattr(exc, "code", type(exc).__name__)}
         error = self.store.get_meta("watchError")
         if not self.transactions.unrecoverable and isinstance(error, dict) and error.get("code") == "RECOVERY_INCOMPLETE":
             # The quarantine a status re-capture reported is settled; recovery may have cleared
@@ -262,7 +286,8 @@ class RuntimeController:
             self.store.set_meta("watchError", None)
             self.store.set_meta("watchState", "HEALTHY")
         swept = self.revalidator.sweep_inputs()
-        return {"stoppedOrphanJobs": stopped, "transactions": transactions, "sweptRevalidationInputs": swept}
+        return {"stoppedOrphanJobs": stopped, "transactions": transactions, "sweptRevalidationInputs": swept,
+                "pendingGhosts": ghosts}
 
     def _stop_writers(self, world) -> None:
         active = [
@@ -286,11 +311,24 @@ class RuntimeController:
         generation = self.store.get_meta("primeGeneration")
         if generation == self._last_ghost_generation:
             return
-        self._last_ghost_generation = generation
         status = self.ghosts.status()
         if not status["enabled"] or generation is None:
+            self._last_ghost_generation = generation
             return
-        frozen = self.checkpoint.freeze()
+        self._create_generation_ghosts(generation, status, daemon)
+
+    def _create_generation_ghosts(self, generation: Any, status: dict[str, Any], daemon: WorldlineDaemon) -> None:
+        """Freeze PRIME and start this generation's automatic ghosts. A generation counts as
+        served only once its ghosts exist (1.9.2, OB-128): a failed freeze leaves a pending
+        record, retried when a watcher is rebuilt, at start, and at the next scheduling."""
+        try:
+            frozen = self.checkpoint.freeze()
+        except Exception as exc:
+            self.store.set_meta("pendingGhosts", {"generation": generation, "since": utc_now(),
+                                                  "error": getattr(exc, "code", type(exc).__name__)})
+            raise
+        self._last_ghost_generation = generation
+        self.store.set_meta("pendingGhosts", None)
         for objective, mission in self.ghosts.missions.items():
             alias = f"ghost-{objective}-{str(uuid.uuid4())[:8]}"
             world = self.forks.create_world(alias, mission, status["agent"], frozen=frozen)
@@ -301,7 +339,51 @@ class RuntimeController:
                 asyncio.to_thread(self._run_ghost, world, mission, objective, None),
             )
 
+    def _retry_pending_ghosts(self, daemon: WorldlineDaemon | None) -> dict[str, Any] | None:
+        """A generation whose automatic ghosts could not start (1.9.2, OB-128). Ghosts must still
+        be enabled, and the pending generation must still be PRIME's: a PRIME that has moved on
+        records the old generation as superseded and never freezes a different generation under
+        its name; the current generation is then scheduled the ordinary way."""
+        pending = self.store.get_meta("pendingGhosts")
+        if not isinstance(pending, dict) or daemon is None:
+            return None
+        current = self.store.get_meta("primeGeneration")
+        status = self.ghosts.status()
+        if not status["enabled"]:
+            self.store.set_meta("pendingGhosts", None)
+            return {"state": "DROPPED", "generation": pending.get("generation"), "reason": "ghosts are disabled"}
+        if pending.get("generation") != current:
+            prime = self.store.prime()
+            if prime is not None:
+                self.store.append_causal_event({
+                    "schemaVersion": 1, "worldInstance": prime.instance_id, "kind": "ghost-generation-superseded",
+                    "actor": "worldline", "generation": pending.get("generation"), "currentGeneration": current,
+                    "reason": "the generation's automatic ghosts could not start before PRIME moved on",
+                }, worldline_authored=True)
+            self.store.set_meta("pendingGhosts", None)
+            self._schedule_automatic_ghosts(daemon)
+            return {"state": "SUPERSEDED", "generation": pending.get("generation"), "current": current}
+        self._create_generation_ghosts(current, status, daemon)
+        return {"state": "CREATED", "generation": current}
+
+    def _rebuild_watcher_and_retry(self, daemon: WorldlineDaemon | None) -> list[dict[str, Any]]:
+        """Rebuild the PRIME watcher; after a successful rebuild, retry pending ghosts. Returns
+        the post-commit warnings, never raises."""
+        warnings: list[dict[str, Any]] = []
+        try:
+            self._refresh_watcher()
+        except Exception as exc:
+            _LOG.exception("PRIME watcher could not be rebuilt after a commit; PRIME is unwatched")
+            return [_post_commit_warning("watcher-rebuild", exc)]
+        try:
+            self._retry_pending_ghosts(daemon)
+        except Exception as exc:
+            _LOG.exception("pending automatic ghosts could not start")
+            warnings.append(_post_commit_warning("pending-ghosts", exc))
+        return warnings
+
     def register(self, daemon: WorldlineDaemon) -> None:
+        self._daemon = daemon
         daemon.register("init", self._register_roots, mutating=True, owner_only=True)
         daemon.register("root.add", self._register_roots, mutating=True, owner_only=True)
         daemon.register("root.remove", self._remove_root, mutating=True, owner_only=True)
@@ -345,6 +427,7 @@ class RuntimeController:
             confirmed=bool(args.get("confirmed", False)),
         )
         self._refresh_watcher()
+        self._retry_pending_ghosts(context.daemon)
         self._schedule_automatic_ghosts(context.daemon)
         return result
 
@@ -353,6 +436,7 @@ class RuntimeController:
             raise InvalidRequest("root.remove requires root and optional confirmed")
         result = self.roots.remove(args["root"], confirmed=bool(args.get("confirmed", False)))
         self._refresh_watcher()
+        self._retry_pending_ghosts(context.daemon)
         self._schedule_automatic_ghosts(context.daemon)
         return result
 
@@ -457,17 +541,51 @@ class RuntimeController:
     def _log(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if set(args) - {"verify"}:
             raise InvalidRequest("log accepts only verify")
-        events = [
-            event
-            for world in self.store.worlds()
-            for event in self.store.causal_events_for_world(world.instance_id)
-        ]
-        return {
+        events: list[dict[str, Any]] = []
+        unreadable: list[dict[str, Any]] = []
+        for world in self.store.worlds():
+            try:
+                events.extend(self.store.causal_events_for_world(world.instance_id))
+            except (OSError, ValueError, WorldlineError) as exc:  # listed, never a reason to skip verification
+                unreadable.append({"world": world.alias, "error": str(exc)})
+        receipts: list[dict[str, Any]] = []
+        for row in self.store.receipts():
+            try:
+                item = self.store.receipt_for_transaction(row["transaction_id"])
+            except (OSError, ValueError, WorldlineError) as exc:
+                unreadable.append({"receiptId": row["receipt_id"], "error": str(exc)})
+                continue
+            if item:
+                receipts.append(item["receipt"])
+        result: dict[str, Any] = {
             "events": [item["event"] for item in sorted(events, key=lambda value: value["ordinal"])],
-            "receipts": [item["receipt"] for item in [self.store.receipt_for_transaction(row["transaction_id"]) for row in self.store.receipts()] if item],
-            "verification": self.store.verify_chains() if args.get("verify") else None,
-            "anchor": self.anchors.verify(receipts_known=len(self.store.receipts())) if args.get("verify") else None,
+            "receipts": receipts,
+            "verification": None,
+            "anchor": None,
         }
+        if unreadable:
+            result["unreadable"] = unreadable
+        if args.get("verify"):
+            # Both verdicts, always (1.9.2, OB-196): a chain break no longer hides the anchor's
+            # verdict, and neither is returned as mere data. The CLI exits with the distinct
+            # verification status unless `verdict.state` is OK.
+            try:
+                chains: dict[str, Any] = {"state": "OK", **self.store.verify_chains()}
+            except WorldlineError as exc:
+                chains = {"state": exc.code, "message": exc.message, "details": exc.details}
+            anchor = self._anchor_verdict()
+            problems = [state for state in (chains["state"], anchor["state"]) if state != "OK"]
+            if unreadable:
+                problems.append("LOG_RECORD_UNREADABLE")
+            result["verification"] = chains
+            result["anchor"] = anchor
+            result["verdict"] = {"state": "OK" if not problems else "FAILED", "problems": problems}
+        return result
+
+    def _anchor_verdict(self) -> dict[str, Any]:
+        """The anchor's verdict, with coverage compared entry by entry against the store's
+        receipts and causal events read beneath the store (1.9.2)."""
+        return self.anchors.verify(items=self.store.anchor_items())
 
     def _why(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if set(args) != {"path", "line"} or not isinstance(args["path"], str) or not isinstance(args["line"], int):
@@ -543,6 +661,7 @@ class RuntimeController:
         if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
             raise InvalidRequest("collapse.commit requires transactionId")
         transaction = self.store.transaction_record(args["transactionId"])
+        warnings: list[dict[str, Any]] = []
         try:
             try:
                 result = self.transactions.commit(args["transactionId"])
@@ -550,28 +669,49 @@ class RuntimeController:
                 # The atomic exchange swapped the `live` mapping, so every inotify watch is now
                 # pinned to the pre-collapse payload inodes. Rebuild the watcher against the new
                 # PRIME -- also when the commit raised after the exchange (review of 56a7146). A
-                # failed rebuild is logged, never allowed to replace the commit's own error; it
-                # leaves PRIME unwatched, which refuses (review of fcbf132).
-                try:
-                    self._refresh_watcher()
-                except Exception:
-                    _LOG.exception("PRIME watcher could not be rebuilt after a commit; PRIME is unwatched")
+                # failed rebuild leaves PRIME unwatched, which refuses (review of fcbf132); it is
+                # a warning on the commit's report, never the report (1.9.2, OB-128).
+                warnings.extend(self._rebuild_watcher_and_retry(context.daemon))
         except WorldlineError as exc:
-            if exc.code == "COMMIT_DURABILITY_UNCERTAIN" and (exc.details or {}).get("state") == "COMMITTED":
+            if (exc.details or {}).get("state") == "COMMITTED":
                 # Committed and recorded: what follows any commit follows this one too (a return's
-                # services, ghosts). A failure there is logged; the commit's report stands.
-                try:
-                    self._after_commit(transaction, context)
-                except Exception:
-                    _LOG.exception("post-commit steps failed after a commit settled in place")
+                # services, ghosts), and its failures are warnings beside the commit's own.
+                warnings.extend(self._after_commit(transaction, context))
+                previous = (exc.details or {}).get("postCommit") or {}
+                exc.details = {**(exc.details or {}), "postCommit": {
+                    **previous, "warnings": [*(previous.get("warnings") or []), *warnings]}}
             raise
-        self._after_commit(transaction, context)
-        return result
+        warnings.extend(self._after_commit(transaction, context))
+        anchor = result.get("anchor") if isinstance(result.get("anchor"), dict) else {}
+        warnings.extend(anchor.get("warnings") or [])
+        # PRIME moved and the receipt stands: the result is COMMITTED whatever followed it.
+        previous = result.get("postCommit") or {}
+        return {**result, "postCommit": {
+            **previous, "warnings": [*(previous.get("warnings") or []), *warnings]}}
 
-    def _after_commit(self, transaction: dict[str, Any], context: RequestContext) -> None:
+    def _after_commit(self, transaction: dict[str, Any], context: RequestContext) -> list[dict[str, Any]]:
+        """The steps that follow a committed exchange. Each failure is returned as a warning;
+        none can replace the commit's result (1.9.2, OB-128)."""
+        warnings: list[dict[str, Any]] = []
         if transaction["kind"] == "return":
-            self._restart_return_context()
-        self._schedule_automatic_ghosts(context.daemon)
+            try:
+                self._restart_return_context()
+            except Exception as exc:
+                _LOG.exception("the return's context could not be restarted after a commit")
+                warnings.append(_post_commit_warning("return-context", exc))
+        try:
+            self._schedule_automatic_ghosts(context.daemon)
+        except Exception as exc:
+            _LOG.exception("automatic ghosts could not start after a commit")
+            warning = _post_commit_warning("automatic-ghosts", exc)
+            warnings.append(warning)
+            try:
+                warning["pending"] = self.store.get_meta("pendingGhosts")
+            except Exception as pending_exc:
+                # Reporting a scheduling failure must still retain the committed outcome when
+                # storage cannot supply the pending state. Do not guess a value for it.
+                warnings.append(_post_commit_warning("automatic-ghosts-status", pending_exc))
+        return warnings
 
     def _restart_return_context(self) -> None:
         prime = self.store.prime()
@@ -779,17 +919,56 @@ class RuntimeController:
             snapshot["policy"] = {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("canonical", {}).get("checks", [])], "protected": current["policy"].get("canonical", {}).get("protected", []), "verifiers": [f"{v['rootKey'][:12]}:{v['path']} ({v.get('source')})" for v in current.get("verifiers", [])], "warnings": current["policy"].get("warnings", [])}
         except WorldlineError as exc:
             snapshot["policy"] = {"requirementHash": None, "error": exc.code}
-        anchor = self.anchors.verify(receipts_known=len(self.store.receipts()))
+        anchor = self._anchor_verdict()
+        coverage = anchor.get("coverage") or {}
         snapshot["anchor"] = {
             "state": anchor["state"],
             "entries": anchor["entries"],
             "head": anchor["head"],
             "unanchoredReceipts": anchor.get("unanchoredReceipts", 0),
             "attest": anchor["attest"]["state"],
-            "external": anchor["external"]["state"],
+            "external": anchor["witness"]["state"],
             "exportPath": None if self.anchors.export_path is None else str(self.anchors.export_path),
+            # 1.9.2: what is wrong, what the operator must provision, and the start's alarm.
+            "pinPath": None if self.anchors.pin_path is None else str(self.anchors.pin_path),
+            "key": anchor["key"]["state"],
+            "witnessProtection": (anchor["witness"].get("protection") or {}).get("state"),
+            "pinProtection": (anchor["key"].get("protection") or {}).get("state"),
+            "epochs": len(anchor["epochs"]),
+            "problems": anchor["problems"],
+            "missing": self._anchor_missing(anchor),
+            "alarm": anchor.get("alarm"),
         }
+        snapshot["receiptCoverage"]["anchor"] = {
+            "truncatedReceipts": coverage.get("truncatedReceipts", []),
+            "truncatedEvents": coverage.get("truncatedEvents", []),
+            "mismatched": coverage.get("mismatched", []),
+            "unanchoredReceipts": coverage.get("unanchoredReceiptIds", []),
+            "unanchoredEvents": len(coverage.get("unanchoredEventIds", [])),
+        }
+        if anchor["state"] != "OK" and snapshot["receiptCoverage"]["state"] == "OK" and any(
+                snapshot["receiptCoverage"]["anchor"][key] for key in ("truncatedReceipts", "truncatedEvents", "mismatched")):
+            snapshot["receiptCoverage"]["state"] = "DEGRADED"
+        pending = self.store.get_meta("pendingGhosts")
+        if isinstance(pending, dict):
+            snapshot["pendingGhosts"] = pending
         return snapshot
+
+    def _anchor_missing(self, anchor: dict[str, Any]) -> list[str]:
+        """What the operator still has to provision before promotion is allowed (OB-087)."""
+        missing: list[str] = []
+        if self.anchors.export_path is None:
+            missing.append("set anchor.exportPath to a directory outside this account's write access")
+        else:
+            protection = anchor["witness"].get("protection") or {}
+            if protection.get("state") != "PROTECTED":
+                missing.append(f"make {self.anchors.witness_path} append-only as root (chattr +a), or owned and appended by another account")
+        if anchor["key"]["state"] in ("UNPINNED", "UNPROTECTED"):
+            missing.append(f"write the output of `worldline anchor pin` to {self.anchors.pin_path or 'anchor.pinPath'} and make it "
+                           "immutable as root (chattr +i), or owned by another account")
+        elif anchor["key"]["state"] == "MISMATCH":
+            missing.append("the pin does not name the key sequence in use; after a rotation, install the pin it printed")
+        return missing
 
     def _prune(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         allowed = {"olderThanDays", "keep", "logs", "dryRun", "confirmed"}
@@ -840,7 +1019,7 @@ class RuntimeController:
     def _anchor_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
         if args:
             raise InvalidRequest("anchor.status takes no arguments")
-        return self.anchors.verify(receipts_known=len(self.store.receipts()))
+        return self._anchor_verdict()
 
     def _recovery_report(self) -> dict[str, Any]:
         # A quarantined transaction blocks every mutation (prepare/commit refuse with

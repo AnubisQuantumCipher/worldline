@@ -14,10 +14,10 @@ from typing import Any, Callable, Mapping, Sequence
 
 from . import SCHEMA_VERSION
 from .canonical import atomic_write_json, canonical_bytes, fsync_directory
-from .core import CollapseInput, Core, hash_bytes_from_id, hash_id
+from .core import CollapseInput, Core, hash_bytes_from_id, hash_id, runtime_installed
 from .delta import Delta
 from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, effective_evidence, verify_context
-from .errors import ConflictError, WorldlineError
+from .errors import ConflictError, WorldlineError, storage_error
 from .executed import NO_BUNDLE_IDENTITY, bundle_identity
 from .finalize import ENGINE_DECLARATIONS, check_declarations, required_roster, roster_decision, runner_agent_record
 from .environment import capture_dependencies
@@ -28,6 +28,7 @@ from .manifest import CapturedManifest, Manifest
 from .model import TERMINAL_STATES, World, WorldState, utc_now
 from .paths import WorldlinePaths
 from .prime import Generation, PrimeManager
+from .proof import ProofStatus
 from .receipt import ReceiptBuilder
 from .store import StateStore
 
@@ -122,8 +123,38 @@ class CollapseTransaction:
                 {"jobs": active},
             )
 
+    def _pre_exchange_guards(self, transaction_id: str | None = None) -> None:
+        """Refusal-only guards run before the kernel is asked (1.9.2, ledger section 3). They
+        never add, remove or alter a Decide input and never move a transaction: a refused commit
+        stays PREPARED, a refused prepare creates nothing.
+
+        G1 (OB-084): the proof status must be evaluable -- a malformed or missing manifest would
+        otherwise surface only after COMMITTED was written -- and an installed runtime must not be
+        running a library chosen by WORLDLINE_CORE_LIB. A well-formed manifest that fails a check
+        does not refuse; it yields an UNVERIFIED receipt.
+        G2 (OB-083, OB-087, OB-089): a protected anchor witness must exist and agree with the local
+        ledger, and the signing key must be the pinned one."""
+        details = {} if transaction_id is None else {"transactionId": transaction_id, "state": "PREPARED", "exchanged": False}
+        proof = ProofStatus.inspect(self.core)
+        if not proof.get("evaluable", False):
+            raise WorldlineError("PROOF_STATUS_UNEVALUABLE",
+                                 f"the proof manifest cannot be evaluated ({proof.get('reason')}); nothing is promoted until it can",
+                                 {**details, "refusedBy": "proof-guard", "proof": {k: proof.get(k) for k in ("state", "reason", "manifest")}})
+        if runtime_installed() and getattr(self.core, "library_source", None) == "environment":
+            raise WorldlineError("TEST_LIBRARY_REFUSED",
+                                 "this installed runtime is using a kernel library chosen by WORLDLINE_CORE_LIB (a test build's seam); "
+                                 "unset it and restart the daemon",
+                                 {**details, "refusedBy": "proof-guard", "library": str(self.core.library_path)})
+        if self.anchor is not None:
+            try:
+                self.anchor.promotion_guard()
+            except WorldlineError as exc:
+                exc.details = {**details, **(exc.details or {})}
+                raise
+
     def prepare(self, candidate_value: str, *, kind: str = "collapse", return_of: str | None = None) -> PreparedTransaction:
         self._assert_recovery_complete()
+        self._pre_exchange_guards()
         if kind not in {"collapse", "return"}:
             raise WorldlineError("INVALID_TRANSACTION", f"unsupported transaction kind: {kind}")
         # Drain the watcher first: a write it has already seen marks PRIME dirty only when its
@@ -427,6 +458,7 @@ class CollapseTransaction:
                 "state": row["state"],
                 "error": exc.as_dict(),
                 "recordReadable": False,
+                **self._exchange_facts(transaction_id, row["state"]),
             }
         public = {
             key: record.get(key)
@@ -440,7 +472,18 @@ class CollapseTransaction:
         }
         public["committedAt"] = row.get("committed_at")
         public["recordReadable"] = True
+        public.update(self._exchange_facts(transaction_id, row["state"]))
         return public
+
+    def _exchange_facts(self, transaction_id: str, state: str) -> dict[str, Any]:
+        """Whether the exchange happened (the live marker names this transaction, or the row is
+        COMMITTED) and whether recovery quarantined it (1.9.2, OB-193/OB-178). `exchanged` is None
+        when the marker cannot be read: unknown, never assumed."""
+        try:
+            exchanged: bool | None = state == "COMMITTED" or self._marker(self.paths.live) == transaction_id
+        except Exception:  # noqa: BLE001
+            exchanged = True if state == "COMMITTED" else None
+        return {"exchanged": exchanged, "quarantined": transaction_id in self.unrecoverable}
 
     def listing(self) -> list[dict[str, Any]]:
         rows = self.store.transactions_in_state(("PREPARED", "AUTHORIZED", "DENIED", "COMMITTED", "ABORTED"))
@@ -473,6 +516,41 @@ class CollapseTransaction:
         return result
 
     def commit(self, transaction_id: str) -> dict[str, Any]:
+        """Commit a prepared transaction. Every refusal or failure names the transaction, the
+        state its row is in afterwards and whether the exchange happened (1.9.2, OB-193), so no
+        client has to guess from an error code whether PRIME moved."""
+        try:
+            return self._commit(transaction_id)
+        except WorldlineError as exc:
+            exc.details = {**(exc.details or {}), **self._outcome(transaction_id)}
+            raise
+        except (OSError, sqlite3.Error) as exc:
+            # Storage failed, possibly after the exchange: named as the daemon names it
+            # (DISK_FULL, STORAGE_ERROR), with the transaction's state rather than without it.
+            named = storage_error(exc)
+            raise WorldlineError(named.code, named.message, {**named.details, **self._outcome(transaction_id)}) from exc
+        except Exception as exc:
+            # A programming error: PRIME may have moved (ledger drift, A11). Reported with the
+            # transaction's state rather than as a bare internal error.
+            raise WorldlineError("COMMIT_INTERRUPTED",
+                                 f"the commit stopped on {type(exc).__name__}: {exc}; its state is reported, not assumed",
+                                 {**self._outcome(transaction_id), "cause": {"type": type(exc).__name__, "message": str(exc)}}) from exc
+
+    def _outcome(self, transaction_id: str) -> dict[str, Any]:
+        """The transaction's state after a failed commit, read back, and whether the exchange
+        happened: the live marker names it, or the row is COMMITTED. None where unreadable."""
+        try:
+            state = self.store.transaction_record(transaction_id)["state"]
+        except Exception:  # noqa: BLE001 - reported as unknown, never guessed
+            state = None
+        try:
+            exchanged: bool | None = state == "COMMITTED" or self._marker(self.paths.live) == transaction_id
+        except Exception:  # noqa: BLE001
+            exchanged = True if state == "COMMITTED" else None
+        return {"transactionId": transaction_id, "state": state, "exchanged": exchanged,
+                "quarantined": transaction_id in self.unrecoverable}
+
+    def _commit(self, transaction_id: str) -> dict[str, Any]:
         self._assert_recovery_complete()
         record = self._load_record(transaction_id)
         if record["state"] == "DENIED":
@@ -482,6 +560,7 @@ class CollapseTransaction:
         if not isinstance(record.get("decisionInputs"), Mapping) or "validation" not in record:
             self._set_state(record, "DENIED", error={"code": "TRANSACTION_RECORD_LEGACY"})
             raise WorldlineError("TRANSACTION_RECORD_LEGACY", "this transaction was prepared by an earlier runtime; abort it and prepare again")
+        self._pre_exchange_guards(transaction_id)
         candidate = self.store.world(record["candidateWorld"])
         self.stop_writers(candidate)
         generation_before = self._generation()
@@ -639,7 +718,8 @@ class CollapseTransaction:
         self.store.set_meta("dirty", True)
         self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": prime.instance_id,
                                         "kind": "unaccounted-write", "actor": "worldline",
-                                        "reason": "live PRIME differs from its record: " + ", ".join(measurement.get("differing") or [])})
+                                        "reason": "live PRIME differs from its record: " + ", ".join(measurement.get("differing") or [])},
+                                       worldline_authored=True)
 
     @staticmethod
     def _identity(value: Any) -> bytes | None:
@@ -1047,7 +1127,7 @@ class CollapseTransaction:
             if context["requirementHash"] != current["requirementHash"]:
                 raise WorldlineError("EVIDENCE_STALE", "the candidate's evidence was evaluated against different requirements than the current PRIME imposes; revalidate or fork a new candidate", {"differences": differences(context["requirement"], current), "candidateRequirementHash": context["requirementHash"], "currentRequirementHash": current["requirementHash"], "evaluatedAt": context.get("evaluatedAt"), "evidenceSource": source})
         except WorldlineError as exc:
-            self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": subject.instance_id, "kind": "promotion-refused", "actor": "worldline", "reason": exc.code, "details": exc.details if hasattr(exc, "details") else None, "transactionKind": kind})
+            self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": subject.instance_id, "kind": "promotion-refused", "actor": "worldline", "reason": exc.code, "details": exc.details if hasattr(exc, "details") else None, "transactionKind": kind}, worldline_authored=True)
             raise
         return {"mode": "re-application" if kind == "return" else "collapse", "requirementHash": current["requirementHash"], "candidateRequirementHash": context["requirementHash"], "contextHash": context["contextHash"], "source": source, "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "evaluatedAt": context.get("evaluatedAt"),
                 "evidenceInstance": (context.get("candidate") or {}).get("instanceId"),
@@ -1158,8 +1238,9 @@ class CollapseTransaction:
                                             "worldInstance": prime_now.instance_id if prime_now is not None else candidate.instance_id,
                                             "kind": "unaccounted-write", "actor": "worldline",
                                             "reason": "live PRIME differed from the committed staged tree at recovery",
-                                            "transactionId": record["transactionId"]})
+                                            "transactionId": record["transactionId"]}, worldline_authored=True)
         receipt_row = self.store.receipt_for_transaction(record["transactionId"])
+        anchor_outcome: dict[str, Any] | None = None
         if receipt_row is None:
             receipt = self.receipts.append(
                 transaction_id=record["transactionId"],
@@ -1184,21 +1265,31 @@ class CollapseTransaction:
                     "transactionId": record["transactionId"],
                     "receiptId": receipt["receiptId"],
                     "receiptRoot": receipt["receiptRoot"],
-                }
+                },
+                worldline_authored=True,
             )
             if self.anchor is not None:
                 # The exchange is durable already; anchoring must never undo that. A failure
-                # here shows up as unanchoredReceipts in doctor and log --verify.
+                # here shows up as unanchored in doctor and log --verify, and (1.9.2, OB-083) as a
+                # warning on this commit's own result, with the witness export's outcome.
                 row = self.store.receipt_for_transaction(record["transactionId"])
                 try:
                     if row is not None:
-                        self.anchor.append(
+                        appended = self.anchor.append(
                             action=str(record.get("kind") or "collapse"),
                             receipt_id=receipt["receiptId"],
-                            canonical=Path(row["canonical_path"]).read_bytes(),
+                            canonical=self.store.read_canonical("receipts", row["canonical_path"]),
                         )
+                        exported = appended.get("export") or {}
+                        anchor_outcome = {"state": "ANCHORED", "seq": appended.get("seq"), "epoch": appended.get("epoch"),
+                                          "export": exported, "warnings": [] if exported.get("state") in ("EXPORTED", "CURRENT", "PULL") else [
+                                              {"step": "anchor-export", "code": "ANCHOR_EXPORT_INCOMPLETE",
+                                               "message": exported.get("reason") or "the witness was not brought up to date",
+                                               "export": exported}]}
                 except (WorldlineError, OSError) as exc:
                     _LOG.warning("receipt %s was not anchored: %s", receipt["receiptId"], exc)
+                    anchor_outcome = {"state": "NOT_ANCHORED", "warnings": [
+                        {"step": "anchor", "code": getattr(exc, "code", "ANCHOR_APPEND_FAILED"), "message": str(exc)}]}
         else:
             receipt = {**receipt_row["receipt"], "receiptRoot": receipt_row["receipt_root"], "chainHash": receipt_row["chain_hash"]}
         return {
@@ -1208,6 +1299,7 @@ class CollapseTransaction:
             "beforeRoot": record["beforeRoot"],
             "afterRoot": record["stagedRoot"],
             "receipt": receipt,
+            **({"anchor": anchor_outcome} if anchor_outcome is not None else {}),
         }
 
     def recover_all(self) -> list[dict[str, Any]]:

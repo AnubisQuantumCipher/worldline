@@ -244,7 +244,7 @@ class Pruner:
                 "kind": "prune",
                 "actor": "worldline",
                 "reason": reason,
-            })
+            }, worldline_authored=True)
             pruned.append(world.alias)
         return {
             "pruned": pruned,

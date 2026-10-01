@@ -255,17 +255,38 @@ class CollapseInput:
     generation_after: int | None
 
 
-def _library_candidates() -> Iterable[Path]:
+def _package_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def runtime_installed() -> bool:
+    """Whether this runtime runs from an installed tree rather than a source checkout (1.9.2).
+
+    Both installers put the library BESIDE runtime/ (install.sh: ~/.local/lib/worldline,
+    PKGBUILD: /usr/lib/worldline); a source checkout keeps it under lib/. Judged from the file
+    layout, which the same account can change (ASSUMED, SECURITY.md): an installed runtime
+    refuses a library chosen by WORLDLINE_CORE_LIB and ignores every test-only seam."""
+    return (_package_root() / "libworldline_core.so").exists()
+
+
+def _library_sources() -> Iterable[tuple[Path, str]]:
+    """Each candidate library with how it was selected: "environment" (WORLDLINE_CORE_LIB, a
+    test build's seam), "package" (beside or under this runtime's own tree) or "home"."""
     configured = os.environ.get("WORLDLINE_CORE_LIB")
     if configured:
-        yield Path(configured).expanduser()
+        yield Path(configured).expanduser(), "environment"
     # Resolve relative to this module so an alternate HOME cannot hide the proved library:
     # runtime/worldline/core.py sits under the source tree (lib/ sibling of runtime/) and under
     # the installed tree (library beside runtime/).
-    package_root = Path(__file__).resolve().parents[2]
-    yield package_root / "lib/libworldline_core.so"
-    yield package_root / "libworldline_core.so"
-    yield Path.home() / ".local/lib/worldline/libworldline_core.so"
+    package_root = _package_root()
+    yield package_root / "lib/libworldline_core.so", "package"
+    yield package_root / "libworldline_core.so", "package"
+    yield Path.home() / ".local/lib/worldline/libworldline_core.so", "home"
+
+
+def _library_candidates() -> Iterable[Path]:
+    for path, _source in _library_sources():
+        yield path
 
 
 def hash_bytes_from_id(value: str) -> bytes:
@@ -292,8 +313,12 @@ class Core:
 
     def __init__(self, library: Path | None = None) -> None:
         selected = library
+        # How the library was chosen (1.9.2, OB-084): an environment-selected library is a test
+        # build's and never yields PROVED; an installed runtime refuses to promote with one.
+        self.library_source = "explicit"
         if selected is None:
-            selected = next((path for path in _library_candidates() if path.is_file()), None)
+            selected, self.library_source = next(
+                ((path, source) for path, source in _library_sources() if path.is_file()), (None, "none"))
         if selected is None:
             raise CoreUnavailable(
                 "libworldline_core.so was not found",

@@ -20,6 +20,86 @@ from .paths import WorldlinePaths
 from .payload import materialize_payload_view
 
 
+# The distinct exit status of a verification command whose verdict is not intact (1.9.2, OB-196).
+# 1 stays "the request was refused"; 0 is only ever "everything verified".
+VERIFICATION_FAILED = 3
+
+
+def _verification_problems(verdict: Any, *, structured: bool = False) -> list[str]:
+    """Only a complete, consistent OK verdict makes verification succeed."""
+    if not isinstance(verdict, dict):
+        return ["INVALID_VERIFICATION_VERDICT"]
+    state, problems = verdict.get("state"), verdict.get("problems")
+    if not isinstance(state, str) or not state or not isinstance(problems, list):
+        return ["INVALID_VERIFICATION_VERDICT"]
+    if state == "OK" and not problems:
+        return []
+    states = {state} if state != "OK" else {"INCONSISTENT_VERIFICATION_VERDICT"}
+    for problem in problems:
+        item = problem.get("state") if structured and isinstance(problem, dict) else problem
+        if isinstance(item, str) and item and (not structured or isinstance(problem, dict)):
+            states.add(item)
+        else:
+            states.add("INVALID_VERIFICATION_VERDICT")
+    return sorted(states)
+
+
+def _verification_failed(states: list[str], value: Any, *, as_json: bool) -> int:
+    _emit(value, as_json=as_json)
+    print(f"worldline: VERIFICATION_FAILED: {', '.join(states) or 'no verdict'}", file=sys.stderr)
+    return VERIFICATION_FAILED
+
+
+def _print_why(value: dict[str, Any]) -> None:
+    """`why` for a reader: WORLDLINE's facts first, then what the agent claimed, labelled as its
+    claim (1.9.2, OB-091)."""
+    print(f"{value.get('path')}:{value.get('line')}  world {value.get('world')}  ({value.get('attribution')}, {value.get('granularity')})")
+    if value.get("mission"):
+        print(f"mission: {value['mission']}")
+    receipt = value.get("receipt") or {}
+    if receipt:
+        print(f"receipt: {receipt.get('receiptId')}")
+    chain = " <- ".join(str(item.get("alias")) for item in value.get("ancestors") or [])
+    if chain:
+        print(f"lineage: {chain}")
+    claims = value.get("claims") or {}
+    origin = claims.get("origin", "not recorded")
+    who = "WORLDLINE's own record" if origin == "worldline" else f"claimed by {origin}, not verified by WORLDLINE"
+    print(f"claims ({who}):")
+    print(f"  actor  {claims.get('actor')}")
+    if claims.get("tool"):
+        print(f"  tool   {claims.get('tool')}")
+    print(f"  reason {claims.get('reason')}")
+    if value.get("bystanders"):
+        print(f"bystanders (newer, not in effect): {', '.join(value['bystanders'])}")
+
+
+def _anchor_offline(arguments: argparse.Namespace) -> dict[str, Any]:
+    """`worldline anchor rotate` and `worldline anchor pin` (1.9.2, OB-205). They run in this
+    process as the daemon's account, not through the daemon: rotation takes the store's own lock
+    (refused while a daemon holds it), so no daemon operation is added."""
+    from .anchor import AnchorLedger
+    from .paths import acquire_store_lock
+
+    paths = WorldlinePaths.from_environment()
+    config = GlobalConfig.load(paths)
+    ledger = AnchorLedger(paths, config.anchor_export_path, pin_path=config.anchor_pin_path)
+    if arguments.anchor_command == "pin":
+        return {"pin": ledger.pin_document(), "pinPath": None if ledger.pin_path is None else str(ledger.pin_path),
+                "install": "write this document to the pin path as root and make it immutable (chattr +i), "
+                           "or have another account own it; the daemon's account must not be able to write it"}
+    lock = acquire_store_lock(paths.state, holder="worldline-anchor-rotate", create_directory=False)
+    try:
+        result = ledger.rotate(compromised=arguments.compromised, old_key_unavailable=arguments.old_key_unavailable)
+    finally:
+        os.close(lock)
+    result["next"] = [
+        f"install the pin above at {result.get('pinPath') or 'anchor.pinPath'} as root (it names every key epoch)",
+        "then start the daemon; until the pin names the new key, prepare and commit are refused (ANCHOR_KEY_MISMATCH)",
+    ]
+    return result
+
+
 def _emit(value: Any, *, as_json: bool) -> None:
     if as_json:
         print(json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False))
@@ -338,8 +418,18 @@ def parser() -> argparse.ArgumentParser:
     prune.add_argument("--yes", action="store_true")
     prune.add_argument("--json", action="store_true")
 
-    anchor = commands.add_parser("anchor", help="verify the signed receipt anchor ledger (local, attest, external)")
+    anchor = commands.add_parser("anchor", help="verify the signed anchor ledger (local, attest, witness, pin); exits 3 unless intact")
     anchor.add_argument("--json", action="store_true")
+    anchor_subcommands = anchor.add_subparsers(dest="anchor_command")
+    anchor_rotate = anchor_subcommands.add_parser("rotate", help="close the current key epoch and open a new one (daemon stopped)")
+    anchor_rotate.add_argument("--compromised", action="store_true", help="record the old key as retired because it leaked")
+    anchor_rotate.add_argument("--old-key-unavailable", action="store_true", dest="old_key_unavailable",
+                               help="the old key is lost: the retirement is recorded by the owner in the pin instead")
+    anchor_rotate.add_argument("--json", action="store_true")
+    anchor_pin = anchor_subcommands.add_parser("pin", help="print the key pin the operator should install")
+    anchor_pin.add_argument("--json", action="store_true")
+    version = commands.add_parser("version", help="this engine's version and the code set its plugin must know")
+    version.add_argument("--json", action="store_true")
     revalidate = commands.add_parser("revalidate", help="re-run the CURRENT PRIME's checks over a VALID world's finalized bytes and record fresh evidence")
     revalidate.add_argument("world")
     revalidate.add_argument("--json", action="store_true")
@@ -399,11 +489,19 @@ def main(argv: Sequence[str] | None = None) -> int:
             result = client.request("graph")
         elif command == "log":
             result = client.request("log", {"verify": arguments.verify})
+            if arguments.verify:
+                verdict = result.get("verdict") if isinstance(result, dict) else None
+                problems = _verification_problems(verdict)
+                if problems:
+                    return _verification_failed(problems, result, as_json=as_json)
         elif command == "why":
             path, separator, line_text = arguments.location.rpartition(":")
             if not separator or not line_text.isdigit():
                 raise WorldlineError("INVALID_LOCATION", "why location must be PATH:LINE")
             result = client.request("why", {"path": path, "line": int(line_text)})
+            if not as_json:
+                _print_why(result)
+                return 0
         elif command == "inspect":
             result = client.request("inspect", {"world": arguments.world})
         elif command == "init":
@@ -494,7 +592,17 @@ def main(argv: Sequence[str] | None = None) -> int:
                 else:
                     result = {"state": "ABORTED", "message": "nothing deleted"}
         elif command == "anchor":
-            result = client.request("anchor.status")
+            if arguments.anchor_command in ("rotate", "pin"):
+                result = _anchor_offline(arguments)
+            else:
+                result = client.request("anchor.status")
+                problems = _verification_problems(result, structured=True)
+                if problems:
+                    return _verification_failed(problems, result, as_json=as_json)
+        elif command == "version":
+            from . import __version__
+            from .engine_codes import CODE_SET_SHA256, CODES
+            result = {"version": __version__, "codeSetSha256": CODE_SET_SHA256, "codes": list(CODES)}
         elif command == "revalidate":
             result = client.request("revalidate", {"world": arguments.world})
         elif command == "validation":

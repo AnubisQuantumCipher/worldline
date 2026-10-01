@@ -25,12 +25,21 @@ pkgver() {
 
 build() {
   cd worldline
-  gprbuild -q -P worldline.gpr
+  # Persist the result of this build, not the environment of a later --repackage.
+  # Clear the old record before doing work so a failed build cannot retain "ran".
+  rm -f .worldline-package-proof-gate
+  gprbuild -q -P worldline.gpr || return 1
   # The shipped proof-manifest.json describes the upstream proved build. A locally rebuilt
   # library has a different hash, and the runtime then reports invariantPreservation honestly
   # as not PROVED. Set WORLDLINE_PROVE=1 (needs gnatprove) to re-prove this build and refresh
   # the manifest, which is what the release builds do.
-  if [[ ${WORLDLINE_PROVE:-0} == 1 ]]; then ./prove.sh && python3 verify_proof_manifest.py; fi
+  if [[ ${WORLDLINE_PROVE:-0} == 1 ]]; then
+    ./prove.sh || return 1
+    python3 verify_proof_manifest.py --require-summary || return 1
+    printf 'ran\n' > .worldline-package-proof-gate
+  else
+    printf 'skipped\n' > .worldline-package-proof-gate
+  fi
 }
 
 check() {
@@ -42,9 +51,26 @@ check() {
 
 package() {
   cd worldline
+  local proof_gate
+  if ! read -r proof_gate < .worldline-package-proof-gate; then
+    printf '%s\n' 'worldline: missing package proof-gate record; run build() first' >&2
+    return 1
+  fi
+  case "$proof_gate" in
+    ran) python3 verify_proof_manifest.py --require-summary || return 1 ;;
+    skipped) ;;
+    *) printf '%s\n' 'worldline: invalid package proof-gate record; run build() first' >&2; return 1 ;;
+  esac
   install -d -m 0755 "$pkgdir/usr/lib/worldline" "$pkgdir/usr/lib/worldline/runtime" "$pkgdir/usr/bin" "$pkgdir/usr/lib/systemd/user"
   install -m 0755 lib/libworldline_core.so "$pkgdir/usr/lib/worldline/"
   install -m 0644 proof-manifest.json core/worldline_core.h "$pkgdir/usr/lib/worldline/"
+  python3 scripts/install_proof_sources.py "$PWD" "$pkgdir/usr/lib/worldline/proof-sources" || return 1
+  if [[ "$proof_gate" == ran ]]; then
+    install -m 0444 obj/core-library/gnatprove/gnatprove.out "$pkgdir/usr/lib/worldline/proof-summary.out"
+  fi
+  printf '{"proofGate":"%s"}\n' "$proof_gate" > "$pkgdir/usr/lib/worldline/proof-gate.json"
+  chmod 0444 "$pkgdir/usr/lib/worldline/proof-gate.json"
+  install -m 0644 plugin-compatibility.json "$pkgdir/usr/lib/worldline/"
   cp -a runtime/worldline "$pkgdir/usr/lib/worldline/runtime/"
   find "$pkgdir/usr/lib/worldline/runtime" -name __pycache__ -type d -exec rm -rf {} +
   # The repo launchers already look in /usr/lib/worldline/runtime (packaged layout).

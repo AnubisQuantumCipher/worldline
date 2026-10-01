@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.9.2 — unreleased candidate · verification and outcome handling
+
+Implementation and review are in progress. The original guarantee targets remain fixed;
+documenting a limitation or changing a status label does not close its engineering obligation.
+This candidate has no completed release assurance or pinned plugin commit yet.
+
+- Verification commands return a distinct failure status for incomplete, inconsistent or
+  failed verdicts. An unreadable log record also prevents overall verification success.
+- Runtime proof reporting and the build gate share pinned source, contract, coverage and
+  summary checks. The installer and package recipe retain the evidence needed to evaluate the
+  running library. The release gate requires the pinned proof floor independently of the
+  floor stated by an assurance report.
+- The engine publishes its generated error-code inventory and digest in version/status
+  responses. The paired plugin candidate uses the same inventory and reads the actual proof
+  verification schema. Immutable release pairing is still pending.
+- The inherited anchor, causal provenance, commit outcome and post-commit retry changes are
+  still under integration review. In particular, ghost scheduling must retain every committed
+  generation's work durably; recording a superseded generation does not discharge that target.
+- Authenticated proof provenance, decision-time binding, the touched-module obligation gate,
+  and the required installation and recovery evidence remain release obligations. Local unit
+  checks and a fresh kernel proof do not complete those gates.
+
 ## 1.9.1 — 2026-09-30 · installer shell restart, truthful docs
 
 **No change to the authority path, the kernel or the store.** This release fixes one installer

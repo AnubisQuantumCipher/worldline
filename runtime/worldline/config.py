@@ -150,13 +150,17 @@ class GlobalConfig:
         if not isinstance(allow, list) or not all(isinstance(item, str) and item and " " not in item for item in allow):
             raise WorldlineError("INVALID_CONFIG", "network.allow must be a list of host names (a leading dot allows a whole domain)")
         anchor = self.value.get("anchor", {"exportPath": None})
-        if not isinstance(anchor, dict) or set(anchor) != {"exportPath"}:
-            raise WorldlineError("INVALID_CONFIG", "anchor must have exactly exportPath")
-        export = anchor["exportPath"]
-        if export is not None:
-            if not isinstance(export, str) or not Path(export).expanduser().is_absolute():
-                raise WorldlineError("INVALID_CONFIG", "anchor.exportPath must be null or an absolute path")
-            self._reject_worldline_storage(Path(export).expanduser())
+        # 1.9.2: an optional pinPath, where the operator keeps the anchor key pin (default:
+        # exportPath/anchor.pin). Either may be null; a null exportPath is reported and refuses
+        # promotion (the anchor witness guard), it is no longer a silent default.
+        if not isinstance(anchor, dict) or "exportPath" not in anchor or not set(anchor) <= {"exportPath", "pinPath"}:
+            raise WorldlineError("INVALID_CONFIG", "anchor must have exportPath and optional pinPath")
+        for key in ("exportPath", "pinPath"):
+            value = anchor.get(key)
+            if value is not None:
+                if not isinstance(value, str) or not Path(value).expanduser().is_absolute():
+                    raise WorldlineError("INVALID_CONFIG", f"anchor.{key} must be null or an absolute path")
+                self._reject_worldline_storage(Path(value).expanduser())
         options = self.value.get("adapterOptions", {})
         if not isinstance(options, dict):
             raise WorldlineError("INVALID_CONFIG", "adapterOptions must be a map of builtin adapter name to options")
@@ -202,6 +206,11 @@ class GlobalConfig:
     def anchor_export_path(self) -> Path | None:
         export = self.value.get("anchor", {}).get("exportPath")
         return None if export is None else Path(export).expanduser()
+
+    @property
+    def anchor_pin_path(self) -> Path | None:
+        pin = self.value.get("anchor", {}).get("pinPath")
+        return None if pin is None else Path(pin).expanduser()
 
     def _reject_worldline_storage(self, path: Path) -> None:
         absolute = path.absolute()

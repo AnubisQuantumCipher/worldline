@@ -31,7 +31,7 @@ from .model import World, WorldState
 from .paths import WorldlinePaths, secure_directory
 from .services import ServiceManager
 from .project import ProjectConfig
-from .store import StateStore
+from .store import StateStore, reserved_event_claim
 
 
 def materialize_private_copies(
@@ -76,6 +76,36 @@ def _is_sqlite(path: Path) -> bool:
             return handle.read(16) == b"SQLite format 3\x00"
     except OSError:
         return False
+
+
+# Keys only WORLDLINE sets on an agent's event; the agent's own line cannot supply them.
+_WORLDLINE_EVENT_KEYS = ("schemaVersion", "worldInstance", "rawLineHash", "origin", "adapter")
+
+
+def build_agent_event(piece: dict[str, Any], *, world_instance: str, adapter_name: str, raw_hash: str) -> tuple[dict[str, Any], bool]:
+    """One causal event from one parsed piece of an agent's stdout (1.9.2, OB-091).
+
+    WORLDLINE's own keys are set AFTER the agent's fields, so the agent cannot supply or override
+    them: `origin: "agent"` and the adapter's name mark every field of the event as the agent's
+    claim. A piece claiming a reserved actor (worldline, system, user) or a kind only WORLDLINE
+    writes is not appended as claimed; the returned event is instead WORLDLINE's record of the
+    refusal (second value True), carrying the raw line's hash and what was claimed."""
+    piece = dict(piece)
+    kind = piece.pop("kind", "agent-event")
+    actor = piece.pop("actor", adapter_name)
+    for key in _WORLDLINE_EVENT_KEYS:
+        piece.pop(key, None)
+    event = {"kind": kind, "actor": actor, **piece, "schemaVersion": SCHEMA_VERSION, "worldInstance": world_instance,
+             "rawLineHash": raw_hash, "origin": "agent", "adapter": adapter_name}
+    refused = reserved_event_claim(event)
+    if refused is None:
+        return event, False
+    return {
+        "schemaVersion": SCHEMA_VERSION, "worldInstance": world_instance, "kind": "agent-claim-refused",
+        "actor": "worldline", "adapter": adapter_name, "rawLineHash": raw_hash, "reason": refused,
+        "claimedActor": actor if isinstance(actor, str) else repr(actor)[:200],
+        "claimedKind": kind if isinstance(kind, str) else repr(kind)[:200],
+    }, True
 
 
 class AgentRunner:
@@ -204,7 +234,8 @@ class AgentRunner:
                 "actor": "user",
                 "mission": mission,
                 "missionHash": world.mission_hash,
-            }
+            },
+            worldline_authored=True,
         )
         self.store.append_causal_event(
             {
@@ -213,7 +244,8 @@ class AgentRunner:
                 "kind": "agent-invocation",
                 "actor": adapter.name,
                 "argv": list(argv),
-            }
+            },
+            worldline_authored=True,
         )
         # Nothing is spawned without a reservation. The gate refuses with a named outcome and
         # the arithmetic behind it, so a world that cannot be supervised is never started rather
@@ -324,16 +356,12 @@ class AgentRunner:
                     expansion = parsed.pop("expand", None)
                     pieces = list(expansion) if isinstance(expansion, list) and expansion else [parsed]
                     for piece in pieces:
-                        event = {
-                            "schemaVersion": SCHEMA_VERSION,
-                            "worldInstance": world.instance_id,
-                            "kind": piece.pop("kind", "agent-event"),
-                            "actor": piece.pop("actor", adapter.name),
-                            "rawLineHash": raw_hash,
-                            **piece,
-                        }
-                        self._normalize_path(event, registered, primary)
-                        self.store.append_causal_event(event)
+                        event, refused = build_agent_event(piece, world_instance=world.instance_id,
+                                                           adapter_name=adapter.name, raw_hash=raw_hash)
+                        if not refused:
+                            self._normalize_path(event, registered, primary)
+                        # A refused claim is recorded as WORLDLINE's own record of the refusal.
+                        self.store.append_causal_event(event, worldline_authored=refused)
                         parsed_events += 1
                         supplied_session = event.get("sessionReference")
                         if isinstance(supplied_session, str):
@@ -408,7 +436,8 @@ class AgentRunner:
                     "actor": adapter.name,
                     "exitCode": exit_code,
                     "reason": None,
-                }
+                },
+                worldline_authored=True,
             )
         # What the manager says happened to the unit: structured, bounded, and the only basis
         # for telling a launcher that never got a unit from a workload that ran and failed.

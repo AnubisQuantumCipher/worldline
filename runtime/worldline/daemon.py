@@ -18,7 +18,7 @@ from typing import Any
 
 from . import __version__
 from .canonical import canonical_bytes
-from .errors import InvalidRequest, WorldlineError
+from .errors import InvalidRequest, WorldlineError, storage_error  # noqa: F401 - storage_error is part of this module's API
 from .manifest import repository_facts
 from .paths import WorldlinePaths
 from .status import StatusPublisher
@@ -46,27 +46,6 @@ class Operation:
     mutating: bool
     # Refused to listed client uids: the daemon's own account only (client mode).
     owner_only: bool = False
-
-
-def storage_error(exc: BaseException) -> WorldlineError:
-    """Name a storage failure. ENOSPC/EDQUOT (and SQLite's "disk is full") become DISK_FULL;
-    any other OSError or SQLite error becomes STORAGE_ERROR with the errno name and path."""
-    if isinstance(exc, sqlite3.Error):
-        text = str(exc)
-        code = "DISK_FULL" if "full" in text.lower() else "STORAGE_ERROR"
-        return WorldlineError(code, f"store: {text}", {"backend": "sqlite"})
-    assert isinstance(exc, OSError)
-    name = errno.errorcode.get(exc.errno or 0, f"errno {exc.errno}")
-    code = "DISK_FULL" if exc.errno in (errno.ENOSPC, errno.EDQUOT) else "STORAGE_ERROR"
-    details: dict[str, Any] = {"errno": name}
-    path = exc.filename
-    if path is not None:
-        path_text = os.fsdecode(path) if isinstance(path, (bytes, bytearray)) else str(path)
-        details["path"] = path_text
-    message = f"{name}: {exc.strerror or 'storage operation failed'}"
-    if "path" in details:
-        message += f": {details['path']}"
-    return WorldlineError(code, message, details)
 
 
 class WorldlineDaemon:

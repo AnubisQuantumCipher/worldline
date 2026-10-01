@@ -1,0 +1,12 @@
+{
+  "codeSetSha256": "d43ce783d979844293b5dd8f8c1e47fcc3b06451e13675604a0390a5acee04d2",
+  "engine": "1.9.2",
+  "note": "The plugin commit is filled in when worldline-omarchy v1.3.5 is tagged (scripts/plugin_compat.py --write); until then install.sh refuses every plugin commit without an explicit, recorded override, and the release gate refuses to publish.",
+  "plugin": {
+    "archiveSha256": null,
+    "commit": null,
+    "repository": "worldline-omarchy",
+    "tag": "v1.3.5"
+  },
+  "schema": "worldline-plugin-compatibility-v1"
+}

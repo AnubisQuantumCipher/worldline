@@ -125,7 +125,7 @@ class Revalidator:
         history = list(self.store.get_meta(key, []) or [])
         history.append(entry)
         self.store.set_meta(key, history)
-        self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": world.instance_id, "kind": "revalidation", "actor": "worldline", "outcome": entry["outcome"], "validationId": entry["validationId"], "requirementHash": entry["requirementHash"]})
+        self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": world.instance_id, "kind": "revalidation", "actor": "worldline", "outcome": entry["outcome"], "validationId": entry["validationId"], "requirementHash": entry["requirementHash"]}, worldline_authored=True)
         return {k: v for k, v in entry.items() if k != "context"} | {"world": world.alias, "state": world.state.value, "checks": len(entry["results"])}
 
     def validate_staged(self, staging_payload: Path, candidate: Any, current_manifests: Any, staged_manifests: Any, staged_content_root: str) -> dict[str, Any]:
@@ -143,7 +143,7 @@ class Revalidator:
             protected_delta=lambda: Delta.compute_all(current_manifests, staged_manifests, self.core),
             source="staged",
         )
-        self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": candidate.instance_id, "kind": "staged-validation", "actor": "worldline", "outcome": entry["outcome"], "validationId": entry["validationId"], "requirementHash": entry["requirementHash"], "stagedContentRoot": staged_content_root})
+        self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": candidate.instance_id, "kind": "staged-validation", "actor": "worldline", "outcome": entry["outcome"], "validationId": entry["validationId"], "requirementHash": entry["requirementHash"], "stagedContentRoot": staged_content_root}, worldline_authored=True)
         return {"stagedContentRoot": staged_content_root, **entry}
 
     def _evaluate(self, *, source_dir: Path, subject: dict[str, Any], prime_at_fork: dict[str, Any], protected_delta: Any, source: str,

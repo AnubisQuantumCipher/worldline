@@ -58,6 +58,10 @@ def main() -> int:
     parser.add_argument("--main-pid", help="the daemon MainPID the user manager reports now")
     parser.add_argument("--proof-gate", choices=("ran", "skipped"), default="ran",
                         help="whether this install re-proved the kernel or only verified the manifest")
+    parser.add_argument("--plugin-named", default=None,
+                        help="the plugin commit the engine's plugin-compatibility.json names (1.9.2)")
+    parser.add_argument("--plugin-override", default="",
+                        help="the exact plugin commit installed by WORLDLINE_PLUGIN_OVERRIDE_COMMIT, if any")
     args = parser.parse_args()
     source = Path(args.source)
 
@@ -74,6 +78,20 @@ def main() -> int:
             "the proved kernel actually in place")
     compare("proof-manifest", sha_file(source / "proof-manifest.json"), sha_file(DEST / "proof-manifest.json"))
     compare("core-header", sha_file(source / "core/worldline_core.h"), sha_file(DEST / "worldline_core.h"))
+    # 1.9.2 (OB-084): the proof sources the runtime recomputes pins and hashes from, the record of
+    # whether the proof ran, and the plugin pairing (OB-195).
+    sys.path.insert(0, str(source / "runtime"))
+    from worldline.proof_manifest import proof_source_files
+    for relative in proof_source_files(source):
+        compare(f"proof-source:{relative}", sha_file(source / relative), sha_file(DEST / "proof-sources" / relative))
+    try:
+        gate = json.loads((DEST / "proof-gate.json").read_text(encoding="utf-8")).get("proofGate")
+    except (OSError, ValueError, AttributeError):
+        gate = None
+    compare("proof-gate-record", args.proof_gate, gate, "what the runtime reads to tell PROVED from MANIFEST_ONLY")
+    if args.proof_gate == "ran":
+        compare("proof-summary", sha_file(source / "obj/core-library/gnatprove/gnatprove.out"), sha_file(DEST / "proof-summary.out"))
+    compare("plugin-compatibility", sha_file(source / "plugin-compatibility.json"), sha_file(DEST / "plugin-compatibility.json"))
 
     # launchers and unit
     compare("launcher-worldline", sha_file(source / "cli/worldline"), sha_file(HOME / ".local/bin/worldline"))
@@ -169,6 +187,9 @@ def main() -> int:
         "pluginCommit": args.plugin_commit,
         "runtimeVersion": source_version,
         "proofGate": args.proof_gate,
+        # 1.9.2 (OB-195): the commit the engine names, and an override if the operator installed
+        # another commit by naming it exactly.
+        "pluginCompatibility": {"named": args.plugin_named, "override": args.plugin_override or None},
         "source": str(source),
         "destination": str(DEST),
         "checks": checks,
