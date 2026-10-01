@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased — Phase 1 resource kernel checkpoint
+
+The memory-capacity admission decision now calls `Worldline.Resources` through a
+separate C ABI. Quantities use arbitrary-length little-endian representations;
+zero requests still obey the floor, and kernel unavailability cannot grant
+admission. The typed reserve operation states exact accepted updates and complete
+state preservation on refusal. The isolated shared library builds, and ordinary
+Ada and real-library binding/admission fixtures pass. These are source/build
+milestones, not a completed Phase 1 or release assurance result.
+
+Full module proof, the remaining numerical gates, ledger projection and
+reserve/release/consume lifecycle integration remain OPEN. Producer truth,
+pointer/representation and source-profile correspondence, resource epochs,
+recovery, complete Phase 1 proof and original touched-module D1/release obligations
+also remain OPEN. The retained proof manifest does not attest to this expanded
+core; it has not been regenerated as if the new obligations were proved. No
+original target, accepted case or proof floor is lowered.
+
 ## 1.9.2 — unreleased candidate · verification and outcome handling
 
 Implementation and review are in progress. The original guarantee targets remain fixed;

@@ -38,6 +38,7 @@ from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
 from .errors import WorldlineError
+from .resource_kernel import can_reserve as kernel_can_reserve
 
 ADMITTED = "ADMITTED"
 RESOURCES_UNAVAILABLE = "RESOURCES_UNAVAILABLE"
@@ -644,7 +645,16 @@ class AdmissionAuthority:
             # The floor applies to unmetered work too. Unmetered means unaccounted, not
             # unguarded, and the shipped default is unmetered — so skipping this gate let a
             # machine 1.9 GiB BELOW its own floor admit work with headroom already negative.
-            if request_bytes > headroom:
+            try:
+                capacity_admissible = kernel_can_reserve(
+                    state.mem_available_bytes, withheld,
+                    self.floors.min_free_memory_bytes, request_bytes)
+            except (WorldlineError, ValueError, OverflowError, MemoryError) as exc:
+                return Decision(RESOURCE_STATE_UNKNOWN,
+                                f"resource kernel could not decide admission: {exc}",
+                                arithmetic=arithmetic, state=state.as_dict(),
+                                policy=policy.canonical())
+            if not capacity_admissible:
                 return Decision(RESOURCES_UNAVAILABLE,
                                 f"{request_bytes} bytes requested but only {headroom} are free to promise:"
                                 f" {state.mem_available_bytes} available, {withheld} withheld by"

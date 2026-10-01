@@ -256,6 +256,18 @@ uint8_t wl_evaluation_advance(uint8_t *state, uint8_t requested);
 uint8_t wl_evaluation_roster_complete(const uint8_t *admitted, size_t count,
                                       uint8_t empty_declared);
 uint32_t wl_abi_version(void);
+/* Resource arithmetic ABI is versioned independently of existing layouts.
+ * Quantities are arbitrary-length little-endian magnitudes; empty means zero.
+ * Buffers must be readable, live and unchanged throughout the call.
+ * 0 insufficient capacity, 1 admitted arithmetic, 255 checked shape/error.
+ * Raw pointer readability, custody and ledger projection require separate assurance. */
+uint32_t wl_resources_abi_version(void);
+uint8_t wl_resources_can_reserve(
+    uint8_t available_negative,
+    const uint8_t *available, size_t available_length,
+    const uint8_t *withheld, size_t withheld_length,
+    const uint8_t *floor, size_t floor_length,
+    const uint8_t *requested, size_t requested_length);
 size_t wl_layout_size(uint8_t selector);
 /* Offset of the field named `name` (as spelled in this header) of record `selector`; SIZE_MAX
  * for an unknown selector or name. Keyed by name: two equal-sized fields swapped keep every
