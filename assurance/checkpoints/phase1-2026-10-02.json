@@ -1,0 +1,2736 @@
+{
+  "actions": [
+    {
+      "child_returncode": 0,
+      "inputs_unchanged": true,
+      "mode": "pending-build",
+      "scope_wait": 0
+    },
+    {
+      "child_returncode": 0,
+      "inputs_unchanged": true,
+      "mode": "build",
+      "scope_wait": 0
+    },
+    {
+      "child_returncode": 0,
+      "inputs_unchanged": true,
+      "mode": "entry-component-tests",
+      "scope_wait": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact": "phase1-finalization-owned-acquisition-composed-v16/inputs.json",
+      "bytes": 148377,
+      "sha256": "744f40f246e5c266219ff1c00cf1bfccc3f5634be6c5c91820683d2c23166a2a"
+    },
+    {
+      "artifact": "phase1-finalization-ordinary-v17/inputs.json",
+      "bytes": 196810,
+      "sha256": "27b47acdccedbf9aabf642a733eefe1d356e1e331414d13bd37bcba7579570cc"
+    },
+    {
+      "artifact": "phase1-finalization-ordinary-v17/reviewed-launch-proposal.json",
+      "bytes": 189392,
+      "sha256": "f20b58814afe0c88ed9eacfbf887933e06f4a61d892771004cb1e490f6fdd35d"
+    },
+    {
+      "artifact": "phase1-finalization-ordinary-v17/evidence/entry-component-tests-v1/result.json",
+      "bytes": 758,
+      "sha256": "53af5351bee30ed7e50a1a2afaca45e24de196989552b153073eeb558204527d"
+    },
+    {
+      "artifact": "phase1-finalization-ordinary-v17/review/root-batch-terminal-v1/actual-results-and-window-release.json",
+      "bytes": 60406,
+      "sha256": "37cddc38ce1cb59c927b330b5e9e7d0e1ff4ef390ad5ffe0c389b2f1ac65c10e"
+    },
+    {
+      "artifact": "phase1-finalization-ordinary-v17/review/root-batch-terminal-v1/coordination-release.json",
+      "bytes": 1266,
+      "sha256": "5392f4d4659f373ed7c4a5bd1f77899b75565d197d600e4bd3d5aba8edddce5a"
+    },
+    {
+      "artifact": "phase1-finalization-owned-acquisition-engineering-v1/review/gpt61-d16-control-repair-source-v1/review.json",
+      "bytes": 2477,
+      "sha256": "10f2e9500aae0eb26acc0bf1d4769f05fc630fc76b8ff73375e7c0efbb5261ce"
+    },
+    {
+      "artifact": "phase1-finalization-owned-acquisition-engineering-v1/review/gpt61-v17-binding-v1/review.json",
+      "bytes": 1770,
+      "sha256": "e4f201050650684530dccd987c99c97cf31b9d4eb02f3733cfe6c3e3304a8d59"
+    },
+    {
+      "artifact": "phase1-finalization-owned-acquisition-engineering-v1/review/gpt61-v17-result-v1/review.json",
+      "bytes": 1086,
+      "sha256": "d25c4d5468dffd8ec7d0110ded91a7dd13a0fe42da2fab392101f7ac2918ad7a"
+    }
+  ],
+  "cases": [
+    {
+      "name": "test_daemon_and_examiner_join_the_exact_binding_before_entry_execution (test_examiner_entry_code.EntryAcknowledgement.test_daemon_and_examiner_join_the_exact_binding_before_entry_execution)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_duplicate_json_fields_never_select_one_claim_silently (test_examiner_entry_code.EntryAcknowledgement.test_duplicate_json_fields_never_select_one_claim_silently)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_malformed_cross_run_and_cross_path_bindings_are_refused (test_examiner_entry_code.EntryAcknowledgement.test_missing_malformed_cross_run_and_cross_path_bindings_are_refused)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_worker_and_candidate_keep_the_original_ack_shape (test_examiner_entry_code.EntryAcknowledgement.test_worker_and_candidate_keep_the_original_ack_shape)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_returned_and_nested_code_objects_are_registered_by_identity (test_examiner_entry_code.EntryCodeIdentity.test_actual_returned_and_nested_code_objects_are_registered_by_identity)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_encoding_cookie_and_source_future_flags_are_preserved (test_examiner_entry_code.EntryCodeIdentity.test_encoding_cookie_and_source_future_flags_are_preserved)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_main_and_argv_restore_after_exception_or_system_exit (test_examiner_entry_code.EntryCodeIdentity.test_main_and_argv_restore_after_exception_or_system_exit)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_original_stdlib_generators_and_direct_data_reads_still_work (test_examiner_entry_code.EntryCodeIdentity.test_original_stdlib_generators_and_direct_data_reads_still_work)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_runpy_source_namespace_argv_and_main_module_are_preserved (test_examiner_entry_code.EntryCodeIdentity.test_runpy_source_namespace_argv_and_main_module_are_preserved)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_source_digest_and_length_must_both_match_before_compilation (test_examiner_entry_code.EntryCodeIdentity.test_source_digest_and_length_must_both_match_before_compilation)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_original_private_examiner_retains_bound_source_and_ack_without_admission (test_examiner_entry_code.EntryOriginalIntegration.test_original_private_examiner_retains_bound_source_and_ack_without_admission)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_direct_backend_failure_keeps_the_actual_available_source_record (test_examiner_entry_code.EntrySourceAcquisition.test_direct_backend_failure_keeps_the_actual_available_source_record)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_empty_and_non_utf8_bytes_are_acquired_without_decoding (test_examiner_entry_code.EntrySourceAcquisition.test_empty_and_non_utf8_bytes_are_acquired_without_decoding)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_entry_retains_absence_and_failure_before_raising (test_examiner_entry_code.EntrySourceAcquisition.test_missing_entry_retains_absence_and_failure_before_raising)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_replaced_file_is_refused_with_the_actual_old_bytes_retained (test_examiner_entry_code.EntrySourceAcquisition.test_replaced_file_is_refused_with_the_actual_old_bytes_retained)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_retention_failure_escapes_on_success_and_preserves_primary_read_error (test_examiner_entry_code.EntrySourceAcquisition.test_retention_failure_escapes_on_success_and_preserves_primary_read_error)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_source_and_ancestor_links_special_objects_and_original_cap_refuse (test_examiner_entry_code.EntrySourceAcquisition.test_source_and_ancestor_links_special_objects_and_original_cap_refuse)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_unrelated_ancestor_directory_changes_do_not_change_source_identity (test_examiner_entry_code.EntrySourceAcquisition.test_unrelated_ancestor_directory_changes_do_not_change_source_identity)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_append_preserves_every_prior_byte_and_uses_only_ordinal_projection_for_position (test_finalization_journal_sequence.FinalizationObservationSequence.test_append_preserves_every_prior_byte_and_uses_only_ordinal_projection_for_position)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_count_does_not_read_payload_column_and_remains_run_scoped (test_finalization_journal_sequence.FinalizationObservationSequence.test_count_does_not_read_payload_column_and_remains_run_scoped)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_duplicate_ordinals_refuse_and_schema_keeps_its_unique_constraint (test_finalization_journal_sequence.FinalizationObservationSequence.test_duplicate_ordinals_refuse_and_schema_keeps_its_unique_constraint)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_empty_and_complete_numeric_sequence_keep_all_full_events (test_finalization_journal_sequence.FinalizationObservationSequence.test_empty_and_complete_numeric_sequence_keep_all_full_events)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_invalid_prefix_rolls_back_new_append_without_rewriting_evidence (test_finalization_journal_sequence.FinalizationObservationSequence.test_invalid_prefix_rolls_back_new_append_without_rewriting_evidence)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_noncanonical_and_gapped_prefixes_refuse_on_both_paths (test_finalization_journal_sequence.FinalizationObservationSequence.test_noncanonical_and_gapped_prefixes_refuse_on_both_paths)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_replay_conflict_and_capture_boundary_remain_unchanged (test_finalization_journal_sequence.FinalizationObservationSequence.test_replay_conflict_and_capture_boundary_remain_unchanged)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_all_pair_orders_match_the_same_artifact (test_tagged_object_cursor.TaggedObjectCursorControls.test_all_pair_orders_match_the_same_artifact)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_duplicate_missing_extra_and_malformed_pairs_refuse (test_tagged_object_cursor.TaggedObjectCursorControls.test_duplicate_missing_extra_and_malformed_pairs_refuse)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_empty_objects_and_arrays_are_preserved (test_tagged_object_cursor.TaggedObjectCursorControls.test_empty_objects_and_arrays_are_preserved)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_large_unrelated_value_and_nested_reversed_pairs (test_tagged_object_cursor.TaggedObjectCursorControls.test_large_unrelated_value_and_nested_reversed_pairs)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_malformed_or_incomplete_array_bytes_refuse (test_tagged_object_cursor.TaggedObjectCursorControls.test_malformed_or_incomplete_array_bytes_refuse)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_genuine_positive_and_negative_assertions_under_observed_separate_roles (test_private_evaluator.PrivateEvaluatorIntegration.test_genuine_positive_and_negative_assertions_under_observed_separate_roles)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_worker_timeout_and_output_limit_refuse_the_entire_run (test_private_evaluator.PrivateEvaluatorIntegration.test_worker_timeout_and_output_limit_refuse_the_entire_run)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_constrained_request_accepts_command_and_refuses_authority_options (test_private_evaluator.PrivateTreeContract.test_constrained_request_accepts_command_and_refuses_authority_options)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_copy_preserves_content_mode_timestamp_and_has_stable_identity (test_private_evaluator.PrivateTreeContract.test_copy_preserves_content_mode_timestamp_and_has_stable_identity)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_links_special_objects_metadata_and_mountlike_inputs_are_refused (test_private_evaluator.PrivateTreeContract.test_links_special_objects_metadata_and_mountlike_inputs_are_refused)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_parent_symlink_and_byte_budget_are_refused (test_private_evaluator.PrivateTreeContract.test_parent_symlink_and_byte_budget_are_refused)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_private_role_binary_uses_the_resolved_approved_installation (test_private_evaluator.PrivateTreeContract.test_private_role_binary_uses_the_resolved_approved_installation)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_mount_root_and_ordinary_descendant_are_distinct (test_kernel_role_observer.KernelMountRootBinding.test_actual_mount_root_and_ordinary_descendant_are_distinct)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_original_positive_case_with_private_candidate_root (test_kernel_role_observer.KernelPrivateDirectoryCase.test_original_positive_case_with_private_candidate_root)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_comm_delimiters_do_not_select_a_different_process_identity (test_kernel_role_observer.KernelRecordParsing.test_comm_delimiters_do_not_select_a_different_process_identity)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_mountinfo_keeps_bind_access_mode_and_full_topology (test_kernel_role_observer.KernelRecordParsing.test_mountinfo_keeps_bind_access_mode_and_full_topology)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_receiver_view_mapping_preserves_sparse_inside_ids (test_kernel_role_observer.KernelRecordParsing.test_receiver_view_mapping_preserves_sparse_inside_ids)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_required_status_fields_are_never_replaced_by_defaults (test_kernel_role_observer.KernelRecordParsing.test_required_status_fields_are_never_replaced_by_defaults)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_original_examiner_has_daemon_retained_kernel_subjects (test_kernel_role_observer.KernelRoleIntegration.test_actual_original_examiner_has_daemon_retained_kernel_subjects)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_deferred_cleanup_has_one_owner_and_closes_after_thread_exit (test_kernel_role_observer.ObserverRetention.test_deferred_cleanup_has_one_owner_and_closes_after_thread_exit)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_malformed_packet_closes_every_delivered_descriptor (test_kernel_role_observer.ObserverRetention.test_malformed_packet_closes_every_delivered_descriptor)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_retention_takes_ownership_and_failure_has_no_success_record (test_kernel_role_observer.ObserverRetention.test_retention_takes_ownership_and_failure_has_no_success_record)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_returned_roster_requires_every_observed_role_once (test_kernel_role_observer.ObserverRetention.test_returned_roster_requires_every_observed_role_once)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_service_exit_before_transfer_closes_once_but_join_still_refuses (test_kernel_role_observer.ObserverRetention.test_service_exit_before_transfer_closes_once_but_join_still_refuses)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_cancelled_read_cannot_be_reported_as_empty_eof (test_kernel_role_observer.OwnedKernelReads.test_cancelled_read_cannot_be_reported_as_empty_eof)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_complete_empty_and_non_utf8_reads_are_retained_before_parsing (test_kernel_role_observer.OwnedKernelReads.test_complete_empty_and_non_utf8_reads_are_retained_before_parsing)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_failed_subject_construction_closes_its_owned_pidfd (test_kernel_role_observer.OwnedKernelReads.test_failed_subject_construction_closes_its_owned_pidfd)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_and_over_limit_reads_remain_failed_observations (test_kernel_role_observer.OwnedKernelReads.test_missing_and_over_limit_reads_remain_failed_observations)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_empty_overlap_zero_overflow_and_malformed_maps_refuse (test_namespace_lifetime.CompleteIdentityMaps.test_empty_overlap_zero_overflow_and_malformed_maps_refuse)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_projection_keeps_every_sparse_range_and_all_subordinate_ids (test_namespace_lifetime.CompleteIdentityMaps.test_projection_keeps_every_sparse_range_and_all_subordinate_ids)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_self_view_identity_is_distinct_from_receiver_view (test_namespace_lifetime.CompleteIdentityMaps.test_self_view_identity_is_distinct_from_receiver_view)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_capture_limit_and_raw_envelope_cannot_be_bypassed (test_namespace_lifetime.DescriptorReaderProtocol.test_capture_limit_and_raw_envelope_cannot_be_bypassed)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_changed_process_namespace_or_held_object_refuses (test_namespace_lifetime.DescriptorReaderProtocol.test_changed_process_namespace_or_held_object_refuses)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_complete_inventory_preserves_binary_links_and_requires_one_end (test_namespace_lifetime.DescriptorReaderProtocol.test_complete_inventory_preserves_binary_links_and_requires_one_end)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_complete_observation_binds_raw_identity_objects_and_initial_reads (test_namespace_lifetime.DescriptorReaderProtocol.test_complete_observation_binds_raw_identity_objects_and_initial_reads)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_failed_owned_reader_retains_errno_wait_and_binary_eof (test_namespace_lifetime.DescriptorReaderProtocol.test_failed_owned_reader_retains_errno_wait_and_binary_eof)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_false_or_changed_raw_evidence_refuses (test_namespace_lifetime.DescriptorReaderProtocol.test_missing_false_or_changed_raw_evidence_refuses)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_repeated_reordered_or_malformed_entries_refuse (test_namespace_lifetime.DescriptorReaderProtocol.test_missing_repeated_reordered_or_malformed_entries_refuse)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_close_first_refuses_spawn_even_after_numeric_descriptor_reuse (test_namespace_lifetime.NamespaceLeaseOwnership.test_close_first_refuses_spawn_even_after_numeric_descriptor_reuse)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_mismatched_command_cannot_borrow_the_owned_descriptor (test_namespace_lifetime.NamespaceLeaseOwnership.test_mismatched_command_cannot_borrow_the_owned_descriptor)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_spawn_error_releases_ownership_and_retains_original_error (test_namespace_lifetime.NamespaceLeaseOwnership.test_spawn_error_releases_ownership_and_retains_original_error)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_spawn_first_retains_parent_until_child_owns_reference (test_namespace_lifetime.NamespaceLeaseOwnership.test_spawn_first_retains_parent_until_child_owns_reference)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_roles_keep_ids_and_normal_processes_without_namespace_authority (test_namespace_lifetime.NamespaceRestrictionIntegration.test_actual_roles_keep_ids_and_normal_processes_without_namespace_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_daemon_namespace_is_rejected_before_any_write_or_seed (test_namespace_lifetime.OwnedNamespaceIO.test_daemon_namespace_is_rejected_before_any_write_or_seed)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_duplicate_or_oversize_control_packet_is_not_a_valid_reply (test_namespace_lifetime.OwnedNamespaceIO.test_duplicate_or_oversize_control_packet_is_not_a_valid_reply)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_failed_open_retains_errno_and_no_fabricated_eof (test_namespace_lifetime.OwnedNamespaceIO.test_failed_open_retains_errno_and_no_fabricated_eof)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_full_read_and_limit_refusal_keep_actual_bytes_and_eof_separate (test_namespace_lifetime.OwnedNamespaceIO.test_full_read_and_limit_refusal_keep_actual_bytes_and_eof_separate)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_owned_child_binary_output_and_wait_are_retained (test_namespace_lifetime.OwnedNamespaceIO.test_owned_child_binary_output_and_wait_are_retained)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_owned_output_limit_keeps_failure_even_after_successful_wait (test_namespace_lifetime.OwnedNamespaceIO.test_owned_output_limit_keeps_failure_even_after_successful_wait)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_role_handle_is_validated_and_closed_before_return (test_namespace_lifetime.OwnedNamespaceIO.test_role_handle_is_validated_and_closed_before_return)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_wrong_role_handle_is_closed_and_refused (test_namespace_lifetime.OwnedNamespaceIO.test_wrong_role_handle_is_closed_and_refused)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_audit_entry_and_kernel_callbacks_keep_complete_owned_records (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_actual_audit_entry_and_kernel_callbacks_keep_complete_owned_records)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_child_communication_and_boundary_read_retain_their_shared_ordinals (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_actual_child_communication_and_boundary_read_retain_their_shared_ordinals)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_audit_phases_and_kernel_ordinals_remain_distinct_and_reopen_in_order (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_audit_phases_and_kernel_ordinals_remain_distinct_and_reopen_in_order)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_duplicate_is_idempotent_conflict_preserves_every_prior_byte (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_duplicate_is_idempotent_conflict_preserves_every_prior_byte)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_extended_readback_refuses_malformed_stored_identity_without_repairing_it (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_extended_readback_refuses_malformed_stored_identity_without_repairing_it)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_interruption_keeps_raw_phases_and_no_completion_or_promotion (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_interruption_keeps_raw_phases_and_no_completion_or_promotion)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_invocation_run_and_binding_checks_still_precede_any_new_row (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_invocation_run_and_binding_checks_still_precede_any_new_row)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_legacy_readback_validates_kind_and_implicit_null_identity (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_legacy_readback_validates_kind_and_implicit_null_identity)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_legacy_schema_refuses_phase_loss_and_existing_upgrade_preserves_rows (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_legacy_schema_refuses_phase_loss_and_existing_upgrade_preserves_rows)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_original_sites_keep_all_prior_null_and_integer_occurrences (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_original_sites_keep_all_prior_null_and_integer_occurrences)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_supplied_before_audit_still_causes_real_after_audit_and_absence_stays_absent (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_supplied_before_audit_still_causes_real_after_audit_and_absence_stays_absent)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_wrong_site_and_occurrence_domains_refuse_without_mutation (test_private_acquisition_terminal.PrivateAcquisitionTerminal.test_wrong_site_and_occurrence_domains_refuse_without_mutation)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_return_is_retried_exactly_before_interrupted_projection (test_evaluation_terminal.TerminalControls.test_actual_return_is_retried_exactly_before_interrupted_projection)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_writer_empty_declared_completion_record_last (test_evaluation_terminal.TerminalControls.test_actual_writer_empty_declared_completion_record_last)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_direct_incomplete_finish_uses_partial_projection (test_evaluation_terminal.TerminalControls.test_direct_incomplete_finish_uses_partial_projection)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_distinct_raw_occurrences_exact_replay_and_conflict (test_evaluation_terminal.TerminalControls.test_distinct_raw_occurrences_exact_replay_and_conflict)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_exact_prior_schema_upgrade_is_idempotent_and_preserves_rows (test_evaluation_terminal.TerminalControls.test_exact_prior_schema_upgrade_is_idempotent_and_preserves_rows)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_finish_event_read_refusal_preserves_owned_actual_arguments (test_evaluation_terminal.TerminalControls.test_finish_event_read_refusal_preserves_owned_actual_arguments)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_finish_prefix_refusal_preserves_owned_actual_arguments (test_evaluation_terminal.TerminalControls.test_finish_prefix_refusal_preserves_owned_actual_arguments)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_finish_storage_failure_retains_whole_return_observation_without_d15 (test_evaluation_terminal.TerminalControls.test_finish_storage_failure_retains_whole_return_observation_without_d15)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_finish_stream_read_refusal_preserves_owned_actual_arguments (test_evaluation_terminal.TerminalControls.test_finish_stream_read_refusal_preserves_owned_actual_arguments)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_genuine_required_fail_preserved_when_other_admission_missing (test_evaluation_terminal.TerminalControls.test_genuine_required_fail_preserved_when_other_admission_missing)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_layout_all_fields (test_evaluation_terminal.TerminalControls.test_layout_all_fields)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_whole_return_observation_stays_unknown_on_interruption (test_evaluation_terminal.TerminalControls.test_missing_whole_return_observation_stays_unknown_on_interruption)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_native_fact_dependencies_preserve_original_valid_negative_encodings (test_evaluation_terminal.TerminalControls.test_native_fact_dependencies_preserve_original_valid_negative_encodings)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_native_fact_dependencies_refuse_before_terminal_retention (test_evaluation_terminal.TerminalControls.test_native_fact_dependencies_refuse_before_terminal_retention)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_nullable_incomplete_and_owned_value_roundtrip (test_evaluation_terminal.TerminalControls.test_nullable_incomplete_and_owned_value_roundtrip)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_observed_whole_return_is_not_reported_as_nonreturn_after_storage_failure (test_evaluation_terminal.TerminalControls.test_observed_whole_return_is_not_reported_as_nonreturn_after_storage_failure)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_owned_legacy_report_bytes_retained_before_return (test_evaluation_terminal.TerminalControls.test_owned_legacy_report_bytes_retained_before_return)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_owned_private_binding_and_report_bytes_retained (test_evaluation_terminal.TerminalControls.test_owned_private_binding_and_report_bytes_retained)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_partial_return_is_durable_without_completion_record (test_evaluation_terminal.TerminalControls.test_partial_return_is_durable_without_completion_record)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_prior_raw_rows_are_copied_exactly_without_rewriting (test_evaluation_terminal.TerminalControls.test_prior_raw_rows_are_copied_exactly_without_rewriting)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_raw_present_empty_and_absent_before_interruption (test_evaluation_terminal.TerminalControls.test_raw_present_empty_and_absent_before_interruption)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_replay_exact_and_terminal_conflict (test_evaluation_terminal.TerminalControls.test_replay_exact_and_terminal_conflict)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_required_fail_with_unadmitted_sibling_keeps_final_d15_in_both_projections (test_evaluation_terminal.TerminalControls.test_required_fail_with_unadmitted_sibling_keeps_final_d15_in_both_projections)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_reserved_head_retains_older_failure_and_reconciles (test_evaluation_terminal.TerminalControls.test_reserved_head_retains_older_failure_and_reconciles)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_returned_run_with_unadmitted_required_row_remains_error (test_evaluation_terminal.TerminalControls.test_returned_run_with_unadmitted_required_row_remains_error)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_unmatched_post_recapture_never_emits_completion (test_evaluation_terminal.TerminalControls.test_unmatched_post_recapture_never_emits_completion)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_absent_and_empty_communication_bytes_stay_distinct (test_raw_observation.PrivateBackendAcquisitionControls.test_absent_and_empty_communication_bytes_stay_distinct)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_boundary_decode_failure_keeps_undecodable_bytes (test_raw_observation.PrivateBackendAcquisitionControls.test_boundary_decode_failure_keeps_undecodable_bytes)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_boundary_parse_failure_keeps_actual_return_and_original_file_bytes (test_raw_observation.PrivateBackendAcquisitionControls.test_boundary_parse_failure_keeps_actual_return_and_original_file_bytes)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_cleanup_sink_failure_marks_original_timeout_not_ordinary_refusal (test_raw_observation.PrivateBackendAcquisitionControls.test_cleanup_sink_failure_marks_original_timeout_not_ordinary_refusal)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_communication_error_survives_stop_error_and_retains_cleanup (test_raw_observation.PrivateBackendAcquisitionControls.test_communication_error_survives_stop_error_and_retains_cleanup)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_communication_exception_sink_failure_keeps_primary_and_available_bytes (test_raw_observation.PrivateBackendAcquisitionControls.test_communication_exception_sink_failure_keeps_primary_and_available_bytes)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_partial_boundary_read_keeps_bytes_and_original_error_on_close_failure (test_raw_observation.PrivateBackendAcquisitionControls.test_partial_boundary_read_keeps_bytes_and_original_error_on_close_failure)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_private_runner_threads_acquisitions_to_actual_writer_before_backend_return (test_raw_observation.PrivateBackendAcquisitionControls.test_private_runner_threads_acquisitions_to_actual_writer_before_backend_return)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_successful_return_sink_failure_stays_primary_through_cleanup (test_raw_observation.PrivateBackendAcquisitionControls.test_successful_return_sink_failure_stays_primary_through_cleanup)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_supervision_failure_happens_after_actual_return_retention (test_raw_observation.PrivateBackendAcquisitionControls.test_supervision_failure_happens_after_actual_return_retention)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_timeout_and_cleanup_returns_have_distinct_truthful_occurrences (test_raw_observation.PrivateBackendAcquisitionControls.test_timeout_and_cleanup_returns_have_distinct_truthful_occurrences)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_backend_path_field_has_owned_full_byte_encoding (test_raw_observation.RawObservationControls.test_actual_backend_path_field_has_owned_full_byte_encoding)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_distinct_journal_polls_retain_full_bytes_before_parsing (test_raw_observation.RawObservationControls.test_distinct_journal_polls_retain_full_bytes_before_parsing)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_owned_report_sink_and_close_failures_keep_retention_primary (test_raw_observation.RawObservationControls.test_owned_report_sink_and_close_failures_keep_retention_primary)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_read_exception_with_secondary_sink_failure_cannot_be_missing_report (test_raw_observation.RawObservationControls.test_read_exception_with_secondary_sink_failure_cannot_be_missing_report)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_resource_exit_cannot_replace_capture_failure (test_raw_observation.RawObservationControls.test_resource_exit_cannot_replace_capture_failure)",
+      "outcome": "ok"
+    }
+  ],
+  "evidence_boundary": "Hashes identify retained local campaign artifacts. This portable index does not include the complete artifacts or independently authenticate them. Results apply to the pinned isolated candidate, not to the runtime at the Git commit containing this document.",
+  "formal_proof_complete": false,
+  "native_confinement": "Unmeasured; original producer obligation open",
+  "phase_complete": false,
+  "published_runtime_candidate": false,
+  "review_model": "gpt-6.1-sol",
+  "schema_version": 1,
+  "scope": "D17 bounded checked-build and component execution; no original phase acceptance",
+  "source_candidate": "F16",
+  "source_files": {
+    ".github/workflows/assurance.yml": {
+      "bytes": 7604,
+      "mode": 420,
+      "sha256": "b1be02caaaa4226445c2cdcbe3f141cf7c379a35053067b2fddf2da04a891e19"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 311,
+      "mode": 420,
+      "sha256": "0e5a02524d81d5468520633ace9fea66efd787c7a71f4bb065a3b7940d01db27"
+    },
+    ".github/workflows/release.yml": {
+      "bytes": 10746,
+      "mode": 420,
+      "sha256": "de67d5dc57d465077204d0cf486418d7dda3ef3f8748ee5725145b3b2bb47a5f"
+    },
+    ".gitignore": {
+      "bytes": 238,
+      "mode": 420,
+      "sha256": "43e9045b2519fdb151aeb34164c10b3d1d24c82fa31e436f5d80dc0dcb2dca65"
+    },
+    "AGENTS.md": {
+      "bytes": 1113,
+      "mode": 420,
+      "sha256": "8abc7d3d8b9ee9c3df60bb961acb68879f862a184c052f1f3fa66ed4ce95006a"
+    },
+    "CHANGELOG.md": {
+      "bytes": 155494,
+      "mode": 420,
+      "sha256": "ee1c13d0cc70dd2d08c6ff074ecac155b15b5fa338cecb41aeec148f8db3b2ca"
+    },
+    "DOC-CORRECTIONS.md": {
+      "bytes": 8194,
+      "mode": 420,
+      "sha256": "3ca413f2813944a3fca1f8e12eb505d0fe5fb8dc407b268ad9b2f48552a45589"
+    },
+    "LICENSE": {
+      "bytes": 1069,
+      "mode": 420,
+      "sha256": "590f7b48390b11e7b1093671e5e7bb1dc17452c44b3064e43b09d399ecd582f9"
+    },
+    "README.md": {
+      "bytes": 9603,
+      "mode": 420,
+      "sha256": "9f1c3a72f86bdf10427043de34df0d560d698678f750a0be1babfc5280ca0dcb"
+    },
+    "SECURITY-AUDIT-2026-09-02.md": {
+      "bytes": 13026,
+      "mode": 420,
+      "sha256": "ecf1ffcc6174fe3d242eba61f0c7525fe96e93e21485db1d7d02f322c707bbf0"
+    },
+    "SECURITY.md": {
+      "bytes": 48896,
+      "mode": 420,
+      "sha256": "0e3eff761eeee00f3326406a4cd7b2aaa3db8db8ff775a9167b7a62878c74160"
+    },
+    "artifact-tests/canonical_artifact_tests.gpr": {
+      "bytes": 438,
+      "mode": 420,
+      "sha256": "9b8c5297f459ac249c82ab208d59d7088f43c70a193c0db905a9d87d5977e933"
+    },
+    "artifact-tests/test_canonical_artifacts.adb": {
+      "bytes": 3231,
+      "mode": 420,
+      "sha256": "2a8d127846ae5981d6021df9dc92a80c30a88b5e86b1040404a484dbe5df5fa1"
+    },
+    "cli/worldline": {
+      "bytes": 548,
+      "mode": 493,
+      "sha256": "0281e435a293c709574883c1f7f00489ac4f08472dc79d7c7b33d6282c869f8d"
+    },
+    "cli/worldline-relocate": {
+      "bytes": 548,
+      "mode": 493,
+      "sha256": "a7b8fad4f71edde41d70f540caa8b95ca333a22e4ff75997570b113a07e36945"
+    },
+    "completion-tests/completion_tests.gpr": {
+      "bytes": 417,
+      "mode": 420,
+      "sha256": "df097deab05eaf67e492582f35b88ca533290b841ea2861262f90a27a86e9740"
+    },
+    "completion-tests/test_completion.adb": {
+      "bytes": 8739,
+      "mode": 420,
+      "sha256": "f7237e6553a41c9720bd13909579c045258843bc197c12bd4b50566e9d285121"
+    },
+    "core/attest/README.md": {
+      "bytes": 430,
+      "mode": 420,
+      "sha256": "4492c9f8efc747151e9805f9b262d7775dadc78885fe1a61c432a3c3d15717af"
+    },
+    "core/attest/attest-sha256.adb": {
+      "bytes": 5950,
+      "mode": 420,
+      "sha256": "6d45fe3174bf5a873825e37d3cad36445cd847eaf456afff46fbe1b9c12cea68"
+    },
+    "core/attest/attest-sha256.ads": {
+      "bytes": 2193,
+      "mode": 420,
+      "sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685"
+    },
+    "core/attest/attest.ads": {
+      "bytes": 981,
+      "mode": 420,
+      "sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3"
+    },
+    "core/attest/sync.sh": {
+      "bytes": 514,
+      "mode": 493,
+      "sha256": "f4ae26a85b66d2b1ac8061b671826d30a9799f3435941f7701bc4673da60c15b"
+    },
+    "core/attest_sha256.gpr": {
+      "bytes": 682,
+      "mode": 420,
+      "sha256": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5"
+    },
+    "core/canonical_artifacts.adb": {
+      "bytes": 30012,
+      "mode": 420,
+      "sha256": "818b99beabc47e358576b993348a862c018cc30403e3f29ab532fe321e00a261"
+    },
+    "core/canonical_artifacts.ads": {
+      "bytes": 3884,
+      "mode": 420,
+      "sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee"
+    },
+    "core/evaluation_completion.adb": {
+      "bytes": 6426,
+      "mode": 420,
+      "sha256": "296df30f09f5a6a1b3ed903db21e5e9adf9a6801a5a8101605d03f5061af545c"
+    },
+    "core/evaluation_completion.ads": {
+      "bytes": 19055,
+      "mode": 420,
+      "sha256": "4a2452d695121b0a58b4e8eac5d19680cd15a34dddb78b2dc75d20ee8241f5c0"
+    },
+    "core/evaluation_completion.h": {
+      "bytes": 7313,
+      "mode": 420,
+      "sha256": "5f558757172e734e13c26a241c06ea90087e40c968d215f45ae57b8517f3b616"
+    },
+    "core/evaluation_completion_c.adb": {
+      "bytes": 52789,
+      "mode": 420,
+      "sha256": "32deb60a2065f6ec60632bc27a51251ee256df8581187a9a4369cd01360dc0e6"
+    },
+    "core/evaluation_completion_c.ads": {
+      "bytes": 7968,
+      "mode": 420,
+      "sha256": "39889fdc3b1bd18a6a14d306b77dd8af00da2c4b47934a127f64a972c33259d5"
+    },
+    "core/evaluation_completion_roster.adb": {
+      "bytes": 3390,
+      "mode": 420,
+      "sha256": "9779f6f10d68fe7f9bbd806f20a2bcd3217d3ae2e6869bc8e02d3142902350fd"
+    },
+    "core/evaluation_completion_roster.ads": {
+      "bytes": 7893,
+      "mode": 420,
+      "sha256": "bc086393ebdf98d397273905aa3425afe4b7cc29cbc9ac9ac1ac1a7f499d8111"
+    },
+    "core/evaluation_epoch.adb": {
+      "bytes": 20868,
+      "mode": 420,
+      "sha256": "13c1c83bc935e9ed47dd6a90a485c4387a3dffec4b3cc09cac45d25750cf1c57"
+    },
+    "core/evaluation_epoch.ads": {
+      "bytes": 1136,
+      "mode": 420,
+      "sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64"
+    },
+    "core/evaluation_finalization.adb": {
+      "bytes": 7561,
+      "mode": 420,
+      "sha256": "9feaaedb6be48a08a94d417b2e1553466b4ed2a6aa5f7ce02bcd82586242fd0d"
+    },
+    "core/evaluation_finalization.ads": {
+      "bytes": 18258,
+      "mode": 420,
+      "sha256": "5b97d6807b2bb1f0d424b047345fdc8039f1f2486657ccfe7c94a723e2f744ad"
+    },
+    "core/evaluation_finalization.h": {
+      "bytes": 3547,
+      "mode": 420,
+      "sha256": "6cbff3aed8e5a9cb5b02acd711482f3ced56eae9ff466a33a2cfcf1fd3b3e8e6"
+    },
+    "core/evaluation_finalization_c.adb": {
+      "bytes": 28393,
+      "mode": 420,
+      "sha256": "a1a5aed37185fce51c2d955ceadd3da97dbd6bc51b455dcf2445bdfcc848ec34"
+    },
+    "core/evaluation_finalization_c.ads": {
+      "bytes": 3702,
+      "mode": 420,
+      "sha256": "e798ae7ca45d75c88d59b39fced6608f846d1c6ba4df57f96ea902b40b4f441d"
+    },
+    "core/evaluation_history.adb": {
+      "bytes": 4100,
+      "mode": 420,
+      "sha256": "f9dc92d0bac65b44e457efc9baedd8ffbf72a675ddfc21cd4a977bfc0935c243"
+    },
+    "core/evaluation_history.ads": {
+      "bytes": 15854,
+      "mode": 420,
+      "sha256": "5ab34318c4b2678aa17f679af2b5190fc8baa082dbf7191308aa21382f812601"
+    },
+    "core/evaluation_pending.adb": {
+      "bytes": 2252,
+      "mode": 420,
+      "sha256": "41a222925d9b780112ac90eb7a6b7ec3146e9e826b3b983bb3be0f59b04fc6af"
+    },
+    "core/evaluation_pending.ads": {
+      "bytes": 7636,
+      "mode": 420,
+      "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e"
+    },
+    "core/evaluation_pending.h": {
+      "bytes": 2547,
+      "mode": 420,
+      "sha256": "a380be8410c82d867f1af59f79377f25f83f29b8844974175bec848f7155833c"
+    },
+    "core/evaluation_pending_c.adb": {
+      "bytes": 8351,
+      "mode": 420,
+      "sha256": "9b0bc60e3144ad2a2dfbd1361a4e8e8c608164cb9bb0f067df724043dbf559ff"
+    },
+    "core/evaluation_pending_c.ads": {
+      "bytes": 1909,
+      "mode": 420,
+      "sha256": "963488e96bdc4faa56a9659de557731d9a7e78ad660afd359e18350f44fb164d"
+    },
+    "core/evaluation_pending_v2.adb": {
+      "bytes": 2086,
+      "mode": 420,
+      "sha256": "ae66c2389c362e4c9b0a4b333a3267adaa095fdbe72d28bab98857e1a53a3423"
+    },
+    "core/evaluation_pending_v2.ads": {
+      "bytes": 4271,
+      "mode": 420,
+      "sha256": "2faea7935397bebf07a330b7d64c457716c40d8613076696f62359c5723fb48a"
+    },
+    "core/evaluation_pending_v2.h": {
+      "bytes": 1586,
+      "mode": 420,
+      "sha256": "550819e596ac765a10c64afb384a5b0fe6ae2413817b06a004bf8ce44f7d4ae8"
+    },
+    "core/evaluation_pending_v2_c.adb": {
+      "bytes": 9642,
+      "mode": 420,
+      "sha256": "b6df858e6a11e8c55ee0cff5cc4e46d90416629080000198d3c4e6d6de4cb240"
+    },
+    "core/evaluation_pending_v2_c.ads": {
+      "bytes": 2161,
+      "mode": 420,
+      "sha256": "155611e01d236e0f2a200245b453e49847f58aa01a68e4c8b3c8d902b898b4a8"
+    },
+    "core/evaluation_raw_roster.adb": {
+      "bytes": 3779,
+      "mode": 420,
+      "sha256": "bb31ffcbcca5d7a6cdf7ca7c86622f19048f74a8ccb6f72ae4dfa3329107b83c"
+    },
+    "core/evaluation_raw_roster.ads": {
+      "bytes": 10308,
+      "mode": 420,
+      "sha256": "1640ceda9cf05cc16af4609ed986590c85e541a8dd9d76eb1ca70275133b1cd8"
+    },
+    "core/resource_admission.adb": {
+      "bytes": 11149,
+      "mode": 420,
+      "sha256": "56561dc5fbe3a1cd62710b34678fe894ea55de200b0e3742bbdd31ea4dddf887"
+    },
+    "core/resource_admission.ads": {
+      "bytes": 9153,
+      "mode": 420,
+      "sha256": "269a14b1f9e23a8ff35c2d76d8cdb4bd9e530721f4e17fd6e06a5b3f821a94d0"
+    },
+    "core/resource_ledger.adb": {
+      "bytes": 48556,
+      "mode": 420,
+      "sha256": "a281dc7cf6bedef00f4feb3aca38cbeb4f26036a1c8c21d2c3153324d637e99a"
+    },
+    "core/resource_ledger.ads": {
+      "bytes": 12563,
+      "mode": 420,
+      "sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946"
+    },
+    "core/resource_quantities.adb": {
+      "bytes": 20508,
+      "mode": 420,
+      "sha256": "6cb822df1e1a797b2e6c273920cbb69825750f0bcfca24c7bd6509a1dce79b72"
+    },
+    "core/resource_quantities.ads": {
+      "bytes": 5495,
+      "mode": 420,
+      "sha256": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d"
+    },
+    "core/resource_reservation_lifecycle.adb": {
+      "bytes": 1321,
+      "mode": 420,
+      "sha256": "e8019d148f4883b4742f3f69429d42b20b67f02743d60a906769de8515b10e8f"
+    },
+    "core/resource_reservation_lifecycle.ads": {
+      "bytes": 4610,
+      "mode": 420,
+      "sha256": "12a88a7153fde38ece9e0551c67d442066c6c092b4055d5d4bcfeadd14388b4f"
+    },
+    "core/resource_reservation_transition.adb": {
+      "bytes": 27983,
+      "mode": 420,
+      "sha256": "9adc41e4767235adade4c3e5915cd00642f0c7e5c977801c13ed5d060914c98c"
+    },
+    "core/resource_reservation_transition.ads": {
+      "bytes": 16228,
+      "mode": 420,
+      "sha256": "570a1cd5fc4ffb20cef000eb669cf0c15105e8a7e70f737c2933c8c2fd676c20"
+    },
+    "core/spark-big_integers.ads": {
+      "bytes": 226,
+      "mode": 420,
+      "sha256": "79bfb613772e74569efec2aa2bfd8495a16a64d72cd0b0257a9acc674450ff61"
+    },
+    "core/spark.ads": {
+      "bytes": 557,
+      "mode": 420,
+      "sha256": "442ca2550288ad9c79fe16ac7ea4d2ea6437c5b404773cea86f94776b0017b82"
+    },
+    "core/worldline-ancestry.adb": {
+      "bytes": 848,
+      "mode": 420,
+      "sha256": "fd4bce10366b3217d92d0c1603a1a4ddba3c6e497e06fd42b468e6b0d7dea074"
+    },
+    "core/worldline-ancestry.ads": {
+      "bytes": 2106,
+      "mode": 420,
+      "sha256": "f7916f911d49716d25fe7a4503e6078125f50c6530deb926fe48f2a63ab734ce"
+    },
+    "core/worldline-c_api.adb": {
+      "bytes": 38504,
+      "mode": 420,
+      "sha256": "b3eb28b697fa64fa9f058c7e5fad3b32ffd849ef5bbae9f8d24bb3ca6eef058d"
+    },
+    "core/worldline-c_api.ads": {
+      "bytes": 9893,
+      "mode": 420,
+      "sha256": "2c72766b61185d7773b19fa90b625c55bd451c29fff49af3c9c9d77c60695b11"
+    },
+    "core/worldline-causal_graph.adb": {
+      "bytes": 1734,
+      "mode": 420,
+      "sha256": "7a1989c91fb712b795040276c39edaf5fd12f46e9059788643ca14aeb6dcee7e"
+    },
+    "core/worldline-causal_graph.ads": {
+      "bytes": 1190,
+      "mode": 420,
+      "sha256": "0c68302dc55b891639f0bcbee7ebfe43e1d6d7a9cfcaa969ee1f0fb664d13e97"
+    },
+    "core/worldline-collapse.adb": {
+      "bytes": 2873,
+      "mode": 420,
+      "sha256": "bd7d50f16e5fd3a5b65d14e367d7d04845c531936c20fa9a6a3ad5879bf58cf6"
+    },
+    "core/worldline-collapse.ads": {
+      "bytes": 14335,
+      "mode": 420,
+      "sha256": "ba6e2a5325fe438922d63d188f936fce556a7b2e8aab99ec38f36d6a1d2ae3ce"
+    },
+    "core/worldline-collapse_wire.adb": {
+      "bytes": 328,
+      "mode": 420,
+      "sha256": "e0bf9cdb828115ae343687a80ca646f46c6ffde8cfaaf610182e0a58318f2dd4"
+    },
+    "core/worldline-collapse_wire.ads": {
+      "bytes": 12997,
+      "mode": 420,
+      "sha256": "2216d2b8cfcef17ef7ac7e4c5c25c170fd1388427c477c95add1cd24f9078431"
+    },
+    "core/worldline-evaluation.adb": {
+      "bytes": 4353,
+      "mode": 420,
+      "sha256": "a675b451c118250c8a03c964d670d71792ab5ba3fd8ec7e9bb5799c3d817bf89"
+    },
+    "core/worldline-evaluation.ads": {
+      "bytes": 9117,
+      "mode": 420,
+      "sha256": "374dd36340edde851d3e897c282800b7a626d07d441bbf798add4c546672e590"
+    },
+    "core/worldline-evaluation_authority.adb": {
+      "bytes": 2585,
+      "mode": 420,
+      "sha256": "bb4201fc146208e5bae73a9f2a322db6bd54ccc7f3403cff69abc3c95bfb2ab3"
+    },
+    "core/worldline-evaluation_authority.ads": {
+      "bytes": 15565,
+      "mode": 420,
+      "sha256": "29ea441b1bcc0212db70143c09b961b1f911827c8f30b40cc52f88080f4c222b"
+    },
+    "core/worldline-evaluation_history_c_api.adb": {
+      "bytes": 9279,
+      "mode": 420,
+      "sha256": "0be16252eb2d9e72baa8dbfbb2bbdbe9b82bb3392ec79aeb90b952d170ef166d"
+    },
+    "core/worldline-evaluation_history_c_api.ads": {
+      "bytes": 2385,
+      "mode": 420,
+      "sha256": "1040eac0113095d66f14d533d9a7663546bbffa7c078cd81a504cd86db056d92"
+    },
+    "core/worldline-evaluation_report_facts.adb": {
+      "bytes": 1213,
+      "mode": 420,
+      "sha256": "962c7d6abd8ea0cbd1369db73b5e5353da4abd35eb5deb3bc9556f2eb07feff1"
+    },
+    "core/worldline-evaluation_report_facts.ads": {
+      "bytes": 5190,
+      "mode": 420,
+      "sha256": "485c0df20a5b2a3b96811106ba1aa73fb87294c9e01d81919741740c58ee6f2a"
+    },
+    "core/worldline-evaluation_report_wire.adb": {
+      "bytes": 2673,
+      "mode": 420,
+      "sha256": "df63281b3d33be3fa2af75dcf03cde181ce4a0b2c5dcd256c0e87253d5fffa6a"
+    },
+    "core/worldline-evaluation_report_wire.ads": {
+      "bytes": 7430,
+      "mode": 420,
+      "sha256": "7699dc6ed19cc1a8f57c8eb02c8bef3d2ebdd63b5c9b84789178c6941c8e41ae"
+    },
+    "core/worldline-evaluation_v2.adb": {
+      "bytes": 5709,
+      "mode": 420,
+      "sha256": "b58dfbdcf47a9271cd2ebc5d87f71cb638bd8b2094950529b31dc8ab64b18f3f"
+    },
+    "core/worldline-evaluation_v2.ads": {
+      "bytes": 13461,
+      "mode": 420,
+      "sha256": "f527206d00c47fe71e31ee79c599e8ffaa8614fbb1c66743c847cfcb46710cf6"
+    },
+    "core/worldline-evaluation_wire.adb": {
+      "bytes": 6158,
+      "mode": 420,
+      "sha256": "224be0d2c2e90f5fd70c002b49594d3b4fcd141cc86e0097190d120819e68ce9"
+    },
+    "core/worldline-evaluation_wire.ads": {
+      "bytes": 14324,
+      "mode": 420,
+      "sha256": "e7b44365b9b16333b4cf6315eed8d2a388bb0d68ba88572ea071e84e135fbf6d"
+    },
+    "core/worldline-identities.ads": {
+      "bytes": 4362,
+      "mode": 420,
+      "sha256": "3935a4aa1d670f42738b0b1e7968a8d6560fd3580150f9dada6bfe6145bb7f10"
+    },
+    "core/worldline-receipts.adb": {
+      "bytes": 1773,
+      "mode": 420,
+      "sha256": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225"
+    },
+    "core/worldline-receipts.ads": {
+      "bytes": 1186,
+      "mode": 420,
+      "sha256": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea"
+    },
+    "core/worldline-recovery.adb": {
+      "bytes": 782,
+      "mode": 420,
+      "sha256": "9da694c03edf6804bfb7dbbdb71deb80949bedadbcb64dd56079a2c49741db8c"
+    },
+    "core/worldline-recovery.ads": {
+      "bytes": 1586,
+      "mode": 420,
+      "sha256": "ab9555faadd4b46d294a09d8d74495b75ef017497acde9290849cf005aed921a"
+    },
+    "core/worldline-recovery_c_api.adb": {
+      "bytes": 3299,
+      "mode": 420,
+      "sha256": "009d9ec88bdb1e0da8c9114819f8ff69d52193b747da948e4c6e3b7dd09b7bce"
+    },
+    "core/worldline-recovery_c_api.ads": {
+      "bytes": 1225,
+      "mode": 420,
+      "sha256": "f03c53ecbf92c68cbb9f70b98809ec33f87ec3ef50cccf52c8dd4d885fa0d78f"
+    },
+    "core/worldline-reservation_lifecycle_c_api.adb": {
+      "bytes": 4764,
+      "mode": 420,
+      "sha256": "7128313368144db894fa030a676c8f8bcb16f8067531851b2107c51e8b997a01"
+    },
+    "core/worldline-reservation_lifecycle_c_api.ads": {
+      "bytes": 1901,
+      "mode": 420,
+      "sha256": "4363e0f3f379e989cf73a9047859ad862c7175ed32074ac7631ddf039606080f"
+    },
+    "core/worldline-resource_ledger_c_api.adb": {
+      "bytes": 9704,
+      "mode": 420,
+      "sha256": "821953fcb0402ba17592f5f2a278dc2619a8e0810d4b5b0930bb37be5b195302"
+    },
+    "core/worldline-resource_ledger_c_api.ads": {
+      "bytes": 2949,
+      "mode": 420,
+      "sha256": "ab4694d6a2d79628236754c6c8ee2d1bd60ea0dc9d0980b0d911744e3548a0e0"
+    },
+    "core/worldline-resource_policy_c_api.adb": {
+      "bytes": 8057,
+      "mode": 420,
+      "sha256": "f66bfb5564e5779083ec7b59cd128bb7c1c85c8ec15e374acbd6ac2d7ab3e0ec"
+    },
+    "core/worldline-resource_policy_c_api.ads": {
+      "bytes": 2787,
+      "mode": 420,
+      "sha256": "c4c92c21fcfe20e64c4e5f9e388b4acb9b341efb8837a98d6782230327eafaf8"
+    },
+    "core/worldline-resource_wire.adb": {
+      "bytes": 385,
+      "mode": 420,
+      "sha256": "25e3163ab7d9ff02a72fa06aff10ecbe8dd88de9a2dea24f1d7db7850f491472"
+    },
+    "core/worldline-resource_wire.ads": {
+      "bytes": 776,
+      "mode": 420,
+      "sha256": "35424de3b2452cb8b67b9652afdb225b6ec8908b4150bb0028da00cee42ae6fc"
+    },
+    "core/worldline-resources.adb": {
+      "bytes": 35238,
+      "mode": 420,
+      "sha256": "6457467358326d52c7613298a2eacaf3903b6983693e02a4812b1bf08f06874f"
+    },
+    "core/worldline-resources.ads": {
+      "bytes": 7177,
+      "mode": 420,
+      "sha256": "dcd93c005097a687470256df5a9e2dab9641e5af31aacce549090cd8c264a501"
+    },
+    "core/worldline-resources_c_api.adb": {
+      "bytes": 2246,
+      "mode": 420,
+      "sha256": "78c3a8a1d8eda05d3da25482604bd330977eba683584df0997d62f6dfff94718"
+    },
+    "core/worldline-resources_c_api.ads": {
+      "bytes": 1286,
+      "mode": 420,
+      "sha256": "d924009a4937a26b6f84220988696fc130f2d266fe9a5ffec8b957c0c5a679d7"
+    },
+    "core/worldline-transitions.adb": {
+      "bytes": 1363,
+      "mode": 420,
+      "sha256": "c87e9ee5871faa1e0187579e90f406d36f7de79e49dce8d8703feb265bb5bc0c"
+    },
+    "core/worldline-transitions.ads": {
+      "bytes": 940,
+      "mode": 420,
+      "sha256": "59a706f9acdc307981acc87afb221f867f64708fefb8e56780606ca86be83996"
+    },
+    "core/worldline-world.adb": {
+      "bytes": 1557,
+      "mode": 420,
+      "sha256": "afda4fe21a013e4efd362e75220af3eb04bbdcb6dbcd648689ea15b3730831ae"
+    },
+    "core/worldline-world.ads": {
+      "bytes": 306,
+      "mode": 420,
+      "sha256": "aa2ef8a552d1151a771596f5c4a454cf550926f14e80d7adcffb028d3453c386"
+    },
+    "core/worldline.ads": {
+      "bytes": 164,
+      "mode": 420,
+      "sha256": "6b171d3fa0b9a0cdbd7e3777e4af35e557ed74e67f6b3ee9bdc1bbfe41305286"
+    },
+    "core/worldline_core.gpr": {
+      "bytes": 1925,
+      "mode": 420,
+      "sha256": "5a6c6656a4373fc3fc04e66fafbca54c4b41c01555104950eb3d84ea5bbb9bb3"
+    },
+    "core/worldline_core.h": {
+      "bytes": 21978,
+      "mode": 420,
+      "sha256": "3613d605fbd130b44e1a480351897bd23c40654a100be44848d1d85512532d0e"
+    },
+    "core/worldline_core_sources.gpr": {
+      "bytes": 803,
+      "mode": 420,
+      "sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c"
+    },
+    "daemon/worldlined": {
+      "bytes": 551,
+      "mode": 493,
+      "sha256": "ca304eeaf77c3809657d263e31c0d55bddc414009d6f7cade79ee83f9d88df8d"
+    },
+    "daemon/worldlined.service": {
+      "bytes": 944,
+      "mode": 420,
+      "sha256": "ace5b8e066394a72c4de23271233387504eb253fe9d7b002fe636c8084631f76"
+    },
+    "docs/build-pdf.sh": {
+      "bytes": 1866,
+      "mode": 493,
+      "sha256": "ec93615f50bc4ffacd9580998e448d9f94bf2515923dab60cd38a1e107b6dca8"
+    },
+    "docs/pdf/WORLDLINE-User-Manual.md": {
+      "bytes": 24462,
+      "mode": 420,
+      "sha256": "523b70c77c14436656ff50a5be1a8a30f080701d0004802f4f4f20607d9268e5"
+    },
+    "docs/pdf/WORLDLINE-User-Manual.pdf": {
+      "bytes": 211283,
+      "mode": 420,
+      "sha256": "c1cc55a36095a7d38417e1798b4959a725a998119b3dba81793e80a973db6278"
+    },
+    "docs/pdf/WORLDLINE-Whitepaper.md": {
+      "bytes": 16888,
+      "mode": 420,
+      "sha256": "77d98b2e635f864a829cf86a6bd5d77870ecfc3c4be102c098932aebf0ce4c4d"
+    },
+    "docs/pdf/WORLDLINE-Whitepaper.pdf": {
+      "bytes": 131502,
+      "mode": 420,
+      "sha256": "11cf5d97301d630316c16691bc931653aca91419b39a3678903dbb2c2f3ddd16"
+    },
+    "docs/phase1-evaluation-lifecycle.md": {
+      "bytes": 14268,
+      "mode": 420,
+      "sha256": "5c560cd7b9d3a12736249d98820e0f9831eeaf06386d762a0e5a4e877ae86544"
+    },
+    "docs/phase1-typed-absence.md": {
+      "bytes": 17548,
+      "mode": 420,
+      "sha256": "c9e5472c3b3a71d182294d0af454f678239ed8bdf25b639fc04fc75b4634ca14"
+    },
+    "docs/release-process.md": {
+      "bytes": 6777,
+      "mode": 420,
+      "sha256": "318893f37469f52eb2800d4a5cb056ee59b34b78cea692cae26cae8a3b17858b"
+    },
+    "docs/user-manual.md": {
+      "bytes": 38367,
+      "mode": 420,
+      "sha256": "1576d891a0c1175b63692cf1b2972ec08d71364d2d12149354785058b8761bad"
+    },
+    "docs/whitepaper.md": {
+      "bytes": 22821,
+      "mode": 420,
+      "sha256": "6e310137cda1e78266254c9ffac176efa30dcbf9f621507e6490c883bb753eff"
+    },
+    "evaluation-authority-tests/evaluation_authority_tests.gpr": {
+      "bytes": 467,
+      "mode": 420,
+      "sha256": "fe56372cadd165065b83f595d62b8a5b9b549776b8f0b838d37abf18d667031c"
+    },
+    "evaluation-authority-tests/test_evaluation_authority.adb": {
+      "bytes": 838,
+      "mode": 420,
+      "sha256": "16f72d1b1e89f94d11bec88a6d92991159980ed222733cb45383f79dffc96b90"
+    },
+    "evaluation-history-tests/test_history.adb": {
+      "bytes": 3591,
+      "mode": 420,
+      "sha256": "99522957d441cdd448eb9aebd937880e139dbfa7c058ee61081a52d749900b7b"
+    },
+    "evaluation-history-tests/tests.gpr": {
+      "bytes": 420,
+      "mode": 420,
+      "sha256": "98254a44422b989db73368a95b997f33e3dd809905ac2b5a3620896dd72bd15b"
+    },
+    "evaluation-wire-tests/evaluation_wire_tests.gpr": {
+      "bytes": 442,
+      "mode": 420,
+      "sha256": "711cdb89530f27571980e356ef6c5ea308fcb6c42bfd5a7632bfb3308220aa74"
+    },
+    "evaluation-wire-tests/test_evaluation_wire.adb": {
+      "bytes": 10521,
+      "mode": 420,
+      "sha256": "0ff9d872c3a82c1a2d39eb56cdbd3d5c0df7aa5aeac98630e3b64186329c32fc"
+    },
+    "install.sh": {
+      "bytes": 25661,
+      "mode": 493,
+      "sha256": "17afc410d547e75e711ef570eecaf20c870ae7edce8c5418ba46949605f4a68b"
+    },
+    "omarchy/README.md": {
+      "bytes": 486,
+      "mode": 420,
+      "sha256": "0b3dc46dc0ec37d646fbfa062cf981c6a586b730c2affa773ed8ae5dbbaac200"
+    },
+    "packaging/.gitignore": {
+      "bytes": 39,
+      "mode": 420,
+      "sha256": "8e2f260b9ab098c4373faa2515c4c38ef1dc6bf0803f67cc68da22b73dd9f674"
+    },
+    "packaging/PKGBUILD": {
+      "bytes": 4171,
+      "mode": 420,
+      "sha256": "bbaf6c45112c849afe0cf1fc06e3add650842339d87b2dbdf115c35ba4a51a95"
+    },
+    "pending-component/core/evaluation_epoch.adb": {
+      "bytes": 20868,
+      "mode": 420,
+      "sha256": "13c1c83bc935e9ed47dd6a90a485c4387a3dffec4b3cc09cac45d25750cf1c57"
+    },
+    "pending-component/core/evaluation_epoch.ads": {
+      "bytes": 1136,
+      "mode": 420,
+      "sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64"
+    },
+    "pending-component/core/evaluation_pending.adb": {
+      "bytes": 2252,
+      "mode": 420,
+      "sha256": "41a222925d9b780112ac90eb7a6b7ec3146e9e826b3b983bb3be0f59b04fc6af"
+    },
+    "pending-component/core/evaluation_pending.ads": {
+      "bytes": 7636,
+      "mode": 420,
+      "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e"
+    },
+    "pending-component/core/evaluation_pending.h": {
+      "bytes": 2547,
+      "mode": 420,
+      "sha256": "a380be8410c82d867f1af59f79377f25f83f29b8844974175bec848f7155833c"
+    },
+    "pending-component/core/evaluation_pending_c.adb": {
+      "bytes": 8351,
+      "mode": 420,
+      "sha256": "9b0bc60e3144ad2a2dfbd1361a4e8e8c608164cb9bb0f067df724043dbf559ff"
+    },
+    "pending-component/core/evaluation_pending_c.ads": {
+      "bytes": 1909,
+      "mode": 420,
+      "sha256": "963488e96bdc4faa56a9659de557731d9a7e78ad660afd359e18350f44fb164d"
+    },
+    "pending-component/core/evaluation_pending_v2.adb": {
+      "bytes": 2086,
+      "mode": 420,
+      "sha256": "ae66c2389c362e4c9b0a4b333a3267adaa095fdbe72d28bab98857e1a53a3423"
+    },
+    "pending-component/core/evaluation_pending_v2.ads": {
+      "bytes": 4271,
+      "mode": 420,
+      "sha256": "2faea7935397bebf07a330b7d64c457716c40d8613076696f62359c5723fb48a"
+    },
+    "pending-component/core/evaluation_pending_v2.h": {
+      "bytes": 1586,
+      "mode": 420,
+      "sha256": "550819e596ac765a10c64afb384a5b0fe6ae2413817b06a004bf8ce44f7d4ae8"
+    },
+    "pending-component/core/evaluation_pending_v2_c.adb": {
+      "bytes": 9642,
+      "mode": 420,
+      "sha256": "b6df858e6a11e8c55ee0cff5cc4e46d90416629080000198d3c4e6d6de4cb240"
+    },
+    "pending-component/core/evaluation_pending_v2_c.ads": {
+      "bytes": 2161,
+      "mode": 420,
+      "sha256": "155611e01d236e0f2a200245b453e49847f58aa01a68e4c8b3c8d902b898b4a8"
+    },
+    "pending-component/core/resource_quantities.adb": {
+      "bytes": 20508,
+      "mode": 420,
+      "sha256": "6cb822df1e1a797b2e6c273920cbb69825750f0bcfca24c7bd6509a1dce79b72"
+    },
+    "pending-component/core/resource_quantities.ads": {
+      "bytes": 5495,
+      "mode": 420,
+      "sha256": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d"
+    },
+    "pending-component/core/spark-big_integers.ads": {
+      "bytes": 226,
+      "mode": 420,
+      "sha256": "79bfb613772e74569efec2aa2bfd8495a16a64d72cd0b0257a9acc674450ff61"
+    },
+    "pending-component/core/spark.ads": {
+      "bytes": 557,
+      "mode": 420,
+      "sha256": "442ca2550288ad9c79fe16ac7ea4d2ea6437c5b404773cea86f94776b0017b82"
+    },
+    "pending-component/pending.gpr": {
+      "bytes": 752,
+      "mode": 420,
+      "sha256": "d8f1a3ef831c1186eb99e0b729a89f7f379a81e04f2f2bbd7f68f06add739b5e"
+    },
+    "plugin-compatibility.json": {
+      "bytes": 536,
+      "mode": 420,
+      "sha256": "170a8c0cc54fbd1c99ff46c5b46d31b8f42ffdaca6b48e850c525ad0a4090436"
+    },
+    "proof-manifest.json": {
+      "bytes": 18915,
+      "mode": 420,
+      "sha256": "2cea30875f99a849714b131139f38ea487631683581c45cfcb2732221c2cc5ac"
+    },
+    "proposals/0007-resource-admission-and-execution-budgets.md": {
+      "bytes": 6330,
+      "mode": 420,
+      "sha256": "d72225ebbab8e14353abba18433b7442abde191e0ccebe7808d7f09b04d093d1"
+    },
+    "prove.sh": {
+      "bytes": 11571,
+      "mode": 493,
+      "sha256": "ff78297744107771456a59aba2b75c32c44d64585bcb81c982966b7e516f9d43"
+    },
+    "report-facts-tests/report_facts_tests.gpr": {
+      "bytes": 427,
+      "mode": 420,
+      "sha256": "36854b5abc0f81eebab5f6e11832c86453a08373e32d059c2b6b57e01e5316e0"
+    },
+    "report-facts-tests/test_report_facts.adb": {
+      "bytes": 5391,
+      "mode": 420,
+      "sha256": "049ba422c094e842015af6f62e75f15451030ad3fa9bcd440fa29bc229c7328a"
+    },
+    "reservation-tests/test_lifecycle.adb": {
+      "bytes": 1813,
+      "mode": 420,
+      "sha256": "209912ea9c88baf182a6c383052a3ff174c24fcae45ce9e7f63675023a9bf4e5"
+    },
+    "reservation-tests/tests.gpr": {
+      "bytes": 396,
+      "mode": 420,
+      "sha256": "82765690800d735db86124135ca542b88fadf2d31c2fe455fb9f5b469e4c834f"
+    },
+    "resource-evidence/binding-oracle-v1.json": {
+      "bytes": 10047,
+      "mode": 420,
+      "sha256": "5920b228444ff11cd15c57d3c61f757c957fa9c0bfd7e5be9e7841486fda0ae7"
+    },
+    "resource-tests/resource_tests.adb": {
+      "bytes": 3009,
+      "mode": 420,
+      "sha256": "d820dacabe9e0dbde88d0e2225ae8b425881c651b3e5bd3725b050c0155c3baf"
+    },
+    "resource-tests/resource_tests.gpr": {
+      "bytes": 568,
+      "mode": 420,
+      "sha256": "314061002720deda662f48b3e2b027d05cdd106eee4eeb2b3220c184f3206233"
+    },
+    "roster-d2-tests/roster_d2_tests.gpr": {
+      "bytes": 412,
+      "mode": 420,
+      "sha256": "4e7b361e14155632260ac15833b99a9e6db6f8568dac7c5edaa6cdefb6a93a4e"
+    },
+    "roster-d2-tests/test_roster_d2.adb": {
+      "bytes": 6271,
+      "mode": 420,
+      "sha256": "9f8c182a3cb24d87eddec2b55dcb5ca39fef26d20e0650abf181451c5abaac49"
+    },
+    "runtime/worldline/__init__.py": {
+      "bytes": 67,
+      "mode": 420,
+      "sha256": "4b1ee269709526466aa1d677bce48993b012777a9b7e3ae4f91bc0de423d9ec8"
+    },
+    "runtime/worldline/admission.py": {
+      "bytes": 48528,
+      "mode": 420,
+      "sha256": "e94bdaadb6d30ead53de7bfa7f939f9c37beb7e9dd3968c0a4caad9f40a90f82"
+    },
+    "runtime/worldline/agents/__init__.py": {
+      "bytes": 887,
+      "mode": 420,
+      "sha256": "56d96886cf8a99bd6484615aff595ac28495284f18a867fbc348c5dec332a99c"
+    },
+    "runtime/worldline/agents/base.py": {
+      "bytes": 4515,
+      "mode": 420,
+      "sha256": "474901c662205db043c5753b02f67126d96b1a01754684521708ef0620fdfb3a"
+    },
+    "runtime/worldline/agents/claude.py": {
+      "bytes": 2185,
+      "mode": 420,
+      "sha256": "1bc5757e94f4c22ee99f942f4bacda6da618911ab5fbcca782e9d42eac40f316"
+    },
+    "runtime/worldline/agents/codex.py": {
+      "bytes": 3112,
+      "mode": 420,
+      "sha256": "3e647e10d4a31c59fd7a994d8e87ecf943623b6d7032f792f574907e1a3d483a"
+    },
+    "runtime/worldline/agents/generic.py": {
+      "bytes": 1701,
+      "mode": 420,
+      "sha256": "22ce9848c30938d45ad4b0a020f9bbc70dd3ad6cbc4fe94fd5eeed38e27446c9"
+    },
+    "runtime/worldline/agents/omp.py": {
+      "bytes": 1802,
+      "mode": 420,
+      "sha256": "366338d00cef9c2bcbef41aebc39cfd32f256d57344c200d50eb6bf9fdea9bdc"
+    },
+    "runtime/worldline/agents/pi.py": {
+      "bytes": 2181,
+      "mode": 420,
+      "sha256": "0b623932b51af84663d76bd45230f3e4088c9ff616629dcf18dbfa54e8d042da"
+    },
+    "runtime/worldline/anchor.py": {
+      "bytes": 53549,
+      "mode": 420,
+      "sha256": "85eb65c7023e84cbd115ebd358a67c19f1ef8f5ff07814f1f641e43d6d32fb60"
+    },
+    "runtime/worldline/app.py": {
+      "bytes": 1737,
+      "mode": 420,
+      "sha256": "05bcb4bd1f14c58b4d11a9ba697b21643d1fb9fa0b52fa594f32f8cc3ae142fc"
+    },
+    "runtime/worldline/canonical.py": {
+      "bytes": 3169,
+      "mode": 420,
+      "sha256": "d80f79bcedace5364d2e9a238ab05b48250660d86cfb4c14aa5393f4b37952af"
+    },
+    "runtime/worldline/capabilities.py": {
+      "bytes": 3793,
+      "mode": 420,
+      "sha256": "a0f479c2ead05cc10cf04dada7f7864f7907b01695ff5187d0658d33752f16a9"
+    },
+    "runtime/worldline/causal.py": {
+      "bytes": 17274,
+      "mode": 420,
+      "sha256": "739de7a87fe6486538faa89de37a87593004eae0541729a98a3667ccb4de9de0"
+    },
+    "runtime/worldline/checkpoint.py": {
+      "bytes": 5160,
+      "mode": 420,
+      "sha256": "b728e426fde8b7fd25995e16760c77ae371a814f2faa89489efe6f24f5792ed7"
+    },
+    "runtime/worldline/checks.py": {
+      "bytes": 52154,
+      "mode": 420,
+      "sha256": "558b9cb806980d07c4d5f42d195ef6172d054363ae07d4b09f784d5a991ee8f9"
+    },
+    "runtime/worldline/cli_main.py": {
+      "bytes": 33244,
+      "mode": 420,
+      "sha256": "adc4d1dd857c0da0ac20eaf3affeccc600eb3acbd72c313157dbe3f457d4aff5"
+    },
+    "runtime/worldline/client.py": {
+      "bytes": 4357,
+      "mode": 420,
+      "sha256": "a1fcdc67bdf484e0fa976d8d3e2b2200fe7fd6544c68d973c3671933a28255a4"
+    },
+    "runtime/worldline/completion_kernel.py": {
+      "bytes": 15057,
+      "mode": 420,
+      "sha256": "46aba2b0c4ba8fb98e10fa1d9db2197c926b49cf6174dfc550638d4b1dffa9c7"
+    },
+    "runtime/worldline/completion_observations.py": {
+      "bytes": 2454,
+      "mode": 420,
+      "sha256": "d9f8e93f550fd9ac2313cf363d5296cf8497931cb073a6eb43d8837ac89b15b1"
+    },
+    "runtime/worldline/config.py": {
+      "bytes": 15630,
+      "mode": 420,
+      "sha256": "64a0163f2938b0cd4858a3b133af3614a3f2dc39bdbb16016dccca650d54c00b"
+    },
+    "runtime/worldline/controller.py": {
+      "bytes": 71071,
+      "mode": 420,
+      "sha256": "300c70d1d818507b297dabce4c975bfdb264544db9b54b798c118cb008d6c90d"
+    },
+    "runtime/worldline/core.py": {
+      "bytes": 29561,
+      "mode": 420,
+      "sha256": "126baf19ecf2dbd0f2512308a281f8b00dc3e016318ce40c18469962da7a371c"
+    },
+    "runtime/worldline/daemon.py": {
+      "bytes": 19177,
+      "mode": 420,
+      "sha256": "9556faf4e3a4f065e2a22daa5d0e93b9fc3ae73f9eca5064fd5eb89ee62a0ad5"
+    },
+    "runtime/worldline/daemon_main.py": {
+      "bytes": 4536,
+      "mode": 420,
+      "sha256": "fe95b626b4e179f2fdb9115c4a1a963e15ef70ccac9c820cd90f11f1b2baace8"
+    },
+    "runtime/worldline/delta.py": {
+      "bytes": 14733,
+      "mode": 420,
+      "sha256": "192efbe8b8b761a4e76c7361a2c06dcac801641d524f18efda5de74452ce4059"
+    },
+    "runtime/worldline/engine_codes.py": {
+      "bytes": 8056,
+      "mode": 420,
+      "sha256": "0fb27dfa2f27df2404a794c6cb00e1cfdcd026bbe5fb09ebaefb61b106185dd6"
+    },
+    "runtime/worldline/environment.py": {
+      "bytes": 19024,
+      "mode": 420,
+      "sha256": "22afe46da5bf2c96ac42ac901cc643b0c6a26d28f95377bc23e4c4c20c8e2456"
+    },
+    "runtime/worldline/errors.py": {
+      "bytes": 2241,
+      "mode": 420,
+      "sha256": "610c9ecd0081d354cbfb1327c36a06a56fafb2cfa03fae69c82e009be0b3bc2d"
+    },
+    "runtime/worldline/evaluation_authority.py": {
+      "bytes": 16826,
+      "mode": 420,
+      "sha256": "a54094e78d6c8b288d6af1db4032de72250d0b5be874d4c4cdd8dd335b2c5722"
+    },
+    "runtime/worldline/evaluation_context.py": {
+      "bytes": 27251,
+      "mode": 420,
+      "sha256": "7124747afbc78004a7ebd6ae3dd5354ed5ea7571dd6c0a098b3c12225f194351"
+    },
+    "runtime/worldline/evaluation_history.py": {
+      "bytes": 9449,
+      "mode": 420,
+      "sha256": "0df874c8284853ef49f029a790d070d7d4fe03bfc589034acea3134ae7a48fd8"
+    },
+    "runtime/worldline/evaluation_pending.py": {
+      "bytes": 25594,
+      "mode": 420,
+      "sha256": "559dc067399ade18658116727cbe2f364f718791cb299bd563765075de5569fa"
+    },
+    "runtime/worldline/evaluation_terminal.py": {
+      "bytes": 45387,
+      "mode": 420,
+      "sha256": "527ecef06aeb5e941f1138226a2a8dba45752898fb8227014d5c28731cac46e4"
+    },
+    "runtime/worldline/evaluation_wire.py": {
+      "bytes": 8632,
+      "mode": 420,
+      "sha256": "6e8934470bbadb9819b960f46eae611ca2ced6b2a87c86e8c928f026ff8c3056"
+    },
+    "runtime/worldline/evaluation_writer.py": {
+      "bytes": 19913,
+      "mode": 420,
+      "sha256": "8a727c42812c29792a393161a83415a31ba420a13f9acceeba50674797b30ecc"
+    },
+    "runtime/worldline/examiner_audit.py": {
+      "bytes": 30591,
+      "mode": 420,
+      "sha256": "81ae0b9c7bf3e048b60dd6cdd1aa334f1efd881fadb06f45651132a0738c7836"
+    },
+    "runtime/worldline/executed.py": {
+      "bytes": 22988,
+      "mode": 420,
+      "sha256": "904a41b6fd06785551147863676afc21a0fc4054c71081b491084605e9fad1a1"
+    },
+    "runtime/worldline/finalization_journal.py": {
+      "bytes": 36616,
+      "mode": 420,
+      "sha256": "bf5472672be296d4b37c5cae113407a733625611b79b34c46316da729e1df8d7"
+    },
+    "runtime/worldline/finalization_kernel.py": {
+      "bytes": 17049,
+      "mode": 420,
+      "sha256": "fe91b945afbe61d82d2e60ba6c968092a0b4413117b0011a279dad23e0833082"
+    },
+    "runtime/worldline/finalization_values.py": {
+      "bytes": 2040,
+      "mode": 420,
+      "sha256": "c0b65b21f7d7e39eb94839e3e70d4650aa476928b199328e5b02ace2d6a73c0e"
+    },
+    "runtime/worldline/finalization_writer.py": {
+      "bytes": 22586,
+      "mode": 420,
+      "sha256": "c3079f3120b421b17b0c03db9f32e593b70253bb2578c9bf4c9e6d300e5fd97c"
+    },
+    "runtime/worldline/finalize.py": {
+      "bytes": 49365,
+      "mode": 420,
+      "sha256": "479dee9d5f314fdf5d3f2bffd2fee10f72559f4b3f5c4e8de8844c39bd8f3c0e"
+    },
+    "runtime/worldline/fork.py": {
+      "bytes": 8760,
+      "mode": 420,
+      "sha256": "2f957224ebc64cf79f5609c08775caf035578c52598e32fb764624f7c7962d1f"
+    },
+    "runtime/worldline/fstree.py": {
+      "bytes": 3538,
+      "mode": 420,
+      "sha256": "d6e99ff89e6736a276e53e023ec7d2463d9621ac70a4e9a2a729f3cd049e4ab7"
+    },
+    "runtime/worldline/ghosts.py": {
+      "bytes": 4588,
+      "mode": 420,
+      "sha256": "af031cfeb7c06e3ad9151eb45cc776783b1c05e4b080ce640bdfbfce4f21de7f"
+    },
+    "runtime/worldline/install_config.py": {
+      "bytes": 3303,
+      "mode": 420,
+      "sha256": "69b24b2a1ea04baed0d6c590fee0078aee6c8e542572930c0d22af4127e95261"
+    },
+    "runtime/worldline/linux/__init__.py": {
+      "bytes": 54,
+      "mode": 420,
+      "sha256": "36944b96f2ae76dc3f73178841eb4a1693f875aa7050fa13c593f85355027bb6"
+    },
+    "runtime/worldline/linux/atomic.py": {
+      "bytes": 2759,
+      "mode": 420,
+      "sha256": "868c6c3db77f12e074dced0a2fb7f4655098c6dff3c70ce54fbbb93b63e292b8"
+    },
+    "runtime/worldline/linux/btrfs.py": {
+      "bytes": 3417,
+      "mode": 420,
+      "sha256": "cc25fc1f948b270165801ded686026abb688c62153912bec0ec7bf2d1bd524df"
+    },
+    "runtime/worldline/linux/cgroups.py": {
+      "bytes": 1964,
+      "mode": 420,
+      "sha256": "94f3e3e2bf6438d15b52a5e2c51d9c62ec2c8c91b478d5d36af431ff10ad5c30"
+    },
+    "runtime/worldline/linux/criu.py": {
+      "bytes": 4300,
+      "mode": 420,
+      "sha256": "fce20d417123189254b3c4e023ba5bd20aff619dccbf3eb49b5194efaaa1b498"
+    },
+    "runtime/worldline/linux/docker.py": {
+      "bytes": 12074,
+      "mode": 420,
+      "sha256": "256f09951a474f60f6154dcfa381bc7738b834984559895f23c8bdd5a9c42bf1"
+    },
+    "runtime/worldline/linux/git.py": {
+      "bytes": 22199,
+      "mode": 420,
+      "sha256": "6a8e96e820fb58ccb0f5f3dccfb0ccd472591b0e39a91206bbfd29e1b807e67e"
+    },
+    "runtime/worldline/linux/hyprland.py": {
+      "bytes": 4584,
+      "mode": 420,
+      "sha256": "fe9e98a04311353b0ea2b1ca969f31712a30b46d92421505f34c571c3c76ba10"
+    },
+    "runtime/worldline/linux/inotify.py": {
+      "bytes": 14794,
+      "mode": 420,
+      "sha256": "38dacd8b7c71fa75ff3ef8167ec1fbbc347c751b28d3801765da814e353d867a"
+    },
+    "runtime/worldline/linux/kernel_role_observer.py": {
+      "bytes": 63206,
+      "mode": 420,
+      "sha256": "2f05e2b4b64f9978ec9c7d3a98836290303c90d77215e392697a3df5edd61c6a"
+    },
+    "runtime/worldline/linux/namespace_lifetime.py": {
+      "bytes": 36836,
+      "mode": 420,
+      "sha256": "fd999f1b9f273f52a98a9f7ae8d228e3d8ae88663fa55e49cbc02d31124d59f1"
+    },
+    "runtime/worldline/linux/namespaces.py": {
+      "bytes": 21004,
+      "mode": 420,
+      "sha256": "a68540008b00012c42fc0bdb1558eb39d949d21b6b094ff0a04c0d980f1545ff"
+    },
+    "runtime/worldline/linux/netguard.py": {
+      "bytes": 16384,
+      "mode": 420,
+      "sha256": "97ff9cba80d507db7971254a2c8377e4c7ecd86a16750550df90ec8d2171b92e"
+    },
+    "runtime/worldline/linux/overlay.py": {
+      "bytes": 445,
+      "mode": 420,
+      "sha256": "d451e121206c7ec8e709b5abc8f6f16243be6f70f78df353993f9a9acc3eab3a"
+    },
+    "runtime/worldline/linux/private_case_copy.py": {
+      "bytes": 13788,
+      "mode": 420,
+      "sha256": "70dee5f29e20322336b25063a2b481985362bd62d5dc8fdf425a6d9895aa3197"
+    },
+    "runtime/worldline/linux/private_evaluator.py": {
+      "bytes": 100889,
+      "mode": 420,
+      "sha256": "0b3bf8fd1ae5fa1c8792bb9400cb4c892935e5db75bf0b497a3f06d2d78d179e"
+    },
+    "runtime/worldline/linux/systemd.py": {
+      "bytes": 32591,
+      "mode": 420,
+      "sha256": "934571c0b3b77b54ca944da6936b0cad1807fba66f788bb689465abde7c61bea"
+    },
+    "runtime/worldline/manifest.py": {
+      "bytes": 23005,
+      "mode": 420,
+      "sha256": "c25dbf3e74ab38877741d4cbca8102c48da5ad3e029f3b7c073168a859b690a1"
+    },
+    "runtime/worldline/model.py": {
+      "bytes": 8274,
+      "mode": 420,
+      "sha256": "51384676f63545ce8ee44c74268db30a0407338a65c05dfcc7a8b71c57c18f4c"
+    },
+    "runtime/worldline/paths.py": {
+      "bytes": 37307,
+      "mode": 420,
+      "sha256": "d22af79fab7954e78f7f2f3b48b3e3d517c937022c90f41717d80f015bbaacf4"
+    },
+    "runtime/worldline/payload.py": {
+      "bytes": 1232,
+      "mode": 420,
+      "sha256": "b18d2ae475bd097688f5b4127d88384a2112e21f375bd02705161cc81afdb92d"
+    },
+    "runtime/worldline/pending_kernel.py": {
+      "bytes": 7672,
+      "mode": 420,
+      "sha256": "09c27de3f935496b2b3a51691b659111426622c968e64ab755d93c95c5fdbc83"
+    },
+    "runtime/worldline/pending_kernel_v2.py": {
+      "bytes": 8888,
+      "mode": 420,
+      "sha256": "f0ae545ae8590f83abf47ceaa868d381420c4a28febc73377cacdc1388ed8ff6"
+    },
+    "runtime/worldline/prime.py": {
+      "bytes": 6005,
+      "mode": 420,
+      "sha256": "6e261b48e45732861ec2e42655bbde2bc2af8cfc8272111c9103e337e06adad7"
+    },
+    "runtime/worldline/project.py": {
+      "bytes": 14142,
+      "mode": 420,
+      "sha256": "54cd7e46fbecb9fc9287986a4a5c81e3b665addebe4932f0e4f797a56fdd4161"
+    },
+    "runtime/worldline/proof.py": {
+      "bytes": 10284,
+      "mode": 420,
+      "sha256": "e334a871536f7fab8e6d7c2ccfb575e0f41220da8a2311bf62e77e06c1186e6b"
+    },
+    "runtime/worldline/proof_manifest.py": {
+      "bytes": 40845,
+      "mode": 420,
+      "sha256": "85e8b0444051695fa6e83feec8322ed440a9a7ed37e795a979e143e4f27fc167"
+    },
+    "runtime/worldline/prune.py": {
+      "bytes": 13350,
+      "mode": 420,
+      "sha256": "770e612f2acfc85e2c60a0f1cf7e9742e414e102d59d9037b5eae539485672a4"
+    },
+    "runtime/worldline/raw_completion_kernel.py": {
+      "bytes": 8468,
+      "mode": 420,
+      "sha256": "d253338f5f83c868af17dff71a22ab0d6171371facc53262e35698249cb3b132"
+    },
+    "runtime/worldline/raw_observation.py": {
+      "bytes": 12645,
+      "mode": 420,
+      "sha256": "788b9c8108eaf4006d9704ee8422d49b68b89fd0f767b1702dec47591cec1b6e"
+    },
+    "runtime/worldline/receipt.py": {
+      "bytes": 5076,
+      "mode": 420,
+      "sha256": "5f46ffa8d7a2d308b6148ccbf705ac713bc9eef3a609dd5e2640096a42fd9851"
+    },
+    "runtime/worldline/reconcile.py": {
+      "bytes": 1615,
+      "mode": 420,
+      "sha256": "76c655e00fdbece12464ca6feaf4888790b52c6984c381a9632d8c5122a91b8a"
+    },
+    "runtime/worldline/recovery_kernel.py": {
+      "bytes": 2571,
+      "mode": 420,
+      "sha256": "d74458fa2439ff021b8f25978391f6f978d23d31d3851c17526d597252e4991c"
+    },
+    "runtime/worldline/relocate.py": {
+      "bytes": 68070,
+      "mode": 420,
+      "sha256": "7d3fe3a557c9d5ba8b9c3b058aa8ba5c2d0bceeede81173a95b9dbeeec0542e5"
+    },
+    "runtime/worldline/report.py": {
+      "bytes": 13640,
+      "mode": 420,
+      "sha256": "9034de47dce2c5cba3fb095be6a058cc18a2820d1c5aed15cd1909089538da14"
+    },
+    "runtime/worldline/report_facts.py": {
+      "bytes": 6439,
+      "mode": 420,
+      "sha256": "249e38865d77be77fa849ddb2456c4f216d495140672ee8ff5736c20cfb3c61c"
+    },
+    "runtime/worldline/reservation_lifecycle.py": {
+      "bytes": 4928,
+      "mode": 420,
+      "sha256": "0c3028c617f959198cf5b47dba095b51d0c68d6789c3dfd83a8792e3a332185c"
+    },
+    "runtime/worldline/resolution.py": {
+      "bytes": 4206,
+      "mode": 420,
+      "sha256": "6eea85bf8e930b61110f599941442aa2dff371f113b24e5875f6690ade9871b9"
+    },
+    "runtime/worldline/resource_kernel.py": {
+      "bytes": 2046,
+      "mode": 420,
+      "sha256": "a0038f7306f89233b523832124cf409e57d5669458959a6a955a8da850c5414a"
+    },
+    "runtime/worldline/resource_ledger.py": {
+      "bytes": 12208,
+      "mode": 420,
+      "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f"
+    },
+    "runtime/worldline/resource_policy.py": {
+      "bytes": 8619,
+      "mode": 420,
+      "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40"
+    },
+    "runtime/worldline/returning.py": {
+      "bytes": 9202,
+      "mode": 420,
+      "sha256": "120238cf2a6dd928f2d3eadac170965417e480afd5fd5823191a9a8d6732860f"
+    },
+    "runtime/worldline/revalidate.py": {
+      "bytes": 32473,
+      "mode": 420,
+      "sha256": "bc6e7f8dd6bc74ab28e124435a1817d1f07432eb672f993afaa1cab59b27eab0"
+    },
+    "runtime/worldline/roots.py": {
+      "bytes": 33814,
+      "mode": 420,
+      "sha256": "c96a51708961c07be4e199c0a503fcab35a3aafbc17c101857ddf7f407b11f23"
+    },
+    "runtime/worldline/runner.py": {
+      "bytes": 58517,
+      "mode": 420,
+      "sha256": "88b0c6ebcc4c00032641fe168b943d8e0c8667aa10603485b2ec03d99462128b"
+    },
+    "runtime/worldline/scoring.py": {
+      "bytes": 2865,
+      "mode": 420,
+      "sha256": "e991c6b451939077f6b44c9cb9be5eba2d33a741de7fa2acf8aa9fe97ccd2e72"
+    },
+    "runtime/worldline/services.py": {
+      "bytes": 8281,
+      "mode": 420,
+      "sha256": "9c6189980e551bdfb9064a911d804c6583c4fc42ec0f016988579fd4206b9a61"
+    },
+    "runtime/worldline/simulation.py": {
+      "bytes": 16017,
+      "mode": 420,
+      "sha256": "aa5391fe990cfca43a79a2927548eb5518e6b9ece41bd3f116185727035b06fe"
+    },
+    "runtime/worldline/status.py": {
+      "bytes": 3934,
+      "mode": 420,
+      "sha256": "4655c410769feffa7d86add208228a265bfacb5530d8d6c7de8d4d507205311b"
+    },
+    "runtime/worldline/store.py": {
+      "bytes": 54599,
+      "mode": 420,
+      "sha256": "bba0c082854c839043e3241ed283173259393c3ad5aaf1b8612d513ccb8f1961"
+    },
+    "runtime/worldline/transaction.py": {
+      "bytes": 111850,
+      "mode": 420,
+      "sha256": "3eb91f5b3225054c5222b6af1dceaae610bbf123ccfa5e46bc04af05b8f9a31c"
+    },
+    "runtime/worldline/trusted.py": {
+      "bytes": 2826,
+      "mode": 420,
+      "sha256": "0e95e086cd5214fa45d1ee88ff923b1ccdcf3c73b18fac4aa5666daa6ee40890"
+    },
+    "runtime/worldline/validation.py": {
+      "bytes": 32822,
+      "mode": 420,
+      "sha256": "f1be3256a940b17856a4160ed0ab36340e3859e763a86955f8cb6b4c364251ef"
+    },
+    "scripts/assurance.py": {
+      "bytes": 20546,
+      "mode": 493,
+      "sha256": "b15169fb858c591dce5f06d6c5301a6578a45d67ffea448b423e03b25c7e8cc9"
+    },
+    "scripts/assurance_contract.py": {
+      "bytes": 1780,
+      "mode": 420,
+      "sha256": "848cebc468e0b9f7c2845465cf7272c15502e4b3cc77b5448232bd0ec8d32c47"
+    },
+    "scripts/backup_manifest.py": {
+      "bytes": 2263,
+      "mode": 493,
+      "sha256": "718235312c3c385efe00e3c12b105e79f82744916fae101ba9de5e9e9d654ed7"
+    },
+    "scripts/decisive_evaluation_test.py": {
+      "bytes": 13558,
+      "mode": 493,
+      "sha256": "559e72a5ccce331da79a9e67c8698c8599b31688f5b253abffde0c600932daa1"
+    },
+    "scripts/engine_codes.py": {
+      "bytes": 18777,
+      "mode": 420,
+      "sha256": "b67db55730a9996413cefef19e96987966ecbf423ee88f2f19f54bd71280e4d3"
+    },
+    "scripts/evaluation_domain_gate.py": {
+      "bytes": 5882,
+      "mode": 493,
+      "sha256": "734a7381e8e08a6ff71432f4c16251fc4ab4d57f032e924dc61119abfafeae5e"
+    },
+    "scripts/install_proof_sources.py": {
+      "bytes": 1624,
+      "mode": 420,
+      "sha256": "62acf4f06594810bb7e6344aa10a921e56af896ff8fe3c4f1cd335b510d29c52"
+    },
+    "scripts/plugin_compat.py": {
+      "bytes": 4425,
+      "mode": 420,
+      "sha256": "0eeaa58aa04c24baa01ed2c8b2f19946579ff42a7d8a3ca8d2c025d600241f44"
+    },
+    "scripts/preflight.py": {
+      "bytes": 20656,
+      "mode": 493,
+      "sha256": "31e5aa70fef3d14cbe371e66f57cde333bb484608a71b1eb0c953f03dde24f05"
+    },
+    "scripts/prune_backups.py": {
+      "bytes": 4621,
+      "mode": 493,
+      "sha256": "cea5d2919ee63451686d5e9450ade5e3cf843324bec3002e4e4c8c9a1e47beb8"
+    },
+    "scripts/release_gate.py": {
+      "bytes": 15877,
+      "mode": 493,
+      "sha256": "0a8cd41836f0984fc34d2cd524288e49dd6036bf347e9cff7872eed8550aa607"
+    },
+    "scripts/release_notes.py": {
+      "bytes": 3230,
+      "mode": 493,
+      "sha256": "0f0aee513a8936989e82538efca665eef8a48bceff32dba67dc8ed4670fd6052"
+    },
+    "scripts/rollback.sh": {
+      "bytes": 10639,
+      "mode": 493,
+      "sha256": "eb96d2eb0314e9b17106f141fe16c65dc924245d64231310a92f0045a81aea4a"
+    },
+    "scripts/verify_install.py": {
+      "bytes": 11594,
+      "mode": 493,
+      "sha256": "47775efc33fd7987dc938cc24c0c89a189d7201655724f2199dc0cacf9fcdfdb"
+    },
+    "scripts/verify_release_pair_report.py": {
+      "bytes": 4115,
+      "mode": 420,
+      "sha256": "4032dc92d502ac5ef15ace3097216ef668f6a434b2db7321de696311e978760f"
+    },
+    "tests/anchor_support.py": {
+      "bytes": 10797,
+      "mode": 420,
+      "sha256": "27c9260823b97ca8ea34738ab6d8ce5d08ba72eb4a9f4b9ac60fdac4fd508cc6"
+    },
+    "tests/fixtures/headroom-oracles-v1.json": {
+      "bytes": 29258,
+      "mode": 420,
+      "sha256": "60243dc3fb453908eb2b4dfdb7293b7150dd7e1c773953456fd2ae43364d654d"
+    },
+    "tests/fixtures/policy-oracle-admission-v1.json": {
+      "bytes": 1394,
+      "mode": 420,
+      "sha256": "7b9c5ba8f2170e77b2e822fe30ceaccf78269da8e2602c062ab673d258241af8"
+    },
+    "tests/fixtures/policy-oracle-large-capacity-v1.json": {
+      "bytes": 1422,
+      "mode": 420,
+      "sha256": "225e4008de7eaf44056cb82b05f86574b7b7060323013e792236ff5ed4345d8e"
+    },
+    "tests/fixtures/policy-oracles-v1.json": {
+      "bytes": 19870,
+      "mode": 420,
+      "sha256": "03bb8e07f8eff8adea5dbe654a97e97ab955ead0843f67256e1c08c75ac714b0"
+    },
+    "tests/freshness_support.py": {
+      "bytes": 19427,
+      "mode": 420,
+      "sha256": "52d424347d86d0a77fbc0c3097cb61c702216c42b6d91b390fd2e3723ee7f8aa"
+    },
+    "tests/owned_evaluation_support.py": {
+      "bytes": 6860,
+      "mode": 420,
+      "sha256": "35d13084f7e53df17c331f910584fb73ee546e254722d302a9da2f05670054cc"
+    },
+    "tests/resource_policy_smoke.adb": {
+      "bytes": 1376,
+      "mode": 420,
+      "sha256": "c7f6b903713ac0bf9e11706520f53692de7aa05f374cba57e6373c69dc5ead3a"
+    },
+    "tests/resource_policy_smoke.gpr": {
+      "bytes": 565,
+      "mode": 420,
+      "sha256": "e78dc53ac2989bd7173db658b0f3d4ea23f09fdc038a4622ba11ba6972a299d9"
+    },
+    "tests/revalidation_diagnostic.py": {
+      "bytes": 8499,
+      "mode": 420,
+      "sha256": "fb00e07b759bc731c098e3461ad90cc2699192794957746feb700bf6f8aed732"
+    },
+    "tests/test_abi_layout.py": {
+      "bytes": 8043,
+      "mode": 420,
+      "sha256": "ff44a6d446e1a66d36ce9ff8272ffe7df47a32e2c0d6e57570f80a6a6459b7fd"
+    },
+    "tests/test_admission.py": {
+      "bytes": 19555,
+      "mode": 420,
+      "sha256": "cead09fa153865e9035a95edf15b8f58d40f3e7929ca65bb816233dcb607c4b1"
+    },
+    "tests/test_admission_enforcement.py": {
+      "bytes": 12829,
+      "mode": 420,
+      "sha256": "0f12cd495367c08045f3b4d2da38f64971e82a42a7bd408d62cbda93c47b7174"
+    },
+    "tests/test_admission_regressions.py": {
+      "bytes": 9698,
+      "mode": 420,
+      "sha256": "0985a0b066e4cea17cfbd5d20ebfc91676094f667e89315bcd95613965eef9ff"
+    },
+    "tests/test_agent_acquisition_ownership.py": {
+      "bytes": 22146,
+      "mode": 420,
+      "sha256": "4454093acfc51ee0de65682d96714195ad42d5183e42b995aa52e704649cc914"
+    },
+    "tests/test_agents.py": {
+      "bytes": 8408,
+      "mode": 420,
+      "sha256": "5f06195c12baa567455ed391e301f02fe19acd7214ca48d8c40001cdf676e5bc"
+    },
+    "tests/test_anchor.py": {
+      "bytes": 4981,
+      "mode": 420,
+      "sha256": "4a9a910cce09a0763ecd3f5c0da49325431554d9f4c46702662189046c3ed276"
+    },
+    "tests/test_anchor_rotation_control.py": {
+      "bytes": 1822,
+      "mode": 420,
+      "sha256": "17c45dd56372582575f52602e03fc90ec4b31ded47f533dbe18b1930cf8eae57"
+    },
+    "tests/test_anchor_witness.py": {
+      "bytes": 12014,
+      "mode": 420,
+      "sha256": "63b878358d6f8f5f292238579da4847d7f568d3458a56943ee0d3e4ac4954654"
+    },
+    "tests/test_assurance_instrument.py": {
+      "bytes": 12678,
+      "mode": 420,
+      "sha256": "55385cdb9062f2fa29619807ec1eb93754b77ebd360f497b9a3378370dee1fbf"
+    },
+    "tests/test_authority_static_audit.py": {
+      "bytes": 22416,
+      "mode": 420,
+      "sha256": "cea28ef16f4a12c8c5859741cbdd6c2e18cb8f27017e30bbd6cb4749e555359b"
+    },
+    "tests/test_boundaries.py": {
+      "bytes": 38911,
+      "mode": 420,
+      "sha256": "89001dfd86dab8b2926a0f47e5280c20b956a15644461089c4659ca18bfa41ce"
+    },
+    "tests/test_candidate_report_reader.py": {
+      "bytes": 2482,
+      "mode": 420,
+      "sha256": "eb1dfb0c1b89070cc437a4d4a590d520abcff83ecef47e9aa1fdfe681362a171"
+    },
+    "tests/test_candidate_snapshot.py": {
+      "bytes": 11289,
+      "mode": 420,
+      "sha256": "1f82b6e56e02c1a1efd3f3aad9b7c89688b812acaac78cab70cd0adba52c41ec"
+    },
+    "tests/test_capabilities.py": {
+      "bytes": 1597,
+      "mode": 420,
+      "sha256": "6388edd743cb4dbbc24f95570d3e509d1c7603f1c5b8cd35eb93597f11d3b760"
+    },
+    "tests/test_causal.py": {
+      "bytes": 8436,
+      "mode": 420,
+      "sha256": "95b6d05c0cfc80e93fdafe88e6b10d36fffad04045385ddf707c43cb82487365"
+    },
+    "tests/test_causal_root_coverage.py": {
+      "bytes": 12138,
+      "mode": 420,
+      "sha256": "e9f388c942792dc2863ead0648caccd92da074f6408fce542700e150acb64233"
+    },
+    "tests/test_chain_verification.py": {
+      "bytes": 4608,
+      "mode": 420,
+      "sha256": "e850758ad31db01175502b58d6e581be76fc1ed6b3935132a790a919f03e0ceb"
+    },
+    "tests/test_cli.py": {
+      "bytes": 2515,
+      "mode": 420,
+      "sha256": "5eeb7fcbb9e4d0ea7ce8d3dd975937ca1ecb6aa4b7bf853e6d3cebf5383b1862"
+    },
+    "tests/test_client_content.py": {
+      "bytes": 43401,
+      "mode": 420,
+      "sha256": "870bddb0a333eb75f82d20415f1be916e7d0de535786d940dad5cdc3fea90ac5"
+    },
+    "tests/test_config.py": {
+      "bytes": 2263,
+      "mode": 420,
+      "sha256": "4958e784a9280fe5e68f019372d4282a81b775d912ef2f1d5c43f850b771586c"
+    },
+    "tests/test_core_abi.py": {
+      "bytes": 11063,
+      "mode": 420,
+      "sha256": "4942af66752ff617579fcbc862b3d82eb5d4762c417697b2192e0e70a3f23271"
+    },
+    "tests/test_daemon.py": {
+      "bytes": 3388,
+      "mode": 420,
+      "sha256": "707eab56c6b2e08af5dee9755ac8af2ba561ebff82f0e416ffe38617463ab173"
+    },
+    "tests/test_dedicated_client.py": {
+      "bytes": 23563,
+      "mode": 420,
+      "sha256": "3aeaaa765880e698eba3a9a6d07e26b6fab8a162b1b83c753b12ea81723d40f8"
+    },
+    "tests/test_delta.py": {
+      "bytes": 3851,
+      "mode": 420,
+      "sha256": "a4fd6c7386c113acae3d192b252a46125b04c1937a6ef81d06ebfd7791c648d3"
+    },
+    "tests/test_docker.py": {
+      "bytes": 5230,
+      "mode": 420,
+      "sha256": "a924b5a1897d64ed4234ab6d79a72712d3aacfc4c37c8c4f3ea04565b7401895"
+    },
+    "tests/test_e2e.py": {
+      "bytes": 10695,
+      "mode": 420,
+      "sha256": "170fbf1c4a350a3fef7eb25bb8b455dbc265ddcfd82374d801cc05bae01725f1"
+    },
+    "tests/test_engine_code_inventory.py": {
+      "bytes": 6280,
+      "mode": 420,
+      "sha256": "a9cbfab6173f828adef537c245ceb7d012e9062e01b9e2257f4c8ee88de73e85"
+    },
+    "tests/test_environment.py": {
+      "bytes": 4544,
+      "mode": 420,
+      "sha256": "73f387bd5e8a63c7c7b1e8949b9a72afe8f0ccdf2b3048a2ffb6079b6d9e0ccf"
+    },
+    "tests/test_evaluation_authority.py": {
+      "bytes": 23876,
+      "mode": 420,
+      "sha256": "7477610c072e80fc2c68b21e8a18877419e8107e4802c29eff0a3143ae3dea22"
+    },
+    "tests/test_evaluation_history.py": {
+      "bytes": 11404,
+      "mode": 420,
+      "sha256": "261677ddea7c5b71ab406810e2e97fe5362cd4f7616a8bbc46af91eec529c20a"
+    },
+    "tests/test_evaluation_lifecycle_promotion.py": {
+      "bytes": 10727,
+      "mode": 420,
+      "sha256": "727df95d015409f96f9017e266d6b6c2639634c8c5a1b52dbd9f36e7191a34e6"
+    },
+    "tests/test_evaluation_pending.py": {
+      "bytes": 9584,
+      "mode": 420,
+      "sha256": "5bea0dc62bb228be6bf0ee2aa348c1a60d372ca6d276958f69c467a71d2af1d1"
+    },
+    "tests/test_evaluation_pending_requirements.py": {
+      "bytes": 4010,
+      "mode": 420,
+      "sha256": "19c75cd78c1061822f3c74b98f83f3ce2afb2bba416c48e7883abc830b89baa8"
+    },
+    "tests/test_evaluation_roster_d2.py": {
+      "bytes": 4703,
+      "mode": 420,
+      "sha256": "16754c234635e5ad0bca29afa373802c2270be352f66bcb52c67151213976615"
+    },
+    "tests/test_evaluation_row_projection.py": {
+      "bytes": 9576,
+      "mode": 420,
+      "sha256": "74a195970ce6bdd052cb3778079796deafe369ee0284fb78da6f009b3f9ddc6a"
+    },
+    "tests/test_evaluation_terminal.py": {
+      "bytes": 35308,
+      "mode": 420,
+      "sha256": "9e570dbbff603e7d24c03e6a15caf500f046f0a92acf7dc8ca59581b00282fa5"
+    },
+    "tests/test_evaluator_completeness.py": {
+      "bytes": 13048,
+      "mode": 420,
+      "sha256": "ba3325e263e2e9d9047462db87bc7f3bb1943b4e2c8a17ec51fc732ca3838899"
+    },
+    "tests/test_examiner_audit.py": {
+      "bytes": 13040,
+      "mode": 420,
+      "sha256": "10c68db3ad6633c072097aa3e6eb1d06be4830bbcd74947361d9e06ce434272c"
+    },
+    "tests/test_examiner_entry_code.py": {
+      "bytes": 17764,
+      "mode": 420,
+      "sha256": "2b357dac30839cfafe9145b9e200edb3e0c435444381d6452b06883749d4b2bd"
+    },
+    "tests/test_executed_identity.py": {
+      "bytes": 17590,
+      "mode": 420,
+      "sha256": "b0b015e86d602751fe787a80507be74dcbd57140c858983c664288b331be2dc4"
+    },
+    "tests/test_finalization_journal_sequence.py": {
+      "bytes": 8896,
+      "mode": 420,
+      "sha256": "620b19e5d06e241cbe4cc61e3c94761e34d4ba328ea622fdb0d16c3b1e234c17"
+    },
+    "tests/test_finalization_kernel.py": {
+      "bytes": 16902,
+      "mode": 420,
+      "sha256": "76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62"
+    },
+    "tests/test_finalization_producer.py": {
+      "bytes": 9452,
+      "mode": 420,
+      "sha256": "debfe8dd20b6eb0370d86d4d1e4a84d2f625bf58e95fdd2b941fdba4d37b4da1"
+    },
+    "tests/test_finalize.py": {
+      "bytes": 6415,
+      "mode": 420,
+      "sha256": "d4d4dc881318872e6e1f8c68f02d0a765f61c79ffd2744999d093e532ec61294"
+    },
+    "tests/test_freshness.py": {
+      "bytes": 62807,
+      "mode": 420,
+      "sha256": "65dccb3f57af9b308de101e78f2e04ad0be81858539ec4db16e17a2b974f3a84"
+    },
+    "tests/test_ghosts.py": {
+      "bytes": 2498,
+      "mode": 420,
+      "sha256": "b13bb7a761556144c38b3a17210da4a6ed60d4ef036eb9a8a4c061c9d74a43d4"
+    },
+    "tests/test_git_capture.py": {
+      "bytes": 2625,
+      "mode": 420,
+      "sha256": "d09d9c4561136a2c2548927961fb7266bc32c882287dbfddfeffa957ceeac711"
+    },
+    "tests/test_inotify.py": {
+      "bytes": 6927,
+      "mode": 420,
+      "sha256": "c17328d711e06c8fdbd8a7c2c6ad2b16214d06118734a83c91d4f5b2b5a257cc"
+    },
+    "tests/test_install_config.py": {
+      "bytes": 2187,
+      "mode": 420,
+      "sha256": "282b23d8f985a270f63d01ae3fe9cc3d3a29815d344e51bf7c1cc735fc325527"
+    },
+    "tests/test_install_guards.py": {
+      "bytes": 15249,
+      "mode": 420,
+      "sha256": "ff88f88c2f2c3dabfb4c4c2db00ed4f94b273a7356a6bfe71966148047531378"
+    },
+    "tests/test_kernel_role_observer.py": {
+      "bytes": 17131,
+      "mode": 420,
+      "sha256": "5196fc74a33e7b5b5eab7ae6364ace69467729f14078e3510915fbf3e91e0988"
+    },
+    "tests/test_lifecycle_integrity.py": {
+      "bytes": 32031,
+      "mode": 420,
+      "sha256": "3c66b5650f52e56f962ec74cc69718c1cc9d155309c5c1ae58e61e2a72602972"
+    },
+    "tests/test_manifest.py": {
+      "bytes": 2646,
+      "mode": 420,
+      "sha256": "fbb769759d0f1d09195bf8c5a8db6c0283c4e1784a77dcd9701bf9bb2f0002b5"
+    },
+    "tests/test_namespace_lifetime.py": {
+      "bytes": 31731,
+      "mode": 420,
+      "sha256": "33cf805bd105ee980829aba8faaa7285cde7ce4ce038cd519d381dcb1d7724ae"
+    },
+    "tests/test_netguard.py": {
+      "bytes": 4242,
+      "mode": 420,
+      "sha256": "117fd8b325ca7eb99ab9eaa65a7edadcc3e9a9e84deb9b8e93bfdb30052d57d3"
+    },
+    "tests/test_post_commit_reporting.py": {
+      "bytes": 5022,
+      "mode": 420,
+      "sha256": "b04546087b34ad6b3cc8bc3b3cee653fa3b14949d637cd5353c3ca11cc8e781d"
+    },
+    "tests/test_preflight.py": {
+      "bytes": 16136,
+      "mode": 420,
+      "sha256": "d38ae5c2b202c93e78c923663213f3d2418b8049d3070c58e2a694159b304847"
+    },
+    "tests/test_prime.py": {
+      "bytes": 2259,
+      "mode": 420,
+      "sha256": "e524070b5b50c08291c643bdf124838048898f3d2db61605067aaab2f9b7ec3e"
+    },
+    "tests/test_private_acquisition_terminal.py": {
+      "bytes": 23122,
+      "mode": 420,
+      "sha256": "4c30dfdb04002bfd5ca012761b4f26421c273d46e2f2aa45bc286e1e65f68713"
+    },
+    "tests/test_private_benchmark.py": {
+      "bytes": 7692,
+      "mode": 420,
+      "sha256": "2402e9a507230af7fb376b4118a75482c738c86938fb6e5bd0582e32b81bf28c"
+    },
+    "tests/test_private_case_copy.py": {
+      "bytes": 5024,
+      "mode": 420,
+      "sha256": "fb6074cf8423f337cde986e18ff1223e304fffb20abe07699fb2a4697b7af600"
+    },
+    "tests/test_private_case_lease.py": {
+      "bytes": 8169,
+      "mode": 420,
+      "sha256": "aadca629a11024a5c02b166d522728bd529b312e4041de15f0851608a0894517"
+    },
+    "tests/test_private_check_runner.py": {
+      "bytes": 5552,
+      "mode": 420,
+      "sha256": "229e1e12a7e1521923b4efaf139b8d20be0c788887218b183bd7c6b7ba48fa01"
+    },
+    "tests/test_private_evaluator.py": {
+      "bytes": 12215,
+      "mode": 420,
+      "sha256": "f3f167299ab21a06265dc6435b5fbd41c4a6edcf3e9efcb5c7d860746ffcbba3"
+    },
+    "tests/test_private_lease_fault_campaign.py": {
+      "bytes": 40212,
+      "mode": 420,
+      "sha256": "6a6b1b849de4e8101621060b8da97103ee7b6899cad85abaae5102a79c577308"
+    },
+    "tests/test_private_lease_protocol_campaign.py": {
+      "bytes": 26109,
+      "mode": 420,
+      "sha256": "fd79e82d034e1cfa6b43dfa6282070eb00a01e4d348ba0d72cc99e206193cfd4"
+    },
+    "tests/test_private_report.py": {
+      "bytes": 4863,
+      "mode": 420,
+      "sha256": "843e7fc9d0e96169310addc7f52464526e8ccfa6cec49151418934f8f3700bdf"
+    },
+    "tests/test_private_report_admission.py": {
+      "bytes": 10514,
+      "mode": 420,
+      "sha256": "eae93ff2314a29eaa5722d7222d4f579914299d324df9f1de4e4d862ace9b81e"
+    },
+    "tests/test_private_world_flow.py": {
+      "bytes": 5022,
+      "mode": 420,
+      "sha256": "7e45a3200ddae9bc338fa64245ee38036b6769b4fc23dbc76b545b6db6577080"
+    },
+    "tests/test_profile_binding.py": {
+      "bytes": 2994,
+      "mode": 420,
+      "sha256": "6aa862e138b998a68b30472b2702d3990e8ba4070a05ea8be4ab0422a6f68555"
+    },
+    "tests/test_project.py": {
+      "bytes": 10179,
+      "mode": 420,
+      "sha256": "e571d3027374fa8d296a9cebe1f30e3a72d2d7678922e631e28a279d1df3c610"
+    },
+    "tests/test_proof_manifest_shapes.py": {
+      "bytes": 4469,
+      "mode": 420,
+      "sha256": "0187b0b6ce8c70075d25ad3b80b521b9a6f7543331dea3c989be8a0accc368af"
+    },
+    "tests/test_proof_source_inventory.py": {
+      "bytes": 3196,
+      "mode": 420,
+      "sha256": "8af7b527a6e13570c9aaad7d816bfaebc72a11c4f9e9f95b4e7c52e8c4fab8eb"
+    },
+    "tests/test_protected.py": {
+      "bytes": 7638,
+      "mode": 420,
+      "sha256": "34fe73a62fb1e050472c417bde8005be953a424ac5884a0f6d472a999eb3f790"
+    },
+    "tests/test_prune.py": {
+      "bytes": 27167,
+      "mode": 420,
+      "sha256": "8a09cdbfcb8156346abd492a67c6b4e16e5a1b708a171ed845754824c6feb4ef"
+    },
+    "tests/test_prune_backups.py": {
+      "bytes": 5048,
+      "mode": 420,
+      "sha256": "ebc278bcb8d2e25a05993e1956ff13a9f775b5fd27d6c47070c57e6c8bffca11"
+    },
+    "tests/test_race.py": {
+      "bytes": 5583,
+      "mode": 420,
+      "sha256": "ad10242eb30cc47e952198304675d496d5ffdbe856b34fe208fa3f591834da2f"
+    },
+    "tests/test_raw_evaluation_default.py": {
+      "bytes": 37278,
+      "mode": 420,
+      "sha256": "53db45a046953fff43d688bf6672cfb7109935f642c1f00e28973deb588c2aa2"
+    },
+    "tests/test_raw_observation.py": {
+      "bytes": 21191,
+      "mode": 420,
+      "sha256": "662c325786204659a47a1ef6ac1f903182b41ba60d204d814b99fc20824bbe11"
+    },
+    "tests/test_raw_process_ownership.py": {
+      "bytes": 7027,
+      "mode": 420,
+      "sha256": "c3d86a1f3348d1a33d6944010c3c0f463c9d97c5d58d627ccf9490e87c22c6be"
+    },
+    "tests/test_recovery_kernel.py": {
+      "bytes": 4097,
+      "mode": 420,
+      "sha256": "40374a5480a9c738d4613fa87ec918857cec19077ab477e6cb43b8a4b8a48025"
+    },
+    "tests/test_release_gate.py": {
+      "bytes": 14812,
+      "mode": 420,
+      "sha256": "e4bfa6efebfdfceee6b4242beeda1cb6e463c2a45d789e9bb9d9975a548a3e66"
+    },
+    "tests/test_release_pair_report.py": {
+      "bytes": 2939,
+      "mode": 420,
+      "sha256": "4ea28284a68430b796db5fe4dbac8640a6e111b6c02884dc1020d621729ddfeb"
+    },
+    "tests/test_relocate.py": {
+      "bytes": 72706,
+      "mode": 420,
+      "sha256": "41a5f89a8e113807d7aa49b928d6cc79ce90bedbcc4a390bd6f8c8483cfa7c90"
+    },
+    "tests/test_report_admission.py": {
+      "bytes": 1746,
+      "mode": 420,
+      "sha256": "2f88933e0aea6543475a0a9e5b88bf541c682405bebf585f2bac3cc89a48a028"
+    },
+    "tests/test_report_parsers.py": {
+      "bytes": 2535,
+      "mode": 420,
+      "sha256": "c6d93a85974de2d443241ed6212ec531b86676e4e4abbec2b0889e11e022df8b"
+    },
+    "tests/test_reservation_lifecycle.py": {
+      "bytes": 9401,
+      "mode": 420,
+      "sha256": "e79e50f1810a8fb717d8bebd960c9c89a16644eafb9efb7e854623192689acc4"
+    },
+    "tests/test_resource_headroom.py": {
+      "bytes": 11144,
+      "mode": 420,
+      "sha256": "b12725bb90b153cf03e08c6213b064e3f3848cdf90252597a8acaa2706437a87"
+    },
+    "tests/test_resource_kernel.py": {
+      "bytes": 5838,
+      "mode": 420,
+      "sha256": "7d8d9f8888418491658f567890a7e726c6368526c078cd3c1ebf81795b3ba5f1"
+    },
+    "tests/test_resource_ledger.py": {
+      "bytes": 19702,
+      "mode": 420,
+      "sha256": "fe6f11a8912de7b7dd3bd6576f8afae58592b5338f3441b075facbec41ec0a91"
+    },
+    "tests/test_resource_policy.py": {
+      "bytes": 10536,
+      "mode": 420,
+      "sha256": "ebb78414077adafceb1b7385296f6a02d2d6c28aaa60592179dcd3a961f50e83"
+    },
+    "tests/test_result_channel.py": {
+      "bytes": 12508,
+      "mode": 420,
+      "sha256": "e04cbe0e43a5ddca36fa8779a7cbaa819c5273403666e51a9d4e52480625d27b"
+    },
+    "tests/test_revalidation_binding.py": {
+      "bytes": 37183,
+      "mode": 420,
+      "sha256": "103704ba786c49c8ab45fa0aaaf5af914f23c68147f03796d1672c68b7bd0104"
+    },
+    "tests/test_rollback.py": {
+      "bytes": 21048,
+      "mode": 420,
+      "sha256": "945f78f6f1508dbb28454c37a318bedf366924467928076d7e1721157f376dea"
+    },
+    "tests/test_root_resolution.py": {
+      "bytes": 35234,
+      "mode": 420,
+      "sha256": "24cbf1a647294ef9bda19c26362cc3c95f6953a9683cd5ebd09720fa4ea90011"
+    },
+    "tests/test_roots.py": {
+      "bytes": 4102,
+      "mode": 420,
+      "sha256": "0ebd8dbfc7bd2914711a54197d763fd7281dc53f02c583f679debf684168cf81"
+    },
+    "tests/test_sandbox.py": {
+      "bytes": 6728,
+      "mode": 420,
+      "sha256": "5df6d35d4951da167c69f4773b4a7b97eda2f04eb67cc980d1b8f12f0884be53"
+    },
+    "tests/test_scoring.py": {
+      "bytes": 1896,
+      "mode": 420,
+      "sha256": "e4ee71ba86b0e2b4fa5388d295b02eb0b07c86f416fcc9f13616ea04d55d2743"
+    },
+    "tests/test_security_hardening.py": {
+      "bytes": 33207,
+      "mode": 420,
+      "sha256": "811f662520a0eda482b1c63967e5a17f6ea40147deed2e83ac0ea713fe55e54f"
+    },
+    "tests/test_simulation.py": {
+      "bytes": 4869,
+      "mode": 420,
+      "sha256": "8d54c0c6f5b0adff6247d2fe3f9a425007304e082ab1ccb2ea70a3ef998a6d16"
+    },
+    "tests/test_staged_authority_callbacks.py": {
+      "bytes": 3798,
+      "mode": 420,
+      "sha256": "2fdf0614bc9af9ef78a67393e5c58f69b01eda980403020d2c4e8d027df14661"
+    },
+    "tests/test_status_degraded.py": {
+      "bytes": 2633,
+      "mode": 420,
+      "sha256": "6968d3f4b7c0b3d3d44cad4b0546e7740cd2aeb44800d7b22be227d0e12dd8bd"
+    },
+    "tests/test_store.py": {
+      "bytes": 4388,
+      "mode": 420,
+      "sha256": "2ed19f77b5aa77ea1b8bcf04b5fda39ab25bf15ef3974325081159fb6e37c34d"
+    },
+    "tests/test_supervision.py": {
+      "bytes": 10652,
+      "mode": 420,
+      "sha256": "82a8d519fd0ad70f8136dd3dbc0db124a18bd7d1d3e5661dfa2a074ff2ed4538"
+    },
+    "tests/test_supervision_real.py": {
+      "bytes": 4792,
+      "mode": 420,
+      "sha256": "e8f299dcca626cba117d38f1d294954a88318cd612138de2a437ba858d540446"
+    },
+    "tests/test_systemd.py": {
+      "bytes": 1585,
+      "mode": 420,
+      "sha256": "b89bdf92a0b06dc94fc900c6e3676963eb6346cf98ca16eeb0fa752522c613fd"
+    },
+    "tests/test_tagged_object_cursor.py": {
+      "bytes": 4898,
+      "mode": 420,
+      "sha256": "091b06d4427d95f25d904048680bc17030e641bd3bc292844442df67753b8246"
+    },
+    "tests/test_transaction.py": {
+      "bytes": 11358,
+      "mode": 420,
+      "sha256": "8973372c0e4f4cdea752c30175d9d596ca2e8edc49f42e307629aaf1bba8405c"
+    },
+    "tests/test_trusted_startup.py": {
+      "bytes": 12248,
+      "mode": 420,
+      "sha256": "60204983290831b64c03d61348a0c51264e174fce0de3979ae606d8f996c4673"
+    },
+    "tests/test_typed_absence.py": {
+      "bytes": 70674,
+      "mode": 420,
+      "sha256": "2d61896705ac12dd197bf7a5dcb0f5bfb4aa7d38cab3491a5ebb44636d895344"
+    },
+    "tests/test_verification_reporting.py": {
+      "bytes": 5752,
+      "mode": 420,
+      "sha256": "f970ee3de932a8e2536298ffe344993b47db9a30878c04c7754a36efa1e5b17c"
+    },
+    "tests/test_verifier_resolution.py": {
+      "bytes": 10318,
+      "mode": 420,
+      "sha256": "412cecb1fb7b93d4d88f7b2d34b3f6a58e42d063e9a274a449fa8f02843122d1"
+    },
+    "tests/validation_support.py": {
+      "bytes": 3892,
+      "mode": 420,
+      "sha256": "19589e7487181ea8492cad510c37fa678526b5879cbd40866033ebe2c5982134"
+    },
+    "tests/watch_support.py": {
+      "bytes": 1555,
+      "mode": 420,
+      "sha256": "059c953957345fde55743a8ef62a9dd143af1c3bd4ac9ab4cb929af976da1f21"
+    },
+    "tests/worldline_collapse_checks.adb": {
+      "bytes": 15205,
+      "mode": 420,
+      "sha256": "9fd354af74644f31e7245e9a27fbe2f7a924f80b201cb7a85c89b05a71b9e95f"
+    },
+    "tests/worldline_collapse_checks.ads": {
+      "bytes": 270,
+      "mode": 420,
+      "sha256": "f9501ab319850536ea36c57c84508e1fa4d13c32ae9d3aff6a8eede493855052"
+    },
+    "tests/worldline_core_fuzz.adb": {
+      "bytes": 12593,
+      "mode": 420,
+      "sha256": "a37f53b0195d79c37ca8ea0074604c3aadece7523181e758ee55682f1cc3481c"
+    },
+    "tests/worldline_core_tests.adb": {
+      "bytes": 16693,
+      "mode": 420,
+      "sha256": "d7e0588d2906d810126dc92084204ac6de14a4571e08360eb2404c9c999859ce"
+    },
+    "tests/worldline_tests.gpr": {
+      "bytes": 885,
+      "mode": 420,
+      "sha256": "8f2468eb0eaa2b24d6ae8566f581255f91a0b1fe2b1dc2b853300f1c0587d8e8"
+    },
+    "transition-tests/test_transition.adb": {
+      "bytes": 11342,
+      "mode": 420,
+      "sha256": "f5d41e8eff295ca2a9cd94a0f247b25810dbdfd0d9c83aedf3c10cfadea20314"
+    },
+    "transition-tests/tests.gpr": {
+      "bytes": 395,
+      "mode": 420,
+      "sha256": "297d4f0f144905398a48c205fd949597dd959d581dbc21c88782366700f197b6"
+    },
+    "verify_proof_manifest.py": {
+      "bytes": 5258,
+      "mode": 493,
+      "sha256": "9b5bcbae627fe755eada5ca7e1cd503144a87e89ebf5208af6d972b98df02a9f"
+    },
+    "worldline.gpr": {
+      "bytes": 134,
+      "mode": 420,
+      "sha256": "e60f6fc969048d0af1d53c809d1c237dec8eaf99f018fd075e88b2e08f38731c"
+    }
+  },
+  "terminal_lines": [
+    "Ran 130 tests in 11.832s",
+    "OK"
+  ],
+  "unknown": [],
+  "unrun": [
+    "acquisition-regression-tests",
+    "completion-build",
+    "completion-tests",
+    "pending-v2-tests",
+    "transition-direct-build",
+    "transition-direct-tests",
+    "tests",
+    "admission-tests",
+    "evaluation-tests",
+    "pending-tests",
+    "direct-build",
+    "direct-tests",
+    "legacy-direct-build",
+    "legacy-direct-tests",
+    "resource-direct-build",
+    "resource-direct-tests",
+    "terminal-tests",
+    "roster-d2-python-tests",
+    "roster-d2-build",
+    "roster-d2-tests",
+    "raw-observation-tests",
+    "report-facts-build",
+    "report-facts-tests",
+    "core-all-source-build",
+    "proof-source-tests",
+    "wire-build",
+    "wire-tests",
+    "authority-build",
+    "authority-tests",
+    "default-tests",
+    "metadata-tests",
+    "staged-tests",
+    "core-abi-tests",
+    "store-tests",
+    "revalidation-tests",
+    "transaction-tests",
+    "finalization-tests",
+    "finalization-kernel-tests",
+    "finalization-producer-tests",
+    "artifact-build",
+    "artifact-tests"
+  ],
+  "window": "released"
+}
