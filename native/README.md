@@ -1,8 +1,9 @@
 # Examiner native compiler dependency
 
-`examiner_guard.c` is a proposed additive dependency. It is not wired into the
-live private evaluator yet. It never supplies established confinement to the
-Ada/SPARK decision. The original full campaign and formal proof remain required.
+`examiner_guard.c` is an additive native dependency used by the local private
+evaluator integration. D32 passed the independently reviewed bounded native and
+entry-component batch. It never supplies established confinement to the Ada/SPARK
+decision. The original full campaign and formal proof remain required.
 
 The examiner-only shared object must be loaded before CPython initialization.
 Its constructor registers the C audit hook and built-in module. A late load or
@@ -86,9 +87,8 @@ comparison never changes pointer-only registry lookup. Existing module identitie
 imported aliases and inspect's AST reference remain in place. Complete-operation
 reentry exclusion and final identity rechecks cover reference-compiler and AST
 audit callbacks. Original template validation and fixed-helper checks remain.
-D29 passed the controlled native build and all 89 native component tests after
-independent GPT-6.1 source, binding and result reviews. It does not supply general
-cached startup or protected custody acceptance.
+This extension awaits independent exact source review and controlled execution;
+it does not supply general cached startup or protected custody acceptance.
 
 After a clean prepared registry, `activate()` enables the component's native
 exec/function-construction checks and refusals for unbound compilation, direct
@@ -99,17 +99,26 @@ preloaded code is not misrepresented as checked-loader output. Source, registry
 and code references intentionally live until process exit so finalizer/atexit
 execution cannot outlive their authority storage.
 
-D32 passed native build and all 99 native component tests after independent
-GPT-6.1 design, source, binding and result review. The constructor installs a
-fixed Linux AArch64 seccomp filter before Python entry, refusing process
-creation/exec and ptrace while preserving same-thread-group threads. clone3
-returns ENOSYS for the installed libc fallback. Failed NoNewPrivs or seccomp
-installation terminates the examiner; there is no weaker fallback. Native
-status reports the instruction description, not independently observed BPF
-program identity or lifetime confinement. The separately retained local D32
-runtime integration passed all 190 entry-component tests, including held
-kernel status samples and a live threaded examiner. That broader runtime
-source is not included in this native component publication.
+The constructor now installs the reviewed D32 kernel process filter before
+Python entry and preserves same-thread-group threads. Its native instruction
+self-report and daemon-held mode/count samples have distinct evidence boundaries;
+neither supplies complete lifetime confinement or protected custody.
+
+The current frozen-metadata extension captures the actual find_frozen C builtin
+during trusted configuration with its exact keyword calling convention. Each
+lookup checks the complete raw buffer and package flag against owned code rows,
+retains the original-name association and returns copied ordinary metadata.
+Frozen code acquisition checks this same association. A distinct operation guard
+excludes reentry throughout lookup, copying and cleanup without authorizing
+marshal. Ordinary absence/provider errors remain distinct from authority errors.
+Each actual metadata request emits the observational worldline.frozen_metadata
+audit event under the full operation guard. A hook failure retains its primary
+exception and a sticky protocol refusal. Python-emitted events grant no origin,
+registration or custody, and are not a native lifetime transport.
+The native loader locally reproduces frozen module/spec/alias metadata and
+auxiliary methods; it does not delegate those methods to mutable FrozenImporter.
+Its Python module attributes remain ordinary bookkeeping. This extension awaits
+independent source review and controlled execution; no acceptance is implied.
 
 Not yet complete: all required generator-template routes; all cached/frozen,
 codec, native-extension and interpreter-memory controls; complete integrated

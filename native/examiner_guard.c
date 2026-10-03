@@ -219,7 +219,7 @@ struct guard {
     int probe_pending, probe_seen, tail_verified;
     PyFrameObject *installation_frame;
     PyObject *tail_callback, *add_audit_hook;
-    int cached_operation;
+    int cached_operation, metadata_operation, frozen_operation;
 };
 
 static struct guard state;
@@ -240,6 +240,7 @@ struct frozen_origin {
     const struct _frozen *original;
     size_t table, position;
     int is_package, excluded, invalid;
+    PyObject *original_name;       /* NULL until a successful owned association */
     struct frozen_origin *next;
 };
 
@@ -266,8 +267,22 @@ struct frozen_permit {
 static struct frozen_origin *frozen_origins;
 static struct frozen_attempt *frozen_attempts;
 static PyObject *frozen_available;
+static PyObject *frozen_finder, *frozen_finder_keywords;
 static size_t frozen_count;
 static unsigned long long frozen_requests, frozen_returns;
+
+enum metadata_outcome { METADATA_PENDING, METADATA_ABSENT, METADATA_PROVIDER_ERROR,
+                        METADATA_PROTOCOL_ERROR, METADATA_RETURNED };
+struct metadata_attempt {
+    PyObject *name, *original_name, *failure;
+    PyObject *failure_type, *failure_args, *failure_name;
+    struct frozen_origin *origin;
+    enum phase request_phase;
+    enum metadata_outcome outcome;
+    struct metadata_attempt *next;
+};
+static struct metadata_attempt *metadata_attempts;
+static unsigned long long metadata_requests, metadata_returns;
 
 enum cached_state { CACHE_ABSENT, CACHE_MALFORMED, CACHE_CAPTURED };
 struct cached_snapshot {
@@ -311,7 +326,8 @@ static unsigned long long cached_requests, cached_returns;
 static int
 native_operation_active(void)
 {
-    return state.cached_operation || PyThread_tss_get(&permit_key) != NULL ||
+    return state.cached_operation || state.metadata_operation || state.frozen_operation ||
+           PyThread_tss_get(&permit_key) != NULL ||
            PyThread_tss_get(&frozen_permit_key) != NULL;
 }
 
@@ -688,23 +704,245 @@ capture_frozen(void)
         strcmp(((PyCFunctionObject *)available)->m_ml->ml_name, "is_frozen") == 0;
     if (valid)
         frozen_available = Py_NewRef(available);
+    PyObject *finder = PyModule_CheckExact(module) ?
+        dict_ascii_value(PyModule_GetDict(module), "find_frozen") : NULL;
+    int finder_valid = finder != NULL && PyCFunction_Check(finder) &&
+        PyCFunction_GetSelf(finder) == module &&
+        PyCFunction_GetFlags(finder) == (METH_FASTCALL | METH_KEYWORDS) &&
+        strcmp(((PyCFunctionObject *)finder)->m_ml->ml_name, "find_frozen") == 0;
+    if (finder_valid)
+        frozen_finder = Py_NewRef(finder);
     Py_DECREF(module);
     if (!valid)
         return refuse("native frozen availability builtin identity differs");
+    if (!finder_valid)
+        return refuse("native frozen metadata builtin identity differs");
+    frozen_finder_keywords = Py_BuildValue("(s)", "withdata");
+    if (frozen_finder_keywords == NULL)
+        return -1;
     return 0;
 }
 
+static struct frozen_origin *
+find_owned_frozen(PyObject *name)
+{
+    for (struct frozen_origin *origin = frozen_origins; origin != NULL; origin = origin->next) {
+        int comparison = PyUnicode_Compare(name, origin->name);
+        if (comparison == -1 && PyErr_Occurred())
+            return NULL;
+        if (comparison == 0)
+            return origin;
+    }
+    return NULL;                  /* an inventory miss is not a finder error */
+}
+
+/* Caller holds the complete metadata or frozen-code operation. No marshal
+ * permit is granted here; no returned buffer becomes a source/code origin. */
 static PyObject *
-frozen_code(PyObject *self, PyObject *name)
+acquire_frozen_metadata(PyObject *name)
+{
+    struct metadata_attempt *attempt = calloc(1, sizeof(*attempt));
+    if (attempt == NULL)
+        return PyErr_NoMemory();
+    attempt->name = Py_NewRef(name);
+    attempt->request_phase = state.phase;
+    attempt->next = metadata_attempts;
+    metadata_attempts = attempt;
+    PyObject *info = NULL, *result = NULL;
+    if (count_event(&metadata_requests) < 0 || frozen_tables_unchanged() < 0)
+        goto protocol_error;
+    struct frozen_origin *origin = find_owned_frozen(name);
+    attempt->origin = origin;
+    if (PyErr_Occurred())
+        goto protocol_error;
+    /* An audit observation, never an origin/admission token. Python-emitted
+     * events cannot create this native attempt or enter the owned provider. */
+    if (PySys_Audit("worldline.frozen_metadata", "O", name) < 0) {
+        latch("native frozen metadata audit refused");
+        goto protocol_error;      /* preserve the actual hook's primary error */
+    }
+    if (state.violated) {
+        refuse("native frozen metadata audit retained a violation");
+        goto protocol_error;
+    }
+    /* Exact validated FASTCALL|KEYWORDS ABI: one positional name, followed by
+     * the value of the held sole keyword. withdata is never positional. */
+    PyCFunctionFastWithKeywords finder =
+        _PyCFunctionFastWithKeywords_CAST(PyCFunction_GetFunction(frozen_finder));
+    PyObject *arguments[] = {name, Py_True};
+    info = finder(PyCFunction_GetSelf(frozen_finder), arguments, 1, frozen_finder_keywords);
+    if (info == NULL) {
+        attempt->outcome = state.violated ? METADATA_PROTOCOL_ERROR : METADATA_PROVIDER_ERROR;
+        goto error;               /* retain the provider's ordinary primary error */
+    }
+    if (state.violated) {
+        refuse("native frozen metadata provider completed after a violation");
+        goto protocol_error;
+    }
+    if (info == Py_None) {
+        attempt->outcome = METADATA_ABSENT;
+        result = Py_NewRef(Py_None);
+        goto done;
+    }
+    if (origin == NULL || !PyTuple_CheckExact(info) || PyTuple_GET_SIZE(info) != 3) {
+        refuse("native frozen metadata lacks an owned provider result");
+        goto protocol_error;
+    }
+    PyObject *data = PyTuple_GET_ITEM(info, 0);
+    PyObject *package = PyTuple_GET_ITEM(info, 1);
+    PyObject *original_name = PyTuple_GET_ITEM(info, 2);
+    if (!Py_IS_TYPE(data, &PyMemoryView_Type) || !PyBool_Check(package) ||
+        (original_name != Py_None && !PyUnicode_CheckExact(original_name))) {
+        refuse("native frozen metadata result types differ");
+        goto protocol_error;
+    }
+    const Py_buffer *buffer = PyMemoryView_GET_BUFFER(data);
+    if (origin->excluded || origin->invalid || buffer->buf == NULL ||
+        !buffer->readonly || buffer->ndim != 1 || buffer->itemsize != 1 ||
+        !PyBuffer_IsContiguous(buffer, 'C') || buffer->len != origin->raw.length ||
+        memcmp(buffer->buf, origin->raw.bytes, (size_t)origin->raw.length) != 0 ||
+        (package == Py_True) != origin->is_package) {
+        refuse("native frozen metadata differs from owned bytes or package");
+        goto protocol_error;
+    }
+    attempt->original_name = original_name == Py_None ? Py_NewRef(Py_None) :
+        PyUnicode_FromKindAndData(PyUnicode_KIND(original_name), PyUnicode_DATA(original_name),
+                                 PyUnicode_GET_LENGTH(original_name));
+    if (attempt->original_name == NULL)
+        goto protocol_error;
+    if (origin->original_name != NULL) {
+        int equal = origin->original_name == Py_None || original_name == Py_None ?
+            origin->original_name == original_name :
+            PyUnicode_Compare(origin->original_name, original_name) == 0;
+        if (PyErr_Occurred() || !equal) {
+            refuse("native frozen original-name association changed");
+            goto protocol_error;
+        }
+    } else {
+        origin->original_name = Py_NewRef(attempt->original_name);
+    }
+    result = Py_BuildValue("{s:O,s:O,s:O}", "name", origin->name,
+                          "isPackage", package, "originalName", attempt->original_name);
+    if (result == NULL)
+        goto protocol_error;
+    attempt->outcome = METADATA_RETURNED;
+done:
+    Py_DECREF(info);
+    if (state.violated) {
+        info = NULL;
+        refuse("native frozen metadata cleanup observed a violation");
+        goto protocol_error;
+    }
+    if (attempt->outcome == METADATA_RETURNED && count_event(&metadata_returns) < 0) {
+        info = NULL;
+        goto protocol_error;
+    }
+    return result;
+protocol_error:
+    attempt->outcome = METADATA_PROTOCOL_ERROR;
+error:;
+    PyObject *primary = PyErr_GetRaisedException();
+    Py_XDECREF(info);
+    Py_XDECREF(result);
+    attempt->failure = Py_XNewRef(primary);
+    /* Snapshot ordinary immutable facts now, before the raised exception is
+     * returned to Python and its writable attributes can change. NULL fields
+     * remain explicit if allocation/unsupported values prevented a copy. */
+    if (primary != NULL && PyExceptionInstance_Check(primary)) {
+        attempt->failure_type = PyUnicode_FromString(Py_TYPE(primary)->tp_name);
+        PyObject *args = ((PyBaseExceptionObject *)primary)->args;
+        if (args != NULL && PyTuple_CheckExact(args)) {
+            int strings = 1;
+            for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(args); ++i)
+                if (!PyUnicode_CheckExact(PyTuple_GET_ITEM(args, i)))
+                    strings = 0;
+            if (strings)
+                attempt->failure_args = Py_NewRef(args);
+        }
+        PyObject *exception_name = Py_None;
+        if (Py_IS_TYPE(primary, (PyTypeObject *)PyExc_ImportError)) {
+            PyObject *held_name = ((PyImportErrorObject *)primary)->name;
+            if (held_name != NULL)
+                exception_name = held_name;
+        }
+        if (exception_name == Py_None || PyUnicode_CheckExact(exception_name))
+            attempt->failure_name = Py_NewRef(exception_name);
+    }
+    PyErr_Clear();                /* snapshot allocation cannot replace primary */
+    PyErr_SetRaisedException(primary);
+    return NULL;
+}
+
+static PyObject *
+frozen_metadata(PyObject *self, PyObject *name)
 {
     (void)self;
     if (same_interpreter() < 0)
         return NULL;
     if ((state.phase != CONFIGURED && state.phase != ACTIVE) || state.violated ||
         native_operation_active() || !PyUnicode_CheckExact(name)) {
-        refuse("native frozen acquisition requires a clean non-reentrant selector");
+        refuse("native frozen metadata requires a clean non-reentrant selector");
         return NULL;
     }
+    state.metadata_operation = 1;
+    PyObject *result = acquire_frozen_metadata(name);
+    state.metadata_operation = 0;
+    return result;
+}
+
+static PyObject *
+metadata_observations_owned(void)
+{
+    static const char *outcomes[] = {"pending", "absent", "provider-error",
+                                     "protocol-error", "returned"};
+    static const char *phases[] = {"bootstrap", "configuring", "configured", "active", "failed"};
+    PyObject *rows = PyList_New(0);
+    if (rows == NULL)
+        return NULL;
+    for (struct metadata_attempt *attempt = metadata_attempts;
+         attempt != NULL; attempt = attempt->next) {
+        PyObject *row = Py_BuildValue("{s:O,s:s,s:s,s:O,s:O,s:O,s:O,s:O,s:O}",
+            "name", attempt->name, "phase", phases[attempt->request_phase],
+            "outcome", outcomes[attempt->outcome],
+            "ownedOrigin", attempt->origin == NULL ? Py_False : Py_True,
+            "originalName", attempt->original_name == NULL ? Py_None : attempt->original_name,
+            "exceptionType", attempt->failure_type == NULL ? Py_None : attempt->failure_type,
+            "exceptionName", attempt->failure_name == NULL ? Py_None : attempt->failure_name,
+            "exceptionArgs", attempt->failure_args == NULL ? Py_None : attempt->failure_args,
+            "exceptionFactsComplete", attempt->failure_type != NULL &&
+                attempt->failure_name != NULL && attempt->failure_args != NULL ? Py_True : Py_False);
+        if (row == NULL || PyList_Append(rows, row) < 0) {
+            Py_XDECREF(row);
+            Py_DECREF(rows);
+            return NULL;
+        }
+        Py_DECREF(row);
+    }
+    /* Like status(), retained failure facts remain readable after a violation.
+     * Every authority-changing operation stays excluded while these copy. */
+    return rows;
+}
+
+static PyObject *
+frozen_metadata_observations(PyObject *self, PyObject *ignored)
+{
+    (void)self;
+    (void)ignored;
+    if (same_interpreter() < 0)
+        return NULL;
+    if (native_operation_active()) {
+        refuse("native frozen observation copying is not reentrant");
+        return NULL;
+    }
+    state.metadata_operation = 1;
+    PyObject *rows = metadata_observations_owned();
+    state.metadata_operation = 0;
+    return rows;
+}
+
+static PyObject *
+frozen_code_owned(PyObject *name)
+{
     struct frozen_attempt *attempt = calloc(1, sizeof(*attempt));
     if (attempt == NULL)
         return PyErr_NoMemory();   /* no allocated record for this failure */
@@ -751,6 +989,19 @@ frozen_code(PyObject *self, PyObject *name)
         frozen_import_error("Frozen object named %R is unavailable", name);
         return frozen_failure(attempt, FROZEN_LOOKUP_ERROR);
     }
+    PyObject *metadata = acquire_frozen_metadata(name);
+    if (metadata == NULL)
+        return frozen_failure(attempt, state.violated ? FROZEN_PROTOCOL_ERROR : FROZEN_LOOKUP_ERROR);
+    int present = metadata != Py_None;
+    Py_DECREF(metadata);
+    if (state.violated) {
+        refuse("native frozen metadata verification retained a violation");
+        return frozen_failure(attempt, FROZEN_PROTOCOL_ERROR);
+    }
+    if (!present) {
+        frozen_import_error("Frozen object named %R is unavailable", name);
+        return frozen_failure(attempt, FROZEN_LOOKUP_ERROR);
+    }
     struct frozen_permit permit = {
         .thread = PyThreadState_Get(), .interpreter = state.interpreter,
         .origin = origin, .audit_seen = 0
@@ -779,6 +1030,28 @@ frozen_code(PyObject *self, PyObject *name)
     }
     attempt->outcome = FROZEN_RETURNED;
     return code;
+}
+
+static PyObject *
+frozen_code(PyObject *self, PyObject *name)
+{
+    (void)self;
+    if (same_interpreter() < 0)
+        return NULL;
+    if ((state.phase != CONFIGURED && state.phase != ACTIVE) || state.violated ||
+        native_operation_active() || !PyUnicode_CheckExact(name)) {
+        refuse("native frozen acquisition requires a clean non-reentrant selector");
+        return NULL;
+    }
+    state.frozen_operation = 1;
+    PyObject *result = frozen_code_owned(name);
+    if (result != NULL && state.violated) {
+        Py_DECREF(result);
+        result = NULL;
+        refuse("native frozen acquisition cleanup retained a violation");
+    }
+    state.frozen_operation = 0;
+    return result;
 }
 
 static PyObject *
@@ -890,6 +1163,7 @@ compile_owned_internal(struct source *source, int mode, int compiler_flags,
     }
     if (PyThread_tss_get(&permit_key) != NULL ||
         PyThread_tss_get(&frozen_permit_key) != NULL ||
+        state.metadata_operation || state.frozen_operation ||
         (state.cached_operation && !cached)) {
         refuse("native compilation is not reentrant");
         return NULL;
@@ -1127,6 +1401,7 @@ bind_generator_internal(PyObject *self, PyObject *args, int cached)
     PyObject *callback = NULL;
     if (state.phase != CONFIGURED || state.violated ||
         PyThread_tss_get(&permit_key) != NULL || PyThread_tss_get(&frozen_permit_key) != NULL ||
+        state.metadata_operation || state.frozen_operation ||
         (state.cached_operation && !cached) ||
         single_bootstrap_thread() < 0 ||
         !PyTuple_CheckExact(args) || PyTuple_GET_SIZE(args) != 3) {
@@ -2100,6 +2375,17 @@ status(PyObject *self, PyObject *ignored)
         return NULL;
     }
     Py_DECREF(policy);
+    PyObject *metadata = Py_BuildValue("{s:O,s:i,s:K,s:K,s:O}",
+        "providerCaptured", frozen_finder == NULL ? Py_False : Py_True,
+        "providerFlags", frozen_finder == NULL ? 0 : PyCFunction_GetFlags(frozen_finder),
+        "requests", metadata_requests, "returns", metadata_returns,
+        "keywordNames", frozen_finder_keywords == NULL ? Py_None : frozen_finder_keywords);
+    if (metadata == NULL || PyDict_SetItemString(report, "frozenMetadata", metadata) < 0) {
+        Py_XDECREF(metadata);
+        Py_DECREF(report);
+        return NULL;
+    }
+    Py_DECREF(metadata);
     return report;
 }
 
@@ -2107,6 +2393,9 @@ static PyMethodDef methods[] = {
     {"configure", configure, METH_VARARGS, "Copy exact trusted-bootstrap source bytes once."},
     {"compile_source", compile_source, METH_O, "Compile the owned source selected by its path."},
     {"frozen_code", frozen_code, METH_O, "Acquire code only from the owned native frozen provider."},
+    {"frozen_metadata", frozen_metadata, METH_O, "Copy metadata joined to owned native frozen bytes."},
+    {"frozen_metadata_observations", frozen_metadata_observations, METH_NOARGS,
+     "Copy retained metadata attempt facts; never grant code or confinement authority."},
     {"bind_generator", bind_generator, METH_VARARGS, "Bind a fixed owned stdlib generator during trusted bootstrap."},
     {"bind_cached_generator", bind_cached_generator, METH_O, "Bind a fixed captured startup generator after owned-source correspondence."},
     {"activate", activate, METH_NOARGS, "Activate native compile/exec checks once."},

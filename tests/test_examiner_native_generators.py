@@ -1075,6 +1075,465 @@ class NativeFrozenControls(unittest.TestCase):
                 self.assertFalse(result['state']['permitActive'])
 
 
+METADATA_BOOTSTRAP = r'''
+import _imp, importlib.machinery, importlib.util, runpy, warnings, contextlib, io
+loader_namespace = runpy.run_path(LOADER_FILE)
+original_importer = importlib.machinery.FrozenImporter
+class MetadataRegistry:
+    frozen_metadata = staticmethod(guard.frozen_metadata)
+    acquire_frozen = staticmethod(guard.frozen_code)
+def metadata_owner():
+    return loader_namespace['BoundImports']({'files': [], 'directories': []},
+        MetadataRegistry(), lambda *args: None)
+def module_facts(module):
+    spec = module.__spec__
+    state = spec.loader_state
+    return {'name': module.__name__, 'package': module.__package__,
+            'filePresent': hasattr(module, '__file__'), 'file': getattr(module, '__file__', None),
+            'pathPresent': hasattr(module, '__path__'), 'path': getattr(module, '__path__', None),
+            'origin': spec.origin, 'hasLocation': spec.has_location,
+            'cached': spec.cached, 'parent': spec.parent,
+            'search': spec.submodule_search_locations,
+            'state': None if state is None else vars(state),
+            'loaderIsSpecLoader': module.__loader__ is spec.loader,
+            'originalPresent': hasattr(module, '__origname__'),
+            'original': getattr(module, '__origname__', None)}
+def exception_facts(error):
+    return {'type': type(error).__name__, 'args': list(error.args),
+            'name': getattr(error, 'name', None)}
+def metadata_gc_hook(event, arguments):
+    if event == 'worldline.frozen_metadata':
+        # Allocation only schedules GC in this interpreter. An ordinary audit
+        # consumer triggers the real callbacks while the actual request is held.
+        gc.collect()
+'''.replace('LOADER_FILE', repr(str(native_controls.Path(__file__).resolve().parents[1] /
+                                  'runtime/worldline/linux/examiner_loader.py')))
+
+
+class NativeFrozenMetadataControls(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        native_controls.NativeGuardControls.setUpClass.__func__(cls)
+
+    def child(self, body):
+        return native_controls.NativeGuardControls.child(
+            self, METADATA_BOOTSTRAP + textwrap.dedent(body))
+
+    def test_complete_installed_inventory_metadata_and_code_correspondence(self):
+        result = self.child(r'''
+            expected, errors, original_code = {}, {}, {}
+            for name in _imp._frozen_module_names():
+                try:
+                    info = _imp.find_frozen(name, withdata=True)
+                except BaseException as error:
+                    errors[name] = exception_facts(error)
+                else:
+                    expected[name] = None if info is None else {
+                        'name': name, 'isPackage': info[1], 'originalName': info[2]}
+                    if info is not None:
+                        assert type(info[0]) is memoryview and info[0].readonly
+                        original_code[name] = _imp.get_frozen_object(name)
+            prepared()
+            actual, actual_errors, codes = {}, {}, []
+            for name in _imp._frozen_module_names():
+                try:
+                    actual[name] = guard.frozen_metadata(name)
+                except BaseException as error:
+                    actual_errors[name] = exception_facts(error)
+                else:
+                    if actual[name] is not None:
+                        code = guard.frozen_code(name)
+                        codes.append({'name': name, 'equal': code == original_code[name],
+                                      'owned': guard.contains(code),
+                                      'originalOwned': guard.contains(original_code[name])})
+            emit({'expected': expected, 'actual': actual, 'errors': errors,
+                  'actualErrors': actual_errors, 'codes': codes,
+                  'observations': guard.frozen_metadata_observations(), 'state': guard.status()})
+        ''')
+        self.assertEqual(result['actual'], result['expected'])
+        self.assertEqual(result['actualErrors'], result['errors'])
+        self.assertTrue(result['codes'])
+        self.assertTrue(any(value is not None and value['originalName'] is None
+                            for value in result['actual'].values()))
+        self.assertTrue(any(value is not None and value['isPackage']
+                            for value in result['actual'].values()))
+        for row in result['codes']:
+            with self.subTest(name=row['name']):
+                self.assertTrue(row['equal'])
+                self.assertTrue(row['owned'])
+                self.assertFalse(row['originalOwned'])
+        self.assertTrue(result['state']['frozenMetadata']['providerCaptured'])
+        self.assertEqual(result['state']['frozenMetadata']['keywordNames'], ['withdata'])
+        self.assertTrue(result['observations'])
+        self.assertFalse(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_unknown_and_disabled_metadata_preserve_absence_and_later_availability(self):
+        result = self.child(r'''
+            configured()
+            unknown = guard.frozen_metadata('worldline_missing_frozen_metadata_control')
+            _imp._override_frozen_modules_for_tests(-1)
+            original_disabled = _imp.find_frozen('__hello__', withdata=True)
+            disabled = guard.frozen_metadata('__hello__')
+            bootstrap = guard.frozen_metadata('_frozen_importlib')
+            _imp._override_frozen_modules_for_tests(1)
+            later = guard.frozen_metadata('__hello__')
+            code = guard.frozen_code('__hello__')
+            _imp._override_frozen_modules_for_tests(0)
+            emit({'unknown': unknown, 'originalDisabled': original_disabled, 'disabled': disabled,
+                  'bootstrap': bootstrap, 'later': later, 'owned': guard.contains(code),
+                  'observations': guard.frozen_metadata_observations(), 'state': guard.status()})
+        ''')
+        self.assertIsNone(result['unknown'])
+        self.assertIsNone(result['originalDisabled'])
+        self.assertIsNone(result['disabled'])
+        self.assertEqual(result['bootstrap']['name'], '_frozen_importlib')
+        self.assertEqual(result['later']['name'], '__hello__')
+        self.assertTrue(result['owned'])
+        absent = [row for row in result['observations'] if row['outcome'] == 'absent']
+        self.assertEqual({row['name'] for row in absent},
+                         {'worldline_missing_frozen_metadata_control', '__hello__'})
+        self.assertFalse(result['state']['violated'])
+
+    def test_substituted_finder_before_configuration_refuses(self):
+        result = self.child(r'''
+            _imp.find_frozen = lambda *args, **kwargs: None
+            try:
+                configured()
+            except PermissionError as error:
+                emit({'error': type(error).__name__, 'state': guard.status()})
+        ''')
+        self.assertEqual(result['error'], 'PermissionError')
+        self.assertTrue(result['state']['violated'])
+        self.assertEqual(result['state']['firstFailure'], 'native frozen metadata builtin identity differs')
+
+    def test_held_builtin_and_copied_metadata_resist_benign_python_replacement(self):
+        result = self.child(r'''
+            configured()
+            first = guard.frozen_metadata('__hello_alias__')
+            expected = dict(first)
+            first['originalName'] = 'changed only in returned copy'
+            first['isPackage'] = True
+            _imp.find_frozen = lambda *args, **kwargs: None
+            second = guard.frozen_metadata('__hello_alias__')
+            code = guard.frozen_code('__hello_alias__')
+            emit({'expected': expected, 'actual': second, 'owned': guard.contains(code),
+                  'observations': guard.frozen_metadata_observations(), 'state': guard.status()})
+        ''')
+        self.assertEqual(result['actual'], result['expected'])
+        self.assertTrue(result['owned'])
+        self.assertTrue(all(row['originalName'] == result['expected']['originalName']
+                            for row in result['observations']))
+        self.assertFalse(result['state']['violated'])
+
+    def test_all_available_specs_and_created_module_metadata_match_original(self):
+        result = self.child(r'''
+            expected = {}
+            for name in _imp._frozen_module_names():
+                spec = original_importer.find_spec(name)
+                if spec is not None:
+                    expected[name] = module_facts(importlib.util.module_from_spec(spec))
+            owner = metadata_owner()
+            prepared()
+            actual, nested = {}, []
+            for name in expected:
+                spec = loader_namespace['_NativeFrozenLoader'](owner, name).find_spec(name)
+                actual[name] = module_facts(importlib.util.module_from_spec(spec))
+                code = spec.loader.get_code(name)
+                nested.extend(guard.contains(value) for value in code.co_consts
+                              if type(value) is types.CodeType)
+                assert spec.loader.get_source(name) is original_importer.get_source(name)
+                assert spec.loader.is_package(name) == original_importer.is_package(name)
+            emit({'expected': expected, 'actual': actual, 'nested': nested,
+                  'observations': owner.observations, 'state': guard.status()})
+        ''')
+        self.assertEqual(result['actual'], result['expected'])
+        self.assertTrue(result['nested'])
+        self.assertTrue(all(result['nested']))
+        self.assertTrue(result['observations'])
+        self.assertFalse(result['state']['violated'])
+
+    def test_absent_none_empty_and_actual_stdlib_contexts_preserve_alias_metadata(self):
+        result = self.child(r'''
+            saved = getattr(sys, '_stdlib_dir', None)
+            present = hasattr(sys, '_stdlib_dir')
+            comparisons = []
+            configured()
+            for marker, value in (('absent', None), ('none', None), ('empty', ''), ('actual', saved)):
+                if marker == 'absent':
+                    if hasattr(sys, '_stdlib_dir'):
+                        del sys._stdlib_dir
+                else:
+                    sys._stdlib_dir = value
+                owner = metadata_owner()
+                for name in ('__hello_alias__', '__phello_alias__', '__phello_alias__.spam',
+                             '__phello__', '__phello__.__init__', '__hello_only__'):
+                    original = original_importer.find_spec(name)
+                    current = loader_namespace['_NativeFrozenLoader'](owner, name).find_spec(name)
+                    comparisons.append({'context': marker, 'name': name,
+                        'expected': module_facts(importlib.util.module_from_spec(original)),
+                        'actual': module_facts(importlib.util.module_from_spec(current)),
+                        'captured': owner.frozen_stdlib_context})
+            if present:
+                sys._stdlib_dir = saved
+            elif hasattr(sys, '_stdlib_dir'):
+                del sys._stdlib_dir
+            emit({'comparisons': comparisons, 'state': guard.status()})
+        ''')
+        for row in result['comparisons']:
+            with self.subTest(context=row['context'], name=row['name']):
+                self.assertEqual(row['actual'], row['expected'])
+                self.assertEqual(row['captured']['present'], row['context'] != 'absent')
+        self.assertFalse(result['state']['violated'])
+
+    def test_deprecated_loader_missing_and_existing_module_paths_match_original(self):
+        result = self.child(r'''
+            names = ('__hello__', '__hello_alias__', '__phello__', '__phello_alias__',
+                     '__phello__.ham', '__phello__.ham.eggs', '__hello_only__')
+            def run(loader, name):
+                outcomes = []
+                output = io.StringIO()
+                sys.modules.pop(name, None)
+                with contextlib.redirect_stdout(output), warnings.catch_warnings(record=True) as seen:
+                    warnings.simplefilter('always', DeprecationWarning)
+                    for label in ('missing', 'existing'):
+                        try:
+                            module = loader.load_module(name)
+                        except BaseException as error:
+                            outcomes.append({'case': label, 'error': exception_facts(error)})
+                        else:
+                            outcomes.append({'case': label, 'module': module_facts(module)})
+                sys.modules.pop(name, None)
+                return {'outcomes': outcomes, 'stdout': output.getvalue(),
+                        'warnings': [(row.category.__name__, str(row.message)) for row in seen]}
+            expected = {name: run(original_importer, name) for name in names}
+            owner = metadata_owner()
+            prepared()
+            actual = {name: run(loader_namespace['_NativeFrozenLoader'](owner, name), name)
+                      for name in names}
+            emit({'expected': expected, 'actual': actual, 'state': guard.status()})
+        ''')
+        self.assertEqual(result['actual'], result['expected'])
+        self.assertFalse(result['state']['violated'])
+
+    def test_native_metadata_never_delegates_to_substituted_frozen_importer_methods(self):
+        result = self.child(r'''
+            name = '__phello_alias__'
+            expected = module_facts(importlib.util.module_from_spec(original_importer.find_spec(name)))
+            owner = metadata_owner()
+            prepared()
+            called = []
+            def replacement(*args, **kwargs):
+                called.append('mutable importer substitute')
+                raise AssertionError('native path delegated metadata')
+            for attribute in ('find_spec', 'create_module', 'exec_module', 'get_code', 'get_source',
+                              'is_package', 'load_module', '_resolve_filename', '_fix_up_module'):
+                setattr(original_importer, attribute, staticmethod(replacement))
+            spec = owner.find_spec(name)
+            module = importlib.util.module_from_spec(spec)
+            actual = module_facts(module)
+            spec.loader.exec_module(module)
+            assert spec.loader.get_source(name) is None
+            assert spec.loader.is_package(name)
+            with warnings.catch_warnings(record=True):
+                warnings.simplefilter('always', DeprecationWarning)
+                loaded = spec.loader.load_module(name)
+            emit({'expected': expected, 'actual': actual, 'called': called,
+                  'loaded': loaded.__name__, 'state': guard.status()})
+        ''')
+        self.assertEqual(result['actual'], result['expected'])
+        self.assertEqual(result['called'], [])
+        self.assertEqual(result['loaded'], '__phello_alias__')
+        self.assertFalse(result['state']['violated'])
+
+    def test_metadata_from_existing_native_permits_is_refused_and_cleared(self):
+        for event, outer in (('compile', "guard.compile_source('/verifier/entry.py')"),
+                             ('marshal.loads', "guard.frozen_code('__hello__')")):
+            with self.subTest(event=event):
+                body = r'''
+                    nested = []
+                    def audit(event, arguments):
+                        if event == EVENT and guard.status()['phase'] == 'active':
+                            try:
+                                guard.frozen_metadata('__hello__')
+                            except PermissionError as error:
+                                nested.append(type(error).__name__)
+                    sys.addaudithook(audit)
+                    prepared()
+                    try:
+                        OUTER
+                    except PermissionError as error:
+                        failure = type(error).__name__
+                    emit({'nested': nested, 'failure': failure, 'state': guard.status()})
+                '''.replace('EVENT', repr(event)).replace('OUTER', outer)
+                result = self.child(body)
+                self.assertEqual(result['nested'], ['PermissionError'])
+                self.assertEqual(result['failure'], 'PermissionError')
+                self.assertTrue(result['state']['violated'])
+                self.assertFalse(result['state']['permitActive'])
+
+    def test_all_loader_helpers_preserve_unknown_and_disabled_exception_facts(self):
+        result = self.child(r'''
+            def failures(loader, name):
+                rows = {}
+                for method in ('get_code', 'get_source', 'is_package'):
+                    try:
+                        getattr(loader, method)(name)
+                    except BaseException as error:
+                        rows[method] = exception_facts(error)
+                    else:
+                        rows[method] = 'unexpected success'
+                return rows
+            missing = 'worldline_missing_frozen_helper_control'
+            expected_missing = failures(original_importer, missing)
+            _imp._override_frozen_modules_for_tests(-1)
+            expected_disabled = failures(original_importer, '__hello__')
+            _imp._override_frozen_modules_for_tests(0)
+            owner = metadata_owner()
+            configured()
+            unknown_loader = loader_namespace['_NativeFrozenLoader'](owner, missing)
+            current_missing = failures(unknown_loader, missing)
+            _imp._override_frozen_modules_for_tests(-1)
+            disabled_loader = loader_namespace['_NativeFrozenLoader'](owner, '__hello__')
+            current_disabled = failures(disabled_loader, '__hello__')
+            _imp._override_frozen_modules_for_tests(0)
+            emit({'expectedMissing': expected_missing, 'currentMissing': current_missing,
+                  'expectedDisabled': expected_disabled, 'currentDisabled': current_disabled,
+                  'state': guard.status()})
+        ''')
+        self.assertEqual(result['currentMissing'], result['expectedMissing'])
+        self.assertEqual(result['currentDisabled'], result['expectedDisabled'])
+        self.assertTrue(all(row['type'] == 'ImportError' for row in result['currentMissing'].values()))
+        self.assertTrue(all(row['type'] == 'ImportError' for row in result['currentDisabled'].values()))
+        self.assertFalse(result['state']['violated'])
+
+    def test_metadata_callback_cannot_bind_an_otherwise_valid_owned_generator(self):
+        result = self.child(GENERATOR_BOOTSTRAP + r'''
+gc.disable()
+sys.addaudithook(metadata_gc_hook)
+collections, dataclasses, code = generators(bind=False)
+attempted = []
+def callback(phase, info):
+    if phase == 'start' and not attempted and guard.status()['permitActive']:
+        attempted.append('inside metadata operation')
+        try:
+            guard.bind_generator('collections.namedtuple', collections.namedtuple, COLLECTIONS_PATH)
+        except PermissionError as error:
+            attempted.append(type(error).__name__)
+gc.collect()
+gc.callbacks.append(callback)
+gc.set_threshold(1, 1, 1)
+gc.enable()
+try:
+    guard.frozen_metadata('__hello__')
+except PermissionError as error:
+    failure = type(error).__name__
+else:
+    failure = None
+finally:
+    gc.disable()
+    gc.callbacks.remove(callback)
+emit({'attempted': attempted, 'failure': failure, 'state': guard.status(),
+      'observations': guard.frozen_metadata_observations()})
+''')
+        self.assertEqual(result['attempted'], ['inside metadata operation', 'PermissionError'])
+        self.assertEqual(result['failure'], 'PermissionError')
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+        self.assertEqual(result['observations'][0]['outcome'], 'protocol-error')
+
+    def test_metadata_allocation_callbacks_cannot_enter_native_operations(self):
+        for nested in ("guard.compile_source('/verifier/entry.py')", "guard.frozen_code('__hello__')",
+                       "guard.frozen_metadata('__hello__')", 'guard.activate()'):
+            with self.subTest(nested=nested):
+                body = r'''
+                    gc.disable()
+                    sys.addaudithook(metadata_gc_hook)
+                    configured()
+                    guard.compile_source('/verifier/entry.py')
+                    attempted = []
+                    def callback(phase, info):
+                        if phase == 'start' and not attempted and guard.status()['permitActive']:
+                            attempted.append('inside metadata operation')
+                            try:
+                                NESTED
+                            except PermissionError as error:
+                                attempted.append(type(error).__name__)
+                    gc.collect()
+                    gc.callbacks.append(callback)
+                    gc.set_threshold(1, 1, 1)
+                    gc.enable()
+                    try:
+                        guard.frozen_metadata('__hello__')
+                    except PermissionError as error:
+                        failure = type(error).__name__
+                    else:
+                        failure = None
+                    finally:
+                        gc.disable()
+                        gc.callbacks.remove(callback)
+                    emit({'attempted': attempted, 'failure': failure, 'state': guard.status(),
+                          'observations': guard.frozen_metadata_observations()})
+                '''.replace('NESTED', nested)
+                result = self.child(body)
+                self.assertEqual(result['attempted'], ['inside metadata operation', 'PermissionError'])
+                self.assertEqual(result['failure'], 'PermissionError')
+                self.assertTrue(result['state']['violated'])
+                self.assertFalse(result['state']['permitActive'])
+                self.assertEqual(result['observations'][0]['outcome'], 'protocol-error')
+
+    def test_native_request_audit_observation_and_python_event_have_distinct_authority(self):
+        result = self.child(r'''
+            seen = []
+            def observe(event, arguments):
+                if event == 'worldline.frozen_metadata':
+                    seen.append({'arguments': arguments, 'held': guard.status()['permitActive']})
+            sys.addaudithook(observe)
+            prepared()
+            before = guard.status()
+            sys.audit('worldline.frozen_metadata', 'python-observation-only')
+            after_python = guard.status()
+            actual = guard.frozen_metadata('__hello__')
+            after_native = guard.status()
+            emit({'seen': seen, 'before': before, 'afterPython': after_python,
+                  'afterNative': after_native, 'actual': actual,
+                  'observations': guard.frozen_metadata_observations()})
+        ''')
+        self.assertEqual(result['seen'], [
+            {'arguments': ['python-observation-only'], 'held': False},
+            {'arguments': ['__hello__'], 'held': True}])
+        self.assertEqual(result['before']['frozenMetadata'], result['afterPython']['frozenMetadata'])
+        self.assertEqual(result['before']['registeredCodeCount'], result['afterNative']['registeredCodeCount'])
+        self.assertEqual([row['name'] for row in result['observations']], ['__hello__'])
+        self.assertEqual(result['actual']['name'], '__hello__')
+        self.assertFalse(result['afterNative']['violated'])
+
+    def test_metadata_audit_primary_exception_and_snapshot_survive_caller_mutation(self):
+        result = self.child(r'''
+            original = LookupError('metadata audit primary')
+            def audit(event, arguments):
+                if event == 'worldline.frozen_metadata':
+                    raise original
+            sys.addaudithook(audit)
+            prepared()
+            try:
+                guard.frozen_metadata('__hello__')
+            except LookupError as error:
+                same = error is original
+                original.args = ('caller changed the mutable exception',)
+            emit({'same': same, 'observations': guard.frozen_metadata_observations(),
+                  'state': guard.status()})
+        ''')
+        self.assertTrue(result['same'])
+        row = result['observations'][0]
+        self.assertEqual(row['outcome'], 'protocol-error')
+        self.assertEqual(row['exceptionType'], 'LookupError')
+        self.assertEqual(row['exceptionArgs'], ['metadata audit primary'])
+        self.assertTrue(row['exceptionFactsComplete'])
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+
 CACHED_BOOTSTRAP = GENERATOR_BOOTSTRAP + r'''
 def cached_rows(entry=b'value = None\n'):
     return ((COLLECTIONS_PATH, Path(COLLECTIONS_PATH).read_bytes()),
