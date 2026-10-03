@@ -8,11 +8,20 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <marshal.h>
+#include <errno.h>
 #include <limits.h>
+#include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <linux/audit.h>
+#include <linux/filter.h>
+#include <linux/sched.h>
+#include <linux/seccomp.h>
+#include <sys/prctl.h>
+#include <sys/syscall.h>
 
 #include "generator_templates.h"
 
@@ -22,6 +31,113 @@
 #ifdef Py_GIL_DISABLED
 #error "The examiner guard requires the reviewed GIL-enabled interpreter"
 #endif
+#if !defined(__linux__) || !defined(__aarch64__) || !defined(__LP64__) || \
+    __BYTE_ORDER__ != __ORDER_LITTLE_ENDIAN__
+#error "The examiner process filter requires reviewed little-endian Linux AArch64 LP64"
+#endif
+
+/* A fixed constructor policy, with no Python mutation or caller-supplied program.
+ * Kernel mode/count samples are not independent observations of these opcodes.
+ * clone3 arguments are indirect: ENOSYS permits libc's legacy-clone fallback,
+ * where actual flags must still describe a thread in the existing thread group.
+ */
+#define THREAD_FLAGS (CLONE_THREAD | CLONE_VM | CLONE_SIGHAND)
+static const struct sock_filter process_filter[] = {
+    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(struct seccomp_data, arch)),
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, AUDIT_ARCH_AARCH64, 1, 0),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL_PROCESS),
+    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(struct seccomp_data, nr)),
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_execve, 0, 1),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_execveat, 0, 1),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+#ifdef SYS_fork
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_fork, 0, 1),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+#endif
+#ifdef SYS_vfork
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_vfork, 0, 1),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+#endif
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_clone3, 0, 1),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | ENOSYS),
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_ptrace, 0, 1),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_clone, 1, 0),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
+    /* Little-endian AArch64: this is the low word of the flags register. */
+    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(struct seccomp_data, args[0])),
+    BPF_STMT(BPF_ALU | BPF_AND | BPF_K, THREAD_FLAGS | CSIGNAL),
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, THREAD_FLAGS, 1, 0),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW)
+};
+_Static_assert(sizeof(process_filter) / sizeof(process_filter[0]) <= USHRT_MAX,
+               "process filter length must fit kernel sock_fprog");
+static int process_filter_installed;
+static int no_new_privs_result;
+static long process_filter_result;
+
+static void
+process_filter_failure(const char *stage, long result, int saved_errno)
+{
+    char diagnostic[192];
+    int count = snprintf(diagnostic, sizeof(diagnostic),
+        "WORLDLINE_NATIVE_FILTER_FAILED stage=%s return=%ld errnoValid=%d errno=%d\n",
+        stage, result, result == -1, result == -1 ? saved_errno : 0);
+    /* Best-effort bounded diagnostic. Failure to write never continues startup. */
+    if (count > 0 && (size_t)count < sizeof(diagnostic))
+        (void)write(STDERR_FILENO, diagnostic, (size_t)count);
+    _exit(125);
+}
+
+static void
+install_process_filter(void)
+{
+    struct sock_fprog program = {
+        .len = (unsigned short)(sizeof(process_filter) / sizeof(process_filter[0])),
+        .filter = (struct sock_filter *)process_filter
+    };
+    no_new_privs_result = prctl(PR_SET_NO_NEW_PRIVS, 1UL, 0UL, 0UL, 0UL);
+    if (no_new_privs_result != 0)
+        process_filter_failure("no-new-privs", no_new_privs_result, errno);
+    process_filter_result = syscall(SYS_seccomp, SECCOMP_SET_MODE_FILTER,
+                                    SECCOMP_FILTER_FLAG_TSYNC, &program);
+    /* TSYNC may return a positive failing TID. errno is not valid in that case. */
+    if (process_filter_result != 0)
+        process_filter_failure("thread-sync-filter", process_filter_result, errno);
+    process_filter_installed = 1;
+}
+
+static PyObject *
+process_filter_status(void)
+{
+    Py_ssize_t count = (Py_ssize_t)(sizeof(process_filter) / sizeof(process_filter[0]));
+    PyObject *rows = PyList_New(count);
+    if (rows == NULL)
+        return NULL;
+    for (Py_ssize_t i = 0; i < count; ++i) {
+        const struct sock_filter *row = &process_filter[i];
+        PyObject *value = Py_BuildValue("(iiiI)", (int)row->code,
+            (int)row->jt, (int)row->jf, row->k);
+        if (value == NULL) {
+            Py_DECREF(rows);
+            return NULL;
+        }
+        PyList_SET_ITEM(rows, i, value);
+    }
+    PyObject *result = Py_BuildValue("{s:s,s:s,s:I,s:O,s:i,s:l,s:O,s:O,s:O}",
+        "policyId", "worldline-examiner-thread-group-only-v1",
+        "architecture", "linux-aarch64-little-endian-lp64",
+        "auditArch", (unsigned int)AUDIT_ARCH_AARCH64,
+        "installed", process_filter_installed ? Py_True : Py_False,
+        "noNewPrivsResult", no_new_privs_result,
+        "seccompResult", process_filter_result,
+        "threadSync", Py_True, "instructions", rows,
+        "independentKernelProgramObservation", Py_False);
+    Py_DECREF(rows);
+    return result;
+}
 
 enum phase { BOOTSTRAP, CONFIGURING, CONFIGURED, ACTIVE, FAILED };
 enum route_index { NAMEDTUPLE_ROUTE, DATACLASS_ROUTE, AST_ROUTE, ROUTE_COUNT };
@@ -1962,7 +2078,7 @@ status(PyObject *self, PyObject *ignored)
     static const char *phases[] = {"bootstrap", "configuring", "configured", "active", "failed"};
     if (same_interpreter() < 0)
         return NULL;
-    return Py_BuildValue("{s:s,s:O,s:O,s:z,s:O,s:n,s:n,s:K,s:K,s:K,s:O,s:O,s:K,s:K,s:K,s:n,s:K,s:K,s:K,s:K}",
+    PyObject *report = Py_BuildValue("{s:s,s:O,s:O,s:z,s:O,s:n,s:n,s:K,s:K,s:K,s:O,s:O,s:K,s:K,s:K,s:n,s:K,s:K,s:K,s:K}",
         "phase", phases[state.phase], "preinitializationInstalled", state.installed ? Py_True : Py_False,
         "violated", state.violated ? Py_True : Py_False, "firstFailure", state.first_failure,
         "runId", state.run_id == NULL ? Py_None : state.run_id,
@@ -1975,6 +2091,16 @@ status(PyObject *self, PyObject *ignored)
         "frozenOriginCount", (Py_ssize_t)frozen_count,
         "frozenRequests", frozen_requests, "frozenReturns", frozen_returns,
         "cachedBindingAttempts", cached_requests, "cachedBindingReturns", cached_returns);
+    if (report == NULL)
+        return NULL;
+    PyObject *policy = process_filter_status();
+    if (policy == NULL || PyDict_SetItemString(report, "syscallPolicy", policy) < 0) {
+        Py_XDECREF(policy);
+        Py_DECREF(report);
+        return NULL;
+    }
+    Py_DECREF(policy);
+    return report;
 }
 
 static PyMethodDef methods[] = {
@@ -2020,8 +2146,10 @@ install_before_python(void)
 {
     /* Loading this library late is a refused process, never a Python fallback. */
     const char *version = Py_GetVersion();
-    if (Py_IsInitialized() || strncmp(version, PY_VERSION " ", sizeof(PY_VERSION)) != 0 ||
-        PyThread_tss_create(&permit_key) != 0 ||
+    if (Py_IsInitialized() || strncmp(version, PY_VERSION " ", sizeof(PY_VERSION)) != 0)
+        _exit(125);
+    install_process_filter();
+    if (PyThread_tss_create(&permit_key) != 0 ||
         PyThread_tss_create(&frozen_permit_key) != 0 ||
         PyImport_AppendInittab("_worldline_examiner_guard", initialize_module) != 0 ||
         PySys_AddAuditHook(audit_hook, &state) != 0)

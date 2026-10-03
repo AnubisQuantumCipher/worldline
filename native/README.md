@@ -99,9 +99,21 @@ preloaded code is not misrepresented as checked-loader output. Source, registry
 and code references intentionally live until process exit so finalizer/atexit
 execution cannot outlive their authority storage.
 
+D32 passed native build and all 99 native component tests after independent
+GPT-6.1 design, source, binding and result review. The constructor installs a
+fixed Linux AArch64 seccomp filter before Python entry, refusing process
+creation/exec and ptrace while preserving same-thread-group threads. clone3
+returns ENOSYS for the installed libc fallback. Failed NoNewPrivs or seccomp
+installation terminates the examiner; there is no weaker fallback. Native
+status reports the instruction description, not independently observed BPF
+program identity or lifetime confinement. The separately retained local D32
+runtime integration passed all 190 entry-component tests, including held
+kernel status samples and a live threaded examiner. That broader runtime
+source is not included in this native component publication.
+
 Not yet complete: all required generator-template routes; all cached/frozen,
-codec, native-extension and interpreter-memory controls; no-direct-spawn kernel
-filter; live daemon-policy/entry integration; import/read/broker/report lifetime
+codec, native-extension and interpreter-memory controls; complete integrated
+daemon-policy/entry acceptance; import/read/broker/report lifetime
 provenance and protected observation custody. They remain original engineering
 obligations. In particular, the trusted bootstrap can initialize codecs, but this
 component does not establish provenance of later codec callbacks. Do not activate
