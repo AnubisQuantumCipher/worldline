@@ -7,6 +7,7 @@
  */
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include <marshal.h>
 #include <limits.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -104,6 +105,59 @@ struct guard {
 
 static struct guard state;
 static Py_tss_t permit_key = Py_tss_NEEDS_INIT;
+static Py_tss_t frozen_permit_key = Py_tss_NEEDS_INIT;
+
+/* These exact declarations are exported in the bound installed
+ * internal/pycore_import.h. The public cpython/import.h owns struct _frozen.
+ * Alias metadata is a separate CPython facility, not implied by these rows. */
+PyAPI_DATA(const struct _frozen *) _PyImport_FrozenBootstrap;
+PyAPI_DATA(const struct _frozen *) _PyImport_FrozenStdlib;
+PyAPI_DATA(const struct _frozen *) _PyImport_FrozenTest;
+static const struct _frozen *frozen_tables[3];
+
+struct frozen_origin {
+    struct source raw;             /* marshal bytes, never a source selector */
+    PyObject *name;
+    const struct _frozen *original;
+    size_t table, position;
+    int is_package, excluded, invalid;
+    struct frozen_origin *next;
+};
+
+enum frozen_outcome { FROZEN_PENDING, FROZEN_LOOKUP_ERROR,
+                      FROZEN_PROTOCOL_ERROR, FROZEN_DECODE_ERROR, FROZEN_RETURNED };
+enum frozen_availability { AVAIL_UNOBSERVED, AVAIL_ERROR, AVAIL_FALSE,
+                           AVAIL_TRUE, AVAIL_INVALID };
+struct frozen_attempt {
+    PyObject *name, *failure;
+    struct frozen_origin *origin;
+    enum phase request_phase;
+    enum frozen_availability availability;
+    enum frozen_outcome outcome;
+    struct frozen_attempt *next;
+};
+
+struct frozen_permit {
+    PyThreadState *thread;
+    PyInterpreterState *interpreter;
+    struct frozen_origin *origin;
+    int audit_seen;
+};
+
+static struct frozen_origin *frozen_origins;
+static struct frozen_attempt *frozen_attempts;
+static PyObject *frozen_available;
+static size_t frozen_count;
+static unsigned long long frozen_requests, frozen_returns;
+
+static int
+native_operation_active(void)
+{
+    return PyThread_tss_get(&permit_key) != NULL ||
+           PyThread_tss_get(&frozen_permit_key) != NULL;
+}
+
+static PyObject *dict_ascii_value(PyObject *, const char *);
 
 static int
 refuse(const char *reason)
@@ -303,6 +357,26 @@ compile_event(PyObject *args)
 }
 
 static int
+frozen_event(PyObject *args)
+{
+    struct frozen_permit *permit = PyThread_tss_get(&frozen_permit_key);
+    PyThreadState *thread = PyThreadState_GetUnchecked();
+    if (state.violated || permit == NULL || thread != permit->thread ||
+        PyThreadState_GetInterpreter(thread) != permit->interpreter ||
+        PyThread_tss_get(&permit_key) != NULL || permit->audit_seen ||
+        !PyTuple_CheckExact(args) || PyTuple_GET_SIZE(args) != 1)
+        return refuse("deserialization has no matching native frozen permit");
+    PyObject *bytes = PyTuple_GET_ITEM(args, 0);
+    if (!PyBytes_CheckExact(bytes) ||
+        PyBytes_GET_SIZE(bytes) != permit->origin->raw.length ||
+        memcmp(PyBytes_AS_STRING(bytes), permit->origin->raw.bytes,
+               (size_t)permit->origin->raw.length) != 0)
+        return refuse("marshal event differs from owned native frozen bytes");
+    permit->audit_seen = 1;         /* consumed before any later audit callback */
+    return 0;
+}
+
+static int
 audit_hook(const char *event, PyObject *args, void *userdata)
 {
     if (userdata != &state)
@@ -328,6 +402,10 @@ audit_hook(const char *event, PyObject *args, void *userdata)
             return refuse("native guard has a retained violation");
         return compile_event(args);
     }
+    if (strcmp(event, "marshal.loads") == 0)
+        return frozen_event(args);
+    if (strcmp(event, "marshal.load") == 0)
+        return refuse("stream deserialization is outside native frozen acquisition");
     if (state.phase != ACTIVE && state.phase != FAILED)
         return 0;
     if (strcmp(event, "exec") == 0 || strcmp(event, "function.__new__") == 0) {
@@ -336,8 +414,7 @@ audit_hook(const char *event, PyObject *args, void *userdata)
             lookup_code(PyTuple_GET_ITEM(args, 0)) == NULL)
             return refuse("execution code is absent from the native registry");
     }
-    if (strcmp(event, "code.__new__") == 0 || strcmp(event, "marshal.load") == 0 ||
-        strcmp(event, "marshal.loads") == 0 || strcmp(event, "sys.addaudithook") == 0 ||
+    if (strcmp(event, "code.__new__") == 0 || strcmp(event, "sys.addaudithook") == 0 ||
         strcmp(event, "cpython.PyInterpreterState_New") == 0)
         return refuse("operation is outside native source compilation");
     return 0;
@@ -351,6 +428,190 @@ free_sources(struct source *sources, size_t count)
         free(sources[i].bytes);
     }
     free(sources);
+}
+
+static PyObject *
+frozen_failure(struct frozen_attempt *attempt, enum frozen_outcome outcome)
+{
+    attempt->outcome = outcome;
+    /* Preserve the actual primary exception, including an earlier audit hook's.
+     * This is component retention, not authenticated external custody. */
+    PyObject *error = PyErr_GetRaisedException();
+    attempt->failure = Py_XNewRef(error);
+    PyErr_SetRaisedException(error);
+    return NULL;
+}
+
+static void
+frozen_import_error(const char *format, PyObject *name)
+{
+    PyObject *message = PyUnicode_FromFormat(format, name);
+    if (message == NULL)
+        return;                   /* retain the original allocation exception */
+    PyErr_SetImportError(message, name, NULL);
+    Py_DECREF(message);
+}
+
+static int
+frozen_tables_unchanged(void)
+{
+    if (PyImport_FrozenModules != NULL ||
+        frozen_tables[0] != _PyImport_FrozenBootstrap ||
+        frozen_tables[1] != _PyImport_FrozenStdlib ||
+        frozen_tables[2] != _PyImport_FrozenTest)
+        return refuse("native built-in frozen table identities changed");
+    return 0;
+}
+
+static int
+capture_frozen(void)
+{
+    if (frozen_tables_unchanged() < 0)
+        return -1;
+    struct frozen_origin **tail = &frozen_origins;
+    for (size_t table = 0; table < sizeof(frozen_tables) / sizeof(frozen_tables[0]); ++table) {
+        if (frozen_tables[table] == NULL)
+            return refuse("native built-in frozen table is absent");
+        size_t position = 0;
+        for (const struct _frozen *row = frozen_tables[table]; row->name != NULL; ++row) {
+            if (frozen_count == (size_t)PY_SSIZE_T_MAX || position == SIZE_MAX)
+                return refuse("native frozen inventory count exhausted");
+            struct frozen_origin *origin = calloc(1, sizeof(*origin));
+            if (origin == NULL) {
+                PyErr_NoMemory();
+                return -1;
+            }
+            *tail = origin;
+            tail = &origin->next;  /* keep partial acquisition on later failure */
+            origin->original = row;
+            origin->table = table;
+            origin->position = position++;
+            origin->name = PyUnicode_FromString(row->name);
+            origin->raw.path = PyUnicode_FromFormat("<frozen-provider %s>", row->name);
+            if (origin->name == NULL || origin->raw.path == NULL)
+                return -1;
+            Py_ssize_t length = (Py_ssize_t)row->size;
+            origin->is_package = row->is_package != 0 || length < 0;
+            if (length == PY_SSIZE_T_MIN)
+                return refuse("native frozen size cannot be normalized");
+            if (length < 0)
+                length = -length;
+            origin->raw.length = length;
+            origin->excluded = row->code == NULL;
+            origin->invalid = length == 0 || (!origin->excluded && row->code[0] == 0);
+            if (!origin->excluded && length > 0) {
+                origin->raw.bytes = malloc((size_t)length);
+                if (origin->raw.bytes == NULL) {
+                    PyErr_NoMemory();
+                    return -1;
+                }
+                memcpy(origin->raw.bytes, row->code, (size_t)length);
+            }
+            ++frozen_count;
+        }
+    }
+    PyObject *module = PyImport_ImportModule("_imp");
+    if (module == NULL)
+        return -1;
+    PyObject *available = PyModule_CheckExact(module) ?
+        dict_ascii_value(PyModule_GetDict(module), "is_frozen") : NULL;
+    int valid = available != NULL && PyCFunction_Check(available) &&
+        PyCFunction_GetSelf(available) == module &&
+        PyCFunction_GetFlags(available) == METH_O &&
+        strcmp(((PyCFunctionObject *)available)->m_ml->ml_name, "is_frozen") == 0;
+    if (valid)
+        frozen_available = Py_NewRef(available);
+    Py_DECREF(module);
+    if (!valid)
+        return refuse("native frozen availability builtin identity differs");
+    return 0;
+}
+
+static PyObject *
+frozen_code(PyObject *self, PyObject *name)
+{
+    (void)self;
+    if (same_interpreter() < 0)
+        return NULL;
+    if ((state.phase != CONFIGURED && state.phase != ACTIVE) || state.violated ||
+        native_operation_active() || !PyUnicode_CheckExact(name)) {
+        refuse("native frozen acquisition requires a clean non-reentrant selector");
+        return NULL;
+    }
+    struct frozen_attempt *attempt = calloc(1, sizeof(*attempt));
+    if (attempt == NULL)
+        return PyErr_NoMemory();   /* no allocated record for this failure */
+    attempt->name = Py_NewRef(name);
+    attempt->request_phase = state.phase;
+    attempt->availability = AVAIL_UNOBSERVED;
+    attempt->next = frozen_attempts;
+    frozen_attempts = attempt;
+    if (count_event(&frozen_requests) < 0 || frozen_tables_unchanged() < 0)
+        return frozen_failure(attempt, FROZEN_PROTOCOL_ERROR);
+    struct frozen_origin *origin = frozen_origins;
+    for (; origin != NULL; origin = origin->next) {
+        int equal = PyUnicode_Compare(name, origin->name);
+        if (equal == -1 && PyErr_Occurred()) {
+            latch("native frozen selector comparison failed");
+            return frozen_failure(attempt, FROZEN_PROTOCOL_ERROR);
+        }
+        if (equal == 0)
+            break;
+    }
+    attempt->origin = origin;
+    if (origin == NULL) {
+        frozen_import_error("No such frozen object named %R", name);
+        return frozen_failure(attempt, FROZEN_LOOKUP_ERROR);
+    }
+    /* Exact immutable builtin, typed METH_O ABI; Python attribute replacement
+     * cannot change availability, and availability never adds an origin. */
+    PyCFunction predicate = PyCFunction_GetFunction(frozen_available);
+    PyObject *available = predicate(PyCFunction_GetSelf(frozen_available), name);
+    if (available == NULL) {
+        attempt->availability = AVAIL_ERROR;
+        latch("native frozen availability lookup failed");
+        return frozen_failure(attempt, FROZEN_PROTOCOL_ERROR);
+    }
+    int enabled = available == Py_True;
+    int boolean = PyBool_Check(available);
+    attempt->availability = !boolean ? AVAIL_INVALID : (enabled ? AVAIL_TRUE : AVAIL_FALSE);
+    Py_DECREF(available);
+    if (!boolean) {
+        refuse("native frozen availability is not a builtin boolean");
+        return frozen_failure(attempt, FROZEN_PROTOCOL_ERROR);
+    }
+    if (!enabled || origin->excluded || origin->invalid) {
+        frozen_import_error("Frozen object named %R is unavailable", name);
+        return frozen_failure(attempt, FROZEN_LOOKUP_ERROR);
+    }
+    struct frozen_permit permit = {
+        .thread = PyThreadState_Get(), .interpreter = state.interpreter,
+        .origin = origin, .audit_seen = 0
+    };
+    if (PyThread_tss_set(&frozen_permit_key, &permit) != 0) {
+        refuse("native frozen permit could not be installed");
+        return frozen_failure(attempt, FROZEN_PROTOCOL_ERROR);
+    }
+    PyObject *code = PyMarshal_ReadObjectFromString(origin->raw.bytes, origin->raw.length);
+    if (PyThread_tss_set(&frozen_permit_key, NULL) != 0)
+        _exit(125);               /* no dangling stack permit may survive */
+    if (code == NULL) {
+        latch("native frozen acquisition failed");
+        if (!PyErr_Occurred())
+            PyErr_SetString(PyExc_TypeError, "native frozen provider returned no code");
+        return frozen_failure(attempt, FROZEN_DECODE_ERROR);
+    }
+    if (!permit.audit_seen || state.violated || !PyCode_Check(code)) {
+        Py_DECREF(code);
+        refuse("native frozen acquisition lacks a clean actual code result");
+        return frozen_failure(attempt, FROZEN_PROTOCOL_ERROR);
+    }
+    if (retain_tree(code, &origin->raw) < 0 || count_event(&frozen_returns) < 0) {
+        Py_DECREF(code);
+        return frozen_failure(attempt, FROZEN_PROTOCOL_ERROR);
+    }
+    attempt->outcome = FROZEN_RETURNED;
+    return code;
 }
 
 static PyObject *
@@ -434,6 +695,8 @@ configure(PyObject *self, PyObject *args)
         memcpy(sources[i].bytes, PyBytes_AS_STRING(content), (size_t)sources[i].length);
         sources[i].bytes[sources[i].length] = '\0';
     }
+    if (capture_frozen() < 0)
+        goto error;
     state.sources = sources;
     state.source_count = count;
     state.run_id = run;
@@ -457,7 +720,7 @@ compile_owned(struct source *source, int mode, int compiler_flags)
         refuse("native compilation requires configured owned source");
         return NULL;
     }
-    if (PyThread_tss_get(&permit_key) != NULL) {
+    if (native_operation_active()) {
         refuse("native compilation is not reentrant");
         return NULL;
     }
@@ -509,7 +772,7 @@ compile_source(PyObject *self, PyObject *path)
         refuse("native compilation requires configured owned source");
         return NULL;
     }
-    if (PyThread_tss_get(&permit_key) != NULL) {
+    if (native_operation_active()) {
         refuse("native compilation is not reentrant");
         return NULL;
     }
@@ -686,7 +949,8 @@ bind_generator(PyObject *self, PyObject *args)
     (void)self;
     struct generator_route prepared = {0};
     PyObject *callback = NULL;
-    if (state.phase != CONFIGURED || state.violated || single_bootstrap_thread() < 0 ||
+    if (state.phase != CONFIGURED || state.violated || native_operation_active() ||
+        single_bootstrap_thread() < 0 ||
         !PyTuple_CheckExact(args) || PyTuple_GET_SIZE(args) != 3) {
         if (!PyErr_Occurred())
             refuse("generator binding requires the configured sole bootstrap thread");
@@ -807,7 +1071,7 @@ generator_caller(struct generator_route *route, PyFrameObject **result)
     if (same_interpreter() < 0)
         return -1;
     if ((state.phase != CONFIGURED && state.phase != ACTIVE) || state.violated ||
-        !route->bound || PyThread_tss_get(&permit_key) != NULL)
+        !route->bound || native_operation_active())
         return refuse("native generator requires a clean bound non-reentrant route");
     PyFrameObject *frame = PyEval_GetFrame();
     if (frame == NULL)
@@ -1174,7 +1438,7 @@ activate(PyObject *self, PyObject *ignored)
     if (single_bootstrap_thread() < 0)
         return NULL;
     if (state.phase != CONFIGURED || state.violated || state.code_count == 0 ||
-        PyThread_tss_get(&permit_key) != NULL) {
+        native_operation_active()) {
         refuse("native activation requires a prepared clean registry");
         return NULL;
     }
@@ -1199,21 +1463,24 @@ status(PyObject *self, PyObject *ignored)
     static const char *phases[] = {"bootstrap", "configuring", "configured", "active", "failed"};
     if (same_interpreter() < 0)
         return NULL;
-    return Py_BuildValue("{s:s,s:O,s:O,s:z,s:O,s:n,s:n,s:K,s:K,s:K,s:O,s:O,s:K,s:K,s:K}",
+    return Py_BuildValue("{s:s,s:O,s:O,s:z,s:O,s:n,s:n,s:K,s:K,s:K,s:O,s:O,s:K,s:K,s:K,s:n,s:K,s:K}",
         "phase", phases[state.phase], "preinitializationInstalled", state.installed ? Py_True : Py_False,
         "violated", state.violated ? Py_True : Py_False, "firstFailure", state.first_failure,
         "runId", state.run_id == NULL ? Py_None : state.run_id,
         "sourceCount", (Py_ssize_t)state.source_count, "registeredCodeCount", (Py_ssize_t)state.code_count,
         "bootstrapEvents", state.bootstrap_events, "subsequentEvents", state.active_events,
         "compilations", state.compilations, "confinementEstablished", Py_False,
-        "permitActive", PyThread_tss_get(&permit_key) != NULL ? Py_True : Py_False,
+        "permitActive", native_operation_active() ? Py_True : Py_False,
         "generatedCompilations", state.generated_compilations,
-        "astParseAttempts", state.ast_attempts, "astParseReturns", state.ast_returns);
+        "astParseAttempts", state.ast_attempts, "astParseReturns", state.ast_returns,
+        "frozenOriginCount", (Py_ssize_t)frozen_count,
+        "frozenRequests", frozen_requests, "frozenReturns", frozen_returns);
 }
 
 static PyMethodDef methods[] = {
     {"configure", configure, METH_VARARGS, "Copy exact trusted-bootstrap source bytes once."},
     {"compile_source", compile_source, METH_O, "Compile the owned source selected by its path."},
+    {"frozen_code", frozen_code, METH_O, "Acquire code only from the owned native frozen provider."},
     {"bind_generator", bind_generator, METH_VARARGS, "Bind a fixed owned stdlib generator during trusted bootstrap."},
     {"activate", activate, METH_NOARGS, "Activate native compile/exec checks once."},
     {"contains", contains, METH_O, "Observe actual native code identity; never register it."},
@@ -1254,8 +1521,12 @@ install_before_python(void)
     const char *version = Py_GetVersion();
     if (Py_IsInitialized() || strncmp(version, PY_VERSION " ", sizeof(PY_VERSION)) != 0 ||
         PyThread_tss_create(&permit_key) != 0 ||
+        PyThread_tss_create(&frozen_permit_key) != 0 ||
         PyImport_AppendInittab("_worldline_examiner_guard", initialize_module) != 0 ||
         PySys_AddAuditHook(audit_hook, &state) != 0)
         _exit(125);
+    frozen_tables[0] = _PyImport_FrozenBootstrap;
+    frozen_tables[1] = _PyImport_FrozenStdlib;
+    frozen_tables[2] = _PyImport_FrozenTest;
     state.installed = 1;
 }

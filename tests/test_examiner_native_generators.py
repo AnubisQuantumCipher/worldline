@@ -810,5 +810,270 @@ class NativeGeneratorControls(unittest.TestCase):
         self.assertFalse(result['state']['permitActive'])
 
 
+class NativeFrozenControls(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        native_controls.NativeGuardControls.setUpClass.__func__(cls)
+
+    def child(self, body):
+        return native_controls.NativeGuardControls.child(self, body)
+
+    def test_original_frozen_objects_match_without_transferring_identity(self):
+        result = self.child(r'''
+            import _imp
+            names = ('__hello__', '__hello_alias__', '__phello_alias__',
+                     '__phello_alias__.spam', '__phello__', '__phello__.__init__',
+                     '__phello__.ham', '__phello__.ham.__init__',
+                     '__phello__.ham.eggs', '__phello__.spam', '__hello_only__',
+                     '_frozen_importlib', 'abc')
+            original = {name: _imp.get_frozen_object(name) for name in names}
+            prepared()
+            comparisons = []
+            for name in names:
+                current = guard.frozen_code(name)
+                comparisons.append({'name': name, 'equal': current == original[name],
+                    'identical': current is original[name], 'owned': guard.contains(current),
+                    'original_owned': guard.contains(original[name]),
+                    'filename': current.co_filename == original[name].co_filename})
+            emit({'comparisons': comparisons, 'state': guard.status()})
+        ''')
+        self.assertTrue(result['comparisons'])
+        for row in result['comparisons']:
+            with self.subTest(name=row['name']):
+                self.assertTrue(row['equal'])
+                self.assertFalse(row['identical'])
+                self.assertTrue(row['owned'])
+                self.assertFalse(row['original_owned'])
+                self.assertTrue(row['filename'])
+        self.assertEqual(result['state']['frozenReturns'], len(result['comparisons']))
+        self.assertFalse(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+        self.assertFalse(result['state']['confinementEstablished'])
+
+    def test_actual_frozen_execution_and_nested_strong_retention(self):
+        result = self.child(r'''
+            prepared()
+            code = guard.frozen_code('__hello__')
+            nested = [value for value in code.co_consts if type(value) is types.CodeType]
+            namespace = {'__name__': '__hello__'}
+            exec(code, namespace)
+            del code
+            gc.collect()
+            emit({'initialized': namespace['initialized'],
+                  'docs': [namespace[name].__doc__ for name in
+                           ('TestFrozenUtf8_1', 'TestFrozenUtf8_2', 'TestFrozenUtf8_4')],
+                  'nested_present': bool(nested),
+                  'nested_owned': all(guard.contains(value) for value in nested),
+                  'function_owned': guard.contains(namespace['main'].__code__),
+                  'state': guard.status()})
+        ''')
+        self.assertTrue(result['initialized'])
+        self.assertEqual(result['docs'], ['¶', 'π', '😀'])
+        self.assertTrue(result['nested_present'])
+        self.assertTrue(result['nested_owned'])
+        self.assertTrue(result['function_owned'])
+        self.assertFalse(result['state']['violated'])
+
+    def test_configured_then_active_acquisitions_return_actual_distinct_code(self):
+        result = self.child(r'''
+            configured()
+            first = guard.frozen_code('__hello__')
+            guard.activate()
+            second = guard.frozen_code('__hello__')
+            namespace = {'__name__': '__hello__'}
+            exec(second, namespace)
+            emit({'equal': first == second, 'identical': first is second,
+                  'owned': [guard.contains(first), guard.contains(second)],
+                  'initialized': namespace['initialized'], 'state': guard.status()})
+        ''')
+        self.assertTrue(result['equal'])
+        self.assertFalse(result['identical'])
+        self.assertEqual(result['owned'], [True, True])
+        self.assertTrue(result['initialized'])
+        self.assertFalse(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_missing_lookup_preserves_original_error_class_and_later_acquisition(self):
+        result = self.child(r'''
+            import _imp
+            try:
+                _imp.get_frozen_object('worldline_missing_frozen_control')
+            except ImportError as error:
+                original = {'type': type(error).__name__, 'name': error.name, 'path': error.path}
+            prepared()
+            before = guard.status()['registeredCodeCount']
+            try:
+                guard.frozen_code('worldline_missing_frozen_control')
+            except ImportError as error:
+                current = {'type': type(error).__name__, 'name': error.name, 'path': error.path}
+            unchanged = before == guard.status()['registeredCodeCount']
+            valid = guard.frozen_code('__hello__')
+            emit({'original': original, 'current': current, 'unchanged': unchanged,
+                  'later_owned': guard.contains(valid), 'state': guard.status()})
+        ''')
+        self.assertEqual(result['original']['type'], 'ImportError')
+        self.assertEqual(result['current'], result['original'])
+        self.assertEqual(result['current']['name'], 'worldline_missing_frozen_control')
+        self.assertIsNone(result['current']['path'])
+        self.assertTrue(result['unchanged'])
+        self.assertTrue(result['later_owned'])
+        self.assertFalse(result['state']['violated'])
+
+    def test_original_disabled_selection_and_bootstrap_exception_are_preserved(self):
+        result = self.child(r'''
+            import _imp
+            _imp._override_frozen_modules_for_tests(-1)
+            try:
+                _imp.get_frozen_object('__hello__')
+            except ImportError as error:
+                original = {'type': type(error).__name__, 'name': error.name, 'path': error.path}
+            configured()
+            try:
+                guard.frozen_code('__hello__')
+            except ImportError as error:
+                current = {'type': type(error).__name__, 'name': error.name, 'path': error.path}
+            bootstrap = guard.frozen_code('_frozen_importlib')
+            guard.activate()
+            _imp._override_frozen_modules_for_tests(1)
+            later = guard.frozen_code('__hello__')
+            _imp._override_frozen_modules_for_tests(0)
+            emit({'original': original, 'current': current,
+                  'bootstrap_owned': guard.contains(bootstrap),
+                  'later_owned': guard.contains(later), 'state': guard.status()})
+        ''')
+        self.assertEqual(result['original']['type'], 'ImportError')
+        self.assertEqual(result['current'], result['original'])
+        self.assertEqual(result['current']['name'], '__hello__')
+        self.assertIsNone(result['current']['path'])
+        self.assertTrue(result['bootstrap_owned'])
+        self.assertTrue(result['later_owned'])
+        self.assertFalse(result['state']['violated'])
+
+    def test_python_availability_replacement_cannot_change_native_provider(self):
+        result = self.child(r'''
+            import _imp
+            prepared()
+            _imp.is_frozen = lambda name: False
+            code = guard.frozen_code('__hello__')
+            emit({'owned': guard.contains(code), 'state': guard.status()})
+        ''')
+        self.assertTrue(result['owned'])
+        self.assertFalse(result['state']['violated'])
+
+    def test_later_thread_uses_its_own_frozen_permit(self):
+        result = self.child(r'''
+            prepared()
+            outcomes = []
+            def worker():
+                try:
+                    code = guard.frozen_code('__hello__')
+                    namespace = {'__name__': '__hello__'}
+                    exec(code, namespace)
+                    outcomes.append(namespace['initialized'] and guard.contains(code))
+                except BaseException as error:
+                    outcomes.append(type(error).__name__)
+            thread = threading.Thread(target=worker)
+            thread.start()
+            thread.join()
+            emit({'outcomes': outcomes, 'state': guard.status()})
+        ''')
+        self.assertEqual(result['outcomes'], [True])
+        self.assertFalse(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_malformed_selector_refuses_without_callback_or_code_authority(self):
+        result = self.child(r'''
+            class Selector(str):
+                def __str__(self):
+                    raise AssertionError('selector callback must not run')
+            prepared()
+            before = guard.status()['registeredCodeCount']
+            try:
+                guard.frozen_code(Selector('__hello__'))
+            except PermissionError as error:
+                failure = type(error).__name__
+            emit({'failure': failure,
+                  'unchanged': before == guard.status()['registeredCodeCount'],
+                  'state': guard.status()})
+        ''')
+        self.assertEqual(result['failure'], 'PermissionError')
+        self.assertTrue(result['unchanged'])
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_ordinary_deserialization_has_no_configured_or_active_authority(self):
+        for active in (False, True):
+            with self.subTest(active=active):
+                body = r'''
+                    payload = marshal.dumps(None)
+                    configured()
+                    code = guard.compile_source('/verifier/entry.py')
+                    if ACTIVE:
+                        guard.activate()
+                    try:
+                        marshal.loads(payload)
+                    except PermissionError as error:
+                        failure = type(error).__name__
+                    emit({'failure': failure, 'state': guard.status()})
+                '''.replace('ACTIVE', repr(active))
+                result = self.child(body)
+                self.assertEqual(result['failure'], 'PermissionError')
+                self.assertTrue(result['state']['violated'])
+                self.assertFalse(result['state']['permitActive'])
+
+    def test_audit_failure_preserves_primary_and_clears_frozen_permit(self):
+        result = self.child(r'''
+            original = LookupError('retained frozen audit primary')
+            def audit(event, arguments):
+                if event == 'marshal.loads' and guard.status()['phase'] == 'active':
+                    raise original
+            sys.addaudithook(audit)
+            prepared()
+            before = guard.status()['registeredCodeCount']
+            try:
+                guard.frozen_code('__hello__')
+            except LookupError as error:
+                same = error is original
+            emit({'same': same, 'unchanged': before == guard.status()['registeredCodeCount'],
+                  'state': guard.status()})
+        ''')
+        self.assertTrue(result['same'])
+        self.assertTrue(result['unchanged'])
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_nested_native_operations_refuse_in_both_directions(self):
+        for event, nested, outer in (
+                ('marshal.loads', "guard.compile_source('/verifier/entry.py')", "guard.frozen_code('__hello__')"),
+                ('compile', "guard.frozen_code('__hello__')", "guard.compile_source('/verifier/entry.py')"),
+                ('marshal.loads', "guard.frozen_code('__hello__')", "guard.frozen_code('__hello__')")):
+            with self.subTest(event=event, nested=nested):
+                body = r'''
+                    nested_errors = []
+                    def audit(event, arguments):
+                        if event == EVENT and guard.status()['phase'] == 'active':
+                            try:
+                                NESTED
+                            except PermissionError as error:
+                                nested_errors.append(type(error).__name__)
+                    sys.addaudithook(audit)
+                    prepared()
+                    before = guard.status()['registeredCodeCount']
+                    try:
+                        OUTER
+                    except PermissionError as error:
+                        failure = type(error).__name__
+                    emit({'nested': nested_errors, 'failure': failure,
+                          'unchanged': before == guard.status()['registeredCodeCount'],
+                          'state': guard.status()})
+                '''.replace('EVENT', repr(event)).replace('NESTED', nested).replace('OUTER', outer)
+                result = self.child(body)
+                self.assertEqual(result['nested'], ['PermissionError'])
+                self.assertEqual(result['failure'], 'PermissionError')
+                self.assertTrue(result['unchanged'])
+                self.assertTrue(result['state']['violated'])
+                self.assertFalse(result['state']['permitActive'])
+
+
 if __name__ == '__main__':
     unittest.main()

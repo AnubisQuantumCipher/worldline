@@ -31,9 +31,9 @@ identities, the complete installed source template and fixed helper identities.
 They retain generated source and nested code in stable native-owned storage,
 preserve the original target globals, compiler flags, execution audit event and
 return values, and never delegate template validation to mutable Python code.
-D25 passed the controlled native build and component suite after independent
-GPT-6.1 source, binding and result reviews. The checkpoint document and evidence
-index retain the exact scope and original remaining obligations.
+The generator and AST dependency passed independent GPT-6.1 source, binding and
+result reviews and the D25 controlled native build and component suite. Its
+source and evidence remain retained separately from the next frozen extension.
 
 D23 built the generator extension and retained a failing accepted dataclass
 signature case. Its repair adds a bound `ast.parse` operation returning only
@@ -45,8 +45,8 @@ authority/audit failures remain sticky. The current parser route supports exact
 str/bytes sources, str filenames/modes and builtin int/bool options. Broader
 public ast input domains (buffers, existing AST objects, path-like values and
 subclasses) remain explicit compatibility work. The D23 failed result remains
-retained. D24 also retained an incorrect new AST optimization expectation; D25
-compares original and native full ASTs with identical options and retains Assert.
+retained. D24 also retained a new fixture's incorrect AST optimization expectation;
+D25 compares the actual original and native ASTs and preserves Assert nodes.
 Exact immutable argument values are retained before ordinary option conversions
 and parsing, including supplied values that differ from normalized options.
 Allocation failure before a record exists remains an explicit observation gap.
@@ -57,6 +57,24 @@ to its real audit arguments, parser frame, thread and interpreter. An audit
 callback's SyntaxError remains a sticky refusal; completed parser SyntaxError
 remains an ordinary data error. The mechanism relies on the pinned CPython hook
 implementation and does not claim portable Python sandbox semantics.
+
+The frozen extension copies the pinned interpreter's built-in frozen rows into
+stable native storage during trusted configuration. `frozen_code(name)` selects
+only those bytes. The actual retained `_imp.is_frozen` C builtin restricts
+availability, including disabled-module behavior; Python replacement of that
+attribute cannot grant an origin. Native table pointer changes and custom tables
+refuse. Package flags and negative sizes retain the original table semantics.
+Alias code rows are retained separately; complete alias/module metadata remains
+the bound importer's integration obligation. These marshal bytes never become
+source selectors. A distinct exact-input native marshal permit excludes all
+other native compilation/acquisition operations, in configured and active phases.
+The permit is cleared before code-tree registration and on every error path;
+actual primary exceptions and request/provider associations remain retained.
+Native source and request records are component observations, not authenticated
+external custody. D27 passed the controlled native build and all 75 native
+component tests after independent GPT-6.1 source, binding and result reviews.
+It does not establish absence of trailing marshal bytes or complete native-provider
+coverage. The exact exercised source and receipts remain retained separately.
 
 After a clean prepared registry, `activate()` enables the component's native
 exec/function-construction checks and refusals for unbound compilation, direct
