@@ -5,6 +5,9 @@
  * generator/native provider, restrict native memory access, or establish confinement.
  * There is intentionally no Python API for registering a caller's code object.
  */
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <marshal.h>
@@ -151,6 +154,8 @@ struct source {
 struct cached_snapshot;
 struct code_slot {
     PyObject *code;                 /* strong reference, pointer identity */
+    uint64_t identity;              /* invocation-local, strong-reference lifetime */
+    uint64_t lifetime_visit;        /* local serialization traversal, not authority */
     struct source *source;          /* stable inventory or owned generation */
     struct cached_snapshot *cached_origin; /* separate trusted startup origin */
 };
@@ -219,7 +224,7 @@ struct guard {
     int probe_pending, probe_seen, tail_verified;
     PyFrameObject *installation_frame;
     PyObject *tail_callback, *add_audit_hook;
-    int cached_operation, metadata_operation, frozen_operation;
+    int cached_operation, metadata_operation, frozen_operation, lifetime_operation;
 };
 
 static struct guard state;
@@ -327,6 +332,7 @@ static int
 native_operation_active(void)
 {
     return state.cached_operation || state.metadata_operation || state.frozen_operation ||
+           state.lifetime_operation ||
            PyThread_tss_get(&permit_key) != NULL ||
            PyThread_tss_get(&frozen_permit_key) != NULL;
 }
@@ -388,6 +394,9 @@ single_bootstrap_thread(void)
         return refuse("native configuration requires the sole bootstrap thread");
     return 0;
 }
+
+static struct code_slot *lookup_code(PyObject *code);
+#include "lifetime_stream.h"
 
 static size_t
 code_position(PyObject *code, size_t capacity)
@@ -457,6 +466,7 @@ retain_code(PyObject *code, struct source *source)
     state.codes[at].code = Py_NewRef(code);
     state.codes[at].source = source;
     ++state.code_count;
+    state.codes[at].identity = state.code_count;
     return 0;
 }
 
@@ -739,7 +749,7 @@ find_owned_frozen(PyObject *name)
 /* Caller holds the complete metadata or frozen-code operation. No marshal
  * permit is granted here; no returned buffer becomes a source/code origin. */
 static PyObject *
-acquire_frozen_metadata(PyObject *name)
+acquire_frozen_metadata_body(PyObject *name)
 {
     struct metadata_attempt *attempt = calloc(1, sizeof(*attempt));
     if (attempt == NULL)
@@ -871,6 +881,19 @@ error:;
     PyErr_Clear();                /* snapshot allocation cannot replace primary */
     PyErr_SetRaisedException(primary);
     return NULL;
+}
+
+static PyObject *
+acquire_frozen_metadata(PyObject *name)
+{
+    struct frozen_origin *origin = find_owned_frozen(name);
+    if (PyErr_Occurred())
+        return NULL;
+    struct wl_operation operation;
+    if (wl_begin(&operation, "frozen-metadata", &name, 1,
+                 origin == NULL ? NULL : &origin->raw, NULL, 0) < 0)
+        return NULL;
+    return wl_finish(&operation, acquire_frozen_metadata_body(name));
 }
 
 static PyObject *
@@ -1044,7 +1067,12 @@ frozen_code(PyObject *self, PyObject *name)
         return NULL;
     }
     state.frozen_operation = 1;
-    PyObject *result = frozen_code_owned(name);
+    struct wl_operation operation;
+    struct frozen_origin *origin = find_owned_frozen(name);
+    PyObject *result = NULL;
+    if (!PyErr_Occurred() && wl_begin(&operation, "frozen-code", &name, 1,
+            origin == NULL ? NULL : &origin->raw, NULL, 0) == 0)
+        result = wl_finish(&operation, frozen_code_owned(name));
     if (result != NULL && state.violated) {
         Py_DECREF(result);
         result = NULL;
@@ -1152,8 +1180,8 @@ error:
 }
 
 static PyObject *
-compile_owned_internal(struct source *source, int mode, int compiler_flags,
-                       int optimize, int cached)
+compile_owned_body(struct source *source, int mode, int compiler_flags,
+                   int optimize, int cached)
 {
     if (same_interpreter() < 0)
         return NULL;
@@ -1163,7 +1191,7 @@ compile_owned_internal(struct source *source, int mode, int compiler_flags,
     }
     if (PyThread_tss_get(&permit_key) != NULL ||
         PyThread_tss_get(&frozen_permit_key) != NULL ||
-        state.metadata_operation || state.frozen_operation ||
+        state.metadata_operation || state.frozen_operation || state.lifetime_operation ||
         (state.cached_operation && !cached)) {
         refuse("native compilation is not reentrant");
         return NULL;
@@ -1203,6 +1231,19 @@ compile_owned_internal(struct source *source, int mode, int compiler_flags,
         return NULL;
     }
     return code;
+}
+
+static PyObject *
+compile_owned_internal(struct source *source, int mode, int compiler_flags,
+                       int optimize, int cached)
+{
+    struct wl_operation operation;
+    int64_t options[] = {mode, compiler_flags, optimize, cached};
+    if (wl_begin(&operation, "source-compile", NULL, 0, source,
+                 options, sizeof(options) / sizeof(options[0])) < 0)
+        return NULL;
+    return wl_finish(&operation,
+                     compile_owned_body(source, mode, compiler_flags, optimize, cached));
 }
 
 static PyObject *
@@ -1531,7 +1572,17 @@ error:
 static PyObject *
 bind_generator(PyObject *self, PyObject *args)
 {
-    return bind_generator_internal(self, args, 0);
+    struct wl_operation operation;
+    if (wl_begin(&operation, "bind-generator", &args, 1, NULL, NULL, 0) < 0)
+        return NULL;
+    PyObject *result = bind_generator_internal(self, args, 0);
+    if (result != NULL) {
+        PyObject *label = PyTuple_GET_ITEM(args, 0);
+        for (size_t route = 0; route < ROUTE_COUNT; ++route)
+            if (template_word(label, cached_names[route].label))
+                operation.result_route = &state.routes[route];
+    }
+    return wl_finish(&operation, result);
 }
 
 static int
@@ -1857,7 +1908,7 @@ done:
 }
 
 static PyObject *
-bind_cached_generator(PyObject *self, PyObject *label)
+bind_cached_generator_body(PyObject *self, PyObject *label)
 {
     (void)self;
     if (state.phase != CONFIGURED || state.violated || native_operation_active() ||
@@ -1955,6 +2006,21 @@ error:
     return NULL;
 }
 
+static PyObject *
+bind_cached_generator(PyObject *self, PyObject *label)
+{
+    struct wl_operation operation;
+    if (wl_begin(&operation, "bind-cached-generator", &label, 1, NULL, NULL, 0) < 0)
+        return NULL;
+    PyObject *result = bind_cached_generator_body(self, label);
+    if (result != NULL) {
+        for (size_t route = 0; route < ROUTE_COUNT; ++route)
+            if (template_word(label, cached_names[route].label))
+                operation.result_route = &state.routes[route];
+    }
+    return wl_finish(&operation, result);
+}
+
 static int
 generator_caller(struct generator_route *route, PyFrameObject **result)
 {
@@ -2041,7 +2107,7 @@ done:
 }
 
 static PyObject *
-generated_code(unsigned int route_index, PyObject *text)
+generated_code_body(unsigned int route_index, PyObject *text)
 {
     struct generator_route *route = &state.routes[route_index];
     Py_ssize_t length;
@@ -2077,6 +2143,18 @@ generated_code(unsigned int route_index, PyObject *text)
     if (code != NULL && count_event(&state.generated_compilations) < 0)
         Py_CLEAR(code);
     return code;
+}
+
+static PyObject *
+generated_code(unsigned int route_index, PyObject *text)
+{
+    struct wl_operation operation;
+    struct generator_route *route = &state.routes[route_index];
+    int64_t options[] = {route_index};
+    if (wl_begin(&operation, "validated-generator-source", &text, 1, route->source,
+                 options, sizeof(options) / sizeof(options[0])) < 0)
+        return NULL;
+    return wl_finish(&operation, generated_code_body(route_index, text));
 }
 
 static PyObject *
@@ -2153,7 +2231,7 @@ ast_integer(PyObject *value, int *result)
 }
 
 static PyObject *
-ast_compile(PyObject *self, PyObject *args, PyObject *keywords)
+ast_compile_body(PyObject *self, PyObject *args, PyObject *keywords)
 {
     (void)self;
     struct generator_route *route = &state.routes[AST_ROUTE];
@@ -2271,6 +2349,14 @@ ast_compile(PyObject *self, PyObject *args, PyObject *keywords)
         PyErr_SetString(PyExc_SyntaxError, "source code string cannot contain null bytes");
         return NULL;
     }
+    struct wl_operation compiler_operation;
+    int64_t compiler_options[] = {attempt->mode, attempt->flags,
+        attempt->feature_version, attempt->optimize};
+    if (wl_begin(&compiler_operation, "ast-compiler", NULL, 0, &attempt->source,
+                 compiler_options, sizeof(compiler_options) / sizeof(compiler_options[0])) < 0) {
+        attempt->outcome = PARSE_PROTOCOL_ERROR;
+        return NULL;
+    }
     struct compile_permit permit = {
         .thread = PyThreadState_Get(), .interpreter = state.interpreter,
         .source = &attempt->source, .audit_seen = 0,
@@ -2280,7 +2366,7 @@ ast_compile(PyObject *self, PyObject *args, PyObject *keywords)
         Py_DECREF(permit.parser_frame);
         attempt->outcome = PARSE_PROTOCOL_ERROR;
         refuse("native AST permit could not be installed");
-        return NULL;
+        return wl_finish(&compiler_operation, NULL);
     }
     PyCompilerFlags flags = {.cf_flags = attempt->flags,
                             .cf_feature_version = attempt->feature_version};
@@ -2297,27 +2383,40 @@ ast_compile(PyObject *self, PyObject *args, PyObject *keywords)
             latch("native AST parsing lacks a clean matching audit event");
         else
             refuse("native AST parsing lacks a clean matching audit event");
-        return NULL;
+        return wl_finish(&compiler_operation, NULL);
     }
     if (result == NULL) {
         attempt->outcome = PARSE_COMPILER_ERROR;
         if (!PyErr_ExceptionMatches(PyExc_SyntaxError))
             latch("native AST parsing failed outside ordinary syntax rejection");
-        return NULL;              /* ordinary parse error, original exception, no code authority */
+        return wl_finish(&compiler_operation, NULL); /* original syntax error, no authority */
     }
     if (PyCode_Check(result) || !PyObject_TypeCheck(result, (PyTypeObject *)route->ast_base)) {
         attempt->outcome = PARSE_PROTOCOL_ERROR;
         Py_DECREF(result);
         refuse("native AST compiler returned a non-AST object");
-        return NULL;
+        return wl_finish(&compiler_operation, NULL);
     }
     attempt->outcome = PARSE_RETURNED;
     if (count_event(&state.ast_returns) < 0) {
         attempt->outcome = PARSE_PROTOCOL_ERROR;
         Py_DECREF(result);
-        return NULL;
+        return wl_finish(&compiler_operation, NULL);
     }
-    return result;                /* data only: never retain_tree or executable registry */
+    return wl_finish(&compiler_operation, result); /* data only; never retain_tree */
+}
+
+static PyObject *
+ast_compile(PyObject *self, PyObject *args, PyObject *keywords)
+{
+    /* None denotes no keyword dictionary; an exact dictionary records every
+     * present key including a key explicitly assigned None. */
+    PyObject *inputs[] = {args, keywords == NULL ? Py_None : keywords};
+    struct wl_operation operation;
+    if (wl_begin(&operation, "ast-parse", inputs,
+                 sizeof(inputs) / sizeof(inputs[0]), NULL, NULL, 0) < 0)
+        return NULL;
+    return wl_finish(&operation, ast_compile_body(self, args, keywords));
 }
 
 static PyObject *
@@ -2332,8 +2431,11 @@ activate(PyObject *self, PyObject *ignored)
         refuse("native activation requires a prepared clean registry");
         return NULL;
     }
+    struct wl_operation operation;
+    if (wl_begin(&operation, "activate", NULL, 0, NULL, NULL, 0) < 0)
+        return NULL;
     state.phase = ACTIVE;
-    Py_RETURN_NONE;
+    return wl_finish(&operation, Py_NewRef(Py_None));
 }
 
 static PyObject *
@@ -2386,10 +2488,24 @@ status(PyObject *self, PyObject *ignored)
         return NULL;
     }
     Py_DECREF(metadata);
+    PyObject *stream = Py_BuildValue("{s:O,s:O,s:K,s:K,s:O}",
+        "attached", lifetime.attached ? Py_True : Py_False,
+        "transportFailed", lifetime.failed ? Py_True : Py_False,
+        "acknowledgedPackets", (unsigned long long)lifetime.sequence,
+        "pendingOperations", (unsigned long long)lifetime.outstanding,
+        "protectedCustody", Py_False);
+    if (stream == NULL || PyDict_SetItemString(report, "nativeLifetime", stream) < 0) {
+        Py_XDECREF(stream);
+        Py_DECREF(report);
+        return NULL;
+    }
+    Py_DECREF(stream);
     return report;
 }
 
 static PyMethodDef methods[] = {
+    {"attach_lifetime", attach_lifetime, METH_VARARGS,
+     "Attach the fixed daemon retention stream during trusted bootstrap only."},
     {"configure", configure, METH_VARARGS, "Copy exact trusted-bootstrap source bytes once."},
     {"compile_source", compile_source, METH_O, "Compile the owned source selected by its path."},
     {"frozen_code", frozen_code, METH_O, "Acquire code only from the owned native frozen provider."},

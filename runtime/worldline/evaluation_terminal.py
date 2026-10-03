@@ -26,6 +26,34 @@ from .pending_kernel_v2 import Reason
 class TerminalRefused(PendingRefused):
     pass
 
+
+def _raw_capture_identity(kind, occurrence):
+    """Validate acquisition identity, never the observation's truth or authority."""
+    original = {
+        'legacy-process-return', 'legacy-process-exception', 'legacy-report',
+        'private-process-return', 'private-report-binding', 'private-report',
+        'private-collection-exception', 'invocation-exception',
+        'legacy-supervision-acquisition', 'private-supervision-acquisition',
+    }
+    if not isinstance(kind, str):
+        raise TerminalRefused('RAW_CAPTURE_KIND_INVALID')
+    if kind in original:
+        valid = occurrence is None or (type(occurrence) is int and occurrence >= 0)
+    elif kind == 'private-examiner-audit':
+        valid = type(occurrence) is str and occurrence in ('before', 'after')
+    elif kind in ('private-examiner-entry-source', 'private-examiner-loader-support',
+                  'private-examiner-loader-policy', 'private-examiner-native-artifact'):
+        valid = type(occurrence) is int and occurrence == 0
+    elif kind in ('private-kernel-role-observation',
+                  'private-communicate-acquisition', 'private-boundary-acquisition',
+                  'private-examiner-loader-source'):
+        valid = type(occurrence) is int and occurrence >= 0
+    else:
+        raise TerminalRefused('RAW_CAPTURE_KIND_INVALID')
+    if not valid:
+        raise TerminalRefused('RAW_CAPTURE_OCCURRENCE_INVALID')
+
+
 # Lossless observation encoding. This is a reversible storage format, not a
 # provenance signature or JSON grammar proof. Arbitrary host integers are stored
 # as magnitude bytes; decimal digit limits never become epoch/value caps.
@@ -447,6 +475,52 @@ class TerminalJournal:
                             if terminal is not None and summary.state == 'ERROR' else []})
                 return {'schemaVersion': 1, 'finalization': None, 'history': answer}
 
+    def authority_material(self, subject):
+        return self._authority_material(subject, full=False)
+
+    def authority_material_full(self, subject):
+        """Same locked journal/current/history snapshot with original raw stream.
+
+        This includes all invocation starts, returns and ordered acquisitions;
+        no result/verdict filter precedes extraction. It is owned data, not
+        authentication or a claim that a default protected producer exists.
+        """
+        return self._authority_material(subject, full=True)
+
+    def _authority_material(self, subject, *, full):
+        """Own the complete journal and its separately stored current cursor.
+
+        This reads the real pending/terminal stores under their existing order
+        and schema guards. It does not claim physical custody or anti-rollback.
+        No current identity is derived from a filtered history or a PASS row.
+        """
+        encoded = identity(subject)
+        with self.pending.lock, self.lock, self._pending_view(encoded) as (rows, typed, current):
+            if any(row['linked_payload'] is None for row in rows):
+                raise TerminalRefused('TERMINAL_PENDING_RECONCILIATION_REQUIRED')
+            with self._transaction(self.journal, 'journal'), self._transaction(self.target, 'target'):
+                history, stored = self._history(rows)
+                for run, (_summary, capture, results) in stored.items():
+                    plan = self.kernel.decide(typed, current=current, capture=capture,
+                        results=results, retained=capture, retained_results=results, history=history)
+                    self._admitted(plan, rows, run)
+                    if self.journal.execute('SELECT run FROM main.terminal_links WHERE run=?', (run,)).fetchone() is None:
+                        raise TerminalRefused('TERMINAL_ACKNOWLEDGMENT_PENDING')
+                # These typed values contain owned immutable bytes/tuples, not
+                # database-row handles or caller-provided success assertions.
+                material = tuple((summary, stored.get(row['run']))
+                    for row, summary in zip(rows, history))
+                if not full:
+                    return tuple(typed), current, material
+                captures = {}
+                for run, (_summary, capture, _results) in stored.items():
+                    present = self.journal.execute(
+                        'SELECT run FROM main.capture_streams WHERE run=?', (run,)).fetchone()
+                    captures[run] = None if present is None else (
+                        self._captured_stream_locked(capture.bound),
+                        self._captured_observation_events_locked(capture.bound))
+                return tuple(typed), current, material, captures
+
     def select_at_cursor(self, subject, content, requirement, *, current, prepared, core):
         """Explicit pure consumer of this stable full snapshot. Cursors must be
         supplied independently; they are never synthesized from a selected row.
@@ -529,15 +603,7 @@ class TerminalJournal:
         Closed names describe acquisition sites, not verdicts or trusted facts.
         Exact repeats are idempotent; conflicting observations are never replaced.
         """
-        kinds = {
-            'legacy-process-return', 'legacy-process-exception', 'legacy-report',
-            'private-process-return', 'private-report-binding', 'private-report',
-            'private-collection-exception', 'invocation-exception',
-            'legacy-supervision-acquisition', 'private-supervision-acquisition',
-        }
-        if kind not in kinds: raise TerminalRefused('RAW_CAPTURE_KIND_INVALID')
-        if occurrence is not None and (type(occurrence) is not int or occurrence < 0):
-            raise TerminalRefused('RAW_CAPTURE_OCCURRENCE_INVALID')
+        _raw_capture_identity(kind, occurrence)
         occurrence_bytes = value_bytes(occurrence)
         key, raw = identity(invocation), value_bytes(observed)
         with self.pending.lock, self.lock, self._pending_view(bound.subject) as (rows, typed, current):
@@ -583,39 +649,48 @@ class TerminalJournal:
     def captured_observation_events(self, bound):
         """Return complete retained acquisition identities in actual append order."""
         with self.pending.lock, self.lock, self._transaction(self.journal, 'journal'):
-            stream = self.journal.execute('SELECT payload FROM main.capture_streams WHERE run=?', (bound.run,)).fetchone()
-            if stream is None: raise TerminalRefused('CAPTURE_STREAM_ABSENT')
-            header = json.loads(stream[0])
-            if canonical(header) != stream[0] or _decode_binding(header['binding']) != bound:
-                raise TerminalRefused('CAPTURE_STREAM_BINDING_CONFLICT')
-            # A prior exact terminal schema contains no raw acquisition table.
-            # The explicit writer enables it before starting any new attempt.
-            if self.journal.execute("SELECT name FROM main.sqlite_schema WHERE type='table' AND name='invocation_observations'").fetchone() is None:
-                return ()
-            if self.journal.execute("SELECT name FROM main.sqlite_schema WHERE type='table' AND name='invocation_acquisitions'").fetchone() is not None:
-                rows = self.journal.execute('SELECT invocation,kind,occurrence,payload FROM main.invocation_acquisitions WHERE run=? ORDER BY rowid', (bound.run,)).fetchall()
-                answer = []
-                for row in rows:
-                    occurrence = bytes_value(row['occurrence'])
-                    if occurrence is not None and (type(occurrence) is not int or occurrence < 0):
-                        raise TerminalRefused('RAW_CAPTURE_OCCURRENCE_INVALID')
-                    answer.append((text(row['invocation']), row['kind'], occurrence, bytes_value(row['payload'])))
-                return tuple(answer)
-            rows = self.journal.execute('SELECT invocation,kind,payload FROM main.invocation_observations WHERE run=? ORDER BY rowid', (bound.run,)).fetchall()
-            return tuple((text(row['invocation']), row['kind'], None, bytes_value(row['payload'])) for row in rows)
+            return self._captured_observation_events_locked(bound)
+
+    def _captured_observation_events_locked(self, bound):
+        stream = self.journal.execute('SELECT payload FROM main.capture_streams WHERE run=?', (bound.run,)).fetchone()
+        if stream is None: raise TerminalRefused('CAPTURE_STREAM_ABSENT')
+        header = json.loads(stream[0])
+        if canonical(header) != stream[0] or _decode_binding(header['binding']) != bound:
+            raise TerminalRefused('CAPTURE_STREAM_BINDING_CONFLICT')
+        # A prior exact terminal schema contains no raw acquisition table.
+        # The explicit writer enables it before starting any new attempt.
+        if self.journal.execute("SELECT name FROM main.sqlite_schema WHERE type='table' AND name='invocation_observations'").fetchone() is None:
+            return ()
+        if self.journal.execute("SELECT name FROM main.sqlite_schema WHERE type='table' AND name='invocation_acquisitions'").fetchone() is not None:
+            rows = self.journal.execute('SELECT invocation,kind,occurrence,payload FROM main.invocation_acquisitions WHERE run=? ORDER BY rowid', (bound.run,)).fetchall()
+            answer = []
+            for row in rows:
+                occurrence = bytes_value(row['occurrence'])
+                _raw_capture_identity(row['kind'], occurrence)
+                answer.append((text(row['invocation']), row['kind'], occurrence, bytes_value(row['payload'])))
+            return tuple(answer)
+        rows = self.journal.execute('SELECT invocation,kind,payload FROM main.invocation_observations WHERE run=? ORDER BY rowid', (bound.run,)).fetchall()
+        for row in rows:
+            _raw_capture_identity(row['kind'], None)
+        return tuple((text(row['invocation']), row['kind'], None, bytes_value(row['payload'])) for row in rows)
+
 
     def captured_stream(self, bound):
         with self.pending.lock, self.lock, self._transaction(self.journal, 'journal'):
-            header = self.journal.execute('SELECT payload FROM main.capture_streams WHERE run=?', (bound.run,)).fetchone()
-            if header is None: raise TerminalRefused('CAPTURE_STREAM_ABSENT')
-            raw = json.loads(header[0])
-            if canonical(raw) != header[0] or _decode_binding(raw['binding']) != bound:
-                raise TerminalRefused('CAPTURE_STREAM_BINDING_CONFLICT')
-            rows = self.journal.execute('SELECT invocation_starts.invocation,invocation_starts.payload AS started,invocation_results.payload AS finished '
-                'FROM main.invocation_starts LEFT JOIN main.invocation_results USING(run,invocation) '
-                'WHERE run=? ORDER BY invocation_starts.rowid', (bound.run,)).fetchall()
-            return bytes_value(_unb64(raw['context'])), tuple((text(row['invocation']), bytes_value(row['started']),
-                None if row['finished'] is None else bytes_value(row['finished'])) for row in rows)
+            return self._captured_stream_locked(bound)
+
+    def _captured_stream_locked(self, bound):
+        header = self.journal.execute('SELECT payload FROM main.capture_streams WHERE run=?', (bound.run,)).fetchone()
+        if header is None: raise TerminalRefused('CAPTURE_STREAM_ABSENT')
+        raw = json.loads(header[0])
+        if canonical(raw) != header[0] or _decode_binding(raw['binding']) != bound:
+            raise TerminalRefused('CAPTURE_STREAM_BINDING_CONFLICT')
+        rows = self.journal.execute('SELECT invocation_starts.invocation,invocation_starts.payload AS started,invocation_results.payload AS finished '
+            'FROM main.invocation_starts LEFT JOIN main.invocation_results USING(run,invocation) '
+            'WHERE run=? ORDER BY invocation_starts.rowid', (bound.run,)).fetchall()
+        return bytes_value(_unb64(raw['context'])), tuple((text(row['invocation']), bytes_value(row['started']),
+            None if row['finished'] is None else bytes_value(row['finished'])) for row in rows)
+
 
     def close(self):
         with self.lock: self.journal.close(); self.target.close()

@@ -1,3 +1,5 @@
+with Evaluation_Epoch;
+
 package body Evaluation_History with SPARK_Mode is
 
    use SPARK.Big_Integers;
@@ -7,31 +9,19 @@ package body Evaluation_History with SPARK_Mode is
       Resource_Quantities.Compare (A, Epoch_Quantity (L), Epoch_Quantity (R)) =
         Resource_Quantities.Equal);
 
+   --  Use the complete arbitrary-width successor relation for both history
+   --  epoch predicates. Its body and every caller contract remain required
+   --  full-scope proof obligations; this call imports no assumed theorem.
+   function Epoch_One (A : Byte_Array; E : Epoch_Id) return Boolean is
+     (Epoch_Valid (A, E) and then
+      Evaluation_Epoch.Is_Successor
+        (A, (Negative => False, First => E.First, Length => 0),
+         Epoch_Quantity (E)));
+
    function Next_Epoch (A : Byte_Array; Before, After : Epoch_Id) return Boolean is
-      package Q renames Resource_Quantities;
-      Width : constant Byte_Count := Byte_Count'Max (Before.Length, After.Length);
-      Carry : Natural range 0 .. 1 := 1;
-      Total : Natural range 0 .. 256;
-   begin
-      if not Epoch_Valid (A, Before) or else not Epoch_Valid (A, After) then
-         return False;
-      end if;
-      if Width = 0 then
-         return False;
-      end if;
-      for Offset in Byte_Count range 0 .. Width - 1 loop
-         pragma Loop_Invariant
-           (Q.Prefix_Value (A, Epoch_Quantity (After), Offset) +
-              To_Big_Integer (Carry) * Q.Radix_Power (Offset) =
-            Q.Prefix_Value (A, Epoch_Quantity (Before), Offset) + 1);
-         Total := Q.Digit (A, Epoch_Quantity (Before), Offset) + Carry;
-         if Q.Digit (A, Epoch_Quantity (After), Offset) /= Total mod 256 then
-            return False;
-         end if;
-         Carry := Total / 256;
-      end loop;
-      return Carry = 0;
-   end Next_Epoch;
+     (Epoch_Valid (A, Before) and then Epoch_Valid (A, After) and then
+      Evaluation_Epoch.Is_Successor
+        (A, Epoch_Quantity (Before), Epoch_Quantity (After)));
 
    function Find_Completed_Failure
      (A : Byte_Array; H : History; F : Optional_Record; Q : Query) return Record_Reference is

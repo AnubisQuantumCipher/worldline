@@ -20,9 +20,13 @@ from pathlib import Path
 import select
 import socket
 import socketserver
+import sys
 import threading
+import time
 from typing import Any, Iterable
 from urllib.parse import urlsplit
+
+from ..errors import WorldlineError
 
 _MAX_HEADER = 64 * 1024
 _RELAY_CHUNK = 65536
@@ -165,9 +169,15 @@ class _Handler(socketserver.BaseRequestHandler):
                 client.sendall(b"HTTP/1.1 502 Bad Gateway\r\nContent-Length: 0\r\n\r\n")
                 self.server.stats.record_refused(host, port)
                 return
-            self.server.stats.record_allowed()
-            client.sendall(b"HTTP/1.1 200 Connection established\r\n\r\n")
-            self._relay(client, upstream)
+            if not self.server.own_socket(upstream):
+                return
+            try:
+                self.server.stats.record_allowed()
+                client.sendall(b"HTTP/1.1 200 Connection established\r\n\r\n")
+                self._relay(client, upstream)
+            finally:
+                from ..raw_observation import cleanup_call
+                cleanup_call(lambda: self.server.release_socket(upstream))
             return
         # Plain HTTP through a proxy arrives with an absolute URI.
         split = urlsplit(target)
@@ -186,14 +196,20 @@ class _Handler(socketserver.BaseRequestHandler):
             client.sendall(b"HTTP/1.1 502 Bad Gateway\r\nContent-Length: 0\r\n\r\n")
             self.server.stats.record_refused(host, port)
             return
-        self.server.stats.record_allowed()
-        path = split.path or "/"
-        if split.query:
-            path += "?" + split.query
-        headers = [line for line in rest.split(b"\r\n") if line and not line.lower().startswith(b"proxy-")]
-        rewritten = b" ".join((parts[0], path.encode("ascii", "replace"), parts[2])) + b"\r\n" + b"\r\n".join(headers) + b"\r\n\r\n"
-        upstream.sendall(rewritten + self._body_prefix)
-        self._relay(client, upstream)
+        if not self.server.own_socket(upstream):
+            return
+        try:
+            self.server.stats.record_allowed()
+            path = split.path or "/"
+            if split.query:
+                path += "?" + split.query
+            headers = [line for line in rest.split(b"\r\n") if line and not line.lower().startswith(b"proxy-")]
+            rewritten = b" ".join((parts[0], path.encode("ascii", "replace"), parts[2])) + b"\r\n" + b"\r\n".join(headers) + b"\r\n\r\n"
+            upstream.sendall(rewritten + self._body_prefix)
+            self._relay(client, upstream)
+        finally:
+            from ..raw_observation import cleanup_call
+            cleanup_call(lambda: self.server.release_socket(upstream))
 
     _body_prefix = b""
 
@@ -257,6 +273,11 @@ class AllowlistProxy(socketserver.ThreadingUnixStreamServer):
         self.socket_path = Path(socket_path)
         self.allowed = tuple(sorted({item for item in allowed if item}))
         self.stats = ProxyStats()
+        self._owned_lock = threading.RLock()
+        self._owned_threads: set[threading.Thread] = set()
+        self._owned_sockets: set[socket.socket] = set()
+        self._handler_errors: list[BaseException] = []
+        self._stopping = False
         if self.socket_path.exists():
             self.socket_path.unlink()
         super().__init__(str(self.socket_path), _Handler)
@@ -266,13 +287,127 @@ class AllowlistProxy(socketserver.ThreadingUnixStreamServer):
     def start(self) -> None:
         self._thread.start()
 
+    def own_socket(self, stream: socket.socket) -> bool:
+        with self._owned_lock:
+            if not self._stopping:
+                self._owned_sockets.add(stream)
+                return True
+        stream.close()
+        return False
+
+    def release_socket(self, stream: socket.socket) -> None:
+        try:
+            stream.close()
+        finally:
+            with self._owned_lock:
+                if stream.fileno() == -1:
+                    self._owned_sockets.discard(stream)
+
+    def process_request(self, request, client_address):
+        # Keep the original daemon status, but explicitly own these threads:
+        # socketserver deliberately excludes daemon threads from server_close.
+        with self._owned_lock:
+            if self._stopping:
+                self.shutdown_request(request)
+                return
+            self._owned_sockets.add(request)
+            thread = threading.Thread(target=self._owned_request,
+                                      args=(request, client_address), daemon=self.daemon_threads)
+            self._owned_threads.add(thread)
+            try:
+                thread.start()
+            except BaseException:
+                self._owned_threads.discard(thread)
+                from ..raw_observation import cleanup_call
+                cleanup_call(lambda: self.release_socket(request))
+                raise
+
+    def _owned_request(self, request, client_address):
+        try:
+            try:
+                self.process_request_thread(request, client_address)
+            finally:
+                # Keep the actual thread object until stop has observed its exit.
+                # Removing it from inside its own finally would precede termination.
+                from ..raw_observation import cleanup_call
+                cleanup_call(lambda: self.release_socket(request))
+        except BaseException as error:
+            with self._owned_lock:
+                self._handler_errors.append(error)
+            raise
+
+    def handle_error(self, request, client_address):
+        error = sys.exception()
+        if error is not None:
+            with self._owned_lock:
+                self._handler_errors.append(error)
+        return super().handle_error(request, client_address)
+
+    def quiescence_observation(self):
+        from ..raw_observation import exception_observation
+        with self._owned_lock:
+            return {'stopping': self._stopping,
+                'listenerAlive': self._thread.is_alive(),
+                'handlers': [{'name': item.name, 'ident': item.ident,
+                              'alive': item.is_alive()} for item in self._owned_threads],
+                'sockets': [{'fileno': item.fileno()} for item in self._owned_sockets],
+                'handlerErrors': [exception_observation(item) for item in self._handler_errors]}
+
+    def quiescent(self) -> bool:
+        with self._owned_lock:
+            return (self._stopping and not self._thread.is_alive()
+                    and all(not item.is_alive() for item in self._owned_threads)
+                    and all(item.fileno() == -1 for item in self._owned_sockets))
+
     def stop(self) -> None:
-        self.shutdown()
-        self.server_close()
+        # This is a bounded teardown grace, not a new active connection timer.
+        # A DNS/kernel/provider operation that does not end remains explicitly
+        # owned and unclosed; it is not promoted to quiescent by this timeout.
+        with self._owned_lock:
+            self._stopping = True
+        failure = None
+        def attempt(action):
+            nonlocal failure
+            try:
+                action()
+            except BaseException as error:
+                if failure is None:
+                    failure = error
+                elif error is not failure:
+                    failure.add_note('owned proxy cleanup also failed: ' + repr(error))
+        if self._thread.is_alive():
+            attempt(self.shutdown)
+        attempt(self.server_close)
+        with self._owned_lock:
+            streams = tuple(self._owned_sockets)
+        for stream in streams:
+            try:
+                stream.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                # Disconnected/already-closed sockets need no shutdown. Actual
+                # close and handler termination below remain separate facts.
+                pass
+            attempt(lambda stream=stream: self.release_socket(stream))
+        deadline = time.monotonic() + 5
+        with self._owned_lock:
+            threads = tuple(self._owned_threads)
+        for thread in threads:
+            attempt(lambda thread=thread: thread.join(timeout=max(0, deadline - time.monotonic())))
+        if self._thread.ident is not None:
+            attempt(lambda: self._thread.join(timeout=max(0, deadline - time.monotonic())))
         try:
             self.socket_path.unlink()
         except OSError:
             pass
+        if not self.quiescent():
+            error = WorldlineError('AGENT_PROXY_NOT_QUIESCENT',
+                'owned proxy work remains live after bounded teardown', self.quiescence_observation())
+            if failure is None:
+                failure = error
+            else:
+                failure.add_note(str(error))
+        if failure is not None:
+            raise failure
 
     def summary(self) -> dict[str, Any]:
         return {"policy": "allowlist", "allowed": list(self.allowed), **self.stats.summary()}

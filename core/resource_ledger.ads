@@ -98,12 +98,26 @@ package Resource_Ledger with SPARK_Mode is
    --  values when this pure unit is used outside the validated ledger loader.
    function Withheld_Reference
      (Data : Byte_Array; Row : Reservation_Row) return Valid_Big_Integer
-   with Ghost, Global => null;
+   with Ghost, Global => null,
+     Post =>
+       (if not Span_Valid (Data, Row.Reserved) or else
+           (Row.Used.Present and then not Span_Valid (Data, Row.Used.Value))
+        then Withheld_Reference'Result = 0
+        elsif not Row.Used.Present then
+          Withheld_Reference'Result = Value (Data, Row.Reserved)
+        elsif Value (Data, Row.Reserved) - Value (Data, Row.Used.Value) > 0 then
+          Withheld_Reference'Result =
+            Value (Data, Row.Reserved) - Value (Data, Row.Used.Value)
+        else Withheld_Reference'Result = 0);
 
    function Row_Reference
      (Data : Byte_Array; Rows : Reservation_Array; Offset : Byte_Count)
       return Valid_Big_Integer
-   with Ghost, Global => null;
+   with Ghost, Global => null,
+     Post => (if Offset < Rows'Length then
+       Row_Reference'Result =
+         Withheld_Reference (Data, Rows (Rows'First + Offset))
+       else Row_Reference'Result = 0);
 
    --  Closed recurrence independent of the iterative Prefix_Total producer.
    --  No public validity/capacity precondition or numeric bound is added.
@@ -134,7 +148,14 @@ package Resource_Ledger with SPARK_Mode is
    function Storage_Sufficient
      (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
       Total_Capacity : Byte_Count) return Boolean
-   with Ghost, Global => null;
+   with Ghost, Global => null,
+     Post => Storage_Sufficient'Result =
+       (Slots'Length = Rows'Length and then
+          (for all I in Rows'Range =>
+             abs Withheld_Reference (Data, Rows (I)) <
+               Radix_Power (Slots (Slots'First + (I - Rows'First)).Length)
+             and then abs Prefix_Total (Data, Rows, (I - Rows'First) + 1) <
+               Radix_Power (Total_Capacity)));
 
    type Result_Status is
      (Computed, Invalid_Input, Invalid_Output_Layout, Insufficient_Storage);
@@ -143,7 +164,30 @@ package Resource_Ledger with SPARK_Mode is
      (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
       Detail_Data, Total_Data : Byte_Array; Details : Quantity_Array;
       Total : Quantity; Status : Result_Status) return Boolean
-   with Ghost, Global => null;
+   with Ghost, Global => null,
+     Post => Result_Conforms'Result =
+       ((if not Rows_Valid (Data, Rows) then Status = Invalid_Input
+         elsif not Layout_Valid (Detail_Data, Slots, Details, Rows'Length) then
+           Status = Invalid_Output_Layout
+         elsif not Storage_Sufficient (Data, Rows, Slots, Total_Data'Length) then
+           Status = Insufficient_Storage
+         else Status = Computed) and then
+        (if Status = Computed then
+           Span_Valid (Total_Data, Total) and then
+           Value (Total_Data, Total) = Prefix_Total (Data, Rows, Rows'Length)
+           and then
+           (for all I in Rows'Range =>
+              Span_Valid
+                (Detail_Data, Details (Details'First + (I - Rows'First)))
+              and then Value
+                (Detail_Data, Details (Details'First + (I - Rows'First))) =
+                  Withheld_Reference (Data, Rows (I)))
+           and then Output_Representation
+             (Detail_Data, Total_Data, Slots, Details, Total)
+         else Total = Empty and then
+           (for all I in Details'Range => Details (I) = Empty) and then
+           (for all I in Detail_Data'Range => Detail_Data (I) = 0) and then
+           (for all I in Total_Data'Range => Total_Data (I) = 0)));
 
    --  Total typed numeric projection only; no public Pre. Input observations
    --  carry values, never assertions of producer truth. All output storage is

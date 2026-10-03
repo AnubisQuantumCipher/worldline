@@ -181,4 +181,37 @@ package Worldline.C_API with SPARK_Mode => Off is
       Name_Len : Interfaces.C.size_t) return Interfaces.C.size_t
      with Export, Convention => C, External_Name => "wl_layout_offset";
 
+   package Authority_Glue is
+   subtype Byte is Interfaces.Unsigned_8;
+   function Version return Byte with Export, Convention => C,
+     External_Name => "wl_evaluation_wire_version";
+   function Layout (Kind, Field : Byte) return Interfaces.C.size_t
+     with Export, Convention => C, External_Name => "wl_evaluation_wire_layout";
+   function Classify (Raw, Output : System.Address) return Byte
+     with Export, Convention => C, External_Name => "wl_evaluation_wire_classify";
+   function Admit (Raw : System.Address; Confinement : Byte) return Byte
+     with Export, Convention => C, External_Name => "wl_evaluation_wire_admit";
+   function Report (Raw : System.Address) return Byte
+     with Export, Convention => C, External_Name => "wl_evaluation_wire_report";
+   function Dependencies (Request : System.Address) return Byte
+     with Export, Convention => C,
+       External_Name => "wl_collapse_raw_dependencies_v1";
+   function Decide_Raw (Request, Primary, Primary_Raw, Primary_Confinement,
+       Staged, Staged_Raw, Staged_Confinement, Agent : System.Address;
+       Agent_Confinement : Byte) return Byte
+     with Export, Convention => C,
+       External_Name => "wl_collapse_decide_raw_evaluation_v1";
+      function Decide_Raw_Context
+        (Request, Primary, Primary_Raw, Primary_Confinement, Primary_Context,
+         Staged, Staged_Raw, Staged_Confinement, Staged_Context, Agent : System.Address;
+         Agent_Confinement : Byte) return Byte
+        with Export, Convention => C,
+          External_Name => "wl_collapse_decide_raw_evaluation_v2";
+      function Decide_Raw_Metadata
+        (Request, Primary, Primary_Raw, Primary_Confinement, Primary_Context,
+         Staged, Staged_Raw, Staged_Confinement, Staged_Context, Agent : System.Address;
+         Agent_Confinement : Byte) return Byte
+        with Export, Convention => C,
+          External_Name => "wl_collapse_decide_raw_evaluation_v3";
+   end Authority_Glue;
 end Worldline.C_API;

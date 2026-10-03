@@ -1,5 +1,6 @@
 """Ordinary owned acquisition/cleanup controls; no host services or proof claim."""
 import base64
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -20,7 +21,6 @@ from worldline.raw_observation import (
 class RawObservationControls(unittest.TestCase):
     def test_distinct_journal_polls_retain_full_bytes_before_parsing(self):
         adapter = SystemdAdapter.__new__(SystemdAdapter)
-        adapter.journalctl = '/owned/ordinary-journal-command'
         adapter.environment = {}
         unit = 'worldline-11111111-1111-1111-1111-111111111111.service'
         first = b'ordinary non-JSON diagnostic line\n'
@@ -29,11 +29,33 @@ class RawObservationControls(unittest.TestCase):
             'MESSAGE_ID': adapter.JOURNAL_STARTED, 'MESSAGE': 'ordinary start'}).encode() + b'\n'
         replies = [subprocess.CompletedProcess([], 0, first, b'first stderr\n'),
                    subprocess.CompletedProcess([], 0, second, b'second stderr\n')]
+        # Keep the original replies and assertions while exercising the owned
+        # Popen transport, which no longer goes through subprocess.run.
+        temporary = tempfile.TemporaryDirectory(prefix='worldline-journal-query-')
+        self.addCleanup(temporary.cleanup)
+        command = Path(temporary.name) / 'ordinary-journal-command'
+        command.with_suffix('.json').write_text(json.dumps([
+            {'stdout': base64.b64encode(reply.stdout).decode('ascii'),
+             'stderr': base64.b64encode(reply.stderr).decode('ascii'),
+             'returncode': reply.returncode} for reply in replies]))
+        command.write_text('''#!/usr/bin/python3
+import base64, json, sys
+from pathlib import Path
+command = Path(__file__)
+counter = command.with_suffix('.count')
+index = int(counter.read_text()) if counter.exists() else 0
+reply = json.loads(command.with_suffix('.json').read_text())[index]
+counter.write_text(str(index + 1))
+sys.stdout.buffer.write(base64.b64decode(reply['stdout'], validate=True))
+sys.stderr.buffer.write(base64.b64decode(reply['stderr'], validate=True))
+raise SystemExit(reply['returncode'])
+''')
+        command.chmod(0o700)
+        adapter.journalctl = str(command)
         process = SimpleNamespace(unit=unit, launched_at_us=0,
                                   launcher=SimpleNamespace(stderr=None))
         captured = []
-        with patch('worldline.linux.systemd.subprocess.run', side_effect=replies), \
-             patch('worldline.linux.systemd.time.monotonic', return_value=0), \
+        with patch('worldline.linux.systemd.time.monotonic', return_value=0), \
              patch('worldline.linux.systemd.time.sleep'):
             result = adapter.outcome(process, 0,
                 _raw_observer=lambda occurrence, value: captured.append((occurrence, value)))
@@ -301,9 +323,15 @@ class PrivateBackendAcquisitionControls(unittest.TestCase):
         runner.systemd = self.systemd
         runner.sandbox = SimpleNamespace(executable='/owned/bwrap-reference')
         runner.gate = SimpleNamespace(guard=lambda _label: nullcontext(), unit_properties=lambda: ())
+        staged_source = self.root / 'verifiers' / 'owned-root' / 'examiner.py'
+        staged_source.parent.mkdir(parents=True)
+        staged_source.write_bytes(b'pass\n')
+        member = {'rootKey': 'owned-root', 'path': 'examiner.py',
+                  'executedAs': '/run/worldline-verifiers/owned-root/examiner.py',
+                  'sha256': hashlib.sha256(staged_source.read_bytes()).hexdigest()}
         staged = SimpleNamespace(items=[object()], staging=self.root/'verifiers',
             identity=lambda: 'owned-verifier', reread=lambda: ('owned-verifier', []),
-            as_evidence=lambda: {'identity': 'owned-verifier'}, close=Mock())
+            as_evidence=lambda: {'identity': 'owned-verifier', 'members': [dict(member)]}, close=Mock())
         check = SimpleNamespace(id='owned-check', kind='tests', required=True,
             format='junit', profile='private-evaluator-v1', covers=())
         overlay = SimpleNamespace(root_key='owned-root', target=Path('/owned-target'), lower=self.root)

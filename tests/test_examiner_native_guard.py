@@ -596,5 +596,8 @@ class NativeGuardControls(unittest.TestCase):
         self.assertRegex(result.stderr, rb'^WORLDLINE_NATIVE_FILTER_FAILED stage=no-new-privs return=-1 errnoValid=1 errno=[0-9]+\n$')
 
 
+from native_lifetime_controls import NativeLifetimeControls
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -7,10 +7,142 @@ authenticated, a read was stable, or an evaluation completed.
 from __future__ import annotations
 
 import base64
+import subprocess
+import time
 
 
 class ObservationRetentionError(RuntimeError):
     pass
+
+
+class ProcessAcquisitionCancelled(RuntimeError):
+    """An owned query was cancelled, distinct from its original timeout."""
+    def __init__(self, argv):
+        super().__init__('OWNED_PROCESS_ACQUISITION_CANCELLED')
+        self.argv = argv
+        self.output = self.stderr = self.returncode = self.pid = None
+
+
+def observed_process_run(
+    argv, *, observer=None, details=None, stdin=subprocess.DEVNULL,
+    stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+    timeout=None, env=None, cwd=None, cancel_event=None,
+):
+    """Own a binary command and retain its complete observed completion.
+
+    The caller's original timeout still governs communication. Cancellation
+    addresses only this Popen child. Killing it is not an EOF or wait: those
+    facts are recorded only after communication and the actual wait return.
+    An uncompleted drain remains uncompleted; no finite cleanup, descendants,
+    authentication or kernel-supervision guarantee follows from this helper.
+    """
+    process = None
+    captured_stdout = captured_stderr = None
+    communication_completed = wait_return_observed = False
+    actual_wait_return = None
+    metadata = dict(details or {})
+
+    def note(primary, label, secondary):
+        primary.add_note(label + ': ' + type(secondary).__qualname__ + ': ' + str(secondary))
+
+    def close_streams(primary=None):
+        if process is None:
+            return
+        for stream in (process.stdin, process.stdout, process.stderr):
+            if stream is None:
+                continue
+            try:
+                stream.close()
+            except BaseException as failure:
+                if primary is None:
+                    raise
+                note(primary, 'owned command stream close also failed', failure)
+
+    def observation(returned, primary=None):
+        return {
+            **metadata, 'processReturnObserved': returned,
+            'stdout': optional_bytes(captured_stdout),
+            'stderr': optional_bytes(captured_stderr),
+            'returncode': actual_wait_return if returned else None,
+            'exception': None if primary is None else exception_observation(primary),
+            'processCreatedObserved': process is not None,
+            'processPidObserved': None if process is None else process.pid,
+            'processWaitReturnObserved': wait_return_observed,
+            'processWaitReturncode': actual_wait_return,
+            'stdoutReachedEof': communication_completed and stdout == subprocess.PIPE,
+            'stderrReachedEof': communication_completed and stderr == subprocess.PIPE,
+            'cancellationObserved': isinstance(primary, ProcessAcquisitionCancelled),
+        }
+
+    try:
+        process = subprocess.Popen(
+            argv, stdin=stdin, stdout=stdout, stderr=stderr, env=env, cwd=cwd,
+        )
+        # Like subprocess.run, the communication timeout begins after Popen.
+        deadline = None if cancel_event is None or timeout is None else time.monotonic() + timeout
+        while True:
+            remaining = None if deadline is None else deadline - time.monotonic()
+            if remaining is not None and remaining <= 0:
+                raise subprocess.TimeoutExpired(argv, timeout,
+                    output=captured_stdout, stderr=captured_stderr)
+            if cancel_event is not None and cancel_event.is_set():
+                raise ProcessAcquisitionCancelled(argv)
+            # Cancellation checks use the existing sampler polling interval;
+            # these retries never extend the original communication deadline.
+            # Without cancellation use the original communicate call exactly,
+            # including TimeoutExpired.timeout and zero-timeout behavior.
+            quantum = timeout
+            if cancel_event is not None:
+                quantum = 0.1 if remaining is None else min(remaining, 0.1)
+            try:
+                captured_stdout, captured_stderr = process.communicate(timeout=quantum)
+                communication_completed = True
+                break
+            except subprocess.TimeoutExpired as poll:
+                captured_stdout, captured_stderr = poll.output, poll.stderr
+                if cancel_event is None:
+                    raise
+        actual_wait_return = process.wait()
+        wait_return_observed = True
+        result = subprocess.CompletedProcess(argv, actual_wait_return,
+            captured_stdout, captured_stderr)
+        if check:
+            result.check_returncode()
+        close_streams()
+    except BaseException as primary:
+        if process is not None:
+            if not communication_completed:
+                try:
+                    if process.poll() is None:
+                        process.kill()
+                except BaseException as failure:
+                    note(primary, 'owned command termination also failed', failure)
+                try:
+                    captured_stdout, captured_stderr = process.communicate()
+                    communication_completed = True
+                except BaseException as failure:
+                    note(primary, 'owned command full drain also failed', failure)
+            try:
+                actual_wait_return = process.wait()
+                wait_return_observed = True
+            except BaseException as failure:
+                note(primary, 'owned command wait also failed', failure)
+            close_streams(primary)
+        if isinstance(primary, (subprocess.TimeoutExpired, ProcessAcquisitionCancelled)):
+            primary.output, primary.stderr = captured_stdout, captured_stderr
+        if isinstance(primary, ProcessAcquisitionCancelled):
+            primary.returncode = actual_wait_return
+            primary.pid = None if process is None else process.pid
+        if observer is not None:
+            try:
+                retain_observation(observer, observation(False, primary))
+            except BaseException as secondary:
+                note(primary, 'owned process observation retention also failed', secondary)
+                primary._worldline_retention_failed = True
+        raise
+    if observer is not None:
+        retain_observation(observer, observation(True))
+    return result
 
 
 def optional_bytes(value):

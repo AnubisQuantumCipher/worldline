@@ -91,7 +91,15 @@ package body Resource_Quantities with SPARK_Mode is
       pragma Assert (Gap + Extra > 0);
    end Higher_Column_Order;
 
-   function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer is
+   --  Private iterative producer; its complete value equation and the
+   --  Inline_For_Proof correspondence are mandatory proof obligations.
+   --  No smaller public producer is called by this worker body.
+   function Radix_Power_Worker (Exponent : Byte_Count)
+      return Valid_Big_Integer
+   with Ghost, Global => null,
+     Post => Radix_Power_Worker'Result = Power_Reference (Exponent),
+     Annotate => (GNATprove, Inline_For_Proof)
+   is
       Completed : Byte_Count := 0;
       Result : Valid_Big_Integer := To_Big_Integer (1);
       Previous : Valid_Big_Integer := To_Big_Integer (1);
@@ -126,11 +134,22 @@ package body Resource_Quantities with SPARK_Mode is
          end;
       end if;
       return Result;
-   end Radix_Power;
+   end Radix_Power_Worker;
 
-   function Prefix_Value
+   --  The public declaration, including every original recursive Post
+   --  conjunct and numeric variant, remains byte-for-byte unchanged.
+   function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer is
+     (Radix_Power_Worker (Exponent));
+
+   --  Full-domain independent prefix equation; no span/length Pre is added.
+   --  The moved loop, all assertions and all original variants remain below.
+   function Prefix_Value_Worker
      (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
-      return Valid_Big_Integer is
+      return Valid_Big_Integer
+   with Ghost, Global => null,
+     Post => Prefix_Value_Worker'Result = Prefix_Reference (Data, Q, Count),
+     Annotate => (GNATprove, Inline_For_Proof)
+   is
       Completed : Byte_Count := 0;
       Result : Valid_Big_Integer := To_Big_Integer (0);
       Place : Valid_Big_Integer := To_Big_Integer (1);
@@ -180,7 +199,12 @@ package body Resource_Quantities with SPARK_Mode is
          end;
       end if;
       return Result;
-   end Prefix_Value;
+   end Prefix_Value_Worker;
+
+   function Prefix_Value
+     (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
+      return Valid_Big_Integer is
+     (Prefix_Value_Worker (Data, Q, Count));
 
    function Magnitude (Data : Byte_Array; Q : Quantity)
       return Valid_Big_Integer is

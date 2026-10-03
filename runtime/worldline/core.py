@@ -629,3 +629,33 @@ class Core:
         )
         code = int(self._lib.wl_collapse_decide(ctypes.byref(request)))
         return COLLAPSE_DECISIONS.get(code, f"UNKNOWN_{code}")
+
+    def _raw_collapse_request(self, value: CollapseInput):
+        if not isinstance(value, CollapseInput):
+            raise WorldlineError("INVALID_EVALUATION", "collapse input must be a CollapseInput")
+        try:
+            state = STATE_CODES[value.candidate_state]
+            phase = COLLAPSE_PHASES[value.phase]
+            mode = EVALUATION_MODES[value.mode]
+            conflicts = MEASUREMENTS[value.conflicts]
+            foreign = MEASUREMENTS[value.foreign_writes]
+        except KeyError as exc:
+            raise WorldlineError("INVALID_EVALUATION", f"unknown collapse category: {exc.args[0]}") from exc
+        request = CCollapseRequest(
+            state, phase, mode, conflicts, foreign,
+            self._flag(value.roster_complete, "roster completeness"),
+            self._flag(value.staged_roster_complete, "staged roster completeness"),
+            *[self._optional_hash(getattr(value, name), name) for name in COLLAPSE_HASH_FIELDS],
+            self._optional_counter(value.generation_before, "generation_before"),
+            self._optional_counter(value.generation_after, "generation_after"),
+        )
+        return request
+
+    def collapse_raw_dependencies(self, value: CollapseInput):
+        from .evaluation_wire import Authority
+        return Authority(self).dependencies(self._raw_collapse_request(value))
+
+    def collapse_decide_with_evaluation(self, value: CollapseInput, *, primary, staged, agent) -> str:
+        request = self._raw_collapse_request(value)
+        from .evaluation_wire import Authority
+        return Authority(self).decide(request, primary, staged, agent)

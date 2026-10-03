@@ -45,11 +45,7 @@ package Evaluation_History with SPARK_Mode is
        Post => Epoch_Zero'Result =
          (Epoch_Valid (A, E) and then
           Resource_Quantities.Magnitude (A, Epoch_Quantity (E)) = 0);
-   function Epoch_One (A : Byte_Array; E : Epoch_Id) return Boolean is
-     (Epoch_Valid (A, E)
-      and then Resource_Quantities.Digit (A, Epoch_Quantity (E), 0) = 1
-      and then (for all Offset in Byte_Count range 1 .. E.Length - 1 =>
-        Resource_Quantities.Digit (A, Epoch_Quantity (E), Offset) = 0))
+   function Epoch_One (A : Byte_Array; E : Epoch_Id) return Boolean
      with Global => null,
        Post => Epoch_One'Result =
          (Epoch_Valid (A, E) and then

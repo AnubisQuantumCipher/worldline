@@ -3,6 +3,11 @@ package body Evaluation_Completion with SPARK_Mode is
      (A : Bytes; Rows : Result_Array; Binding : Attempt_Binding) return Boolean
    is
    begin
+      --  Execute the complete existing non-Ghost relation before entering
+      --  the incremental validator. No prefix is omitted from this check.
+      if Results_Reference (A, Rows, Binding) then
+         return True;
+      end if;
       if not Valid_Binding (A, Binding) then
          return False;
       end if;

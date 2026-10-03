@@ -191,7 +191,8 @@ def _private_report_verified(result: Mapping[str, Any], *, execution: str, integ
             # cross-run fact; live namespace separation is checked by bootstrap.
             if candidate["uid"] == worker["uid"] or candidate["gid"] == worker["gid"]:
                 return False
-    return True
+    from .examiner_audit import report_audit_clean
+    return report_audit_clean(result)
 
 
 @dataclass(frozen=True)
@@ -367,80 +368,17 @@ def roster_decision(
 
 def evaluation_record(result: Mapping[str, Any], *, declared: CheckDeclaration | None,
                       core: Core | None = None) -> dict[str, Any]:
-    """Three facts that were being carried as one, and could therefore contradict each other.
+    """Classify/admit the complete raw wire in Ada; saved projections are ignored.
 
-    `executionBinding` answered "was an intact bundle staged?" while being read as "did the
-    authorised examiner run?". A preserved counterexample makes the gap concrete: a candidate
-    that owned the harness produced `status: PASS` from fabricated output, the examiner never
-    executed — and the binding still said BOUND, because the bundle had indeed been staged and
-    its descriptors had indeed not moved. Both statements were true. Together they were a lie.
-
-    bundleIntegrity     were the intended evaluator artifacts staged and protected under the
-                        recorded identity?
-    executionStatus     did the trusted evaluation reach the examiner and complete, or fail at
-                        an identifiable stage?
-    evaluationOutcome   did a completed evaluation accept or reject the candidate?
-
-    Only `executionStatus == COMPLETED` may contribute to promotion admissibility. An intact
-    bundle whose evaluation never reached it is NOT an ordinary pass and is not a failed check
-    either: it is an evaluation that did not happen.
+    D26 report integrity and external confinement remain distinct. Unknown
+    producer observations remain unknown and cannot become promotion evidence.
     """
-    executed = result.get("executedVerifierSet")
-    status = result.get("status")
-    channel_value = result.get("resultChannel")
-    channel = channel_value if isinstance(channel_value, Mapping) else {}
-    exit_code = result.get("exitCode")
-    supervision_value = result.get("supervision")
-    supervision = supervision_value if isinstance(supervision_value, Mapping) else {}
-    channel_kind = (
-        "ABSENT" if channel_value is None else
-        "MALFORMED" if not isinstance(channel_value, Mapping) else
-        "EMPTY" if not channel else
-        "ACCEPTED" if channel.get("accepted") is True else
-        "REJECTED" if channel.get("accepted") is False else "OTHER"
-    )
-    stage = channel.get("stage")
-    supervisor_kind = supervision.get("kind")
-    facts = EvaluationFacts(
-        source=result.get("origin") if result.get("origin") in ("engine", "agent") else "external",
-        status=status if status in ("PASS", "FAIL", "UNASSESSED") else
-               ("ABSENT" if status is None else "OTHER"),
-        channel=channel_kind,
-        stage=stage if stage in ("SANDBOX_NEVER_STARTED", "STOPPED_BY_MANAGER",
-                                 "HARNESS_SIGNALLED") else
-              ("ABSENT" if stage is None else "OTHER"),
-        exit_present=exit_code is not None,
-        # bool is an int subclass; True is not an exit status.
-        exit_integer=type(exit_code) is int,
-        supervisor=supervisor_kind if supervisor_kind in ("SUPERVISED", "STOPPED") else
-                   ("ABSENT" if supervisor_kind is None else "OTHER"),
-        supervisor_stopped=stopped_supervision(supervision),
-        # An empty or malformed bundle record is present and unverifiable, not absent.
-        bundle_present=executed is not None,
-        bundle_is_mapping=isinstance(executed, Mapping),
-        bundle_stable=isinstance(executed, Mapping) and executed.get("stable") is True,
-        bundle_changed=isinstance(executed, Mapping) and bool(executed.get("changedDuringExecution")),
-        unsatisfied_imports=isinstance(executed, Mapping) and bool(executed.get("unsatisfiedImports")),
-    )
-    # Python only maps observations to finite categories. The SPARK core determines execution,
-    # outcome and bundle integrity; malformed and unknown categories remain non-promotable.
+    from .evaluation_wire import Authority, record
     core = core or Core.shared()
-    classification = core.evaluation_classify(facts)
-    execution, outcome, integrity = (
-        classification.execution, classification.outcome, classification.bundle)
-
-    # Legacy reports come from the writable candidate overlay. Private reports additionally
-    # need positive, invocation-bound observations of the separate examiner domain.
-    report_format = result.get("format")
-    report_based = report_format in ("junit", "gnatprove", "worldline-benchmark-v1")
-    report_integrity = ("VERIFIED" if _private_report_verified(result, execution=execution, integrity=integrity)
-                        else "UNTRUSTED") if report_based else "NOT_APPLICABLE"
-    # Evidence presence is a set of typed facts about named fields, checked against the policy's
-    # declaration for this check. The roster -- every required check, and what an empty one
-    # means -- is decided separately by the kernel's Roster_Complete (see roster_decision).
+    owned = record(result, declared)
+    execution, outcome, integrity, report_integrity, admissible = Authority(core).evaluate(owned)
     presence = evaluation_presence(result, declared)
-    admissible = core.evaluation_admissible(
-        classification, report_integrity=report_integrity, presence=presence)
+    report_based = result.get("format") in ("junit", "gnatprove", "worldline-benchmark-v1")
     return {
         "bundleIntegrity": integrity,
         "executionStatus": execution,
@@ -653,10 +591,17 @@ class Finalizer:
         required_checks: Sequence[str],
         agent_manifest: dict[str, Any],
         candidate_snapshot: CandidateSnapshot | None = None,
+        _finalization_writer=None,
     ) -> World:
         world = self.store.world(world_value)
         if world.state is not WorldState.MUTABLE:
             raise WorldlineError("INVALID_TRANSITION", f"finalization requires MUTABLE world, got {world.state.value}")
+        from .finalization_writer import EngineFinalizationWriter
+        if (type(_finalization_writer) is not EngineFinalizationWriter
+                or _finalization_writer.start is None
+                or _finalization_writer.start.subject != world.instance_id.encode('utf-8', 'surrogatepass')
+                or validation is None):
+            raise WorldlineError('FINALIZATION_START_MISSING', 'the actual producer must reserve its full intent before execution')
         private_snapshot = candidate_snapshot is not None
         if candidate_snapshot is None:
             # Legacy checks historically contribute generated outputs to the payload. Preserve
@@ -671,6 +616,8 @@ class Finalizer:
         try:
             if candidate_snapshot is None:
                 candidate_snapshot = self._capture_candidate(world, overlays)
+            if _finalization_writer.input is None:
+                _finalization_writer.record_input(candidate_snapshot)
             registered = self.store.roots()
             self._verify_candidate_snapshot(candidate_snapshot, world, registered)
             binding = candidate_snapshot.binding()
@@ -798,8 +745,18 @@ class Finalizer:
                     candidate_verifiers=resolve_verifiers(project, validation["roots"], sources),
                     adapter=validation["adapter"],
                     evaluated_at=utc_now(),
+                    examined_content_root=_finalization_writer.input.root.decode('utf-8', 'surrogatepass'),
                     core=self.core,
                 )
+            # This recapture is an actual observation after all check returns.
+            # Earlier header/input/result bytes remain immutable; the final
+            # completion is retained only after native whole-roster admission.
+            observed_manifests = self._capture_candidate_manifests(payload, registered)
+            post_snapshot = CandidateSnapshot(world.instance_id, payload, observed_manifests,
+                Manifest.root_set_hash(observed_manifests.values(), self.core))
+            _finalization_writer.finish_capture(
+                context=context, results=check_results, post_snapshot=post_snapshot)
+            check_results = _finalization_writer.rows
             evidence = evidence_manifest(
                 check_results,
                 self.core,
@@ -875,17 +832,11 @@ class Finalizer:
             world.delta_hash = delta.delta_hash
             world.delta = {**delta.value["summary"], "files": delta.value["operations"]}
             world.establish_identity(self.core)
-            results_by_id = {item.get("id"): item for item in check_results}
-            # The kernel decides the roster: each required record is recomputed from its raw
-            # fields (never the saved classification), admitted by Evaluation.Admissible, and the
-            # list judged by Roster_Complete. The runner always puts the agent's own exit on it;
-            # an empty roster counts only when the requirement's policy declared one.
-            roster = roster_decision(list(required_checks), results_by_id, declarations,
-                                     empty_declared=required_roster(requirement)[1], core=self.core)
-            world.risk = "HIGH" if not roster["complete"] else "MEDIUM"
-            world.transition(WorldState.VALID if roster["complete"] else WorldState.DEGRADED, self.core)
+            _finalization_writer.seal(world, manifests_directory / 'evidence.json',
+                                      manifests_directory / 'environment.json')
             self.store.save_world(world)
             self._make_readonly(payload)
+            _finalization_writer.journal.acknowledge(self.store, world.instance_id)
             return world
         except BaseException as exc:
             if world.state is WorldState.FINALIZING:
@@ -926,7 +877,10 @@ class Finalizer:
 
     @staticmethod
     def _make_readonly(payload: Path) -> None:
-        for current, directories, files in os.walk(payload, topdown=False, followlinks=False):
+        def walk_error(error):
+            raise error
+        for current, directories, files in os.walk(payload, topdown=False, followlinks=False,
+                                                  onerror=walk_error):
             current_path = Path(current)
             for name in files:
                 path = current_path / name
@@ -939,3 +893,26 @@ class Finalizer:
                     continue
                 os.chmod(path, stat.S_IMODE(path.stat().st_mode) & ~0o222)
         os.chmod(payload, stat.S_IMODE(payload.stat().st_mode) & ~0o222)
+
+    @staticmethod
+    def _verify_readonly(payload: Path) -> None:
+        """Observe the original materialization permission obligation in full.
+
+        This is not a protected custody or namespace immutability certificate.
+        """
+        def check(path):
+            info = path.lstat()
+            if stat.S_ISLNK(info.st_mode):
+                return
+            if stat.S_IMODE(info.st_mode) & 0o222:
+                raise WorldlineError('FINALIZATION_PAYLOAD_WRITABLE',
+                                     'the retained payload is not read-only', {'path': str(path)})
+        def walk_error(error):
+            raise error
+        root = payload.lstat()
+        if not stat.S_ISDIR(root.st_mode):
+            raise WorldlineError('FINALIZATION_PAYLOAD_INVALID', 'the payload root is not a directory')
+        check(payload)
+        for current, directories, files in os.walk(payload, followlinks=False, onerror=walk_error):
+            for name in (*directories, *files):
+                check(Path(current) / name)

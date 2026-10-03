@@ -1,7 +1,12 @@
+with Ada.Exceptions;
+with Ada.Text_IO;
+with Worldline.Evaluation_Authority;
 with Evaluation_Pending;
 with Evaluation_Pending_V2;
 with Evaluation_Completion;
 with Evaluation_Completion_Roster;
+with Evaluation_Raw_Roster;
+with Worldline.Evaluation_Wire;
 with Evaluation_History;
 with Worldline.Evaluation;
 with System.Address_To_Access_Conversions;
@@ -13,6 +18,10 @@ package body Evaluation_Completion_C with SPARK_Mode => Off is
    package H renames Evaluation_History;
    package E renames Worldline.Evaluation;
    package Roster renames Evaluation_Completion_Roster;
+   package Raw_Roster renames Evaluation_Raw_Roster;
+   package W renames Worldline.Evaluation_Wire;
+   use type P.Byte;
+   package Raw_Records is new System.Address_To_Access_Conversions (W.Raw_Record);
    use type System.Address;
    use type I64;
    use type U32;
@@ -27,6 +36,57 @@ package body Evaluation_Completion_C with SPARK_Mode => Off is
    package Histories is new System.Address_To_Access_Conversions (History_Row);
    package Requirements is new System.Address_To_Access_Conversions (Required_Row);
    package Octets is new System.Address_To_Access_Conversions (P.Byte);
+   Diagnostic_Active : Boolean := False with Atomic;
+   Diagnostic_Failed : Boolean := False with Atomic;
+
+   procedure Diagnostic_Mark (Site : String) is
+   begin
+      if Diagnostic_Active then
+         Ada.Text_IO.Put_Line
+           (Ada.Text_IO.Standard_Error, "WORLDLINE_NATIVE_DIAGNOSTIC " & Site);
+         Ada.Text_IO.Flush (Ada.Text_IO.Standard_Error);
+      end if;
+   exception
+      when others => Diagnostic_Failed := True;
+   end Diagnostic_Mark;
+
+   procedure Diagnostic_Value (Site : String; Value : I64) is
+   begin
+      if Diagnostic_Active then
+         Diagnostic_Mark (Site & "=" & I64'Image (Value));
+      end if;
+   exception
+      when others => Diagnostic_Failed := True;
+   end Diagnostic_Value;
+
+   procedure Diagnostic_Exception
+     (Site : String; Error : Ada.Exceptions.Exception_Occurrence) is
+   begin
+      if Diagnostic_Active then
+         Diagnostic_Mark
+           (Site & " exception=" & Ada.Exceptions.Exception_Information (Error));
+      end if;
+   exception
+      when others => Diagnostic_Failed := True;
+   end Diagnostic_Exception;
+
+   function Diagnostic_Control (Enable : U32) return U32 is
+   begin
+      if Enable = 1 then
+         if Diagnostic_Active then return 1; end if;
+         Diagnostic_Failed := False;
+         Diagnostic_Active := True;
+         Diagnostic_Mark ("trace.begin");
+         return 0;
+      elsif Enable = 0 then
+         Diagnostic_Mark ("trace.end");
+         Diagnostic_Active := False;
+         return (if Diagnostic_Failed then 1 else 0);
+      else
+         return 2;
+      end if;
+   end Diagnostic_Control;
+
    function ABI_Version return U32 is (1);
    function Layout_Size (Kind : U32) return I64 is
      (case Kind is
@@ -466,4 +526,462 @@ package body Evaluation_Completion_C with SPARK_Mode => Off is
    exception
       when others => return 255;
    end Decide;
+   function Raw_Decide (Input, Raw_Rows, Confinements, Output : System.Address) return Interfaces.C.int is
+      Input_Size : constant I64 := Request'Object_Size / System.Storage_Unit;
+      Output_Size : constant I64 := Result'Object_Size / System.Storage_Unit;
+      Raw_Stride : constant I64 := W.Raw_Record'Object_Size / System.Storage_Unit;
+      J_Stride : constant I64 := Journal_Row'Object_Size / System.Storage_Unit;
+      C_Stride : constant I64 := Check_Row'Object_Size / System.Storage_Unit;
+      H_Stride : constant I64 := History_Row'Object_Size / System.Storage_Unit;
+      S_Stride : constant I64 := Required_Row'Object_Size / System.Storage_Unit;
+   begin
+      if not Extent_Valid (Input, Input_Size, Request'Alignment)
+        or else not Extent_Valid (Output, Output_Size, Result'Alignment)
+        or else not Disjoint (Input, Input_Size, Output, Output_Size)
+      then return 255; end if;
+      declare
+         R : constant Request := Requests.To_Pointer (Input).all;
+      begin
+         if R.Version /= 1 or else R.Operation /= 2 or else R.Policy > U32 (Roster.Declaration'Pos (Roster.Declaration'Last)) or else R.Retained_Present > 1
+           or else not Extent_Valid (R.Data, R.Data_Length, P.Byte'Alignment)
+           or else not Disjoint (R.Data, R.Data_Length, Output, Output_Size)
+           or else not Array_Valid (R.Journal, R.Journal_Count, J_Stride, Journal_Row'Alignment, Output, Output_Size)
+           or else not Array_Valid (R.Captured_Results, R.Captured_Count, C_Stride, Check_Row'Alignment, Output, Output_Size)
+           or else not Array_Valid (R.Retained_Results, R.Retained_Count, C_Stride, Check_Row'Alignment, Output, Output_Size)
+           or else not Array_Valid (R.History, R.History_Count, H_Stride, History_Row'Alignment, Output, Output_Size)
+           or else not Array_Valid (R.Required, R.Required_Count, S_Stride, Required_Row'Alignment, Output, Output_Size)
+           or else not Array_Valid (Raw_Rows, R.Captured_Count, Raw_Stride,
+             W.Raw_Record'Alignment, Output, Output_Size)
+           or else not Array_Valid (Confinements, R.Captured_Count, 1,
+             P.Byte'Alignment, Output, Output_Size)
+           or else not Valid (R.Observed_Binding)
+           or else not Valid (R.Before_Root) or else not Valid (R.After_Root)
+           or else not Valid (R.Completion.Check_Id) or else not Valid (R.Completion.Declared)
+           or else not Valid (R.Current) or else not Valid (R.Captured)
+           or else (R.Retained_Present = 1 and then not Valid (R.Retained))
+         then return 255; end if;
+         declare
+            A : constant P.Bytes := Copy_Data (R.Data, R.Data_Length);
+            J : V.Journal (1 .. P.Count (R.Journal_Count));
+            Measures : Raw_Roster.Measured_Array (1 .. P.Count (R.Captured_Count));
+            Captured : T.Result_Array (1 .. P.Count (R.Captured_Count));
+            Retained_Results : T.Result_Array (1 .. P.Count (R.Retained_Count));
+            History : H.History (1 .. H.Byte_Count (R.History_Count));
+            Required : Roster.Check_Array (1 .. P.Count (R.Required_Count));
+            Classified : Raw_Roster.Classification;
+            Retained : constant T.Optional_Terminal :=
+              (if R.Retained_Present = 0 then (Present => False)
+               else (True, Convert (R.Retained)));
+            Reason : T.Decision;
+            Selected : P.Count;
+            Response : Result := (Reason => 0, Selected => 0,
+              Summary_Present => 0, Summary =>
+                (Subject | Content | Requirement | Run | Sequence => (0, (1, 0)),
+                 State | Outcome => 0), Execution_State => 0, Outcome => 0, Promotion => 0);
+         begin
+            for I in J'Range loop
+               declare
+                  X : constant Journal_Row := Journals.To_Pointer
+                    (R.Journal + Storage_Offset (I64 (I - 1) * J_Stride)).all;
+               begin
+                  if not Valid (X.Bound) or else not Valid (X.Previous) or else X.Linked > 1
+                  then return 255; end if;
+                  J (I) := (Base =>
+                    (Convert (X.Bound.Store_Id), Convert (X.Bound.Subject),
+                     Convert (X.Bound.Content), Convert (X.Bound.Run),
+                     Convert (X.Bound.Sequence), Previous (X.Previous),
+                     (if X.Linked = 0 then P.Reserved else P.Linked)),
+                    Requirement => Convert (X.Bound.Requirement));
+               end;
+            end loop;
+            for I in Captured'Range loop
+               declare
+                  X : constant Check_Row := Checks.To_Pointer
+                    (R.Captured_Results + Storage_Offset (I64 (I - 1) * C_Stride)).all;
+               begin
+                  if not Valid (X) then return 255; end if;
+                  Captured (I) := Convert (X);
+                  declare
+                     Wire : constant W.Raw_Record := Raw_Records.To_Pointer
+                       (Raw_Rows + Storage_Offset (I64 (I - 1) * Raw_Stride)).all;
+                     Confined : constant P.Byte := Octets.To_Pointer
+                       (Confinements + Storage_Offset (I - 1)).all;
+                  begin
+                     if not W.Well_Formed (Wire)
+                       or else Confined > W.E.Confinement_Observation'Pos (W.E.Confinement_Observation'Last)
+                     then return 255; end if;
+                     Measures (I) := (Captured (I), Wire, Confined,
+                       T.Captured_Bytes (Convert (X.Declared)));
+                  end;
+               end;
+            end loop;
+            for I in Retained_Results'Range loop
+               declare
+                  X : constant Check_Row := Checks.To_Pointer
+                    (R.Retained_Results + Storage_Offset (I64 (I - 1) * C_Stride)).all;
+               begin
+                  if not Valid (X) then return 255; end if;
+                  Retained_Results (I) := Convert (X);
+               end;
+            end loop;
+            for I in History'Range loop
+               declare
+                  X : constant History_Row := Histories.To_Pointer
+                    (R.History + Storage_Offset (I64 (I - 1) * H_Stride)).all;
+               begin
+                  if not Valid (X) then return 255; end if;
+                  History (I) := Convert (X);
+               end;
+            end loop;
+            for I in Required'Range loop
+               declare
+                  X : constant Required_Row := Requirements.To_Pointer
+                    (R.Required + Storage_Offset (I64 (I - 1) * S_Stride)).all;
+               begin
+                  if not Valid (X.Check_Id) or else not Valid (X.Declared) then return 255; end if;
+                  Required (I) := (T.Check_Identity (Convert (X.Check_Id)), T.Captured_Bytes (Convert (X.Declared)));
+               end;
+            end loop;
+            if R.Operation /= 1 then
+               Reason := Worldline.Evaluation_Authority.Decide_Envelope
+                 (A, J, Convert (R.Current), Convert (R.Captured),
+                                   Captured, Retained, Retained_Results);
+            else
+               T.Apply (A, J, Convert (R.Current), Convert (R.Captured), Captured,
+                        Retained, Retained_Results, History, Reason);
+            end if;
+            Response.Reason := U32 (T.Decision'Pos (Reason));
+            if Reason in T.Retain_Terminal | T.Already_Retained then
+               Selected := T.Find_Run (A, J, T.Run_Identity (Convert (R.Captured.Bound.Run)));
+               Response.Selected := I64 (Selected);
+               if R.Operation = 2 then
+                  -- Malformed spans and inconsistent bindings are refused
+                  -- before any False failure predicate can be mistaken for PASS.
+                  if not T.Valid_Binding (A, Convert (R.Captured.Bound))
+                    or else not T.Same_Binding (A, Convert (R.Captured.Bound), Convert (R.Observed_Binding))
+                    or else not P.Valid (A, Convert (R.Before_Root))
+                    or else not P.Valid (A, Convert (R.After_Root))
+                    or else not P.Valid (A, Convert (R.Completion.Check_Id))
+                    or else not P.Valid (A, Convert (R.Completion.Declared))
+                    or else (for some M in Measures'Range =>
+                      not Raw_Roster.Row_Bound (A, Measures (M), Convert (R.Captured.Bound)))
+                    or else (for some Q in Required'Range =>
+                      not P.Valid (A, T.Span (Required (Q).Check))
+                      or else not P.Valid (A, T.Span (Required (Q).Declared)))
+                  then return 255; end if;
+                  Classified := Raw_Roster.Classify (A, Convert (R.Captured.Bound),
+                    Measures, Required, Roster.Declaration'Val (R.Policy),
+                    (Convert (R.Observed_Binding), T.Captured_Bytes (Convert (R.Before_Root)),
+                     T.Captured_Bytes (Convert (R.After_Root))),
+                    (T.Check_Identity (Convert (R.Completion.Check_Id)),
+                     T.Captured_Bytes (Convert (R.Completion.Declared))));
+                  Response.Execution_State := U32 (W.E.Execution_State'Pos (Classified.State));
+                  Response.Outcome := U32 (W.E.Outcome'Pos (Classified.Outcome));
+                  Response.Promotion := Boolean'Pos (Classified.Promotion_Ready);
+               end if;
+               if R.Operation = 1 then
+                  Response.Summary_Present := 1;
+                  Response.Summary := Export_Row (History (H.Byte_Index (Selected)));
+               end if;
+            end if;
+            Outputs.To_Pointer (Output).all := Response;
+            return 0;
+         end;
+      end;
+   exception
+      when others => return 255;
+   end Raw_Decide;
+
+   function Context_Layout (Kind, Field : U32) return I64 is
+      X : Context_Input;
+      R : Context_Row;
+   begin
+      case Kind is
+         when 1 =>
+            return (case Field is
+              when 0 => Context_Input'Object_Size / System.Storage_Unit,
+              when 1 => Context_Input'Alignment,
+              when 2 => X.Version'Position,
+              when 3 => X.Data'Position,
+              when 4 => X.Data_Length'Position,
+              when 5 => X.Expected_Binding'Position,
+              when 6 => X.Expected_Current'Position,
+              when 7 => X.Prepared_Current'Position,
+              when 8 => X.Expected'Position,
+              when 9 => X.Observed'Position,
+              when 10 => X.Rows'Position,
+              when 11 => X.Row_Count'Position,
+              when 12 => X.Required'Position,
+              when 13 => X.Required_Count'Position,
+              when 14 => X.Policy'Position,
+              when 15 => X.Projection'Position,
+              when 16 => X.Agent'Position,
+              when 17 => X.Agent_Confinement'Position,
+              when others => I64'Last);
+         when 2 =>
+            return (case Field is
+              when 0 => Context_Row'Object_Size / System.Storage_Unit,
+              when 1 => Context_Row'Alignment,
+              when 2 => R.Item'Position,
+              when 3 => R.Expected'Position,
+              when 4 => R.Observed'Position,
+              when others => I64'Last);
+         when others => return I64'Last;
+      end case;
+   end Context_Layout;
+
+   function Context_Matches
+     (Input, Context, Collapse, Agent : System.Address;
+      Agent_Confinement : Interfaces.Unsigned_8) return Interfaces.C.int is
+      package CA renames Worldline.Evaluation_Authority;
+      package CW renames Worldline.Collapse_Wire;
+      package Contexts is new System.Address_To_Access_Conversions (Context_Input);
+      package Context_Items is new System.Address_To_Access_Conversions (Context_Row);
+      package Collapse_Requests is new System.Address_To_Access_Conversions (CW.Raw_Request);
+      use type W.Raw_Record;
+      CS : constant I64 := Context_Input'Object_Size / System.Storage_Unit;
+      RS : constant I64 := Context_Row'Object_Size / System.Storage_Unit;
+      ISz : constant I64 := Check_Row'Object_Size / System.Storage_Unit;
+      QS : constant I64 := Required_Row'Object_Size / System.Storage_Unit;
+      function Convert_Optional (X : Optional_Span) return CA.Optional_Bytes is
+        (if X.Present = 0 then (Present => False)
+         else (True, Convert (X.Value)));
+   begin
+      Diagnostic_Mark ("completion.context.enter");
+      if not Extent_Valid (Input, Request'Object_Size / System.Storage_Unit, Request'Alignment)
+        or else not Extent_Valid (Context, CS, Context_Input'Alignment)
+        or else not Extent_Valid (Collapse, CW.Raw_Request'Object_Size / System.Storage_Unit, CW.Raw_Request'Alignment)
+        or else not Extent_Valid (Agent, W.Raw_Record'Object_Size / System.Storage_Unit, W.Raw_Record'Alignment)
+      then
+         Diagnostic_Mark ("completion.context.input-extents-rejected");
+         return 255;
+      end if;
+      declare
+         R : constant Request := Requests.To_Pointer (Input).all;
+         X : constant Context_Input := Contexts.To_Pointer (Context).all;
+         Raw_Collapse : constant CW.Raw_Request := Collapse_Requests.To_Pointer (Collapse).all;
+         Raw_Agent : constant W.Raw_Record := Raw_Records.To_Pointer (Agent).all;
+      begin
+         if X.Version /= 1 or else R.Version /= 1 or else R.Operation /= 2
+           or else not Extent_Valid (X.Data, X.Data_Length, P.Byte'Alignment)
+           or else X.Row_Count /= R.Captured_Count
+           or else X.Required_Count /= R.Required_Count
+           or else X.Policy > U32 (Roster.Declaration'Pos (Roster.Declaration'Last))
+           or else R.Policy > U32 (Roster.Declaration'Pos (Roster.Declaration'Last))
+           or else not Valid (R.Before_Root) or else not Valid (R.After_Root)
+           or else not Valid (R.Captured) or else not Valid (R.Current)
+           or else not Valid (X.Expected_Binding) or else not Valid (X.Expected_Current)
+           or else not Valid (X.Prepared_Current)
+           or else not Extent_Valid (R.Data, R.Data_Length, P.Byte'Alignment)
+           or else not Array_Valid (X.Rows, X.Row_Count, RS, Context_Row'Alignment, Context, CS)
+           or else not Array_Valid (R.Captured_Results, R.Captured_Count, ISz, Check_Row'Alignment, Context, CS)
+           or else not Array_Valid (R.Required, R.Required_Count, QS, Required_Row'Alignment, Context, CS)
+           or else not Array_Valid (X.Required, X.Required_Count, QS, Required_Row'Alignment, Context, CS)
+           or else X.Agent /= Raw_Agent or else X.Agent_Confinement /= Agent_Confinement
+         then
+            Diagnostic_Mark ("completion.context.transport-guard-rejected");
+            return 255;
+         end if;
+         Diagnostic_Mark ("completion.context.copy-arenas");
+         declare
+            Data : constant P.Bytes := Copy_Data (R.Data, R.Data_Length);
+            Context_Data : constant P.Bytes := Copy_Data (X.Data, X.Data_Length);
+            Expected, Observed : CA.Context_Fields;
+            Rows : T.Result_Array (1 .. P.Count (R.Captured_Count));
+            Joined : CA.Context_Rows (Rows'Range);
+            Required, Expected_Required : Roster.Check_Array (1 .. P.Count (R.Required_Count));
+         begin
+            Diagnostic_Mark ("completion.context.arenas-copied");
+            for K in CA.Context_Field loop
+               if not Valid (X.Expected (K)) or else not Valid (X.Observed (K))
+               then
+                  Diagnostic_Value
+                    ("completion.context.field-rejected", I64 (CA.Context_Field'Pos (K)));
+                  return 255;
+               end if;
+               Expected (K) := Convert_Optional (X.Expected (K));
+               Observed (K) := Convert_Optional (X.Observed (K));
+            end loop;
+            for I in Rows'Range loop
+               declare
+                  Original : constant Check_Row := Checks.To_Pointer
+                    (R.Captured_Results + Storage_Offset (I64 (I - 1) * ISz)).all;
+                  Owned : constant Context_Row := Context_Items.To_Pointer
+                    (X.Rows + Storage_Offset (I64 (I - 1) * RS)).all;
+               begin
+                  if not Valid (Original) or else not Valid (Owned.Item) then
+                     Diagnostic_Value ("completion.context.row-rejected", I64 (I));
+                     return 255;
+                  end if;
+                  Rows (I) := Convert (Original);
+                  Joined (I).Item := Convert (Owned.Item);
+                  Joined (I).Declared := T.Captured_Bytes (Convert (Owned.Item.Declared));
+                  Joined (I).Actual_Declared := T.Captured_Bytes (Convert (Original.Declared));
+                  for K in CA.Row_Field loop
+                     if not Valid (Owned.Expected (K)) or else not Valid (Owned.Observed (K)) then
+                        Diagnostic_Value ("completion.context.row-field-row", I64 (I));
+                        Diagnostic_Value
+                          ("completion.context.row-field-rejected", I64 (CA.Row_Field'Pos (K)));
+                        return 255;
+                     end if;
+                     Joined (I).Expected (K) := Convert_Optional (Owned.Expected (K));
+                     Joined (I).Observed (K) := Convert_Optional (Owned.Observed (K));
+                  end loop;
+               end;
+            end loop;
+            for I in Required'Range loop
+               declare
+                  Original : constant Required_Row := Requirements.To_Pointer
+                    (R.Required + Storage_Offset (I64 (I - 1) * QS)).all;
+                  Owned : constant Required_Row := Requirements.To_Pointer
+                    (X.Required + Storage_Offset (I64 (I - 1) * QS)).all;
+               begin
+                  if not Valid (Original.Check_Id) or else not Valid (Original.Declared)
+                    or else not Valid (Owned.Check_Id) or else not Valid (Owned.Declared)
+                  then
+                     Diagnostic_Value ("completion.context.required-rejected", I64 (I));
+                     return 255;
+                  end if;
+                  Required (I) := (T.Check_Identity (Convert (Original.Check_Id)), T.Captured_Bytes (Convert (Original.Declared)));
+                  Expected_Required (I) := (T.Check_Identity (Convert (Owned.Check_Id)), T.Captured_Bytes (Convert (Owned.Declared)));
+               end;
+            end loop;
+            Diagnostic_Mark ("completion.context.join");
+            declare
+               Joined_Context : constant Boolean := CA.Join_Context
+              (Data, Context_Data, Convert (R.Captured), Convert (R.Current),
+               Convert (X.Expected_Binding), Convert (X.Expected_Current), Convert (X.Prepared_Current),
+               Expected, Observed, Convert (R.Before_Root), Convert (R.After_Root),
+               Roster.Declaration'Val (R.Policy), Roster.Declaration'Val (X.Policy),
+               Rows, Joined, Required, Expected_Required,
+               Raw_Collapse, X.Projection);
+            begin
+               Diagnostic_Value
+                 ("completion.context.join-result", Boolean'Pos (Joined_Context));
+               return (if Joined_Context then 1 else 0);
+            end;
+         end;
+      end;
+   exception
+      when Error : others =>
+         Diagnostic_Exception ("completion.context", Error);
+         return 255;
+   end Context_Matches;
+
+   function Metadata_Layout (Kind, Field : U32) return I64 is
+      X : Metadata_Context;
+      R : Row_Metadata;
+   begin
+      case Kind is
+         when 1 => return (case Field is
+           when 0 => Metadata_Context'Object_Size / System.Storage_Unit,
+           when 1 => Metadata_Context'Alignment,
+           when 2 => X.Version'Position, when 3 => X.Base'Position,
+           when 4 => X.Data'Position, when 5 => X.Data_Length'Position,
+           when 6 => X.Rows'Position, when 7 => X.Row_Count'Position,
+           when others => I64'Last);
+         when 2 => return (case Field is
+           when 0 => Row_Metadata'Object_Size / System.Storage_Unit,
+           when 1 => Row_Metadata'Alignment,
+           when 2 => R.Check_Id'Position, when 3 => R.Source_Id'Position,
+           when 4 => R.Payload'Position, when 5 => R.Execution'Position,
+           when 6 => R.Verifier'Position, when others => I64'Last);
+         when others => return I64'Last;
+      end case;
+   end Metadata_Layout;
+
+   function Metadata_Base (Context : System.Address) return System.Address is
+      package Inputs is new System.Address_To_Access_Conversions (Metadata_Context);
+   begin
+      if not Extent_Valid (Context, Metadata_Context'Object_Size / System.Storage_Unit,
+                           Metadata_Context'Alignment)
+      then return System.Null_Address; end if;
+      declare X : constant Metadata_Context := Inputs.To_Pointer (Context).all;
+      begin
+         if X.Version /= 1 or else not Extent_Valid
+           (X.Base, Context_Input'Object_Size / System.Storage_Unit, Context_Input'Alignment)
+         then return System.Null_Address; end if;
+         return X.Base;
+      end;
+   exception when others => return System.Null_Address;
+   end Metadata_Base;
+
+   function Metadata_Matches (Input, Context : System.Address)
+      return Interfaces.C.int is
+      package CA renames Worldline.Evaluation_Authority;
+      package Inputs is new System.Address_To_Access_Conversions (Metadata_Context);
+      package Metadata_Items is new System.Address_To_Access_Conversions (Row_Metadata);
+      CS : constant I64 := Metadata_Context'Object_Size / System.Storage_Unit;
+      RS : constant I64 := Row_Metadata'Object_Size / System.Storage_Unit;
+      ISz : constant I64 := Check_Row'Object_Size / System.Storage_Unit;
+      function Optional (X : Optional_Span) return CA.Optional_Bytes is
+        (if X.Present = 0 then (Present => False)
+         else (Present => True, Value => Convert (X.Value)));
+   begin
+      Diagnostic_Mark ("completion.metadata.enter");
+      if not Extent_Valid (Input, Request'Object_Size / System.Storage_Unit, Request'Alignment)
+        or else not Extent_Valid (Context, CS, Metadata_Context'Alignment)
+      then
+         Diagnostic_Mark ("completion.metadata.input-extents-rejected");
+         return 255;
+      end if;
+      declare
+         R : constant Request := Requests.To_Pointer (Input).all;
+         X : constant Metadata_Context := Inputs.To_Pointer (Context).all;
+      begin
+         if X.Version /= 1 or else R.Version /= 1 or else R.Operation > 2
+           or else X.Row_Count /= R.Captured_Count
+           or else not Extent_Valid (X.Data, X.Data_Length, P.Byte'Alignment)
+           or else not Extent_Valid (R.Data, R.Data_Length, P.Byte'Alignment)
+           or else not Array_Valid (X.Rows, X.Row_Count, RS, Row_Metadata'Alignment, Context, CS)
+           or else not Array_Valid (R.Captured_Results, R.Captured_Count, ISz,
+                                   Check_Row'Alignment, Context, CS)
+         then
+            Diagnostic_Mark ("completion.metadata.transport-guard-rejected");
+            return 255;
+         end if;
+         Diagnostic_Mark ("completion.metadata.copy-arenas");
+         declare
+            Data : constant P.Bytes := Copy_Data (R.Data, R.Data_Length);
+            Projected_Data : constant P.Bytes := Copy_Data (X.Data, X.Data_Length);
+            Rows : T.Result_Array (1 .. P.Count (R.Captured_Count));
+            Projected : CA.Row_Metadata_Array (Rows'Range);
+         begin
+            Diagnostic_Mark ("completion.metadata.arenas-copied");
+            for I in Rows'Range loop
+               declare
+                  Original : constant Check_Row := Checks.To_Pointer
+                    (R.Captured_Results + Storage_Offset (I64 (I - 1) * ISz)).all;
+                  Owned : constant Row_Metadata := Metadata_Items.To_Pointer
+                    (X.Rows + Storage_Offset (I64 (I - 1) * RS)).all;
+               begin
+                  if not Valid (Original) or else not Valid (Owned.Check_Id)
+                    or else not Valid (Owned.Source_Id) or else not Valid (Owned.Payload)
+                    or else not Valid (Owned.Execution) or else not Valid (Owned.Verifier)
+                  then
+                     Diagnostic_Value ("completion.metadata.row-rejected", I64 (I));
+                     return 255;
+                  end if;
+                  Rows (I) := Convert (Original);
+                  Projected (I) := (Check => Convert (Owned.Check_Id),
+                    Source => Convert (Owned.Source_Id), Payload => Convert (Owned.Payload),
+                    Execution => Optional (Owned.Execution), Verifier => Optional (Owned.Verifier));
+               end;
+            end loop;
+            Diagnostic_Mark ("completion.metadata.join");
+            declare
+               Joined_Metadata : constant Boolean :=
+                 CA.Join_Metadata (Data, Projected_Data, Rows, Projected);
+            begin
+               Diagnostic_Value
+                 ("completion.metadata.join-result", Boolean'Pos (Joined_Metadata));
+               return (if Joined_Metadata then 1 else 0);
+            end;
+         end;
+      end;
+   exception
+      when Error : others =>
+         Diagnostic_Exception ("completion.metadata", Error);
+         return 255;
+   end Metadata_Matches;
 end Evaluation_Completion_C;

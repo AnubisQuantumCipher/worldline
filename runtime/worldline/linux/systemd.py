@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from contextlib import contextmanager
+from contextvars import ContextVar
 import json
 import os
 import re
@@ -15,6 +17,7 @@ from ..errors import WorldlineError
 
 _UNIT_PATTERN = re.compile(r"^worldline-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.service$")
 _PRIVATE_BOOTSTRAP = object()
+_ACQUISITION = ContextVar('worldline_systemd_acquisition', default=None)
 
 
 @dataclass(slots=True)
@@ -63,6 +66,54 @@ class SystemdAdapter:
         if self.systemd_run is None or self.systemctl is None:
             raise WorldlineError("SYSTEMD_UNAVAILABLE", "systemd-run or systemctl is not installed")
         self.environment = manager_environment()
+
+    @contextmanager
+    def acquisition_scope(self, observer, *, cancel_event=None, _ownership_observer=None):
+        """Own built-in query transport without changing provider signatures.
+
+        This context is local to the calling thread. Overrides still receive
+        their original arguments; an arbitrary in-process override is neither
+        moved into a process nor claimed to be cancellable by this boundary.
+        """
+        token = _ACQUISITION.set((self, observer, cancel_event, _ownership_observer))
+        try:
+            yield
+        finally:
+            _ACQUISITION.reset(token)
+
+    def _query(self, argv, *, timeout, site, observer=None, details=None):
+        current = _ACQUISITION.get()
+        scoped = current if current is not None and current[0] is self else None
+        observer = observer if observer is not None else (None if scoped is None else scoped[1])
+        cancel_event = None if scoped is None else scoped[2]
+        if observer is None and cancel_event is None:
+            return subprocess.run(argv, stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+                timeout=timeout, env=self.environment)
+        from ..raw_observation import observed_process_run, ProcessAcquisitionCancelled
+        terminal = None
+        def retained(record):
+            nonlocal terminal
+            terminal = record
+            if scoped is not None and scoped[3] is not None:
+                scoped[3](record)
+            if observer is not None:
+                observer(record)
+        try:
+            return observed_process_run(argv, observer=retained,
+                details={'schemaVersion': 1, 'site': site, 'argv': list(argv), **(details or {})},
+                stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                check=False, timeout=timeout, env=self.environment, cancel_event=cancel_event)
+        except ProcessAcquisitionCancelled as error:
+            # Only cancellation through this actual owned transport can end an
+            # optional sample normally. An override raising the same class is
+            # still an ordinary provider exception, with its old failure path.
+            error._worldline_systemd_cancel_event = cancel_event
+            error._worldline_systemd_cancel_complete = (
+                terminal is not None and terminal.get('processWaitReturnObserved') is True
+                and terminal.get('stdoutReachedEof') is True
+                and terminal.get('stderrReachedEof') is True)
+            raise
 
     @staticmethod
     def unit_name(instance_id: str) -> str:
@@ -215,10 +266,9 @@ class SystemdAdapter:
 
     def _show(self, unit: str, properties: Sequence[str]) -> dict[str, str] | None:
         self._validate_unit(unit)
-        result = subprocess.run(
+        result = self._query(
             [self.systemctl, "--user", "show", unit, *[f"--property={item}" for item in properties]],
-            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            check=False, timeout=10, env=self.environment)
+            timeout=10, site='systemd-show', details={'unit': unit})
         if result.returncode != 0:
             return None
         values: dict[str, str] = {}
@@ -236,6 +286,25 @@ class SystemdAdapter:
         if not control_group:
             return None
         path = Path("/sys/fs/cgroup") / control_group.lstrip("/") / name
+        current = _ACQUISITION.get()
+        observer = None if current is None else current[1]
+        if observer is not None:
+            from ..raw_observation import (exception_observation, optional_bytes,
+                                           retain_during_unwind, retain_observation)
+            details = {'schemaVersion': 1, 'site': 'cgroup-read',
+                       'controlGroup': control_group, 'name': name, 'path': os.fsencode(path)}
+            try:
+                payload = path.read_bytes()
+            except OSError as error:
+                retain_during_unwind(lambda: retain_observation(observer, {
+                    **details, 'readReturned': False, 'bytes': None,
+                    'exception': exception_observation(error)}))
+                return None
+            retain_observation(observer, {**details, 'readReturned': True,
+                'bytes': optional_bytes(payload), 'exception': None})
+            # Match read_text's strict UTF-8 and universal newline projection.
+            # Its exact bytes have already been retained, including on decode failure.
+            return payload.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n').strip()
         try:
             return path.read_text(encoding="utf-8").strip()
         except OSError:
@@ -318,14 +387,9 @@ class SystemdAdapter:
     def verify_manager(self) -> dict[str, str]:
         """Ask the user service manager something only it can answer. A manager that is
         `degraded` (some unit failed somewhere) answers; one that cannot be reached does not."""
-        result = subprocess.run(
+        result = self._query(
             [self.systemctl, "--user", "show", "--property=Version", "--property=NFailedUnits"],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-            timeout=10,
-            env=self.environment,
+            timeout=10, site='systemd-manager-verification',
         )
         if result.returncode != 0:
             reason = result.stderr.decode("utf-8", "replace").strip() or f"systemctl exited {result.returncode}"
@@ -355,26 +419,10 @@ class SystemdAdapter:
         journalctl = self.journalctl
         if journalctl is None:
             return None
-        if _raw_observer is None:
-            result = subprocess.run(
-                [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager", f"--since=@{max(since_us // 1_000_000 - 2, 0)}"],
-                stdin=subprocess.DEVNULL,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=False,
-                timeout=15,
-                env=self.environment,
-            )
-        else:
-            from ..raw_observation import observed_process_call
-            journal_argv = [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager",
-                            f"--since=@{max(since_us // 1_000_000 - 2, 0)}"]
-            result = observed_process_call(
-                lambda: subprocess.run(journal_argv, stdin=subprocess.DEVNULL,
-                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
-                    timeout=15, env=self.environment),
-                _raw_observer, {'schemaVersion': 1, 'site': 'journal-poll',
-                    'unit': unit, 'sinceUs': since_us, 'argv': journal_argv})
+        journal_argv = [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager",
+                        f"--since=@{max(since_us // 1_000_000 - 2, 0)}"]
+        result = self._query(journal_argv, timeout=15, site='journal-poll',
+            observer=_raw_observer, details={'unit': unit, 'sinceUs': since_us})
         if result.returncode != 0:
             return None
         manager_unit = f"user@{os.getuid()}.service"
@@ -507,14 +555,9 @@ class SystemdAdapter:
 
     def stop(self, unit: str) -> None:
         self._validate_unit(unit)
-        result = subprocess.run(
+        result = self._query(
             [self.systemctl, "--user", "stop", unit],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-            timeout=20,
-            env=self.environment,
+            timeout=20, site='systemd-stop', details={'unit': unit},
         )
         if result.returncode not in (0, 5):
             raise WorldlineError(
@@ -526,14 +569,9 @@ class SystemdAdapter:
     def metadata(self, unit: str) -> dict[str, Any]:
         self._validate_unit(unit)
         properties = ("MainPID", "ControlGroup", "ActiveState", "SubState", "ExecMainStatus", "Result", "InvocationID", "ExecMainStartTimestampMonotonic")
-        result = subprocess.run(
+        result = self._query(
             [self.systemctl, "--user", "show", unit, *[f"--property={item}" for item in properties]],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-            timeout=10,
-            env=self.environment,
+            timeout=10, site='systemd-metadata', details={'unit': unit},
         )
         if result.returncode != 0:
             return {"unit": unit, "state": "UNAVAILABLE", "reason": result.stderr.decode("utf-8", "replace").strip()}

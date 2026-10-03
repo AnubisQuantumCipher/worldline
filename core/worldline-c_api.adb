@@ -1,8 +1,12 @@
+with Evaluation_Completion_C;
+with Evaluation_Completion;
+with Worldline.Evaluation_Authority;
+with Worldline.Collapse;
+with System.Address_To_Access_Conversions;
 with Ada.Streams;
 with Ada.Streams.Stream_IO;
 with Attest;
 with Attest.SHA256;
-with System.Address_To_Access_Conversions;
 with System.Storage_Elements;
 with Worldline.Causal_Graph;
 with Worldline.Evaluation;
@@ -654,4 +658,211 @@ package body Worldline.C_API with SPARK_Mode => Off is
 
 
 
+   package body Authority_Glue is
+   package A renames Worldline.Evaluation_Authority;
+   package W renames A.W;
+   package C renames Worldline.Collapse_Wire;
+   use type System.Address;
+   use System.Storage_Elements;
+   package RP is new System.Address_To_Access_Conversions (W.Raw_Record);
+   package OP is new System.Address_To_Access_Conversions (W.Wire_Classification);
+   package CP is new System.Address_To_Access_Conversions (C.Raw_Request);
+   -- Numeric extents do not establish C allocation ownership. Callers must
+   -- supply stable owned objects of the queried exact extent for the call.
+   function Fits (P : System.Address; Bits, Alignment : Natural) return Boolean is
+     (P /= System.Null_Address and then Alignment > 0
+      and then To_Integer (P) mod Integer_Address (Alignment) = 0
+      and then Bits mod System.Storage_Unit = 0
+      and then Bits / System.Storage_Unit > 0
+      and then Integer_Address (Bits / System.Storage_Unit - 1) <=
+        Integer_Address'Last - To_Integer (P));
+   function Disjoint (L : System.Address; L_Bits : Natural;
+                      R : System.Address; R_Bits : Natural) return Boolean is
+     (if To_Integer (L) <= To_Integer (R) then
+        Integer_Address (L_Bits / System.Storage_Unit) <= To_Integer (R) - To_Integer (L)
+      else Integer_Address (R_Bits / System.Storage_Unit) <= To_Integer (L) - To_Integer (R));
+   function Version return Byte is (1);
+   function Layout (Kind, Field : Byte) return Interfaces.C.size_t is
+      R : W.Raw_Record; O : W.Wire_Classification;
+   begin
+      case Kind is
+         when 0 => case Field is
+            when 0 => return W.Raw_Record'Object_Size / System.Storage_Unit;
+            when 1 => return W.Raw_Record'Alignment;
+            when 2 => return R.Observations'Position;
+            when 3 => return R.Report_Based'Position;
+            when 4 => return R.Report_Facts'Position;
+            when 5 => return R.Presence'Position;
+            when others => return Interfaces.C.size_t'Last; end case;
+         when 1 => case Field is
+            when 0 => return W.Wire_Classification'Object_Size / System.Storage_Unit;
+            when 1 => return W.Wire_Classification'Alignment;
+            when 2 => return O.Status'Position;
+            when 3 => return O.Execution'Position;
+            when 4 => return O.Result'Position;
+            when 5 => return O.Bundle'Position;
+            when others => return Interfaces.C.size_t'Last; end case;
+         when others => return Interfaces.C.size_t'Last;
+      end case;
+   end Layout;
+   function Classify (Raw, Output : System.Address) return Byte is
+   begin
+      if not Fits (Raw, W.Raw_Record'Object_Size, W.Raw_Record'Alignment)
+        or else not Fits (Output, W.Wire_Classification'Object_Size, W.Wire_Classification'Alignment)
+        or else not Disjoint (Raw, W.Raw_Record'Object_Size, Output, W.Wire_Classification'Object_Size)
+      then return W.Invalid_Record; end if;
+      declare
+         Owned : constant W.Raw_Record := RP.To_Pointer (Raw).all;
+         Value : constant W.Wire_Classification := W.Classify_Wire (Owned);
+      begin OP.To_Pointer (Output).all := Value; return Value.Status; end;
+   exception when others => return W.Invalid_Record;
+   end Classify;
+   function Admit (Raw : System.Address; Confinement : Byte) return Byte is
+   begin
+      if not Fits (Raw, W.Raw_Record'Object_Size, W.Raw_Record'Alignment) then return W.Invalid_Record; end if;
+      declare Owned : constant W.Raw_Record := RP.To_Pointer (Raw).all;
+      begin return W.Confined_Admit_Wire (Owned, Confinement); end;
+   exception when others => return W.Invalid_Record;
+   end Admit;
+   function Report (Raw : System.Address) return Byte is
+   begin
+      if not Fits (Raw, W.Raw_Record'Object_Size, W.Raw_Record'Alignment) then return W.Invalid_Record; end if;
+      declare Owned : constant W.Raw_Record := RP.To_Pointer (Raw).all;
+      begin return A.Report_Of (Owned); end;
+   exception when others => return W.Invalid_Record;
+   end Report;
+   function Dependencies (Request : System.Address) return Byte is
+      use type A.Raw_Dependency;
+   begin
+      if not Fits (Request, C.Raw_Request'Object_Size, C.Raw_Request'Alignment)
+      then return C.Invalid_Request; end if;
+      declare
+         Owned : constant C.Raw_Request := CP.To_Pointer (Request).all;
+         Needed : constant A.Raw_Dependency := A.Dependencies (Owned);
+      begin
+         if Needed = A.Invalid_Collapse then return C.Invalid_Request; end if;
+         return A.Raw_Dependency'Pos (Needed);
+      end;
+   exception when others => return C.Invalid_Request;
+   end Dependencies;
+   function Decide_Raw_Context (Request, Primary, Primary_Raw, Primary_Confinement, Primary_Context,
+       Staged, Staged_Raw, Staged_Confinement, Staged_Context, Agent : System.Address;
+       Agent_Confinement : Byte) return Byte is
+      package K renames Evaluation_Completion_C;
+      package T renames Evaluation_Completion;
+      use type Interfaces.C.int;
+      use type K.U32;
+      P_Result, S_Result : aliased K.Result;
+      P_Ready, S_Ready : Byte := 0;
+      Agent_Ready : Byte := 0;
+      function Retained (R : K.Result) return Boolean is
+        (R.Reason = T.Decision'Pos (T.Retain_Terminal)
+         or else R.Reason = T.Decision'Pos (T.Already_Retained));
+   begin
+      if not Fits (Request, C.Raw_Request'Object_Size, C.Raw_Request'Alignment)
+      then return C.Invalid_Request; end if;
+      declare
+         Bound : C.Raw_Request := CP.To_Pointer (Request).all;
+         Needed : constant A.Raw_Dependency := A.Dependencies (Bound);
+         use type A.Raw_Dependency;
+      begin
+      if Needed = A.Invalid_Collapse then return C.Invalid_Request; end if;
+      -- Classify every required owned request again. An unused checkpoint or
+      -- already-covered staged input is not read, decoded or made a premise.
+      -- Neither carried Collapse_Request roster byte authorizes anything.
+      if A.Needs_Primary (Needed) and then Primary /= System.Null_Address then
+         if K.Raw_Decide (Primary, Primary_Raw, Primary_Confinement,
+                          P_Result'Address) /= 0
+           or else not Retained (P_Result) or else P_Result.Promotion > 1
+         then return C.Invalid_Request; end if;
+         P_Ready := Byte (P_Result.Promotion);
+      end if;
+      if A.Needs_Staged (Needed) and then Staged /= System.Null_Address then
+         if K.Raw_Decide (Staged, Staged_Raw, Staged_Confinement,
+                          S_Result'Address) /= 0
+           or else not Retained (S_Result) or else S_Result.Promotion > 1
+         then return C.Invalid_Request; end if;
+         S_Ready := Byte (S_Result.Promotion);
+      end if;
+      if A.Needs_Agent (Needed) and then Agent /= System.Null_Address then
+         if not Fits (Agent, W.Raw_Record'Object_Size, W.Raw_Record'Alignment)
+         then return C.Invalid_Request; end if;
+         declare
+            Owned_Agent : constant W.Raw_Record := RP.To_Pointer (Agent).all;
+         begin
+            Agent_Ready := W.Confined_Admit_Wire (Owned_Agent, Agent_Confinement);
+            if Agent_Ready = W.Invalid_Record then return C.Invalid_Request; end if;
+            if Owned_Agent.Observations (W.Source_Field) /= W.E.Origin'Pos (W.E.Agent)
+            then Agent_Ready := 0; end if;
+         end;
+      end if;
+         if Agent_Ready = 1 then
+            if P_Ready = 1 and then K.Context_Matches
+              (Primary, Primary_Context, Request, Agent, Agent_Confinement) /= 1
+            then return C.Invalid_Request; end if;
+            if S_Ready = 1 and then K.Context_Matches
+              (Staged, Staged_Context, Request, Agent, Agent_Confinement) /= 1
+            then return C.Invalid_Request; end if;
+         end if;
+         Bound.Roster_Complete := (if Agent_Ready = 1 then P_Ready else 0);
+         Bound.Staged_Roster_Complete := (if Agent_Ready = 1 then S_Ready else 0);
+         return C.Decide_Wire (Bound);
+      end;
+   exception when others => return C.Invalid_Request;
+   end Decide_Raw_Context;
+   function Decide_Raw (Request, Primary, Primary_Raw, Primary_Confinement,
+       Staged, Staged_Raw, Staged_Confinement, Agent : System.Address;
+       Agent_Confinement : Byte) return Byte is
+   begin
+      return Decide_Raw_Context
+        (Request, Primary, Primary_Raw, Primary_Confinement, System.Null_Address,
+         Staged, Staged_Raw, Staged_Confinement, System.Null_Address, Agent,
+         Agent_Confinement);
+   end Decide_Raw;
+   function Decide_Raw_Metadata
+     (Request, Primary, Primary_Raw, Primary_Confinement, Primary_Context,
+      Staged, Staged_Raw, Staged_Confinement, Staged_Context, Agent : System.Address;
+      Agent_Confinement : Byte) return Byte is
+      package K renames Evaluation_Completion_C;
+      use type Interfaces.C.int;
+      P_Context, S_Context : System.Address := System.Null_Address;
+   begin
+      if not Fits (Request, C.Raw_Request'Object_Size, C.Raw_Request'Alignment)
+      then return C.Invalid_Request; end if;
+      declare
+         Bound : constant C.Raw_Request := CP.To_Pointer (Request).all;
+         Needed : constant A.Raw_Dependency := A.Dependencies (Bound);
+         use type A.Raw_Dependency;
+      begin
+         if Needed = A.Invalid_Collapse then return C.Invalid_Request; end if;
+         -- Unneeded checkpoint evidence stays unobserved. The compatibility
+         -- path computes a provisional decision only; neither function effects
+         -- a promotion. Preserve its complete original ordered refusal result.
+         if A.Needs_Primary (Needed) then
+            P_Context := K.Metadata_Base (Primary_Context);
+         end if;
+         if A.Needs_Staged (Needed) then
+            S_Context := K.Metadata_Base (Staged_Context);
+         end if;
+         declare
+            Decision : constant Byte := Decide_Raw_Context
+              (Request, Primary, Primary_Raw, Primary_Confinement, P_Context,
+               Staged, Staged_Raw, Staged_Confinement, S_Context, Agent, Agent_Confinement);
+         begin
+            if Decision /= Byte (Worldline.Collapse.Decision'Pos (Worldline.Collapse.Authorized))
+            then return Decision; end if;
+            -- Every row joins before returning authorization, regardless of
+            -- requirement membership, duplicate position, state or verdict.
+            if A.Needs_Primary (Needed) and then
+              K.Metadata_Matches (Primary, Primary_Context) /= 1
+            then return C.Invalid_Request; end if;
+            if A.Needs_Staged (Needed) and then
+              K.Metadata_Matches (Staged, Staged_Context) /= 1
+            then return C.Invalid_Request; end if;
+            return Decision;
+         end;
+      end;
+   exception when others => return C.Invalid_Request;
+   end Decide_Raw_Metadata;
+   end Authority_Glue;
 end Worldline.C_API;

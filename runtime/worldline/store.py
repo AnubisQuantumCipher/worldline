@@ -10,6 +10,7 @@ from pathlib import Path
 import re
 import sqlite3
 import stat
+import uuid
 from threading import RLock
 from typing import Any, Callable, Iterator, Sequence
 
@@ -211,8 +212,25 @@ def _json_load(value: bytes | str | None, default: Any) -> Any:
 
 
 class StateStore:
-    def __init__(self, paths: WorldlinePaths, core: Core | None = None) -> None:
+    def __init__(self, paths: WorldlinePaths, core: Core | None = None, *, evaluation_terminal=None,
+                 evaluation_finalization=None) -> None:
         self.paths = paths
+        # Explicit real-store dependency. The default reader refuses when the
+        # durable producer has not been provisioned; no meta-list fallback.
+        if evaluation_terminal is not None:
+            from .evaluation_terminal import TerminalJournal
+            if type(evaluation_terminal) is not TerminalJournal:
+                raise WorldlineError("EVALUATION_AUTHORITY_UNAVAILABLE", "an actual terminal journal is required")
+        self.evaluation_terminal = evaluation_terminal
+        if evaluation_finalization is not None:
+            from .finalization_journal import FinalizationJournal
+            if type(evaluation_finalization) is not FinalizationJournal:
+                raise WorldlineError("FINALIZATION_AUTHORITY_UNAVAILABLE", "an actual finalization journal is required")
+            if evaluation_terminal is not None and evaluation_finalization.store_id != evaluation_terminal.pending.store:
+                raise WorldlineError("FINALIZATION_STORE_MISMATCH", "the journals name different stores")
+        self.evaluation_finalization = evaluation_finalization
+        self._owns_finalization = False
+        self._owns_evaluation = False
         self.paths.ensure()
         self.core = core or Core.shared()
         self._lock = RLock()
@@ -226,9 +244,23 @@ class StateStore:
             check_same_thread=False,
         )
         self._connection.row_factory = sqlite3.Row
-        self._configure()
-        self._create_schema()
-        self._secure_database_files()
+        try:
+            self._configure()
+            self._create_schema()
+            self._secure_database_files()
+            if (self.evaluation_finalization is None
+                    and os.path.lexists(self.paths.state / 'evaluation-finalization.db')):
+                # Reopen actual retained dependencies on restart; never recreate a
+                # missing member of a partially retained producer set.
+                self.ensure_finalization_journal()
+        except BaseException as original:
+            # A failed constructor never reaches a caller that can close it.
+            # Close only dependencies owned here; retain every existing file.
+            try:
+                self.close()
+            except BaseException as cleanup:
+                original.add_note('StateStore construction cleanup also failed: ' + repr(cleanup))
+            raise
 
     def _configure(self) -> None:
         with self._lock:
@@ -293,8 +325,77 @@ class StateStore:
 
     def close(self) -> None:
         with self._lock:
-            self._connection.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-            self._connection.close()
+            error = None
+            def close_owned(action, label):
+                nonlocal error
+                try:
+                    action()
+                except BaseException as cleanup:
+                    if error is None:
+                        error = cleanup
+                    else:
+                        error.add_note(label + ' also failed: ' + repr(cleanup))
+            close_owned(lambda: self._connection.execute("PRAGMA wal_checkpoint(TRUNCATE)"), 'StateStore checkpoint')
+            close_owned(self._connection.close, 'StateStore connection close')
+            if self._owns_finalization:
+                close_owned(self.evaluation_finalization.close, 'Finalization journal close')
+            if self._owns_evaluation:
+                close_owned(self.evaluation_terminal.close, 'Terminal journal close')
+                close_owned(self.evaluation_terminal.pending.close, 'Pending journal close')
+            if error is not None:
+                raise error
+
+    def ensure_finalization_journal(self):
+        """Provision the real acquisition log before the runner's first effect.
+
+        This persisted identity and owned SQLite file are not a protected
+        anti-rollback authority. That production custody obligation remains.
+        """
+        from .evaluation_pending import text
+        from .finalization_journal import FinalizationJournal
+        with self._lock:
+            if self.evaluation_finalization is not None:
+                return self.evaluation_finalization
+            if self.evaluation_terminal is not None:
+                store_id = text(self.evaluation_terminal.pending.store)
+            else:
+                store_id = self.get_meta('finalizationStoreId')
+                if store_id is None:
+                    store_id = str(uuid.uuid4())
+                    self.set_meta('finalizationStoreId', store_id)
+                if type(store_id) is not str:
+                    raise WorldlineError('FINALIZATION_STORE_IDENTITY_INVALID', 'the retained store identity is malformed')
+                from .evaluation_pending import PendingJournal
+                from .evaluation_terminal import TerminalJournal
+                directory = self.paths.state
+                pending_path = directory / 'evaluation-pending.db'
+                pending_target = directory / 'evaluation-pending-target.db'
+                terminal_path = directory / 'evaluation-terminal.db'
+                terminal_target = directory / 'evaluation-terminal-target.db'
+                existing = tuple(path.exists() for path in (
+                    pending_path, pending_target, terminal_path, terminal_target))
+                if ((any(existing) and not all(existing))
+                        or (os.path.lexists(directory / 'evaluation-finalization.db') and not all(existing))):
+                    raise WorldlineError('EVALUATION_STORE_PARTIAL', 'retained journal files are incomplete; recovery is required')
+                pending = PendingJournal(pending_path, pending_target, store_id=store_id,
+                    library=Path(self.core.library_path), create=not any(existing))
+                try:
+                    terminal = TerminalJournal(pending, terminal_path, terminal_target,
+                        library=Path(self.core.library_path), create=not any(existing))
+                except BaseException as original:
+                    try:
+                        pending.close()
+                    except BaseException as cleanup:
+                        original.add_note('pending-journal cleanup also failed: ' + repr(cleanup))
+                    raise
+                self.evaluation_terminal = terminal
+                self._owns_evaluation = True
+            path = self.paths.state / 'evaluation-finalization.db'
+            journal = FinalizationJournal(path, store_id,
+                library=Path(self.core.library_path), create=not path.exists())
+            self.evaluation_finalization = journal
+            self._owns_finalization = True
+            return journal
 
     def set_meta(self, key: str, value: Any) -> None:
         payload = _json_blob(value)

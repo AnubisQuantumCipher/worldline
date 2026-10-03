@@ -328,10 +328,16 @@ package body Resource_Reservation_Transition with SPARK_Mode is
       if Magnitude (Data, Sum) = Magnitude (Data, Left)
         + Magnitude (Data, Right) + To_Big_Integer (Bias)
       then
+         pragma Assert (Next > 0 and then Next - 1 = Offset);
+         pragma Assert
+           (Radix_Power (Next) = To_Big_Integer (256) * Place);
          pragma Assert
            ((To_Big_Integer (Column)
                - To_Big_Integer (Digit (Data, Sum, Offset))) * Place
                  = Radix_Power (Next) * Tail_Difference);
+         pragma Assert
+           (Radix_Power (Next) * Tail_Difference =
+              (To_Big_Integer (256) * Place) * Tail_Difference);
          Radix_Product_Regroup (Place, Tail_Difference);
          pragma Assert
            ((To_Big_Integer (Column)

@@ -86,6 +86,7 @@ class CollapseTransaction:
         anchor: Any | None = None,
         config: Any | None = None,
         validator: Callable[..., dict[str, Any]] | None = None,
+        staged_subject_validator: Callable[..., dict[str, Any]] | None = None,
     ) -> None:
         self.paths = paths
         self.store = store
@@ -94,6 +95,10 @@ class CollapseTransaction:
         # Evaluates a staged merge result against the current requirements (Revalidator.
         # validate_staged). Without one, staged bytes nobody tested are simply refused.
         self.validator = validator
+        # The owned default adapter additionally resolves the original evidence
+        # subject. Keep the original five-argument callback protocol intact for
+        # callers that supply only validator; a return vehicle is not that subject.
+        self.staged_subject_validator = staged_subject_validator
         self.core = core or Core.shared()
         self.anchor = anchor
         self.watcher = watcher
@@ -283,15 +288,32 @@ class CollapseTransaction:
                 freshness, candidate, candidate_manifests, candidate_declared, roots)
             untested_paths = [] if conflicts else content_differences(tested_manifests or {}, staged_manifests)
             staged_validation: dict[str, Any] | None = None
-            if not conflicts and staged_content_root != tested_root and self.validator is not None:
+            before_staged_freshness: dict[str, Any] | None = None
+            if not conflicts and staged_content_root != tested_root and (self.validator is not None or self.staged_subject_validator is not None):
                 # The bytes that would go live are not the bytes the evidence examined (PRIME
                 # moved under the candidate, or the examined bytes are unknown). The current
                 # checks run over the staged tree itself; the kernel then decides whether THAT
                 # evaluation covers the staged bytes. Nothing here promotes its outcome.
-                staged_validation = self.validator(payload, candidate, current_manifests, staged_manifests, staged_content_root)
+                staged_validation = self._run_staged_validation(
+                    payload, candidate, current_manifests, staged_manifests,
+                    staged_content_root, return_of=return_of)
                 if (staged_validation.get("context") or {}).get("verifiersModifiedByCandidate"):
                     raise WorldlineError("VERIFIER_MODIFIED_BY_CANDIDATE", "the staged merge result carries a rewritten authoritative verifier",
                                          {"verifiers": staged_validation["context"]["verifiersModifiedByCandidate"]})
+                if freshness["mode"] != "checkpoint-return":
+                    # Staging advances this subject's pending/current journal.
+                    # Retain the earlier observation, then select from the whole
+                    # actual history at the exact cursor returned by this run.
+                    # Its carried PASS/ERROR/roster fields cannot select a head.
+                    before_staged_freshness = freshness
+                    freshness = self._freshness_after_staged(
+                        candidate, kind=kind, return_of=return_of,
+                        previous=freshness, staged=staged_validation)
+                    tested_root, tested_manifests, tested_source = self._tested_root(
+                        freshness, candidate, candidate_manifests, candidate_declared, roots)
+                    if tested_root == staged_content_root:
+                        tested_manifests = staged_manifests
+                    untested_paths = content_differences(tested_manifests or {}, staged_manifests)
             if not conflicts:
                 self._create_mapping(mapping, payload, roots, transaction_id)
                 # The staged tree as the merge captured it, kept beside (never inside) the roots,
@@ -317,6 +339,7 @@ class CollapseTransaction:
                 "testedRoot": tested_root,
                 "testedRootSource": tested_source,
                 "primary": {
+                    "evaluationCursor": freshness.get("evaluationCursor"),
                     "evaluatedRequirement": freshness.get("candidateRequirementHash"),
                     "rosterComplete": freshness["execution"].get("complete") is True,
                     "declaredVerifiers": freshness["execution"].get("expected"),
@@ -334,6 +357,7 @@ class CollapseTransaction:
                 root_set=root_set, expected_staged_root=staged_root, actual_staged_root=None,
                 staged_content_root=staged_content_root, conflicts=bool(conflicts),
                 current_requirement=current["requirementHash"], inputs=decision_inputs,
+                authoritative_requirement=current, authoritative_roots=roots,
                 witness=freshness.get("witness"),
             )
             if decision == "FOREIGN_MANAGED_WRITE":
@@ -381,6 +405,9 @@ class CollapseTransaction:
                 "generated": generated,
                 "dependencyChanges": dependency_changes,
             }
+            if before_staged_freshness is not None:
+                record["preStageValidation"] = {
+                    key: value for key, value in before_staged_freshness.items() if key != "current"}
             state_path = self.paths.transactions / f"{transaction_id}.json"
             record["preparedPath"] = str(state_path)
             atomic_write_json(state_path, record)
@@ -697,13 +724,15 @@ class CollapseTransaction:
         })
         inputs["generations"] = {"before": generation_before, "after": self._generation()}
         record["decisionInputsAtCommit"] = {k: inputs[k] for k in ("expectedSubject", "foreignWrites", "watchSets", "generations")}
+        decision_roots = self.store.roots()
         decision = self._decide(
             phase="COMMIT", kind_mode=validation.get("mode"), candidate=candidate, subject=subject,
             expected_parent=record.get("parentContentExpected"), base_root=record.get("baseRoot"),
-            delta_hash=record.get("deltaHash"), root_set=self.prime.root_set_hash(self.store.roots()),
+            delta_hash=record.get("deltaHash"), root_set=self.prime.root_set_hash(decision_roots),
             expected_staged_root=inputs.get("stagedRoot"), actual_staged_root=staged_root,
             staged_content_root=staged_content_root, conflicts=bool(record.get("conflicts")),
             current_requirement=current_requirement["requirementHash"], inputs=inputs, witness=witness,
+            authoritative_requirement=current_requirement, authoritative_roots=decision_roots,
         )
         record["decisionInputsAtCommit"]["absent"] = inputs.get("absent", [])
         return decision
@@ -862,6 +891,35 @@ class CollapseTransaction:
         return bundle_identity([("", check_id, bundle_identity(bundles[check_id]) if bundles.get(check_id) else NO_BUNDLE_IDENTITY)
                                 for check_id in required])
 
+    def _run_staged_validation(self, payload: Path, candidate: World,
+                               current_manifests: Any, staged_manifests: Any,
+                               staged_content_root: str, *, return_of: str | None):
+        if self.staged_subject_validator is not None:
+            # The adapter resolves this lookup through StateStore before capture.
+            # Keep the vehicle in the original positional callback slot and keep
+            # its full identity distinct from the original evidence subject.
+            return self.staged_subject_validator(
+                payload, candidate, current_manifests, staged_manifests,
+                staged_content_root, subject_instance=return_of if return_of else candidate.instance_id)
+        return self.validator(payload, candidate, current_manifests, staged_manifests, staged_content_root)
+
+    def _freshness_after_staged(self, candidate: World, *, kind: str,
+                                return_of: str | None, previous: Mapping[str, Any],
+                                staged: Mapping[str, Any]) -> dict[str, Any]:
+        # This branch must remain before looking at any staged argument. Covered
+        # checkpoint returns do not acquire a candidate evidence dependency.
+        if previous["mode"] == "checkpoint-return":
+            return previous
+        from .evaluation_authority import read
+        cursor = staged.get("evaluationCursor")
+        if cursor is None:
+            raise WorldlineError("STAGED_EVALUATION_CURSOR_ABSENT", "staged raw capture has no retained cursor")
+        subject = self.store.world(return_of) if return_of else candidate
+        current = previous["current"]
+        selected = read(self.store, subject, current["requirementHash"],
+                        prepared=cursor, core=self.core)
+        return self._selected_freshness(subject, current, selected, kind=kind)
+
     def _staged_block(self, subject: World, current: Mapping[str, Any], staged: Mapping[str, Any] | None) -> dict[str, Any]:
         """The staged-merge evaluation as the kernel reads it: the requirement it ran against,
         the kernel's roster verdict over its records (the agent judged from the subject's
@@ -871,6 +929,7 @@ class CollapseTransaction:
                     "executedVerifiers": None, "examinedRoot": None}
         identity = self._execution_identity(subject, current, recorded_checks=staged.get("results") or [])
         return {"ran": True, "validationId": staged.get("validationId"),
+                "evaluationCursor": staged.get("evaluationCursor"),
                 "evaluatedRequirement": staged.get("requirementHash"),
                 "rosterComplete": identity["complete"] is True,
                 "executedVerifiers": identity["actual"],
@@ -880,7 +939,8 @@ class CollapseTransaction:
     def _decide(self, *, phase: str, kind_mode: Any, candidate: World, subject: World, expected_parent: Any,
                 base_root: Any, delta_hash: Any, root_set: Any, expected_staged_root: Any, actual_staged_root: Any,
                 staged_content_root: Any, conflicts: bool, current_requirement: Any, inputs: dict[str, Any],
-                witness: Mapping[str, Any] | None) -> str:
+                witness: Mapping[str, Any] | None, authoritative_requirement: Mapping[str, Any],
+                authoritative_roots: Sequence[Mapping[str, Any]]) -> str:
         checkpoint = kind_mode == "checkpoint-return"
         primary = inputs.get("primary") if isinstance(inputs.get("primary"), Mapping) else {}
         staged = inputs.get("staged") if isinstance(inputs.get("staged"), Mapping) else {}
@@ -926,7 +986,46 @@ class CollapseTransaction:
         )
         inputs["absent"] = sorted(name for name in CollapseInput.__slots__
                                   if getattr(values, name) is None)
-        return self.core.collapse_decide(values)
+        from .evaluation_authority import read
+        from .evaluation_wire import record as raw_record
+        needs = self.core.collapse_raw_dependencies(values)
+        primary_raw = None
+        primary_chosen = staged_chosen = None
+        if needs['primary']:
+            cursor = primary.get('evaluationCursor')
+            if cursor is None:
+                raise WorldlineError('EVALUATION_CURSOR_ABSENT', 'prepare did not retain its evidence cursor')
+            chosen = read(self.store, subject, current_requirement, prepared=cursor, core=self.core)
+            primary_chosen = chosen
+            primary_raw = chosen.raw
+        staged_raw = None
+        if needs['staged'] and staged.get('ran') is True:
+            # A staged observation needs its own durable raw capture. An old
+            # boolean roster or projected result list cannot stand in for it.
+            cursor = staged.get('evaluationCursor')
+            if cursor is None:
+                raise WorldlineError('STAGED_EVALUATION_CURSOR_ABSENT', 'staged raw capture has no retained cursor')
+            staged_chosen = read(self.store, subject, current_requirement, prepared=cursor, core=self.core)
+            staged_raw = staged_chosen.raw
+        agent_raw = None
+        actual_agent = None
+        if needs['agent']:
+            final = subject.evidence.get('checks') if isinstance(subject.evidence, dict) else None
+            actual_agent = next((r for r in (final or ()) if isinstance(r, Mapping) and r.get('id') == 'agent'), None)
+            actual_agent, _legacy = runner_agent_record(actual_agent)
+            if isinstance(actual_agent, Mapping) and actual_agent.get('origin') == 'agent':
+                agent_raw = raw_record(actual_agent, ENGINE_DECLARATIONS['agent'])
+        if agent_raw is not None:
+            from .evaluation_context import bind_selected
+            for role, selected in (('primary', primary_chosen), ('staged', staged_chosen)):
+                if selected is not None:
+                    bind_selected(self, selected, values=values, subject=subject, candidate=candidate,
+                        authoritative_requirement=authoritative_requirement,
+                        authoritative_roots=authoritative_roots, agent=agent_raw,
+                        agent_record=actual_agent, role=role,
+                        prepared_cursor=(primary if role == 'primary' else staged).get('evaluationCursor'))
+        return self.core.collapse_decide_with_evaluation(values, primary=primary_raw,
+            staged=staged_raw, agent=agent_raw)
 
     # Far beyond any real store; a longer walk is treated as no witness rather than as a pass.
     _LINEAGE_LIMIT = 1_000_000
@@ -1045,8 +1144,15 @@ class CollapseTransaction:
         # finalization's here bound run 2's freshness to run 1's execution identity (F5).
         recorded = {str(item.get("id")): item
                     for item in recorded_checks if isinstance(item, Mapping)}
-        roster = roster_decision(required, recorded, declarations,
-                                 empty_declared=empty_declared, core=self.core)
+        from .finalize import evaluation_record, refusal_reason
+        evaluations = {name: evaluation_record(recorded[name], declared=declarations.get(name), core=self.core)
+                       for name in required if name in recorded}
+        refused_rows = [{'id': name, 'reason': ('no execution record' if name not in evaluations
+                        else refusal_reason(evaluations[name]))}
+                        for name in required if name not in evaluations
+                        or evaluations[name]['admissibleForPromotion'] is not True]
+        roster = {'complete': not refused_rows and (bool(required) or empty_declared),
+                  'refused': refused_rows, 'evaluations': evaluations}
         refused = {item["id"]: item["reason"] for item in roster["refused"]}
         agent_refused = {item["id"]: item["reason"] for item in agent["refused"]}
         expected_members: list[tuple[str, str, str]] = []
@@ -1118,7 +1224,15 @@ class CollapseTransaction:
                     # may still have to cover the staged bytes.
                     "execution": {"complete": False, "expected": self._declared_verifiers(current), "actual": None,
                                   "mode": "no-candidate-evaluation", "problems": [], "requiredChecks": []}}
-        context, source, recorded_checks = effective_evidence(self.store, subject)
+        from .evaluation_authority import read
+        selected = read(self.store, subject, current['requirementHash'], core=self.core)
+        return self._selected_freshness(subject, current, selected, kind=kind)
+
+    def _selected_freshness(self, subject: World, current: Mapping[str, Any],
+                            selected: Any, *, kind: str) -> dict[str, Any]:
+        # Shared unchanged projection for initial and post-stage selection. Each
+        # caller obtains selected from the actual complete raw-history reader.
+        context, source, recorded_checks = selected.context, selected.source, selected.results
         try:
             # 1.9.0: which world the context is bound to is not decided here; it is carried to
             # the kernel as the evidence subject (EVIDENCE_SUBJECT_MISMATCH).
@@ -1133,6 +1247,7 @@ class CollapseTransaction:
         return {"mode": "re-application" if kind == "return" else "collapse", "requirementHash": current["requirementHash"], "candidateRequirementHash": context["requirementHash"], "contextHash": context["contextHash"], "source": source, "policySourceSha256": current["policy"].get("sourceSha256"), "subject": subject.instance_id, "evaluatedAt": context.get("evaluatedAt"),
                 "evidenceInstance": (context.get("candidate") or {}).get("instanceId"),
                 "examinedContentRoot": context.get("examinedContentRoot"),
+                "evaluationCursor": selected.cursor,
                 "current": current,
                 "execution": self._execution_identity(subject, current, recorded_checks=recorded_checks)}
 

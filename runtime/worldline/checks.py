@@ -478,6 +478,7 @@ class CheckRunner:
             report_directory = prepare_private_report(
                 base, run_id=run_id, check_id=check.id,
                 candidate_identity=candidate_identity, verifier_identity=verifier_identity)
+            from .examiner_audit import executed_digests
             spec = PrivateEvaluationSpec(
                 run_id=run_id,
                 roots={str(root.target): root.lower for root in overlays},
@@ -485,6 +486,7 @@ class CheckRunner:
                 argv=tuple(argv), cwd=str(cwd), report_directory=report_directory,
                 runtime=runtime / "private-backend",
                 bubblewrap_executable=Path(self.sandbox.executable),
+                verifier_digests=executed_digests(staged.as_evidence()),
             )
             if _observation_writer is not None:
                 from .raw_observation import (guarded_cleanup, retain_observation,
@@ -587,6 +589,7 @@ class CheckRunner:
                 "origin": "supervisor",
                 "supervision": None if observed is None else observed.get("supervision"),
                 "evaluatorBoundary": None if observed is None else observed.get("boundary"),
+                "examinerAudit": None if observed is None else observed.get("examinerAudit"),
             }
         assert observed is not None and report is not None and private_report is not None
         supervision = observed["supervision"]
@@ -623,6 +626,7 @@ class CheckRunner:
             "supervision": supervision,
             "evaluatorBoundary": observed["boundary"],
             "privateReport": private_report,
+            "examinerAudit": observed.get("examinerAudit"),
             "evaluatorCompleteness": (
                 {"complete": False, "unsatisfiedImports": gaps,
                  "reason": "the staged verifier bundle has unsatisfied imports"}

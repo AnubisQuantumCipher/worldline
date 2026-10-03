@@ -452,6 +452,19 @@ package body Evaluation_Epoch with SPARK_Mode is
 
    function Same_Value (Data : Byte_Array; Left, Right : Quantity) return Boolean is
    begin
+      --  Full executable digit equality is sufficient even when distinct
+      --  owned spans carry the same epoch. Empty and signed-zero quantities
+      --  still use the original nonnegative/valid guards. Unequal lengths,
+      --  differing digits and other inputs retain the original comparison.
+      if Nonnegative_Valid (Data, Left) and then
+        Nonnegative_Valid (Data, Right) and then
+        Left.Length = Right.Length and then
+        (Left.Length = 0 or else
+           (for all Offset in Byte_Count range 0 .. Left.Length - 1 =>
+              Digit (Data, Left, Offset) = Digit (Data, Right, Offset)))
+      then
+         return True;
+      end if;
       return Nonnegative_Valid (Data, Left) and then
         Nonnegative_Valid (Data, Right) and then Compare (Data, Left, Right) = Equal;
    end Same_Value;

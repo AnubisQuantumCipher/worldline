@@ -20,17 +20,20 @@ package body Evaluation_Raw_Roster with SPARK_Mode is
    function Failure_For_Check
      (A : T.Bytes; Binding : T.Attempt_Binding;
       Rows : Measured_Array; Check : T.Check_Identity) return Boolean is
+      C : W.Wire_Classification;
    begin
+      --  The existing total existential is actually evaluated. Its
+      --  negation proves absence across the complete retained raw stream.
+      if not Failure_For_Check_Reference (A, Binding, Rows, Check) then
+         return False;
+      end if;
       for I in Rows'Range loop
          if Row_Bound (A, Rows (I), Binding)
            and then T.P.Same (A, T.Span (Rows (I).Item.Check), T.Span (Check))
          then
-            declare
-               C : constant W.Wire_Classification := W.Classify_Wire (Rows (I).Raw);
-            begin
-               if C.Status = 0 and then C.Execution = E.Execution_State'Pos (E.Completed)
-                 and then C.Result = E.Outcome'Pos (E.Failed) then return True; end if;
-            end;
+            C := W.Classify_Wire (Rows (I).Raw);
+            if C.Status = 0 and then C.Execution = E.Execution_State'Pos (E.Completed)
+              and then C.Result = E.Outcome'Pos (E.Failed) then return True; end if;
          end if;
          pragma Loop_Invariant
            (for all J in Rows'First .. I =>

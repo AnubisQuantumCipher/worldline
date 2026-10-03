@@ -410,6 +410,48 @@ uint8_t wl_evaluation_history_select(const uint8_t *data, size_t data_length,
     const wl_evaluation_row *final_row, const wl_evaluation_query *query,
     wl_evaluation_selection *output);
 
+
+/* Additive raw evaluation interface. Caller owns immutable readable request,
+ * raw arrays/arenas and source records through return, with distinct writable
+ * classifier output. Numeric checks do not prove mapping, custody or lifetime.
+ * Raw completion requests use evaluation_completion.h, operation 2. Their
+ * captured_count defines every raw/confinement array extent, without a 4096 cap.
+ */
+struct wl_raw_evaluation_v1 {
+    uint8_t observations[14];
+    uint8_t report_based;
+    uint8_t report_facts[14];
+    uint8_t presence[5];
+};
+struct wl_raw_classification_v1 { uint8_t status, execution, outcome, bundle; };
+uint8_t wl_evaluation_wire_version(void);
+size_t wl_evaluation_wire_layout(uint8_t kind, uint8_t field);
+uint8_t wl_evaluation_wire_classify(const void *raw, void *classification);
+uint8_t wl_evaluation_wire_admit(const void *raw, uint8_t confinement);
+uint8_t wl_evaluation_wire_report(const void *raw);
+/* Dependency tags: none=0, primary=1, staged=2, both=3, malformed=255.
+ * A nonzero evidence dependency is not a permission or roster verdict. */
+uint8_t wl_collapse_raw_dependencies_v1(const void *request);
+uint8_t wl_collapse_decide_raw_evaluation_v1(const void *request,
+    const void *primary, const void *primary_raw, const void *primary_confinement,
+    const void *staged, const void *staged_raw, const void *staged_confinement,
+    const void *agent_raw, uint8_t agent_confinement);
+/* v2 adds full context joins; v1 without them cannot authorize a required raw
+ * promotion. Checkpoint-only and nonpromotion refusal paths retain v1 behavior. */
+uint8_t wl_collapse_decide_raw_evaluation_v2(const void *request,
+    const void *primary, const void *primary_raw, const void *primary_confinement,
+    const void *primary_context, const void *staged, const void *staged_raw,
+    const void *staged_confinement, const void *staged_context,
+    const void *agent_raw, uint8_t agent_confinement);
+int64_t wl_completion_context_layout_v1(uint32_t kind, uint32_t field);
+/* v3 additionally requires independent row metadata projections for every raw
+ * row. Context arguments are wl_completion_metadata_context_v1 descriptors.
+ * v1/v2 remain ABI-compatible but do not establish this stronger relation. */
+uint8_t wl_collapse_decide_raw_evaluation_v3(const void *request,
+    const void *primary, const void *primary_raw, const void *primary_confinement,
+    const void *primary_context, const void *staged, const void *staged_raw,
+    const void *staged_confinement, const void *staged_context,
+    const void *agent, uint8_t agent_confinement);
 #ifdef __cplusplus
 }
 #endif

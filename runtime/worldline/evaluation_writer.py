@@ -168,16 +168,19 @@ class EngineEvaluationWriter:
             observed_epoch.to_bytes((observed_epoch.bit_length() + 7) // 8, 'little'),
             identity(stream_context['requirement']['requirementHash']))
         with self.terminal.pending.lock, self.terminal.lock, self.terminal._pending_view(self.bound.subject) as (journal, intents, current):
-            plan = self.terminal.kernel.decide(intents, current=current, capture=initial, results=proposed_typed,
+            from pathlib import Path
+            from .raw_completion_kernel import RawCompletionKernel
+            from .evaluation_wire import record as raw_record
+            raw_kernel = RawCompletionKernel(Path(core.library_path))
+            prepared = raw_kernel.prepare(intents, current=current, capture=initial, results=proposed_typed,
+                wire_records=tuple(raw_record(row, declarations.get(str(row.get('id')))) for row in proposed_rows),
                 required=tuple((identity(item), value_bytes(None if declarations.get(item) is None else asdict(declarations[item]))) for item in required),
                 policy=('Explicit_Empty' if empty_declared else 'Missing_Declaration') if not required else 'Required_Checks',
                 measured_roots=(identity(stream_context['measurement']['observedContentRoot']),
                                 identity(post_measurement['observedContentRoot'])),
                 completion=(identity('evaluation-complete'), value_bytes(asdict(declarations['evaluation-complete']))),
                 measured_binding=measured_binding)
-            self.terminal._admitted(plan, journal, self.bound.run)
-        if plan.classification is None: raise TerminalRefused('ENGINE_TERMINAL_CLASSIFICATION_ABSENT')
-        state, outcome, promotion = plan.classification
+            state, outcome, promotion = raw_kernel.classify(prepared)
         if state == 'Completed':
             retained_rows, typed = proposed_rows, proposed_typed
             terminal_context = captured_context
@@ -198,6 +201,7 @@ class EngineEvaluationWriter:
         captured['engineCapture'] = engine_capture
         captured['validationId'] = self.handle.run
         captured['evaluationEpoch'] = self.handle.epoch
+        captured['evaluationCursor'] = {'epoch': self.handle.epoch, 'run': self.handle.run}
         captured['evaluationState'] = 'COMPLETED' if state == 'Completed' else 'ERROR'
         captured['terminalExecution'] = state
         # Preserve the old aggregate outcome as an observation; the typed

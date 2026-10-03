@@ -1,10 +1,25 @@
+with Ada.Exceptions;
 with Interfaces.C;
+with Worldline.Collapse_Wire;
+with Worldline.Evaluation_Wire;
+with Worldline.Evaluation_Authority;
 with System;
 -- Explicit owned-call bridge. Numeric checks do not establish foreign memory
 -- mapping, caller custody, snapshot truth, or SPARK proof of this boundary.
 package Evaluation_Completion_C with SPARK_Mode => Off is
    subtype I64 is Interfaces.Integer_64;
    subtype U32 is Interfaces.Unsigned_32;
+   -- Diagnostic-only control for a serial, owned diagnostic call. Disabled at
+   -- library initialization. It cannot supply or alter an authority input.
+   -- Enable=1 starts observation; Enable=0 stops and reports any write failure.
+   -- Result 0 is clean, 1 is already-active/write-failed, 2 is invalid control.
+   function Diagnostic_Control (Enable : U32) return U32
+     with Export, Convention => C,
+       External_Name => "wl_native_diagnostic_control_v1";
+   procedure Diagnostic_Mark (Site : String);
+   procedure Diagnostic_Value (Site : String; Value : I64);
+   procedure Diagnostic_Exception
+     (Site : String; Error : Ada.Exceptions.Exception_Occurrence);
    type Span is record
       First : I64;
       Length : I64;
@@ -133,4 +148,65 @@ package Evaluation_Completion_C with SPARK_Mode => Off is
      External_Name => "wl_completion_layout_offset_v1";
    function Decide (Input, Output : System.Address) return Interfaces.C.int
      with Export, Convention => C, External_Name => "wl_completion_decide_v1";
+
+   -- Additive raw operation: the complete same request/owned identities are
+   -- checked by the original relation; every classification is recomputed from
+   -- the raw wire. No 4096 policy/history cap is used by this semantic bridge.
+   function Raw_Decide (Input, Raw_Rows, Confinements, Output : System.Address)
+      return Interfaces.C.int with Export, Convention => C,
+      External_Name => "wl_completion_raw_decide_v1";
+
+   package A renames Worldline.Evaluation_Authority;
+   type Context_Fields is array (A.Context_Field) of Optional_Span
+     with Convention => C;
+   type Row_Fields is array (A.Row_Field) of Optional_Span with Convention => C;
+   type Context_Row is record
+      Item : Check_Row;
+      Expected, Observed : Row_Fields;
+   end record with Convention => C;
+   type Context_Input is record
+      Version : U32;
+      Data : System.Address;
+      Data_Length : I64;
+      Expected_Binding : Binding;
+      Expected_Current : Cursor;
+      Prepared_Current : Cursor;
+      Expected, Observed : Context_Fields;
+      Rows : System.Address;
+      Row_Count : I64;
+      Required : System.Address;
+      Required_Count : I64;
+      Policy : U32;
+      Projection : Worldline.Collapse_Wire.Raw_Request;
+      Agent : Worldline.Evaluation_Wire.Raw_Record;
+      Agent_Confinement : Interfaces.Unsigned_8;
+   end record with Convention => C;
+   -- Numeric extent/alignment checks cannot prove foreign allocation custody.
+   -- All pointees must be live, readable and immutable for the complete call.
+   function Context_Layout (Kind, Field : U32) return I64
+     with Export, Convention => C, External_Name => "wl_completion_context_layout_v1";
+   function Context_Matches
+     (Input, Context, Collapse, Agent : System.Address;
+      Agent_Confinement : Interfaces.Unsigned_8) return Interfaces.C.int;
+
+   -- Additive descriptor; the original Context_Input and layout v1 are exact.
+   -- Base points to that original descriptor. Data is an independent immutable
+   -- byte arena for projections; no combined-arena semantic capacity is added.
+   type Row_Metadata is record
+      Check_Id, Source_Id, Payload : Span;
+      Execution, Verifier : Optional_Span;
+   end record with Convention => C;
+   type Metadata_Context is record
+      Version : U32;
+      Base, Data : System.Address;
+      Data_Length : I64;
+      Rows : System.Address;
+      Row_Count : I64;
+   end record with Convention => C;
+   function Metadata_Layout (Kind, Field : U32) return I64
+     with Export, Convention => C, External_Name => "wl_completion_metadata_layout_v1";
+   function Metadata_Matches (Input, Context : System.Address)
+      return Interfaces.C.int with Export, Convention => C,
+        External_Name => "wl_completion_metadata_matches_v1";
+   function Metadata_Base (Context : System.Address) return System.Address;
 end Evaluation_Completion_C;

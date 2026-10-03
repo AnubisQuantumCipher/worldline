@@ -510,31 +510,20 @@ def current_requirements(store: Any, config: Any, core: Core | None = None) -> d
     return requirements(project, roots, live_sources, config, project.source_sha256, core)
 
 
-def effective_evidence(store: Any, world: Any) -> tuple[dict[str, Any] | None, str, list[dict[str, Any]]]:
-    """The evaluation that currently speaks for a world, as ONE coherent unit: the freshness
-    context, its source, and the check records FROM THE SAME EVALUATION.
+def effective_evidence(store: Any, world: Any, *, requirement_hash: str | None = None,
+                       prepared_evidence=None) -> tuple[dict[str, Any], str, list[dict[str, Any]]]:
+    """The newest retained attempt selected by the actual typed history relation.
 
-    The freshness half and the execution half must come from the same evaluation. A revalidation
-    re-runs the checks and stores their records (with the executedVerifierSet the runner wrote);
-    its context is what `effective_context` returned. Reading the context from the revalidation
-    but the execution records from the world's FINALIZATION evidence assembled one apparently
-    complete evaluation from two different runs -- run 2's freshness over run 1's execution
-    identity (campaign F5). This returns both halves of whichever evaluation speaks, together.
+    No verdict/requirement filter or finalization fallback is applied. Missing
+    producer custody is a refusal, not permission to search legacy meta rows.
     """
-    for entry in reversed(store.get_meta(f"validation:{world.instance_id}", []) or []):
-        ctx = entry.get("context") if isinstance(entry, dict) else None
-        if isinstance(ctx, dict) and entry.get("outcome") == "PASS" and entry.get("worldContentId") == world.content_id:
-            records = [r for r in (entry.get("results") or []) if isinstance(r, dict)]
-            return ctx, f"revalidation:{entry.get('validationId')}", records
-    evidence = world.evidence if isinstance(world.evidence, dict) else {}
-    ctx = evidence.get("validationContext")
-    records = [r for r in (evidence.get("checks") or []) if isinstance(r, dict)]
-    return (ctx if isinstance(ctx, dict) else None), "finalization", records
+    from .evaluation_authority import read
+    chosen = read(store, world, requirement_hash, prepared=prepared_evidence)
+    return chosen.context, chosen.source, chosen.results
 
 
-def effective_context(store: Any, world: Any) -> tuple[dict[str, Any] | None, str]:
-    """The freshness context and its source. See `effective_evidence` for the coherent records."""
-    context, source, _records = effective_evidence(store, world)
+def effective_context(store: Any, world: Any, *, requirement_hash: str | None = None) -> tuple[dict[str, Any], str]:
+    context, source, _records = effective_evidence(store, world, requirement_hash=requirement_hash)
     return context, source
 
 
