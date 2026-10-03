@@ -76,6 +76,20 @@ component tests after independent GPT-6.1 source, binding and result reviews.
 It does not establish absence of trailing marshal bytes or complete native-provider
 coverage. The exact exercised source and receipts remain retained separately.
 
+The next cached-generator extension captures only the fixed installed
+collections.namedtuple, dataclasses builder and ast.parse objects during the
+sole trusted configuration. `bind_cached_generator(label)` has no source, code,
+function or globals argument. It compiles the owned complete source, compares
+semantic code metadata and exact typed constants, then adopts only the held
+function's actual code tree with separate cached-bootstrap provenance. This
+comparison never changes pointer-only registry lookup. Existing module identities,
+imported aliases and inspect's AST reference remain in place. Complete-operation
+reentry exclusion and final identity rechecks cover reference-compiler and AST
+audit callbacks. Original template validation and fixed-helper checks remain.
+D29 passed the controlled native build and all 89 native component tests after
+independent GPT-6.1 source, binding and result reviews. It does not supply general
+cached startup or protected custody acceptance.
+
 After a clean prepared registry, `activate()` enables the component's native
 exec/function-construction checks and refusals for unbound compilation, direct
 code construction and deserialization. `contains(code)` reports pointer identity,

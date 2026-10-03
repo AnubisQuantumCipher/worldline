@@ -32,9 +32,11 @@ struct source {
     Py_ssize_t length;
 };
 
+struct cached_snapshot;
 struct code_slot {
     PyObject *code;                 /* strong reference, pointer identity */
     struct source *source;          /* stable inventory or owned generation */
+    struct cached_snapshot *cached_origin; /* separate trusted startup origin */
 };
 
 struct generator_route {
@@ -101,6 +103,7 @@ struct guard {
     int probe_pending, probe_seen, tail_verified;
     PyFrameObject *installation_frame;
     PyObject *tail_callback, *add_audit_hook;
+    int cached_operation;
 };
 
 static struct guard state;
@@ -150,14 +153,55 @@ static PyObject *frozen_available;
 static size_t frozen_count;
 static unsigned long long frozen_requests, frozen_returns;
 
+enum cached_state { CACHE_ABSENT, CACHE_MALFORMED, CACHE_CAPTURED };
+struct cached_snapshot {
+    enum cached_state state;
+    PyObject *module, *namespace, *owner, *owner_dict, *function, *code, *globals;
+    PyObject *defaults, *kwdefaults, *kwdefault_values, *builtins;
+    PyObject *namespace_values, *owner_values, *builtin_values;
+    PyObject *file, *name, *operation;
+    PyObject *helpers[4];
+};
+struct cached_route_name {
+    const char *label, *module, *owner, *member, *qualified, *path, *operation;
+};
+static const struct cached_route_name cached_names[ROUTE_COUNT] = {
+    {"collections.namedtuple", "collections", NULL, "namedtuple", "namedtuple",
+     "/usr/lib/python3.14/collections/__init__.py", "eval"},
+    {"dataclasses._FuncBuilder.add_fns_to_class", "dataclasses", "_FuncBuilder",
+     "add_fns_to_class", "_FuncBuilder.add_fns_to_class",
+     "/usr/lib/python3.14/dataclasses.py", "exec"},
+    {"ast.parse", "ast", NULL, "parse", "parse", "/usr/lib/python3.14/ast.py", "compile"}
+};
+static const char *cached_helper_names[ROUTE_COUNT][4] = {
+    {NULL, NULL, NULL, NULL},
+    {"_HAS_DEFAULT_FACTORY", "recursive_repr", "FrozenInstanceError", "_FuncBuilder"},
+    {"AST", NULL, NULL, NULL}
+};
+static struct cached_snapshot cached_snapshots[ROUTE_COUNT];
+enum cached_outcome { CACHE_REQUESTED, CACHE_REFUSED, CACHE_BOUND };
+struct cached_attempt {
+    PyObject *label, *reference, *failure;
+    struct cached_snapshot *snapshot;
+    struct source *source;
+    enum phase request_phase;
+    enum cached_outcome outcome;
+    int flags, optimize;
+    struct cached_attempt *next;
+};
+static struct cached_attempt *cached_attempts;
+static unsigned long long cached_requests, cached_returns;
+
 static int
 native_operation_active(void)
 {
-    return PyThread_tss_get(&permit_key) != NULL ||
+    return state.cached_operation || PyThread_tss_get(&permit_key) != NULL ||
            PyThread_tss_get(&frozen_permit_key) != NULL;
 }
 
 static PyObject *dict_ascii_value(PyObject *, const char *);
+static int capture_cached_generators(void);
+static int cached_unchanged(unsigned int, PyObject *);
 
 static int
 refuse(const char *reason)
@@ -285,7 +329,7 @@ retain_code(PyObject *code, struct source *source)
 }
 
 static int
-retain_tree(PyObject *code, struct source *source)
+retain_tree_origin(PyObject *code, struct source *source, struct cached_snapshot *cached)
 {
     /* Iterative traversal: the native C stack does not grow with nested code. */
     PyObject **pending = NULL;
@@ -295,6 +339,7 @@ retain_tree(PyObject *code, struct source *source)
         if (lookup_code(current) == NULL) {
             if (retain_code(current, source) < 0)
                 goto error;
+            lookup_code(current)->cached_origin = cached;
             PyObject *constants = ((PyCodeObject *)current)->co_consts;
             if (!PyTuple_CheckExact(constants)) {
                 refuse("native compiler constants are not an exact tuple");
@@ -331,6 +376,12 @@ error:
     free(pending);
     latch("native code retention failed");
     return -1;
+}
+
+static int
+retain_tree(PyObject *code, struct source *source)
+{
+    return retain_tree_origin(code, source, NULL);
 }
 
 static int
@@ -695,7 +746,7 @@ configure(PyObject *self, PyObject *args)
         memcpy(sources[i].bytes, PyBytes_AS_STRING(content), (size_t)sources[i].length);
         sources[i].bytes[sources[i].length] = '\0';
     }
-    if (capture_frozen() < 0)
+    if (capture_cached_generators() < 0 || capture_frozen() < 0)
         goto error;
     state.sources = sources;
     state.source_count = count;
@@ -712,7 +763,8 @@ error:
 }
 
 static PyObject *
-compile_owned(struct source *source, int mode, int compiler_flags)
+compile_owned_internal(struct source *source, int mode, int compiler_flags,
+                       int optimize, int cached)
 {
     if (same_interpreter() < 0)
         return NULL;
@@ -720,7 +772,9 @@ compile_owned(struct source *source, int mode, int compiler_flags)
         refuse("native compilation requires configured owned source");
         return NULL;
     }
-    if (native_operation_active()) {
+    if (PyThread_tss_get(&permit_key) != NULL ||
+        PyThread_tss_get(&frozen_permit_key) != NULL ||
+        (state.cached_operation && !cached)) {
         refuse("native compilation is not reentrant");
         return NULL;
     }
@@ -739,7 +793,7 @@ compile_owned(struct source *source, int mode, int compiler_flags)
     }
     PyCompilerFlags flags = {.cf_flags = compiler_flags};
     PyObject *code = Py_CompileStringObject(source->bytes, source->path,
-                                           mode, &flags, -1);
+                                           mode, &flags, optimize);
     /* No code is returned or registered while the compilation permit is live. */
     if (PyThread_tss_set(&permit_key, NULL) != 0) {
         /* A dangling stack permit cannot remain reachable. End this process. */
@@ -759,6 +813,12 @@ compile_owned(struct source *source, int mode, int compiler_flags)
         return NULL;
     }
     return code;
+}
+
+static PyObject *
+compile_owned(struct source *source, int mode, int compiler_flags)
+{
+    return compile_owned_internal(source, mode, compiler_flags, -1, 0);
 }
 
 static PyObject *
@@ -944,12 +1004,14 @@ done:
 }
 
 static PyObject *
-bind_generator(PyObject *self, PyObject *args)
+bind_generator_internal(PyObject *self, PyObject *args, int cached)
 {
     (void)self;
     struct generator_route prepared = {0};
     PyObject *callback = NULL;
-    if (state.phase != CONFIGURED || state.violated || native_operation_active() ||
+    if (state.phase != CONFIGURED || state.violated ||
+        PyThread_tss_get(&permit_key) != NULL || PyThread_tss_get(&frozen_permit_key) != NULL ||
+        (state.cached_operation && !cached) ||
         single_bootstrap_thread() < 0 ||
         !PyTuple_CheckExact(args) || PyTuple_GET_SIZE(args) != 3) {
         if (!PyErr_Occurred())
@@ -1052,8 +1114,18 @@ bind_generator(PyObject *self, PyObject *args)
             goto error;
     }
     callback = PyCFunction_NewEx(&generator_methods[route], NULL, NULL);
-    if (callback == NULL || PyDict_SetItemString(globals, operation, callback) < 0)
+    if (callback == NULL || (cached && !cached_unchanged(route, NULL))) {
+        if (!PyErr_Occurred())
+            refuse("cached generator changed during binding callbacks");
         goto error;
+    }
+    if (PyDict_SetItemString(globals, operation, callback) < 0)
+        goto error;
+    if (cached && !cached_unchanged(route, callback)) {
+        if (!PyErr_Occurred())
+            refuse("cached generator changed at binding commit");
+        goto error;
+    }
     prepared.bound = 1;
     state.routes[route] = prepared;
     Py_DECREF(callback);
@@ -1062,6 +1134,433 @@ error:
     clear_route(&prepared);
     Py_XDECREF(callback);
     latch("native generator binding failed");
+    return NULL;
+}
+
+static PyObject *
+bind_generator(PyObject *self, PyObject *args)
+{
+    return bind_generator_internal(self, args, 0);
+}
+
+static int
+capture_cached_generators(void)
+{
+    PyObject *modules = PyImport_GetModuleDict();
+    if (!PyDict_CheckExact(modules))
+        return refuse("native bootstrap module inventory is not an exact dictionary");
+    for (unsigned int route = 0; route < ROUTE_COUNT; ++route) {
+        struct cached_snapshot *snapshot = &cached_snapshots[route];
+        const struct cached_route_name *name = &cached_names[route];
+        PyObject *module = dict_ascii_value(modules, name->module);
+        if (module == NULL) {
+            snapshot->state = CACHE_ABSENT;
+            continue;
+        }
+        snapshot->state = CACHE_MALFORMED;
+        snapshot->module = Py_NewRef(module);
+        if (!PyModule_CheckExact(module))
+            continue;
+        PyObject *namespace = PyModule_GetDict(module);
+        snapshot->namespace = Py_NewRef(namespace);
+        if (!dict_has_only_exact_string_keys(namespace))
+            continue;
+        PyObject *owner_dict = namespace;
+        if (name->owner != NULL) {
+            PyObject *owner = dict_ascii_value(namespace, name->owner);
+            snapshot->owner = Py_XNewRef(owner);
+            if (owner == NULL || !Py_IS_TYPE(owner, &PyType_Type))
+                continue;
+            owner_dict = ((PyTypeObject *)owner)->tp_dict;
+        }
+        if (!dict_has_only_exact_string_keys(owner_dict))
+            continue;
+        snapshot->owner_dict = Py_NewRef(owner_dict);
+        PyObject *function = dict_ascii_value(owner_dict, name->member);
+        snapshot->function = Py_XNewRef(function);
+        if (function == NULL || !PyFunction_Check(function) ||
+            PyFunction_GET_GLOBALS(function) != namespace ||
+            PyFunction_GET_CLOSURE(function) != NULL)
+            continue;
+        snapshot->code = Py_NewRef(PyFunction_GET_CODE(function));
+        snapshot->globals = Py_NewRef(PyFunction_GET_GLOBALS(function));
+        snapshot->builtins = Py_NewRef(((PyFunctionObject *)function)->func_builtins);
+        if (!dict_has_only_exact_string_keys(snapshot->builtins))
+            continue;
+        snapshot->namespace_values = PyDict_Copy(namespace);
+        snapshot->owner_values = PyDict_Copy(owner_dict);
+        snapshot->builtin_values = PyDict_Copy(snapshot->builtins);
+        if (snapshot->namespace_values == NULL || snapshot->owner_values == NULL ||
+            snapshot->builtin_values == NULL)
+            return -1;
+        snapshot->defaults = Py_XNewRef(PyFunction_GET_DEFAULTS(function));
+        snapshot->kwdefaults = Py_XNewRef(PyFunction_GET_KW_DEFAULTS(function));
+        if (snapshot->kwdefaults != NULL) {
+            if (!dict_has_only_exact_string_keys(snapshot->kwdefaults))
+                continue;
+            snapshot->kwdefault_values = PyDict_Copy(snapshot->kwdefaults);
+            if (snapshot->kwdefault_values == NULL)
+                return -1;
+        }
+        snapshot->file = Py_XNewRef(dict_ascii_value(namespace, "__file__"));
+        snapshot->name = Py_XNewRef(dict_ascii_value(namespace, "__name__"));
+        snapshot->operation = Py_XNewRef(dict_ascii_value(namespace, name->operation));
+        for (unsigned int i = 0; i < 4; ++i)
+            if (cached_helper_names[route][i] != NULL)
+                snapshot->helpers[i] = Py_XNewRef(dict_ascii_value(
+                    namespace, cached_helper_names[route][i]));
+        snapshot->state = CACHE_CAPTURED;
+    }
+    return 0;
+}
+
+static int
+cached_dictionary_unchanged(PyObject *dictionary, PyObject *original,
+                            const char *operation, PyObject *inserted_callback)
+{
+    if (!dict_has_only_exact_string_keys(dictionary) || !PyDict_CheckExact(original))
+        return 0;
+    int inserted = inserted_callback != NULL && dict_ascii_value(original, operation) == NULL;
+    if (PyDict_GET_SIZE(dictionary) != PyDict_GET_SIZE(original) + inserted)
+        return 0;
+    PyObject *key, *value;
+    Py_ssize_t position = 0;
+    while (PyDict_Next(original, &position, &key, &value)) {
+        PyObject *expected = inserted_callback != NULL && template_word(key, operation) ?
+            inserted_callback : value;
+        if (PyDict_GetItemWithError(dictionary, key) != expected)
+            return 0;
+    }
+    return inserted_callback == NULL || dict_ascii_value(dictionary, operation) == inserted_callback;
+}
+
+static int
+cached_unchanged(unsigned int route, PyObject *inserted_callback)
+{
+    struct cached_snapshot *snapshot = &cached_snapshots[route];
+    const struct cached_route_name *name = &cached_names[route];
+    if (snapshot->state != CACHE_CAPTURED ||
+        dict_ascii_value(PyImport_GetModuleDict(), name->module) != snapshot->module ||
+        PyModule_GetDict(snapshot->module) != snapshot->namespace ||
+        !dict_has_only_exact_string_keys(snapshot->namespace) ||
+        !dict_has_only_exact_string_keys(snapshot->owner_dict))
+        return 0;
+    if (!cached_dictionary_unchanged(snapshot->namespace, snapshot->namespace_values,
+                                    name->operation, inserted_callback) ||
+        (snapshot->owner_dict != snapshot->namespace &&
+         !cached_dictionary_unchanged(snapshot->owner_dict, snapshot->owner_values, NULL, NULL)) ||
+        !cached_dictionary_unchanged(snapshot->builtins, snapshot->builtin_values, NULL, NULL))
+        return 0;
+    if (name->owner != NULL &&
+        (dict_ascii_value(snapshot->namespace, name->owner) != snapshot->owner ||
+         ((PyTypeObject *)snapshot->owner)->tp_dict != snapshot->owner_dict))
+        return 0;
+    if (dict_ascii_value(snapshot->owner_dict, name->member) != snapshot->function ||
+        PyFunction_GET_CODE(snapshot->function) != snapshot->code ||
+        PyFunction_GET_GLOBALS(snapshot->function) != snapshot->globals ||
+        ((PyFunctionObject *)snapshot->function)->func_builtins != snapshot->builtins ||
+        PyFunction_GET_CLOSURE(snapshot->function) != NULL ||
+        PyFunction_GET_DEFAULTS(snapshot->function) != snapshot->defaults ||
+        PyFunction_GET_KW_DEFAULTS(snapshot->function) != snapshot->kwdefaults ||
+        dict_ascii_value(snapshot->namespace, "__file__") != snapshot->file ||
+        dict_ascii_value(snapshot->namespace, "__name__") != snapshot->name ||
+        dict_ascii_value(snapshot->namespace, name->operation) !=
+            (inserted_callback == NULL ? snapshot->operation : inserted_callback))
+        return 0;
+    if (snapshot->kwdefaults != NULL) {
+        if (!dict_has_only_exact_string_keys(snapshot->kwdefaults) ||
+            PyDict_GET_SIZE(snapshot->kwdefaults) != PyDict_GET_SIZE(snapshot->kwdefault_values))
+            return 0;
+        PyObject *key, *value;
+        Py_ssize_t position = 0;
+        while (PyDict_Next(snapshot->kwdefault_values, &position, &key, &value)) {
+            /* Both dictionaries have exact Unicode keys; no user equality. */
+            if (PyDict_GetItemWithError(snapshot->kwdefaults, key) != value)
+                return 0;
+        }
+    }
+    for (unsigned int i = 0; i < 4; ++i)
+        if (cached_helper_names[route][i] != NULL &&
+            dict_ascii_value(snapshot->namespace, cached_helper_names[route][i]) != snapshot->helpers[i])
+            return 0;
+    return 1;
+}
+
+static int cached_constant_equal(PyObject *, PyObject *);
+
+static int
+cached_code_equal(PyCodeObject *left, PyCodeObject *right)
+{
+    if (left->co_argcount != right->co_argcount ||
+        left->co_posonlyargcount != right->co_posonlyargcount ||
+        left->co_kwonlyargcount != right->co_kwonlyargcount ||
+        left->co_stacksize != right->co_stacksize || left->co_flags != right->co_flags ||
+        left->co_firstlineno != right->co_firstlineno ||
+        left->co_nlocalsplus != right->co_nlocalsplus ||
+        left->co_framesize != right->co_framesize || left->co_nlocals != right->co_nlocals ||
+        left->co_ncellvars != right->co_ncellvars || left->co_nfreevars != right->co_nfreevars ||
+        left->_co_firsttraceable != right->_co_firsttraceable)
+        return 0;
+    PyObject *a[] = {left->co_consts, left->co_names, left->co_exceptiontable,
+        left->co_localsplusnames, left->co_localspluskinds, left->co_filename,
+        left->co_name, left->co_qualname, left->co_linetable};
+    PyObject *b[] = {right->co_consts, right->co_names, right->co_exceptiontable,
+        right->co_localsplusnames, right->co_localspluskinds, right->co_filename,
+        right->co_name, right->co_qualname, right->co_linetable};
+    for (size_t i = 0; i < sizeof(a) / sizeof(*a); ++i) {
+        int equal = cached_constant_equal(a[i], b[i]);
+        if (equal != 1)
+            return equal;
+    }
+    /* Logical bytecode, not adaptive instructions, version or runtime caches. */
+    PyObject *left_bytes = PyCode_GetCode(left);
+    if (left_bytes == NULL)
+        return -1;
+    PyObject *right_bytes = PyCode_GetCode(right);
+    if (right_bytes == NULL) {
+        Py_DECREF(left_bytes);
+        return -1;
+    }
+    int equal = cached_constant_equal(left_bytes, right_bytes);
+    Py_DECREF(left_bytes);
+    Py_DECREF(right_bytes);
+    return equal;
+}
+
+static int
+cached_set_equal(PySetObject *left, PySetObject *right)
+{
+    if (left->used != right->used)
+        return 0;
+    if (right->mask < 0 || (size_t)right->mask == SIZE_MAX)
+        return refuse("native cached frozen-set layout is invalid");
+    unsigned char *matched = calloc((size_t)right->mask + 1, sizeof(*matched));
+    if (matched == NULL) {
+        PyErr_NoMemory();
+        return -1;
+    }
+    int result = 1;
+    /* Direct exact frozen-set tables: no object iterator, equality or hash call. */
+    for (Py_ssize_t i = 0; i <= left->mask; ++i) {
+        setentry *item = &left->table[i];
+        if (item->key == NULL || item->hash == -1)
+            continue;
+        int found = 0;
+        for (Py_ssize_t j = 0; j <= right->mask; ++j) {
+            setentry *other = &right->table[j];
+            if (matched[j] || other->key == NULL || other->hash == -1)
+                continue;
+            int equal = cached_constant_equal(item->key, other->key);
+            if (equal < 0) {
+                result = -1;
+                goto done;
+            }
+            if (equal) {
+                matched[j] = 1;
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            result = 0;
+            goto done;
+        }
+    }
+done:
+    free(matched);
+    return result;
+}
+
+static int
+cached_constant_body(PyObject *left, PyObject *right)
+{
+    if (left == NULL || right == NULL || Py_TYPE(left) != Py_TYPE(right))
+        return 0;
+    if (left == Py_None || left == Py_Ellipsis || PyBool_Check(left))
+        return left == right;
+    if (PyUnicode_CheckExact(left)) {
+        int equal = PyUnicode_Compare(left, right);
+        return PyErr_Occurred() ? -1 : equal == 0;
+    }
+    if (PyBytes_CheckExact(left))
+        return PyBytes_GET_SIZE(left) == PyBytes_GET_SIZE(right) &&
+            memcmp(PyBytes_AS_STRING(left), PyBytes_AS_STRING(right),
+                   (size_t)PyBytes_GET_SIZE(left)) == 0;
+    if (PyLong_CheckExact(left)) {
+        /* Fixed native exact-int comparator; never generic operand dispatch. */
+        PyObject *answer = PyLong_Type.tp_richcompare(left, right, Py_EQ);
+        if (answer == NULL)
+            return -1;
+        int equal = answer == Py_True;
+        Py_DECREF(answer);
+        return equal;
+    }
+    if (PyFloat_CheckExact(left)) {
+        double a = PyFloat_AS_DOUBLE(left), b = PyFloat_AS_DOUBLE(right);
+        return memcmp(&a, &b, sizeof(a)) == 0;
+    }
+    if (PyComplex_CheckExact(left)) {
+        Py_complex a = ((PyComplexObject *)left)->cval;
+        Py_complex b = ((PyComplexObject *)right)->cval;
+        return memcmp(&a.real, &b.real, sizeof(a.real)) == 0 &&
+            memcmp(&a.imag, &b.imag, sizeof(a.imag)) == 0;
+    }
+    if (PyTuple_CheckExact(left)) {
+        if (PyTuple_GET_SIZE(left) != PyTuple_GET_SIZE(right))
+            return 0;
+        for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(left); ++i) {
+            int equal = cached_constant_equal(PyTuple_GET_ITEM(left, i), PyTuple_GET_ITEM(right, i));
+            if (equal != 1)
+                return equal;
+        }
+        return 1;
+    }
+    if (PyFrozenSet_CheckExact(left))
+        return cached_set_equal((PySetObject *)left, (PySetObject *)right);
+    if (PySlice_Check(left)) {
+        PySliceObject *a = (PySliceObject *)left, *b = (PySliceObject *)right;
+        int equal = cached_constant_equal(a->start, b->start);
+        if (equal != 1)
+            return equal;
+        equal = cached_constant_equal(a->stop, b->stop);
+        return equal == 1 ? cached_constant_equal(a->step, b->step) : equal;
+    }
+    if (PyCode_Check(left))
+        return cached_code_equal((PyCodeObject *)left, (PyCodeObject *)right);
+    return refuse("unsupported native cached source constant type");
+}
+
+static int
+cached_constant_equal(PyObject *left, PyObject *right)
+{
+    if (Py_EnterRecursiveCall(" while comparing native cached source") < 0)
+        return -1;
+    int result = cached_constant_body(left, right);
+    Py_LeaveRecursiveCall();
+    return result;
+}
+
+static int
+cached_reference(PyObject *tree, const char *qualified, PyObject **found)
+{
+    if (Py_EnterRecursiveCall(" while locating native cached reference") < 0)
+        return -1;
+    int result = -1;
+    PyCodeObject *code = (PyCodeObject *)tree;
+    if (template_word(code->co_qualname, qualified)) {
+        if (*found != NULL) {
+            refuse("native cached source has an ambiguous fixed route");
+            goto done;
+        }
+        *found = Py_NewRef(tree);
+    }
+    for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(code->co_consts); ++i) {
+        PyObject *child = PyTuple_GET_ITEM(code->co_consts, i);
+        if (PyCode_Check(child) && cached_reference(child, qualified, found) < 0)
+            goto done;
+    }
+    result = 0;
+done:
+    Py_LeaveRecursiveCall();
+    return result;
+}
+
+static PyObject *
+bind_cached_generator(PyObject *self, PyObject *label)
+{
+    (void)self;
+    if (state.phase != CONFIGURED || state.violated || native_operation_active() ||
+        single_bootstrap_thread() < 0) {
+        if (!PyErr_Occurred())
+            refuse("cached binding requires the configured sole bootstrap thread");
+        return NULL;
+    }
+    struct cached_attempt *attempt = calloc(1, sizeof(*attempt));
+    if (attempt == NULL) {
+        latch("native cached attempt retention failed");
+        return PyErr_NoMemory();
+    }
+    attempt->label = Py_NewRef(label);
+    attempt->request_phase = state.phase;
+    attempt->optimize = -1;
+    attempt->next = cached_attempts;
+    cached_attempts = attempt;
+    state.cached_operation = 1;
+    PyObject *tree = NULL, *arguments = NULL, *result = NULL;
+    if (count_event(&cached_requests) < 0)
+        goto error;
+    unsigned int route;
+    for (route = 0; route < ROUTE_COUNT; ++route)
+        if (PyUnicode_CheckExact(label) && template_word(label, cached_names[route].label))
+            break;
+    if (route == ROUTE_COUNT) {
+        refuse("cached binding requires an exact fixed native label");
+        goto error;
+    }
+    attempt->snapshot = &cached_snapshots[route];
+    if (state.routes[route].bound || !cached_unchanged(route, NULL)) {
+        refuse("cached bootstrap route is absent, malformed, changed or already bound");
+        goto error;
+    }
+    for (size_t i = 0; i < state.source_count; ++i)
+        if (template_word(state.sources[i].path, cached_names[route].path)) {
+            attempt->source = &state.sources[i];
+            break;
+        }
+    if (attempt->source == NULL) {
+        refuse("cached generator source is absent from the owned inventory");
+        goto error;
+    }
+    /* Retain the actual explicit option passed to this reference compilation. */
+    if (PyConfig_GetInt("optimization_level", &attempt->optimize) < 0)
+        goto error;
+    attempt->flags = 0;
+    tree = compile_owned_internal(attempt->source, Py_file_input, attempt->flags,
+                                  attempt->optimize, 1);
+    if (tree == NULL || cached_reference(tree, cached_names[route].qualified, &attempt->reference) < 0)
+        goto error;
+    if (attempt->reference == NULL) {
+        refuse("owned source lacks the fixed cached generator");
+        goto error;
+    }
+    int equal = cached_constant_equal(attempt->snapshot->code, attempt->reference);
+    if (equal != 1) {
+        if (equal == 0)
+            refuse("cached generator differs from complete owned source metadata");
+        goto error;
+    }
+    if (state.violated || !cached_unchanged(route, NULL)) {
+        refuse("cached generator changed during reference compilation");
+        goto error;
+    }
+    /* These exact held pointers, not equal copies or cached siblings, are adopted. */
+    if (retain_tree_origin(attempt->snapshot->code, attempt->source, attempt->snapshot) < 0)
+        goto error;
+    arguments = PyTuple_Pack(3, label, attempt->snapshot->function, attempt->source->path);
+    if (arguments == NULL || !cached_unchanged(route, NULL)) {
+        if (!PyErr_Occurred())
+            refuse("cached generator changed before native route binding");
+        goto error;
+    }
+    result = bind_generator_internal(NULL, arguments, 1);
+    if (result == NULL || count_event(&cached_returns) < 0)
+        goto error;
+    attempt->outcome = CACHE_BOUND;
+    state.cached_operation = 0;
+    Py_DECREF(tree);
+    Py_DECREF(arguments);
+    return result;
+error:
+    attempt->outcome = CACHE_REFUSED;
+    latch("native cached generator binding failed");
+    /* Clear operation authority before cleanup; preserve the first exception. */
+    state.cached_operation = 0;
+    PyObject *failure = PyErr_GetRaisedException();
+    attempt->failure = Py_XNewRef(failure);
+    Py_XDECREF(tree);
+    Py_XDECREF(arguments);
+    Py_XDECREF(result);
+    PyErr_SetRaisedException(failure);
     return NULL;
 }
 
@@ -1463,7 +1962,7 @@ status(PyObject *self, PyObject *ignored)
     static const char *phases[] = {"bootstrap", "configuring", "configured", "active", "failed"};
     if (same_interpreter() < 0)
         return NULL;
-    return Py_BuildValue("{s:s,s:O,s:O,s:z,s:O,s:n,s:n,s:K,s:K,s:K,s:O,s:O,s:K,s:K,s:K,s:n,s:K,s:K}",
+    return Py_BuildValue("{s:s,s:O,s:O,s:z,s:O,s:n,s:n,s:K,s:K,s:K,s:O,s:O,s:K,s:K,s:K,s:n,s:K,s:K,s:K,s:K}",
         "phase", phases[state.phase], "preinitializationInstalled", state.installed ? Py_True : Py_False,
         "violated", state.violated ? Py_True : Py_False, "firstFailure", state.first_failure,
         "runId", state.run_id == NULL ? Py_None : state.run_id,
@@ -1474,7 +1973,8 @@ status(PyObject *self, PyObject *ignored)
         "generatedCompilations", state.generated_compilations,
         "astParseAttempts", state.ast_attempts, "astParseReturns", state.ast_returns,
         "frozenOriginCount", (Py_ssize_t)frozen_count,
-        "frozenRequests", frozen_requests, "frozenReturns", frozen_returns);
+        "frozenRequests", frozen_requests, "frozenReturns", frozen_returns,
+        "cachedBindingAttempts", cached_requests, "cachedBindingReturns", cached_returns);
 }
 
 static PyMethodDef methods[] = {
@@ -1482,6 +1982,7 @@ static PyMethodDef methods[] = {
     {"compile_source", compile_source, METH_O, "Compile the owned source selected by its path."},
     {"frozen_code", frozen_code, METH_O, "Acquire code only from the owned native frozen provider."},
     {"bind_generator", bind_generator, METH_VARARGS, "Bind a fixed owned stdlib generator during trusted bootstrap."},
+    {"bind_cached_generator", bind_cached_generator, METH_O, "Bind a fixed captured startup generator after owned-source correspondence."},
     {"activate", activate, METH_NOARGS, "Activate native compile/exec checks once."},
     {"contains", contains, METH_O, "Observe actual native code identity; never register it."},
     {"status", status, METH_NOARGS, "Return component observations, not confinement evidence."},

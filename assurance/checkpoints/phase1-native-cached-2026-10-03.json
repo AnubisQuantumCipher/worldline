@@ -1,0 +1,545 @@
+{
+  "actual_results": [
+    {
+      "child_returncode": 0,
+      "mode": "native-build",
+      "native_inputs_unchanged": true,
+      "receipt": {
+        "bytes": 1326,
+        "mode": 420,
+        "name": "phase1-finalization-ordinary-v29/evidence/native-build-v1/result.json",
+        "sha256": "6c1df3739258535aaf32c8e073658fc7980e5834ca4aa6d24e40d7f1d24ec352"
+      },
+      "scope_returncode": 0,
+      "source_inputs_unchanged": true
+    },
+    {
+      "child_returncode": 0,
+      "mode": "native-component-tests",
+      "native_inputs_unchanged": true,
+      "receipt": {
+        "bytes": 1700,
+        "mode": 420,
+        "name": "phase1-finalization-ordinary-v29/evidence/native-component-tests-v1/result.json",
+        "sha256": "3bd560dd04863651a52e2165dc40173d08e78054f0fbb2b3bfa8e6fceede049c"
+      },
+      "scope_returncode": 0,
+      "source_inputs_unchanged": true
+    }
+  ],
+  "actual_test_summary": "Ran 89 tests in 4.246s\n\nOK",
+  "cases": [
+    {
+      "name": "test_activation_requires_prepared_code (test_examiner_native_guard.NativeGuardControls.test_activation_requires_prepared_code)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_compilation_can_use_owned_source_on_a_later_thread (test_examiner_native_guard.NativeGuardControls.test_compilation_can_use_owned_source_on_a_later_thread)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_compiler_error_preserves_exception_and_clears_permit (test_examiner_native_guard.NativeGuardControls.test_compiler_error_preserves_exception_and_clears_permit)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_configuration_requires_sole_bootstrap_thread (test_examiner_native_guard.NativeGuardControls.test_configuration_requires_sole_bootstrap_thread)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_constructor_installed_before_runtime_and_no_confinement_claim (test_examiner_native_guard.NativeGuardControls.test_constructor_installed_before_runtime_and_no_confinement_claim)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_declared_future_encoding_cookie_and_unicode_survive (test_examiner_native_guard.NativeGuardControls.test_declared_future_encoding_cookie_and_unicode_survive)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_deserialization_cannot_register_code (test_examiner_native_guard.NativeGuardControls.test_deserialization_cannot_register_code)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_direct_code_replacement_refuses (test_examiner_native_guard.NativeGuardControls.test_direct_code_replacement_refuses)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_duplicate_inventory_path_refuses (test_examiner_native_guard.NativeGuardControls.test_duplicate_inventory_path_refuses)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_exact_owned_source_executes_after_activation (test_examiner_native_guard.NativeGuardControls.test_exact_owned_source_executes_after_activation)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_function_construction_accepts_actual_registered_function_code (test_examiner_native_guard.NativeGuardControls.test_function_construction_accepts_actual_registered_function_code)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_future_flags_are_not_inherited_from_caller (test_examiner_native_guard.NativeGuardControls.test_future_flags_are_not_inherited_from_caller)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_identity_does_not_admit_a_distinct_equal_code_object (test_examiner_native_guard.NativeGuardControls.test_identity_does_not_admit_a_distinct_equal_code_object)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_malformed_configuration_is_sticky_and_not_recoverable (test_examiner_native_guard.NativeGuardControls.test_malformed_configuration_is_sticky_and_not_recoverable)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_nested_code_is_strongly_retained_and_callable (test_examiner_native_guard.NativeGuardControls.test_nested_code_is_strongly_retained_and_callable)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_nul_source_has_original_syntax_error_without_truncation (test_examiner_native_guard.NativeGuardControls.test_nul_source_has_original_syntax_error_without_truncation)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_reentrant_compilation_fails_sticky_and_clears_permit (test_examiner_native_guard.NativeGuardControls.test_reentrant_compilation_fails_sticky_and_clears_permit)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_subclass_input_is_not_converted_or_executed (test_examiner_native_guard.NativeGuardControls.test_subclass_input_is_not_converted_or_executed)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_successful_configuration_cannot_be_replaced (test_examiner_native_guard.NativeGuardControls.test_successful_configuration_cannot_be_replaced)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_unbound_compile_refuses_and_violation_stays_after_catch (test_examiner_native_guard.NativeGuardControls.test_unbound_compile_refuses_and_violation_stays_after_catch)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_unknown_selector_fails_without_new_authority (test_examiner_native_guard.NativeGuardControls.test_unknown_selector_fails_without_new_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_unregistered_startup_code_does_not_become_registered (test_examiner_native_guard.NativeGuardControls.test_unregistered_startup_code_does_not_become_registered)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_absent_cached_route_is_not_filled_by_later_module_restore (test_examiner_native_generators.NativeCachedGeneratorControls.test_absent_cached_route_is_not_filled_by_later_module_restore)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_binding_audit_replacement_is_rechecked_at_commit (test_examiner_native_generators.NativeCachedGeneratorControls.test_ast_binding_audit_replacement_is_rechecked_at_commit)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_cached_ast_original_errors_and_later_valid_data (test_examiner_native_generators.NativeCachedGeneratorControls.test_cached_ast_original_errors_and_later_valid_data)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_cached_binding_is_one_shot (test_examiner_native_generators.NativeCachedGeneratorControls.test_cached_binding_is_one_shot)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_cached_dataclasses_keep_slots_defaults_and_disabled_methods (test_examiner_native_generators.NativeCachedGeneratorControls.test_cached_dataclasses_keep_slots_defaults_and_disabled_methods)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_cached_identities_aliases_and_ast_reference_survive (test_examiner_native_generators.NativeCachedGeneratorControls.test_cached_identities_aliases_and_ast_reference_survive)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_label_subclass_has_no_conversion_or_binding_authority (test_examiner_native_generators.NativeCachedGeneratorControls.test_label_subclass_has_no_conversion_or_binding_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_later_thread_cannot_bind_cached_bootstrap (test_examiner_native_generators.NativeCachedGeneratorControls.test_later_thread_cannot_bind_cached_bootstrap)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_malformed_cached_snapshot_does_not_gain_authority (test_examiner_native_generators.NativeCachedGeneratorControls.test_malformed_cached_snapshot_does_not_gain_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_and_changed_owned_source_refuse (test_examiner_native_generators.NativeCachedGeneratorControls.test_missing_and_changed_owned_source_refuse)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_native_operations_cannot_reenter_cached_reference (test_examiner_native_generators.NativeCachedGeneratorControls.test_native_operations_cannot_reenter_cached_reference)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_postcapture_slot_and_code_replacements_refuse (test_examiner_native_generators.NativeCachedGeneratorControls.test_postcapture_slot_and_code_replacements_refuse)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_primary_reference_audit_exception_is_preserved (test_examiner_native_generators.NativeCachedGeneratorControls.test_primary_reference_audit_exception_is_preserved)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_reference_audit_replacement_is_rechecked_before_adoption (test_examiner_native_generators.NativeCachedGeneratorControls.test_reference_audit_replacement_is_rechecked_before_adoption)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_actual_frozen_execution_and_nested_strong_retention (test_examiner_native_generators.NativeFrozenControls.test_actual_frozen_execution_and_nested_strong_retention)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_audit_failure_preserves_primary_and_clears_frozen_permit (test_examiner_native_generators.NativeFrozenControls.test_audit_failure_preserves_primary_and_clears_frozen_permit)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_configured_then_active_acquisitions_return_actual_distinct_code (test_examiner_native_generators.NativeFrozenControls.test_configured_then_active_acquisitions_return_actual_distinct_code)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_later_thread_uses_its_own_frozen_permit (test_examiner_native_generators.NativeFrozenControls.test_later_thread_uses_its_own_frozen_permit)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_malformed_selector_refuses_without_callback_or_code_authority (test_examiner_native_generators.NativeFrozenControls.test_malformed_selector_refuses_without_callback_or_code_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_lookup_preserves_original_error_class_and_later_acquisition (test_examiner_native_generators.NativeFrozenControls.test_missing_lookup_preserves_original_error_class_and_later_acquisition)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_nested_native_operations_refuse_in_both_directions (test_examiner_native_generators.NativeFrozenControls.test_nested_native_operations_refuse_in_both_directions)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ordinary_deserialization_has_no_configured_or_active_authority (test_examiner_native_generators.NativeFrozenControls.test_ordinary_deserialization_has_no_configured_or_active_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_original_disabled_selection_and_bootstrap_exception_are_preserved (test_examiner_native_generators.NativeFrozenControls.test_original_disabled_selection_and_bootstrap_exception_are_preserved)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_original_frozen_objects_match_without_transferring_identity (test_examiner_native_generators.NativeFrozenControls.test_original_frozen_objects_match_without_transferring_identity)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_python_availability_replacement_cannot_change_native_provider (test_examiner_native_generators.NativeFrozenControls.test_python_availability_replacement_cannot_change_native_provider)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_audit_exception_preserved_and_permit_cleared (test_examiner_native_generators.NativeGeneratorControls.test_ast_audit_exception_preserved_and_permit_cleared)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_audit_syntax_error_is_not_ordinary_parser_rejection (test_examiner_native_generators.NativeGeneratorControls.test_ast_audit_syntax_error_is_not_ordinary_parser_rejection)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_binding_is_one_shot (test_examiner_native_generators.NativeGeneratorControls.test_ast_binding_is_one_shot)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_binding_requires_owned_parser_code (test_examiner_native_generators.NativeGeneratorControls.test_ast_binding_requires_owned_parser_code)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_completion_hook_installation_must_be_observed (test_examiner_native_generators.NativeGeneratorControls.test_ast_completion_hook_installation_must_be_observed)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_completion_hook_order_is_sealed_before_activation (test_examiner_native_generators.NativeGeneratorControls.test_ast_completion_hook_order_is_sealed_before_activation)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_data_cannot_be_compiled_into_executable_authority (test_examiner_native_generators.NativeGeneratorControls.test_ast_data_cannot_be_compiled_into_executable_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_early_data_failures_retain_attempts (test_examiner_native_generators.NativeGeneratorControls.test_ast_early_data_failures_retain_attempts)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_feature_version_type_comments_and_bool_optimization (test_examiner_native_generators.NativeGeneratorControls.test_ast_feature_version_type_comments_and_bool_optimization)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_missing_route_does_not_gain_compile_authority (test_examiner_native_generators.NativeGeneratorControls.test_ast_missing_route_does_not_gain_compile_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_modes_and_text_encodings_remain_data (test_examiner_native_generators.NativeGeneratorControls.test_ast_modes_and_text_encodings_remain_data)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_original_data_errors_preserve_later_valid_parsing (test_examiner_native_generators.NativeGeneratorControls.test_ast_original_data_errors_preserve_later_valid_parsing)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_route_cannot_remove_only_ast_flag (test_examiner_native_generators.NativeGeneratorControls.test_ast_route_cannot_remove_only_ast_flag)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_route_requires_its_actual_parser_caller (test_examiner_native_generators.NativeGeneratorControls.test_ast_route_requires_its_actual_parser_caller)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_ast_signature_parsing_preserves_builtin_signatures (test_examiner_native_generators.NativeGeneratorControls.test_ast_signature_parsing_preserves_builtin_signatures)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_binding_rejects_nonstring_authority_keys_without_conversion (test_examiner_native_generators.NativeGeneratorControls.test_binding_rejects_nonstring_authority_keys_without_conversion)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_bound_route_cannot_be_replaced (test_examiner_native_generators.NativeGeneratorControls.test_bound_route_cannot_be_replaced)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_closure_subclass_key_refuses_without_python_key_callbacks (test_examiner_native_generators.NativeGeneratorControls.test_closure_subclass_key_refuses_without_python_key_callbacks)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_complete_template_rejects_extra_line (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_complete_template_rejects_extra_line)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_empty_builder_and_target_builtins_insertion (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_empty_builder_and_target_builtins_insertion)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_fixed_decorator_refuses_without_calling_substitute (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_fixed_decorator_refuses_without_calling_substitute)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_fixed_factory_marker_identity (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_fixed_factory_marker_identity)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_fixed_frozen_exception_identity (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_fixed_frozen_exception_identity)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_fixed_object_operand_is_not_just_a_key (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_fixed_object_operand_is_not_just_a_key)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_frozen_slots_and_original_exception (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_frozen_slots_and_original_exception)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_inheritance_empty_class_and_disabled_methods (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_inheritance_empty_class_and_disabled_methods)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_init_false_fields_factories_and_slots (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_init_false_fields_factories_and_slots)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_keyword_only_initvar_postinit_and_self_field (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_keyword_only_initvar_postinit_and_self_field)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_method_order_must_match_installed_template (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_method_order_must_match_installed_template)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_original_user_factory_exception_is_preserved (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_original_user_factory_exception_is_preserved)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_standard_and_independent_field_subsets (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_standard_and_independent_field_subsets)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_dataclass_unknown_method_template_refuses (test_examiner_native_generators.NativeGeneratorControls.test_dataclass_unknown_method_template_refuses)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_direct_route_call_has_wrong_immediate_origin (test_examiner_native_generators.NativeGeneratorControls.test_direct_route_call_has_wrong_immediate_origin)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_empty_single_multiple_namedtuple_and_defaults (test_examiner_native_generators.NativeGeneratorControls.test_empty_single_multiple_namedtuple_and_defaults)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_missing_native_route_does_not_gain_compile_authority (test_examiner_native_generators.NativeGeneratorControls.test_missing_native_route_does_not_gain_compile_authority)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_namedtuple_duplicate_normalization_preserves_syntax_error (test_examiner_native_generators.NativeGeneratorControls.test_namedtuple_duplicate_normalization_preserves_syntax_error)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_namedtuple_unicode_and_renamed_fields (test_examiner_native_generators.NativeGeneratorControls.test_namedtuple_unicode_and_renamed_fields)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_original_audit_refusal_has_registered_code_and_clean_permit (test_examiner_native_generators.NativeGeneratorControls.test_original_audit_refusal_has_registered_code_and_clean_permit)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_original_generated_exec_audit_follows_registration (test_examiner_native_generators.NativeGeneratorControls.test_original_generated_exec_audit_follows_registration)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_source_selector_must_match_owned_generator (test_examiner_native_generators.NativeGeneratorControls.test_source_selector_must_match_owned_generator)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_unregistered_cached_generator_cannot_be_bound (test_examiner_native_generators.NativeGeneratorControls.test_unregistered_cached_generator_cannot_be_bound)",
+      "outcome": "ok"
+    },
+    {
+      "name": "test_unrelated_target_global_keys_and_values_remain_supported (test_examiner_native_generators.NativeGeneratorControls.test_unrelated_target_global_keys_and_values_remain_supported)",
+      "outcome": "ok"
+    }
+  ],
+  "component_files": {
+    "native/README.md": {
+      "bytes": 7948,
+      "matches_exercised_bytes": false,
+      "sha256": "87725b91bed55a7f034904a53656607f574a50a9b03c0a14617d0c332d3a9377"
+    },
+    "native/build_guard.py": {
+      "bytes": 2404,
+      "matches_exercised_bytes": true,
+      "sha256": "394f0cc3121788037ac13ea28409b2c0896dae4315e496225d371f4b4429c381"
+    },
+    "native/examiner_guard.c": {
+      "bytes": 81449,
+      "matches_exercised_bytes": true,
+      "sha256": "7b01e2d244eb97c14681b3a6b99d2535d5cb266e33aade15b243825aa93f8208"
+    },
+    "native/generator_templates.h": {
+      "bytes": 17962,
+      "matches_exercised_bytes": true,
+      "sha256": "35fd514e62eb73ef9c4026c1a3edc9e23c349b2e560cdd04fb48ff74f2d50b30"
+    },
+    "tests/test_examiner_native_generators.py": {
+      "bytes": 68167,
+      "matches_exercised_bytes": true,
+      "sha256": "c21c9e4039587b37e0897603002db075b209aa0d4d63ee468563f1797e05179a"
+    },
+    "tests/test_examiner_native_guard.py": {
+      "bytes": 15308,
+      "matches_exercised_bytes": true,
+      "sha256": "dea76ee56c26f8f797f32ac2383f9ea61ee199fe1613b3ea56f10cda074539af"
+    }
+  },
+  "confinementEstablished": false,
+  "documentation_only_delta": "native/README.md updates historical pending wording to actual D29 outcome; executable and test bytes exactly match the exercised source.",
+  "evidence_boundary": "Portable index identifies retained local receipts by bytes. It is not independent authentication, full campaign acceptance or proof. Full receipts remain in the protected local campaign archive.",
+  "formal_proof_acceptance": false,
+  "independent_reviews": [
+    {
+      "bytes": 2053,
+      "mode": 420,
+      "name": "phase1-finalization-owned-acquisition-engineering-v1/review/gpt61-native-cached-source-v1/review.json",
+      "sha256": "c4747beb4b89c8dc4e6597f804b75a69e5f9f3e05e0e15c24ada1fe0e4ecf76d"
+    },
+    {
+      "bytes": 1942,
+      "mode": 420,
+      "name": "phase1-finalization-owned-acquisition-engineering-v1/review/gpt61-v29-binding-v1/review.json",
+      "sha256": "b52e66ec33a5d650b4b3af9c2986da1fc3e33be84cd2746df7f4c78daaa01dbf"
+    },
+    {
+      "bytes": 2043,
+      "mode": 420,
+      "name": "phase1-finalization-owned-acquisition-engineering-v1/review/gpt61-v29-result-v1/review.json",
+      "sha256": "1715710637db4a45942bc64a53adf9e31b71e3785d8d48ce892a230a560a25f3"
+    }
+  ],
+  "later_required_unrun_actions": [
+    "pending-build",
+    "build",
+    "entry-component-tests",
+    "acquisition-regression-tests",
+    "completion-build",
+    "completion-tests",
+    "pending-v2-tests",
+    "transition-direct-build",
+    "transition-direct-tests",
+    "tests",
+    "admission-tests",
+    "evaluation-tests",
+    "pending-tests",
+    "direct-build",
+    "direct-tests",
+    "legacy-direct-build",
+    "legacy-direct-tests",
+    "resource-direct-build",
+    "resource-direct-tests",
+    "terminal-tests",
+    "roster-d2-python-tests",
+    "roster-d2-build",
+    "roster-d2-tests",
+    "raw-observation-tests",
+    "report-facts-build",
+    "report-facts-tests",
+    "core-all-source-build",
+    "proof-source-tests",
+    "wire-build",
+    "wire-tests",
+    "authority-build",
+    "authority-tests",
+    "default-tests",
+    "metadata-tests",
+    "staged-tests",
+    "core-abi-tests",
+    "store-tests",
+    "revalidation-tests",
+    "transaction-tests",
+    "finalization-tests",
+    "finalization-kernel-tests",
+    "finalization-producer-tests",
+    "artifact-build",
+    "artifact-tests"
+  ],
+  "native_artifacts": {
+    "build.json": {
+      "bytes": 365,
+      "mode": 420,
+      "sha256": "6f920a5eaf4bd164ff51640089a508a3778e53dc00dbf7b2c7669e9c31cabdc1"
+    },
+    "libworldline_examiner_guard.so": {
+      "bytes": 144448,
+      "mode": 493,
+      "sha256": "c3e8e73a5c64117feda1ffa61e4636009e823728d2a8ab5dfa6d93026aed019e"
+    }
+  },
+  "negative_history": [
+    {
+      "bytes": 62610,
+      "mode": 420,
+      "name": "phase1-finalization-ordinary-v23/review/root-batch-terminal-v1/actual-results-and-window-release.json",
+      "sha256": "bdfe60b8dfc63f21557b575040654bf53f640a96c95b7a654193f95b7c08490c"
+    },
+    {
+      "bytes": 62482,
+      "mode": 420,
+      "name": "phase1-finalization-ordinary-v24/review/root-batch-terminal-v1/actual-results-and-window-release.json",
+      "sha256": "97df0ede0dcc4b72f078de685c8c439abff221e91fb075257c592394eb5019bf"
+    }
+  ],
+  "original_guarantees": "UNCHANGED_AND_OPEN",
+  "phase_acceptance": false,
+  "release": {
+    "bytes": 1266,
+    "mode": 420,
+    "name": "phase1-finalization-ordinary-v29/review/root-batch-terminal-v1/coordination-release.json",
+    "sha256": "31e481489a9ccd0eab2f22f6a9640ee0a805aa96aa951d48d42e34b16d107f7f"
+  },
+  "schema": "worldline-native-development-checkpoint-v1",
+  "source_batch_manifest": {
+    "bytes": 200400,
+    "mode": 420,
+    "name": "phase1-finalization-ordinary-v29/inputs.json",
+    "sha256": "e85f53dfbfaab3c685fece6a965f17599ec5ab8fdd8550f399d18dbf1078ecc7"
+  },
+  "status": "VERIFIED_COMPONENT_SOURCE_CHECKPOINT_PHASE_ONE_OPEN",
+  "terminal": {
+    "bytes": 61364,
+    "mode": 420,
+    "name": "phase1-finalization-ordinary-v29/review/root-batch-terminal-v1/actual-results-and-window-release.json",
+    "sha256": "ad59b57aec24f3ae53572915765020083d149466be95372d345da6915bcd7b25"
+  },
+  "test_log": {
+    "bytes": 15475,
+    "mode": 420,
+    "name": "phase1-finalization-ordinary-v29/evidence/native-component-tests-v1/child.stderr",
+    "sha256": "4a113d7b087927390197e009634aeb9d4d70e6e025da73cf222c86b14b6b2f7f"
+  }
+}

@@ -1075,5 +1075,364 @@ class NativeFrozenControls(unittest.TestCase):
                 self.assertFalse(result['state']['permitActive'])
 
 
+CACHED_BOOTSTRAP = GENERATOR_BOOTSTRAP + r'''
+def cached_rows(entry=b'value = None\n'):
+    return ((COLLECTIONS_PATH, Path(COLLECTIONS_PATH).read_bytes()),
+            (DATACLASSES_PATH, Path(DATACLASSES_PATH).read_bytes()),
+            (AST_PATH, Path(AST_PATH).read_bytes()),
+            ('/verifier/entry.py', entry))
+def cached_bind_all():
+    guard.bind_cached_generator('collections.namedtuple')
+    guard.bind_cached_generator('dataclasses._FuncBuilder.add_fns_to_class')
+    guard.bind_cached_generator('ast.parse')
+'''
+
+
+class NativeCachedGeneratorControls(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        native_controls.NativeGuardControls.setUpClass.__func__(cls)
+
+    def child(self, body):
+        return native_controls.NativeGuardControls.child(
+            self, CACHED_BOOTSTRAP + textwrap.dedent(body))
+
+    def test_cached_identities_aliases_and_ast_reference_survive(self):
+        result = self.child(r'''
+            from collections import namedtuple as held_namedtuple
+            import ast
+            modules = (collections, dataclasses, ast)
+            functions = (held_namedtuple, dataclasses._FuncBuilder.add_fns_to_class, ast.parse)
+            codes = tuple(function.__code__ for function in functions)
+            equal_copy = codes[0].replace()
+            sibling = collections.Counter.update.__code__
+            guard.configure('cached-identity', cached_rows())
+            captured_only = [guard.contains(code) for code in codes]
+            cached_bind_all()
+            guard.activate()
+            Record = held_namedtuple('Café', ['naïve', 'value'], defaults=('default',))
+            parsed = ast.parse('value = 3')
+            emit({'modules': [sys.modules[name] is module for name, module in
+                             zip(('collections', 'dataclasses', 'ast'), modules)],
+                  'functions': [collections.namedtuple is functions[0],
+                                dataclasses._FuncBuilder.add_fns_to_class is functions[1],
+                                ast.parse is functions[2]],
+                  'codes': [function.__code__ is code for function, code in zip(functions, codes)],
+                  'inspect_ast': inspect.ast is ast, 'captured_only': captured_only,
+                  'registered': [guard.contains(code) for code in codes],
+                  'equal_copy': guard.contains(equal_copy), 'sibling': guard.contains(sibling),
+                  'record': list(Record('accepted')), 'ast_type': type(parsed).__name__,
+                  'state': guard.status()})
+        ''')
+        self.assertEqual(result['modules'], [True, True, True])
+        self.assertEqual(result['functions'], [True, True, True])
+        self.assertEqual(result['codes'], [True, True, True])
+        self.assertTrue(result['inspect_ast'])
+        self.assertEqual(result['captured_only'], [False, False, False])
+        self.assertEqual(result['registered'], [True, True, True])
+        self.assertFalse(result['equal_copy'])
+        self.assertFalse(result['sibling'])
+        self.assertEqual(result['record'], ['accepted', 'default'])
+        self.assertEqual(result['ast_type'], 'Module')
+        self.assertEqual(result['state']['cachedBindingReturns'], 3)
+        self.assertFalse(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+        self.assertFalse(result['state']['confinementEstablished'])
+
+    def test_cached_dataclasses_keep_slots_defaults_and_disabled_methods(self):
+        result = self.child(r'''
+            entry = (b'import dataclasses, inspect\n'
+                     b'@dataclasses.dataclass(frozen=True, slots=True)\n'
+                     b'class Record:\n'
+                     b'    value: str\n'
+                     b'    items: list = dataclasses.field(default_factory=list)\n'
+                     b'@dataclasses.dataclass(init=False, repr=False, eq=False)\n'
+                     b'class Disabled:\n'
+                     b"    value: str = 'unchanged'\n"
+                     b"first, second = Record('first'), Record('second')\n"
+                     b"first.items.append('independent')\n"
+                     b'try:\n'
+                     b"    first.value = 'change'\n"
+                     b'except dataclasses.FrozenInstanceError:\n'
+                     b'    frozen_error = True\n'
+                     b'signature = str(inspect.signature(Disabled))\n')
+            identities = (collections, dataclasses, dataclasses.dataclass,
+                          dataclasses._FuncBuilder, dataclasses._FuncBuilder.add_fns_to_class)
+            target = types.ModuleType('native_cached_target')
+            sys.modules[target.__name__] = target
+            guard.configure('cached-dataclasses', cached_rows(entry))
+            cached_bind_all()
+            code = guard.compile_source('/verifier/entry.py')
+            guard.activate()
+            exec(code, target.__dict__)
+            emit({'identities': [collections is identities[0], dataclasses is identities[1],
+                                dataclasses.dataclass is identities[2],
+                                dataclasses._FuncBuilder is identities[3],
+                                dataclasses._FuncBuilder.add_fns_to_class is identities[4]],
+                  'first': target.first.items, 'second': target.second.items,
+                  'slots': not hasattr(target.first, '__dict__'), 'frozen': target.frozen_error,
+                  'signature': target.signature, 'disabled': target.Disabled().value,
+                  'state': guard.status()})
+        ''')
+        self.assertEqual(result['identities'], [True, True, True, True, True])
+        self.assertEqual(result['first'], ['independent'])
+        self.assertEqual(result['second'], [])
+        self.assertTrue(result['slots'])
+        self.assertTrue(result['frozen'])
+        self.assertEqual(result['signature'], '()')
+        self.assertEqual(result['disabled'], 'unchanged')
+        self.assertFalse(result['state']['violated'])
+
+    def test_cached_ast_original_errors_and_later_valid_data(self):
+        result = self.child(r'''
+            import ast
+            original = ast.parse
+            guard.configure('cached-ast-errors', cached_rows())
+            cached_bind_all()
+            guard.activate()
+            try:
+                original('def invalid(')
+            except SyntaxError as error:
+                failure = type(error).__name__
+            emit({'same': original is ast.parse, 'failure': failure,
+                  'valid': type(original('x = 1')).__name__, 'state': guard.status()})
+        ''')
+        self.assertTrue(result['same'])
+        self.assertEqual(result['failure'], 'SyntaxError')
+        self.assertEqual(result['valid'], 'Module')
+        self.assertFalse(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_absent_cached_route_is_not_filled_by_later_module_restore(self):
+        result = self.child(r'''
+            import ast
+            saved = sys.modules.pop('ast')
+            guard.configure('cached-absent', cached_rows())
+            sys.modules['ast'] = saved
+            try:
+                guard.bind_cached_generator('ast.parse')
+            except PermissionError as error:
+                failure = type(error).__name__
+            emit({'failure': failure, 'registered': guard.contains(saved.parse.__code__),
+                  'state': guard.status()})
+        ''')
+        self.assertEqual(result['failure'], 'PermissionError')
+        self.assertFalse(result['registered'])
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_malformed_cached_snapshot_does_not_gain_authority(self):
+        result = self.child(r'''
+            saved = collections.namedtuple
+            collections.namedtuple = None
+            guard.configure('cached-malformed', cached_rows())
+            collections.namedtuple = saved
+            try:
+                guard.bind_cached_generator('collections.namedtuple')
+            except PermissionError as error:
+                failure = type(error).__name__
+            emit({'failure': failure, 'registered': guard.contains(saved.__code__),
+                  'state': guard.status()})
+        ''')
+        self.assertEqual(result['failure'], 'PermissionError')
+        self.assertFalse(result['registered'])
+        self.assertTrue(result['state']['violated'])
+
+    def test_missing_and_changed_owned_source_refuse(self):
+        for changed in (False, True):
+            with self.subTest(changed=changed):
+                body = r'''
+                    rows = cached_rows()
+                    if CHANGED:
+                        rows = ((rows[0][0], b'\n' + rows[0][1]),) + rows[1:]
+                    else:
+                        rows = rows[1:]
+                    original = collections.namedtuple.__code__
+                    guard.configure('cached-source-mismatch', rows)
+                    try:
+                        guard.bind_cached_generator('collections.namedtuple')
+                    except PermissionError as error:
+                        failure = type(error).__name__
+                    emit({'failure': failure, 'registered': guard.contains(original),
+                          'state': guard.status()})
+                '''.replace('CHANGED', repr(changed))
+                result = self.child(body)
+                self.assertEqual(result['failure'], 'PermissionError')
+                self.assertFalse(result['registered'])
+                self.assertTrue(result['state']['violated'])
+                self.assertFalse(result['state']['permitActive'])
+
+    def test_postcapture_slot_and_code_replacements_refuse(self):
+        for replacement in ('collections.namedtuple = other', 'held.__code__ = equal_copy'):
+            with self.subTest(replacement=replacement):
+                body = r'''
+                    def other(*args, **kwargs):
+                        raise AssertionError('replacement must not run')
+                    held = collections.namedtuple
+                    original = held.__code__
+                    equal_copy = original.replace()
+                    guard.configure('cached-replacement', cached_rows())
+                    REPLACEMENT
+                    try:
+                        guard.bind_cached_generator('collections.namedtuple')
+                    except PermissionError as error:
+                        failure = type(error).__name__
+                    emit({'failure': failure, 'original': guard.contains(original),
+                          'copy': guard.contains(equal_copy), 'state': guard.status()})
+                '''.replace('REPLACEMENT', replacement)
+                result = self.child(body)
+                self.assertEqual(result['failure'], 'PermissionError')
+                self.assertFalse(result['original'])
+                self.assertFalse(result['copy'])
+                self.assertTrue(result['state']['violated'])
+
+    def test_reference_audit_replacement_is_rechecked_before_adoption(self):
+        result = self.child(r'''
+            held = collections.namedtuple
+            original = held.__code__
+            equal_copy = original.replace()
+            changed = []
+            def hook(event, args):
+                if event == 'compile' and args[1] == COLLECTIONS_PATH:
+                    held.__code__ = equal_copy
+                    changed.append(True)
+            sys.addaudithook(hook)
+            guard.configure('cached-audit-replacement', cached_rows())
+            try:
+                guard.bind_cached_generator('collections.namedtuple')
+            except PermissionError as error:
+                failure = type(error).__name__
+            emit({'failure': failure, 'changed': changed, 'original': guard.contains(original),
+                  'copy': guard.contains(equal_copy), 'state': guard.status()})
+        ''')
+        self.assertEqual(result['failure'], 'PermissionError')
+        self.assertEqual(result['changed'], [True])
+        self.assertFalse(result['original'])
+        self.assertFalse(result['copy'])
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_native_operations_cannot_reenter_cached_reference(self):
+        for operation in ("guard.frozen_code('__hello__')",
+                          "guard.compile_source('/verifier/entry.py')",
+                          "guard.bind_cached_generator('ast.parse')"):
+            with self.subTest(operation=operation):
+                body = r'''
+                    nested = []
+                    def hook(event, args):
+                        if event == 'compile' and args[1] == COLLECTIONS_PATH:
+                            try:
+                                OPERATION
+                            except PermissionError as error:
+                                nested.append(type(error).__name__)
+                    sys.addaudithook(hook)
+                    guard.configure('cached-reentry', cached_rows())
+                    try:
+                        guard.bind_cached_generator('collections.namedtuple')
+                    except PermissionError as error:
+                        failure = type(error).__name__
+                    emit({'failure': failure, 'nested': nested, 'state': guard.status()})
+                '''.replace('OPERATION', operation)
+                result = self.child(body)
+                self.assertEqual(result['failure'], 'PermissionError')
+                self.assertEqual(result['nested'], ['PermissionError'])
+                self.assertTrue(result['state']['violated'])
+                self.assertFalse(result['state']['permitActive'])
+
+    def test_primary_reference_audit_exception_is_preserved(self):
+        result = self.child(r'''
+            primary = LookupError('original cached reference failure')
+            def hook(event, args):
+                if event == 'compile' and args[1] == COLLECTIONS_PATH:
+                    raise primary
+            sys.addaudithook(hook)
+            guard.configure('cached-primary', cached_rows())
+            try:
+                guard.bind_cached_generator('collections.namedtuple')
+            except LookupError as error:
+                same = error is primary
+            emit({'same': same, 'state': guard.status()})
+        ''')
+        self.assertTrue(result['same'])
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_ast_binding_audit_replacement_is_rechecked_at_commit(self):
+        result = self.child(r'''
+            import ast
+            held = ast.parse
+            equal_copy = held.__code__.replace()
+            changed = []
+            def hook(event, args):
+                if event == 'sys.addaudithook':
+                    held.__code__ = equal_copy
+                    changed.append(True)
+            sys.addaudithook(hook)
+            guard.configure('cached-tail-replacement', cached_rows())
+            try:
+                guard.bind_cached_generator('ast.parse')
+            except PermissionError as error:
+                failure = type(error).__name__
+            emit({'failure': failure, 'changed': changed, 'copy': guard.contains(equal_copy),
+                  'state': guard.status()})
+        ''')
+        self.assertEqual(result['failure'], 'PermissionError')
+        self.assertEqual(result['changed'], [True])
+        self.assertFalse(result['copy'])
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_cached_binding_is_one_shot(self):
+        result = self.child(r'''
+            guard.configure('cached-repeat', cached_rows())
+            guard.bind_cached_generator('collections.namedtuple')
+            try:
+                guard.bind_cached_generator('collections.namedtuple')
+            except PermissionError as error:
+                failure = type(error).__name__
+            emit({'failure': failure, 'state': guard.status()})
+        ''')
+        self.assertEqual(result['failure'], 'PermissionError')
+        self.assertEqual(result['state']['cachedBindingReturns'], 1)
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_label_subclass_has_no_conversion_or_binding_authority(self):
+        result = self.child(r'''
+            class Label(str):
+                def __str__(self):
+                    raise AssertionError('selector conversion must not run')
+            guard.configure('cached-selector', cached_rows())
+            try:
+                guard.bind_cached_generator(Label('collections.namedtuple'))
+            except PermissionError as error:
+                failure = type(error).__name__
+            emit({'failure': failure, 'state': guard.status()})
+        ''')
+        self.assertEqual(result['failure'], 'PermissionError')
+        self.assertEqual(result['state']['cachedBindingReturns'], 0)
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+    def test_later_thread_cannot_bind_cached_bootstrap(self):
+        result = self.child(r'''
+            import threading
+            outcomes = []
+            def worker():
+                try:
+                    guard.bind_cached_generator('collections.namedtuple')
+                except PermissionError as error:
+                    outcomes.append(type(error).__name__)
+            guard.configure('cached-thread', cached_rows())
+            thread = threading.Thread(target=worker)
+            thread.start()
+            thread.join()
+            emit({'outcomes': outcomes, 'state': guard.status()})
+        ''')
+        self.assertEqual(result['outcomes'], ['PermissionError'])
+        self.assertTrue(result['state']['violated'])
+        self.assertFalse(result['state']['permitActive'])
+
+
 if __name__ == '__main__':
     unittest.main()
