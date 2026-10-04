@@ -1,0 +1,243 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 3,
+  "completed": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "rc_closure": {
+    "RC4": "NOT_CLOSED",
+    "RC5": "NOT_CLOSED"
+  },
+  "binding_findings": [
+    {
+      "ruling": "Whole-closure source symbol/home/profile checks, import/link-alias prohibitions and unchanged project identities are specified for core and component. Static symbol binding does not prove native resolution, reachability, custody or semantic correspondence.",
+      "evidence": [
+        "DESIGN.md:1746-1778",
+        "DESIGN.md:1854-1864",
+        "APPENDIX-BINDINGS.md:76-127"
+      ]
+    },
+    {
+      "ruling": "The result-to-write/order/isolation rules and literal tables improve v2. Complete the exact rename/use inventory and its enforcement before calling RC4 closed; the design explicitly defers O6(b)/(c). Make K3 test actual Library_Interface membership, not quoted string presence anywhere. Implement R-W/R-G adjacency, exclusive assignments and no intervening payload selection as defined checks; the ordered-subsequence sketch alone is insufficient. Preserve full-body/caller review and mutation controls.",
+      "evidence": [
+        "DESIGN.md:1780-1804",
+        "APPENDIX-BINDINGS.md:17-43",
+        "APPENDIX-BINDINGS.md:1014-1022",
+        "APPENDIX-BINDINGS.md:1039-1049"
+      ]
+    },
+    {
+      "ruling": "Every E1-E4 old block occurs once in S5 manifest; new blocks preserve their problem text and existing unrelated checks. PP2 reconstruction and predecessor-first override preserve predecessor code/policy. Raw Python/control/frame identities and new component pins are specified; normalized Ada pins are not used as Python identity.",
+      "evidence": [
+        "APPENDIX-BINDINGS.md:794-879",
+        "DESIGN.md:1814-1841",
+        "APPENDIX-BINDINGS.md:899-914"
+      ],
+      "old_new_hashes": [
+        {
+          "id": "E1",
+          "old_occurrences": 1,
+          "old_sha256": "e70a1cfeace839433c3e16f717b98f558f10c562339f3e0548eae7d818595e54",
+          "new_sha256": "2095a799019fc5ef9b1bdda2f44796747d7d4d3703ae135dc25c32e4e78301e8"
+        },
+        {
+          "id": "E2",
+          "old_occurrences": 1,
+          "old_sha256": "81f6d1714855cfc0a80d772e92aa0028ed013ee752d28d7662254ddf44bdc37e",
+          "new_sha256": "cc1a31d585acbd8957be261d548904d520c8c00c40b5a090cdaec2750c8e0e6e"
+        },
+        {
+          "id": "E3",
+          "old_occurrences": 1,
+          "old_sha256": "8541a547ac6d674a438430df606c0fb4acc84ba290d123cbfbea5c28e80bb03b",
+          "new_sha256": "5dd62cf33c49e71a5d3a01bc9d78c74dbe0e300a52863e7dc3b25c0cbe8eff10"
+        },
+        {
+          "id": "E4",
+          "old_occurrences": 1,
+          "old_sha256": "65cded28ab7f54c0af2f11bd3307819458c67daf2d6d1724047d665dc5445fe9",
+          "new_sha256": "063a049218b14d4c8f832c40703a5aba0fd419bfa8f70ca04ae68429565bbfec"
+        }
+      ]
+    },
+    {
+      "ruling": "Appendix C literal names and decisions.json names match in exact order, without duplicates or prefix collisions. Every move stage has its own home/declaration/order tables; PK-6a immediately enrolls and pins its semantic additions, PK-6b adds no name. Single-predecessor qualified S5 lineage, affected-scope re-review, representation packets before seal, and identities-only seal are sound. No adoption or execution is authorized.",
+      "evidence": [
+        "DESIGN.md:1870-1940",
+        "DESIGN.md:1970-1984",
+        "DESIGN.md:2478-2588",
+        "APPENDIX-BINDINGS.md:47-72",
+        "APPENDIX-BINDINGS.md:899-914"
+      ],
+      "appendix_c": {
+        "orders_equal": true,
+        "prefix_collisions": [],
+        "suffix_duplicates": [],
+        "groups": {
+          "PK-1": 6,
+          "PK-2": 2,
+          "PK-3": 14,
+          "PK-4": 6,
+          "PK-5": 3,
+          "PK-6a": 57,
+          "PK-7": 10
+        },
+        "schedule": [
+          {
+            "packet": "PK-0",
+            "appended": 0,
+            "length_after": 535,
+            "movers_cumulative": 0,
+            "capi_external_name_count": 31,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-1",
+            "appended": 6,
+            "length_after": 541,
+            "movers_cumulative": 2,
+            "capi_external_name_count": 33,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-2",
+            "appended": 2,
+            "length_after": 543,
+            "movers_cumulative": 5,
+            "capi_external_name_count": 36,
+            "predecessor_edits": [
+              "E1",
+              "E2"
+            ]
+          },
+          {
+            "packet": "PK-2R",
+            "appended": 0,
+            "length_after": 543,
+            "movers_cumulative": 5,
+            "capi_external_name_count": 36,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-3",
+            "appended": 14,
+            "length_after": 557,
+            "movers_cumulative": 9,
+            "capi_external_name_count": 40,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-3R",
+            "appended": 0,
+            "length_after": 557,
+            "movers_cumulative": 9,
+            "capi_external_name_count": 40,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-4",
+            "appended": 6,
+            "length_after": 563,
+            "movers_cumulative": 10,
+            "capi_external_name_count": 41,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-4R",
+            "appended": 0,
+            "length_after": 563,
+            "movers_cumulative": 10,
+            "capi_external_name_count": 41,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-5",
+            "appended": 3,
+            "length_after": 566,
+            "movers_cumulative": 12,
+            "capi_external_name_count": 43,
+            "predecessor_edits": [
+              "E3"
+            ]
+          },
+          {
+            "packet": "PK-5R",
+            "appended": 0,
+            "length_after": 566,
+            "movers_cumulative": 12,
+            "capi_external_name_count": 43,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-6a",
+            "appended": 57,
+            "length_after": 623,
+            "movers_cumulative": 12,
+            "capi_external_name_count": 43,
+            "predecessor_edits": [],
+            "note": "enrolment and pins in the same packet"
+          },
+          {
+            "packet": "PK-6b",
+            "appended": 0,
+            "length_after": 623,
+            "movers_cumulative": 18,
+            "capi_external_name_count": 49,
+            "predecessor_edits": [
+              "E4"
+            ]
+          },
+          {
+            "packet": "PK-6R",
+            "appended": 0,
+            "length_after": 623,
+            "movers_cumulative": 18,
+            "capi_external_name_count": 49,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-7",
+            "appended": 10,
+            "length_after": 633,
+            "movers_cumulative": 20,
+            "capi_external_name_count": 51,
+            "predecessor_edits": [],
+            "gate": "operator D-13"
+          },
+          {
+            "packet": "PK-7R",
+            "appended": 0,
+            "length_after": 633,
+            "movers_cumulative": 20,
+            "capi_external_name_count": 51,
+            "predecessor_edits": []
+          },
+          {
+            "packet": "PK-S",
+            "appended": 0,
+            "length_after": 633,
+            "movers_cumulative": 20,
+            "capi_external_name_count": 51,
+            "predecessor_edits": [],
+            "note": "seal limits DESIGN §9.8"
+          }
+        ],
+        "names_sha256": "c1d32136b59b7b30ef1dac3076c9f53c7a85ba5a7897368e8e3ee96a36bf7f2a"
+      }
+    },
+    {
+      "ruling": "PK-0 needs a faithful per-stage effect classification. Initial extent guards may precede all foreign reads; later transport guard failures occur after request/header/quantity captures. Internal handled writeback exceptions have a defined refusal mapping and may retain preceding writes; these are not wholly undefined. Keep exact partial-write atomicity/failure locations OPEN, without making stronger C-14 behavior a baseline condition.",
+      "evidence": [
+        "DESIGN.md:1943-1968",
+        "DESIGN.md:1557-1562",
+        "DESIGN.md:1698-1703",
+        "S5/core/evaluation_pending_c.adb:118-133",
+        "S5/core/evaluation_finalization_c.adb:136-156",
+        "S5/core/worldline-resource_ledger_c_api.adb:162-176"
+      ]
+    }
+  ],
+  "arithmetic": "All sums/ranges/pin-key deltas routed through actual JACKAL MCP; status=exact, formal=false, parsed inputs and full non_claims retained in checkpoint-1 and checks.json. These verify arithmetic conditional on the static inventories, not code correctness.",
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}
