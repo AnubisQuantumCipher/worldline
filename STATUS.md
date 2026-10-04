@@ -1,6 +1,6 @@
 # WORLDLINE Phase One: Claude lead status (live index)
 
-As of 2026-10-04 ~19:30Z. This file supersedes the stale status sections of the read-only
+As of 2026-10-04 ~21:00Z. This file supersedes the stale status sections of the read-only
 `work/claude-workflow-v1/REPAIR-MAP.md`, which stays preserved.
 
 **Every original Phase One obligation is OPEN.** Nothing below is proof, source, native or Phase One acceptance.
@@ -20,6 +20,9 @@ As of 2026-10-04 ~19:30Z. This file supersedes the stale status sections of the 
   is still failed.
 - The mean decline since 18:49:03Z is 296433664/3255 bytes/s, about 91 KB/s (JACKAL exact, formal=false).
 - At that past mean, the reserve is crossed after about 6508 s, roughly 1.8 h. This is not a forecast.
+- **20:58:28Z:** free 10558955520 bytes, 558955520 above the reserve. The decline since 20:37:33Z was 6754304/251
+  bytes/s, about 27 KB/s, slower than the earlier mean. At that rate the reserve is crossed after 137009605/6596 s,
+  about 5.8 h. This is also not a forecast. JACKAL exact, formal=false, for all three figures.
 
 **Where it comes from.**
 - Large files modified since 18:49Z include:
@@ -45,7 +48,10 @@ written. Future scans exclude that path.
 | Composition commonV5-alpha (packets 01, 02, 04) | QUALIFIED_SOURCE_COMPOSITION | — |
 | Composition commonV5-beta (+05..09) | QUALIFIED_SOURCE_COMPOSITION (rulings 7a/7b; notes N on packets 05/06 metadata) | — |
 | C-API design v2 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC6; LD4 rejected as written) | v3 being drafted |
-| D1 native design v2 | NOT_ENDORSED (V2-RC1..RC6; RC4–RC7 still open) | v3 being drafted |
+| D1 native design v2 | NOT_ENDORSED (V2-RC1..RC6; RC4–RC7 still open) | v3 drafted; its review is running |
+| C-API design v3 | Review running | — |
+| Root-worker seam design v1 | ENDORSED_WITH_REQUIRED_CHANGES (RC-01..RC-12; rulings D-1a..D-9a: `Delegate=yes` not endorsed, the frontier control cannot be retired by the lead, native custody-phase legality is mandatory) | v2 after operator decisions |
+| D2 checked-Ghost inventory v1 | ACCURATE_WITH_CORRECTIONS (12 corrections, hazard rulings H1–H11; see below) | Corrections carried here and into the package |
 
 ## Candidate packets (drafted; untested engineering hypotheses)
 
@@ -59,10 +65,40 @@ written. Future scans exclude that path.
 
 Ledger lineage (`wt-1/workflow`): 3187 items, 3026 OPEN, 161 DRAFTED, 0 verified.
 
-## D2 checked-build cost (static analysis; actual gpt-6.1-sol review running)
+## D2 checked-build cost (static analysis; actual gpt-6.1-sol review sealed)
 
 Source: `wt-1/designs/claude-d2-checked-ghost-inventory-v1` (INVENTORY.md `e5b9984d…`). Everything here is derived
 by reasoning; nothing was measured. JACKAL exact, formal=false, for the arithmetic.
+
+**Review verdict: ACCURATE_WITH_CORRECTIONS** (`review/gpt61-v1`, freeze verified). It grants no proof, native or
+phase acceptance. Its 12 corrections bind every later use of the inventory:
+- **C-PINS.** A concrete change to enrolled pinned text needs O-PINS operator approval, independent review and
+  regenerated effective pins. "Body-only, lead-owned" authorizes no change to the pin package, its keyset, or a pinned
+  contract or reference.
+- **C-ABI.** A changed public transport code, meaning, layout or caller protocol is an API/ABI package and needs
+  operator approval, not "possibly". A clearer failure classification supplies no native acceptance.
+- **C-COPY.** Narrowing a Ghost arena snapshot can change the copy's growth class and must keep the whole-arena frame
+  relations. Replacing an assertion needs review.
+- **C-PACKET-GAP.** Equal-endpoint calls still pay absolute-position Posts. Packet 13's `Prefix_Tail` gains an absolute
+  `Prefix_Reference` Post even when First = Stop. The gap-multiplied classes need nonzero-gap qualifications, or the
+  base terms must be kept.
+- **C-P12-REACH.** Packet 12's witnesses are not reached once per call. One outer mismatch can trigger many nested
+  witness evaluations through the unchanged recursive `Prefix_Modulus`.
+- **Cost-class corrections:**
+  - C-SLOT: the slot term is Θ(N²·S⁴).
+  - C-SUM: `Sum` is quadratic; `Contained` is cubic.
+  - C-OWNER: owner/retry exported paths are history-dependent.
+  - C-EMPTY: empty rosters still pay `Check_Capacity`.
+  - C-UNIT: a PR invocation is a call count, not an allocation count.
+- **Repairs to the inventory's own description:**
+  - C-LOC: the chain C API call is at line 99 and its handler at 102; the run-ledger handler is at 222.
+  - C-BASE: the base-to-candidate delta description was incomplete.
+
+**Hazard rulings, condensed:**
+- H1 (exponential chain replay) is correct as source-semantic reasoning. No native cost was measured.
+- H9: stack and heap layout and exhaustion behaviour are not determined statically.
+- H10: a catch-all exception mapping does not make stack or process failure catchable. Neither outcome is an accepted
+  refusal.
 
 **Hazards in the checked (`-gnata`, default) build:**
 - **Chain replay is exponential.** A successful replay costs 9·2^(n+1)−n−10 reference evaluations: 18412 at n=10,
@@ -74,18 +110,17 @@ by reasoning; nothing was measured. JACKAL exact, formal=false, for the arithmet
 **Packet deltas, to be weighed before any packet is promoted:**
 - **Packet 14** raises the replay cost to 11·2^(n+1)−2n−14. Still exponential, now worse.
 - **Packet 13** raises `Prefix_Tail`/`Prefix_Decomposition` costs, Θ(m³)→Θ(m·S³) and Θ(m·S³)→Θ(m²·S³).
-- **Packet 12** leaves every growth class unchanged.
+  Per C-PACKET-GAP, it also keeps an absolute-position base term when First = Stop.
+- **Packet 12** leaves the standalone growth classes unchanged. They remain conditional worst-case classes. Per
+  C-P12-REACH, the witnesses can still be evaluated many times inside one outer mismatch.
 
 D2 stays OPEN.
 
 ## In progress
 
-- C-API boundary DESIGN v3 (drafting agent).
-- D1 DESIGN v3 (drafting agent).
-- D2 checked-Ghost cost inventory (analysis agent, static reasoning only).
-- Consolidated operator package. Current draft: `work/claude-operator-decision-package-v1/DRAFT-v2.md`.
-  - It still has to incorporate the final frame v5 report, the W-1 proposal, D1 v3 with its review, C-API v3 with
-    its review, and the D2 inventory.
+- Actual gpt-6.1-sol reviews of C-API DESIGN v3 and D1 DESIGN v3 (runner, running since 20:36Z and 20:41Z).
+- Consolidated operator package. Current draft: `work/claude-operator-decision-package-v1/DRAFT-v3.md`.
+  - The next draft folds in the C-API v3 and D1 v3 verdicts and the D2 corrections above.
   - Then it gets its own actual gpt-6.1-sol review before going to the human.
 
 ## Isolation and records
