@@ -51,6 +51,25 @@ renamed back. In this environment the ancestor is owned by `sicarii`. W-1 v2 pla
 can mutate writer-owned frame locations, records or the admitted source. This probe exercises that argument with real
 kernel checks.
 
+**Critical caveat: subordinate UIDs give no protection against `sicarii`.** The 100000–165535 range is delegated to
+`sicarii` by `/etc/subuid` and `/etc/subgid`.
+- Any `sicarii` process can create its own user namespace mapping that range through `newuidmap`, and so act as those
+  UIDs.
+- As the namespace owner, it can also join an existing namespace and use its capabilities over files owned by mapped
+  UIDs.
+
+The outside probes therefore show only what the kernel enforces between distinct UIDs when neither side can become the
+other. **Consequences:**
+1. **Not an unprivileged route.** A rootless-namespace variant of W-1, with writer and target as `sicarii`'s
+   subordinate UIDs, is not a route for V5-B01/V5-B02. Concurrent `sicarii` processes could defeat it. This is a
+   negative finding for the frame plan.
+2. **What the probe is still good for.** It is evidence for the DAC, ACL and hard-link semantics W-1 needs only once
+   those semantics hold between `sicarii` and accounts that `sicarii` cannot map.
+3. **New W-1 setup check, for v3.** Verify that the UIDs and GIDs of `wlscratch` and `wlscratch-run` are outside every
+   range delegated in `/etc/subuid` and `/etc/subgid`, to `sicarii` or anyone. Verify too that `newuidmap`/`newgidmap`
+   cannot map them for `sicarii`. Nothing allocated by `useradd --system` is expected in 100000–165535, but this must be
+   verified, not assumed. The frozen W-1 v2 is not edited; this is carried as an author addendum.
+
 **What it does not show:**
 - the real accounts, the sudo rules or their `env_reset`;
 - the systemd user manager and its scope limits;
