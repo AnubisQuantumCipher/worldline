@@ -32447,12 +32447,19 @@
    "message": "loop invariant might not be preserved by an arbitrary iteration",
    "occurrences": 1,
    "spec": false,
-   "state": "OPEN",
+   "state": "DRAFTED",
    "history": [
     {
      "at": "2026-10-04T15:56:45.787651+00:00",
      "state": "OPEN",
      "evidence": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-v2/executions/f10k-retry1/diagnostic-map-v1.json"
+    },
+    {
+     "at": "2026-10-04T18:55:31.340147+00:00",
+     "evidence": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/14-chain-replay-reference-lemmas/packet.json",
+     "evidence_sha256": "9c787f834f3cdcf844950b69fc7d74160c87ce1aade2b9f49d940192e4932881",
+     "note": "packet 14 candidate (wt-1): Prefix_Settled induction lemma + additive call-site facts in Replay (engineering hypothesis)",
+     "state": "DRAFTED"
     }
    ]
   },
@@ -32467,12 +32474,19 @@
    "message": "postcondition might fail, cannot prove Replay'Result = Replay_Reference (Kind, Rows, Observed_Genesis, Witnessed_Genesis, Witnessed_Head)",
    "occurrences": 1,
    "spec": true,
-   "state": "OPEN",
+   "state": "DRAFTED",
    "history": [
     {
      "at": "2026-10-04T15:56:45.787654+00:00",
      "state": "OPEN",
      "evidence": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-v2/executions/f10k-retry1/diagnostic-map-v1.json"
+    },
+    {
+     "at": "2026-10-04T18:55:31.340160+00:00",
+     "evidence": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/14-chain-replay-reference-lemmas/packet.json",
+     "evidence_sha256": "9c787f834f3cdcf844950b69fc7d74160c87ce1aade2b9f49d940192e4932881",
+     "note": "packet 14 candidate (wt-1): Prefix_Settled induction lemma + additive call-site facts in Replay (engineering hypothesis)",
+     "state": "DRAFTED"
     }
    ]
   },

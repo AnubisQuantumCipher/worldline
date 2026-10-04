@@ -1,0 +1,11 @@
+{
+  "approvals": [],
+  "author": "Claude Code lead (claude-opus-5-5)",
+  "built_in": "work/claude-workflow-v1/packets/14-chain-replay-reference-lemmas (guarded tree, via Bash before the isolation correction; see wt-1/ISOLATION.md); copied byte-identical here, where this packet.json was written",
+  "name": "chain-replay-reference-lemmas",
+  "purpose": "CANDIDATE (engineering hypothesis; not in any composition or overlay yet). core/worldline-chain_authority.adb on base commonV4 (no earlier packet touches it). D1554 (Replay loop invariant preservation) and D1555 (Replay Post = Replay_Reference): additive only, under ruling 7b (independently proved induction lemma and checked call-site facts). Adds a body-local Ghost induction lemma Prefix_Settled (total, conditional Post: once Prefix_Reference at From is not Ready, Prefix_Reference at every To in From .. Rows'Length equals it; recursive procedure with Subprogram_Variant). Before each of the five in-loop early returns (Row_Absent, Payload_Mismatch, two Predecessor_Mismatch, Stored_Head_Mismatch) it asserts that the returned value is Prefix_Reference at Count + 1 and calls Prefix_Settled up to Rows'Length; after the case statement it asserts the accepted predecessor and link facts; before Count := Count + 1 it asserts the next invariant instance. build.py checks that removing exactly these additions gives back the base bytes. No statement, contract, reference definition, variant or return value changes. Native: in the default checks (-gnata) build the added Ghost calls evaluate the already-recursive chain Prefix_Reference (whose own Post re-evaluates the recursion), adding checked-build cost on the release-reachable Replay path; this is a delta to record under the OPEN D2 checked-Ghost obligation, not a closure. Unproved until a scratch run and the exact strict command prove it.",
+  "result_sha256": {
+    "core/worldline-chain_authority.adb": "d003cd49ca418ab5b721bb241edf932aeab5e43f7394df1e1018804f93351a56"
+  },
+  "stacks_on": {}
+}

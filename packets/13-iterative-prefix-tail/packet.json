@@ -1,0 +1,12 @@
+{
+  "approvals": [],
+  "author": "Claude Code lead (claude-opus-5-5)",
+  "name": "iterative-prefix-tail",
+  "purpose": "CANDIDATE (engineering hypothesis; not in any composition or overlay yet). core/resource_reservation_transition.adb, stacked on packet 09. The body-level Ghost witness Prefix_Tail (:85; F10K notices contracts-recursive and numeric-variant) becomes iterative, so it is no longer a recursive function. Pre unchanged; Post keeps its original conjunct (Result >= 0) and ADDS the decomposition Prefix_Reference (Stop) = Prefix_Reference (First) + Power_Reference (First) * Result, which determines the value uniquely because Power_Reference (First) >= 1; the expression body and its numeric Subprogram_Variant are replaced by a loop with Loop_Variant (Decreases => Stop - Reached) and invariants over Prefix_Reference/Power_Reference using the existing Power_Factor lemma. Prefix_Decomposition: spec unchanged and in place; its body moves verbatim below Positive_Factor_Cancellation (packet 09) and gains additive lines only - an index identity, the factor-multiplied recurrence and two Positive_Factor_Cancellation calls - so its original recurrence and zero assertions are derived by cancelling the positive factor Power_Reference (First); every original statement and assertion is kept (checked by build.py). Callers (Magnitude_Columns, Addition_Mismatch) are unchanged and use only Posts. Checked-build native cost: the Ghost evaluation of Prefix_Tail changes from recursion depth Stop - First to a loop of the same length (a native-cost delta to record under D2, not a closure). Unproved until a scratch run and the exact strict command prove it; the 19 notices on spec-level pinned references are untouched (operator package R-1).",
+  "result_sha256": {
+    "core/resource_reservation_transition.adb": "5f106d5e711d14c5a7a0ac7ddc2f00136b4b5b180d63a6d0ad1868f53f5b9208"
+  },
+  "stacks_on": {
+    "core/resource_reservation_transition.adb": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3"
+  }
+}
