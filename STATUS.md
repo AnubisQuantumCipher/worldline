@@ -1,6 +1,6 @@
 # WORLDLINE Phase One: Claude lead status (live index)
 
-As of 2026-10-04 ~22:12Z. This file supersedes the stale status sections of the read-only
+As of 2026-10-04 ~23:45Z. This file supersedes the stale status sections of the read-only
 `work/claude-workflow-v1/REPAIR-MAP.md`, which stays preserved.
 
 **Every original Phase One obligation is OPEN.** Nothing below is proof, source, native or Phase One acceptance.
@@ -9,8 +9,8 @@ As of 2026-10-04 ~22:12Z. This file supersedes the stale status sections of the 
 
 | Gate | State | Where |
 |---|---|---|
-| Confinement / frame qualification | **BLOCKED.** Frame v5 is UNQUALIFIED (final actual gpt-6.1-sol report). V5-B01 requires custody that *prevents* the admitted generation from changing before use. V5-B02 requires enforced location custody for every frame mutation. No unprivileged design meets either. | frame v5 `review/gpt61-v1`; `frame-v6-PLAN.md` |
-| Capacity | **BLOCKED.** Gate 0 v4.1 requires 9304350902252/1397 bytes (JACKAL exact, formal=false) above the 10 GB reserve for one unit run. The margin at 18:49Z was negative. The backup service is failed. | `RUNBOOK-first-proof-iteration.md` |
+| Confinement / frame qualification | **BLOCKED.** Frame v5 is UNQUALIFIED (final actual gpt-6.1-sol report). V5-B01 requires custody that *prevents* the admitted generation from changing before use. V5-B02 requires enforced location custody for every frame mutation. No qualified unprivileged route has been demonstrated. W-1 v2 (separate writer and target accounts) is a candidate under review. | frame v5 `review/gpt61-v1`; `frame-v6-PLAN.md`; `proposal/ISOLATION-STORAGE-PROPOSAL-v2.md` |
+| Capacity | **BLOCKED.** Gate 0 (runbook v4.2) requires 9304350902252/1397 bytes above the 10 GB reserve for one unit run. At 23:32:06Z, free − reserve − Required = −8660677676012/1397 (JACKAL exact, formal=false). The backup service is failed. | `RUNBOOK-first-proof-iteration.md` |
 | Operator approvals | None given: no choice, no privileged action. | operator package |
 
 ## Storage alert (2026-10-04 20:37Z)
@@ -49,7 +49,8 @@ written. Future scans exclude that path.
 
 | Item | Verdict | Next |
 |---|---|---|
-| Scratch frame v1–v5 | All UNQUALIFIED. v5: V5-B01, V5-B02; the compact identity records and four residuals were ruled acceptable. | The W-1 proposal (candidate), then frame v6-W1, only after an operator decision |
+| Scratch frame v1–v5 | All UNQUALIFIED. v5: V5-B01, V5-B02; the compact identity records and four residuals were ruled acceptable. | W-1 v2 and the frame v6-W1 design continue as routine engineering. Privileged setup needs operator approval later |
+| Operator package DRAFT-v4 | NOT_READY (9 required corrections; W-1 "potentially capable … not sufficient as described"; P-1: no operator approval solely for pinning) | DRAFT-v5 and W-1 v2 under re-review |
 | Composition commonV5-alpha (packets 01, 02, 04) | QUALIFIED_SOURCE_COMPOSITION | — |
 | Composition commonV5-beta (+05..09) | QUALIFIED_SOURCE_COMPOSITION (rulings 7a/7b; notes N on packets 05/06 metadata) | — |
 | C-API design v2 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC6; LD4 rejected as written) | v3 being drafted |
