@@ -1,0 +1,242 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "complete": true,
+  "decisions_sha256": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d",
+  "design_sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46",
+  "different_from_author": true,
+  "fact_checks": [
+    {
+      "claim": "Supplied design and decisions hashes",
+      "details": {
+        "decisions_sha256": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d",
+        "design_sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46"
+      },
+      "evidence": [
+        "SEAM-DESIGN.md:1-7",
+        "seams.json:1-6"
+      ],
+      "id": "F-01",
+      "status": "VERIFIED_BYTE_IDENTITY"
+    },
+    {
+      "claim": "Non-reentrant Gate mutex reacquired by scoped intent_for_operation",
+      "correction": "A request reaching this nesting with the selected threading.Lock and passing preceding checks cannot progress. This is source reasoning, not an observed hang; startup currently refuses earlier.",
+      "evidence": [
+        "L/dependency-source/lab/intent_gate.py:371",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:357,385-388",
+        "R/runtime/worldline/protected_operations.py:640",
+        "L/preimage/runtime/worldline/protected_scoped_resource_runtime.py:357,385-388"
+      ],
+      "id": "F-02",
+      "status": "SUPPORTED_STATIC_CONDITIONAL"
+    },
+    {
+      "claim": "Stale protected_operations pin; preimage 171/source 191; exactly one source mismatch",
+      "evidence": [
+        "R/runtime/worldline/proof_manifest.py:420-450,622-638,1012",
+        "R/runtime/worldline/protected_startup.py:683-684",
+        "R/runtime/worldline/protected_root_worker.py:355-357"
+      ],
+      "id": "F-03",
+      "status": "VERIFIED_STATIC_RECOMPUTATION"
+    },
+    {
+      "claim": "Delta pin coverage and whole source inventory",
+      "correction": "736 source file identities, lengths and modes agree; 60 source delta entries, 24 pin-covered and 36 not covered. This counts changed source paths, not all lane files. Directory/atomicity/authenticity claims are not established.",
+      "evidence": [
+        "L/handoff-to-claude-v1-retry1/source-inventory.json:1",
+        "L/handoff-to-claude-v1-retry1/binary-delta.json:1",
+        "SEAM-DESIGN.md:27-28,105-113"
+      ],
+      "id": "F-04",
+      "status": "VERIFIED_STATIC_RECOMPUTATION"
+    },
+    {
+      "claim": "Duplicate attach_scoped_resource and lost exact selected producer check",
+      "correction": "Both definitions are already in the preimage. Passive text search finds no caller in source or dependency-source.",
+      "evidence": [
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:52-58,961-964"
+      ],
+      "id": "F-05",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "Root route omits unresolved-use, genuine request-context and workload pre-dispatch checks",
+      "evidence": [
+        "R/runtime/worldline/protected_operations.py:716-749",
+        "R/runtime/worldline/protected_root_worker.py:158-179"
+      ],
+      "id": "F-06",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "RootController expected identity pairs self-compare",
+      "correction": "The named identity equalities are vacuous; this does not imply every other Controller_Valid predicate is vacuous.",
+      "evidence": [
+        "R/runtime/worldline/protected_root_observation.py:36-49,74-83",
+        "R/core/worldline-resource_child_execution.ads:49-68"
+      ],
+      "id": "F-07",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "Undefined scoped historical settlement, lifecycle and owner material adapters",
+      "correction": "Only these getattr references appear in the source and dependency overlay; no selected implementation is defined there.",
+      "evidence": [
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:530-531,548-549,571-572"
+      ],
+      "id": "F-08",
+      "status": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_TREES"
+    },
+    {
+      "claim": "SO_PEERCRED host/requester namespace join causes every intake mismatch",
+      "correction": "Retain as conditional: for an outside-namespace original client whose reread PID differs, RequestPeer raises PEER_REQUEST_MISMATCH. Every intake is too broad and no kernel behavior was measured.",
+      "evidence": [
+        "R/runtime/worldline/root_worker_custody.py:183-204",
+        "R/runtime/worldline/client_peer.py:73-89,110-117",
+        "R/protected-root/native_root_worker_supervisor_v1.c:125-128,257-258,336"
+      ],
+      "id": "F-09",
+      "status": "SOURCE_ORDER_VERIFIED_KERNEL_CONCLUSION_REASONING_ONLY"
+    },
+    {
+      "claim": "Lane lineage is actor-stdin V4 rather than commonV4; worldline-c_api collision",
+      "correction": "Observed sizes are 56543 preimage and 148068 draft; commonV4 is 56596. CommonV4 lacks the listed units and its startup differs. Shared-file composition is required; no merge conflict was executed or accepted.",
+      "evidence": [
+        "L/origin.json:7-18",
+        "L/handoff-to-claude-v1-retry1/HANDOFF.md:11-13",
+        "P1/HANDOFF.md:48-61,91,153",
+        "SEAM-DESIGN.md:132-143",
+        "CAPI/review/gpt61-v1/REVIEW.md:260,454"
+      ],
+      "id": "F-10",
+      "status": "VERIFIED_BYTE_IDENTITY_AND_COMPOSITION_DEPENDENCY"
+    }
+  ],
+  "item": 1,
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "report_section": "1. Factual findings\n\nThe supplied SEAM-DESIGN.md and seams.json hashes match. The handoff, freeze, inventory, binary delta and readable delta also match the design's recorded basis identities. A passive whole-source read found the inventoried 736 regular files with matching byte hashes, lengths and file modes, and no extra or missing files. This is identity evidence only; directory modes, atomic snapshot authenticity and installed state are outside this check.\n\nThe Gate uses threading.Lock (L/dependency-source/lab/intent_gate.py:371). The scoped reservation path holds it at R/runtime/worldline/protected_scoped_resource_runtime.py:385, calls reconcile_context at :388, and reacquires it at :357; the same code is in the preimage. R/runtime/worldline/protected_operations.py:640 reaches that method. The deadlock finding is supported as static path reasoning conditional on reaching it and passing preceding guards. It was not reproduced; current startup can refuse earlier.\n\nStandalone AST-literal extraction and a reviewer-written text normalization matching R/runtime/worldline/proof_manifest.py:420-450 found 171 effective preimage pins, all matching, and 191 effective draft pins with exactly one mismatch. The protected_operations.py effective pin at :1012 is 8be1f9ab2c689ecc9e915464e8e454863c205ca2f1f4a1763a5125aa2b61139e; recomputation gives 2a6d71c7ca81d456d41f242a880b8fa3e0f115d794f4772e115767236b183547. Construct and intake refuse on that mismatch (R/runtime/worldline/protected_startup.py:683-684; protected_root_worker.py:355-357). The observed source delta roster contains 60 paths, with 24 pin-covered and 36 unpinned; this describes delta paths, not the entire source tree. checks.json retains the complete unpinned roster.\n\nBoth attach_scoped_resource definitions and their shadowing are confirmed, already in the preimage. The later definition omits the selected producer path/lease membership check (R/runtime/worldline/protected_scoped_resource_runtime.py:52-58,961-964). Passive search finds no caller in source or dependency-source. The root route bypasses the original context, unresolved-use and workload checks (R/runtime/worldline/protected_operations.py:716-749; protected_root_worker.py:158-179).\n\nThe six expected identity pairs are assigned from the same values (R/runtime/worldline/protected_root_observation.py:36-49). The corresponding native identity equalities are vacuous, while other Controller_Valid predicates remain real predicates (R/core/worldline-resource_child_execution.ads:49-68). The process source lease also comes from caller-provided material (:74-83). The three scoped historical adapters have only getattr references and no implementation in the selected source/dependency trees (protected_scoped_resource_runtime.py:530-531,548-549,571-572).\n\nReceive-before-origin ordering and the exact peer comparison are confirmed (R/runtime/worldline/root_worker_custody.py:183-204; client_peer.py:73-89,110-117). The source contains PID namespace creation and proc remounting (R/protected-root/native_root_worker_supervisor_v1.c:257-258,336), and its comment acknowledges a relative PID concern (:125-128). Linux PID rendering, exited-peer behavior and consequent intake failure remain unverified reasoning. Correct SEAM-DESIGN.md:939-941 to a conditional failure for an outside-namespace client with a changed reread, rather than every worker intake.\n\nOrigin and handoff bind the actor-stdin V4 primary (L/origin.json:7-18; L/handoff-to-claude-v1-retry1/HANDOFF.md:11-13). The listed files are absent from commonV4; observed core entry counts are 149 commonV4 and 176 preimage. Startup differs. worldline-c_api.adb sizes are 56543 preimage, 148068 draft and 56596 commonV4. This confirms a shared-file integration obligation, not an executed textual merge conflict. The C-API v2 review is conditional design lineage, not acceptance of v3 (CAPI/review/gpt61-v1/REVIEW.md:3,260,454; P1/HANDOFF.md:91,153).\n\nJACKAL returned status=exact, formal=false, parsed=24+36, exact=60 and status=exact, formal=false, parsed=63-3, exact=60. All returned non_claims are retained in checks.json: NOT formal-bounded: this lane carries no Lean-checked certificate; The epistemic class above is the STRONGEST claim this result supports; exact rational arithmetic (not yet checker-covered). These results establish arithmetic only and no program correctness or acceptance.\n",
+  "schema": "claude-design-review-checkpoint-v1",
+  "source_acceptance": false,
+  "static_audit": {
+    "c_api": {
+      "commonV4": {
+        "bytes": 56596,
+        "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b"
+      },
+      "preimage": {
+        "bytes": 56543,
+        "sha256": "1cf650a0633ec83af3f2e23f3e87ed5a97199730114d3aa3a16813bb15cdd984"
+      },
+      "source": {
+        "bytes": 148068,
+        "sha256": "806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420"
+      }
+    },
+    "commonV4": {
+      "absence_checks": {
+        "core/resource_scoped_run_ledger.ads": true,
+        "core/worldline-canonical_exchange.ads": true,
+        "core/worldline-canonical_operation.ads": true,
+        "core/worldline-operation_authority.ads": true,
+        "core/worldline-resource_child_execution.ads": true,
+        "runtime/worldline/canonical_operation_kernel.py": true,
+        "runtime/worldline/protected_operations.py": true,
+        "runtime/worldline/protected_scoped_resource_runtime.py": true
+      },
+      "core_entries": 149,
+      "preimage_core_entries": 176
+    },
+    "delta_pins": {
+      "all_delta_count": 63,
+      "pinned_count": 24,
+      "source_delta_count": 60,
+      "unpinned_count": 36,
+      "unpinned_paths": [
+        "CHILD_AUTHORITY_PROTOCOL_V1.md",
+        "protected-root/launcher.py",
+        "protected-root/native_root_worker_supervisor_v1.c",
+        "protected-root/worker_entry.py",
+        "runtime/worldline/daemon.py",
+        "runtime/worldline/proof_manifest.py",
+        "runtime/worldline/protected_resource_runtime.py",
+        "runtime/worldline/protected_root_endpoint.py",
+        "runtime/worldline/protected_root_observation.py",
+        "runtime/worldline/protected_root_resource.py",
+        "runtime/worldline/protected_root_supervisor.py",
+        "runtime/worldline/protected_root_worker.py",
+        "runtime/worldline/protected_scoped_resource_service.py",
+        "runtime/worldline/protected_startup.py",
+        "runtime/worldline/resource_actor_admission.py",
+        "runtime/worldline/resource_actor_credentials.py",
+        "runtime/worldline/resource_actor_execution.py",
+        "runtime/worldline/resource_child_execution.py",
+        "runtime/worldline/resource_child_schema.py",
+        "runtime/worldline/resource_machine_evidence.py",
+        "runtime/worldline/resource_os_observation.py",
+        "runtime/worldline/resource_scoped_run_ledger.py",
+        "runtime/worldline/root_worker_closed.py",
+        "runtime/worldline/root_worker_closed_resource.py",
+        "runtime/worldline/root_worker_codec.py",
+        "runtime/worldline/root_worker_credentials.py",
+        "runtime/worldline/root_worker_current_state.py",
+        "runtime/worldline/root_worker_custody.py",
+        "runtime/worldline/root_worker_endpoint_router.py",
+        "runtime/worldline/root_worker_host_peer.py",
+        "runtime/worldline/root_worker_journal.py",
+        "runtime/worldline/root_worker_physical.py",
+        "runtime/worldline/root_worker_plan.py",
+        "runtime/worldline/root_worker_process_capture.py",
+        "runtime/worldline/root_worker_result_channel.py",
+        "tests/test_resource_child_execution_v1.py"
+      ]
+    },
+    "input_hashes": {
+      "HANDOFF.md": {
+        "bytes": 14309,
+        "sha256": "f0d6add2f97011654d9a603df9f50f8c09d73e80cd4f3fcc37150af3ad77d14d"
+      },
+      "binary-delta.json": {
+        "bytes": 2121982,
+        "sha256": "be41995133b8641ba244397e1cf6068bade22f478bdbe15590ddaf55a2f6bb16"
+      },
+      "handoff-freeze.json": {
+        "bytes": 2803,
+        "sha256": "c8c6e40addc56654f28f7517f0c5ff64cc999424e1ae9ccb831fd799da96f33c"
+      },
+      "human-delta.patch": {
+        "bytes": 716812,
+        "sha256": "de2406cca971d51681a2b9c6265cbb4f5d22f6070c66f75f6e5d2349166c364b"
+      },
+      "source-inventory.json": {
+        "bytes": 133106,
+        "sha256": "0a12d06d2b43a1949bac24369dc615576105b3d6de11e5653ebfe559235637f3"
+      }
+    },
+    "preimage_pins": {
+      "effective_count": 171,
+      "mismatches": []
+    },
+    "source_inventory": {
+      "directories_not_audited": true,
+      "extras": [],
+      "inventoried_count": 736,
+      "mismatches": [],
+      "missing": [],
+      "observed_file_count": 736
+    },
+    "source_pins": {
+      "effective_count": 191,
+      "mismatches": [
+        {
+          "actual": "2a6d71c7ca81d456d41f242a880b8fa3e0f115d794f4772e115767236b183547",
+          "assignment_line": 1012,
+          "expected": "8be1f9ab2c689ecc9e915464e8e454863c205ca2f1f4a1763a5125aa2b61139e",
+          "key": "runtime/worldline/protected_operations.py"
+        }
+      ]
+    },
+    "startup_common_preimage_equal": false
+  }
+}
