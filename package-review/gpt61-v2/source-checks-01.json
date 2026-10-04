@@ -1,0 +1,933 @@
+{
+  "schema": "passive-review-source-checks-v1",
+  "input_inventory": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v5.md",
+      "sha256": "f423d6be7f862f562cb56636ee8d03efc746e5043a12361e9dd4255911694733",
+      "bytes": 40835,
+      "mode": "0444"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v5.md",
+      "sha256": "f423d6be7f862f562cb56636ee8d03efc746e5043a12361e9dd4255911694733",
+      "bytes": 40835,
+      "mode": "0444"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v2.md",
+      "sha256": "1c116f27bd11bcd3e2fae0d00792b27c2e598928bb9ccc97f1db418102232cf6",
+      "bytes": 36351,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v2.md",
+      "sha256": "1c116f27bd11bcd3e2fae0d00792b27c2e598928bb9ccc97f1db418102232cf6",
+      "bytes": 36351,
+      "mode": "0444"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/RUNBOOK-first-proof-iteration.md",
+      "sha256": "612f110fbf16a2e97ecce76fd007e6ea38907790c55f36f1923de76cac2010f5",
+      "bytes": 9255,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/runbook-history/v4.1-SUPERSEDED.md",
+      "sha256": "1805b374648d279c13a64ab6af56023b8b106d6ae901cae63d97a900b8ebc12b",
+      "bytes": 8395,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+      "bytes": 30462,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+      "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e",
+      "bytes": 2699,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+      "bytes": 410484,
+      "mode": "0600"
+    },
+    {
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+      "bytes": 9048,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/frame-v6-PLAN.md",
+      "sha256": "9a07534bdb0d2ca8413b2433f13def7c2629b0c615e48c7aba0572913ddfe1d9",
+      "bytes": 10066,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/scratch.py",
+      "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86",
+      "bytes": 116891,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/errata/d2-inventory-E1-pinned-files.md",
+      "sha256": "393551ee27e382ca3a8b42828eb4a202706e01c3ad378ec9f00f15dab8c11cfe",
+      "bytes": 4130,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/evidence-recursive-notices.json",
+      "sha256": "6b6ec3fb99ccfcd40aef8f99f3b7d82435e00e26255019eb9833c74eff9cd2b3",
+      "bytes": 63771,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/ISOLATION.md",
+      "sha256": "7ba6fe83ed820275dc42119abd3657ec5a01a4a332239209c80239a613cecce6",
+      "bytes": 7969,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/STATUS.md",
+      "sha256": "10600dc0ac0c953f46e330b1d77d0bdf21baec4a40f6bc346c433c0ea0e7c6ee",
+      "bytes": 11037,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md",
+      "sha256": "a27d3e74305b5edd47acd31a7c881d7147cfecdaa0935195e2b0acea1dc70442",
+      "bytes": 18503,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md",
+      "sha256": "e36f517c6ecc891f256626bbbeb6f049dd57a2c565a632c763b73d7b3baf0b48",
+      "bytes": 35034,
+      "mode": "0444"
+    }
+  ],
+  "review_freezes": {
+    "frame-v5": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/review-freeze.json",
+        "sha256": "48539bdf57e11edeabe0844c7860284fa1cde26c1cab58a7b86317ef82a34ef7",
+        "bytes": 868,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md",
+          "sha256": "2c414c694ed75d72cffae2172bef967bdcf63d73cc0a3764f96762a59d49ec71",
+          "bytes": 49133,
+          "mode": "0600",
+          "expected": {
+            "bytes": 49133,
+            "mode": 384,
+            "sha256": "2c414c694ed75d72cffae2172bef967bdcf63d73cc0a3764f96762a59d49ec71"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/bound-inputs.json",
+          "sha256": "c83828caa995a22d890f95b61735bd895490454d7bf9c67a14f6b3843265a17d",
+          "bytes": 250916,
+          "mode": "0600",
+          "expected": {
+            "bytes": 250916,
+            "mode": 384,
+            "sha256": "c83828caa995a22d890f95b61735bd895490454d7bf9c67a14f6b3843265a17d"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/checks.json",
+          "sha256": "6d6399d492c6acf7223e720123a6adb2c0f3beb28cad02d00e6a0911f05b9b71",
+          "bytes": 68556,
+          "mode": "0600",
+          "expected": {
+            "bytes": 68556,
+            "mode": 384,
+            "sha256": "6d6399d492c6acf7223e720123a6adb2c0f3beb28cad02d00e6a0911f05b9b71"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/review.json",
+          "sha256": "39a2a1ea730abc6d2fe42f1a338d6c0253293e94eddf41a78dd8096b36aa4ce2",
+          "bytes": 602614,
+          "mode": "0600",
+          "expected": {
+            "bytes": 602614,
+            "mode": 384,
+            "sha256": "39a2a1ea730abc6d2fe42f1a338d6c0253293e94eddf41a78dd8096b36aa4ce2"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/tool-topology.json",
+          "sha256": "89a16e5f4f116804c8ea86fda8772d3a467d6e18e86823d55b3c1ccd7b091c2e",
+          "bytes": 8543,
+          "mode": "0600",
+          "expected": {
+            "bytes": 8543,
+            "mode": 384,
+            "sha256": "89a16e5f4f116804c8ea86fda8772d3a467d6e18e86823d55b3c1ccd7b091c2e"
+          },
+          "matches": false
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5",
+        "verdict": null,
+        "required_corrections": null
+      }
+    },
+    "d1-v2": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review-freeze.json",
+        "sha256": "3626dc73c271c83628275d53a869835173e5d30a8f1c97e9f663f6380434a9f4",
+        "bytes": 559,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/REVIEW.md",
+          "sha256": "04dbf7041148e0acd604b806f6ed4dd46a4b20a9e16874ad0f88056b1fa332bc",
+          "bytes": 39574,
+          "mode": "0600",
+          "expected": {
+            "sha256": "04dbf7041148e0acd604b806f6ed4dd46a4b20a9e16874ad0f88056b1fa332bc",
+            "bytes": 39574,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review.json",
+          "sha256": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+          "bytes": 31922,
+          "mode": "0600",
+          "expected": {
+            "sha256": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+            "bytes": 31922,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/checks.json",
+          "sha256": "1f672eba4f3efeea6421cde6772fb66b1e36e989fef933c8bc2c67b5bc04dc38",
+          "bytes": 74871,
+          "mode": "0600",
+          "expected": {
+            "sha256": "1f672eba4f3efeea6421cde6772fb66b1e36e989fef933c8bc2c67b5bc04dc38",
+            "bytes": 74871,
+            "mode": "0600"
+          },
+          "matches": true
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5",
+        "verdict": "NOT_ENDORSED",
+        "required_corrections": null
+      }
+    },
+    "d1-v3": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/review-freeze.json",
+        "sha256": "52c6832f7070af65c8d947fda808bf458a7fbe7c19c78b45630b1952b08c83c7",
+        "bytes": 560,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/REVIEW.md",
+          "sha256": "e82534cb680b70b92105c78906d9c2109c1122b367641ef78d88741d5754407f",
+          "bytes": 70619,
+          "mode": "0600",
+          "expected": {
+            "sha256": "e82534cb680b70b92105c78906d9c2109c1122b367641ef78d88741d5754407f",
+            "bytes": 70619,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/review.json",
+          "sha256": "cb1e3740ee9e0b31a77f254b6fb3a70b032e4535ff06c5b6eab9e21cfb95de45",
+          "bytes": 31651,
+          "mode": "0600",
+          "expected": {
+            "sha256": "cb1e3740ee9e0b31a77f254b6fb3a70b032e4535ff06c5b6eab9e21cfb95de45",
+            "bytes": 31651,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/checks.json",
+          "sha256": "0631a4ff6d0136421f9a06369779eef133447ab7294a500d1f3b4b2eafe53ea2",
+          "bytes": 334189,
+          "mode": "0600",
+          "expected": {
+            "sha256": "0631a4ff6d0136421f9a06369779eef133447ab7294a500d1f3b4b2eafe53ea2",
+            "bytes": 334189,
+            "mode": "0600"
+          },
+          "matches": true
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+        "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+        "required_corrections": null
+      }
+    },
+    "capi-v2": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review-freeze.json",
+        "sha256": "d4d43694658c428070e46ca0ab56bf121eca61ac2dfc7675b3d48f369b281652",
+        "bytes": 559,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/REVIEW.md",
+          "sha256": "485e52888cba7b133acc0d72f1c058629b8306cf274390aab6ba72c8320ca95d",
+          "bytes": 51147,
+          "mode": "0600",
+          "expected": {
+            "sha256": "485e52888cba7b133acc0d72f1c058629b8306cf274390aab6ba72c8320ca95d",
+            "bytes": 51147,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review.json",
+          "sha256": "42b762d94d53fe84a38cfa08d190b1e65d4b5f023f52980f78446b771a29e2ff",
+          "bytes": 24121,
+          "mode": "0600",
+          "expected": {
+            "sha256": "42b762d94d53fe84a38cfa08d190b1e65d4b5f023f52980f78446b771a29e2ff",
+            "bytes": 24121,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/checks.json",
+          "sha256": "eb1e7b0dd08abfa2f3be887fc4ba3bc19d857d915c1881a14603dec67d06a28a",
+          "bytes": 60475,
+          "mode": "0600",
+          "expected": {
+            "sha256": "eb1e7b0dd08abfa2f3be887fc4ba3bc19d857d915c1881a14603dec67d06a28a",
+            "bytes": 60475,
+            "mode": "0600"
+          },
+          "matches": true
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+        "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+        "required_corrections": null
+      }
+    },
+    "capi-v3": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review-freeze.json",
+        "sha256": "7314f4de53972acbac91541d6a895072a50c264119dfe25e5c20b04ae63512ca",
+        "bytes": 559,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/REVIEW.md",
+          "sha256": "9fe93d9dd4257aa6ea188278fecedf5971a0ac34135a390f45908d3ac80b14b0",
+          "bytes": 31423,
+          "mode": "0600",
+          "expected": {
+            "bytes": 31423,
+            "mode": "0600",
+            "sha256": "9fe93d9dd4257aa6ea188278fecedf5971a0ac34135a390f45908d3ac80b14b0"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/checks.json",
+          "sha256": "e60cdead79d4db12c413a75044894c6cd793aafa20efb7c340c50d4c9d438f7e",
+          "bytes": 79282,
+          "mode": "0600",
+          "expected": {
+            "bytes": 79282,
+            "mode": "0600",
+            "sha256": "e60cdead79d4db12c413a75044894c6cd793aafa20efb7c340c50d4c9d438f7e"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review.json",
+          "sha256": "ab7efb2bc69d426f9480246bc2dd1f5e381d99879485d4385837ec1105d85223",
+          "bytes": 18528,
+          "mode": "0600",
+          "expected": {
+            "bytes": 18528,
+            "mode": "0600",
+            "sha256": "ab7efb2bc69d426f9480246bc2dd1f5e381d99879485d4385837ec1105d85223"
+          },
+          "matches": true
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+        "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+        "required_corrections": null
+      }
+    },
+    "d2": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/review-freeze.json",
+        "sha256": "f94a3cce4a2727340c64b16c638e0fc6f9572cf979741bd4fbf55e6e6c2ac7e9",
+        "bytes": 561,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/REVIEW.md",
+          "sha256": "03fbf2461e857ddf9a3a0bdcf2515a14ccb6cd8498ade4e682a8a4bb60f02820",
+          "bytes": 58182,
+          "mode": "0600",
+          "expected": {
+            "sha256": "03fbf2461e857ddf9a3a0bdcf2515a14ccb6cd8498ade4e682a8a4bb60f02820",
+            "bytes": 58182,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/checks.json",
+          "sha256": "712328b18787b279fe8cce99778bb9f61d35868727acaac72775e089cbfd8bfe",
+          "bytes": 148847,
+          "mode": "0600",
+          "expected": {
+            "sha256": "712328b18787b279fe8cce99778bb9f61d35868727acaac72775e089cbfd8bfe",
+            "bytes": 148847,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/review.json",
+          "sha256": "20e0447f556d9f18e9b8a24e5c96056317b52ccee3d29fe804c65cdee2c9c578",
+          "bytes": 236257,
+          "mode": "0600",
+          "expected": {
+            "sha256": "20e0447f556d9f18e9b8a24e5c96056317b52ccee3d29fe804c65cdee2c9c578",
+            "bytes": 236257,
+            "mode": "0600"
+          },
+          "matches": true
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5 (analysis subagent)",
+        "verdict": "ACCURATE_WITH_CORRECTIONS",
+        "required_corrections": null
+      }
+    },
+    "root-worker": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review-freeze.json",
+        "sha256": "f6f31ddc0bff4dd59ecccfa389f48ce85c7ad91900fe844cf72293a7d7cb1603",
+        "bytes": 559,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/REVIEW.md",
+          "sha256": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+          "bytes": 48197,
+          "mode": "0600",
+          "expected": {
+            "bytes": 48197,
+            "mode": "0600",
+            "sha256": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checks.json",
+          "sha256": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498",
+          "bytes": 68553,
+          "mode": "0600",
+          "expected": {
+            "bytes": 68553,
+            "mode": "0600",
+            "sha256": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review.json",
+          "sha256": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4",
+          "bytes": 74364,
+          "mode": "0600",
+          "expected": {
+            "bytes": 74364,
+            "mode": "0600",
+            "sha256": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4"
+          },
+          "matches": true
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5 (analysis subagent)",
+        "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+        "required_corrections": null
+      }
+    },
+    "alpha": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/review-freeze.json",
+        "sha256": "b0b176ae0107fccf78dc55aeda8f2b0bc000f6dbe807e6297329d66aef288e7b",
+        "bytes": 711,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/REVIEW.md",
+          "sha256": "c854cbb347f75e384c888365e6ba251990a2b8bd55398bffa7122b1d134515da",
+          "bytes": 28824,
+          "mode": "0600",
+          "expected": {
+            "bytes": 28824,
+            "mode": 384,
+            "sha256": "c854cbb347f75e384c888365e6ba251990a2b8bd55398bffa7122b1d134515da"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/bound-inputs.json",
+          "sha256": "6802d6885dba741a1faa4721a58589e9f4745fa708cd4eaec322b16a514c1791",
+          "bytes": 588548,
+          "mode": "0600",
+          "expected": {
+            "bytes": 588548,
+            "mode": 384,
+            "sha256": "6802d6885dba741a1faa4721a58589e9f4745fa708cd4eaec322b16a514c1791"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/checks.json",
+          "sha256": "524dd677987cc374c0164d3e082e192788a2926a4d1ddb9ba1fa5616f971f8b0",
+          "bytes": 789829,
+          "mode": "0600",
+          "expected": {
+            "bytes": 789829,
+            "mode": 384,
+            "sha256": "524dd677987cc374c0164d3e082e192788a2926a4d1ddb9ba1fa5616f971f8b0"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/review.json",
+          "sha256": "3c9a5dc30b8071cafc4354b68aad310dee7b183c64e7bb4ebf0fa3fc2919cd51",
+          "bytes": 173824,
+          "mode": "0600",
+          "expected": {
+            "bytes": 173824,
+            "mode": 384,
+            "sha256": "3c9a5dc30b8071cafc4354b68aad310dee7b183c64e7bb4ebf0fa3fc2919cd51"
+          },
+          "matches": false
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5",
+        "verdict": null,
+        "required_corrections": null
+      }
+    },
+    "beta": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review-freeze.json",
+        "sha256": "2c07de1de69b219127465cd60023bd9312cd61accd6fec0eb6dba6d6480d871b",
+        "bytes": 711,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/REVIEW.md",
+          "sha256": "a5cc89bbe21c80796f74a236f0c053da7ca94ec82efbf4a9924f8e489b798ebe",
+          "bytes": 41819,
+          "mode": "0600",
+          "expected": {
+            "bytes": 41819,
+            "mode": 384,
+            "sha256": "a5cc89bbe21c80796f74a236f0c053da7ca94ec82efbf4a9924f8e489b798ebe"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/bound-inputs.json",
+          "sha256": "e11ee354e94b28c989358014892b698cd0d7e22f1de2f11e8246b4530e813877",
+          "bytes": 433310,
+          "mode": "0600",
+          "expected": {
+            "bytes": 433310,
+            "mode": 384,
+            "sha256": "e11ee354e94b28c989358014892b698cd0d7e22f1de2f11e8246b4530e813877"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/checks.json",
+          "sha256": "e9e31e08339ca5844646c313623b4aa60b7c97366ab2de164b4dd77f3e621fb8",
+          "bytes": 785277,
+          "mode": "0600",
+          "expected": {
+            "bytes": 785277,
+            "mode": 384,
+            "sha256": "e9e31e08339ca5844646c313623b4aa60b7c97366ab2de164b4dd77f3e621fb8"
+          },
+          "matches": false
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review.json",
+          "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+          "bytes": 495891,
+          "mode": "0600",
+          "expected": {
+            "bytes": 495891,
+            "mode": 384,
+            "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476"
+          },
+          "matches": false
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5",
+        "verdict": null,
+        "required_corrections": null
+      }
+    },
+    "package-v4": {
+      "freeze": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/review-freeze.json",
+        "sha256": "f3d405b083a728b4d594acdd422fd742de5977f3e88ed683ffbed0607d6178d8",
+        "bytes": 561,
+        "mode": "0600"
+      },
+      "freeze_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true
+      },
+      "files": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/REVIEW.md",
+          "sha256": "824c95c37c10f56c240d47b18d63953814975b0030476e40e14f3927676a44c7",
+          "bytes": 62733,
+          "mode": "0600",
+          "expected": {
+            "sha256": "824c95c37c10f56c240d47b18d63953814975b0030476e40e14f3927676a44c7",
+            "bytes": 62733,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/review.json",
+          "sha256": "922cd3de9fc059e948db31f7ac0a747f02c7ab5559495a8716053ff230f4aa19",
+          "bytes": 529804,
+          "mode": "0600",
+          "expected": {
+            "sha256": "922cd3de9fc059e948db31f7ac0a747f02c7ab5559495a8716053ff230f4aa19",
+            "bytes": 529804,
+            "mode": "0600"
+          },
+          "matches": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/checks.json",
+          "sha256": "b02aa8cb1a9c5ac21b0de6ef321af92c382b7c015c18a3e41ed007b9cac87b21",
+          "bytes": 592128,
+          "mode": "0600",
+          "expected": {
+            "sha256": "b02aa8cb1a9c5ac21b0de6ef321af92c382b7c015c18a3e41ed007b9cac87b21",
+            "bytes": 592128,
+            "mode": "0600"
+          },
+          "matches": true
+        }
+      ],
+      "review_fields": {
+        "actual_model_selection": "gpt-6.1-sol",
+        "different_from_author": true,
+        "author": "Claude Code lead claude-opus-5-5",
+        "verdict": "NOT_READY",
+        "required_corrections": [
+          {
+            "id": "PKG-FACTS",
+            "item": "1, 6, 7",
+            "correction": "Correct the spec declaration count to 11; map D1383 to Result_Conforms and D1384 to Compute, rather than self-recursive Prefix_Total Posts; correct the separate 2026/10/03 rollout attribution; limit the linger precedent to the observed accounts; describe the unprivileged search as no qualified route demonstrated, not impossibility; scope E1's packet table to replacement payloads. State storage/agent snapshots with their observation time. Qualify G0's 3632-second whole-display limits-before-to-wait proxy rather than call it an exact native target duration; retain the allowance without shrinking it.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:83-86",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:159-172",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:214-217",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:291",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:333-334",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/evidence-recursive-notices.json:1706-1955",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_ledger.ads:133-206",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/ledger.json:28494-28573",
+              "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl:8581",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/frame-v6-PLAN.md:67-80",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:63-67",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/errata/d2-inventory-E1-pinned-files.md:28-46",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/RUNBOOK-first-proof-iteration.md:60",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/run_checks.py:38-47"
+            ]
+          },
+          {
+            "id": "PKG-CRITERIA",
+            "item": "2, 8",
+            "correction": "Carry the full V5-B01/V5-B02 required changes at F-1 or explicitly bind the complete verbatim decision criterion; retain exact leaves/outputs/recipe/gates and the prohibition on frame-owned outside-tree writes. State that lowered reserve, scope or warning policy and any narrowed original target are ineligible for closure of the unchanged Phase One obligations, even after an operator choice. No permission or proof gate is removed.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:140-155",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:35-36",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:127",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:196-197",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:320-322",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:355-356",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md:76-82",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:16-29",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:27-29",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:161",
+              "/home/sicarii/Documents/complete-phase1-prompt.txt:32-34"
+            ]
+          },
+          {
+            "id": "W1-CUSTODY",
+            "item": "4",
+            "correction": "Specify a protected generation/location lease across every frame mutation and final admission-to-use, with complete final leaf/excluded-output joins, exclusive authorized writers, target/writer overlap treatment and authenticated front/writer/window/command/record/export identities. Account ownership, nologin and the wildcard sudo path rule alone do not establish these. Keep V5-B01/B02 OPEN until exact successor evidence meets the original changes.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:73-104",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:123-140",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:194-200",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md:76-82",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md:119-123",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/frame-v6-PLAN.md:43-47",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:154",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:177"
+            ]
+          },
+          {
+            "id": "W1-SETUP",
+            "item": "4",
+            "correction": "Replace 'exact' placeholder commands with a concrete reviewed installation/input/permission inventory and absent-state/preimage checks before actual setup approval. Resolve the unreadable 0600 review inputs without widening unrelated home access; define the narrower alternative; bind whole installed/runtime/module/mode/closure identity. Correct the two-group count and explicit 0600 image establishment, sudo-rule verification and safe sacrificial denial probes. Preserve the authentic sicarii host/vault/reserve/status context despite the wlscratch uid/HOME/bus change, and resolve the vault pin design.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:108-131",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:145-242",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:264-265",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:333-334",
+              "/home/sicarii/.codex/skills/project-vault/scripts/storage_status.py:10-11",
+              "/home/sicarii/.codex/skills/project-vault/scripts/storage_status.py:26-45",
+              "/home/sicarii/.codex/skills/project-vault/scripts/storage_status.py:58-71",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/review-freeze.json"
+            ]
+          },
+          {
+            "id": "W1-RESOURCES",
+            "item": "4, 5",
+            "correction": "Label 2259217862/545393048 as payload allowances, not usable filesystem/image minima; budget filesystem metadata/geometry, setup/manager effects and complete retained/restore/ambient growth. Describe the exact zero-difference calculation as an ideal payload identity, not physical allocation equality. Assess noexec compatibility with the actual original executable/native controls, records exhaustion and durable failure retention. Images enforce bounded writes only; no capacity, semantic refusal or admission credit follows without a reviewed preserving argument.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:204-223",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:244-262",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:276-278",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/RUNBOOK-first-proof-iteration.md:55-112",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:101-108",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:129-131",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:162"
+            ]
+          },
+          {
+            "id": "W1-LIFETIME-ROLLBACK",
+            "item": "4",
+            "correction": "Complete the failure/custody table with generation-bound launch acknowledgments, full schemas, genuine target/launcher/scope/outer waits and unknown/hold handling through front/writer death, records exhaustion and reboot. Identify the allowed durable stderr/preparation channel and record commit/retry semantics. Reorder rollback to prevent new launches and preserve terminal custody; preserve exact ACL/sudoers/mount/account prestates and all raw evidence. Correct the literal 'nothing deleted' claim, since the plan removes configuration, and describe retained UID/groups/files/access honestly.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL.md:271-324",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:185-186",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md:94-110",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:99",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:115",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:149",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:164",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:177"
+            ]
+          },
+          {
+            "id": "D2-CORRECTIONS",
+            "item": "1, 7, 8",
+            "correction": "Carry the substantive C-SLOT/C-SUM/C-OWNER/C-EMPTY/C-UNIT/C-PACKET-GAP/C-P12-REACH/C-COPY/C-ABI corrections with their qualifications, not only a reference to the sealed rulings. Keep every growth/call-count statement conditional static reasoning; retain independently varying extents, full histories, excluded rows/identity bytes, empty/equal-endpoint terms and nested packet-12 reach. Describe release's absence of the -gnata switch as source configuration, not categorical generated-code evidence. Apply item 6's correction to the old pinned-text O language, and keep all native/checked costs OPEN.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:333-365",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:541-550",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/REVIEW.md:172-260",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/REVIEW.md:234",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core_sources.gpr:8-19",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:129-131"
+            ]
+          },
+          {
+            "id": "OD1-CONSEQUENCES",
+            "item": "3, 7",
+            "correction": "Carry the repaired OD-1 exact consequences: body-only (o) leaves checked Q.Value/full-span Posts and native representation/cost obligations; (i-a) needs independently verified model binding without new axioms and all direct-user migration; (i-b) changes public result types/callers; (ii) must repair layout/index/base/length/vectors/copies/checked costs and rebuild/relink/loaded identity, not only remove a limit; (iii) is ineligible even with approval; (iii') adds an API while every original helper remains executable and OPEN. Keep no option selected/recommended.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:496-515",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1659-1667",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/REVIEW.md:117-119",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/REVIEW.md:258-260",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:129-131"
+            ]
+          },
+          {
+            "id": "OD2-CONSEQUENCES",
+            "item": "3, 7, 8",
+            "correction": "Replace 'unlimited across 11 classes' with the exact per-class coverage/exclusions: examiner original-default restoration unless a separate material choice, unchanged re-executed payloads and original campaigns, pre-conversion startup/protected custody and unresolved native/build_guard disposition. State 193 as the demonstrated minimum (192 direct sites plus known alias), not exhaustive routing. Carry E2-a private-hook/CPython/C-encoder identity and E2-b full settings/hooks/order/mixed-key failures/canonical UTF-8/-0/recursion behavior; absolute-magnitude formatting versus lexical parsing bounds; byte-identity correction; alias/forwarded/non-JSON audit and uncapped costs. Keep V3-RC1 re-review mandatory before E1/E2 choice.",
+            "evidence": [
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:473-477",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md:517-532",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1704-1731",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/REVIEW.md:121-135",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/REVIEW.md:222-234",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/decisive_evaluation_test.py:260-275",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/native/build_guard.py:33-51"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "summary": {
+    "frame-v5": {
+      "freeze_sha256": "48539bdf57e11edeabe0844c7860284fa1cde26c1cab58a7b86317ef82a34ef7",
+      "all_files_match": false,
+      "model": "gpt-6.1-sol",
+      "verdict": null
+    },
+    "d1-v2": {
+      "freeze_sha256": "3626dc73c271c83628275d53a869835173e5d30a8f1c97e9f663f6380434a9f4",
+      "all_files_match": true,
+      "model": "gpt-6.1-sol",
+      "verdict": "NOT_ENDORSED"
+    },
+    "d1-v3": {
+      "freeze_sha256": "52c6832f7070af65c8d947fda808bf458a7fbe7c19c78b45630b1952b08c83c7",
+      "all_files_match": true,
+      "model": "gpt-6.1-sol",
+      "verdict": "ENDORSED_WITH_REQUIRED_CHANGES"
+    },
+    "capi-v2": {
+      "freeze_sha256": "d4d43694658c428070e46ca0ab56bf121eca61ac2dfc7675b3d48f369b281652",
+      "all_files_match": true,
+      "model": "gpt-6.1-sol",
+      "verdict": "ENDORSED_WITH_REQUIRED_CHANGES"
+    },
+    "capi-v3": {
+      "freeze_sha256": "7314f4de53972acbac91541d6a895072a50c264119dfe25e5c20b04ae63512ca",
+      "all_files_match": true,
+      "model": "gpt-6.1-sol",
+      "verdict": "ENDORSED_WITH_REQUIRED_CHANGES"
+    },
+    "d2": {
+      "freeze_sha256": "f94a3cce4a2727340c64b16c638e0fc6f9572cf979741bd4fbf55e6e6c2ac7e9",
+      "all_files_match": true,
+      "model": "gpt-6.1-sol",
+      "verdict": "ACCURATE_WITH_CORRECTIONS"
+    },
+    "root-worker": {
+      "freeze_sha256": "f6f31ddc0bff4dd59ecccfa389f48ce85c7ad91900fe844cf72293a7d7cb1603",
+      "all_files_match": true,
+      "model": "gpt-6.1-sol",
+      "verdict": "ENDORSED_WITH_REQUIRED_CHANGES"
+    },
+    "alpha": {
+      "freeze_sha256": "b0b176ae0107fccf78dc55aeda8f2b0bc000f6dbe807e6297329d66aef288e7b",
+      "all_files_match": false,
+      "model": "gpt-6.1-sol",
+      "verdict": null
+    },
+    "beta": {
+      "freeze_sha256": "2c07de1de69b219127465cd60023bd9312cd61accd6fec0eb6dba6d6480d871b",
+      "all_files_match": false,
+      "model": "gpt-6.1-sol",
+      "verdict": null
+    },
+    "package-v4": {
+      "freeze_sha256": "f3d405b083a728b4d594acdd422fd742de5977f3e88ed683ffbed0607d6178d8",
+      "all_files_match": true,
+      "model": "gpt-6.1-sol",
+      "verdict": "NOT_READY"
+    }
+  }
+}

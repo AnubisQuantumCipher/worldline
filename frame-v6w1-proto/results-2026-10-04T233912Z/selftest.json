@@ -1,0 +1,59 @@
+{
+ "boundary": "same-user simulation of writer-side mechanisms; the separate-account kernel boundary is NOT tested",
+ "cases": 27,
+ "failures": [],
+ "module_sha256": "2c7d6100eaccf9bde84cebdb3b72e42a22be51cb7616211446edb7aa627d19dd",
+ "output_dir": "/home/sicarii/.claude/jobs/c9272506/tmp/w1proto-233912/run",
+ "results": {
+  "framing_body_tampered_next_frame_refused": "refused: Refused: frame does not continue this channel chain",
+  "framing_extra_field_refused": "refused: Refused: frame fields are not exactly seq/prev/body",
+  "framing_noncanonical_refused": "refused: Refused: frame is not canonical JSON",
+  "framing_oversize_header_refused": "refused: Refused: frame length outside the framing ceiling",
+  "framing_reordered_refused": "refused: Refused: frame sequence number is not the expected one",
+  "framing_roundtrip": [
+   [
+    {
+     "verb": "admit"
+    },
+    {
+     "n": 1
+    },
+    {
+     "n": 2
+    }
+   ],
+   "4a9870ae33fd2c81441f72eb1d582ddf462a97a7461bf62e340ca2f6a8c9b6f0"
+  ],
+  "framing_truncated_refused": "refused: Refused: channel closed inside a frame",
+  "framing_wrong_start_seq_refused": "refused: Refused: frame sequence number is not the expected one",
+  "inputs_absolute_refused": "refused: Refused: input path is not a plain relative path: '/etc/x'",
+  "inputs_accepted": [
+   "core/a.ads",
+   "core/b.adb",
+   "observations/window.json"
+  ],
+  "inputs_bad_mode_refused": "refused: Refused: input mode outside the allowed set: core/a.ads",
+  "inputs_declared_digest_lie_refused": "refused: Refused: input bytes do not match their declared identity: core/a.ads",
+  "inputs_duplicate_refused": "refused: Refused: duplicate input path: core/a.ads",
+  "inputs_missing_pinned_refused": "refused: Refused: pinned inputs missing: ['core/b.adb']",
+  "inputs_pinned_mismatch_refused": "refused: Refused: pinned input differs from its pin: core/a.ads",
+  "inputs_size_lie_refused": "refused: Refused: input bytes do not match their declared identity: core/a.ads",
+  "inputs_traversal_refused": "refused: Refused: input path is not a plain relative path: 'core/../x'",
+  "inputs_unknown_path_refused": "refused: Refused: input is neither pinned nor a declared observation: core/c.adb",
+  "lease_absent_is_not_created": "refused: Refused: lease file cannot be opened without following: ENOENT",
+  "lease_absent_left_absent": true,
+  "lease_first_acquire": "ok",
+  "lease_hardlinked": "refused: Refused: lease file is not a single-link regular file",
+  "lease_reacquired_after_release": "ACQUIRED",
+  "lease_second_process_refused_while_held": "HELD lease held by another writer",
+  "lease_symlink": "refused: Refused: lease file cannot be opened without following: ELOOP",
+  "lease_wrong_mode": "refused: Refused: lease file mode is not 0600",
+  "nondumpable_readback": {
+   "pr_get_dumpable": 0,
+   "proc_self_fd_owner_uid": 0
+  }
+ },
+ "schema": "w1proto-selftest-v1",
+ "selftest_sha256": "56d3da407d8eaabbde4aa17101c11029af77ee5ea5db2de2da5dc0ed507ce676",
+ "truth_boundary": "ENGINEERING_ONLY: never proof, review, admission or acceptance evidence. Original guarantees OPEN_UNCHANGED."
+}

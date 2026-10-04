@@ -132,9 +132,22 @@ phase acceptance. Its 12 corrections bind every later use of the inventory:
 
 D2 stays OPEN.
 
+## Executed engineering checks (ENGINEERING_ONLY; no prover or compiler; never acceptance evidence)
+
+| When | What | Result | Where |
+|---|---|---|---|
+| 23:37:20Z | V5-B01 final-pass self-check. A library import of `observe_tree` on throwaway trees; mutations injected after a file's observation | v6 working copy (`2255d6e1…`): **14/14 as required**. Frozen v5 (`f9f6596d…`): 6/14. v5 accepts 8 post-observation changes, which reproduces V5-B01 | `frame-v6-selfcheck/RESULTS.md` |
+| 23:39:12Z | W-1 v2 writer-side mechanisms (prototype `w1proto.py` `2c7d6100…`): lease, chained framing, streamed-input pins, non-dumpable. Same-user simulation | **27/27 as required** | `frame-v6w1-proto/results-2026-10-04T233912Z` |
+
+These show code behaviour on throwaway inputs only. They do not test the separate-account kernel boundary. V5-B01,
+V5-B02 and every original obligation stay OPEN.
+
+**Author correction.** W-1 v2 §4.5 understates: the v6 working copy already revalidates excluded leaves
+(`scratch.py:554`, `:569-573`). Recorded in `frame-v6-selfcheck/RESULTS.md`. The frozen v2 is not edited.
+
 ## In progress
 
-- **Operator package.** DRAFT-v4 is frozen (`e36f517c…`, 35034 bytes, plus a copy in `wt-1/package-frozen`). Its
+- **Operator package.** DRAFT-v4 review sealed NOT_READY (9 corrections). DRAFT-v5 (`f423d6be…`) and W-1 v2 (`1c116f27…`) are frozen; their actual gpt-6.1-sol re-review started ~23:36Z (`wt-1/package-review/gpt61-v2`).
   actual gpt-6.1-sol review started 22:08Z (runner, thread `01a108f6…`), with output in `wt-1/package-review/gpt61-v1`.
 - **Sealed reviews.** C-API v3 sealed 21:22Z and D1 v3 sealed 22:05Z. Both are ENDORSED_WITH_REQUIRED_CHANGES.
 - **D1 DESIGN v4.** A drafting agent (author role, not review) started ~22:10Z on V3-RC1..RC3. Output goes to
