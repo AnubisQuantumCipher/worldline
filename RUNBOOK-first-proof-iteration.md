@@ -1,4 +1,11 @@
-# First engineering proof iteration (scratch frame v5): lead runbook, v4
+# First engineering proof iteration (scratch frame v5): lead runbook, v4.1
+
+**v4.1.** This is v4 with the "enforced bound" section corrected per the WORLDLINE monitor. Gate 0 itself is
+unchanged.
+
+**Frame blocker, independent of storage.** Actual gpt-6.1-sol left V5-B02 OPEN on frame v5. Frame mutations must stay
+within the intended run tree. No unprivileged design meeting that criterion has been shown, so no frame is qualified
+and no step below can start. See `frame-v6-PLAN.md`.
 
 **Location.** This runbook is durable: it lives in the isolated worktree `work/claude-lead-isolation-v1/wt-1` (see
 `ISOLATION.md`). The superseded versions sit in `runbook-history/`:
@@ -89,13 +96,21 @@ These are judgments, not bounds. Each has its justification, and each is to be r
 1. Record its observed growth and retained sizes, with their paths.
 2. Raise any allowance its observation exceeds. Never lower an allowance because a run used less.
 
-### What would make an allowance an enforced bound
+### What would and would not change the allowances (corrected per the WORLDLINE monitor, 2026-10-04)
 
-Neither mechanism below exists yet. Both are listed in operator package S-1.
-- **A reviewed frame change.** A runtime storage guard that stops the target before free space crosses the reserve
-  plus the retained-size restore allowance. That would be frame v6 and needs actual gpt-6.1-sol review.
-- **An operator-provided enforced quota** or size-limited filesystem for RUNS. That needs operator action and
-  privileges.
+v4 claimed a runtime storage guard could become an enforced bound. That claim is withdrawn; v4 is preserved in
+`runbook-history/v4-SUPERSEDED.md`.
+
+- **A sampling monitor in the frame bounds nothing.** Periodic sampling plus a factor on the maximum observed write
+  rate establishes neither the maximum future write rate nor the stop latency.
+  - It cannot support a "never below the reserve" floor.
+  - It never replaces or reduces A_obj.
+  - It may be developed as additive defensive engineering: an extra, earlier stop condition, reviewed with frame v6.
+- **The only candidate for an enforced limit** is an operator-provided, kernel-enforced quota or size-limited
+  filesystem for RUNS, where writes beyond the limit fail.
+  - It needs operator action and privileges.
+  - It also needs its own reviewed, requirement-preserving admission argument before it may change this gate.
+- **Until such an argument exists, this Gate 0 stays in force exactly as written.**
 
 ## Steps (only after QUALIFIED_ENGINEERING_SCRATCH_FRAME for v5 AND an established Gate 0)
 
