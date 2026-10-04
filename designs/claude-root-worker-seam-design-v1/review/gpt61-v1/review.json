@@ -1,0 +1,2398 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "author": "Claude Code lead claude-opus-5-5 (analysis subagent)",
+  "checks": {
+    "bytes": 68553,
+    "mode": "0600",
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checks.json",
+    "sha256": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498"
+  },
+  "decisions_sha256": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d",
+  "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+  "design_sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46",
+  "different_from_author": true,
+  "fact_checks": [
+    {
+      "claim": "Supplied design and decisions hashes",
+      "details": {
+        "decisions_sha256": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d",
+        "design_sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46"
+      },
+      "evidence": [
+        "SEAM-DESIGN.md:1-7",
+        "seams.json:1-6"
+      ],
+      "id": "F-01",
+      "status": "VERIFIED_BYTE_IDENTITY"
+    },
+    {
+      "claim": "Non-reentrant Gate mutex reacquired by scoped intent_for_operation",
+      "correction": "A request reaching this nesting with the selected threading.Lock and passing preceding checks cannot progress. This is source reasoning, not an observed hang; startup currently refuses earlier.",
+      "evidence": [
+        "L/dependency-source/lab/intent_gate.py:371",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:357,385-388",
+        "R/runtime/worldline/protected_operations.py:640",
+        "L/preimage/runtime/worldline/protected_scoped_resource_runtime.py:357,385-388"
+      ],
+      "id": "F-02",
+      "status": "SUPPORTED_STATIC_CONDITIONAL"
+    },
+    {
+      "claim": "Stale protected_operations pin; preimage 171/source 191; exactly one source mismatch",
+      "evidence": [
+        "R/runtime/worldline/proof_manifest.py:420-450,622-638,1012",
+        "R/runtime/worldline/protected_startup.py:683-684",
+        "R/runtime/worldline/protected_root_worker.py:355-357"
+      ],
+      "id": "F-03",
+      "status": "VERIFIED_STATIC_RECOMPUTATION"
+    },
+    {
+      "claim": "Delta pin coverage and whole source inventory",
+      "correction": "736 source file identities, lengths and modes agree; 60 source delta entries, 24 pin-covered and 36 not covered. This counts changed source paths, not all lane files. Directory/atomicity/authenticity claims are not established.",
+      "evidence": [
+        "L/handoff-to-claude-v1-retry1/source-inventory.json:1",
+        "L/handoff-to-claude-v1-retry1/binary-delta.json:1",
+        "SEAM-DESIGN.md:27-28,105-113"
+      ],
+      "id": "F-04",
+      "status": "VERIFIED_STATIC_RECOMPUTATION"
+    },
+    {
+      "claim": "Duplicate attach_scoped_resource and lost exact selected producer check",
+      "correction": "Both definitions are already in the preimage. Passive text search finds no caller in source or dependency-source.",
+      "evidence": [
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:52-58,961-964"
+      ],
+      "id": "F-05",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "Root route omits unresolved-use, genuine request-context and workload pre-dispatch checks",
+      "evidence": [
+        "R/runtime/worldline/protected_operations.py:716-749",
+        "R/runtime/worldline/protected_root_worker.py:158-179"
+      ],
+      "id": "F-06",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "RootController expected identity pairs self-compare",
+      "correction": "The named identity equalities are vacuous; this does not imply every other Controller_Valid predicate is vacuous.",
+      "evidence": [
+        "R/runtime/worldline/protected_root_observation.py:36-49,74-83",
+        "R/core/worldline-resource_child_execution.ads:49-68"
+      ],
+      "id": "F-07",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "Undefined scoped historical settlement, lifecycle and owner material adapters",
+      "correction": "Only these getattr references appear in the source and dependency overlay; no selected implementation is defined there.",
+      "evidence": [
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:530-531,548-549,571-572"
+      ],
+      "id": "F-08",
+      "status": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_TREES"
+    },
+    {
+      "claim": "SO_PEERCRED host/requester namespace join causes every intake mismatch",
+      "correction": "Retain as conditional: for an outside-namespace original client whose reread PID differs, RequestPeer raises PEER_REQUEST_MISMATCH. Every intake is too broad and no kernel behavior was measured.",
+      "evidence": [
+        "R/runtime/worldline/root_worker_custody.py:183-204",
+        "R/runtime/worldline/client_peer.py:73-89,110-117",
+        "R/protected-root/native_root_worker_supervisor_v1.c:125-128,257-258,336"
+      ],
+      "id": "F-09",
+      "status": "SOURCE_ORDER_VERIFIED_KERNEL_CONCLUSION_REASONING_ONLY"
+    },
+    {
+      "claim": "Lane lineage is actor-stdin V4 rather than commonV4; worldline-c_api collision",
+      "correction": "Observed sizes are 56543 preimage and 148068 draft; commonV4 is 56596. CommonV4 lacks the listed units and its startup differs. Shared-file composition is required; no merge conflict was executed or accepted.",
+      "evidence": [
+        "L/origin.json:7-18",
+        "L/handoff-to-claude-v1-retry1/HANDOFF.md:11-13",
+        "P1/HANDOFF.md:48-61,91,153",
+        "SEAM-DESIGN.md:132-143",
+        "CAPI/review/gpt61-v1/REVIEW.md:260,454"
+      ],
+      "id": "F-10",
+      "status": "VERIFIED_BYTE_IDENTITY_AND_COMPOSITION_DEPENDENCY"
+    },
+    {
+      "claim": "C2 involves projection rounding",
+      "correction": "Projection_Valid requires zero remainder and exact division; no accepted rounding lane is specified.",
+      "evidence": [
+        "D:285-286",
+        "R/core/resource_scoped_run_ledger.ads:149-152"
+      ],
+      "id": "F-11",
+      "status": "CORRECTED"
+    },
+    {
+      "claim": "Changing HELD delegation expectation closes Delegate=yes root nesting",
+      "correction": "The native Custody predicate requires Manager_Delegate=no; a separately reviewed additive native successor is required.",
+      "evidence": [
+        "D:677-682",
+        "R/core/resource_observation_classification.ads:79-114",
+        "R/core/resource_scoped_run_ledger.ads:232-268"
+      ],
+      "id": "F-12",
+      "status": "DESIGN_CONFLICT"
+    },
+    {
+      "claim": "Committed effect must never enter native use quarantine and physical settlement always needs CLOSED",
+      "correction": "COMMITTED canonical evidence stays immutable, while original native use quarantine and NEVER_LAUNCHED held-capacity release must remain available.",
+      "evidence": [
+        "D:792,802-812",
+        "R/core/worldline-operation_authority.adb:129-130",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:521,562"
+      ],
+      "id": "F-13",
+      "status": "DESIGN_CONFLICT_WITH_ORIGINAL_CASES"
+    },
+    {
+      "claim": "All original controls retained while the frontier control may be retired by review and lead adoption",
+      "correction": "Retain the original version/domain control and add successor positives; retirement/re-enrollment is not granted here.",
+      "evidence": [
+        "D:411-414,1196-1198",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105",
+        "P1:29,153,162"
+      ],
+      "id": "F-14",
+      "status": "INTERNAL_DESIGN_CONFLICT"
+    }
+  ],
+  "open_obligations": [
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-209",
+        "the operator's yes and password (or the install-authority actuator, G2/C7)"
+      ],
+      "id": "OB-001",
+      "needs_operator": "yes and sudo password for the install (or the install-authority actuator)",
+      "owner": "COSMOGONY",
+      "release": "Production install",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-002",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-003",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-004",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-005",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-006",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-007",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-008",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-009",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-010",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-011",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-012",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-013",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-014",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-015",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-002"
+      ],
+      "id": "OB-016",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-017",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-018",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-019",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.5",
+      "release": "WORLDLINE 1.9.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-020",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-021",
+      "needs_operator": "approve the production policy change (a PRIME change through collapse)",
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-002"
+      ],
+      "id": "OB-022",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-023",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "item 6b adopt capability"
+      ],
+      "id": "OB-024",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-025",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-026",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-027",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-028",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-029",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-030",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-031",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-032",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-033",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-034",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-035",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-036",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-037",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-038",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-039",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-040",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-041",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-042",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-043",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-044",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-045",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "G2",
+        "OB-039",
+        "OB-040",
+        "OB-043",
+        "OB-045"
+      ],
+      "id": "OB-046",
+      "needs_operator": "yes and password for the production topology change",
+      "owner": "Phase 2",
+      "release": "Production authority integration",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-047",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-048",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-049",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-050",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-051",
+      "needs_operator": null,
+      "owner": "Phase 1 item 4",
+      "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-052",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-053",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-054",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-055",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-056",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-057",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-058",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-059",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "ATTEST",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-060",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-061",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-062",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-063",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-064",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-065",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-066",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-067",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-068",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-069",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-070",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-071",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-072",
+      "needs_operator": "run passwd privately; log out fully or reboot",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-073",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-074",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.5",
+      "release": "WORLDLINE 1.9.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-075",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-076",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-077",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-078",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.5",
+      "release": "WORLDLINE 1.9.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-079",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-080",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-081",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-082",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-083",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-084",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-085",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-086",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-087",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-088",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-089",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-090",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6a",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-091",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-092",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-093",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-094",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-095",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-096",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-097",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "K1 codes"
+      ],
+      "id": "OB-098",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-099",
+      "needs_operator": "root-owned attest under /opt and an operator-side copy of the export",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-100",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-101",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-102",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.7",
+      "release": "WORLDLINE 1.9.7",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-103",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.7",
+      "release": "WORLDLINE 1.9.7",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-104",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-105",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-106",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-107",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.8",
+      "release": "WORLDLINE 1.9.8",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-108",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.9",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-109",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-110",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-111",
+      "needs_operator": "hold the recovery secret on a separate device",
+      "owner": "COSMOGONY",
+      "release": "project-vault V1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-112",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-113",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-114",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.9",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-115",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-116",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-117",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-118",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-119",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-120",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-121",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-122",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-123",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-124",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-125",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-126",
+      "needs_operator": "approve with every rehearsal run bound",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-127",
+      "needs_operator": "sudo password for the census as the worldline account",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-128",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-129",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-130",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-131",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-132",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-133",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-134",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-135",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-136",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-137",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-138",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-139",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-140",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-141",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-142",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-143",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-144",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-145",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-146",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-147",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-148",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-149",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-150",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-151",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-152",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-153",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-154",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-155",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.8",
+      "release": "WORLDLINE 1.9.8",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-156",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-157",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-158",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-159",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-160",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-161",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-162",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-163",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-164",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-165",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-166",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-167",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-168",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-169",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-170",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-171",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-172",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-173",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-174",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-175",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-176",
+      "needs_operator": null,
+      "owner": "Phase 1 item 4",
+      "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-177",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.7",
+      "release": "WORLDLINE 1.9.7",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-178",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.5",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-179",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-180",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-181",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-182",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-183",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-184",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-185",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-186",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-187",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-188",
+      "needs_operator": "root for the privileged capture",
+      "owner": "COSMOGONY",
+      "release": "project-vault V1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-189",
+      "needs_operator": "decide the git read path for production roots",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-190",
+      "needs_operator": "sudo password to carry or vault the install-backups",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-191",
+      "needs_operator": "root edit of the kit timer",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-192",
+      "needs_operator": "submit the marketplace update request",
+      "owner": "COSMOGONY",
+      "release": "Marketplace update",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-193",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.5",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-194",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.5",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-195",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-196",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "K1 ABI 6"
+      ],
+      "id": "OB-197",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6a",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-198",
+      "needs_operator": null,
+      "owner": "Phase 1 item 4",
+      "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-199",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-200",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-201",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.9",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-202",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-203",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-072 (rotation and re-login)"
+      ],
+      "id": "OB-204",
+      "needs_operator": "re-login or reboot first",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-205",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-205",
+        "the operator closing the production migration"
+      ],
+      "id": "OB-206",
+      "needs_operator": "close the migration; approve the production key rotation",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-168"
+      ],
+      "id": "OB-207",
+      "needs_operator": "sudo password to read the production store as the account",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-208",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "project-vault V1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-209",
+      "needs_operator": "sudo password for the production-scale drill",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-035 (execution identity names /opt toolchains)"
+      ],
+      "id": "OB-210",
+      "needs_operator": "root install of toolchains under /opt",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-211",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-212",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-213",
+      "needs_operator": "root cleanup of accounts, subordinate ranges, units and directories",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-008",
+        "OB-009",
+        "OB-010"
+      ],
+      "id": "OB-214",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-215",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-216",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-217",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-218",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-219",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    }
+  ],
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "report_sha256": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+  "required_changes": [
+    {
+      "change": "Define the scoped canonical spec, complete arena/span/decision mapping, structural embedding and non-circular coherent witness relation; prove original accepted/refusal coverage later. Correct the rounding claim and distinguish fresh reservation from retained rollover/lifecycle cases.",
+      "evidence": [
+        "D:217-246,285-288,315,1220,1234-1238",
+        "R/core/worldline-canonical_operation.adb:10-32",
+        "R/core/resource_run_ledger.ads:223-282",
+        "R/core/resource_scoped_run_ledger.ads:92-152,215-268,303-312"
+      ],
+      "id": "RC-01",
+      "reason": "C2 adds history/current/Facts relations absent from the original flat Reference; single-frame identity factors alone do not establish equality or full-domain compatibility."
+    },
+    {
+      "change": "Specify canonical comparable source records and native enforcement of distinct authenticated source domains for every RootController pair; define full dynamic plan/cost and real enforced capacity correspondence.",
+      "evidence": [
+        "D:868-907",
+        "P1/OBLIGATIONS-v2.json:1043",
+        "P1/ALL-ORIGINAL-OBLIGATIONS.md:587,3507",
+        "R/core/worldline-resource_child_execution.ads:48-59",
+        "P1:125-137"
+      ],
+      "id": "RC-02",
+      "reason": "Independent sourcing or a digest in an opaque field alone does not close OB-030. Comparing differently encoded records can make every positive fail; ceilings alone do not establish OB-176's reservation guarantee."
+    },
+    {
+      "change": "Replace the Delegate=yes-only proposal with a separately reviewed additive native delegation/custody model and actual enforcement/provenance design; preserve the old no-delegation model, Parent_Supports, Original_Holds and every original child case.",
+      "evidence": [
+        "D:674-725",
+        "R/core/resource_observation_classification.ads:79-114",
+        "R/core/resource_scoped_run_ledger.ads:232-268",
+        "R/core/worldline-resource_child_execution.ads:127-133,203-230",
+        "P1:97"
+      ],
+      "id": "RC-03",
+      "reason": "Native Custody still requires Manager_Delegate=no and is consumed by scoped classification. A Python HELD change cannot satisfy the unchanged native conjunction."
+    },
+    {
+      "change": "Make native custody legality mandatory; define an exclusive CUSTODY_ACK/ABANDON graph, complete durable CAS generations and crash/ACK/seed/reconstruction rules, independent physical collection and lossless acyclic retention.",
+      "evidence": [
+        "D:1084-1147,1180,1311",
+        "R/runtime/worldline/root_worker_journal.py:123-143",
+        "P1:101,113-115,147-149,163"
+      ],
+      "id": "RC-04",
+      "reason": "ABANDON must never transition to WORKER_OWNED. A head-conditioned append and a read-only capture alone do not establish ownership/freshness through mutation; deduplication alone is no OOM or cost proof."
+    },
+    {
+      "change": "Retain every original required control and roster, including the unchanged v1 frontier control on its exact version/domain; add v2 controls. Remove lead-only retirement authority and expose any concrete re-enrollment proposal for explicit applicable adjudication.",
+      "evidence": [
+        "D:411-414,1186-1198",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105",
+        "P1:29,153,162",
+        "P1/REQUIRED-LIFETIME-CONTROLS.json:23"
+      ],
+      "id": "RC-05",
+      "reason": "The proposed supersession contradicts I10.3 and the fixed no-dropped-controls requirement. Historical retention is not matching-candidate execution credit."
+    },
+    {
+      "change": "Leave in-coordinator option A unselected until a full-domain accounting design covers independent grants/owners/kinds/costs/rollovers and requests larger than the first root hold; specify actual owner/recovery authority in every phase and availability beyond router-lock changes.",
+      "evidence": [
+        "D:562-626",
+        "R/core/resource_run_ledger.ads:247-262",
+        "R/runtime/worldline/protected_operations.py:728-745,391-397",
+        "RW:31",
+        "P1:113-115,127,141-149"
+      ],
+      "id": "RC-06",
+      "reason": "Parent_Supports constrains kind and parent budget. The first request's hold can impose a new refusal domain; UNKNOWN has no known owner to forward to. Synchronous work can still stall other requests."
+    },
+    {
+      "change": "Separate canonical committed outcome, native use quarantine, custody and physical resource states. Preserve native QUARANTINE_USE/K4 recovery and NEVER_LAUNCHED held-capacity release, terminal replay and serial semantics; keep write-once original result plus additive reports.",
+      "evidence": [
+        "D:779-812",
+        "R/core/worldline-operation_authority.adb:129-130,147-152",
+        "R/runtime/worldline/protected_operations.py:391-397,770-811",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:517-524,558-565",
+        "RW:33"
+      ],
+      "id": "RC-07",
+      "reason": "A committed exchange must remain committed, while the original kernel admits quarantine from Effect_Observed. CLOSED-only settlement wording excludes an original no-launch release case."
+    },
+    {
+      "change": "Define full slot/drain transfer barriers, buffered/in-flight bytes, durable positions, acknowledgments, failure ownership, OFD/lock custody and genuine helper/outer-wait producer retention or relay.",
+      "evidence": [
+        "D:484-527,1102-1109",
+        "R/runtime/worldline/protected_root_observation.py:57-97,122-142",
+        "RW:30",
+        "P1:113-115,125-127"
+      ],
+      "id": "RC-08",
+      "reason": "A pipe byte offset and matching fstat identity do not prove lossless transfer or ownership; descriptor transfer alone does not confer reaping rights. Original other-LIVE positives must remain required."
+    },
+    {
+      "change": "Define explicit native requester correspondence and authenticated socket/host-record custody. Label retained observations separately from fresh reads; preserve exited/delegated/same-UID-new-process and full UID/GID domains without a new live-client or fresh-pidfd acceptance precondition.",
+      "evidence": [
+        "D:939-941,961-1009",
+        "R/runtime/worldline/client_peer.py:58-89,110-117",
+        "R/runtime/worldline/root_worker_custody.py:183-207",
+        "RW:35",
+        "P1:119,137,149"
+      ],
+      "id": "RC-09",
+      "reason": "The crosswalk cannot acquire authority by returning old bytes under a new exact type, fstat equality, sender PID labels or an opaque digest. Kernel namespace/exited-peer behavior remains unmeasured."
+    },
+    {
+      "change": "Use reviewed appended effective pin overrides plus an external exact inventory/freeze for the manifest itself and all source/control/project/header/helper/dependency files; enroll every new native semantic unit and retain the full original strict scope.",
+      "evidence": [
+        "D:1177-1203",
+        "R/runtime/worldline/proof_manifest.py:420-450,622-638,1012",
+        "L/origin.json:2-7",
+        "P1:129-131,153-164"
+      ],
+      "id": "RC-10",
+      "reason": "A self-content hash produces a seal cycle. Ada-oriented normalized pins do not replace exact Python/C identities. C hardening and source review do not establish full-body/native/cost proof."
+    },
+    {
+      "change": "Repair the spec/body/integration dependency DAG; bind reviewed C-API and scoped committed-envelope lineages separately. Correct operator-item scope for protected runtime versus pure value work and draft publication; retain Optional_Marker and paused frame/capacity/storage gates.",
+      "evidence": [
+        "D:1219-1238,1245-1291",
+        "seams.json:operator_items OP-7/OP-8",
+        "LEAD/STATUS.md:8-24,38-46",
+        "P1:121,153-166,177-181",
+        "PROMPT:72-74",
+        "RW:13,45"
+      ],
+      "id": "RC-11",
+      "reason": "The slice plan omits consumed slot/crosswalk/historical schemas and implementations. The live STATUS is not operating-state evidence; source-only review grants no authority to resume paused infrastructure."
+    },
+    {
+      "change": "Complete startup version/loader/schema/creation-slot correspondence and a native full-ledger reconciliation table that automatically completes authentic known outcomes, retains all uncertain holds and preserves the protected owner route without initializing absent prior state.",
+      "evidence": [
+        "D:372-423,429-438",
+        "R/runtime/worldline/protected_startup.py:264-270,467-472",
+        "R/runtime/worldline/root_worker_journal.py:43-62,85-114",
+        "P1:99,147-149",
+        "P1/ALL-ORIGINAL-OBLIGATIONS.md:3687"
+      ],
+      "id": "RC-12",
+      "reason": "Blanket dead-worker quarantine-to-owner handling can lose required automatic reconciliation progress; diagnostic startup must not fabricate mutable authority or missing history."
+    }
+  ],
+  "rulings": [
+    {
+      "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls.",
+      "id": "D-1a",
+      "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer",
+      "ruling": "C2 is a plausible lifted model, not an established faithful equivalence as written. Exact divisible projection replaces the draft's rounding description; require RC-01 with full-domain coverage and no changes to original references."
+    },
+    {
+      "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof.",
+      "id": "D-1b",
+      "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer",
+      "ruling": "Epoch equality alone is insufficient. Fresh new reservations obey native current-context equality; retained replay/rollover needs a complete proved origin/current/authority join and must preserve original lifecycle cases. Use Same_Context, not record equality."
+    },
+    {
+      "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls.",
+      "id": "D-2a",
+      "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+      "ruling": "Prefer an additive exact v2 descriptor, selected by schema, with v1 behavior and controls retained. No implicit migration, defaults, bypass or missing-history genesis."
+    },
+    {
+      "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit.",
+      "id": "D-2b",
+      "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review",
+      "ruling": "No lead-only retirement of the mandatory frontier control. Keep exact v1/domain behavior and additive v2 controls; any proposed re-enrollment must be explicitly adjudicated while the original obligation remains OPEN."
+    },
+    {
+      "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection.",
+      "id": "D-3a",
+      "owner": "Lead protocol designer; operator for lab execution",
+      "ruling": "Transfer complete V3 slot custody; do not require prior terminal state as a domain restriction. The transfer protocol still needs RC-08."
+    },
+    {
+      "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls.",
+      "id": "D-4a",
+      "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change",
+      "ruling": "No accounting option is selected for acceptance. A may be explored only if it preserves all original independent-request accepted cases and real cost/parent/availability guarantees; otherwise choose or design a faithful alternative."
+    },
+    {
+      "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls.",
+      "id": "D-5a",
+      "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action",
+      "ruling": "Delegate=yes is not endorsed as a complete native design. Require an additive native custody/delegation successor, unchanged original predicates/cases and a concrete coordinator enforcement argument before operator deployment choice."
+    },
+    {
+      "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations.",
+      "id": "D-5b",
+      "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation",
+      "ruling": "Prefer a separately versioned helper successor, preserving the exact V3/helper-stdin lineage and old controls. Extending V3 in place is not needed to obtain source design credit."
+    },
+    {
+      "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement.",
+      "id": "D-6a",
+      "owner": "Lead historical/canonical model designer; independent GPT-6.1 review",
+      "ruling": "Keep canonical COMMITTED immutable; permit the original native use-quarantine/K4 domain when needed for uncertainty. Define orthogonal outcome/use/resource/custody states rather than selecting a blanket ban on quarantine."
+    },
+    {
+      "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation.",
+      "id": "D-7a",
+      "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration",
+      "ruling": "Independent sourcing alone does not close OB-030. Native Decide/Well_Formed must consume/enforce the distinct source-record domains or tags and canonical payload relation; use an additive grammar/version and preserve original references/ABI."
+    },
+    {
+      "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage.",
+      "id": "D-8a",
+      "owner": "Lead OS/native requester designer; independent GPT-6.1 review",
+      "ruling": "Choose explicit native semantic correspondence inputs, carried by authentic producers. A producer-only label or digest in opaque current_source is insufficient."
+    },
+    {
+      "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client.",
+      "id": "D-8b",
+      "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review",
+      "ruling": "Do not add a blanket fresh-pidfd or still-live-client precondition. Retain original kernel socket/credential evidence under authenticated custody and define the exited-peer path; absent evidence remains explicit and unresolved where correspondence cannot be established."
+    },
+    {
+      "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes.",
+      "id": "D-9a",
+      "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign",
+      "ruling": "Yes: native custody-phase legality is mandatory because it determines who may mutate. Preserve exclusive ACK/ABANDON branches and authentic durable redecision under the actual CAS."
+    }
+  ],
+  "schema": "claude-design-review-v1",
+  "source_acceptance": false,
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES"
+}

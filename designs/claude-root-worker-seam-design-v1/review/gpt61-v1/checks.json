@@ -1,0 +1,1155 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "arithmetic": {
+    "non_claims_retained_verbatim": true,
+    "other_reported_numbers": "Observed file contents, metadata, AST extraction, source roster counts or command/tool results",
+    "parsed_inputs": [
+      "24+36",
+      "63-3"
+    ],
+    "provider": "JACKAL MCP",
+    "results": [
+      {
+        "content": [
+          {
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=24+36 exact=60 approx=60\",\"fields\":{\"approx\":\"60\",\"exact\":\"60\",\"parsed\":\"24+36\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}",
+            "type": "text"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=24+36 exact=60 approx=60",
+          "fields": {
+            "approx": "60",
+            "exact": "60",
+            "parsed": "24+36",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "content": [
+          {
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=63-3 exact=60 approx=60\",\"fields\":{\"approx\":\"60\",\"exact\":\"60\",\"parsed\":\"63-3\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}",
+            "type": "text"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=63-3 exact=60 approx=60",
+          "fields": {
+            "approx": "60",
+            "exact": "60",
+            "parsed": "63-3",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    ],
+    "returned_consequence_ceiling": null,
+    "review_use_ceiling": "informational about arithmetic only; no code-correctness or acceptance inference",
+    "status_classes_retained_verbatim": true
+  },
+  "capi_lineage": {
+    "actual_model_selection": "gpt-6.1-sol",
+    "decisions": {
+      "bytes": 124947,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/decisions.json",
+      "sha256": "db403247b328df70573600653e4eec40007473be0f164cfb15f3748bfcbf159d"
+    },
+    "design": {
+      "bytes": 242233,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/DESIGN.md",
+      "sha256": "554fe8b08577fd74a5ca5ece30e6674c605c7a46bd35c97ae3f5c699a9a705d3"
+    },
+    "different_from_author": true,
+    "freeze": {
+      "bytes": 559,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review-freeze.json",
+      "sha256": "d4d43694658c428070e46ca0ab56bf121eca61ac2dfc7675b3d48f369b281652"
+    },
+    "frozen_files": [
+      {
+        "bytes": 51147,
+        "mode": "0600",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/REVIEW.md",
+        "sha256": "485e52888cba7b133acc0d72f1c058629b8306cf274390aab6ba72c8320ca95d"
+      },
+      {
+        "bytes": 24121,
+        "mode": "0600",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review.json",
+        "sha256": "42b762d94d53fe84a38cfa08d190b1e65d4b5f023f52980f78446b771a29e2ff"
+      },
+      {
+        "bytes": 60475,
+        "mode": "0600",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/checks.json",
+        "sha256": "eb1e7b0dd08abfa2f3be887fc4ba3bc19d857d915c1881a14603dec67d06a28a"
+      }
+    ],
+    "phase_acceptance": false,
+    "prior_final_verification_observations": [
+      {
+        "schema": "claude-design-review-v1"
+      },
+      {
+        "verdict": "ENDORSED_WITH_REQUIRED_CHANGES"
+      },
+      {
+        "actual_model_selection": "gpt-6.1-sol"
+      },
+      {
+        "different_from_author": true
+      },
+      {
+        "proof_acceptance": false
+      },
+      {
+        "phase_acceptance": false
+      },
+      {
+        "source_acceptance": false
+      },
+      {
+        "bytes": 51147,
+        "freeze_matches": true,
+        "mode": "0600",
+        "name": "REVIEW.md",
+        "sha256": "485e52888cba7b133acc0d72f1c058629b8306cf274390aab6ba72c8320ca95d"
+      },
+      {
+        "bytes": 24121,
+        "freeze_matches": true,
+        "mode": "0600",
+        "name": "review.json",
+        "sha256": "42b762d94d53fe84a38cfa08d190b1e65d4b5f023f52980f78446b771a29e2ff"
+      },
+      {
+        "bytes": 60475,
+        "freeze_matches": true,
+        "mode": "0600",
+        "name": "checks.json",
+        "sha256": "eb1e7b0dd08abfa2f3be887fc4ba3bc19d857d915c1881a14603dec67d06a28a"
+      },
+      {
+        "bytes": 124947,
+        "mode": "0644",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/decisions.json",
+        "sha256": "db403247b328df70573600653e4eec40007473be0f164cfb15f3748bfcbf159d"
+      },
+      {
+        "bytes": 559,
+        "mode": "0600",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review-freeze.json",
+        "sha256": "d4d43694658c428070e46ca0ab56bf121eca61ac2dfc7675b3d48f369b281652"
+      }
+    ],
+    "proof_acceptance": false,
+    "scope_of_read": "C-API v2 basis declaration and selected independent-review findings; no full v2 or v3 acceptance review",
+    "source_acceptance": false,
+    "v3_reviewed_here": false,
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES"
+  },
+  "checkpoints": [
+    {
+      "bytes": 14610,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-1.json",
+      "sha256": "86e13a18d1e382db4291895a06eb99df623c7bc45edd2efcd1c061d063fa01fe"
+    },
+    {
+      "bytes": 28915,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-2.json",
+      "sha256": "46f5db369033b812e859a9e8caafec0721a0de4e088621771c9aad66a526c2b2"
+    },
+    {
+      "bytes": 6572,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-3.json",
+      "sha256": "c288826810d428957c6ba9927cf98db9dc7551728bf94db48a2fc99461802450"
+    },
+    {
+      "bytes": 5453,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-4.json",
+      "sha256": "39d43cd4e158d56dc8e1ec9bd2e99d7719ff5c4c18585ebe835d1292f60e8064"
+    },
+    {
+      "bytes": 34831,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-5.json",
+      "sha256": "a899122a4e145033816f8c073e16f492bdbefd969ef9fa38dba4995651f2e55c"
+    }
+  ],
+  "context_inputs": [
+    {
+      "bytes": 30462,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237"
+    },
+    {
+      "bytes": 2699,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+      "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e"
+    },
+    {
+      "bytes": 410484,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec"
+    },
+    {
+      "bytes": 167383,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ALL-ORIGINAL-OBLIGATIONS.md",
+      "sha256": "16d28b04bf937ecc7003a0a4fcf1b62d78b1478cb79542d9341022acc5f95acb"
+    },
+    {
+      "bytes": 1335,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/REQUIRED-LIFETIME-CONTROLS.json",
+      "sha256": "9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9"
+    },
+    {
+      "bytes": 413601,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ORIGINAL-ORDINARY-ROSTER.json",
+      "sha256": "4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e"
+    },
+    {
+      "bytes": 9048,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327"
+    },
+    {
+      "bytes": 4510,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/STATUS.md",
+      "sha256": "f7597541885828e19d98c392e1c128d82ccae4df1f1d20d1daba40b9bfb9483b"
+    },
+    {
+      "bytes": 242233,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/DESIGN.md",
+      "sha256": "554fe8b08577fd74a5ca5ece30e6674c605c7a46bd35c97ae3f5c699a9a705d3"
+    },
+    {
+      "bytes": 51147,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/REVIEW.md",
+      "sha256": "485e52888cba7b133acc0d72f1c058629b8306cf274390aab6ba72c8320ca95d"
+    },
+    {
+      "bytes": 2373,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/origin.json",
+      "sha256": "d120385a97432f736e73454effe0ce00859ba2ace846e17f11ef5ee9226d4f74"
+    }
+  ],
+  "decisions": {
+    "bytes": 67457,
+    "mode": "0644",
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/seams.json",
+    "sha256": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d"
+  },
+  "dependency_plan": "REQUIRES_EXPLICIT_SPEC_DAG_AND_BODY_INTEGRATION_GATES",
+  "design": {
+    "bytes": 76988,
+    "mode": "0644",
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+    "sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46"
+  },
+  "different_from_author": true,
+  "draft_basis_inputs": [
+    {
+      "bytes": 14309,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/HANDOFF.md",
+      "sha256": "f0d6add2f97011654d9a603df9f50f8c09d73e80cd4f3fcc37150af3ad77d14d"
+    },
+    {
+      "bytes": 2121982,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/binary-delta.json",
+      "sha256": "be41995133b8641ba244397e1cf6068bade22f478bdbe15590ddaf55a2f6bb16"
+    },
+    {
+      "bytes": 2803,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/handoff-freeze.json",
+      "sha256": "c8c6e40addc56654f28f7517f0c5ff64cc999424e1ae9ccb831fd799da96f33c"
+    },
+    {
+      "bytes": 716812,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/human-delta.patch",
+      "sha256": "de2406cca971d51681a2b9c6265cbb4f5d22f6070c66f75f6e5d2349166c364b"
+    },
+    {
+      "bytes": 133106,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/source-inventory.json",
+      "sha256": "0a12d06d2b43a1949bac24369dc615576105b3d6de11e5653ebfe559235637f3"
+    }
+  ],
+  "draft_handoff_freeze_file_checks": [
+    {
+      "bytes": 14309,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/HANDOFF.md",
+      "sha256": "f0d6add2f97011654d9a603df9f50f8c09d73e80cd4f3fcc37150af3ad77d14d"
+    },
+    {
+      "bytes": 6803,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/author-history-inventory.json",
+      "sha256": "73b0d033b7d48529aa6793ac6b7838f82089499c65718205c13cd6c98fb153a3"
+    },
+    {
+      "bytes": 2121982,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/binary-delta.json",
+      "sha256": "be41995133b8641ba244397e1cf6068bade22f478bdbe15590ddaf55a2f6bb16"
+    },
+    {
+      "bytes": 1088,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/checkpoint-status.json",
+      "sha256": "d587d9571a263a21b5a2b914c3353c9739606ce1cb7d0518c13ed32b1a209e98"
+    },
+    {
+      "bytes": 983,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/dependency-preimage-inventory.json",
+      "sha256": "60d96a044492733ae6798cad41f965f824b805cb58c86651764ee5365465be16"
+    },
+    {
+      "bytes": 981,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/dependency-source-inventory.json",
+      "sha256": "2d349ef5caacdc0b8fcf73dd93b0f31f411674dc360c502c845b87f229e585eb"
+    },
+    {
+      "bytes": 716812,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/human-delta.patch",
+      "sha256": "de2406cca971d51681a2b9c6265cbb4f5d22f6070c66f75f6e5d2349166c364b"
+    },
+    {
+      "bytes": 780,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/identity-checks.json",
+      "sha256": "d650ce0beddf97c4f94a6cbe21ff2be677a647c3ef1246c53b265c7675ffbf6f"
+    },
+    {
+      "bytes": 123356,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/preimage-inventory.json",
+      "sha256": "d403a84c52f9678d06c20a8c4c45d084d9396412dbd85f352b45daed2f2e9447"
+    },
+    {
+      "bytes": 280781,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/preserved-lane-inventory.json",
+      "sha256": "1989b822a9c00d53b9c75c6181114902ba8a25c2a2eeafa7ce97604be7e354d1"
+    },
+    {
+      "bytes": 369,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/requirements-identities.json",
+      "sha256": "d47d3a1d9a005c9b2ea47ff798c1f7f0723ab21073853fd99baf8d7706e389a7"
+    },
+    {
+      "bytes": 803,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/retained-checkpoint-attempts.json",
+      "sha256": "557ab69a437ccbc0dc8841d0efb8c6673e7bbbc5f903025f32327ffe12b0746a"
+    },
+    {
+      "bytes": 1154,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/secondary-preimage-inventory.json",
+      "sha256": "66e44790e2a0b2db3786d0a94ec49102a3c7fbcb5ae912d918789cbbf936eca7"
+    },
+    {
+      "bytes": 133106,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/source-inventory.json",
+      "sha256": "0a12d06d2b43a1949bac24369dc615576105b3d6de11e5653ebfe559235637f3"
+    }
+  ],
+  "draft_status": "INCOMPLETE_UNREVIEWED_UNUSED_SOURCE_ONLY",
+  "equivalence_lemma": {
+    "as_written_established": false,
+    "compatibility_obligation": "OPEN",
+    "required": "Non-circular structural embedding, complete coherent witness relation, total arena/span projection, exact decision type mapping, all original accepted/refusal coverage and later full-body proof.",
+    "statable_without_original_reference_changes": true
+  },
+  "evidence_aliases": {
+    "CAPI": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2",
+    "D": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+    "L": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1",
+    "LEAD": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1",
+    "P1": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+    "P1/<file>": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/<file>",
+    "PROMPT": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+    "R": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source",
+    "RW": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/HANDOFF.md",
+    "SEAM-DESIGN.md": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+    "START-CLAUDE.txt": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+    "W": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow",
+    "commonV4": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source",
+    "seams.json": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/seams.json"
+  },
+  "fact_checks": [
+    {
+      "claim": "Supplied design and decisions hashes",
+      "details": {
+        "decisions_sha256": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d",
+        "design_sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46"
+      },
+      "evidence": [
+        "SEAM-DESIGN.md:1-7",
+        "seams.json:1-6"
+      ],
+      "id": "F-01",
+      "status": "VERIFIED_BYTE_IDENTITY"
+    },
+    {
+      "claim": "Non-reentrant Gate mutex reacquired by scoped intent_for_operation",
+      "correction": "A request reaching this nesting with the selected threading.Lock and passing preceding checks cannot progress. This is source reasoning, not an observed hang; startup currently refuses earlier.",
+      "evidence": [
+        "L/dependency-source/lab/intent_gate.py:371",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:357,385-388",
+        "R/runtime/worldline/protected_operations.py:640",
+        "L/preimage/runtime/worldline/protected_scoped_resource_runtime.py:357,385-388"
+      ],
+      "id": "F-02",
+      "status": "SUPPORTED_STATIC_CONDITIONAL"
+    },
+    {
+      "claim": "Stale protected_operations pin; preimage 171/source 191; exactly one source mismatch",
+      "evidence": [
+        "R/runtime/worldline/proof_manifest.py:420-450,622-638,1012",
+        "R/runtime/worldline/protected_startup.py:683-684",
+        "R/runtime/worldline/protected_root_worker.py:355-357"
+      ],
+      "id": "F-03",
+      "status": "VERIFIED_STATIC_RECOMPUTATION"
+    },
+    {
+      "claim": "Delta pin coverage and whole source inventory",
+      "correction": "736 source file identities, lengths and modes agree; 60 source delta entries, 24 pin-covered and 36 not covered. This counts changed source paths, not all lane files. Directory/atomicity/authenticity claims are not established.",
+      "evidence": [
+        "L/handoff-to-claude-v1-retry1/source-inventory.json:1",
+        "L/handoff-to-claude-v1-retry1/binary-delta.json:1",
+        "SEAM-DESIGN.md:27-28,105-113"
+      ],
+      "id": "F-04",
+      "status": "VERIFIED_STATIC_RECOMPUTATION"
+    },
+    {
+      "claim": "Duplicate attach_scoped_resource and lost exact selected producer check",
+      "correction": "Both definitions are already in the preimage. Passive text search finds no caller in source or dependency-source.",
+      "evidence": [
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:52-58,961-964"
+      ],
+      "id": "F-05",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "Root route omits unresolved-use, genuine request-context and workload pre-dispatch checks",
+      "evidence": [
+        "R/runtime/worldline/protected_operations.py:716-749",
+        "R/runtime/worldline/protected_root_worker.py:158-179"
+      ],
+      "id": "F-06",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "RootController expected identity pairs self-compare",
+      "correction": "The named identity equalities are vacuous; this does not imply every other Controller_Valid predicate is vacuous.",
+      "evidence": [
+        "R/runtime/worldline/protected_root_observation.py:36-49,74-83",
+        "R/core/worldline-resource_child_execution.ads:49-68"
+      ],
+      "id": "F-07",
+      "status": "VERIFIED_STATIC"
+    },
+    {
+      "claim": "Undefined scoped historical settlement, lifecycle and owner material adapters",
+      "correction": "Only these getattr references appear in the source and dependency overlay; no selected implementation is defined there.",
+      "evidence": [
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:530-531,548-549,571-572"
+      ],
+      "id": "F-08",
+      "status": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_TREES"
+    },
+    {
+      "claim": "SO_PEERCRED host/requester namespace join causes every intake mismatch",
+      "correction": "Retain as conditional: for an outside-namespace original client whose reread PID differs, RequestPeer raises PEER_REQUEST_MISMATCH. Every intake is too broad and no kernel behavior was measured.",
+      "evidence": [
+        "R/runtime/worldline/root_worker_custody.py:183-204",
+        "R/runtime/worldline/client_peer.py:73-89,110-117",
+        "R/protected-root/native_root_worker_supervisor_v1.c:125-128,257-258,336"
+      ],
+      "id": "F-09",
+      "status": "SOURCE_ORDER_VERIFIED_KERNEL_CONCLUSION_REASONING_ONLY"
+    },
+    {
+      "claim": "Lane lineage is actor-stdin V4 rather than commonV4; worldline-c_api collision",
+      "correction": "Observed sizes are 56543 preimage and 148068 draft; commonV4 is 56596. CommonV4 lacks the listed units and its startup differs. Shared-file composition is required; no merge conflict was executed or accepted.",
+      "evidence": [
+        "L/origin.json:7-18",
+        "L/handoff-to-claude-v1-retry1/HANDOFF.md:11-13",
+        "P1/HANDOFF.md:48-61,91,153",
+        "SEAM-DESIGN.md:132-143",
+        "CAPI/review/gpt61-v1/REVIEW.md:260,454"
+      ],
+      "id": "F-10",
+      "status": "VERIFIED_BYTE_IDENTITY_AND_COMPOSITION_DEPENDENCY"
+    },
+    {
+      "claim": "C2 involves projection rounding",
+      "correction": "Projection_Valid requires zero remainder and exact division; no accepted rounding lane is specified.",
+      "evidence": [
+        "D:285-286",
+        "R/core/resource_scoped_run_ledger.ads:149-152"
+      ],
+      "id": "F-11",
+      "status": "CORRECTED"
+    },
+    {
+      "claim": "Changing HELD delegation expectation closes Delegate=yes root nesting",
+      "correction": "The native Custody predicate requires Manager_Delegate=no; a separately reviewed additive native successor is required.",
+      "evidence": [
+        "D:677-682",
+        "R/core/resource_observation_classification.ads:79-114",
+        "R/core/resource_scoped_run_ledger.ads:232-268"
+      ],
+      "id": "F-12",
+      "status": "DESIGN_CONFLICT"
+    },
+    {
+      "claim": "Committed effect must never enter native use quarantine and physical settlement always needs CLOSED",
+      "correction": "COMMITTED canonical evidence stays immutable, while original native use quarantine and NEVER_LAUNCHED held-capacity release must remain available.",
+      "evidence": [
+        "D:792,802-812",
+        "R/core/worldline-operation_authority.adb:129-130",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:521,562"
+      ],
+      "id": "F-13",
+      "status": "DESIGN_CONFLICT_WITH_ORIGINAL_CASES"
+    },
+    {
+      "claim": "All original controls retained while the frontier control may be retired by review and lead adoption",
+      "correction": "Retain the original version/domain control and add successor positives; retirement/re-enrollment is not granted here.",
+      "evidence": [
+        "D:411-414,1196-1198",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105",
+        "P1:29,153,162"
+      ],
+      "id": "F-14",
+      "status": "INTERNAL_DESIGN_CONFLICT"
+    }
+  ],
+  "final_source_inventory_recheck": {
+    "atomicity_or_authenticity_established": false,
+    "directory_modes_audited": false,
+    "extras": [],
+    "file_count": 736,
+    "mismatches": [],
+    "missing": [],
+    "status": "BYTE_LENGTH_AND_FILE_MODE_MATCH"
+  },
+  "method": {
+    "all_original_obligations_open": true,
+    "compilers_provers_tests_services_run": false,
+    "contract_pin_method": "Standalone literal AST extraction of sequential CONTRACT_PINS assignments/updates and reviewer-written text normalization following proof_manifest.py:420-450; no target evaluation/import",
+    "kernel_or_runtime_measurements": false,
+    "memory_use": "Policy continuity and Ada review discipline only; factual findings come from the presently hashed source and requirements",
+    "output_protocol": "os.O_EXCL, mode 0600, file fsync and directory fsync; review-freeze.json created last for exactly REVIEW.md, review.json and checks.json",
+    "passive_source_text_and_ast_only": true,
+    "reference_revisions": "SPARK Users Guide release 28.0w; source/toolchain features were not compiler-verified in this passive review",
+    "reviewer_helper_errors": "Passive metadata inspection encountered a missing skill-path lookup and list/dict shape errors, then was corrected; no target code ran and no failed attempt was treated as a control or refusal",
+    "sia_notes_written": false,
+    "skills_applied": [
+      "/home/sicarii/.agents/skills/ada-omarchy/SKILL.md",
+      "/home/sicarii/.agents/skills/ada-programming/SKILL.md",
+      "/home/sicarii/.agents/skills/spark-users-guide/SKILL.md",
+      "/home/sicarii/.agents/skills/ada/SKILL.md",
+      "/home/sicarii/.agents/skills/advanced-ada/SKILL.md",
+      "/home/sicarii/.agents/skills/ada-high-integrity/SKILL.md",
+      "/home/sicarii/.agents/skills/gnat-toolchain/SKILL.md",
+      "/home/sicarii/.codex/skills/jackel/SKILL.md"
+    ],
+    "source_inventory_directory_modes_audited": false,
+    "srv_labs_stores_sockets_windows_touched": false,
+    "subagents_spawned": false,
+    "systemctl_sudo_namespaces_project_vault_restic_used": false,
+    "worldline_cosmogony_root_worker_code_executed": false,
+    "worldline_cosmogony_root_worker_code_imported": false,
+    "writes_outside_review_cwd": false
+  },
+  "obligation_audit": {
+    "all_original_statuses": "OPEN",
+    "all_review_statuses": "OPEN",
+    "closed_by_review": [],
+    "first_id": "OB-001",
+    "last_id": "OB-219",
+    "observed_count": 219,
+    "owners_dependencies_operator_requirements_retained": true,
+    "register": {
+      "bytes": 410484,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec"
+    },
+    "unique_ids": true
+  },
+  "operator_list": "SUBSTANTIVELY_CORRECT_WITH_SCOPE_AND_ADJUDICATION_CORRECTIONS",
+  "paused_infrastructure": "UNINSPECTED_NO_EXECUTION_AUTHORITY",
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "required_changes": [
+    {
+      "change": "Define the scoped canonical spec, complete arena/span/decision mapping, structural embedding and non-circular coherent witness relation; prove original accepted/refusal coverage later. Correct the rounding claim and distinguish fresh reservation from retained rollover/lifecycle cases.",
+      "evidence": [
+        "D:217-246,285-288,315,1220,1234-1238",
+        "R/core/worldline-canonical_operation.adb:10-32",
+        "R/core/resource_run_ledger.ads:223-282",
+        "R/core/resource_scoped_run_ledger.ads:92-152,215-268,303-312"
+      ],
+      "id": "RC-01",
+      "reason": "C2 adds history/current/Facts relations absent from the original flat Reference; single-frame identity factors alone do not establish equality or full-domain compatibility."
+    },
+    {
+      "change": "Specify canonical comparable source records and native enforcement of distinct authenticated source domains for every RootController pair; define full dynamic plan/cost and real enforced capacity correspondence.",
+      "evidence": [
+        "D:868-907",
+        "P1/OBLIGATIONS-v2.json:1043",
+        "P1/ALL-ORIGINAL-OBLIGATIONS.md:587,3507",
+        "R/core/worldline-resource_child_execution.ads:48-59",
+        "P1:125-137"
+      ],
+      "id": "RC-02",
+      "reason": "Independent sourcing or a digest in an opaque field alone does not close OB-030. Comparing differently encoded records can make every positive fail; ceilings alone do not establish OB-176's reservation guarantee."
+    },
+    {
+      "change": "Replace the Delegate=yes-only proposal with a separately reviewed additive native delegation/custody model and actual enforcement/provenance design; preserve the old no-delegation model, Parent_Supports, Original_Holds and every original child case.",
+      "evidence": [
+        "D:674-725",
+        "R/core/resource_observation_classification.ads:79-114",
+        "R/core/resource_scoped_run_ledger.ads:232-268",
+        "R/core/worldline-resource_child_execution.ads:127-133,203-230",
+        "P1:97"
+      ],
+      "id": "RC-03",
+      "reason": "Native Custody still requires Manager_Delegate=no and is consumed by scoped classification. A Python HELD change cannot satisfy the unchanged native conjunction."
+    },
+    {
+      "change": "Make native custody legality mandatory; define an exclusive CUSTODY_ACK/ABANDON graph, complete durable CAS generations and crash/ACK/seed/reconstruction rules, independent physical collection and lossless acyclic retention.",
+      "evidence": [
+        "D:1084-1147,1180,1311",
+        "R/runtime/worldline/root_worker_journal.py:123-143",
+        "P1:101,113-115,147-149,163"
+      ],
+      "id": "RC-04",
+      "reason": "ABANDON must never transition to WORKER_OWNED. A head-conditioned append and a read-only capture alone do not establish ownership/freshness through mutation; deduplication alone is no OOM or cost proof."
+    },
+    {
+      "change": "Retain every original required control and roster, including the unchanged v1 frontier control on its exact version/domain; add v2 controls. Remove lead-only retirement authority and expose any concrete re-enrollment proposal for explicit applicable adjudication.",
+      "evidence": [
+        "D:411-414,1186-1198",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105",
+        "P1:29,153,162",
+        "P1/REQUIRED-LIFETIME-CONTROLS.json:23"
+      ],
+      "id": "RC-05",
+      "reason": "The proposed supersession contradicts I10.3 and the fixed no-dropped-controls requirement. Historical retention is not matching-candidate execution credit."
+    },
+    {
+      "change": "Leave in-coordinator option A unselected until a full-domain accounting design covers independent grants/owners/kinds/costs/rollovers and requests larger than the first root hold; specify actual owner/recovery authority in every phase and availability beyond router-lock changes.",
+      "evidence": [
+        "D:562-626",
+        "R/core/resource_run_ledger.ads:247-262",
+        "R/runtime/worldline/protected_operations.py:728-745,391-397",
+        "RW:31",
+        "P1:113-115,127,141-149"
+      ],
+      "id": "RC-06",
+      "reason": "Parent_Supports constrains kind and parent budget. The first request's hold can impose a new refusal domain; UNKNOWN has no known owner to forward to. Synchronous work can still stall other requests."
+    },
+    {
+      "change": "Separate canonical committed outcome, native use quarantine, custody and physical resource states. Preserve native QUARANTINE_USE/K4 recovery and NEVER_LAUNCHED held-capacity release, terminal replay and serial semantics; keep write-once original result plus additive reports.",
+      "evidence": [
+        "D:779-812",
+        "R/core/worldline-operation_authority.adb:129-130,147-152",
+        "R/runtime/worldline/protected_operations.py:391-397,770-811",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:517-524,558-565",
+        "RW:33"
+      ],
+      "id": "RC-07",
+      "reason": "A committed exchange must remain committed, while the original kernel admits quarantine from Effect_Observed. CLOSED-only settlement wording excludes an original no-launch release case."
+    },
+    {
+      "change": "Define full slot/drain transfer barriers, buffered/in-flight bytes, durable positions, acknowledgments, failure ownership, OFD/lock custody and genuine helper/outer-wait producer retention or relay.",
+      "evidence": [
+        "D:484-527,1102-1109",
+        "R/runtime/worldline/protected_root_observation.py:57-97,122-142",
+        "RW:30",
+        "P1:113-115,125-127"
+      ],
+      "id": "RC-08",
+      "reason": "A pipe byte offset and matching fstat identity do not prove lossless transfer or ownership; descriptor transfer alone does not confer reaping rights. Original other-LIVE positives must remain required."
+    },
+    {
+      "change": "Define explicit native requester correspondence and authenticated socket/host-record custody. Label retained observations separately from fresh reads; preserve exited/delegated/same-UID-new-process and full UID/GID domains without a new live-client or fresh-pidfd acceptance precondition.",
+      "evidence": [
+        "D:939-941,961-1009",
+        "R/runtime/worldline/client_peer.py:58-89,110-117",
+        "R/runtime/worldline/root_worker_custody.py:183-207",
+        "RW:35",
+        "P1:119,137,149"
+      ],
+      "id": "RC-09",
+      "reason": "The crosswalk cannot acquire authority by returning old bytes under a new exact type, fstat equality, sender PID labels or an opaque digest. Kernel namespace/exited-peer behavior remains unmeasured."
+    },
+    {
+      "change": "Use reviewed appended effective pin overrides plus an external exact inventory/freeze for the manifest itself and all source/control/project/header/helper/dependency files; enroll every new native semantic unit and retain the full original strict scope.",
+      "evidence": [
+        "D:1177-1203",
+        "R/runtime/worldline/proof_manifest.py:420-450,622-638,1012",
+        "L/origin.json:2-7",
+        "P1:129-131,153-164"
+      ],
+      "id": "RC-10",
+      "reason": "A self-content hash produces a seal cycle. Ada-oriented normalized pins do not replace exact Python/C identities. C hardening and source review do not establish full-body/native/cost proof."
+    },
+    {
+      "change": "Repair the spec/body/integration dependency DAG; bind reviewed C-API and scoped committed-envelope lineages separately. Correct operator-item scope for protected runtime versus pure value work and draft publication; retain Optional_Marker and paused frame/capacity/storage gates.",
+      "evidence": [
+        "D:1219-1238,1245-1291",
+        "seams.json:operator_items OP-7/OP-8",
+        "LEAD/STATUS.md:8-24,38-46",
+        "P1:121,153-166,177-181",
+        "PROMPT:72-74",
+        "RW:13,45"
+      ],
+      "id": "RC-11",
+      "reason": "The slice plan omits consumed slot/crosswalk/historical schemas and implementations. The live STATUS is not operating-state evidence; source-only review grants no authority to resume paused infrastructure."
+    },
+    {
+      "change": "Complete startup version/loader/schema/creation-slot correspondence and a native full-ledger reconciliation table that automatically completes authentic known outcomes, retains all uncertain holds and preserves the protected owner route without initializing absent prior state.",
+      "evidence": [
+        "D:372-423,429-438",
+        "R/runtime/worldline/protected_startup.py:264-270,467-472",
+        "R/runtime/worldline/root_worker_journal.py:43-62,85-114",
+        "P1:99,147-149",
+        "P1/ALL-ORIGINAL-OBLIGATIONS.md:3687"
+      ],
+      "id": "RC-12",
+      "reason": "Blanket dead-worker quarantine-to-owner handling can lose required automatic reconciliation progress; diagnostic startup must not fabricate mutable authority or missing history."
+    }
+  ],
+  "rulings": [
+    {
+      "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls.",
+      "id": "D-1a",
+      "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer",
+      "ruling": "C2 is a plausible lifted model, not an established faithful equivalence as written. Exact divisible projection replaces the draft's rounding description; require RC-01 with full-domain coverage and no changes to original references."
+    },
+    {
+      "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof.",
+      "id": "D-1b",
+      "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer",
+      "ruling": "Epoch equality alone is insufficient. Fresh new reservations obey native current-context equality; retained replay/rollover needs a complete proved origin/current/authority join and must preserve original lifecycle cases. Use Same_Context, not record equality."
+    },
+    {
+      "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls.",
+      "id": "D-2a",
+      "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+      "ruling": "Prefer an additive exact v2 descriptor, selected by schema, with v1 behavior and controls retained. No implicit migration, defaults, bypass or missing-history genesis."
+    },
+    {
+      "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit.",
+      "id": "D-2b",
+      "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review",
+      "ruling": "No lead-only retirement of the mandatory frontier control. Keep exact v1/domain behavior and additive v2 controls; any proposed re-enrollment must be explicitly adjudicated while the original obligation remains OPEN."
+    },
+    {
+      "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection.",
+      "id": "D-3a",
+      "owner": "Lead protocol designer; operator for lab execution",
+      "ruling": "Transfer complete V3 slot custody; do not require prior terminal state as a domain restriction. The transfer protocol still needs RC-08."
+    },
+    {
+      "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls.",
+      "id": "D-4a",
+      "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change",
+      "ruling": "No accounting option is selected for acceptance. A may be explored only if it preserves all original independent-request accepted cases and real cost/parent/availability guarantees; otherwise choose or design a faithful alternative."
+    },
+    {
+      "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls.",
+      "id": "D-5a",
+      "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action",
+      "ruling": "Delegate=yes is not endorsed as a complete native design. Require an additive native custody/delegation successor, unchanged original predicates/cases and a concrete coordinator enforcement argument before operator deployment choice."
+    },
+    {
+      "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations.",
+      "id": "D-5b",
+      "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation",
+      "ruling": "Prefer a separately versioned helper successor, preserving the exact V3/helper-stdin lineage and old controls. Extending V3 in place is not needed to obtain source design credit."
+    },
+    {
+      "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement.",
+      "id": "D-6a",
+      "owner": "Lead historical/canonical model designer; independent GPT-6.1 review",
+      "ruling": "Keep canonical COMMITTED immutable; permit the original native use-quarantine/K4 domain when needed for uncertainty. Define orthogonal outcome/use/resource/custody states rather than selecting a blanket ban on quarantine."
+    },
+    {
+      "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation.",
+      "id": "D-7a",
+      "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration",
+      "ruling": "Independent sourcing alone does not close OB-030. Native Decide/Well_Formed must consume/enforce the distinct source-record domains or tags and canonical payload relation; use an additive grammar/version and preserve original references/ABI."
+    },
+    {
+      "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage.",
+      "id": "D-8a",
+      "owner": "Lead OS/native requester designer; independent GPT-6.1 review",
+      "ruling": "Choose explicit native semantic correspondence inputs, carried by authentic producers. A producer-only label or digest in opaque current_source is insufficient."
+    },
+    {
+      "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client.",
+      "id": "D-8b",
+      "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review",
+      "ruling": "Do not add a blanket fresh-pidfd or still-live-client precondition. Retain original kernel socket/credential evidence under authenticated custody and define the exited-peer path; absent evidence remains explicit and unresolved where correspondence cannot be established."
+    },
+    {
+      "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes.",
+      "id": "D-9a",
+      "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign",
+      "ruling": "Yes: native custody-phase legality is mandatory because it determines who may mutate. Preserve exclusive ACK/ABANDON branches and authentic durable redecision under the actual CAS."
+    }
+  ],
+  "schema": "claude-design-review-checks-v1",
+  "seam_evaluations": [
+    {
+      "dependencies": "SL-0, seam-7 inputs, reviewed C-API successor, scoped committed-envelope/K4 lineage, D1/D2 and admitted proof frame. SL-1 drafting can be passive and independent; proof/native wiring cannot borrow dependency acceptance.",
+      "direction": "REQUIRES_CHANGES",
+      "evidence": [
+        "RW:28",
+        "P1:27-29,107-109,125-131",
+        "D:217-246,260-288",
+        "R/core/worldline-canonical_operation.adb:10-32",
+        "R/core/resource_run_ledger.ads:223-282",
+        "R/core/resource_scoped_run_ledger.ads:92-152,181-268,303-312"
+      ],
+      "finding": "C1/C3/C4 preserve the intended clauses, but C2 and Single_Frame_Identity do not yet establish an equivalence. Original Native_Valid does not consume Facts; scoped Native_Valid checks classification and observation-head joins. Scope-frame origin/current validity impose additional relations. Define structural embedding, coherent witnesses and total projection without assuming the conclusion; cover original accepted and refusal inputs. Projection_Valid requires a zero remainder, so describe exact division, not rounding. Use semantic Same_Context and explicit arena/span correspondence. Original single-frame models must stay byte exact and no runtime flattening is allowed.",
+      "id": 1,
+      "requirement": "ACCURATE_BUT_REFINEMENT_COVERAGE_INCOMPLETE",
+      "title": "Full scoped pre-effect conjunction"
+    },
+    {
+      "dependencies": "Seam-9 ownership/crash table, seam-3 transferred slots, seam-7 schemas, original one-shot issuer/head lineage and SL-0. Provisioning/lab execution is operator-gated; drafting source is lead work.",
+      "direction": "REQUIRES_CHANGES",
+      "evidence": [
+        "RW:29",
+        "P1:99,121,147-149",
+        "D:372-423,429-438",
+        "R/runtime/worldline/protected_startup.py:264-270,467-472",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105",
+        "R/runtime/worldline/root_worker_journal.py:43-62,85-114"
+      ],
+      "finding": "Exact v2 dispatch and one-shot offline provisioning are sound directions. Define an exact union across every constructor, loader, descriptor schema, early envelope and creation-slot caller, not only runtime keys. Full DDL/head/admission checks and provisioned lock/genesis paths must remain explicit. Diagnostic startup cannot fabricate a mutable Store/controller when prior state is missing. Reconcile authentic durable committed/abandoned work automatically where native evidence permits; dead WORKER_OWNED must not always require owner action. Retain genuine owner resolution when uncertainty remains. Do not retire the v1 frontier control by lead adoption; keep it unchanged on its version/domain and add v2 positives. Any proposed re-enrollment needs explicit adjudication, with original controls still OPEN.",
+      "id": 2,
+      "requirement": "ACCURATE_BUT_RECOVERY_AND_CONTROL_PLAN_INCOMPLETE",
+      "title": "Startup/provisioning correspondence"
+    },
+    {
+      "dependencies": "Native custody-phase relation, requester receive ordering, request queue/task protocol, return escrow and original actor-helper wait/drain lifetime. Operator lab demonstration required.",
+      "direction": "REQUIRES_PROTOCOL_DETAIL",
+      "evidence": [
+        "RW:30",
+        "P1:125-127",
+        "D:484-527",
+        "R/runtime/worldline/protected_root_observation.py:57-97,122-142"
+      ],
+      "finding": "Transfer of the complete roster preserves the original domain; requiring other actors to terminate first would remove accepted cases. A DRAIN_TRANSFER offset alone cannot establish lossless pipe transfer: define the reader freeze barrier, asyncio-buffer/in-flight chunk transfer, durable spool positions, acknowledgment and failure ownership. Descriptor identity checks are not an OFD/lock/wait-ownership proof. Preserve the actual helper parent/wait producer or provide an authenticated relay; a transferred pidfd is not a portable transfer of reaping rights. All non-terminal rows retain origin and UNKNOWN holds. No descriptor/row cap may replace genuine large-roster cases.",
+      "id": 3,
+      "requirement": "ACCURATE",
+      "title": "Other-LIVE resource custody"
+    },
+    {
+      "dependencies": "Seams 1,3,5,7,8,9 and SL-0. The slice list omits seam-7 cost/interface dependencies. Lab demonstrations are operator-gated.",
+      "direction": "REQUIRES_CHANGES",
+      "evidence": [
+        "RW:31",
+        "P1:113-115,127,141,149",
+        "D:562-608,612-626",
+        "R/core/resource_run_ledger.ads:247-262",
+        "R/runtime/worldline/protected_operations.py:728-745,391-397"
+      ],
+      "finding": "Fresh per-request admission and durable exactly-once routing are sound directions. Option A is not selected by this review: tying all new independent requests to the first root's amount/kind may refuse requests the original host/ledger domain accepts. Parent_Supports requires equal charge kind; different grants, owners, costs, larger later requests and rollovers need a full-domain accounting design. Do not borrow the first root grant or invent a coordinator cost. UNKNOWN has no known current owner to forward to; identify a protected recovery authority and actual original owner guards for every phase. Preserve the original quarantine.resolve exception rather than silently widening all owner routes. Removing gather-under-lock alone does not prove availability: synchronous filesystem/native/SQLite work and queue fairness remain obligations.",
+      "id": 4,
+      "requirement": "ACCURATE_BUT_AVAILABILITY_AND_ACCOUNTING_INCOMPLETE",
+      "title": "Live request multiplexing"
+    },
+    {
+      "dependencies": "All producer/parent/child/native classifier layers, child-authority secondary, actor stdin V4, seam-7 costs and admitted frame. D1/D2 affect helper/wrapper/native runtime cost as well as the new unit.",
+      "direction": "REQUIRES_NATIVE_DELEGATION_SUCCESSOR",
+      "evidence": [
+        "RW:32",
+        "P1:97,113-115,125-131",
+        "D:674-725",
+        "R/core/resource_observation_classification.ads:79-114",
+        "R/core/resource_scoped_run_ledger.ads:232-268",
+        "R/core/worldline-resource_child_execution.ads:127-133,203-230"
+      ],
+      "finding": "The full original workload capture, distinct task hold, same original use and physical ancestry requirements are preserved in intent. Delegate=yes conflicts with native Custody's literal Manager_Delegate=no. Changing only the HELD Python check cannot make root/child classification valid. Require a separately reviewed additive native delegation/custody model that retains the old no-delegation predicates and their accepted cases, proves coordinator inability to change ceilings or escape the budget, and feeds actual kernel observations. Preserve Parent_Supports, Original_Holds, equal/different workloads, optional world facts, actor credentials and original stdin/EOF. Kernel nesting/clone support are unmeasured. Helper source can be drafted; privileged delegation and real actor quota require operator action.",
+      "id": 5,
+      "requirement": "ACCURATE",
+      "title": "Dynamic child dispatch"
+    },
+    {
+      "dependencies": "Scoped exchange/K4 successors, scoped committed envelope, full reconciler, child ordering and native phase relation. Serial exact-semantic controls and historical current-denial controls remain required.",
+      "direction": "REQUIRES_CHANGES",
+      "evidence": [
+        "RW:33",
+        "P1:115,141-149",
+        "D:779-812",
+        "R/core/worldline-operation_authority.adb:129-130,147-152",
+        "R/runtime/worldline/protected_operations.py:391-397,770-811",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:517-524,558-565"
+      ],
+      "finding": "Separate canonical COMMITTED evidence from physical closure; retain write-once original result plus additive reports, authentic historical packets and follow-up outcomes. The canonical committed outcome must not be undone, but native QUARANTINE_USE already admits Effect_Observed and K4 currently requires Quarantined. I6.1 must not prohibit that original use-state recovery domain. Specify separate canonical, use, custody and resource states. I6.2's CLOSED-only wording also excludes original native NEVER_LAUNCHED held-capacity release; preserve that case and terminal replay on the serial path. Physical UNKNOWN retains holds without manufacturing an abort or settling on handler return/EOF.",
+      "id": 6,
+      "requirement": "ACCURATE_BUT_NATIVE_USE_AND_SERIAL_CASES_INCOMPLETE",
+      "title": "Committed outcome versus physical closure"
+    },
+    {
+      "dependencies": "Schema/provisioning, actual listener/source/process producers, native tagged-record grammar and ABI/caller re-review, native costs and host profile. Operator provisions authoritative plan selections.",
+      "direction": "REQUIRES_CHANGES",
+      "evidence": [
+        "RW:34",
+        "P1:107,125-137",
+        "D:868-907",
+        "P1/OBLIGATIONS-v2.json:1043",
+        "P1/ALL-ORIGINAL-OBLIGATIONS.md:587,3507",
+        "R/core/worldline-resource_child_execution.ads:48-59"
+      ],
+      "finding": "Owner-selected crosswalks are legitimate selection inputs, not authority labels. Define a canonical comparable value and independently authenticated record for each pair: endpoint object versus pathname, full handler plan versus observed argv/exe, root RUNNING versus scoped RECORD_RUNNING are not inherently identical encodings. OB-030 requires distinct source tags or source-record hashing enforced by native Decide/Well_Formed and a copied-tag negative, not sourcing alone. Expected helper image and actual coordinator executable must retain their distinct meanings. Preserve full dynamic operation/owner/follow-up plans and D1/D2 cost correspondence. Ceilings at or below the reservation are insufficient for OB-176's real enforced capacity/availability guarantee; retain original minimum/low/weight accounting and host-pressure requirements. No static cost table may narrow original magnitudes or cases.",
+      "id": 7,
+      "requirement": "ACCURATE_BUT_OB030_AND_RESOURCE_GUARANTEE_INCOMPLETE",
+      "title": "Cost/source crosswalk"
+    },
+    {
+      "dependencies": "Seams 3,4,7,9, exact-type caller audit and OS-producer historical lineage. Actual relative PID/exited-peer behavior needs authorized lab observation.",
+      "direction": "REQUIRES_CHANGES",
+      "evidence": [
+        "RW:35",
+        "P1:119,137,141-149",
+        "D:961-1009",
+        "R/runtime/worldline/client_peer.py:58-89,110-117",
+        "R/runtime/worldline/root_worker_custody.py:183-207"
+      ],
+      "finding": "Receive the full roster first and keep raw relative versus retained host credentials distinct. CrosswalkRequestPeer can be an additive exact type, but observation() returning the old document must be labeled retained and must not satisfy a fresh-kernel gate by renaming. fstat equality alone does not prove OFD identity, transport origin or the peer/request join. A digest hidden in opaque current_source does not make native code decide its semantics. Define explicit native correspondence inputs plus authenticated custody. Preserve UID/GID and preparer/same-UID-new-process domains. Neither missing a fresh pidfd after client exit nor a new live-process requirement may replace an originally accepted request; obtain/retain original kernel observations under custody and define unavailable evidence honestly. Historical settlement needs no socket/client.",
+      "id": 8,
+      "requirement": "ACCURATE_BUT_JOIN_AUTHORITY_INCOMPLETE",
+      "title": "Requester PID-namespace join"
+    },
+    {
+      "dependencies": "Startup one-shot schema/crash table, slot drains and inherited wait producers, request ownership, committed/historical states, requester correspondence, D1/D2 retention costs. Fault campaigns remain operator/lab work; actual power loss is not established by a simulation.",
+      "direction": "REQUIRES_CHANGES",
+      "evidence": [
+        "RW:36",
+        "P1:113-115,147-149,163",
+        "D:1084-1147",
+        "R/runtime/worldline/root_worker_journal.py:123-143"
+      ],
+      "finding": "Native ownership transition legality is required, not optional, because it gates mutation. Replace the printed (CUSTODY_ACK|ABANDON)->WORKER_OWNED chain with exclusive branches: ABANDON never grants worker ownership. Define the transfer generation, per-request head, durable expected phase and actual pre-/post-commit observations under one CAS; protect the last capture through close/receive and resolve lost local or remote acknowledgments without a second mutation. Physical closure must remain collectible when handler/result records are absent. Keep EOF/deadline/missing cgroup as UNKNOWN, with no release/charge. Escrow reuse and cleanup-after-CLOSED are sound directions. Lossless content addressing needs an acyclic reconstruction scheme and a defined source snapshot closure; distinct full-state snapshots can still grow or recursively contain earlier captures, so deduplication alone is not an OOM remedy or storage/cost proof. Unknown canonical result must not erase an independently durable committed broker result.",
+      "id": 9,
+      "requirement": "ACCURATE_BUT_PHASE_GRAPH_AND_RETENTION_INCOMPLETE",
+      "title": "Closure/current ownership"
+    },
+    {
+      "dependencies": "All seams, explicit common composition, reviewed C-API successor, D1/D2, whole native/library closure, admitted successor frame and capacity gates. Source review grants no proof/runtime credit.",
+      "direction": "REQUIRES_CHANGES",
+      "evidence": [
+        "RW:37,43",
+        "P1:153-165",
+        "P1/REQUIRED-LIFETIME-CONTROLS.json:2-24",
+        "D:1177-1203",
+        "R/runtime/worldline/proof_manifest.py:420-450,622-638,1012"
+      ],
+      "finding": "Preserve original ordered proof/ordinary/lifetime rosters, floor, boundary, bodies/references/callers, zero unproved/justified/Assume and strict warnings. Use an appended reviewed pin override for protected_operations, preserving the original policy prefix. Pin semantics and exact full-source identity are separate: proof_manifest cannot carry its own exact content hash in CONTRACT_PINS without a hash cycle, and the existing normalizer is Ada-oriented even for Python/C. Bind manifest, controls, projects, headers, native helper and the dependency overlays through an external exact inventory/freeze. Do not broaden the Off boundary or treat C hardening/sanitizers as full-body proof. Add the native custody, delegation, tagged-source and crosswalk units to ordered enrollment. Resolve the frontier retirement contradiction with I10.3 and retain all required controls on their defined domains.",
+      "id": 10,
+      "requirement": "ACCURATE_BUT_SEAL_AND_CONTROL_CONSISTENCY_INCOMPLETE",
+      "title": "Review/control/proof seal"
+    }
+  ],
+  "slices": {
+    "SL0": "SOUND_SOURCE_HYGIENE_DIRECTION_WITH_FULL_LOCK_AND_SEAL_AUDIT",
+    "SL1": "SUITABLE_SPEC_ONLY_SLICE_AFTER_REQUIRED_REFINEMENT_CHANGES"
+  },
+  "source_acceptance": false,
+  "static_audit": {
+    "c_api": {
+      "commonV4": {
+        "bytes": 56596,
+        "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b"
+      },
+      "preimage": {
+        "bytes": 56543,
+        "sha256": "1cf650a0633ec83af3f2e23f3e87ed5a97199730114d3aa3a16813bb15cdd984"
+      },
+      "source": {
+        "bytes": 148068,
+        "sha256": "806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420"
+      }
+    },
+    "commonV4": {
+      "absence_checks": {
+        "core/resource_scoped_run_ledger.ads": true,
+        "core/worldline-canonical_exchange.ads": true,
+        "core/worldline-canonical_operation.ads": true,
+        "core/worldline-operation_authority.ads": true,
+        "core/worldline-resource_child_execution.ads": true,
+        "runtime/worldline/canonical_operation_kernel.py": true,
+        "runtime/worldline/protected_operations.py": true,
+        "runtime/worldline/protected_scoped_resource_runtime.py": true
+      },
+      "core_entries": 149,
+      "preimage_core_entries": 176
+    },
+    "delta_pins": {
+      "all_delta_count": 63,
+      "pinned_count": 24,
+      "source_delta_count": 60,
+      "unpinned_count": 36,
+      "unpinned_paths": [
+        "CHILD_AUTHORITY_PROTOCOL_V1.md",
+        "protected-root/launcher.py",
+        "protected-root/native_root_worker_supervisor_v1.c",
+        "protected-root/worker_entry.py",
+        "runtime/worldline/daemon.py",
+        "runtime/worldline/proof_manifest.py",
+        "runtime/worldline/protected_resource_runtime.py",
+        "runtime/worldline/protected_root_endpoint.py",
+        "runtime/worldline/protected_root_observation.py",
+        "runtime/worldline/protected_root_resource.py",
+        "runtime/worldline/protected_root_supervisor.py",
+        "runtime/worldline/protected_root_worker.py",
+        "runtime/worldline/protected_scoped_resource_service.py",
+        "runtime/worldline/protected_startup.py",
+        "runtime/worldline/resource_actor_admission.py",
+        "runtime/worldline/resource_actor_credentials.py",
+        "runtime/worldline/resource_actor_execution.py",
+        "runtime/worldline/resource_child_execution.py",
+        "runtime/worldline/resource_child_schema.py",
+        "runtime/worldline/resource_machine_evidence.py",
+        "runtime/worldline/resource_os_observation.py",
+        "runtime/worldline/resource_scoped_run_ledger.py",
+        "runtime/worldline/root_worker_closed.py",
+        "runtime/worldline/root_worker_closed_resource.py",
+        "runtime/worldline/root_worker_codec.py",
+        "runtime/worldline/root_worker_credentials.py",
+        "runtime/worldline/root_worker_current_state.py",
+        "runtime/worldline/root_worker_custody.py",
+        "runtime/worldline/root_worker_endpoint_router.py",
+        "runtime/worldline/root_worker_host_peer.py",
+        "runtime/worldline/root_worker_journal.py",
+        "runtime/worldline/root_worker_physical.py",
+        "runtime/worldline/root_worker_plan.py",
+        "runtime/worldline/root_worker_process_capture.py",
+        "runtime/worldline/root_worker_result_channel.py",
+        "tests/test_resource_child_execution_v1.py"
+      ]
+    },
+    "input_hashes": {
+      "HANDOFF.md": {
+        "bytes": 14309,
+        "sha256": "f0d6add2f97011654d9a603df9f50f8c09d73e80cd4f3fcc37150af3ad77d14d"
+      },
+      "binary-delta.json": {
+        "bytes": 2121982,
+        "sha256": "be41995133b8641ba244397e1cf6068bade22f478bdbe15590ddaf55a2f6bb16"
+      },
+      "handoff-freeze.json": {
+        "bytes": 2803,
+        "sha256": "c8c6e40addc56654f28f7517f0c5ff64cc999424e1ae9ccb831fd799da96f33c"
+      },
+      "human-delta.patch": {
+        "bytes": 716812,
+        "sha256": "de2406cca971d51681a2b9c6265cbb4f5d22f6070c66f75f6e5d2349166c364b"
+      },
+      "source-inventory.json": {
+        "bytes": 133106,
+        "sha256": "0a12d06d2b43a1949bac24369dc615576105b3d6de11e5653ebfe559235637f3"
+      }
+    },
+    "preimage_pins": {
+      "effective_count": 171,
+      "mismatches": []
+    },
+    "source_inventory": {
+      "directories_not_audited": true,
+      "extras": [],
+      "inventoried_count": 736,
+      "mismatches": [],
+      "missing": [],
+      "observed_file_count": 736
+    },
+    "source_pins": {
+      "effective_count": 191,
+      "mismatches": [
+        {
+          "actual": "2a6d71c7ca81d456d41f242a880b8fa3e0f115d794f4772e115767236b183547",
+          "assignment_line": 1012,
+          "expected": "8be1f9ab2c689ecc9e915464e8e454863c205ca2f1f4a1763a5125aa2b61139e",
+          "key": "runtime/worldline/protected_operations.py"
+        }
+      ]
+    },
+    "startup_common_preimage_equal": false
+  },
+  "supplied_hashes_match": true,
+  "truth_boundary": [
+    "Design verdict only",
+    "Hashes establish present byte identity, not source authenticity, installed-state correctness or proof",
+    "Conditional deadlock reasoning is not a reproduced hang",
+    "SO_PEERCRED namespace and exited-peer conclusions remain unmeasured reasoning",
+    "No ordinary/lifetime control execution or proof credit",
+    "No operator approval, goal resume, gate qualification or source eligibility"
+  ]
+}

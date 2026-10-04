@@ -13,6 +13,30 @@ As of 2026-10-04 ~19:30Z. This file supersedes the stale status sections of the 
 | Capacity | **BLOCKED.** Gate 0 v4.1 requires 9304350902252/1397 bytes (JACKAL exact, formal=false) above the 10 GB reserve for one unit run. The margin at 18:49Z was negative. The backup service is failed. | `RUNBOOK-first-proof-iteration.md` |
 | Operator approvals | None given: no choice, no privileged action. | operator package |
 
+## Storage alert (2026-10-04 20:37Z)
+
+**Observations.**
+- Free space was 10592727040 bytes at 20:37:33Z, 592727040 above the unchanged 10000000000 reserve. The backup service
+  is still failed.
+- The mean decline since 18:49:03Z is 296433664/3255 bytes/s, about 91 KB/s (JACKAL exact, formal=false).
+- At that past mean, the reserve is crossed after about 6508 s, roughly 1.8 h. This is not a forecast.
+
+**Where it comes from.**
+- Large files modified since 18:49Z include:
+  - `~/.codex/thread_history_1.sqlite` (2.3 GB) and `~/.codex/logs_2.sqlite` (540 MB), which every codex exec review
+    writes;
+  - SIA database files;
+  - a 166 MB Codex rollout from a non-lead session.
+- The lead's own measurable additions since then are about 100 MB: review-record copies, job scratch, review rollouts.
+
+**Lead response.**
+- No new reviews, agents or copies are started.
+- Three reviews keep running as instructed. The queued D1 v3 review is held at the human's call.
+
+**Incident (disclosed).** A `find` over `~/.local` listed file metadata under `~/.local/share/sia/.gbrain/`. That
+breaks the machine rule "never access ~/.local/share/sia/.gbrain/ directly". It was metadata only: nothing was read or
+written. Future scans exclude that path.
+
 ## Independent review verdicts (actual gpt-6.1-sol, sealed, freeze verified)
 
 | Item | Verdict | Next |

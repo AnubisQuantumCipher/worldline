@@ -1,0 +1,157 @@
+{
+  "schema": "claude-analysis-review-checkpoint-v1",
+  "item": 4,
+  "status": "completed",
+  "section_markdown": "## 4. Repair ownership, approval boundaries and forbidden routes\n\n**Ruling: the main L/R/O distinctions and forbidden-route list are sound, with corrections to pinned-text adoption, copy narrowing, and observable failure-code changes. No repair direction is adopted or authorized here.**\n\nA lead can prepare a body-only implementation that preserves all original predicates, domains, caller behavior and accepted cases. Replacing an existing checked assertion/invariant needs a different-author ruling establishing the original obligation is retained; it cannot mean deletion of the obligation after a proof-only argument (`INVENTORY.md:712-713,758-767`; `H:129-131,153-161`; original Phase One prompt `:32-34,64-66`). Public contract/reference/API/ABI, build selection, runtime identity and toolchain changes require the concrete operator package. The sealed D1 review likewise distinguishes body-only/internal proof work from operator-owned runtime and public packages (`D1/REVIEW.md:135-157`). Operator approval alone never supplies native or formal evidence.\n\n**C-PINS:** the inventory correctly identifies whole-file enrollments but its L shorthand must not authorize changing pinned text. Relevant entries are actually present in CONTRACT_PINS (`S/runtime/worldline/proof_manifest.py:329-364,403`). Under the requested pinned-text boundary, adopting a concrete change to enrolled pinned text requires O-PINS operator approval plus independent review, effective pin regeneration and matching-source qualification. Implementation ownership can still be lead-only; permissions over the protected text/pin package are separate. The handoff requires reviewed deltas, recomputed effective normalized pins, preserved policy prefix and complete enrollment (`H:153-161`). The pin dictionary proves enrollment, not approval, correctness, or proof. No regeneration, pin relaxation or source mutation is performed in this review.\n\n| Repair direction | Ruling and evidence |\n|---|---|\n| H1 iterative reference body, unchanged public Post | Legitimate lead preparation in principle, with proof/equivalence and applicable source/pin review. The recursive Post still traverses predecessors: source reasoning supports the proposed polynomial rather than exponential evaluation shape (`worldline-chain_authority.ads:80-86`, `adb:87-92`; `INVENTORY.md:718-720`). Proof feasibility and full-domain native costs remain unverified. A new public reference or revised Wire Post crosses the respective O/R boundary (`INVENTORY.md:721-724`). |\n| H2 canonical-span assertions and workspace provisioning | L+R for a body formulation only if it preserves the whole-output value, zero padding, canonicality and frame facts currently checked (`resource_ledger.adb:1305-1340`). Canonical span alone cannot silently omit those facts. Python storage provisioning can be explored with exact sufficient-space correspondence, every ordered partial sum and accepted case preserved, and no Python authorization definition (`INVENTORY.md:727-732`; Phase One prompt `:32-34`). Public Storage_Sufficient/Processed_Conforms changes are O. |\n| H3 cheaper worker invariants / reference hierarchy | Incremental checked witnesses may be prepared as L+R; reference-equivalent checked facts must remain (`resource_quantities.adb:108-116,161-175`). Unchanged public Posts still incur reference work, so the proposed lower-cost direction is not closure (`ads:58-83`). Redesigning pinned public reference text is O (`INVENTORY.md:735-738`). |\n| H3 rebuilt bignum runtime | O, with a complete source/model/runtime/relink/loaded-identity and physical-resource package. Removing Normalize's limit alone neither certifies layout/length arithmetic nor removes stack/heap failure (`RT/s-shabig.ads:46-71`, `s-genbig.adb:579-580,1176-1194`; `D1/REVIEW.md:142`). The inventory correctly refers to a repaired evidence package rather than adopting this option (`INVENTORY.md:739-740`). |\n| H4–H8 cached/incremental relation work | L+R in principle when the original full relations and caller obligations are preserved. Public/reference changes remain O. Sum caching must account for exclusions, uniqueness, identity lengths and whole-history work identified in item 1 (`resource_run_ledger.adb:49-89`; `INVENTORY.md:743-749`). D1's ordinary-body arithmetic direction cannot close D2 while checked references remain (`D1/REVIEW.md:121-126`). |\n| H9 narrowed snapshots | **C-COPY:** arena-to-slot narrowing is not necessarily a constant factor in the copy component when extents vary (`resource_ledger.adb:1144,1203,1424,1456`). The full snapshots feed equal-prefix/written-prefix and arena-frame relations (`:1310-1314,1467-1471`). Preserving or replacing those checked facts requires the applicable R ruling; pinned/public changes retain O. Physical stack/heap and copy-elision effects stay unverified. |\n| H10 distinguish infrastructure failure | **C-ABI:** internal diagnostics preserving the interface may be L+R. A changed public transport code or interpretation is an API/ABI change and requires O under the inventory's own rule (`INVENTORY.md:714-715,755-756`; `D1/REVIEW.md:157`). The current generic handlers cannot be relabelled as accepted semantic refusals (`worldline-chain_authority_c_api.adb:102`, `worldline-resource_ledger_c_api.adb:176,223`; `H:129-131`). |\n\nThe forbidden routes requested in the brief are expressly identified in `INVENTORY.md:758-767`: new Count/Length/row/arena caps or restrictive Pres; counting native exception/error/-1/255/False/CoreUnavailable outcomes as accepted refusals; a proof-only light bignum library; suppressing Ghost, Post, invariants or checks through policy/levels/Suppress; release selection as D2 closure; weakened/removed reference predicates; and Off wrappers or renamed-library escape. This is consistent with the native rule (`H:129-131`) and the full unchanged proof/caller/accepted-case target (Phase One prompt `:32-34,64-66`). Equal-endpoint, empty-roster, non-default-bound, padded and long-span cases remain required where originally admitted. An approval, finite fixture, resource-failure classification or documented limitation cannot lower that target.\n\nThese are classifications of proposed work, not reviewer approval of a specific rewrite. All engineering and acceptance obligations remain OPEN.",
+  "corrections": [
+    {
+      "id": "C-SLOT",
+      "claim": "INVENTORY.md:278 gives the Storage_Sufficient slot term as Θ(N·S⁴).",
+      "correction": "The successful invariant checks each earlier slot again, in addition to the body and Post. The slot term is Θ(N²·S⁴) for uniform independently varying slot length S. This does not change the dominant Θ(N⁶) Python-sized, bounded-value family.",
+      "evidence": [
+        "S/core/resource_ledger.adb:848-854",
+        "S/core/resource_ledger.adb:862-863",
+        "S/core/resource_ledger.ads:153-158",
+        "JACKAL R-SLOT-N3"
+      ]
+    },
+    {
+      "id": "C-SUM",
+      "claim": "H4 / INVENTORY.md:693 and inventory.json hazards group direct Contained/Sum as Θ(N³·L⁵).",
+      "correction": "Sum alone performs quadratic, not cubic, worst-case Value work through its processed-prefix invariant. Cubic Value work belongs to Contained with repeated parent identities. The Check-path distinction based on Shape uniqueness is sound. Sum_Reference also scans excluded rows and identity bytes, so its cost cannot depend only on the number of included rows.",
+      "evidence": [
+        "S/core/resource_run_ledger.adb:49-64",
+        "S/core/resource_run_ledger.adb:70-89",
+        "S/core/resource_run_ledger.ads:195-209",
+        "S/core/resource_run_ledger.ads:229-235"
+      ]
+    },
+    {
+      "id": "C-OWNER",
+      "claim": "H7 / INVENTORY.md:617,696 summarize owner/retry exports as fixed Θ(L⁶); Appendix A:916 labels Retry_Equation O(H·id).",
+      "correction": "Individual epoch comparisons have fixed multiplicity, but retry authorization and audit traverse whole histories. Retry_Holds, Retry_Reference and Retry_Equation call History_Valid, and audit Same_Prefix calls Same_Row with Same_Epoch per row. The whole exported paths require history-dependent terms and a full trace; they are not fixed Θ(L⁶) or O(H·id).",
+      "evidence": [
+        "S/core/worldline-owner_transitions.adb:21-38",
+        "S/core/worldline-owner_transitions.adb:48-50",
+        "S/core/worldline-owner_transitions.ads:134-151",
+        "S/core/worldline-owner_retry_audit.ads:38-42",
+        "S/core/worldline-owner_retry_audit.adb:26-28",
+        "S/core/worldline-owner_retry_audit.adb:61-69",
+        "S/core/evaluation_history.ads:203-217",
+        "S/core/worldline-c_api.adb:1015",
+        "S/core/worldline-c_api.adb:1112-1152"
+      ]
+    },
+    {
+      "id": "C-EMPTY",
+      "claim": "H6 / INVENTORY.md:595 states Θ(D²·L⁵ + D·L⁶) without a nonempty-disk qualification.",
+      "correction": "Empty disk rosters still execute Check_Capacity and its checked numeric relation. Include that fixed memory-quantity cost or state explicitly that the displayed class is a nonempty, comparable-extent worst-case envelope. Similar composite Θ expressions are not equalities for every short-circuit path.",
+      "evidence": [
+        "S/core/resource_admission.adb:233-276",
+        "S/core/resource_admission.adb:180-206",
+        "S/core/resource_admission.ads:130-151"
+      ]
+    },
+    {
+      "id": "C-UNIT",
+      "claim": "INVENTORY.md:114 says every Big_Integer operation allocates its result; :125-129 describes each PR invocation as exactly one multiply/result allocation/Post literal/variant.",
+      "correction": "Comparisons return Boolean without allocating a Big_Integer result. PR invocations remain a valid source call-count unit, but the exponent-zero body has no multiply, nonzero bodies also convert 256, and predicates/controlled copies add work. Do not report the invocation count as an exact allocation or machine instruction count. The stated polynomial limb-work classes remain conditional source-model reasoning.",
+      "evidence": [
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:106-145",
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:502-507",
+        "S/core/resource_quantities.ads:40-45",
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:604-620"
+      ]
+    },
+    {
+      "id": "C-LOC",
+      "claim": "INVENTORY.md:372-373,673-674 cites chain C API call/handler at lines 114/117 and run-ledger handler at 221.",
+      "correction": "In the hash-matched candidate, the chain W.Decide call is line 99 and exception handler line 102. The run-ledger handler is line 222; line 221 is the normal return 0. The failure-mapping conclusion survives, but these evidence locations must be repaired.",
+      "evidence": [
+        "S/core/worldline-chain_authority_c_api.adb:99-102",
+        "S/core/resource_run_ledger_c_api.adb:219-222"
+      ]
+    },
+    {
+      "id": "C-PACKET-GAP",
+      "claim": "INVENTORY.md:785-788,800-803 gives gap-multiplied cost classes without an ordered nonzero-gap qualification.",
+      "correction": "Allowed zero-gap calls still evaluate Posts over absolute positions. Packet 13 Prefix_Tail gains an absolute Prefix_Reference Post even when First=Stop; Prefix_Decomposition also has absolute reference work at its base. Packet 12's unchanged Posts retain radix/prefix cost at Low=High. Use nonzero-gap qualifications or retain these base terms; do not discard equal-endpoint cases.",
+      "evidence": [
+        "P13/files/core/resource_reservation_transition.adb:94-98",
+        "P13/files/core/resource_reservation_transition.adb:139-143",
+        "P13/files/core/resource_reservation_transition.adb:433-437",
+        "P12/files/core/evaluation_epoch.adb:146-154",
+        "P12/files/core/evaluation_epoch.adb:175-183",
+        "P12/files/core/worldline-resources.adb:11-13",
+        "P12/files/core/worldline-resources.adb:37-39"
+      ]
+    },
+    {
+      "id": "C-P12-REACH",
+      "claim": "INVENTORY.md:807 / inventory.json packet 12 says the changed witnesses are reached only on mismatch lemmas, once per call.",
+      "correction": "One outer mismatch can trigger many nested witness evaluations. The unchanged Worldline.Resources Prefix_Modulus calls Prefix_Quotient at every recursive level; a Mismatching_Sum_Column invokes Value_Modulus for multiple operands. Looping the inner witness removes its own recursion, not the containing recursion or repeated calls. The advertised standalone polynomial classes remain conditional worst-case classes before and after.",
+      "evidence": [
+        "S/core/worldline-resources.adb:239-262",
+        "S/core/worldline-resources.adb:269-274",
+        "S/core/worldline-resources.adb:693-695",
+        "P12/files/core/worldline-resources.adb:46-70"
+      ]
+    },
+    {
+      "id": "C-BASE",
+      "claim": "INVENTORY.md:818-822 says base-to-candidate diffs consist of parenthesization, nonrecursive contradiction lemmas, and a canonical invariant/case subtype.",
+      "correction": "The textual delta description is incomplete. It also changes default initializations and predicated Ghost local types, adds column/prefix assertions, introduces a Canonicalize Ghost slot constant, and adds an array-length guard in Tagged_Matches while removing the Invalid_Value case. These inspected changes do not alter the dominant cost classes identified here, but the narrower textual description is false; semantic equivalence and source qualification remain separate obligations.",
+      "evidence": [
+        "B/core/resource_ledger.adb:949-977",
+        "S/core/resource_ledger.adb:1013-1038",
+        "S/core/resource_ledger.adb:1142-1148",
+        "S/core/worldline-resources.adb:648-662",
+        "S/core/worldline-resources.adb:867-874",
+        "S/core/canonical_artifacts.adb:134-159",
+        "S/core/canonical_artifacts.adb:474-503",
+        "S/core/canonical_artifacts.adb:576-578"
+      ]
+    },
+    {
+      "id": "C-PINS",
+      "claim": "INVENTORY.md:708-710 labels whole-file-pinned body changes L plus reviewed pin regeneration, while :714-715 reserves O for public spec/reference/contract/API/ABI/runtime/build changes.",
+      "correction": "Keep implementation ownership distinct from permission to change pinned text. Under this review's requested pinned-text boundary, a concrete change to enrolled pinned text must carry O-PINS operator approval as well as independent review and regenerated effective pins. Body-only implementation work can be lead-owned; that label does not authorize changing the protected pin package, weakening its keyset, or adopting a changed pinned contract/reference. This review authorizes none of those actions.",
+      "evidence": [
+        "INVENTORY.md:708-715",
+        "S/runtime/worldline/proof_manifest.py:329-364",
+        "S/runtime/worldline/proof_manifest.py:403",
+        "H:153-161",
+        "/home/sicarii/Documents/complete-phase1-prompt.txt:34",
+        "user review item 4: operator approval for pinned text or public contract"
+      ]
+    },
+    {
+      "id": "C-COPY",
+      "claim": "INVENTORY.md:752 labels narrower Ghost copies L and says constant-factor only.",
+      "correction": "Narrowing an arena snapshot to a changing slot can change the copy component's growth when arena and slot extents vary independently, although a dominant arithmetic class may remain. It also needs a reviewed way to preserve the original whole-arena frame relations. If existing assertions/relations are replaced, R is required; pinned-text or public-contract changes retain their O boundary. Native allocation/copy-lifetime improvement is not established statically.",
+      "evidence": [
+        "S/core/resource_ledger.adb:1144",
+        "S/core/resource_ledger.adb:1203",
+        "S/core/resource_ledger.adb:1310-1314",
+        "S/core/resource_ledger.adb:1424",
+        "S/core/resource_ledger.adb:1456-1471",
+        "INVENTORY.md:712-715"
+      ]
+    },
+    {
+      "id": "C-ABI",
+      "claim": "INVENTORY.md:755-756 labels failure-code differentiation L+R, ABI review, possibly O.",
+      "correction": "Internal diagnostics that preserve the public interface can be L+R. A changed public transport code, meaning, layout, or caller protocol is an API/ABI package and requires O, not discretionary 'possibly O'. All original accepted cases and native success obligations remain fixed; a clearer failure classification supplies no native acceptance.",
+      "evidence": [
+        "INVENTORY.md:714-715",
+        "S/core/worldline-resource_ledger_c_api.adb:176",
+        "S/core/worldline-chain_authority_c_api.adb:102",
+        "D1/REVIEW.md:135-157",
+        "H:119-121,129-131"
+      ]
+    }
+  ],
+  "proof_acceptance": false,
+  "native_acceptance": false,
+  "phase_acceptance": false
+}
