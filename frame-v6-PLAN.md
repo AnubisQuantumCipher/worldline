@@ -68,6 +68,28 @@ unresolved criteria below.
     route is impossible. If one is found, it goes to review. None is claimed.
   - **Concrete blocker until then.** Frame qualification, and with it every scratch proof run, is blocked by V5-B02
     independently of storage. It is reported as such and added to the operator package.
+  - **Host primitives** (observed 2026-10-04 ~19:10Z, read-only; no namespace or mount was created):
+
+    | Primitive | State |
+    |---|---|
+    | `unshare` | present |
+    | `fusermount3` | present (setuid) |
+    | `mke2fs` | present |
+    | `/dev/fuse` | `crw-rw-rw-` |
+    | `user.max_user_namespaces` | 128053 |
+    | `fuse2fs` | **not installed** |
+
+  - **Routes examined:**
+
+    | Route | Why it does or does not meet the criterion |
+    |---|---|
+    | (a) User-mounted FUSE filesystem at a stable path | Fails: the same uid can lazily unmount it (`fusermount -uz`). Held descriptors would then write into a detached tree. |
+    | (b) tmpfs in a private user+mount namespace | Not persistent. Copying evidence out reintroduces the V5-B02 window on the real filesystem. |
+    | (c) FUSE ext4 image mounted inside a private user+mount namespace | Outsiders could neither see, rename nor unmount it, and the image persists. Needs `fuse2fs`, an operator-approved installation or a reviewed local build that adds a new trust dependency, plus a complete design and review. Not shown to work. |
+    | (d) Root-made dedicated filesystem for RUNS (loop image or partition) | Root-owned mount root, a single `sicarii`-owned run root, and no other `sicarii`-writable directory on that filesystem. Cross-filesystem renames fail with EXDEV, the parent is not writable and the user cannot unmount it, so frame mutations cannot leave the run tree. Its size would also be a kernel-enforced output limit (S-1 option 3). Needs `sudo` and disk capacity: operator gates. |
+
+    None is claimed to meet the criterion until designed and reviewed. (d) is the simplest requirement-preserving
+    candidate.
 - **N11–N14, V4-required-change-5.** As in plan v1:
   - N11: committed-primary marker or explicit archival interpretation;
   - N12: participant schema validation;
