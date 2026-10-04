@@ -1,0 +1,3339 @@
+{
+  "schema": "claude-analysis-review-checks-v1",
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "analysis": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/INVENTORY.md",
+  "analysis_sha256": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+  "data_sha256": "a7b43eb71220349dcb9e07772b51f8664d9f9bb8354a3939f3825a6683b81f62",
+  "method": "passive text reading and hashing; JACKAL MCP arithmetic; exclusive local artifact creation",
+  "scope_limits": {
+    "worldline_import_or_execution": false,
+    "compilers_provers_builds_tests_benchmarks_services": false,
+    "runtime_measurements": false,
+    "sia_notes": false,
+    "issued_filesystem_writes_outside_cwd": false
+  },
+  "input_pin_checks": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+      "expected_sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+      "expected_sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/author-freeze.json",
+      "sha256": "2db0d758d7bce87b72962628896e1f7cddb7aba161c690469fe284d12f9b11b2",
+      "expected_sha256": "2db0d758d7bce87b72962628896e1f7cddb7aba161c690469fe284d12f9b11b2",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/composition.json",
+      "sha256": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+      "expected_sha256": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review.json",
+      "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+      "expected_sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source-inventory.json",
+      "sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+      "expected_sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/chain-bounds-tests/test_bounds.adb",
+      "sha256": "5ac26ee79c872d87e606d67e1c05a233b84c43b4fd83d5254f791c9543cadf1c",
+      "expected_sha256": "5ac26ee79c872d87e606d67e1c05a233b84c43b4fd83d5254f791c9543cadf1c",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/chain-bounds-tests/tests.gpr",
+      "sha256": "8d55f702a2e23177871be22a6805c7a633a6ba387beae65ae0a1d78ea8a3bb0f",
+      "expected_sha256": "8d55f702a2e23177871be22a6805c7a633a6ba387beae65ae0a1d78ea8a3bb0f",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/attest/attest-sha256.adb",
+      "sha256": "db0fc9736ed92c274993452f02a3484680d815cfdaeb7a9ce8d1a49b94da417b",
+      "expected_sha256": "db0fc9736ed92c274993452f02a3484680d815cfdaeb7a9ce8d1a49b94da417b",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/attest_sha256.gpr",
+      "sha256": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5",
+      "expected_sha256": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/canonical_artifacts.adb",
+      "sha256": "979466c0c24fadb5ae5f4aac29a08cff680d367c4356ec69faa0596c7c5f2aa3",
+      "expected_sha256": "979466c0c24fadb5ae5f4aac29a08cff680d367c4356ec69faa0596c7c5f2aa3",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/canonical_artifacts.ads",
+      "sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "expected_sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.adb",
+      "sha256": "f5742fa1f7017566ea97aaee8596dfb9e9c5b139d13b369e29454453357f6487",
+      "expected_sha256": "f5742fa1f7017566ea97aaee8596dfb9e9c5b139d13b369e29454453357f6487",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.ads",
+      "sha256": "2b2a87a7a1f554486caad6c680e2c39dd4bb7b5e48619933f033cda15ea0a2f5",
+      "expected_sha256": "2b2a87a7a1f554486caad6c680e2c39dd4bb7b5e48619933f033cda15ea0a2f5",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion_roster.adb",
+      "sha256": "9779f6f10d68fe7f9bbd806f20a2bcd3217d3ae2e6869bc8e02d3142902350fd",
+      "expected_sha256": "9779f6f10d68fe7f9bbd806f20a2bcd3217d3ae2e6869bc8e02d3142902350fd",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_epoch.adb",
+      "sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "expected_sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_epoch.ads",
+      "sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+      "expected_sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.adb",
+      "sha256": "c64f17246f0dfa3d88299a534e3e716ada35fd05120983a3d8f53a7c28d1a738",
+      "expected_sha256": "c64f17246f0dfa3d88299a534e3e716ada35fd05120983a3d8f53a7c28d1a738",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_history.adb",
+      "sha256": "94ea3238c300759334c2e60f6a3a146b187fc08296c562e96d28e1fd4c315840",
+      "expected_sha256": "94ea3238c300759334c2e60f6a3a146b187fc08296c562e96d28e1fd4c315840",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_history.ads",
+      "sha256": "5ab34318c4b2678aa17f679af2b5190fc8baa082dbf7191308aa21382f812601",
+      "expected_sha256": "5ab34318c4b2678aa17f679af2b5190fc8baa082dbf7191308aa21382f812601",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending.adb",
+      "sha256": "41a222925d9b780112ac90eb7a6b7ec3146e9e826b3b983bb3be0f59b04fc6af",
+      "expected_sha256": "41a222925d9b780112ac90eb7a6b7ec3146e9e826b3b983bb3be0f59b04fc6af",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending.ads",
+      "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "expected_sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_raw_roster.adb",
+      "sha256": "495775ae49764c359079ad5b47665f7f17bb7b449d0e0aab186d8c42b72f43a4",
+      "expected_sha256": "495775ae49764c359079ad5b47665f7f17bb7b449d0e0aab186d8c42b72f43a4",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_admission.adb",
+      "sha256": "56561dc5fbe3a1cd62710b34678fe894ea55de200b0e3742bbdd31ea4dddf887",
+      "expected_sha256": "56561dc5fbe3a1cd62710b34678fe894ea55de200b0e3742bbdd31ea4dddf887",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_admission.ads",
+      "sha256": "269a14b1f9e23a8ff35c2d76d8cdb4bd9e530721f4e17fd6e06a5b3f821a94d0",
+      "expected_sha256": "269a14b1f9e23a8ff35c2d76d8cdb4bd9e530721f4e17fd6e06a5b3f821a94d0",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_ledger.adb",
+      "sha256": "4a5fe307f79a8d6cf0afa7bec2f3fe2a6e58b6eeaf0c8d8790333c4dc6b24fe1",
+      "expected_sha256": "4a5fe307f79a8d6cf0afa7bec2f3fe2a6e58b6eeaf0c8d8790333c4dc6b24fe1",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_ledger.ads",
+      "sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "expected_sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.adb",
+      "sha256": "5e87d8a0e874a0f2010070e31140ee1eb638ff866beea6f85da1f41599863b9b",
+      "expected_sha256": "5e87d8a0e874a0f2010070e31140ee1eb638ff866beea6f85da1f41599863b9b",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.ads",
+      "sha256": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+      "expected_sha256": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_reservation_transition.adb",
+      "sha256": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3",
+      "expected_sha256": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_reservation_transition.ads",
+      "sha256": "886bb13a69cdf029bc10703b39bce49eaeadb9be543d8449509badf6e6fd2aae",
+      "expected_sha256": "886bb13a69cdf029bc10703b39bce49eaeadb9be543d8449509badf6e6fd2aae",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.adb",
+      "sha256": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+      "expected_sha256": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads",
+      "sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "expected_sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger_c_api.adb",
+      "sha256": "fbc97b4c17ee0a0a17e74bae669fa11e674bb234ce5cd8f73d374b7d7e114581",
+      "expected_sha256": "fbc97b4c17ee0a0a17e74bae669fa11e674bb234ce5cd8f73d374b7d7e114581",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger_wire.adb",
+      "sha256": "d49ca335a1a3a353cdd0ce02ff2b51ea9b3eab359f557b5757fd09caad203a11",
+      "expected_sha256": "d49ca335a1a3a353cdd0ce02ff2b51ea9b3eab359f557b5757fd09caad203a11",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/spark-big_integers.ads",
+      "sha256": "fe80da029611497ba25aca43d5599a220f2be41f33010f6b04d42febc2bfec52",
+      "expected_sha256": "fe80da029611497ba25aca43d5599a220f2be41f33010f6b04d42febc2bfec52",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.adb",
+      "sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "expected_sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.ads",
+      "sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "expected_sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_c_api.adb",
+      "sha256": "dae2748bdb87c55b90ed73bd82fe882d5d4c64ca3af944f463dd4798ca66328a",
+      "expected_sha256": "dae2748bdb87c55b90ed73bd82fe882d5d4c64ca3af944f463dd4798ca66328a",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_wire.adb",
+      "sha256": "ab5fdba5291c115a5ffabc3538b443336b504e8484ba2096d573fa6ca4030ad1",
+      "expected_sha256": "ab5fdba5291c115a5ffabc3538b443336b504e8484ba2096d573fa6ca4030ad1",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_wire.ads",
+      "sha256": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6",
+      "expected_sha256": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-receipts.adb",
+      "sha256": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225",
+      "expected_sha256": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-receipts.ads",
+      "sha256": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea",
+      "expected_sha256": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3.adb",
+      "sha256": "f93952704858a8cca146d72c9fdfd311066288bc10407c1bedf2d4eb8dcaf11f",
+      "expected_sha256": "f93952704858a8cca146d72c9fdfd311066288bc10407c1bedf2d4eb8dcaf11f",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3.ads",
+      "sha256": "2669b7ab590b34df3417b159d92bf78f8d67151aecce2a686bd441ee884f6afd",
+      "expected_sha256": "2669b7ab590b34df3417b159d92bf78f8d67151aecce2a686bd441ee884f6afd",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_wire.adb",
+      "sha256": "0f629ff89f864478e3d9eb9eac7d0ba8424fd49f014cc502216e62d231dadf50",
+      "expected_sha256": "0f629ff89f864478e3d9eb9eac7d0ba8424fd49f014cc502216e62d231dadf50",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_wire.ads",
+      "sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8",
+      "expected_sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_ledger_c_api.adb",
+      "sha256": "112a8ef5321240f9d13fe3135dce1b6085d6fecda1590a553f30b4dc4bf1247a",
+      "expected_sha256": "112a8ef5321240f9d13fe3135dce1b6085d6fecda1590a553f30b4dc4bf1247a",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_policy_c_api.adb",
+      "sha256": "794d9a4c16a0bbdd9a95da51cd762f190778aeae66ac07c000f1972eda6f5b04",
+      "expected_sha256": "794d9a4c16a0bbdd9a95da51cd762f190778aeae66ac07c000f1972eda6f5b04",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_wire.adb",
+      "sha256": "25e3163ab7d9ff02a72fa06aff10ecbe8dd88de9a2dea24f1d7db7850f491472",
+      "expected_sha256": "25e3163ab7d9ff02a72fa06aff10ecbe8dd88de9a2dea24f1d7db7850f491472",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_wire.ads",
+      "sha256": "35424de3b2452cb8b67b9652afdb225b6ec8908b4150bb0028da00cee42ae6fc",
+      "expected_sha256": "35424de3b2452cb8b67b9652afdb225b6ec8908b4150bb0028da00cee42ae6fc",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources.adb",
+      "sha256": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc",
+      "expected_sha256": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources.ads",
+      "sha256": "571e729f77c605d6589b18f753e635da2a324d6363860d08285551357c51b587",
+      "expected_sha256": "571e729f77c605d6589b18f753e635da2a324d6363860d08285551357c51b587",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources_c_api.adb",
+      "sha256": "f31c2dd39a50f9bf02cd345b2617b41ab4a2b02bc0947a8b4f23c917c2be50cb",
+      "expected_sha256": "f31c2dd39a50f9bf02cd345b2617b41ab4a2b02bc0947a8b4f23c917c2be50cb",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core.gpr",
+      "sha256": "5497fabb698d53efc2bfb39104bdcd48b1c0f46e0c706c2643c8ce1af72fd5b0",
+      "expected_sha256": "5497fabb698d53efc2bfb39104bdcd48b1c0f46e0c706c2643c8ce1af72fd5b0",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core_sources.gpr",
+      "sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "expected_sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/pending-component/core/evaluation_epoch.adb",
+      "sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "expected_sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/chain_authority.py",
+      "sha256": "9f123d62282c8189a9b7b5f300b37d94d2544626820ca5d08ee9a72c81cab7f2",
+      "expected_sha256": "9f123d62282c8189a9b7b5f300b37d94d2544626820ca5d08ee9a72c81cab7f2",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+      "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+      "expected_sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/resource_ledger.py",
+      "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f",
+      "expected_sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/store.py",
+      "sha256": "554b0a9dbe0b91f4fd9a6cd38d830e8b920d7e0d54e987f173865a0b33f68c9b",
+      "expected_sha256": "554b0a9dbe0b91f4fd9a6cd38d830e8b920d7e0d54e987f173865a0b33f68c9b",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/INVENTORY.md",
+      "sha256": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+      "expected_sha256": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/inventory.json",
+      "sha256": "a7b43eb71220349dcb9e07772b51f8664d9f9bb8354a3939f3825a6683b81f62",
+      "expected_sha256": "a7b43eb71220349dcb9e07772b51f8664d9f9bb8354a3939f3825a6683b81f62",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/13-iterative-prefix-tail/files/core/resource_reservation_transition.adb",
+      "sha256": "5f106d5e711d14c5a7a0ac7ddc2f00136b4b5b180d63a6d0ad1868f53f5b9208",
+      "expected_sha256": "5f106d5e711d14c5a7a0ac7ddc2f00136b4b5b180d63a6d0ad1868f53f5b9208",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/13-iterative-prefix-tail/packet.json",
+      "sha256": "5e01adb530801ba2fe5e9b87a5054224f873866eb364278b240d0a69a971ba5e",
+      "expected_sha256": "5e01adb530801ba2fe5e9b87a5054224f873866eb364278b240d0a69a971ba5e",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/14-chain-replay-reference-lemmas/files/core/worldline-chain_authority.adb",
+      "sha256": "d003cd49ca418ab5b721bb241edf932aeab5e43f7394df1e1018804f93351a56",
+      "expected_sha256": "d003cd49ca418ab5b721bb241edf932aeab5e43f7394df1e1018804f93351a56",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/14-chain-replay-reference-lemmas/packet.json",
+      "sha256": "9c787f834f3cdcf844950b69fc7d74160c87ce1aade2b9f49d940192e4932881",
+      "expected_sha256": "9c787f834f3cdcf844950b69fc7d74160c87ce1aade2b9f49d940192e4932881",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/REVIEW.md",
+      "sha256": "04dbf7041148e0acd604b806f6ed4dd46a4b20a9e16874ad0f88056b1fa332bc",
+      "expected_sha256": "04dbf7041148e0acd604b806f6ed4dd46a4b20a9e16874ad0f88056b1fa332bc",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review.json",
+      "sha256": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+      "expected_sha256": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses/files/core/evaluation_epoch.adb",
+      "sha256": "3131f36c77e458ecbe2adc71d648ed15adf7418cd5cf1d9a961ac1b81fd0fcaa",
+      "expected_sha256": "3131f36c77e458ecbe2adc71d648ed15adf7418cd5cf1d9a961ac1b81fd0fcaa",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses/files/core/worldline-resources.adb",
+      "sha256": "c16618a47dfcf7330d0846ff0f6e3ef032071551abf4d5c1cd5ca901efb86f44",
+      "expected_sha256": "c16618a47dfcf7330d0846ff0f6e3ef032071551abf4d5c1cd5ca901efb86f44",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses/files/pending-component/core/evaluation_epoch.adb",
+      "sha256": "3131f36c77e458ecbe2adc71d648ed15adf7418cd5cf1d9a961ac1b81fd0fcaa",
+      "expected_sha256": "3131f36c77e458ecbe2adc71d648ed15adf7418cd5cf1d9a961ac1b81fd0fcaa",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses/packet.json",
+      "sha256": "2794ccb16777134f5c394d1589ad61634b4c703de0de2169cc7aa3a1884d5e36",
+      "expected_sha256": "2794ccb16777134f5c394d1589ad61634b4c703de0de2169cc7aa3a1884d5e36",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/canonical_artifacts.adb",
+      "sha256": "6dcd68f58d026458b1e1e5bd8794513243c07a6e91d2280819ca416ef1ef6e64",
+      "expected_sha256": "6dcd68f58d026458b1e1e5bd8794513243c07a6e91d2280819ca416ef1ef6e64",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/canonical_artifacts.ads",
+      "sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "expected_sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/evaluation_epoch.adb",
+      "sha256": "e34c585d8cfe665c7c8f57248d0b9f58fbbe8620d9a7cabc6165cd9636ce12cf",
+      "expected_sha256": "e34c585d8cfe665c7c8f57248d0b9f58fbbe8620d9a7cabc6165cd9636ce12cf",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_ledger.adb",
+      "sha256": "d9f65d1dd5958c5a59634f4131753772cedd83fe59a680b3aaf29fc456c2c934",
+      "expected_sha256": "d9f65d1dd5958c5a59634f4131753772cedd83fe59a680b3aaf29fc456c2c934",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_ledger.ads",
+      "sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "expected_sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_quantities.adb",
+      "sha256": "9bc46e5cfc7e2a601827aaa995249a5a6b337396172ba2f523122524fcbac66e",
+      "expected_sha256": "9bc46e5cfc7e2a601827aaa995249a5a6b337396172ba2f523122524fcbac66e",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_quantities.ads",
+      "sha256": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+      "expected_sha256": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_reservation_transition.adb",
+      "sha256": "6f8e1f379c6a5c4620c9d48d3fe066e656429df816f4d55d667cb3cfb649c061",
+      "expected_sha256": "6f8e1f379c6a5c4620c9d48d3fe066e656429df816f4d55d667cb3cfb649c061",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_run_ledger.adb",
+      "sha256": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+      "expected_sha256": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_run_ledger.ads",
+      "sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "expected_sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-chain_authority.adb",
+      "sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "expected_sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-chain_authority.ads",
+      "sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "expected_sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-resources.adb",
+      "sha256": "659064075f2a64827ab2a3f990ee9359e78f2ad1b9ccea25d7ca8616e8b5bf8f",
+      "expected_sha256": "659064075f2a64827ab2a3f990ee9359e78f2ad1b9ccea25d7ca8616e8b5bf8f",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-resources.ads",
+      "sha256": "dcd93c005097a687470256df5a9e2dab9641e5af31aacce549090cd8c264a501",
+      "expected_sha256": "dcd93c005097a687470256df5a9e2dab9641e5af31aacce549090cd8c264a501",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline_core_sources.gpr",
+      "sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "expected_sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+      "expected_sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb",
+      "sha256": "64872fd0039a97b22885320c559de9c4f13ac18c775d306b5690863ca6852d73",
+      "expected_sha256": "64872fd0039a97b22885320c559de9c4f13ac18c775d306b5690863ca6852d73",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.ads",
+      "sha256": "be5a0604cbbde4b12d15ffd1ce665238b6581d8ec534dd6b3e8e8dfc4f40607a",
+      "expected_sha256": "be5a0604cbbde4b12d15ffd1ce665238b6581d8ec534dd6b3e8e8dfc4f40607a",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-genbig.adb",
+      "sha256": "898241306e8d321750851a99cb7efc05064192f56b521de1fdbb2afb7b524991",
+      "expected_sha256": "898241306e8d321750851a99cb7efc05064192f56b521de1fdbb2afb7b524991",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-shabig.ads",
+      "sha256": "344bcca75e082c901321e9a8e7a2b115c7c8fd08773f6047092b9a94e5139069",
+      "expected_sha256": "344bcca75e082c901321e9a8e7a2b115c7c8fd08773f6047092b9a94e5139069",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/share/info/gnat_ugn.info",
+      "sha256": "07f6d253c1a536946cdd0d5a26ddc4338d23c7c560a0f35bf918be51f576f17c",
+      "expected_sha256": "07f6d253c1a536946cdd0d5a26ddc4338d23c7c560a0f35bf918be51f576f17c",
+      "match": true
+    }
+  ],
+  "supplementary_cited_file_hashes": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_reservation_lifecycle.adb",
+      "sha256": "e8019d148f4883b4742f3f69429d42b20b67f02743d60a906769de8515b10e8f",
+      "basis": "supplementary cited text; no author expected pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-c_api.adb",
+      "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+      "basis": "supplementary cited text; no author expected pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_history_c_api.adb",
+      "sha256": "d58a26e0b9fcd774921d00740449569824377b4bca6a40d4036aa1e5fce90e5e",
+      "basis": "supplementary cited text; no author expected pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_retry_audit.adb",
+      "sha256": "5056784024cd4bf925dbc76789beafa98aa4b70f3005b87b75355aceded6353d",
+      "basis": "supplementary cited text; no author expected pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_retry_audit.ads",
+      "sha256": "920d6ba78daccc4023b1732106864ceeb5d3a3fe1656db70ca55baae72c69919",
+      "basis": "supplementary cited text; no author expected pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_transitions.adb",
+      "sha256": "d0eae2e8caa289c937e51bceb32f8babb3454f91a8f5f4e7b5a6ef3ceb586d9d",
+      "basis": "supplementary cited text; no author expected pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_transitions.ads",
+      "sha256": "56b1e77f35e5b0ef45fb2960318c0b8fad60f6e0d0d9b584e41631ace98a0b01",
+      "basis": "supplementary cited text; no author expected pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_c_api.adb",
+      "sha256": "7c82035c13f36b289e1c02ca5d0ced5d79674870e7fc8daced3d0547388d929d",
+      "basis": "supplementary cited text; no author expected pin"
+    }
+  ],
+  "packet_base_checks": [
+    {
+      "kind": "packet-metadata",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses/packet.json",
+      "sha256": "2794ccb16777134f5c394d1589ad61634b4c703de0de2169cc7aa3a1884d5e36"
+    },
+    {
+      "kind": "packet-body",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses/files/core/evaluation_epoch.adb",
+      "sha256": "3131f36c77e458ecbe2adc71d648ed15adf7418cd5cf1d9a961ac1b81fd0fcaa",
+      "result_expected": null,
+      "result_matches": null,
+      "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_epoch.adb",
+      "source_sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "stacks_on": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "stacks_match": true
+    },
+    {
+      "kind": "packet-body",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses/files/core/worldline-resources.adb",
+      "sha256": "c16618a47dfcf7330d0846ff0f6e3ef032071551abf4d5c1cd5ca901efb86f44",
+      "result_expected": null,
+      "result_matches": null,
+      "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources.adb",
+      "source_sha256": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc",
+      "stacks_on": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc",
+      "stacks_match": true
+    },
+    {
+      "kind": "packet-body",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses/files/pending-component/core/evaluation_epoch.adb",
+      "sha256": "3131f36c77e458ecbe2adc71d648ed15adf7418cd5cf1d9a961ac1b81fd0fcaa",
+      "result_expected": null,
+      "result_matches": null,
+      "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/pending-component/core/evaluation_epoch.adb",
+      "source_sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "stacks_on": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "stacks_match": true
+    },
+    {
+      "kind": "packet-metadata",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/13-iterative-prefix-tail/packet.json",
+      "sha256": "5e01adb530801ba2fe5e9b87a5054224f873866eb364278b240d0a69a971ba5e"
+    },
+    {
+      "kind": "packet-body",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/13-iterative-prefix-tail/files/core/resource_reservation_transition.adb",
+      "sha256": "5f106d5e711d14c5a7a0ac7ddc2f00136b4b5b180d63a6d0ad1868f53f5b9208",
+      "result_expected": "5f106d5e711d14c5a7a0ac7ddc2f00136b4b5b180d63a6d0ad1868f53f5b9208",
+      "result_matches": true,
+      "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_reservation_transition.adb",
+      "source_sha256": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3",
+      "stacks_on": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3",
+      "stacks_match": true
+    },
+    {
+      "kind": "packet-metadata",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/14-chain-replay-reference-lemmas/packet.json",
+      "sha256": "9c787f834f3cdcf844950b69fc7d74160c87ce1aade2b9f49d940192e4932881"
+    },
+    {
+      "kind": "packet-body",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/14-chain-replay-reference-lemmas/files/core/worldline-chain_authority.adb",
+      "sha256": "d003cd49ca418ab5b721bb241edf932aeab5e43f7394df1e1018804f93351a56",
+      "result_expected": "d003cd49ca418ab5b721bb241edf932aeab5e43f7394df1e1018804f93351a56",
+      "result_matches": true,
+      "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.adb",
+      "source_sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "stacks_on": null,
+      "stacks_match": null
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-chain_authority.ads",
+      "base_sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.ads",
+      "candidate_sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "identical": true
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-chain_authority.adb",
+      "base_sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.adb",
+      "candidate_sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "identical": true
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_run_ledger.ads",
+      "base_sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads",
+      "candidate_sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "identical": true
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_run_ledger.adb",
+      "base_sha256": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.adb",
+      "candidate_sha256": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+      "identical": true
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_ledger.ads",
+      "base_sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_ledger.ads",
+      "candidate_sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "identical": true
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/canonical_artifacts.ads",
+      "base_sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/canonical_artifacts.ads",
+      "candidate_sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "identical": true
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline_core_sources.gpr",
+      "base_sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core_sources.gpr",
+      "candidate_sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "identical": true
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_quantities.ads",
+      "base_sha256": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.ads",
+      "candidate_sha256": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+      "identical": false
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_quantities.adb",
+      "base_sha256": "9bc46e5cfc7e2a601827aaa995249a5a6b337396172ba2f523122524fcbac66e",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.adb",
+      "candidate_sha256": "5e87d8a0e874a0f2010070e31140ee1eb638ff866beea6f85da1f41599863b9b",
+      "identical": false
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_ledger.adb",
+      "base_sha256": "d9f65d1dd5958c5a59634f4131753772cedd83fe59a680b3aaf29fc456c2c934",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_ledger.adb",
+      "candidate_sha256": "4a5fe307f79a8d6cf0afa7bec2f3fe2a6e58b6eeaf0c8d8790333c4dc6b24fe1",
+      "identical": false
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-resources.ads",
+      "base_sha256": "dcd93c005097a687470256df5a9e2dab9641e5af31aacce549090cd8c264a501",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources.ads",
+      "candidate_sha256": "571e729f77c605d6589b18f753e635da2a324d6363860d08285551357c51b587",
+      "identical": false
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-resources.adb",
+      "base_sha256": "659064075f2a64827ab2a3f990ee9359e78f2ad1b9ccea25d7ca8616e8b5bf8f",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources.adb",
+      "candidate_sha256": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc",
+      "identical": false
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/evaluation_epoch.adb",
+      "base_sha256": "e34c585d8cfe665c7c8f57248d0b9f58fbbe8620d9a7cabc6165cd9636ce12cf",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_epoch.adb",
+      "candidate_sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "identical": false
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/resource_reservation_transition.adb",
+      "base_sha256": "6f8e1f379c6a5c4620c9d48d3fe066e656429df816f4d55d667cb3cfb649c061",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_reservation_transition.adb",
+      "candidate_sha256": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3",
+      "identical": false
+    },
+    {
+      "kind": "base-comparison",
+      "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/canonical_artifacts.adb",
+      "base_sha256": "6dcd68f58d026458b1e1e5bd8794513243c07a6e91d2280819ca416ef1ef6e64",
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/canonical_artifacts.adb",
+      "candidate_sha256": "979466c0c24fadb5ae5f4aac29a08cff680d367c4356ec69faa0596c7c5f2aa3",
+      "identical": false
+    }
+  ],
+  "metadata_checks": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/author-freeze.json",
+      "sha256": "2db0d758d7bce87b72962628896e1f7cddb7aba161c690469fe284d12f9b11b2",
+      "expected": "2db0d758d7bce87b72962628896e1f7cddb7aba161c690469fe284d12f9b11b2",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/composition.json",
+      "sha256": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+      "expected": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source-inventory.json",
+      "sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+      "expected": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review.json",
+      "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+      "freeze_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review-freeze.json",
+      "freeze_sha256": "2c07de1de69b219127465cd60023bd9312cd61accd6fec0eb6dba6d6480d871b",
+      "expected": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+      "match": true,
+      "verdict": "QUALIFIED_SOURCE_COMPOSITION",
+      "actual_model_selection": "gpt-6.1-sol",
+      "proof_acceptance": false,
+      "native_acceptance": null,
+      "phase_acceptance": false
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review.json",
+      "sha256": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+      "freeze_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review-freeze.json",
+      "freeze_sha256": "3626dc73c271c83628275d53a869835173e5d30a8f1c97e9f663f6380434a9f4",
+      "expected": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+      "match": true,
+      "verdict": "NOT_ENDORSED",
+      "actual_model_selection": "gpt-6.1-sol",
+      "proof_acceptance": false,
+      "native_acceptance": null,
+      "phase_acceptance": false
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237"
+    },
+    {
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/REVIEW.md",
+      "sha256": "04dbf7041148e0acd604b806f6ed4dd46a4b20a9e16874ad0f88056b1fa332bc"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+      "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb"
+    }
+  ],
+  "checkpoint_receipts": {
+    "checkpoint-1.json": {
+      "sha256": "e8518f6ea33cf4e66e33b2868dfe062824ac623156e8adc84bf631bdd1cac19d",
+      "mode": "0600"
+    },
+    "checkpoint-2.json": {
+      "sha256": "f2a2f363a220a082127578ba0e73f55d3a95625910771e3ed4fb5c02a6756d66",
+      "mode": "0600"
+    },
+    "checkpoint-3.json": {
+      "sha256": "a8d37e9a448ad07f42f9379b5494eb1d458b32e7e983953cb44bf44cb1b0187f",
+      "mode": "0600"
+    },
+    "checkpoint-4.json": {
+      "sha256": "b3b7508bdaf62e803f2dd1fd78f664084958abf674bad6f013f67e7abc68ef28",
+      "mode": "0600"
+    },
+    "checkpoint-5.json": {
+      "sha256": "6149a257c89e0f6ec838c151d82209ad7b8697a8d174eff2d409dab4d515c817",
+      "mode": "0600"
+    }
+  },
+  "jackal_reproduction": [
+    {
+      "id": "R-CHAIN-BRANCHES",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "1+1"
+      },
+      "status": "exact",
+      "parsed": "1+1",
+      "exact": "2",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-CHAIN-POSTS",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*(1+3)"
+      },
+      "status": "exact",
+      "parsed": "2*(1+3)",
+      "exact": "8",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-CHAIN-N10",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "9*2^11-10-10"
+      },
+      "status": "exact",
+      "parsed": "9*2^11-10-10",
+      "exact": "18412",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-CHAIN-N30",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "9*2^31-30-10"
+      },
+      "status": "exact",
+      "parsed": "9*2^31-30-10",
+      "exact": "19327352792",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-L1",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "1*(1+1)*(1^2+11*1+12)/6"
+      },
+      "status": "exact",
+      "parsed": "1*(1+1)*(1^2+11*1+12)/6",
+      "exact": "8",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-L2",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*(2+1)*(2^2+11*2+12)/6"
+      },
+      "status": "exact",
+      "parsed": "2*(2+1)*(2^2+11*2+12)/6",
+      "exact": "38",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-VALUE-PV",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*2"
+      },
+      "status": "exact",
+      "parsed": "2*2",
+      "exact": "4",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-COMPARE-FIXED",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+16"
+      },
+      "status": "exact",
+      "parsed": "3+3+8+12+16",
+      "exact": "42",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-COMPARE-ITERATION",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*2+2*2"
+      },
+      "status": "exact",
+      "parsed": "2*2+2*2",
+      "exact": "8",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-COMPARE-TOP-GREATER",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+4+4+16"
+      },
+      "status": "exact",
+      "parsed": "3+3+8+12+4+4+16",
+      "exact": "50",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-COMPARE-TOP-LESS",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+4+4+8"
+      },
+      "status": "exact",
+      "parsed": "3+3+8+12+4+4+8",
+      "exact": "42",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-SUM-PREFIX-COUNT",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x*(x+1)/2-(x-1)*x/2",
+        "rhs": "x"
+      },
+      "error": [
+        {
+          "type": "text",
+          "text": "MCP tool call requires approval, but approval policy is never"
+        }
+      ],
+      "request_status": "approval-blocked",
+      "mathematical_status": null,
+      "non_claims": [
+        "No mathematical result or independent symbolic reproduction was returned."
+      ]
+    },
+    {
+      "id": "R-SLOT-COUNT",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x*(x-1)/2+2*x",
+        "rhs": "(x^2+3*x)/2"
+      },
+      "error": [
+        {
+          "type": "text",
+          "text": "MCP tool call requires approval, but approval policy is never"
+        }
+      ],
+      "request_status": "approval-blocked",
+      "mathematical_status": null,
+      "non_claims": [
+        "No mathematical result or independent symbolic reproduction was returned."
+      ]
+    },
+    {
+      "id": "R-CHAIN-SUBSTITUTION",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x-2+8*(x-1)",
+        "rhs": "9*x-10"
+      },
+      "error": [
+        {
+          "type": "text",
+          "text": "MCP tool call requires approval, but approval policy is never"
+        }
+      ],
+      "request_status": "approval-blocked",
+      "mathematical_status": null,
+      "non_claims": [
+        "No mathematical result or independent symbolic reproduction was returned."
+      ]
+    },
+    {
+      "id": "R-CHAIN-INDUCTION",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "1+2*(2*x-1)",
+        "rhs": "4*x-1"
+      },
+      "error": [
+        {
+          "type": "text",
+          "text": "MCP tool call requires approval, but approval policy is never"
+        }
+      ],
+      "request_status": "approval-blocked",
+      "mathematical_status": null,
+      "non_claims": [
+        "No mathematical result or independent symbolic reproduction was returned."
+      ]
+    },
+    {
+      "id": "R-SLOT-N3",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3*(3-1)/2+2*3"
+      },
+      "status": "exact",
+      "parsed": "3*(3-1)/2+2*3",
+      "exact": "9",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J03",
+      "tool": "jackal_exact",
+      "input": "(2^1-1)+(2^2-1)+(2^3-1)+(2^4-1)+(2^5-1)",
+      "purpose": "explicit loop-invariant sum, n=5",
+      "author_result": "57",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1+2^2-1+2^3-1+2^4-1+2^5-1",
+      "exact": "57",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J04",
+      "tool": "jackal_exact",
+      "input": "2^6 - 2 - 5",
+      "purpose": "closed form 2^(n+1)-2-n at n=5",
+      "author_result": "57",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^6-2-5",
+      "exact": "57",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J05",
+      "tool": "jackal_exact",
+      "input": "((2^1-1)+(2^2-1)+(2^3-1)) + 8*(2^4-1)",
+      "purpose": "explicit C-call total, n=3",
+      "author_result": "131",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1+2^2-1+2^3-1+8*(2^4-1)",
+      "exact": "131",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J07",
+      "tool": "jackal_exact",
+      "input": "2^1 - 1",
+      "purpose": "chain base P(0)",
+      "author_result": "1",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1",
+      "exact": "1",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J08",
+      "tool": "jackal_exact",
+      "input": "9*2^4 - 3 - 10",
+      "purpose": "closed C-call total n=3",
+      "author_result": "131",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^4-3-10",
+      "exact": "131",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J09",
+      "tool": "jackal_exact",
+      "input": "((2^1-1)+(2^2-1)+(2^3-1)) + 2*(2^4-1)",
+      "purpose": "explicit Ada Replay total, n=3",
+      "author_result": "41",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1+2^2-1+2^3-1+2*(2^4-1)",
+      "exact": "41",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J10",
+      "tool": "jackal_exact",
+      "input": "3*2^4 - 3 - 4",
+      "purpose": "closed Ada Replay total, n=3",
+      "author_result": "41",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "3*2^4-3-4",
+      "exact": "41",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J11",
+      "tool": "jackal_exact",
+      "input": "((2^1-1)+(2^2-1)+(2^3-1)) + ((2^2-1)+(2^3-1)+(2^4-1)) + 8*(2^4-1)",
+      "purpose": "explicit packet-14 success total, n=3",
+      "author_result": "156",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1+2^2-1+2^3-1+2^2-1+2^3-1+2^4-1+8*(2^4-1)",
+      "exact": "156",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J12",
+      "tool": "jackal_exact",
+      "input": "11*2^4 - 2*3 - 14",
+      "purpose": "closed packet-14 success total, n=3",
+      "author_result": "156",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "11*2^4-2*3-14",
+      "exact": "156",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J13",
+      "tool": "jackal_exact",
+      "input": "9*2^2 - 1 - 10",
+      "purpose": "C-call total n=1",
+      "author_result": "25",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^2-1-10",
+      "exact": "25",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J14",
+      "tool": "jackal_exact",
+      "input": "9*2^11 - 10 - 10",
+      "purpose": "C-call total n=10",
+      "author_result": "18412",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^11-10-10",
+      "exact": "18412",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J15",
+      "tool": "jackal_exact",
+      "input": "9*2^21 - 20 - 10",
+      "purpose": "C-call total n=20",
+      "author_result": "18874338",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^21-20-10",
+      "exact": "18874338",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J16",
+      "tool": "jackal_exact",
+      "input": "9*2^31 - 30 - 10",
+      "purpose": "C-call total n=30",
+      "author_result": "19327352792",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^31-30-10",
+      "exact": "19327352792",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J17",
+      "tool": "jackal_exact",
+      "input": "9*2^41 - 40 - 10",
+      "purpose": "C-call total n=40",
+      "author_result": "19791209299918",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^41-40-10",
+      "exact": "19791209299918",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J18",
+      "tool": "jackal_exact",
+      "input": "9*2^65 - 64 - 10",
+      "purpose": "C-call total n=64",
+      "author_result": "332041393326771929014",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^65-64-10",
+      "exact": "332041393326771929014",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J19",
+      "tool": "jackal_exact",
+      "input": "11*2^11 - 2*10 - 14",
+      "purpose": "packet-14 total n=10",
+      "author_result": "22494",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "11*2^11-2*10-14",
+      "exact": "22494",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J20",
+      "tool": "jackal_exact",
+      "input": "11*2^21 - 2*20 - 14",
+      "purpose": "packet-14 total n=20",
+      "author_result": "23068618",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "11*2^21-2*20-14",
+      "exact": "23068618",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J21",
+      "tool": "jackal_exact",
+      "input": "11*2^31 - 2*30 - 14",
+      "purpose": "packet-14 total n=30",
+      "author_result": "23622320054",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "11*2^31-2*30-14",
+      "exact": "23622320054",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J22",
+      "tool": "jackal_exact",
+      "input": "3*2^31 - 30 - 4",
+      "purpose": "Ada Replay total n=30",
+      "author_result": "6442450910",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "3*2^31-30-4",
+      "exact": "6442450910",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J23",
+      "tool": "jackal_exact",
+      "input": "2*(2^2-1)",
+      "purpose": "Link calls in P(2) by enumeration",
+      "author_result": "6",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*(2^2-1)",
+      "exact": "6",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J24",
+      "tool": "jackal_exact",
+      "input": "2^3 - 2",
+      "purpose": "Link calls closed form 2^(n+1)-2 at n=2",
+      "author_result": "6",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^3-2",
+      "exact": "6",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J32",
+      "tool": "jackal_exact",
+      "input": "(0^3 + 9*0^2 + 14*0 + 6)/3",
+      "purpose": "RP(0)",
+      "author_result": "2",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(0^3+9*0^2+14*0+6)/3",
+      "exact": "2",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J33",
+      "tool": "jackal_exact",
+      "input": "1*(1+1)*(1^2 + 11*1 + 12)/6",
+      "purpose": "PV(1)",
+      "author_result": "8",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "1*(1+1)*(1^2+11*1+12)/6",
+      "exact": "8",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J34",
+      "tool": "jackal_exact",
+      "input": "2*(2+1)*(2^2 + 11*2 + 12)/6",
+      "purpose": "PV(2)",
+      "author_result": "38",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*(2+1)*(2^2+11*2+12)/6",
+      "exact": "38",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J35",
+      "tool": "jackal_exact",
+      "input": "8*(8+1)*(8^2 + 11*8 + 12)/6",
+      "purpose": "PV(8)",
+      "author_result": "1968",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "8*(8+1)*(8^2+11*8+12)/6",
+      "exact": "1968",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J36",
+      "tool": "jackal_exact",
+      "input": "32*(32+1)*(32^2 + 11*32 + 12)/6",
+      "purpose": "PV(32)",
+      "author_result": "244288",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "32*(32+1)*(32^2+11*32+12)/6",
+      "exact": "244288",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J37",
+      "tool": "jackal_exact",
+      "input": "128*(128+1)*(128^2 + 11*128 + 12)/6",
+      "purpose": "PV(128)",
+      "author_result": "48996608",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "128*(128+1)*(128^2+11*128+12)/6",
+      "exact": "48996608",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J38",
+      "tool": "jackal_exact",
+      "input": "803*(803+1)*(803^2 + 11*803 + 12)/6",
+      "purpose": "PV(803)",
+      "author_result": "70334477708",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "803*(803+1)*(803^2+11*803+12)/6",
+      "exact": "70334477708",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J39",
+      "tool": "jackal_exact",
+      "input": "20*(20+1)*(20^2 + 11*20 + 12)/6",
+      "purpose": "PV(T) at T=20",
+      "author_result": "44240",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "20*(20+1)*(20^2+11*20+12)/6",
+      "exact": "44240",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J40",
+      "tool": "jackal_exact",
+      "input": "100*(100+1)*(100^2 + 11*100 + 12)/6",
+      "purpose": "PV(T) at T=100",
+      "author_result": "18705200",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "100*(100+1)*(100^2+11*100+12)/6",
+      "exact": "18705200",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J41",
+      "tool": "jackal_exact",
+      "input": "200*(200+1)*(200^2 + 11*200 + 12)/6",
+      "purpose": "PV(T) at T=200",
+      "author_result": "282820400",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "200*(200+1)*(200^2+11*200+12)/6",
+      "exact": "282820400",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J42",
+      "tool": "jackal_exact",
+      "input": "3 + 3 + 8 + 12 + 16",
+      "purpose": "Compare fixed PV evaluations (equal operands)",
+      "author_result": "42",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "3+3+8+12+16",
+      "exact": "42",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J43",
+      "tool": "jackal_exact",
+      "input": "4*1968",
+      "purpose": "Value(8)",
+      "author_result": "7872",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "4*1968",
+      "exact": "7872",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J44",
+      "tool": "jackal_exact",
+      "input": "4*244288",
+      "purpose": "Value(32)",
+      "author_result": "977152",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "4*244288",
+      "exact": "977152",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J45",
+      "tool": "jackal_exact",
+      "input": "4*70334477708",
+      "purpose": "Value(803)",
+      "author_result": "281337910832",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "4*70334477708",
+      "exact": "281337910832",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J46",
+      "tool": "jackal_exact",
+      "input": "(8*8 + 42)*1968",
+      "purpose": "Compare PV-term PR invocations at L=8",
+      "author_result": "208608",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(8*8+42)*1968",
+      "exact": "208608",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J47",
+      "tool": "jackal_exact",
+      "input": "(8*32 + 42)*244288",
+      "purpose": "Compare PV-term PR invocations at L=32",
+      "author_result": "72797824",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(8*32+42)*244288",
+      "exact": "72797824",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J48",
+      "tool": "jackal_exact",
+      "input": "(8*803 + 42)*70334477708",
+      "purpose": "Compare PV-term PR invocations at L=803",
+      "author_result": "454782732859928",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(8*803+42)*70334477708",
+      "exact": "454782732859928",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J49",
+      "tool": "jackal_exact",
+      "input": "804*8",
+      "purpose": "bits of 256^804",
+      "author_result": "6432",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "804*8",
+      "exact": "6432",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J50",
+      "tool": "jackal_exact",
+      "input": "32*201",
+      "purpose": "bits in 201 words",
+      "author_result": "6432",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "32*201",
+      "exact": "6432",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J51",
+      "tool": "jackal_exact",
+      "input": "803*8",
+      "purpose": "bits of 256^803",
+      "author_result": "6424",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "803*8",
+      "exact": "6424",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J52",
+      "tool": "jackal_exact",
+      "input": "200 + 1",
+      "purpose": "maximum significant words (Bignum_Limit + 1)",
+      "author_result": "201",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "200+1",
+      "exact": "201",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J53",
+      "tool": "jackal_exact",
+      "input": "804/2",
+      "purpose": "rows of 1-byte values at which T reaches 804",
+      "author_result": "402",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "804/2",
+      "exact": "402",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J54",
+      "tool": "jackal_exact",
+      "input": "2*4 + 3*4",
+      "purpose": "Amount PV evaluations",
+      "author_result": "20",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*4+3*4",
+      "exact": "20",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J55",
+      "tool": "jackal_exact",
+      "input": "6 + 8 + 12 + 4 + 4 + 16",
+      "purpose": "Compare PV evaluations, Greater at top byte",
+      "author_result": "50",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "6+8+12+4+4+16",
+      "exact": "50",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J56",
+      "tool": "jackal_exact",
+      "input": "6 + 8 + 12 + 4 + 4 + 8",
+      "purpose": "Compare PV evaluations, Less at top byte",
+      "author_result": "42",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "6+8+12+4+4+8",
+      "exact": "42",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J57",
+      "tool": "jackal_exact",
+      "input": "3*4",
+      "purpose": "Amount_Reference PV evaluations",
+      "author_result": "12",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "3*4",
+      "exact": "12",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J58",
+      "tool": "jackal_exact",
+      "input": "2*2 + 2*2",
+      "purpose": "Compare PV evaluations per loop iteration",
+      "author_result": "8",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*2+2*2",
+      "exact": "8",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J59",
+      "tool": "jackal_exact",
+      "input": "1 + (2+1) + (2+2) + 3",
+      "purpose": "Radix_Power_Worker(2) by enumeration",
+      "author_result": "11",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "1+2+1+2+2+3",
+      "exact": "11",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J60",
+      "tool": "jackal_exact",
+      "input": "2^2 + 3*2 + 1",
+      "purpose": "Radix_Power_Worker(2) formula",
+      "author_result": "11",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^2+3*2+1",
+      "exact": "11",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J61",
+      "tool": "jackal_exact",
+      "input": "(0+1) + (1+2) + (0+1) + (2*1 + 2*2) + 3",
+      "purpose": "Prefix_Value_Worker(2) by enumeration",
+      "author_result": "14",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "0+1+1+2+0+1+2*1+2*2+3",
+      "exact": "14",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J62",
+      "tool": "jackal_exact",
+      "input": "(2^3 + 6*2^2 + 5*2)/3",
+      "purpose": "Prefix_Value_Worker(2) formula",
+      "author_result": "14",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(2^3+6*2^2+5*2)/3",
+      "exact": "14",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J63",
+      "tool": "jackal_exact",
+      "input": "(1^3 + 9*1^2 + 14*1 + 6)/3",
+      "purpose": "RP(1) formula",
+      "author_result": "10",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(1^3+9*1^2+14*1+6)/3",
+      "exact": "10",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J64",
+      "tool": "jackal_exact",
+      "input": "(1^2 + 3*1 + 1) + 2 + (1+1) + 1",
+      "purpose": "RP(1) by enumeration",
+      "author_result": "10",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "1^2+3*1+1+2+1+1+1",
+      "exact": "10",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J66",
+      "tool": "jackal_exact",
+      "input": "2*(2 + 4)",
+      "purpose": "Row_Reference Value evaluations",
+      "author_result": "12",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*(2+4)",
+      "exact": "12",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J67",
+      "tool": "jackal_exact",
+      "input": "12*4",
+      "purpose": "Row_Reference PV evaluations",
+      "author_result": "48",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "12*4",
+      "exact": "48",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J68",
+      "tool": "jackal_exact",
+      "input": "(0^3 - 0)/6 + (0^2 + 0)/2",
+      "purpose": "S(0)",
+      "author_result": "0",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(0^3-0)/6+(0^2+0)/2",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J69",
+      "tool": "jackal_exact",
+      "input": "0*(0+1)*(0^2 + 11*0 + 12)/6",
+      "purpose": "PV(0)",
+      "author_result": "0",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "0*(0+1)*(0^2+11*0+12)/6",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J70",
+      "tool": "jackal_exact",
+      "input": "(0+1)^2",
+      "purpose": "Worldline.Resources Prefix_Value(0) count",
+      "author_result": "1",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(0+1)^2",
+      "exact": "1",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J71",
+      "tool": "jackal_exact",
+      "input": "(0^3 + 6*0^2 + 5*0)/3",
+      "purpose": "PVW(0)",
+      "author_result": "0",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(0^3+6*0^2+5*0)/3",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J72",
+      "tool": "jackal_exact",
+      "input": "6432/32 + 1",
+      "purpose": "words needed for 2^6432",
+      "author_result": "202",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "6432/32+1",
+      "exact": "202",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J73",
+      "tool": "jackal_exact",
+      "input": "6424/32",
+      "purpose": "word position of the top bit of 2^6424",
+      "author_result": "803/4 (approx 200.75)",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "6424/32",
+      "exact": "803/4",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J74",
+      "tool": "jackal_exact",
+      "input": "804 - 2",
+      "purpose": "headroom failure length",
+      "author_result": "802",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "804-2",
+      "exact": "802",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J79",
+      "tool": "jackal_exact",
+      "input": "1 + 1",
+      "purpose": "Links per nonzero Prefix_Reference invocation; Python capacity of a 1-byte row",
+      "author_result": "2",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "1+1",
+      "exact": "2",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J80",
+      "tool": "jackal_exact",
+      "input": "2*(1 + 3)",
+      "purpose": "P(n) evaluations from Replay and Decide Posts",
+      "author_result": "8",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*(1+3)",
+      "exact": "8",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J81",
+      "tool": "jackal_exact",
+      "input": "2*2",
+      "purpose": "PV evaluations per Value",
+      "author_result": "4",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*2",
+      "exact": "4",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J82",
+      "tool": "jackal_exact",
+      "input": "4*4",
+      "purpose": "PV evaluations in four Value calls",
+      "author_result": "16",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "4*4",
+      "exact": "16",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J83",
+      "tool": "jackal_exact",
+      "input": "2 + 4",
+      "purpose": "Withheld_Reference Value evaluations",
+      "author_result": "6",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2+4",
+      "exact": "6",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J84",
+      "tool": "jackal_exact",
+      "input": "(2*3+1)*(2^2-1) + (2^5 - 2^2 - 3)",
+      "purpose": "packet-14 early-return addition, closed form, n=3, c=0",
+      "author_result": "46",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(2*3+1)*(2^2-1)+2^5-2^2-3",
+      "exact": "46",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "REPRO-J85",
+      "tool": "jackal_exact",
+      "input": "(2^2-1) + (2*(2^2-1) + (2^4-1)) + (2*(2^2-1) + (2^3-1)) + (2*(2^2-1) + (2^2-1))",
+      "purpose": "packet-14 early-return addition, enumeration, n=3, c=0",
+      "author_result": "46",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^2-1+2*(2^2-1)+2^4-1+2*(2^2-1)+2^3-1+2*(2^2-1)+2^2-1",
+      "exact": "46",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-RP-DIFF-QUADRATIC",
+      "tool": "jackal_exact",
+      "input": "3/3-1",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "3/3-1",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-RP-DIFF-LINEAR",
+      "tool": "jackal_exact",
+      "input": "(-3+2*9)/3-5",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(-3+2*9)/3-5",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-RP-DIFF-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "(1-9+14)/3-2",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(1-9+14)/3-2",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-EXPANDED-CUBIC",
+      "tool": "jackal_exact",
+      "input": "11+1",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "11+1",
+      "exact": "12",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-EXPANDED-QUADRATIC",
+      "tool": "jackal_exact",
+      "input": "12+11",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "12+11",
+      "exact": "23",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-DIFF-CUBIC",
+      "tool": "jackal_exact",
+      "input": "4/6-2/3",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "4/6-2/3",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-DIFF-QUADRATIC",
+      "tool": "jackal_exact",
+      "input": "(-6+3*(11+1))/6-15/3",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(-6+3*(11+1))/6-15/3",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-DIFF-LINEAR",
+      "tool": "jackal_exact",
+      "input": "(4-3*(11+1)+2*(12+11))/6-7/3",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(4-3*(11+1)+2*(12+11))/6-7/3",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-DIFF-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "(-1+(11+1)-(12+11)+12)/6",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(-1+11+1-(12+11)+12)/6",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-RP-WORKER-RECURRENCE",
+      "tool": "jackal_exact",
+      "input": "(2^3+9*2^2+14*2+6)/3-((1^3+9*1^2+14*1+6)/3+(2^2+3*2+1)+(2+1)+2)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(2^3+9*2^2+14*2+6)/3-((1^3+9*1^2+14*1+6)/3+2^2+3*2+1+2+1+2)",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-RECURRENCE-L1",
+      "tool": "jackal_exact",
+      "input": "1*(1+1)*(1^2+11*1+12)/6-(0+(1^3+6*1^2+5*1)/3+(0^3+9*0^2+14*0+6)/3+1*(1+1)/2+0*(0+1)/2+1)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "1*(1+1)*(1^2+11*1+12)/6-(0+(1^3+6*1^2+5*1)/3+(0^3+9*0^2+14*0+6)/3+1*(1+1)/2+0*(0+1)/2+1)",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-RECURRENCE-L2",
+      "tool": "jackal_exact",
+      "input": "2*(2+1)*(2^2+11*2+12)/6-(1*(1+1)*(1^2+11*1+12)/6+(2^3+6*2^2+5*2)/3+(1^3+9*1^2+14*1+6)/3+2*(2+1)/2+1*(1+1)/2+2)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "2*(2+1)*(2^2+11*2+12)/6-(1*(1+1)*(1^2+11*1+12)/6+(2^3+6*2^2+5*2)/3+(1^3+9*1^2+14*1+6)/3+2*(2+1)/2+1*(1+1)/2+2)",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-PV-RECURRENCE-L3",
+      "tool": "jackal_exact",
+      "input": "3*(3+1)*(3^2+11*3+12)/6-(2*(2+1)*(2^2+11*2+12)/6+(3^3+6*3^2+5*3)/3+(2^3+9*2^2+14*2+6)/3+3*(3+1)/2+2*(2+1)/2+3)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "3*(3+1)*(3^2+11*3+12)/6-(2*(2+1)*(2^2+11*2+12)/6+(3^3+6*3^2+5*3)/3+(2^3+9*2^2+14*2+6)/3+3*(3+1)/2+2*(2+1)/2+3)",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-RP-RECURRENCE-L3",
+      "tool": "jackal_exact",
+      "input": "(3^3+9*3^2+14*3+6)/3-((2^3+9*2^2+14*2+6)/3+(3^2+3*3+1)+(3+1)+3)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(3^3+9*3^2+14*3+6)/3-((2^3+9*2^2+14*2+6)/3+3^2+3*3+1+3+1+3)",
+      "exact": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-CHAIN-C-COEFFICIENT",
+      "tool": "jackal_exact",
+      "input": "1+8",
+      "purpose": "closed-form rederivation arithmetic",
+      "status": "exact",
+      "parsed": "1+8",
+      "exact": "9",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-CHAIN-C-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "-2-8",
+      "purpose": "closed-form rederivation arithmetic",
+      "status": "exact",
+      "parsed": "-2-8",
+      "exact": "-10",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-CHAIN-ADA-COEFFICIENT",
+      "tool": "jackal_exact",
+      "input": "1+2",
+      "purpose": "closed-form rederivation arithmetic",
+      "status": "exact",
+      "parsed": "1+2",
+      "exact": "3",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-CHAIN-ADA-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "-2-2",
+      "purpose": "closed-form rederivation arithmetic",
+      "status": "exact",
+      "parsed": "-2-2",
+      "exact": "-4",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-P14-COEFFICIENT",
+      "tool": "jackal_exact",
+      "input": "9+2",
+      "status": "exact",
+      "parsed": "9+2",
+      "exact": "11",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-P14-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "-10-4",
+      "status": "exact",
+      "parsed": "-10-4",
+      "exact": "-14",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-P14-N3-DELTA",
+      "tool": "jackal_exact",
+      "input": "11*2^4-2*3-14-(9*2^4-3-10)",
+      "status": "exact",
+      "parsed": "11*2^4-2*3-14-(9*2^4-3-10)",
+      "exact": "25",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    {
+      "id": "R-P14-N3-ADDED-PREFIX-SUM",
+      "tool": "jackal_exact",
+      "input": "(2^2-1)+(2^3-1)+(2^4-1)",
+      "status": "exact",
+      "parsed": "2^2-1+2^3-1+2^4-1",
+      "exact": "25",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "lane": "rat",
+      "consequence_ceiling": "informational about code correctness (review boundary)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    }
+  ],
+  "original_register": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+    "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+    "ids": [
+      "OB-001",
+      "OB-002",
+      "OB-003",
+      "OB-004",
+      "OB-005",
+      "OB-006",
+      "OB-007",
+      "OB-008",
+      "OB-009",
+      "OB-010",
+      "OB-011",
+      "OB-012",
+      "OB-013",
+      "OB-014",
+      "OB-015",
+      "OB-016",
+      "OB-017",
+      "OB-018",
+      "OB-019",
+      "OB-020",
+      "OB-021",
+      "OB-022",
+      "OB-023",
+      "OB-024",
+      "OB-025",
+      "OB-026",
+      "OB-027",
+      "OB-028",
+      "OB-029",
+      "OB-030",
+      "OB-031",
+      "OB-032",
+      "OB-033",
+      "OB-034",
+      "OB-035",
+      "OB-036",
+      "OB-037",
+      "OB-038",
+      "OB-039",
+      "OB-040",
+      "OB-041",
+      "OB-042",
+      "OB-043",
+      "OB-044",
+      "OB-045",
+      "OB-046",
+      "OB-047",
+      "OB-048",
+      "OB-049",
+      "OB-050",
+      "OB-051",
+      "OB-052",
+      "OB-053",
+      "OB-054",
+      "OB-055",
+      "OB-056",
+      "OB-057",
+      "OB-058",
+      "OB-059",
+      "OB-060",
+      "OB-061",
+      "OB-062",
+      "OB-063",
+      "OB-064",
+      "OB-065",
+      "OB-066",
+      "OB-067",
+      "OB-068",
+      "OB-069",
+      "OB-070",
+      "OB-071",
+      "OB-072",
+      "OB-073",
+      "OB-074",
+      "OB-075",
+      "OB-076",
+      "OB-077",
+      "OB-078",
+      "OB-079",
+      "OB-080",
+      "OB-081",
+      "OB-082",
+      "OB-083",
+      "OB-084",
+      "OB-085",
+      "OB-086",
+      "OB-087",
+      "OB-088",
+      "OB-089",
+      "OB-090",
+      "OB-091",
+      "OB-092",
+      "OB-093",
+      "OB-094",
+      "OB-095",
+      "OB-096",
+      "OB-097",
+      "OB-098",
+      "OB-099",
+      "OB-100",
+      "OB-101",
+      "OB-102",
+      "OB-103",
+      "OB-104",
+      "OB-105",
+      "OB-106",
+      "OB-107",
+      "OB-108",
+      "OB-109",
+      "OB-110",
+      "OB-111",
+      "OB-112",
+      "OB-113",
+      "OB-114",
+      "OB-115",
+      "OB-116",
+      "OB-117",
+      "OB-118",
+      "OB-119",
+      "OB-120",
+      "OB-121",
+      "OB-122",
+      "OB-123",
+      "OB-124",
+      "OB-125",
+      "OB-126",
+      "OB-127",
+      "OB-128",
+      "OB-129",
+      "OB-130",
+      "OB-131",
+      "OB-132",
+      "OB-133",
+      "OB-134",
+      "OB-135",
+      "OB-136",
+      "OB-137",
+      "OB-138",
+      "OB-139",
+      "OB-140",
+      "OB-141",
+      "OB-142",
+      "OB-143",
+      "OB-144",
+      "OB-145",
+      "OB-146",
+      "OB-147",
+      "OB-148",
+      "OB-149",
+      "OB-150",
+      "OB-151",
+      "OB-152",
+      "OB-153",
+      "OB-154",
+      "OB-155",
+      "OB-156",
+      "OB-157",
+      "OB-158",
+      "OB-159",
+      "OB-160",
+      "OB-161",
+      "OB-162",
+      "OB-163",
+      "OB-164",
+      "OB-165",
+      "OB-166",
+      "OB-167",
+      "OB-168",
+      "OB-169",
+      "OB-170",
+      "OB-171",
+      "OB-172",
+      "OB-173",
+      "OB-174",
+      "OB-175",
+      "OB-176",
+      "OB-177",
+      "OB-178",
+      "OB-179",
+      "OB-180",
+      "OB-181",
+      "OB-182",
+      "OB-183",
+      "OB-184",
+      "OB-185",
+      "OB-186",
+      "OB-187",
+      "OB-188",
+      "OB-189",
+      "OB-190",
+      "OB-191",
+      "OB-192",
+      "OB-193",
+      "OB-194",
+      "OB-195",
+      "OB-196",
+      "OB-197",
+      "OB-198",
+      "OB-199",
+      "OB-200",
+      "OB-201",
+      "OB-202",
+      "OB-203",
+      "OB-204",
+      "OB-205",
+      "OB-206",
+      "OB-207",
+      "OB-208",
+      "OB-209",
+      "OB-210",
+      "OB-211",
+      "OB-212",
+      "OB-213",
+      "OB-214",
+      "OB-215",
+      "OB-216",
+      "OB-217",
+      "OB-218",
+      "OB-219"
+    ]
+  },
+  "all_original_obligations_preserved_open": true,
+  "unverified": [
+    "Actual compiled nested-check evaluation and optimization",
+    "Linked/loaded assertion scenario and runtime identity",
+    "Native wall time, primary/secondary stack, peak heap, allocation/copy behavior and catchable exhaustion",
+    "Complete export tracing and composite exact forms",
+    "Full matching-source formal proof and every original runtime/acceptance control",
+    "Approval-blocked independent JACKAL symbolic identity reproduction"
+  ],
+  "proof_acceptance": false,
+  "native_acceptance": false,
+  "phase_acceptance": false
+}

@@ -1,0 +1,1110 @@
+{
+  "schema": "claude-analysis-review-checkpoint-v1",
+  "item": 5,
+  "status": "completed",
+  "section_markdown": "## 5. Evidence status, fixed guarantees and final disposition\n\n**Verdict: ACCURATE_WITH_CORRECTIONS.** The principal checked-reference hazards, primitive recurrences, reproduced instance arithmetic and installed-source digit-limit mechanism are supported. The inventory is useful static analysis after the corrections recorded below; it supplies no proof, native or Phase One acceptance.\n\nThe inventory expressly says draft, unmeasured, unproved and nonclosing (`INVENTORY.md:3-10`). Its unresolved section correctly retains actual time/heap/stacks, optimizer behavior, deployed assertion scenario, linked/loaded runtime, production extents, untraced exports and repair provability (`:826-838`). Its JACKAL section carries exact/formal=false and the lane non_claims (`:842-849`; inventory.json jackal_common/non_claims). No timing or formal program proof is presented as obtained. The author’s asserted method is read as an artifact statement; passive text/hashes cannot attest to all actions in another session.\n\nThe candidate author-freeze, composition and source-inventory hashes match the inventory's identity claims (`INVENTORY.md:19-21`). The candidate review.json matches its review-freeze and says QUALIFIED_SOURCE_COMPOSITION, with proof_acceptance=false and phase_acceptance=false; its EXACT_NATIVE_MODEL_CHECKED_GHOST_COST entry remains OPEN. The D1 v2 review.json likewise matches its review-freeze, says NOT_ENDORSED, and retains O-GHOST and the remaining native/proof/source obligations (`D1/REVIEW.md:115-142,190`). These metadata observations are not new acceptance or verification of the actual loaded binary.\n\nThe corrections prevent stronger unsupported interpretations:\n\n- Primitive invocation counts are source semantic counts; exact allocation counts, machine instructions, optimizer-expanded code, native completion costs and catchable physical exhaustion are not established (C-UNIT, C-LOC; `INVENTORY.md:104-107,648-684`).\n- Standalone and composite growth must retain actual path/domain conditions, empty/equal-endpoint work, excluded rows, identity lengths and whole-history traversals (C-SLOT, C-SUM, C-OWNER, C-EMPTY, C-PACKET-GAP, C-P12-REACH).\n- P13 changes the local witness classes; P12/P14 retain the stated dominant classes under their stated regimes. Iteration does not remove nested reference/caller recursion (`P13:95-130,407-438`; `P12/resources:239-262` refers to the unchanged containing Prefix_Modulus at `S/core/worldline-resources.adb:239-262`).\n- The base-delta list is incomplete even though the inspected dominant growth structures remain (C-BASE).\n- Pin adoption, narrowed frame snapshots and public transport semantics retain their proper approval/review/evidence boundaries (C-PINS, C-COPY, C-ABI).\n\nThe source-cost argument for the digit cliff does not mean every valid long span reaches Normalize before some other failure, that shorter spans complete, or that this installed source is the actual linked runtime. A generic error code or negative Boolean cannot be credited as an accepted refusal. No larger finite cap, release-only escape, light library, waived warning, Off wrapper, missing caller, disabled checked Ghost or removed accepted case is eligible closure (`H:129-131,153-167`; Phase One prompt `:32-34,64-66,78`).\n\nEvery original obligation is retained **OPEN in this review**. review.json enumerates all observed original-register IDs and the related source/D1 open-obligation IDs, plus D1/D2 and this review's unresolved native/symbolic scope; their original targets are preserved by the referenced register and review hashes. This is a nonclosing review disposition, not an edit to the historical register or any project's status files. Required complete source qualification, strict matching-source proof, authentic faithful producer/caller coverage, original ordinary/lifetime/fault/positive controls, execution admission/custody, actual runtime/resource correspondence, independent acceptance and applicable hosted/publication/deployment work remain required (`H:153-167`; Phase One prompt `:32,64-66,78`).\n\nFor this review, only passive text reading, hashing, JACKAL MCP arithmetic and creation of the requested local review/checkpoint artifacts were performed. WORLDLINE code was never imported or executed; no compilers, provers, builds, tests, benchmarks, services or measurements were run. No SIA note or outside-directory file mutation was issued. Symbolic JACKAL operations were approval-blocked as documented in item 2; their general algebraic identities are not independently tool-certified here. The surviving recurrence reasoning is explicitly unverified, with exact informational arithmetic only.\n\nproof_acceptance=false; native_acceptance=false; phase_acceptance=false. No acceptance is granted.",
+  "final_section_1": "## 1. Checked evaluation structure and hazard-by-hazard ruling\n\nThe checks scenario enables `-gnata` by default (`S/core/worldline_core_sources.gpr:8-19`; the Attest project has the same selection). The installed GNAT manual explicitly maps Ghost, Pre, Post, Assert, Loop_Invariant, Loop_Variant and Subprogram_Variant to Check (`G/share/info/gnat_ugn.info:9396-9436`). The inspected core has no overriding policy. These are source-semantic evaluations on normally completing, applicable paths, with short-circuit conditions and selected branches respected. A Post does not run after exceptional completion. The switch documentation supports the model; this review has no compiler-output evidence about nested-contract expansion, optimization, literal placement, or elision.\n\n| Hazard | Independent ruling and file:line evidence |\n|---|---|\n| H1 | Correct exponential reference structure. The body calls Prefix_Reference at Count minus one (`worldline-chain_authority.adb:11-12`), and the normal Post evaluates another at Count minus one before Prefix_Step (`worldline-chain_authority.ads:80-86`). Post short-circuiting does not skip it when the preceding bound holds, including row-mismatch results. Replay_Reference evaluates the complete prefix in body and Post (`adb:54-55`, `ads:102-105`). Replay adds its own Post (`ads:112-114`); Wire.Decide evaluates Replay_Reference in its result-field conjuncts (`worldline-chain_authority_wire.ads:61-72`). The executable path is C wrapper → Wire.Decide → Replay (`worldline-chain_authority_c_api.adb:99`, `wire.adb:3-5`). Python's only observed retained-store integration definition is `runtime/worldline/store.py:1104`; passive search found no in-tree invocation. |\n| H2 | Correct whole-output/arena hazard. Prefix_Total's body invokes a worker correspondence lemma and the worker, while its Post recursively calls the predecessor (`resource_ledger.adb:832-837`, `ads:138-142`). Worker and correspondence lemma assertions/Post run too (`adb:501-564`); the lemma repeats workers but introduces no second public Prefix_Total recursion. Processed_Conforms repeats earlier Prefix_Total and radix evaluations (`adb:1399-1410`), and Compute repeats that relation (`adb:1444-1447,1505-1514`). The total workspace feeds Binary (`adb:1484-1485`). **C-SLOT:** Storage_Sufficient's earlier-slot invariant (`adb:848-854`), body (`adb:862-863`) and Post (`ads:153-158`) make its independent uniform-slot term quadratic in rows, not linear. The Python-sized bounded-value family remains the inventory's dominant class. |\n| H3 | Correct nested quantity structure. Power_Reference and Prefix_Reference each have a single recursive body call and nonrecursive sign Post (`resource_quantities.ads:40-56`). Radix_Power and Prefix_Value have iterative worker bodies and a single predecessor call in their public Posts (`ads:58-83`, `adb:97-208`). Those calls recursively incur worker invariants, post-loop assertions and worker Posts. Magnitude evaluates Prefix_Value in body and applicable Post; Value evaluates Magnitude in body and Post (`adb:210-226`, `ads:85-96`). Equal nonnegative Compare's inventory multiplicities reproduce in exact JACKAL arithmetic: fixed term 42, iteration term 8; top-byte Greater/ Less terms 50/42. Source: `adb:350-399`, `ads:110-117`. Reservation-transition Zero_Prefix recurses with Prefix_Value at each return and runs per column (`resource_reservation_transition.adb:484-503,609-617`), supporting its stronger successor amplification. |\n| H4 | Check reaches Exact_Value, Sum, Conserved and Contained and repeats reference work in its Post (`resource_run_ledger.adb:144-210`, `ads:377-457`). Exact_Value's body has the invariant reference calls and a Value Post (`adb:19-35`, `ads:185-186`). Sum_Reference has a single recursive body call and no Post (`ads:200-209`). **C-SUM:** Sum alone has quadratic worst-case Value evaluations (`adb:54-63`); Contained can be cubic with duplicate parent identities (`adb:81-87`). Shape establishes reservation uniqueness on the successful Check path (`ads:233-235`), which makes the inventory's restricted Check-path distinction sound. Excluded rows and identity scans remain costs even when there are no included rows. |\n| H5 | Worldline.Resources has the simpler single-body-recursion radix and prefix functions; Prefix_Value's Post adds radix evaluation (`worldline-resources.ads:29-46`). Can_Reserve's checked column witnesses and invariants, its Post's Fits_By_Addition, and that function's own checked body/Post all run (`adb:787-921`, `ads:78-90`; Wire Post `worldline-resource_wire.ads:11-16`). Try_Reserve calls Matching_Prefix both through Reserve_Prefix_Step and directly (`worldline-resources.adb:663,1020-1024`), supporting the quoted capacity amplification. Sum_Equals's headline assumes successful column traversal: a mismatch calls Mismatching_Sum_Column → Value_Modulus → recursive Prefix_Modulus/Prefix_Quotient (`adb:943,693-695,264-274,239-262`); a blanket full-domain class is not established by that success-path headline. |\n| H6 | The per-disk and prior-disk reevaluations are present (`resource_admission.adb:237-264`), with each reference's own Post (`ads:118-129`). Admit also evaluates Capacity and its Decision_Conforms Post (`adb:270-276`, `ads:199-201`). **C-EMPTY:** an empty disk array still executes the memory-capacity relation; the disk-only formula needs that fixed term or a nonempty comparable-extents qualification. |\n| H7 | Journal_Valid has per-row successor/epoch comparisons and identity uniqueness (`evaluation_pending.ads:84-101`); completion rescans earlier Same_Binding/Same_Result (`evaluation_completion.adb:15-18,32-34`); History_Valid has per-row successors and nested identities (`evaluation_history.ads:203-217`). **C-OWNER:** whole owner/retry exports are not fixed multiples of one epoch comparison. Retry_Holds, Retry_Reference and Retry_Equation call History_Valid (`worldline-owner_transitions.adb:23,50`, `ads:137`). Audit Same_Prefix calls Same_Row per row, whose body calls Same_Epoch (`worldline-owner_retry_audit.ads:38-42`, `adb:26-28`), and audit also checks History_Valid (`adb:69`). These paths reach the C exports (`worldline-c_api.adb:1015,1112-1152`). Appendix A's O(H·id) Retry_Equation classification must also be corrected. The inventory's explicitly untraced completion/finalization exports remain unverified. |\n| H8 | The processed-prefix and nested quantifiers exist at the cited sites: `evaluation_completion_roster.adb:57-63`, `evaluation_raw_roster.adb:56-57,71-72`, `evaluation_finalization.adb:35-37,110-111,241-243`, `resource_run_ledger_wire.adb:7,18`, `resource_reservation_lifecycle.adb:18-25`, and the listed evaluation/owner/recovery wire loops. Their source worst-case component growth is supported; short-circuit and identity/row extents must be retained. Initialized assertions should not be treated as runtime initialization evidence; the repeated equality/Decode calls independently supply the cost. |\n| H9 | The Ghost arena snapshots and per-step assignments exist (`resource_ledger.adb:1144,1203,1424,1456`; `worldline-resources.adb:973,989,1001`). Old captures are present in the cited public Posts (`worldline-resources.ads:153-155`, `evaluation_completion.ads:422`). Source recursion depth is supported. Native frame sizes, primary/secondary stack allocation, peak live heap, copy elision and catchable exhaustion are unverified; the live-heap estimate remains reasoning-only. |\n| H10 | The cited C handlers map propagated exceptions to generic error codes (`worldline-chain_authority_c_api.adb:102`, `resource_run_ledger_c_api.adb:222`, `worldline-resource_ledger_c_api.adb:176,223`, `worldline-resources_c_api.adb:64`, `worldline-resource_policy_c_api.adb:182`). Process/stack failure catchability is not established. This cannot be credited as a semantic accepted refusal. |\n| H11 | Prefix's normal Post and variants/invariants check bounded-size fields (`canonical_artifacts.ads:34-39`, `adb:175-177,195-197,229-230`). Tagged_Matches's checked invariants also use bounded-size fields (`adb:506-510,529-544`); its recursive calls remain executable (`adb:512-514,558-559`). The inspected checked overhead is a source-model constant factor. This is not a total parser complexity or native stack guarantee. |\n\nAll source references in this table are under S/core unless another prefix is shown. Growth language describes conditional worst-case source cost families, not measured time, a bound across every early return, or an asymptotic completion claim beyond the installed finite Bignum limit. Every hazard stays OPEN.\n\n\nThe retained export traces are explicit: ledger compute/headroom → L.Compute/L.Compute_Headroom (`worldline-resource_ledger_c_api.adb:162,212`); run-ledger export → W.Decide → L.Check (`resource_run_ledger_c_api.adb:219`, `resource_run_ledger_wire.adb:24-30`); resource reserve export → Resource_Wire.Can_Reserve (`worldline-resources_c_api.adb:53-58`); policy export → P.Admit (`worldline-resource_policy_c_api.adb:169`); history export → H.Select_Evidence (`worldline-evaluation_history_c_api.adb:179`); recovery V3 export → W.Decide (`worldline-recovery_authorization_v3_c_api.adb:163`). Each path's checked callee/Post work remains included. Direct exported Ada operations still need their specified Ghost/caller context; a Library_Interface declaration is not evidence of a production invocation. H8/H9 overlap these paths and the specifically named completion/finalization/lifecycle consumers. Complete tracing of other exports remains OPEN, as the inventory expressly records (`INVENTORY.md:834-835`).\n",
+  "corrections": [
+    {
+      "id": "C-SLOT",
+      "claim": "INVENTORY.md:278 gives the Storage_Sufficient slot term as Θ(N·S⁴).",
+      "correction": "The successful invariant checks each earlier slot again, in addition to the body and Post. The slot term is Θ(N²·S⁴) for uniform independently varying slot length S. This does not change the dominant Θ(N⁶) Python-sized, bounded-value family.",
+      "evidence": [
+        "S/core/resource_ledger.adb:848-854",
+        "S/core/resource_ledger.adb:862-863",
+        "S/core/resource_ledger.ads:153-158",
+        "JACKAL R-SLOT-N3"
+      ]
+    },
+    {
+      "id": "C-SUM",
+      "claim": "H4 / INVENTORY.md:693 and inventory.json hazards group direct Contained/Sum as Θ(N³·L⁵).",
+      "correction": "Sum alone performs quadratic, not cubic, worst-case Value work through its processed-prefix invariant. Cubic Value work belongs to Contained with repeated parent identities. The Check-path distinction based on Shape uniqueness is sound. Sum_Reference also scans excluded rows and identity bytes, so its cost cannot depend only on the number of included rows.",
+      "evidence": [
+        "S/core/resource_run_ledger.adb:49-64",
+        "S/core/resource_run_ledger.adb:70-89",
+        "S/core/resource_run_ledger.ads:195-209",
+        "S/core/resource_run_ledger.ads:229-235"
+      ]
+    },
+    {
+      "id": "C-OWNER",
+      "claim": "H7 / INVENTORY.md:617,696 summarize owner/retry exports as fixed Θ(L⁶); Appendix A:916 labels Retry_Equation O(H·id).",
+      "correction": "Individual epoch comparisons have fixed multiplicity, but retry authorization and audit traverse whole histories. Retry_Holds, Retry_Reference and Retry_Equation call History_Valid, and audit Same_Prefix calls Same_Row with Same_Epoch per row. The whole exported paths require history-dependent terms and a full trace; they are not fixed Θ(L⁶) or O(H·id).",
+      "evidence": [
+        "S/core/worldline-owner_transitions.adb:21-38",
+        "S/core/worldline-owner_transitions.adb:48-50",
+        "S/core/worldline-owner_transitions.ads:134-151",
+        "S/core/worldline-owner_retry_audit.ads:38-42",
+        "S/core/worldline-owner_retry_audit.adb:26-28",
+        "S/core/worldline-owner_retry_audit.adb:61-69",
+        "S/core/evaluation_history.ads:203-217",
+        "S/core/worldline-c_api.adb:1015",
+        "S/core/worldline-c_api.adb:1112-1152"
+      ]
+    },
+    {
+      "id": "C-EMPTY",
+      "claim": "H6 / INVENTORY.md:595 states Θ(D²·L⁵ + D·L⁶) without a nonempty-disk qualification.",
+      "correction": "Empty disk rosters still execute Check_Capacity and its checked numeric relation. Include that fixed memory-quantity cost or state explicitly that the displayed class is a nonempty, comparable-extent worst-case envelope. Similar composite Θ expressions are not equalities for every short-circuit path.",
+      "evidence": [
+        "S/core/resource_admission.adb:233-276",
+        "S/core/resource_admission.adb:180-206",
+        "S/core/resource_admission.ads:130-151"
+      ]
+    },
+    {
+      "id": "C-UNIT",
+      "claim": "INVENTORY.md:114 says every Big_Integer operation allocates its result; :125-129 describes each PR invocation as exactly one multiply/result allocation/Post literal/variant.",
+      "correction": "Comparisons return Boolean without allocating a Big_Integer result. PR invocations remain a valid source call-count unit, but the exponent-zero body has no multiply, nonzero bodies also convert 256, and predicates/controlled copies add work. Do not report the invocation count as an exact allocation or machine instruction count. The stated polynomial limb-work classes remain conditional source-model reasoning.",
+      "evidence": [
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:106-145",
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:502-507",
+        "S/core/resource_quantities.ads:40-45",
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:604-620"
+      ]
+    },
+    {
+      "id": "C-LOC",
+      "claim": "INVENTORY.md:372-373,673-674 cites chain C API call/handler at lines 114/117 and run-ledger handler at 221.",
+      "correction": "In the hash-matched candidate, the chain W.Decide call is line 99 and exception handler line 102. The run-ledger handler is line 222; line 221 is the normal return 0. The failure-mapping conclusion survives, but these evidence locations must be repaired.",
+      "evidence": [
+        "S/core/worldline-chain_authority_c_api.adb:99-102",
+        "S/core/resource_run_ledger_c_api.adb:219-222"
+      ]
+    },
+    {
+      "id": "C-PACKET-GAP",
+      "claim": "INVENTORY.md:785-788,800-803 gives gap-multiplied cost classes without an ordered nonzero-gap qualification.",
+      "correction": "Allowed zero-gap calls still evaluate Posts over absolute positions. Packet 13 Prefix_Tail gains an absolute Prefix_Reference Post even when First=Stop; Prefix_Decomposition also has absolute reference work at its base. Packet 12's unchanged Posts retain radix/prefix cost at Low=High. Use nonzero-gap qualifications or retain these base terms; do not discard equal-endpoint cases.",
+      "evidence": [
+        "P13/files/core/resource_reservation_transition.adb:94-98",
+        "P13/files/core/resource_reservation_transition.adb:139-143",
+        "P13/files/core/resource_reservation_transition.adb:433-437",
+        "P12/files/core/evaluation_epoch.adb:146-154",
+        "P12/files/core/evaluation_epoch.adb:175-183",
+        "P12/files/core/worldline-resources.adb:11-13",
+        "P12/files/core/worldline-resources.adb:37-39"
+      ]
+    },
+    {
+      "id": "C-P12-REACH",
+      "claim": "INVENTORY.md:807 / inventory.json packet 12 says the changed witnesses are reached only on mismatch lemmas, once per call.",
+      "correction": "One outer mismatch can trigger many nested witness evaluations. The unchanged Worldline.Resources Prefix_Modulus calls Prefix_Quotient at every recursive level; a Mismatching_Sum_Column invokes Value_Modulus for multiple operands. Looping the inner witness removes its own recursion, not the containing recursion or repeated calls. The advertised standalone polynomial classes remain conditional worst-case classes before and after.",
+      "evidence": [
+        "S/core/worldline-resources.adb:239-262",
+        "S/core/worldline-resources.adb:269-274",
+        "S/core/worldline-resources.adb:693-695",
+        "P12/files/core/worldline-resources.adb:46-70"
+      ]
+    },
+    {
+      "id": "C-BASE",
+      "claim": "INVENTORY.md:818-822 says base-to-candidate diffs consist of parenthesization, nonrecursive contradiction lemmas, and a canonical invariant/case subtype.",
+      "correction": "The textual delta description is incomplete. It also changes default initializations and predicated Ghost local types, adds column/prefix assertions, introduces a Canonicalize Ghost slot constant, and adds an array-length guard in Tagged_Matches while removing the Invalid_Value case. These inspected changes do not alter the dominant cost classes identified here, but the narrower textual description is false; semantic equivalence and source qualification remain separate obligations.",
+      "evidence": [
+        "B/core/resource_ledger.adb:949-977",
+        "S/core/resource_ledger.adb:1013-1038",
+        "S/core/resource_ledger.adb:1142-1148",
+        "S/core/worldline-resources.adb:648-662",
+        "S/core/worldline-resources.adb:867-874",
+        "S/core/canonical_artifacts.adb:134-159",
+        "S/core/canonical_artifacts.adb:474-503",
+        "S/core/canonical_artifacts.adb:576-578"
+      ]
+    },
+    {
+      "id": "C-PINS",
+      "claim": "INVENTORY.md:708-710 labels whole-file-pinned body changes L plus reviewed pin regeneration, while :714-715 reserves O for public spec/reference/contract/API/ABI/runtime/build changes.",
+      "correction": "Keep implementation ownership distinct from permission to change pinned text. Under this review's requested pinned-text boundary, a concrete change to enrolled pinned text must carry O-PINS operator approval as well as independent review and regenerated effective pins. Body-only implementation work can be lead-owned; that label does not authorize changing the protected pin package, weakening its keyset, or adopting a changed pinned contract/reference. This review authorizes none of those actions.",
+      "evidence": [
+        "INVENTORY.md:708-715",
+        "S/runtime/worldline/proof_manifest.py:329-364",
+        "S/runtime/worldline/proof_manifest.py:403",
+        "H:153-161",
+        "/home/sicarii/Documents/complete-phase1-prompt.txt:34",
+        "user review item 4: operator approval for pinned text or public contract"
+      ]
+    },
+    {
+      "id": "C-COPY",
+      "claim": "INVENTORY.md:752 labels narrower Ghost copies L and says constant-factor only.",
+      "correction": "Narrowing an arena snapshot to a changing slot can change the copy component's growth when arena and slot extents vary independently, although a dominant arithmetic class may remain. It also needs a reviewed way to preserve the original whole-arena frame relations. If existing assertions/relations are replaced, R is required; pinned-text or public-contract changes retain their O boundary. Native allocation/copy-lifetime improvement is not established statically.",
+      "evidence": [
+        "S/core/resource_ledger.adb:1144",
+        "S/core/resource_ledger.adb:1203",
+        "S/core/resource_ledger.adb:1310-1314",
+        "S/core/resource_ledger.adb:1424",
+        "S/core/resource_ledger.adb:1456-1471",
+        "INVENTORY.md:712-715"
+      ]
+    },
+    {
+      "id": "C-ABI",
+      "claim": "INVENTORY.md:755-756 labels failure-code differentiation L+R, ABI review, possibly O.",
+      "correction": "Internal diagnostics that preserve the public interface can be L+R. A changed public transport code, meaning, layout, or caller protocol is an API/ABI package and requires O, not discretionary 'possibly O'. All original accepted cases and native success obligations remain fixed; a clearer failure classification supplies no native acceptance.",
+      "evidence": [
+        "INVENTORY.md:714-715",
+        "S/core/worldline-resource_ledger_c_api.adb:176",
+        "S/core/worldline-chain_authority_c_api.adb:102",
+        "D1/REVIEW.md:135-157",
+        "H:119-121,129-131"
+      ]
+    }
+  ],
+  "hazard_rulings": [
+    {
+      "id": "H1",
+      "ruling": "Correct source-semantic exponential duplication: one recursive body call and one recursive Post call; Replay_Reference repeats in its own Post, and Wire.Decide invokes it in each result-field conjunct. Valid-genesis retained-row mismatch paths also pay full reference recursion. No measured native cost is established.",
+      "evidence_class": "observed source plus static reasoning; exact JACKAL instance arithmetic"
+    },
+    {
+      "id": "H2",
+      "ruling": "Whole-output and total-arena evaluation is real; Python-sized bounded-value growth remains the quoted high-order family. Correct the independent slot term (C-SLOT); generic Ada arena/slot parameters and empty cases need explicit bounds.",
+      "evidence_class": "observed source plus conditional static growth reasoning"
+    },
+    {
+      "id": "H3",
+      "ruling": "Correct reference hierarchy: nonrecursive primitive Posts, linear self-recursion in public Posts, iterative worker invariant reconstruction, repeated Magnitude/Value evaluation. PR calls are a proxy rather than exact allocations or elapsed work; runtime threshold is assessed in item 2.",
+      "evidence_class": "observed source plus static recurrence reasoning; exact JACKAL arithmetic"
+    },
+    {
+      "id": "H4",
+      "ruling": "Check-path uniqueness distinction is supported. Correct direct Sum versus Contained and excluded-row scan cost (C-SUM). Wire decoding repeats checked Decode/equality work.",
+      "evidence_class": "observed source plus conditional static reasoning"
+    },
+    {
+      "id": "H5",
+      "ruling": "Can_Reserve success-path column and Post structure and Try_Reserve Matching_Prefix amplification are supported. Sum_Equals's displayed class is for the success path; its mismatch invokes recursive modulus/quotient witnesses and is not covered by that headline.",
+      "evidence_class": "observed source plus success-path static reasoning"
+    },
+    {
+      "id": "H6",
+      "ruling": "Prior-disk invariant/reference reevaluation is supported; add empty-roster memory work (C-EMPTY).",
+      "evidence_class": "observed source plus conditional static reasoning"
+    },
+    {
+      "id": "H7",
+      "ruling": "Pending, completion and history structures are supported. Owner/retry full exported-path claims need correction and retracing (C-OWNER); explicitly untraced completion/finalization exports remain unverified.",
+      "evidence_class": "observed source plus partial static call-graph reasoning"
+    },
+    {
+      "id": "H8",
+      "ruling": "The listed quantifiers rescan processed prefixes and nested references under Check. Treat classes as source-level worst-case component envelopes; early existential/universal termination and byte-comparison extents matter. Initialized itself is not a runtime proof of validity; Decode/equality quantifiers supply the listed work.",
+      "evidence_class": "observed assertion sites plus conditional static reasoning"
+    },
+    {
+      "id": "H9",
+      "ruling": "Ghost snapshots, Old captures and linear recursion depth are present. Native primary/secondary stack layout, peak live heap, copy elision and exhaustion behavior are not determined statically.",
+      "evidence_class": "observed source; resource-layout estimates remain reasoning-only"
+    },
+    {
+      "id": "H10",
+      "ruling": "Catch-all exception mapping in the cited wrappers is real for propagated Ada exceptions. It does not establish catchability of a stack/process failure or successful completion; these outcomes are not accepted semantic refusals.",
+      "evidence_class": "observed handlers plus conditional static failure reasoning"
+    },
+    {
+      "id": "H11",
+      "ruling": "Prefix and Tagged_Matches add bounded-size checks at the inspected sites and retain executable recursion. The checked overhead is a source-model constant factor, not a bound on total parser work or native recursion resources.",
+      "evidence_class": "observed source plus conditional static reasoning"
+    }
+  ],
+  "input_hash_checks": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.ads",
+      "sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "expected": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "match": true,
+      "bytes": 5482
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.adb",
+      "sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "expected": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+      "match": true,
+      "bytes": 6185
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_wire.ads",
+      "sha256": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6",
+      "expected": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6",
+      "match": true,
+      "bytes": 3540
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_wire.adb",
+      "sha256": "ab5fdba5291c115a5ffabc3538b443336b504e8484ba2096d573fa6ca4030ad1",
+      "expected": "ab5fdba5291c115a5ffabc3538b443336b504e8484ba2096d573fa6ca4030ad1",
+      "match": true,
+      "bytes": 592
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_c_api.adb",
+      "sha256": "dae2748bdb87c55b90ed73bd82fe882d5d4c64ca3af944f463dd4798ca66328a",
+      "expected": "dae2748bdb87c55b90ed73bd82fe882d5d4c64ca3af944f463dd4798ca66328a",
+      "match": true,
+      "bytes": 4916
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-receipts.ads",
+      "sha256": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea",
+      "expected": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea",
+      "match": true,
+      "bytes": 1186
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-receipts.adb",
+      "sha256": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225",
+      "expected": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225",
+      "match": true,
+      "bytes": 1773
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.ads",
+      "sha256": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+      "expected": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+      "match": true,
+      "bytes": 5497
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.adb",
+      "sha256": "5e87d8a0e874a0f2010070e31140ee1eb638ff866beea6f85da1f41599863b9b",
+      "expected": "5e87d8a0e874a0f2010070e31140ee1eb638ff866beea6f85da1f41599863b9b",
+      "match": true,
+      "bytes": 20629
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_ledger.ads",
+      "sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "expected": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "match": true,
+      "bytes": 12563
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_ledger.adb",
+      "sha256": "4a5fe307f79a8d6cf0afa7bec2f3fe2a6e58b6eeaf0c8d8790333c4dc6b24fe1",
+      "expected": "4a5fe307f79a8d6cf0afa7bec2f3fe2a6e58b6eeaf0c8d8790333c4dc6b24fe1",
+      "match": true,
+      "bytes": 67442
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_ledger_c_api.adb",
+      "sha256": "112a8ef5321240f9d13fe3135dce1b6085d6fecda1590a553f30b4dc4bf1247a",
+      "expected": "112a8ef5321240f9d13fe3135dce1b6085d6fecda1590a553f30b4dc4bf1247a",
+      "match": true,
+      "bytes": 9703
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads",
+      "sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "expected": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "match": true,
+      "bytes": 28211
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.adb",
+      "sha256": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+      "expected": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+      "match": true,
+      "bytes": 13341
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger_wire.adb",
+      "sha256": "d49ca335a1a3a353cdd0ce02ff2b51ea9b3eab359f557b5757fd09caad203a11",
+      "expected": "d49ca335a1a3a353cdd0ce02ff2b51ea9b3eab359f557b5757fd09caad203a11",
+      "match": true,
+      "bytes": 1661
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger_c_api.adb",
+      "sha256": "fbc97b4c17ee0a0a17e74bae669fa11e674bb234ce5cd8f73d374b7d7e114581",
+      "expected": "fbc97b4c17ee0a0a17e74bae669fa11e674bb234ce5cd8f73d374b7d7e114581",
+      "match": true,
+      "bytes": 11897
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources.ads",
+      "sha256": "571e729f77c605d6589b18f753e635da2a324d6363860d08285551357c51b587",
+      "expected": "571e729f77c605d6589b18f753e635da2a324d6363860d08285551357c51b587",
+      "match": true,
+      "bytes": 7183
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources.adb",
+      "sha256": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc",
+      "expected": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc",
+      "match": true,
+      "bytes": 45767
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_wire.ads",
+      "sha256": "35424de3b2452cb8b67b9652afdb225b6ec8908b4150bb0028da00cee42ae6fc",
+      "expected": "35424de3b2452cb8b67b9652afdb225b6ec8908b4150bb0028da00cee42ae6fc",
+      "match": true,
+      "bytes": 776
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_wire.adb",
+      "sha256": "25e3163ab7d9ff02a72fa06aff10ecbe8dd88de9a2dea24f1d7db7850f491472",
+      "expected": "25e3163ab7d9ff02a72fa06aff10ecbe8dd88de9a2dea24f1d7db7850f491472",
+      "match": true,
+      "bytes": 385
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources_c_api.adb",
+      "sha256": "f31c2dd39a50f9bf02cd345b2617b41ab4a2b02bc0947a8b4f23c917c2be50cb",
+      "expected": "f31c2dd39a50f9bf02cd345b2617b41ab4a2b02bc0947a8b4f23c917c2be50cb",
+      "match": true,
+      "bytes": 2245
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_admission.ads",
+      "sha256": "269a14b1f9e23a8ff35c2d76d8cdb4bd9e530721f4e17fd6e06a5b3f821a94d0",
+      "expected": "269a14b1f9e23a8ff35c2d76d8cdb4bd9e530721f4e17fd6e06a5b3f821a94d0",
+      "match": true,
+      "bytes": 9153
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_admission.adb",
+      "sha256": "56561dc5fbe3a1cd62710b34678fe894ea55de200b0e3742bbdd31ea4dddf887",
+      "expected": "56561dc5fbe3a1cd62710b34678fe894ea55de200b0e3742bbdd31ea4dddf887",
+      "match": true,
+      "bytes": 11149
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_policy_c_api.adb",
+      "sha256": "794d9a4c16a0bbdd9a95da51cd762f190778aeae66ac07c000f1972eda6f5b04",
+      "expected": "794d9a4c16a0bbdd9a95da51cd762f190778aeae66ac07c000f1972eda6f5b04",
+      "match": true,
+      "bytes": 8056
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_epoch.ads",
+      "sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+      "expected": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+      "match": true,
+      "bytes": 1136
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_epoch.adb",
+      "sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "expected": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+      "match": true,
+      "bytes": 24960
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_reservation_transition.ads",
+      "sha256": "886bb13a69cdf029bc10703b39bce49eaeadb9be543d8449509badf6e6fd2aae",
+      "expected": "886bb13a69cdf029bc10703b39bce49eaeadb9be543d8449509badf6e6fd2aae",
+      "match": true,
+      "bytes": 20624
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_reservation_transition.adb",
+      "sha256": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3",
+      "expected": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3",
+      "match": true,
+      "bytes": 35531
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending.ads",
+      "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "expected": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "match": true,
+      "bytes": 7636
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending.adb",
+      "sha256": "41a222925d9b780112ac90eb7a6b7ec3146e9e826b3b983bb3be0f59b04fc6af",
+      "expected": "41a222925d9b780112ac90eb7a6b7ec3146e9e826b3b983bb3be0f59b04fc6af",
+      "match": true,
+      "bytes": 2252
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_history.ads",
+      "sha256": "5ab34318c4b2678aa17f679af2b5190fc8baa082dbf7191308aa21382f812601",
+      "expected": "5ab34318c4b2678aa17f679af2b5190fc8baa082dbf7191308aa21382f812601",
+      "match": true,
+      "bytes": 15854
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_history.adb",
+      "sha256": "94ea3238c300759334c2e60f6a3a146b187fc08296c562e96d28e1fd4c315840",
+      "expected": "94ea3238c300759334c2e60f6a3a146b187fc08296c562e96d28e1fd4c315840",
+      "match": true,
+      "bytes": 3141
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.ads",
+      "sha256": "2b2a87a7a1f554486caad6c680e2c39dd4bb7b5e48619933f033cda15ea0a2f5",
+      "expected": "2b2a87a7a1f554486caad6c680e2c39dd4bb7b5e48619933f033cda15ea0a2f5",
+      "match": true,
+      "bytes": 21345
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.adb",
+      "sha256": "f5742fa1f7017566ea97aaee8596dfb9e9c5b139d13b369e29454453357f6487",
+      "expected": "f5742fa1f7017566ea97aaee8596dfb9e9c5b139d13b369e29454453357f6487",
+      "match": true,
+      "bytes": 8191
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion_roster.adb",
+      "sha256": "9779f6f10d68fe7f9bbd806f20a2bcd3217d3ae2e6869bc8e02d3142902350fd",
+      "expected": "9779f6f10d68fe7f9bbd806f20a2bcd3217d3ae2e6869bc8e02d3142902350fd",
+      "match": true,
+      "bytes": 3390
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_raw_roster.adb",
+      "sha256": "495775ae49764c359079ad5b47665f7f17bb7b449d0e0aab186d8c42b72f43a4",
+      "expected": "495775ae49764c359079ad5b47665f7f17bb7b449d0e0aab186d8c42b72f43a4",
+      "match": true,
+      "bytes": 3527
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.adb",
+      "sha256": "c64f17246f0dfa3d88299a534e3e716ada35fd05120983a3d8f53a7c28d1a738",
+      "expected": "c64f17246f0dfa3d88299a534e3e716ada35fd05120983a3d8f53a7c28d1a738",
+      "match": true,
+      "bytes": 13598
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3.ads",
+      "sha256": "2669b7ab590b34df3417b159d92bf78f8d67151aecce2a686bd441ee884f6afd",
+      "expected": "2669b7ab590b34df3417b159d92bf78f8d67151aecce2a686bd441ee884f6afd",
+      "match": true,
+      "bytes": 10930
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3.adb",
+      "sha256": "f93952704858a8cca146d72c9fdfd311066288bc10407c1bedf2d4eb8dcaf11f",
+      "expected": "f93952704858a8cca146d72c9fdfd311066288bc10407c1bedf2d4eb8dcaf11f",
+      "match": true,
+      "bytes": 2620
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_wire.ads",
+      "sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8",
+      "expected": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8",
+      "match": true,
+      "bytes": 12448
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_wire.adb",
+      "sha256": "0f629ff89f864478e3d9eb9eac7d0ba8424fd49f014cc502216e62d231dadf50",
+      "expected": "0f629ff89f864478e3d9eb9eac7d0ba8424fd49f014cc502216e62d231dadf50",
+      "match": true,
+      "bytes": 5100
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/canonical_artifacts.ads",
+      "sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "expected": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "match": true,
+      "bytes": 3884
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/canonical_artifacts.adb",
+      "sha256": "979466c0c24fadb5ae5f4aac29a08cff680d367c4356ec69faa0596c7c5f2aa3",
+      "expected": "979466c0c24fadb5ae5f4aac29a08cff680d367c4356ec69faa0596c7c5f2aa3",
+      "match": true,
+      "bytes": 34002
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/attest/attest-sha256.adb",
+      "sha256": "db0fc9736ed92c274993452f02a3484680d815cfdaeb7a9ce8d1a49b94da417b",
+      "expected": "db0fc9736ed92c274993452f02a3484680d815cfdaeb7a9ce8d1a49b94da417b",
+      "match": true,
+      "bytes": 6869
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core_sources.gpr",
+      "sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "expected": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "match": true,
+      "bytes": 803
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/attest_sha256.gpr",
+      "sha256": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5",
+      "expected": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5",
+      "match": true,
+      "bytes": 682
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core.gpr",
+      "sha256": "5497fabb698d53efc2bfb39104bdcd48b1c0f46e0c706c2643c8ce1af72fd5b0",
+      "expected": "5497fabb698d53efc2bfb39104bdcd48b1c0f46e0c706c2643c8ce1af72fd5b0",
+      "match": true,
+      "bytes": 2983
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/spark-big_integers.ads",
+      "sha256": "fe80da029611497ba25aca43d5599a220f2be41f33010f6b04d42febc2bfec52",
+      "expected": "fe80da029611497ba25aca43d5599a220f2be41f33010f6b04d42febc2bfec52",
+      "match": true,
+      "bytes": 251
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/chain_authority.py",
+      "sha256": "9f123d62282c8189a9b7b5f300b37d94d2544626820ca5d08ee9a72c81cab7f2",
+      "expected": "9f123d62282c8189a9b7b5f300b37d94d2544626820ca5d08ee9a72c81cab7f2",
+      "match": true,
+      "bytes": 5514
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/store.py",
+      "sha256": "554b0a9dbe0b91f4fd9a6cd38d830e8b920d7e0d54e987f173865a0b33f68c9b",
+      "expected": "554b0a9dbe0b91f4fd9a6cd38d830e8b920d7e0d54e987f173865a0b33f68c9b",
+      "match": true,
+      "bytes": 59569
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/resource_ledger.py",
+      "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f",
+      "expected": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f",
+      "match": true,
+      "bytes": 12208
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+      "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+      "expected": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+      "match": true,
+      "bytes": 157262
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/chain-bounds-tests/test_bounds.adb",
+      "sha256": "5ac26ee79c872d87e606d67e1c05a233b84c43b4fd83d5254f791c9543cadf1c",
+      "expected": "5ac26ee79c872d87e606d67e1c05a233b84c43b4fd83d5254f791c9543cadf1c",
+      "match": true,
+      "bytes": 2652
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/chain-bounds-tests/tests.gpr",
+      "sha256": "8d55f702a2e23177871be22a6805c7a633a6ba387beae65ae0a1d78ea8a3bb0f",
+      "expected": "8d55f702a2e23177871be22a6805c7a633a6ba387beae65ae0a1d78ea8a3bb0f",
+      "match": true,
+      "bytes": 407
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-genbig.adb",
+      "sha256": "898241306e8d321750851a99cb7efc05064192f56b521de1fdbb2afb7b524991",
+      "expected": "898241306e8d321750851a99cb7efc05064192f56b521de1fdbb2afb7b524991",
+      "match": true,
+      "bytes": 42968
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-shabig.ads",
+      "sha256": "344bcca75e082c901321e9a8e7a2b115c7c8fd08773f6047092b9a94e5139069",
+      "expected": "344bcca75e082c901321e9a8e7a2b115c7c8fd08773f6047092b9a94e5139069",
+      "match": true,
+      "bytes": 3944
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.ads",
+      "sha256": "be5a0604cbbde4b12d15ffd1ce665238b6581d8ec534dd6b3e8e8dfc4f40607a",
+      "expected": "be5a0604cbbde4b12d15ffd1ce665238b6581d8ec534dd6b3e8e8dfc4f40607a",
+      "match": true,
+      "bytes": 6423
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb",
+      "sha256": "64872fd0039a97b22885320c559de9c4f13ac18c775d306b5690863ca6852d73",
+      "expected": "64872fd0039a97b22885320c559de9c4f13ac18c775d306b5690863ca6852d73",
+      "match": true,
+      "bytes": 17818
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/share/info/gnat_ugn.info",
+      "sha256": "07f6d253c1a536946cdd0d5a26ddc4338d23c7c560a0f35bf918be51f576f17c",
+      "expected": "07f6d253c1a536946cdd0d5a26ddc4338d23c7c560a0f35bf918be51f576f17c",
+      "match": true,
+      "bytes": 1093008
+    }
+  ],
+  "metadata_checks": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/author-freeze.json",
+      "sha256": "2db0d758d7bce87b72962628896e1f7cddb7aba161c690469fe284d12f9b11b2",
+      "expected": "2db0d758d7bce87b72962628896e1f7cddb7aba161c690469fe284d12f9b11b2",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/composition.json",
+      "sha256": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+      "expected": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source-inventory.json",
+      "sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+      "expected": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+      "match": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review.json",
+      "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+      "freeze_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review-freeze.json",
+      "freeze_sha256": "2c07de1de69b219127465cd60023bd9312cd61accd6fec0eb6dba6d6480d871b",
+      "expected": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+      "match": true,
+      "verdict": "QUALIFIED_SOURCE_COMPOSITION",
+      "actual_model_selection": "gpt-6.1-sol",
+      "proof_acceptance": false,
+      "native_acceptance": null,
+      "phase_acceptance": false
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review.json",
+      "sha256": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+      "freeze_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review-freeze.json",
+      "freeze_sha256": "3626dc73c271c83628275d53a869835173e5d30a8f1c97e9f663f6380434a9f4",
+      "expected": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+      "match": true,
+      "verdict": "NOT_ENDORSED",
+      "actual_model_selection": "gpt-6.1-sol",
+      "proof_acceptance": false,
+      "native_acceptance": null,
+      "phase_acceptance": false
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237"
+    },
+    {
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/REVIEW.md",
+      "sha256": "04dbf7041148e0acd604b806f6ed4dd46a4b20a9e16874ad0f88056b1fa332bc"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+      "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb"
+    }
+  ],
+  "original_obligation_check": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+    "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+    "ids": [
+      "OB-001",
+      "OB-002",
+      "OB-003",
+      "OB-004",
+      "OB-005",
+      "OB-006",
+      "OB-007",
+      "OB-008",
+      "OB-009",
+      "OB-010",
+      "OB-011",
+      "OB-012",
+      "OB-013",
+      "OB-014",
+      "OB-015",
+      "OB-016",
+      "OB-017",
+      "OB-018",
+      "OB-019",
+      "OB-020",
+      "OB-021",
+      "OB-022",
+      "OB-023",
+      "OB-024",
+      "OB-025",
+      "OB-026",
+      "OB-027",
+      "OB-028",
+      "OB-029",
+      "OB-030",
+      "OB-031",
+      "OB-032",
+      "OB-033",
+      "OB-034",
+      "OB-035",
+      "OB-036",
+      "OB-037",
+      "OB-038",
+      "OB-039",
+      "OB-040",
+      "OB-041",
+      "OB-042",
+      "OB-043",
+      "OB-044",
+      "OB-045",
+      "OB-046",
+      "OB-047",
+      "OB-048",
+      "OB-049",
+      "OB-050",
+      "OB-051",
+      "OB-052",
+      "OB-053",
+      "OB-054",
+      "OB-055",
+      "OB-056",
+      "OB-057",
+      "OB-058",
+      "OB-059",
+      "OB-060",
+      "OB-061",
+      "OB-062",
+      "OB-063",
+      "OB-064",
+      "OB-065",
+      "OB-066",
+      "OB-067",
+      "OB-068",
+      "OB-069",
+      "OB-070",
+      "OB-071",
+      "OB-072",
+      "OB-073",
+      "OB-074",
+      "OB-075",
+      "OB-076",
+      "OB-077",
+      "OB-078",
+      "OB-079",
+      "OB-080",
+      "OB-081",
+      "OB-082",
+      "OB-083",
+      "OB-084",
+      "OB-085",
+      "OB-086",
+      "OB-087",
+      "OB-088",
+      "OB-089",
+      "OB-090",
+      "OB-091",
+      "OB-092",
+      "OB-093",
+      "OB-094",
+      "OB-095",
+      "OB-096",
+      "OB-097",
+      "OB-098",
+      "OB-099",
+      "OB-100",
+      "OB-101",
+      "OB-102",
+      "OB-103",
+      "OB-104",
+      "OB-105",
+      "OB-106",
+      "OB-107",
+      "OB-108",
+      "OB-109",
+      "OB-110",
+      "OB-111",
+      "OB-112",
+      "OB-113",
+      "OB-114",
+      "OB-115",
+      "OB-116",
+      "OB-117",
+      "OB-118",
+      "OB-119",
+      "OB-120",
+      "OB-121",
+      "OB-122",
+      "OB-123",
+      "OB-124",
+      "OB-125",
+      "OB-126",
+      "OB-127",
+      "OB-128",
+      "OB-129",
+      "OB-130",
+      "OB-131",
+      "OB-132",
+      "OB-133",
+      "OB-134",
+      "OB-135",
+      "OB-136",
+      "OB-137",
+      "OB-138",
+      "OB-139",
+      "OB-140",
+      "OB-141",
+      "OB-142",
+      "OB-143",
+      "OB-144",
+      "OB-145",
+      "OB-146",
+      "OB-147",
+      "OB-148",
+      "OB-149",
+      "OB-150",
+      "OB-151",
+      "OB-152",
+      "OB-153",
+      "OB-154",
+      "OB-155",
+      "OB-156",
+      "OB-157",
+      "OB-158",
+      "OB-159",
+      "OB-160",
+      "OB-161",
+      "OB-162",
+      "OB-163",
+      "OB-164",
+      "OB-165",
+      "OB-166",
+      "OB-167",
+      "OB-168",
+      "OB-169",
+      "OB-170",
+      "OB-171",
+      "OB-172",
+      "OB-173",
+      "OB-174",
+      "OB-175",
+      "OB-176",
+      "OB-177",
+      "OB-178",
+      "OB-179",
+      "OB-180",
+      "OB-181",
+      "OB-182",
+      "OB-183",
+      "OB-184",
+      "OB-185",
+      "OB-186",
+      "OB-187",
+      "OB-188",
+      "OB-189",
+      "OB-190",
+      "OB-191",
+      "OB-192",
+      "OB-193",
+      "OB-194",
+      "OB-195",
+      "OB-196",
+      "OB-197",
+      "OB-198",
+      "OB-199",
+      "OB-200",
+      "OB-201",
+      "OB-202",
+      "OB-203",
+      "OB-204",
+      "OB-205",
+      "OB-206",
+      "OB-207",
+      "OB-208",
+      "OB-209",
+      "OB-210",
+      "OB-211",
+      "OB-212",
+      "OB-213",
+      "OB-214",
+      "OB-215",
+      "OB-216",
+      "OB-217",
+      "OB-218",
+      "OB-219"
+    ]
+  },
+  "related_additional_open_obligations": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review.json",
+      "open_obligations": [
+        {
+          "id": "resources_pointer_legality",
+          "status": "OPEN",
+          "obligation": "Analyze/prove the unchanged On body; retain the C ABI, full byte-count domain, zero-length/null behavior and return codes. Valid checks shape, not physical readable/live/stable storage."
+        },
+        {
+          "id": "seal_classification",
+          "status": "OPEN",
+          "obligation": "On every Seal_Observed path retain Classification equality to Capture_Reference, the full Seal_Reference equation, artifact binding, identity and finalization/history equations."
+        },
+        {
+          "id": "epoch_contradiction_warnings",
+          "status": "OPEN",
+          "obligation": "Retain the total conditional quotient/remainder contract, both contradiction branches, Difference facts, residual identities, bounds, False conclusions and final equalities."
+        },
+        {
+          "id": "recursive_contract_availability",
+          "status": "OPEN",
+          "obligation": "Prove complete recurrences, reference equalities and termination on original domains, including Power_Factor, Prefix_Tail, Power_Reference, Prefix_Reference, Radix_Power and Prefix_Value."
+        },
+        {
+          "id": "operator_reassociation",
+          "status": "OPEN",
+          "obligation": "Retain current span/index checks, Ada evaluation/overflow behavior, complete domains and all loop/reference equations."
+        },
+        {
+          "id": "big_integer_validity_model",
+          "status": "OPEN",
+          "obligation": "Account for library validity assumptions and original native allocation, stack, time, lifetime and checked-ghost obligations."
+        },
+        {
+          "id": "required_analysis_coverage",
+          "status": "OPEN",
+          "obligation": "Keep all 535 required names, floor 251, sole declared worldline-c_api boundary, full command/caps, contracts, fixtures and controls."
+        },
+        {
+          "id": "sarif_metadata",
+          "status": "OPEN",
+          "obligation": "Preserve raw evidence and distinguish OS waits from producer metadata."
+        },
+        {
+          "id": "FIXED_PHASE_ONE_EXIT",
+          "status": "OPEN",
+          "obligation": "Every original consequential contract and complete body proved; faithful authentic callers/producers and genuine accepted cases; all original seven workstreams and acceptance dependencies remain unchanged."
+        },
+        {
+          "id": "MATCHING_SOURCE_FULL_STRICT_PROOF",
+          "status": "OPEN",
+          "obligation": "Unchanged full -U level-3 strict command, floor 251, sole worldline-c_api boundary, original ordered 535 names, every original and new body/reference/caller/flow/RTE/termination goal, zero unproved/justified/pragma Assume and all strict-warning obligations resolved."
+        },
+        {
+          "id": "EXACT_NATIVE_MODEL_CHECKED_GHOST_COST",
+          "status": "OPEN",
+          "obligation": "Actual proved/compiled/linked/loaded full-library validity, full-domain success/failure semantics, native check/evaluation correspondence, controlled copies/lifetimes, heap/stacks/time/resource costs and checked Ghost execution without caps or suppression."
+        },
+        {
+          "id": "ORIGINAL_ORDINARY_LIFETIME_AND_FAULT_CAMPAIGNS",
+          "status": "OPEN",
+          "obligation": "Complete original ordered ordinary roster and all original/additive/genuine positive/refusal/root/task/child/provider/owner/lifetime and applicable authorized fault controls on the exact integrated source and runtime."
+        },
+        {
+          "id": "EXECUTION_FRAME_ADMISSION_AND_CUSTODY",
+          "status": "OPEN",
+          "obligation": "Independent full-frame qualification, lead readback/adoption, genuine current protected admission, code/runtime/data/ABI closure, authentic producers, waits/private streams, mapped custody and separate measured confinement."
+        },
+        {
+          "id": "FINAL_ACCEPTANCE_HOSTED_PUBLICATION_DEPLOYMENT",
+          "status": "OPEN",
+          "obligation": "Final independent exact-candidate acceptance; complete hosted assurance, requirement matrix and applicable authorized publication/release/archive/upgrade/rollback/deployment/production obligations."
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review.json",
+      "open_obligations": [
+        {
+          "id": "O-A",
+          "status": "OPEN",
+          "obligation": "Full signed/invalid Algorithm A equivalence, explicit helper/lemma bodies and every-target coverage"
+        },
+        {
+          "id": "O-CHECK",
+          "status": "OPEN",
+          "obligation": "Unchanged capacity-reference equivalence and decision status priority"
+        },
+        {
+          "id": "O-BOUNDS",
+          "status": "OPEN",
+          "obligation": "Installed wide-type/generic legality and all original-domain RTE/termination bounds"
+        },
+        {
+          "id": "O-B",
+          "status": "OPEN",
+          "obligation": "Guard-inclusive B references, sentinel/suffix theorem, full equality, sizing and frames"
+        },
+        {
+          "id": "O-PREFIX-PROOF",
+          "status": "OPEN",
+          "obligation": "Chosen additive parser strengthening and Integer_Token proof/caller/checked-cost closure; ruling alone supplies no proof"
+        },
+        {
+          "id": "O-LEGALITY-PROBE",
+          "status": "OPEN",
+          "obligation": "Exact installed allocating/deallocating Global=>null Boolean pattern, borrow and checked assertion-call legality"
+        },
+        {
+          "id": "O-WORKSPACE",
+          "status": "OPEN",
+          "obligation": "Every originally successful input retained, native heap/stack/copy costs and leak-free lifetime on every exit"
+        },
+        {
+          "id": "O-EXCEPTION-CLEANUP",
+          "status": "OPEN",
+          "obligation": "Concrete installed-supported reclamation after post-allocation checked/native exceptions"
+        },
+        {
+          "id": "O-HELPERS",
+          "status": "OPEN",
+          "obligation": "Original executable Exact_Value/Amount/Sum full-domain capabilities and complete repaired OD-1 package"
+        },
+        {
+          "id": "O-GHOST",
+          "status": "OPEN",
+          "obligation": "D2 full checked reference/contract/invariant/lemma recursion, representation, copies, heap/stack/time and failure correspondence"
+        },
+        {
+          "id": "O-BUILD-SELECTION",
+          "status": "OPEN",
+          "obligation": "Actual assertion scenario, compiler/runtime/library identity and loaded closure"
+        },
+        {
+          "id": "O-PYTHON",
+          "status": "OPEN",
+          "obligation": "Repaired OD-2 package and every relevant interpreter/startup/import configuration"
+        },
+        {
+          "id": "O-PY-AUDIT",
+          "status": "OPEN",
+          "obligation": "Complete JSON/non-JSON and outside-runtime decimal data flow, including incorrectly excluded PR sites"
+        },
+        {
+          "id": "O-PY-COST",
+          "status": "OPEN",
+          "obligation": "Full admitted conversion/codec cost without new caps or accepted failures"
+        },
+        {
+          "id": "O-TRANSPORT-MAPPING",
+          "status": "OPEN",
+          "obligation": "Both exports' initial-readiness versus later-context exception stages; native faults remain failures"
+        },
+        {
+          "id": "O-COST-MEASURE",
+          "status": "OPEN",
+          "obligation": "Actual integrated time, heap, primary/secondary stack, copies/temporaries and checked cost on exact identities"
+        },
+        {
+          "id": "O-PROOF",
+          "status": "OPEN",
+          "obligation": "Complete strict matching-source original body/reference/caller/flow/RTE/termination scope and fixed proof floor/ordered roster"
+        },
+        {
+          "id": "O-NATIVE",
+          "status": "OPEN",
+          "obligation": "Compiled call closure, generated-code/resource correspondence and linked/loaded library identity"
+        },
+        {
+          "id": "O-CONTROLS",
+          "status": "OPEN",
+          "obligation": "All original controls unchanged; corrected complete additive RL/IM/PY fixtures and source coverage in both builds"
+        },
+        {
+          "id": "O-PINS",
+          "status": "OPEN",
+          "obligation": "Official pin regeneration and append-only roster enrollment after reviewed source changes"
+        },
+        {
+          "id": "O-JACKAL-SYMBOLIC",
+          "status": "OPEN",
+          "obligation": "Universal mathematical/algorithm obligations are full SPARK proofs, not exact-instance arithmetic"
+        },
+        {
+          "id": "O-FINAL",
+          "status": "OPEN",
+          "obligation": "Independent source/proof/native/integrated Phase One acceptance; none granted here"
+        }
+      ]
+    }
+  ],
+  "verdict": "ACCURATE_WITH_CORRECTIONS",
+  "proof_acceptance": false,
+  "native_acceptance": false,
+  "phase_acceptance": false
+}
