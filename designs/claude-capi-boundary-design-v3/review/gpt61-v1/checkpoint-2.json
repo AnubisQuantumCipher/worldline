@@ -1,0 +1,96 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 2,
+  "completed": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "a8a120c9a704177cdab5232a757f1ef405cb3ad1c694ff135cdd2e8f26a14aa7",
+  "spot_checks": [
+    {
+      "unit": "U2 recovery select",
+      "findings": "Presence flags, Expected shape, present-only Live and Prepared shape, and Expected/Live/Prepared capture retain their original order. Absent pointers/lengths remain ignored and absent differs from present-empty. No output; handler 255 encompasses copies. Marker_Of is total for all flags and Select_Value rechecks the admitted flag predicate. Added transport byte constants plus marker construction can alter peak memory; full accepted native cases remain OPEN.",
+      "design": [
+        "DESIGN.md:998-1051",
+        "APPENDIX-COST-MAP.md:110-122"
+      ],
+      "source": [
+        "S5/core/worldline-recovery_c_api.adb:37-85",
+        "S5/core/worldline-recovery.ads:9-16"
+      ]
+    },
+    {
+      "unit": "U7 ledger compute/headroom",
+      "findings": "Compute retains size constants outside the handler, all extent guards, Data capture before row capture, first-rejected-row gating, existing Compute relation, and unconditional Detail_Data then Total_Data then ascending Details then Result writes on every typed result. Headroom captures A/W/F before Shape acceptance and reads Data only afterwards; Output then Result are unconditional. Output disjointness remains a documented premise with no new guard. Exception 255 permits earlier writes to remain. Decoder totality/contextual proof and changed Encode/Result construction/copy/native effects are OPEN.",
+      "design": [
+        "DESIGN.md:1201-1245",
+        "APPENDIX-BINDINGS.md:307-359",
+        "APPENDIX-COST-MAP.md:179-191"
+      ],
+      "source": [
+        "S5/core/worldline-resource_ledger_c_api.adb:115-176",
+        "S5/core/worldline-resource_ledger_c_api.adb:184-223"
+      ]
+    },
+    {
+      "unit": "U14 completion/context",
+      "findings": "Interleaved fixed extents, captured headers, later extent/overlap predicates and SPARK value predicates retain order. Decide captures all original arrays unconditionally. Context gates later row reads and preserves first-failure diagnostic sites; every acceptance variant defines its payload. Response initialization covers every out path. Unequal journal/history lengths retain History_Invalid written with return 0; History_Index route keeps the original summary element on valid retained cases. Raw Operation /= 2 gate and post-decision malformed-span 255 remain. Proof of conversion/index/initialization/strict warning legality remains OPEN.",
+      "design": [
+        "DESIGN.md:775-891",
+        "DESIGN.md:1380-1548",
+        "APPENDIX-BINDINGS.md:498-587"
+      ],
+      "source": [
+        "S5/core/evaluation_completion_c.adb:393-528",
+        "S5/core/evaluation_completion_c.adb:530-696",
+        "S5/core/evaluation_completion_c.adb:785-868",
+        "S5/core/evaluation_completion.ads:325-433"
+      ]
+    },
+    {
+      "unit": "U15 finalization decide",
+      "findings": "All original fixed and per-array extent/overlap gates, including Rows validation on Operations 0/1, survive. Data, Required and Captured allocations retain order and handler scope. Plans precede rows; Operations 0/1 have no row reads and use an interface without Captured; Operations 2/3 initialize every Captured element before the row-value call. Typed Reasons 0/1/2, reason/promotion diagnostic order, single success write and handler 255 are retained. Pure/infallible decode movement, new acceptance/result temporary costs and full native correspondence remain OPEN.",
+      "design": [
+        "DESIGN.md:694-750",
+        "DESIGN.md:1554-1573",
+        "APPENDIX-BINDINGS.md:626-663",
+        "APPENDIX-COST-MAP.md:284-297"
+      ],
+      "source": [
+        "S5/core/evaluation_finalization_c.adb:122-199",
+        "S5/core/evaluation_finalization_c.adb:235-256"
+      ]
+    }
+  ],
+  "cost_findings": [
+    {
+      "id": "V3-RC6",
+      "finding": "C18 counts one Fits test, but Begin_Line plus Diagnostic_Line each invoke Line_Fits; Begin_Value plus Diagnostic_Value_Site each invoke Value_Fits; Begin_Exception plus Diagnostic_Exception_Site each invoke Exception_Fits. On active fitting paths these are status=exact parsed=1+1 exact=2 source predicate evaluations per pair; nested Mark adds its own pair. Image source delta is status=exact parsed=2-1 exact=1. Emitted native count remains OPEN.",
+      "evidence": [
+        "DESIGN.md:429-434",
+        "DESIGN.md:450-472",
+        "DESIGN.md:519-552",
+        "APPENDIX-COST-MAP.md:348-350"
+      ]
+    },
+    {
+      "finding": "C12 says five array actuals, while its own type row and Check_Decision actuals contain Data, Before, Proposed, Observed arrays and Raw record. status=exact parsed=1+2+1 exact=4 array actuals.",
+      "evidence": [
+        "APPENDIX-COST-MAP.md:219",
+        "DESIGN.md:1327-1334"
+      ]
+    },
+    {
+      "finding": "Unqualified X3 'check executes', Ri mandatory stack/copy placement, and comp -O0 'no temporary is elided' claims overstate native evidence. No generated code inspected. New source call/construction boundaries must be distinguished from emitted calls, checks, copies, elision, allocation and lifetimes; C21 already lists these as OPEN.",
+      "evidence": [
+        "APPENDIX-COST-MAP.md:25",
+        "APPENDIX-COST-MAP.md:39-42",
+        "APPENDIX-COST-MAP.md:240",
+        "APPENDIX-COST-MAP.md:396-402",
+        "DESIGN.md:2073-2079"
+      ]
+    }
+  ],
+  "rm62": "Elementary E by-copy and untagged/non-limited composite U unspecified are supported by type declarations and advanced-ada ch12 lines 8-12. No passing mechanism is inferred from in/out mode. Full type closure and matching code remain OPEN.",
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}

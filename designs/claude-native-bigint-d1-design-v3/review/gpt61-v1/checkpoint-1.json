@@ -1,0 +1,32 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 1,
+  "complete": true,
+  "next_item": 2,
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md",
+  "design_sha256": "b20554c493e8406f0fa7191802294668bf3ae94ab8a65c6a75505b6e405f261f",
+  "appendix_B_governs": true,
+  "prior_closure": {
+    "V2-RC1": "CLOSED",
+    "V2-RC2": "CLOSED",
+    "V2-RC3": "CLOSED",
+    "V2-RC4": "NOT_CLOSED",
+    "V2-RC5": "NOT_CLOSED",
+    "V2-RC6": "NOT_CLOSED",
+    "RC4": "CLOSED",
+    "RC5": "CLOSED",
+    "RC6": "CLOSED",
+    "RC7": "NOT_CLOSED"
+  },
+  "required_change_ids": [
+    "V3-RC1",
+    "V3-RC2",
+    "V3-RC3"
+  ],
+  "answer_markdown": "1. Closure of the prior review requests\n\n“CLOSED” below means the prior design defect is repaired or fully specified in this proposal. It grants no proof, installed-toolchain, native, source or Phase One acceptance. The amended design labels its engineering evidence DESIGNED/OPEN, not complete (D3/DESIGN.md:34-61; Appendix B:34,82-84). Closure targets are R2/review.json and R2/REVIEW.md:33-57,85-177.\n\n| Target | Design closure | v3 text and assessment |\n|---|---|---|\n| V2-RC1 | CLOSED | “A null Work is therefore a legal shape that no contract indexes” (D3:995-996); Multiply_Add's Pre is “Work'First = 1 and then Digit_Value <= 9” (D3:1073). No sentinel is read. “Tagged_Matches and the other public subprograms get no Pre” (D3:1005). The no-fallback assertion is withdrawn, with PFX-2/3/5 specified conditionally (D3:1302-1312). |\n| V2-RC2 | CLOSED | Appendix B:53-62 places allocation before the inner handled sequence, then “Free_Work (Work); … raise;” on its exceptional exit, and Free before normal return. X1-X7 and installed-pattern probes are specified (D3:1344-1417). “CL-2 has no handler and is unaffected” (Appendix B:78); the frame-lifetime fallback is lead-owned and conditional (D3:1421-1443). Installed legality and fault evidence remain OPEN. |\n| V2-RC3 | CLOSED | OD-1 explicitly says “No option is selected. The lead makes no recommendation” (D3:1657); (o) is “Release-executable mitigation only” (D3:1662); (i-a) includes model binding and direct Ada users (D3:1663); (ii) is “Not ‘only allocation can fail’” and lists layout, index/length, automatic vectors, time and checked costs (D3:1665); retirement is “Incompatible” (D3:1666). |\n| V2-RC4 | NOT_CLOSED | The chunk/configuration and PR/outside-runtime audit repairs are substantive (D3:1701-1749,1767-1809; Appendix A:58-249,251-298). However E2-b promises “sort_keys by code point” (D3:1761), while the same package explicitly admits integer dict keys (D3:1755). Installed json sorts original keys before conversion (/usr/lib/python3.14/json/encoder.py:357-377); that option does not yet preserve the full original behavior. Required change V3-RC1 applies. |\n| V2-RC5 | NOT_CLOSED | RL-1/2/3, RL-12/12N and RL-14/14P now have correct whole-reference expectations (D3:1841-1935). But the map's middle-mismatch and every-exit claims exceed its fixtures (D3:1950,1973-1983,1988,2002-2005), and the equal-usage variant lacks a complete state/status walk. Required change V3-RC2 applies. |\n| V2-RC6 | NOT_CLOSED | Saved Work/carry arrays, representation/build qualifiers and the separation of D1 from D2 are now explicit (D3:1080-1081,1578-1587,1602,1608-1646). Nevertheless F29/§9.3 omit the recursive checked public Prefix_Value/Radix_Power Posts and Compare's checked body, and “twice per mixed request” omits Primary_And_Staged (D3:348-355,1593-1606; C5/core/resource_quantities.ads:58-96; C5/core/resource_quantities.adb:350-399; C5/core/evaluation_finalization_c.adb:429-482). Required change V3-RC3 applies. |\n| RC4 (v1) | CLOSED | The primary reference is a ghost lockstep execution of the original statements. It asserts “Result = (Decimal_Value = Binary_Value)” before each post-allocation decision return (D3:1178,1202,1207), retains the original guard (Appendix B:46-52), and specifies the full proof list (D3:1509-1534). The alternative closed functional references are retained with their costs (D3:1316-1323). |\n| RC5 (v1) | CLOSED | The pure Boolean profile gets an explicit owner, all-exit handling and a standard frame-lifetime alternative, rather than a claimed completed legality proof: “Work was assigned before this sequence began” (Appendix B:58); P-W1..P-W8 and fallback obligations stay OPEN (D3:1365-1461,2039-2041). |\n| RC6 (v1) | CLOSED | “Release-path unreachability satisfies none of this” (D3:1656), OD-1 preserves all executable helper capabilities, and “Checked contracts, Ghost code and invariants, original and D1-added” remain O-GHOST (D3:2044). The package is repaired; the actual helper/native obligation is OPEN. |\n| RC7 (v1) | NOT_CLOSED | Python remains explicitly OPEN and caps remain ineligible (D3:1689-1696,1802-1809,2046). However the E2-b semantic defect and incomplete additive control coverage leave the package/control closure incomplete. V3-RC1 and V3-RC2 apply. |\n\nAppendix B's E-1..E-5 are part of the reviewed design. E-1's replacement handoff/prompt hashes were independently read and match; E-2's failure line is runtime/resource_run_ledger.py:248; E-3 expresses the ghost big-integer bound with relational operators; E-4 supplies the explicit start expression; E-5 is an author process statement, not evidence of legality (Appendix B:11-18).\n",
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}
