@@ -1,0 +1,5 @@
+Adjudication set (lead, 2026-10-04):
+- D0035 D0036 D1419 D1433 D1434: unreachable branches inside reference/contract equations (pinned text). Equivalent rewrites change pinned contract text; need a reviewer ruling on whether an equivalence-preserving rewrite is acceptable or the warning is accepted as a documented proof-model notice.
+- C3 (25): contracts-recursive / numeric-variant are emitted per recursive function with a contract; the F9 route is total ghost lemmas plus call-site assertions that make the dependent postconditions provable (B items D0018 D1381 D1383 D1384 D1400 D1401 D1555); the declaration-level notices themselves cannot be removed without removing recursion or contracts, which is forbidden.
+- C5 (3): Is_Valid assumed True (library validity model); part of the native Big_Integer correspondence obligation.
+- evaluation_pending_v2.adb:10 array-initialization: the aggregate already initializes Result; the loop is kept by a prior explicit decision ("Keep the original loop"). Options: keep and accept the notice, or replace the loop by the aggregate (equivalent; removes a loop-invariant obligation that the aggregate subsumes).
