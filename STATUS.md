@@ -49,7 +49,7 @@ written. Future scans exclude that path.
 | Composition commonV5-beta (+05..09) | QUALIFIED_SOURCE_COMPOSITION (rulings 7a/7b; notes N on packets 05/06 metadata) | — |
 | C-API design v2 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC6; LD4 rejected as written) | v3 being drafted |
 | D1 native design v2 | NOT_ENDORSED (V2-RC1..RC6; RC4–RC7 still open) | v3 drafted; its review is running |
-| C-API design v3 | Review running | — |
+| C-API design v3 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC3 CLOSED_AT_DESIGN_LEVEL; V3-RC4 binding spec, V3-RC5 PK-0 effect classification, V3-RC6 cost map NOT_CLOSED; D-13 operator choice on a concrete reviewed packet before PK-7; N-06 at deployment; N-01 lead-owned) | DESIGN v4 |
 | Root-worker seam design v1 | ENDORSED_WITH_REQUIRED_CHANGES (RC-01..RC-12; rulings D-1a..D-9a: `Delegate=yes` not endorsed, the frontier control cannot be retired by the lead, native custody-phase legality is mandatory) | v2 after operator decisions |
 | D2 checked-Ghost inventory v1 | ACCURATE_WITH_CORRECTIONS (12 corrections, hazard rulings H1–H11; see below) | Corrections carried here and into the package |
 
@@ -128,7 +128,7 @@ D2 stays OPEN.
 
 ## In progress
 
-- Actual gpt-6.1-sol reviews of C-API DESIGN v3 and D1 DESIGN v3 (runner, running since 20:36Z and 20:41Z).
+- Actual gpt-6.1-sol review of D1 DESIGN v3 (runner, running since 20:41Z). C-API v3 review sealed 21:22Z.
 - Consolidated operator package. Current draft: `work/claude-operator-decision-package-v1/DRAFT-v3.md`.
   - The next draft folds in the C-API v3 and D1 v3 verdicts and the D2 corrections above.
   - Then it gets its own actual gpt-6.1-sol review before going to the human.
