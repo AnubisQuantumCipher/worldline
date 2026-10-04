@@ -1,4 +1,9 @@
-# First engineering proof iteration (scratch frame v5): lead runbook, v4.1
+# First engineering proof iteration (scratch frame v5): lead runbook, v4.2
+
+**v4.2.** This is v4.1 with observation O4 qualified, following the actual gpt-6.1-sol package review
+(`wt-1/package-review/gpt61-v1`, PKG-FACTS). O4 is a limits-observation-to-wait proxy, not a target spawn-to-exit
+duration. The allowance input stays 3632 s and is not lowered. Gate 0's formula and every allowance are unchanged. v4.1
+is preserved as `runbook-history/v4.1-SUPERSEDED.md`.
 
 **v4.1.** This is v4 with the "enforced bound" section corrected per the WORLDLINE monitor. Gate 0 itself is
 unchanged.
@@ -57,7 +62,7 @@ Each value is as read from the named source.
 | O1 | F10K full `prove-all-k` obj growth on unchanged commonV4: 1121220323 bytes | `du -sb` of `full-formal-diagnostic-v10k-retry1/source/obj` |
 | O2 | One F10K identity-record set, observed per-file sizes: runtime closure 25492333, proof data 5582338, proof ELF 3198141, vendors 701976 | F10K evidence `*-before.json` |
 | O3 | F10K `child.stderr` for the full `-k` run: 1170572 bytes | F10K evidence |
-| O4 | F10K full `-k` target duration: 3632 s, from 14:54:38Z to 15:55:10Z | JACKAL exact, formal=false, parsed=`15*3600+55*60+10-(14*3600+54*60+38)`, over timestamps read from the F10K records |
+| O4 | F10K full `-k` run interval proxy: 3632 s, the difference of whole-second timestamp displays from `effective-limits-before.json` (14:54:38Z) to `child-wait.json` (15:55:10Z). The full-stamp interval is 3631279103/1000000 s. This interval runs from the limits observation to the wait record. It is not a separately recorded target spawn-to-exit duration. 3632 is kept as the allowance input and is not lowered to the finer value. | JACKAL exact, formal=false: parsed=`15*3600+55*60+10-(14*3600+54*60+38)` gives 3632; parsed=`15*3600+55*60+10+112498/1000000-(14*3600+54*60+38+833395/1000000)` gives 3631279103/1000000. Timestamps read from the F10K records. |
 | O5 | Ambient free-space decline from 11289907200 at 17:58:11Z to 11188842496 at 18:44:45Z | `df` / `storage_status.py` |
 
 O5 is a mean rate of 50532352/1397 bytes/s (JACKAL exact, formal=false). It includes this session's own self-checks

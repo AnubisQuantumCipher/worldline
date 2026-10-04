@@ -1,0 +1,648 @@
+{
+  "schema": "claude-operator-package-review-checkpoint-v1",
+  "item": 6,
+  "complete": true,
+  "package": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md",
+    "sha256": "e36f517c6ecc891f256626bbbeb6f049dd57a2c565a632c763b73d7b3baf0b48",
+    "bytes": 35034,
+    "frozen_copy": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v4.md"
+  },
+  "manifest": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+    "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+    "effective_count_observed": 169,
+    "steps": [
+      {
+        "line": 329,
+        "keys": 82,
+        "new": 82,
+        "effective": 82
+      },
+      {
+        "line": 418,
+        "keys": 9,
+        "new": 8,
+        "effective": 90
+      },
+      {
+        "line": 925,
+        "keys": 9,
+        "new": 8,
+        "effective": 98
+      },
+      {
+        "line": 942,
+        "keys": 6,
+        "new": 6,
+        "effective": 104
+      },
+      {
+        "line": 955,
+        "keys": 4,
+        "new": 4,
+        "effective": 108
+      },
+      {
+        "line": 969,
+        "keys": 114,
+        "new": 6,
+        "effective": 114
+      },
+      {
+        "line": 974,
+        "keys": 13,
+        "new": 10,
+        "effective": 124
+      },
+      {
+        "line": 997,
+        "keys": 124,
+        "new": 0,
+        "effective": 124
+      },
+      {
+        "line": 1000,
+        "keys": 2,
+        "new": 0,
+        "effective": 124
+      },
+      {
+        "line": 1005,
+        "keys": 6,
+        "new": 4,
+        "effective": 128
+      },
+      {
+        "line": 1009,
+        "keys": 1,
+        "new": 0,
+        "effective": 128
+      },
+      {
+        "line": 1014,
+        "keys": 166,
+        "new": 38,
+        "effective": 166
+      },
+      {
+        "line": 1017,
+        "keys": 2,
+        "new": 0,
+        "effective": 166
+      },
+      {
+        "line": 1020,
+        "keys": 1,
+        "new": 1,
+        "effective": 167
+      },
+      {
+        "line": 1023,
+        "keys": 167,
+        "new": 0,
+        "effective": 167
+      },
+      {
+        "line": 1026,
+        "keys": 3,
+        "new": 2,
+        "effective": 169
+      },
+      {
+        "line": 1029,
+        "keys": 169,
+        "new": 0,
+        "effective": 169
+      }
+    ],
+    "subscript_stores": [],
+    "normalized_pin_mismatches": [],
+    "full_ordered_proof_roster_observed": 535
+  },
+  "packet_table": [
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/01-optional-marker-port",
+      "files": [
+        "core/worldline-recovery.ads",
+        "explicit-recovery-marker-tests/explicit_recovery_marker_tests.gpr",
+        "explicit-recovery-marker-tests/test_explicit_recovery_markers.adb"
+      ],
+      "observed_count": 3,
+      "unpinned": [],
+      "source_hashes": {
+        "core/worldline-recovery.ads": "09f82299af37c975b409596fb342f1ef961e309354765cde966189f23a2ee3fe",
+        "explicit-recovery-marker-tests/explicit_recovery_marker_tests.gpr": "a0ee1bd4184e2a9e7914490a8773942dbf86e90b9a08ea7bba0d8bd4343b1737",
+        "explicit-recovery-marker-tests/test_explicit_recovery_markers.adb": "dc7008dc06a5a9d4543e0456a43ec61bf8ed72ad78748f6ada6e039000367f76"
+      },
+      "origins": {
+        "core/worldline-recovery.ads": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1026,
+          1029
+        ],
+        "explicit-recovery-marker-tests/explicit_recovery_marker_tests.gpr": [
+          1026,
+          1029
+        ],
+        "explicit-recovery-marker-tests/test_explicit_recovery_markers.adb": [
+          1026,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/02-seal-lemma-and-epoch-warnings",
+      "files": [
+        "core/evaluation_epoch.adb",
+        "core/evaluation_finalization.adb",
+        "core/evaluation_finalization.ads",
+        "pending-component/core/evaluation_epoch.adb"
+      ],
+      "observed_count": 4,
+      "unpinned": [],
+      "source_hashes": {
+        "core/evaluation_epoch.adb": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+        "core/evaluation_finalization.adb": "c64f17246f0dfa3d88299a534e3e716ada35fd05120983a3d8f53a7c28d1a738",
+        "core/evaluation_finalization.ads": "e20808c44b84e02485e10a3eb1e1e36a2f2f88defd75eb97c536cee6851c287a",
+        "pending-component/core/evaluation_epoch.adb": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa"
+      },
+      "origins": {
+        "core/evaluation_epoch.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/evaluation_finalization.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/evaluation_finalization.ads": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "pending-component/core/evaluation_epoch.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/03-capi-boundary-draft",
+      "files": [
+        "core/worldline-c_api.adb",
+        "core/worldline-c_api.ads",
+        "core/worldline-resources_c_api.adb",
+        "core/worldline-resources_c_api.ads"
+      ],
+      "observed_count": 4,
+      "unpinned": [],
+      "source_hashes": {
+        "core/worldline-c_api.adb": "863ba7233d3004444f1f9f4e6c8c42aa51a5390df3df8a4c5ebe246655946275",
+        "core/worldline-c_api.ads": "07c159734f44e87f37a9b6d4c4df6561e8547d075de0e70e344772108bd77b4e",
+        "core/worldline-resources_c_api.adb": "940217212553723b78c6d959ae365b555cc92dfbef7dcab86b00a9e34117d586",
+        "core/worldline-resources_c_api.ads": "0879c92d620c7c7b20a6918677d2f36441c622414982b438c9b05a787f0113de"
+      },
+      "origins": {
+        "core/worldline-c_api.adb": [
+          329,
+          969,
+          974,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/worldline-c_api.ads": [
+          329,
+          969,
+          974,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/worldline-resources_c_api.adb": [
+          1014,
+          1023,
+          1029
+        ],
+        "core/worldline-resources_c_api.ads": [
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/04-resource-quantities-reassociation",
+      "files": [
+        "core/resource_quantities.ads",
+        "pending-component/core/resource_quantities.ads"
+      ],
+      "observed_count": 2,
+      "unpinned": [],
+      "source_hashes": {
+        "core/resource_quantities.ads": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+        "pending-component/core/resource_quantities.ads": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28"
+      },
+      "origins": {
+        "core/resource_quantities.ads": [
+          329,
+          969,
+          997,
+          1014,
+          1017,
+          1023,
+          1029
+        ],
+        "pending-component/core/resource_quantities.ads": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/05-reassociation-parentheses",
+      "files": [
+        "core/canonical_artifacts.adb",
+        "core/resource_ledger.adb",
+        "core/resource_quantities.adb",
+        "core/resource_reservation_transition.adb",
+        "core/worldline-owner_conjunction.ads",
+        "core/worldline-owner_subject_projection.adb",
+        "core/worldline-resources.adb",
+        "core/worldline-resources.ads"
+      ],
+      "observed_count": 8,
+      "unpinned": [],
+      "source_hashes": {
+        "core/canonical_artifacts.adb": "15df9b4ad843f94c10f7c81d1e622607a233ed0e74fedbaecfe63e44d9cf5758",
+        "core/resource_ledger.adb": "1f576923cd925a1fb4c71e5e6164c62f2227bc6af7233f7701f0207c058a36b7",
+        "core/resource_quantities.adb": "5e87d8a0e874a0f2010070e31140ee1eb638ff866beea6f85da1f41599863b9b",
+        "core/resource_reservation_transition.adb": "ba245eeb7fc142c26761ca028eed789677cec577824b1e51a0151d762b23897b",
+        "core/worldline-owner_conjunction.ads": "dd53efbf3350f39de17fb8d73999c21e8daacf0d9518013a77979caa5684a5b7",
+        "core/worldline-owner_subject_projection.adb": "98403559ab7d1f7649621477e99d7dd6b0aae1a77557fb3cb870e8d21289f697",
+        "core/worldline-resources.adb": "d064467bddb40a948a59bd0a92ed75d848a96233205c468efc990f868076e5d5",
+        "core/worldline-resources.ads": "571e729f77c605d6589b18f753e635da2a324d6363860d08285551357c51b587"
+      },
+      "origins": {
+        "core/canonical_artifacts.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/resource_ledger.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/resource_quantities.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/resource_reservation_transition.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/worldline-owner_conjunction.ads": [
+          974,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/worldline-owner_subject_projection.adb": [
+          974,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/worldline-resources.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/worldline-resources.ads": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/06-worldline-resources-proof-repairs",
+      "files": [
+        "core/worldline-resources.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/worldline-resources.adb": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc"
+      },
+      "origins": {
+        "core/worldline-resources.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/07-canonical-artifacts-proof-repairs",
+      "files": [
+        "core/canonical_artifacts.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/canonical_artifacts.adb": "979466c0c24fadb5ae5f4aac29a08cff680d367c4356ec69faa0596c7c5f2aa3"
+      },
+      "origins": {
+        "core/canonical_artifacts.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/08-resource-ledger-proof-repairs",
+      "files": [
+        "core/resource_ledger.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/resource_ledger.adb": "4a5fe307f79a8d6cf0afa7bec2f3fe2a6e58b6eeaf0c8d8790333c4dc6b24fe1"
+      },
+      "origins": {
+        "core/resource_ledger.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/09-reservation-transition-proof-repairs",
+      "files": [
+        "core/resource_reservation_transition.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/resource_reservation_transition.adb": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3"
+      },
+      "origins": {
+        "core/resource_reservation_transition.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/10-resource-ledger-timeout-steps",
+      "files": [
+        "core/resource_ledger.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/resource_ledger.adb": "2d8ce18bdd2b699e85e5a5eb838e5ac57974d78b23f1b7532f4917b4fc6140c7"
+      },
+      "origins": {
+        "core/resource_ledger.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/11-run-ledger-wire-decode-native",
+      "files": [
+        "core/resource_run_ledger_wire.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/resource_run_ledger_wire.adb": "ebcec54b85ed28d7524a6cd80c47bc5426840be8669d6b9428fd531d0190393b"
+      },
+      "origins": {
+        "core/resource_run_ledger_wire.adb": [
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/12-iterative-body-local-witnesses",
+      "files": [
+        "core/evaluation_epoch.adb",
+        "core/worldline-resources.adb",
+        "pending-component/core/evaluation_epoch.adb"
+      ],
+      "observed_count": 3,
+      "unpinned": [],
+      "source_hashes": {
+        "core/evaluation_epoch.adb": "3131f36c77e458ecbe2adc71d648ed15adf7418cd5cf1d9a961ac1b81fd0fcaa",
+        "core/worldline-resources.adb": "c16618a47dfcf7330d0846ff0f6e3ef032071551abf4d5c1cd5ca901efb86f44",
+        "pending-component/core/evaluation_epoch.adb": "3131f36c77e458ecbe2adc71d648ed15adf7418cd5cf1d9a961ac1b81fd0fcaa"
+      },
+      "origins": {
+        "core/evaluation_epoch.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "core/worldline-resources.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ],
+        "pending-component/core/evaluation_epoch.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/13-iterative-prefix-tail",
+      "files": [
+        "core/resource_reservation_transition.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/resource_reservation_transition.adb": "5f106d5e711d14c5a7a0ac7ddc2f00136b4b5b180d63a6d0ad1868f53f5b9208"
+      },
+      "origins": {
+        "core/resource_reservation_transition.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/packets/14-chain-replay-reference-lemmas",
+      "files": [
+        "core/worldline-chain_authority.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/worldline-chain_authority.adb": "d003cd49ca418ab5b721bb241edf932aeab5e43f7394df1e1018804f93351a56"
+      },
+      "origins": {
+        "core/worldline-chain_authority.adb": [
+          942,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/13-iterative-prefix-tail",
+      "files": [
+        "core/resource_reservation_transition.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/resource_reservation_transition.adb": "5f106d5e711d14c5a7a0ac7ddc2f00136b4b5b180d63a6d0ad1868f53f5b9208"
+      },
+      "origins": {
+        "core/resource_reservation_transition.adb": [
+          329,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    },
+    {
+      "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/14-chain-replay-reference-lemmas",
+      "files": [
+        "core/worldline-chain_authority.adb"
+      ],
+      "observed_count": 1,
+      "unpinned": [],
+      "source_hashes": {
+        "core/worldline-chain_authority.adb": "d003cd49ca418ab5b721bb241edf932aeab5e43f7394df1e1018804f93351a56"
+      },
+      "origins": {
+        "core/worldline-chain_authority.adb": [
+          942,
+          969,
+          997,
+          1014,
+          1023,
+          1029
+        ]
+      }
+    }
+  ],
+  "erratum": "E1's effective-key and packet replacement payload facts reproduce, including chain and run-ledger pins; it is lead prose written after sealing, not a sealed D2 finding. 'Every file changed' must be scoped to listed files/ replacements, not packet builders/metadata or all generated manifest edits.",
+  "sealed_c_pins": "Keep implementation ownership distinct from permission to change pinned text. Under this review's requested pinned-text boundary, a concrete change to enrolled pinned text must carry O-PINS operator approval as well as independent review and regenerated effective pins. Body-only implementation work can be lead-owned; that label does not authorize changing the protected pin package, weakening its keyset, or adopting a changed pinned contract/reference. This review authorizes none of those actions.",
+  "provenance": "The lead's own D2 BRIEF.md item 4:35-36 introduced 'operator approval for pinned text or public contract'; D2 REVIEW.md:246 expressly relied on that brief. It was not authority from the human's original Phase One requirements. E1:50-56 extends that historical boundary without changing its provenance.",
+  "scope_correction": "C-PINS has no original-requirement basis for operator approval solely because an implementation file is pinned. Preserve the sealed record unchanged as a ruling under its lead-supplied review premise, but apply HANDOFF:153 and the supervision correction to live work: existing human authorization covers routine reversible preservation engineering. Import only explicit independently reviewed deltas into a new isolated integration candidate; resolve shared caller/transaction/ABI/policy changes; preserve fixtures, accepted cases, complete source keysets/modes/directories and inverse lineage; recompute all effective normalized pins and full ordered enrollment without changing the policy prefix; retain every exact strict proof/body/caller/native/runtime/fault/review/hosted gate. No retroactive, blanket or per-change O is required solely for the pin. Reserved reference semantics/specification/public-contract/API/ABI/owner-policy/runtime/protected-custody or privileged/release/production decisions require their independent concrete authority; lower guarantees, domains, controls, floors, assumptions or waived gates do not meet the original fixed exit even after a choice.",
+  "confirmation": "DRAFT:258-278 asks no approval solely because a file is pinned, reserves R-1 option 3/R-2 option 2 and material API/policy changes, and does not make them lead-authorized. R-2 preserving body-only routes remain routine reviewed engineering; review labels do not authorize changed reference semantics or lowered scope. Already-qualified source compositions transfer no proof/runtime/native/phase acceptance.",
+  "evidence": [
+    "DRAFT-v4.md:208-278",
+    "errata/d2-inventory-E1-pinned-files.md:3-5",
+    "errata/d2-inventory-E1-pinned-files.md:12-60",
+    "review-records/live/review-d2-inventory-v1/BRIEF.md:35-36",
+    "designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/REVIEW.md:244-246",
+    "HANDOFF.md:153-177",
+    "complete-phase1-prompt.txt:32-34",
+    "START-CLAUDE.txt:6-10"
+  ],
+  "all_original_obligations": "OPEN",
+  "approval_granted": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}

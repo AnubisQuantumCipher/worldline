@@ -1,0 +1,227 @@
+{
+  "schema": "claude-operator-package-review-checkpoint-v1",
+  "item": 4,
+  "complete": true,
+  "package": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v4.md",
+    "sha256": "e36f517c6ecc891f256626bbbeb6f049dd57a2c565a632c763b73d7b3baf0b48",
+    "bytes": 35034,
+    "frozen_copy": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v4.md"
+  },
+  "assessment": "Potentially capable as a reviewed independently protected writer/location boundary against concurrent sicarii mutation, but not sufficient as described. Separate uid ownership alone neither freezes all admitted generations nor enforces frame location custody across target/writer overlap; all listed gaps must be resolved and evidenced on the exact successor before qualification or any run. W-1 remains a candidate; V5-B01, V5-B02 and original obligations remain OPEN.",
+  "gaps": [
+    {
+      "id": "W1-CUSTODY",
+      "finding": "Separate ownership prevents direct sicarii writes only. Specify an enforced writer/generation/location lease for every frame mutation and admission-to-use, including concurrent permitted sudo invocations and same-wlscratch target activity during frame records/conclusion; nologin and group modes alone do not do this. Do not expand the already-running-target residual to cover frame-owned mutations.",
+      "evidence": [
+        "proposal:43-45",
+        "proposal:87-104",
+        "proposal:124-140",
+        "proposal:194-200",
+        "frame-v5 REVIEW:76-82",
+        "frame-v5 REVIEW:119-123"
+      ]
+    },
+    {
+      "id": "W1-FINAL-PASS",
+      "finding": "The successor must retain and revalidate complete descriptor identities and named joins for every encountered leaf, including excluded generated leaves, at final admission, then protect that accepted generation until use. The draft v6 plan says accepted files; that is not evidence that excluded outputs and the final use handoff are covered.",
+      "evidence": [
+        "proposal:127",
+        "frame-v6-PLAN:43-47",
+        "frame-v5 REVIEW:76"
+      ]
+    },
+    {
+      "id": "W1-CLOSURE",
+      "finding": "Root-owned installed script paths are not whole trusted runtime/module/tool/pre-main custody. Freeze exact members, dependency/interpreter closure, no extra or linked members, normalized installed modes/directories and re-observed runtime/manager identities; preserve accepted exec-by-path ceiling without claiming full custody.",
+      "evidence": [
+        "proposal:102-104",
+        "proposal:123-131",
+        "proposal:184-200",
+        "frame-v5 REVIEW:105",
+        "frame-v5 REVIEW:120"
+      ]
+    },
+    {
+      "id": "W1-CHANNEL",
+      "finding": "Authenticated framing is an unimplemented requirement. Bind real lead, front/writer/attempt generations, original JACKAL challenge/receipt, window owner, command/verb/arguments, record/export paths and permitted launch; the wildcard sudo rule applies to all sicarii processes and cannot by itself authenticate the lead or exclude overlapping mutators.",
+      "evidence": [
+        "proposal:73-83",
+        "proposal:123-126",
+        "proposal:194-200",
+        "HANDOFF:173-177"
+      ]
+    },
+    {
+      "id": "W1-WRITE-AUTHORITY",
+      "finding": "The table's 'writes only under RUNS' and 'account runs only installed frame' are policy descriptions, not enforced by account ownership or nologin. Distinguish target-only residual writes from prohibited frame writes, runtime/manager effects, preparation channels and account-owned writable ancestors/home/runtime paths.",
+      "evidence": [
+        "proposal:102-104",
+        "proposal:133-141",
+        "proposal:178-179",
+        "frame-v5 REVIEW:82",
+        "frame-v5 REVIEW:119"
+      ]
+    },
+    {
+      "id": "W1-READ-ACCESS",
+      "finding": "Home traversal alone does not make every input readable: frozen review files are observed 0600, including the frame review the writer must read. Build an exact minimal input/ancestor/mode/ACL inventory and preserve frozen evidence modes rather than assuming every descendant is 0755/0644.",
+      "evidence": [
+        "proposal:108-119",
+        "proposal:172-179",
+        "frame-v5 review-freeze.json and actual file modes",
+        "composition-beta review-freeze.json and actual file modes"
+      ]
+    },
+    {
+      "id": "W1-READ-EXPOSURE",
+      "finding": "Traverse-only home access exposes every already-readable traversable path, not just required inputs; the narrower alternative is only named, not specified. Decide concrete allowlisted/staged read access and avoid unrelated private artifacts or any gbrain access. No broad home ACL is shown minimal.",
+      "evidence": [
+        "proposal:172-179",
+        "proposal:331-332",
+        "DRAFT:180-181"
+      ]
+    },
+    {
+      "id": "W1-PREFLIGHT-IDENTITY",
+      "finding": "storage_status.py derives HOME/config/state/reserve/queue and the systemctl user bus from the executing uid. Running it unchanged as wlscratch observes a different vault/reserve context and may use a default; changed environment baselines alone do not preserve sicarii host/backup/reserve facts. Specify an authentic reviewed fresh status channel and redesign the vault pin without bypass.",
+      "evidence": [
+        "storage_status.py:10-11",
+        "storage_status.py:26-34",
+        "storage_status.py:41-45",
+        "storage_status.py:58-71",
+        "proposal:130-131",
+        "proposal:333-334"
+      ]
+    },
+    {
+      "id": "W1-SETUP-PRESTATE",
+      "finding": "No absence/preimage inventory protects existing accounts/groups/directories/sudoers/ACLs/images/mount units. Setup contains non-runnable placeholders and recursive mode changes; specify concrete reviewed members, exact preconditions, prestate preservation, staged validated installation and exact verification before operator commands.",
+      "evidence": [
+        "proposal:143-160",
+        "proposal:184-196",
+        "proposal:209-218",
+        "proposal:228-235"
+      ]
+    },
+    {
+      "id": "W1-SETUP-ORDER",
+      "finding": "Precondition 'installed bytes equal reviewed inventory' precedes installation, while actual new uid/runtime baselines require setup observations. Distinguish candidate design review, authorized concrete setup, installed-identity/baseline verification and successor qualification/adoption before launch; no proof run acquires setup approval by inference.",
+      "evidence": [
+        "proposal:145-149",
+        "proposal:184-189",
+        "proposal:328-330",
+        "DRAFT:192-193"
+      ]
+    },
+    {
+      "id": "W1-SETUP-EXACTNESS",
+      "finding": "useradd --user-group plus groupadd adds the primary and clients groups: JACKAL exact parsed=1+1 gives 2, not proposal's one. Existing observed linger covers worldline and wlrehearsal, not all three accounts. New-login membership, manager activation effects and exact absent-state conditions must be recorded; shell placeholders, brackets and parenthetical hash prose are not exact commands.",
+      "evidence": [
+        "proposal:63-67",
+        "proposal:154-166",
+        "proposal:228-235",
+        "proposal:264-265",
+        "DRAFT:171-172"
+      ]
+    },
+    {
+      "id": "W1-IMAGE-GEOMETRY",
+      "finding": "2259217862 and 545393048 are exact payload allowances, not raw-image or ext4 usable-capacity minimums. Metadata/journal/inodes/block geometry and setup/manager growth are unbudgeted. Ideal payload+restore+ambient equality does not establish physical full-preallocation equality or safe capacity.",
+      "evidence": [
+        "proposal:204-218",
+        "proposal:244-257",
+        "runbook:75-84"
+      ]
+    },
+    {
+      "id": "W1-IMAGE-COMPATIBILITY",
+      "finding": "noexec mounts must be assessed against original built executables/native shared-library loading and positive controls; cannot narrow accepted cases to accommodate mounts. fallocate commands do not explicitly establish the asserted 0600 image mode. Kernel limits bound image writes only and records can also fill; ENOSPC is failure, not accepted semantic refusal or sufficient capacity.",
+      "evidence": [
+        "proposal:209-223",
+        "proposal:250-257",
+        "proposal:276-277",
+        "HANDOFF:129-131",
+        "HANDOFF:162"
+      ]
+    },
+    {
+      "id": "W1-VERIFICATION-PROBES",
+      "finding": "The exact rule/dependency/keyset/mode/permission/mount checks are incomplete. sudo -n -l lists authorized commands, not necessarily only this new rule; a top-level glob hash is not whole inventory. Moving the actual runs tree to /tmp is not a safe reversible negative probe and can fail for reasons other than EACCES or affect real evidence; use reviewed sacrificial probes and authenticate the denial reason.",
+      "evidence": [
+        "proposal:225-242"
+      ]
+    },
+    {
+      "id": "W1-FAILURE-LEASE",
+      "finding": "A preflight sudo refusal cannot establish every later invoke fails before reservation. Writer exit plus an absent scope is not automatically no pending launch/participant; specify generation-bound launch acknowledgment, complete participant schemas, real target/launcher/scope/outer waits, conservative unreadable/unknown/reused identity handling and authenticated final release. Preserve all N11-N14 and original terminal guarantees.",
+      "evidence": [
+        "proposal:271-274",
+        "proposal:129",
+        "frame-v6-PLAN:93-98",
+        "frame-v5 REVIEW:94-96",
+        "HANDOFF:115",
+        "HANDOFF:177"
+      ]
+    },
+    {
+      "id": "W1-FAILURE-RECORDS",
+      "finding": "Front EOF after challenge/spawn does not imply the writer refuses before launch or has completed terminal collection. Dedicated records space is not guaranteed durable retention; if records fill, specify private stderr custody and a pre-established allowed preparation channel, record commit/retry/archive meaning and unresolved-window handling. Front capture must not introduce unapproved outside-tree frame writes.",
+      "evidence": [
+        "proposal:74-83",
+        "proposal:271-277",
+        "frame-v5 REVIEW:94-96",
+        "frame-v5 REVIEW:107-110"
+      ]
+    },
+    {
+      "id": "W1-REBOOT-RECOVERY",
+      "finding": "Mount UUID/label verification is only part of reboot recovery. Define mount units, mountpoint/ancestor identity, absent/symlink/substitution refusal, window/participant/history reconciliation and original retained unknown/hold semantics; no implicit new Genesis or stale evidence credit.",
+      "evidence": [
+        "proposal:218",
+        "proposal:278",
+        "HANDOFF:99",
+        "HANDOFF:115",
+        "HANDOFF:149"
+      ]
+    },
+    {
+      "id": "W1-ROLLBACK",
+      "finding": "'Nothing is deleted' is literally false for sudoers removal and mount-unit removal. Preserve and hash all original configuration/prestates and setup evidence before withdrawing access. Quiescence before disabling a linger manager is not fully ordered; revoke new launches, preserve genuine terminal/unknown custody, and document residual groups/UID/files/access and restoration rather than imply a pristine rollback.",
+      "evidence": [
+        "proposal:283-315",
+        "DRAFT:185-186"
+      ]
+    },
+    {
+      "id": "W1-EVIDENCE",
+      "finding": "Listed transcripts/verification/trees/installed hashes/images/rollback copies are useful but incomplete: retain raw pre/post ACL/sudoers/mount/account/identity records, complete inventory comparisons, stream commit/error/terminal records and authoritative frozen custody. A copied lead-owned setup-record directory and hashes of mutable writer-owned files are evidence records, not immutable/authentic producer custody.",
+      "evidence": [
+        "proposal:316-324",
+        "frame-v5 REVIEW:97",
+        "HANDOFF:164"
+      ]
+    },
+    {
+      "id": "W1-NONCLAIMS",
+      "finding": "Candidate/no approval/no sufficiency/new baseline/vault-pin/storage/all original OPEN non-claims are appropriate and remain binding. They do not establish the positive prevention, exact commands, image capacity or rollback claims. No new pinned-file approval gate follows from any gap.",
+      "evidence": [
+        "proposal:3-7",
+        "proposal:326-336",
+        "DRAFT:187-188",
+        "DRAFT:258-276"
+      ]
+    }
+  ],
+  "authority": "Operator owns concrete privileged setup/ACL/sudo/install/mount/rollback and material policy decisions; lead retains existing routine reversible design/implementation authority; reviewer grants none.",
+  "jackal_ids": [
+    "W-ACCOUNT-GROUPS",
+    "W-IMAGE-WORK",
+    "W-IMAGE-RECORDS",
+    "W-IMAGE-EQUALITY"
+  ],
+  "approval_granted": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}
