@@ -75,6 +75,16 @@ phase acceptance. Its 12 corrections bind every later use of the inventory:
 - **C-PINS.** A concrete change to enrolled pinned text needs O-PINS operator approval, independent review and
   regenerated effective pins. "Body-only, lead-owned" authorizes no change to the pin package, its keyset, or a pinned
   contract or reference.
+  - **Provenance (supervision correction, ~21:10Z).** The operator-approval boundary C-PINS applied came from the
+    lead's own brief (item 4), not from the original requirements.
+  - HANDOFF acceptance-sequence item 1 requires explicit reviewed deltas and recomputed effective pins. "a review brief
+    or review finding is not new authority to add approval gates."
+  - So no operator approval is requested solely because an implementation file is pinned.
+  - Reference semantics, unapproved APIs, contracts, scope, accepted cases, controls and every gate stay reserved and
+    unchanged.
+  - C-PINS and erratum E1 are preserved. The package review is asked to correct the inconsistency.
+  - E1 (`wt-1/errata/d2-inventory-E1-pinned-files.md`): chain-authority and run-ledger files are pinned (169 effective
+    keys), so every packet 01–14 touches a pinned implementation file.
 - **C-ABI.** A changed public transport code, meaning, layout or caller protocol is an API/ABI package and needs
   operator approval, not "possibly". A clearer failure classification supplies no native acceptance.
 - **C-COPY.** Narrowing a Ghost arena snapshot can change the copy's growth class and must keep the whole-arena frame

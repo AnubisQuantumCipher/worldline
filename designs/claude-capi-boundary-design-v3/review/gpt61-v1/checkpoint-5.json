@@ -1,0 +1,91 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 5,
+  "completed": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "a8a120c9a704177cdab5232a757f1ef405cb3ad1c694ff135cdd2e8f26a14aa7",
+  "guarantee_audit": [
+    {
+      "finding": "The fixed minimum 251, exact original ordered required prefix and sole worldline-c_api boundary are preserved. All relevant SPARK bodies/callers and the original deterministic rosters remain required. No new transport-facing Pre, helper Pre approval, pragma Assume, suppressed checked Ghost/assertion route, cap or native-failure-as-success exception is authorized.",
+      "evidence": [
+        "DESIGN.md:127-138",
+        "DESIGN.md:222-253",
+        "DESIGN.md:271-277",
+        "DESIGN.md:1918-1925",
+        "DESIGN.md:2215-2244",
+        "DESIGN.md:2303-2324",
+        "H/HANDOFF.md:27-29",
+        "H/HANDOFF.md:129-131",
+        "H/HANDOFF.md:158-166"
+      ]
+    },
+    {
+      "finding": "Additional RC4 cross-check: O4/R-W requires written sources to be constant result objects, with only finalization/completion exceptions, but ledger and policy tables write direct SPARK function expressions, ledger byte buffers and lifecycle mask are mutable out results. The design must specify faithful provenance/check rules for every form or consistently revise the forms and cost map. It cannot claim the blanket constant-result rule is enforced by the tables.",
+      "evidence": [
+        "DESIGN.md:1791-1795",
+        "APPENDIX-BINDINGS.md:28-34",
+        "APPENDIX-BINDINGS.md:330-354",
+        "APPENDIX-BINDINGS.md:379-380",
+        "APPENDIX-COST-MAP.md:364-370"
+      ]
+    },
+    {
+      "finding": "Original control/static-audit mismatch N-05 remains OPEN, with no silent reinterpretation of its exact-set assertion as only subset membership and no removal from required scope. D-19's native raw operation gate and the SPARK branch are preserved; broadened internal proof domain is no waiver of strictness.",
+      "evidence": [
+        "DESIGN.md:880-893",
+        "DESIGN.md:2294",
+        "S5/tests/test_authority_static_audit.py:314-321"
+      ]
+    },
+    {
+      "finding": "The Optional_Marker default removal in S5 is an already separately approved source delta, not a new v3 permission or proof. The current S5 composition review has disposition QUALIFIED_SOURCE_COMPOSITION and all acceptance flags false. Historical handoff wording that the API was unanswered does not override the later bound approval record.",
+      "evidence": [
+        "DESIGN.md:38-46",
+        "DESIGN.md:1002-1005",
+        "W/work/claude-lead-v2/approvals/optional-marker-api-v1/approval.json",
+        "W/work/claude-composition-v5-beta/review/gpt61-v1/review.json"
+      ]
+    },
+    {
+      "finding": "Shared-file integration remains OPEN: the root-worker draft lane's core/worldline-c_api.adb differs materially from the S5 file used by this design. No merge conflict was reproduced and no lane was composed. Apply v3 exact-base/affected-scope re-review rules when a root-worker successor becomes qualified; no blind overlay or transfer of this design review.",
+      "evidence": [
+        "DESIGN.md:1872-1891",
+        "W/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/REVIEW.md:44"
+      ],
+      "observed_files": [
+        {
+          "path": "W/work/claude-composition-v5-beta/source/core/worldline-c_api.adb",
+          "bytes": 56596,
+          "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b"
+        },
+        {
+          "path": "W/work/protected-original-root-worker-repair-v1/source/core/worldline-c_api.adb",
+          "bytes": 148068,
+          "sha256": "806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420"
+        }
+      ]
+    }
+  ],
+  "open_obligations": [
+    "RC4 enforceable binding corrections, RC5 precise baseline characterization, RC6 corrected source/native cost map and all required independent design re-review.",
+    "Diagnostic External/Atomic and Image legality/model proof; totality, initialization, conversion, indexing, full relevant bodies/references/callers/flow/RTE/termination; D-05, D-18, D-19 and N-03; zero unproved/justified/Assume; unchanged strict command/floor and every strict warning.",
+    "N-01 representation warnings, actual layout equivalence, calling conventions/native symbol mapping and installed legality; D-15/D-34/D-38.",
+    "D-28 initialization costs and all original/new native copy/passing/adjust/finalize/heap/primary-secondary-stack/checked-contract/reference/Ghost/runtime costs; full accepted domains; D-35/D-36 and native Big_Integer blockers without caps or accepted failure substitutions.",
+    "All original ordinary/additive/lifetime/provider/owner/root/task/child/fault controls and N-05; no historical passing prefix transfers.",
+    "OB-048 whole enlarged and pre-existing boundary; authentic producers, custody, confinement, repeated-read immutability and foreign faults.",
+    "D-13 operator decision before PK-7; N-06 operator-controlled deployment provisioning; every original applicable publication/release/install/production/PRIME gate.",
+    "Exact stage identities, raw source/control/frame binding, linear composition and independent actual GPT-6.1 packet/stage/final reviews; root-worker shared-file integration."
+  ],
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "rc_closure": {
+    "RC1": "CLOSED_AT_DESIGN_LEVEL",
+    "RC2": "CLOSED_AT_DESIGN_LEVEL",
+    "RC3": "CLOSED_AT_DESIGN_LEVEL",
+    "RC4": "NOT_CLOSED",
+    "RC5": "NOT_CLOSED",
+    "RC6": "NOT_CLOSED"
+  },
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}

@@ -25,7 +25,14 @@ CONTEXT (W = /home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-fol
   - a root-made filesystem is a candidate, not an established sufficient design or approved sudo/install action;
   - Packet 13 notice removal is an untested hypothesis until matching-source evidence exists;
   - no review-model substitution: every review is actual gpt-6.1-sol;
-  - isolation guard: success through another tool is not clearance; no alternate-tool bypass of a refusal.
+  - isolation guard: success through another tool is not clearance; no alternate-tool bypass of a refusal;
+  - pinned implementation files (supervision correction, 2026-10-04): "the human's preserved authorization covers routine
+    reversible engineering; a review brief or review finding is not new authority to add approval gates"; "Do not request
+    retroactive or blanket operator approval solely because an implementation file is pinned"; HANDOFF acceptance-sequence
+    item 1 "explicitly requires reviewed source deltas and recomputing effective pins"; this "is not permission to redefine
+    reference semantics, change an unapproved API, lower contracts, scope, accepted cases or controls, or waive any
+    proof/runtime/review gate. Material API/owner-policy and merge/release/install/sudo/production/real-PRIME decisions remain
+    reserved." The sealed D2 review and the lead's erratum E1 are preserved unchanged.
 - Sealed actual gpt-6.1-sol reports it relies on (verify each review-freeze.json against its files):
   - frame v5: W/work/claude-scratch-frame-v5/review/gpt61-v1;
   - D1 v2: W/work/claude-native-bigint-d1-design-v2/review/gpt61-v1; D1 v3: WT/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1;
@@ -64,11 +71,16 @@ WHAT TO DECIDE (numbered; answer each in REVIEW.md with file:line evidence)
    - the non-claims.
 5. Storage. Is Gate 0 v4.1 correctly carried? Does the package avoid presenting any sampling monitor or past rate as a bound,
    and require a reviewed admission argument before the gate changes?
-6. P-1 (pinned text). Verify the effective pin count and the per-packet pinned-file table (erratum E1) from the manifest AST and
-   the packet file lists. Is the sealed D2 correction C-PINS carried verbatim? Is the origin of its "requested pinned-text
-   boundary" stated accurately, including that the lead's own brief introduced that wording? Are the options complete and
-   correctly labelled (which are resolutions, which is an operator-only interpretation), and does the package anywhere present a
-   pinned-text change, including R-2 option 4, as lead-authorized?
+6. P-1 (pinned implementation files). Verify the effective pin count and the per-packet pinned-file table (erratum E1) from the
+   manifest AST and the packet file lists. Is the sealed D2 correction C-PINS carried verbatim, and is its provenance stated
+   accurately (the lead's own D2 brief item 4 introduced the "operator approval for pinned text or public contract" boundary)?
+   Then correct the provenance/scope inconsistency against the original requirements: state what HANDOFF acceptance-sequence item
+   1 and the fixed phase exit require for an explicit reviewed delta to a pinned implementation file, as distinct from changes to
+   reference semantics, specifications or public contracts, APIs/ABIs, owner policy, or any reserved decision; and state which
+   part, if any, of C-PINS's operator-approval boundary has a basis in the original requirements. Confirm that the package
+   requests no approval solely because a file is pinned, and that it presents no reserved change (redefined reference semantics,
+   an unapproved API change, lowered contracts/scope/accepted cases/controls, or a waived proof/runtime/review gate), including
+   in R-1 or R-2 options, as lead-authorized.
 7. Native and C-API items. Are the D1 OD-1/OD-2 packages and the C-API operator items (D-13, N-06, N-01) stated as the sealed
    v2 and v3 reviews rule? Are the D2 hazards stated with their evidence class (static reasoning, not measurement) and with the
    sealed corrections (C-SLOT, C-SUM, C-OWNER, C-EMPTY, C-UNIT, C-PACKET-GAP, C-P12-REACH, C-COPY, C-ABI)?
@@ -89,5 +101,5 @@ OUTPUT FILES (create-only, os.O_EXCL, fsync, mode 0600, in your cwd)
 - review-freeze.json, written LAST: {"actual_model_selection":"gpt-6.1-sol","different_from_author":true,
   "files":{name:{"sha256","bytes","mode"}}} for exactly REVIEW.md, review.json, checks.json.
 
-FINAL MESSAGE: the verdict, required corrections, the W-1 assessment in two sentences, the P-1 assessment in two sentences, and
-the sha256 of each of your four output files.
+FINAL MESSAGE: the verdict, required corrections, the W-1 assessment in two sentences, the P-1 provenance/scope correction in two
+sentences, and the sha256 of each of your four output files.
