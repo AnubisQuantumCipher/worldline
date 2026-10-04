@@ -1,0 +1,269 @@
+{
+ "as_required": 6,
+ "boundary": "library import of observe_tree on throwaway trees; no gprbuild/gnatprove/systemd-run launch; RUNS/WINDOW redirected to absent paths",
+ "cases": 14,
+ "frame": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5",
+ "frame_sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86",
+ "label": "v5",
+ "not_as_required": [
+  "excluded_append",
+  "excluded_chmod",
+  "excluded_retime",
+  "excluded_same_size_rewrite",
+  "recorded_append",
+  "recorded_chmod",
+  "recorded_retime",
+  "recorded_same_size_rewrite"
+ ],
+ "outcomes": {
+  "control_no_mutation_excluded_target": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "control_no_mutation_recorded_target": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "excluded_append": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "excluded_chmod": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "excluded_delete": {
+   "error": "RuntimeError: directory changed after its walk: obj",
+   "hook_fired": true,
+   "refused": true
+  },
+  "excluded_replace": {
+   "error": "RuntimeError: directory changed after its walk: obj",
+   "hook_fired": true,
+   "refused": true
+  },
+  "excluded_retime": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "excluded_same_size_rewrite": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "recorded_append": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "recorded_chmod": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "recorded_delete": {
+   "error": "RuntimeError: directory changed after its walk: a",
+   "hook_fired": true,
+   "refused": true
+  },
+  "recorded_replace": {
+   "error": "RuntimeError: directory changed after its walk: a",
+   "hook_fired": true,
+   "refused": true
+  },
+  "recorded_retime": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  },
+  "recorded_same_size_rewrite": {
+   "files": [
+    "0late/z.txt",
+    "a/ok.adb"
+   ],
+   "hook_fired": true,
+   "identities": [
+    ".",
+    "0late",
+    "a",
+    "obj"
+   ],
+   "refused": false
+  }
+ },
+ "output_dir": "/home/sicarii/.claude/jobs/c9272506/tmp/finalpass-233720/v5",
+ "results": {
+  "control_no_mutation_excluded_target": {
+   "as_required": true,
+   "hook_fired": true,
+   "must_refuse": false,
+   "refused": false
+  },
+  "control_no_mutation_recorded_target": {
+   "as_required": true,
+   "hook_fired": true,
+   "must_refuse": false,
+   "refused": false
+  },
+  "excluded_append": {
+   "as_required": false,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": false
+  },
+  "excluded_chmod": {
+   "as_required": false,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": false
+  },
+  "excluded_delete": {
+   "as_required": true,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": true
+  },
+  "excluded_replace": {
+   "as_required": true,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": true
+  },
+  "excluded_retime": {
+   "as_required": false,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": false
+  },
+  "excluded_same_size_rewrite": {
+   "as_required": false,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": false
+  },
+  "recorded_append": {
+   "as_required": false,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": false
+  },
+  "recorded_chmod": {
+   "as_required": false,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": false
+  },
+  "recorded_delete": {
+   "as_required": true,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": true
+  },
+  "recorded_replace": {
+   "as_required": true,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": true
+  },
+  "recorded_retime": {
+   "as_required": false,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": false
+  },
+  "recorded_same_size_rewrite": {
+   "as_required": false,
+   "hook_fired": true,
+   "must_refuse": true,
+   "refused": false
+  }
+ },
+ "schema": "frame-finalpass-selfcheck-v1",
+ "truth_boundary": "ENGINEERING_ONLY: scratch self-check on throwaway trees; never proof, review, admission, source-qualification or Phase One acceptance evidence. Original guarantees OPEN_UNCHANGED."
+}

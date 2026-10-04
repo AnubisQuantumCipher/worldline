@@ -1095,8 +1095,10 @@ reference or domain.
 **Effect (static).**
 
 - `Q.Compare` disappears from D1's executable path and ghost row terms.
-- The `12uNK` Compare term of §9.3.3 is replaced by `N` calls of LA-9L per `Selected_Sum_Order` call, each with an
-  O(L) loop over Prefix_Reference invariants (about `L·r(L)` invocations).
+- The checked `Compare` evaluations of §9.3.3, at most `(12N + 13)·u·K + 3·u·N + 10·u` per `Selected_Sum_Order` call,
+  are replaced by `u` calls of LA-9L, one per selected usage row inside LA-7's row loop. Each costs its Post's two
+  `Q.Value` evaluations, `8·PV(L)` invocations [K-202], plus an O(L) loop of Prefix_Reference invariants (about
+  `L·r(L)` invocations).
 - Release cost per call stays O(L), the same order as `Compare`'s body.
 - `Q.Compare` is unchanged and still used by `Shape`, `Same_Row` and `Changed_Row_Allowed`.
 
@@ -1684,4 +1686,417 @@ incorporated: the start offset is the explicit expression of §6.6):
 - Hard-fault classification: O-NATIVE.
 - Export mapping: O-TRANSPORT-MAPPING.
 
-<!-- PART-4 -->
+## 8. Proof-obligation list (all OPEN; none attempted)
+
+"Proof" means:
+
+- the exact strict command of `HANDOFF.md:158`;
+- zero unproved, zero justified and zero `pragma Assume`;
+- every strict warning obligation resolved (`HANDOFF.md:161`);
+- protected floor 251, the sole `worldline-c_api` boundary, and the full ordered roster (535 names observed in common
+  source) preserved, with new names appended only.
+
+### 8.0 Cross-cutting
+
+| Id | Obligation |
+|---|---|
+| PO-X1 | Installed compile legality with `-gnat2022 -gnatwa -gnatVa -gnatf`: no new warnings and no `pragma Warnings (Off)`. GNATprove 16.1.0 legality of: the Ghost generic instance `Column_Big`; bracket and iterated aggregates; declare-free loop bodies; the pool-specific access type with its `Unchecked_Deallocation` instance; the inner-block handler and bare re-raise (B.2, P-W1); `Refined_Post` only if PFX-2 is used; **`Multiply_Add`'s `'Old` prefix placed in the first operand of `and then`, outside the conditional expression (RM 6.1.1 rules for a potentially unevaluated `'Old`; §6.4)** |
+| PO-X2 | Flow: `Global => null` on every new subprogram; no uninitialized read; no INEFFECTIVE initialization (F21) |
+| PO-X3 | No `Annotate` justification, no `Assume`, no imported or bodiless lemma |
+| PO-X4 | Checked-build executability of all new ghost code; no Assertion_Level or policy change; cost recorded in §9.3 |
+| PO-X5 | Pins refreshed only through the official generator (`runtime/worldline/proof_manifest.py:10`); roster additions append-only |
+| PO-X6 (P-X3) | Installed shape rules of F19: no declaration in a loop body before an invariant; no loop with an invariant in a handler- or `finally`-protected list; whether `Old_Work = Work'Old` survives the `Multiply_Add` loop |
+| PO-X7 (P-R1) | Recursion notices: confirm that `Side_Sum` draws `[contracts-recursive]`/`[numeric-variant]` and that iterative lemma procedures draw none. Resolution of the `Side_Sum` notice joins R-1. Otherwise switch to A-GHOST-0 |
+| PO-X8 | Reassociation: every mixed additive chain explicitly left-associated (F28); no `[operator-reassociation]` item |
+| PO-X9 (new) | Representation horizon of D1's checked ghost: PO-B22 for Algorithm B; the OPEN item O-GHOST-HORIZON-A for Algorithm A (F35). Neither is closed by a cap, a Pre or a refusal |
+
+### 8.1 Algorithm A
+
+| Id | Obligation |
+|---|---|
+| PO-A0 | `type Column_Total is range 0 .. 2**71` accepted with a 128-bit base on the pinned GNAT 16.1.0 aarch64; every §5.2 conversion is free of runtime errors |
+| PO-A1 | LA-10 for `Held_Only`, `Budget_Only` and `Both_Kinds` (partition) |
+| PO-A2/A3/A23 | LA-9: normalization keeps value; `Usage_Selected` equals the value comparison; `Operand`'s value equals `Amount_Reference` when counted |
+| PO-A4/A5 | Invalid spans give zero prefixes; padding gives `Prefix_Reference (X, C) = Magnitude (X)` when `Length ≤ C` (an iterative copy of `Prefix_Padding`, DR-C3) |
+| PO-A6 | LA-1/LA-2 column step |
+| PO-A7 | LA-7 signed completion at the extent |
+| PO-A8/A13 | Sign split and target placement (LA-7, LA-8) |
+| PO-A9 | LA-3 column emit |
+| PO-A10 | LA-4 order extension (E-3: relational Pre) |
+| PO-A11 | LA-5 residual carry; LA-11 zero extent; `Lemma_Close` |
+| PO-A12 | LA-6 and all range checks: `Column ≤ Before + 255 * (count + 2)`, `Carry ≤ N + 1 ≤ 2**63`, `Column ≤ 2**71` [K-52, K-54] |
+| PO-A14 | Pre-pass invariant: coverage of the target and of both candidates of every selected row |
+| PO-A15/A16 | `Contained` loop 2: the unchanged invariant is preserved; early False equals `¬(S_H + S_B ≤ Value (Amount))` |
+| PO-A17 | `Pair_Sum_Order` Post; carry at most 2 [K-17] |
+| PO-A18 | Termination: `for` loops; the `Side_Sum` variant; lemma loop variants |
+| PO-A19 | `Check'Result = Decision_Reference` and the Ready conjuncts: every other branch structurally identical, status order unchanged |
+| PO-A20 | `Conserved` Post |
+| PO-A21 | `Selected_Sum_Order` Post, including `Columns = 0` |
+| PO-A22 | INIT/INSIDE/PRESERVE/AFTER for both loop levels, with frames on the untouched side |
+| PO-A24 | If A-GHOST-0 is used: the `Truncated`-rows lemmas (row-wise `Sum_Reference` difference equals digit times power) and the completion `Truncated (X, C) = X` |
+| PO-A25 (new) | If A-SEL-L is selected (§5.10): LA-9L proved; PO-A2 restated through LA-9L; probes of §7.3 for `Usage_Exceeds`; separate GPT-6.1 review |
+| PO-A26 (new) | F35 (§5.11): a design that removes the one-sided ghost horizon excess on the direct-Ada signed domain without a Pre, cap, refusal or contract change. **OPEN; no candidate selected** (O-GHOST-HORIZON-A) |
+
+### 8.2 Algorithm B
+
+| Id | Obligation |
+|---|---|
+| PO-B1 | `Prefix`'s new conjunct, proved in its body; existing conjuncts and variant unchanged |
+| PO-B2 | Digit range on `[Start, Stop)` from `Integer_Token` (LB-6) |
+| PO-B3 | `Binary_At` Post `≤ 255` [K-49..K-51] |
+| PO-B4 | `Multiply_Add` loop: unprocessed-cell frame against `Old_Work`; per-cell carry relations; `Old_Work = Work'Old` (PO-X6) |
+| PO-B5 | Column arithmetic: `T ≤ 2559`, carry ≤ 9 [K-15, K-16]; LB-5 in its DR-C5 form |
+| PO-B6 | `Multiply_Add` Post in its DR-C5 form, including the null-Work case (`Carry_Out = Digit_Value`, `P(0) = 1`) |
+| PO-B7 | Decimal lockstep invariant preservation |
+| PO-B8 | Overflow: `Carry ≥ 1 ⇒ Decimal_Value ≥ 256**n` (LB-2) |
+| PO-B9 | `Finish_Decimal` monotonicity (digits nonnegative) |
+| PO-B10 | `Finish_Binary` Post in its DR-C5 form; overflow path `0 ≤ Binary_Value < 256**n` |
+| PO-B11 | Match path: the DR-C5 compare-phase invariant (both branches); at `K = 0`, `Binary_Value = Work_Value` |
+| PO-B12 | Mismatch path: first difference from the top (LB-3, LB-4, LB-1) |
+| PO-B13 | The three in-body assertions `Result = (Decimal_Value = Binary_Value)` |
+| PO-B14 | Guard identity: the guard text equals C5 `:439-445`; `Start` equals `:446`'s offset |
+| PO-B15 | Ownership and memory: P-W1..P-W5 for CL-1 in the B.2 shape; or the CL-2 or CL-3 equivalents |
+| PO-B16 | Shape and sizing: S1..S6; no index outside `Work'Range`; no `B.Length + 1`; native size [K-19, K-20] |
+| PO-B17 | Termination: loop variants. No new recursive declaration; the existing recursive `Prefix_Reference`/`Power_Reference` are evaluated with their existing variants (§6.5) |
+| PO-B19 | Callers byte-identical and their existing contracts re-proved |
+| PO-B20 | Freedom from runtime errors of every new ghost expression on every input that reaches it |
+| PO-B21 | Lockstep textual identity: the ghost statements in `Decide_Work`, `Finish_Decimal` and `Finish_Binary` are C5 `:436, :447-461` verbatim, modulo variable renaming (`O`/`K`, `Value`). A mechanical check, retained as evidence |
+| PO-B22 (new; F34) | **Radix horizon (DR-C5).** On every guard-passing input, the magnitude of every Big_Integer value formed by D1-B's checked evaluation (contracts, invariants, ghost statements, lemma bodies, including intermediate results of `+`, `-`, `*`) is at most the largest magnitude formed by the original statements `:446-461` on that input. In particular `Power_Reference (n)` is evaluated only after a carry out of cell `n`. Consequence with the installed runtime: D1-B's checked ghost fails only on inputs on which the original statements fail. This is a design obligation discharged by review of every D1-B contract and assertion text, then observed by IM-1 and IM-5 in the checks build (§9.6, W-2). It is not a GNATprove property |
+| PO-B23 (new) | `'Old` placement of §6.4 (PO-X1) and the conditional forms of §6.4-§6.5 prove with no new warning, including the INIT case `Binary_Value = 0` of the compare-phase invariant |
+
+### 8.3 Native and resource obligations (evidence, not proof)
+
+| Id | Obligation |
+|---|---|
+| PO-N1 | Compiled release call closure of the repaired bodies contains no Big_Integer operation (link map, objdump, `-gnatG`) |
+| PO-N2 | The allocator is initialized in place, with no n-byte stack temporary; or CL-2's frame placement |
+| PO-N3 | `Column_Total` arithmetic uses 128-bit operations; any `System.Arith_128` call allocates nothing |
+| PO-N4 | Heap, stack and time measurements for §9 on the exact integrated library and runtime identity |
+| PO-N5 | Export exception mapping classified (F12, §9.4) without counting a native failure as acceptance |
+| PO-N6 | P-W6: handler coverage, generated owner store and landing pad, temporary finalization and leak-freedom under induced failures |
+| PO-N7 | Checked-build saved-value placement and costs (§9.3.5) measured; source does not establish placement (F27) |
+| PO-N8 (new) | The checked failure points of §9.6 observed on the exact identity, by location, never presupposed |
+
+## 9. Native cost, failure semantics and the D2 delta (V2-RC6, V3-RC3)
+
+All formulas are **[LEAD] static source counts**. They are not measurements and not proved cost bounds
+(O-COST-MEASURE). Their arithmetic and polynomial identities are [JKL]. Symbols:
+
+- N rows; `n_s` selected rows; `u` selected Held rows with observed usage present (`u ≤ n_s ≤ N`);
+- K = `Columns`, the maximum effective length; L, `L_j` operand lengths (each at most K); `L_t` the target length;
+- m decimal digits; n magnitude bytes;
+- `id` the identity length used by `Same`.
+
+### 9.1 Release-build costs of the new executable code
+
+| Operation | Time (operation counts) | Auxiliary memory | Allocation |
+|---|---|---|---|
+| `Selected_Sum_Order` | pre-pass `Σ_j (c + id_j)`; columns `O(N·K + Σ_j min(L_j, K)·(id_j + u_j·L_j))`, where `u_j = 1` for a selected Held row with usage present (its executable `Compare` costs O(L_j) per column visit; with A-SEL-L, `Usage_Exceeds` costs the same order) | O(1) scalars; no secondary stack | none |
+| `Pair_Sum_Order` | O(K) | O(1) | none |
+| `Conserved` / `Contained` / `Check` | existing `Shape` and O(N²) `Parent_Supports` plus the comparator calls above; worst case `O(N²·K + N·Σ_j L_j·(id_j + u_j·L_j))` per `Contained` | O(1) beyond inputs | none |
+| `Integer_Matches` | guard as today; decimal phase at most `m·n` cell steps with early exit; compare phase at most n | n heap bytes plus allocator header (CL-1), or n bytes of frame storage whose placement is not established by source (CL-2, F27) | one allocate and one free per call (CL-1) |
+
+There is no asymptotic dominance claim against the original. Where the original succeeded (values below `2**6432`), it
+allocated O(L) heap and automatic digit vectors per bignum operation (F1, V2-F15).
+
+### 9.2 Failure semantics by scenario ("release" means `-XWORLDLINE_BUILD=release`; E-2 incorporated)
+
+| Path | Pre-D1 release | Post-D1 release | Checks build (default) |
+|---|---|---|---|
+| Run ledger: a valid span with Length ≥ 804, or a value or sum ≥ `2**6432` | `Storage_Error` → `-1` (`core/resource_run_ledger_c_api.adb:222`) → Python `CoreUnavailable('full-ledger native transport refused')` (`runtime/worldline/resource_run_ledger.py:248`) | decision computed in the source-level design (O-NATIVE); time and transport-copy costs remain | fails at the first checked evaluation that reaches the limit; for padded inputs that is located in §9.6 (pre-existing, before any D1 code). D2 OPEN |
+| Run ledger: an invalid span of any Length | the value is 0, with no loop (`:24`) | the same, with zero columns | Post evaluation returns 0 |
+| Run ledger: direct-Ada `Contained` on signed operands whose one-sided magnitude sums reach `2**6432` (RL-24) | completes (False) | completes (False) | **post-D1 only:** a D1-introduced checked failure (F35, §9.6). OPEN |
+| `Integer_Matches`, a value ≥ `2**6432` (magnitude n ≥ 805) | `Storage_Error` → 255 (plain); `Invalid_Request` (mixed, at the stage of §9.4) | Boolean computed (design); heap n bytes; exhaustion OPEN | pre-D1: the original decimal or binary accumulation. Post-D1: the first decimal-loop invariant (§9.6) → X3 → CL-1 frees and re-raises → same mapping. D2 OPEN |
+| `Integer_Matches`, n ≤ 804 and decimal < `256**n` (IM-1-like) | value computed | value computed | value computed: DR-C5 keeps D1-B within the original's horizon (PO-B22). Cost OPEN |
+| `Integer_Matches`, n ≤ 804 and decimal ≥ `2**6432` (IM-5) | `Storage_Error` → 255 / `Invalid_Request` | False (carry out) | the original decimal statement, now ghost, at the first prefix ≥ `2**6432`, in both pre-D1 and post-D1 checks builds (§9.6) |
+
+E0's "native code accepts every length" (v2:1455) stays withdrawn. D1 establishes no default-build success, no
+physical fit and no loaded-identity behaviour.
+
+### 9.3 Checked-build (`-gnata`) work, rebuilt from source (V3-RC3 a, V3-F4)
+
+#### 9.3.0 Scope and unit
+
+- **Unit.** One **PRI** is one invocation of `Power_Reference`'s body (D2 review C-UNIT). Each PRI multiplies a
+  bignum of up to `e` bytes by 256 and allocates its result (F1). Time per PRI grows with `e`, so PRI counts are
+  operation counts, not time.
+- **What is counted.** Under `-gnata`, every executed body, Pre, Post, loop invariant, assertion, ghost statement and
+  lemma call. A public function evaluated anywhere is charged its body **and** its own Post, recursively.
+- **What is listed but not converted into PRI.** Big_Integer additions, comparisons and multiplications outside
+  `Power_Reference`, for example the 255 `Scale_Column` iterations of every `Column_Bounds` call
+  (`core/resource_quantities.adb:15-39, 41-64`); controlled Adjust/Finalize; saved copies (§9.3.5); allocator and
+  stack behaviour.
+- **Exactness.** A count is exact where the path is stated. Otherwise it is an upper bound that assumes every
+  conditional term is evaluated.
+- **Status.** Every count is static source reasoning [LEAD]. None is a measurement. D2 and every native and cost
+  obligation stay OPEN (V3-RC3 h).
+
+#### 9.3.1 Primitives (pinned references and public ghost functions; C5 `core/resource_quantities.*`)
+
+| Symbol | Construct | Checked PRI per evaluation | Source recurrence | JACKAL |
+|---|---|---|---|---|
+| `p(e)` | `Power_Reference (e)` (`.ads:40-45`) | `e + 1` | body recursion e → 0; the Post `>= 1` calls nothing | PE-01, K-174 |
+| `r(c)` | `Prefix_Reference (·, ·, c)` (`.ads:47-56`) | `c(c+1)/2` | `r(c) = r(c−1) + p(c−1)`; the Post `>= 0` calls nothing | PE-02, PE-07 |
+| `T(c)` | `Σ_{k=1..c} r(k)` | `c(c+1)(c+2)/6` | | PE-21, PE-06 |
+| `w(e)` | `Radix_Power_Worker (e)` (`.adb:97-137`) | `e² + 3e + 1` | invariants at each iteration `k < e`: `p(k)`, plus `p(k−1)` when `k > 0`; Post `p(e)`; final block when `e > 0`: `2·p(e−1)` | PE-03 |
+| `RP(e)` | public `Radix_Power (e)` (`.ads:58-67`; body `.adb:142-143`) | `(e³ + 9e² + 14e + 6)/3` | `RP(e) = w(e) + RP(e−1) + p(e) + p(e−1)`: its Post calls `Radix_Power (e−1)`, `Power_Reference (e)` and `Power_Reference (e−1)`; `RP(0) = w(0) + p(0)` | PE-04, PE-05, K-153 |
+| `PVW(c)` | `Prefix_Value_Worker (c)` (`.adb:147-203`) | `(c³ + 6c² + 5c)/3` | invariants at each iteration `k < c`: `r(k) + p(k)`, plus `r(k−1) + p(k−1)` when `k > 0`; Post `r(c)`; final block when `c > 0`: `2·r(c−1) + 2·p(c−1)` | PE-08 |
+| `PV(c)` | public `Prefix_Value (c)` (`.ads:69-83`; body `.adb:205-208`) | `c(c+1)(c² + 11c + 12)/6` | `PV(c) = PVW(c) + PV(c−1) + RP(c−1) + r(c) + r(c−1) + p(c−1)`: its Post calls `Prefix_Value (c−1)`, `Radix_Power (c−1)`, `Prefix_Reference (c)`, `Prefix_Reference (c−1)` and `Power_Reference (c−1)`; `PV(0) = 0` | PE-09, K-154 |
+| — | `Magnitude` on a valid span of Length L (`.ads:85-89`; body `.adb:210-217`) | `2·PV(L)` | body `Prefix_Value (L)`; Post `Prefix_Value (L)`. An invalid span: 0 | — |
+| — | `Value` on a valid span of Length L (`.ads:91-94`; body `.adb:219-226`) | `4·PV(L)` | body `Magnitude`; Post `Magnitude` | K-162 |
+| `PB(o)` | `Prefix_Bounds (·, ·, o)` (`.adb:230-257`) | `o³ + 5o² + 7o + 1` | level `k ≥ 1`: `3k² + 7k + 3` (Post `2r(k) + p(k)`; the three assertions and the `Column_Bounds` actuals); level 0: Post `p(0)`. Plus 255 `Scale_Column` iterations per level (not PRI) | PE-15, PE-16, K-156 |
+| `ΣPB(L)` | `Σ_{o<L} PB(o)` | `(3L⁴ + 14L³ + 15L² − 20L)/12` | | PE-17, K-157 |
+
+Instances: `PV(803) = 70334477708` [K-159]; one checked `Value` on a valid 803-byte span: `281337910832` PRI [K-162].
+v3's "~L⁴ per `Q.Value`" is replaced by `4·PV(L)`; the self-referential public Posts (`Radix_Power`, `Prefix_Value`)
+are what v3 omitted.
+
+#### 9.3.2 Composites reached from D1 and from the original
+
+| Construct | Checked PRI per evaluation | Notes |
+|---|---|---|
+| `Is_Zero` on a valid L-byte span (`.ads:98-100`; body `.adb:316-333`) | Post `2·PV(L)`; body, all digits zero: `T(L−1) + T(L)` (loop invariant `r(k)` and end assertion `r(k+1)`) | a nonzero span exits early through `Prefix_Monotone` (`.adb:259-276`) and assertions with `Magnitude` |
+| `Is_Negative` (`.ads:102-104`; body `.adb:335-338`) | Post `4·PV(L)`; body calls `Is_Zero` only when the sign flag is True | |
+| `T.Nonnegative_Valid` (`core/resource_reservation_transition.ads:135-138`; body `.adb:520-523`) | Post `4·PV(L)`; body: `Is_Negative`, so `4·PV(L)` more | reached from `Shape` (`core/resource_run_ledger.ads:223-235`) |
+| `Compare`, both spans valid, sign flags False, both of Length L, all digits equal (the full equal path; exact) (`.ads:107-117`; body `.adb:340-402`) | `(8L + 42)·PV(L) + Q(L)`, with `Q(L) = (L⁴ + 6L³ + 11L² − 2L)/2` | `42 = 16 + 6 + 8 + 12` [K-147]: Post (up to four `Value`), `Prefix_Padding` (Post `Magnitude` and base assertion `Prefix_Value`, per operand), the two `Is_Negative` Posts, the two `Value`/`Magnitude` assertions. `8 = 4 + 4` per iteration [K-148]: the loop invariant and the end assertion, each with two `Magnitude`. `Q(L)`: padding prefixes `4r(L)`, per-iteration prefixes `2(T(L) + T(L−1))`, two `Prefix_Bounds` per iteration `2·ΣPB(L)` [PE-18, PE-19, PE-22, K-158] |
+| `Compare`, lengths `a ≤ b`, full equal path | PV terms `(2(b−a) + 21 + 4b)·PV(a) + (21 + 4b)·PV(b)`, plus prefix and `Prefix_Bounds` terms of order `b⁴` | `21 = 8 + 3 + 4 + 6` per operand [K-210]: Post, padding base, `Is_Negative`, assertions; the shorter operand's padding recursion adds `2(b−a)` levels of `Magnitude`; the loop runs `b` iterations. At `a = b = L` this is `(8L + 42)·PV(L)` [PE-19]. A sign flag True adds `Is_Zero` |
+| `Compare` on an early-exit path | the fixed `42` terms (lengths permitting) plus the iterations executed, plus `Higher_Column_Order` and two assertions with `Magnitude` | upper bound: the full equal path |
+| `Amount_Reference` (`core/resource_run_ledger.ads:187-192`) | at most three `Value`: `≤ 12·PV(L)` [K-181] | the Held usage comparison evaluates two `Value`, then the selected one |
+| `Sum_Reference` over N rows (`.ads:200-209`) | `≤ N·12·PV(L)` | recursion depth N |
+| `Exact_Value`, checked (`core/resource_run_ledger.adb:19-34`) | invariants `r(k) + p(k)` at each `k < L`, that is `T(L−1) + r(L)`; Post `4·PV(L)` | pre-existing; OD-1 |
+
+Instances for two valid, nonnegative, equal 803-byte spans [K-159..K-161, K-172]:
+
+| Term | PRI |
+|---|---|
+| `(8·803 + 42)·PV(803)` | `454782732859928` [K-160] |
+| `Q(803)` | `209446213768` [K-161] |
+| one checked `Compare`, full equal path | **`454992179073696`** [K-172] |
+
+This is the `Context_Changed` comparison of RL-1's padded capacities (`core/resource_run_ledger.adb:165`), a
+pre-existing cost on an originally successful input. v3's Post-only Compare estimate is withdrawn.
+
+#### 9.3.3 D1-A (`Selected_Sum_Order`, `Pair_Sum_Order`, their lemmas), per call, A-GHOST-1
+
+`Operand` → `Usage_Selected` → checked `Q.Compare` is reached only for a Held row with usage present (F36). One
+both-sides evaluation of a `Side_Sum` or `Side_Total` calls `Operand` three times per such row: once per side in the
+sign test, once more for the term on the matching side [K-191].
+
+| D1-A construct | Evaluated | `Compare` evaluations | Other checked work |
+|---|---|---|---|
+| pre-pass | executable | 0 | none |
+| executable `Operand` in the column loop | per column, per row passing the length test | `≤ u` per column | none |
+| inner row invariant (`Digit_Term`) | per column, at each of N row iterations, over rows `1..J` | `≤ 3·u·N` per column [K-191] | digits only; no PRI |
+| `Lemma_Column_Step` (LA-1/LA-2) Post | once per column | `9·u` per column (three both-sides `Side_Sum` kinds) [K-192] | prefix terms at `o + 1` and `o` per selected row; `P(o)` twice |
+| `Lemma_Column_Step` loop invariant | per column, N iterations | `≤ 9·u·N` per column [K-192] | prefix terms at `o + 1` and `o`, up to N per selected row; `P(o)` twice per iteration |
+| outer invariants | once per column | `3·u` per column [K-191] | prefix terms at `o + 1` per selected row; `P(o + 1)` four times [K-212] |
+| ghost `Low` updates and LA-3 actuals | once per column | 0 | `P(o)` four times; LA-3 bodies run the `Column_Bounds` pattern (255 `Scale_Column` iterations each, two per column) |
+| `Lemma_Close` Pre | once | `3·u` [K-191] | prefix terms at K per selected row and target; `P(K)` four times [K-212] |
+| LA-7 Post | once | `3·u` [K-191] | `Selected_Sum` (`n_s` `Amount_Reference`); prefix terms at K |
+| LA-7 loop invariant | N iterations | `≤ 3·u·N` [K-191] | `Selected_Sum (k)` and prefix terms at K for the first k rows |
+| LA-10 Posts | N calls | 0 | `Selected_Sum (k + 1)`, `Selected_Sum (k)`, one `Amount_Reference`: `≤ 2·n_s + 1` `Amount_Reference` per call |
+| LA-9 Posts | one per selected row | `4` per selected usage row (`1 + 1 + 2`) [K-193] | at most 11 `Value` including one `Amount_Reference`: `≤ 44·PV(L_j)` [K-179, K-180]; `Signed_Prefix_Value`: `r(L_j)` |
+| padding facts (LA-7, LA-8; iterative `Prefix_Padding` copies) | one per selected operand and one for the target | 0 | `≤ (K − L_j + 2)` `Magnitude`, `2·PV(L_j)` each [K-199]; prefix terms |
+| `Lemma_Close` Post; `Selected_Sum_Order` Post | once each | 0 | each `≤ 2` `Selected_Sum` and `≤ 2` `Value (Target)` |
+| LA-8 Post | once | 0 | one `Value (Target)`; target prefix at K |
+
+Totals per `Selected_Sum_Order` call (upper bounds):
+
+- **Checked `Compare` evaluations through `Usage_Selected`:** `≤ (12N + 13)·u·K + 3·u·N + 10·u`.
+  - Per column: `3N + 9N = 12N` from the row-sized loops [K-176] and `1 + 9 + 3 = 13` from the executable `Operand`,
+    LA-1's Post and the outer invariant [K-177].
+  - Once per call: `3N` from LA-7's loop; `3 + 3 = 6` from `Lemma_Close`'s Pre and LA-7's Post [K-178]; `4` from
+    LA-9 [K-193]; `6 + 4 = 10` [K-194].
+  - Each evaluation costs a checked `Compare` of the normalized usage and amount spans (§9.3.2).
+- **Prefix-term PRI:** `≤ (n_s·(N + 2) + 2)·K(K+1)(2K+1)/6` over the columns, plus `(n_s·(N + 2) + 2)·r(K)` at the
+  close. A selected row's prefix term costs `r(c)` whatever its own length, because `Prefix_Reference` recurses to
+  `c`. Per column a selected row contributes `N + 2` prefix terms at `o + 1` (outer invariant, LA-1 Post, LA-1 loop)
+  and at most `N + 1` at `o`; the target contributes 2 [K-199]. The column sum is `T(K) + T(K−1)` [PE-22].
+- **Radix-power PRI:** per column `(2N + 6)·p(o) + 4·p(o + 1)` [K-211, K-212], plus `4·p(K)` at the close: order
+  `N·K²`.
+- **`Amount_Reference` evaluations:** `≤ 5·n_s + 3·N·n_s + N`, each `≤ 12·PV(L_j)` [K-181].
+  - `5 = 2 + 2 + 1` from the `Selected_Sum_Order` Post, the `Lemma_Close` Post and LA-7's Post [K-200].
+  - `3 = 1 + 2` per row and selected row from LA-7's loop and LA-10 [K-201]; LA-10 adds N single terms.
+- **Target `Value` evaluations:** `≤ 5` (`2 + 2 + 1` [K-200]: the two Posts and LA-8), each `4·PV(L_t)`.
+- **LA-9:** `≤ 44·PV(L_j)` per selected row [K-180].
+- **Padding facts:** `≤ 2·(K − L_j + 2)·PV(L_j)` per selected operand and for the target.
+
+Instance [K-195..K-198]: N = 1, one selected Held row with usage present (`u = 1`), usage and amount valid,
+nonnegative, equal 803-byte spans, and an 803-byte target (K = 803):
+
+| Term | Value |
+|---|---|
+| per-column `Compare` evaluations, `(12·1 + 13)·1·803` | `20075` [K-195] |
+| once-per-call `Compare` evaluations, `3·1·1 + 10·1` | `13` [K-196] |
+| all `Compare` evaluations | `20088` [K-197] |
+| their PRI, each on the full equal path at 803 bytes (`454992179073696`, K-172) | **`9139882893232405248`** [K-198] |
+
+This term alone exceeds every other D1-A term in the instance. It is the dominant D1-added checked cost whenever
+usage rows exist (F36). A-SEL-L (§5.10) would replace those evaluations by `u` calls of LA-9L, each with its Post's two
+`Value` evaluations, `8·PV(L)` [K-202], plus an O(L) loop of prefix invariants (about `L·r(L)`).
+
+Without usage rows, the leading terms are the `Amount_Reference` evaluations of LA-7 and LA-10 (`3·N·n_s·12·PV(L)`)
+and the prefix terms (`n_s·(N + 2)·K(K+1)(2K+1)/6`).
+
+**`Pair_Sum_Order`** (Check's capacity branch): its Post evaluates at most `3·2 = 6` `Value` [K-205], that is
+`24·PV(L)` [K-206]; its column loop has three prefix terms per side and no `Compare`.
+
+**Per caller.**
+
+- `Conserved`: two `Selected_Sum_Order` calls (`Held_Only`, `Budget_Only`).
+- `Contained`: at most one call per row in loop 2.
+- `Check`: at most two `Conserved` and two `Contained` calls, subject to short circuit (F8), plus one
+  `Pair_Sum_Order`.
+- `Check`'s own Post (`Decision_Reference`), `Conserved`'s and `Contained`'s Posts (the references) are pre-existing and
+  unchanged.
+
+**A-GHOST-0 instead of A-GHOST-1 (V3-RC3 b).**
+
+- Each prefix row term at extent `c` costs one `Amount_Reference` on a truncated row: one or more checked `Value`,
+  `4·PV(c)` each, instead of `r(c)`.
+- The per-term ratio is `4·PV(c)/r(c) = (4/3)(c² + 11c + 12)` [PE-10]: 32 at `c = 1` [K-163], 656/3 at `c = 8`
+  [K-164] and 2614616/3 at `c = 803` [K-165, K-173].
+- Each evaluation also builds an N-row ghost aggregate and evaluates `Operand` (a checked `Compare` for every Held usage
+  row) per row per aggregate.
+
+#### 9.3.4 D1-B (`Integer_Matches` and its callees), per call
+
+| D1-B construct | Evaluations | Checked PRI | Other checked work |
+|---|---|---|---|
+| decimal-loop invariants | one per decimal digit processed (at most m) | `r(n)` each (`Work_Value`) | integer invariants; the original decimal statements as ghost (multiply by 10, add) |
+| `Multiply_Add` | at most m calls | `≤ MA(n) = (2n³ + 21n² + 37n + 12)/6` per call [PE-12]: `'Old` `r(n)`; Post `r(n)` (+ `p(n)` with a carry); LB-5 Post `2r(n)` (+ `p(n)` with a carry); LB-5 loop invariant `2r(I)` (+ `p(I)` with a carry) for `I = 1..n` | integer loop invariants, O(I) per cell; saved copies (§9.3.5) |
+| decimal phase, per digit | — | `D(n) = r(n) + MA(n) = (n³ + 12n² + 20n + 6)/3` [PE-13, K-175] | |
+| compare phase | at most n iterations | `≤ C(n) = (7n³ + 12n² + 11n)/6` [PE-14]: per iteration at K, two `Work_Value` `2r(n)`, `Prefix_Reference (Work, K)` `r(K)`, and `p(K)` once `Binary_Value ≠ 0` | the original binary statements as ghost (multiply by 256, add) |
+| `Finish_Binary` (overflow `Upto = n`; mismatch `Upto = K ≤ n − 1`) | at most one | `≤ 3·r(Upto + 1)`: Post `3·p(Upto)` (`2 + 1` [K-191]); loop invariant `3·p(i)` for `i < Upto` [PE-23] | the original binary statements as ghost |
+| `Finish_Decimal` (overflow only) | at most one | 0 | the remaining original decimal statements as ghost |
+| PO-B13 assertions | one per return | 0 | one bignum equality |
+| `Prefix`'s new conjunct | at every `Prefix` return of an integer node, in every caller | 0 | a quantified scan of the token |
+| `Binary_At` Post | per call | 0 | integer |
+
+The LB-5 body relies on the expression-function definitions of `Prefix_Reference` and `Power_Reference` for its one-level
+unfoldings. An explicit step assertion that mentions only `P(I−1)` and `P(I)` adds O(n²) PRI per call. A
+`Prefix_Reference`-level step assertion would add O(n³) per call and must then be counted in the packet.
+
+Per `Integer_Matches` call on the match path: `m·D(n) + C(n)` PRI. Instances: `D(803) = 175178467` per digit
+[K-166]; `C(803) = 605369655` [K-167]; `D(3) = 67` [K-168]; `C(3) = 55` [K-169]. Under `-gnata` every Seal evaluates
+up to four bindings (§9.5), so each integer node can incur these costs four times per Seal.
+
+#### 9.3.5 Saved copies and placement (F27 corrected)
+
+| Copy | Where | Size | Placement |
+|---|---|---|---|
+| `Old_Work` | `Multiply_Add`, ghost constant | n bytes per call | not established by source (PO-N7) |
+| `Carry_In` | `Multiply_Add`, ghost variable | n `Carry_Digit` elements | not established by source |
+| `Work_Value (Work)'Old` | `Multiply_Add` Post | one bignum of at most n bytes (heap) plus its controlled wrapper | wrapper placement not established |
+| `Value'Old`, `Value'Loop_Entry` | `Finish_Binary`, `Finish_Decimal` | one bignum each | as above |
+| `Before`, `Low` | `Selected_Sum_Order` | two `Column_Total` scalars; two bignums below `256**K` | as above |
+| A-GHOST-0 aggregates (only if selected) | per evaluation of a truncated-row `Sum_Reference` | `N·ρ` bytes, `ρ = Row'Object_Size/8` | not established |
+| Work (CL-1) | heap | n bytes plus allocator header | heap |
+| CL-2's array (only if selected) | `Integer_Matches` frame | n bytes | not established; usually the primary stack frame (PO-N2) |
+| transport copies (pre-existing, F8) | C exports | whole input | not established |
+
+#### 9.3.6 Consequences
+
+- Under the current runtime the representation limit (F1) stops checked evaluation at `2**6432`. Below it, counts such
+  as `454992179073696` PRI for one pre-existing `Compare` at 803 bytes [K-172] and `9139882893232405248` PRI for the
+  D1-A instance above [K-198] make the default build a cost-correspondence failure candidate for such inputs. That is
+  recorded under O-GHOST and O-COST-MEASURE, not hidden. No time was measured.
+- The pre-existing pinned references and public ghost functions already have this character (F29).
+- D2 must establish checked costs for original and D1 code together, without deleting or weakening any original
+  checked assertion or Ghost requirement. Candidate D2 directions, recorded only, each needing separate review:
+  - cost-correct executable definitions of the references;
+  - logarithmic-depth reference forms with equivalence lemmas;
+  - a runtime package (OD-1).
+- D1's own new assertions follow lead-owned rules. None of them removes an obligation; each still needs a complete
+  proof:
+  - DR-C1: no `Q.Value`-based Post on per-iteration executable helpers (scope corrected by F36);
+  - DR-C2: ghost terms use `Prefix_Reference` forms rather than `Q.Value`;
+  - DR-C3: iterative lemmas;
+  - DR-C4: value snapshots rather than array snapshots in Posts;
+  - DR-C5 (new): no D1-B ghost value beyond the original's horizon (PO-B22).
+
+### 9.4 Export failure stages, primary and staged (F12 extended; V3-F5)
+
+| Stage | Call chain | Reached when | Outward result of a native failure in `Integer_Matches` | Distinguishing evidence |
+|---|---|---|---|---|
+| plain export | `Decide` (`core/evaluation_finalization_c.adb:121-257`), operation 3 → `F.Seal` (`:219`) | every operation-3 request | 255 (`:253-256`) | 255 against `0` with `Reason ≠ 0` for a mathematical False; the `finalization.decide` exception diagnostic (`:255`) |
+| mixed, primary readiness | `Read_Ready` (`:429-430`) → `Decide` (`:386`) | `Needs_Primary` and `Primary_Kind = 2` | `Valid => False` → mark `finalization.mixed.primary-ready-rejected` (`:434`) → `Invalid_Request` | `finalization.decide` exception, then that mark |
+| mixed, staged readiness | `Read_Ready` (`:441-442`) → `Decide` (`:386`) | `Needs_Staged` and `Staged_Kind = 2` | mark `finalization.mixed.staged-ready-rejected` (`:446`) → `Invalid_Request` | `finalization.decide` exception, then that mark |
+| mixed, primary context | `Context_Joined` (`:474`) → `Final_Context_Matches` (`:406`) → `Decide` (`:273`) | `Agent_Ready = 1`, `P_Ready = 1`, `Primary_Kind = 2` | 255 → mark `finalization.context.seal-rejected` (`:276`) → False → mark `finalization.mixed.primary-context-rejected` (`:476`) → `Invalid_Request` | `finalization.decide` exception, then both marks |
+| mixed, staged context | `Context_Joined` (`:479`) → `:406` → `:273` | `Agent_Ready = 1`, `S_Ready = 1`, `Staged_Kind = 2` | `seal-rejected`, then `finalization.mixed.staged-context-rejected` (`:481`) → `Invalid_Request` | `finalization.decide` exception, then both marks |
+| mixed, elsewhere | `Decide_Mixed` handler (`:505-508`) | an exception outside `Decide` | `Invalid_Request` | the `finalization.mixed` exception diagnostic (`:507`) |
+
+On the mixed export a mathematical False and a native failure are outwardly identical (`Invalid_Request`). Only the
+diagnostic sequence distinguishes them: a mathematical False shows the stage mark without a preceding
+`finalization.decide` exception. Controls assert on the diagnostics (§12.6). A native failure always remains OPEN.
+
+### 9.5 Dependency-qualified Decide sequence and repetition (V3-RC3 f)
+
+`Authority.Dependencies` and `Needs_*` (`core/worldline-evaluation_authority.ads:19-38`) fix which stages can run. With both
+evidence slots of kind 2, the `Decide` invocations of one mixed request are, in order, each reached only if the
+previous one returned normally:
+
+| Dependency | Request shape | Decide invocations, in order |
+|---|---|---|
+| `Invalid_Collapse` | malformed request | none (`finalization.mixed.dependency-rejected`, `:424`) |
+| `No_Raw_Evidence` | `Checkpoint_Return`, primary covers | none |
+| `Primary_Only` | `Candidate_Evaluation`, primary covers | 1 primary readiness; 2 primary context (if `Agent_Ready = 1` and `P_Ready = 1`) |
+| `Staged_Only` | `Checkpoint_Return`, primary does not cover | 1 staged readiness; 2 staged context (if `Agent_Ready = 1` and `S_Ready = 1`) |
+| `Primary_And_Staged` | `Candidate_Evaluation`, primary does not cover | 1 primary readiness; 2 staged readiness; 3 primary context; 4 staged context (3 and 4 under the same conditions) |
+
+Repetition (static source counts):
+
+- At most `2 + 2 = 4` `Decide` invocations per mixed request [K-138].
+- Each operation-3 `Decide` calls `Seal` once. Under `-gnata` one Seal reaches `Artifact_Binding` at up to four sites,
+  in this order: the `Seal` body (`core/evaluation_finalization.adb:270`), `Seal`'s Post (`.ads:395`), the
+  `Seal_Reference` body (`.adb:129`) reached from that Post, and `Seal_Equation` (`.ads:362`) reached from
+  `Seal_Reference`'s Post. The release build evaluates the body only.
+- An unobserved Seal evaluates three of these sites and makes `Read_Ready` or `Final_Context_Matches` reject, so the
+  mixed request stops at that stage.
+- With one integer node in each finalized bundle and every Seal observed: at most `4·(2 + 2) = 16` `Integer_Matches`
+  evaluations per mixed request in the checks build [K-139], and `1·2 + 1·2 = 4` in the release build [K-140].
+
+Fault-injection ordinals for the Work allocation (counted by call site), with one integer node per bundle and every
+Seal observed:
+
+| Build | Work-allocation ordinal of the first evaluation in Decide k | Within Decide k |
+|---|---|---|
+| checks | `4(k − 1) + 1`: 1, 5, 9, 13 for k = 1..4 [K-141..K-144] | `+0` Seal body; `+1` Seal Post; `+2` `Seal_Reference` body; `+3` `Seal_Equation` |
+| release | `k` [PE-20] | the Seal body only |
+
+Which stage Decide k is depends on the dependency (table above). For `Primary_And_Staged`, Decide 2 is the staged
+readiness stage, not primary context (V3-RC3 f). §12.6 W-5 enumerates every injection by dependency and ordinal.
+
+### 9.6 Checked failure points, recorded from source (V3-RC3 e)
+
+These are the first checked evaluations that reach the representation limit, read from source [LEAD]. W-2 and the
+named controls must record the actual locations on the exact identity (PO-N8); generated and native locations stay OPEN.
+
+| Input | Pre-D1 checks build | Post-D1 checks build | Status |
+|---|---|---|---|
+| IM-1: decimal `10**1936`, magnitude n = 804 [K-07, K-150] | none: every value is below `2**6432` | none under DR-C5: `Work_Value` forms at most `P(803)` [K-204], and `P(804)` is never formed without a carry. **The v3 form failed here**: `Multiply_Add`'s Post and LB-5 formed `P(804) = 2**6432` [K-65] on every call (F34) | must succeed; cost OPEN |
+| IM-2, IM-3, IM-4, IM-8, IM-10: magnitudes of n ≥ 805 bytes [K-151, K-137, K-149, K-131] | the first original decimal statement (`:449` or `:451`) whose result reaches `2**6432` | the first evaluation of the decimal-loop invariant `Work_Value (Work) = Decimal_Value`, at `O = Start`: `Prefix_Reference (Work, n)` evaluates `Power_Reference (n − 1)` with `n − 1 ≥ 804` [K-203, K-65]. X3: CL-1 frees and re-raises. The original would also fail on these inputs, because its binary accumulation reaches at least `256**(n−1)` (guard: top byte nonzero) | OPEN (D2) |
+| IM-5: decimal `2**6432`, magnitude `2**6432 − 1`, n = 804 [K-152] | the original decimal accumulation (`:451`) at the last digit | the same statement, now the ghost copy in `Decide_Work`, at the last digit, before `Multiply_Add` is called | OPEN (D2) |
+| RL-1: 803-byte padding | none | none (D1 adds cost only) | READY expected; cost OPEN: at least `454992179073696` PRI for `Context_Changed`'s `Compare` alone [K-172] |
+| RL-2, RL-3 (804 and 1000 bytes); RL-4a, RL-4b, RL-6 (quantities of 805 bytes) | `Shape (Before, …)` → `T.Nonnegative_Valid (Data, State.Capacity)` (`core/resource_run_ledger.ads:226`) → `Is_Negative`'s Post → `Value` → `Magnitude` → `Prefix_Value` → `Prefix_Value_Worker`, at `core/resource_quantities.adb:181` (`Place := To_Big_Integer (256) * Previous_Place`) in the iteration `Completed = 803` [K-204]: `256 * 2**6424 = 2**6432` [K-185] | the same; D1 changes nothing before `Shape` | OPEN (D2) |
+| RL-24 (direct Ada, F35) | none: completes with False | `Lemma_Column_Step`'s loop invariant at `Offset = 802` [K-207], when the L-side prefix `Side_Sum` first includes the 257th positive operand, row 513 [K-208]. 256 operands sum to `2**6432 − 256`, which is representable [K-209]; 257 exceed `2**6432` [K-183]. Under the §5.6 LA-1 body plan | **D1-introduced; OPEN** (O-GHOST-HORIZON-A) |
+
+Release-build counterparts: IM-1 True; IM-2/3/4/8/10 computed post-D1 (pre-D1 255 / `Invalid_Request`); IM-5 False
+post-D1; RL-1..RL-6 decided post-D1 (pre-D1 `-1` for RL-2..RL-6); RL-24 False in both.
+
+### 9.7 Withdrawn or qualified statements
+
+- v2: "exact decision; time cost only" (v2:1311) is qualified to "release scenario, source-level design; subject to
+  O-NATIVE, transport copies and physical resources".
+- v2: "After D1, native code accepts every length" (v2:1455) is withdrawn.
+- v2: "the same place the original … failed" (v2:1322-1323) is withdrawn (V2-F13); §9.6 records the places.
+- v2: "Fewer per-iteration invariants" as a D2 mitigation (v2:1333-1335) is withdrawn. Original checked assertions are
+  never deleted merely because a static proof closes.
+- v2: "No other exit exists after allocation" (v2:1087-1089) is withdrawn (§7.1).
+- v3: "~L⁴ limb ops per `Q.Value`", the Post-only `Compare` estimate, "A-GHOST-0 multiplies this by about K" and the
+  "~N²·K·L⁴" dominant term are withdrawn and replaced by §9.3.1-§9.3.3.
+- v3: "twice per mixed request" and the primary-only stage table are withdrawn and replaced by §9.4-§9.5.
+- v3: "No new recursive function and no recursion" for Algorithm B is restricted to new declarations (§6.5).
+- v3: "`Old_Work` n bytes (primary stack …)" is withdrawn: placement is not established by source (§9.3.5).
+
+<!-- PART-5 -->
