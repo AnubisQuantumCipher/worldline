@@ -14,7 +14,9 @@ HARD LIMITS
 - Every original Phase One obligation stays OPEN. You grant no acceptance, approval or exception.
 
 CONTEXT (W = /home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow; WT = W/work/claude-lead-isolation-v1/wt-1)
-- Package under review: <PACKAGE_PATH> (sha256 <PACKAGE_SHA>). Earlier drafts v0-v3 are preserved beside it.
+- Package under review: W/work/claude-operator-decision-package-v1/DRAFT-v4.md (sha256
+  e36f517c6ecc891f256626bbbeb6f049dd57a2c565a632c763b73d7b3baf0b48, 35034 bytes; a byte-identical frozen copy is
+  WT/package-frozen/DRAFT-v4.md). Earlier drafts v0-v3 are preserved beside it. Verify the hash before reviewing.
 - Requirements (verbatim authority): W/outputs/claude-phase1-handoff-20261004/{HANDOFF.md,START-CLAUDE.txt,OBLIGATIONS-v2.json};
   /home/sicarii/Documents/complete-phase1-prompt.txt.
 - WORLDLINE monitor corrections the package must carry exactly (quoted in the package where used):

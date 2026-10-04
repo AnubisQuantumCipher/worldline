@@ -1,0 +1,474 @@
+{
+  "schema": "claude-design-review-v1",
+  "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md",
+  "design_sha256": "b20554c493e8406f0fa7191802294668bf3ae94ab8a65c6a75505b6e405f261f",
+  "decisions_sha256": "186c28e150cc2d888f066d0bfffbff7b9b19dcf63df5c66a3e6ffb5161bd33fd",
+  "appendix_sha256": {
+    "A": "a8ba784ac4ff3d0797fb3c7b0b2cd67981ca0fa6a0649215b88890c8d71db70a",
+    "B": "e485cfc77acd28f011aa7cb799ec1496c1b6816d1d553bdf1e16264387f17a4c"
+  },
+  "different_from_author": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "prior_closure": {
+    "V2-RC1": "CLOSED",
+    "V2-RC2": "CLOSED",
+    "V2-RC3": "CLOSED",
+    "V2-RC4": "NOT_CLOSED",
+    "V2-RC5": "NOT_CLOSED",
+    "V2-RC6": "NOT_CLOSED",
+    "RC4": "CLOSED",
+    "RC5": "CLOSED",
+    "RC6": "CLOSED",
+    "RC7": "NOT_CLOSED"
+  },
+  "closure_scope": "Prior design defects only; all implementation/proof/native/acceptance obligations remain OPEN",
+  "required_changes": [
+    {
+      "id": "V3-RC1",
+      "change": "Complete the OD-2 package without changing full-domain semantics: correct E2-b sorting to match json's original-key sorting and failure behavior; include aliased/forwarded JSON calls (at least scripts/decisive_evaluation_test.py:264) and update inventory/totals/settings; give the native/build_guard.py interpreter an E1 disposition or reviewed bound; express formatting exclusions as absolute-magnitude bounds and parsing exclusions as lexical digit-count bounds; correct Appendix A's C4/C5 Python-byte-identity statement; add integer-key and mixed-key-failure codec controls and synchronize decisions.json.",
+      "reason": "The encoder proposal changes admitted integer-key order and potentially mixed-key failures. The purported complete direct-name inventory omits a real json.dumps alias, and proof_manifest.py is not byte-identical to C4. Startup coverage and a one-sided signed inequality cannot stand in for complete conversion/data-flow evidence.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1704-1716",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1755-1765",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1769-1785",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/APPENDIX-A-python-conversion-surface.md:10-17",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/APPENDIX-A-python-conversion-surface.md:42-54",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/decisive_evaluation_test.py:260-275",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py:1024-1029",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/native/build_guard.py:33-51",
+        "/usr/lib/python3.14/json/encoder.py:357-377"
+      ]
+    },
+    {
+      "id": "V3-RC2",
+      "change": "Complete the source-to-control map and reference fixtures: specify equal/lower usage variants and the remaining invalid-operand selector combinations with full arrays/totals/status walks; add a true middle-cell IM mismatch; explicitly map X6 caller-Post/re-entry and X7 pre-allocation exits to admissible controls or proved-unreachable obligations; cover staged-only and Primary_And_Staged export/lifetime paths; specify RL-7c's row arrays, correct RL-7b's state-operand calculation and mark RL-8/9 unused or define them. Preserve every original and already-listed additive control, both builds, diagnostics and proof scope.",
+      "reason": "The map claims top/middle/bottom and every X1-X7 exit although the named fixtures only supply top/bottom mismatches and do not explicitly cover X6/X7. An equal-usage label without adjusted totals is not a complete READY fixture. The primary-only mixed control does not cover all admitted dependency paths.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1903-1905",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1951-1958",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1976-1981",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1988",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:2002-2005",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads:185-209",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads:255-263",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.adb:429-482"
+      ]
+    },
+    {
+      "id": "V3-RC3",
+      "change": "Rebuild and qualify F29/§9.3's checked-cost model from complete public self-referential Prefix_Value/Radix_Power Posts, Magnitude/Value body+Post calls, Compare's checked body/lemmas, all new helper/lemma/contracts, and saved array/value copies. Correct A-GHOST-0's inherited factor estimate, restrict B's 'no recursion' statement to new declarations, qualify source-only stack-placement claims, and record actual checked failure points. Expand mixed call repetition and readiness/context mapping to primary and staged, with dependency-qualified injection locations, then synchronize RL-1 wording, trace/index labels and decisions.json. Retain D2/native/cost obligations OPEN and every original checked assertion.",
+      "reason": "A worker-only Q.Value estimate and Compare-Post-only estimate omit known nested source work. Primary_And_Staged can execute both readiness and both context Decide calls, so a twice-per-request accounting and primary-only diagnostic plan are incomplete. Static estimates are not measured native bounds.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:327-355",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:524",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:573-584",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1133",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1415-1416",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1593-1624",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1631-1636",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1890",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1980",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.ads:58-96",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.adb:142-225",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.adb:350-399",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_authority.ads:19-36",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.adb:273-278",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.adb:429-482"
+      ]
+    }
+  ],
+  "rulings": [
+    {
+      "id": "R-A",
+      "ruling": "Algorithm A remains eligible in principle on the original signed/invalid/every-target domain: normalization, exact selection, Both_Kinds aggregate, wide bounds and residual carry are preserved. Full proof, legality and native cost remain OPEN.",
+      "owner": "lead",
+      "evidence_required": [
+        "Complete PO-A0..A24 including unrestricted signed/invalid/duplicate cases and every target",
+        "Installed wide-type/RTE/termination evidence",
+        "Both-build original/additive controls and native correspondence without caps"
+      ]
+    },
+    {
+      "id": "R-B",
+      "ruling": "Algorithm B's null-admitting shape and carry-out inequality are eligible mathematical decisions, with the original guard and asserted original-statement equivalence on every result path. No new public Pre or size refusal is authorized.",
+      "owner": "lead",
+      "evidence_required": [
+        "PO-B1..B21 and mechanical ghost statement correspondence",
+        "All three equivalence assertions and overflow/mismatch lemmas proved",
+        "Workspace/native/checked-cost obligations closed on exact identities"
+      ]
+    },
+    {
+      "id": "R-PREFIX",
+      "ruling": "The additive Prefix Post is eligible if proved while preserving the original conjuncts and variant. PFX-2/3/5 are conditional internal alternatives; removing/weakening a public termination guarantee or waiving a new warning is ineligible.",
+      "owner": "lead for preserving internal forms; separate review for public contract changes",
+      "evidence_required": [
+        "Digit-token Post proof and checked cost",
+        "Exact installed Refined_Post/wrapper/signed-propagation probes and complete caller proof",
+        "Unchanged original parser behavior, termination and strict-warning gate"
+      ]
+    },
+    {
+      "id": "R-WORKSPACE",
+      "ruling": "Use Appendix B.2's owner assignment before the inner handler; CL-1 remains conditional on P-W1..P-W8. CL-2 is lead-owned and not inherently barred by the native rule. CL-3 is experimental and requires separate review and legality/native evidence. No fallback can waive warnings, add Off, suppress Ghost or count resource failure as a refusal.",
+      "owner": "lead for CL-1/2/3; operator for concrete F-B2/F-B3 API/ABI choices",
+      "evidence_required": [
+        "Exact amended-pattern legality/borrow/leak/flow/assertion-use proof",
+        "No new unreachable-handler or other strict warning",
+        "Generated owner store/landing pad, saved-value placement, temporary finalization and all-exit native custody",
+        "Full resource/success obligation preserved for every original accepted case"
+      ]
+    },
+    {
+      "id": "R-OD1",
+      "ruling": "No OD-1 option is selected or recommended. The repaired option set preserves helper obligations. Ghost retirement/removal is incompatible; release unreachability and approval alone close nothing.",
+      "owner": "operator chooses concrete library/runtime/API architecture; lead prepares evidence and may pursue preserving body-only mitigation",
+      "evidence_required": [
+        "Concrete model binding, direct-user migration and independently verified full implementation",
+        "Layout/index/base/length/automatic-vector/cost repair for runtime choice",
+        "Rebuild/relink/loaded identity and complete original/full-domain controls"
+      ]
+    },
+    {
+      "id": "R-OD2",
+      "ruling": "No E1/E2 choice is selected. The 640-digit chunk guard is valid under every admitted interpreter limit, but V3-RC1 must repair codec ordering, inventory and configuration/exclusion precision. A cap or catch-and-refuse is not a repair.",
+      "owner": "operator for conversion architecture and protected custody; lead for codec/audit/evidence preparation",
+      "evidence_required": [
+        "Every admitted process configured before conversion, or complete scoped routing/bounds",
+        "Full-domain parser/encoder correspondence preserving settings/hooks/key failures",
+        "JSON alias/forwarded-call and non-JSON data-flow audit",
+        "Original and additive PY/export controls and uncapped costs"
+      ]
+    },
+    {
+      "id": "R-NOTICE",
+      "ruling": "A-GHOST-1 adds the proposed Side_Sum declaration to OPEN R-1-class obligations; no prior classification automatically covers it. A-GHOST-0 avoids a new declaration site but preserves old notices and adds checked costs. No warning waiver, assumed lemma or reference weakening is authorized.",
+      "owner": "lead for proof/model alternatives; operator for concrete evidence-backed R-1 classification, with independent review",
+      "evidence_required": [
+        "Exact installed P-R1/classification evidence and full body/caller/RTE/termination proof",
+        "Preserved original recurrences/domains/conjuncts/variants",
+        "Complete A-GHOST-0 equivalence/lifetime/cost evidence if chosen"
+      ]
+    },
+    {
+      "id": "R-SCOPE",
+      "ruling": "D1 alone closes no original helper, checked-Ghost, Python, transport, physical-cost or integrated acceptance obligation. V3-RC1..V3-RC3 are mandatory design corrections; every engineering OPEN item stays OPEN. No source, proof, native or Phase acceptance is granted.",
+      "owner": "lead retains engineering obligations; operator owns concrete policy/runtime/API/campaign choices; acceptance remains separate",
+      "evidence_required": [
+        "Corrected design/index and complete controls",
+        "Exact source/build/runtime/loaded-library identity",
+        "Full frozen strict proof floor/roster and all original controls",
+        "Independent source/proof/native/integrated acceptance"
+      ]
+    }
+  ],
+  "fact_corrections": [
+    {
+      "id": "F10",
+      "status": "CONFIRMED_AND_DESIGN_REPAIRED",
+      "finding": "Invalid quantities must be normalized to reference zero before usage comparison. RL-12 and RL-12N now discriminate the whole Contained result, not only one parent inequality.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1919-1920",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads:187-209",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads:255-263"
+      ]
+    },
+    {
+      "id": "F11",
+      "status": "CONFIRMED_WITH_SCOPE",
+      "finding": "The source project defaults to checks/-gnata. This is not evidence of actual compiled or loaded assertion scenario.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core_sources.gpr:8-19",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:403-410"
+      ]
+    },
+    {
+      "id": "F12",
+      "status": "CONFIRMED_WITH_REQUIRED_EXTENSION",
+      "finding": "Readiness and context have distinct native-failure mappings, and mathematical False/native failure share mixed Invalid_Request. The source also supplies staged locations, omitted from the current primary-only table.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1626-1636",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.adb:386-388",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.adb:429-482"
+      ]
+    },
+    {
+      "id": "V3-F1",
+      "status": "CORRECTION_REQUIRED",
+      "finding": "E2-b must preserve json's original-key sorting and pre-coercion mixed-key TypeError; code-point sorting is insufficient for admitted integer keys.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1755-1763",
+        "/usr/lib/python3.14/json/encoder.py:357-377"
+      ]
+    },
+    {
+      "id": "V3-F2",
+      "status": "CORRECTION_REQUIRED",
+      "finding": "The 192 direct-name JSON sites match the reproduced AST inventory, but scripts/decisive_evaluation_test.py:264 adds an omitted json.dumps alias. A direct-name-only scan is not a complete semantic call census.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/APPENDIX-A-python-conversion-surface.md:12-18",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/APPENDIX-A-python-conversion-surface.md:50-54",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/decisive_evaluation_test.py:260-275"
+      ]
+    },
+    {
+      "id": "V3-F3",
+      "status": "CORRECTION_REQUIRED",
+      "finding": "Appendix A's claim that all listed Python files are byte-identical between C4/C5 is false for proof_manifest.py. The listed JSON site is unchanged, while candidate pins are appended.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/APPENDIX-A-python-conversion-surface.md:10-11",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/APPENDIX-A-python-conversion-surface.md:91",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py:1024-1029"
+      ]
+    },
+    {
+      "id": "V3-F4",
+      "status": "CORRECTION_REQUIRED",
+      "finding": "F29/§9.3's worker-only Value and Post-only Compare estimates omit nested checked public Posts and body/lemma work. A-GHOST-0's inherited relative factor is not established.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:348-355",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:582",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1593-1600",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.ads:58-96",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_quantities.adb:350-399"
+      ]
+    },
+    {
+      "id": "V3-F5",
+      "status": "CORRECTION_REQUIRED",
+      "finding": "Primary_And_Staged permits both readiness and both context Decide calls. The twice-per-mixed-request repetition and primary-only stage plan are incomplete.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:334",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1606",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1631-1632",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_authority.ads:19-36",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.adb:429-482"
+      ]
+    },
+    {
+      "id": "V3-F6",
+      "status": "CORRECTION_REQUIRED",
+      "finding": "The listed mismatches do not supply a middle-cell case, the W set does not explicitly supply X6/X7, and the equal-usage variant is not a complete state/status fixture.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1951-1952",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1976-1981",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1988",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:2002-2005"
+      ]
+    },
+    {
+      "id": "V3-F7",
+      "status": "CORRECTION_REQUIRED",
+      "finding": "RL-7b's status is correct, but its explanatory arithmetic should use proposed held 8 minus selected sum 7+3. RL-7c needs explicit arrays; RL-8/9 have no defined entries.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1904-1905",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md:1894-1934"
+      ]
+    },
+    {
+      "id": "B-ERRATA",
+      "status": "INCORPORATED",
+      "finding": "Appendix B governs. E-1's replacement hashes match independently read inputs; E-2 corrects the transport raise line; E-3 supplies relational big-integer bounds; E-4 supplies the explicit start; B.2 fixes the cleanup placement argument. E-5 is an author process claim, not installed legality evidence.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/APPENDIX-B-errata-and-refinements.md:5-18",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/APPENDIX-B-errata-and-refinements.md:20-78"
+      ]
+    },
+    {
+      "id": "REVIEW-ARITHMETIC-ATTRIBUTION",
+      "status": "CLARIFIED_IN_FINAL_REPORT",
+      "finding": "Checkpoint 2's parenthetical carry-decomposition attribution refers broadly to K-15; the exact K-15 input is the difference expression returning zero. The separate 9*256+255=2559 response is retained as MUL-carry-decomposition, and the final report cites them separately.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/checkpoint-2.json",
+        "checks.json:jackal_results[K-15,MUL-carry-decomposition]"
+      ]
+    }
+  ],
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "native_acceptance": false,
+  "open_obligations": [
+    {
+      "id": "O-A",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Full Algorithm A equivalence (PO-A0..A24) on the original signed and invalid domain, every target",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-CHECK",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Capacity-branch equivalence and unchanged status priority (PO-A17, PO-A19)",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-BOUNDS",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Installed 128-bit acceptance and every RTE and termination obligation",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-B",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Lockstep correspondence, overflow theorem, frames, sizing (PO-B1..B21)",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-PREFIX-PROOF",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "D-B-PREFIX proof and checked cost; or PFX-2/3/5 with probes",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-LEGALITY-PROBE",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "P-W1..P-W5, P-X3, P-R1, P-PFX* on installed GNATprove 16.1.0 in a reviewed frame",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-EXCEPTION-CLEANUP",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Reclamation on exits X2..X4 under native fault injection (P-W6), with the Appendix B.2 inner-block shape",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-WORKSPACE",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Heap (CL-1) or stack (CL-2) fit for every originally successful input; resource failures never accepted",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-NOTICE-R1",
+      "status": "OPEN",
+      "owner": "operator decides R-1; lead switches model if needed",
+      "obligation": "Side_Sum recursion notices under A-GHOST-1",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-HELPERS",
+      "status": "OPEN",
+      "owner": "operator chooses OD-1 architecture; lead prepares evidence",
+      "obligation": "Exact_Value/Amount/Sum full-domain executable capability",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-GHOST",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "D2: checked contracts, Ghost code and invariants (original and D1-added): representation limit, recursion, saved values, heap, stack, time",
+      "review_acceptance": false,
+      "required_design_change": "V3-RC3"
+    },
+    {
+      "id": "O-BUILD-SELECTION",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Actual assertion scenario and loaded runtime/library identity",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-PYTHON",
+      "status": "OPEN",
+      "owner": "operator chooses OD-2; lead prepares evidence",
+      "obligation": "Python decimal-integer correspondence",
+      "review_acceptance": false,
+      "required_design_change": "V3-RC1"
+    },
+    {
+      "id": "O-PY-AUDIT",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Classification of all JSON and non-JSON conversion sites (Appendix A)",
+      "review_acceptance": false,
+      "required_design_change": "V3-RC1"
+    },
+    {
+      "id": "O-PY-COST",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Conversion and codec costs without caps or accepted failures",
+      "review_acceptance": false,
+      "required_design_change": "V3-RC1"
+    },
+    {
+      "id": "O-TRANSPORT-MAPPING",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Stage-aware classification of export failures (9.4); native faults remain failures",
+      "review_acceptance": false,
+      "required_design_change": "V3-RC3"
+    },
+    {
+      "id": "O-COST-MEASURE",
+      "status": "OPEN",
+      "owner": "lead; existing operator campaign gates preserved",
+      "obligation": "Native time, heap and stack measurements on exact identities",
+      "review_acceptance": false,
+      "required_design_change": "V3-RC3"
+    },
+    {
+      "id": "O-PROOF",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Complete strict matching-source proof: floor 251, sole boundary, ordered roster, zero unproved/justified/assumed, all strict warnings resolved",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-NATIVE",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Compiled call closure, -gnatG/assembly evidence (PO-N1..N7), loaded identity",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-CONTROLS",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Every original and additive control in both builds under existing admission; all unrun",
+      "review_acceptance": false,
+      "required_design_changes": [
+        "V3-RC1",
+        "V3-RC2",
+        "V3-RC3"
+      ]
+    },
+    {
+      "id": "O-PINS",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Official pin regeneration; append-only roster",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-JACKAL-SYMBOLIC",
+      "status": "OPEN",
+      "owner": "lead",
+      "obligation": "Universal mathematical facts are SPARK obligations; JACKAL gave exact instances only",
+      "review_acceptance": false
+    },
+    {
+      "id": "O-FINAL",
+      "status": "OPEN",
+      "owner": "separate acceptance process",
+      "obligation": "Independent source, proof, native and integrated Phase One acceptance; none granted here",
+      "review_acceptance": false
+    }
+  ],
+  "report_sha256": "e82534cb680b70b92105c78906d9c2109c1122b367641ef78d88741d5754407f",
+  "checks": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/checks.json",
+    "sha256": "0631a4ff6d0136421f9a06369779eef133447ab7294a500d1f3b4b2eafe53ea2",
+    "bytes": 334189,
+    "mode": "0600"
+  }
+}
