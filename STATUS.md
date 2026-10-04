@@ -33,8 +33,10 @@ As of 2026-10-04 ~21:00Z. This file supersedes the stale status sections of the 
 - The lead's own measurable additions since then are about 100 MB: review-record copies, job scratch, review rollouts.
 
 **Lead response.**
-- No new reviews, agents or copies are started.
-- Three reviews keep running as instructed. The queued D1 v3 review is held at the human's call.
+- No discretionary agents or copies are started.
+- The D2, root-worker seam and C-API v3 reviews have sealed. The D1 v3 review started when a runner slot freed
+  (20:41Z) and is still running.
+- The next review is the instructed one of the consolidated operator package, after D1 v3 seals.
 
 **Incident (disclosed).** A `find` over `~/.local` listed file metadata under `~/.local/share/sia/.gbrain/`. That
 breaks the machine rule "never access ~/.local/share/sia/.gbrain/ directly". It was metadata only: nothing was read or
