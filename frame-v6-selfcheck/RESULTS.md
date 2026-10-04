@@ -34,6 +34,27 @@ case must be refused. The two controls (no mutation) must be accepted.
 - v5 refuses only replace and delete, which change the directory. It accepts the other eight mutations and returns the
   stale pre-mutation record. That is the V5-B01 defect, reproduced on throwaway trees.
 
+## Regression: the full v5 author self-check against v6
+
+**Run.** 2026-10-04 23:40:21Z, through `regression_v6.py`, which leaves both the harness and the frame unmodified:
+- It reads the unchanged v5 harness (`scratchgen-v5/selfcheck.py`, sha256 `3ccb9c0f…4ab3`).
+- In memory, it retargets that harness's single `FRAME` line to the v6 working copy.
+- Output is in `regression-2026-10-04T234021Z/`.
+
+| Frame | Cases | Failures |
+|---|---|---|
+| v5 baseline (`selfcheck-2`, earlier today) | 85 | 0 |
+| v6 working copy (`2255d6e1…`) | 85 | **0** |
+
+As in the v5 run, the harness performed none of these:
+- a gprbuild, gnatprove or systemd-run launch;
+- any access to the real shared window;
+- adopt;
+- the real run or child launch path;
+- a real owned scope.
+
+The dispatch case's frame `run` verb refused before admission.
+
 ## Boundary of this result
 
 This is ENGINEERING_ONLY evidence. It is not proof, review, admission, source-qualification or Phase One acceptance.

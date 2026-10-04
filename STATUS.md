@@ -138,6 +138,7 @@ D2 stays OPEN.
 | When | What | Result | Where |
 |---|---|---|---|
 | 23:37:20Z | V5-B01 final-pass self-check. A library import of `observe_tree` on throwaway trees; mutations injected after a file's observation | v6 working copy (`2255d6e1…`): **14/14 as required**. Frozen v5 (`f9f6596d…`): 6/14. v5 accepts 8 post-observation changes, which reproduces V5-B01 | `frame-v6-selfcheck/RESULTS.md` |
+| 23:40:21Z | Regression: the unchanged 85-case v5 author self-check, retargeted in memory to the v6 working copy | **85/85, 0 failures**, the same as the v5 baseline | `frame-v6-selfcheck/regression-2026-10-04T234021Z` |
 | 23:39:12Z | W-1 v2 writer-side mechanisms (prototype `w1proto.py` `2c7d6100…`): lease, chained framing, streamed-input pins, non-dumpable. Same-user simulation | **27/27 as required** | `frame-v6w1-proto/results-2026-10-04T233912Z` |
 
 These show code behaviour on throwaway inputs only. They do not test the separate-account kernel boundary. V5-B01,

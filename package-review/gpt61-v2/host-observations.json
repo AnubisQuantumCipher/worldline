@@ -1,0 +1,47 @@
+[
+  {
+    "path": "/proc/sys/fs/protected_hardlinks",
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "text": "1\n"
+  },
+  {
+    "path": "/proc/sys/fs/protected_symlinks",
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "text": "1\n"
+  },
+  {
+    "path": "/proc/sys/fs/protected_regular",
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "text": "1\n"
+  },
+  {
+    "path": "/proc/sys/kernel/yama/ptrace_scope",
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "text": "1\n"
+  },
+  {
+    "path": "/etc/pam.d/sudo",
+    "sha256": "7ec1c668c10e0f83d00e25f336872212fe04ce2c2563e1d661d34d28852f4649",
+    "text": "#%PAM-1.0\nauth\t\tinclude\t\tsystem-auth\naccount\t\tinclude\t\tsystem-auth\nsession\t\tinclude\t\tsystem-auth\nsession\t\toptional\tpam_systemd.so class=none\n"
+  },
+  {
+    "path": "/etc/pam.d/system-auth",
+    "sha256": "2bb19ead55a7b9014d107eec63cc015426c39d93ddc8af3322649ff5f8b45d5b",
+    "text": "#%PAM-1.0\n\nauth       required                    pam_faillock.so      preauth\n# Optionally use requisite above if you do not want to prompt for the password\n# on locked accounts.\n-auth      [success=2 default=ignore]  pam_systemd_home.so\nauth       [success=1 default=bad]     pam_unix.so          try_first_pass nullok\nauth       [default=die]               pam_faillock.so      authfail\nauth       optional                    pam_permit.so\nauth       required                    pam_env.so\nauth       required                    pam_faillock.so      authsucc\n# If you drop the above call to pam_faillock.so the lock will be done also\n# on non-consecutive authentication failures.\n\n-account   [success=1 default=ignore]  pam_systemd_home.so\naccount    required                    pam_unix.so\naccount    optional                    pam_permit.so\naccount    required                    pam_time.so\n\n-password  [success=1 default=ignore]  pam_systemd_home.so\npassword   required                    pam_unix.so          try_first_pass nullok shadow\npassword   optional                    pam_permit.so\n\n-session   optional                    pam_systemd_home.so\nsession    required                    pam_limits.so\nsession    required                    pam_unix.so\nsession    optional                    pam_permit.so\n"
+  },
+  {
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/cgroup.controllers",
+    "sha256": "4e91842959764a4d484c9947707e72307dc8f55919189a7ec296252ec5dde9ad",
+    "text": "cpu memory pids\n"
+  },
+  {
+    "path": "/proc/self/status",
+    "sha256": "09b05535234a15cddf034c6f688b829c7a534409b846e024a6f9db798d1b01c4",
+    "text": "Name:\tpython3\nUmask:\t0022\nState:\tR (running)\nTgid:\t73\nNgid:\t0\nPid:\t73\nPPid:\t2\nTracerPid:\t0\nUid:\t1000\t1000\t1000\t1000\nGid:\t1000\t1000\t1000\t1000\nFDSize:\t64\nGroups:\t65534 65534 65534 65534 65534 65534 65534 65534 1000 \nNStgid:\t73\nNSpid:\t73\nNSpgid:\t1\nNSsid:\t1\nKthread:\t0\nVmPeak:\t   29584 kB\nVmSize:\t   29500 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t   17796 kB\nVmRSS:\t   17796 kB\nRssAnon:\t    6400 kB\nRssFile:\t   11396 kB\nRssShmem:\t       0 kB\nVmData:\t    7424 kB\nVmStk:\t     136 kB\nVmExe:\t       4 kB\nVmLib:\t   16356 kB\nVmPTE:\t     100 kB\nVmSwap:\t       0 kB\nHugetlbPages:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t0\nuntag_mask:\t0xffffffffffffff\nThreads:\t1\nSigQ:\t0/128053\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000001001000\nSigCgt:\t0000000000000002\nCapInh:\t0000000000000000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t0000000000000000\nCapAmb:\t0000000000000000\nNoNewPrivs:\t1\nSeccomp:\t2\nSeccomp_filters:\t1\nSpeculation_Store_Bypass:\tvulnerable\nSpeculationIndirectBranch:\tunknown\nCpus_allowed:\tfff\nCpus_allowed_list:\t0-11\nMems_allowed:\t1\nMems_allowed_list:\t0\nvoluntary_ctxt_switches:\t2\nnonvoluntary_ctxt_switches:\t9\n"
+  },
+  {
+    "path": "/usr/bin/python3.14",
+    "bytes": 67720,
+    "sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947"
+  }
+]

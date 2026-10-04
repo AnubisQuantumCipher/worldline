@@ -1,0 +1,244 @@
+{
+ "schema": "claude-scratch-frame-v5-author-selfcheck",
+ "at": "2026-10-04T23:41:09.536480+00:00",
+ "author": "Claude Code lead (claude-opus-5-5, session 0e157c30)",
+ "frame_scratch_sha256": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84",
+ "results": {
+  "anchor_symlink_component": "refused: NotADirectoryError: [Errno 20] Not a directory: 'alias'",
+  "pinned_through_symlink_component": "refused: NotADirectoryError: [Errno 20] Not a directory: 'alias'",
+  "read_symlink_leaf": "refused: OSError: [Errno 40] Too many levels of symbolic links: 'link.txt'",
+  "read_hardlinked_leaf": "refused: RuntimeError: not a single-link regular file: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/real/f.txt",
+  "read_stable_positive": 12000,
+  "read_append_during": "refused: RuntimeError: changed, aliased or renamed during read: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/read-append/g.txt",
+  "read_hardlink_during": "refused: RuntimeError: changed, aliased or renamed during read: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/read-hard/g.txt",
+  "read_entry_swapped_during": "refused: RuntimeError: changed, aliased or renamed during read: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/read-swap/g.txt",
+  "read_mode_changed_during": "refused: RuntimeError: changed, aliased or renamed during read: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/read-mode/g.txt",
+  "custody_write_positive": 1,
+  "custody_detached_write": "refused: FileNotFoundError: [Errno 2] No such file or directory: 'd'",
+  "custody_detached_nothing_written": true,
+  "custody_substituted_write": "refused: RuntimeError: directory is no longer at its anchored location: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/custody-subst/a/d",
+  "custody_substituted_stream": "refused: RuntimeError: directory is no longer at its anchored location: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/custody-stream/a/d",
+  "custody_substituted_chmod": "refused: RuntimeError: directory is no longer at its anchored location: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/custody-chmod/a/d",
+  "custody_substituted_create": "refused: RuntimeError: directory is no longer at its anchored location: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/custody-mkdir/a/d",
+  "custody_ancestor_symlinked": "refused: NotADirectoryError: [Errno 20] Not a directory: 'a'",
+  "create_positive": true,
+  "create_substituted_nonempty": "refused: RuntimeError: created directory failed authentication: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/create-nonempty/new",
+  "create_substituted_mode": "refused: RuntimeError: created directory failed authentication: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/create-mode/new",
+  "create_substituted_symlink": "refused: NotADirectoryError: [Errno 20] Not a directory: 'new'",
+  "create_substituted_identical_empty_0700_residual": "accepted: an empty 0700 directory of this user AT the intended location (documented residual)",
+  "create_first": "ok",
+  "create_existing_name": "refused: FileExistsError: [Errno 17] File exists: 'dup'",
+  "tree_plain": [
+   "a/ok.adb"
+  ],
+  "tree_symlink": "refused: RuntimeError: alias or special file in tree: a/s.adb",
+  "tree_hardlink": "refused: RuntimeError: multiply linked file in tree: a/h.adb",
+  "tree_fifo": "refused: RuntimeError: alias or special file in tree: a/p",
+  "tree_unreadable": "refused: PermissionError: [Errno 13] Permission denied: 'ok.adb'",
+  "tree_partition_identities_recorded_files_not": [
+   [
+    ".",
+    "a",
+    "obj"
+   ],
+   [
+    "a/ok.adb"
+   ]
+  ],
+  "tree_partition_hardlink": "refused: RuntimeError: multiply linked file in tree: obj/g.ali",
+  "tree_top_level_file_named_obj_is_recorded": true,
+  "walk_directory_changed_after_its_walk": "refused: RuntimeError: directory changed after its walk: .",
+  "walk_recorded_file_hardlinked_during": "refused: RuntimeError: file changed, aliased or renamed during walk: a/ok.adb",
+  "walk_excluded_file_hardlinked_during": "refused: RuntimeError: file replaced during walk: obj/g.ali",
+  "base_tree": {
+   "files": 635,
+   "directories": 55
+  },
+  "materialize_empty_real_base": "ok",
+  "empty_equals_base": true,
+  "materialize_iter3_real_base": "ok",
+  "iter3_verified_overlays": [
+   "core/canonical_artifacts.adb",
+   "core/evaluation_epoch.adb",
+   "core/evaluation_finalization.adb",
+   "core/evaluation_finalization.ads",
+   "core/resource_ledger.adb",
+   "core/resource_quantities.adb",
+   "core/resource_quantities.ads",
+   "core/resource_reservation_transition.adb",
+   "core/resource_run_ledger_wire.adb",
+   "core/worldline-owner_conjunction.ads",
+   "core/worldline-owner_subject_projection.adb",
+   "core/worldline-recovery.ads",
+   "core/worldline-resources.adb",
+   "core/worldline-resources.ads"
+  ],
+  "existing_run": "refused: RuntimeError: run already exists",
+  "run_name_traversal": "refused: RuntimeError: invalid run name",
+  "overlay_gpr": "refused: RuntimeError: overlay may contain only Ada units under core/ (fixed build graph): core/x.gpr",
+  "overlay_symlink": "refused: RuntimeError: alias or special file in tree: core/canonical_artifacts.adb",
+  "delete_non_base": "refused: RuntimeError: deletion of a non-base file: core/not_a_base_unit.adb",
+  "allow_prove_file": [
+   "--proof-warnings=on",
+   "-j2",
+   "-k"
+  ],
+  "allow_unenrolled": "refused: RuntimeError: unit not enrolled in this materialization",
+  "allow_option_like": "refused: RuntimeError: unit operand grammar",
+  "allow_unknown_action": "refused: RuntimeError: action/arguments not in the reviewed allowlist: verify []",
+  "identities_hash_form": {
+   "proof-data-selfcheck.json": {
+    "equal": true,
+    "bytes_retained": 554,
+    "observation_canonical_bytes": 5582338
+   },
+   "proof-elf-selfcheck.json": {
+    "equal": true,
+    "bytes_retained": 543,
+    "observation_canonical_bytes": 3198141
+   },
+   "runtime-closure-selfcheck.json": {
+    "equal": true,
+    "bytes_retained": 622,
+    "observation_canonical_bytes": 25492263
+   },
+   "tools-selfcheck.json": {
+    "equal": true,
+    "bytes_retained": 555,
+    "observation_canonical_bytes": 134988
+   },
+   "vendors-selfcheck.json": {
+    "equal": true,
+    "bytes_retained": 557,
+    "observation_canonical_bytes": 701976
+   }
+  },
+  "threshold_receipts": "ok",
+  "adoption_validator_positive": "ok",
+  "adoption_validator_not_prefix": "refused: RuntimeError: adoption observation is not a prefix of the append-only transcript",
+  "adoption_validator_stage": "refused: RuntimeError: adoption observation schema/stage/candidate",
+  "adoption_validator_before_review": "refused: RuntimeError: adoption observation must follow the review completion and precede the adoption record",
+  "adoption_validator_later_goal_derived_N06": "refused: RuntimeError: later goal commands derived from the observed goal commands",
+  "run_not_from_dispatch": "refused: RuntimeError: run must be started by this frame's dispatch verb with the same run/action/arguments",
+  "retain_primary": "r.json",
+  "retain_retry_after_partial": {
+   "retry_name": "r2.json.retry-6ae59ad905cf",
+   "errors": 1,
+   "retry_success_downgraded": true,
+   "partial_left_raw": true
+  },
+  "retain_unwritable_falls_back_to_stderr": {
+   "returned": null,
+   "errors": 2,
+   "stderr_has_record": true
+  },
+  "read_record": {
+   "p.json": "unparseable",
+   "l.json": "unparseable",
+   "missing.json": "missing",
+   "r.json": "value"
+  },
+  "close_stream_failure_aggregated": [
+   "close bad stream"
+  ],
+  "pending_handled": {
+   "consumed": [
+    15
+   ],
+   "still_pending": []
+  },
+  "spawn_fchdir_cwd": true,
+  "spawn_child_unblocked": true,
+  "wait_blocked_forwards": {
+   "returncode": -15,
+   "error": null,
+   "forwarded": [
+    15
+   ]
+  },
+  "fixture_positive": [
+   "core/canonical_artifacts.adb",
+   "core/resource_ledger.ads",
+   "core/worldline_core_sources.gpr",
+   "resource-tests/t.adb"
+  ],
+  "tamper_untouched_source_file": "refused: RuntimeError: throwaway source differs from base plus overlays minus deletions",
+  "tamper_snapshot": "refused: RuntimeError: overlay snapshot identity changed",
+  "tamper_extra_source_file": "refused: RuntimeError: throwaway source differs from base plus overlays minus deletions",
+  "generated_partition_excluded": [
+   "core/canonical_artifacts.adb",
+   "core/resource_ledger.ads",
+   "core/worldline_core_sources.gpr",
+   "resource-tests/t.adb"
+  ],
+  "generated_partition_alias": "refused: RuntimeError: alias or special file in tree: obj/link",
+  "generated_partition_hardlink": "refused: RuntimeError: multiply linked file in tree: obj/a.ali",
+  "source_subdirectory_replaced_by_identical_copy": "refused: RuntimeError: a throwaway source directory is not the directory created at materialization",
+  "source_directory_replaced_by_identical_copy": "refused: RuntimeError: a throwaway source directory is not the directory created at materialization",
+  "snapshot_directory_replaced_by_identical_copy": "refused: RuntimeError: overlay snapshot identity changed",
+  "tamper_record_overlays": "refused: RuntimeError: materialization overlays",
+  "held_source_detached_by_rename_and_copy": "refused: RuntimeError: directory is no longer at its anchored location: /home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run/runs/ft-held/source",
+  "owned_terminal_complete_records": {
+   "terminal": true,
+   "unresolved": 0,
+   "cgroup": "NOT_REPORTED"
+  },
+  "owned_terminal_partial_record_unresolved": {
+   "terminal": false,
+   "unresolved": 1,
+   "cgroup": "NOT_REPORTED"
+  },
+  "conclude_partial_child_wait_withholds": {
+   "exit": 1,
+   "success": false,
+   "terminal": false,
+   "child_wait_raw_unparseable": true,
+   "launch_drift": [],
+   "materialization_unchanged": true,
+   "withheld": true,
+   "released_record": false,
+   "window_status_after": "reserved"
+  },
+  "conclude_launch_drift_reported_and_released": {
+   "exit": 1,
+   "success": false,
+   "terminal": true,
+   "child_wait_raw_unparseable": false,
+   "launch_drift": [
+    "launch"
+   ],
+   "materialization_unchanged": false,
+   "withheld": false,
+   "released_record": true,
+   "window_status_after": "released"
+  },
+  "conclude_clean_records_released_not_success_without_admitted_frame": {
+   "exit": 1,
+   "success": false,
+   "terminal": true,
+   "child_wait_raw_unparseable": false,
+   "launch_drift": [],
+   "materialization_unchanged": true,
+   "withheld": false,
+   "released_record": true,
+   "window_status_after": "released"
+  },
+  "child_refusal_retained": {
+   "exit": 1,
+   "target_started": false,
+   "error": "launch record differs from the seal carried by the launcher argv"
+  },
+  "dispatch_records_actual_run_wait": {
+   "exit": 1,
+   "run_wait": 1,
+   "terminal_wait": 1,
+   "stderr_tail": "tch.py\", line 49, in require\n    raise RuntimeError(message)\nRuntimeError: run must be started by this frame's dispatch verb with the same run/action/arguments\n"
+  }
+ },
+ "failures": [],
+ "not_performed": [
+  "no gprbuild/gnatprove/systemd-run launch; the real shared window was never read, locked or written (fixture windows only); adopt, the real run/child launch path and a real owned scope were not executed; the dispatch case spawned the frame run verb, which refused before any admission because RUNS holds only fixture runs"
+ ],
+ "selfcheck_location": "/home/sicarii/.claude/jobs/c9272506/tmp/regression-v6-234021/run",
+ "truth_boundary": "ENGINEERING_ONLY: scratch result on a throwaway copy; never proof, review, admission, ordinary, source-qualification or Phase One acceptance evidence. Original guarantees OPEN_UNCHANGED."
+}
