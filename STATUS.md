@@ -1,6 +1,6 @@
 # WORLDLINE Phase One: Claude lead status (live index)
 
-As of 2026-10-04 ~21:00Z. This file supersedes the stale status sections of the read-only
+As of 2026-10-04 ~22:12Z. This file supersedes the stale status sections of the read-only
 `work/claude-workflow-v1/REPAIR-MAP.md`, which stays preserved.
 
 **Every original Phase One obligation is OPEN.** Nothing below is proof, source, native or Phase One acceptance.
@@ -130,7 +130,12 @@ D2 stays OPEN.
 
 ## In progress
 
-- Actual gpt-6.1-sol review of D1 DESIGN v3 (runner, running since 20:41Z). C-API v3 review sealed 21:22Z.
+- **Operator package.** DRAFT-v4 is frozen (`e36f517c…`, 35034 bytes, plus a copy in `wt-1/package-frozen`). Its
+  actual gpt-6.1-sol review started 22:08Z (runner, thread `01a108f6…`), with output in `wt-1/package-review/gpt61-v1`.
+- **Sealed reviews.** C-API v3 sealed 21:22Z and D1 v3 sealed 22:05Z. Both are ENDORSED_WITH_REQUIRED_CHANGES.
+- **D1 DESIGN v4.** A drafting agent (author role, not review) started ~22:10Z on V3-RC1..RC3. Output goes to
+  `wt-1/designs/claude-native-bigint-d1-design-v4`. Started deliberately as one agent at a time, paced against S-1:
+  free space was 10514870272 bytes at 22:09Z.
 - Consolidated operator package. Current draft: `work/claude-operator-decision-package-v1/DRAFT-v3.md`.
   - The next draft folds in the C-API v3 and D1 v3 verdicts and the D2 corrections above.
   - Then it gets its own actual gpt-6.1-sol review before going to the human.
