@@ -1,0 +1,581 @@
+{
+  "schema": "claude-root-worker-seam-design-v1",
+  "lane": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1",
+  "author": "Claude Code lead claude-opus-5-5 (analysis subagent)",
+  "status": "DRAFT_FOR_GPT61_REVIEW",
+  "seams": [
+    {
+      "id": 1,
+      "title": "Full scoped original pre-effect conjunction",
+      "size": "L (XL with scoped exchange and K4 successors)",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/protected_root_worker.py:162-171", "observation": "Root route calls _reserve, the unchanged original pre_effect, RESERVE_USE replay and EFFECT_INTENT with boundaries=[boundary]; drops the DISPATCH_INTENT resource reply retained by _invoke_serial at protected_operations.py:749."},
+        {"anchor": "runtime/worldline/protected_operations.py:687-688", "observation": "pre_effect passes the operation launch policy to scoped machine_admission, which compares it with resource_launch_material; that returns the root handler_plan when principal.root_worker is set (:469-476), so it refuses SCOPED_CALLER_MACHINE_POLICY_DIFFERS_FROM_ACTUAL_OWNER_PLAN (protected_scoped_resource_runtime.py:640-641) unless the policies coincide."},
+        {"anchor": "runtime/worldline/protected_operations.py:690,708; runtime/worldline/resource_run_ledger.py:181", "observation": "Inherited old-ledger collect and CanonicalOperationKernel.observe marshal ScopedState through the old typed marshal and raise ValueError(complete typed State input is required). Fails closed; no flattening; no positive route."},
+        {"anchor": "core/worldline-canonical_operation.adb:3-35", "observation": "Original conjunction consumes flat L.Ledger_State, Rows, Observed: authority Reserve_Use replay, resource Conserved/Contained/Native_Valid with a bound row in Reserved|Launch_Intent|Running, binding equalities, collapse clause for commits."},
+        {"anchor": "core/worldline-resource_child_execution.ads:172-184", "observation": "Root_Admission is Authorize_Execution plus controller facts; it lacks Reserve_Use replay, binding and collapse clauses and is not a substitute."},
+        {"anchor": "runtime/worldline/canonical_full_broker.py:117-140; runtime/worldline/protected_operations.py:605-621", "observation": "Broker exchange arguments and K4 owner-completion inputs carry the same old resource-state dependency."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:28", "quote": "Author an additive closed typed scoped/native conjunction that redecides the complete original grant/use/request/current/evaluation/collapse inputs, preserving every original clause, accepted case and full proof obligation. Merely passing the selected root/actor native status does not replace this."},
+        {"source": "P1:125", "quote": "Do not flatten full scoped history into an older RunState or copy a readiness flag."},
+        {"source": "P1:107", "quote": "caller-filled equal bytes alone are insufficient."},
+        {"source": "ROADMAP:105,113", "quote": "Put the consequential collapse rule in SPARK ... Python has no independent definition of authorization."},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-198, OB-061, OB-023, OB-219, OB-131"},
+        {"source": "RC required_genuine_cases", "quote": "every ordinary operation with missing/wrong/right-widened/revoked/expired grant; complete grant lineage attenuation with outstanding use ceiling before effect; complete historical K4 resource packets stay in original or scoped native domains; no projection"}
+      ],
+      "design_direction": [
+        "Additive SPARK unit Worldline.Scoped_Canonical_Operation, spec first: original five-value decision type; Decide with Post => Decide'Result = Reference; inputs are the unchanged authority frame, the complete scoped packet (State, History, Rows, Projection, Buckets, Observed, Facts, Current), Bound, Requester, Peer, Collapse.",
+        "Clauses in original order: C1 authority literal (A.Decide Reserve_Use = Reserved_Replay); C2 resource lifted, not flattened (S.Valid and S.Native_Valid and a Retained_Origin bound row in Reserved|Launch_Intent|Running under State.Current); C3 binding literal with State.Scope read as State.Current plus resource-epoch equality; C4 collapse literal.",
+        "Ghost-only projection Proj and proved lemma Scoped_Refines_Original: for single-frame identity-projection inputs the scoped decision equals the original Canonical_Operation.Reference on Proj(y); per-clause lemmas; pattern Root_Refines_Original (core/worldline-resource_child_execution.ads:232-237).",
+        "Export wl_scoped_canonical_operation_{version,layout,decide}_v1 only through the sole worldline-c_api boundary following C-API design v3; no new SPARK_Mode Off unit.",
+        "Python wrapper with exact version/size/alignment/offset checks reusing the scoped marshal and OperationAuthorityKernel.prepare; returns raw input/arena/rosters/output only.",
+        "pre_effect exact-type branch: original branch byte-identical for ProtectedResourcePrincipal; scoped branch uses the single seam-7 crosswalk entry, one gate.mutex acquisition, unchanged collapse evaluation, lossless boundary retention, broker-compatible collapse fields; root route keeps DISPATCH_INTENT.",
+        "Successor slices with the same pattern: scoped Canonical_Exchange inputs (broker) and scoped owner-completion (K4) inputs."
+      ],
+      "invariants": [
+        "I1.1 No runtime projection of scoped state into L.Ledger_State; Proj is Ghost-only.",
+        "I1.2 Every original clause appears literally or as a lifted predicate with a proved refinement on the original domain.",
+        "I1.3 Decision type and caller obedience unchanged; only Ready proceeds; other values refuse with original codes.",
+        "I1.4 Exactly one use: RESERVED_NEW at reserve and one RESERVED_REPLAY before EFFECT_INTENT.",
+        "I1.5 Every identity pair fed by two independent producers (OB-030)."
+      ],
+      "decisions_for_review": [
+        "D-1a Faithfulness of the C2 lift including projected-charge rounding (numerator/denominator) versus L.Contained raw amounts.",
+        "D-1b Whether a fresh pre-effect requires Rows(I).Scope = State.Current or epoch equality suffices after a context rollover."
+      ],
+      "depends_on": ["SL-0 (P0-1, P0-2)", "seam 7", "C-API boundary design v3 (A1)", "D1/D2 native Big_Integer cost designs", "F8-successor formal frame for proof credit"],
+      "authority": {
+        "lead_only_source": ["SPARK spec and bodies", "Python wrapper", "pre_effect scoped branch", "pure native value fixtures"],
+        "operator_or_privileged": ["proof credit needs the admitted strict frame (lead STATUS: blocked; W-1 awaits operator decision)", "runtime positives need a root /srv lab"]
+      },
+      "additive_controls": [
+        "Ada -gnata value fixtures: each clause mutation yields its exact named decision.",
+        "Every original Canonical_Operation fixture vector embedded single-frame yields the same decision.",
+        "Multi-frame and multi-bucket vectors: stale scope, missing parent row, bucket conservation off by one unit yield Resource_Refused.",
+        "Per-field ABI layout test.",
+        "Mutant body dropping a clause fails the proof gate (pins plus REQUIRED_PROVED).",
+        "Lab: scoped positive operation on the serial and root routes plus the RC grant-refusal set."
+      ],
+      "risks": ["C2 refinement may not prove as stated; then the scoped predicate changes, never the original", "quantified-roster proof cost", "ABI churn with C-API v3"]
+    },
+    {
+      "id": 2,
+      "title": "Startup and provisioning correspondence",
+      "size": "L",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/protected_startup.py:467-472,26; runtime/worldline/controller.py:174-183", "observation": "reconcile_admission always raises StartupRefusal (a RuntimeError), which escapes the Controller's except WorldlineError, so construct() fails for the front (protected_root_endpoint.py:14), the worker (protected-root/worker_entry.py:28) and the collector reconstruction (root_worker_closed.py:138); serve() enters quarantined diagnostics (:799-812)."},
+        {"anchor": "runtime/worldline/protected_scoped_resource_runtime.py:52-58,611-622; protected_root_endpoint.py:15-17; protected-root/worker_entry.py:29-31", "observation": "Nothing calls attach_scoped_resource; both entries require controller.protected_resources of exact type ProtectedScopedResourcePrincipal, which only its reconcile(controller) sets."},
+        {"anchor": "runtime/worldline/protected_startup.py:264-268; protected-startup/protected-startup-v1.schema.json", "observation": "Exact runtime key set (additionalProperties false) rejects runtime['resource_scoped_producer'] read at protected_scoped_resource_runtime.py:54."},
+        {"anchor": "runtime/worldline/root_worker_journal.py:37-114", "observation": "Custody journal requires pre-existing owner genesis, issuer-key digest, provisioned path, tables matched only by column (name,type) at :85-92 (no sqlite_master.sql, PK, NOT NULL, CHECK or UNIQUE check), genesis row and MAC head; genesis initial_event required but unused by _load; no provisioner and no plan or genesis schema."},
+        {"anchor": "protected-startup/controls/test_protected_startup_v1.py:97-105", "observation": "Frontier control asserts PROTECTED_FULL_LEDGER_STARTUP_RECONCILER_UNAVAILABLE."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:29", "quote": "Scoped construction and runtime descriptor fields require an explicit exact schema/installation/provisioning union. ... its genuine first-provision construction, complete DDL constraints, admission/initial head and one-shot custody source are not finished. Never bypass startup or initialize missing prior state."},
+        {"source": "P1:99", "quote": "The full ledger startup reconciler still needs genuine accepted behavior. Missing prior journals/keys/history must not silently create new Genesis or reset custody."},
+        {"source": "P1:149", "quote": "Implement genuine startup and owner provision without recreating missing history."},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-202, OB-146, OB-051, OB-185, OB-055, OB-070, OB-067"},
+        {"source": "RC required_genuine_cases", "quote": "operation journal deletion before/after intent refuses without reinitialization; authentic initial empty store and actual later PRIME context progression; operation mutation partial DB/file/bootstrap crash retains diagnosis"}
+      ],
+      "design_direction": [
+        "Versioned descriptor successor worldline.protected-startup-v2 as an exact union: original nine runtime keys plus resource_scoped_producer; tools include resource_supervisor_v3, bwrap, systemctl, systemd_run; provisioned_state includes owner plan, operation crosswalk, custody genesis, custody DB and lock; early envelope selects the SO_PEERPIDFD header as DATA; selection by exact schema value; v1 behavior unchanged.",
+        "Single attach_scoped_resource keeping the exact early-selected producer check (P0-4), called in construct() after StateStore and before RuntimeController for v2 only.",
+        "Genuine full-ledger startup reconciler behind reconcile_admission: native whole-snapshot validate; per-row classification from launch journal, root custody journal phase rows and CLOSED witnesses, manager and cgroup facts, transferred-slot custody; transitions only through native scoped Check (authentic CLOSED witness to RECORD_TERMINAL then release or charge; durable NEVER_LAUNCHED to RELEASE_HOLD; otherwise RETAIN_UNCERTAIN with holds kept); WORKER_OWNED leftovers become durable QUARANTINED for K4; daemon always starts and refusals are named diagnostic state.",
+        "Offline one-shot custody provisioner modelled on protected-canonical/provision_operation_head.py, operation_head_schema.sql and _offline_operation_slot (protected_startup.py:328-355): exact ENTRY and creation slot, exclusive create, full DDL constraints, UNUSED to INTENT to CONSUMED admission, MAC genesis with initial head binding initial_event, file and directory fsync; runtime opens mode=rw and verifies complete sqlite_master.sql text.",
+        "JSON schemas for the owner plan and the per-operation crosswalk bound in the descriptor files roster.",
+        "Frontier control retained as history; superseded only by a reviewed successor keeping every negative and adding the genuine positive, with explicit GPT-6.1 review and lead adoption."
+      ],
+      "invariants": [
+        "I2.1 No startup path creates schema, key, genesis, lock, head or history; absence refuses by name.",
+        "I2.2 Exactly one provisioning entry may create the custody DB, once, under the exact ENTRY and creation slot.",
+        "I2.3 Nothing is released or charged without an authentic CLOSED witness or durable NEVER_LAUNCHED proof decided natively.",
+        "I2.4 The daemon always starts and recovery runs before any consequential request is served.",
+        "I2.5 v1 descriptors and controls keep their exact behavior."
+      ],
+      "decisions_for_review": ["D-2a Descriptor v2 versus an exact union inside v1.", "D-2b Frontier-control retirement procedure."],
+      "depends_on": ["SL-0", "seam 9 crash-point table and phase rows", "seam 3 transferred slots in reconcile", "seam 7 schemas"],
+      "authority": {
+        "lead_only_source": ["schemas", "provisioner source", "reconciler source", "attach wiring"],
+        "operator_or_privileged": ["running the provisioner as root", "creating or using a /srv lab installation", "every startup control (euid 0 at protected_startup.py:153 and the Gate at intent_gate.py:157)"]
+      },
+      "additive_controls": [
+        "Lab: positive v2 startup.",
+        "Missing journal, genesis, key or head refuses with inode and bytes unchanged before and after.",
+        "Second provisioner run refuses; DDL constraint violations rejected.",
+        "Crash between INTENT and CONSUMED resolves without reinitialization.",
+        "Restart with prior LIVE or UNKNOWN rows keeps holds.",
+        "OB-202 analog: hung or missing systemctl still lets the daemon start.",
+        "v1 descriptor parity."
+      ],
+      "risks": ["changes a reviewed startup component", "mixed v1/v2 history", "root only"]
+    },
+    {
+      "id": 3,
+      "title": "Other-LIVE resource ownership and custody",
+      "size": "L",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/protected_root_observation.py:122-127", "observation": "Intake refuses any other LIVE reservation: ROOT_CAPTURE_OTHER_LIVE_OWNED_DESCRIPTOR_ROSTER_UNAVAILABLE."},
+        {"anchor": "runtime/worldline/protected_root_resource.py:156-157; runtime/worldline/protected_root_worker.py:139-143", "observation": "Front refuses to relinquish while another slot is live, background tasks exist or acquisitions are not quiescent."},
+        {"anchor": "runtime/worldline/protected_scoped_resource_runtime.py:227-250; protected_root_observation.py:50-97; core/worldline-resource_child_execution.ads:71-87; protected-root/worker_entry.py:39-40", "observation": "The worker's fresh producer has no slot even for its own root, so the root row classifies UNKNOWN; Root_Controller_Holds requires Live, so worker admission refuses. Only _before_constructors injects physical facts, and only for the root row (:131-142)."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:30", "quote": "Preserve every row, originating context, observed descriptor and retained custody; this refusal is an engineering gap, not a domain exception."},
+        {"source": "P1:127", "quote": "Full other-LIVE reservation custody, unknown charges, exact lost-response replay, legal subsequent lifecycle steps, owner Retry/Adopt/quarantine and startup reconciliation remain required."},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-176, OB-211"},
+        {"source": "RC required_genuine_cases", "quote": "unknown dispatch and mapping retain full held resource/use and quarantine; real all-child resource launch/Running/terminal/release/charge lineage"}
+      ],
+      "design_direction": [
+        "Typed slot-custody roster in the custody frame for every non-terminal reservation with an owned slot (actor V3 slots and the root slot): supervisor channel, helper/namespace/actor pidfds, namespace fd, credential receiver, stdin writer if open, raw-output drain ownership, and the HELD, RUNNING and EXECUTION events and dispatch.",
+        "Worker-side exact type TransferredSlot registered in producer.slots; observe() reads through the transferred host_proc; facts computed exactly as in the front; classification only by native scoped Classify.",
+        "Exactly one owner per raw pipe read end, moved by a durable DRAIN_TRANSFER record with byte offset.",
+        "Symmetric return of slot custody to the reconstructed front through the ClosedFrontEscrow roster.",
+        "Relinquish rule becomes: every live slot is in the transfer roster; a non-transferable live slot keeps the named refusal and the obligation stays OPEN."
+      ],
+      "invariants": [
+        "I3.1 One durable owner per live slot; ownership changes journaled before descriptors move.",
+        "I3.2 Classification only from native Classify over fresh facts read through owned, re-identified descriptors.",
+        "I3.3 Transfer never relabels a row LIVE, REAPED or RELEASED; UNKNOWN stays UNKNOWN with holds.",
+        "I3.4 Exactly one drain owner and no byte loss."
+      ],
+      "decisions_for_review": ["D-3a Transfer actor V3 slots into the worker versus requiring them terminal first (the latter would refuse an original accepted case)."],
+      "depends_on": ["SL-0", "seam 9", "seam 4", "seam 5", "seam 8 receive ordering"],
+      "authority": {
+        "lead_only_source": ["slot roster", "TransferredSlot", "drain transfer"],
+        "operator_or_privileged": ["live actors plus a root worker in a /srv lab"]
+      },
+      "additive_controls": [
+        "Handoff while an actor is LIVE: classified LIVE in the worker and its terminal collected.",
+        "Actor UNKNOWN stays held.",
+        "Substituted pidfd refused.",
+        "Drain continuity across transfer with complete bytes.",
+        "Root's own row LIVE through its transferred slot, UNKNOWN when its namespace pidfd is terminal."
+      ],
+      "risks": ["asyncio transport handover", "descriptor limits must be observed; no new caps"]
+    },
+    {
+      "id": 4,
+      "title": "Live request multiplexing",
+      "size": "XL",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/protected_operations.py:716-726; runtime/worldline/operation_authority_kernel.py:8", "observation": "Every non-owner operation (OPS includes ping, status, list, show, job.cancel) is routed to the root worker under operation_lock."},
+        {"anchor": "runtime/worldline/root_worker_endpoint_router.py:19-34", "observation": "Router refuses with no collector (:24) and otherwise awaits every collector while holding its lock (:20-25); status and job.cancel wait for closure."},
+        {"anchor": "runtime/worldline/protected_root_worker.py:159,191-199", "observation": "Any exception after _reserve, including a legitimate pre-effect denial before launch, sets UNKNOWN_WORKER_OWNERSHIP (the elif at :195 is always true); later invoke and router refuse everything, owner resolution included, contrary to _invoke_serial (:730) where quarantine.resolve stays reachable."},
+        {"anchor": "runtime/worldline/protected_operations.py:728-745", "observation": "P0-5: the root route omits the original unresolved-use gate, genuine request-context check and workload refusal."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:31", "quote": "The original concurrent/status/new-request cases require fresh original client socket/raw request transferred to the actual live owner, independent fresh native grant/use/current admission, full durable per-request lifetime and correct response/progress ownership. Waiting forever or authorizing through the first root grant is not acceptable."},
+        {"source": "P1:115", "quote": "Resolve the root-worker seams above and complete original per-request concurrency and owner settlement."},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-158, OB-163, OB-186, OB-178"},
+        {"source": "RC required_genuine_cases", "quote": "concurrent intents cannot borrow one available use"}
+      ],
+      "design_direction": [
+        "One Store owner, front XOR worker, recorded by the custody phase machine.",
+        "A refusal before offer.transfer() keeps FRONT_OWNED and follows original _invoke_serial semantics (quarantine of the reserved use, unresolved gate); owner routes stay reachable.",
+        "Durable request transfer while a worker owns state: front appends REQUEST_TRANSFER_INTENT (raw line, original host observation, socket identity), sends the client socket FD and a sealed memfd; worker appends REQUEST_INTAKE (CAS against the intent) and acknowledges; front closes its copy only after durable intake; lost ACK resolved from the journal, exactly once.",
+        "Worker request loop with original _dispatch_line semantics and the seam-8 crosswalk peer: each consequential request gets its own _reserve, scoped pre-effect and EFFECT_INTENT under the original operation_lock; read-only operations answered from live owners; job.cancel reaches worker-owned jobs; responses and progress written only by the worker.",
+        "Physical accounting for in-coordinator requests (decision D-4a): (A) contained child hold of the live root reservation with native Parent_Supports/Contained and the request's own crosswalk cost, refused natively on over-capacity; (B) per-request ownership-handoff chain; (C) long-lived coordinator with nested per-request units. (A) recommended for review.",
+        "Worker closes only with no in-flight requests, detached tasks or live child holds; requests during TRANSFER_PENDING or RECONSTRUCTING are durably queued; only ownership UNKNOWN yields a named refusal for ordinary routes; owner routes forwarded to the current owner in every phase.",
+        "No await gather(collectors) under the router lock; the event loop never blocks."
+      ],
+      "invariants": [
+        "I4.1 Single Store owner.",
+        "I4.2 Fresh native admission per request; no borrowed use.",
+        "I4.3 Exactly-once durable request transfer.",
+        "I4.4 Response and progress belong to the admitting owner.",
+        "I4.5 Worker closes only after everything it owns is terminal.",
+        "I4.6 A pre-dispatch refusal never changes ownership.",
+        "I4.7 Owner resolution reachable in every phase.",
+        "I4.8 Original pre-dispatch guards (P0-5) preserved."
+      ],
+      "decisions_for_review": ["D-4a In-coordinator request accounting model (A), (B) or (C)."],
+      "depends_on": ["seam 1", "seam 3", "seam 5", "seam 8", "seam 9", "SL-0"],
+      "authority": {
+        "lead_only_source": ["transfer protocol", "worker loop", "router changes"],
+        "operator_or_privileged": ["lab demonstration with a root worker"]
+      },
+      "additive_controls": [
+        "status, list and show answered within a bound during a long detached fork or race.",
+        "job.cancel of a worker-owned job.",
+        "Second consequential operation while the first one's detached job runs gets its own RESERVED_NEW, pre-effect and EFFECT_INTENT.",
+        "Two concurrent intents on a grant with one remaining use: exactly one succeeds natively.",
+        "Pre-effect denial keeps FRONT_OWNED and quarantine.resolve succeeds.",
+        "Lost request-transfer ACK handled exactly once.",
+        "Owner operation during WORKER_OWNED."
+      ],
+      "risks": ["largest seam", "fairness under OB-186 may use only original policy"]
+    },
+    {
+      "id": 5,
+      "title": "Dynamic original child dispatch",
+      "size": "XL",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/resource_child_execution.py:203-205; runtime/worldline/protected_root_worker.py:100", "observation": "task_reservation and child have no caller; owner plan child_dispatch is required but never consumed."},
+        {"anchor": "runtime/worldline/runner.py:649-656,693-704", "observation": "Runner captures the complete original workload, then launches a sibling transient unit under the legacy guard."},
+        {"anchor": "runtime/worldline/protected_root_resource.py:70; runtime/worldline/protected_root_supervisor.py:116", "observation": "Root unit forced Delegate=no; no nested cgroup possible."},
+        {"anchor": "runtime/worldline/canonical_followup.py:95", "observation": "Follow-up rights raise OPERATION_SCOPED_FOLLOWUP_DISPATCH_UNAVAILABLE."},
+        {"anchor": "work/resource-child-authority-source-v1/review/gpt61-v1/review.json physical_controls", "observation": "Child review records that the current V3 helper lacks authenticated task namespace/parent input and cannot establish a parent task positive."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:32", "quote": "Wire the actual AgentRunner/Codex adapter/SandboxSpec/whole mission/stdin/EOF/argv/env/context/world/instance/check/finalization path to a distinct conserved child hold and actual nested namespace/cgroup parent. ... Preserve the exact original Parent_Supports and Original_Holds. No child-as-root, sibling-unit ancestry claim, copied ready flag, extra capability use or static root plan is valid."},
+        {"source": "P1:97", "quote": "distinct operation/reservation identities do not justify inventing workload inequality; equal/different workload and optional root/child-world facts need the original accepted cases."},
+        {"source": "ROADMAP:108", "quote": "Prove resource reservation conservation, parent/child allocation containment, no double release and no running workload without an active reservation."},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-066, OB-069, OB-010, OB-011, OB-134, OB-020"},
+        {"source": "RC required_genuine_cases", "quote": "all original fork/race/simulate/ghost/prune/revalidate accepted controls; original detached and race child holds retain root grant/use/request/causal relation without extra use; owner-authorized services/terminals/windows/automatic ghosts through same full grant/use"}
+      ],
+      "design_direction": [
+        "Interim: on the root route, workload operations keep the existing named OPEN refusal OPERATION_ORIGINAL_WORKLOAD_RESOURCE_ROUTE_UNINTEGRATED; positive controls stay required; not an accepted refusal.",
+        "Worker-side child dispatcher replacing the runner launch only under the root worker; the runner capture is unchanged.",
+        "Durable TaskIntent with task id, complete original workload capture, world ancestry and the crosswalk child plan.",
+        "Child RESERVE with parent equal to the root reservation; operation equal to the task id and distinct from the root; distinct reservation; capability, grant_use, owner and provenance equal to the root's; workload per the original grammar with no fabricated inequality.",
+        "Native task_reservation (Task_Admission: S.Check and Task_Request_Holds, no extra A use), then scoped commit.",
+        "Physical nesting per D-5a: Delegate=yes on the root unit with the coordinator moved to a leaf; child spawned into a per-task cgroup under the root subtree (clone3 CLONE_INTO_CGROUP, unverified reasoning on cgroup v2 rules); child limits from the child reservation, read back from the kernel; HELD delegation check becomes an exact expected state from the owner plan.",
+        "Successor actor helper (V4) taking an authenticated parent namespace FD and creating a nested PID namespace; NS_GET_PARENT and pidfd observations feed Namespace_Ancestry and Process_Ancestry.",
+        "Before exec: actor credential measurement, K.Check plus native child decision (Child_Ready_Conjunction = K.Check and Parent_Holds and Child_Holds and Process_Ancestry and Namespace_Ancestry), durable witness, ACK, GO, then the original stdin/EOF pump.",
+        "Closure: nested CLOSED/ECHILD, outer waits, raw drains, RECORD_TERMINAL and release or charge; root settles only after every child is terminal; unknown child keeps the root held.",
+        "Follow-up rights through the same path with broker follow-up plans (canonical_full_broker.py:202-217); race as three children under one root with the same grant and use."
+      ],
+      "invariants": [
+        "I5.1 No child runs without an active child reservation whose parent is the live root reservation.",
+        "I5.2 No extra A use by children.",
+        "I5.3 Physical ancestry decided natively from kernel observations.",
+        "I5.4 The coordinator never receives confined-actor K.Check credit; actors never receive root rights or custody FDs.",
+        "I5.5 Root closure and settlement wait for every child.",
+        "I5.6 Original adapter, argv, env, stdin and EOF bytes unchanged."
+      ],
+      "decisions_for_review": ["D-5a Delegation model with a security argument that the coordinator cannot raise its own limits.", "D-5b Helper successor versus extending V3."],
+      "depends_on": ["seam 1", "seam 3", "seam 4", "seam 7", "seam 9", "child authority secondary (controls UNBUILT/UNRUN)", "actor stdin V4", "SL-0"],
+      "authority": {
+        "lead_only_source": ["dispatcher", "helper successor source"],
+        "operator_or_privileged": ["root lab", "systemd delegation", "model quota for real actors (gpt-6-luna with high reasoning, only inside a WORLDLINE world through the existing Codex adapter)"]
+      },
+      "additive_controls": [
+        "Lab: every original fork, race, simulate, ghost, prune and revalidate accepted control on the root route.",
+        "Refusals: child with a different capability or use, sibling unit, missing parent namespace, stale TaskIntent, copied ready flag.",
+        "Child OOM contained and non-PASS (OB-020).",
+        "Unknown child keeps the root held.",
+        "Race with three children.",
+        "Follow-up rights positive and denied; committed return without post rights stays COMMITTED with effectsSkipped."
+      ],
+      "risks": ["delegation is security-sensitive", "bwrap under a nested PID namespace with /proc remounted", "unproved privileged C helper", "model quota"]
+    },
+    {
+      "id": 6,
+      "title": "Canonical committed outcome versus physical closure",
+      "size": "L",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/controller.py:680-699; runtime/worldline/canonical_followup.py:72,84; runtime/worldline/protected_operations.py:778-811", "observation": "collapse.commit goes broker.commit then after_committed then p.finish, which runs OBSERVE_EFFECT and settle_historical (:805) while the root is LIVE."},
+        {"anchor": "runtime/worldline/protected_scoped_resource_runtime.py:530-531,548,571", "observation": "Scoped settle_historical needs resource_scoped_historical_settlement, resource_scoped_historical_lifecycle_binding and resource_scoped_owner_resolution_material; none is defined anywhere in the lane (only getattr sites), so the refusal reaches the worker except path, which quarantines an already committed operation (protected_root_worker.py:306-308)."},
+        {"anchor": "runtime/worldline/root_worker_closed.py:150-151; runtime/worldline/protected_operations.py:780-781", "observation": "Collector passes the worker's later result_capture to finish, which requires equality with the retained RESULT_CAPTURE stored earlier by after_committed; a mismatch is expected."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:33", "quote": "An original broker's finish/posteffect call while the coordinator is LIVE must retain its genuine canonical effect/receipt/cause and per-right outcomes, defer physical root settlement to the authenticated CLOSED collector, and preserve historic settlement under fresh denial."},
+        {"source": "P1:115", "quote": "handler return or EOF is not physical closure."},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-076, OB-049, OB-095, OB-197"},
+        {"source": "RC required_genuine_cases", "quote": "historical committed settlement after current deny/revocation without new use/exchange/socket; lost result ACK and lost resource settlement ACK exactly same operation; committed return lacking post rights stays COMMITTED with effects skipped"}
+      ],
+      "design_direction": [
+        "Split finish into observe_committed_effect (write-once RESULT_CAPTURE with later captures as additive report boundaries, canonical effect and chains, native OBSERVE_EFFECT to EFFECT_OBSERVED, per-right follow-up outcomes) and settle_physical (authentic physical terminal via CLOSED witness, REAPED, RECORD_TERMINAL and release or charge, then settle_historical and native SETTLE_USE to SETTLED); the serial path runs both in sequence with exact semantics.",
+        "In root-worker LIVE mode (OperationScope carries the typed RootWorkerProcess owner), after_committed runs only observe_committed_effect and records ROOT_PHYSICAL_SETTLEMENT_DEFERRED; never quarantine a committed effect for lack of physical closure.",
+        "Implement the three scoped historical adapters from committed scoped history and the retained original capture with no fresh peer, grant or exchange, mirroring protected_operations.py:505-520, 572-584 and 852-897.",
+        "Collector runs settle_physical against the retained RESULT_CAPTURE after the CLOSED witness; child holds settle before the root."
+      ],
+      "invariants": [
+        "I6.1 A committed canonical effect is never demoted to QUARANTINED or aborted by a physical-settlement gap.",
+        "I6.2 Release or charge only from native REAPED over an authentic CLOSED.",
+        "I6.3 Historical settlement needs no live client or new use and works after current denial.",
+        "I6.4 RESULT_CAPTURE is write-once.",
+        "I6.5 Serial-path behavior unchanged."
+      ],
+      "decisions_for_review": ["D-6a Retained EFFECT_OBSERVED with K4 routing versus the native QUARANTINE_USE domain when physical settlement is unknown."],
+      "depends_on": ["seam 1 (scoped exchange and K4)", "seam 2", "seam 5", "seam 9", "A1 scoped committed envelope"],
+      "authority": {
+        "lead_only_source": ["finish split", "scoped historical adapters", "collector settlement"],
+        "operator_or_privileged": ["lab demonstration"]
+      },
+      "additive_controls": [
+        "Commit through the worker: EFFECT_OBSERVED while LIVE, SETTLED after CLOSED.",
+        "Revoke after commit and before CLOSED: settlement still succeeds without a new use.",
+        "Lost result ACK and lost settlement ACK complete exactly the same operation.",
+        "Committed return without post rights stays COMMITTED with effectsSkipped.",
+        "Worker crash after commit: EFFECT_OBSERVED retained, physical UNKNOWN held, K4 available."
+      ],
+      "risks": ["every protected operation passes through finish; serial controls must be re-run on matching source"]
+    },
+    {
+      "id": 7,
+      "title": "Root plan cost and source crosswalk",
+      "size": "M",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/protected_root_worker.py:97-104; runtime/worldline/root_worker_plan.py:13-38", "observation": "One owner plan (one cost_key, one worker_policy, one child_dispatch) for every operation; handler_plan derives argv and unit properties from worker_policy for all operations."},
+        {"anchor": "runtime/worldline/protected_root_resource.py:39-41", "observation": "Launch refuses unless the root cost_key equals the operation's: ROOT_RESOURCE_OWNER_OPERATION_COST_CROSSWALK_UNAVAILABLE."},
+        {"anchor": "runtime/worldline/protected_scoped_resource_runtime.py:391-392", "observation": "Reservation amount comes from the operation cost_key while enforcement comes from worker_policy; no native containment between them."},
+        {"anchor": "runtime/worldline/protected_root_observation.py:36-49,74-76,121", "observation": "RootController pairs (owner_endpoint, source_lease, worker_image, handler_plan, running_event, store_genesis) are filled from the same Python value as their expected_ partners, and the process source_lease is caller-supplied, so native Controller_Valid equalities are vacuous (OB-030)."},
+        {"anchor": "runtime/worldline/root_worker_host_peer.py:14-17,32-33", "observation": "SO_PEERPIDFD requires the header selected as DATA; the define value 77 was observed in /usr/include/asm-generic/socket.h; the Python stdlib does not expose it."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:34", "quote": "One cost_key may not represent every original operation/owner case. ... must all be joined faithfully without altering accepted domains or inventing physical costs."},
+        {"source": "P1:107", "quote": "caller-filled equal bytes alone are insufficient."},
+        {"source": "P1:129", "quote": "Do not add a domain cap"},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-030, OB-035, OB-039, OB-056, OB-122, OB-174, OB-211"},
+        {"source": "RC additive_required_protected_cases", "quote": "full operation-policy versus resource-policy and Root_Set versus scoped Root_Head source-proven native crosswalk"}
+      ],
+      "design_direction": [
+        "Owner-provisioned per-operation table worldline.protected-root-operation-crosswalk-v1 bound by the descriptor and early envelope, covering every original operation, owner operation and follow-up right: original plan digest (cost_key, parent, launch), coordinator plan (entry, envelope, interpreter, loader, argv template, coordinator worker_policy), helper image digest, child adapter plans, physical catalogue key, header DATA selections; exactly one entry per operation; absence refuses by name; no default.",
+        "Single source of plan truth: pre-effect, launch_root_worker, resource_launch_material and machine admission read the same entry.",
+        "Additive SPARK containment predicate: reserved kind, amount and cost_key match the catalogue cost; enforced unit limits read back from the manager do not exceed the reserved projection.",
+        "Independent producers with per-pair source domain tags: endpoint from the bound listener identity versus descriptor DATA; source_lease from the executed-code source_lease.check() versus the owner plan source roster; worker_image from /proc/<helper>/exe bytes via host_proc versus the crosswalk helper digest; handler_plan from the observed worker cmdline and exe versus the crosswalk coordinator plan; running_event from the root custody journal RUNNING versus scoped RECORD_RUNNING; store_genesis from StateStore meta versus lease.genesis.",
+        "Header DATA selection with SO_PEERPIDFD kernel support observed at runtime; unsupported refuses."
+      ],
+      "invariants": [
+        "I7.1 One entry per operation; no default.",
+        "I7.2 All plan, policy and cost consumers read that one entry.",
+        "I7.3 Enforced limits natively contained in the reservation.",
+        "I7.4 Every pair from two producers with distinct tags.",
+        "I7.5 No physical cost invented."
+      ],
+      "decisions_for_review": ["D-7a RootController grammar change (native ABI change requiring child-authority re-review) versus independent sourcing alone."],
+      "depends_on": ["seam 2 schema and provisioning", "seam 1", "seam 5", "D1/D2 cost designs", "OB-174"],
+      "authority": {
+        "lead_only_source": ["crosswalk schema", "containment predicate", "pair producers"],
+        "operator_or_privileged": ["provisioning the crosswalk table in the installation"]
+      },
+      "additive_controls": [
+        "Corrupt one producer: CONTROLLER_REFUSED.",
+        "Same value copied to both sides: refused.",
+        "Operation without an entry: named refusal.",
+        "Two operations with different cost keys both dispatch.",
+        "Enforced MemoryMax above the reservation: refused.",
+        "Changed header digest: refused."
+      ],
+      "risks": ["owner provisioning burden", "possible child ABI change"]
+    },
+    {
+      "id": 8,
+      "title": "Requester PID-namespace credential join",
+      "size": "M",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "protected-root/native_root_worker_supervisor_v1.c:257-258,291,336", "observation": "Helper unshares CLONE_NEWPID; namespace init unshares CLONE_NEWNS, makes / private and mounts a new /proc; the worker is exec'd inside; no user namespace."},
+        {"anchor": "runtime/worldline/root_worker_custody.py:183-185,195-204", "observation": "CustodyReceipt.receive builds KernelPeer.capture_descriptor and RequestPeer(peer, frame['original_request']) from the original socket before host_proc and pidfds are received."},
+        {"anchor": "runtime/worldline/client_peer.py:73-84,110-117", "observation": "KernelPeer re-reads SO_PEERCRED and RequestPeer requires the retained document's peer to equal the current reading. Unverified reasoning, corroborated by the helper comment at .c:125-128: a peer outside the reader's PID namespace reads PID 0, so every intake raises PEER_REQUEST_MISMATCH."},
+        {"anchor": "runtime/worldline/root_worker_host_peer.py:30-54", "observation": "Host peer helper corrects only the supervisor-channel peer, not the original requester."},
+        {"anchor": "runtime/worldline/*.py (grep)", "observation": "Exact-type RequestPeer gates exist in 11 modules (observed)."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:35", "quote": "Implement a genuine socket/host observation crosswalk retaining raw relative and original observed host credential bytes, actual socket identity and complete UID/GID domain. Do not trust a sender PID label, falsify linux.SO_PEERCRED bytes, or require a still-live original client for historical settlement."},
+        {"source": "P1:137", "quote": "Complete real OS-principal/endpoint/owned-descriptor/native capture to kernel correspondence at the state transition."},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-023, OB-110, OB-092"},
+        {"source": "RC required_genuine_cases", "quote": "full UID/GID domain and same UID new process commit; foreign UID and delegated socket no extra rights; prepare versus commit actual peer/transaction joins"}
+      ],
+      "design_direction": [
+        "Receive the complete roster (frame, socket, locks, origins including an optional requester_pidfd) before building any peer; close everything on failure.",
+        "Front records at transfer time a separate additive crosswalk source: the unchanged original document, fresh host SO_PEERCRED bytes, socket identity, a requester pidfd via SO_PEERPIDFD with raw host fdinfo or an explicit UNAVAILABLE with errno, and front PID-namespace and user-namespace identities; the original observation schema stays unchanged.",
+        "New exact type CrosswalkRequestPeer, deliberately not a KernelPeer subclass (a subclass returning retained bytes would relabel a record as a fresh kernel read): raw relative ucred bytes retained exactly; original host document retained and never re-synthesized; mandatory socket fstat dev/ino/mode equal to the original socketIdentity, relative UID/GID equal to the original, worker user-namespace identity equal to the front's; relative PID recorded uninterpreted; host-PID evidence only from the requester pidfd via transferred host_proc fdinfo and required equal to the original PID; absent evidence recorded, never synthesized.",
+        "observation() returns the original document only while mandatory checks hold; crosswalk_record() is journaled at intake.",
+        "Two modes: FRESH (admission and handler execution, needs the live transferred socket) and HISTORICAL (settlement and recovery from authenticated retained records, no live client, no new use or exchange).",
+        "Each exact-type gate updated explicitly to its context's accepted type set, enumerated for review; none outside worker custody admits the crosswalk peer.",
+        "Native requester_uid/gid stay sourced from the original host bytes; crosswalk digest enters current_source (D-8a); no host PID reaches an actor role (OB-110)."
+      ],
+      "invariants": [
+        "I8.1 No synthesized or relabeled SO_PEERCRED bytes; both readings retained.",
+        "I8.2 Same OFD and same user namespace are mandatory.",
+        "I8.3 Host-PID evidence only from kernel pidfd plus host procfs.",
+        "I8.4 FRESH needs the live socket; HISTORICAL never needs a live client.",
+        "I8.5 Full unsigned UID/GID domain including 0."
+      ],
+      "decisions_for_review": ["D-8a Native field versus producer fact for the relative/host correspondence.", "D-8b Whether pidfd host-PID evidence is mandatory for FRESH when SO_PEERPIDFD fails because the client exited (kernel behavior unverified and possibly version-dependent)."],
+      "depends_on": ["seam 9", "seam 4", "seam 7", "seam 3"],
+      "authority": {
+        "lead_only_source": ["crosswalk type", "receive ordering", "gate updates"],
+        "operator_or_privileged": ["root PID namespace demonstration in a /srv lab", "measured kernel SO_PEERPIDFD and pidfd fdinfo semantics"]
+      },
+      "additive_controls": [
+        "Host client reads PID 0 relative: accepted through the crosswalk.",
+        "Socket inode mismatch: refused.",
+        "Different user namespace: refused.",
+        "Client exited before intake: behavior per D-8b.",
+        "HISTORICAL settlement after client exit: succeeds.",
+        "Requester UID 0 and maximum unsigned UID.",
+        "Delegated foreign-UID socket gains no extra rights.",
+        "Preparer versus commit peer joins."
+      ],
+      "risks": ["kernel SO_PEERPIDFD semantics", "breadth of gate changes"]
+    },
+    {
+      "id": 9,
+      "title": "Closure and current-ownership correspondence",
+      "size": "L",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/root_worker_custody.py:124-132,141; runtime/worldline/canonical_actor_execution.py:125-127; runtime/worldline/protected_root_observation.py:110-111; runtime/worldline/root_worker_current_state.py:75-115", "observation": "(a) Stale seed: a second authorize_root in transfer() appends an operation-journal ACK after the seed owner state was captured; intake requires exact logical equality for non-custody SQLite; refusal expected."},
+        {"anchor": "runtime/worldline/root_worker_closed.py:164; runtime/worldline/protected_root_worker.py:117-118; runtime/worldline/root_worker_journal.py:59-62; runtime/worldline/root_worker_custody.py:31", "observation": "(b) Fresh front opens the custody lock as a new OFD with flock LOCK_EX|LOCK_NB while escrowed OFDs hold it; BlockingIOError leads to UNKNOWN_CLOSED_RECONSTRUCTION."},
+        {"anchor": "runtime/worldline/protected_root_supervisor.py:181-182,218", "observation": "(c) EOF without CLOSED: poll_closed returns None when FIONREAD is 0 and the loop re-arms on a permanently readable fd."},
+        {"anchor": "runtime/worldline/protected_root_supervisor.py:77,291,310,325", "observation": "(d) accept and to_thread recvmsg calls have no deadlines."},
+        {"anchor": "runtime/worldline/protected_root_supervisor.py:346-362", "observation": "(e) A lost ACK leads to systemctl --system stop of a worker that may already have committed CUSTODY_ACK."},
+        {"anchor": "runtime/worldline/root_worker_closed.py:126", "observation": "(f) Worker death before HANDLER_TERMINAL: the collector raises at EOF and never collects CLOSED/ECHILD or the outer wait."},
+        {"anchor": "runtime/worldline/root_worker_current_state.py:62-70; runtime/worldline/protected_root_observation.py:157-164; runtime/worldline/root_worker_custody.py:214-238", "observation": "(g) Each capture embeds raw bytes of every provisioned file into EXECUTION_NATIVE, and intact() and claim() re-append; retention growth with prior OOM history (P1:101)."},
+        {"anchor": "runtime/worldline/protected_root_resource.py:69", "observation": "(h) RemainAfterExit units are never reset after CLOSED."},
+        {"anchor": "runtime/worldline/daemon.py:115-121", "observation": "(i) spawn_background cancels the task when own_task registration fails and leaves a cancelled entry in _background."},
+        {"anchor": "runtime/worldline/root_worker_closed.py:44-83", "observation": "Already correct: no EOF or handler-return settlement; CLOSED requires ECHILD, terminal pidfds, the outer wait and complete raw drains."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:36", "quote": "Do not settle a LIVE root or release/charge on EOF, missing cgroup or a handler return. Unknown authenticity or failed durable capture keeps holds and named quarantine."},
+        {"source": "P1:149", "quote": "Handle half-transfer, lost local/remote ACK, exact post-commit retry, closed abort replay, unknown native outcome, retained holds and authenticated CLOSED settlement."},
+        {"source": "P1:163", "quote": "Complete the original applicable fault campaigns ... Stay within the project's existing specialized-validation and production authorization boundary."},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-049, OB-076, OB-146, OB-184, OB-185, OB-212"},
+        {"source": "RC required_genuine_cases", "quote": "unknown dispatch and mapping retain full held resource/use and quarantine; operation mutation partial DB/file/bootstrap crash retains diagnosis"}
+      ],
+      "design_direction": [
+        "Durable custody phase machine in the custody journal (BEGIN IMMEDIATE, one SQLite): PREPARED, HELD, RUNNING, EXECUTION_NATIVE, EXECUTION_ACK, HANDOFF_INTENT, FRONT_CLOSED, TRANSFER_SENT, CUSTODY_ACK or ABANDON, WORKER_OWNED, ORIGINAL_RESULT, HANDLER_TERMINAL, CLOSED_NS, CLOSED_OUTER, CLOSED_RAW, CLOSED_WITNESS, HISTORICAL_SETTLEMENT, FRONT_RECONSTRUCTION, plus UNKNOWN(cause); transition legality as a native relation (D-9a).",
+        "Ownership CAS: worker CUSTODY_ACK and front ABANDON appended under head-conditioned IMMEDIATE transactions so exactly one wins; the worker must commit CUSTODY_ACK before run_original; the front stops a worker only after its ABANDON commits; a lost ACK is resolved by reading the journal.",
+        "Seed freshness: frame and root_native seed from the last pre-close capture inside transfer() immediately before close_front_owners; capture paths read-only; retention appends precede the seed state.",
+        "Fresh front reuses the escrowed custody-lock OFD via ClosedFrontEscrow.claim as preheld; the old journal object closes only after the fresh front binds.",
+        "EOF without CLOSED becomes UNKNOWN(ROOT_CHANNEL_EOF_WITHOUT_CLOSED), then waits on pidfd terminal state, manager MainPID==0 and the outer wait; never spins and never settles.",
+        "Collect physical closure independently of HANDLER_TERMINAL; a missing terminal makes the canonical outcome UNKNOWN (use quarantined, holds kept) while physical REAPED is recorded; K4 decides.",
+        "Deadlines on every blocking wait joined to pidfd and manager state; a deadline yields UNKNOWN, never success.",
+        "Content-addressed lossless retention: each distinct state's raw bytes stored once and referenced by digest; intact() re-appends only on change.",
+        "Owner-plan-selected unit reset after CLOSED_WITNESS recorded as factual cleanup, not terminal authority.",
+        "Durable registration intent before creating detached tasks.",
+        "Crash-point table (every durable phase times crash to the legal state), used by the seam-2 reconciler."
+      ],
+      "invariants": [
+        "I9.1 Exactly one owner by durable CAS.",
+        "I9.2 Never stop a worker that may own state.",
+        "I9.3 No release, charge or settlement on EOF, missing cgroup, handler return or deadline.",
+        "I9.4 Unknown becomes a named quarantine with holds.",
+        "I9.5 The seed equals the last pre-close state.",
+        "I9.6 Reconstruction uses the escrowed OFDs.",
+        "I9.7 Lossless retention without unbounded duplication."
+      ],
+      "decisions_for_review": ["D-9a Whether the custody phase relation should be a native additive SPARK relation."],
+      "depends_on": ["seam 2", "seam 3", "seam 4", "seam 6", "seam 8", "SL-0"],
+      "authority": {
+        "lead_only_source": ["phase machine", "CAS", "seed, lock, EOF, deadline and retention fixes"],
+        "operator_or_privileged": ["fault campaign (SIGKILL, OOM, systemd or daemon restart, labelled power-loss simulation) in a lab within the specialized-validation boundary"]
+      },
+      "additive_controls": [
+        "Crash at each phase boundary ends in the legal state.",
+        "Lost CUSTODY_ACK: no stop; WORKER_OWNED.",
+        "Worker SIGKILL before the terminal: physical closure collected and the use quarantined.",
+        "Helper death: EOF and UNKNOWN with bounded CPU.",
+        "Reconstruction succeeds with the preheld lock.",
+        "Retention size bounded by the number of distinct states (observed).",
+        "Half-transfer: the front keeps its escrow and the worker refuses intake."
+      ],
+      "risks": ["journal schema change requires re-provisioning (seam 2)", "SQLite locking-mode correctness"]
+    },
+    {
+      "id": 10,
+      "title": "Review, control and proof seal",
+      "size": "M (high volume)",
+      "status": "OPEN",
+      "current_state": [
+        {"anchor": "runtime/worldline/proof_manifest.py:1012", "observation": "P0-2: AST/normalized recomputation over source text found 171 effective pins all matching in the preimage and 191 in the draft with exactly one mismatch, runtime/worldline/protected_operations.py; startup and intake proof admission refuse."},
+        {"anchor": "handoff-to-claude-v1-retry1/binary-delta.json", "observation": "P0-3: 60 source-tree delta entries (JACKAL exact, formal=false: parsed=24+36 exact=60; parsed=63-3 exact=60), 24 covered by CONTRACT_PINS keys and 36 not, including the C supervisor and every root_worker module."},
+        {"anchor": "runtime/worldline/proof_manifest.py:22,316,1026-1034", "observation": "MINIMUM_CHECKS = 251; UNANALYZED_BOUNDARY = {worldline-c_api}; original prefix plus child suffix retained."},
+        {"anchor": "ORIGINAL-ORDINARY-ROSTER.json", "observation": "52 literal launches with explicit unittest module lists; tests/test_resource_child_execution_v1.py is not enrolled."},
+        {"anchor": "RW:37", "observation": "No compiler, prover, runtime, native, physical or control result exists; no C build or hardening recipe; no root-worker control in any roster or in RC."}
+      ],
+      "requirement_sources": [
+        {"source": "RW:37", "quote": "Add genuine required full-domain controls without mocking readiness/custody, dropping old fixtures, skips or rewriting expected refusals as completion."},
+        {"source": "P1:153", "quote": "Recompute all effective normalized pins and full ordered proof enrollment without changing the original policy prefix or replacing original accepted cases."},
+        {"source": "P1:161-162", "quote": "Keep the protected floor 251, sole original worldline-c_api boundary ... The observed full ordinary roster has 52 actions ... No old passed prefix transfers to changed source."},
+        {"source": "REQUIRED-LIFETIME-CONTROLS.json", "quote": "ALL remain required matching source; these additions replace none"},
+        {"source": "OBLIGATIONS-v2.json", "quote": "OB-084, OB-085, OB-048, OB-115, OB-118, OB-212"}
+      ],
+      "design_direction": [
+        "Explicit reviewed pin deltas: refresh the stale pin as a recorded deliberate change and append effective pins for every new or changed Python, C and Ada file; never alter the original prefix.",
+        "REQUIRED_PROVED and DECLARED_CORE_ADA_SOURCES entries for every new SPARK unit (seam 1 and its exchange/K4 successors, seam-7 containment, seam-9 relation if adopted).",
+        "C supervisor build recipe with exact compiler identity, warnings as errors, stack protector, FORTIFY, PIE and full RELRO; static analysis and sanitizer and fuzz fixtures for frame parsers in the lab; recorded as unproved native-body obligations (OB-048 class) with no proof credit.",
+        "Additive protected-root/required_controls.json listing every control in this design, enrolled after the complete ordered original roster and lifetime controls; replaces none, no skips, no mocked readiness or custody.",
+        "Different-author actual gpt-6.1-sol review per slice, then full-lane review before source selection; proof only in the F8-successor frame; runtime only on matching source."
+      ],
+      "invariants": [
+        "I10.1 Original prefix, floor and boundary unchanged.",
+        "I10.2 Every changed file pinned at slice freeze.",
+        "I10.3 No control replaced.",
+        "I10.4 Source review gives no proof or runtime credit.",
+        "I10.5 Frontier controls retired only by a reviewed successor."
+      ],
+      "decisions_for_review": [],
+      "depends_on": ["all seams", "lead frame and capacity gates"],
+      "authority": {
+        "lead_only_source": ["pins", "proof enrollment", "controls roster", "C recipe"],
+        "operator_or_privileged": ["proof and control dispatch blocked by lead STATUS gates (W-1 operator decision, capacity)", "lab controls"]
+      },
+      "additive_controls": ["Manifest audit recomputing pins.", "Unpinned-file detector.", "Stale-pin mutant.", "C hardening-flag check."],
+      "risks": ["pin churn while seams iterate; pin only at slice freeze"]
+    }
+  ],
+  "plan": [
+    {
+      "step": 0,
+      "slice": "SL-0",
+      "title": "Prerequisite hygiene, reviewed in parallel with SL-1",
+      "seams": [1, 2, 10],
+      "findings": [
+        "P0-1 Pre-existing self-deadlock: intent_gate Gate.mutex is a non-reentrant threading.Lock (dependency-source/lab/intent_gate.py:371; preimage :362); protected_scoped_resource_runtime.py:385 holds it and calls reconcile_context (:388), which takes it again (:357); every scoped reservation would block.",
+        "P0-2 Stale contract pin for runtime/worldline/protected_operations.py refuses construct() and intake.",
+        "P0-3 36 of 60 source-tree delta entries unpinned.",
+        "P0-4 Pre-existing duplicate attach_scoped_resource (:52 and :961); the later one drops the exact early-selected producer check.",
+        "P0-5 Root route omits the original _invoke_serial guards (unresolved-use gate :730, request-context check :728, workload refusal :744-745).",
+        "P0-6 Lane lineage (actor stdin V4) is not commonV4: commonV4 lacks protected_operations.py, the scoped runtime and the protected canonical SPARK units; worldline-c_api.adb grows from 56543 to 148068 bytes and collides with the C-API consolidation (A1)."
+      ],
+      "scope": "Single gate.mutex acquisition with _locked internal variants and an AST nested-acquisition audit, with no Gate change; single attach_scoped_resource keeping the exact producer check; pin record plan. No runtime claim.",
+      "depends_on": [],
+      "lead_only": true,
+      "operator_gate": null,
+      "review": "different-author actual gpt-6.1-sol"
+    },
+    {
+      "step": 1,
+      "slice": "SL-1",
+      "title": "Recommended first slice: seam 1 contract only",
+      "seams": [1],
+      "scope": "Worldline.Scoped_Canonical_Operation .ads only: Reference and Decide with Post, the original five-value decision type, clauses C1 to C4, Ghost Proj and Scoped_Refines_Original plus per-clause lemma statements, wire layout spec, and a design record for the pre_effect scoped branch. No body, export, wiring or execution.",
+      "depends_on": [],
+      "lead_only": true,
+      "operator_gate": null,
+      "review": "different-author actual gpt-6.1-sol against core/worldline-canonical_operation.adb, core/resource_run_ledger.ads and core/resource_scoped_run_ledger.ads"
+    },
+    {"step": 2, "slice": "SL-2", "title": "Seam 1 bodies, worldline-c_api export, wrapper, value fixtures; then SL-2b scoped exchange and SL-2c scoped K4", "seams": [1], "depends_on": ["SL-1", "C-API design v3", "D1/D2"], "lead_only": true, "operator_gate": "proof credit needs the admitted strict frame", "review": "different-author actual gpt-6.1-sol"},
+    {"step": 3, "slice": "SL-3", "title": "Seam 7 crosswalk schema, independent pair producers, containment predicate (spec first)", "seams": [7], "depends_on": ["SL-1"], "lead_only": true, "operator_gate": null, "review": "different-author actual gpt-6.1-sol"},
+    {"step": 4, "slice": "SL-4a", "title": "Seam 2 descriptor v2 union, attach in construct, custody provisioner source, plan schemas", "seams": [2], "depends_on": ["SL-0", "SL-3"], "lead_only": true, "operator_gate": "running the provisioner and creating the installation", "review": "different-author actual gpt-6.1-sol"},
+    {"step": 5, "slice": "SL-5", "title": "Seam 9 phase machine, CAS, seed, lock, EOF, deadline and retention fixes; seam 8 crosswalk peer and receive ordering", "seams": [9, 8], "depends_on": ["SL-0"], "lead_only": true, "operator_gate": null, "review": "different-author actual gpt-6.1-sol"},
+    {"step": 6, "slice": "SL-4b", "title": "Seam 2 genuine full-ledger startup reconciler using the seam-9 crash-point table", "seams": [2], "depends_on": ["SL-4a", "SL-5"], "lead_only": true, "operator_gate": null, "review": "different-author actual gpt-6.1-sol"},
+    {"step": 7, "slice": "SL-6", "title": "Seam 6 finish split, three scoped historical adapters, collector settlement", "seams": [6], "depends_on": ["SL-2", "SL-5"], "lead_only": true, "operator_gate": null, "review": "different-author actual gpt-6.1-sol"},
+    {"step": 8, "slice": "SL-7", "title": "Seam 3 slot-custody roster and TransferredSlot", "seams": [3], "depends_on": ["SL-5"], "lead_only": true, "operator_gate": null, "review": "different-author actual gpt-6.1-sol"},
+    {"step": 9, "slice": "SL-8", "title": "Seam 5 child dispatcher, helper successor, delegation per D-5a; interim named refusal kept", "seams": [5], "depends_on": ["SL-2", "SL-3", "SL-7"], "lead_only": true, "operator_gate": "lab, delegation change, model quota", "review": "different-author actual gpt-6.1-sol"},
+    {"step": 10, "slice": "SL-9", "title": "Seam 4 request transfer, worker loop, accounting per D-4a", "seams": [4], "depends_on": ["SL-2", "SL-5", "SL-7", "SL-8"], "lead_only": true, "operator_gate": null, "review": "different-author actual gpt-6.1-sol"},
+    {"step": 11, "slice": "SL-10", "title": "Seam 10 seal, full-lane GPT-6.1 review, explicit composition into the lead's common composition", "seams": [10], "depends_on": ["all prior slices"], "lead_only": true, "operator_gate": null, "review": "different-author actual gpt-6.1-sol full-lane"},
+    {"step": 12, "slice": "SL-11", "title": "Matching-source strict proof (F8 successor), complete ordered ordinary roster plus lifetime plus additive controls, lab runtime and fault campaigns", "seams": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "depends_on": ["SL-10"], "lead_only": false, "operator_gate": "OP-1 to OP-6", "review": "different-author actual gpt-6.1-sol on actual results"}
+  ],
+  "operator_items": [
+    {"id": "OP-1", "item": "Any runtime execution of the lane: euid 0 (protected_startup.py:153; protected-root/worker_entry.py:19-20; protected-root/launcher.py:12-13; intent_gate.py:157; native_root_worker_supervisor_v1.c:308), a root-owned /srv/cosmogony-canonical-v1.* installation (intent_gate.py:172-175), system-manager units with User=root (protected_root_resource.py:68-71), CAP_SYS_ADMIN for unshare and mount (.c:257-258,336); sudo requires the operator.", "blocks": ["all runtime controls of seams 1 to 9", "SL-11"]},
+    {"id": "OP-2", "item": "Running the custody, operation-head and crosswalk provisioners and creating the v2 installation.", "blocks": ["seam 2", "seam 7 runtime"]},
+    {"id": "OP-3", "item": "Systemd delegation change (Delegate=yes) for the root worker unit and the helper successor's privileged behavior.", "blocks": ["seam 5 runtime"]},
+    {"id": "OP-4", "item": "Model quota for real actor children in fork and race controls (gpt-6-luna with high reasoning only inside WORLDLINE worlds through the existing Codex adapter).", "blocks": ["seam 5 accepted-case controls"]},
+    {"id": "OP-5", "item": "Fault campaigns (SIGKILL, OOM, systemd or daemon restart, disk full, read-only filesystem, labelled power-loss simulation) inside the specialized-validation boundary.", "blocks": ["seam 9", "seam 2 crash controls"]},
+    {"id": "OP-6", "item": "Proof and control dispatch: lead STATUS records frame qualification BLOCKED, capacity BLOCKED (negative margin, failed backup service) and no operator approvals; W-1 needs an operator decision.", "blocks": ["proof credit for every slice", "SL-11"]},
+    {"id": "OP-7", "item": "Merge, release, install, production-service change or real PRIME mutation: not authorized by anything in this design.", "blocks": ["publication and deployment"]},
+    {"id": "OP-8", "item": "Concern: the lane depends on paused lab infrastructure. Its runtime dependency root is COSMOGONY lab source (origin.json dependency_root under work/protected-canonical-full-bridge-repair-v2/declared-inputs/composed-transaction-public-source), with draft unreviewed preheld-lock overlays; the state of any existing /srv lab and its resource windows was not inspected (RW:45 forbids reusing a paused resource window); kernel features (SO_PEERPIDFD, pidfd fdinfo namespace rendering, CLONE_INTO_CGROUP, cgroup v2 delegation) must be measured on the lab host.", "blocks": ["runtime evidence for seams 3, 5, 8 and 9"]}
+  ],
+  "non_claims": [
+    "This document reviews, accepts, qualifies, proves and authorizes nothing; every original Phase One obligation and every lane seam remains OPEN.",
+    "Nothing was compiled, run, imported, proved or tested; no WORLDLINE or COSMOGONY module was imported; every design is an untested engineering hypothesis.",
+    "Analysis basis is byte identity only: HANDOFF.md f0d6add2f97011654d9a603df9f50f8c09d73e80cd4f3fcc37150af3ad77d14d, handoff-freeze.json c8c6e40addc56654f28f7517f0c5ff64cc999424e1ae9ccb831fd799da96f33c, binary-delta.json be41995133b8641ba244397e1cf6068bade22f478bdbe15590ddaf55a2f6bb16, source-inventory.json 0a12d06d2b43a1949bac24369dc615576105b3d6de11e5653ebfe559235637f3; all 736 inventoried source files matched by sha256 (modes not rechecked). This is not authenticity, an atomic snapshot or installed state.",
+    "Linux kernel semantics marked as unverified reasoning need measured lab observations.",
+    "Observed counts are tool outputs; the two derived numerals are JACKAL status exact, formal false (NOT formal-bounded: no Lean-checked certificate) and establish arithmetic only.",
+    "Prior Claude notes in work/claude-root-worker-notes-v1 and SIA search results are model-origin recall, not evidence.",
+    "Sizes S, M, L and XL are qualitative.",
+    "Nothing here changes any original target, accepted case, deterministic fixture, control, contract, threshold or proof floor; temporary named refusals mentioned here keep their obligations OPEN.",
+    "No /srv lab, installed service, store, socket, window, project-vault or restic state was touched, and no SIA note was written."
+  ]
+}
