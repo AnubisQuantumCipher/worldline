@@ -1,0 +1,320 @@
+{
+ "ancestor_limitation": {
+  "rename_home_in_sicarii_owned_parent": "ok (expected here; W-1 requires root-owned ancestors)",
+  "renamed_back": "ok"
+ },
+ "as_required": 30,
+ "at": "2026-10-04T23:46:52Z",
+ "base": "/tmp/wl-dacprobe-rgzrgy5f",
+ "base_removed": true,
+ "boundary": "Real kernel DAC/ACL/protected_hardlinks checks between uid 1000 and subordinate uids 100000/100001 on sacrificial /tmp files. Not the W-1 setup: no accounts, sudo, systemd user manager, install, mounts or root-owned ancestors; the writer is not the frame; no WORLDLINE code; no prover or compiler.",
+ "inner": {
+  "cleanup": "ok",
+  "home_absent_after_cleanup": true,
+  "writer_exit_status": 0
+ },
+ "inner_stderr": "{\"writer_final\": {\"nondumpable\": {\"pr_get_dumpable\": 0, \"proc_self_fd_owner_uid\": 0}, \"lease\": \"released\", \"generation\": \"/tmp/wl-dacprobe-rgzrgy5f/home/runs/gen-9b598f6f928d8673\", \"writer_reads_target_output\": \"object\"}}\n",
+ "kernel": {
+  "fs/protected_hardlinks": "1",
+  "fs/protected_symlinks": "1",
+  "kernel/yama/ptrace_scope": "1"
+ },
+ "not_as_required": [],
+ "ownership_seen_from_outside": {
+  "frame_record_gid": 100000,
+  "frame_record_uid": 100000,
+  "home_uid": 100002,
+  "output_uid": 100001,
+  "runs_uid": 100000
+ },
+ "probe_count": 30,
+ "probes": [
+  {
+   "actor": "writer#2",
+   "as_required": true,
+   "expected": [
+    "LeaseHeld"
+   ],
+   "got": "LeaseHeld",
+   "probe": "acquire_lease_while_held"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "ok"
+   ],
+   "got": "ok",
+   "probe": "create_output_in_partition (positive)"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "ok"
+   ],
+   "got": "ok",
+   "probe": "mkdir_in_partition (positive)"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "ok"
+   ],
+   "got": "ok",
+   "probe": "read_admitted_source (positive)"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "create_in_frame_records"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "write_admitted_source"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "create_beside_source"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "rename_partition"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "unlink_frame_record"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EPERM",
+    "EACCES"
+   ],
+   "got": "EPERM",
+   "probe": "hardlink_frame_record_into_partition"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EPERM"
+   ],
+   "got": "EPERM",
+   "probe": "chmod_admitted_source"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "rename_generation"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "create_in_runs"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "open_lease_file"
+  },
+  {
+   "actor": "target",
+   "as_required": true,
+   "expected": [
+    "ok"
+   ],
+   "got": "ok",
+   "probe": "symlink_in_partition_allowed_by_design"
+  },
+  {
+   "actor": "writer#3",
+   "as_required": true,
+   "expected": [
+    "ok"
+   ],
+   "got": "ok",
+   "probe": "acquire_lease_after_release (positive)"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "ok"
+   ],
+   "got": "ok",
+   "probe": "read_frame_record_via_acl (positive)"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "ok"
+   ],
+   "got": "ok",
+   "probe": "read_target_output_via_default_acl (positive)"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "create_in_frame_records"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "write_admitted_source"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "create_in_partition"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "rename_generation"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "rename_partition"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "unlink_frame_record"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EPERM"
+   ],
+   "got": "EPERM",
+   "probe": "chmod_frame_record"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EPERM",
+    "EACCES"
+   ],
+   "got": "EPERM",
+   "probe": "hardlink_admitted_source_out"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "symlink_into_frame_dir"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "create_in_runs"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "open_lease_file"
+  },
+  {
+   "actor": "sicarii (outer uid 1000)",
+   "as_required": true,
+   "expected": [
+    "EACCES"
+   ],
+   "got": "EACCES",
+   "probe": "rename_runs"
+  }
+ ],
+ "schema": "w1-dacprobe-v1",
+ "scripts": {
+  "dacprobe_inner.py": "c8dcf66f3c42b1cca1524e50ee5cd242b325696beeb86c8216ce71f1c3a7514a",
+  "dacprobe_outer.py": "bbf7098413dc490e2a2ddb667c50944f863eda5b04b39ce890c341982c6252e6",
+  "w1proto.py": "2c7d6100eaccf9bde84cebdb3b72e42a22be51cb7616211446edb7aa627d19dd"
+ },
+ "truth_boundary": "ENGINEERING_ONLY: never proof, review, admission or acceptance evidence. V5-B01/V5-B02 and all original obligations OPEN_UNCHANGED.",
+ "uid_map": "inner 0->1000 (sicarii), inner 1->100000 (writer), 2->100001 (target), 3->100002 (home owner stand-in)",
+ "writer_ready": {
+  "lease": "held",
+  "nondumpable": {
+   "pr_get_dumpable": 0,
+   "proc_self_fd_owner_uid": 0
+  }
+ }
+}

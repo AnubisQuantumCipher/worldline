@@ -2099,4 +2099,265 @@ post-D1; RL-1..RL-6 decided post-D1 (pre-D1 `-1` for RL-2..RL-6); RL-24 False in
 - v3: "No new recursive function and no recursion" for Algorithm B is restricted to new declarations (§6.5).
 - v3: "`Old_Work` n bytes (primary stack …)" is withdrawn: placement is not established by source (§9.3.5).
 
-<!-- PART-5 -->
+## 10. OPERATOR DECISION PACKAGE OD-1: public helpers `Exact_Value`, `Amount`, `Sum` (V2-RC3, R-OD1; unchanged)
+
+The v3 review closed this package (R-OD1). v4 changes only two cross-references: the checks-build failure location
+of option (o) is now recorded in §9.6, and option (ii)'s item (5) points at the rebuilt §9.3.
+
+**Obligation.** These public functions return `Valid_Big_Integer`, and their Posts equal the full signed references
+(`core/resource_run_ledger.ads:185-213`).
+
+- With the GNAT 16.1.0 runtime they cannot represent results of `2**6432` or more [K-07, K-08].
+- In the release body, `Exact_Value` raises on valid spans of 804 or more bytes (V2-F13).
+- The checks build fails earlier, at any checked evaluation reaching the limit.
+- Release-path unreachability satisfies none of this.
+- **No option is selected. The lead makes no recommendation.**
+
+| Option | Owner | What it is | Exact consequences | Evidence it requires | What stays OPEN |
+|---|---|---|---|---|---|
+| E (no decision) | — | nothing changes | O-HELPERS OPEN | — | everything |
+| (o) MSB-first Horner with leading-zero skipping in the `Exact_Value` body | lead (body-only) | Find the highest nonzero digit, then `Value := Value * 256 + Digit` downward. Intermediate values never exceed the final magnitude | **Release-executable mitigation only.** Padded valid spans no longer raise in the release body when the value is below `2**6432`. In the checks build, the unchanged Post `Exact_Value'Result = Q.Value (Data, Item)` (`:186`) still runs `Prefix_Value_Worker`. That advances `Place` and evaluates `Prefix_Reference` and `Power_Reference` through **every** column (`core/resource_quantities.adb:147-203`), so padded spans of at least 804 bytes still fail there (`:181` in the iteration `Completed = 803`, §9.6). Values of at least `2**6432` fail in both builds | proof of the new body against the unchanged Post; the new body's own checked invariant costs; both-build controls at 803, 804 and 1000 padded bytes and at `2**6432 ± 1`, each recorded with its build | O-HELPERS (representation), D2 |
+| (i-a) WORLDLINE-owned `SPARK.Big_Integers` | operator | replace `core/spark-big_integers.ads:9-11`, today a rename of `Ada.Numerics.Big_Numbers.Big_Integers`, with an unbounded WORLDLINE implementation | **Model binding.** gnat2why's runtime-unit table names both `ADA_NUMERICS_BIG_NUMBERS_BIG_INTEGERS` and `SPARK_BIG_INTEGERS` [OBS strings]. If a replacement is bound to the mathematical model by name, its executable correspondence is *assumed*: a new trust exception, contrary to `HANDOFF.md:161`, unless independently verified. If it is not bound, every existing proof loses its model. **Direct users.** `Worldline.Resources` withs `Ada.Numerics.Big_Numbers.Big_Integers` directly (`core/worldline-resources.ads:2-6`), as does the pending-component copy (`pending-component/core/spark-big_integers.ads`). A SPARK-rename replacement does not reach them; they must migrate, with re-proof. The light library stays forbidden (`HANDOFF.md:129`) | determination of GNATprove 16.1.0's model binding; an independent full verification of the implementation, with no assumed axioms; migration and re-proof of every direct user; identical public API; full original roster and controls | costs, heap and stack, D2 |
+| (i-b) separate WORLDLINE-proved bignum type | operator (API) | an owning digit vector with full SPARK proof against a ghost model | The helpers' result types change, so this is a concrete public API/caller migration. It must preserve every original executable capability, caller and accepted case. It is not the frozen profile | concrete API; caller enumeration (compiler-resolved); ABI and roster consequences; full proofs; equivalent checked functions where contracts call the helpers | costs, D2 |
+| (ii) rebuilt GNAT runtime | operator (toolchain identity) | patch `System.Generic_Bignums` and `System.Shared_Bignums`, rebuild the runtime from the GCC 16.1.0 sources, relink the encapsulated `libworldline_core` (`core/worldline_core.gpr:81`) | **Not "only allocation can fail" as v2 claimed.** Required: (1) the record layout `Bignum_Data (Len : Length)` with representation clause `Len at 0 range 0 .. 23; Neg at 3 range 0 .. 7` (`RT/s-shabig.ads:58-70`), plus the `Length` subtype (`:46`) and the `Digit_Vector` index (`:55`); (2) every base, index and length expression, for example `X.Len + Y.Len` (`RT/s-genbig.adb:580`), shift lengths (`:423, :456`), `Normalize` (`:1178-1195`), `Big_Exp`'s limit (`:303-332`), `To_Bignum`; (3) automatic digit vectors on the primary stack proportional to operand size: `Sum` (`:135`), `Diff` (`:177`), `Result` (`:364, :388, :423, :456, :580, :778`). Removing the limit turns them into stack-exhaustion failures unless they are rewritten; (4) quadratic `Big_Mul` and `Div_Rem` time; (5) the full checked costs of F29 and §9.3 (rebuilt in v4), now unbounded by representation; (6) any compiler-front-end dependence on the bignum layout (for example overflow mode ELIMINATED) audited | patch specification and diff; a GPT-6.1 review; a proof-model refinement argument for the patched operations; reproducible rebuild recipe, runtime, relink and loaded identities; both-build boundary controls on `Exact_Value`, `Amount` and `Sum`; the complete original roster on the new identity; cost measurements without caps; explicit operator approval of the identity change, which is not acceptance. The header records GPL with the Runtime Library Exception (`RT/s-genbig.adb:11-25`); no legal determination is made here | heap and stack exhaustion, time, D2 cost |
+| (iii) Ghost-only retirement or removal of the helpers | — | — | **Incompatible.** It removes the original executable value-returning capability. It is a requirement change, not an eligible closure, even with operator approval (R-OD1) | — | — |
+| (iii') executable successor API added alongside | operator (API) | new executable digit-wise functions; the originals remain executable | Closes nothing by itself. The originals keep O-HELPERS | every original capability and accepted case preserved; separate review | O-HELPERS |
+
+## 11. OPERATOR DECISION PACKAGE OD-2: Python decimal-integer correspondence (V2-RC4, R-OD2, V3-RC1)
+
+No setting or code was changed. No WORLDLINE module was imported. **No option is selected.** The 640-digit chunk
+guard that the v3 review accepted is kept.
+
+### 11.1 Facts (census corrected; V3-F2, V3-F3)
+
+- **JSON operations** (Appendix A.2-A.5, A.7):
+  - v3 universe: 193 operations, that is the 192 direct sites plus the alias `scripts/decisive_evaluation_test.py:264`
+    (`_json.dumps`, `import json as _json` at `:260`) [K-79].
+  - Scope partition: 122 PROD-RUNTIME, 2 INLINE-CHILD, 10 PROD-PROTECTED, 25 ORIGINAL-CONTROL, 3 BUILD-TOOL and
+    31 INSTALL-RELEASE-SCRIPT [K-80, K-81].
+  - Extended to all 300 Python files of C5 [K-84]: 2 ROOT-TOOL operations and 254 ORIGINAL-TEST operations, 449 in
+    all [K-88, K-89]. 170 are in routed or bounded scopes [K-86]; 279 are in unchanged originals [K-87].
+  - The census is scope-aware: aliases, from-imports, assigned names, partials, encoder and decoder classes and
+    instances, forwarded references, dynamic `getattr` and other JSON libraries. It is still static (Appendix A.2
+    lists its limits), so it is a stronger minimum census, not a data-flow proof. PY-13 re-runs it.
+  - Every routed operation is a `json.dumps` or `json.loads` call; no routed scope calls `json.dump` or `json.load`
+    [OBS grep].
+  - Settings: the alias uses `indent=2`, an existing combination. The distinct combinations are in Appendix A.5.
+- **Non-JSON conversions** (Appendix A.8, extended): the v3 categories; stdlib text parsers with an internal decimal
+  conversion (11 sites [K-90]); Python-source compilation of decimal literals (14 calls [K-190]); and
+  `runtime/worldline/checks.py:888-889`.
+- **C4/C5** (F33): 299 of the 300 files are byte-identical; `runtime/worldline/proof_manifest.py` differs by a pin-only
+  append (Appendix A.1).
+- **Interpreter** (F25): admitted configurations are limit 0 or any limit of at least 640; 1 to 639 are refused at
+  runtime and fatal at startup; the default is 4300.
+- **Interpreter paths** (F30): `json.dumps` uses the C encoder, with or without `indent`; `sort_keys` sorts the original
+  items before key coercion; `parse_int` keeps the C scanner; the C and Python encoders have different recursion
+  guards.
+- **Messages** [OBS strings of `/usr/lib/libpython3.14.so.1.0`, sha256
+  `7e88cb35da4d8fc0fd4c3f595483f98765ee59e23ef43d9eb3ebd1e1c5432c65`, linked by `/usr/bin/python3`]: "Exceeds the
+  limit (%d digits) for integer string conversion: value has %zd digits; use sys.set_int_max_str_digits() to increase
+  the limit"; the formatting variant without the digit count; "invalid literal for int() with base %d: %.200R"; and the
+  compiler's "%S - Consider hexadecimal for huge integer literals to avoid decimal conversion limits." Strings are not
+  behaviour evidence.
+- `parse_canonical` decodes with `json.loads(data.decode("utf-8", "strict"))` (`runtime/worldline/canonical.py:54`) and
+  catches only `UnicodeDecodeError`/`JSONDecodeError` (`:55`). A too-long integer raises an uncaught `ValueError`.
+  `canonical_bytes` runs the recursive `_validate` first (`:14-38, :41-49`), which also admits only `str` keys.
+- **Not host-bounded:**
+  - the daemon parses requests with default `json.loads` (`daemon.py:304`) and admits any non-Boolean `int` id
+    (`:309-311`);
+  - responses go through `canonical_bytes` (`:379`);
+  - `client.py:61` parses responses with default `json.loads`;
+  - `cli_main.py:105, 109` print results with `json.dumps(…, indent=2, sort_keys=True, ensure_ascii=False)`.
+
+### 11.2 E0: no decision
+
+O-PYTHON stays OPEN. Current behaviour, from source:
+
+- A decimal integer longer than the configured limit raises `ValueError`, at parse or at serialize.
+- In `_dispatch_line`, a too-long request id escapes the inner `except` and reaches the generic handler, which answers
+  `INTERNAL_ERROR` (`daemon.py:353-357`).
+- A result containing such an integer fails inside `_send` → `canonical_bytes` (`:379`). The same handler then answers
+  `INTERNAL_ERROR`, and that answer can itself fail when the id is too long.
+- `tomllib.loads` lets the `ValueError` of `int(…, 0)` (`/usr/lib/python3.14/tomllib/_re.py:110-113`) escape: the call
+  at `_parser.py:730` is not wrapped [OBS]. One long decimal integer anywhere in a captured `Cargo.toml` or
+  `pyproject.toml` fails the whole parse (`runtime/worldline/environment.py:217, 236`).
+- An `argparse` option with `type=int` reports "invalid int value" and exits with a usage error, because `argparse`
+  converts the `ValueError` (`/usr/lib/python3.14/argparse.py:2664-2668`).
+- Every such outcome is an OPEN failure, never an accepted refusal. A finite higher limit, catch-and-refuse, or a native
+  size cap would not close the obligation.
+
+### 11.3 E1: interpreter-wide unlimited (`int_max_str_digits = 0`) with exact process-class coverage
+
+Every interpreter that executes a routed-scope operation belongs to exactly one class (Appendix A.9). Classes C12-C14
+are new in v4; C1-C11 are unchanged from v3.
+
+| Class | Processes | Interpreter start | Exact change | Guarantee |
+|---|---|---|---|---|
+| C1 launcher-started | `cli/worldline`, `cli/worldline-relocate`, `daemon/worldlined` (`#!/usr/bin/env python3`, not isolated) | re-executed interpreter | insert `sys.set_int_max_str_digits(0)` right after `import sys` (`cli/worldline:3`, `daemon/worldlined:3`) and before `from worldline… import` (`:18`) | set before any WORLDLINE import; `pathlib` alone is imported earlier and does no workload conversion |
+| C2 service | `daemon/worldlined.service` (`ExecStart=%h/.local/bin/worldlined`) | via C1 | none beyond C1 | covered by C1. An `Environment=` setting alone would not reach isolated children |
+| C3 direct module `__main__` | `runtime/worldline/daemon_main.py:106`, `cli_main.py:658`, `relocate.py:1146`, `linux/namespace_lifetime.py:712`, `linux/private_evaluator.py:2755` | re-executed only if run as `python -m` or as a script | if any is a production entry, launch with `-X int_max_str_digits=0`. A first-statement call in `__main__` is weaker: module imports (`daemon_main.py:3-11`) run before it, and an import-time conversion such as `simulation.py:30`'s source would precede it | the production entry inventory must state which of these run; each needs `-X` |
+| C4 trusted helpers | `trusted_inline` (`revalidate.py:461`, `finalize.py:505`, `simulation.py:183`); `trusted_script` (`linux/kernel_role_observer.py:624, 732, 1528`; `linux/systemd.py:276`; `linux/namespaces.py:346`; `linux/private_evaluator.py:1781, 2020`) | re-executed with `-I -S`; the environment is ignored (F25) | `ISOLATION_FLAGS = ("-I", "-S", "-X", "int_max_str_digits=0")` (`runtime/worldline/trusted.py:41`) | the startup setting precedes all code. Consistent changes are required to `checkRunnerInterpreter` / `trustedStartupFlags` (`runtime/worldline/validation.py:240-245`) and to any test asserting the tuple |
+| C5 in-process `runpy` | `linux/private_evaluator.py:53-56, 2008` | inherited | none | inherits from the C4 host interpreter |
+| C6 examiner role | runs in-process in the private evaluator (`linux/private_evaluator.py:2742-2752`; argv policy `:1026-1028`) | inherited | **to preserve the examiner-isolation policy exactly**, the examiner role path restores the pre-E1 value (`sys.int_info.default_max_str_digits`) before entry code. The alternative, examiner inherits unlimited, is an explicit operator choice | WORLDLINE parses examiner reports in C1/C4 interpreters, which are covered |
+| C7 re-executed payloads | `os.execv` for worker and candidate roles (`linux/private_evaluator.py:2750`) | candidate programs | none | candidate interpreters are not WORLDLINE parse paths and are not changed |
+| C8 protected services | `protected-startup/launcher.py`, `owner_provision_bootstrap.py`, `protected-resource/run_service.py`, `gate_bridge.py`, `protected-runtime/approved_source_loader.py` | the operator's interpreter under `-I -S -B`; the flags are bound in the early envelope (`protected-startup/OPERATOR.md:70-90`) | either add `-X int_max_str_digits=0` to the operator-bound flag set (operator custody and re-provisioning), or set the limit in approved source before the first parse (for example before `launcher.py:26`), which changes approved-source pins | operator custody required in both forms |
+| C9 control campaigns | `protected-*/controls/run_campaign.py` (argv `-I -S -B` at `:156` / `:176`) | re-executed | none: original controls stay byte-identical; C8's source-level form covers the helpers they start | additive PY controls observe the setting |
+| C10 install/release scripts | `scripts/*.py` run by `install.sh` (for example `preflight.py`, which parses prepared transactions at `:125`), and `scripts/decisive_evaluation_test.py` (the alias site, row 193) | re-executed | for each script that parses or formats WORLDLINE data: `sys.set_int_max_str_digits(0)` at start, or a reviewed demonstration under §11.4.3's criteria | — |
+| C11 native embedding | `native/examiner_guard.c` is a CPython extension; it reads configuration (`:1958`) and starts no interpreter (no `Py_Initialize` found) | inherits from its host | none | — |
+| **C12 build tool (new; V3-RC1 c)** | `native/build_guard.py`, run by the Root native-build action as `/usr/bin/python3 -B …/native/build_guard.py <fresh output dir>` [OBS argv form, `W/outputs/phase1-status.json:249-254`, recorded for the `integrated-ordinary-v8` tree, whose `build_guard.py` has the same sha256 as C5's, `949f917d…07d7`] | a direct interpreter without `-I` | **none needed, by a reviewed absolute-magnitude bound** (Appendix A.5 rows 160-162): its only integer operands are `st_size` values, bounded by `2**63 − 1 < 10**19` [K-94] (at most 19 digits [K-95], 621 digits inside the minimum limit [K-96]), and a return code of 0. It performs no decimal parse | holds under every admitted configuration. If review does not accept the bound, the alternative is `-X int_max_str_digits=0` in the Root action's argv, an operator-owned Root-action change |
+| **C13 root tools (new)** | `refresh_contract_pins.py`, `verify_proof_manifest.py` (developer, CI and release tools) | direct interpreter | `sys.set_int_max_str_digits(0)` immediately after `import sys`, before the first parse or source compilation | row 195 has no lexical bound and must be configured (E1) or routed (E2); row 194 has no integer operand |
+| **C14 original test runners (new)** | the interpreters running `tests/` and the original campaigns | as the operator runs them | none: original tests stay byte-identical and unconfigured; WORLDLINE processes they start are covered through C1, C4 and C8 | additive PY controls run in configured interpreters and observe the setting (PY-3) |
+
+E1 consequences:
+
+- The guard is removed for all conversions in covered processes, including untrusted local requests, peers and
+  examiner reports.
+- CPython 3.14 converts large values superlinearly (`/usr/lib/python3.14/_pylong.py:1-13`).
+- Cost evidence must meet the original target without a new cap or refusal (O-PY-COST).
+- Every touched pinned file needs pin regeneration.
+- The stdlib parsers (§11.4.5) and source compilation are covered in configured classes, because the setting is
+  interpreter-wide.
+
+E1 evidence:
+
+- a per-class startup observation that `sys.get_int_max_str_digits() == 0` before the first relevant conversion, for
+  C1, each C4 helper kind, C8, C10 and C13;
+- a C6 observation that the examiner sees the original default;
+- for C12, either review acceptance of the bound or the argv observation;
+- the PY controls (§12.5).
+
+### 11.4 E2: scoped codec, with the interpreter limit kept
+
+**Reference semantics R∞.** For each routed call, the target behaviour is that of the same call in the same pinned
+CPython 3.14.7 with the limit set to 0. The codec must return byte-identical text wherever R∞ returns, and raise the
+same exception class, with the same message and notes, wherever R∞ raises. Where today's limited interpreter succeeds,
+R∞ and today agree, so the codec agrees with today.
+
+#### 11.4.1 Parse
+
+- At each `json.loads` site, add `parse_int=decimal_int` and preserve every existing keyword (Appendix A.5). For
+  `canonical.py:54` the exact expression becomes `json.loads(data.decode("utf-8", "strict"), parse_int=decimal_int)`.
+- `json.loads` with a keyword builds `JSONDecoder(**kw)` (`json/__init__.py:349-365`), which stores
+  `parse_int or int` (`decoder.py:329`) and keeps the C scanner (`scanner.py:73`). The scanner passes the whole
+  validated literal `-?(0|[1-9][0-9]*)` to `parse_int`.
+- `decimal_int (s)` splits the digits into chunks of **at most 640**. 640 is the minimum admitted limit, so every
+  `int(chunk)` is legal under every admitted configuration (0 or ≥ 640; F25). Example: a 4301-digit literal [K-43] gives
+  six 640-digit chunks and one 461-digit chunk [K-45].
+- It recombines by divide-and-conquer, `value = high * 10**len(low) + low`, using only integer arithmetic, which has no
+  limit. It restores the sign. `"-0"` gives 0, exactly as `int` does, so canonical re-encoding still refuses `"-0"`
+  (`canonical.py:58`).
+- Requirement: `decimal_int (s) == int (s)` under R∞ for every scanner literal s. That is shown by construction and
+  review, then controlled by differential tests (PY-2).
+- **Non-JSON parse sites** (`int(x)` on decimal text, `argparse` `type=int`) need a different helper,
+  `decimal_text_to_int`, because they receive arbitrary text. It must reproduce `int(s)` with base 10 under R∞ exactly:
+  - surrounding Unicode whitespace, an optional sign, PEP 515 underscores (single, between digits only) and Unicode
+    decimal digits are accepted exactly as `int` accepts them;
+  - every other text raises `ValueError` with the message `invalid literal for int() with base 10: %.200R` of the
+    original string, as `int` does [OBS strings above];
+  - as an `argparse` type its `__name__` must be `'int'`, so that the message `invalid int value: '…'`
+    (`argparse.py:2664-2668`) is unchanged;
+  - PY-14 controls the grammar differentially against `int` inside the limit.
+
+#### 11.4.2 Serialize (V3-RC1 a, V3-F1)
+
+Replace `json.dumps(value, **settings)` with `codec_dumps(value, **settings)`. Requirements, each checked against
+R∞:
+
+| Id | Requirement |
+|---|---|
+| S-1 | Byte-identical output for every settings combination of Appendix A.5: `indent` (int or str), `separators`, `sort_keys`, `ensure_ascii`, `allow_nan`. An unsupported keyword raises the same `TypeError` as `json.dumps` |
+| S-2 | Integers and `int` subclasses (not `bool`) are formatted as `int.__repr__ (v)`, ignoring any subclass `__repr__`, as both encoders do. The codec computes the same text by divide-and-conquer `divmod` by `10**(640·2^j)`, converting each chunk of at most 640 digits with `str()` and zero-padding inner chunks. `True`, `False`, `None` and floats are formatted exactly as `json` does (`floatstr`, honouring `allow_nan`, with its `ValueError` text) |
+| S-3 | **Key order.** With `sort_keys`, the item order is the result of `sorted(dct.items())` on the **original** dict items, evaluated exactly as `json/encoder.py:357-358` does, before any key is coerced. Integer keys therefore sort numerically, never by their decimal text. v3's "sort_keys by code point" is withdrawn |
+| S-4 | **Mixed-key failure.** When that sort raises (for example `TypeError` for incomparable `int` and `str` keys), the same exception propagates unchanged, before any key is coerced and before any output is returned. `codec_dumps` returns a whole string or raises; it never yields partial output |
+| S-5 | **Key coercion**, in this order, as `encoder.py:361-382`: `str`; `float` through `floatstr`; `True`/`False`/`None`; `int` through `int.__repr__` (chunked as S-2); then `skipkeys`; else `TypeError("keys must be str, int, float, bool or None, not …")` with the same text |
+| S-6 | **Strings** are escaped by `json.encoder.encode_basestring_ascii` or `encode_basestring`, selected by `ensure_ascii` exactly as `encoder.py:221-224`, so escaping is the reference's own code |
+| S-7 | **Circular references** raise `ValueError("Circular reference detected")` at the same traversal point as R∞ when `check_circular` is in effect |
+| S-8 | **Unsupported objects** raise the same `TypeError` (`Object of type … is not JSON serializable`), with the same PEP 678 notes that the reference attaches while unwinding (`encoder.py:330, 417, 457` in the Python encoder; the C encoder's notes are checked by PY-9) |
+| S-9 | **Depth.** The codec raises no `RecursionError` where R∞ succeeds, and at a depth where R∞ raises `RecursionError` the codec's behaviour is recorded (E2-a/E2-b below) |
+| S-10 | **Traversal order.** Where several failures exist in one value, the codec raises the one R∞ raises first, because it traverses in R∞'s order (list order; dict insertion order, or S-3's order with `sort_keys`) |
+
+Sub-options (none selected):
+
+- **E2-a: reuse CPython's pure-Python encoder.** `json.encoder._make_iterencode` with its `_intstr` hook, a private API
+  pinned to CPython 3.14.7. Additional evidence:
+  - the C encoder (the reference for `json.dumps`) and the Python encoder must be shown to agree on S-1..S-8. The C
+    encoder's source is not installed, so this is differential evidence (PY-4, PY-8, PY-9) plus a review of the
+    CPython 3.14.7 `Modules/_json.c` source obtained separately;
+  - **depth:** the Python encoder recurses through generator frames, roughly two per nesting level, under the Python
+    frame limit, while the C encoder uses the C-stack guard (F30). E2-a can therefore raise `RecursionError` at depths
+    where R∞ succeeds. At `canonical_bytes` sites the recursive `_validate` runs first under the same Python limit,
+    which narrows but does not remove the gap, because `_validate` uses one frame per level. E2-a is eligible only
+    with evidence that no admitted value reaches the gap at any routed site (PY-11), or with an iterative depth
+    strategy, which is E2-b.
+- **E2-b: a complete WORLDLINE encoder (corrected).** It implements S-1..S-10 directly with an explicit iterative stack,
+  so it has no recursion limit of its own. Consequence: where R∞ raises `RecursionError` from the C-stack guard, E2-b
+  succeeds. That is a failure-to-success difference; it is recorded, not hidden, and needs operator acceptance as a
+  behaviour change. No original control is known to assert that failure (Appendix A.7).
+- **R-OVR routing (an option for either).** `codec_dumps` calls the original `json.dumps` unchanged unless an iterative
+  pre-scan finds, among the values or keys that `json.dumps` would format, an `int` (not `bool`) with `|v| ≥ 10**L`,
+  where `L = sys.get_int_max_str_digits()` and `L > 0`. Only then does the codec path run. For every value without
+  such an integer, behaviour, including depth and every failure, is the original's exactly. The pre-scan tracks
+  visited containers so that a cycle cannot loop, and it never raises: unsupported objects are left for the chosen
+  path to report. The codec path must still meet S-1..S-10 for the values it handles.
+
+Existing failure classes outside the codec are preserved: `_validate` still runs first in `canonical_bytes`. Finite
+byte-differential tests inside the old limit are controls. They do not prove an unbounded encoder; the correspondence
+argument is by construction plus review.
+
+#### 11.4.3 Sites and exclusion precision (V3-RC1 d)
+
+- Every PROD-RUNTIME, PROD-PROTECTED, INSTALL-RELEASE-SCRIPT and ROOT-TOOL operation moves to the codec, or carries a
+  reviewed demonstration of one of the two forms below. "Below 10**640" alone no longer suffices.
+  - **Formatting** (`int` to decimal text: JSON values and keys, `str`, `repr`, `format`, f-string fields, `%`-format,
+    lazy `logging` arguments): an **absolute-magnitude bound**. Every integer that reaches the conversion satisfies
+    `−10**640 < v < 10**640`, that is, `|v|` has at most 640 digits. A one-sided `v < 10**640` is insufficient.
+  - **Parsing** (decimal text to `int`): a **lexical digit-count bound**. Every admitted input text has at most 640
+    decimal-digit characters in the converted literal, counting leading zeros and excluding sign, whitespace and
+    underscores. A bound on the parsed value is insufficient: `'0'*640 + '1'` has value 1 and 641 digit characters
+    [K-98]. For JSON the bound must hold for every admitted byte string, including peer, candidate and tampered
+    inputs.
+- Such a demonstration is an audit result about where a value or text comes from. It is never a cap, and it never
+  filters inputs.
+- BUILD-TOOL: the reviewed bound of C12 (Appendix A.5 rows 160-162).
+- INLINE-CHILD sources must inline the codec text, because trusted helpers import the standard library only
+  (`runtime/worldline/trusted.py:31-33`), or carry such a demonstration.
+- ORIGINAL-CONTROL and ORIGINAL-TEST files stay byte-identical.
+- PR sites are not excluded: the daemon request parse, the client response parse and CLI output are covered.
+- Protected sites under C8 custody need operator re-provisioning of approved sources.
+- The alias site (row 193) formats only the literal `1` and Booleans in its JSON; its f-string `detail` fields are
+  non-JSON formatting candidates (§11.4.4).
+
+#### 11.4.4 Non-JSON conversions (O-PY-AUDIT)
+
+- The universe is Appendix A.8 (extended in v4).
+- Each candidate whose operand can be a workload-derived `int` or decimal text either routes through `decimal_str` /
+  `decimal_text_to_int`, or carries a demonstration of the matching §11.4.3 form.
+- The classification is OPEN. No site is excluded by module role.
+
+#### 11.4.5 E2-T: stdlib parsers and source compilation (new; F31)
+
+| Category | Sites | E2 disposition options (none selected) |
+|---|---|---|
+| `tomllib.loads` | `runtime/worldline/environment.py:217, 236`, on captured workspace `Cargo.toml` and `pyproject.toml` | **T1** unrouted: eligible only with a lexical digit-count bound over every admitted workspace file; none is available, because the files are workspace content. **T4** hybrid: the process classes that run the environment capture are configured as under E1, while E2 covers the rest; per-call toggling stays rejected (§11.5). **T5** a WORLDLINE-owned TOML parser, or a pinned copy of `tomllib` whose decimal conversion calls `decimal_text_to_int`, with byte-identical results and identical `TOMLDecodeError` behaviour, under separate review. Catch-and-refuse and a pre-filter are rejected |
+| `argparse` `type=int` | `runtime/worldline/cli_main.py:371, 380, 414, 415`; `scripts/prune_backups.py:47`; `scripts/release_gate.py:226, 227` | `type=decimal_text_to_int` (§11.4.1), with `__name__ == 'int'`, or the C1/C10 configuration of E1 for those processes |
+| `ast.literal_eval` | `refresh_contract_pins.py:30`; `runtime/worldline/examiner_audit.py:403` | literal evaluation compiles the text; route by a lexical bound on the evaluated source, or configure the class (C13, and the class running `examiner_audit.py`) |
+| source compilation (`ast.parse`, `compile`, `exec`) | `refresh_contract_pins.py:23, 55`; `scripts/engine_codes.py:47`; `runtime/worldline/examiner_audit.py:382, 459`; `runtime/worldline/executed.py:369`; `runtime/worldline/linux/private_evaluator.py:342, 367, 383, 814, 849` | the compiler converts decimal literals under the limit; no hook exists. Options: a lexical bound on the compiled source, or configuring the class. The two `exec` calls in the original campaigns stay byte-identical |
+| `decimal` | `runtime/worldline/checks.py:888-889` (`Decimal(str(…))`) | format with `decimal_str`, or demonstrate an absolute-magnitude bound |
+
+### 11.5 Rejected
+
+| Rejected item | Reason |
+|---|---|
+| Per-call toggling of the limit | a race: the setting is per interpreter and the daemon is multithreaded (`runtime/worldline/evaluation_terminal.py:19`) |
+| A finite higher limit | not closure |
+| A new size cap or "size admission" presented as a cost repair (v2:1408-1410) | withdrawn |
+| Catching `ValueError` as a refusal, including around `tomllib` | turns a required success into a refusal |
+| v3's E2-b "sort_keys by code point" | changes integer-key order and mixed-key failures (V3-F1) |
+
+### 11.6 What stays OPEN
+
+O-PYTHON (no option selected), O-PY-AUDIT (the A.8 classification), O-PY-COST (conversion costs without caps),
+O-PY-T (the E2-T disposition), O-PY-DEPTH (E2-a depth evidence, or acceptance of E2-b's failure-to-success
+difference) and O-CENSUS (the static census limits; PY-13).
+
+<!-- PART-6 -->
