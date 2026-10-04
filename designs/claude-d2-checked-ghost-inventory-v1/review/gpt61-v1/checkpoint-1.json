@@ -1,0 +1,622 @@
+{
+  "schema": "claude-analysis-review-checkpoint-v1",
+  "item": 1,
+  "status": "complete",
+  "analysis_sha256": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+  "data_sha256": "a7b43eb71220349dcb9e07772b51f8664d9f9bb8354a3939f3825a6683b81f62",
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "section_markdown": "## 1. Checked evaluation structure and hazard-by-hazard ruling\n\nThe checks scenario enables `-gnata` by default (`S/core/worldline_core_sources.gpr:8-19`; the Attest project has the same selection). The installed GNAT manual explicitly maps Ghost, Pre, Post, Assert, Loop_Invariant, Loop_Variant and Subprogram_Variant to Check (`G/share/info/gnat_ugn.info:9396-9436`). The inspected core has no overriding policy. These are source-semantic evaluations on normally completing, applicable paths, with short-circuit conditions and selected branches respected. A Post does not run after exceptional completion. The switch documentation supports the model; this review has no compiler-output evidence about nested-contract expansion, optimization, literal placement, or elision.\n\n| Hazard | Independent ruling and file:line evidence |\n|---|---|\n| H1 | Correct exponential reference structure. The body calls Prefix_Reference at Count minus one (`worldline-chain_authority.adb:11-12`), and the normal Post evaluates another at Count minus one before Prefix_Step (`worldline-chain_authority.ads:80-86`). Post short-circuiting does not skip it when the preceding bound holds, including row-mismatch results. Replay_Reference evaluates the complete prefix in body and Post (`adb:54-55`, `ads:102-105`). Replay adds its own Post (`ads:112-114`); Wire.Decide evaluates Replay_Reference in its result-field conjuncts (`worldline-chain_authority_wire.ads:61-72`). The executable path is C wrapper → Wire.Decide → Replay (`worldline-chain_authority_c_api.adb:114`, `wire.adb:3-5`). Python's only observed retained-store integration definition is `runtime/worldline/store.py:1104`; passive search found no in-tree invocation. |\n| H2 | Correct whole-output/arena hazard. Prefix_Total's body invokes a worker correspondence lemma and the worker, while its Post recursively calls the predecessor (`resource_ledger.adb:832-837`, `ads:138-142`). Worker and correspondence lemma assertions/Post run too (`adb:501-564`); the lemma repeats workers but introduces no second public Prefix_Total recursion. Processed_Conforms repeats earlier Prefix_Total and radix evaluations (`adb:1399-1410`), and Compute repeats that relation (`adb:1444-1447,1505-1514`). The total workspace feeds Binary (`adb:1484-1485`). **C-SLOT:** Storage_Sufficient's earlier-slot invariant (`adb:848-854`), body (`adb:862-863`) and Post (`ads:153-158`) make its independent uniform-slot term quadratic in rows, not linear. The Python-sized bounded-value family remains the inventory's dominant class. |\n| H3 | Correct nested quantity structure. Power_Reference and Prefix_Reference each have a single recursive body call and nonrecursive sign Post (`resource_quantities.ads:40-56`). Radix_Power and Prefix_Value have iterative worker bodies and a single predecessor call in their public Posts (`ads:58-83`, `adb:97-208`). Those calls recursively incur worker invariants, post-loop assertions and worker Posts. Magnitude evaluates Prefix_Value in body and applicable Post; Value evaluates Magnitude in body and Post (`adb:210-226`, `ads:85-96`). Equal nonnegative Compare's inventory multiplicities reproduce in exact JACKAL arithmetic: fixed term 42, iteration term 8; top-byte Greater/ Less terms 50/42. Source: `adb:350-399`, `ads:110-117`. Reservation-transition Zero_Prefix recurses with Prefix_Value at each return and runs per column (`resource_reservation_transition.adb:484-503,609-617`), supporting its stronger successor amplification. |\n| H4 | Check reaches Exact_Value, Sum, Conserved and Contained and repeats reference work in its Post (`resource_run_ledger.adb:144-210`, `ads:377-457`). Exact_Value's body has the invariant reference calls and a Value Post (`adb:19-35`, `ads:185-186`). Sum_Reference has a single recursive body call and no Post (`ads:200-209`). **C-SUM:** Sum alone has quadratic worst-case Value evaluations (`adb:54-63`); Contained can be cubic with duplicate parent identities (`adb:81-87`). Shape establishes reservation uniqueness on the successful Check path (`ads:233-235`), which makes the inventory's restricted Check-path distinction sound. Excluded rows and identity scans remain costs even when there are no included rows. |\n| H5 | Worldline.Resources has the simpler single-body-recursion radix and prefix functions; Prefix_Value's Post adds radix evaluation (`worldline-resources.ads:29-46`). Can_Reserve's checked column witnesses and invariants, its Post's Fits_By_Addition, and that function's own checked body/Post all run (`adb:787-921`, `ads:78-90`; Wire Post `worldline-resource_wire.ads:11-16`). Try_Reserve calls Matching_Prefix both through Reserve_Prefix_Step and directly (`worldline-resources.adb:663,1020-1024`), supporting the quoted capacity amplification. Sum_Equals's headline assumes successful column traversal: a mismatch calls Mismatching_Sum_Column → Value_Modulus → recursive Prefix_Modulus/Prefix_Quotient (`adb:943,693-695,264-274,239-262`); a blanket full-domain class is not established by that success-path headline. |\n| H6 | The per-disk and prior-disk reevaluations are present (`resource_admission.adb:237-264`), with each reference's own Post (`ads:118-129`). Admit also evaluates Capacity and its Decision_Conforms Post (`adb:270-276`, `ads:199-201`). **C-EMPTY:** an empty disk array still executes the memory-capacity relation; the disk-only formula needs that fixed term or a nonempty comparable-extents qualification. |\n| H7 | Journal_Valid has per-row successor/epoch comparisons and identity uniqueness (`evaluation_pending.ads:84-101`); completion rescans earlier Same_Binding/Same_Result (`evaluation_completion.adb:15-18,32-34`); History_Valid has per-row successors and nested identities (`evaluation_history.ads:203-217`). **C-OWNER:** whole owner/retry exports are not fixed multiples of one epoch comparison. Retry_Holds, Retry_Reference and Retry_Equation call History_Valid (`worldline-owner_transitions.adb:23,50`, `ads:137`). Audit Same_Prefix calls Same_Row per row, whose body calls Same_Epoch (`worldline-owner_retry_audit.ads:38-42`, `adb:26-28`), and audit also checks History_Valid (`adb:69`). These paths reach the C exports (`worldline-c_api.adb:1015,1112-1152`). Appendix A's O(H·id) Retry_Equation classification must also be corrected. The inventory's explicitly untraced completion/finalization exports remain unverified. |\n| H8 | The processed-prefix and nested quantifiers exist at the cited sites: `evaluation_completion_roster.adb:57-63`, `evaluation_raw_roster.adb:56-57,71-72`, `evaluation_finalization.adb:35-37,110-111,241-243`, `resource_run_ledger_wire.adb:7,18`, `resource_reservation_lifecycle.adb:18-25`, and the listed evaluation/owner/recovery wire loops. Their source worst-case component growth is supported; short-circuit and identity/row extents must be retained. Initialized assertions should not be treated as runtime initialization evidence; the repeated equality/Decode calls independently supply the cost. |\n| H9 | The Ghost arena snapshots and per-step assignments exist (`resource_ledger.adb:1144,1203,1424,1456`; `worldline-resources.adb:973,989,1001`). Old captures are present in the cited public Posts (`worldline-resources.ads:153-155`, `evaluation_completion.ads:422`). Source recursion depth is supported. Native frame sizes, primary/secondary stack allocation, peak live heap, copy elision and catchable exhaustion are unverified; the live-heap estimate remains reasoning-only. |\n| H10 | The cited C handlers map propagated exceptions to generic error codes (`worldline-chain_authority_c_api.adb:117`, `resource_run_ledger_c_api.adb:221`, `worldline-resource_ledger_c_api.adb:176,223`, `worldline-resources_c_api.adb:64`, `worldline-resource_policy_c_api.adb:182`). Process/stack failure catchability is not established. This cannot be credited as a semantic accepted refusal. |\n| H11 | Prefix's normal Post and variants/invariants check bounded-size fields (`canonical_artifacts.ads:34-39`, `adb:175-177,195-197,229-230`). Tagged_Matches's checked invariants also use bounded-size fields (`adb:506-510,529-544`); its recursive calls remain executable (`adb:512-514,558-559`). The inspected checked overhead is a source-model constant factor. This is not a total parser complexity or native stack guarantee. |\n\nAll source references in this table are under S/core unless another prefix is shown. Growth language describes conditional worst-case source cost families, not measured time, a bound across every early return, or an asymptotic completion claim beyond the installed finite Bignum limit. Every hazard stays OPEN.\n",
+  "corrections": [
+    {
+      "id": "C-SLOT",
+      "claim": "INVENTORY.md:278 gives the Storage_Sufficient slot term as Θ(N·S⁴).",
+      "correction": "The successful invariant checks each earlier slot again, in addition to the body and Post. The slot term is Θ(N²·S⁴) for uniform independently varying slot length S. This does not change the dominant Θ(N⁶) Python-sized, bounded-value family.",
+      "evidence": [
+        "S/core/resource_ledger.adb:848-854",
+        "S/core/resource_ledger.adb:862-863",
+        "S/core/resource_ledger.ads:153-158",
+        "JACKAL R-SLOT-N3"
+      ]
+    },
+    {
+      "id": "C-SUM",
+      "claim": "H4 / INVENTORY.md:693 and inventory.json hazards group direct Contained/Sum as Θ(N³·L⁵).",
+      "correction": "Sum alone performs quadratic, not cubic, worst-case Value work through its processed-prefix invariant. Cubic Value work belongs to Contained with repeated parent identities. The Check-path distinction based on Shape uniqueness is sound. Sum_Reference also scans excluded rows and identity bytes, so its cost cannot depend only on the number of included rows.",
+      "evidence": [
+        "S/core/resource_run_ledger.adb:49-64",
+        "S/core/resource_run_ledger.adb:70-89",
+        "S/core/resource_run_ledger.ads:195-209",
+        "S/core/resource_run_ledger.ads:229-235"
+      ]
+    },
+    {
+      "id": "C-OWNER",
+      "claim": "H7 / INVENTORY.md:617,696 summarize owner/retry exports as fixed Θ(L⁶); Appendix A:916 labels Retry_Equation O(H·id).",
+      "correction": "Individual epoch comparisons have fixed multiplicity, but retry authorization and audit traverse whole histories. Retry_Holds, Retry_Reference and Retry_Equation call History_Valid, and audit Same_Prefix calls Same_Row with Same_Epoch per row. The whole exported paths require history-dependent terms and a full trace; they are not fixed Θ(L⁶) or O(H·id).",
+      "evidence": [
+        "S/core/worldline-owner_transitions.adb:21-38",
+        "S/core/worldline-owner_transitions.adb:48-50",
+        "S/core/worldline-owner_transitions.ads:134-151",
+        "S/core/worldline-owner_retry_audit.ads:38-42",
+        "S/core/worldline-owner_retry_audit.adb:26-28",
+        "S/core/worldline-owner_retry_audit.adb:61-69",
+        "S/core/evaluation_history.ads:203-217",
+        "S/core/worldline-c_api.adb:1015",
+        "S/core/worldline-c_api.adb:1112-1152"
+      ]
+    },
+    {
+      "id": "C-EMPTY",
+      "claim": "H6 / INVENTORY.md:595 states Θ(D²·L⁵ + D·L⁶) without a nonempty-disk qualification.",
+      "correction": "Empty disk rosters still execute Check_Capacity and its checked numeric relation. Include that fixed memory-quantity cost or state explicitly that the displayed class is a nonempty, comparable-extent worst-case envelope. Similar composite Θ expressions are not equalities for every short-circuit path.",
+      "evidence": [
+        "S/core/resource_admission.adb:233-276",
+        "S/core/resource_admission.adb:180-206",
+        "S/core/resource_admission.ads:130-151"
+      ]
+    }
+  ],
+  "hazard_rulings": [
+    {
+      "id": "H1",
+      "ruling": "Correct source-semantic exponential duplication: one recursive body call and one recursive Post call; Replay_Reference repeats in its own Post, and Wire.Decide invokes it in each result-field conjunct. Valid-genesis retained-row mismatch paths also pay full reference recursion. No measured native cost is established.",
+      "evidence_class": "observed source plus static reasoning; exact JACKAL instance arithmetic"
+    },
+    {
+      "id": "H2",
+      "ruling": "Whole-output and total-arena evaluation is real; Python-sized bounded-value growth remains the quoted high-order family. Correct the independent slot term (C-SLOT); generic Ada arena/slot parameters and empty cases need explicit bounds.",
+      "evidence_class": "observed source plus conditional static growth reasoning"
+    },
+    {
+      "id": "H3",
+      "ruling": "Correct reference hierarchy: nonrecursive primitive Posts, linear self-recursion in public Posts, iterative worker invariant reconstruction, repeated Magnitude/Value evaluation. PR calls are a proxy rather than exact allocations or elapsed work; runtime threshold is assessed in item 2.",
+      "evidence_class": "observed source plus static recurrence reasoning; exact JACKAL arithmetic"
+    },
+    {
+      "id": "H4",
+      "ruling": "Check-path uniqueness distinction is supported. Correct direct Sum versus Contained and excluded-row scan cost (C-SUM). Wire decoding repeats checked Decode/equality work.",
+      "evidence_class": "observed source plus conditional static reasoning"
+    },
+    {
+      "id": "H5",
+      "ruling": "Can_Reserve success-path column and Post structure and Try_Reserve Matching_Prefix amplification are supported. Sum_Equals's displayed class is for the success path; its mismatch invokes recursive modulus/quotient witnesses and is not covered by that headline.",
+      "evidence_class": "observed source plus success-path static reasoning"
+    },
+    {
+      "id": "H6",
+      "ruling": "Prior-disk invariant/reference reevaluation is supported; add empty-roster memory work (C-EMPTY).",
+      "evidence_class": "observed source plus conditional static reasoning"
+    },
+    {
+      "id": "H7",
+      "ruling": "Pending, completion and history structures are supported. Owner/retry full exported-path claims need correction and retracing (C-OWNER); explicitly untraced completion/finalization exports remain unverified.",
+      "evidence_class": "observed source plus partial static call-graph reasoning"
+    },
+    {
+      "id": "H8",
+      "ruling": "The listed quantifiers rescan processed prefixes and nested references under Check. Treat classes as source-level worst-case component envelopes; early existential/universal termination and byte-comparison extents matter. Initialized itself is not a runtime proof of validity; Decode/equality quantifiers supply the listed work.",
+      "evidence_class": "observed assertion sites plus conditional static reasoning"
+    },
+    {
+      "id": "H9",
+      "ruling": "Ghost snapshots, Old captures and linear recursion depth are present. Native primary/secondary stack layout, peak live heap, copy elision and exhaustion behavior are not determined statically.",
+      "evidence_class": "observed source; resource-layout estimates remain reasoning-only"
+    },
+    {
+      "id": "H10",
+      "ruling": "Catch-all exception mapping in the cited wrappers is real for propagated Ada exceptions. It does not establish catchability of a stack/process failure or successful completion; these outcomes are not accepted semantic refusals.",
+      "evidence_class": "observed handlers plus conditional static failure reasoning"
+    },
+    {
+      "id": "H11",
+      "ruling": "Prefix and Tagged_Matches add bounded-size checks at the inspected sites and retain executable recursion. The checked overhead is a source-model constant factor, not a bound on total parser work or native recursion resources.",
+      "evidence_class": "observed source plus conditional static reasoning"
+    }
+  ],
+  "jackal_records": [
+    {
+      "id": "R-CHAIN-BRANCHES",
+      "input": {
+        "expression": "1+1"
+      },
+      "tool": "jackal_exact",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=1+1 exact=2 approx=2\",\"fields\":{\"approx\":\"2\",\"exact\":\"2\",\"parsed\":\"1+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1 exact=2 approx=2",
+          "fields": {
+            "approx": "2",
+            "exact": "2",
+            "parsed": "1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-CHAIN-POSTS",
+      "input": {
+        "expression": "2*(1+3)"
+      },
+      "tool": "jackal_exact",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*(1+3) exact=8 approx=8\",\"fields\":{\"approx\":\"8\",\"exact\":\"8\",\"parsed\":\"2*(1+3)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=2*(1+3) exact=8 approx=8",
+          "fields": {
+            "approx": "8",
+            "exact": "8",
+            "parsed": "2*(1+3)",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-CHAIN-N10",
+      "input": {
+        "expression": "9*2^11-10-10"
+      },
+      "tool": "jackal_exact",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=9*2^11-10-10 exact=18412 approx=18412\",\"fields\":{\"approx\":\"18412\",\"exact\":\"18412\",\"parsed\":\"9*2^11-10-10\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=9*2^11-10-10 exact=18412 approx=18412",
+          "fields": {
+            "approx": "18412",
+            "exact": "18412",
+            "parsed": "9*2^11-10-10",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-CHAIN-N30",
+      "input": {
+        "expression": "9*2^31-30-10"
+      },
+      "tool": "jackal_exact",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=9*2^31-30-10 exact=19327352792 approx=19327352792\",\"fields\":{\"approx\":\"19327352792\",\"exact\":\"19327352792\",\"parsed\":\"9*2^31-30-10\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=9*2^31-30-10 exact=19327352792 approx=19327352792",
+          "fields": {
+            "approx": "19327352792",
+            "exact": "19327352792",
+            "parsed": "9*2^31-30-10",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-PV-L1",
+      "input": {
+        "expression": "1*(1+1)*(1^2+11*1+12)/6"
+      },
+      "tool": "jackal_exact",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=1*(1+1)*(1^2+11*1+12)/6 exact=8 approx=8\",\"fields\":{\"approx\":\"8\",\"exact\":\"8\",\"parsed\":\"1*(1+1)*(1^2+11*1+12)/6\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1*(1+1)*(1^2+11*1+12)/6 exact=8 approx=8",
+          "fields": {
+            "approx": "8",
+            "exact": "8",
+            "parsed": "1*(1+1)*(1^2+11*1+12)/6",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-PV-L2",
+      "input": {
+        "expression": "2*(2+1)*(2^2+11*2+12)/6"
+      },
+      "tool": "jackal_exact",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*(2+1)*(2^2+11*2+12)/6 exact=38 approx=38\",\"fields\":{\"approx\":\"38\",\"exact\":\"38\",\"parsed\":\"2*(2+1)*(2^2+11*2+12)/6\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=2*(2+1)*(2^2+11*2+12)/6 exact=38 approx=38",
+          "fields": {
+            "approx": "38",
+            "exact": "38",
+            "parsed": "2*(2+1)*(2^2+11*2+12)/6",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-VALUE-PV",
+      "input": {
+        "expression": "2*2"
+      },
+      "tool": "jackal_exact",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*2 exact=4 approx=4\",\"fields\":{\"approx\":\"4\",\"exact\":\"4\",\"parsed\":\"2*2\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=2*2 exact=4 approx=4",
+          "fields": {
+            "approx": "4",
+            "exact": "4",
+            "parsed": "2*2",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-COMPARE-FIXED",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+16"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=3+3+8+12+16 exact=42 approx=42\",\"fields\":{\"approx\":\"42\",\"exact\":\"42\",\"parsed\":\"3+3+8+12+16\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=3+3+8+12+16 exact=42 approx=42",
+          "fields": {
+            "approx": "42",
+            "exact": "42",
+            "parsed": "3+3+8+12+16",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-COMPARE-ITERATION",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*2+2*2"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*2+2*2 exact=8 approx=8\",\"fields\":{\"approx\":\"8\",\"exact\":\"8\",\"parsed\":\"2*2+2*2\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=2*2+2*2 exact=8 approx=8",
+          "fields": {
+            "approx": "8",
+            "exact": "8",
+            "parsed": "2*2+2*2",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-COMPARE-TOP-GREATER",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+4+4+16"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=3+3+8+12+4+4+16 exact=50 approx=50\",\"fields\":{\"approx\":\"50\",\"exact\":\"50\",\"parsed\":\"3+3+8+12+4+4+16\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=3+3+8+12+4+4+16 exact=50 approx=50",
+          "fields": {
+            "approx": "50",
+            "exact": "50",
+            "parsed": "3+3+8+12+4+4+16",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-COMPARE-TOP-LESS",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+4+4+8"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=3+3+8+12+4+4+8 exact=42 approx=42\",\"fields\":{\"approx\":\"42\",\"exact\":\"42\",\"parsed\":\"3+3+8+12+4+4+8\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=3+3+8+12+4+4+8 exact=42 approx=42",
+          "fields": {
+            "approx": "42",
+            "exact": "42",
+            "parsed": "3+3+8+12+4+4+8",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "id": "R-SUM-PREFIX-COUNT",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x*(x+1)/2-(x-1)*x/2",
+        "rhs": "x"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP tool call requires approval, but approval policy is never"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "id": "R-SLOT-COUNT",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x*(x-1)/2+2*x",
+        "rhs": "(x^2+3*x)/2"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP tool call requires approval, but approval policy is never"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "id": "R-CHAIN-SUBSTITUTION",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x-2+8*(x-1)",
+        "rhs": "9*x-10"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP tool call requires approval, but approval policy is never"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "id": "R-CHAIN-INDUCTION",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "1+2*(2*x-1)",
+        "rhs": "4*x-1"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP tool call requires approval, but approval policy is never"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "id": "R-SLOT-N3",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3*(3-1)/2+2*3"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=3*(3-1)/2+2*3 exact=9 approx=9\",\"fields\":{\"approx\":\"9\",\"exact\":\"9\",\"parsed\":\"3*(3-1)/2+2*3\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=3*(3-1)/2+2*3 exact=9 approx=9",
+          "fields": {
+            "approx": "9",
+            "exact": "9",
+            "parsed": "3*(3-1)/2+2*3",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    }
+  ],
+  "proof_acceptance": false,
+  "native_acceptance": false,
+  "phase_acceptance": false
+}

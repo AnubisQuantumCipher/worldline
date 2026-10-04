@@ -1,0 +1,1296 @@
+{
+  "schema": "claude-analysis-review-checkpoint-v1",
+  "item": 2,
+  "status": "completed",
+  "analysis_sha256": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+  "data_sha256": "a7b43eb71220349dcb9e07772b51f8664d9f9bb8354a3939f3825a6683b81f62",
+  "section_markdown": "## 2. Closed forms, instances, growth and installed runtime\n\n**Ruling: the main invocation formulas and all successful exact-arithmetic instance claims reproduce; allocation wording and some composite cost terms need correction.** The mathematical recurrence arguments below are independent reviewer reasoning from source, not a machine-checked program proof. JACKAL supplies every derived numerical coefficient, residual and instance reported here.\n\nFor the chain reference, the observed body and Post give P(0)=1 and P(n)=1+2P(n-1) on normal completion (`S/core/worldline-chain_authority.adb:7-12`, `ads:80-86`). Substituting the proposed P(n)=2^(n+1)-1 satisfies that recurrence algebraically. Replay's loop checks P(c) for c from zero through the predecessor of n, and its Post pays two complete prefix trees; Wire.Decide's successful result conjunction adds three Replay_Reference calls, each paying two complete trees (`adb:87-92`, `ads:112-114`, `worldline-chain_authority_wire.ads:61-72`). Thus the independent source expression is sum[P(c), c<n]+8P(n), with sum[P(c), c<n]=2^(n+1)-2-n, giving **9*2^(n+1)-n-10**. JACKAL exact coefficient arithmetic returns 9 from parsed=1+8 and -10 from parsed=-2-8. The direct Ada Replay expression uses two complete trees, giving **3*2^(n+1)-n-4**; JACKAL returns 3 from parsed=1+2 and -4 from parsed=-2-2. The invocation growth is exponential; successful nonbase Prefix_Reference also evaluates Link in its body and Prefix_Step. This is conditional source evaluation, not observed native SHA work.\n\nFor quantity references, let p(e) count Power_Reference calls in one Power_Reference evaluation, and r(c) count those calls inside Prefix_Reference. The single-body recurrences and nonrecursive sign Posts give p(e)=e+1 and r(c)=c(c+1)/2 (`resource_quantities.ads:40-56`). A checked radix worker pays its current-index invariant sum, predecessor-index invariant sum, two final predecessor evaluations and its Post. This yields **w(e)=e²+3e+1**, including the separate base case (`adb:97-137`). The public radix Post adds its predecessor's entire checked evaluation, p(e), and p(e-1), so **RP(e)-RP(e-1)=e²+5e+2**, RP(0)=2, and **RP(e)=(e³+9e²+14e+6)/3** (`ads:58-67`). The independent coefficient residuals parsed=3/3-1, parsed=(-3+2*9)/3-5 and parsed=(1-9+14)/3-2 all return exact 0. They check the coefficient arithmetic in the finite-difference argument; they are not JACKAL symbolic identity certificates.\n\nLet S(c)=sum[r(k)+p(k), k<c]. Its proposed closed form is (c³-c)/6+(c²+c)/2. For positive c, the prefix worker pays S(c)+S(c-1)+2r(c-1)+2p(c-1)+r(c), producing **PVW(c)=(c³+6c²+5c)/3**, with PVW(0)=0 (`adb:147-203`). The public Post adds PV(c-1)+RP(c-1)+r(c)+r(c-1)+p(c-1), giving **PV(c)-PV(c-1)=(2c³+15c²+7c)/3**, PV(0)=0, and **PV(c)=c(c+1)(c²+11c+12)/6** (`ads:69-83`). Independent JACKAL arithmetic checks the expanded coefficients (parsed=11+1 → exact 12; parsed=12+11 → exact 23); the finite-difference residuals parsed=4/6-2/3, parsed=(-6+3*(11+1))/6-15/3, parsed=(4-3*(11+1)+2*(12+11))/6-7/3, and parsed=(-1+11+1-(12+11)+12)/6 each return exact 0. Separate source-recurrence substitutions at the displayed small prefix cases also return exact 0; their complete parsed expressions are retained in the JACKAL appendix and checks.json.\n\n| Source-model count | JACKAL status | parsed= | exact result | Reproduces |\n|---|---|---|---|---|\n| C chain, n=10 | exact | 9*2^11-10-10 | 18412 | yes |\n| C chain, n=30 | exact | 9*2^31-30-10 | 19327352792 | yes |\n| Ada Replay, n=30 | exact | 3*2^31-30-4 | 6442450910 | yes |\n| PV(0) | exact | 0*(0+1)*(0^2+11*0+12)/6 | 0 | yes |\n| PV(1) | exact | 1*(1+1)*(1^2+11*1+12)/6 | 8 | yes |\n| PV(2) | exact | 2*(2+1)*(2^2+11*2+12)/6 | 38 | yes |\n| PV(8) | exact | 8*(8+1)*(8^2+11*8+12)/6 | 1968 | yes |\n| PV(32) | exact | 32*(32+1)*(32^2+11*32+12)/6 | 244288 | yes |\n| PV(128) | exact | 128*(128+1)*(128^2+11*128+12)/6 | 48996608 | yes |\n| PV(803) | exact | 803*(803+1)*(803^2+11*803+12)/6 | 70334477708 | yes |\n\nMagnitude's body/Post each call Prefix_Value; Value's body/Post each call Magnitude (`adb:210-226`, `ads:85-96`). Their factors reproduce. Equal nonnegative Compare pays the fixed and per-iteration PV terms described in item 1; its PV-term instances and the inventory's remaining successful exact-arithmetic instances reproduce independently. These are evaluation counts, not the values of the quantities themselves.\n\nThe stated primitive growth classes follow in the source limb-work model: Power_Reference Θ(e²), Prefix_Reference Θ(c³), radix worker Θ(e³), public Radix_Power Θ(e⁴), prefix worker Θ(c⁴), public Prefix_Value/Magnitude/Value Θ(c⁵), and worst-case successful Compare Θ(L⁶). Multiplication by a fixed one-digit radix costs work proportional to the growing operand length, as supported by the installed nested multiplication loops (`RT/s-genbig.adb:579-615`). The extra exponent in limb work is not inferred merely by multiplying the invocation count by the maximum exponent: the sums contain growing-index evaluations that supply the corresponding lower-bound family. These complexity arguments are unverified reviewer reasoning; JACKAL exact arithmetic does not certify them. Installed finite resource failures truncate evaluations, so these are growth models for normally completed reference work, not literal completion asymptotics across arbitrarily large inputs on this runtime. Composite classes additionally require the successful-path, uniqueness and comparable-extent qualifications in item 1.\n\n**C-UNIT:** `INVENTORY.md:114,125-129` overstates the allocation unit. Boolean comparisons have no Big_Integer result allocation (`RT/a-nbnbin.adb:106-145`), while multiplication does allocate through Big_Mul (`:502-507`). The exponent-zero PR body has no multiplication, and nonzero bodies also convert the radix (`resource_quantities.ads:40-45`). Controlled adjustment/finalization and predicates add costs (`RT/a-nbnbin.adb:604-620`, `a-nbnbin.ads:35-62`). The polynomial allocation estimate can remain a source-model estimate; the exact PR count must not be advertised as an exact count of allocations, literal conversions or machine operations.\n\n**Representation cliff: supported conditionally on the inspected runtime implementation, not measured.** The inspected rename uses Ada.Numerics.Big_Numbers.Big_Integers (`S/core/spark-big_integers.ads:30`). Digits are base 2^32 (`RT/s-shabig.ads:46-55`), and Normalize rejects when its significant-digit count minus one exceeds Bignum_Limit=200 (`RT/s-genbig.adb:1176-1194`). Fresh exact JACKAL results are: parsed=200+1 → 201 permitted significant words; parsed=804*8 → 6432; parsed=32*201 → 6432; parsed=6432/32+1 → 202 needed words for 2^6432; parsed=803*8 → 6424; parsed=6424/32 → 803/4. Thus the power at exponent 804 exceeds this limit, whereas the exponent-803 power does not exceed this particular limit. “Fits” means the digit limit only: it establishes neither stack nor heap sufficiency.\n\nPrefix_Value_Worker multiplies Place to the full radix power after the final digit (`resource_quantities.adb:179-181`), so even small numeric values in a valid, sufficiently long zero-padded span reach this power construction. Prefix_Reference instead reaches the predecessor exponent (`ads:51-53`). The author's differing boundary statements for those routines are therefore structurally supported. Python ledger capacities use the observed max-length-plus-one provisioning and accumulate them into the total workspace; headroom uses max-length-plus-two (`runtime/worldline/resource_ledger.py:161-172,237-247`). JACKAL exact parsed=804/2 returns 402 and parsed=804-2 returns 802. Those are conditional reachability thresholds, not assurances that every such input reaches the same line before any other failure.\n\nPropagated exceptions are caught as -1 by chain and run-ledger C wrappers, and as 255 by ledger, resources and resource policy (`worldline-chain_authority_c_api.adb:99-102`, `resource_run_ledger_c_api.adb:219-222`, `worldline-resource_ledger_c_api.adb:176,223`, `worldline-resources_c_api.adb:64`, `worldline-resource_policy_c_api.adb:182`). The Python ledger wrapper converts its nonzero transport return to CoreUnavailable (`resource_ledger.py:180-181,245-247`). **C-LOC:** the inventory's chain call/handler line numbers and run-ledger handler line number are wrong in its own hash-matched source. The generic-mapping conclusion remains correct. Actual linked runtime identity, exception/catch behavior after physical exhaustion, native wall time and stack/heap bounds remain OPEN.\n\n**JACKAL boundary.** Successful numerical reproductions have status **exact**, assurance “exact rational arithmetic (not yet checker-covered)”, formal=false, and these verbatim non_claims:\n\n- NOT formal-bounded: this lane carries no Lean-checked certificate\n- The epistemic class above is the STRONGEST claim this result supports\n- exact rational arithmetic (not yet checker-covered)\n\nThe arithmetic supports informational conclusions about the stated counts; it does not certify program correctness or native behavior. Independent jackal_poly_eq attempts were rejected with “MCP tool call requires approval, but approval policy is never”. This is an environment approval block, not a mathematical refusal. No blocked symbolic result is counted as a reproduction or replaced by a purported certificate. The algebraic recurrence derivations above are explicitly unverified reviewer reasoning. Full fresh inputs, parsed forms, statuses, non_claims and errors are retained in checks.json.",
+  "corrections": [
+    {
+      "id": "C-SLOT",
+      "claim": "INVENTORY.md:278 gives the Storage_Sufficient slot term as Θ(N·S⁴).",
+      "correction": "The successful invariant checks each earlier slot again, in addition to the body and Post. The slot term is Θ(N²·S⁴) for uniform independently varying slot length S. This does not change the dominant Θ(N⁶) Python-sized, bounded-value family.",
+      "evidence": [
+        "S/core/resource_ledger.adb:848-854",
+        "S/core/resource_ledger.adb:862-863",
+        "S/core/resource_ledger.ads:153-158",
+        "JACKAL R-SLOT-N3"
+      ]
+    },
+    {
+      "id": "C-SUM",
+      "claim": "H4 / INVENTORY.md:693 and inventory.json hazards group direct Contained/Sum as Θ(N³·L⁵).",
+      "correction": "Sum alone performs quadratic, not cubic, worst-case Value work through its processed-prefix invariant. Cubic Value work belongs to Contained with repeated parent identities. The Check-path distinction based on Shape uniqueness is sound. Sum_Reference also scans excluded rows and identity bytes, so its cost cannot depend only on the number of included rows.",
+      "evidence": [
+        "S/core/resource_run_ledger.adb:49-64",
+        "S/core/resource_run_ledger.adb:70-89",
+        "S/core/resource_run_ledger.ads:195-209",
+        "S/core/resource_run_ledger.ads:229-235"
+      ]
+    },
+    {
+      "id": "C-OWNER",
+      "claim": "H7 / INVENTORY.md:617,696 summarize owner/retry exports as fixed Θ(L⁶); Appendix A:916 labels Retry_Equation O(H·id).",
+      "correction": "Individual epoch comparisons have fixed multiplicity, but retry authorization and audit traverse whole histories. Retry_Holds, Retry_Reference and Retry_Equation call History_Valid, and audit Same_Prefix calls Same_Row with Same_Epoch per row. The whole exported paths require history-dependent terms and a full trace; they are not fixed Θ(L⁶) or O(H·id).",
+      "evidence": [
+        "S/core/worldline-owner_transitions.adb:21-38",
+        "S/core/worldline-owner_transitions.adb:48-50",
+        "S/core/worldline-owner_transitions.ads:134-151",
+        "S/core/worldline-owner_retry_audit.ads:38-42",
+        "S/core/worldline-owner_retry_audit.adb:26-28",
+        "S/core/worldline-owner_retry_audit.adb:61-69",
+        "S/core/evaluation_history.ads:203-217",
+        "S/core/worldline-c_api.adb:1015",
+        "S/core/worldline-c_api.adb:1112-1152"
+      ]
+    },
+    {
+      "id": "C-EMPTY",
+      "claim": "H6 / INVENTORY.md:595 states Θ(D²·L⁵ + D·L⁶) without a nonempty-disk qualification.",
+      "correction": "Empty disk rosters still execute Check_Capacity and its checked numeric relation. Include that fixed memory-quantity cost or state explicitly that the displayed class is a nonempty, comparable-extent worst-case envelope. Similar composite Θ expressions are not equalities for every short-circuit path.",
+      "evidence": [
+        "S/core/resource_admission.adb:233-276",
+        "S/core/resource_admission.adb:180-206",
+        "S/core/resource_admission.ads:130-151"
+      ]
+    },
+    {
+      "id": "C-UNIT",
+      "claim": "INVENTORY.md:114 says every Big_Integer operation allocates its result; :125-129 describes each PR invocation as exactly one multiply/result allocation/Post literal/variant.",
+      "correction": "Comparisons return Boolean without allocating a Big_Integer result. PR invocations remain a valid source call-count unit, but the exponent-zero body has no multiply, nonzero bodies also convert 256, and predicates/controlled copies add work. Do not report the invocation count as an exact allocation or machine instruction count. The stated polynomial limb-work classes remain conditional source-model reasoning.",
+      "evidence": [
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:106-145",
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:502-507",
+        "S/core/resource_quantities.ads:40-45",
+        "G/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb:604-620"
+      ]
+    },
+    {
+      "id": "C-LOC",
+      "claim": "INVENTORY.md:372-373,673-674 cites chain C API call/handler at lines 114/117 and run-ledger handler at 221.",
+      "correction": "In the hash-matched candidate, the chain W.Decide call is line 99 and exception handler line 102. The run-ledger handler is line 222; line 221 is the normal return 0. The failure-mapping conclusion survives, but these evidence locations must be repaired.",
+      "evidence": [
+        "S/core/worldline-chain_authority_c_api.adb:99-102",
+        "S/core/resource_run_ledger_c_api.adb:219-222"
+      ]
+    }
+  ],
+  "jackal_records": [
+    {
+      "id": "R-CHAIN-BRANCHES",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "1+1"
+      },
+      "status": "exact",
+      "parsed": "1+1",
+      "exact": "2",
+      "formal": false
+    },
+    {
+      "id": "R-CHAIN-POSTS",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*(1+3)"
+      },
+      "status": "exact",
+      "parsed": "2*(1+3)",
+      "exact": "8",
+      "formal": false
+    },
+    {
+      "id": "R-CHAIN-N10",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "9*2^11-10-10"
+      },
+      "status": "exact",
+      "parsed": "9*2^11-10-10",
+      "exact": "18412",
+      "formal": false
+    },
+    {
+      "id": "R-CHAIN-N30",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "9*2^31-30-10"
+      },
+      "status": "exact",
+      "parsed": "9*2^31-30-10",
+      "exact": "19327352792",
+      "formal": false
+    },
+    {
+      "id": "R-PV-L1",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "1*(1+1)*(1^2+11*1+12)/6"
+      },
+      "status": "exact",
+      "parsed": "1*(1+1)*(1^2+11*1+12)/6",
+      "exact": "8",
+      "formal": false
+    },
+    {
+      "id": "R-PV-L2",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*(2+1)*(2^2+11*2+12)/6"
+      },
+      "status": "exact",
+      "parsed": "2*(2+1)*(2^2+11*2+12)/6",
+      "exact": "38",
+      "formal": false
+    },
+    {
+      "id": "R-VALUE-PV",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*2"
+      },
+      "status": "exact",
+      "parsed": "2*2",
+      "exact": "4",
+      "formal": false
+    },
+    {
+      "id": "R-COMPARE-FIXED",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+16"
+      },
+      "status": "exact",
+      "parsed": "3+3+8+12+16",
+      "exact": "42",
+      "formal": false
+    },
+    {
+      "id": "R-COMPARE-ITERATION",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "2*2+2*2"
+      },
+      "status": "exact",
+      "parsed": "2*2+2*2",
+      "exact": "8",
+      "formal": false
+    },
+    {
+      "id": "R-COMPARE-TOP-GREATER",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+4+4+16"
+      },
+      "status": "exact",
+      "parsed": "3+3+8+12+4+4+16",
+      "exact": "50",
+      "formal": false
+    },
+    {
+      "id": "R-COMPARE-TOP-LESS",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3+3+8+12+4+4+8"
+      },
+      "status": "exact",
+      "parsed": "3+3+8+12+4+4+8",
+      "exact": "42",
+      "formal": false
+    },
+    {
+      "id": "R-SUM-PREFIX-COUNT",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x*(x+1)/2-(x-1)*x/2",
+        "rhs": "x"
+      },
+      "error": [
+        {
+          "type": "text",
+          "text": "MCP tool call requires approval, but approval policy is never"
+        }
+      ]
+    },
+    {
+      "id": "R-SLOT-COUNT",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x*(x-1)/2+2*x",
+        "rhs": "(x^2+3*x)/2"
+      },
+      "error": [
+        {
+          "type": "text",
+          "text": "MCP tool call requires approval, but approval policy is never"
+        }
+      ]
+    },
+    {
+      "id": "R-CHAIN-SUBSTITUTION",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "x-2+8*(x-1)",
+        "rhs": "9*x-10"
+      },
+      "error": [
+        {
+          "type": "text",
+          "text": "MCP tool call requires approval, but approval policy is never"
+        }
+      ]
+    },
+    {
+      "id": "R-CHAIN-INDUCTION",
+      "tool": "jackal_poly_eq",
+      "input": {
+        "lhs": "1+2*(2*x-1)",
+        "rhs": "4*x-1"
+      },
+      "error": [
+        {
+          "type": "text",
+          "text": "MCP tool call requires approval, but approval policy is never"
+        }
+      ]
+    },
+    {
+      "id": "R-SLOT-N3",
+      "tool": "jackal_exact",
+      "input": {
+        "expression": "3*(3-1)/2+2*3"
+      },
+      "status": "exact",
+      "parsed": "3*(3-1)/2+2*3",
+      "exact": "9",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J03",
+      "tool": "jackal_exact",
+      "input": "(2^1-1)+(2^2-1)+(2^3-1)+(2^4-1)+(2^5-1)",
+      "purpose": "explicit loop-invariant sum, n=5",
+      "author_result": "57",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1+2^2-1+2^3-1+2^4-1+2^5-1",
+      "exact": "57",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J04",
+      "tool": "jackal_exact",
+      "input": "2^6 - 2 - 5",
+      "purpose": "closed form 2^(n+1)-2-n at n=5",
+      "author_result": "57",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^6-2-5",
+      "exact": "57",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J05",
+      "tool": "jackal_exact",
+      "input": "((2^1-1)+(2^2-1)+(2^3-1)) + 8*(2^4-1)",
+      "purpose": "explicit C-call total, n=3",
+      "author_result": "131",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1+2^2-1+2^3-1+8*(2^4-1)",
+      "exact": "131",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J07",
+      "tool": "jackal_exact",
+      "input": "2^1 - 1",
+      "purpose": "chain base P(0)",
+      "author_result": "1",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1",
+      "exact": "1",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J08",
+      "tool": "jackal_exact",
+      "input": "9*2^4 - 3 - 10",
+      "purpose": "closed C-call total n=3",
+      "author_result": "131",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^4-3-10",
+      "exact": "131",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J09",
+      "tool": "jackal_exact",
+      "input": "((2^1-1)+(2^2-1)+(2^3-1)) + 2*(2^4-1)",
+      "purpose": "explicit Ada Replay total, n=3",
+      "author_result": "41",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1+2^2-1+2^3-1+2*(2^4-1)",
+      "exact": "41",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J10",
+      "tool": "jackal_exact",
+      "input": "3*2^4 - 3 - 4",
+      "purpose": "closed Ada Replay total, n=3",
+      "author_result": "41",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "3*2^4-3-4",
+      "exact": "41",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J11",
+      "tool": "jackal_exact",
+      "input": "((2^1-1)+(2^2-1)+(2^3-1)) + ((2^2-1)+(2^3-1)+(2^4-1)) + 8*(2^4-1)",
+      "purpose": "explicit packet-14 success total, n=3",
+      "author_result": "156",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^1-1+2^2-1+2^3-1+2^2-1+2^3-1+2^4-1+8*(2^4-1)",
+      "exact": "156",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J12",
+      "tool": "jackal_exact",
+      "input": "11*2^4 - 2*3 - 14",
+      "purpose": "closed packet-14 success total, n=3",
+      "author_result": "156",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "11*2^4-2*3-14",
+      "exact": "156",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J13",
+      "tool": "jackal_exact",
+      "input": "9*2^2 - 1 - 10",
+      "purpose": "C-call total n=1",
+      "author_result": "25",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^2-1-10",
+      "exact": "25",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J14",
+      "tool": "jackal_exact",
+      "input": "9*2^11 - 10 - 10",
+      "purpose": "C-call total n=10",
+      "author_result": "18412",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^11-10-10",
+      "exact": "18412",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J15",
+      "tool": "jackal_exact",
+      "input": "9*2^21 - 20 - 10",
+      "purpose": "C-call total n=20",
+      "author_result": "18874338",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^21-20-10",
+      "exact": "18874338",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J16",
+      "tool": "jackal_exact",
+      "input": "9*2^31 - 30 - 10",
+      "purpose": "C-call total n=30",
+      "author_result": "19327352792",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^31-30-10",
+      "exact": "19327352792",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J17",
+      "tool": "jackal_exact",
+      "input": "9*2^41 - 40 - 10",
+      "purpose": "C-call total n=40",
+      "author_result": "19791209299918",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^41-40-10",
+      "exact": "19791209299918",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J18",
+      "tool": "jackal_exact",
+      "input": "9*2^65 - 64 - 10",
+      "purpose": "C-call total n=64",
+      "author_result": "332041393326771929014",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "9*2^65-64-10",
+      "exact": "332041393326771929014",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J19",
+      "tool": "jackal_exact",
+      "input": "11*2^11 - 2*10 - 14",
+      "purpose": "packet-14 total n=10",
+      "author_result": "22494",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "11*2^11-2*10-14",
+      "exact": "22494",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J20",
+      "tool": "jackal_exact",
+      "input": "11*2^21 - 2*20 - 14",
+      "purpose": "packet-14 total n=20",
+      "author_result": "23068618",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "11*2^21-2*20-14",
+      "exact": "23068618",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J21",
+      "tool": "jackal_exact",
+      "input": "11*2^31 - 2*30 - 14",
+      "purpose": "packet-14 total n=30",
+      "author_result": "23622320054",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "11*2^31-2*30-14",
+      "exact": "23622320054",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J22",
+      "tool": "jackal_exact",
+      "input": "3*2^31 - 30 - 4",
+      "purpose": "Ada Replay total n=30",
+      "author_result": "6442450910",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "3*2^31-30-4",
+      "exact": "6442450910",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J23",
+      "tool": "jackal_exact",
+      "input": "2*(2^2-1)",
+      "purpose": "Link calls in P(2) by enumeration",
+      "author_result": "6",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*(2^2-1)",
+      "exact": "6",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J24",
+      "tool": "jackal_exact",
+      "input": "2^3 - 2",
+      "purpose": "Link calls closed form 2^(n+1)-2 at n=2",
+      "author_result": "6",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^3-2",
+      "exact": "6",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J32",
+      "tool": "jackal_exact",
+      "input": "(0^3 + 9*0^2 + 14*0 + 6)/3",
+      "purpose": "RP(0)",
+      "author_result": "2",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(0^3+9*0^2+14*0+6)/3",
+      "exact": "2",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J33",
+      "tool": "jackal_exact",
+      "input": "1*(1+1)*(1^2 + 11*1 + 12)/6",
+      "purpose": "PV(1)",
+      "author_result": "8",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "1*(1+1)*(1^2+11*1+12)/6",
+      "exact": "8",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J34",
+      "tool": "jackal_exact",
+      "input": "2*(2+1)*(2^2 + 11*2 + 12)/6",
+      "purpose": "PV(2)",
+      "author_result": "38",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*(2+1)*(2^2+11*2+12)/6",
+      "exact": "38",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J35",
+      "tool": "jackal_exact",
+      "input": "8*(8+1)*(8^2 + 11*8 + 12)/6",
+      "purpose": "PV(8)",
+      "author_result": "1968",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "8*(8+1)*(8^2+11*8+12)/6",
+      "exact": "1968",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J36",
+      "tool": "jackal_exact",
+      "input": "32*(32+1)*(32^2 + 11*32 + 12)/6",
+      "purpose": "PV(32)",
+      "author_result": "244288",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "32*(32+1)*(32^2+11*32+12)/6",
+      "exact": "244288",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J37",
+      "tool": "jackal_exact",
+      "input": "128*(128+1)*(128^2 + 11*128 + 12)/6",
+      "purpose": "PV(128)",
+      "author_result": "48996608",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "128*(128+1)*(128^2+11*128+12)/6",
+      "exact": "48996608",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J38",
+      "tool": "jackal_exact",
+      "input": "803*(803+1)*(803^2 + 11*803 + 12)/6",
+      "purpose": "PV(803)",
+      "author_result": "70334477708",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "803*(803+1)*(803^2+11*803+12)/6",
+      "exact": "70334477708",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J39",
+      "tool": "jackal_exact",
+      "input": "20*(20+1)*(20^2 + 11*20 + 12)/6",
+      "purpose": "PV(T) at T=20",
+      "author_result": "44240",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "20*(20+1)*(20^2+11*20+12)/6",
+      "exact": "44240",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J40",
+      "tool": "jackal_exact",
+      "input": "100*(100+1)*(100^2 + 11*100 + 12)/6",
+      "purpose": "PV(T) at T=100",
+      "author_result": "18705200",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "100*(100+1)*(100^2+11*100+12)/6",
+      "exact": "18705200",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J41",
+      "tool": "jackal_exact",
+      "input": "200*(200+1)*(200^2 + 11*200 + 12)/6",
+      "purpose": "PV(T) at T=200",
+      "author_result": "282820400",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "200*(200+1)*(200^2+11*200+12)/6",
+      "exact": "282820400",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J42",
+      "tool": "jackal_exact",
+      "input": "3 + 3 + 8 + 12 + 16",
+      "purpose": "Compare fixed PV evaluations (equal operands)",
+      "author_result": "42",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "3+3+8+12+16",
+      "exact": "42",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J43",
+      "tool": "jackal_exact",
+      "input": "4*1968",
+      "purpose": "Value(8)",
+      "author_result": "7872",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "4*1968",
+      "exact": "7872",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J44",
+      "tool": "jackal_exact",
+      "input": "4*244288",
+      "purpose": "Value(32)",
+      "author_result": "977152",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "4*244288",
+      "exact": "977152",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J45",
+      "tool": "jackal_exact",
+      "input": "4*70334477708",
+      "purpose": "Value(803)",
+      "author_result": "281337910832",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "4*70334477708",
+      "exact": "281337910832",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J46",
+      "tool": "jackal_exact",
+      "input": "(8*8 + 42)*1968",
+      "purpose": "Compare PV-term PR invocations at L=8",
+      "author_result": "208608",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(8*8+42)*1968",
+      "exact": "208608",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J47",
+      "tool": "jackal_exact",
+      "input": "(8*32 + 42)*244288",
+      "purpose": "Compare PV-term PR invocations at L=32",
+      "author_result": "72797824",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(8*32+42)*244288",
+      "exact": "72797824",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J48",
+      "tool": "jackal_exact",
+      "input": "(8*803 + 42)*70334477708",
+      "purpose": "Compare PV-term PR invocations at L=803",
+      "author_result": "454782732859928",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(8*803+42)*70334477708",
+      "exact": "454782732859928",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J49",
+      "tool": "jackal_exact",
+      "input": "804*8",
+      "purpose": "bits of 256^804",
+      "author_result": "6432",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "804*8",
+      "exact": "6432",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J50",
+      "tool": "jackal_exact",
+      "input": "32*201",
+      "purpose": "bits in 201 words",
+      "author_result": "6432",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "32*201",
+      "exact": "6432",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J51",
+      "tool": "jackal_exact",
+      "input": "803*8",
+      "purpose": "bits of 256^803",
+      "author_result": "6424",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "803*8",
+      "exact": "6424",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J52",
+      "tool": "jackal_exact",
+      "input": "200 + 1",
+      "purpose": "maximum significant words (Bignum_Limit + 1)",
+      "author_result": "201",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "200+1",
+      "exact": "201",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J53",
+      "tool": "jackal_exact",
+      "input": "804/2",
+      "purpose": "rows of 1-byte values at which T reaches 804",
+      "author_result": "402",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "804/2",
+      "exact": "402",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J54",
+      "tool": "jackal_exact",
+      "input": "2*4 + 3*4",
+      "purpose": "Amount PV evaluations",
+      "author_result": "20",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*4+3*4",
+      "exact": "20",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J55",
+      "tool": "jackal_exact",
+      "input": "6 + 8 + 12 + 4 + 4 + 16",
+      "purpose": "Compare PV evaluations, Greater at top byte",
+      "author_result": "50",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "6+8+12+4+4+16",
+      "exact": "50",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J56",
+      "tool": "jackal_exact",
+      "input": "6 + 8 + 12 + 4 + 4 + 8",
+      "purpose": "Compare PV evaluations, Less at top byte",
+      "author_result": "42",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "6+8+12+4+4+8",
+      "exact": "42",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J57",
+      "tool": "jackal_exact",
+      "input": "3*4",
+      "purpose": "Amount_Reference PV evaluations",
+      "author_result": "12",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "3*4",
+      "exact": "12",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J58",
+      "tool": "jackal_exact",
+      "input": "2*2 + 2*2",
+      "purpose": "Compare PV evaluations per loop iteration",
+      "author_result": "8",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*2+2*2",
+      "exact": "8",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J59",
+      "tool": "jackal_exact",
+      "input": "1 + (2+1) + (2+2) + 3",
+      "purpose": "Radix_Power_Worker(2) by enumeration",
+      "author_result": "11",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "1+2+1+2+2+3",
+      "exact": "11",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J60",
+      "tool": "jackal_exact",
+      "input": "2^2 + 3*2 + 1",
+      "purpose": "Radix_Power_Worker(2) formula",
+      "author_result": "11",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^2+3*2+1",
+      "exact": "11",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J61",
+      "tool": "jackal_exact",
+      "input": "(0+1) + (1+2) + (0+1) + (2*1 + 2*2) + 3",
+      "purpose": "Prefix_Value_Worker(2) by enumeration",
+      "author_result": "14",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "0+1+1+2+0+1+2*1+2*2+3",
+      "exact": "14",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J62",
+      "tool": "jackal_exact",
+      "input": "(2^3 + 6*2^2 + 5*2)/3",
+      "purpose": "Prefix_Value_Worker(2) formula",
+      "author_result": "14",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(2^3+6*2^2+5*2)/3",
+      "exact": "14",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J63",
+      "tool": "jackal_exact",
+      "input": "(1^3 + 9*1^2 + 14*1 + 6)/3",
+      "purpose": "RP(1) formula",
+      "author_result": "10",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(1^3+9*1^2+14*1+6)/3",
+      "exact": "10",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J64",
+      "tool": "jackal_exact",
+      "input": "(1^2 + 3*1 + 1) + 2 + (1+1) + 1",
+      "purpose": "RP(1) by enumeration",
+      "author_result": "10",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "1^2+3*1+1+2+1+1+1",
+      "exact": "10",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J66",
+      "tool": "jackal_exact",
+      "input": "2*(2 + 4)",
+      "purpose": "Row_Reference Value evaluations",
+      "author_result": "12",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*(2+4)",
+      "exact": "12",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J67",
+      "tool": "jackal_exact",
+      "input": "12*4",
+      "purpose": "Row_Reference PV evaluations",
+      "author_result": "48",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "12*4",
+      "exact": "48",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J68",
+      "tool": "jackal_exact",
+      "input": "(0^3 - 0)/6 + (0^2 + 0)/2",
+      "purpose": "S(0)",
+      "author_result": "0",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(0^3-0)/6+(0^2+0)/2",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J69",
+      "tool": "jackal_exact",
+      "input": "0*(0+1)*(0^2 + 11*0 + 12)/6",
+      "purpose": "PV(0)",
+      "author_result": "0",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "0*(0+1)*(0^2+11*0+12)/6",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J70",
+      "tool": "jackal_exact",
+      "input": "(0+1)^2",
+      "purpose": "Worldline.Resources Prefix_Value(0) count",
+      "author_result": "1",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(0+1)^2",
+      "exact": "1",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J71",
+      "tool": "jackal_exact",
+      "input": "(0^3 + 6*0^2 + 5*0)/3",
+      "purpose": "PVW(0)",
+      "author_result": "0",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(0^3+6*0^2+5*0)/3",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J72",
+      "tool": "jackal_exact",
+      "input": "6432/32 + 1",
+      "purpose": "words needed for 2^6432",
+      "author_result": "202",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "6432/32+1",
+      "exact": "202",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J73",
+      "tool": "jackal_exact",
+      "input": "6424/32",
+      "purpose": "word position of the top bit of 2^6424",
+      "author_result": "803/4 (approx 200.75)",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "6424/32",
+      "exact": "803/4",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J74",
+      "tool": "jackal_exact",
+      "input": "804 - 2",
+      "purpose": "headroom failure length",
+      "author_result": "802",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "804-2",
+      "exact": "802",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J79",
+      "tool": "jackal_exact",
+      "input": "1 + 1",
+      "purpose": "Links per nonzero Prefix_Reference invocation; Python capacity of a 1-byte row",
+      "author_result": "2",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "1+1",
+      "exact": "2",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J80",
+      "tool": "jackal_exact",
+      "input": "2*(1 + 3)",
+      "purpose": "P(n) evaluations from Replay and Decide Posts",
+      "author_result": "8",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*(1+3)",
+      "exact": "8",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J81",
+      "tool": "jackal_exact",
+      "input": "2*2",
+      "purpose": "PV evaluations per Value",
+      "author_result": "4",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2*2",
+      "exact": "4",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J82",
+      "tool": "jackal_exact",
+      "input": "4*4",
+      "purpose": "PV evaluations in four Value calls",
+      "author_result": "16",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "4*4",
+      "exact": "16",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J83",
+      "tool": "jackal_exact",
+      "input": "2 + 4",
+      "purpose": "Withheld_Reference Value evaluations",
+      "author_result": "6",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2+4",
+      "exact": "6",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J84",
+      "tool": "jackal_exact",
+      "input": "(2*3+1)*(2^2-1) + (2^5 - 2^2 - 3)",
+      "purpose": "packet-14 early-return addition, closed form, n=3, c=0",
+      "author_result": "46",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "(2*3+1)*(2^2-1)+2^5-2^2-3",
+      "exact": "46",
+      "formal": false
+    },
+    {
+      "id": "REPRO-J85",
+      "tool": "jackal_exact",
+      "input": "(2^2-1) + (2*(2^2-1) + (2^4-1)) + (2*(2^2-1) + (2^3-1)) + (2*(2^2-1) + (2^2-1))",
+      "purpose": "packet-14 early-return addition, enumeration, n=3, c=0",
+      "author_result": "46",
+      "reproduced": true,
+      "status": "exact",
+      "parsed": "2^2-1+2*(2^2-1)+2^4-1+2*(2^2-1)+2^3-1+2*(2^2-1)+2^2-1",
+      "exact": "46",
+      "formal": false
+    },
+    {
+      "id": "R-RP-DIFF-QUADRATIC",
+      "tool": "jackal_exact",
+      "input": "3/3-1",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "3/3-1",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-RP-DIFF-LINEAR",
+      "tool": "jackal_exact",
+      "input": "(-3+2*9)/3-5",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(-3+2*9)/3-5",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-RP-DIFF-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "(1-9+14)/3-2",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(1-9+14)/3-2",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-PV-EXPANDED-CUBIC",
+      "tool": "jackal_exact",
+      "input": "11+1",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "11+1",
+      "exact": "12",
+      "formal": false
+    },
+    {
+      "id": "R-PV-EXPANDED-QUADRATIC",
+      "tool": "jackal_exact",
+      "input": "12+11",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "12+11",
+      "exact": "23",
+      "formal": false
+    },
+    {
+      "id": "R-PV-DIFF-CUBIC",
+      "tool": "jackal_exact",
+      "input": "4/6-2/3",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "4/6-2/3",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-PV-DIFF-QUADRATIC",
+      "tool": "jackal_exact",
+      "input": "(-6+3*(11+1))/6-15/3",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(-6+3*(11+1))/6-15/3",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-PV-DIFF-LINEAR",
+      "tool": "jackal_exact",
+      "input": "(4-3*(11+1)+2*(12+11))/6-7/3",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(4-3*(11+1)+2*(12+11))/6-7/3",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-PV-DIFF-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "(-1+(11+1)-(12+11)+12)/6",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(-1+11+1-(12+11)+12)/6",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-RP-WORKER-RECURRENCE",
+      "tool": "jackal_exact",
+      "input": "(2^3+9*2^2+14*2+6)/3-((1^3+9*1^2+14*1+6)/3+(2^2+3*2+1)+(2+1)+2)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(2^3+9*2^2+14*2+6)/3-((1^3+9*1^2+14*1+6)/3+2^2+3*2+1+2+1+2)",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-PV-RECURRENCE-L1",
+      "tool": "jackal_exact",
+      "input": "1*(1+1)*(1^2+11*1+12)/6-(0+(1^3+6*1^2+5*1)/3+(0^3+9*0^2+14*0+6)/3+1*(1+1)/2+0*(0+1)/2+1)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "1*(1+1)*(1^2+11*1+12)/6-(0+(1^3+6*1^2+5*1)/3+(0^3+9*0^2+14*0+6)/3+1*(1+1)/2+0*(0+1)/2+1)",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-PV-RECURRENCE-L2",
+      "tool": "jackal_exact",
+      "input": "2*(2+1)*(2^2+11*2+12)/6-(1*(1+1)*(1^2+11*1+12)/6+(2^3+6*2^2+5*2)/3+(1^3+9*1^2+14*1+6)/3+2*(2+1)/2+1*(1+1)/2+2)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "2*(2+1)*(2^2+11*2+12)/6-(1*(1+1)*(1^2+11*1+12)/6+(2^3+6*2^2+5*2)/3+(1^3+9*1^2+14*1+6)/3+2*(2+1)/2+1*(1+1)/2+2)",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-PV-RECURRENCE-L3",
+      "tool": "jackal_exact",
+      "input": "3*(3+1)*(3^2+11*3+12)/6-(2*(2+1)*(2^2+11*2+12)/6+(3^3+6*3^2+5*3)/3+(2^3+9*2^2+14*2+6)/3+3*(3+1)/2+2*(2+1)/2+3)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "3*(3+1)*(3^2+11*3+12)/6-(2*(2+1)*(2^2+11*2+12)/6+(3^3+6*3^2+5*3)/3+(2^3+9*2^2+14*2+6)/3+3*(3+1)/2+2*(2+1)/2+3)",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-RP-RECURRENCE-L3",
+      "tool": "jackal_exact",
+      "input": "(3^3+9*3^2+14*3+6)/3-((2^3+9*2^2+14*2+6)/3+(3^2+3*3+1)+(3+1)+3)",
+      "purpose": "independent recurrence and coefficient arithmetic",
+      "status": "exact",
+      "parsed": "(3^3+9*3^2+14*3+6)/3-((2^3+9*2^2+14*2+6)/3+3^2+3*3+1+3+1+3)",
+      "exact": "0",
+      "formal": false
+    },
+    {
+      "id": "R-CHAIN-C-COEFFICIENT",
+      "tool": "jackal_exact",
+      "input": "1+8",
+      "purpose": "closed-form rederivation arithmetic",
+      "status": "exact",
+      "parsed": "1+8",
+      "exact": "9",
+      "formal": false
+    },
+    {
+      "id": "R-CHAIN-C-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "-2-8",
+      "purpose": "closed-form rederivation arithmetic",
+      "status": "exact",
+      "parsed": "-2-8",
+      "exact": "-10",
+      "formal": false
+    },
+    {
+      "id": "R-CHAIN-ADA-COEFFICIENT",
+      "tool": "jackal_exact",
+      "input": "1+2",
+      "purpose": "closed-form rederivation arithmetic",
+      "status": "exact",
+      "parsed": "1+2",
+      "exact": "3",
+      "formal": false
+    },
+    {
+      "id": "R-CHAIN-ADA-CONSTANT",
+      "tool": "jackal_exact",
+      "input": "-2-2",
+      "purpose": "closed-form rederivation arithmetic",
+      "status": "exact",
+      "parsed": "-2-2",
+      "exact": "-4",
+      "formal": false
+    }
+  ],
+  "jackal_exact_non_claims": [
+    "NOT formal-bounded: this lane carries no Lean-checked certificate",
+    "The epistemic class above is the STRONGEST claim this result supports",
+    "exact rational arithmetic (not yet checker-covered)"
+  ],
+  "proof_acceptance": false,
+  "native_acceptance": false,
+  "phase_acceptance": false
+}

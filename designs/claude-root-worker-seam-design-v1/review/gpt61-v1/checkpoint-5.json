@@ -1,0 +1,278 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "additional_fact_checks": [
+    {
+      "claim": "C2 involves projection rounding",
+      "correction": "Projection_Valid requires zero remainder and exact division; no accepted rounding lane is specified.",
+      "evidence": [
+        "D:285-286",
+        "R/core/resource_scoped_run_ledger.ads:149-152"
+      ],
+      "id": "F-11",
+      "status": "CORRECTED"
+    },
+    {
+      "claim": "Changing HELD delegation expectation closes Delegate=yes root nesting",
+      "correction": "The native Custody predicate requires Manager_Delegate=no; a separately reviewed additive native successor is required.",
+      "evidence": [
+        "D:677-682",
+        "R/core/resource_observation_classification.ads:79-114",
+        "R/core/resource_scoped_run_ledger.ads:232-268"
+      ],
+      "id": "F-12",
+      "status": "DESIGN_CONFLICT"
+    },
+    {
+      "claim": "Committed effect must never enter native use quarantine and physical settlement always needs CLOSED",
+      "correction": "COMMITTED canonical evidence stays immutable, while original native use quarantine and NEVER_LAUNCHED held-capacity release must remain available.",
+      "evidence": [
+        "D:792,802-812",
+        "R/core/worldline-operation_authority.adb:129-130",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:521,562"
+      ],
+      "id": "F-13",
+      "status": "DESIGN_CONFLICT_WITH_ORIGINAL_CASES"
+    },
+    {
+      "claim": "All original controls retained while the frontier control may be retired by review and lead adoption",
+      "correction": "Retain the original version/domain control and add successor positives; retirement/re-enrollment is not granted here.",
+      "evidence": [
+        "D:411-414,1196-1198",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105",
+        "P1:29,153,162"
+      ],
+      "id": "F-14",
+      "status": "INTERNAL_DESIGN_CONFLICT"
+    }
+  ],
+  "complete": true,
+  "different_from_author": true,
+  "item": 5,
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "report_section": "5. Weakening and assumption audit; required changes and rulings\n\nVerdict: ENDORSED_WITH_REQUIRED_CHANGES. The architecture directions can preserve the original requirement, but this packet cannot be implemented unchanged. The endorsement applies to revised design work only. It accepts no source, proof, native behavior, control campaign or Phase One outcome.\n\nThe explicit no-flattening, no-startup-initialization, no-EOF/handler-return settlement, no-domain-cap, no-failure-as-refusal and no-source-review-as-proof invariants are retained. The problems are concrete ways the proposed implementation could fail those invariants: a restrictive/vacuous refinement domain; source tags without native semantics or authenticity; a first-root budget restricting later requests; delegation inconsistent with the classifier; caller-only ownership authorization; ambiguous ACK/ABANDON branches; record identity mislabeled OFD custody; copied/retained credentials relabeled fresh; loss of native quarantine or never-launched release; frontier retirement; and self-referential/incomplete sealing.\n\nDo not add an assumption to resolve any of these. Complete body/reference, caller, flow, RTE, termination, native semantic/cost, checked-Ghost, physical/custody and producer authenticity obligations stay required. Keep the original decision order, named cases, strict warnings, assertion behavior, proof floor and sole boundary. A C helper, a renamed predicate, a successful value fixture, a signed/MAC'd label, hash agreement or a documented OPEN gap does not establish acceptance (PROMPT:32-34,64-66; P1:27-29,119,129-131,153-164; RW:43).\n\nEvery original register ID is carried as OPEN in review.json, including later-roadmap/COSMOGONY rows and their original dependencies/owners. The observed register has 219 unique IDs from OB-001 through OB-219. This review closes none; proof_acceptance=false, phase_acceptance=false, source_acceptance=false.\n\nRequired changes:\nRC-01: Define the scoped canonical spec, complete arena/span/decision mapping, structural embedding and non-circular coherent witness relation; prove original accepted/refusal coverage later. Correct the rounding claim and distinguish fresh reservation from retained rollover/lifecycle cases.\nReason: C2 adds history/current/Facts relations absent from the original flat Reference; single-frame identity factors alone do not establish equality or full-domain compatibility.\nEvidence: D:217-246,285-288,315,1220,1234-1238; R/core/worldline-canonical_operation.adb:10-32; R/core/resource_run_ledger.ads:223-282; R/core/resource_scoped_run_ledger.ads:92-152,215-268,303-312.\n\nRC-02: Specify canonical comparable source records and native enforcement of distinct authenticated source domains for every RootController pair; define full dynamic plan/cost and real enforced capacity correspondence.\nReason: Independent sourcing or a digest in an opaque field alone does not close OB-030. Comparing differently encoded records can make every positive fail; ceilings alone do not establish OB-176's reservation guarantee.\nEvidence: D:868-907; P1/OBLIGATIONS-v2.json:1043; P1/ALL-ORIGINAL-OBLIGATIONS.md:587,3507; R/core/worldline-resource_child_execution.ads:48-59; P1:125-137.\n\nRC-03: Replace the Delegate=yes-only proposal with a separately reviewed additive native delegation/custody model and actual enforcement/provenance design; preserve the old no-delegation model, Parent_Supports, Original_Holds and every original child case.\nReason: Native Custody still requires Manager_Delegate=no and is consumed by scoped classification. A Python HELD change cannot satisfy the unchanged native conjunction.\nEvidence: D:674-725; R/core/resource_observation_classification.ads:79-114; R/core/resource_scoped_run_ledger.ads:232-268; R/core/worldline-resource_child_execution.ads:127-133,203-230; P1:97.\n\nRC-04: Make native custody legality mandatory; define an exclusive CUSTODY_ACK/ABANDON graph, complete durable CAS generations and crash/ACK/seed/reconstruction rules, independent physical collection and lossless acyclic retention.\nReason: ABANDON must never transition to WORKER_OWNED. A head-conditioned append and a read-only capture alone do not establish ownership/freshness through mutation; deduplication alone is no OOM or cost proof.\nEvidence: D:1084-1147,1180,1311; R/runtime/worldline/root_worker_journal.py:123-143; P1:101,113-115,147-149,163.\n\nRC-05: Retain every original required control and roster, including the unchanged v1 frontier control on its exact version/domain; add v2 controls. Remove lead-only retirement authority and expose any concrete re-enrollment proposal for explicit applicable adjudication.\nReason: The proposed supersession contradicts I10.3 and the fixed no-dropped-controls requirement. Historical retention is not matching-candidate execution credit.\nEvidence: D:411-414,1186-1198; R/protected-startup/controls/test_protected_startup_v1.py:97-105; P1:29,153,162; P1/REQUIRED-LIFETIME-CONTROLS.json:23.\n\nRC-06: Leave in-coordinator option A unselected until a full-domain accounting design covers independent grants/owners/kinds/costs/rollovers and requests larger than the first root hold; specify actual owner/recovery authority in every phase and availability beyond router-lock changes.\nReason: Parent_Supports constrains kind and parent budget. The first request's hold can impose a new refusal domain; UNKNOWN has no known owner to forward to. Synchronous work can still stall other requests.\nEvidence: D:562-626; R/core/resource_run_ledger.ads:247-262; R/runtime/worldline/protected_operations.py:728-745,391-397; RW:31; P1:113-115,127,141-149.\n\nRC-07: Separate canonical committed outcome, native use quarantine, custody and physical resource states. Preserve native QUARANTINE_USE/K4 recovery and NEVER_LAUNCHED held-capacity release, terminal replay and serial semantics; keep write-once original result plus additive reports.\nReason: A committed exchange must remain committed, while the original kernel admits quarantine from Effect_Observed. CLOSED-only settlement wording excludes an original no-launch release case.\nEvidence: D:779-812; R/core/worldline-operation_authority.adb:129-130,147-152; R/runtime/worldline/protected_operations.py:391-397,770-811; R/runtime/worldline/protected_scoped_resource_runtime.py:517-524,558-565; RW:33.\n\nRC-08: Define full slot/drain transfer barriers, buffered/in-flight bytes, durable positions, acknowledgments, failure ownership, OFD/lock custody and genuine helper/outer-wait producer retention or relay.\nReason: A pipe byte offset and matching fstat identity do not prove lossless transfer or ownership; descriptor transfer alone does not confer reaping rights. Original other-LIVE positives must remain required.\nEvidence: D:484-527,1102-1109; R/runtime/worldline/protected_root_observation.py:57-97,122-142; RW:30; P1:113-115,125-127.\n\nRC-09: Define explicit native requester correspondence and authenticated socket/host-record custody. Label retained observations separately from fresh reads; preserve exited/delegated/same-UID-new-process and full UID/GID domains without a new live-client or fresh-pidfd acceptance precondition.\nReason: The crosswalk cannot acquire authority by returning old bytes under a new exact type, fstat equality, sender PID labels or an opaque digest. Kernel namespace/exited-peer behavior remains unmeasured.\nEvidence: D:939-941,961-1009; R/runtime/worldline/client_peer.py:58-89,110-117; R/runtime/worldline/root_worker_custody.py:183-207; RW:35; P1:119,137,149.\n\nRC-10: Use reviewed appended effective pin overrides plus an external exact inventory/freeze for the manifest itself and all source/control/project/header/helper/dependency files; enroll every new native semantic unit and retain the full original strict scope.\nReason: A self-content hash produces a seal cycle. Ada-oriented normalized pins do not replace exact Python/C identities. C hardening and source review do not establish full-body/native/cost proof.\nEvidence: D:1177-1203; R/runtime/worldline/proof_manifest.py:420-450,622-638,1012; L/origin.json:2-7; P1:129-131,153-164.\n\nRC-11: Repair the spec/body/integration dependency DAG; bind reviewed C-API and scoped committed-envelope lineages separately. Correct operator-item scope for protected runtime versus pure value work and draft publication; retain Optional_Marker and paused frame/capacity/storage gates.\nReason: The slice plan omits consumed slot/crosswalk/historical schemas and implementations. The live STATUS is not operating-state evidence; source-only review grants no authority to resume paused infrastructure.\nEvidence: D:1219-1238,1245-1291; seams.json:operator_items OP-7/OP-8; LEAD/STATUS.md:8-24,38-46; P1:121,153-166,177-181; PROMPT:72-74; RW:13,45.\n\nRC-12: Complete startup version/loader/schema/creation-slot correspondence and a native full-ledger reconciliation table that automatically completes authentic known outcomes, retains all uncertain holds and preserves the protected owner route without initializing absent prior state.\nReason: Blanket dead-worker quarantine-to-owner handling can lose required automatic reconciliation progress; diagnostic startup must not fabricate mutable authority or missing history.\nEvidence: D:372-423,429-438; R/runtime/worldline/protected_startup.py:264-270,467-472; R/runtime/worldline/root_worker_journal.py:43-62,85-114; P1:99,147-149; P1/ALL-ORIGINAL-OBLIGATIONS.md:3687.\n\nRulings:\nD-1a: C2 is a plausible lifted model, not an established faithful equivalence as written. Exact divisible projection replaces the draft's rounding description; require RC-01 with full-domain coverage and no changes to original references.\nOwner: Lead source designer; independent GPT-6.1 source/spec reviewer.\nEvidence required: Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls.\n\nD-1b: Epoch equality alone is insufficient. Fresh new reservations obey native current-context equality; retained replay/rollover needs a complete proved origin/current/authority join and must preserve original lifecycle cases. Use Same_Context, not record equality.\nOwner: Lead scoped model/caller designer; independent GPT-6.1 reviewer.\nEvidence required: Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof.\n\nD-2a: Prefer an additive exact v2 descriptor, selected by schema, with v1 behavior and controls retained. No implicit migration, defaults, bypass or missing-history genesis.\nOwner: Lead authors schema/callers; operator provisions or installs authoritative state.\nEvidence required: Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls.\n\nD-2b: No lead-only retirement of the mandatory frontier control. Keep exact v1/domain behavior and additive v2 controls; any proposed re-enrollment must be explicitly adjudicated while the original obligation remains OPEN.\nOwner: Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review.\nEvidence required: Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit.\n\nD-3a: Transfer complete V3 slot custody; do not require prior terminal state as a domain restriction. The transfer protocol still needs RC-08.\nOwner: Lead protocol designer; operator for lab execution.\nEvidence required: Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection.\n\nD-4a: No accounting option is selected for acceptance. A may be explored only if it preserves all original independent-request accepted cases and real cost/parent/availability guarantees; otherwise choose or design a faithful alternative.\nOwner: Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change.\nEvidence required: Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls.\n\nD-5a: Delegate=yes is not endorsed as a complete native design. Require an additive native custody/delegation successor, unchanged original predicates/cases and a concrete coordinator enforcement argument before operator deployment choice.\nOwner: Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action.\nEvidence required: Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls.\n\nD-5b: Prefer a separately versioned helper successor, preserving the exact V3/helper-stdin lineage and old controls. Extending V3 in place is not needed to obtain source design credit.\nOwner: Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation.\nEvidence required: Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations.\n\nD-6a: Keep canonical COMMITTED immutable; permit the original native use-quarantine/K4 domain when needed for uncertainty. Define orthogonal outcome/use/resource/custody states rather than selecting a blanket ban on quarantine.\nOwner: Lead historical/canonical model designer; independent GPT-6.1 review.\nEvidence required: Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement.\n\nD-7a: Independent sourcing alone does not close OB-030. Native Decide/Well_Formed must consume/enforce the distinct source-record domains or tags and canonical payload relation; use an additive grammar/version and preserve original references/ABI.\nOwner: Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration.\nEvidence required: Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation.\n\nD-8a: Choose explicit native semantic correspondence inputs, carried by authentic producers. A producer-only label or digest in opaque current_source is insufficient.\nOwner: Lead OS/native requester designer; independent GPT-6.1 review.\nEvidence required: Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage.\n\nD-8b: Do not add a blanket fresh-pidfd or still-live-client precondition. Retain original kernel socket/credential evidence under authenticated custody and define the exited-peer path; absent evidence remains explicit and unresolved where correspondence cannot be established.\nOwner: Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review.\nEvidence required: Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client.\n\nD-9a: Yes: native custody-phase legality is mandatory because it determines who may mutate. Preserve exclusive ACK/ABANDON branches and authentic durable redecision under the actual CAS.\nOwner: Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign.\nEvidence required: Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes.\n\n",
+  "required_changes": [
+    {
+      "change": "Define the scoped canonical spec, complete arena/span/decision mapping, structural embedding and non-circular coherent witness relation; prove original accepted/refusal coverage later. Correct the rounding claim and distinguish fresh reservation from retained rollover/lifecycle cases.",
+      "evidence": [
+        "D:217-246,285-288,315,1220,1234-1238",
+        "R/core/worldline-canonical_operation.adb:10-32",
+        "R/core/resource_run_ledger.ads:223-282",
+        "R/core/resource_scoped_run_ledger.ads:92-152,215-268,303-312"
+      ],
+      "id": "RC-01",
+      "reason": "C2 adds history/current/Facts relations absent from the original flat Reference; single-frame identity factors alone do not establish equality or full-domain compatibility."
+    },
+    {
+      "change": "Specify canonical comparable source records and native enforcement of distinct authenticated source domains for every RootController pair; define full dynamic plan/cost and real enforced capacity correspondence.",
+      "evidence": [
+        "D:868-907",
+        "P1/OBLIGATIONS-v2.json:1043",
+        "P1/ALL-ORIGINAL-OBLIGATIONS.md:587,3507",
+        "R/core/worldline-resource_child_execution.ads:48-59",
+        "P1:125-137"
+      ],
+      "id": "RC-02",
+      "reason": "Independent sourcing or a digest in an opaque field alone does not close OB-030. Comparing differently encoded records can make every positive fail; ceilings alone do not establish OB-176's reservation guarantee."
+    },
+    {
+      "change": "Replace the Delegate=yes-only proposal with a separately reviewed additive native delegation/custody model and actual enforcement/provenance design; preserve the old no-delegation model, Parent_Supports, Original_Holds and every original child case.",
+      "evidence": [
+        "D:674-725",
+        "R/core/resource_observation_classification.ads:79-114",
+        "R/core/resource_scoped_run_ledger.ads:232-268",
+        "R/core/worldline-resource_child_execution.ads:127-133,203-230",
+        "P1:97"
+      ],
+      "id": "RC-03",
+      "reason": "Native Custody still requires Manager_Delegate=no and is consumed by scoped classification. A Python HELD change cannot satisfy the unchanged native conjunction."
+    },
+    {
+      "change": "Make native custody legality mandatory; define an exclusive CUSTODY_ACK/ABANDON graph, complete durable CAS generations and crash/ACK/seed/reconstruction rules, independent physical collection and lossless acyclic retention.",
+      "evidence": [
+        "D:1084-1147,1180,1311",
+        "R/runtime/worldline/root_worker_journal.py:123-143",
+        "P1:101,113-115,147-149,163"
+      ],
+      "id": "RC-04",
+      "reason": "ABANDON must never transition to WORKER_OWNED. A head-conditioned append and a read-only capture alone do not establish ownership/freshness through mutation; deduplication alone is no OOM or cost proof."
+    },
+    {
+      "change": "Retain every original required control and roster, including the unchanged v1 frontier control on its exact version/domain; add v2 controls. Remove lead-only retirement authority and expose any concrete re-enrollment proposal for explicit applicable adjudication.",
+      "evidence": [
+        "D:411-414,1186-1198",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105",
+        "P1:29,153,162",
+        "P1/REQUIRED-LIFETIME-CONTROLS.json:23"
+      ],
+      "id": "RC-05",
+      "reason": "The proposed supersession contradicts I10.3 and the fixed no-dropped-controls requirement. Historical retention is not matching-candidate execution credit."
+    },
+    {
+      "change": "Leave in-coordinator option A unselected until a full-domain accounting design covers independent grants/owners/kinds/costs/rollovers and requests larger than the first root hold; specify actual owner/recovery authority in every phase and availability beyond router-lock changes.",
+      "evidence": [
+        "D:562-626",
+        "R/core/resource_run_ledger.ads:247-262",
+        "R/runtime/worldline/protected_operations.py:728-745,391-397",
+        "RW:31",
+        "P1:113-115,127,141-149"
+      ],
+      "id": "RC-06",
+      "reason": "Parent_Supports constrains kind and parent budget. The first request's hold can impose a new refusal domain; UNKNOWN has no known owner to forward to. Synchronous work can still stall other requests."
+    },
+    {
+      "change": "Separate canonical committed outcome, native use quarantine, custody and physical resource states. Preserve native QUARANTINE_USE/K4 recovery and NEVER_LAUNCHED held-capacity release, terminal replay and serial semantics; keep write-once original result plus additive reports.",
+      "evidence": [
+        "D:779-812",
+        "R/core/worldline-operation_authority.adb:129-130,147-152",
+        "R/runtime/worldline/protected_operations.py:391-397,770-811",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:517-524,558-565",
+        "RW:33"
+      ],
+      "id": "RC-07",
+      "reason": "A committed exchange must remain committed, while the original kernel admits quarantine from Effect_Observed. CLOSED-only settlement wording excludes an original no-launch release case."
+    },
+    {
+      "change": "Define full slot/drain transfer barriers, buffered/in-flight bytes, durable positions, acknowledgments, failure ownership, OFD/lock custody and genuine helper/outer-wait producer retention or relay.",
+      "evidence": [
+        "D:484-527,1102-1109",
+        "R/runtime/worldline/protected_root_observation.py:57-97,122-142",
+        "RW:30",
+        "P1:113-115,125-127"
+      ],
+      "id": "RC-08",
+      "reason": "A pipe byte offset and matching fstat identity do not prove lossless transfer or ownership; descriptor transfer alone does not confer reaping rights. Original other-LIVE positives must remain required."
+    },
+    {
+      "change": "Define explicit native requester correspondence and authenticated socket/host-record custody. Label retained observations separately from fresh reads; preserve exited/delegated/same-UID-new-process and full UID/GID domains without a new live-client or fresh-pidfd acceptance precondition.",
+      "evidence": [
+        "D:939-941,961-1009",
+        "R/runtime/worldline/client_peer.py:58-89,110-117",
+        "R/runtime/worldline/root_worker_custody.py:183-207",
+        "RW:35",
+        "P1:119,137,149"
+      ],
+      "id": "RC-09",
+      "reason": "The crosswalk cannot acquire authority by returning old bytes under a new exact type, fstat equality, sender PID labels or an opaque digest. Kernel namespace/exited-peer behavior remains unmeasured."
+    },
+    {
+      "change": "Use reviewed appended effective pin overrides plus an external exact inventory/freeze for the manifest itself and all source/control/project/header/helper/dependency files; enroll every new native semantic unit and retain the full original strict scope.",
+      "evidence": [
+        "D:1177-1203",
+        "R/runtime/worldline/proof_manifest.py:420-450,622-638,1012",
+        "L/origin.json:2-7",
+        "P1:129-131,153-164"
+      ],
+      "id": "RC-10",
+      "reason": "A self-content hash produces a seal cycle. Ada-oriented normalized pins do not replace exact Python/C identities. C hardening and source review do not establish full-body/native/cost proof."
+    },
+    {
+      "change": "Repair the spec/body/integration dependency DAG; bind reviewed C-API and scoped committed-envelope lineages separately. Correct operator-item scope for protected runtime versus pure value work and draft publication; retain Optional_Marker and paused frame/capacity/storage gates.",
+      "evidence": [
+        "D:1219-1238,1245-1291",
+        "seams.json:operator_items OP-7/OP-8",
+        "LEAD/STATUS.md:8-24,38-46",
+        "P1:121,153-166,177-181",
+        "PROMPT:72-74",
+        "RW:13,45"
+      ],
+      "id": "RC-11",
+      "reason": "The slice plan omits consumed slot/crosswalk/historical schemas and implementations. The live STATUS is not operating-state evidence; source-only review grants no authority to resume paused infrastructure."
+    },
+    {
+      "change": "Complete startup version/loader/schema/creation-slot correspondence and a native full-ledger reconciliation table that automatically completes authentic known outcomes, retains all uncertain holds and preserves the protected owner route without initializing absent prior state.",
+      "evidence": [
+        "D:372-423,429-438",
+        "R/runtime/worldline/protected_startup.py:264-270,467-472",
+        "R/runtime/worldline/root_worker_journal.py:43-62,85-114",
+        "P1:99,147-149",
+        "P1/ALL-ORIGINAL-OBLIGATIONS.md:3687"
+      ],
+      "id": "RC-12",
+      "reason": "Blanket dead-worker quarantine-to-owner handling can lose required automatic reconciliation progress; diagnostic startup must not fabricate mutable authority or missing history."
+    }
+  ],
+  "rulings": [
+    {
+      "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls.",
+      "id": "D-1a",
+      "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer",
+      "ruling": "C2 is a plausible lifted model, not an established faithful equivalence as written. Exact divisible projection replaces the draft's rounding description; require RC-01 with full-domain coverage and no changes to original references."
+    },
+    {
+      "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof.",
+      "id": "D-1b",
+      "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer",
+      "ruling": "Epoch equality alone is insufficient. Fresh new reservations obey native current-context equality; retained replay/rollover needs a complete proved origin/current/authority join and must preserve original lifecycle cases. Use Same_Context, not record equality."
+    },
+    {
+      "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls.",
+      "id": "D-2a",
+      "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+      "ruling": "Prefer an additive exact v2 descriptor, selected by schema, with v1 behavior and controls retained. No implicit migration, defaults, bypass or missing-history genesis."
+    },
+    {
+      "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit.",
+      "id": "D-2b",
+      "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review",
+      "ruling": "No lead-only retirement of the mandatory frontier control. Keep exact v1/domain behavior and additive v2 controls; any proposed re-enrollment must be explicitly adjudicated while the original obligation remains OPEN."
+    },
+    {
+      "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection.",
+      "id": "D-3a",
+      "owner": "Lead protocol designer; operator for lab execution",
+      "ruling": "Transfer complete V3 slot custody; do not require prior terminal state as a domain restriction. The transfer protocol still needs RC-08."
+    },
+    {
+      "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls.",
+      "id": "D-4a",
+      "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change",
+      "ruling": "No accounting option is selected for acceptance. A may be explored only if it preserves all original independent-request accepted cases and real cost/parent/availability guarantees; otherwise choose or design a faithful alternative."
+    },
+    {
+      "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls.",
+      "id": "D-5a",
+      "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action",
+      "ruling": "Delegate=yes is not endorsed as a complete native design. Require an additive native custody/delegation successor, unchanged original predicates/cases and a concrete coordinator enforcement argument before operator deployment choice."
+    },
+    {
+      "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations.",
+      "id": "D-5b",
+      "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation",
+      "ruling": "Prefer a separately versioned helper successor, preserving the exact V3/helper-stdin lineage and old controls. Extending V3 in place is not needed to obtain source design credit."
+    },
+    {
+      "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement.",
+      "id": "D-6a",
+      "owner": "Lead historical/canonical model designer; independent GPT-6.1 review",
+      "ruling": "Keep canonical COMMITTED immutable; permit the original native use-quarantine/K4 domain when needed for uncertainty. Define orthogonal outcome/use/resource/custody states rather than selecting a blanket ban on quarantine."
+    },
+    {
+      "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation.",
+      "id": "D-7a",
+      "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration",
+      "ruling": "Independent sourcing alone does not close OB-030. Native Decide/Well_Formed must consume/enforce the distinct source-record domains or tags and canonical payload relation; use an additive grammar/version and preserve original references/ABI."
+    },
+    {
+      "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage.",
+      "id": "D-8a",
+      "owner": "Lead OS/native requester designer; independent GPT-6.1 review",
+      "ruling": "Choose explicit native semantic correspondence inputs, carried by authentic producers. A producer-only label or digest in opaque current_source is insufficient."
+    },
+    {
+      "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client.",
+      "id": "D-8b",
+      "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review",
+      "ruling": "Do not add a blanket fresh-pidfd or still-live-client precondition. Retain original kernel socket/credential evidence under authenticated custody and define the exited-peer path; absent evidence remains explicit and unresolved where correspondence cannot be established."
+    },
+    {
+      "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes.",
+      "id": "D-9a",
+      "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign",
+      "ruling": "Yes: native custody-phase legality is mandatory because it determines who may mutate. Preserve exclusive ACK/ABANDON branches and authentic durable redecision under the actual CAS."
+    }
+  ],
+  "schema": "claude-design-review-checkpoint-v1",
+  "source_acceptance": false,
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES"
+}

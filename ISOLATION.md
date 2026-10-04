@@ -82,6 +82,23 @@ All are preserved untouched, with no clearance claimed.
 
   Independent reviews of the content of any of these stand as content reviews only. They are not guard clearance.
 
+### C-API v3 drafter's own guard record (from its final report; preserved, no clearance)
+
+1. **19:29:13Z.** The Write tool refused `work/claude-capi-boundary-design-v3/DESIGN.md`. The refusal text, verbatim:
+
+   > "This subagent's parent bg session hasn't isolated yet, so writes to the shared checkout are blocked. Re-spawn this
+   > agent with `isolation: "worktree"`, have the parent call EnterWorktree before spawning, or make the edit inside a
+   > linked git worktree you create for this task with `git worktree add` — paths inside a worktree are accepted."
+
+   The message continues with a suggestion to disable the guard in `.claude/settings.json`. That suggestion was **not
+   acted on**; no setting was changed.
+2. **19:44Z.** Before the lead's correction reached it, the agent attempted one heredoc write under the then-permitted
+   fallback. It failed at process spawn (E2BIG) and wrote nothing. This is recorded as an attempted bypass that wrote
+   nothing.
+3. **Final files.** All four were then written once with the Write tool inside
+   `wt-1/designs/claude-capi-boundary-design-v3/`. The empty directory it had created at 19:17Z is preserved, and is
+   still empty.
+
 ### Running agents redirected
 
 The three other running agents were given the same guard-compatible destinations under `wt-1/designs/`. Their prompts
