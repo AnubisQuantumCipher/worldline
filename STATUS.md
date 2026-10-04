@@ -32,11 +32,14 @@ As of 2026-10-04 ~22:12Z. This file supersedes the stale status sections of the 
   - a 166 MB Codex rollout from a non-lead session.
 - The lead's own measurable additions since then are about 100 MB: review-record copies, job scratch, review rollouts.
 
+- **22:06:53Z** (`storage_status.py`): free 10516545536 bytes, 516545536 above the reserve, and `backup_service` is
+  still failed. The decline since 21:02:25Z was 8587264/967 bytes/s, about 8.9 KB/s. JACKAL exact, formal=false.
+
 **Lead response.**
-- No discretionary agents or copies are started.
-- The D2, root-worker seam and C-API v3 reviews have sealed. The D1 v3 review started when a runner slot freed
-  (20:41Z) and is still running.
-- The next review is the instructed one of the consolidated operator package, after D1 v3 seals.
+- Copies are kept to records.
+- The D2, root-worker seam, C-API v3 and D1 v3 reviews have all sealed.
+- The instructed package review started at 22:08Z.
+- One drafting agent (D1 v4) started at ~22:10Z. Agents are deliberately started one at a time.
 
 **Incident (disclosed).** A `find` over `~/.local` listed file metadata under `~/.local/share/sia/.gbrain/`. That
 breaks the machine rule "never access ~/.local/share/sia/.gbrain/ directly". It was metadata only: nothing was read or
@@ -50,7 +53,8 @@ written. Future scans exclude that path.
 | Composition commonV5-alpha (packets 01, 02, 04) | QUALIFIED_SOURCE_COMPOSITION | — |
 | Composition commonV5-beta (+05..09) | QUALIFIED_SOURCE_COMPOSITION (rulings 7a/7b; notes N on packets 05/06 metadata) | — |
 | C-API design v2 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC6; LD4 rejected as written) | v3 being drafted |
-| D1 native design v2 | NOT_ENDORSED (V2-RC1..RC6; RC4–RC7 still open) | v3 drafted; its review is running |
+| D1 native design v2 | NOT_ENDORSED (V2-RC1..RC6; RC4–RC7 still open) | superseded by v3 |
+| D1 native design v3 | ENDORSED_WITH_REQUIRED_CHANGES (V2-RC1..RC3 and RC4..RC6 CLOSED; V3-RC1 OD-2 codec/census, V3-RC2 controls/fixtures, V3-RC3 checked-cost model; R-OD1/R-OD2 operator architecture choices unselected) | DESIGN v4 drafting |
 | C-API design v3 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC3 CLOSED_AT_DESIGN_LEVEL; V3-RC4 binding spec, V3-RC5 PK-0 effect classification, V3-RC6 cost map NOT_CLOSED; D-13 operator choice on a concrete reviewed packet before PK-7; N-06 at deployment; N-01 lead-owned) | DESIGN v4 |
 | Root-worker seam design v1 | ENDORSED_WITH_REQUIRED_CHANGES (RC-01..RC-12; rulings D-1a..D-9a: `Delegate=yes` not endorsed, the frontier control cannot be retired by the lead, native custody-phase legality is mandatory) | v2 after operator decisions |
 | D2 checked-Ghost inventory v1 | ACCURATE_WITH_CORRECTIONS (12 corrections, hazard rulings H1–H11; see below) | Corrections carried here and into the package |
