@@ -35,6 +35,25 @@ As of 2026-10-04 ~19:30Z. This file supersedes the stale status sections of the 
 
 Ledger lineage (`wt-1/workflow`): 3187 items, 3026 OPEN, 161 DRAFTED, 0 verified.
 
+## D2 checked-build cost (static analysis; actual gpt-6.1-sol review running)
+
+Source: `wt-1/designs/claude-d2-checked-ghost-inventory-v1` (INVENTORY.md `e5b9984d…`). Everything here is derived
+by reasoning; nothing was measured. JACKAL exact, formal=false, for the arithmetic.
+
+**Hazards in the checked (`-gnata`, default) build:**
+- **Chain replay is exponential.** A successful replay costs 9·2^(n+1)−n−10 reference evaluations: 18412 at n=10,
+  19327352792 at n=30. The release build is linear.
+- **Resource-ledger compute is Θ(N⁶).** At an 804-byte buffer the checked build raises `Storage_Error`, which the C
+  wrapper maps to 255.
+- **Quantity references** are Θ(L⁶)–Θ(L⁷).
+
+**Packet deltas, to be weighed before any packet is promoted:**
+- **Packet 14** raises the replay cost to 11·2^(n+1)−2n−14. Still exponential, now worse.
+- **Packet 13** raises `Prefix_Tail`/`Prefix_Decomposition` costs, Θ(m³)→Θ(m·S³) and Θ(m·S³)→Θ(m²·S³).
+- **Packet 12** leaves every growth class unchanged.
+
+D2 stays OPEN.
+
 ## In progress
 
 - C-API boundary DESIGN v3 (drafting agent).
