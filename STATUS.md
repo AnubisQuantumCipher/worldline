@@ -323,6 +323,26 @@ own agents for that now".
 - **NEW OPEN OBLIGATION F32-CONFLICT.** Two original requirements conflict: OB-003 and those AUTHORIZED controls. The
   resolution must weaken neither. It needs its own design and independent review, and is not decided here.
 
+## W-1 v10 draft: safety-classifier stop (2026-10-05 ~18:40Z)
+
+**What happened.** The W-1 drafting agent's response was stopped by a safety classifier while it worked through the
+detailed asynchronous-holder refutation procedures and step-by-step privilege-boundary probes that W1-V9-ASYNC-ENUM and the
+E0 probe plan call for. The agent wrote nothing: `ISOLATION-STORAGE-PROPOSAL-v10.md` and `v10-support/` do not exist. No
+JACKAL call, WebFetch or edit. Nothing was interrupted.
+
+**How the lead is handling it.**
+- **Not reproduced.** The lead does not reproduce the blocked material, even reworded.
+- **Narrowed brief.** W-1 v10 is re-drafted with the detailed async-refutation and privilege-boundary PROCEDURES specified
+  only by their OBLIGATION (what result discharges, what result refutes, what must be shown), not as step-by-step probe
+  recipes. The detailed procedures are deferred to an operator-prepared package (the operator runs privileged probes
+  anyway).
+- **Everything else proceeds.** The other eight required changes (REVIEW-PROVENANCE, FORM-CONSISTENCY, ENUM-USERDEL,
+  NOOWNER-SCOPE as an inventory, PREMISE-ORDER, INVENTORY V-rows and fd set, RL-SELFTEST-FIXTURE removal) and the E0/E1/E2
+  staging are drafted normally.
+- **What this does not change.** No obligation is weakened. The async-holder containment stays an OPEN obligation, to be
+  discharged by the operator-prepared probe under its stated criterion and an independent review; it is not asserted.
+- **Confinement stays the blocker.** V5-B01, V5-B02 and the W-1 obligations remain OPEN, so no proof run can dispatch.
+
 ## D-LEAD-REVIEW-PROVENANCE (lead decision, 2026-10-05 ~19:05Z)
 
 **The conflict.** The frame's adoption joins (v5 `rollout_join`, carried as W-1 v9 §4.6/§16) require gpt-6.1-sol rollout
