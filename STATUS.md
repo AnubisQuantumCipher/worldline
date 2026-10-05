@@ -253,7 +253,16 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 14:04Z)
+## In progress (updated 15:18Z)
+
+- **W-1 v8.** The W-1 author was resumed ~15:17Z.
+  - **Its order of work.** First, re-evaluate c8: a root-owned user namespace keeping the host uid, using the commoncap
+    ptrace rule and the push and name routes. Then narrow the seccomp user-notification rejection, compare the surviving
+    lesser-change routes, adopt the one with the smallest change set that is still sound, and answer W1-V7-*.
+  - **What stays open.** V5-B01, V5-B02 and W1-V5-PRESERVATION stay OPEN unless the complete original domain is
+    preserved.
+- **Storage at 15:16:45Z.** Free 9632391168 bytes, 367608832 below the reserve, and 98525184 less than at ~14:02Z
+  (JACKAL exact). Seam v5 and PK-0 v2 stay held.
 
 - **W-1 v7** (`proposal/ISOLATION-STORAGE-PROPOSAL-v7.md` `8646f0fe…`; `v7-support/jackal.json` `d62cca55…`).
   - **The author's conclusion.** No candidate (root launcher with namespaces, unprivileged kernel scoping, or other
