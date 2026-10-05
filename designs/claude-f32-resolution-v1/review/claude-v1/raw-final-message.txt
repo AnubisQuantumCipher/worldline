@@ -1,0 +1,176 @@
+=== REVIEW.md ===
+# Independent design review: F32-CONFLICT resolution design v1
+
+**What this is.** An independent design review by a Claude Code review subagent (claude-opus-5-5) with a fresh context. I authored nothing under review. It grants no acceptance, and every original Phase One obligation stays OPEN.
+
+**Verdict: ENDORSED_WITH_REQUIRED_CHANGES.**
+- R-A is sound and non-weakening. Its exact bytes reproduce independently.
+- The required changes all correct the design's inventory, attribution or baseline statements. None changes the patch.
+
+## Inputs
+
+**Brief.** `W/work/claude-lead-isolation-v1/wt-1/briefs/f32-resolution-design-v1.md`, sha256 `f3ad5f07eafc7b276b4df467348f9cf0de9662f46bf9be9dc5dd5b7d01b3a514` (49 lines).
+
+**Under review.** `WT/designs/claude-f32-resolution-v1/`. All three hashes match the brief:
+
+| File | sha256 |
+|---|---|
+| DESIGN.md | `d83bd68e…2c7a0222` |
+| evidence.json | `18051d25…d2c47e5b` |
+| f32-r-a.patch | `226e7fc8…2c136650` |
+
+**Method.**
+- Passive reading and sha256 only.
+- `git apply --check` was run against S5. It writes nothing.
+- The patch was applied in memory in Python, with nothing written. Post-images were checked with `hashlib` and the standard-library `ast` module.
+- No WORLDLINE code was imported or executed.
+
+**What I did not read.**
+- The scratchpad `f32/` copies. I re-derived everything from S5 plus the patch instead.
+- Any review directory or session transcript.
+
+**Ada skills.** All eight were loaded before reading the Ada specs.
+
+## Independently reproduced (design claims confirmed)
+
+**The patch.**
+- It applies forward to S5 (`git apply --check` rc=0).
+- It changes exactly one line in each file: `test_finalization_kernel.py:251` and `test_raw_evaluation_default.py:75`.
+- Post-image sha256 values equal the design's: `4da992dd…7327aa4` and `77f0cb99…ffad7262` (DESIGN.md:314-315).
+- Line counts are unchanged, 289 and 561.
+
+**AST scope.**
+
+| File | Methods before / after | Only method changed | Assert-call ASTs before / after |
+|---|---|---|---|
+| `test_raw_evaluation_default.py` | 43 / 43 | `RawRequiredFailureControls.bound_request` | 62 / 62, identical and in order |
+| `test_finalization_kernel.py` | 26 / 26 | `FinalizationNativeControls.collapse_values` | 38 / 38, identical and in order |
+
+**The 35-field equivalence.**
+- `RawDependencyControls.checkpoint()` (raw :525-533) and the literal (raw :473-481) each have 35 keywords, over the same key set.
+- After R-A, both `bound_request` and `collapse_values` produce a keyword mapping with no differences from the literal.
+- Before R-A, the only difference is `resulting_requirement: None vs h(8)`.
+- Both functions define `h` identically (raw :472, :524).
+
+**Contract (S5 `core/`).**
+- `Required_Present` requires `Resulting_Requirement.Present` in candidate mode (`worldline-collapse.ads:148-151`).
+- `Evidence_Holds` requires `Same(Current, Resulting)` (:188).
+- `Post` makes Authorized equivalent to `All_Hold` (:217), and anything not `Required_Present` is never Authorized (:219-220).
+- `Same` is false when either side is absent (`worldline-identities.ads:80-82`).
+- `Decide` checks EEI (`collapse.adb:20-23`) before Identity_Absent (:24-25).
+- The wire accepts an absent Resulting in candidate mode and forbids a present one in checkpoint mode (`collapse_wire.ads:129-136`).
+
+So at S5, AUTHORIZED is unreachable for these requests, as a matter of the proved contract.
+
+**Native paths.**
+- Raw path:
+  - It joins the context (`worldline-c_api.adb:809-816`).
+  - It overwrites only the two roster bytes (:817-818).
+  - It checks metadata only after Authorized (:862-872).
+- Finalization path:
+  - It joins first (`evaluation_finalization_c.adb:473-484`), and kind 2 uses the metadata inside the join (:405-406).
+  - It overwrites only the rosters (:485-486).
+  - Its post-decision metadata check applies to kind 1 only (:491-496).
+- The join compares the request with its projection modulo the rosters (`worldline-evaluation_authority.ads:197-199`, :225-226). The tests build the projection from the request itself (raw :67, fin :239), so R-A cannot open a join mismatch.
+
+**Lineage.**
+- The V1→V2 diff of the raw test is exactly one line, :530 (`resulting_requirement=h(8)` → `None`).
+- The pre-item1→V1 diff adds Resulting at :223-224, :232, :246, :373, :478 and :530.
+- `test_finalization_kernel.py` is `76141dfb…` in ENG/source, V1, V2, S5, item1-repair and integrated-ordinary-v8.
+- V2 changed seven files (V2 `complete.patch` headers), as the design states (DESIGN.md:144-151).
+
+**Recorded pre-item1 runs** (read as found, not authenticated).
+- `default-tests-v1`, both roots: `child.stderr` :4 "ok", :44 "Ran 41 tests", :46 "OK"; `child-wait.json` returncode 0.
+- Both runs' inputs list the raw test file at `53db45a0…`.
+
+**Pins.**
+- No test, oracle pin or proof manifest in S5 pins either patched file:
+  - the oracle pins (`test_context_cast_lifetime.py:19-20`, `test_finalization_cast_lifetime.py:22`) bind only the `oracle_*` files;
+  - `proof_manifest.py` CONTRACT_PINS list no Python tests.
+- Only the historical `assurance/checkpoints` inventories record these files (see RC-4).
+
+**Authority text.**
+- `RECOVERY-AND-AUTONOMY.txt:7` (sha256 `f0c36233…`) delegates "routine engineering… that preserve the original external contract and success domain" and forbids invented approval gates.
+- Its :5 fixes every contract, accepted case, fixture and control.
+
+## Answers to the brief
+
+**1. Characterization.**
+- **Correct:** AUTHORIZED is unreachable on S5 (contract above).
+- **Cause correct:** V2 changed only the shared fixture line (V2 diff), and the candidate helpers derive from that fixture (raw :71-75, fin :245-251). V2 HANDOFF.md:5 and :9 declare only checkpoint-fixture updates.
+- **Nuance.** The coupling was already latent in V1. The helpers got `h(8)` only implicitly, through a CHECKPOINT_RETURN-mode fixture carrying a candidate-only slot. V1's `original-methods.json` omits `checkpoint()` and the helpers, despite V1 HANDOFF.md:11's "precisely". The design notes the omission (DESIGN.md:95-97).
+- **OB-003 reading.** OB-003's acceptance does require a positive unchanged-requirement case (OBLIGATIONS-v2.json:95). But "the 1.9.1 control" is a transaction-level control, the family at `tests/test_transaction.py:~300-330` with `_freshness` doubled. It is not A1–A4, which are bound by the preserved-controls rule (RC-3).
+- **Under-inventoried reach** (RC-1).
+  - `test_evaluation_row_projection.py` has no `load_tests`. It imports `RawRequiredFailureControls` at module level (:12) and subclasses it (:20), so metadata-tests collects A1 (`test_complete_owned_join_and_padded_epoch`), and every refusal twin at raw :92-160, twice: once as `MetadataNativeControls` and once as `RawRequiredFailureControls`.
+  - Observed in the recorded pre-item1 metadata runs: `child.stderr` :3 and :47, "Ran 79 tests". A1 therefore executes in 3 places (JACKAL exact, parsed=1+2).
+  - `test_recovery_packet_producer.py` restricts collection with `load_tests` (:207-212), so it is unaffected.
+
+**2. Original intent.** Supported.
+- Pre-item1 had no Resulting field (`ENG/source/core/worldline-collapse.ads` `ba6e2a53…`).
+- V1's candidate derivations yield `h(8)` = current. Its rule is "valid typed/raw fixtures explicitly supply their actual resulting identity" (V1 HANDOFF.md:11), with "no defaulting" (:5).
+- V2 made checkpoint absence original for checkpoint fixtures (V2 HANDOFF.md:5) and is silent on the candidate helpers.
+- R-A preserves both. It does not reduce a fixture (WORKSPACE-RULES.md:6). It makes explicit what V1 supplied implicitly, the same way V1 updated the literal at raw :478.
+
+**3. R-A preservation.**
+- **Preserved:** every assertion (AST above), the kernel, wire, ABI, contract pins and `checkpoint()` (raw :530 still `None`).
+- **No weakening or narrowing:** the checkpoint controls CK (raw :535-550, `test_core_abi.py:190-217`, `worldline_collapse_checks.adb:328-341`) and the OB-003 controls (`test_core_abi.py:219-254`) are untouched.
+- **The 35-field equivalence is correct.**
+- **Other callers:**
+  - `producer_case` (raw :217) calls `bound_request` but overrides `resulting_requirement` explicitly (raw :224), so its value is unchanged.
+  - `staged_journal` and `test_recovery_packet_producer` inherit that override.
+  - `test_finalization_cast_lifetime.py` and `test_tagged_object_cursor.py` instantiate the fixture but never call `collapse_values`.
+  - `test_revalidation_binding.py:303-323` builds its own request with explicit Resulting (:315).
+- **Row projection :97-99 is correctly handled.** It is reachable only once :95-96 authorizes, because metadata is checked after Authorized (`c_api.adb:862-868`).
+- **Control the design did not list** (RC-1): `test_context_cast_lifetime.py:92-105`, in REQUIRED-LIFETIME-CONTROLS.json:5. It asserts `new_result == old_result` through `collapse_values` (:95, :100-104). At S5 it compares two refusals. Under R-A, in the PASS iteration, it becomes a real differential on the authorized path. This is a meaning change the design omits (DESIGN.md:125-127, §7). It restores intent and does not weaken anything.
+
+**4. Rejected options.** Each rejection is sound:
+- **R-B1** contradicts `Same` (`identities.ads:80-82`) and breaks `test_core_abi.py:248-249`.
+- **R-B2** is a Python default, against V1 HANDOFF.md:5 and O/HANDOFF.md:27.
+- **R-B3** is defeated by `Post` (:217).
+- **R-B4**, **R-C1** and **R-C2** are direct weakenings.
+- **R-D** breaks raw :537-538 and :543 via `collapse_wire.ads:132-133`.
+  - Imprecision: `test_finalization_kernel.py:282-289` compares two calls and would pass vacuously (INVALID = INVALID) rather than "refuse". The rejection still stands.
+- **R-E** lowers the wire rule.
+- **R-F** replaces the mechanism of the original controls.
+- **R-G** would invent a gate.
+
+No non-weakening option is missed. One cosmetic variant is not material: a literal Resulting value (32 bytes of 8) instead of `.current_requirement`. R-H stays optional. REQUIREMENT_CHANGED on the native path is exercised by `test_core_abi.py:247` and :321 and end-to-end by `test_transaction.py:327`.
+
+**5. Authority.**
+- R-A is within the delegation (RECOVERY-AND-AUTONOMY.txt:7). It is TEST_ONLY helper code, reversible, and no API or contract change.
+- No gate is added or lowered.
+- Optional E0 is evidence, not a gate.
+
+**6. Closure plan.**
+- **Present:** matching-source runs E1–E4, the OB-003 and typed-absence neighbours (E5), the full roster plus strict proof (E6), and independent review (E7).
+- **Frozen lanes:** they are re-bound in their next revisions, never edited in place (DESIGN.md:351, :367). Both lanes bind the current bytes (`packet.json:198-199`; D1 v4 `DESIGN.md:191`).
+- **Gaps:**
+  - The E2 and E4 named-line lists omit the extra A1 instances and lifetime :92-105 (RC-1).
+  - E4 cannot run on item1-repair or integrated-ordinary-v8, because neither contains `tests/test_context_cast_lifetime.py`. §6's "applies equally" (DESIGN.md:282-283) holds only for the two patched files (RC-2).
+- **Still open:** F32-CONFLICT, OB-003, E1–E7, the UNRUN lifetime controls, the full roster and the strict proof.
+
+**7. Anything else.** No added cap, domain narrowing, assertion or Ghost suppression, or assumption.
+
+## Required changes
+- **RC-1.** Complete the inventory of affected and meaning-changing controls:
+  - A1 and the raw :92-160 twins run in metadata-tests under both `MetadataNativeControls` and `RawRequiredFailureControls`.
+  - `test_context_cast_lifetime.py:92-105` changes from a refusal-equality to a positive-path differential.
+  - Name them in §2 item 6, §3.2, §7 and in E2 and E4.
+  - Record the actual codes returned at :100-103 for both statuses. This is evidence only, not a new criterion.
+- **RC-2.** In §6 and §8, state that the R-A lane baseline, and the source for E1–E6, must contain every A1–A4 module, from the S5 lineage or a successor. State that E4 is unsatisfiable on integrated-ordinary-v8 or item1-repair as they stand.
+- **RC-3.** In §1 and §4, attribute A1–A4's AUTHORIZED requirement to the preserved-controls rule (WORKSPACE-RULES.md:6; RECOVERY-AND-AUTONOMY.txt:5; roster; REQUIRED-LIFETIME-CONTROLS). OB-003's "1.9.1 control" (OBLIGATIONS-v2.json:95) is the transaction-level control. The conclusion is unchanged.
+- **RC-4.** In §2 item 4 and §7, cover all three historical inventories. Each records `76141dfb…` and the pre-item1 `53db45a0…`, and none is read by code:
+  - `phase1-2026-10-02.json:2279`, :2459
+  - `phase1-bound-loader-2026-10-02.json:2455`, :2635
+  - `phase1-native-lifetime-2026-10-03.json:2855`, :2891
+
+## Non-blocking notes
+- **GPT-6.1 lines.** DESIGN.md:58, :365, :383 and :410-411 still say GPT-6.1. They are superseded by STATUS.md:279-291, per the brief.
+- **Wording.** DESIGN.md:232 says `test_revalidation_binding` "supplies the measured Resulting". At :315 it supplies the same policy `requirementHash` identity as current.
+- **Citation drift.** evidence.json pins STATUS.md at `d327f014…`, but the live file is now `45152525…`. The directive is now at :375-392. The primary authority citation, RECOVERY-AND-AUTONOMY.txt:7, is stable.
+- **Lanes in flight.** PK-0 v3 and D1 v5 are being authored now (STATUS.md:327-332). Any run or proof they take on pre-R-A bytes earns no F32 credit.
+=== review.json ===
+{"schema":"claude-design-review-v1","design":"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-f32-resolution-v1/DESIGN.md","design_sha256":"d83bd68e373796bd86a5080d0dce8727fd4f5677b8a8d9d9850dd9112c7a0222","patch_sha256":"226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650","brief_sha256":"f3ad5f07eafc7b276b4df467348f9cf0de9662f46bf9be9dc5dd5b7d01b3a514","evidence_json_sha256":"18051d25a868fe2d17007583914ef41920ca9b7fb88832b3b2673778d2c47e5b","different_from_author":true,"actual_model_selection":"claude-opus-5-5 (independent Claude Code review subagent, fresh context)","reviewer_kind":"claude-subagent","author":"Claude Code lead claude-opus-5-5 (drafting subagent)","verdict":"ENDORSED_WITH_REQUIRED_CHANGES","item_findings":{"1_characterization":"CORRECT. AUTHORIZED unreachable by contract: collapse.ads:148-151, :188, :217, :219-220; identities.ads:80-82. Cause is V2's one-line fixture change (raw :530) not propagated to the helpers (raw :71-75, fin :245-251); coupling latent since V1. OB-003 does require a positive case, but its '1.9.1 control' is transaction-level (test_transaction.py ~:300-330), not A1-A4 (RC-3). Reach under-inventoried: A1 and the raw :92-160 twins also run twice in metadata-tests (row_projection :12, :20; recorded stderr :3, :47) (RC-1).","2_original_intent":"SUPPORTED by the pre-item1/V1/V2 diffs and V1 HANDOFF.md:5, :11 and V2 HANDOFF.md:5, :9. R-A makes V1's implicit value explicit, matching V1's update of raw :478. Not a fixture reduction.","3_RA_preservation":"CONFIRMED. Patch applies; one line per file (fin :251, raw :75); post-image hashes reproduce; 43/43 and 26/26 methods; 62/62 and 38/38 asserts identical and ordered; 35-keyword equivalence holds for both helpers. Other callers unaffected (producer_case overrides at raw :224; cast/tagged tests never call collapse_values). Row :97-99 handled via c_api.adb:862-868. Omitted meaning change: test_context_cast_lifetime.py:92-105 (RC-1).","4_rejected_options":"SOUND. R-D rationale is imprecise for fin :282-289 (would pass vacuously), but the rejection stands. No non-weakening option missed.","5_authority":"WITHIN DELEGATION (RECOVERY-AND-AUTONOMY.txt:7). No gate added or lowered.","6_closure_plan":"MOSTLY COMPLETE (E1-E7, frozen lanes re-bound without in-place edits). Gaps: inventory in E2 and E4 (RC-1); test_context_cast_lifetime.py is absent from item1-repair and integrated-ordinary-v8, so the baseline must be the S5 lineage (RC-2). Historical inventory understated (RC-4).","7_other":"No weakening, cap, suppression or added assumption found."},"required_changes":[{"id":"RC-1","change":"List every affected or meaning-changing control: A1 and raw :92-160 under MetadataNativeControls and the imported RawRequiredFailureControls in metadata-tests; test_context_cast_lifetime.py:92-105, which becomes a positive-path differential. Name them in §2.6, §3.2, §7, E2 and E4, and record the actual codes at :100-103 as evidence only.","reason":"Brief Q3/Q6 ask for every control that changes meaning; the design and FINDINGS list only four.","evidence":"test_evaluation_row_projection.py:12, :20 (no load_tests); recorded metadata-tests-v1 child.stderr :3, :47, 'Ran 79 tests'; test_context_cast_lifetime.py:92-105; REQUIRED-LIFETIME-CONTROLS.json:5"},{"id":"RC-2","change":"Require the R-A lane baseline and the closure source to contain every A1-A4 module (S5 lineage or a successor); state that E4 cannot be satisfied on integrated-ordinary-v8 or item1-repair as they stand.","reason":"DESIGN.md:282-283 and :360 allow baselines that lack the A4 module.","evidence":"tests/test_context_cast_lifetime.py is missing in W/work/item1-repair/source and W/work/integrated-ordinary-v8/source and present in S5 (f6bc3e2f...)"},{"id":"RC-3","change":"Attribute A1-A4's AUTHORIZED requirement to the preserved-controls rule; OB-003's '1.9.1 control' is the transaction-level control.","reason":"DESIGN.md:35-38 and :226-227 conflate them; the conclusion is unchanged.","evidence":"OBLIGATIONS-v2.json:95; tests/test_transaction.py:~300-330; WORKSPACE-RULES.md:6; RECOVERY-AND-AUTONOMY.txt:5"},{"id":"RC-4","change":"Cover all three historical checkpoint inventories in §2.4 and §7.","reason":"DESIGN.md:116-119 names only one.","evidence":"assurance/checkpoints/phase1-2026-10-02.json:2279, :2459; phase1-bound-loader-2026-10-02.json:2455, :2635; phase1-native-lifetime-2026-10-03.json:2855, :2891"}],"open_obligations":["F32-CONFLICT: OPEN until E1-E7 on integrated matching source containing R-A and all A1-A4 modules","OB-003: OPEN (acceptance test, mutant/proof gate, OB-017/018/024)","REQUIRED-LIFETIME-CONTROLS: UNRUN","Full original ordinary roster on matching source (results_transferred=false)","Full matching-source strict proof campaign","Re-binding of PK-0 and D1 lanes (now PK-0 v3 / D1 v5 in flight) to the integrated source; no credit for evidence taken on pre-R-A bytes","All item1/Item7/K4/K6/confinement/custody/Phase One exit obligations"],"proof_acceptance":false,"phase_acceptance":false,"source_acceptance":false}
+=== checks.json ===
+{"schema":"claude-review-checks-v1","reviewer_kind":"claude-subagent","hashes_computed":{"brief":"f3ad5f07eafc7b276b4df467348f9cf0de9662f46bf9be9dc5dd5b7d01b3a514","DESIGN.md":"d83bd68e373796bd86a5080d0dce8727fd4f5677b8a8d9d9850dd9112c7a0222","evidence.json":"18051d25a868fe2d17007583914ef41920ca9b7fb88832b3b2673778d2c47e5b","f32-r-a.patch":"226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650","FINDINGS.md":"1746bcb007474612296562aae62cdec39e8b7f0aadf5faf37c61845c255b3a64","S5 tests/test_raw_evaluation_default.py":"22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0","S5 tests/test_finalization_kernel.py":"76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62","S5 tests/test_evaluation_row_projection.py":"74a195970ce6bdd052cb3778079796deafe369ee0284fb78da6f009b3f9ddc6a","S5 tests/test_context_cast_lifetime.py":"f6bc3e2f7c21c371072a11400a3f93b719f2e3f99f5a2b41aada484e89c87f07","in-memory post-image test_finalization_kernel.py":"4da992ddfd206134131c31ea306fc19d46500ca8501a5214e540f55357327aa4","in-memory post-image test_raw_evaluation_default.py":"77f0cb999bca30a6eaa1ec663e21ee9cb152f405cb1ae1a591a20465ffad7262","S5 core/worldline-collapse.ads":"98b2661b6911332da1b460a78003ea5d3b692c8406c6c34c32b70ab9d6988a95","S5 core/worldline-collapse.adb":"ba797079cf4316688eab9a7be2092e7c20db91c0881151e9df707cfa128937ef","S5 core/worldline-identities.ads":"3935a4aa1d670f42738b0b1e7968a8d6560fd3580150f9dada6bfe6145bb7f10","S5 core/worldline-collapse_wire.ads":"987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd","S5 core/worldline-c_api.adb":"0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b","S5 core/evaluation_finalization_c.adb":"bdcf333878aebe4aca55333bc3b9a9a50007c187fc4b380dec1adb18127f83d3","S5 core/worldline-evaluation_authority.ads":"29ea441b1bcc0212db70143c09b961b1f911827c8f30b40cc52f88080f4c222b","S5 runtime/worldline/core.py":"ee77fa7a39178b844972b3a3d704fb0732b93b73aead8c2b80137db66454786c","S5 runtime/worldline/evaluation_context.py":"b6d9bc430a503b603677e7690bbc3810473b8df44a9a350002f24008e2e90de9","S5 runtime/worldline/transaction.py":"83e825f806d04e0527fe464ba867583513e882dc9af9f1c761bfe402416b2229","ENG/source raw test":"53db45a046953fff43d688bf6672cfb7109935f642c1f00e28973deb588c2aa2","ENG/source collapse.ads":"ba6e2a5325fe438922d63d188f936fce556a7b2e8aab99ec38f36d6a1d2ae3ce","V1 raw test":"979e46399676441291b10b10b8deb90ad1e9a61543715279f0d801aff412154f","V1 collapse_wire.ads":"c09c0dcd8b5eef55d16f4cbb5d7e4f5a56c8ea225468de9575f495a2602723ac","V2 raw test":"22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0","V2 collapse_wire.ads":"987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd","V1 HANDOFF.md":"e2b71e1baa67c7ab01f1f34ced180e1b8e7a5b18930f7bf1e3596852c1460319","V2 HANDOFF.md":"8051d7c87fae525cde272de065a97fada8d38dcb29386220bfea07a807d6f615","item1-repair HANDOFF.md":"ea88be11ff0dc6c05e38cce51e514382aee45eb3d6271550623ffe44eb79b443","RECOVERY-AND-AUTONOMY.txt":"f0c3623336007299fc72c803d03e6245538cf772b9c01aa0063e734a2457f232","WT/STATUS.md (live, differs from evidence.json d327f014)":"4515252531e101e16a39a452a55bbb8d0bc1b5321534347232955e5ddc63faa4","OBLIGATIONS-v2.json":"1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec","ALL-ORIGINAL-OBLIGATIONS.md":"16d28b04bf937ecc7003a0a4fcf1b62d78b1478cb79542d9341022acc5f95acb","REQUIRED-LIFETIME-CONTROLS.json":"9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9","ORIGINAL-ORDINARY-ROSTER.json":"4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e","WORKSPACE-RULES.md":"1eb82291ca40cb7084de753f77d18ace299bf2bfe1beb40560b9f820087ad484","START-CLAUDE.txt":"004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e","O/HANDOFF.md":"2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237","complete-phase1-prompt.txt":"1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327","phase1-m3-plan-v3.md":"e6f96ada9a6cacf1765e53ed8b9a2db9d13915ae1f4011f43e6410a96d32d40d","PK-0 v2 packet.json":"c5ce00cd7d0dbeaff29a35f87e257abe165a8c116acf3b02760d732ef12e032d","D1 v4 DESIGN.md":"3c636847ee1ec735d46a435e313719a4174503cdfa5240d152f959f07a18913c","pre-item1 default-tests stderr (checked-scan / finalization-v2)":"388f0d9f210f8eb75ab1d62a6bed911320dc2e80492bb41645402f5e7e373d24 / 8be504884822468ebafb81af14ea460b0cbf913a6a652a1b4fa20104730538d2","pre-item1 metadata-tests stderr (checked-scan / finalization-v2)":"3276de0964be3a277cfbd9605cdb29662b1dae1e520c56ccc4c83856fcf7ea19 / d21d8bb19fad41ebb45cd2bd381f88dc62059d5edac8161c478b05a2b29d35e2"},"files_read":[{"path":"scratchpad/review-override.txt","lines":"all"},{"path":"WT/briefs/f32-resolution-design-v1.md","lines":"1-49"},{"path":"WT/designs/claude-f32-resolution-v1/DESIGN.md","lines":"1-427"},{"path":"WT/designs/claude-f32-resolution-v1/evidence.json","lines":"all"},{"path":"WT/designs/claude-f32-resolution-v1/f32-r-a.patch","lines":"1-22"},{"path":"WT/investigations/f32-resulting-requirement/FINDINGS.md","lines":"1-81"},{"path":"S5/tests/test_raw_evaluation_default.py","lines":"1-561"},{"path":"S5/tests/test_finalization_kernel.py","lines":"1-30, 215-289"},{"path":"S5/tests/test_evaluation_row_projection.py","lines":"1-120"},{"path":"S5/tests/test_context_cast_lifetime.py","lines":"1-170"},{"path":"S5/tests/test_recovery_packet_producer.py","lines":"1-60, 105-125, 195-216"},{"path":"S5/tests/test_revalidation_binding.py","lines":"296-336 plus grep"},{"path":"S5/tests/test_core_abi.py","lines":"186-256"},{"path":"S5/tests/test_transaction.py","lines":"300-330"},{"path":"S5/tests/{test_finalization_cast_lifetime,test_tagged_object_cursor,test_evaluation_roster_d2}.py","lines":"grep only"},{"path":"S5/core/worldline-collapse.ads","lines":"20-70, 135-275"},{"path":"S5/core/worldline-collapse.adb","lines":"1-60"},{"path":"S5/core/worldline-identities.ads","lines":"70-90"},{"path":"S5/core/worldline-collapse_wire.ads","lines":"50-60, 86-140, 230-240"},{"path":"S5/core/worldline-c_api.adb","lines":"790-880"},{"path":"S5/core/evaluation_finalization_c.adb","lines":"395-412, 468-505"},{"path":"S5/core/worldline-evaluation_authority.ads","lines":"20-30, 192-228"},{"path":"S5/runtime/worldline/core.py","lines":"118-123, 214-220, 593-599, 636-648"},{"path":"S5/runtime/worldline/evaluation_context.py","lines":"417-427"},{"path":"S5/runtime/worldline/transaction.py","lines":"1116-1121"},{"path":"S5/runtime/worldline/proof_manifest.py","lines":"grep only"},{"path":"S5/assurance/checkpoints/*.json","lines":"grep only"},{"path":"ENG/authority-item1-priority-v1/{HANDOFF.md, original-methods.json, original-assertions.json}","lines":"all"},{"path":"ENG/authority-item1-priority-v2/HANDOFF.md","lines":"1-9"},{"path":"ENG {source,v1,v2} raw test files","lines":"full diffs"},{"path":"ENG v1/v2 complete.patch","lines":"file headers only"},{"path":"W/work/item1-repair/HANDOFF.md","lines":"1-63"},{"path":"O/OBLIGATIONS-v2.json","lines":"78-97"},{"path":"O/ALL-ORIGINAL-OBLIGATIONS.md","lines":"47-65"},{"path":"O/REQUIRED-LIFETIME-CONTROLS.json","lines":"1-25"},{"path":"O/WORKSPACE-RULES.md","lines":"1-12"},{"path":"O/START-CLAUDE.txt","lines":"1-12"},{"path":"O/ORIGINAL-ORDINARY-ROSTER.json","lines":"2174-2200, 2598-2606 plus grep"},{"path":"phase1-m3-plan-v3.md","lines":"596-620"},{"path":"RECOVERY-AND-AUTONOMY.txt","lines":"1-9"},{"path":"WT/STATUS.md","lines":"279-300, 305-345, 375-392"},{"path":"WT/packets/capi-pk0-v2/packet.json","lines":"196-200"},{"path":"WT/designs/claude-native-bigint-d1-design-v4/DESIGN.md","lines":"191"},{"path":"B/*/evidence/{default,metadata}-tests-v1/{child.stderr,child-wait.json}","lines":"grep and selected lines"}],"not_read":["scratchpad f32/ (a, b, patch copies); re-derived from S5 plus the patch","any review directory, review-records/, or session transcript or rollout"],"static_checks_observed":["git apply --check (S5, forward): rc=0; reverse --check on the preimage: fails (expected)","in-memory patch: preimage match at fin :251 and raw :75; newline counts 289/289 and 561/561","methods 43/43 (raw) and 26/26 (fin); changed only bound_request and collapse_values; assert-calls 62/62 and 38/38 identical and ordered","checkpoint() 35 keywords, literal 35, same keyset; post-R-A differences {} for both helpers; pre-R-A {'resulting_requirement': ('None','h(8)')}"],"jackal_calls":[{"tool":"jackal_exact","expression":"296 + 20 - 1","parsed":"296+20-1","result":"315","status":"exact","purpose":"line of the resulting_requirement keyword in test_revalidation_binding.py (offset from a sed range starting at 296)","non_claims":["NOT formal-bounded: this lane carries no Lean-checked certificate","The epistemic class above is the STRONGEST claim this result supports","exact rational arithmetic (not yet checker-covered)"]},{"tool":"jackal_exact","expression":"1 + 2","parsed":"1+2","result":"3","status":"exact","purpose":"number of collected A1 instances (default-tests 1, metadata-tests 2)","non_claims":["NOT formal-bounded: this lane carries no Lean-checked certificate","The epistemic class above is the STRONGEST claim this result supports","exact rational arithmetic (not yet checker-covered)"]}],"incidents":["A Bash call of mine began with a stray 'cat > /dev/null', which blocked on stdin and was moved to background task bp0p8ybsv. It wrote nothing, reads nothing and touches no WORLDLINE state. Under the no-interrupt limit I did not stop it; the lead may stop it."],"consequence_ceiling":"informational: static design review; no decision code was observed at the S5 or R-A bytes"}
+=== END ===

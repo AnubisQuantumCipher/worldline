@@ -1,0 +1,73 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-f32-resolution-v1/DESIGN.md",
+ "design_sha256": "d83bd68e373796bd86a5080d0dce8727fd4f5677b8a8d9d9850dd9112c7a0222",
+ "patch_sha256": "226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650",
+ "brief_sha256": "f3ad5f07eafc7b276b4df467348f9cf0de9662f46bf9be9dc5dd5b7d01b3a514",
+ "evidence_json_sha256": "18051d25a868fe2d17007583914ef41920ca9b7fb88832b3b2673778d2c47e5b",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "item_findings": {
+  "1_characterization": "CORRECT. AUTHORIZED unreachable by contract: collapse.ads:148-151, :188, :217, :219-220; identities.ads:80-82. Cause is V2's one-line fixture change (raw :530) not propagated to the helpers (raw :71-75, fin :245-251); coupling latent since V1. OB-003 does require a positive case, but its '1.9.1 control' is transaction-level (test_transaction.py ~:300-330), not A1-A4 (RC-3). Reach under-inventoried: A1 and the raw :92-160 twins also run twice in metadata-tests (row_projection :12, :20; recorded stderr :3, :47) (RC-1).",
+  "2_original_intent": "SUPPORTED by the pre-item1/V1/V2 diffs and V1 HANDOFF.md:5, :11 and V2 HANDOFF.md:5, :9. R-A makes V1's implicit value explicit, matching V1's update of raw :478. Not a fixture reduction.",
+  "3_RA_preservation": "CONFIRMED. Patch applies; one line per file (fin :251, raw :75); post-image hashes reproduce; 43/43 and 26/26 methods; 62/62 and 38/38 asserts identical and ordered; 35-keyword equivalence holds for both helpers. Other callers unaffected (producer_case overrides at raw :224; cast/tagged tests never call collapse_values). Row :97-99 handled via c_api.adb:862-868. Omitted meaning change: test_context_cast_lifetime.py:92-105 (RC-1).",
+  "4_rejected_options": "SOUND. R-D rationale is imprecise for fin :282-289 (would pass vacuously), but the rejection stands. No non-weakening option missed.",
+  "5_authority": "WITHIN DELEGATION (RECOVERY-AND-AUTONOMY.txt:7). No gate added or lowered.",
+  "6_closure_plan": "MOSTLY COMPLETE (E1-E7, frozen lanes re-bound without in-place edits). Gaps: inventory in E2 and E4 (RC-1); test_context_cast_lifetime.py is absent from item1-repair and integrated-ordinary-v8, so the baseline must be the S5 lineage (RC-2). Historical inventory understated (RC-4).",
+  "7_other": "No weakening, cap, suppression or added assumption found."
+ },
+ "required_changes": [
+  {
+   "id": "RC-1",
+   "change": "List every affected or meaning-changing control: A1 and raw :92-160 under MetadataNativeControls and the imported RawRequiredFailureControls in metadata-tests; test_context_cast_lifetime.py:92-105, which becomes a positive-path differential. Name them in §2.6, §3.2, §7, E2 and E4, and record the actual codes at :100-103 as evidence only.",
+   "reason": "Brief Q3/Q6 ask for every control that changes meaning; the design and FINDINGS list only four.",
+   "evidence": "test_evaluation_row_projection.py:12, :20 (no load_tests); recorded metadata-tests-v1 child.stderr :3, :47, 'Ran 79 tests'; test_context_cast_lifetime.py:92-105; REQUIRED-LIFETIME-CONTROLS.json:5"
+  },
+  {
+   "id": "RC-2",
+   "change": "Require the R-A lane baseline and the closure source to contain every A1-A4 module (S5 lineage or a successor); state that E4 cannot be satisfied on integrated-ordinary-v8 or item1-repair as they stand.",
+   "reason": "DESIGN.md:282-283 and :360 allow baselines that lack the A4 module.",
+   "evidence": "tests/test_context_cast_lifetime.py is missing in W/work/item1-repair/source and W/work/integrated-ordinary-v8/source and present in S5 (f6bc3e2f...)"
+  },
+  {
+   "id": "RC-3",
+   "change": "Attribute A1-A4's AUTHORIZED requirement to the preserved-controls rule; OB-003's '1.9.1 control' is the transaction-level control.",
+   "reason": "DESIGN.md:35-38 and :226-227 conflate them; the conclusion is unchanged.",
+   "evidence": "OBLIGATIONS-v2.json:95; tests/test_transaction.py:~300-330; WORKSPACE-RULES.md:6; RECOVERY-AND-AUTONOMY.txt:5"
+  },
+  {
+   "id": "RC-4",
+   "change": "Cover all three historical checkpoint inventories in §2.4 and §7.",
+   "reason": "DESIGN.md:116-119 names only one.",
+   "evidence": "assurance/checkpoints/phase1-2026-10-02.json:2279, :2459; phase1-bound-loader-2026-10-02.json:2455, :2635; phase1-native-lifetime-2026-10-03.json:2855, :2891"
+  }
+ ],
+ "open_obligations": [
+  "F32-CONFLICT: OPEN until E1-E7 on integrated matching source containing R-A and all A1-A4 modules",
+  "OB-003: OPEN (acceptance test, mutant/proof gate, OB-017/018/024)",
+  "REQUIRED-LIFETIME-CONTROLS: UNRUN",
+  "Full original ordinary roster on matching source (results_transferred=false)",
+  "Full matching-source strict proof campaign",
+  "Re-binding of PK-0 and D1 lanes (now PK-0 v3 / D1 v5 in flight) to the integrated source; no credit for evidence taken on pre-R-A bytes",
+  "All item1/Item7/K4/K6/confinement/custody/Phase One exit obligations"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "b491d9d24127411e485b48751bc8a16846b95532dacd962db9f3c69196717681",
+ "checks": {
+  "path": "designs/claude-f32-resolution-v1/review/claude-v1/checks.json",
+  "sha256": "7652b16722e2e01f9a48d0917702878d06e61a7f74f00f8978aeddee38dd907f",
+  "bytes": 9587,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a513b85a5a843d652",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a513b85a5a843d652.output",
+  "source_task_output_sha256": "73cefe37b9d8d3c0a7dee5b35492b281faaff7a204a0acdb694148ad7694fd75"
+ }
+}
