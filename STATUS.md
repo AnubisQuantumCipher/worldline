@@ -276,6 +276,53 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
+## Human direction, 2026-10-05 ~17:05Z: reviews move to Claude's own agents
+
+**What the human wrote.** "Whatever you're using GPT 6.1 SOL for you're gonna have to switch of your workflow and use your
+own agents for that now".
+
+**What this changes.**
+- It supersedes the earlier "actual gpt-6.1-sol for every independent review" requirement, from START and the
+  WORLDLINE AGENTS.md role rule.
+- From now on, independent reviews are Claude Code review subagents (claude-opus-5-5): a fresh context, not the drafting
+  agent, adversarial, file:line evidence.
+- They are recorded as `reviewer_kind: claude-subagent` and never labelled GPT.
+- Sealed GPT-6.1 reviews keep their standing and their findings.
+- The review-independence rule stays: the reviewer is never the author.
+
+**Stopping the GPT reviews, 17:10:16–17:10:19Z.**
+- **Preserved first**, in `review-records/gpt61-switch-preserved-20261005T171007Z/`:
+  - the live records of all four reviews;
+  - the partial review directories, including checkpoints;
+  - rollouts `01a10cdc…` (W-1 v8) and `01a10cf2…` (D1 r2);
+  - the ps snapshot and SHA256SUMS.
+- **Verified, then stopped.** Each runner's cmdline was checked against its brief before SIGTERM, runner before its
+  codex: W-1 v8 (1838176/1838178), D1 v4 r2 (1913249/1913251), seam v5 (1916443/1942303) and the queued PK-0 v2
+  (1929915). All exited, and none is left. The record is `stop-actions.txt`.
+- **Their standing.** All four partial GPT reviews are INCOMPLETE, with no credit.
+
+**Claude reviews started ~17:12Z.**
+- **Which.** Four independent review subagents: W-1 v8, D1 v4, seam v5 and PK-0 v2.
+- **Briefs.** Each uses its existing brief plus a common override, which covers identity, no-file output and
+  independence. It must not read any partial review of its revision.
+- **Output.** The harness refuses subagent report files, so each reviewer returns REVIEW.md, review.json and
+  checks.json as text. The lead writes them verbatim into `review/claude-v1/`, computes the hashes and writes
+  `review-freeze.json`.
+
+**F32 investigation** (`investigations/f32-resulting-requirement/FINDINGS.md`). STATIC, by a fresh Claude subagent.
+- **The finding.** It confirms the authors: for the cited original controls, AUTHORIZED is unreachable.
+- **Where it came from.** The defect entered at Codex's item1 V2. It changed the checkpoint fixture to
+  `resulting_requirement=None`, but the candidate-mode helpers reusing that fixture were not updated. OB-003 requires
+  `Same(Current, Resulting)` in candidate mode.
+- **What fails.** Four original controls will fail on matching source:
+  - `test_raw_evaluation_default.py:88-89`
+  - `test_finalization_kernel.py:262-263`
+  - `test_evaluation_row_projection.py:87-96`
+  - the lifetime control `test_context_cast_lifetime.py:153-163`
+- **Not caused by the composition.** v5-beta did not cause this; S5 is byte-identical to its preimage.
+- **NEW OPEN OBLIGATION F32-CONFLICT.** Two original requirements conflict: OB-003 and those AUTHORIZED controls. The
+  resolution must weaken neither. It needs its own design and independent review, and is not decided here.
+
 ## Full human directive, 2026-10-05 ~16:50Z (supersedes the truncated reading below)
 
 **Where it came from.** The human told the lead: "Read and apply …/work/claude-session-monitor-v1/autonomy-20261005T163701Z/RECOVERY-AND-AUTONOMY.txt
