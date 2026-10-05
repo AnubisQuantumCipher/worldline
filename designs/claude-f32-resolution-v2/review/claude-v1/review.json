@@ -1,0 +1,63 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-f32-resolution-v2/DESIGN.md",
+ "design_sha256": "e52a92272cad423ffa260de3a437c17bdebddb746d0cf0ec86aa19f230349df9",
+ "patch_sha256": "226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650",
+ "brief_sha256": "81bd8f9479d7590cbc21e386622ecd73d10703fe8275203adf0005cb545d0379",
+ "evidence_json_sha256": "9a27640a90abb966a108370c683f19e305761a1b9acc6d4ce513e04ba77eb25c",
+ "rc_closure": {
+  "RC-1": "CLOSED: DESIGN.md:189-215, :259-261, :281-287, :486, :488, :543, :545; verified row_projection :12/:20 (no load_tests), recorded metadata stderr :3/:47/:82/:84 both roots, lifetime :92-105; inventory complete by grep",
+  "RC-2": "CLOSED: DESIGN.md:422-424, :503-515, :536-537, :541, :545; four lifetime/oracle files ABSENT in item1-repair and integrated-ordinary-v8, present in S5",
+  "RC-3": "CLOSED in substance (DESIGN.md:69-85, :338-359); its identification of the '1.9.1 control' is factually wrong, see RC-5",
+  "RC-4": "CLOSED: DESIGN.md:169-181, :494; all nine line pairs verified; no code reader"
+ },
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "item_findings": {
+  "0_rc_closure_and_changes": "RC-1, RC-2, RC-4 CLOSED; RC-3 closed in substance with a new identification error (RC-5). Patch byte-identical to v1 (equal sha256). Other changes are additive (E5 scope) or wording; E7 criterion not weakened; nothing removed.",
+  "1_characterization": "CORRECT: collapse.ads:149-151, :188, :217-220; identities.ads:80-82; collapse.adb:20-25; cause = V2 raw :530 change not propagated (V2 HANDOFF.md:5, :9). OB-003 acceptance requires a transaction-level positive (OBLIGATIONS-v2.json:95), correctly separated from A1-A4; named identity wrong (RC-5).",
+  "2_original_intent": "SUPPORTED by pre-item1/V1/V2 bytes and handoffs; further precedent test_revalidation_binding.py:303-316 supplies resulting = current explicitly from checkpoint() in candidate mode.",
+  "3_RA_preservation": "CONFIRMED independently: git apply --check rc=0; post-images 4da992dd.../77f0cb99...; 26/26 and 43/43 methods, only collapse_values/bound_request changed; 38/38 and 62/62 assert ASTs identical and ordered; 35-keyword equivalence holds (pre diff only resulting_requirement, post none). Kernel/wire/ABI/contract/checkpoint() untouched. Row :97-99 handled via c_api.adb:862-868. No other caller or control changes meaning beyond the inventoried set.",
+  "4_rejected_options": "SOUND; R-D wording imprecision for fin :282-289 carried knowingly (non-blocking). No non-weakening option missed.",
+  "5_authority": "WITHIN DELEGATION (RECOVERY-AND-AUTONOMY.txt:7; STATUS.md:386-390). No gate added or lowered.",
+  "6_closure_plan": "COMPLETE (E0-E7, 5+9 lifetime controls, OB-003 neighbours, full roster, strict proof). Frozen lanes re-bound in next revisions only (packet.json:198-199; D1 v4 DESIGN.md:191). Roster cwd retargeting should be stated (non-blocking).",
+  "7_other": "No cap, narrowing, suppression, added assumption or renamed label found."
+ },
+ "required_changes": [
+  {
+   "id": "RC-5",
+   "change": "Correct the '1.9.1 control' identification at DESIGN.md:80-85, :352-357, :480. The judge-mutation family (S5 test_transaction.py:276-329) and test_typed_absence.py:1238-1252 are post-1.9.1 additions; the latter is an item1-repair addition. A 1.9.1-era transaction-level AUTHORIZED control is test_clean_commit_exchanges_mapping_and_links_receipt (1.9.1 :118; S5 :148-151). State that which control OB-003 means, and whether its positive leg holds under the same _freshness pass-through double, stay open within OB-003. Conclusions unchanged.",
+   "reason": "As written, a reader could take OB-003's positive acceptance leg as already met by named controls, a narrowed reading of an open obligation. Factual accuracy of a closure-relevant attribution.",
+   "evidence": "grep: test_judge_mutations_refuse_even_when_freshness_shortcut_is_bypassed and test_original_positive_commit_retains_the_measured_staged_requirement absent from /home/sicarii/.cache/cosmogony-release-v1.9.1-20260930/tests and ENG/source/tests; test_clean_commit_exchanges_mapping_and_links_receipt at 1.9.1 test_transaction.py:118 and S5 :148-151; W/work/item1-repair/HANDOFF.md:34-36; OBLIGATIONS-v2.json:95"
+  }
+ ],
+ "open_obligations": [
+  "F32-CONFLICT: OPEN until E1-E7 on an integrated matching source containing R-A and every A1-A4 module (S5 lineage), and RC-5 is addressed",
+  "OB-003: OPEN (transaction-level acceptance incl. identity of the 1.9.1 control and its positive leg under the _freshness double, mutant/proof gate, OB-017/018/024)",
+  "REQUIRED-LIFETIME-CONTROLS: UNRUN (5 + 9 controls)",
+  "Full original ordinary roster on matching source (results_transferred=false; source_matching_rerun_required=true)",
+  "Full matching-source strict proof campaign",
+  "Re-binding of PK-0 (v3) and D1 (v5) lanes to the integrated source; no F32 credit for pre-R-A bytes",
+  "Original GPT-6.1 review requirement superseded by human 17:05Z direction; no record may claim it met",
+  "All item1/Item7/K4/K6/confinement/custody/Phase One exit obligations"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "865691006b593ed4559ceb755e54ba4c888b737fe6b15da35132431a339fff28",
+ "checks": {
+  "path": "designs/claude-f32-resolution-v2/review/claude-v1/checks.json",
+  "sha256": "d2ae5c12e2446698933a88bdca2be8cdf5fba41be03810db23b6120c34ea1b9b",
+  "bytes": 12646,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a5b6c6252288483f2",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a5b6c6252288483f2.output",
+  "source_task_output_sha256": "7d7b9bf1f430cec3b06c40b22d21ecbb75f5d112536d2951dba7a8c6b030193e"
+ }
+}
