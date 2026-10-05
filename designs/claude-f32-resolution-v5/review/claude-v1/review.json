@@ -1,0 +1,67 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-f32-resolution-v5/DESIGN.md",
+ "design_sha256": "1752159a03d2790fd2b50e726c0e506fe6645a7969cb185fdc92f16371164907",
+ "patch_sha256": "226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650",
+ "rc_closure": {
+  "RC-1": "CLOSED (unchanged; v4->v5 diff in sections 1-6 is rewording)",
+  "RC-2": "CLOSED (unchanged; DESIGN.md:602-614)",
+  "RC-3": "CLOSED (unchanged; DESIGN.md:125-133, :426-434)",
+  "RC-4": "CLOSED (unchanged; DESIGN.md:238-260, :593)",
+  "RC-5": "CLOSED (unchanged; DESIGN.md:135-151, :436-457)",
+  "RC-6": "CLOSED (DESIGN.md:592, :638-657; run_checks.py b047481f:8-9,:36,:47-48,:52-55)",
+  "RC-7": "CLOSED: (1) DESIGN.md:63,:659-673, 13/52 path-bearing reproduced, 39 path-free JACKAL exact, rebased roster equal modulo path for all 52; (2) :64,:710-715 vs RUN:237-253; (3) :65,:690-715 carry-over dropped for build.json/tool-inventory-template/runtime-closure/receipt; (4) :66,:724-735 indices 0/35/36/43 and depends_on :2183/:2208/:2383 hold (wording overstatement, note 1)",
+  "note-1": "PARTIALLY_CLOSED: non-self-referential, but bound to the R-A lane inventory instead of the executed candidate tree (RC-8b)",
+  "note-2": "CLOSED (fda902d STATUS.md blob = 985dfcaa)",
+  "note-3": "CLOSED (D1 v5 live 5994b243 :168 still pre-R-A)"
+ },
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "item_findings": {
+  "0": "RC-7 parts 1-4 CLOSED; RC-1..RC-6 still CLOSED; notes 2-3 CLOSED, note 1 PARTIALLY_CLOSED; every other section 7-9 runner/roster statement verified; new Class A text is false for 3 of 5 inputs (RC-8)",
+  "1": "CORRECT: S5 checkpoint() :530 None reaches bound_request/collapse_values; AUTHORIZED unreachable; OB-003 needs its own transaction-level positive, identity OPEN",
+  "2": "SUPPORTED (unchanged since v3)",
+  "3": "CONFIRMED: in-memory application; post-images 4da992dd/77f0cb99; lines 289/561 unchanged; methods 26/26, 43/43, only the two helpers changed; assert ASTs 38/38, 62/62 identical and ordered; 35-keyword equivalence with raw :473-481 after R-A; callers match the inventory; row :97-99 handled",
+  "4": "SOUND; no missed non-weakening option",
+  "5": "WITHIN DELEGATION (RECOVERY-AND-AUTONOMY.txt:7; STATUS fda902d :393-397); no gate added or lowered",
+  "6": "Complete in scope except RC-8: the three inventory modules are imported but never digested or compared by RUN or covered by runtime-closure spec, so the 'fails closed' claim does not hold for them; source_files binding target must be the executed candidate tree",
+  "7": "No cap, narrowing, suppressed assertion or Ghost, added assumption or renamed label found"
+ },
+ "required_changes": [
+  {
+   "id": "RC-8",
+   "change": "(a) State that run_checks.py does not check tool_inventory.py, native_inventory.py or runtime_inventory.py (only its own digest, :260). Their byte identity to IO8 (51aa43cc5797254a6262f11f87889d69f6171d4303d29e077758aa9ee21cb80b, ac693a0602ec541c017228114ec262df9ab274e4fabb6dcec53dd4412452f6c0, 4888f64d6125e1bce74fdde7e07f7ced16a961930903d725cd47adb2e3ff0259) must be established and recorded in the provisioning record, together with the candidate root's complete importable file set, because root is sys.path[0]. Limit 'fails closed' to vendor-template.json and native-input-baseline.json. (b) Bind action-baseline.json source_files to the frozen, reviewed inventory of the exact <candidate-root>/source tree run_checks.py observes (:170-180, :189, :285), containing R-A post-images 4da992dd/77f0cb99, not to the R-A lane inventory unless they are identical.",
+   "reason": "DESIGN.md:65 and :684-685 claim RUN re-checks all five Class A inputs live so any difference fails closed. For the three observation modules that is false, and the gap does not fail closed: a modified module plus a Class B baseline regenerated through it is self-consistent at :210/:186. Note 1's binding target as written cannot match a composed candidate. Fact-correction, not a gate.",
+   "evidence": "run_checks.py b047481f:4-6,:170-189,:206-210,:254-260,:285; runtime-closure.json 18d493f7 spec (trees/paths/elf_direct system-only; no inventory module names); DESIGN.md 1752159a:65,:68,:626,:636,:684-702"
+  }
+ ],
+ "open_obligations": [
+  "F32-CONFLICT (until E0-E7 on the matching admitted-frame candidate)",
+  "OB-003 incl. its transaction-level acceptance, identity of 'the 1.9.1 control', its _freshness positive leg, mutant and proof obligations, OB-017/OB-018/OB-024",
+  "REQUIRED-LIFETIME-CONTROLS (all 14, UNRUN, separately reviewed frame)",
+  "full original ordinary roster (52 launches) on matching source via a re-targeted runner",
+  "full matching-source strict proof",
+  "PK-0 and D1 re-bind at the first revision after R-A composition",
+  "RC-8",
+  "all item1, Item7, K4, K6, confinement, custody and Phase One exit obligations"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "8137719a7c521344bc04e2abed70b09c5a1b3f6e5229eccd51f0f08fd40e9661",
+ "checks": {
+  "path": "designs/claude-f32-resolution-v5/review/claude-v1/checks.json",
+  "sha256": "6749f1edf1b3407e4801d8294ff3dfb2f2d5f1c07e7cb521faefd0b972380600",
+  "bytes": 7838,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "af375a5fa6bf33238",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/af375a5fa6bf33238.output",
+  "source_task_output_sha256": "6687157640785f6701c64294ee0aea174ebc994b407c6e2c25b8374888d224cb"
+ }
+}

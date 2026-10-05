@@ -1,0 +1,190 @@
+=== REVIEW.md ===
+# Independent design review: F32-CONFLICT resolution design v5
+
+**What this is.** This is an independent design review by a Claude Code review subagent (claude-opus-5-5) with a fresh context. I authored nothing under review, and I am not the drafting agent. The review grants no acceptance, and every original Phase One obligation stays OPEN. It does not claim the original GPT-6.1 gate. The human's 2026-10-05 ~17:05Z direction superseded that gate (STATUS.md blob at `fda902d`, :279-291). The design records this at DESIGN.md:630-634 and :850-851.
+
+**Verdict: ENDORSED_WITH_REQUIRED_CHANGES.**
+- RC-7 parts (1) to (4) are CLOSED.
+- RC-1 to RC-6 remain CLOSED.
+- Notes 2 and 3 are CLOSED. Note 1 is PARTIALLY_CLOSED.
+- R-A and its patch are unchanged and sound. I reproduced them a fifth time.
+- New required change **RC-8**. v5's new Class A text claims that RUN re-checks all five carried inputs live, so that "any difference fails closed". That is false for three of the five: `tool_inventory.py`, `native_inventory.py` and `runtime_inventory.py`. Unlike RC-7, this gap does **not** fail closed.
+- RC-8 also asks for a precise binding target for `action-baseline.json` `source_files` (this is the gap left by note 1).
+
+## Inputs and identities
+- **Override file read first.** Then the brief `WT/briefs/f32-resolution-design-v5.md`, sha256 `6bd80989f103032f0f49fee5a8f0c4366ec2ba0a1a7190f84fdc2f3dd4e5441b` (57 lines).
+- **Under review.** All four hashes match brief:15-19:
+  - DESIGN.md `1752159a…`
+  - evidence.json `33226211…`
+  - jackal.json `76b19ff9…`
+  - f32-r-a.patch `226e7fc8…`. `cmp` shows it is identical to v4's copy, and its sha256 equals the v1, v2 and v3 copies.
+- **RUN.** `IO8/run_checks.py` is `b047481f…` (304 lines), read in full.
+- **ROSTER.** `ORIGINAL-ORDINARY-ROSTER.json` is `4a4cd1b3…` (2605 lines). REQUIRED-LIFETIME-CONTROLS.json is `9c836b3e…`.
+- **Sealed reviews read** (hashes match DESIGN.md:52-53, :78-79, :94-95, :107-108):
+  - v4 REVIEW.md `ddde224a…` and review.json `d1f01dce…`
+  - v3 REVIEW.md `a7e5dfb2…`
+  - v2 REVIEW.md `86569100…`
+  - v1 REVIEW.md `b491d9d2…`
+- **What I did not read.** v5 has no `review/` directory. I read nothing under review-records/, no gpt61-* directory and no transcript.
+- **evidence.json.** 111 of its 113 citations match the live bytes (JACKAL exact, parsed=111+2, exact=113). The two mismatches are the two files evidence.json declares live (`live_files_note`):
+  - STATUS.md is now `8544b32b`. `git show fda902d:STATUS.md` gives `985dfcaa`, and the cited lines hold there.
+  - D1 v5 DESIGN.md is now `5994b243`. Its :168 still binds `76141dfb`/`22b5b189` and binds neither post-image hash.
+- **Method.**
+  - Reading and sha256 only.
+  - R-A was applied in memory with Python; no file was written. Python `ast` and `hashlib` were used.
+  - The roster and runner-input JSON files were read with standard-library `json`.
+  - No WORLDLINE code was imported or executed, and `git apply` was not used.
+  - All eight Ada skills were loaded before I read `core/worldline_core.gpr`. No other Ada was read; the Ada facts carry over from the sealed reviews, whose file hashes are among the 111 that match.
+- **Disclosure.**
+  - An `ls -la` of IO8's root, issued as a backgrounded Bash command, ran the user's `eza` alias. It hung in state S and was still running at 5m35s.
+  - I did not stop it, per the no-interrupt rule. It writes nothing.
+  - No file was written by me.
+
+## 0. Closure versus v4
+
+**RC-7(1): CLOSED** (DESIGN.md:63, :592, :659-673).
+- **RUN derives `child`.** It computes `child` at RUN:60-166, records it at :254, and executes it in child mode at :23 and :36.
+- **Path-bearing launches.**
+  - 13 of the 52 roster `literal_g8_launches` carry an IO8 path in `child_argv`.
+  - These are exactly the modes listed at DESIGN.md:666-669, and they correspond to RUN:75, :79, :83, :87, :91, :101, :105, :115, :119, :143, :145, :162 and :164.
+  - This leaves 39 path-free launches (JACKAL exact, parsed=52-13, exact=39).
+- **Re-based roster.** The re-based roster `future_rebased_roster_preparation_only_unadmitted` matches the literal roster mode-for-mode, and its `child_argv` equals the literal one modulo the v7→IO8 path for all 52 launches.
+- **Recorded receipts.** The 7 recorded IO8 `evidence/*/inputs-before.json` files all carry `child_argv` byte-equal to the roster.
+- **Line citations.** ROSTER:8-9, :1306-1307 and :2155 hold the cited paths.
+
+**RC-7(2): CLOSED** (DESIGN.md:64, :710-715).
+- RUN reads `evidence/native-build-v1/result.json` for every mode except native-build (:237-240).
+- It requires scope 0, child 0 and `inputs_unchanged` (:241), compares the artifacts (:250), and pins the digest (:251-252, :290).
+- The label `v1` is hard-coded at :238, which is consistent with "fresh native-build launch".
+
+**RC-7(3): CLOSED** (DESIGN.md:65, :690-715). Carry-over is dropped for each of the four inputs, and the design's IO8 hit counts reproduce:
+- `build.json`: 1 hit, at :2.
+- `tool-inventory-template.json`: 4 hits, at :34-39.
+- `runtime-closure.json`: 4 hits, at :7, :34168, :34171 and :444704.
+- The native-build receipt: 4 hits.
+
+The replacement Class A text is new, and it is the subject of RC-8.
+
+**RC-7(4): CLOSED, with an overstatement** (DESIGN.md:66, :724-735, :759).
+- **Launch indices.** They are 0-based and consistent with evidence.json `f32_launch_indices`: native-build is 0, default-tests 35, metadata-tests 36 and finalization-kernel-tests 43.
+- **depends_on lines.** They hold:
+  - :2183, default-tests depends on authority-tests;
+  - :2208, metadata-tests depends on default-tests;
+  - :2383, finalization-kernel-tests depends on finalization-tests.
+- **pending-build's condition** is a root gate (roster launch 2).
+- **RUN enforces native-build first** for every other mode (:237-241).
+- **The overstatement** (non-blocking note 1): ":735 A failure anywhere upstream stops them" and ":728 none of them is strictly linear".
+
+**Note 1: PARTIALLY_CLOSED** (DESIGN.md:68, :626, :701-702).
+- `source_files` is now bound to a frozen, reviewed inventory rather than a launch-time observation, so the :189 check is no longer self-referential.
+- But the reference named is "the R-A lane" inventory. Step 3 composes R-A into "the integrated candidate that the admitted frame will build and run" (:636).
+- RUN :189 and :285 compare `observe_source()` of `root/source`, the tree actually run.
+- If the integrated candidate contains anything besides the R-A lane, the R-A-lane inventory cannot match. The run then fails closed and E1-E3 cannot execute as written. See RC-8(b).
+
+**Note 2: CLOSED.** Commit `fda902dad0058e4f76f3cfad6417e8ab8690224f` exists, and its STATUS.md blob hashes to `985dfcaa…`. The cited lines are :279-291, :323-324, :329, :337, :355-361 and :393-397.
+
+**Note 3: CLOSED.** The obligation text is unchanged (DESIGN.md:270-272, :594, :744-749). D1 v5 is still pre-R-A at :168 in the live `5994b243`.
+
+**RC-1 to RC-6: still CLOSED.**
+- I compared v4 and v5 with `diff`. The changes in §§1-6 are rewording and re-wrapping.
+- §8 step 3 and the §9 preamble are rewritten for RC-7.
+- E1 adds the criterion "`inputs_unchanged` true (RUN:292)". This strengthens the criterion and is not a weakening.
+- E1-E3 gain launch numbers.
+- No assertion, accepted case, criterion or control was removed.
+
+**Every other §7-§9 runner statement verified against RUN:**
+- `root`/`source` (:8-9).
+- No IO8 path literal. The scope prefix is at :203. The system paths are at :24-26, :49-51, :61, :203 and :214.
+- `exist_ok=False` (:47-48) and the labels (:45-46).
+- The environment from `source` (:52-55).
+- The runtime closure (:182-186, :286-288).
+- The effective environment assert (:211-213) and the tool observation (:208, :280).
+- The four `action-baseline` fields (:189/:285, :210, :217-219, :225).
+- `observe_source` exclusions (:170-180).
+- Vendors (:221-225) and native inputs (:233).
+- `build.json` (:242-245, :250).
+- The library copy (:199-202). S5 `core/worldline_core.gpr:6-8` holds Library_Dir `../lib`, Library_Name `worldline_core` and dynamic kind.
+- The binary copy (:226-229).
+- There is no lifetime mode (grep `cast_lifetime` in RUN returns 0). REQUIRED-LIFETIME-CONTROLS.json:2 "authority" is as quoted.
+
+The one statement that does not hold is in RC-8.
+
+## 1. Characterization: CORRECT (bytes unchanged)
+- S5 hashes are raw `22b5b189`, fin `76141dfb`, row `74a19597`, lifetime `f6bc3e2f`, finalization lifetime `d9ae6698`, and oracles `fe91b945` and `b8b0d136`.
+- **The helpers carry None.** `checkpoint()` has `resulting_requirement=None` at raw :530. `bound_request` (raw :71-81) and `collapse_values` (fin :245-255) do not override it.
+- **So AUTHORIZED is unreachable.** This rests on the contract facts confirmed by the sealed reviews, at unchanged Ada hashes.
+- **OB-003.** Its acceptance (OBLIGATIONS-v2.json:95) requires its own transaction-level positive. Its identity stays OPEN (DESIGN.md:145-151, :442-457).
+
+## 2. Original intent: SUPPORTED (unchanged since v3; DESIGN.md:320-417)
+
+## 3. R-A preservation: CONFIRMED (reproduced)
+- **Patch application.** It applied in memory to S5. Post-images are `4da992dd…7327aa4` and `77f0cb99…ffad7262` (DESIGN.md:558-559).
+- **Unchanged structure.**
+  - Lines are 289/289 and 561/561.
+  - Methods are 26/26 and 43/43. Only `FinalizationNativeControls.collapse_values` and `RawRequiredFailureControls.bound_request` changed.
+  - Assert-call ASTs are 38/38 and 62/62, identical and in order.
+- **35-keyword equivalence.** The literal at raw :473 and `checkpoint()` at :525 each have 35 keywords over the same key set. Before R-A, after the helper's replacements, the only difference is `resulting_requirement`; after R-A there is none.
+- **Callers match the inventory.** `bound_request` is called at raw :84-156 and :217, and row :87 and :106. `collapse_values` is called at fin :258 and :269, and lifetime :95, :109, :122, :137 and :154.
+- **Collection.** Only `test_recovery_packet_producer.py` has `load_tests` (:207).
+- **Row :97-99 is handled** (DESIGN.md:226-232, :586).
+
+## 4. Rejected options: SOUND (unchanged; DESIGN.md:488-502). No non-weakening option is missed.
+
+## 5. Authority: WITHIN DELEGATION
+- The authority is RECOVERY-AND-AUTONOMY.txt:7 (`f0c36233`) and the STATUS snapshot :393-397.
+- No gate is added or lowered.
+- RC-8 is a fact-correction to the provisioning record, not an approval gate.
+
+## 6. Closure plan: complete in scope except RC-8
+- E0-E7 cover the following (DESIGN.md:762-771):
+  - the matching-source runs;
+  - all 14 lifetime controls (REQUIRED-LIFETIME-CONTROLS.json:4-21);
+  - the OB-003 neighbours;
+  - the full roster with runner-derived argv;
+  - strict proof.
+- Frozen lanes are re-bound in later revisions, never edited in place:
+  - PK-0 v2 `packet.json:198-199` and D1 v4 :191 still hold the pre-R-A hashes;
+  - DESIGN.md:744-749 covers them.
+- **The RC-8 gap.**
+  - RUN never digests or compares the three inventory modules. It imports them from `root` (:4-6; `sys.path[0]` is the script directory) and pins only its own digest (:260). Its `tools` entry covers only python3, systemd-run and `child[0]` (:259).
+  - `runtime-closure.json` `spec` does not cover them either. Its `trees`, `paths` and `elf_direct` name only system locations, and the strings `tool_inventory`, `native_inventory` and `runtime_inventory` occur nowhere in the file.
+  - The modules are themselves the observation code. A modified `tool_inventory.py`, together with an `action-baseline.json` regenerated (Class B) through that same module, would be self-consistent at :210. A modified `runtime_inventory.py` defines the observation it is compared against at :186.
+  - So DESIGN.md:65 ("RUN re-checks them live") and :684-685 ("RUN re-checks each against a live observation, so any difference fails closed") are false for 3 of the 5 Class A inputs (JACKAL exact, parsed=5-2, exact=3; Class A count parsed=1+1+1+1+1, exact=5).
+  - The claim holds for `vendor-template.json` (:223, :225) and `native-input-baseline.json` (:233).
+- **Still OPEN:** everything in open_obligations.
+
+## 7. Anything else
+- I found no cap, domain narrowing, suppressed assertion or Ghost, added assumption or renamed readiness label.
+- The only safety property overstated is RC-8's. It is a provisioning-integrity statement and touches no patch byte.
+
+## Required changes
+**RC-8. Correct the Class A runner claim and pin the `source_files` binding target** (DESIGN.md:65, :68, :684-689, :698-702, :626).
+
+**(a) The three inventory modules.**
+- State that RUN does not check `tool_inventory.py`, `native_inventory.py` or `runtime_inventory.py`. Only its own digest is recorded (:260).
+- Their byte identity must therefore be established and recorded in the provisioning record, not attributed to RUN. Each must be sha256-equal to IO8's:
+  - `51aa43cc5797254a6262f11f87889d69f6171d4303d29e077758aa9ee21cb80b`
+  - `ac693a0602ec541c017228114ec262df9ab274e4fabb6dcec53dd4412452f6c0`
+  - `4888f64d6125e1bce74fdde7e07f7ced16a961930903d725cd47adb2e3ff0259`
+- Because RUN puts `root` first on the import path, the record must also list the candidate root's complete set of importable files.
+- Keep "fails closed" only for `vendor-template.json` (:223, :225) and `native-input-baseline.json` (:233).
+
+**(b) The `source_files` binding target.** State that `action-baseline.json` `source_files` is bound to the frozen, reviewed inventory of the exact tree RUN executes, `<candidate-root>/source`, under the :170-180 exclusions. That inventory must contain R-A's post-images `4da992dd…` and `77f0cb99…`. The R-A lane inventory is that reference only if the candidate is exactly the R-A lane.
+
+This is a fact-correction, not a gate.
+
+## Non-blocking notes
+1. **Ordering wording** (DESIGN.md:728, :735).
+   - Launches 8-46 form a strictly linear `depends_on` chain, so ":728 none of them is strictly linear" misstates it.
+   - Per the roster text, E1's ancestry is 35←34←…←7←3←2. Launches 1, 4, 5 and 6 are side branches; for example, entry-component-tests (launch 4) carries no stop clause.
+   - So ":735 A failure anywhere upstream stops them" is broader than the roster. It is harmless for closure, since E6 requires the whole roster anyway. Say "a failure in their `depends_on` ancestry stops them; E6 requires every launch".
+2. **`action-baseline.json` contains no IO8 path** (0 hits, `9d6a152c…`). It belongs in Class B because `source_files` must change, not because of an embedded path. DESIGN.md:65 ("only the five inputs that contain no IO8 path") should say so.
+3. **Index base.** v4's review called native-build "launch 1". v5 uses 0-based indices (DESIGN.md:726, :732-733). Stating the index base once would avoid confusion.
+
+=== review.json ===
+{"schema":"claude-design-review-v1","design":"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-f32-resolution-v5/DESIGN.md","design_sha256":"1752159a03d2790fd2b50e726c0e506fe6645a7969cb185fdc92f16371164907","patch_sha256":"226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650","rc_closure":{"RC-1":"CLOSED (unchanged; v4->v5 diff in sections 1-6 is rewording)","RC-2":"CLOSED (unchanged; DESIGN.md:602-614)","RC-3":"CLOSED (unchanged; DESIGN.md:125-133, :426-434)","RC-4":"CLOSED (unchanged; DESIGN.md:238-260, :593)","RC-5":"CLOSED (unchanged; DESIGN.md:135-151, :436-457)","RC-6":"CLOSED (DESIGN.md:592, :638-657; run_checks.py b047481f:8-9,:36,:47-48,:52-55)","RC-7":"CLOSED: (1) DESIGN.md:63,:659-673, 13/52 path-bearing reproduced, 39 path-free JACKAL exact, rebased roster equal modulo path for all 52; (2) :64,:710-715 vs RUN:237-253; (3) :65,:690-715 carry-over dropped for build.json/tool-inventory-template/runtime-closure/receipt; (4) :66,:724-735 indices 0/35/36/43 and depends_on :2183/:2208/:2383 hold (wording overstatement, note 1)","note-1":"PARTIALLY_CLOSED: non-self-referential, but bound to the R-A lane inventory instead of the executed candidate tree (RC-8b)","note-2":"CLOSED (fda902d STATUS.md blob = 985dfcaa)","note-3":"CLOSED (D1 v5 live 5994b243 :168 still pre-R-A)"},"different_from_author":true,"actual_model_selection":"claude-opus-5-5 (independent Claude Code review subagent, fresh context)","reviewer_kind":"claude-subagent","author":"Claude Code lead claude-opus-5-5 (drafting subagent)","verdict":"ENDORSED_WITH_REQUIRED_CHANGES","item_findings":{"0":"RC-7 parts 1-4 CLOSED; RC-1..RC-6 still CLOSED; notes 2-3 CLOSED, note 1 PARTIALLY_CLOSED; every other section 7-9 runner/roster statement verified; new Class A text is false for 3 of 5 inputs (RC-8)","1":"CORRECT: S5 checkpoint() :530 None reaches bound_request/collapse_values; AUTHORIZED unreachable; OB-003 needs its own transaction-level positive, identity OPEN","2":"SUPPORTED (unchanged since v3)","3":"CONFIRMED: in-memory application; post-images 4da992dd/77f0cb99; lines 289/561 unchanged; methods 26/26, 43/43, only the two helpers changed; assert ASTs 38/38, 62/62 identical and ordered; 35-keyword equivalence with raw :473-481 after R-A; callers match the inventory; row :97-99 handled","4":"SOUND; no missed non-weakening option","5":"WITHIN DELEGATION (RECOVERY-AND-AUTONOMY.txt:7; STATUS fda902d :393-397); no gate added or lowered","6":"Complete in scope except RC-8: the three inventory modules are imported but never digested or compared by RUN or covered by runtime-closure spec, so the 'fails closed' claim does not hold for them; source_files binding target must be the executed candidate tree","7":"No cap, narrowing, suppressed assertion or Ghost, added assumption or renamed label found"},"required_changes":[{"id":"RC-8","change":"(a) State that run_checks.py does not check tool_inventory.py, native_inventory.py or runtime_inventory.py (only its own digest, :260). Their byte identity to IO8 (51aa43cc5797254a6262f11f87889d69f6171d4303d29e077758aa9ee21cb80b, ac693a0602ec541c017228114ec262df9ab274e4fabb6dcec53dd4412452f6c0, 4888f64d6125e1bce74fdde7e07f7ced16a961930903d725cd47adb2e3ff0259) must be established and recorded in the provisioning record, together with the candidate root's complete importable file set, because root is sys.path[0]. Limit 'fails closed' to vendor-template.json and native-input-baseline.json. (b) Bind action-baseline.json source_files to the frozen, reviewed inventory of the exact <candidate-root>/source tree run_checks.py observes (:170-180, :189, :285), containing R-A post-images 4da992dd/77f0cb99, not to the R-A lane inventory unless they are identical.","reason":"DESIGN.md:65 and :684-685 claim RUN re-checks all five Class A inputs live so any difference fails closed. For the three observation modules that is false, and the gap does not fail closed: a modified module plus a Class B baseline regenerated through it is self-consistent at :210/:186. Note 1's binding target as written cannot match a composed candidate. Fact-correction, not a gate.","evidence":"run_checks.py b047481f:4-6,:170-189,:206-210,:254-260,:285; runtime-closure.json 18d493f7 spec (trees/paths/elf_direct system-only; no inventory module names); DESIGN.md 1752159a:65,:68,:626,:636,:684-702"}],"open_obligations":["F32-CONFLICT (until E0-E7 on the matching admitted-frame candidate)","OB-003 incl. its transaction-level acceptance, identity of 'the 1.9.1 control', its _freshness positive leg, mutant and proof obligations, OB-017/OB-018/OB-024","REQUIRED-LIFETIME-CONTROLS (all 14, UNRUN, separately reviewed frame)","full original ordinary roster (52 launches) on matching source via a re-targeted runner","full matching-source strict proof","PK-0 and D1 re-bind at the first revision after R-A composition","RC-8","all item1, Item7, K4, K6, confinement, custody and Phase One exit obligations"],"proof_acceptance":false,"phase_acceptance":false,"source_acceptance":false}
+
+=== checks.json ===
+{"schema":"claude-design-review-checks-v1","hashes_computed":{"brief f32-resolution-design-v5.md":"6bd80989f103032f0f49fee5a8f0c4366ec2ba0a1a7190f84fdc2f3dd4e5441b","v5/DESIGN.md":"1752159a03d2790fd2b50e726c0e506fe6645a7969cb185fdc92f16371164907","v5/evidence.json":"332262113875d0c76d9c9799b24222966d794b8bc8d07bdc11e63b372772f762","v5/jackal.json":"76b19ff9cf3c91206485f53173718cc1adcd00b973583c9d5ebd34ccd42970ab","v5/f32-r-a.patch":"226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650 (cmp identical to v4; sha equal v1-v3)","IO8/run_checks.py":"b047481ffb47328ea09f50da3a37eb13f88b6ff4fb1ef8e7540cc95bf7d7fa18","ORIGINAL-ORDINARY-ROSTER.json":"4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e","REQUIRED-LIFETIME-CONTROLS.json":"9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9","RECOVERY-AND-AUTONOMY.txt":"f0c3623336007299fc72c803d03e6245538cf772b9c01aa0063e734a2457f232","v4 review REVIEW.md":"ddde224a5f4bb2591cda964d0a040c3030f6b2cb64c3124a59aa8c6a2a610aff","v4 review review.json":"d1f01dceae2969d8ee1782b681649604fb18efe2429f7ead7e8231f162ae99bc","v3 REVIEW.md":"a7e5dfb2f06e3e39bb2a292cc6804c2042e4977f965e6f6342eab8587787aa11","v2 REVIEW.md":"865691006b593ed4559ceb755e54ba4c888b737fe6b15da35132431a339fff28","v1 REVIEW.md":"b491d9d24127411e485b48751bc8a16846b95532dacd962db9f3c69196717681","git fda902d:STATUS.md":"985dfcaa16a22cf70d9ea3b483965564181ef75e14b5150dffaf509c496ba3a7","live WT/STATUS.md":"8544b32bcaf59610b6dc65765eace3645a1c50d982cc4bb365832f95c473979a","live D1 v5 DESIGN.md":"5994b2436376d71d8cbf6eb8c90f2c1c601244d6c239872f604c469046a11ebd","IO8 tool_inventory.py":"51aa43cc5797254a6262f11f87889d69f6171d4303d29e077758aa9ee21cb80b","IO8 native_inventory.py":"ac693a0602ec541c017228114ec262df9ab274e4fabb6dcec53dd4412452f6c0","IO8 runtime_inventory.py":"4888f64d6125e1bce74fdde7e07f7ced16a961930903d725cd47adb2e3ff0259","IO8 vendor-template.json":"edc2c8a2d312f29f12a1e2fab5a9f03fb9e2f4f76a12628c724010c0ae257e00","IO8 native-input-baseline.json":"b57ae8a7ee0850096107d1b184af55c80878f6f958b72aaaf89d6eaaf2b6925b","IO8 action-baseline.json":"9d6a152cfefd52a4b8668883154d9f60066f44114d3d37dd2cc635a936234007","IO8 runtime-closure.json":"18d493f7c6e1579a… (prefix read)","IO8 tool-inventory-template.json":"cf96e689dc4c8d8d… (prefix read)","IO8 native-artifacts/build.json":"cef05bea779cf3a6… (prefix read)","IO8 evidence/native-build-v1/result.json":"1bba232b1a210ce6… (prefix read)","S5 core/worldline_core.gpr":"5497fabb698d53efc2bfb39104bdcd48b1c0f46e0c706c2643c8ce1af72fd5b0","S5 tests (prefix)":{"test_raw_evaluation_default.py":"22b5b189f9686f45","test_finalization_kernel.py":"76141dfb2ddea1c9","test_evaluation_row_projection.py":"74a195970ce6bdd0","test_context_cast_lifetime.py":"f6bc3e2f7c21c371","test_finalization_cast_lifetime.py":"d9ae6698865157b3","oracle_finalization_kernel_cast_lifetime.py":"fe91b945afbe61d8","oracle_evaluation_context_cast_lifetime.py":"b8b0d1365504483c"},"R-A post-images (in memory)":{"tests/test_finalization_kernel.py":"4da992ddfd206134131c31ea306fc19d46500ca8501a5214e540f55357327aa4","tests/test_raw_evaluation_default.py":"77f0cb999bca30a6eaa1ec663e21ee9cb152f405cb1ae1a591a20465ffad7262"},"evidence.json citations":"111 match live, 2 mismatches = declared live files (STATUS.md, D1 v5)"},"files_read":[{"path":"scratchpad/review-override.txt","lines":"1-11"},{"path":"WT/briefs/f32-resolution-design-v5.md","lines":"1-57"},{"path":"WT/designs/claude-f32-resolution-v5/DESIGN.md","lines":"1-852"},{"path":"WT/designs/claude-f32-resolution-v5/jackal.json","lines":"1-41"},{"path":"WT/designs/claude-f32-resolution-v5/evidence.json","lines":"structure + all 113 citations hashed"},{"path":"WT/designs/claude-f32-resolution-v5/f32-r-a.patch","lines":"1-22"},{"path":"WT/designs/claude-f32-resolution-v4/DESIGN.md","lines":"diff vs v5; sections 8-9 (572-650) read"},{"path":"WT/designs/claude-f32-resolution-v4/review/claude-v1/REVIEW.md","lines":"1-145"},{"path":"WT/designs/claude-f32-resolution-v4/review/claude-v1/review.json","lines":"all"},{"path":"WT/designs/claude-f32-resolution-v3/review/claude-v1/REVIEW.md","lines":"all"},{"path":"WT/designs/claude-f32-resolution-v2/review/claude-v1/REVIEW.md","lines":"all"},{"path":"WT/designs/claude-f32-resolution-v1/review/claude-v1/REVIEW.md","lines":"all"},{"path":"W/work/integrated-ordinary-v8/run_checks.py","lines":"1-304"},{"path":"W/work/integrated-ordinary-v8/tool_inventory.py","lines":"1-85"},{"path":"W/work/integrated-ordinary-v8/native_inventory.py","lines":"1-111"},{"path":"W/work/integrated-ordinary-v8/runtime_inventory.py","lines":"1-161"},{"path":"W/work/integrated-ordinary-v8/runtime-closure.json","lines":"1-12, 7, 34168, 34171, 444704; spec/inventory keys via json"},{"path":"W/work/integrated-ordinary-v8/tool-inventory-template.json","lines":"1-12, 34-39"},{"path":"W/work/integrated-ordinary-v8/native-artifacts/build.json","lines":"1-8"},{"path":"W/work/integrated-ordinary-v8/evidence/native-build-v1/result.json","lines":"1-33"},{"path":"W/work/integrated-ordinary-v8/evidence/*-v1/inputs-before.json","lines":"child_argv of the 7 present"},{"path":"O/ORIGINAL-ORDINARY-ROSTER.json","lines":"1-45, 1295-1310, 2150-2223, 2374-2398, 2598-2605; all 52 literal and 52 rebased launches via json"},{"path":"O/REQUIRED-LIFETIME-CONTROLS.json","lines":"1-25"},{"path":"O/WORKSPACE-RULES.md","lines":"6"},{"path":"RECOVERY-AND-AUTONOMY.txt","lines":"5, 7"},{"path":"git fda902d:STATUS.md","lines":"279-291, 323-324, 329, 337, 355-361, 393-397"},{"path":"WT/designs/claude-native-bigint-d1-design-v5/DESIGN.md (live)","lines":"168"},{"path":"WT/designs/claude-native-bigint-d1-design-v4/DESIGN.md","lines":"191"},{"path":"WT/packets/capi-pk0-v2/packet.json","lines":"198-199"},{"path":"S5/tests/test_raw_evaluation_default.py","lines":"60-100, 466-492, 518-550; full AST"},{"path":"S5/tests/test_finalization_kernel.py","lines":"236-266; full AST"},{"path":"S5/core/worldline_core.gpr","lines":"1-14 (after loading all eight Ada skills)"}],"jackal_calls":[{"tool":"jackal_exact","expression":"52-13","parsed":"52-13","status":"exact","exact":"39","purpose":"path-free roster launches","non_claims":["NOT formal-bounded: this lane carries no Lean-checked certificate","The epistemic class above is the STRONGEST claim this result supports","exact rational arithmetic (not yet checker-covered)"]},{"tool":"jackal_exact","expression":"1+1+1+1+1","parsed":"1+1+1+1+1","status":"exact","exact":"5","purpose":"Class A input count","non_claims":["NOT formal-bounded: this lane carries no Lean-checked certificate","The epistemic class above is the STRONGEST claim this result supports","exact rational arithmetic (not yet checker-covered)"]},{"tool":"jackal_exact","expression":"5-2","parsed":"5-2","status":"exact","exact":"3","purpose":"Class A inputs not re-checked by RUN","non_claims":["NOT formal-bounded: this lane carries no Lean-checked certificate","The epistemic class above is the STRONGEST claim this result supports","exact rational arithmetic (not yet checker-covered)"]},{"tool":"jackal_exact","expression":"111+2","parsed":"111+2","status":"exact","exact":"113","purpose":"evidence.json citations (matching + declared-live mismatches)","non_claims":["NOT formal-bounded: this lane carries no Lean-checked certificate","The epistemic class above is the STRONGEST claim this result supports","exact rational arithmetic (not yet checker-covered)"]}],"evaluator_sha256":"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872","disclosures":["a backgrounded listing of IO8 root invoked the user's eza alias and hung (state S, >5 min); not stopped per the no-interrupt rule; it writes nothing","no file written by the reviewer; no WORLDLINE code imported or executed; git apply not used"],"consequence_ceiling":"informational"}
+
+=== END ===
