@@ -246,7 +246,18 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 07:38Z)
+## In progress (updated 08:27Z)
+
+- **Root-worker SEAM DESIGN v4** (`designs/claude-root-worker-seam-design-v4`).
+  - **Files.** SEAM-DESIGN.md `f65629cb…`, seams.json `92a814a4…`, jackal.json `4d556a45…`, AUTHOR-NOTES.md `0bd92ccd…`.
+    Handed back after 08:23:18Z; the hashes match the report.
+  - **Lead check.** A lead script verified all 24 carried v3 slices, with no overlaps.
+  - **What it answers.** V3-REQ-A..L and RQ-1. It binds the sealed C-API v5 and v6 reviews and reports NF4-1..NF4-13.
+  - **Process.** Recorded in `deviations/seam-v4-author-process/NOTE.md`: the author scanned the lead's transcript
+    against instruction, saw two lead `sia.ask` calls, stopped, and reports using nothing.
+  - **Review.** Its actual gpt-6.1-sol review started 08:26Z: brief `briefs/root-worker-seam-design-v4.md` (`51c4f384…`),
+    thread `01a10b2c-017d-7591-b054-07317f89130f`.
+- **Storage at 08:25:51Z.** Free 9950502912 bytes, below the reserve. The ext4 proposal is still pending the human.
 
 - **Operator package DRAFT-v8 + W-1 v5: frozen and under review.**
   - **W-1 v5.** `proposal/ISOLATION-STORAGE-PROPOSAL-v5.md` `303205b1…` is a delta over v4, with

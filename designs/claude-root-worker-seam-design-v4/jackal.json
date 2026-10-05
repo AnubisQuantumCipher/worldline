@@ -1,0 +1,39 @@
+{
+  "schema": "claude-root-worker-seam-design-v4-jackal-v1",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent, author role)",
+  "design": "WT/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md",
+  "provider": "JACKAL MCP front door (jackal_exact and the other jackal_* tools)",
+  "calls_made_in_v4": [],
+  "derived_numerals_in_v4": "none",
+  "why_no_calls": "No numeral in the v4 text was derived by arithmetic. Every count, size and line number in SEAM-DESIGN.md, AUTHOR-NOTES.md and seams.json was printed by a read-only command or read from a file, or is quoted from v1, v2, v3, the sealed reviews, the C-API designs or the phase-one handoff with its own stated status. Identifiers such as OB-001 ... OB-219, R4-1 ... R4-64, K-1 ... K-23, RT-21 ... RT-27 or the generation symbols g, g+1, s and s+1 are labels or symbols, not computed quantities. Literal constants such as the byte 0x01 and example number lexemes are inputs, not results. Since no derived numeral exists, no JACKAL call was needed and none was made.",
+  "observed_counts": [
+    {"value": "2128 lines, 217264 bytes, trailing newline", "what": "v3 SEAM-DESIGN.md", "source": "read-only Python verification script output; byte size from wc -c (read-only command output)"},
+    {"value": "84061, 141527 and 112304 bytes", "what": "v3 review REVIEW.md, review.json, checks.json", "source": "read-only Python print, equal to review-freeze.json"},
+    {"value": "62 entries, none changed", "what": "v3 Appendix B bound inputs, recomputed", "source": "read-only Python verification script output"},
+    {"value": "64 replacements R4-1 ... R4-64, none missing, all quotes exact", "what": "v4 line replacements", "source": "read-only Python verification script output"},
+    {"value": "24 slices; 6 replacements that target v2 lines (R4-45 ... R4-49, R4-58)", "what": "the v4 slice table and v2-line replacements", "source": "read-only Python regex count over v4 SEAM-DESIGN.md"},
+    {"value": "43 C2 slices, 43 R3 replacements, 22 v1 slices, all matched", "what": "transitive bindings through v3 and v2", "source": "read-only Python verification script output"},
+    {"value": "81 quoted cells, none differing", "what": "verbatim review quotations in SEAM-DESIGN.md section A", "source": "read-only Python comparison against D3R/review.json"},
+    {"value": "219", "what": "entries of the v3 review's open_obligations, every one OPEN", "source": "read-only Python print over D3R/review.json"},
+    {"value": "9.3G available of 493G", "what": "free space on the filesystem holding WT", "source": "df -h (read-only command output)"},
+    {"value": "251; 52", "what": "protected proof floor; actions of the original ordinary roster", "source": "quoted from P1/HANDOFF.md:161-162"}
+  ],
+  "carried_v2_results": {
+    "ids": "J01 ... J18",
+    "where": "inside carried v2 slices only (SEAM-DESIGN.md RR4-5)",
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "consequence": "informational about arithmetic only",
+    "record": "D2/jackal.json, sha256 fe664cc888e348292b6e3cd28c37f89a6e4dfb7ea2e843f94253595dda4a7561 (bound in carried slice C3-APB)",
+    "re_run_in_v4": false
+  },
+  "ledger_used_as_evidence": false,
+  "status_classes_retained_verbatim": true,
+  "use_ceiling": "informational; no source, ABI, proof, native, control or acceptance inference",
+  "non_claims": [
+    "No arithmetic result is claimed by v4 itself.",
+    "Observed counts are tool outputs or file readings, not JACKAL results, and carry no JACKAL status.",
+    "The carried v2 results keep v2's status and were not re-run."
+  ]
+}
