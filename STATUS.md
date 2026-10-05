@@ -1,6 +1,6 @@
 # WORLDLINE Phase One: Claude lead status (live index)
 
-As of 2026-10-04 ~23:45Z. This file supersedes the stale status sections of the read-only
+As of 2026-10-05 ~04:20Z. This file supersedes the stale status sections of the read-only
 `work/claude-workflow-v1/REPAIR-MAP.md`, which stays preserved.
 
 **Every original Phase One obligation is OPEN.** Nothing below is proof, source, native or Phase One acceptance.
@@ -9,8 +9,8 @@ As of 2026-10-04 ~23:45Z. This file supersedes the stale status sections of the 
 
 | Gate | State | Where |
 |---|---|---|
-| Confinement / frame qualification | **BLOCKED.** Frame v5 is UNQUALIFIED (final actual gpt-6.1-sol report). V5-B01 requires custody that *prevents* the admitted generation from changing before use. V5-B02 requires enforced location custody for every frame mutation. No qualified unprivileged route has been demonstrated. W-1 v2 (separate writer and target accounts) is a candidate under review. | frame v5 `review/gpt61-v1`; `frame-v6-PLAN.md`; `proposal/ISOLATION-STORAGE-PROPOSAL-v2.md` |
-| Capacity | **BLOCKED.** Gate 0 (runbook v4.2) requires 9304350902252/1397 bytes above the 10 GB reserve for one unit run. At 23:32:06Z, free − reserve − Required = −8660677676012/1397 (JACKAL exact, formal=false). The backup service is failed. | `RUNBOOK-first-proof-iteration.md` |
+| Confinement / frame qualification | **BLOCKED.** Frame v5 is UNQUALIFIED (final actual gpt-6.1-sol report). V5-B01 requires custody that *prevents* the admitted generation from changing before use. V5-B02 requires enforced location custody for every frame mutation. No qualified unprivileged route has been demonstrated. W-1 (separate writer and target accounts) is the candidate: the package v6 review found W-1 v3 NOT_READY (8 sub-gaps CLOSED, 12 NOT_CLOSED), and W-1 v4 is being drafted. | frame v5 `review/gpt61-v1`; `frame-v6-PLAN.md`; `proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`; `package-review/gpt61-v3` |
+| Capacity | **BLOCKED.** Gate 0 (runbook v4.3) requires 9304350902252/1397 bytes above the 10 GB reserve for one unit run. At 04:17:40Z, free − reserve − Required = −9113451232236/1397 (JACKAL exact, formal=false). The vault timers are held for Codex's repository recovery. | `RUNBOOK-first-proof-iteration.md` |
 | Operator approvals | None given: no choice, no privileged action. | operator package |
 
 ## Storage alert (2026-10-04 20:37Z)
@@ -50,14 +50,15 @@ written. Future scans exclude that path.
 | Item | Verdict | Next |
 |---|---|---|
 | Scratch frame v1–v5 | All UNQUALIFIED. v5: V5-B01, V5-B02; the compact identity records and four residuals were ruled acceptable. | W-1 v2 and the frame v6-W1 design continue as routine engineering. Privileged setup needs operator approval later |
-| Operator package DRAFT-v4 | NOT_READY (9 required corrections; W-1 "potentially capable … not sufficient as described"; P-1: no operator approval solely for pinning) | DRAFT-v5 and W-1 v2 under re-review |
+| Operator package DRAFT-v4 | NOT_READY (9 required corrections; W-1 "potentially capable … not sufficient as described"; P-1: no operator approval solely for pinning) | DRAFT-v5 and W-1 v2 |
+| Operator package DRAFT-v5, DRAFT-v6 | Both NOT_READY (`package-review/gpt61-v2`, `gpt61-v3`). v6: W-1 v3 8 sub-gaps CLOSED, 12 NOT_CLOSED; eight new corrections | DRAFT-v7 with W-1 v4, then re-review |
 | Composition commonV5-alpha (packets 01, 02, 04) | QUALIFIED_SOURCE_COMPOSITION | — |
 | Composition commonV5-beta (+05..09) | QUALIFIED_SOURCE_COMPOSITION (rulings 7a/7b; notes N on packets 05/06 metadata) | — |
 | C-API design v2 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC6; LD4 rejected as written) | v3 being drafted |
 | D1 native design v2 | NOT_ENDORSED (V2-RC1..RC6; RC4–RC7 still open) | superseded by v3 |
 | D1 native design v3 | ENDORSED_WITH_REQUIRED_CHANGES (V2-RC1..RC3 and RC4..RC6 CLOSED; V3-RC1 OD-2 codec/census, V3-RC2 controls/fixtures, V3-RC3 checked-cost model; R-OD1/R-OD2 operator architecture choices unselected) | DESIGN v4 drafted ~00:00Z (`3c636847…`); its actual gpt-6.1-sol review started ~00:03Z |
 | D1 v4 author findings (unreviewed) | F34: v3's Algorithm B ghost is unrepresentable at n = 804; repaired by DR-C5. F35: Algorithm A's ghost horizon, OPEN. F36: Compare's checked cost is dominant. **F32: an original control (`tests/test_finalization_kernel.py:257-266`) expects AUTHORIZED where the author claims Collapse.Decide gives `Identity_Absent`. Unexecuted claim; original controls untouched** | Under the D1 v4 review. F32 needs integrated execution evidence |
-| C-API design v4 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~02:47Z; gpt-6.1-sol/max from the rollout). V3-RC5 and V3-RC6 CLOSED_AT_DESIGN_LEVEL. V3-RC4 NOT_CLOSED, with two remaining changes: V4-RC4-GATE (reconcile the gate rule set) and V4-RC4-ALIAS (expanded naming invariant for indirect package paths). L1–L8 all GENUINE. D-13 clarified: the reservation concerns the component transport/library architecture, not pin edits | DESIGN v5 drafting: the same author was resumed ~02:52Z |
+| C-API design v4 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~02:47Z; gpt-6.1-sol/max from the rollout). V3-RC5 and V3-RC6 CLOSED_AT_DESIGN_LEVEL. V3-RC4 NOT_CLOSED, with two remaining changes: V4-RC4-GATE (reconcile the gate rule set) and V4-RC4-ALIAS (expanded naming invariant for indirect package paths). L1–L8 all GENUINE. D-13 clarified: the reservation concerns the component transport/library architecture, not pin edits | DESIGN v5 drafted (`533f0e04…`, handback ~04:13Z); its actual gpt-6.1-sol review started 04:17Z |
 | C-API design v3 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC3 CLOSED_AT_DESIGN_LEVEL; V3-RC4 binding spec, V3-RC5 PK-0 effect classification, V3-RC6 cost map NOT_CLOSED; D-13 operator choice on a concrete reviewed packet before PK-7; N-06 at deployment; N-01 lead-owned) | DESIGN v4 |
 | Root-worker seam design v1 | ENDORSED_WITH_REQUIRED_CHANGES (RC-01..RC-12; rulings D-1a..D-9a: `Delegate=yes` not endorsed, the frontier control cannot be retired by the lead, native custody-phase legality is mandatory) | v2 after operator decisions |
 | D2 checked-Ghost inventory v1 | ACCURATE_WITH_CORRECTIONS (12 corrections, hazard rulings H1–H11; see below) | Corrections carried here and into the package |
@@ -166,6 +167,16 @@ V5-B02 and every original obligation stay OPEN.
   review records.
 - **Decision.** S-1, including option 4 (hold the lead's review and agent work), is the operator's choice.
 
+**Back above the reserve, 04:17:40Z (`df`).**
+- **Reading.** Free 10136649728 bytes.
+- **Derived (JACKAL exact, formal=false):**
+  - 136649728 bytes above the reserve;
+  - 2040254464 bytes more than at 03:39:12Z;
+  - Gate 0 margin (runbook v4.3) −9113451232236/1397.
+- **Attribution.** The source of the increase is not attributed. The lead deleted, moved and offloaded nothing, and it
+  took no size reading of vault paths after the handover to Codex.
+- **What it changes.** The reading does not change any gate. S-1 stays the operator's decision.
+
 ## Backup repository (iPad), 2026-10-05
 
 **Observed.**
@@ -206,9 +217,29 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (00:05Z)
+## In progress (updated 04:20Z)
 
-- Actual gpt-6.1-sol re-review of operator package DRAFT-v5 and W-1 v2 (`package-review/gpt61-v2`).
+- **C-API DESIGN v5** (`designs/claude-capi-boundary-design-v5`).
+  - **Author.** The resumed v4 drafting agent handed back shortly before 04:13:55Z.
+  - **Files.** DESIGN.md `533f0e04…`, decisions.json `a069632a…`, APPENDIX-BINDINGS.md `f22944b4…`, jackal.json
+    `612d189e…`, AUTHOR-NOTES.md `ed45d1db…`. The lead's re-hashes equal the author's report.
+  - **What it answers.** V4-RC4-GATE with one branch-sensitive gate rule, and V4-RC4-ALIAS with R-QUAL, an exact per-call
+    expanded-qualifier invariant. It also reports latent v4 defects L9–L12. A-COST v4 is carried unchanged by reference.
+  - **Lead checks** (engineering only, not review):
+    - A lead script re-hashed every carried slice: 20/20 DESIGN slices and 13/13 A-BIND slices equal the v4 bytes.
+    - JACKAL re-runs of J62, J65, J66 and J67 reproduced the recorded values: `exact`, formal=false.
+  - **Author process.** Recorded in `deviations/capi-v5-author-process/NOTE.md`: a `mkdir -p /dev/null` slip that
+    created nothing, Bash commands outside the literal list, and a late `sia.ask`.
+  - **Its sketch run.** The author executed the design's own check sketch in memory. The lead judged that an **author
+    self-check**: not WORLDLINE code, not evidence, not a control run. The reviewer may not execute the sketch.
+  - **Review.** Its actual gpt-6.1-sol review started 04:17:16Z: brief `briefs/capi-design-v5.md` (`ec0472e1…`),
+    thread `01a10a47-a6da-79e2-b8e0-a110e9fc7a8a`, output to `…/review/gpt61-v1`.
+- **Root-worker SEAM DESIGN v2.** Its actual gpt-6.1-sol review started 03:40:38Z (thread `01a10a26…`).
+  - At 04:17Z it had six checkpoints and an unsealed `REVIEW.md`. The lead does not read it before its freeze.
+- **W-1 v4.** The resumed W-1 author is drafting `proposal/ISOLATION-STORAGE-PROPOSAL-v4.md`, which exists but is not
+  yet handed back.
+  - It answers the six package-v6 W-1 corrections.
+  - DRAFT-v7 is refreshed and frozen with it, then goes to the package re-review.
 - Actual gpt-6.1-sol review of D1 DESIGN v4 (`designs/claude-native-bigint-d1-design-v4/review/gpt61-v1`).
   - **INCOMPLETE. A tool-layer stall is suspected in its concurrent `exec` batch of `jackal_exact` replays.**
   - The evidence:
@@ -224,8 +255,7 @@ V5-B02 and every original obligation stay OPEN.
 - **C-API DESIGN v4** (`designs/claude-capi-boundary-design-v4`, DESIGN.md `a9b5dcce…`).
   - The drafting agent finished ~02:05Z. Hashes are verified. It reports latent defects L1–L8, four of them in v3.
   - v3 text is bound as hashed slices.
-  - Its actual gpt-6.1-sol review started ~02:08Z (`…/review/gpt61-v1`), in the third and last free runner slot. The
-    stalled D1 v4 review holds another slot.
+  - Its actual gpt-6.1-sol review started ~02:08Z (`…/review/gpt61-v1`) and sealed ~02:47Z (verdict table above).
   - The author's process disclosures are recorded in `deviations/capi-v4-author-taskstop/NOTE.md`.
   - **Event, disclosed, by the C-API v4 drafting agent.**
     - At 01:22:20.621Z it ran `TaskStop` on its own timed-out background inspection task `ba0hhwegp`, then finished
@@ -241,7 +271,7 @@ V5-B02 and every original obligation stay OPEN.
   including the shared `worldline-c_api.adb` integration with C-API v4. Output goes to
   `designs/claude-root-worker-seam-design-v2`.
   - Its prompt forbids Bash writes and any interruption of tools.
-  - Its review waits for a free runner slot.
+  - The drafting agent has finished; its review is running (above).
 - **W-1 v3** (`proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`, `97f39c89…`, 193544 bytes).
   - Drafted by an author-role agent, which finished ~01:58Z with no refusal, deviation or interruption.
   - It specifies the gate group, `no_new_privs` with an anti-setid seccomp filter, no-ACL recipe modes with exports, a
@@ -249,7 +279,7 @@ V5-B02 and every original obligation stay OPEN.
   - Its staged Gate 0 proposes 15368462701360/1397 for each dispatch, about 11.0 GB. The lead reproduced it with
     JACKAL.
 - **Package v6.** DRAFT-v6 (`106dea2c…`) and W-1 v3 are frozen in `package-frozen/`. Their actual gpt-6.1-sol
-  re-review started ~02:12Z (`package-review/gpt61-v3`).
+  re-review started ~02:12Z (`package-review/gpt61-v3`) and sealed ~03:08Z NOT_READY (section above).
   - The brief asks the reviewer not to interrupt tools and to batch JACKAL calls modestly.
 - **Storage at 02:01:52Z.** Free 10370256896 bytes, 370256896 above the reserve.
   - Runbook v4.3 Gate 0 margin: −8787102018540/1397.
