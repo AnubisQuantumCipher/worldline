@@ -1,0 +1,141 @@
+{
+  "schema": "claude-d1-design-decisions-v6",
+  "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v6/DESIGN.md",
+  "design_sha256": "fc3e3a6186f924fe07027b1d806b2ed7f85f04705232f0661c9eab5f39294e95",
+  "design_bytes": 353396,
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+  "status": "DRAFT_FOR_INDEPENDENT_REVIEW",
+  "reviewer_assignment": "independent Claude review subagent, per the lead's instruction",
+  "date": "2026-10-05",
+  "package_files": [
+    {"path": "DESIGN.md", "sha256": "fc3e3a6186f924fe07027b1d806b2ed7f85f04705232f0661c9eab5f39294e95", "bytes": 353396, "role": "the design"},
+    {"path": "APPENDIX-A-python-conversion-surface.md", "sha256": "c0acdc6d99f1490477b3f8630cf0eb4e21cbc0ac88e23d512771481728e01268", "bytes": 55361, "role": "OD-2 conversion surface; v5's text, header updated only (diff-checked)"},
+    {"path": "APPENDIX-B-arow-horizon.md", "sha256": "902ac1a9d6456d1857449f1e60ca6270144f15f2aaed8e397dac93d146504db4", "bytes": 36853, "role": "Theorem H-A re-presented: construct inventory GT-01..GT-50, U-1..U-6, LR-4/LR-4A derivations, adversarial pass"},
+    {"path": "jackal.json", "sha256": "61883be3bceb44f5bce5c825abe850e02eb66027f7494b43358cd5b5982c8a14", "bytes": 5260, "role": "JACKAL records K-251..K-265 and the identities of the carried v4 and v5 logs"},
+    {"path": "decisions.json", "role": "this file (its hash is reported in AUTHOR-NOTES.md and the hand-back)"},
+    {"path": "AUTHOR-NOTES.md", "role": "process record, disclosures and the adversarial-pass record (its hash is reported in the hand-back)"}
+  ],
+  "self_contained": "DESIGN.md carries every v5 section that the sealed v5 review closed or ruled, verbatim or with the edits listed in its section 1 (diff-checked for sections 6, 7.1-7.7, 10, 11, 12.1, 12.4, 12.5); Appendix A reproduces v5's below an updated header; section 15 reproduces the v4 and v5 JACKAL tables. v1..v5 and their reviews are unchanged history.",
+  "answers_review": {
+    "review_dir": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v5/review/claude-v1",
+    "review_md_sha256": "38cb267e1abe72f0e75a72cac2368bb29410981564f91ad2403ddbd223d3ee96",
+    "review_json_sha256": "26213c66097408be6c22f6ca0cf71615d20807acda67ad9b87b13987eadfdad5",
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+    "read_in_full": ["REVIEW.md", "review.json"],
+    "not_read": ["raw-final-message.txt", "review-records/", "D4/review/gpt61-v1", "D4/review/gpt61-v2", "any transcript other than this agent's own"]
+  },
+  "source_basis": {
+    "current_reviewed_candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source",
+    "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source",
+    "read_this_session": ["core/resource_quantities.ads (whole spec)", "core/resource_quantities.adb:205-226", "core/resource_run_ledger.ads:140-270", "core/resource_run_ledger.adb:1-95"]
+  },
+  "nothing_executed": "No compiler, prover, gprbuild, gnatprove, build, test, WORLDLINE code, systemctl, sudo, project-vault or restic command was run. No WORLDLINE module was imported. No existing tree was modified. No SIA note was written and SIA was not consulted. Read-only inspection used cat, sed, grep, awk, diff, sha256sum, wc, ls of package directories, and python3 for read-only parsing and section diffs.",
+  "write_location": "All six package files were created and edited only with the Write and Edit tools in W/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v6/. No scratch/ subfolder was needed or created. No Bash command created or modified a file.",
+  "skills": "All eight Ada skills (ada hub, ada-omarchy, spark-users-guide, ada-programming, advanced-ada, gnat-toolchain, ada-high-integrity, ada-2005-amendment) were loaded with the Skill tool in this v6 session before any Ada reading.",
+  "deviations": [
+    {"id": "DEV-V6-NONE", "what": "v6 drafting", "assessment": "No deviation from the lead's limits is known. Editorial history annotations ('new in v5', 'Found while completing (g)') were trimmed from carried text in section 11.3's C12 row; this is recorded as an edit, not a technical change."},
+    {"id": "DEV-V4-TRANSCRIPT (carried)", "what": "v4-era read-only grep of the lead's top-level transcript, disclosed in v5", "assessment": "not repeated"}
+  ],
+  "status_vocabulary": ["DESIGNED", "PACKAGE", "CORRECTED", "OPEN", "OBSERVED", "DESIGN ARGUMENT (unreviewed)"],
+  "trace": [
+    {"item": "V5-RC1 (1)", "requirement": "guard LA-9N's usage conjunct with Usage_Candidate", "answered_in": ["5.13 Lemma_Operand_Values"], "status": "DESIGNED"},
+    {"item": "V5-RC1 (2)", "requirement": "guard LA-9's usage conjunct with Usage_Candidate (both engines)", "answered_in": ["5.6 Lemma_Operand"], "status": "DESIGNED"},
+    {"item": "V5-RC1 (3)", "requirement": "correct DESIGN.md:98, 1415-1416, 1424-1426, 2176, 2414, 2957 and APPENDIX-B:122-123, 166", "answered_in": ["1.6", "3.4 F37/F40", "5.14", "9.2", "9.6", "9.7", "12.7", "Appendix B.6 GT-08..GT-12", "Appendix B.8", "Appendix B.9"], "status": "CORRECTED"},
+    {"item": "V5-RC1 (4)", "requirement": "correct decisions.json:76 and :97", "answered_in": ["f35_outcome", "new_findings F37"], "status": "CORRECTED"},
+    {"item": "V5-RC1 (5)", "requirement": "recount K-236's LA-9N term", "answered_in": ["9.3.7"], "status": "CORRECTED", "jackal": ["K-236", "K-252", "K-253"]},
+    {"item": "V5-RC1 (6)", "requirement": "record F40", "answered_in": ["3.4 F40"], "status": "DESIGNED"},
+    {"item": "V5-RC2 (1)", "requirement": "A-ROW's own iterative per-kind LA-11 body with no Side_Sum/Side_Total/LA-7/Both_Kinds LA-10; guarded LA-9N", "answered_in": ["5.13 Lemma_Zero_Extent with LR-0", "5.6 note", "9.7"], "status": "DESIGNED"},
+    {"item": "V5-RC2 (2)", "requirement": "move LA-11 into A-ROW's PO set", "answered_in": ["8.1 PO-A35", "PO-A11"], "status": "DESIGNED"},
+    {"item": "V5-RC2 (3)", "requirement": "RL-25E control, True in every build, E = 0 / XA0", "answered_in": ["12.3 RL-25E", "9.2", "9.6", "12.6 W-10a", "7.8 XA0"], "status": "DESIGNED (unrun)", "jackal": ["K-251", "K-27"]},
+    {"item": "V5-RC2 (4)", "requirement": "F20/PO-X7 'A-ROW adds no recursive function' stays true", "answered_in": ["3.3 F20", "8.0 PO-X7", "Appendix B.10 U-3"], "status": "DESIGNED"},
+    {"item": "V5-RC3 (1)", "requirement": "complete per-construct enumeration of A-ROW's final ghost text with span classification", "answered_in": ["5.12-5.13 (final text)", "Appendix B.6 GT-01..GT-50"], "status": "DESIGN ARGUMENT"},
+    {"item": "V5-RC3 (2)", "requirement": "B.10 universal statement", "answered_in": ["Appendix B.10 U-1..U-6"], "status": "DESIGN ARGUMENT"},
+    {"item": "V5-RC3 (3)", "requirement": "own derivation for LR-3A/LR-4A", "answered_in": ["Appendix B.7.2", "5.13 Lemma_Accumulate_Step"], "status": "DESIGN ARGUMENT"},
+    {"item": "V5-RC3 (4)", "requirement": "independent re-review; F35 OPEN until then", "answered_in": ["5.14", "14 O-GHOST-HORIZON-A"], "status": "OPEN"},
+    {"item": "V5-RC4 (a)", "requirement": "restate the checked Compare term against 20*PV(L), obligated under O-COST-MEASURE/D2", "answered_in": ["9.3.7", "3.4 F42", "5.16"], "status": "CORRECTED", "jackal": ["K-254", "K-255", "K-256", "K-257", "K-172", "K-239"]},
+    {"item": "V5-RC4 (b)", "requirement": "release per-row E factor in 9.1 and a release timing control", "answered_in": ["9.1", "12.3 RL-27"], "status": "DESIGNED (unrun)", "jackal": ["K-258", "K-259", "K-264", "K-265", "K-39", "K-214"]},
+    {"item": "V5-RC4 (c)", "requirement": "RL-25C workspace is 2E", "answered_in": ["12.3 RL-25C"], "status": "CORRECTED", "jackal": ["K-260", "K-261", "K-262", "K-263"]},
+    {"item": "V5-RC5 (1)", "requirement": "define PO-A34 or remove its citations", "answered_in": ["8.1 PO-A34"], "status": "DESIGNED"},
+    {"item": "V5-RC5 (2)", "requirement": "reword APPENDIX-B:187-188 (W-11a)", "answered_in": ["Appendix B.8, B.10 item 6", "9.6", "12.6 W-11"], "status": "CORRECTED"},
+    {"item": "V5-RC5 (3)", "requirement": "synchronize decisions.json", "answered_in": ["this file"], "status": "DESIGNED"}
+  ],
+  "f35_outcome": {
+    "a_row": {
+      "status": "OPEN and BLOCKING (R-H-A). v5's Theorem H-A was false as written (RL-25, RL-25E); v6 re-presents it over the final text; design argument unreviewed",
+      "statement": "For Conserved, Contained and Check with D1-A (A-ROW for Selected_Sum_Order, the three-operand column engine for Pair_Sum_Order), on every input of the original domain: if the original's checked evaluation forms only representable values, every value D1-A's checked evaluation forms is representable.",
+      "basis": "per-kind row-order accumulation; U-1 span discipline (target, selected amount, Usage_Candidate usage, capacity operand, or Normalized of one; plus Empty_Quantity and accumulator arrays, bounded); GT-01..GT-50 bounded by a W value, 2*256^E (K-226) or 3*256^803 (K-248); LR-4/LR-4A derivations with (D)/(R) discipline; LA-10 per kind only; LA-11 own body",
+      "exhibits": {"RL-24": "expected to complete (False)", "RL-25": "expected to complete (True): the Budget usage is never evaluated by v6's text (GT-03, GT-08, GT-10, GT-11, GT-12)", "RL-25E": "expected to complete (True): XA0 through LA-11's v6 body", "RL-26": "expected to complete (False)"},
+      "v5_text_status": "RL-25 and RL-25E fail under v5's text (F40, F41); v5's 'completes; usage never evaluated' is withdrawn",
+      "remaining_evidence": ["independent re-review of Theorem H-A as re-presented", "PO-A27..PO-A33 and PO-A35 proved", "PO-A32 DR-C6 review of the final text against GT-01..GT-50 and U-1..U-6", "RL-24, RL-25 (z, n), RL-25E (z, n), RL-26 observed in the checks build"]
+    },
+    "a_col": {
+      "status": "OPEN (R-F38)",
+      "reason": "every column ghost model forms truncated multi-row sums (F38; RL-26, K-219, K-243..K-245) and LA-7 with Both_Kinds forms mixed partial sums; V5-RC1 is applied to its LA-9 (PO-A34), which removes the Budget-usage evaluation but not these hazards"
+    },
+    "not_used": ["Pre", "cap", "domain restriction", "refusal", "suppression", "Assume", "new Off boundary", "Assertion_Level change"]
+  },
+  "adversarial_pass": {
+    "where": ["Appendix B.12", "AUTHOR-NOTES.md section 4"],
+    "families": 18,
+    "constructs": "GT-01..GT-50",
+    "result": "On every originally successful input family enumerated, no D1-A construct passes to a Big_Integer-forming function a Data span that the original does not evaluate at the same call. The only other spans are Empty_Quantity (Length 0; forms only 0 and P(0) = 1) and D1-A's own accumulator arrays (values below 256^E).",
+    "nature": "desk enumeration over the design text by the author; not an execution, not a proof, not an independent review"
+  },
+  "rulings_applied": [
+    {"id": "R-H-A", "treatment": "v5 H-A recorded false; A-ROW kept as the candidate; F35 OPEN and BLOCKING; evidence list carried"},
+    {"id": "R-EXTENT-2", "treatment": "Held-only restriction on every D1-A construct that forms a Big_Integer from a usage span (U-2)"},
+    {"id": "R-F38", "treatment": "A-COL OPEN and not selected; V5-RC1 applied to its LA-9 (PO-A34)"},
+    {"id": "R-COST-5", "treatment": "checked Compare term and release per-row E factor stated and obligated under O-COST-MEASURE/D2; no cap"},
+    {"id": "R-CARRY-5", "treatment": "R-DRC5, R-F32, R-OD2-DEPTH, R-A, R-B, R-PREFIX, R-WORKSPACE, R-OD1, R-OD2, R-NOTICE, R-SCOPE unchanged"}
+  ],
+  "new_findings": [
+    {"id": "F40", "status": "LEAD record of the v5 review's finding; repaired in design (V5-RC1)", "summary": "v5's LA-9N and LA-9 evaluated a selected Budget row's usage; RL-25 falsified v5's H-A", "sections": ["3.4", "5.6", "5.13"]},
+    {"id": "F41", "status": "LEAD record of the v5 review's finding; repaired in design (V5-RC2)", "summary": "v5's A-ROW E = 0 path imported A-COL's LA-7 via LA-11 (Side_Sum, Both_Kinds LA-10, unguarded LA-9); RL-25E falsified v5's H-A", "sections": ["3.4", "5.13"]},
+    {"id": "F42", "status": "CORRECTED cost statements (V5-RC4)", "summary": "checked Compare term (8L+42)PV(L)+Q(L) per Held usage row against the original's 20PV(L), ratio 3233/10 at L = 803; release per-row E factor; RL-25C workspace 2E", "sections": ["3.4", "9.1", "9.3.7", "12.3"]},
+    {"id": "F37", "status": "v5's 'REPAIRED in both engines' withdrawn; repaired in v6 by V4-RC1 + V5-RC1 + V5-RC2; OPEN until proved and observed", "summary": "the Held-only restriction now covers the extent, the length test and every lemma", "sections": ["3.4"]}
+  ],
+  "decisions": [
+    {"id": "D-A-ENGINE", "title": "A-ROW candidate, A-COL recorded", "owner": "lead", "status": "DESIGNED", "summary": "A-ROW endorsed as the direction (R-H-A); A-COL not eligible while F35 is OPEN for it."},
+    {"id": "D-A-ROW-TEXT", "title": "A-ROW final executable and ghost text", "owner": "lead", "status": "DESIGNED", "summary": "Add_Operand, Add_Accumulator and Compare_To_Target written out with their loop invariants and lemma calls; Compare_To_Target gains a Post (once per call; LR-5); explicit AFTER assertion; Low_Quantity/Low_Prefix ghost helpers; Mode_Of_H.", "sections": ["5.12"]},
+    {"id": "D-A-ROW-LEMMAS", "title": "A-ROW lemmas", "owner": "lead", "status": "DESIGNED", "summary": "LA-9N (guarded), LR-0, LA-11 (own body), LR-3P, LR-6, LR-4, LR-4A, LR-5a/5b/5c; all non-recursive, iterative where input-sized.", "sections": ["5.13"]},
+    {"id": "D-A-EXTENT-2", "title": "Held-only usage everywhere (R-EXTENT-2)", "owner": "lead", "status": "DESIGNED", "summary": "Usage_Candidate guards the pre-pass, the length test, LA-9N, LA-9, LA-11, LA-7's Pre and Lemma_Close; Usage_Selected and Amount_Reference short-circuit on the kind.", "sections": ["5.3", "5.6", "5.13"]},
+    {"id": "D-A-DRC6", "title": "DR-C6 made precise; Theorem H-A re-presented", "owner": "lead", "status": "DESIGN ARGUMENT (unreviewed)", "summary": "four admitted expression forms; U-1..U-6; GT-01..GT-50.", "sections": ["5.14", "Appendix B"]},
+    {"id": "D-COST", "title": "Cost statements corrected", "owner": "lead", "status": "DESIGNED (static counts)", "summary": "F42 terms stated and obligated; RL-25C workspace 2E; RL-27 release timing control.", "sections": ["9.1", "9.3.7", "12.3"]},
+    {"id": "D-CONTROLS", "title": "Controls", "owner": "lead", "status": "DESIGNED (unrun)", "summary": "v5's set plus RL-25E (z, n) and RL-27 (a, b, baseline); RL-25C corrected; W-10a covers RL-25E; W-11a reworded.", "sections": ["12"]},
+    {"id": "D-CARRIED", "title": "Carried decisions", "owner": "lead / operator", "status": "as v5", "summary": "D-SCOPE, D-A-SIGNED, D-A-HELPERS, D-A-SEL-L (recorded, not mandated), D-A-COL-GHOST, D-A-CHECK, D-B, D-W-OWNER-A, D-STAGES, D-FAILPOINTS, D-NO-RECOMMEND, D-PACKETS: as in v5's decisions.json (sha256 fd470295050c0bac53ed176f4c46450dbaefe94b9c58b6d2b6a28b262fc70396), with the v6 edits listed in DESIGN.md section 1."}
+  ],
+  "operator_items": [
+    {"id": "OD-1", "selected": null, "unchanged_from_v5": true, "detail": "DESIGN.md section 10", "stays_open": ["O-HELPERS", "O-GHOST"]},
+    {"id": "OD-2", "selected": null, "unchanged_from_v5": true, "detail": "DESIGN.md section 11 and Appendix A", "stays_open": ["O-PYTHON", "O-PY-AUDIT", "O-PY-COST", "O-PY-T", "O-PY-DEPTH", "O-CENSUS"]},
+    {"id": "R-1 (existing operator package)", "selected": null, "summary": "relevant only if A-COL with A-GHOST-1 were chosen; A-ROW adds no recursive function", "stays_open": ["O-NOTICE-R1"]},
+    {"id": "F-B2 / F-B3", "selected": null, "summary": "unchanged", "stays_open": ["O-WORKSPACE"]}
+  ],
+  "open": [
+    "O-A", "O-CHECK", "O-BOUNDS", "O-B", "O-PREFIX-PROOF", "O-LEGALITY-PROBE", "O-EXCEPTION-CLEANUP", "O-WORKSPACE", "O-WORKSPACE-A", "O-NOTICE-R1", "O-HELPERS", "O-GHOST",
+    "O-GHOST-HORIZON-A (BLOCKING; R-H-A)", "O-GHOST-EXTENT-A", "O-GHOST-EXTENT-A-LEMMA (new; F40, F41)",
+    "O-BUILD-SELECTION", "O-PYTHON", "O-PY-AUDIT", "O-PY-COST", "O-PY-T", "O-PY-DEPTH", "O-CENSUS", "O-ORIGINAL-F32 (outside D1)", "O-TRANSPORT-MAPPING", "O-COST-MEASURE", "O-PROOF", "O-NATIVE", "O-CONTROLS", "O-PINS", "O-JACKAL-SYMBOLIC", "O-FINAL"
+  ],
+  "jackal": {
+    "records_file": "jackal.json",
+    "records_sha256": "61883be3bceb44f5bce5c825abe850e02eb66027f7494b43358cd5b5982c8a14",
+    "call_count": 15,
+    "ids": "K-251..K-265",
+    "carried": [
+      {"ids": "K-01..K-212, PE-01..PE-23", "records_sha256": "c3de17e765f8d67f3ac01e65295a28bca199426a0b61d1cba7d3e557c8962bd3", "call_count": 232},
+      {"ids": "K-213..K-250", "records_sha256": "edbdc9dee50a8b4fb630fab89d272c92f2f52c39bf996edb64cd4dabf5f99195", "call_count": 38}
+    ],
+    "status": "exact (formal=false, lane=rat); not formal-bounded; no consequence ceiling returned; no refusal"
+  },
+  "non_claims": [
+    "No source, proof, native, test, review or Phase One acceptance is claimed.",
+    "Theorem H-A as re-presented is a lead design argument, unreviewed and unproved; F35 stays OPEN and BLOCKING.",
+    "The adversarial pass is a desk enumeration, not an execution or a proof.",
+    "F35 stays OPEN for A-COL.",
+    "F32 is restated, not resolved; it is owned outside D1.",
+    "No operator option is selected or recommended; no gate is added.",
+    "Cost counts are static source counts, not measurements; no time was measured.",
+    "Resource failures are never accepted refusals.",
+    "No Pre, cap, domain restriction, refusal, suppression, Assume, new Off boundary or Assertion_Level change is introduced."
+  ],
+  "acceptance": {"proof": false, "source": false, "phase": false, "native": false}
+}

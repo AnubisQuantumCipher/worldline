@@ -361,6 +361,16 @@ carried — weakens nothing and was confirmed by six consecutive independent rev
 composes this lane, in an admitted frame — which is blocked by confinement (V5-B01/V5-B02, W-1). OB-003 acceptance is
 owned separately and stays open. OBS-1 is folded into the step-1 regeneration record, non-blocking.
 
+## Model policy (human, 2026-10-05 ~20:50Z)
+
+"Anything that's flagged just replace it and use Opus 4.8." The lead's reading, applied as standing policy:
+- **Flagged = stopped by a safety classifier.** When a drafting or review agent is stopped by a classifier, the lead
+  REPLACES it with a fresh relaunch on Opus 4.8, same brief (narrowed only where the classifier requires, never reworded
+  to evade it), and records it.
+- **Opus 4.8 for the work.** New drafting and review agents run on Opus 4.8.
+- **Unchanged.** Every requirement, review discipline and gate stays as it is; the model choice changes nothing about what
+  must be shown. Independent reviews are still fresh-context Claude review subagents, never the author.
+
 ## D-LEAD-REVIEW-PROVENANCE (lead decision, 2026-10-05 ~19:05Z)
 
 **The conflict.** The frame's adoption joins (v5 `rollout_join`, carried as W-1 v9 §4.6/§16) require gpt-6.1-sol rollout
@@ -427,6 +437,7 @@ independent review.
 | **F32 resolution v5** | **ENDORSED_WITH_REQUIRED_CHANGES** | RC-1..RC-7 CLOSED; R-A reproduced a fifth time. **New RC-8 (does not fail closed):** run_checks.py never digests the three inventory modules (`tool_`, `native_`, `runtime_inventory.py`; root is sys.path[0]), so their identity must be established in the provisioning record; `source_files` must be bound to the executed `<candidate-root>/source` inventory. The reviewer left a hung listing (`eza` alias); it is left running | `designs/claude-f32-resolution-v5/review/claude-v1` |
 | **Seam v7** | **ENDORSED_WITH_REQUIRED_CHANGES** | 11 of 12 V6-REQs CLOSED_AT_DESIGN_LEVEL (verified against the lane: dispatcher result set, JSON modes, factory fork point, D-H7 with all 10 policy fields unchanged, Appendix B identity binding). **V6-REQ-H PARTIALLY_CLOSED — load-bearing V7R-H:** removing `:192` alone makes the `:195` elif guard always-false in its only reachable case, silently dropping the original `p.quarantine`; "unchanged" is self-contradictory — convert to `else:`. Plus V7R-CITE (citation fixes). 14/14 slices and 86/86 R7 quotes exact; no double-replacement | `designs/claude-root-worker-seam-design-v7/review/claude-v1` |
 | **F32 resolution v6** | **ENDORSED** (first design-level endorsement) | Zero required changes. RC-1..RC-8 and all notes CLOSED; the reviewer verified table T line-by-line against run_checks.py and the three inventory-module hashes. One non-blocking OBS-1 (ldconfig binary not individually pinned), folded into the step-1 regeneration record, no new revision. The R-A patch is now confirmed by SIX reviews | `designs/claude-f32-resolution-v6/review/claude-v1`: freeze `ff3662db…` |
+| **D1 v6** | drafted; **under independent Claude review (Opus 4.8)** | Answers V5-RC1..RC5: Usage_Candidate guards both Budget-usage paths (F40), A-ROW gets its own per-kind LA-11 with LR-0 and RL-25E (F41), H-A re-presented with GT-01..GT-50 enumeration + U-1..U-6 + LR-4/LR-4A derivations, cost statements + RL-27 (F42). Author ran an 18-family adversarial pass. F35 stays OPEN/blocking until this review rules. Brief `briefs/d1-design-v6.md` (`3fa7c6e3…`) | `designs/claude-native-bigint-d1-design-v6` |
 | **W-1 v8** | **NOT_ENDORSED** | W1-V8-HOLDER-IOEXIT, W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-WRITER-AS-W, W1-V8-COMPOSED-ENUM, W1-V8-EVIDENCE-EQUIV, W1-V8-FORM-SUBUNIT | `proposal/v8-review/claude-v1`: freeze `c0a2bc3f…`, REVIEW.md `38dcb076…` |
 
 **PK-0 v2 closure detail.** RC4 and RC5 are CLOSED_IN_SOURCE; RC1, RC2 and RC3 are PARTIALLY_CLOSED. The reviewer independently confirms the F32 source reading and leaves it with F32-CONFLICT.

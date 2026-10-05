@@ -1,0 +1,58 @@
+{
+  "schema": "claude-d1-design-jackal-log-v6",
+  "package": "WT/designs/claude-native-bigint-d1-design-v6",
+  "session": "v6 drafting session of the D1 drafting subagent, 2026-10-05",
+  "tool": "mcp__jackal__jackal_exact",
+  "call_count": 15,
+  "call_policy": "one call at a time or at most four in parallel, with literal exponents, as the lead instructed",
+  "common_result_fields": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "consequence_ceiling": null,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ]
+  },
+  "interpretation": "exact is exact rational arithmetic outside the Lean certificate chain; it is not formal-bounded. No consequence_ceiling was returned, so every result is informational about code. No refusal occurred. The JACKAL JSONL ledger is recall, not evidence, and is not cited.",
+  "carried": [
+    {
+      "ids": "K-01..K-212 and PE-01..PE-23",
+      "source": "WT/designs/claude-native-bigint-d1-design-v4/jackal.json",
+      "source_sha256": "c3de17e765f8d67f3ac01e65295a28bca199426a0b61d1cba7d3e557c8962bd3",
+      "note": "v4 drafting session (232 calls: 209 jackal_exact, 23 jackal_poly_eq); not re-evaluated in v5 or v6. DESIGN.md section 15.1 reproduces their parsed= and exact= values."
+    },
+    {
+      "ids": "K-213..K-250",
+      "source": "WT/designs/claude-native-bigint-d1-design-v5/jackal.json",
+      "source_sha256": "edbdc9dee50a8b4fb630fab89d272c92f2f52c39bf996edb64cd4dabf5f99195",
+      "note": "v5 drafting session (38 jackal_exact calls); the v5 review re-ran all 38 and every one reproduced. Not re-evaluated in v6. DESIGN.md section 15.2 reproduces them."
+    }
+  ],
+  "records": [
+    {"id": "K-251", "expression_sent": "(0+0)-0", "parsed": "0+0-0", "exact": "0", "relied_on": true, "use": "RL-25E target p"},
+    {"id": "K-252", "expression_sent": "2+2", "parsed": "2+2", "exact": "4", "relied_on": true, "use": "LA-9N Value evaluations for a Usage_Candidate row (V5-RC1 recount)"},
+    {"id": "K-253", "expression_sent": "1+2+1", "parsed": "1+2+1", "exact": "4", "relied_on": true, "use": "operand Value evaluations per selected non-Usage_Candidate row"},
+    {"id": "K-254", "expression_sent": "(8*803+42)/20", "parsed": "(8*803+42)/20", "exact": "3233/10", "approx": "323.3", "relied_on": true, "use": "F42 leading-term ratio at L = 803"},
+    {"id": "K-255", "expression_sent": "20*70334477708", "parsed": "20*70334477708", "exact": "1406689554160", "relied_on": true, "use": "F42 original per-row term 20*PV(803)"},
+    {"id": "K-256", "expression_sent": "454992179073696/1406689554160", "parsed": "454992179073696/1406689554160", "exact": "35413463502/109487045", "approx": "323.44889299003364", "relied_on": true, "use": "F42 instance ratio"},
+    {"id": "K-257", "expression_sent": "454992179073696-300*1406689554160", "parsed": "454992179073696-300*1406689554160", "exact": "32985312825696", "relied_on": true, "use": "F42 instance exceeds 300 times"},
+    {"id": "K-258", "expression_sent": "10000-256^802", "parsed": "10000-256^802", "exact_summary": "negative integer; magnitude leading digits 25612512307729129361; trailing digits 5533239536", "relied_on": true, "use": "RL-27a target p holds"},
+    {"id": "K-259", "expression_sent": "256^802+9999-2*256^802", "parsed": "256^802+9999-2*256^802", "exact_summary": "negative integer; magnitude leading digits 25612512307729129361; trailing digits 5533239537", "relied_on": true, "use": "RL-27b target p holds"},
+    {"id": "K-260", "expression_sent": "2*10^8", "parsed": "2*10^8", "exact": "200000000", "relied_on": true, "use": "RL-25C Held-series workspace 2E at 10^8"},
+    {"id": "K-261", "expression_sent": "2*10^6", "parsed": "2*10^6", "exact": "2000000", "relied_on": true, "use": "RL-25C Held-series workspace 2E at 10^6"},
+    {"id": "K-262", "expression_sent": "2*804", "parsed": "2*804", "exact": "1608", "relied_on": true, "use": "RL-25C Held-series workspace 2E at 804"},
+    {"id": "K-263", "expression_sent": "256^803-5", "parsed": "256^803-5", "exact_summary": "positive integer; leading digits 65568031507786571166; trailing digits 6511881211", "relied_on": true, "use": "RL-25C Held series: usage of at least 256^803 exceeds the target 5"},
+    {"id": "K-264", "expression_sent": "1+10000", "parsed": "1+10000", "exact": "10001", "relied_on": true, "use": "RL-27 total rows"},
+    {"id": "K-265", "expression_sent": "10000-65535", "parsed": "10000-65535", "exact": "-55535", "relied_on": true, "use": "RL-27 baseline target p holds"}
+  ],
+  "summaries_note": "exact_summary values give the sign and leading/trailing digits read from the tool output; the full values were not transcribed.",
+  "non_claims": [
+    "JACKAL establishes the stated arithmetic instances only; every recurrence, call count, failure location and the horizon argument they feed is lead reasoning about source and design text.",
+    "No result here is formal-bounded."
+  ]
+}
