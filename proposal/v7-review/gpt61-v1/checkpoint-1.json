@@ -1,0 +1,791 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "closure_details": {
+    "W1-COMMIT-JOURNAL-EXPORT": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1939",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "remaining_gap": "Commit truth improves, but unobserved sync state and raw evidence/backup dependencies remain.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-CUSTODY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1814",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1885",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2897"
+      ],
+      "remaining_gap": "In-place protected admission removes copy mutation; actual root/cwd view, actor exclusion, asynchronous holder exit and complete mutation/preservation remain conditional or incomplete.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-CUSTODY-CLOSURE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1832",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1842",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1918"
+      ],
+      "remaining_gap": "Outgoing/pull/name paths have conditional arguments; absorbing population is not by itself complete kernel-holder exit. Common quiescence and preserving target behavior remain unestablished.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-DURABILITY-RELEASE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1652",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1671",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2148",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2215",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4423"
+      ],
+      "remaining_gap": "Retained: durability/export failure changes success credit, never authorizes a new window hold; F releases by the original owned-terminal rule and lock/re-read procedure.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-GENERATION-PROTOCOL": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1524",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1538",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4342"
+      ],
+      "remaining_gap": "C1 ordering and no-exchange invariants repaired; C3 depends on launcher-rl-identity.json not present in exact RECORDS delivery, and actual mounted source/parent data binding needs completion.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-IMAGE-OBSERVATION": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:470",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1083",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2852"
+      ],
+      "remaining_gap": "Complete per-use images-directory entry-set observation is restored with protected backing-file pins; no replacement operator capture/gate.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-IMAGE-TREE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:470",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1081",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2897",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3239"
+      ],
+      "remaining_gap": "Opaque lost+found, root-owned backing files, missing-mount refusal and exact entry set are specified. Full target-view/idmap/mount/noexec compatibility and safe capacity remain unestablished original obligations.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-JOURNAL-CONTINUATION": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1954",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2002",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2020",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2052",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074"
+      ],
+      "remaining_gap": "Local chain predecessor/close/continuation ambiguity is repaired: pre-link failure leaves no valid close, post-link failure does not retract commitment, and absent/failed continuation cannot revive an unconfirmed record. Sync provenance is separately OPEN.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-LIFETIME-ROLLBACK": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1770",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2411",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3318",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387"
+      ],
+      "remaining_gap": "Reserving-front-only release and W2 roles retained; common-state/holder exit, actual global partial rollback and evidence restore are incomplete.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-PROTOCOL-FAILURE-STATES": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1516",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1538",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1735",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4342"
+      ],
+      "remaining_gap": "Truthful early refusal/no-start/unknown branches and close-link split improve failure handling; C3 missing delivery and sync-state loss after writer death prevent complete specification closure.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-RESOURCES": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3153",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3165",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3215",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3294",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3872"
+      ],
+      "remaining_gap": "Retained scoped closure: judgments, exact informational arithmetic, original caps/thresholds and non-capacity claim remain. No actual fresh capacity or full restore is established.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-SETUP": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2303",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2705",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2724",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2805",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3318"
+      ],
+      "remaining_gap": "Global parent/shared-object model and image entry pins improve setup; cleanup effects and ordinary partial/global rollback vectors are still absent.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-SETUP-IDENTITY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2829",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2836",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2852"
+      ],
+      "remaining_gap": "Retained: setup record is not self-hashed; exact separate capture/seal and explicit adopt exception are retained.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-SETUP-PROBES-ROLLBACK": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2303",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2705",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2724",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3115",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3126",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3318"
+      ],
+      "remaining_gap": "Template staging/captures/probe/rollback form retained; reachable cleanup and reverse states, P-CENSUS/probe correctness and full restore remain incomplete.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-SETUP-RECONCILIATION": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2303",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2366",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2401",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2705",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2724",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2805"
+      ],
+      "remaining_gap": "Parents and cross-script shared state now appear in global vectors; check-failure removals and partial image/file/unit states remain outside the claimed reachable-state classification.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-TERMINAL-CUSTODY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1588",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1645",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1697",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853"
+      ],
+      "remaining_gap": "Original owned-terminal predicate/release domain is restored; absorbing-state census is useful only under incomplete holder/credential predicates and false instantaneous P-CENSUS equivalence.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V5-IMAGE-PINS": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:470",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1083",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2852"
+      ],
+      "remaining_gap": "Previously missing complete per-use images entry-set check is explicitly restored without new operator authority.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-V5-JOURNAL-FAILED-CLOSE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1954",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2138",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "remaining_gap": "Structural failed-close contradiction is repaired by pre-link fsync/validation. A lost post-link sync-failure observation still cannot be reconstructed as the required synced boolean by every consumer.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V5-PRESERVATION": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:134",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2967",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3888",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4086"
+      ],
+      "remaining_gap": "No full original-domain preserving route established; changed target world and frame pipeline have unproved effects. Withdrawn copy ceiling does not close the guarantee.",
+      "status": "NOT_CLOSED"
+    },
+    "W1-V5-PROTOCOL-REFUSALS": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1516",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4374",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4443",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4452"
+      ],
+      "remaining_gap": "Retained local early-refusal and STOP legality, including narrowed first hello and L exec of C. C3 delivery is a separate protocol data defect.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-V5-RECONCILIATION-STATES": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2303",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2401",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2705",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2724",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2805",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3318"
+      ],
+      "remaining_gap": "Same-object/parent/shared projections improve state templates; rollback cleanup, partial image/install/unit states and evidence-retaining removal still need exact vectors.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V5-REVOCATION-CONFINEMENT": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1814",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1885",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2897",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3865"
+      ],
+      "remaining_gap": "Copy/revocation and its foreign-source atime route removed. New view depends on real root/cwd adoption and complete holder barriers; R-d/R-f/R-h and implicit reads still prevent every-frame-mutation confinement.",
+      "status": "PARTIALLY_CLOSED"
+    }
+  },
+  "complete": true,
+  "design_sha256": "8646f0fed3cf3f61dceb4fbf3a583f96f2bf7a0adce4986cb415789edeb82a7a",
+  "different_from_author": true,
+  "gap_details": {
+    "channel-and-dumpability": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1208",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1260",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1538",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4342"
+      ],
+      "remaining_gap": "Framing, nonces, bulk payload packs and early refusals retained; C3 delivery, complete read/bootstrap inventory and raw/sync reconstruction remain.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "commits-and-durable-channel": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1954",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "remaining_gap": "One close-link truth repairs main ambiguity; sync provenance after writer death and raw chain evidence restore remain.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "denial-probes": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1115",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3008",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3115",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3126"
+      ],
+      "remaining_gap": "Prior closure of denial-matrix/probe form retained, not endorsement of the revised P-LL/P-XDEV/P-PTRACE/P-CENSUS expectations; those receive new required changes.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "exposure-options": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2885",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2967",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3949"
+      ],
+      "remaining_gap": "Prior closure that alternatives/exposure decisions are explicitly named is retained. The new target-view preservation claim is separately NOT established.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "fresh-identities-and-vault": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1284",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1313",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1400"
+      ],
+      "remaining_gap": "Fresh authenticated-context observation and authentic-context vault gate form retained; new export-only backup substitution is a separate evidence/restore defect.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "generation-order": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:803",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1516",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1538",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2897",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4342"
+      ],
+      "remaining_gap": "Final-pass and C1 order repaired; C3 has an unavailable record and the actual root/cwd mount view has no complete adoption step.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "lease-and-writer-authority": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:919",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:948",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1003",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1770"
+      ],
+      "remaining_gap": "Retained lease-first mutation order, no writer overlap and W2 capability/front lineage. No runtime execution established.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "participants-and-recovery": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1588",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1697",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1770",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3126"
+      ],
+      "remaining_gap": "Complete named waits/no inference from absent records retained; ordinary holders/async-exit completeness and instantaneous manager equivalence remain unresolved.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "per-entry-modes-acls": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1012",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1033",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1050",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1111"
+      ],
+      "remaining_gap": "Prior local recipe/bookkeeping/export ACL scope closure retained, with target-created modes/ACLs explicitly untouched and copy attributes withdrawn.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "prestate-and-installation": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2218",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2303",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2705",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2724",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2805"
+      ],
+      "remaining_gap": "Captures, global vectors and image pins improve model; omitted cleanup and partial states prevent exact composed setup/rollback.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "resources-and-images": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3153",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3165",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3215",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3228",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3294"
+      ],
+      "remaining_gap": "Prior budget/geometry/compatibility reporting form closure retained, without runtime/capacity assurance or endorsement of target-view assumptions.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "rollback-and-evidence": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2411",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3318",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3434"
+      ],
+      "remaining_gap": "No late collector or destructive automatic cleanup retained; actual rollback vectors, raw originals/full-run restore and all required space remain incomplete.",
+      "status": "PARTIALLY_CLOSED"
+    }
+  },
+  "input_identities": [
+    {
+      "bytes": 501544,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md",
+      "sha256": "8646f0fed3cf3f61dceb4fbf3a583f96f2bf7a0adce4986cb415789edeb82a7a"
+    },
+    {
+      "bytes": 12955,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v7-support/jackal.json",
+      "sha256": "d62cca5521f007ccc7cc59fcce171f0de1d1d60f9e9e90eac75f51db49e20287"
+    },
+    {
+      "bytes": 501735,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v6.md",
+      "sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d"
+    },
+    {
+      "bytes": 108076,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/REVIEW.md",
+      "sha256": "b519d27dd77b650bad5ae61b6425b090c42c76373b3f254917fc0e8ae4168ca1"
+    },
+    {
+      "bytes": 202672,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/review.json",
+      "sha256": "f8825bc011674c9f90455398c7b582619719f0af5e1291d77e7bb770ff211ddc"
+    },
+    {
+      "bytes": 126244,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/checks.json",
+      "sha256": "1a3c6d0539be473cf15166e8c51e246400f88002e50e8c994ab39be7b225b8e8"
+    },
+    {
+      "bytes": 562,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/review-freeze.json",
+      "sha256": "b251aab01555a2b304be5b54011ec7ca3d0be1dadf4a2adf28e5e0e959509c90"
+    }
+  ],
+  "item": 1,
+  "k0_ruling": "Retain the v6 ruling: the obstruction is sound for already-shared writable open-file descriptions in the stated unprivileged userspace/DAC architecture, not a proved universal impossibility theorem for every Linux enforcement architecture.",
+  "local_repairs": "C1 ordering, exact image entry-set pins and no-exchange/ACL/adopt invariants are closed at specification level; structural continuation truth is repaired. Full preserving custody, composed reachable states, durable/raw reconstruction and full-domain catalogue are not closed.",
+  "prior_closure": {
+    "W1-COMMIT-JOURNAL-EXPORT": "PARTIALLY_CLOSED",
+    "W1-CUSTODY": "PARTIALLY_CLOSED",
+    "W1-CUSTODY-CLOSURE": "PARTIALLY_CLOSED",
+    "W1-DURABILITY-RELEASE": "CLOSED_AT_SPEC_LEVEL",
+    "W1-GENERATION-PROTOCOL": "PARTIALLY_CLOSED",
+    "W1-IMAGE-OBSERVATION": "CLOSED_AT_SPEC_LEVEL",
+    "W1-IMAGE-TREE": "PARTIALLY_CLOSED",
+    "W1-JOURNAL-CONTINUATION": "CLOSED_AT_SPEC_LEVEL",
+    "W1-LIFETIME-ROLLBACK": "PARTIALLY_CLOSED",
+    "W1-PROTOCOL-FAILURE-STATES": "PARTIALLY_CLOSED",
+    "W1-RESOURCES": "CLOSED_AT_SPEC_LEVEL",
+    "W1-SETUP": "PARTIALLY_CLOSED",
+    "W1-SETUP-IDENTITY": "CLOSED_AT_SPEC_LEVEL",
+    "W1-SETUP-PROBES-ROLLBACK": "PARTIALLY_CLOSED",
+    "W1-SETUP-RECONCILIATION": "PARTIALLY_CLOSED",
+    "W1-TERMINAL-CUSTODY": "PARTIALLY_CLOSED",
+    "W1-V5-IMAGE-PINS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-V5-JOURNAL-FAILED-CLOSE": "PARTIALLY_CLOSED",
+    "W1-V5-PRESERVATION": "NOT_CLOSED",
+    "W1-V5-PROTOCOL-REFUSALS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-V5-RECONCILIATION-STATES": "PARTIALLY_CLOSED",
+    "W1-V5-REVOCATION-CONFINEMENT": "PARTIALLY_CLOSED"
+  },
+  "schema": "w1-v7-passive-review-checkpoint-v1",
+  "subgap_details": {
+    "W1-CHANNEL": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1208",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1538",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4342"
+      ],
+      "remaining_gap": "C3 missing delivered data, raw chain/slot evidence and sync provenance prevent complete channel/export closure.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-CLOSURE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1538",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1697",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2180",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "remaining_gap": "Late errors and nonzero/fallback outcomes specified; C3, holder/manager equivalence and sync provenance still prevent complete closure.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-CUSTODY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1814",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1885",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2897"
+      ],
+      "remaining_gap": "In-place protected admission removes copy mutation; actual root/cwd view, actor exclusion, asynchronous holder exit and complete mutation/preservation remain conditional or incomplete.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-EVIDENCE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3434",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "remaining_gap": "Primary payload packs are specified; raw bytes remain protected/unbacked-up, sync outcomes can be lost, full restore is not complete.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-FAILURE-LEASE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1652",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1697",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1770",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853"
+      ],
+      "remaining_gap": "LeaseHeld remains truthful and no durability hold is introduced; census/holder completeness and preserving original terminal decisions remain unestablished.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-FAILURE-RECORDS": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1954",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2138",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "remaining_gap": "Commit versus failure/downgrade is structurally consistent; a died writer cannot supply unsynced provenance from marker bytes alone.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-FINAL-PASS": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:803",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1563"
+      ],
+      "remaining_gap": "Retained exact recipe plus every excluded-leaf stat key, metadata stability and parent observation comparison immediately before spawn; no skipped original check.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-IMAGE-COMPATIBILITY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3228",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3239"
+      ],
+      "remaining_gap": "Retained local filesystem type/options/loop/noexec and capacity-condition specification; original installed compatibility and preservation remain OPEN.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-IMAGE-GEOMETRY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3228",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3260",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3872"
+      ],
+      "remaining_gap": "Retained actual geometry/metadata/journal/slack accounting requirement and no arithmetic-as-capacity claim.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-NONCLAIMS": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3854",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3865",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3872",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3878"
+      ],
+      "remaining_gap": "Explicit all-original-obligations OPEN, no implementation/proof/capacity/acceptance, no finite-probe theorem and no new operator approval are retained. False conditional kernel claims receive separate findings.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-PREFLIGHT-IDENTITY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1284",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1313",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1325"
+      ],
+      "remaining_gap": "Retained fresh role/stage observations and exact pinned identity joins; new namespace-view equivalence remains a separate unestablished premise.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-READ-ACCESS": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1400",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1174"
+      ],
+      "remaining_gap": "Retained classification of pinned/joined/observed inputs, no privilege for unreadable lead input and no size refusal. Atime is a separate OPEN mutation obligation.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-READ-EXPOSURE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1090",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2885",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2967"
+      ],
+      "remaining_gap": "Retained explicit reader exposure and no implicit chmod/access widening of admitted outputs. C1 workflow differences and all-world compatibility remain separate OPEN requirements.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-REBOOT-RECOVERY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1747",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "remaining_gap": "Old-boot non-success and manual window resolution retained; structural chain interpretation repaired. Sync provenance, raw evidence availability and exact restored state remain incomplete.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-ROLLBACK": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2411",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3318",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3434"
+      ],
+      "remaining_gap": "No late collector or destructive automatic cleanup retained; actual rollback vectors, raw originals/full-run restore and all required space remain incomplete.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-SETUP-EXACTNESS": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2218",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2303",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2705",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2724",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2805"
+      ],
+      "remaining_gap": "Captures, global vectors and image pins improve model; omitted cleanup and partial states prevent exact composed setup/rollback.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-SETUP-ORDER": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3442",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3826"
+      ],
+      "remaining_gap": "Retained ordered passive inventory, independent concrete review, operator setup, probes, installed evidence review and adoption; no execution or new approval granted here.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-SETUP-PRESTATE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2220",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2241",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2258"
+      ],
+      "remaining_gap": "Retained explicit allowed prestate/capture requirements before approved setup; an absent subordinate range is not assumed from a failed read.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-VERIFICATION-PROBES": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3008",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3108",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3115",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3126"
+      ],
+      "remaining_gap": "Retained prior probe-form closure and redesign/no-exception consequence. Revised probe universal/errno/positive-control defects receive new required changes.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-WRITE-AUTHORITY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:919",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:948",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1003",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1802"
+      ],
+      "remaining_gap": "Retained W lease and live F lineage/capability for W2, no dead-front collector and no review-authorized privileged action.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    }
+  },
+  "support_sha256": "d62cca5521f007ccc7cc59fcce171f0de1d1d60f9e9e90eac75f51db49e20287",
+  "v6_required_change_closure": {
+    "W1-V6-C1-DATA": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1516",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1524",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4342",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4452"
+      ],
+      "remaining_gap": "No remaining local C1 ordering gap: hello checks use compiled grammar, argv and kernel facts; delivered-template, environment and stream pins move to C2 with legal pre-spawn refusal. New C3 delivery omission is separately required to be repaired.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-V6-CATALOGUE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3884",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3893",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3901",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3922",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2967",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4086"
+      ],
+      "remaining_gap": "S5 versus criterion-required S6 repair, mode/report baseline and removed-copy/new-deadline rows improve presentation. Full-domain and namespace/credential/mount/stat/resource effects remain incomplete; a five-command TOOL-CLOSURE assertion and timing exclusion do not cover frame workflow or all accepted inputs.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V6-COMMIT-AMBIGUITY": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1939",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1954",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2138",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2155",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "remaining_gap": "The unnamed-inode/pre-link validation and one close-link commit point repair the valid-failed-close contradiction, including absent continuation. Sync outcome is not inferable from the close bytes; writer death after a failed post-link step but before any later record/message leaves W2/export without the required synced boolean. Preserve an explicit unobserved durability state and its evidence.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V6-COMPOSED-STATE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2303",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2366",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2401",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2705",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2724",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2805",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3318"
+      ],
+      "remaining_gap": "Global effect sets and shared-object projections are real progress. S-D and S-E check-failure cleanup removes earlier completed installs without corresponding global transition vectors; image/file/unit partial states and actual evidence-preserving rollback are not fully represented. Do not classify these ordinary outcomes as other.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V6-COPY-PROBES": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3115",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3117",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3118",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3120",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3010"
+      ],
+      "remaining_gap": "Copy attributes/group operations and L1 are legitimately withdrawn with copying. process_vm_writev and modes are now named. P-PTRACE positive controls must be type- and mode-correct; blanket root success cannot validate every proc-fd operation. P-LL and P-XDEV expectations overstate kernel behavior; finite probes still cannot establish universal premises.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V6-EVIDENCE-RESTORE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3294",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3378",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3393",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3434"
+      ],
+      "remaining_gap": "Payload packs make primary channel dependencies available, but torn slots/raw records/raw markers are only listed by digest while original bytes stay protected and unbacked-up. Independent chain/raw verification and full original backup/restore cannot follow from exports alone. Rework retention, full-run backup and complete space accounting.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V6-IMAGE-PIN": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:470",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1083",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2852",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3239"
+      ],
+      "remaining_gap": "No remaining local specification gap: root:W 0750 images directory is listable by W/W2/RL, exact two-file entry-set and named-file pins apply before every use. Concrete inventory, probes and capacity remain original OPEN obligations.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-V6-INVARIANTS": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:498",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:536",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:803",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1020",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1039",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2836"
+      ],
+      "remaining_gap": "No remaining local partition/exchange/ACL/adopt-timing contradiction: no exchange/copy, P_adm ends at M8, records/exports are elsewhere, final walk follows actual frame preparation, ACL scope distinguishes target objects, and AD3 bookkeeping is the explicit pre-seal exception. Kernel/view/read-mutation obligations are separately OPEN.",
+      "status": "CLOSED_AT_SPEC_LEVEL"
+    },
+    "W1-V6-PRESERVE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:134",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2967",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3888",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4086"
+      ],
+      "remaining_gap": "Copy ceilings, copied identities and prior no-refusal absolutes are withdrawn, but V1-V12 and C1-C7/D1-D6 still alter original successful workflows. TOOL-CLOSURE is unestablished and narrower than the full original domain. V5-B01, V5-B02 and W1-V5-PRESERVATION remain OPEN.",
+      "status": "NOT_CLOSED"
+    },
+    "W1-V6-READ-MUTATION": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1885",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1896",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1903",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1907",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3865"
+      ],
+      "remaining_gap": "Explicit O_NOATIME and report/directory routes improve the specification. R-d, R-f and R-h correctly remain OPEN. Implicit interpreter/helper reads and observer/report/tool ownership cases need an actual complete read inventory; no passive reading establishes these premises.",
+      "status": "PARTIALLY_CLOSED"
+    },
+    "W1-V6-SCAN-STATE": {
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1588",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1697",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1918",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3120",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3126"
+      ],
+      "remaining_gap": "Absorbing populated-zero state is a better conditional argument and exact mount-root/mount-ID predicates replace st_dev shorthand. Kernel holder/async-exit completeness, all-generation actor exclusion and P-CENSUS equivalence are unestablished; P-CENSUS instantaneous equivalence conflicts with event-driven manager state.",
+      "status": "PARTIALLY_CLOSED"
+    }
+  },
+  "verification_boundary": "Passive text reading, hashing and bounded static parsing only. CLOSED_AT_SPEC_LEVEL addresses the named local specification correction, never installed assurance, proof or Phase One acceptance. All original obligations remain OPEN. Prior closed items are retained at their original scoped closure. No review finding adds operator authority or an approval gate.",
+  "w1_gap_closure": {
+    "channel-and-dumpability": "PARTIALLY_CLOSED",
+    "commits-and-durable-channel": "PARTIALLY_CLOSED",
+    "denial-probes": "CLOSED_AT_SPEC_LEVEL",
+    "exposure-options": "CLOSED_AT_SPEC_LEVEL",
+    "fresh-identities-and-vault": "CLOSED_AT_SPEC_LEVEL",
+    "generation-order": "PARTIALLY_CLOSED",
+    "lease-and-writer-authority": "CLOSED_AT_SPEC_LEVEL",
+    "participants-and-recovery": "PARTIALLY_CLOSED",
+    "per-entry-modes-acls": "CLOSED_AT_SPEC_LEVEL",
+    "prestate-and-installation": "PARTIALLY_CLOSED",
+    "resources-and-images": "CLOSED_AT_SPEC_LEVEL",
+    "rollback-and-evidence": "PARTIALLY_CLOSED"
+  },
+  "w1_subgap_closure": {
+    "W1-CHANNEL": "PARTIALLY_CLOSED",
+    "W1-CLOSURE": "PARTIALLY_CLOSED",
+    "W1-CUSTODY": "PARTIALLY_CLOSED",
+    "W1-EVIDENCE": "PARTIALLY_CLOSED",
+    "W1-FAILURE-LEASE": "PARTIALLY_CLOSED",
+    "W1-FAILURE-RECORDS": "PARTIALLY_CLOSED",
+    "W1-FINAL-PASS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-IMAGE-COMPATIBILITY": "CLOSED_AT_SPEC_LEVEL",
+    "W1-IMAGE-GEOMETRY": "CLOSED_AT_SPEC_LEVEL",
+    "W1-NONCLAIMS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-PREFLIGHT-IDENTITY": "CLOSED_AT_SPEC_LEVEL",
+    "W1-READ-ACCESS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-READ-EXPOSURE": "CLOSED_AT_SPEC_LEVEL",
+    "W1-REBOOT-RECOVERY": "PARTIALLY_CLOSED",
+    "W1-ROLLBACK": "PARTIALLY_CLOSED",
+    "W1-SETUP-EXACTNESS": "PARTIALLY_CLOSED",
+    "W1-SETUP-ORDER": "CLOSED_AT_SPEC_LEVEL",
+    "W1-SETUP-PRESTATE": "CLOSED_AT_SPEC_LEVEL",
+    "W1-VERIFICATION-PROBES": "CLOSED_AT_SPEC_LEVEL",
+    "W1-WRITE-AUTHORITY": "CLOSED_AT_SPEC_LEVEL"
+  }
+}

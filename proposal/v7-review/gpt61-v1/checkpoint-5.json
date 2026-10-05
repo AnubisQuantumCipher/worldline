@@ -1,0 +1,441 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "additional_relied_on_properties": [
+    {
+      "assessment": "An explicit threat-model exclusion is not a probe-established premise; exact membership, bootstraps and all credential routes still need evidence. Root trust does not waive frame-caused reads/writes under V5-B02.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1932",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1262",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:270",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3149"
+      ],
+      "probes_or_evidence": "P-LAUNCH, CRED, P-SEAL, P-SETUP, P-SR plus installed source/seal review",
+      "reliance": "Root/kernel/exact unchanged writer and launcher trusted base; only authorized setup confers roles"
+    },
+    {
+      "assessment": "A descriptor digest or opaque message is not sender authentication, complete delivery or producer authority. C3 needs launcher-rl-identity bytes/digest delivery; implicit imports, loaders and mutable providers are part of closure.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1269",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1526",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1538",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3112",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3129",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3148",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4342"
+      ],
+      "probes_or_evidence": "P-PROTO, P-RUNTIME, P-LAUNCH, P-READ and exact producer/consumer source review",
+      "reliance": "Channel confinement, descriptor identity, module/provider closure and authenticity of observations"
+    },
+    {
+      "assessment": "Close-marker linkage has a coherent structural commit point. Post-link fsync outcomes are not in the marker itself; the missing writer-death observation case cannot inherit a definite synced boolean.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1967",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2074",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2138",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2155",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3132",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3147",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4249"
+      ],
+      "probes_or_evidence": "P-COMMIT, P-CHAIN; writer-death-before-error-announcement controls and every live/reboot/offline consumer",
+      "reliance": "Journal primitive, common chain reader, fallback and per-record sync/error truth"
+    },
+    {
+      "assessment": "Finite synthetic states do not prove exhaustive effects. Script-local cleanup of prior atoms, proper-prefix files and image allocation/format effects are missing; runtime-grown rollback is not the reversal of setup-only state.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2366",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2401",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2411",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2705",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2724",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2806",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2809",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3150"
+      ],
+      "probes_or_evidence": "P-SETUP, P-SR, installed exact global atom table, raw partial-effect records",
+      "reliance": "Global setup/reconciliation/rollback exact state enumeration including ordinary and service effects"
+    },
+    {
+      "assessment": "Controls are specified and future. Signal relay and kernel-empty observation must not erase the original ownership/window/manager checks or turn release into a record-durability gate.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3130",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3128",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3131",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4599"
+      ],
+      "probes_or_evidence": "P-SIG, P-RELAY, P-STREAM, P-TERM and exact role/state-machine review",
+      "reliance": "Signals, sudo relay, true holder terminal/stream finality, reservation and original approval boundaries"
+    },
+    {
+      "assessment": "Allowance identities are arithmetic only. No missing peak is discharged by samples, write-limit refusal or command-count scope; original proof and accepted-case requirements remain open.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3153",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3184",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3846",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3872",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3874"
+      ],
+      "probes_or_evidence": "P-ENOSPC, IMG, exact inventories, original complete retained outputs/temporaries/restore bounds and proof receipts",
+      "reliance": "Fresh storage/native capacity and unchanged originals/proof floor"
+    }
+  ],
+  "assessment": "The named-unestablished/refutation-only/no-exception rule is correct and must be retained. It does not close false P-LL/P-XDEV/P-CENSUS statements, incomplete P-PTRACE controls, the holder/implicit-read/source obligations or omitted causal premises. No premise was probed here and no universal premise was established.",
+  "complete": true,
+  "design_sha256": "8646f0fed3cf3f61dceb4fbf3a583f96f2bf7a0adce4986cb415789edeb82a7a",
+  "different_from_author": true,
+  "item": 5,
+  "kernel_sources": [
+    {
+      "kind": "installed header, read only; not live ABI proof",
+      "lines": "345-390",
+      "path": "/usr/include/linux/landlock.h"
+    },
+    {
+      "kind": "upstream static reading, not exact installed source attestation",
+      "locator": "rendered L2447-L2450",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/namei.c"
+    },
+    {
+      "kind": "upstream static reading, not exact installed source attestation",
+      "locator": "rendered L154-L175",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/security/commoncap.c"
+    },
+    {
+      "kind": "upstream static inference, not exact installed build attestation",
+      "locator": "rendered L522-L528",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v261/src/core/scope.c"
+    },
+    {
+      "kind": "socket inode init inspected as text",
+      "locator": "rendered L645-L659",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/net/socket.c"
+    },
+    {
+      "kind": "no_open ENXIO/default inode file operations inspected as text",
+      "locator": "rendered L194-L220",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/inode.c"
+    }
+  ],
+  "premises": [
+    {
+      "assessment": "Namespace ownership, maps and process placement are measurable; no user manager or runtime directory ever exists is a closed-entry-route property under the declared root trust, not an inference from one selftest.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1914",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2927",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3112",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3113"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-NS",
+      "probe": "P-NS, P-LAUNCH, P-RUNTIME",
+      "required_discharge": "Pin namespace creation/ownership and every permitted entry/credential route; verify version-matched semantics and lifecycle/drift records without adding a new approval gate.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "Owner presentation, stored ids and successful owner O_NOATIME use can be measured. Unmapped ids and non-idmapped/pseudo filesystem effects must be accounted for; this is not evidence that host-uid substitution preserves the domain.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1915",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2934",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2969",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3114"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-IDMAP",
+      "probe": "P-IDMAP",
+      "required_discharge": "Version-matched idmapped-mount argument and exact map/mount pins, syscall controls and complete original ownership/ACL domain correspondence.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "The installed header describes MAKE_SOCK as creating, renaming or linking a socket, and REFER still requires matching per-type rights and no access gain. Granting REFER everywhere does not leave every same-mount rename/link unchanged. A sample of directory pairs cannot establish that universal assertion.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1916",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2960",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3115"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-LL",
+      "probe": "P-LL",
+      "required_discharge": "Correct the predicate, retain all originally accepted rename/link cases, and redesign the rules or architecture wherever their behavior changes; then review exact installed LSM paths and real socket/directory/control cases.",
+      "status": "PARTLY_FALSE_AS_WRITTEN"
+    },
+    {
+      "assessment": "Cross-vfsmount link/rename restrictions do not make EXDEV precede every permission check. Path-component search permission can fail earlier. The exact mounts, operands, flags and failure order must be stated for each row.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1917",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3043",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3046",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3077",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3116"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-XDEV",
+      "probe": "P-XDEV; P-MUT/P-ALIAS permission preconditions",
+      "required_discharge": "Replace the universal errno ordering with precise path-resolution and operation predicates, preserving genuine accepted controls and custody; no relaxation to accept arbitrary wrong-operand denials.",
+      "status": "FALSE_ORDERING_AS_WRITTEN"
+    },
+    {
+      "assessment": "Private propagation is a plausible conditional mechanism. One host-mount sample is not proof that the entire cloned/masked view and all subsequent namespace changes have the stated propagation relation.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1918",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2925",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3117"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-PROP",
+      "probe": "P-PROP",
+      "required_discharge": "Specify the complete mount construction including process root/cwd, private flags and nested namespaces; source-grounded installed-version review and immediate exact mount-table evidence.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "The expanded row covers read and write access modes and pre-first-call windows, but root cannot succeed on every operation and operand type. A3 belongs to another RL-created root-owned user namespace, so commoncap is an additional possible denial; that row cannot attribute its failure solely to Landlock.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1919",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2927",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3032",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3118"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-PTRACE",
+      "probe": "P-PTRACE",
+      "required_discharge": "Use type-, access-mode- and address-valid positive controls for each API; distinguish same-user-namespace cross-domain controls from cross-namespace controls and review every hook. Retain the original Yama/descendant and pre-entry controls.",
+      "status": "NAMED_UNESTABLISHED_WITH_INVALID_CONTROLS"
+    },
+    {
+      "assessment": "Initial-namespace absence of capability and nested-user-namespace handle restrictions are relevant; exact filesystem/mount ownership, locked children and relaxed directory-handle paths still require installed-source review and positive operand controls.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1920",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1867",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3068",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3119"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-FH",
+      "probe": "P-FH; A1u/A6 handle control",
+      "required_discharge": "Pin the exact file-handle path, capabilities and mount roots, including directory/relaxed cases; validate sacrificial controls without reading or handling a live admitted entry in this review.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "The observed cgroup documentation supports populated as live member processes including descendants. Migration controls and worker placement are separate premises; no task escape needs a complete root-only entry/migration argument, not only failed writes in one fixture.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1921",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1874",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3120"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-CG",
+      "probe": "P-CG",
+      "required_discharge": "Version-matched cgroup/clone/migration/worker analysis, exact delegated permissions and membership evidence throughout the attempt, with all former members and their children covered.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "No R or GATE process after a selftest is an end-state sample. Only RL confers these ids must follow from all credential, PAM/sudo, service, file capability and namespace routes within the trusted-base boundary.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1922",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3121",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3112"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-NOR",
+      "probe": "P-NOR, CRED, P-LAUNCH",
+      "required_discharge": "Closed entry-route/code/installation correspondence plus continuous attempt evidence and drift handling; no circular assumption that the very launcher being assessed is the only route merely because it says so.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "The recorded-period AIO/io_uring exercise is correctly refutation only. Populated zero is not, by itself, a universal theorem that all file descriptions or queued/registered/kernel-held logical mutations have ended. Physical writeback and later logical metadata/data changes need distinct predicates.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1923",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1880",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3122"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-IOEXIT",
+      "probe": "P-IOEXIT",
+      "required_discharge": "Complete version-matched task-exit, file-reference, filesystem, AIO/io_uring and other admitted asynchronous path argument, or a redesigned holder boundary; a finite quiet period is never universal closure.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "Successful O_NOATIME opens suppress access-time changes for those opens under owner/capability rules. Direct controlled reads are only part of bootstrap/module/dynamic-loader and helper reads; the original R-d/R-f/R-h obligations remain open and R-c implicit reads require classification.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1924",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1897",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1899",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1269",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3123",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3865"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-NOATIME",
+      "probe": "P-NOATIME",
+      "required_discharge": "Audit every explicit and implicit causal read and directory traversal against the original authority boundary. Preserve readable foreign-owner accepted cases; neither failure nor target-residual relabeling discharges them.",
+      "status": "NAMED_UNESTABLISHED_AND_INCOMPLETE_ROUTE_COVERAGE"
+    },
+    {
+      "assessment": "Nosuid/set-ID/file-capability behavior is conditionally plausible. Mount-flag locking, all mounts including recreated/pseudo mounts, nested namespaces and all target privilege routes need source and construction evidence.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1925",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2965",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3088",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3124"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-NOSUID",
+      "probe": "P-NOSUID",
+      "required_discharge": "Exact mount/flag/capability/credential lifecycle correspondence and original-domain privilege behavior analysis, with genuine set-ID/capability controls.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "Landlock filesystem topology restrictions and less-privileged mount locking are relevant. They do not substitute for proof that actual fs_struct root/cwd and retained path descriptions are in the constructed view.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1926",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2934",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2959",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3125"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-LOCK",
+      "probe": "P-LOCK",
+      "required_discharge": "Close process-root/cwd/old-root-description construction and version-matched nested/move/unmount/bind restrictions, then use independent root/cwd and ancestor-path observations.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "N7 labels the probe as first engineering run, while section 13 correctly denies that any finite run establishes a universal premise. The phrase must mean a baseline comparison/refutation for that run only; otherwise installed-evidence qualification relies on an unqualified run.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1927",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3010",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3129",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3844"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-VIEW",
+      "probe": "first engineering run; P-RUNTIME per attempt",
+      "required_discharge": "Complete baseline-field relation under original accepted cases and version-pinned identity/runtime closure. Treat each run comparison only as evidence for that run; do not promote it into a universal preservation fact or new approval gate.",
+      "status": "NAMED_UNESTABLISHED_WITH_CIRCULAR_DISCHARGE_RISK"
+    },
+    {
+      "assessment": "Scope manager ActiveState and kernel populated are independent sampled observations updated at different times. systemd handles an empty-cgroup event to enter the dead state, so equality at every moment is not a kernel or manager invariant.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1928",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1697",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3126"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-CENSUS",
+      "probe": "P-CENSUS",
+      "required_discharge": "Specify conservative, race-aware manager/kernel conjunction and the full original terminal/release predicate. Keep the original ownership, process, manager and window controls; neither observation alone grants release.",
+      "status": "FALSE_INSTANTANEOUS_EQUIVALENCE_AS_WRITTEN"
+    },
+    {
+      "assessment": "The proposal properly denies durable-under-allocation-failure claims before a sacrificial verification. Extent/allocation/fsync and torn-slot assumptions are installed-filesystem properties, not exact arithmetic conclusions.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1929",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2170",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3133"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-ENOSPC",
+      "probe": "P-ENOSPC",
+      "required_discharge": "Installed-version/filesystem extent and failure argument plus full fallback/raw/crash controls under unchanged reserve and success rules.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "The static directory/root pin specification is repaired and closed locally. Source, setup, exact mounted identities, usable geometry and capacity are still future evidence; image write limits do not establish successful capacity.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1929",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3135",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3151",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3864"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "IMG",
+      "probe": "P-MOUNT, P-IMAGE",
+      "required_discharge": "Exact measured mount/image identities and geometry, entry-set readbacks, all setup/partial/reversal states and full retained-output/restore peak capacity without lowering accepted cases.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "assessment": "This can be a precisely defined source-level target-tool sub-lemma. It does not by itself cover the full frame/preparation/evidence/backup domain, or implicit loader/credential/resource/timing effects; command names are not the complete original success domain.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1930",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3847",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4086",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4088",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4095",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4100"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "TOOL-CLOSURE",
+      "probe": "source-grounded toolchain review; engineering runs refute only",
+      "required_discharge": "Complete source-to-binary/helper/environment/configuration/native closure and full-domain observable refinement; redesign every changed accepted case, without restricting the quantifier or carving out result-affecting timing/cost.",
+      "status": "NAMED_UNESTABLISHED_INSUFFICIENT_FOR_FULL_DOMAIN"
+    },
+    {
+      "assessment": "The new tmpfiles rule is behaviorally compared to the original /tmp rule, and has a probe. It is absent from N7 and section 18.6 remaining-premises list. A finite back-dated-file test cannot establish all cleanup age, ownership, open-reference, path, mount and concurrency behavior.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2762",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2764",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3127",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3821"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "P-TMPAGE",
+      "probe": "P-TMPAGE",
+      "required_discharge": "Add this reliance to the premise/dependency register and preserve original cleanup semantics and causal mutation authority through exact rule/code and full accepted-domain analysis.",
+      "status": "NAMED_BUT_OMITTED_FROM_N7_INVENTORY"
+    },
+    {
+      "assessment": "The export restore exercise omits raw torn/uncommitted record and marker bytes and native outputs that remain only in protected originals. Digests/indices do not make those bytes independently recoverable or verifiable.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1397",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3136",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3378",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3387",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3389",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3394"
+      ],
+      "failed_premise_response": "REDESIGN_NO_EXCEPTION",
+      "premise": "V-VAULT/recoverable evidence",
+      "probe": "V-VAULT",
+      "required_discharge": "Restore and independently re-read every required original/equivalent evidence byte and retained native output under the existing operator-controlled vault workflow and full capacity bound.",
+      "status": "NAMED_UNESTABLISHED_WITH_INCOMPLETE_RESTORE_SET"
+    }
+  ],
+  "probe_families_not_independent_universal_premises": [
+    "P-MUT",
+    "P-ALIAS",
+    "P-READ",
+    "P-LEASE",
+    "P-DRIFT",
+    "P-LAUNCH",
+    "P-STREAM",
+    "P-RUNTIME",
+    "P-SIG",
+    "P-RELAY",
+    "P-TERM",
+    "P-COMMIT",
+    "P-SETUP",
+    "P-CHAIN",
+    "P-PROTO",
+    "P-SEAL",
+    "P-SR",
+    "P-MOUNT",
+    "P-IMAGE"
+  ],
+  "required_change_ids": [
+    "W1-V7-PREMISES",
+    "W1-V7-PROBES",
+    "W1-V7-FULL-DOMAIN",
+    "W1-V7-HOLDER-STATE",
+    "W1-V7-C3-DATA",
+    "W1-V7-SYNC-PROVENANCE",
+    "W1-V7-COMPOSED-STATE",
+    "W1-V7-EVIDENCE-RESTORE"
+  ],
+  "schema": "claude-design-review-checkpoint-v1",
+  "withdrawal_assessment": "Removing probes solely for mechanisms actually removed is legitimate; it does not remove the original positive/negative/accepted-case/failure controls that the successor mechanism must satisfy.",
+  "withdrawn_probe_families": [
+    "P-ROUTE",
+    "P-COPY",
+    "P-SETID",
+    "P-MGR",
+    "P-QUIESCE"
+  ]
+}

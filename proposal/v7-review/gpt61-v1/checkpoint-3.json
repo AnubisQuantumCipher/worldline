@@ -1,0 +1,231 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "complete": true,
+  "criteria_evidence": [
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md:76",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md:82"
+  ],
+  "custody_facts": [
+    {
+      "assessment": "CONDITIONAL_ARGUMENT",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1826",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1831",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1836",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1839",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2961"
+      ],
+      "fact": "outside push",
+      "kernel_evidence": [
+        "/usr/include/linux/landlock.h:280",
+        "/usr/include/linux/landlock.h:313",
+        "/usr/include/linux/landlock.h:345"
+      ],
+      "reason": "The inherited-descriptor inventory excludes target channels; W must receive with no ancillary buffer and discard unexpected rights. RESOLVE_UNIX denial blocks new external-domain pathname-server connections; MAKE_SOCK only beneath private binds prevents externally reachable new socket files; private network namespace blocks incoming abstract sockets. The exact constructed root/mount view, all exec/fork inheritance and no inherited ring/binder channel must be established. Installed header semantics support the mechanisms, not their implementation."
+    },
+    {
+      "assessment": "CONDITIONAL_ARGUMENT",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1260",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1273",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1846",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1919",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3118",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4072"
+      ],
+      "fact": "outside pull",
+      "kernel_evidence": [
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/security/commoncap.c (web labels L154-L175)"
+      ],
+      "reason": "Distinct host R/GATE and root-owned user namespace block ordinary outside ptrace-checked routes under the named credential/capability premise. Helpers independently set non-dumpability after each exec; inherited bootstrap must be covered and own-scope actor state must stay exact. P-PTRACE requires operation- and object-specific positive controls. The alternative same-host-uid root-owned user namespace also matters because commoncap is namespace-sensitive, contrary to c8."
+    },
+    {
+      "assessment": "CONDITIONAL_ARGUMENT_REQUIRES_REAL_PATH_VIEW",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1855",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1859",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1863",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1868",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1917"
+      ],
+      "fact": "outside name/reference",
+      "kernel_evidence": [
+        "/usr/include/linux/landlock.h:373",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/namei.c (web labels L2447-L2450)",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/fhandle.c (web labels L188-L248 and L283-L327)"
+      ],
+      "reason": "Protected g ancestry, genuinely private mount propagation and no ptrace-based proc-root access can exclude externally usable names; cross-vfsmount link/rename refusal excludes an additional link out of a source bind. Same st_dev is correctly discarded as proof. File-handle behavior needs exact installed-version capability/idmap/ancestor reasoning. The assertion EXDEV occurs before any permission check is false and not needed for the no-success predicate. A leaked string is not automatically a usable inode name; define precisely the reference/name property being enforced."
+    },
+    {
+      "assessment": "NOT_ESTABLISHED",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1588",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1645",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1697",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1874",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1921",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1923",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1928",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3120",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3122",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3126"
+      ],
+      "fact": "absorbing holder exit/common final state",
+      "kernel_evidence": [
+        "https://docs.kernel.org/admin-guide/cgroup-v2.html (cgroup.events populated, web labels L134-L140)",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/kernel/exit.c (web labels L943-L954)",
+        "https://raw.githubusercontent.com/systemd/systemd/v261/src/core/scope.c (web labels L382-L388 and L522-L528)",
+        "/usr/share/man/man5/systemd.scope.5.gz:42 (decompressed source)"
+      ],
+      "reason": "cgroup.events populated reports live tasks in a subtree. With root-only entry/migration and lease exclusion, a correctly emptied old scope can stay empty; joining stable predicates is better than the old moving process/descriptor scan. The no-entry premise must cover every earlier target/observer scope and every fork/credential/exec route. A populated-zero observation is not in itself all-description release, no deferred kernel work, no registered-ring/AIO write or persisted durability. P-IOEXIT needs an exact logical-mutation statement and installed source argument across every I/O/deferred release path. Kernel normal exit orders exit_files/exit_fs before cgroup_task_exit, but that limited ordering does not prove all asynchronous holders/drain effects. P-CENSUS instantaneous ActiveState/populated equivalence is false as an event-driven-manager general invariant; do not weaken the original release predicate to make it fit."
+    },
+    {
+      "assessment": "UNDERSPECIFIED_BLOCKER",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2923",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2934",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2939",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2951",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2956",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2958",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2961"
+      ],
+      "fact": "real root/cwd construction",
+      "kernel_evidence": [
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/namei.c (web labels L1040-L1062 and L2555-L2577)",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/namespace.c (web labels L3429-L3497)"
+      ],
+      "reason": "Step 11 clones/attaches the root mount and reconstructs selected mounts, then step 12 checks mountinfo. No step explicitly adopts the new root and cwd for the process filesystem context, closes all old-root paths/descriptions, or explains why ordinary absolute and relative path lookup use the new idmapped tree. In the inspected Linux source absolute lookup starts from current->fs->root and relative lookup from current->fs->pwd; do_move_mount attaches a tree and supplies no corresponding fs_struct rebase. A mount table alone therefore cannot establish the intended identity, masking, omitted-mount or O_NOATIME-owner properties. Supply a precise non-writing construction with root/cwd/path-descriptor readback and preserving error analysis; do not assume the missing step or execute a probe during this review.",
+      "source_boundary": "Static inference from upstream v7.2; exact installed-kernel matching and launcher implementation remain future evidence."
+    },
+    {
+      "assessment": "LOCAL_SPECIFICATION_REPAIR_CLOSED_FULL_GUARANTEE_OPEN",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:498",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:536",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:803",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1020",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1039",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1097",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1111",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1563",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2836"
+      ],
+      "fact": "in-place admission/no admitted-tree frame mutation",
+      "reason": "There is no P_out/copy/attribute replay/root exchange. M8 finishes recipe/materialization and generation journal; later records/export packs are in g_rec and no frame helper writes source/output/tmp contents. C10 immediately repeats exact recipe/leaf metadata and parent-observation equality before spawn. ACL statements now apply to recipe/bookkeeping/export objects while target modes/default ACLs remain target behavior; adopt seal timing is explicit. This is a genuine repair of the former mutation-order contradiction, conditional on actual no-atime reads and a correctly implemented view, not complete custody proof."
+    }
+  ],
+  "design_sha256": "8646f0fed3cf3f61dceb4fbf3a583f96f2bf7a0adce4986cb415789edeb82a7a",
+  "item": 3,
+  "privileged_effect_assessment": "N5 enumerates transient scope and namespace settings but claims no file write on a host filesystem. Step 10 explicitly writes /proc/<pid>/uid_map, gid_map and setgroups; system-manager scope creation entails control-plane effects. Audit/sudo/systemd records and any persistent helper output need the same causal inventory as direct writes. Establish which effects already lie in documented original outside-tree authority; otherwise keep V5-B02 OPEN and redesign. No new exemption is created merely because a filesystem is pseudo, a mask is tmpfs, or a daemon performs the effect.",
+  "read_routes": [
+    {
+      "assessment": "Explicit W/W2 O_NOATIME on owned T records/recipe/snapshot, including directories, prevents the stated read-atime route when implemented and ownership/flags hold. No execution was performed.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1897",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1924"
+      ],
+      "id": "R-a",
+      "status": "CONDITIONAL_LOCAL_NO_ATIME"
+    },
+    {
+      "assessment": "C/O directory, excluded-leaf and proof-report reads explicitly use O_NOATIME and ownership through U_run. This repairs the omitted proof-report route locally. Prove every entry read has that ownership and every actual helper open uses the flag, including error paths; report bytes must be read through the promised held source view.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1097",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1101",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1898",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1915"
+      ],
+      "id": "R-b",
+      "status": "CONDITIONAL_LOCAL_NO_ATIME"
+    },
+    {
+      "assessment": "Direct reads of sicarii-owned lead inputs can use O_NOATIME without dropping foreign-owner accepted inputs. However F remains non-isolated, and its site/.pth/import ctypes/dynamic-loader reads happen before main; ordinary importer/helper reads are not made O_NOATIME just by requiring the flag in frame methods. An owner-based row is not exhaustive by itself.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1262",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1269",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1315",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1899"
+      ],
+      "id": "R-c",
+      "status": "INCOMPLETE_INVENTORY"
+    },
+    {
+      "assessment": "Foreign-owned readable original inputs may cause atime outside T. The original readers pin no owner; refusing these inputs or giving broad CAP_FOWNER would change the domain/authority. The fallback read honestly preserves the case while leaving V5-B02 OPEN. No exception granted.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1900",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1400",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3530"
+      ],
+      "id": "R-d",
+      "status": "OPEN"
+    },
+    {
+      "assessment": "Mapped sicarii-owned tool/data/vendor files can be read by C/O with O_NOATIME only if actual process root and mount paths use the planned idmaps. Header/map text and a first run do not prove all original observation equality or all reads.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1901",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1915",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1927",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2939",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2958"
+      ],
+      "id": "R-e",
+      "status": "CONDITIONAL_LOCAL_NO_ATIME"
+    },
+    {
+      "assessment": "Interpreter/stdlib/installed-frame/etc/usr and root-owned images-directory listings can produce read-atime outside T; root-controlled location does not satisfy an inside-T mutation requirement. Keeping this OPEN is correct. Moving it into a permitted residual or forcing noatime host/view policy is not granted.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:470",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1083",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1269",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1902",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3865"
+      ],
+      "id": "R-f",
+      "status": "OPEN"
+    },
+    {
+      "assessment": "Pseudo-filesystem is not synonymous with no observable filesystem/control-plane effect. The read row must establish the actual metadata behavior, and it cannot cover explicit writes to uid_map/gid_map/setgroups, cgroup state or daemon-generated records. Persistence is not the criterion used for the frame-owned mutation guarantee.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1884",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1886",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1903",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2927"
+      ],
+      "id": "R-g",
+      "status": "INCOMPLETE_EFFECT_JUSTIFICATION"
+    },
+    {
+      "assessment": "C executable/library loading touches sicarii-owned toolchain files outside T without an O_NOATIME exec interface. The proposal correctly leaves it OPEN. This reviewer does not reclassify frame launch/loader effects as the running-target residual or grant an exception.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1904",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3865"
+      ],
+      "id": "R-h",
+      "status": "OPEN"
+    },
+    {
+      "assessment": "Inventory actual interpreter/importer, subprocess helpers, source identity/module hashing and their directory/error-path reads. Include foreign non-root owned runtime files as well as root-owned files, and read-side mutation of any helper-opened evidence. An automatic O_NOATIME assumption would be circular; retain the original accepted environment and N08 bootstrap ceiling while solving the added read-mutation obligation.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1262",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1269",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1288",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1297",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1308",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1892"
+      ],
+      "id": "implicit/bootstrap/helper reads",
+      "status": "ADDITIONAL_OPEN_COVERAGE"
+    }
+  ],
+  "required_change_ids": [
+    "W1-V7-VIEW-ROOT",
+    "W1-V7-C3-DATA",
+    "W1-V7-HOLDER-STATE",
+    "W1-V7-READ-EFFECTS",
+    "W1-V7-PROBES",
+    "W1-V7-FULL-DOMAIN"
+  ],
+  "schema": "w1-v7-passive-review-checkpoint-v1",
+  "target_view_assessment": "The view improves the in-place design but does not establish V5-B01/V5-B02 under a complete, sound set of stated premises. Conditional push/pull/name barriers are plausible; the actual root/cwd adoption is underspecified, the child lacks its mount-identity record, P-LL/P-XDEV/P-CENSUS overstate kernel facts, and cgroup emptiness does not itself establish all-holder/async logical-write quiescence. Source/output copying, chmod and root exchange are removed; the admitted-partition mutation ordering repair is closed locally. R-d/R-f/R-h correctly remain OPEN, with additional implicit-read/control-plane effect coverage required. No target-exec or pseudo-filesystem exception is granted."
+}

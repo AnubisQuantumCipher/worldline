@@ -1,0 +1,2723 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "approval_granted": false,
+  "arithmetic_boundary": "Status exact/non_claims retained. No consequence_ceiling returned; informational rational arithmetic outside Lean chain. Given allowances/counts are not established storage bounds.",
+  "assembly_event": "Initial JavaScript quoting parse error occurred before nested execution or file writes; corrected. Earlier bounded reading helper encountered a JSON shape error and was corrected. Truncated read output was followed by narrower reads. No error stopped/interrupted any running process.",
+  "catalogue_identity_comparison": {
+    "C1_C7_complete": true,
+    "D1_D6_complete": true,
+    "R1_R2_complete": true,
+    "V1_V12_complete": true
+  },
+  "checkpoints": [
+    {
+      "bytes": 71840,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v7-review/gpt61-v1/checkpoint-1.json",
+      "sha256": "fa1c0d0b80feb2a17f57cc39cb4cc6d1a0a9a0516868f08d25be4d5277ddf423"
+    },
+    {
+      "bytes": 17149,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v7-review/gpt61-v1/checkpoint-2.json",
+      "sha256": "30d5611389af0fbd1f7db3444627fb235bfeff159e6319cca83c062b825db8d7"
+    },
+    {
+      "bytes": 24936,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v7-review/gpt61-v1/checkpoint-3.json",
+      "sha256": "4388fb827efc2c2000271582ed0345e69f76d225cc8310af9b53b51823aa7441"
+    },
+    {
+      "bytes": 24576,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v7-review/gpt61-v1/checkpoint-4.json",
+      "sha256": "3df58c87e1dd36bdb0fd2b0f565b2f0be83c3d5912bef381313d43bf5d0a1094"
+    },
+    {
+      "bytes": 38826,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v7-review/gpt61-v1/checkpoint-5.json",
+      "sha256": "e0b917ef8592c9c37c4bff2696accb9648214f1a175e62be7f5c9a2eb3d9c24e"
+    },
+    {
+      "bytes": 28555,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v7-review/gpt61-v1/checkpoint-6.json",
+      "sha256": "46d56af7182781b5c1ba70b6dfd8dcea1b3c1cb7c267f827abd33996c43f9750"
+    }
+  ],
+  "closure_identity_comparison": {
+    "all_prior_correction_ids_answered": true,
+    "all_prior_gap_ids_answered": true,
+    "all_prior_subgap_ids_answered": true,
+    "all_v6_required_ids_answered": true,
+    "every_prior_closed_item_retained_closed": true
+  },
+  "design_sha256": "8646f0fed3cf3f61dceb4fbf3a583f96f2bf7a0adce4986cb415789edeb82a7a",
+  "different_from_author": true,
+  "hard_limits_respected": true,
+  "host_read_only_observations": {
+    "/proc/config.gz:selected_lines": [
+      "# CONFIG_BPF_LSM is not set",
+      "CONFIG_CGROUPS=y",
+      "CONFIG_USER_NS=y",
+      "CONFIG_NET_NS=y",
+      "CONFIG_EXT4_FS=y",
+      "CONFIG_EXT4_FS_POSIX_ACL=y",
+      "CONFIG_FANOTIFY=y",
+      "CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y",
+      "CONFIG_SECURITY_YAMA=y",
+      "CONFIG_SECURITY_LANDLOCK=y"
+    ],
+    "/proc/sys/fs/protected_hardlinks": "1",
+    "/proc/sys/kernel/osrelease": "7.2.6-1-aarch64-ARCH",
+    "/proc/sys/kernel/yama/ptrace_scope": "1",
+    "/sys/kernel/security/lsm": "capability,yama,landlock"
+  },
+  "identities": [
+    {
+      "bytes": 501544,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md",
+      "sha256": "8646f0fed3cf3f61dceb4fbf3a583f96f2bf7a0adce4986cb415789edeb82a7a"
+    },
+    {
+      "bytes": 12955,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v7-support/jackal.json",
+      "sha256": "d62cca5521f007ccc7cc59fcce171f0de1d1d60f9e9e90eac75f51db49e20287"
+    },
+    {
+      "bytes": 501735,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v6.md",
+      "sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d"
+    },
+    {
+      "bytes": 108076,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/REVIEW.md",
+      "sha256": "b519d27dd77b650bad5ae61b6425b090c42c76373b3f254917fc0e8ae4168ca1"
+    },
+    {
+      "bytes": 202672,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/review.json",
+      "sha256": "f8825bc011674c9f90455398c7b582619719f0af5e1291d77e7bb770ff211ddc"
+    },
+    {
+      "bytes": 126244,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/checks.json",
+      "sha256": "1a3c6d0539be473cf15166e8c51e246400f88002e50e8c994ab39be7b225b8e8"
+    },
+    {
+      "bytes": 562,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/review-freeze.json",
+      "sha256": "b251aab01555a2b304be5b54011ec7ca3d0be1dadf4a2adf28e5e0e959509c90"
+    },
+    {
+      "bytes": 49133,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md",
+      "sha256": "2c414c694ed75d72cffae2172bef967bdcf63d73cc0a3764f96762a59d49ec71"
+    },
+    {
+      "bytes": 116891,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/scratch.py",
+      "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86"
+    },
+    {
+      "bytes": 117698,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v6/scratch.py",
+      "sha256": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84"
+    },
+    {
+      "bytes": 10066,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/frame-v6-PLAN.md",
+      "sha256": "9a07534bdb0d2ca8413b2433f13def7c2629b0c615e48c7aba0572913ddfe1d9"
+    },
+    {
+      "bytes": 30462,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237"
+    },
+    {
+      "bytes": 2699,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+      "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e"
+    },
+    {
+      "bytes": 410484,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec"
+    },
+    {
+      "bytes": 9048,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327"
+    },
+    {
+      "bytes": 2124,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/w1-v7-author-process/NOTE.md",
+      "sha256": "b2469049560d39e28b46956bf83e858135d6fa5e9de25d93004bd43d23483e39"
+    },
+    {
+      "bytes": 137821,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/runtime/worldline/proof_manifest.py",
+      "sha256": "8ae6c3c14b835af3825acca806649b11daeb839b45a6506a5fbd29732bbfcd23"
+    },
+    {
+      "bytes": 803,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline_core_sources.gpr",
+      "sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c"
+    },
+    {
+      "bytes": 20906,
+      "mode": "0644",
+      "path": "/usr/include/linux/landlock.h",
+      "sha256": "138f587995721ec0644ed7fc0e7a54a79d9c5bdd046b481be091dec0ade8a5c9"
+    },
+    {
+      "bytes": 5990,
+      "mode": "0644",
+      "path": "/usr/include/linux/seccomp.h",
+      "sha256": "de46b007f5a360498fc67a46cb00c5c81de310f7429aaba2aa947817dc156cb4"
+    },
+    {
+      "bytes": 9824,
+      "mode": "0644",
+      "path": "/usr/include/linux/mount.h",
+      "sha256": "b3d6b3cdfc185b581b576b04308e8b8f50588a6bf9bdd9be765aa537b36be04a"
+    },
+    {
+      "bytes": 2764,
+      "mode": "0644",
+      "path": "/usr/share/man/man5/systemd.scope.5.gz",
+      "sha256": "705fdc7f8c7ad6169d7dc571459c67eef3d8c64c0d6c19889dc435a37aa1b85b"
+    }
+  ],
+  "jackal_arithmetic_actual_mcp_results": [
+    {
+      "expression": "15368462701360/1397+2*16777216-9304350902252/1397-4374364596",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=15368462701360/1397+2*16777216-9304350902252/1397-4374364596 exact=0 approx=0\",\"fields\":{\"approx\":\"0\",\"exact\":\"0\",\"parsed\":\"15368462701360/1397+2*16777216-9304350902252/1397-4374364596\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}",
+              "type": "text"
+            }
+          ],
+          "structuredContent": {
+            "assurance": "exact rational arithmetic (not yet checker-covered)",
+            "engine_output": "status=exact parsed=15368462701360/1397+2*16777216-9304350902252/1397-4374364596 exact=0 approx=0",
+            "fields": {
+              "approx": "0",
+              "exact": "0",
+              "parsed": "15368462701360/1397+2*16777216-9304350902252/1397-4374364596",
+              "status": "exact"
+            },
+            "formal": false,
+            "identities": {
+              "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+            },
+            "lane": "rat",
+            "non_claims": [
+              "NOT formal-bounded: this lane carries no Lean-checked certificate",
+              "The epistemic class above is the STRONGEST claim this result supports",
+              "exact rational arithmetic (not yet checker-covered)"
+            ],
+            "status": "exact"
+          }
+        }
+      }
+    },
+    {
+      "expression": "16777216+2242440646+268435456+545393048+1969078490+16777216+16777216+2242440646+545393048+1969078490+16777216+1468268019712/1397+134217728-15415338242864/1397",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=16777216+2242440646+268435456+545393048+1969078490+16777216+16777216+2242440646+545393048+1969078490+16777216+1468268019712/1397+134217728-15415338242864/1397 exact=0 approx=0\",\"fields\":{\"approx\":\"0\",\"exact\":\"0\",\"parsed\":\"16777216+2242440646+268435456+545393048+1969078490+16777216+16777216+2242440646+545393048+1969078490+16777216+1468268019712/1397+134217728-15415338242864/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}",
+              "type": "text"
+            }
+          ],
+          "structuredContent": {
+            "assurance": "exact rational arithmetic (not yet checker-covered)",
+            "engine_output": "status=exact parsed=16777216+2242440646+268435456+545393048+1969078490+16777216+16777216+2242440646+545393048+1969078490+16777216+1468268019712/1397+134217728-15415338242864/1397 exact=0 approx=0",
+            "fields": {
+              "approx": "0",
+              "exact": "0",
+              "parsed": "16777216+2242440646+268435456+545393048+1969078490+16777216+16777216+2242440646+545393048+1969078490+16777216+1468268019712/1397+134217728-15415338242864/1397",
+              "status": "exact"
+            },
+            "formal": false,
+            "identities": {
+              "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+            },
+            "lane": "rat",
+            "non_claims": [
+              "NOT formal-bounded: this lane carries no Lean-checked certificate",
+              "The epistemic class above is the STRONGEST claim this result supports",
+              "exact rational arithmetic (not yet checker-covered)"
+            ],
+            "status": "exact"
+          }
+        }
+      }
+    },
+    {
+      "expression": "29+63+26-118",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=29+63+26-118 exact=0 approx=0\",\"fields\":{\"approx\":\"0\",\"exact\":\"0\",\"parsed\":\"29+63+26-118\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}",
+              "type": "text"
+            }
+          ],
+          "structuredContent": {
+            "assurance": "exact rational arithmetic (not yet checker-covered)",
+            "engine_output": "status=exact parsed=29+63+26-118 exact=0 approx=0",
+            "fields": {
+              "approx": "0",
+              "exact": "0",
+              "parsed": "29+63+26-118",
+              "status": "exact"
+            },
+            "formal": false,
+            "identities": {
+              "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+            },
+            "lane": "rat",
+            "non_claims": [
+              "NOT formal-bounded: this lane carries no Lean-checked certificate",
+              "The epistemic class above is the STRONGEST claim this result supports",
+              "exact rational arithmetic (not yet checker-covered)"
+            ],
+            "status": "exact"
+          }
+        }
+      }
+    },
+    {
+      "expression": "118+6",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=118+6 exact=124 approx=124\",\"fields\":{\"approx\":\"124\",\"exact\":\"124\",\"parsed\":\"118+6\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}",
+              "type": "text"
+            }
+          ],
+          "structuredContent": {
+            "assurance": "exact rational arithmetic (not yet checker-covered)",
+            "engine_output": "status=exact parsed=118+6 exact=124 approx=124",
+            "fields": {
+              "approx": "124",
+              "exact": "124",
+              "parsed": "118+6",
+              "status": "exact"
+            },
+            "formal": false,
+            "identities": {
+              "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+            },
+            "lane": "rat",
+            "non_claims": [
+              "NOT formal-bounded: this lane carries no Lean-checked certificate",
+              "The epistemic class above is the STRONGEST claim this result supports",
+              "exact rational arithmetic (not yet checker-covered)"
+            ],
+            "status": "exact"
+          }
+        }
+      }
+    }
+  ],
+  "original_obligation_register": {
+    "observed_entries": 219,
+    "observed_statuses": [
+      "OPEN"
+    ],
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+    "preservation": "Every original row, target, owner, release, dependency and reserved operator requirement remains unchanged and OPEN.",
+    "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec"
+  },
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "qualified_primary_sources": [
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L88-L100, L154-L175",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/security/commoncap.c",
+      "use": "Namespace-qualified capability/ptrace check; c8 rejection."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "ptrace/domain inheritance; rendered L279-L282, L812-L819",
+      "url": "https://docs.kernel.org/userspace-api/landlock.html",
+      "use": "Outward scope, topology and already-open description limitations."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L134-L140",
+      "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+      "use": "populated is live-process/descendant information."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L943-L954",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/kernel/exit.c",
+      "use": "Normal exit_files/exit_fs before cgroup_task_exit; not a universal completion theorem."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L188-L248, L283-L327",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/fhandle.c",
+      "use": "Handle capability/mount/directory predicates."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L1040-L1062, L2447-L2450, L2555-L2577",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/namei.c",
+      "use": "Process root/cwd lookup and ancestor permission checking."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L3429-L3497",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/namespace.c",
+      "use": "Mount-tree attachment is not a complete root/cwd specification."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L382-L387, L522-L528",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v261/src/core/scope.c",
+      "use": "Event-driven empty-cgroup manager transition."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "VERSIONS, rendered L345-L370",
+      "url": "https://man7.org/linux/man-pages/man2/fanotify_init.2.html",
+      "use": "Permission classes versus unprivileged limits."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L645-L659",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/net/socket.c",
+      "use": "Socket inode init and positive-control operand type."
+    },
+    {
+      "boundary": "Upstream static reading; exact installed build correspondence UNVERIFIED.",
+      "locator": "rendered L194-L220",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/inode.c",
+      "use": "Default no_open returns ENXIO."
+    }
+  ],
+  "schema": "claude-design-review-checks-v1",
+  "source_acceptance": false,
+  "source_scope": {
+    "frame_sources": "scratch.py v5/v6, proof_manifest.py and project files read as text only. No imports or execution. Full pinned tool source/native/helper closure not established.",
+    "history": "Sealed v6 correction/gap/sub-gap judgments are closure targets. Historical author observations remain history, not acceptance evidence. No session transcript read.",
+    "kernel": "Installed headers/manual and allowed kernel/sysctl/configuration reads are passive. Upstream Linux v7.2/systemd v261 readings are qualified static evidence, not exact installed-build attestation or actual kernel/LSM probes.",
+    "proposal": "Relevant normative sections, architecture, catalogue, protocol, setup/recovery and evidence read as text; whole bytes hashed and all map rows compared. No preservation or capacity proof."
+  },
+  "support_sha256": "d62cca5521f007ccc7cc59fcce171f0de1d1d60f9e9e90eac75f51db49e20287",
+  "unverified": [
+    "Full original-domain preservation",
+    "Exact installed kernel/systemd source-to-build correspondence",
+    "Running Landlock ABI/rules",
+    "Actual namespace/process-root/cwd/mount/reference construction",
+    "All-holder asynchronous logical completion",
+    "Installed syscall controls",
+    "Complete toolchain/native/helper/configuration closure",
+    "Complete causal read/write confinement",
+    "Actual global setup/reconciliation/rollback states",
+    "Unobserved post-link sync provenance",
+    "Complete evidence/native-output restore and peak capacity",
+    "Every original Phase One obligation"
+  ],
+  "v6_sealed_review_matches": true,
+  "v6_unit_map": {
+    "all_carried_units_byte_identical": true,
+    "all_v6_rows_resolved": true,
+    "definition": "Heading units outside fenced blocks; exact bytes including line terminators. AMENDED/REPLACED are author classifications.",
+    "new_units": [
+      "22",
+      "22.1",
+      "22.2",
+      "22.3",
+      "22.4",
+      "Appendix G"
+    ],
+    "observed_classification_counts": {
+      "AMENDED": 63,
+      "CARRIED": 29,
+      "REPLACED": 26
+    },
+    "observed_v6_units": 118,
+    "observed_v7_units": 124,
+    "rows": [
+      {
+        "author_change_description": "all (status, inputs, non-claims)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3685,
+        "unit": "title",
+        "v6": {
+          "bytes": 5888,
+          "first_line": 1,
+          "last_line": 66,
+          "sha256": "60295ce26a2f32782c4472ee88979dcc40492827791e7d81253ba8d5ef21c3d3"
+        },
+        "v7": {
+          "bytes": 5460,
+          "first_line": 1,
+          "last_line": 60,
+          "sha256": "a83dbdd6f2e5fa1833d537990810f50597f24c465d57c6ec1a99c82c20583c86"
+        }
+      },
+      {
+        "author_change_description": "all",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3686,
+        "unit": "0",
+        "v6": {
+          "bytes": 52,
+          "first_line": 67,
+          "last_line": 68,
+          "sha256": "2d25497213fd27a9df7c65283d4e27447ed806290d57fc287f252ba1492b664d"
+        },
+        "v7": {
+          "bytes": 52,
+          "first_line": 61,
+          "last_line": 62,
+          "sha256": "ecb94117fd1df2cf8364b3ef9cc8cda2b7effffcf7bfc325f29e5c42170b2c60"
+        }
+      },
+      {
+        "author_change_description": "all (form; base v6)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3687,
+        "unit": "0.1",
+        "v6": {
+          "bytes": 1415,
+          "first_line": 69,
+          "last_line": 86,
+          "sha256": "48a7c12a5d48d57858332fe860ae44f56cc8e2e5ebf329b0a4fd642043008d98"
+        },
+        "v7": {
+          "bytes": 1227,
+          "first_line": 63,
+          "last_line": 78,
+          "sha256": "d7f8d3e28cccb1db6f5f0ebe502b93aeda7072f99ef21d9116f78b0f642adc0c"
+        }
+      },
+      {
+        "author_change_description": "all (author corrections of v6)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3688,
+        "unit": "0.2",
+        "v6": {
+          "bytes": 3552,
+          "first_line": 87,
+          "last_line": 123,
+          "sha256": "a5cd36c9f9ab2dc1b8ec631cb7cbbc81bbec527c274fea63fd77bdc163c9046e"
+        },
+        "v7": {
+          "bytes": 2335,
+          "first_line": 79,
+          "last_line": 105,
+          "sha256": "515529d769bcbe78b0d42f08ad5df5e3886b561030074731d3504ec948c95edb"
+        }
+      },
+      {
+        "author_change_description": "all (changes per required change)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3689,
+        "unit": "0.3",
+        "v6": {
+          "bytes": 2808,
+          "first_line": 124,
+          "last_line": 152,
+          "sha256": "d4f8fc8ed875fa72a5457918a38253ad7f4a02b7f76132f0af1485cdbc467227"
+        },
+        "v7": {
+          "bytes": 1685,
+          "first_line": 106,
+          "last_line": 125,
+          "sha256": "14c054593cb5da6096fb57ab0d149444cbab99d9c8ad765e5f537695a0fff8f7"
+        }
+      },
+      {
+        "author_change_description": "PS (the architecture decision)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3690,
+        "unit": "0.4",
+        "v6": {
+          "bytes": 1580,
+          "first_line": 153,
+          "last_line": 172,
+          "sha256": "a742c9e266af532b235ea132ffa00927e56add2ac6586e31ef092ad3cc71c985"
+        },
+        "v7": {
+          "bytes": 1863,
+          "first_line": 126,
+          "last_line": 145,
+          "sha256": "318c8beb01402b072237e221b5a8ed2150a4072467089c4100d743441b453855"
+        }
+      },
+      {
+        "author_change_description": "all (what is carried)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3691,
+        "unit": "0.5",
+        "v6": {
+          "bytes": 1887,
+          "first_line": 173,
+          "last_line": 197,
+          "sha256": "9f79b7ce089400f7bdecf229a9895f11c946ebff3441ed9c27edcae8184bd31f"
+        },
+        "v7": {
+          "bytes": 1872,
+          "first_line": 146,
+          "last_line": 170,
+          "sha256": "27716591dc56c87a8943e00fab64f13b5484dd2eca67af90a91b6ae0297a09df"
+        }
+      },
+      {
+        "author_change_description": "all (reading notes)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3692,
+        "unit": "0.6",
+        "v6": {
+          "bytes": 2111,
+          "first_line": 198,
+          "last_line": 222,
+          "sha256": "d988376a3d9786f0430a4b4b340d84df54ba5d2f49054a7451282b5843f27851"
+        },
+        "v7": {
+          "bytes": 1102,
+          "first_line": 171,
+          "last_line": 185,
+          "sha256": "5aa12beb675634083d68cb80bdad73e058a03782b58ef3ea124ec5e1fcc41e97"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3693,
+        "unit": "1",
+        "v6": {
+          "bytes": 3156,
+          "first_line": 223,
+          "last_line": 264,
+          "sha256": "2ae9da8b3dc5177eb189805c8f7fdc48e4908a2204fb68a6b4be0b5118aa0dac"
+        },
+        "v7": {
+          "bytes": 3156,
+          "first_line": 186,
+          "last_line": 227,
+          "sha256": "2ae9da8b3dc5177eb189805c8f7fdc48e4908a2204fb68a6b4be0b5118aa0dac"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3694,
+        "unit": "2",
+        "v6": {
+          "bytes": 63,
+          "first_line": 265,
+          "last_line": 266,
+          "sha256": "35f6eb75cbc9b074ead5488fca9693875386deb826fbd0374020398a83887683"
+        },
+        "v7": {
+          "bytes": 63,
+          "first_line": 228,
+          "last_line": 229,
+          "sha256": "35f6eb75cbc9b074ead5488fca9693875386deb826fbd0374020398a83887683"
+        }
+      },
+      {
+        "author_change_description": "PS (A1-A3 for the view)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3695,
+        "unit": "2.1",
+        "v6": {
+          "bytes": 3782,
+          "first_line": 267,
+          "last_line": 304,
+          "sha256": "5d839c4f0cc6f849b2f8cddf356ff7c58d9bf1d42412a7ee01d2e3e3e70ae2cd"
+        },
+        "v7": {
+          "bytes": 3089,
+          "first_line": 230,
+          "last_line": 260,
+          "sha256": "b838b8abc1c56b37d29a114cb70a0076c8a8dd46b5eeda5b272b0b940c587cb8"
+        }
+      },
+      {
+        "author_change_description": "PS (RL and the kernel's namespace, idmap, Landlock and cgroup code in the trusted base)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3696,
+        "unit": "2.2",
+        "v6": {
+          "bytes": 582,
+          "first_line": 305,
+          "last_line": 312,
+          "sha256": "0bd0f3c4f134ef27bc917b88222b83f93d615e28a7f33367af0d32f16a568a88"
+        },
+        "v7": {
+          "bytes": 742,
+          "first_line": 261,
+          "last_line": 269,
+          "sha256": "b5506e5a5472a1f269982a93b980477cbc9e16ff35fb3dfe00dbcf85d67a8d38"
+        }
+      },
+      {
+        "author_change_description": "PS (kernel features; EXDEV between view mounts)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3697,
+        "unit": "2.3",
+        "v6": {
+          "bytes": 1910,
+          "first_line": 313,
+          "last_line": 332,
+          "sha256": "5f9e1ef7a6329d7bacd127fa3f56b0aedee57b914a8f9fd599154ad0120d3820"
+        },
+        "v7": {
+          "bytes": 2629,
+          "first_line": 270,
+          "last_line": 296,
+          "sha256": "5c4aad42392d62002b099a573afe71fee7a5d9cb108cfb198638760cdb8ffd6d"
+        }
+      },
+      {
+        "author_change_description": "PS, SS (R3, R5-R7, R9)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3698,
+        "unit": "2.4",
+        "v6": {
+          "bytes": 4757,
+          "first_line": 333,
+          "last_line": 380,
+          "sha256": "0899a44158ee6bc5d2144afe3318a72cbe9076407d6f4fee15d8220c60e4be35"
+        },
+        "v7": {
+          "bytes": 3711,
+          "first_line": 297,
+          "last_line": 334,
+          "sha256": "6cfa098c8530fdd806099f8444a6173e9f4145e9da03555716deb42994bac612"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3699,
+        "unit": "3",
+        "v6": {
+          "bytes": 39,
+          "first_line": 381,
+          "last_line": 382,
+          "sha256": "5510e891fd324593657d164471cb63078bbc71af4f71c2da3fc35163ae8c2ed0"
+        },
+        "v7": {
+          "bytes": 39,
+          "first_line": 335,
+          "last_line": 336,
+          "sha256": "5510e891fd324593657d164471cb63078bbc71af4f71c2da3fc35163ae8c2ed0"
+        }
+      },
+      {
+        "author_change_description": "PS (the roles of R and GATE)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3700,
+        "unit": "3.1",
+        "v6": {
+          "bytes": 1257,
+          "first_line": 383,
+          "last_line": 398,
+          "sha256": "f9c9591dda30db333f3ff9de5018f53e6f5e4debb6f60934210e28352c0da597"
+        },
+        "v7": {
+          "bytes": 1330,
+          "first_line": 337,
+          "last_line": 352,
+          "sha256": "7af530f409c52595712373b0fac00bceed7aed68618d8749e30ebfe6ae190974"
+        }
+      },
+      {
+        "author_change_description": "PS (RL, L's `exec` of C, U in the system manager; M and Option A withdrawn)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3701,
+        "unit": "3.2",
+        "v6": {
+          "bytes": 2487,
+          "first_line": 399,
+          "last_line": 421,
+          "sha256": "a2569cc36fec62f221918354895e28398a0641c187d386264eb85b0f0dde4160"
+        },
+        "v7": {
+          "bytes": 3207,
+          "first_line": 353,
+          "last_line": 378,
+          "sha256": "9b39bc782e45795c354ded40c35865b1b1649b627e5a887216d30452ad686ec9"
+        }
+      },
+      {
+        "author_change_description": "PS, IV (g without ACL; `tmp/`, `tmpdir/`; slice and tmpfiles; the run path)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3702,
+        "unit": "3.3",
+        "v6": {
+          "bytes": 3207,
+          "first_line": 422,
+          "last_line": 462,
+          "sha256": "9f1f7d684a44ccf514c0bfa049fb9296b952d9c2f7acd1325735bd6d39c4a0de"
+        },
+        "v7": {
+          "bytes": 3971,
+          "first_line": 379,
+          "last_line": 423,
+          "sha256": "8591c59f9d9fb8ba0d300fa718ea7ad02239d49e3e113a01f43272f9c13e1d4a"
+        }
+      },
+      {
+        "author_change_description": "IP, IV (listable images directory; routing; RL's checks)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3703,
+        "unit": "3.4",
+        "v6": {
+          "bytes": 6695,
+          "first_line": 463,
+          "last_line": 532,
+          "sha256": "e2961b6719c03fb094b993e932b2c20963e43f67e402de6efa4e60d602bbf601"
+        },
+        "v7": {
+          "bytes": 6872,
+          "first_line": 424,
+          "last_line": 495,
+          "sha256": "0e55f3b852cef2cf3ca2a38ed3b642b91ee463a843abf1ef030a2dbf2b881917"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3704,
+        "unit": "4",
+        "v6": {
+          "bytes": 106,
+          "first_line": 533,
+          "last_line": 534,
+          "sha256": "030cba113f70fd51a55fba2cdbacef1d4bebdd0fa2b0813f0a7f935356beaa45"
+        },
+        "v7": {
+          "bytes": 106,
+          "first_line": 496,
+          "last_line": 497,
+          "sha256": "030cba113f70fd51a55fba2cdbacef1d4bebdd0fa2b0813f0a7f935356beaa45"
+        }
+      },
+      {
+        "author_change_description": "IV, PS (P_out withdrawn; partition contents; target temporaries)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3705,
+        "unit": "4.1",
+        "v6": {
+          "bytes": 3196,
+          "first_line": 535,
+          "last_line": 569,
+          "sha256": "168416e6bd78c8135e5e9224136f826dd924ed5f4fb0aaa61e89010ea637b842"
+        },
+        "v7": {
+          "bytes": 4017,
+          "first_line": 498,
+          "last_line": 540,
+          "sha256": "a5c68784c918927bb85b3821b3f30cc0cfdfce7f5665f23a80f8454f7d67ceea"
+        }
+      },
+      {
+        "author_change_description": "PS, IV, ER, RM (M2, M4, M7-M9; D3, D8, D16, D17; the copy stage withdrawn)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3706,
+        "unit": "4.2",
+        "v6": {
+          "bytes": 16121,
+          "first_line": 570,
+          "last_line": 742,
+          "sha256": "11f5e4649567eabb5aaa1e21c4fd21cb7f2b47598297cfccc1a631a6096f90da"
+        },
+        "v7": {
+          "bytes": 14968,
+          "first_line": 541,
+          "last_line": 704,
+          "sha256": "7b7989df8a2e302e11207aab6adaeb1b633b6eba048d56e7cf73336cf9715156"
+        }
+      },
+      {
+        "author_change_description": "PS, ER (materialization v2; the view specification; RL identity records)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3707,
+        "unit": "4.3",
+        "v6": {
+          "bytes": 7164,
+          "first_line": 743,
+          "last_line": 815,
+          "sha256": "39fdf45a201374929e1811a239aba9a4140524b1853613a62769ef952fa3fc93"
+        },
+        "v7": {
+          "bytes": 6825,
+          "first_line": 705,
+          "last_line": 776,
+          "sha256": "307c39b54b88ff15c2e44d70df17cd6d62d83ffea57ad12b36a591f4c7c20b0b"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3708,
+        "unit": "4.4",
+        "v6": {
+          "bytes": 2451,
+          "first_line": 816,
+          "last_line": 841,
+          "sha256": "eb572f6edb96f31e7bf59a9d8176ed06a37de4f96282533d86a1d70d7d31a59c"
+        },
+        "v7": {
+          "bytes": 2451,
+          "first_line": 777,
+          "last_line": 802,
+          "sha256": "eb572f6edb96f31e7bf59a9d8176ed06a37de4f96282533d86a1d70d7d31a59c"
+        }
+      },
+      {
+        "author_change_description": "IV, SS (the final pass in the view; custody facts)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3709,
+        "unit": "4.5",
+        "v6": {
+          "bytes": 5331,
+          "first_line": 842,
+          "last_line": 899,
+          "sha256": "ee8568f2b29acf355943b81e6f67273307f0635b4184f926a7735928f7bd4d3a"
+        },
+        "v7": {
+          "bytes": 4428,
+          "first_line": 803,
+          "last_line": 851,
+          "sha256": "6bac3c43cbe1b3716bd262cb7504ac26b6ebaf5131f420f24ba37e8a35a26fe5"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3710,
+        "unit": "4.6",
+        "v6": {
+          "bytes": 5877,
+          "first_line": 900,
+          "last_line": 964,
+          "sha256": "00b3ed65328eb21773f171bf89852ac17c227e4c242c254aa4e2bc5c739eb234"
+        },
+        "v7": {
+          "bytes": 5877,
+          "first_line": 852,
+          "last_line": 916,
+          "sha256": "00b3ed65328eb21773f171bf89852ac17c227e4c242c254aa4e2bc5c739eb234"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3711,
+        "unit": "5",
+        "v6": {
+          "bytes": 137,
+          "first_line": 965,
+          "last_line": 966,
+          "sha256": "46adbb0dd725d4f1ca5f142a684061fafc17e2c5165b6da45647a41585de9bab"
+        },
+        "v7": {
+          "bytes": 137,
+          "first_line": 917,
+          "last_line": 918,
+          "sha256": "46adbb0dd725d4f1ca5f142a684061fafc17e2c5165b6da45647a41585de9bab"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3712,
+        "unit": "5.1",
+        "v6": {
+          "bytes": 2284,
+          "first_line": 967,
+          "last_line": 994,
+          "sha256": "e0bc923e20b24b36609ff4d44f5a354e999dcd57c67793c398d1890d68c14b97"
+        },
+        "v7": {
+          "bytes": 2284,
+          "first_line": 919,
+          "last_line": 946,
+          "sha256": "e0bc923e20b24b36609ff4d44f5a354e999dcd57c67793c398d1890d68c14b97"
+        }
+      },
+      {
+        "author_change_description": "IV, CA (no exchange; unnamed inodes; `tmpdir/`)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3713,
+        "unit": "5.2",
+        "v6": {
+          "bytes": 4082,
+          "first_line": 995,
+          "last_line": 1027,
+          "sha256": "e29a8aa2813c2686ccaf07ec84b2e2e7cec6d8d97c58e077df43800fcb993666"
+        },
+        "v7": {
+          "bytes": 3802,
+          "first_line": 947,
+          "last_line": 979,
+          "sha256": "8c91cb45b3f5748048a6ea7c12b8573b152a248b3090044b4219bb7a3a9a076c"
+        }
+      },
+      {
+        "author_change_description": "SS, PS (RL; no manager; idmaps; `nosuid`)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3714,
+        "unit": "5.3",
+        "v6": {
+          "bytes": 5424,
+          "first_line": 1028,
+          "last_line": 1050,
+          "sha256": "f9e101d7977a6f70055027a7f8f8116477ce7d8377674c7909056d2b0a179bbf"
+        },
+        "v7": {
+          "bytes": 4835,
+          "first_line": 980,
+          "last_line": 1002,
+          "sha256": "b17708dc9fad2e80adcb7faf433456de4cd5da6d4718f0097856faebebbbd23a"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3715,
+        "unit": "5.4",
+        "v6": {
+          "bytes": 478,
+          "first_line": 1051,
+          "last_line": 1057,
+          "sha256": "debd77ac854c1a74be9913a849254ef55cff1e9f0adc2553f42431b3167eee6a"
+        },
+        "v7": {
+          "bytes": 478,
+          "first_line": 1003,
+          "last_line": 1009,
+          "sha256": "debd77ac854c1a74be9913a849254ef55cff1e9f0adc2553f42431b3167eee6a"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3716,
+        "unit": "6",
+        "v6": {
+          "bytes": 144,
+          "first_line": 1058,
+          "last_line": 1059,
+          "sha256": "6a852dcafc48edb984b90136498474c97f6f0348b8e6541fe33b803af9034fd3"
+        },
+        "v7": {
+          "bytes": 144,
+          "first_line": 1010,
+          "last_line": 1011,
+          "sha256": "6a852dcafc48edb984b90136498474c97f6f0348b8e6541fe33b803af9034fd3"
+        }
+      },
+      {
+        "author_change_description": "IV (the no-ACL rule scoped to frame objects)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3717,
+        "unit": "6.1",
+        "v6": {
+          "bytes": 1485,
+          "first_line": 1060,
+          "last_line": 1078,
+          "sha256": "dec415263fdf543ce1d47b1039e29c82cb17785eb6401b6a30d4f5a6065311e8"
+        },
+        "v7": {
+          "bytes": 1821,
+          "first_line": 1012,
+          "last_line": 1032,
+          "sha256": "3d18ff6cf3be2307f6980717d1796fd4963eed1bddb4d51232ac59c328d2d608"
+        }
+      },
+      {
+        "author_change_description": "IV (the ACL objects)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3718,
+        "unit": "6.2",
+        "v6": {
+          "bytes": 1360,
+          "first_line": 1079,
+          "last_line": 1095,
+          "sha256": "630d79f31755b6b9e03fedccb984ab0e63f7ee5f2d2d72e996bdaa7614638971"
+        },
+        "v7": {
+          "bytes": 1442,
+          "first_line": 1033,
+          "last_line": 1049,
+          "sha256": "155a6ef1dfdbbf811f6bd5f0a35f3134e8e60f171ee273535f4b227a30e760c2"
+        }
+      },
+      {
+        "author_change_description": "IV, PS, IP (g without ACL; no GATE entries; `tmp/`, `tmpdir/`; slice, tmpfiles; images 0750)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3719,
+        "unit": "6.3",
+        "v6": {
+          "bytes": 4581,
+          "first_line": 1096,
+          "last_line": 1136,
+          "sha256": "9de850056bbedc58cdd9dfcaf1203ebb3c3af71335af7cac494375afe93a4dd3"
+        },
+        "v7": {
+          "bytes": 4528,
+          "first_line": 1050,
+          "last_line": 1089,
+          "sha256": "a9ea41912a3fa75eb1ca915ce4940ba071282e631262acfe94e89deea9482dea"
+        }
+      },
+      {
+        "author_change_description": "PS (access through the view)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3720,
+        "unit": "6.4",
+        "v6": {
+          "bytes": 2736,
+          "first_line": 1137,
+          "last_line": 1164,
+          "sha256": "1ccb9a123c91616c1b68fb74985ecf9d39b85af9c7878add3eaf434ebd4fa731"
+        },
+        "v7": {
+          "bytes": 2161,
+          "first_line": 1090,
+          "last_line": 1114,
+          "sha256": "f4621332bbe3289a098fd1a85230575cb28ff8806d4b7e08c7c4da2a88a827fa"
+        }
+      },
+      {
+        "author_change_description": "PS (the view column)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3721,
+        "unit": "6.5",
+        "v6": {
+          "bytes": 2718,
+          "first_line": 1165,
+          "last_line": 1194,
+          "sha256": "323fb1612e330b2fa304b3d18f325232cbaba12c150e77c700f09529578c75fb"
+        },
+        "v7": {
+          "bytes": 2761,
+          "first_line": 1115,
+          "last_line": 1143,
+          "sha256": "c5a816ecadb950e407b66a61400300607f7d558de696a3827e145506eeec90f5"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3722,
+        "unit": "7",
+        "v6": {
+          "bytes": 113,
+          "first_line": 1195,
+          "last_line": 1196,
+          "sha256": "8ab0b34614a172ffb23cde8314d7bef25492c58858feabd1d30e543cde17fbae"
+        },
+        "v7": {
+          "bytes": 113,
+          "first_line": 1144,
+          "last_line": 1145,
+          "sha256": "8ab0b34614a172ffb23cde8314d7bef25492c58858feabd1d30e543cde17fbae"
+        }
+      },
+      {
+        "author_change_description": "PS (RL in every configuration; L's `exec` of C)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3723,
+        "unit": "7.1",
+        "v6": {
+          "bytes": 1950,
+          "first_line": 1197,
+          "last_line": 1211,
+          "sha256": "1a0a5da3a2cbd9fa5a3c7e695d08ad254002b60a72a29372f78a132747a22d75"
+        },
+        "v7": {
+          "bytes": 2146,
+          "first_line": 1146,
+          "last_line": 1162,
+          "sha256": "9fbaf54e2de1e4e3e0db688efb1d901ef43faea28a6684a58eea01082dbe8210"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3724,
+        "unit": "7.2",
+        "v6": {
+          "bytes": 2191,
+          "first_line": 1212,
+          "last_line": 1234,
+          "sha256": "7faec7003ad60f3723bd527d117099d1c40615466ed7acd274903c19a54d8047"
+        },
+        "v7": {
+          "bytes": 2191,
+          "first_line": 1163,
+          "last_line": 1185,
+          "sha256": "7faec7003ad60f3723bd527d117099d1c40615466ed7acd274903c19a54d8047"
+        }
+      },
+      {
+        "author_change_description": "ER (every reference resolves in the exports)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3725,
+        "unit": "7.3",
+        "v6": {
+          "bytes": 3069,
+          "first_line": 1235,
+          "last_line": 1265,
+          "sha256": "698565a6689e94d4e1bf2e54f3affb07a23cc7b21ba32edcc8558434df9fa70b"
+        },
+        "v7": {
+          "bytes": 3468,
+          "first_line": 1186,
+          "last_line": 1219,
+          "sha256": "eeaeab07f27381c5af35893f610b81e421bd7ca96e7568d96540ced5164e5e2e"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3726,
+        "unit": "7.4",
+        "v6": {
+          "bytes": 1131,
+          "first_line": 1266,
+          "last_line": 1279,
+          "sha256": "66f9582ac696d0efbf60ec1e3ff0f29f7f484f24093b667798f983ee0a9a9a0d"
+        },
+        "v7": {
+          "bytes": 1131,
+          "first_line": 1220,
+          "last_line": 1233,
+          "sha256": "66f9582ac696d0efbf60ec1e3ff0f29f7f484f24093b667798f983ee0a9a9a0d"
+        }
+      },
+      {
+        "author_change_description": "CD (C's argv checks split between C1 and C2)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3727,
+        "unit": "7.5",
+        "v6": {
+          "bytes": 2205,
+          "first_line": 1280,
+          "last_line": 1295,
+          "sha256": "7a1a529a70e8da31c3b00decf7ae064fbd28dcb47db229103604db26ab1b9398"
+        },
+        "v7": {
+          "bytes": 2318,
+          "first_line": 1234,
+          "last_line": 1249,
+          "sha256": "58b24a0d5a3462b2659cb856abf0558bf42183193c745d16bdba67a72037114a"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3728,
+        "unit": "7.6",
+        "v6": {
+          "bytes": 826,
+          "first_line": 1296,
+          "last_line": 1305,
+          "sha256": "da3dc6642e8c8b1bf407a522e929faa1997c00c2b74738d67783089debc1b34a"
+        },
+        "v7": {
+          "bytes": 826,
+          "first_line": 1250,
+          "last_line": 1259,
+          "sha256": "da3dc6642e8c8b1bf407a522e929faa1997c00c2b74738d67783089debc1b34a"
+        }
+      },
+      {
+        "author_change_description": "PS (the pre-first-call residual of L, C and O)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3729,
+        "unit": "7.7",
+        "v6": {
+          "bytes": 2099,
+          "first_line": 1306,
+          "last_line": 1326,
+          "sha256": "9a35135a6ed5b397783b23a914eabe300e8d9d2caddc9281bcc9c0e6b9f34763"
+        },
+        "v7": {
+          "bytes": 2261,
+          "first_line": 1260,
+          "last_line": 1283,
+          "sha256": "896aa8191f98cba8110b73eefe4f823da866fc5ae0b2351a883e8b48763115ec"
+        }
+      },
+      {
+        "author_change_description": "PS (heading: the original context)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3730,
+        "unit": "8",
+        "v6": {
+          "bytes": 119,
+          "first_line": 1327,
+          "last_line": 1328,
+          "sha256": "a61d10425836c77bd06805b89c361fee0f7b18967c522ffed965fe9f7f7d3d05"
+        },
+        "v7": {
+          "bytes": 121,
+          "first_line": 1284,
+          "last_line": 1285,
+          "sha256": "5dc90f8d992d37f789b9fdc38f5cef1248a2bb2ae0c5322ab39442c58024bc66"
+        }
+      },
+      {
+        "author_change_description": "PS (namespaces and maps; the stage table)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3731,
+        "unit": "8.1",
+        "v6": {
+          "bytes": 2730,
+          "first_line": 1329,
+          "last_line": 1352,
+          "sha256": "81091a55b4279f4cfded6b1484f9743d32c887588558e169935c2d241fec95c7"
+        },
+        "v7": {
+          "bytes": 3351,
+          "first_line": 1286,
+          "last_line": 1312,
+          "sha256": "c68f5aea009de4262a665bfffffd00df534776dbc2e70e79dd3637ee6f0334ba"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3732,
+        "unit": "8.2",
+        "v6": {
+          "bytes": 1030,
+          "first_line": 1353,
+          "last_line": 1364,
+          "sha256": "309b19cccb33bc3a0a2d9863e13e869de1e42a9ae055ede4b84a47ec7fde5705"
+        },
+        "v7": {
+          "bytes": 1030,
+          "first_line": 1313,
+          "last_line": 1324,
+          "sha256": "309b19cccb33bc3a0a2d9863e13e869de1e42a9ae055ede4b84a47ec7fde5705"
+        }
+      },
+      {
+        "author_change_description": "PS (system-manager scope; no `no_new_privs` and no filter)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3733,
+        "unit": "8.3",
+        "v6": {
+          "bytes": 1496,
+          "first_line": 1365,
+          "last_line": 1381,
+          "sha256": "209bd4d33569f07b733c3d9df9bb3d3955777b2dc0584151b71adaeb3369c0cc"
+        },
+        "v7": {
+          "bytes": 1914,
+          "first_line": 1325,
+          "last_line": 1345,
+          "sha256": "967693e4db6dde86e42156df8897336f37cfc7b1ee9cbefe83254e2349b34447"
+        }
+      },
+      {
+        "author_change_description": "PS (the original context inside the view; no relocation)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3734,
+        "unit": "8.4",
+        "v6": {
+          "bytes": 3623,
+          "first_line": 1382,
+          "last_line": 1421,
+          "sha256": "309db868a9c2204102a55fdfb86dd89b881b8610b1c3b8d097da57c0a4cf4402"
+        },
+        "v7": {
+          "bytes": 2862,
+          "first_line": 1346,
+          "last_line": 1378,
+          "sha256": "dc06ffee8154663ef3eb7a806cc4757b40fd15c191f1da590ff06994b8c9e454"
+        }
+      },
+      {
+        "author_change_description": "ER (both export trees; what a reader needs)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3735,
+        "unit": "8.5",
+        "v6": {
+          "bytes": 1072,
+          "first_line": 1422,
+          "last_line": 1434,
+          "sha256": "d651794d2e2a2f64dc0256d765b1dfb3f56cb7316f27be7fa0f7cd17d386d859"
+        },
+        "v7": {
+          "bytes": 1954,
+          "first_line": 1379,
+          "last_line": 1399,
+          "sha256": "3769a7d52fed28ec54973232d45ef9f4b1efdd015cbee5d11279119712d1c359"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3736,
+        "unit": "8.6",
+        "v6": {
+          "bytes": 2023,
+          "first_line": 1435,
+          "last_line": 1456,
+          "sha256": "3ec9d7f237addb503a8f3a90434741ae57e7386139ae3ab5b5a06271ae25dd1f"
+        },
+        "v7": {
+          "bytes": 2023,
+          "first_line": 1400,
+          "last_line": 1421,
+          "sha256": "3ec9d7f237addb503a8f3a90434741ae57e7386139ae3ab5b5a06271ae25dd1f"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3737,
+        "unit": "9",
+        "v6": {
+          "bytes": 189,
+          "first_line": 1457,
+          "last_line": 1458,
+          "sha256": "d1843b7e7e7bee1fec119a7314ce98958f5e46327d872070510c73a6b1c90a01"
+        },
+        "v7": {
+          "bytes": 189,
+          "first_line": 1422,
+          "last_line": 1423,
+          "sha256": "d1843b7e7e7bee1fec119a7314ce98958f5e46327d872070510c73a6b1c90a01"
+        }
+      },
+      {
+        "author_change_description": "PS, SS (participants; the census schema)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3738,
+        "unit": "9.1",
+        "v6": {
+          "bytes": 2272,
+          "first_line": 1459,
+          "last_line": 1483,
+          "sha256": "355f5f36ed5ec022646d45db0105f53c7c6678571befc4c3a08447a5f6a1131b"
+        },
+        "v7": {
+          "bytes": 2226,
+          "first_line": 1424,
+          "last_line": 1449,
+          "sha256": "bb6878ba3ff06de0beee08216c93ad10d2e4d4e483b8fdab0c693cb757e15502"
+        }
+      },
+      {
+        "author_change_description": "PS (waits; the launcher wait through sudo)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3739,
+        "unit": "9.2",
+        "v6": {
+          "bytes": 1652,
+          "first_line": 1484,
+          "last_line": 1502,
+          "sha256": "f9a758c96a803f6b57691c87999a525b6992738ca6163249e26e97640a1fb178"
+        },
+        "v7": {
+          "bytes": 1714,
+          "first_line": 1450,
+          "last_line": 1467,
+          "sha256": "6c4a383502ee74cabb5b597ae8220ba1d86122fa6d12400adfb30845910dc11f"
+        }
+      },
+      {
+        "author_change_description": "CD, SS, PS (G3-G6, C1-C10)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3740,
+        "unit": "9.3",
+        "v6": {
+          "bytes": 13874,
+          "first_line": 1503,
+          "last_line": 1636,
+          "sha256": "c3913417ba30e4175c4e610f7cd2eaaf35feb44c1b1eff8d757d66d4ac6130bf"
+        },
+        "v7": {
+          "bytes": 13868,
+          "first_line": 1468,
+          "last_line": 1602,
+          "sha256": "e6a4fc9f200ee99324f75d622f4713783977dcb3e2fa34605e7cc9646f97e7be"
+        }
+      },
+      {
+        "author_change_description": "SS, PS (census, CRED, v5's terminal predicate; v6's release paragraphs kept, condition 2 restated)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3741,
+        "unit": "9.4",
+        "v6": {
+          "bytes": 21279,
+          "first_line": 1637,
+          "last_line": 1846,
+          "sha256": "0e9b21eea35401a7eec6f273ad645c90a295c8fbd511acf067f9ee0da0bf750f"
+        },
+        "v7": {
+          "bytes": 9577,
+          "first_line": 1603,
+          "last_line": 1704,
+          "sha256": "a41ff848d353f97b321eefa24fd7caf0cdb7d614a44d7fdc260b97cc87410e74"
+        }
+      },
+      {
+        "author_change_description": "CA, CT, PS (failure rows)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3742,
+        "unit": "9.5",
+        "v6": {
+          "bytes": 8815,
+          "first_line": 1847,
+          "last_line": 1892,
+          "sha256": "b3b743406a20feaea1c43ea7f81d03590c8013087f70a18773e50edd4f73198e"
+        },
+        "v7": {
+          "bytes": 8230,
+          "first_line": 1705,
+          "last_line": 1746,
+          "sha256": "e50b3781c1482863c0e0b3818a82759c16edcccf68fda8de562f29651689a5f7"
+        }
+      },
+      {
+        "author_change_description": "CA, PS (reboot)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3743,
+        "unit": "9.6",
+        "v6": {
+          "bytes": 2037,
+          "first_line": 1893,
+          "last_line": 1913,
+          "sha256": "6e22317b456f3cae05193dc42d34363ded46900043cf08f38e5dc9da8a8950ba"
+        },
+        "v7": {
+          "bytes": 2116,
+          "first_line": 1747,
+          "last_line": 1769,
+          "sha256": "06533416b10f8f1cbda45312a42525c9d390f69ab8822edb7764f4c37babc5a7"
+        }
+      },
+      {
+        "author_change_description": "PS (recovery rounds evaluate v5's predicate)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3744,
+        "unit": "9.7",
+        "v6": {
+          "bytes": 4112,
+          "first_line": 1914,
+          "last_line": 1958,
+          "sha256": "916816ae34590700a3f46c8d6500a8518866dea6f3f6b65304154eb7973db6f9"
+        },
+        "v7": {
+          "bytes": 4093,
+          "first_line": 1770,
+          "last_line": 1813,
+          "sha256": "cfcab530221830dabf11e41d3c0d09096f5be5f59fdfedaa47d944ce235a4cb4"
+        }
+      },
+      {
+        "author_change_description": "PS, RM, SS (custody by the view, N0-N8)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3745,
+        "unit": "9.8",
+        "v6": {
+          "bytes": 23130,
+          "first_line": 1959,
+          "last_line": 2185,
+          "sha256": "da771cb5aef63c3c6fc89c846406c7ea1be66588527ea01b0cae1e58b34d22be"
+        },
+        "v7": {
+          "bytes": 13102,
+          "first_line": 1814,
+          "last_line": 1934,
+          "sha256": "add1e06a75fd3f917c272cf48014afb91c231c72e04cc330674a3eccd5e18d40"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3746,
+        "unit": "10",
+        "v6": {
+          "bytes": 173,
+          "first_line": 2186,
+          "last_line": 2187,
+          "sha256": "b923c50c51930667776aced4d6d5b16a080102e4e056e61d0ade2fd420c1d98d"
+        },
+        "v7": {
+          "bytes": 173,
+          "first_line": 1935,
+          "last_line": 1936,
+          "sha256": "b923c50c51930667776aced4d6d5b16a080102e4e056e61d0ade2fd420c1d98d"
+        }
+      },
+      {
+        "author_change_description": "CA (unnamed inodes; the commit point)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3747,
+        "unit": "10.1",
+        "v6": {
+          "bytes": 1162,
+          "first_line": 2188,
+          "last_line": 2203,
+          "sha256": "52feefb6ac485169b1217cb73f674fae8f6477b8046e6a0db7bda861a5651a0f"
+        },
+        "v7": {
+          "bytes": 3022,
+          "first_line": 1937,
+          "last_line": 1971,
+          "sha256": "a0774d3a37aabfb162c3f5386551ea377e7dc756fefebe7f9c2172dde18daa62"
+        }
+      },
+      {
+        "author_change_description": "CA (J4, J5, consumers)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3748,
+        "unit": "10.2",
+        "v6": {
+          "bytes": 10940,
+          "first_line": 2204,
+          "last_line": 2311,
+          "sha256": "009394f10629bde271ebe7d92d4222997af213597d1bb2013f4e5e869383bd53"
+        },
+        "v7": {
+          "bytes": 11650,
+          "first_line": 1972,
+          "last_line": 2085,
+          "sha256": "f78bc026cea49fb212d14355029a3ac6b1173c045ed3e59cd6b1f6d0cf7710fc"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3749,
+        "unit": "10.3",
+        "v6": {
+          "bytes": 369,
+          "first_line": 2312,
+          "last_line": 2317,
+          "sha256": "2b275b998e8c39b306421b0c6400ea8c12528d2b9741410c51f99ac4bca59990"
+        },
+        "v7": {
+          "bytes": 369,
+          "first_line": 2086,
+          "last_line": 2091,
+          "sha256": "2b275b998e8c39b306421b0c6400ea8c12528d2b9741410c51f99ac4bca59990"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3750,
+        "unit": "10.4",
+        "v6": {
+          "bytes": 4467,
+          "first_line": 2318,
+          "last_line": 2361,
+          "sha256": "45c96fa1f94741a0a04242424778df566daa7cd7914d7c8ff2cc04be34e7d85f"
+        },
+        "v7": {
+          "bytes": 4467,
+          "first_line": 2092,
+          "last_line": 2135,
+          "sha256": "45c96fa1f94741a0a04242424778df566daa7cd7914d7c8ff2cc04be34e7d85f"
+        }
+      },
+      {
+        "author_change_description": "CA (unsynced records)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3751,
+        "unit": "10.5",
+        "v6": {
+          "bytes": 841,
+          "first_line": 2362,
+          "last_line": 2371,
+          "sha256": "5178acc5917198bcbf50bc34358e123e263a72594c8410237fd622065a82f6c8"
+        },
+        "v7": {
+          "bytes": 1252,
+          "first_line": 2136,
+          "last_line": 2149,
+          "sha256": "d813613bcbd0fc6619d4422e2391a653d99164df1153276ac104c3e650b423dd"
+        }
+      },
+      {
+        "author_change_description": "CA, PS (`synced`; stream finality)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3752,
+        "unit": "10.6",
+        "v6": {
+          "bytes": 3116,
+          "first_line": 2372,
+          "last_line": 2398,
+          "sha256": "651fb2122dbff804b02b66f8b498dd90ee18339fce5acdec8e3dc8d4bc3c853b"
+        },
+        "v7": {
+          "bytes": 3658,
+          "first_line": 2150,
+          "last_line": 2179,
+          "sha256": "2c1f196a73aa5e6fb60e91055b8e3edcb7f0c6aceff2764fc81016b02c05a092"
+        }
+      },
+      {
+        "author_change_description": "CA, PS (the synced conjunct; L's and RL's exits)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3753,
+        "unit": "10.7",
+        "v6": {
+          "bytes": 3693,
+          "first_line": 2399,
+          "last_line": 2435,
+          "sha256": "5233ab4519b7a801006948abc0dcb39ddb1cce959a4d5f657c6256d899e3c8ab"
+        },
+        "v7": {
+          "bytes": 3924,
+          "first_line": 2180,
+          "last_line": 2217,
+          "sha256": "f7646af077f17d438c07a0641f6aefec1fc3af5f295bb9ee7e8e80a1b0bb7eea"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3754,
+        "unit": "11",
+        "v6": {
+          "bytes": 127,
+          "first_line": 2436,
+          "last_line": 2437,
+          "sha256": "554fcbe4c216f90ff9d4ae0b8672903c7d18685221dc80a7ec07dbc59d5df8cd"
+        },
+        "v7": {
+          "bytes": 127,
+          "first_line": 2218,
+          "last_line": 2219,
+          "sha256": "554fcbe4c216f90ff9d4ae0b8672903c7d18685221dc80a7ec07dbc59d5df8cd"
+        }
+      },
+      {
+        "author_change_description": "PS (no mask links)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3755,
+        "unit": "11.1",
+        "v6": {
+          "bytes": 1749,
+          "first_line": 2438,
+          "last_line": 2458,
+          "sha256": "311a9b017bef4fd59870b92ff6126e8be5a8218c12e2181b57465c0b9befdc54"
+        },
+        "v7": {
+          "bytes": 1723,
+          "first_line": 2220,
+          "last_line": 2239,
+          "sha256": "0ad981bd44c1a4c63a85f56e89f7983c354e19b1eea1b5ab56eec3357a73463e"
+        }
+      },
+      {
+        "author_change_description": "PS (the manager clause withdrawn)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3756,
+        "unit": "11.2",
+        "v6": {
+          "bytes": 1340,
+          "first_line": 2459,
+          "last_line": 2475,
+          "sha256": "42fd1ec6a0f589f9b98a3bd1a451cd17cd9478f4839c5816582828d2e52fcea4"
+        },
+        "v7": {
+          "bytes": 1210,
+          "first_line": 2240,
+          "last_line": 2254,
+          "sha256": "d07d96f31be7f06b3e6d6723d8163093f6e2d235b675989c22f57fa5f51b167c"
+        }
+      },
+      {
+        "author_change_description": "PS (P5-P26)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3757,
+        "unit": "11.3",
+        "v6": {
+          "bytes": 7542,
+          "first_line": 2476,
+          "last_line": 2525,
+          "sha256": "c14e0560b3f0093e6afc4567484205beda02680fc5315263c2024ff92184b2de"
+        },
+        "v7": {
+          "bytes": 7394,
+          "first_line": 2255,
+          "last_line": 2302,
+          "sha256": "746b17ca012b7436847c99cb9ebd9186cd66384854d3b3456f74bb4c12257e50"
+        }
+      },
+      {
+        "author_change_description": "CS (effects, the global phase, vectors)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3758,
+        "unit": "11.4",
+        "v6": {
+          "bytes": 12188,
+          "first_line": 2526,
+          "last_line": 2639,
+          "sha256": "bad8411d75995ac6e0989279d94bc8865cca2be71d29c75b20357659e929dfb2"
+        },
+        "v7": {
+          "bytes": 12348,
+          "first_line": 2303,
+          "last_line": 2417,
+          "sha256": "c3130b56528d5bef8c93036f8a982c3cbe62fe15e44270ca5f11490b510f9893"
+        }
+      },
+      {
+        "author_change_description": "CS, PS (S-B, S-D, S-F, S-G, S-H, S-I, S-R, class table)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3759,
+        "unit": "11.5",
+        "v6": {
+          "bytes": 30171,
+          "first_line": 2640,
+          "last_line": 3119,
+          "sha256": "0418b2fbd53cc6dad1a238c986f74e7155d612aa391b765aaac84c394a12bd3a"
+        },
+        "v7": {
+          "bytes": 23350,
+          "first_line": 2418,
+          "last_line": 2818,
+          "sha256": "547c43f3dc06aa2cd44ba799719feda46e70c8f2cf95febf8871c024c7c48ca4"
+        }
+      },
+      {
+        "author_change_description": "PS (the view baseline)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3760,
+        "unit": "11.6",
+        "v6": {
+          "bytes": 1069,
+          "first_line": 3120,
+          "last_line": 3133,
+          "sha256": "1443a7bbdcc0dd019cbc74ce2c2f44b12a8a5f2ca7bae7de45c8fed736ad6b02"
+        },
+        "v7": {
+          "bytes": 1096,
+          "first_line": 2819,
+          "last_line": 2832,
+          "sha256": "5f165da0bcdc34798a12b60342a2ba3e446e3e1895e7897ba9ce9919af9c8305"
+        }
+      },
+      {
+        "author_change_description": "IP, IV (listable images directory; `adopt`'s exception)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3761,
+        "unit": "11.7",
+        "v6": {
+          "bytes": 7015,
+          "first_line": 3134,
+          "last_line": 3183,
+          "sha256": "671db25e0bf2853da535967ce5e1c4b5f4cb7b7abfa9fe517f72910886583c73"
+        },
+        "v7": {
+          "bytes": 6833,
+          "first_line": 2833,
+          "last_line": 2884,
+          "sha256": "47bedb29cef7055c91c6322c56ae059a1c5d3df389b7d8b9f3e67fd6cbfeb46a"
+        }
+      },
+      {
+        "author_change_description": "PS (the target view)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3762,
+        "unit": "12",
+        "v6": {
+          "bytes": 143,
+          "first_line": 3184,
+          "last_line": 3187,
+          "sha256": "885b22172938418cce68053ca979e7f60082b4920c2606c4f2d0a579ee5ed5e7"
+        },
+        "v7": {
+          "bytes": 98,
+          "first_line": 2885,
+          "last_line": 2886,
+          "sha256": "04379c2b06bfd4ec87e05bb4117e58bc895097efe9acbc161762662ef5d812cc"
+        }
+      },
+      {
+        "author_change_description": "PS (the design adopted)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3763,
+        "unit": "12.1",
+        "v6": {
+          "bytes": 1723,
+          "first_line": 3188,
+          "last_line": 3208,
+          "sha256": "1e6066edfba180d9dff736cf3f5b95025109f49f35f34e91d986dc56739ae408"
+        },
+        "v7": {
+          "bytes": 746,
+          "first_line": 2887,
+          "last_line": 2896,
+          "sha256": "730af43d666a469fbd8015080261bb3024b6df85e2aa609b7490aa9d278f258b"
+        }
+      },
+      {
+        "author_change_description": "PS (RL and the view)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3764,
+        "unit": "12.2",
+        "v6": {
+          "bytes": 2785,
+          "first_line": 3209,
+          "last_line": 3238,
+          "sha256": "c438cb6b6e750e971ceea9b6b6ba7917bdc84b762ce428bd2259e24624619c58"
+        },
+        "v7": {
+          "bytes": 7889,
+          "first_line": 2897,
+          "last_line": 2983,
+          "sha256": "1cdecb28852f8628dae2874620581680d56517d598cc357414fbe502c2048235"
+        }
+      },
+      {
+        "author_change_description": "PS (what the view changes)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3765,
+        "unit": "12.3",
+        "v6": {
+          "bytes": 886,
+          "first_line": 3239,
+          "last_line": 3250,
+          "sha256": "a9894889e896aa05dae51c56c4ffb3ba29a0696c094a4019ccabcefed2515247"
+        },
+        "v7": {
+          "bytes": 3538,
+          "first_line": 2984,
+          "last_line": 3007,
+          "sha256": "508ba763c95be89fe40b566d890c31edf635a521a09083076b747e01092184dd"
+        }
+      },
+      {
+        "author_change_description": "CP, CA (probes for the view; P-PTRACE complete)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3766,
+        "unit": "13",
+        "v6": {
+          "bytes": 13608,
+          "first_line": 3251,
+          "last_line": 3361,
+          "sha256": "f15f4010d52710ae8b96c2c0c8eba527494d37496de6e93364babea11e8016cc"
+        },
+        "v7": {
+          "bytes": 17262,
+          "first_line": 3008,
+          "last_line": 3137,
+          "sha256": "cf038b69d325646fd3fd7af3d7373d36cd1a8816953611076a38e19dfd536de2"
+        }
+      },
+      {
+        "author_change_description": "CA, CS, IP (P-CHAIN, P-PROTO, P-SEAL, P-SR, P-IMAGE)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3767,
+        "unit": "13.1",
+        "v6": {
+          "bytes": 11176,
+          "first_line": 3362,
+          "last_line": 3382,
+          "sha256": "e5fe97d1d869a601ec9ac278cd6af8d5a3c56eaed0ffd390f6c25818b4636599"
+        },
+        "v7": {
+          "bytes": 6758,
+          "first_line": 3138,
+          "last_line": 3152,
+          "sha256": "2d1d7fdf62f92c8310eb454ea334bd668aa1af2bd46da94724b5b5ea539fa97d"
+        }
+      },
+      {
+        "author_change_description": "ER (v7's JACKAL records)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3768,
+        "unit": "14",
+        "v6": {
+          "bytes": 1153,
+          "first_line": 3383,
+          "last_line": 3395,
+          "sha256": "c95b67595ab8c4f051b33cb23613f43971bc60578c01f258fca0a15ba02029e1"
+        },
+        "v7": {
+          "bytes": 1073,
+          "first_line": 3153,
+          "last_line": 3164,
+          "sha256": "620943a5c34f474d1a64aac1493c98000adbd0d545f92c944445fccf1507466d"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3769,
+        "unit": "14.1",
+        "v6": {
+          "bytes": 552,
+          "first_line": 3396,
+          "last_line": 3403,
+          "sha256": "74064f167fa18ca4c37b49cef1070d1902ab55bf3201fcca04aac6be3a9c59f9"
+        },
+        "v7": {
+          "bytes": 552,
+          "first_line": 3165,
+          "last_line": 3172,
+          "sha256": "74064f167fa18ca4c37b49cef1070d1902ab55bf3201fcca04aac6be3a9c59f9"
+        }
+      },
+      {
+        "author_change_description": "ER (A_pack; descriptions)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3770,
+        "unit": "14.2",
+        "v6": {
+          "bytes": 2421,
+          "first_line": 3404,
+          "last_line": 3420,
+          "sha256": "b08b58e84485ca9f8315121c3ba79b6e1ae4be3fef93b5aaf71d235990b6eb1f"
+        },
+        "v7": {
+          "bytes": 2884,
+          "first_line": 3173,
+          "last_line": 3190,
+          "sha256": "8b3d554ccfe9f413dd75b6be3eb19e0428505357a2e26e734c19cd2d51aec4aa"
+        }
+      },
+      {
+        "author_change_description": "ER (the raised Required)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3771,
+        "unit": "14.3",
+        "v6": {
+          "bytes": 2012,
+          "first_line": 3421,
+          "last_line": 3443,
+          "sha256": "f34b228b12070739cf2c17fa4022aad1e39316668e571cb279ed6f6099d2a7d7"
+        },
+        "v7": {
+          "bytes": 2189,
+          "first_line": 3191,
+          "last_line": 3214,
+          "sha256": "4a63ef7988c871db44c7acb01eb7fff50db51be87e18bdc8bfcca63c2dec733c"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3772,
+        "unit": "14.4",
+        "v6": {
+          "bytes": 739,
+          "first_line": 3444,
+          "last_line": 3456,
+          "sha256": "e9387e358eaffbf6a7244c1a7c9e15c237cfce7b2d5a39cd2e05a71af4860f1b"
+        },
+        "v7": {
+          "bytes": 739,
+          "first_line": 3215,
+          "last_line": 3227,
+          "sha256": "e9387e358eaffbf6a7244c1a7c9e15c237cfce7b2d5a39cd2e05a71af4860f1b"
+        }
+      },
+      {
+        "author_change_description": "IP, ER (J1 0750; v7 payload identity)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3773,
+        "unit": "14.5",
+        "v6": {
+          "bytes": 4519,
+          "first_line": 3457,
+          "last_line": 3505,
+          "sha256": "e1fbf48380f58b9d3e15734a1c62a14263c05eea002debd9ad2e53adec1113b5"
+        },
+        "v7": {
+          "bytes": 5542,
+          "first_line": 3228,
+          "last_line": 3286,
+          "sha256": "827f657deaa767316f148b3854a8d22af7ca48366ecad883e8b87be5603f306b"
+        }
+      },
+      {
+        "author_change_description": "PS (U holds C and the target only)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3774,
+        "unit": "14.6",
+        "v6": {
+          "bytes": 280,
+          "first_line": 3506,
+          "last_line": 3511,
+          "sha256": "0633b9be1ccd21a6c5eba0f8857b5623a5a25b5b5689318dce2ba98df525e419"
+        },
+        "v7": {
+          "bytes": 481,
+          "first_line": 3287,
+          "last_line": 3293,
+          "sha256": "2fb09568b7cb3df4e323a9d6e3e827531df83bc3946a4037914e696d6fa31758"
+        }
+      },
+      {
+        "author_change_description": "ER (the payload pack and the complete accounting)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3775,
+        "unit": "14.7",
+        "v6": {
+          "bytes": 2596,
+          "first_line": 3512,
+          "last_line": 3539,
+          "sha256": "a3b5edaed08df251ec48887ffcb14cddd6677e5db9c06ba4b79964fe394357eb"
+        },
+        "v7": {
+          "bytes": 1889,
+          "first_line": 3294,
+          "last_line": 3313,
+          "sha256": "9ff8c5e2294c536cf181757fbb2457fe4189ffdc6e3847ec72ecddf474b908d3"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3776,
+        "unit": "15",
+        "v6": {
+          "bytes": 139,
+          "first_line": 3540,
+          "last_line": 3541,
+          "sha256": "c28ab08b1a6cf57c5c65775871754ab7312225c4fb76ff455a1da064d04a35d0"
+        },
+        "v7": {
+          "bytes": 139,
+          "first_line": 3314,
+          "last_line": 3315,
+          "sha256": "c28ab08b1a6cf57c5c65775871754ab7312225c4fb76ff455a1da064d04a35d0"
+        }
+      },
+      {
+        "author_change_description": "CS, PS (the rollback of v7's objects)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3777,
+        "unit": "15.1",
+        "v6": {
+          "bytes": 4035,
+          "first_line": 3542,
+          "last_line": 3586,
+          "sha256": "27b9e552038b515beeec395bda4a02c7342d2dd536de4d063cfae76f1dd26715"
+        },
+        "v7": {
+          "bytes": 2739,
+          "first_line": 3316,
+          "last_line": 3346,
+          "sha256": "febdbcf0c70dd9085e6364d21f26d46ab1c41a34e633573207d279624fcb8027"
+        }
+      },
+      {
+        "author_change_description": "PS",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3778,
+        "unit": "15.2",
+        "v6": {
+          "bytes": 581,
+          "first_line": 3587,
+          "last_line": 3594,
+          "sha256": "a777313fcfda24aa6425bb03bdf472121ec21647b5a33958e6e3bb421ab68e81"
+        },
+        "v7": {
+          "bytes": 492,
+          "first_line": 3347,
+          "last_line": 3354,
+          "sha256": "a7775b11541a8699f89078f0989a3000b53b50b94a0ef73ec4984b24523e58d2"
+        }
+      },
+      {
+        "author_change_description": "ER, CA (the export primitive; payload packs)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3779,
+        "unit": "15.3",
+        "v6": {
+          "bytes": 5376,
+          "first_line": 3595,
+          "last_line": 3653,
+          "sha256": "eeae4c333baad3beeeed56e629a0d5d0f8d3ba417cececbbf1dffa6751eef8aa"
+        },
+        "v7": {
+          "bytes": 6853,
+          "first_line": 3355,
+          "last_line": 3426,
+          "sha256": "a75b83706d17e4cb4a01b0c0f64552476880738538caf91fa8512a75fee13334"
+        }
+      },
+      {
+        "author_change_description": "ER",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3780,
+        "unit": "15.4",
+        "v6": {
+          "bytes": 1394,
+          "first_line": 3654,
+          "last_line": 3668,
+          "sha256": "540ceb1e230c110537af0759ad791d4fa72d6df225ac5f9c6f2abb4c282fe6c0"
+        },
+        "v7": {
+          "bytes": 1401,
+          "first_line": 3427,
+          "last_line": 3441,
+          "sha256": "9b3b2b684c75092b5ec7cbe8f425241d3de45e7d6f40d540741d7245fa600652"
+        }
+      },
+      {
+        "author_change_description": "PS (content lists)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3781,
+        "unit": "16",
+        "v6": {
+          "bytes": 2285,
+          "first_line": 3669,
+          "last_line": 3697,
+          "sha256": "2c11efa09b6f51fe32888dda3c2f1d14509bbe4ef5f05ff7db097c4c47b5f002"
+        },
+        "v7": {
+          "bytes": 2437,
+          "first_line": 3442,
+          "last_line": 3471,
+          "sha256": "c6708e6fc8b6169d9517d9f50e198c209197cd36f67c61b681955b201afab56e"
+        }
+      },
+      {
+        "author_change_description": "PS (placements)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3782,
+        "unit": "17",
+        "v6": {
+          "bytes": 4551,
+          "first_line": 3698,
+          "last_line": 3724,
+          "sha256": "fc56e39a368b270894b1754b4503f68c72302035bf9db54f112eb52b64bd1f8b"
+        },
+        "v7": {
+          "bytes": 5120,
+          "first_line": 3472,
+          "last_line": 3499,
+          "sha256": "22632e131fe9a5ea27c4c627c5a0f072fd7ca3028e9ea54b4adafb65bb389927"
+        }
+      },
+      {
+        "author_change_description": "all",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3783,
+        "unit": "18",
+        "v6": {
+          "bytes": 596,
+          "first_line": 3725,
+          "last_line": 3732,
+          "sha256": "52c11aa619e77ddcba2c87e1cb1535e34228fe5618060962d5a2a8b8cd08c391"
+        },
+        "v7": {
+          "bytes": 613,
+          "first_line": 3500,
+          "last_line": 3507,
+          "sha256": "e9ac9f10d3a6dc4e47a9292875f4fa00f5c03fa0dbd62c1fcb1268d9258dd6fd"
+        }
+      },
+      {
+        "author_change_description": "all (the eleven changes)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3784,
+        "unit": "18.1",
+        "v6": {
+          "bytes": 7389,
+          "first_line": 3733,
+          "last_line": 3797,
+          "sha256": "22d033d7f801ae1de8b3cac1e927a2f4ddb94666511b0646a9ed38fd359b404b"
+        },
+        "v7": {
+          "bytes": 9904,
+          "first_line": 3508,
+          "last_line": 3596,
+          "sha256": "b49e6c335c8729a14a150e59b1b86580731fcfe4675dc78535f1bea1d086427d"
+        }
+      },
+      {
+        "author_change_description": "all",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3785,
+        "unit": "18.2",
+        "v6": {
+          "bytes": 2771,
+          "first_line": 3798,
+          "last_line": 3819,
+          "sha256": "52256a1a6bf87f470e2e011372c0c17b4e4f3b153ba939620784b711d15d1b89"
+        },
+        "v7": {
+          "bytes": 3539,
+          "first_line": 3597,
+          "last_line": 3624,
+          "sha256": "d7ae301d791e364e8481a12611ae1943704c8040b7f23e768a4737df00d45eca"
+        }
+      },
+      {
+        "author_change_description": "all",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3786,
+        "unit": "18.3",
+        "v6": {
+          "bytes": 1583,
+          "first_line": 3820,
+          "last_line": 3836,
+          "sha256": "55abe6e839e00ae17d4f1c10e3a79525f08187879a2ed4c3922e77483bcaadcd"
+        },
+        "v7": {
+          "bytes": 1708,
+          "first_line": 3625,
+          "last_line": 3641,
+          "sha256": "5ca975162109cccbfb108571559e22c2a694c61f2c404db2e8ab20c243af8799"
+        }
+      },
+      {
+        "author_change_description": "all",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3787,
+        "unit": "18.4",
+        "v6": {
+          "bytes": 2535,
+          "first_line": 3837,
+          "last_line": 3867,
+          "sha256": "5d1d7b9fa05c6c583c303e8daf72c409a0bdfcab1333638d90d4e8c9d2489d17"
+        },
+        "v7": {
+          "bytes": 2682,
+          "first_line": 3642,
+          "last_line": 3673,
+          "sha256": "20c3afb07c1c8972c671fd8e55c20f1d72901937af146ac9523bacb9684342c6"
+        }
+      },
+      {
+        "author_change_description": "all (this map)",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3788,
+        "unit": "18.5",
+        "v6": {
+          "bytes": 16600,
+          "first_line": 3868,
+          "last_line": 3997,
+          "sha256": "ad877b26f73e7a2fd19017dbf1b4c2e7832e71be2370417647db4b4e5070e91a"
+        },
+        "v7": {
+          "bytes": 16874,
+          "first_line": 3674,
+          "last_line": 3805,
+          "sha256": "f0f904e1070c0273c2b4e362a0b4b6b99a32c146ec2ad92e4a058e27789ee6b3"
+        }
+      },
+      {
+        "author_change_description": "all",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3789,
+        "unit": "18.6",
+        "v6": {
+          "bytes": 1654,
+          "first_line": 3998,
+          "last_line": 4018,
+          "sha256": "b117afa1838fd927d507d75472ebf54cee9cec6d8f432ce7d2efcb0e1244be9b"
+        },
+        "v7": {
+          "bytes": 1480,
+          "first_line": 3806,
+          "last_line": 3825,
+          "sha256": "32d4ba200df8768e4b2c34c41b8d61a6515413061ff720e62ab0e21cc53e5c86"
+        }
+      },
+      {
+        "author_change_description": "PS",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3790,
+        "unit": "19",
+        "v6": {
+          "bytes": 3428,
+          "first_line": 4019,
+          "last_line": 4055,
+          "sha256": "48e1ab337ec159f404c06b4ffdb876784fcb2bfb7e0d22da703627581c372356"
+        },
+        "v7": {
+          "bytes": 2511,
+          "first_line": 3826,
+          "last_line": 3853,
+          "sha256": "cd215efb0922abcf42b51d93ad667f3e84b4ae87a005169a3fdae6d4f74fa8f9"
+        }
+      },
+      {
+        "author_change_description": "PS, RM",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3791,
+        "unit": "20",
+        "v6": {
+          "bytes": 2749,
+          "first_line": 4056,
+          "last_line": 4085,
+          "sha256": "d971bca579b6d446e991a90d7ca6b028317a2297831433ad9a861982891e7ba3"
+        },
+        "v7": {
+          "bytes": 2299,
+          "first_line": 3854,
+          "last_line": 3880,
+          "sha256": "6191f30357dfa246691c9046c424b32a56cd835f8a2604b330525a087b5b656f"
+        }
+      },
+      {
+        "author_change_description": "CT, PS",
+        "byte_identical": false,
+        "classification": "REPLACED",
+        "map_line": 3792,
+        "unit": "21",
+        "v6": {
+          "bytes": 13773,
+          "first_line": 4086,
+          "last_line": 4171,
+          "sha256": "50c3411e9a4703d113c5eac4d432f8b6ba7dbaf6b3aa673c83c23ef2a1d23103"
+        },
+        "v7": {
+          "bytes": 12990,
+          "first_line": 3881,
+          "last_line": 3981,
+          "sha256": "b229d634e5690dc3b3b5759ea904396b6caab5676231307c0d880c11dcf39185"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3793,
+        "unit": "Appendix A",
+        "v6": {
+          "bytes": 14868,
+          "first_line": 4172,
+          "last_line": 4235,
+          "sha256": "1211f48a394f8dd03602066280d11ec7ee0089976919ad7028fa422a3556b9a0"
+        },
+        "v7": {
+          "bytes": 14868,
+          "first_line": 4104,
+          "last_line": 4167,
+          "sha256": "1211f48a394f8dd03602066280d11ec7ee0089976919ad7028fa422a3556b9a0"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3794,
+        "unit": "Appendix B",
+        "v6": {
+          "bytes": 676,
+          "first_line": 4236,
+          "last_line": 4244,
+          "sha256": "eef7ebf9b21f869d21e2f3fe24a6052fd5fa503a50145afd3a1676bffaa30fc7"
+        },
+        "v7": {
+          "bytes": 676,
+          "first_line": 4168,
+          "last_line": 4176,
+          "sha256": "eef7ebf9b21f869d21e2f3fe24a6052fd5fa503a50145afd3a1676bffaa30fc7"
+        }
+      },
+      {
+        "author_change_description": "PS (namespaces and maps)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3795,
+        "unit": "B.1",
+        "v6": {
+          "bytes": 1035,
+          "first_line": 4245,
+          "last_line": 4256,
+          "sha256": "62ad241f9410a181967e43900aac0220861720c14c427f6aa571fbdaf8d6aefe"
+        },
+        "v7": {
+          "bytes": 1323,
+          "first_line": 4177,
+          "last_line": 4190,
+          "sha256": "57941dad7009f80a1411a3abd19c2ea22bf68224ec8ea0428c0981fa1f7b1f96"
+        }
+      },
+      {
+        "author_change_description": "SS (the census and terminal schemas)",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3796,
+        "unit": "B.2",
+        "v6": {
+          "bytes": 3192,
+          "first_line": 4257,
+          "last_line": 4287,
+          "sha256": "93a0e52fddaa4686e488accf772ebfffce7a7c1aa53495cf9d1653e821ec5317"
+        },
+        "v7": {
+          "bytes": 2052,
+          "first_line": 4191,
+          "last_line": 4212,
+          "sha256": "95d90c644144c0552e8af355637c1beff7e46cee8ac2f700e6e3695e7afdb6bb"
+        }
+      },
+      {
+        "author_change_description": "CA, ER, IV, PS",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3797,
+        "unit": "B.3",
+        "v6": {
+          "bytes": 12686,
+          "first_line": 4288,
+          "last_line": 4333,
+          "sha256": "93be491820a934d7ae63eab26c10ecaa31a671dcebf922590e213db87c54fa21"
+        },
+        "v7": {
+          "bytes": 11879,
+          "first_line": 4213,
+          "last_line": 4256,
+          "sha256": "77a62fff09a0d894d6ec6046f337d314ee9779e41e3c1521d8bfdab72771350b"
+        }
+      },
+      {
+        "author_change_description": "CD, CA, PS",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3798,
+        "unit": "B.4",
+        "v6": {
+          "bytes": 29331,
+          "first_line": 4334,
+          "last_line": 4565,
+          "sha256": "1d7f7aa1452fd9bc115b76508db4b80a74b27a819dd4cfda869ab89e007804e3"
+        },
+        "v7": {
+          "bytes": 28890,
+          "first_line": 4257,
+          "last_line": 4488,
+          "sha256": "edb8d043e932bbf1ce539e73e9245d1a8ebf812e6a988cdff8fe44aa0c852964"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3799,
+        "unit": "Appendix C",
+        "v6": {
+          "bytes": 4399,
+          "first_line": 4566,
+          "last_line": 4625,
+          "sha256": "e21904702b855c69feb1afe86117e9088684c70162571459c5b906ea2b9a79c5"
+        },
+        "v7": {
+          "bytes": 4399,
+          "first_line": 4489,
+          "last_line": 4548,
+          "sha256": "e21904702b855c69feb1afe86117e9088684c70162571459c5b906ea2b9a79c5"
+        }
+      },
+      {
+        "author_change_description": "CD, PS",
+        "byte_identical": false,
+        "classification": "AMENDED",
+        "map_line": 3800,
+        "unit": "Appendix D",
+        "v6": {
+          "bytes": 7942,
+          "first_line": 4626,
+          "last_line": 4683,
+          "sha256": "43c155f98ef42f7aabefe4de787ddd9cd43360fd1968c19c0ccab04236de5a9f"
+        },
+        "v7": {
+          "bytes": 8434,
+          "first_line": 4549,
+          "last_line": 4606,
+          "sha256": "f00e0b1b9c786fddced73bf368ddd416d57d13b6afcf5d78fad73dd86415e3a1"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3801,
+        "unit": "Appendix E",
+        "v6": {
+          "bytes": 5709,
+          "first_line": 4684,
+          "last_line": 4747,
+          "sha256": "f7d449206492465183052962b4a8ea13d20a28202ac41069c31a283e1d2b06f1"
+        },
+        "v7": {
+          "bytes": 5709,
+          "first_line": 4607,
+          "last_line": 4670,
+          "sha256": "f7d449206492465183052962b4a8ea13d20a28202ac41069c31a283e1d2b06f1"
+        }
+      },
+      {
+        "author_change_description": "\u2014",
+        "byte_identical": true,
+        "classification": "CARRIED",
+        "map_line": 3802,
+        "unit": "Appendix F",
+        "v6": {
+          "bytes": 3963,
+          "first_line": 4748,
+          "last_line": 4792,
+          "sha256": "4b6f95f0f14f03859e6c6e08222fd51c35a0fc46365a1bf35c31d4d3fb409cc1"
+        },
+        "v7": {
+          "bytes": 3963,
+          "first_line": 4671,
+          "last_line": 4715,
+          "sha256": "4b6f95f0f14f03859e6c6e08222fd51c35a0fc46365a1bf35c31d4d3fb409cc1"
+        }
+      }
+    ]
+  },
+  "verification": "Passive metadata/hash/mapping/schema/source-locator comparisons. No reviewed code imported/executed; no runtime or engineering tests/probes.",
+  "writes": "Only cwd create-exclusive O_EXCL files, requested mode 0600, file fsync and cwd directory fsync; final freeze written last."
+}

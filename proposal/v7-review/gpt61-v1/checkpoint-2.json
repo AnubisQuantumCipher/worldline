@@ -1,0 +1,191 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "architecture_assessment": "No evaluated candidate is established as preserving the full original domain. Candidate (a)+Landlock is a plausible custody research direction that removes copy-induced inode/attribute substitutions, not an endorsed design or an authorized implementation direction. Its custody conclusion is conditional and incomplete. The c8 ptrace rejection is wrong for the documented commoncap rule; blanket seccomp-user-notification impossibility and instantaneous cgroup/manager/holder equivalence are overstated. Re-evaluate lesser-change root-owned, same-host-UID namespace designs before claiming (a) alone is viable. No fully preserving route is established by this passive review either.",
+  "candidates": [
+    {
+      "assessment": "Private source binds/ancestral DAC and in-place outputs are a credible way to avoid replacing admitted inodes. Root-owned namespaces, distinct host credentials and Landlock can block named push/pull/name routes when actually constructed and inherited. A private network namespace closes inbound abstract-socket access which outward Landlock scoping alone does not; keeping PID/IPC namespaces unchanged avoids some visible changes. Necessity is not proved for every conceivable enforcement design. The proposed mount choreography lacks an explicit root/cwd adoption/rebase; mountinfo does not establish what normal pathname lookup reaches. populated 0 is live-process information, not a theorem about queued sockets, deferred fput or asynchronous I/O. P-CG/P-NOR/P-IOEXIT and the real view must be discharged rather than used as acceptance assumptions. No original-domain preservation is established.",
+      "conclusion": "PARTLY_SOUND_CONDITIONAL_DIRECTION_NOT_ESTABLISHED",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2897",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2931",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:2967",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1918",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4002",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4011",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4013",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4023"
+      ],
+      "id": "a",
+      "kernel_evidence": [
+        "/usr/include/linux/landlock.h:313",
+        "/usr/include/linux/landlock.h:477",
+        "https://docs.kernel.org/admin-guide/cgroup-v2.html (cgroup.events populated, web labels L134-L140)",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/kernel/exit.c (web labels L943-L954)",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/namei.c (web labels L1040-L1062 and L2555-L2577)",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/namespace.c (web labels L3429-L3497)"
+      ]
+    },
+    {
+      "assessment": "The installed header confirms RESOLVE_UNIX operates on external-domain pathname servers and MAKE_SOCK also governs renaming/linking socket files; abstract/signal scope is outward. Already-open descriptions are not retroactively confined by filesystem path policy. Standalone scoping cannot constrain unsandboxed inbound callers. However same-host-UID target inside a root-owned user namespace is not the same capability context as a same-UID target in the initial user namespace: the blanket pull conclusion must be qualified.",
+      "conclusion": "SOUND_FOR_STANDALONE_OUTWARD_SCOPE_NOT_A_UNIVERSAL_SAME_UID_RESULT",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4029",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4031",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4036",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4048",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4052"
+      ],
+      "id": "b-Landlock",
+      "kernel_evidence": [
+        "/usr/include/linux/landlock.h:280",
+        "/usr/include/linux/landlock.h:313",
+        "/usr/include/linux/landlock.h:345",
+        "/usr/include/linux/landlock.h:477",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/security/commoncap.c (web labels L154-L175)"
+      ]
+    },
+    {
+      "assessment": "The installed seccomp_data structure contains numeric register arguments, not pointed-to memory. Unprivileged filtering needs no_new_privs or the relevant capability; broad family denials can narrow accepted work and cannot constrain a different process. The CONTINUE path can race mutable pointer arguments. That does not rule out every notification design: kernel ADDFD supports brokered descriptor insertion without continuing the original pointer-based operation. Such emulation is neither supplied nor proved preserving and must not be declared impossible solely from the CONTINUE warning.",
+      "conclusion": "CLASSIC_FILTER_LIMIT_SOUND_USER_NOTIF_REJECTION_TOO_BROAD",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4042",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4046"
+      ],
+      "id": "b-seccomp",
+      "kernel_evidence": [
+        "/usr/include/linux/seccomp.h:53",
+        "/usr/include/linux/seccomp.h:85",
+        "/usr/include/linux/seccomp.h:120",
+        "/usr/include/linux/seccomp.h:151",
+        "https://docs.kernel.org/userspace-api/seccomp_filter.html"
+      ]
+    },
+    {
+      "assessment": "Different uid by itself does not prevent target-initiated AF_UNIX descriptor transfer to world-accessible/abstract endpoints. It is not sufficient to establish custody; v6 copy/lease failure does not prove all possible complementary privileged policies impossible.",
+      "conclusion": "SOUND_FOR_DISTINCT_UID_ALONE",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4058",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1818"
+      ],
+      "id": "c1",
+      "kernel_evidence": [
+        "/usr/include/linux/landlock.h:313",
+        "/usr/include/linux/landlock.h:477"
+      ]
+    },
+    {
+      "assessment": "CONFIG_BPF_LSM is not set and the live LSM list is capability,yama,landlock. BPF LSM is unavailable in this boot. This is an operational exclusion, not a theorem about other operator-chosen kernels or LSM designs.",
+      "conclusion": "VERIFIED_UNAVAILABLE_ON_LIVE_CONFIGURATION",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4029",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4061"
+      ],
+      "id": "c2",
+      "kernel_evidence": [
+        "/proc/config.gz:selected CONFIG_BPF_LSM",
+        "/sys/kernel/security/lsm"
+      ]
+    },
+    {
+      "assessment": "Permission-event mediation of selected opens/accesses alone does not close descriptor passing, retained descriptions or outside naming. Useful modes need privilege. Fanotify is not a complete custody design here; no claim about every possible fanotify-plus-enforcement architecture is established.",
+      "conclusion": "SOUND_INSUFFICIENCY_WITH_SCOPE_QUALIFICATION",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4062",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1842"
+      ],
+      "id": "c3",
+      "kernel_evidence": [
+        "/proc/config.gz:selected CONFIG_FANOTIFY_ACCESS_PERMISSIONS",
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/fs/fhandle.c (web labels L283-L327)"
+      ],
+      "unverified": "No fanotify probe or exact installed permission-event behavior was tested; its insufficiency for already-retained descriptions is an architectural argument, not a host execution result."
+    },
+    {
+      "assessment": "A separate-kernel design visibly changes environment/device/shared-filesystem and scheduling behavior unless a complete refinement establishes equivalence. No such preserving design is supplied. Nested virtualization capability is unverified in this review and must remain labelled unknown; the author has not proved no VM-based route could ever preserve the required observations.",
+      "conclusion": "PLAUSIBLE_FIDELITY_OBJECTION_NOT_A_UNIVERSAL_IMPOSSIBILITY_PROOF",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4064"
+      ],
+      "id": "c4",
+      "unverified": "No VM capabilities were queried and no VM or probe was run."
+    },
+    {
+      "assessment": "Snapshot/reflink/copy-up admission which replaces original admitted inodes or attributes violates the fixed no-substitution requirement. A bare overlay label does not prove that every possible lower-only or no-copy-up use is identical to admission copying; any alternative must demonstrate in-place identity and custody and is unestablished.",
+      "conclusion": "SOUND_FOR_COPY_SUBSTITUTION_NOT_ALL_OVERLAY_CONFIGURATIONS",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4067",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3513"
+      ],
+      "id": "c5",
+      "unverified": "No filesystem operation or inode-equivalence probe was performed."
+    },
+    {
+      "assessment": "No general-purpose Linux revoke interface is specified for these regular-file descriptions. chmod does not revoke already-open descriptions and changes observed metadata. This rebuts the old DAC/revocation route, not every possible privileged kernel/LSM redesign.",
+      "conclusion": "SOUND_LIMIT_OF_ORDINARY_LINUX_INTERFACES",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4069",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3991"
+      ],
+      "id": "c6",
+      "unverified": "A universal negative over all kernels/modules is not established; no revocation operation was run."
+    },
+    {
+      "assessment": "Ordinary advisory locks and the proposed lease test do not revoke retained readers or names or eliminate every external registered description. Withdrawing L1 removes its copy-specific probe obligation but does not prove complete holder exit in the new architecture.",
+      "conclusion": "SOUND_INSUFFICIENCY",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4070",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:3570",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:1853"
+      ],
+      "id": "c7",
+      "unverified": "No fcntl/lease operation was run."
+    },
+    {
+      "assessment": "Passing the uid comparison is not enough. commoncap allows the capability-subset shortcut only when caller and target credentials have the SAME user namespace; otherwise CAP_SYS_PTRACE in the target namespace is needed. Root ownership prevents sicarii from obtaining capabilities merely by being that namespace owner. Consequently dumpability under the target control does not reopen these ptrace-checked pull routes by itself. A root-created namespace retaining the host uid can supply a pull boundary without the proposed host-uid substitution. Push channels, actual source access, ownership/idmaps, IPC, startup and full preserving behavior still need design and evidence; this review does not declare c8 a complete preserving route.",
+      "conclusion": "REJECTION_UNSOUND_REEVALUATION_REQUIRED",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4048",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4072",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md:4075"
+      ],
+      "id": "c8",
+      "kernel_evidence": [
+        "https://raw.githubusercontent.com/torvalds/linux/v7.2/security/commoncap.c (web labels L88-L100 and L154-L175)"
+      ],
+      "verification_boundary": "Verified from upstream v7.2 primary source, not an attestation of the exact installed patched 7.2.6 binary; installed-version matching remains required."
+    }
+  ],
+  "complete": true,
+  "design_sha256": "8646f0fed3cf3f61dceb4fbf3a583f96f2bf7a0adce4986cb415789edeb82a7a",
+  "host_read_only_observations": {
+    "/proc/config.gz:selected": [
+      "# CONFIG_BPF_LSM is not set",
+      "CONFIG_CGROUPS=y",
+      "CONFIG_USER_NS=y",
+      "CONFIG_NET_NS=y",
+      "CONFIG_EXT4_FS=y",
+      "CONFIG_EXT4_FS_POSIX_ACL=y",
+      "CONFIG_EXT4_FS_SECURITY=y",
+      "CONFIG_FANOTIFY=y",
+      "CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y",
+      "CONFIG_SECURITY_YAMA=y",
+      "CONFIG_SECURITY_LANDLOCK=y"
+    ],
+    "/proc/sys/fs/protected_hardlinks": "1",
+    "/proc/sys/kernel/osrelease": "7.2.6-1-aarch64-ARCH",
+    "/proc/sys/kernel/yama/ptrace_scope": "1",
+    "/sys/kernel/security/lsm": "capability,yama,landlock",
+    "boundary": "Configuration and sysctl contents are observed facts. No enforcement probe, namespace creation, ptrace action, launcher execution or installed-kernel source attestation was performed."
+  },
+  "item": 2,
+  "missed_route_assessment": "No complete preserving route was found or accepted in this passive review. The c8 root-owned, same-host-UID namespace route was dismissed without the controlling commoncap namespace predicate and must be evaluated. Privileged per-domain LSM or notification-broker combinations are not all excluded by the arguments given, but they carry additional privileged-design, completeness and preservation obligations and no authority to implement them is granted. Retain K0 as architecture-scoped, never a universal impossibility theorem.",
+  "required_change_ids": [
+    "W1-V7-ARCHITECTURE",
+    "W1-V7-VIEW-ROOT",
+    "W1-V7-HOLDER-STATE",
+    "W1-V7-FULL-DOMAIN"
+  ],
+  "schema": "w1-v7-passive-review-checkpoint-v1",
+  "source_boundary": "Installed headers/man pages verify interfaces and documented semantics; upstream Linux v7.2 and systemd v261 sources support static reasoning and are explicitly not exact-installed-binary proof. No source body was executed or imported."
+}
