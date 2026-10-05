@@ -1,0 +1,48 @@
+{
+  "schema": "claude-capi-design-jackal-v6",
+  "design": "claude-capi-boundary-design-v6 (DESIGN.md, APPENDIX-BINDINGS.md, decisions.json, AUTHOR-NOTES.md); APPENDIX-COST-MAP.md is carried unchanged from v4 by reference",
+  "front_door": "actual MCP tool mcp__jackal__jackal_exact, called from this drafting session on 2026-10-05 (v6 drafting)",
+  "ledger_used_as_evidence": false,
+  "carried_by_reference": {
+    "calls": "J01-J68",
+    "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/jackal.json",
+    "sha256": "612d189e4edc29cda39c8e61ac3668bf04adb6abcda12728f7ec14272d4f46d4",
+    "bytes": 17950,
+    "rule": "J01-J68 are not re-run in v6. 'JACKAL Jnn' with n <= 68, in v6 text or in carried v5, v4 or v3 text, resolves to call Jnn of the v5 jackal.json identified here, whose inputs, parsed inputs and values are unchanged (A-BIND WR3, DESIGN RR-W2). Those values are carried as recorded results, not re-derived."
+  },
+  "common_fields_of_every_result": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ]
+  },
+  "consequence": "Informational about code correctness only. The result is arithmetic over counts read from the design text; it establishes no source, proof, ABI, native or acceptance property. exact is outside the Lean certificate chain and is not formal-bounded.",
+  "note": "The call below returned exactly the common fields above (status=exact, formal=false, lane rat, the evaluator sha256 and the three non_claims). 'parsed' is the echoed parsed input and 'exact' the returned exact value, both copied from the tool output. J69 is the only new call in v6.",
+  "calls": [
+    {
+      "id": "J69",
+      "input": "42+2",
+      "parsed": "42+2",
+      "exact": "44",
+      "status": "exact",
+      "formal": false,
+      "use": "B11 rows in v6: the 42 rows of v5 (J68) plus the new rows 43 and 44 (A-BIND W-A16, W-A18)"
+    }
+  ],
+  "observed_not_derived": [
+    "G21c exclusive region: 644 bytes, sha256 34b1492a5b5a757dab0cd1c62fcc241155be318e42a728da6649387d62c5b4d0 (read-only script over v4 A-BIND B4.20 segment 6 without its final ' if not O.Ok then return 255; end if;'); equal to item 5 of CAPI_WFX_PROTOCOL",
+    "Context clauses on N2: C_API specification 4 with clauses, 4 named units, 5 mentioned units; C_API body 23, 23, 26; parent specification core/worldline.ads 1, 1, 2; none refused by (d2)",
+    "Parent specification core/worldline.ads: sha256 6b171d3fa0b9a0cdbd7e3777e4af35e557ed74e67f6b3ee9bdc1bbfe41305286, 164 bytes, lines 1-9; declares Hash (:5) and Zero_Hash (:7); its only root is its own name (:3, :9); no use clause; no identifier equal to a listed simple name",
+    "S5 tree: 223 Ada source files (*.ads, *.adb, recursively); 123 distinct unit names, none with a root at a position after the first or a listed simple name as a component; with clauses naming 83 distinct units, none refused by (d2); the word 'separate' in none",
+    "Listed simple names: 85 at PK-1 (v5 observation) and 93 from PK-6b (J59, carried)",
+    "v5 code block 653 code lines, sha256 e739e0395cd4e513920baa9b6e916bcafefecf66c1f53bef21e032c71eee79cb; v6 code block 693 code lines, sha256 e0360db00ee2c2316cb2bcfc56851816575267c101f3e938daffb3cb512fc081; difflib reports 6 hunks, at the CR1-CR6 places",
+    "Carried v5 slices whose sha256 was re-computed and matched: 14 A-BIND slices (A-BIND W.2) and the DESIGN slices of DESIGN B-v6.2",
+    "Author simulation run counts (printed by the script): see AUTHOR-NOTES.md section 4"
+  ]
+}

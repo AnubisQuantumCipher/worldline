@@ -1,0 +1,410 @@
+{
+  "schema": "claude-capi-design-decisions-v6",
+  "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/DESIGN.md",
+  "design_sha256": "cfa0dca9e275e878b958f2f8da6b5cf54824534867773382965f2a887e98a417",
+  "design_bytes": 53631,
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+  "status": "DRAFT_FOR_GPT61_REVIEW",
+  "date": "2026-10-05",
+  "supersedes": {
+    "directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5",
+    "design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+    "design_bytes": 46731,
+    "decisions_sha256": "a069632a035b62f18d886112763472f13040779d2d5dd79c872a6d6ce951c55b",
+    "decisions_bytes": 62067,
+    "appendix_bindings_sha256": "f22944b4d52bd196f1823f9f0abf1a0f1578db14f5697bd7b63c6899af15a5a2",
+    "appendix_bindings_bytes": 94352,
+    "jackal_sha256": "612d189e4edc29cda39c8e61ac3668bf04adb6abcda12728f7ec14272d4f46d4",
+    "jackal_bytes": 17950,
+    "author_notes_sha256": "ed45d1db766f3b03ec946946942a571ae50b0eae21e339c5724b5e2480280e47",
+    "author_notes_bytes": 15349,
+    "appendix_cost_map_v4_sha256": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+    "unchanged": "all five v5 files and the v4 cost map re-hashed read-only while drafting v6; unchanged"
+  },
+  "answers_review": {
+    "review_json": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/review.json",
+    "review_json_sha256": "800880d44bff4b234c82cc392a3008fd4d37139b0827d070120cf299370f403b",
+    "review_md_sha256": "73e82489706e03ca465e7dea2aed1823df0b50a8ce1c5ab0555c545579dc34d8",
+    "checks_json_sha256": "c1398253713aa6d42ed11fda5194502ccae5a64825b36ef8100206f7d40719ef",
+    "review_freeze_sha256": "91bddf1a46763251940db658f5115cd13ab9de4aa67c0a41ae169de165649af1",
+    "actual_model_selection": "gpt-6.1-sol",
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+    "rc_closure": {
+      "V4-RC4-GATE": "NOT_CLOSED",
+      "V4-RC4-ALIAS": "NOT_CLOSED",
+      "V3-RC4": "NOT_CLOSED"
+    },
+    "latent_defects_leading_clause": {
+      "L9": "GENUINE; REPAIRED_AT_DESIGN_LEVEL for the fixed staged inventory",
+      "L10": "GENUINE; REPAIRED_AT_DESIGN_LEVEL for the listed Boolean and case gates",
+      "L11": "GENUINE; REPAIRED_AT_DESIGN_LEVEL",
+      "L12": "GENUINE; REPAIRED_AT_DESIGN_LEVEL for the fixed acceptance-type inventory"
+    },
+    "rulings_count": 31,
+    "required_changes": [
+      "V5-RC4-GATE-EXCEPTION",
+      "V5-RC4-QUAL-CAPTURE"
+    ]
+  },
+  "composition": {
+    "design_rule": "v6 = DESIGN.md v6 text + the v5 DESIGN.md line ranges below (sha256 of the UTF-8 bytes of those lines, each followed by a newline), with the line replacements X-R1-X-R8 applied; through the carried v5 sections B and 19, the v4 and v3 DESIGN.md slices that v5 carries, with v4's R1-R15 and v5's V-R1-V-R9. No other v5, v4 or v3 text is part of v6.",
+    "v5_design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+    "v5_design_slices": [
+      {"section": "A (history: V4-RC4 closure tables, L9-L12)", "lines": "18-49", "sha256": "7fa68bed33a1c5fe54743eaeda01d1c8ab3c67c01ded1b16d2def11b0971b32c", "disposition": "CARRIED_VERBATIM"},
+      {"section": "B (v5 composition over v4, V-R1-V-R9)", "lines": "53-231", "sha256": "34e0da4296a4ae67c17c6f2168149b8a54957d62e1ce66a5e7ff1d1d6ab2a711", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (X-R1-X-R6)"},
+      {"section": "0 (v5 supplement)", "lines": "235-265", "sha256": "f15a3160fc962d88a1a5e7725808808f55d7d77b2bf21dfae68ab6917cca042b", "disposition": "CARRIED_VERBATIM"},
+      {"section": "19 (v5 supplement, carrying v4 lines 768-782)", "lines": "332-339", "sha256": "68487dbac9c37ce7a51b3ea95fae6d8326e8aaa6cef7b97eb579ddd3dc2af9a8", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (X-R7 v5:338; X-R8 effective v4:778)"},
+      {"section": "Appendix C", "lines": "410-412", "sha256": "ff085fcce4b4423e88c00b313b8725fd894653759fadc9c035b20cfaa7ac5392", "disposition": "CARRIED_VERBATIM"}
+    ],
+    "v5_design_replaced": ["header 1-14", "17 (269-296)", "18 (300-328)", "Appendix A (343-372)", "Appendix B (374-408)", "Appendix D (414-424)"],
+    "design_line_replacements": [
+      {"id": "X-R1", "target": "v5:156 (V-R1 v5 text; 8.1 rule tables)", "quoted_sha256": "b758b64948a4d65cf93a973efee83f09d4d98d667e499f8e247920b36824a58c", "v6_sha256": "260db1d7f75fb9bac3b8b227f1b80f746e6677038c16e76e480989ef2026e9e7"},
+      {"id": "X-R2", "target": "v5:173 (V-R3 v5 text; 8.4 R-QUAL)", "quoted_sha256": "75d39106275325bed26f2866b91fffaaffccaedbbe9613b092eee10616d9cec8", "v6_sha256": "70934cdef97dcd08e3ccdc82da3fcc0d12030e478dfa807fc558f1088854acf6"},
+      {"id": "X-R3", "target": "v5:189 (V-R4 v5 text; 8.4 R-GATE)", "quoted_sha256": "59b6b11f5dd61dc8751264a90b0f583de9ab66692afe6b9f6d929bca85d0f99c", "v6_sha256": "223ab2aed00b975977666b0dbf72c2b6b1cb9be0f2a3236fa4937b1a3fcbabb3"},
+      {"id": "X-R4", "target": "v5:198 (V-R5 v5 text; 8.4.1 O5 row)", "quoted_sha256": "d4d66eb74170f7c919147ac3f68279d92d74d111a9b0bb8fc841303d86ad7fdf", "v6_sha256": "d794d6fafc7ef1502568bc67acc62082dc0e962f74ebedde96bb1d9edae6af80"},
+      {"id": "X-R5", "target": "v5:206 (V-R6 v5 text; 8.4.1 O6 (a) row)", "quoted_sha256": "917f47277d811ae42e0393c6ba342dbb9bb8d3a6fd882a3f297bde851702164e", "v6_sha256": "89852d26819f590c3b2c95d8aa202ec4f772bf6a61da9ee6f6d3b6a687e4dace"},
+      {"id": "X-R6", "target": "v5:222 (V-R8 v5 text; 8.8 mutation row)", "quoted_sha256": "dff7a2ae16d0825d4c73641e6c66063a1e920e81bf65e99a30a1e01262d98244", "v6_sha256": "882e16a58f7b893a1ca09ee18468b3621679a64a276921c2e6c12306bd7283d6"},
+      {"id": "X-R7", "target": "v5:338 (19; L16)", "quoted_sha256": "688055aafecee8f7579976190f47e78271d9a2729b5a10214b50963944528822", "v6_sha256": "7e3e82f9649bbf2fc4ac77e324236d7fe1f9e45a90a46c9e3da20369d2988452"},
+      {"id": "X-R8", "target": "effective v4:778 (v4 19, carried verbatim by v5:334; L16)", "quoted_sha256": "4109ab360b955c24bfaa7c10a6ab5546e20f966676d6a7ddefe61bbfbd0af356", "v6_sha256": "28903c2c6984ff6139500a11f34bbb1a81ee5413ac782899315d45e4b7f7ca2f"}
+    ],
+    "text_hash_convention": "sha256 of the UTF-8 text of the quoted lines, or of the replacement or inserted lines, each line followed by a newline; for CR blocks, of the fenced block content as written, which ends with a newline",
+    "appendix_bindings_rule": "A-BIND v6 = APPENDIX-BINDINGS.md v6 text + the v5 A-BIND line ranges below, with the replacements and insertions W-A1-W-A20 applied, and the v5 code with CR1-CR6 applied; through the carried v5 section V, the v4 A-BIND slices that v5 carries",
+    "v5_appendix_bindings_sha256": "f22944b4d52bd196f1823f9f0abf1a0f1578db14f5697bd7b63c6899af15a5a2",
+    "v5_appendix_bindings_slices": [
+      {"section": "V (how v5 carries v4)", "lines": "17-81", "sha256": "cc2e66b1123883484777c5ae344c3c9cbecc27c63284608bb50fd07cb577afca", "disposition": "CARRIED_VERBATIM"},
+      {"section": "B0 heading, B0.1-B0.6", "lines": "85-112", "sha256": "c1997b91b05d2d4e94897d433780f8fa03927d3a217b7a6ca87cc9a839c1962b", "disposition": "CARRIED_VERBATIM"},
+      {"section": "B0.7", "lines": "114-177", "sha256": "3bbe54bb2fbca4c5af64619066c482f3cdd14c09703b57967af14cb54c8e4302", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A1, W-A2)"},
+      {"section": "B0.8, B0.9", "lines": "179-181", "sha256": "022663b6551574958e528e9dd7092babc22a83e85188ecc6e78ceef845aa5430", "disposition": "CARRIED_VERBATIM"},
+      {"section": "B0.10", "lines": "183-234", "sha256": "5a0488a3f44e16c865149e0dedc225891e665ff3f0b61eb677dba6da4324fc42", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A3-W-A8)"},
+      {"section": "B1.1", "lines": "238-250", "sha256": "2e1886e3b7a045daa50a20e027f1d87e8f7f63ce530a97e2663016f71026555e", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A9)"},
+      {"section": "B8 heading and B8.0", "lines": "254-270", "sha256": "096ea57f1ecaf03b46de1cd9e4e5258940af16e069ec6d416f7ed4736e376458", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A10)"},
+      {"section": "B8.1 BR1-BR8", "lines": "272-557", "sha256": "206f07392321e24c330914cabe7028a884951f3cbc68e079a2fedeb5edb6e98d", "disposition": "CARRIED_VERBATIM"},
+      {"section": "B8.2", "lines": "559-575", "sha256": "7a1d60eb1d926b2f725bc09f74ffbf802f46056ee0f2857a592c74f250658d07", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A11, W-A12)"},
+      {"section": "B8.3", "lines": "577-587", "sha256": "3c4bf4f47fd96907301a61f039b948098195c6641edb520ed8056362ef13c728", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A13)"},
+      {"section": "B9.4", "lines": "591-715", "sha256": "2ddae1af85bbdc2696effec550c12c21e5e8a7e63c49a3e9b0349cfdbdcbda90", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A14: B9.4.7)"},
+      {"section": "B10.3", "lines": "719-790", "sha256": "9c269d9894c16bccdbcd8621c5a961f06873043fb1e3d00886529583b3c51f6a", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A15)"},
+      {"section": "B11", "lines": "794-841", "sha256": "0d7daa6243f99a1c477f13a80d69fa417b1ffb7e97d1e1c49bebd51b242bcc22", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A16-W-A18)"},
+      {"section": "B12", "lines": "845-868", "sha256": "b63258f1af0e4ab182b7fc9c34f15a4267540458f0707c351716ce39ac11604d", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (W-A19, W-A20)"}
+    ],
+    "v5_appendix_bindings_replaced": ["header 1-15"],
+    "v5_appendix_bindings_not_carried": "section separators 83, 236, 252, 589, 717, 792, 843 and the end marker 870 (layout only)",
+    "appendix_bindings_line_changes": [
+      {"id": "W-A1", "target": "v5:158 (B0.7 wfx)", "kind": "replaced", "quoted_sha256": "f87855625bf9d9e7dd03b90920fbe39f3413e82e6a102164182913b983278383", "v6_sha256": "726da65320e70d379d645a18db017dd0a60a2cc7b97307660e0abd8acc3504a2", "v6_lines": 8},
+      {"id": "W-A2", "target": "v5:177 (B0.7)", "kind": "replaced", "quoted_sha256": "d0aeb2c452e8c74005e98d345f480f54f85edb29b2ce173c548a34ab51d4c84b", "v6_sha256": "89077466d59bfff6d8fd91e007cdf3ea195e4b193e3ac753ac1b22d9655c4f02", "v6_lines": 1},
+      {"id": "W-A3", "target": "v5:198 (B0.10 requirements)", "kind": "replaced", "quoted_sha256": "737c2ace6447f2d145fe2fbf061fb4d5763fa432ef2bbc377128a34cdb623cae", "v6_sha256": "ccd561f05c5b1262a5f33251f60e3f0926f4d88812bf2cfb3aaef4d488da2379", "v6_lines": 1},
+      {"id": "W-A4", "target": "v5:202-205 (B0.10 (d))", "kind": "replaced", "quoted_sha256": "a8b9c0baf998d381675f32ea70f1ad2ffb5a03e8353cbf95fd77e764705fbb0a", "v6_sha256": "4dcdbc839cd912be12aa357807947a111b351a4cf604a5cf65e1f04e93331222", "v6_lines": 13},
+      {"id": "W-A5", "target": "v5:210 (closure argument, way 1)", "kind": "replaced", "quoted_sha256": "1ec60cda96d50b96e417f3d5d7c657c874a74b2d2d11b6af259cceb61ee98463", "v6_sha256": "d06a19de43bf2a2cddb8ee346820cf1f8d284f9142157c00a95f65a6f1e4c821", "v6_lines": 1},
+      {"id": "W-A6", "target": "v5:220 (way 3)", "kind": "replaced", "quoted_sha256": "00c8295ad5b64e23f9612cda2bb84501097ba55206d93f548a8ee4b1378e3197", "v6_sha256": "39d3e496ed5b4b4e30be2dc2dd7ffcc9c4010f4ace30573b2bc094e2fe2fc49f", "v6_lines": 1},
+      {"id": "W-A7", "target": "v5:224 (way 4)", "kind": "replaced", "quoted_sha256": "2e8010a0b7b916ac48878a30cf7123f201f422bbc8e1dfc8394941b4007e2c30", "v6_sha256": "a0476a952cc16ba95d4452022ccacec2a228dc978b606b342640ca844b014694", "v6_lines": 1},
+      {"id": "W-A8", "target": "after v5:229 (capture vectors considered)", "kind": "inserted", "v6_sha256": "7805ee465c67d413a1a0260ebdd53067bfc2efc0eefb29e795491eba197766f8", "v6_lines": 15},
+      {"id": "W-A9", "target": "after v5:250 (B1.1 v6 additions)", "kind": "inserted", "v6_sha256": "0bd9853962decb232911ab1899ead1b58498592a8bb37e44f1d484c8a8e3b8ca", "v6_lines": 4},
+      {"id": "W-A10", "target": "after v5:270 (B8.0 v6 status)", "kind": "inserted", "v6_sha256": "5520a0d4fea7dd3bb6b4fe3173d74bcfa81f147b52e1cb535dab5c3871a57ca0", "v6_lines": 2},
+      {"id": "W-A11", "target": "v5:571 (B8.2 qualifier row)", "kind": "replaced", "quoted_sha256": "f60eb4cc440fd632b77b4416fd407f2771db6c99b5f9a761fb7707d1718411a5", "v6_sha256": "4167c38c6f676fe3e16f83c94a7fe5c61bb26a3926c92f498e678be0c2130cec", "v6_lines": 1},
+      {"id": "W-A12", "target": "v5:573 (B8.2 gate row)", "kind": "replaced", "quoted_sha256": "fc3cb4de744462d9712f06ad96b3cba0197e911b8cff7c2f1382ff24091a7ecc", "v6_sha256": "c9dfa02fd634f895a0cb24276b7d4704f3c50f6e0f534d02259a13236d5a392a", "v6_lines": 1},
+      {"id": "W-A13", "target": "v5:582-584 (B8.3)", "kind": "replaced", "quoted_sha256": "824476a118d9b0a948245c190bfdf7f5ce925a26af5bcd591c8ecebf7f748595", "v6_sha256": "cf00c317c39e9e73394be456f806fd500a3546c00fb1fcd2cca7326e05c09e45", "v6_lines": 3},
+      {"id": "W-A14", "target": "after v5:715 (new B9.4.7)", "kind": "inserted", "v6_sha256": "6e0057e8b486c7aa4929d013b0f0604791f42c3d60fa8934619a0b2fa1112168", "v6_lines": 18},
+      {"id": "W-A15", "target": "after v5:776 (CAPI_WFX_PROTOCOL in B10.3)", "kind": "inserted", "v6_sha256": "f716fee051790e641920d2ceebaec62e4e04debf732751b15fc744919b543acf", "v6_lines": 16},
+      {"id": "W-A16", "target": "v5:796 (B11 intro)", "kind": "replaced", "quoted_sha256": "e4852dd34a795a65af0fa3e29423f2e3a194a1531652de52795f679af4b22c29", "v6_sha256": "a2d9cdbed21693ef3f6e35717a894fd42a69125c4d6eefb35336a0a5e77a787a", "v6_lines": 1},
+      {"id": "W-A17", "target": "v5:813 (B11 row 14)", "kind": "replaced", "quoted_sha256": "b78191b56e9708b88eab8fa03256da7b075ffb4f7b2e1cd9279c62713c5a6778", "v6_sha256": "a363984939397109d37e866b1ecdc7a587bb765428e4d75585763a96d17a4a20", "v6_lines": 1},
+      {"id": "W-A18", "target": "v5:841 (B11 row 42; rows 43, 44 added)", "kind": "replaced", "quoted_sha256": "51d399dbda18a52e3f4676ac390d28f479109616bc500bf8ae1547cf5a4d7f23", "v6_sha256": "ef4676d2cc68a0a3ed07e6a6cc68d77da2cd88f4ee80cafa4d33a3a16d98318a", "v6_lines": 3},
+      {"id": "W-A19", "target": "after v5:862 (B12 R-QUAL row; anchor line sha256 73aad14473cc2343fe4e95168274c9272b1b2b7aaa6cae12355bc575e20c1190)", "kind": "inserted", "v6_sha256": "48cd1e788d54b979ea2f32a0eda6978e9f3724bf4f3e3fd47838fa5eeb4f1c10", "v6_lines": 1},
+      {"id": "W-A20", "target": "after v5:865 (B12 WF-X row; anchor line sha256 d816d4e7899a2950a9c527cbf163041fcb1be1ce11d8ea3e9ebc174981c228e3)", "kind": "inserted", "v6_sha256": "3b5cd28cd2482f2891c9f3e3db7ab391194b5ac127610f59ac5cb152d43ea8da", "v6_lines": 1}
+    ],
+    "b8_code_changes": [
+      {"id": "CR1", "v5_code_lines": "1-4", "kind": "replaced", "quoted_sha256": "d7f6c4c165f117d53459e406ffc798d4cfdfc49bc0a236add2e21ee82d196953", "v6_sha256": "5ec1a0b486f0186f85580fdf9496a485881a8dc5f22b0fb17e9726e6d17550ae", "v6_lines": 4, "what": "header comment"},
+      {"id": "CR2", "after_v5_code_line": 29, "kind": "inserted", "v6_sha256": "5e3cf2a443f0f42dc8f7e8d321426cb7e5b8a3072f5005eaa24b534c259d1af0", "v6_lines": 7, "what": "CAPI_WFX_PROTOCOL and CAPI_PARENT_SPEC"},
+      {"id": "CR3", "after_v5_code_line": 373, "kind": "inserted, preceded by two empty lines", "v6_sha256": "5289ec1ba15abd62078ec2b364e61fd6f5e5a29c63d1bceda6304284f5334d5f", "v6_lines": 26, "what": "_capi_capture: R-QUAL (d1)-(d4) for one compilation unit"},
+      {"id": "CR4", "v5_code_lines": "398-409", "kind": "replaced", "quoted_sha256": "d565db7d414467b4995066e693c4344ae373b642e3385d7a64527a307211bb37", "v6_sha256": "88e2c45d024a53ce4dd1711aa3bed067325aad5b49069166ccdb74471b2e1a5c", "v6_lines": 7, "what": "R-QUAL (d) on the pair and on the parent specification; parent use clauses and listed simple names"},
+      {"id": "CR5", "v5_code_lines": "526", "kind": "replaced", "quoted_sha256": "e829a1d6013a74c4db8fc5e4fd451e30c37ffa6e49be1465608d2e93b91b3998", "v6_sha256": "24740bb56902251f9664b8352b76cf82f04bca84b6408283fea74468f4972749", "v6_lines": 1, "what": "row identity of a wfx row"},
+      {"id": "CR6", "after_v5_code_line": 546, "kind": "inserted at function level", "v6_sha256": "d584d4d0f659bdcd61c92b35a7165f8b04972ca5d50b893b434b853cdc63cce5", "v6_lines": 10, "what": "WF-X roster and protocol check"}
+    ],
+    "b8_reconstructed_code_block": {
+      "v5": {"sha256": "e739e0395cd4e513920baa9b6e916bcafefecf66c1f53bef21e032c71eee79cb", "code_lines": 653, "method": "apply BR1-BR8 to v4 A-BIND lines 918-1433 by v4 line number"},
+      "v6": {"sha256": "e0360db00ee2c2316cb2bcfc56851816575267c101f3e938daffb3cb512fc081", "code_lines": 693, "method": "apply CR1-CR6 to the v5 code by v5 code line number, highest first; hash the fenced block lines joined by newlines plus a final newline", "syntax": "ast.parse succeeds", "diff_vs_v5": "6 hunks, at the CR1-CR6 places"}
+    },
+    "appendix_cost_map": {
+      "carried_unchanged_by_reference": true,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-COST-MAP.md",
+      "sha256": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+      "bytes": 73929
+    }
+  },
+  "appendices": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/APPENDIX-BINDINGS.md",
+      "sha256": "9f9f3dfa897d0c320226df39c89bc5c156fc87ebc3e24959ab0c08bba5db1946",
+      "bytes": 50088,
+      "content": "A-BIND v6 (delta over v5): the sole WF-X exception bound to the fixed CAPI_WFX_PROTOCOL (B0.7 W-A1, W-A2; B1.1 W-A9; B10.3 W-A15; CR2, CR5, CR6); R-QUAL (d) over every mentioned unit, the parent specification and subunits (B0.10 W-A3-W-A8; B9.4.7 W-A14; CR3, CR4); B8.0, B8.2, B8.3 updated; B11 rows 14 and 42 restated, rows 43 and 44 new (44 rows, J69); B12 WF-X roster controls MX9-MX17 and capture controls MQ15-MQ24 with positive controls. Everything else carried from v5 by line range and sha256."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-COST-MAP.md",
+      "sha256": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+      "bytes": 73929,
+      "content": "A-COST v4, carried unchanged by reference"
+    }
+  ],
+  "write_history": {
+    "tools": "Every file in the v6 directory was created or changed only with the Write and Edit tools.",
+    "refusals": "none",
+    "outside_writes": "none",
+    "bash": "read-only inspection; no file created, moved, copied, deleted or changed by Bash or Python; no output written to a file",
+    "bash_deviations": "nine commands merged standard error into their output pipe with 2>&1 (a redirection operator, though it writes no file); one command ran ls on an S5 subpath; read-only filters outside the literal list (cd, awk, cut, head, tail, sort, echo, cat -n, pipes) and quoted heredocs for Python",
+    "other_reads": "for L16, the root-worker source draft at its cited lines and the sealed seam v2 review finding N-5; session transcript files, to recover details lost to a context compaction; the seam v3 design directory was not read",
+    "simulation": "the design's own B8 sketch (v5 and v6 code) was executed in memory by a read-only author script on assembled in-memory texts; no WORLDLINE module imported, no file written",
+    "interruptions": "none in v6 (no TaskStop, kill or timeout wrapper; no command hung); one mid-task coordinator message (NF-5) handled within the task",
+    "sia": "one sia.ask call at the start of the v6 work (model-origin results only, unused); no SIA note",
+    "jackal": "J69 in jackal.json; J01-J68 carried by reference to the v5 jackal.json"
+  },
+  "closure": {
+    "V5-RC4-GATE-EXCEPTION": {
+      "requirement": "Make the sole assignment exception an independent invariant: before PK-6b the exclusive map is empty; from PK-6b its only key is G21c and the only wfx row is (Finalization_Decide, G21c, O). Validate that identity and its declared type/region/assignments against the normative G21c protocol independently of matching mutable tile/gate entries. Add an amendment control for an added, relabelled or moved wfx exception, plus positive controls for the unchanged staged tables. Preserve every current gate, branch payload, diagnostic, refusal code, assignment, write and accepted case.",
+      "reason": "BR7 admits assignment exceptions by an arbitrary row's wfx kind and CAPI_GATE_EXCLUSIVE.get(row_id); neither row validation nor the outer loop enforces the normative sole exception identity. The current fixed table is correct, but the advertised independent invariant across reviewed tile/table amendments is incomplete.",
+      "sub_clauses": [
+        {"id": "E.1", "text": "independent invariant", "answer": "CAPI_WFX_PROTOCOL, a PK-1 constant never updated; R-GATE compares the tables with it (CR2, CR5, CR6)", "evidence": "APPENDIX-BINDINGS.md:64-70, 227-241, 325-334, 156-163"},
+        {"id": "E.2", "text": "before PK-6b the exclusive map is empty", "answer": "CR6: while Finalization_Decide is not in CAPI_LAYOUT_EXPORTS, no exclusive key and no wfx row; control MX13 at PK-1 and PK-5", "evidence": "APPENDIX-BINDINGS.md:65, 238, 399-411, 279"},
+        {"id": "E.3", "text": "from PK-6b its only key is G21c", "answer": "CR6: key set exactly {G21c}; controls MX9, MX10", "evidence": "APPENDIX-BINDINGS.md:66, 239, 406, 279"},
+        {"id": "E.4", "text": "the only wfx row is (Finalization_Decide, G21c, O)", "answer": "CR6: wfx roster exactly [(Finalization_Decide, G21c, O)]; CR5: no assignment permission for any other wfx row id or object; controls MX9-MX12", "evidence": "APPENDIX-BINDINGS.md:66, 68, 391-397, 403, 406, 279"},
+        {"id": "E.5", "text": "validate identity and declared type/region/assignments against the normative protocol independently of tile/gate entries", "answer": "CR6 compares the declaration (type, no initializer), region sha256, then- and else-assignments and gate text (test) with the constant; the row check binds the unit text to the entry; controls MX14-MX17", "evidence": "APPENDIX-BINDINGS.md:67, 227-237, 404-409, 417-422, 279"},
+        {"id": "E.6", "text": "amendment control for an added, relabelled or moved wfx exception", "answer": "B12 WF-X roster row: MX9 added, MX10 relabelled row id, MX11 relabelled object, MX12 moved; consistent amendments; v5 checks simulated report nothing, v6 R-GATE refuses each", "evidence": "APPENDIX-BINDINGS.md:276-280"},
+        {"id": "E.7", "text": "positive controls for the unchanged staged tables", "answer": "PK-1, PK-5 (empty map, no wfx row), PK-6b, PK-7 (only G21c = protocol): no problem in the simulation with v5 and v6 code", "evidence": "APPENDIX-BINDINGS.md:279; AUTHOR-NOTES.md section 4"},
+        {"id": "E.8", "text": "preserve every gate, branch payload, diagnostic, refusal code, assignment, write and accepted case", "answer": "no tile, gate text, branch list, diagnostic site, refusal code, assignment, write row or residual text changes; v5 mutations (82 runs) still refused on v6 code", "evidence": "APPENDIX-BINDINGS.md:28, 241, 425"},
+        {"id": "E.9", "text": "(reason) neither row validation nor the outer loop enforces the sole identity", "answer": "CR5 in the row check (v5 code line 526); CR6 after the outer loop (after v5 code line 546)", "evidence": "APPENDIX-BINDINGS.md:391-411, 180-186, 188-198"}
+      ],
+      "status": "ANSWERED_FOR_REVIEW; NOT_CLOSED until reviewed"
+    },
+    "V5-RC4-QUAL-CAPTURE": {
+      "requirement": "Extend R-QUAL(d), BR6, the closure argument, promises and machine twin to examine every potentially capturing library-unit prefix mentioned by each with clause, including ancestor units mentioned through a named descendant. Define the text-only refusal without changing the scoped exception or use-clause inventory. Add a matching amendment control and an unchanged-context positive control. Keep installed integrated name/overload resolution OPEN.",
+      "reason": "The normative with-clause restriction and BR6 check only the named dotted unit's last identifier. Ada RM 10.1.2(6/2,7) also gives visibility to library units denoted by prefixes. A capturing sibling child mentioned only as a prefix of a named descendant is outside that test, so the asserted no-capture conclusion does not follow from the rule.",
+      "sub_clauses": [
+        {"id": "Q.1", "text": "extend R-QUAL(d)", "answer": "(d1)-(d4) on the C_API specification, the C_API body and the parent specification core/worldline.ads", "evidence": "APPENDIX-BINDINGS.md:89-110, 81-87"},
+        {"id": "Q.2", "text": "BR6", "answer": "CR4 replaces the (d) part of BR6 (v5 code lines 398-409) and calls _capi_capture (CR3); with-clause test over every prefix", "evidence": "APPENDIX-BINDINGS.md:336-389, 168"},
+        {"id": "Q.3", "text": "the closure argument", "answer": "ways 1, 3 and 4 restated (W-A5-W-A7); capture-vector table (W-A8)", "evidence": "APPENDIX-BINDINGS.md:112-154"},
+        {"id": "Q.4", "text": "promises", "answer": "B11 row 42 restated, row 44 new; DESIGN X-R2, X-R5; B8.2 (W-A11), B8.3 (W-A13)", "evidence": "APPENDIX-BINDINGS.md:260-268, 172-178, 188-198; DESIGN.md section B-v6.4"},
+        {"id": "Q.5", "text": "machine twin", "answer": "qualified_v6 and this closure entry", "evidence": "decisions.json qualified_v6"},
+        {"id": "Q.6", "text": "every potentially capturing prefix, including ancestors mentioned through a named descendant", "answer": "(d2): every prefix I0..Ij with j >= 1 must not end in a root; MQ15, MQ16; parent with clauses too (MQ18)", "evidence": "APPENDIX-BINDINGS.md:99, 146-147, 273"},
+        {"id": "Q.7", "text": "text-only refusal without changing the scoped exception or use-clause inventory", "answer": "(d) refuses by text, resolving no name; CAPI_QUALIFIER_EXCEPTIONS, CAPI_INVENTORY, CAPI_USE_PACKAGES, CAPI_QUALIFIED and R-INV (vii) unchanged", "evidence": "APPENDIX-BINDINGS.md:102, 425"},
+        {"id": "Q.8", "text": "matching amendment control", "answer": "B12 R-QUAL (d) row: MQ15-MQ24; v6 refuses each; v5 refuses none of MQ15-MQ23 and does refuse MQ24 (nesting already covered)", "evidence": "APPENDIX-BINDINGS.md:270-274"},
+        {"id": "Q.9", "text": "unchanged-context positive control", "answer": "unchanged S5 contexts and parent specification at PK-1, PK-5, PK-6b, PK-7, and PK-7 with the later context additions: no R-QUAL problem", "evidence": "APPENDIX-BINDINGS.md:273, 200-221"},
+        {"id": "Q.10", "text": "keep installed integrated name/overload resolution OPEN", "answer": "OPEN (D-38), with child-unit capture and the RM 10.1.2, 10.1.1, 8.3 and 8.4 readings in context added", "evidence": "APPENDIX-BINDINGS.md:103, 153; DESIGN.md sections 17, 18"},
+        {"id": "Q.11", "text": "(reason) only the named unit's last identifier is tested", "answer": "replaced by (d2) over every prefix; conclusion restated over the three units; L13-L15 found and repaired", "evidence": "APPENDIX-BINDINGS.md:97-109; DESIGN.md section A.3"}
+      ],
+      "status": "ANSWERED_FOR_REVIEW; NOT_CLOSED until reviewed"
+    },
+    "V4-RC4-GATE": "NOT_CLOSED (review); remaining gap answered by V5-RC4-GATE-EXCEPTION",
+    "V4-RC4-ALIAS": "NOT_CLOSED (review); remaining gap answered by V5-RC4-QUAL-CAPTURE",
+    "V3-RC4": "NOT_CLOSED (review); for the reviewer"
+  },
+  "latent_v5_defects": [
+    {"id": "L13", "text": "v5's (d) and its closure argument examined only the C_API pair; the parent specification core/worldline.ads, visible throughout Worldline's declarative region including the pair, could have declared a root, held a use clause or a with clause, unexamined. S5 declares only Hash and Zero_Hash there (core/worldline.ads:5-7). The v5 code accepts MQ18-MQ20 and MQ23.", "v6": "(d1)-(d4) on the parent specification; (d3) for its use clauses and listed simple names"},
+    {"id": "L14", "text": "neither v5's (d) nor way 4 of its closure argument considered a library unit named by a listed simple name (for example a library-level renaming Decide_Value of an Appendix C routine) made visible by a with clause; no other check binds the C_API body's with clauses. The v5 code accepts MQ21 and MQ18a.", "v6": "(d2) refuses a listed simple name at any position of a mentioned unit's name"},
+    {"id": "L15", "text": "a body stub in the pair would move text into a subunit with its own context clause and declarations, unexamined by v5's (d). The v5 R-QUAL accepts MQ22 (R-RES refuses it only as a residual change).", "v6": "(d4): no separate in the three units"},
+    {"id": "L16", "text": "wording defect relayed by the lead from the parallel seam lane (NF-5, unreviewed) and checked by the author: v4 DESIGN line 778 (carried by v5 section 19) and v5 DESIGN line 338 call the root-worker draft's package renamings Y J D A X E T N W O Q C_API body-level; in the draft (sha256 806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420, 148068 bytes) they lie at lines 1199-1205 and 1217-1220 inside package body Child_Boundary (lines 1198-2251), as the sealed seam v2 review N-5 also rules (VERIFIED_LEXICAL_SCOPE). The conclusions stand: (d1), R-INV (ii) and R-RES do not depend on nesting depth (MQ24 is refused by v5 and v6 code alike).", "v6": "DESIGN X-R7 and X-R8 correct the wording; A-BIND states the nesting coverage (W-A4 (d1), W-A8 row 1, B11 row 44) and adds MQ24"}
+  ],
+  "carried_rulings": {
+    "source": "the sealed v5 review.json rulings (31), verbatim 'ruling' field; v6 removes or weakens none",
+    "RC1": {"review": "CLOSED_AT_DESIGN_LEVEL preserved", "v6": "carried unchanged"},
+    "RC2": {"review": "CLOSED_AT_DESIGN_LEVEL preserved", "v6": "carried unchanged; B4.20 segment 6 unchanged; the protocol states its region by digest"},
+    "RC3": {"review": "CLOSED_AT_DESIGN_LEVEL for N-01 resolution discipline preserved", "v6": "carried unchanged"},
+    "LD1": {"review": "CONDITIONALLY_ACCEPTABLE_AT_DESIGN_LEVEL preserved", "v6": "carried unchanged"},
+    "LD2": {"review": "CONDITIONALLY_ACCEPTABLE_AT_DESIGN_LEVEL preserved", "v6": "carried unchanged"},
+    "LD3": {"review": "CONDITIONALLY_ACCEPTABLE_PENDING_D-13 preserved", "v6": "carried unchanged"},
+    "LD4": {"review": "WITHDRAWN preserved", "v6": "carried unchanged"},
+    "LD4-R": {"review": "CLOSED_AT_DESIGN_LEVEL for RC1 preserved", "v6": "carried unchanged"},
+    "LD5": {"review": "CONDITIONALLY_ACCEPTABLE preserved", "v6": "carried unchanged"},
+    "LD6": {"review": "CONDITIONALLY_ACCEPTABLE; V3-RC5 design condition discharged preserved", "v6": "carried unchanged"},
+    "V3-RC5": {"review": "CLOSED_AT_DESIGN_LEVEL preserved", "v6": "carried unchanged"},
+    "V3-RC6": {"review": "CLOSED_AT_DESIGN_LEVEL preserved", "v6": "carried unchanged; A-COST v4 by reference"},
+    "L1-L8": {"review": "GENUINE and prior design repairs preserved; L3 installed warning UNVERIFIED; L5 separate RC4 gate obligation remains NOT_CLOSED", "v6": "carried; L5's gate obligation answered in V5-RC4-GATE-EXCEPTION"},
+    "D-13": {"review": "OPERATOR_CHOICE_REQUIRED_BEFORE_PK-7; ONLY_ABI_AND_SCOPE_PRESERVING_ROUTE_ADMISSIBLE. Reservation concerns a concrete material component transport/library architecture choice, not editing pinned implementation files or recomputing effective pins.", "v6": "carried as ruled; no choice made"},
+    "N-06": {"review": "REPROVISION_UNDER_OPERATOR_CUSTODY_AT_DEPLOYMENT; mismatch refusal remains. An old-library hold supplies no consolidated-candidate acceptance.", "v6": "carried as ruled; no deployment action"},
+    "N-01": {"review": "LEAD_OWNED_STRICT_OBLIGATION; confirming representation repairs preserve C1-C8 and satisfy E1-E6. Any nonconfirming material ABI change is separately operator-owned and grants no weakening of the original target.", "v6": "carried as ruled"},
+    "D-05": {"review": "OPEN", "v6": "carried"},
+    "D-18": {"review": "CLOSED_AT_DESIGN_LEVEL for index design; proof OPEN", "v6": "carried"},
+    "D-19": {"review": "OPEN", "v6": "carried"},
+    "D-28": {"review": "CONDITIONALLY_ACCEPTABLE_AT_DESIGN_LEVEL", "v6": "carried"},
+    "D-36": {"review": "OPEN for every write form", "v6": "carried"},
+    "D-15/D-34/D-38": {"review": "OPEN", "v6": "carried OPEN; D-38 also covers child-unit capture and the RM 10.1.2, 10.1.1, 8.3 and 8.4 readings in context"},
+    "N-03": {"review": "OPEN", "v6": "carried"},
+    "N-04": {"review": "CLOSED_AT_DESIGN_LEVEL for Classify enrollment; implementation obligations OPEN", "v6": "carried"},
+    "N-05": {"review": "OPEN", "v6": "carried"},
+    "N-07": {"review": "CLOSED_AT_DESIGN_LEVEL for pending Decide enrollments; implementation obligations OPEN", "v6": "carried"},
+    "APPENDIX_C": {"review": "CLOSED_AT_DESIGN_LEVEL for exact append-only ordering/enrollment", "v6": "carried; Appendix C unchanged"},
+    "R2_NINE_CONDITIONS": {"review": "NOT_CLOSED", "v6": "condition (4) invariants repaired in DESIGN section A; for the reviewer"},
+    "PACKET_PLAN": {"review": "NOT_CLOSED", "v6": "carried (section 9 with V-R9; A-BIND B1.1 with W-A9); for the reviewer"},
+    "ROOT_WORKER_INTEGRATION": {"review": "OPEN; no ruling on the other lane or integration order", "v6": "carried OPEN; DESIGN section 19"},
+    "OB-048": {"review": "OPEN for enlarged and pre-existing boundary", "v6": "carried OPEN"}
+  },
+  "gates_v6": {
+    "source": "A-BIND B0.7 (W-A1), B10.3 (W-A15), B8.4 CR2, CR5, CR6",
+    "wfx_protocol": {
+      "scope": "Finalization_Decide",
+      "row_id": "G21c",
+      "object": "O",
+      "declaration": "O : Evaluation_Finalization_C.Decide_Acceptance;",
+      "declared_type": "Evaluation_Finalization_C.Decide_Acceptance (no initializer)",
+      "region_sha256": "34b1492a5b5a757dab0cd1c62fcc241155be318e42a728da6649387d62c5b4d0",
+      "region_bytes_observed": 644,
+      "region_source": "v4 A-BIND B4.20 segment 6 without its final ' if not O.Ok then return 255; end if;' (N1)",
+      "then_assignment": "O := Evaluation_Finalization_C.Decide_Rows_Value (X, A, Required, Captured);",
+      "else_assignment": "O := Evaluation_Finalization_C.Decide_No_Rows_Value (X, A, Required);",
+      "test": "if not O.Ok then return 255; end if;",
+      "gate_text": "O := Evaluation_Finalization_C.Decide_Rows_Value (X, A, Required, Captured); else O := Evaluation_Finalization_C.Decide_No_Rows_Value (X, A, Required); end if; if not O.Ok then return 255; end if;",
+      "defined": "PK-1, in the check text; never updated, appended to or reassigned by a stage"
+    },
+    "staging": {
+      "before_PK-6b": "Finalization_Decide not in CAPI_LAYOUT_EXPORTS: CAPI_GATE_EXCLUSIVE empty; no CAPI_GATES row of kind wfx",
+      "from_PK-6b": "CAPI_GATE_EXCLUSIVE keys exactly {G21c} with the entry equal to the protocol; the only wfx row is (Finalization_Decide, G21c, O) with the protocol gate text"
+    },
+    "checks": {
+      "CR5": "in _capi_gate_row_problems: a wfx row whose (row id, object) is not (G21c, O) gets no assignment permission",
+      "CR6": "in _capi_gate_problems after the row loop: wfx roster, exclusive keys, and (from PK-6b) declaration, region sha256, assignments and gate text against CAPI_WFX_PROTOCOL"
+    },
+    "not_part_of_protocol": "the G21c branch list (T: Value; F: none), an ordinary R-GATE list",
+    "controls": {
+      "amendment": ["MX9 added (G19b as a second wfx exception)", "MX10 relabelled row id (G21x)", "MX11 relabelled object (Z)", "MX12 moved (export renamed Finalization_Decide_Moved)", "MX13 staged early (PK-1; PK-5)", "MX14 else-assignment", "MX15 region", "MX16 declared type", "MX17 test"],
+      "positive": "unchanged staged tables at PK-1, PK-5, PK-6b, PK-7"
+    },
+    "b11_rows": "14 restated, 43 new (44 rows in all, J69)",
+    "unchanged": "every gate text, kind, branch list and B10.2 write row"
+  },
+  "qualified_v6": {
+    "source": "A-BIND B0.10 (W-A3-W-A8), B9.4.7 (W-A14), B8.4 CR3, CR4",
+    "units": ["core/worldline-c_api.ads (SPEC)", "core/worldline-c_api.adb (BODY)", "core/worldline.ads (PARENT, CAPI_PARENT_SPEC)"],
+    "roots": ["Worldline", "Resource_Run_Ledger_C_API", "Evaluation_Completion_C", "Evaluation_Completion_Roster", "Evaluation_Finalization_C", "Evaluation_Pending_C", "Evaluation_Pending", "Evaluation_Pending_V2_C", "Evaluation_Pending_V2"],
+    "rule_d": {
+      "context_clause": "a unit's text before its first 'package '; a unit without it is a problem",
+      "d1": "outside the context clause, at any nesting depth, a root occurs only as the first identifier of a dotted name or as a package renaming target; in the parent specification also as its own name after its first package and in its final end",
+      "d2": "for every with clause (plain, limited or private) naming I0.I1...Ik, every mentioned prefix I0...Ij: Ij is not a root when j >= 1, and Ij is not a listed simple name for any j",
+      "d3": "the parent specification has no use clause and no identifier equal to a listed simple name",
+      "d4": "no unit contains the reserved word separate"
+    },
+    "listed_simple_names": "85 before PK-6b (v5 observation), 93 from PK-6b (J59)",
+    "text_only": "no name is resolved; a mentioned unit is refused whether or not it exists",
+    "unchanged": ["CAPI_QUALIFIED", "CAPI_QUALIFIER_EXCEPTIONS", "CAPI_INVENTORY", "CAPI_USE_PACKAGES", "R-INV (vii)", "rules (a)-(c)"],
+    "observations": {
+      "spec": {"with_clauses": 4, "named_units": 4, "mentioned_units": 5, "refused": 0},
+      "body": {"with_clauses": 23, "named_units": 23, "mentioned_units": 26, "refused": 0},
+      "parent": {"with_clauses": 1, "named_units": 1, "mentioned_units": 2, "refused": 0, "sha256": "6b171d3fa0b9a0cdbd7e3777e4af35e557ed74e67f6b3ee9bdc1bbfe41305286", "bytes": 164, "declarations": "Hash (:5), Zero_Hash (:7)"},
+      "s5_tree": {"ada_files": 223, "distinct_unit_names": 123, "with_clause_units": 83, "refused": 0, "files_with_separate": 0, "file_list_sha256": "8239e5ae7393f70ecff97e2352b69c8351f93de3fcae16b869c72a0e923628e2"}
+    },
+    "controls": {
+      "amendment": ["MQ15 body: with Worldline.Evaluation_Pending.Child;", "MQ16 body: with Worldline.C_API.Evaluation_Pending_C.Child;", "MQ17 spec: limited with / private with Worldline.Evaluation_Pending.Child;", "MQ18 parent: with Decide_Value; / limited with Worldline.Evaluation_Pending.Child;", "MQ19 parent: Evaluation_Pending : constant Integer := 0; / Present : constant Boolean := True;", "MQ20 parent: use Attest.SHA256;", "MQ21 body: with Decide_Value;", "MQ22 body: procedure Capture_Stub is separate;", "MQ23 empty parent text", "MQ24 nested package body Child_Boundary declaring package Evaluation_Pending renames Evaluation_Pending_V2;"],
+      "positive": "unchanged S5 contexts and parent specification at PK-1, PK-5, PK-6b, PK-7; PK-7 with with Ada.Text_IO, Ada.Exceptions, the 17 CAPI_SPARK_UNITS and Evaluation_Finalization"
+    },
+    "b11_rows": "42 restated, 44 new",
+    "rm_readings": "RM 10.1.2(5), (6/2), (7); 10.1.1(11); 8.3(8); 8.4; A.1 - the author's readings, RM text not installed; installed resolution OPEN (D-38)",
+    "supersedes": "qualified_v5 rule (d) (carried by reference below as v5's record)"
+  },
+  "simulation_v6": {
+    "kind": "author self-check (not evidence, not a control run)",
+    "checks_run": ["R-TILE", "R-INV", "R-ALIAS", "R-QUAL", "R-GATE", "R-RES with S-RES, R-LAYOUT, R-GLUE"],
+    "v5_mutations_on_v6_code": {"runs": 82, "refused_by_named_check": 82},
+    "new_mutations": {"runs": 23, "refused_by_named_check_on_v6": 23, "named_check_also_reported_by_v5_code": ["MQ24"]},
+    "positive_runs": {"runs": 9, "without_problem": 9},
+    "l9_control_v4_alias_problems_at_PK-1": 4,
+    "not_simulated": "R-W"
+  },
+  "carried_by_reference": {
+    "rule": "Each key below has exactly the value it has in v5 decisions.json (sha256 a069632a035b62f18d886112763472f13040779d2d5dd79c872a6d6ce951c55b). The listed digest is the sha256 of json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':')) encoded as UTF-8. v5's own carried_by_reference carries v4 keys in the same way.",
+    "v5_decisions": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/decisions.json",
+    "keys": {
+      "latent_v4_defects": "6be1b18a6013eafb61a1b4be2ac9dc938e42f6d4e8d5b82daa7e7bd28bc0f9de",
+      "decisions": "925634f9279261a9cf7ae65932ea5d6977f16291934d9acbc70a82a08cdf589d",
+      "gates_v5": "30b60cff6cad9953405c6339fc693a0e169e20bc6e15fc5249dbdfaedecd74c6",
+      "qualified_v5": "ec1db72fb6bcfd350cc613f4084988b4505ccb8900258188bfad5b62c9d8703c",
+      "operator_items": "5d339bab7c9add0c8f55c9960f4f4b9bb93b1c663bc17bf98c7d31bd2eff2f69",
+      "pk0_characterization": "bbaaf4246a0829e207f127dfc3bab75e1c2b17be70d2689bb7a1fb0038a6a455",
+      "carried_by_reference": "3b549acfb1362d8f280f38d6f2ff8db2698a072739355217e167c8dc89abc0cd"
+    },
+    "notes": "gates_v5 stands, extended by gates_v6; qualified_v5's rule (d) is superseded by qualified_v6.rule_d"
+  },
+  "open": [
+    "V5-RC4-GATE-EXCEPTION and V5-RC4-QUAL-CAPTURE closure, and with them V4-RC4-GATE, V4-RC4-ALIAS, V3-RC4, R2_NINE_CONDITIONS and PACKET_PLAN, and L13-L16: for the independent actual gpt-6.1-sol review; NOT_CLOSED until reviewed",
+    "No successor source exists; installed-tool SPARK legality of every changed unit (D-38), of the External abstract state and of the 'Image use; integrated name and overload resolution in the C_API body, including child-unit capture; transported-clause warnings; the RM 8.4, 10.1.2, 10.1.1, 8.3 and A.1 readings in R-QUAL's argument",
+    "Flow, RTE, termination and functional proof of the 95 new routines (J36) and every called relation, including N-03 callees, D-05 decoders, the D-18 index and the D-19 branches; zero unproved/justified/pragma Assume; floor 251; complete reports",
+    "Every strict warning class, including N-01's 736 representation warnings (J51) and the 119 in moving code (J54)",
+    "Manifest override, tables (including CAPI_QUALIFIED, CAPI_QUALIFIER_EXCEPTIONS, CAPI_GATES with components, CAPI_GATE_EXCLUSIVE, CAPI_WFX_PROTOCOL, CAPI_PARENT_SPEC) and edits unwritten; tiles and B8 sketch are author text; the author simulation is not a run of the manifest; mutation controls (including MX9-MX17, MQ15-MQ24) unrun as controls; pins not regenerated; every stage review pending",
+    "D-15, D-34, D-38: symbol export and mapping, layouts, calling conventions and loaded-library evidence",
+    "D-36: write construction for every form; every A-COST native item including C21-a to C21-h; the original native blockers",
+    "PK-0 class-H failure location and copy atomicity; foreign faults and premise violations outside the characterization",
+    "Controls: the 52-action roster, lifetime controls, additive controls C-01..C-16, provider and fault campaigns on the exact integrated candidate",
+    "Boundary: OB-048, custody, producer authenticity, immutability premises (D-27), foreign faults (D-23)",
+    "Integration: the root-worker lane's changes to core/worldline-c_api.adb and any change to core/worldline.ads (DESIGN section 19); a rebase requires re-observed tables, including B9.4.7",
+    "Operator items: D-13 before PK-7 (concrete material component transport/library architecture only); N-06 at deployment; all original Phase One operator gates"
+  ],
+  "jackal": {
+    "tool": "jackal_exact (MCP)",
+    "file": "jackal.json",
+    "file_sha256": "34a7a3ab2c27552e94ce8a114119e4b14988bd03fafe3747b0bc3fec274a94de",
+    "file_bytes": 3983,
+    "common_fields_of_every_result": {
+      "status": "exact",
+      "formal": false,
+      "lane": "rat",
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ]
+    },
+    "calls": "J69 (42+2 = 44, B11 rows) new in v6; J01-J68 carried by reference to the v5 jackal.json (sha256 612d189e4edc29cda39c8e61ac3668bf04adb6abcda12728f7ec14272d4f46d4)",
+    "consequence": "informational about code correctness only; exact is outside the Lean certificate chain and is not formal-bounded"
+  },
+  "author_notes": {
+    "file": "AUTHOR-NOTES.md",
+    "sha256": "414fd7363ed415ce5dd5c2f1c675780bb5917e9e9a08bc5ab0751ae48ba2aa08",
+    "bytes": 19208
+  },
+  "bound_inputs": {
+    "base": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow (W); S5 = W/work/claude-composition-v5-beta/source; D5 = W/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5",
+    "v3_bound_inputs": "the 87 files of v3 decisions.json bound_inputs, re-hashed read-only while drafting v6: all matched",
+    "v4_additional_inputs": "the 16 files of v4 decisions.json bound_inputs.additional_files, re-hashed: all matched",
+    "v5_additional_inputs": "the 24 files of v5 decisions.json bound_inputs.additional_files, re-hashed: all matched",
+    "additional_files": [
+      {"path": "D5/DESIGN.md", "sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de"},
+      {"path": "D5/decisions.json", "sha256": "a069632a035b62f18d886112763472f13040779d2d5dd79c872a6d6ce951c55b"},
+      {"path": "D5/APPENDIX-BINDINGS.md", "sha256": "f22944b4d52bd196f1823f9f0abf1a0f1578db14f5697bd7b63c6899af15a5a2"},
+      {"path": "D5/jackal.json", "sha256": "612d189e4edc29cda39c8e61ac3668bf04adb6abcda12728f7ec14272d4f46d4"},
+      {"path": "D5/AUTHOR-NOTES.md", "sha256": "ed45d1db766f3b03ec946946942a571ae50b0eae21e339c5724b5e2480280e47"},
+      {"path": "D5/review/gpt61-v1/review.json", "sha256": "800880d44bff4b234c82cc392a3008fd4d37139b0827d070120cf299370f403b"},
+      {"path": "D5/review/gpt61-v1/REVIEW.md", "sha256": "73e82489706e03ca465e7dea2aed1823df0b50a8ce1c5ab0555c545579dc34d8"},
+      {"path": "D5/review/gpt61-v1/checks.json", "sha256": "c1398253713aa6d42ed11fda5194502ccae5a64825b36ef8100206f7d40719ef"},
+      {"path": "D5/review/gpt61-v1/review-freeze.json", "sha256": "91bddf1a46763251940db658f5115cd13ab9de4aa67c0a41ae169de165649af1"},
+      {"path": "W/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md", "sha256": "e86b9c32d6f0fd9fdc21192d5c7a43c15c3d2763c7dcdb9fabba5f392ee99252"},
+      {"path": "S5/core/worldline.ads", "sha256": "6b171d3fa0b9a0cdbd7e3777e4af35e557ed74e67f6b3ee9bdc1bbfe41305286"},
+      {"path": "~/.claude/skills/ada-2005-amendment/chapters/ch08-program-structure.md", "sha256": "e88e6eaf916c9876b3dfb83b41c2113fdfdcfd9337b71ba06a4cfff4e4b3e296"},
+      {"path": "~/.claude/skills/ada-2005-amendment/chapters/ch06-visibility-rules.md", "sha256": "049066433c8f46b6ae3978eeeccf21a6c582ae233488c3ba81873f1a5fd5a64f"},
+      {"path": "~/.claude/skills/advanced-ada/chapters/ch14-packages.md", "sha256": "4fd4eae2b1fcf5d6acead094f8b3ed4126cd703cd47467a617d653b42f8b808d"},
+      {"path": "W/work/protected-original-root-worker-repair-v1/source/core/worldline-c_api.adb", "sha256": "806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420"},
+      {"path": "W/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/review.json", "sha256": "84c176dfc3f2f49deb2a0967da90179ab1e80681e00fa33203a158066d01b942"}
+    ],
+    "s5_ada_tree_list": {
+      "files": "the 223 S5 *.ads and *.adb files, recursively",
+      "list_sha256": "8239e5ae7393f70ecff97e2352b69c8351f93de3fcae16b869c72a0e923628e2",
+      "list_form": "lines 'sha256  <path relative to S5>' in path order, joined with newlines plus a final newline"
+    },
+    "renaming_graph_sources": {
+      "files": "all 69 S5 core/*.ads",
+      "list_sha256": "e6276e7919d0bf39f41c696ec25e5c74c676d9c1e8ec3400763a2a7685a4a217",
+      "list_form": "lines 'sha256  core/<file>' in file-name order, joined with newlines plus a final newline"
+    },
+    "deviation_note_v4": {"path": "W/work/claude-lead-isolation-v1/wt-1/deviations/capi-v4-author-taskstop/NOTE.md", "sha256": "f5dada7c3ea424b8f404571cf5cfeef0ad7b2eb4f6a07634c6fd481e18e5a88b"}
+  },
+  "non_claims": [
+    "This is a design draft: no source, manifest, table, control or packet was written, compiled, proved, built, tested or run.",
+    "No WORLDLINE Python module was imported; S5 text was read with read-only scripts that reimplement normalized_ada.",
+    "The author simulation executed this design's own B8 sketch (v5 and v6 code) in memory on assembled texts; it is a self-check of the sketch and its tables, not a run of the manifest, not evidence and not a review.",
+    "R-QUAL and R-GATE are static text checks; they establish no installed name resolution, reachability, native behaviour, proof or acceptance.",
+    "The RM readings behind R-QUAL (d) are the author's; no RM text is installed locally.",
+    "No proof, flow, RTE, termination, strict-warning, ABI, layout, native, control or custody claim is made.",
+    "JACKAL results are exact rational arithmetic outside the Lean certificate chain (status exact, not formal-bounded) and informational about code correctness only.",
+    "No operator item is decided; nothing is approved, released, installed or deployed."
+  ],
+  "acceptance": {
+    "proof": false,
+    "source": false,
+    "phase": false
+  }
+}

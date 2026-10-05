@@ -244,7 +244,23 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 06:00Z)
+## In progress (updated 06:15Z)
+
+- **C-API DESIGN v6** (`designs/claude-capi-boundary-design-v6`).
+  - **Files.** DESIGN.md `cfa0dca9…`, APPENDIX-BINDINGS.md `9f9f3dfa…`, decisions.json `357bb2d4…`, jackal.json
+    `34a7a3ab…`, AUTHOR-NOTES.md `414fd736…`. It was handed back ~06:12Z.
+  - **What it answers.** V5-RC4-GATE-EXCEPTION, with a fixed `CAPI_WFX_PROTOCOL` constant and controls MX9–MX17, and
+    V5-RC4-QUAL-CAPTURE, with (d1)–(d4) over the C_API spec and body and `core/worldline.ads`, and controls MQ15–MQ24.
+    It reports latent defects L13–L16; L16 is the relayed NF-5 wording, which the author checked itself.
+  - **Lead checks.** The hashes match the report. The carried slices are 5/5 DESIGN and 14/14 A-BIND against v5. J69
+    reproduces `exact`.
+  - **Process.** Recorded in `deviations/capi-v6-author-process/NOTE.md`. It notes that the author read the lead's
+    transcript after its compaction, an indirect path to other lanes' summaries, and that it executed its sketch in
+    memory again as a self-check.
+  - **Review.** Its actual gpt-6.1-sol review started 06:14Z: brief `briefs/capi-design-v6.md` (`fc49ff6a…`), thread
+    `01a10ab3-0fe6-7e42-b915-7f2e051d275f`.
+  - **Runner slots.** All three are now in use (D1 stalled, seam v3, C-API v6). The package v8 review will wait for a
+    slot, and waiting interrupts nothing.
 
 - **Root-worker SEAM DESIGN v3** (`designs/claude-root-worker-seam-design-v3`).
   - **Files.** SEAM-DESIGN.md `a0f2f411…`, seams.json `093f3117…`, jackal.json `8cce45e3…`, AUTHOR-NOTES.md `dd382e1b…`.
