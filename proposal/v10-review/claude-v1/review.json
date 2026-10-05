@@ -1,0 +1,151 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v10.md",
+ "design_sha256": "d5fe8f3152dd8782adeee65478d7f70fb06e5fac50f0b17943d53598da66d8ef",
+ "support_sha256": "a3e84a9ce492cc53dda10ef4c23e7f2ccbd7838a1ab9e9d3645003ed72089252",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-4-8 (drafting subagent)",
+ "verdict": "NOT_ENDORSED",
+ "prior_closure": {
+  "W1-V9-ASYNC-ENUM": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-NOOWNER-SCOPE": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-ENUM-USERDEL": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-PLAN-CONSTRAINTS": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-PREMISE-ORDER": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-RL-SELFTEST-FIXTURE": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-INVENTORY": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-REVIEW-PROVENANCE": "STATED_AS_CHANGE_NOT_CLOSED (adoption blocked; minor source-path citation defect)",
+  "W1-V9-FORM-CONSISTENCY": "PARTIALLY_CLOSED (three v9 defects fixed; new unit-partition miscount introduced)",
+  "W1-V8-PRESERVATION-ESTABLISH": "NOT_CLOSED (execution-bound; every §21 V/C/D row OPEN)",
+  "W1-V8-PREMISE-DISCHARGE": "NOT_CLOSED (execution-bound; premises NAMED_UNESTABLISHED, now in PREMISE-ORDER order)",
+  "W1-V8-EVIDENCE-EQUIV": "NOT_CLOSED (execution-bound; B1-B5 predicates preserved; capacity OPEN)",
+  "W1-V8-WRITER-AS-W": "CLOSED_AT_SPEC_LEVEL (stays closed; rests on the now-fuller P-NOOWNER inventory)",
+  "W1-V8-FORM-SUBUNIT": "REGRESSED by the change-document form; disclosed OPEN as W1-V10-FORM",
+  "W1-V8-HOLDER-IOEXIT": "carried via W1-V9-ASYNC-ENUM (CLOSED_AT_SPEC_LEVEL at obligation+predicate; P-ASYNC OPEN)",
+  "W1-V8-COMPOSED-ENUM": "CLOSED_AT_SPEC_LEVEL for the table (67/104 completed); O-5 execution-bound",
+  "V5-B01": "OPEN (not narrowed)",
+  "V5-B02": "OPEN (not narrowed)",
+  "W1-V5-PRESERVATION": "OPEN (not narrowed)",
+  "W1-V6-READ-MUTATION": "OPEN (not narrowed)",
+  "W1-V7-HOLDER-STATE": "OPEN (not narrowed)",
+  "Gate 0 (capacity)": "NOT ESTABLISHED",
+  "all 219 OBLIGATIONS-v2.json entries": "OPEN"
+ },
+ "plan_sufficiency": {
+  "executed": "none (v10:286, v10:427; nothing in the plan was run for v10)",
+  "W1-V9-ASYNC-ENUM": "sufficient as a predicate: the byte-equality-after-release state (v10:272), if an operator probe produced it, would establish absence of post-commit writes through the enumerated holders, conditional on the OPEN enumeration-completeness obligation P-ASYNC; drive-to-release procedure operator-reserved and OPEN",
+  "W1-V9-ENUM-USERDEL": "O-5 would rehearse S-R against the completed 67/104 reachable set incl. X1-X4=W_B with no failing groupdel",
+  "W1-V9-PLAN-CONSTRAINTS": "I-7 differential runs, if run under fresh original admission + dispatch-stage Gate 0 in a reviewed adopted frame with the original-vs-original nondeterminism control, give per-input equality evidence only, never the universal; else blocked",
+  "W1-V9-PREMISE-ORDER": "review of E0 critical-premise discharges precedes O-1/sudo install; S-1 binds running kernel image+build-id; discharges themselves OPEN",
+  "W1-V9-RL-SELFTEST-FIXTURE": "S-5 code review (execution-bound) must show no installed/S1/RL-reachable path creates a set-ID/cap object or affects real state",
+  "W1-V8-PRESERVATION-ESTABLISH": "unchanged: every §21 V/C/D row OPEN",
+  "W1-V8-PREMISE-DISCHARGE": "insufficient until executed, but the ordering defect of v9 is corrected",
+  "W1-V8-EVIDENCE-EQUIV": "U-14/I-6 would establish B1-B5 per tested tree only; safe fresh capacity OPEN",
+  "operator_reservation": "correct: E1/E2 and O-1..O-5/O-ASYNC reserved; each labelled not a new gate (v10:352-354)",
+  "redesign_no_exception": "kept (v10:206-209, 285)"
+ },
+ "async_enum_assessment": "CLOSED_AT_SPEC_LEVEL. N4(iv) and 'From (2) to (3)' now name the outside get_task_mm/get_task_exe_file holder reachable through a world-readable /proc file as a context for the deferred final fput after cgroup exit and characterize it held-but-unusable (no usable reference, no write path: reading needs ptrace which N2 denies; async submission unavailable so no pending write); v8/v9's unqualified 'none by a principal outside the tree' is explicitly corrected (v10:640-667), matching the v9 reviewer's suggested restatement. The enumeration basis is both syscall tables (AUDIT_ARCH_AARCH64 and the ARM compat table) plus the four holder classes (task-work/delayed-fput, UNIX-socket GC, outside get_task_mm/get_task_exe_file, io-workqueue/kernel-thread) — a 1:1 match to the basis the v9 review demanded (v10:685-703). The discharge/refute predicate is a state to observe: the committed capture byte-equals a re-read taken after every enumerated holder class is shown released; refuted if any byte or stat_key field differs after populated 0 (v10:272, v10:329). As a predicate it is sound and would establish absence of post-commit writes through the enumerated holders IF the observation were produced, conditional on enumeration completeness (OPEN). The 'never a silent change' self-check overclaims are withdrawn (v10:668-677, 709-717, 719-729, 277-279). Residual (abstract, no required change): the spec does not name the observable confirming 'released' for the outside-holder class, deferring it to the operator procedure; and an indefinitely-stalled holder is a dischargeability limit, not a predicate defect. P-ASYNC stays NAMED_UNESTABLISHED; W1-V7-HOLDER-STATE OPEN; refutation exercise operator-reserved and OPEN (v10:360).",
+ "noowner_assessment": "CLOSED_AT_SPEC_LEVEL. P-NOOWNER's inventory is extended from rules naming N to an inventory obligation over every principal, for both N and W: no sudoers rule of any principal whose Runas set resolves to the identity through ALL/%group/#uid/alias/negation; no polkit grant to any subject for unit management or exec-as-user; sudo -l -U run for every non-root account incl. cosmov1lab/wlrehearsal/wldrill/worldline (v10:120-126, 555-602, 628-636, 680-684, 358, 778-783). States what must be shown, not how to probe. P-NOOWNER stays critical and NAMED_UNESTABLISHED.",
+ "enum_userdel_assessment": "CLOSED_AT_SPEC_LEVEL. USERGROUPS_ENAB co-removal modelled for k3 and k4 (k3->k1, k4->k2); intermediates X1-X3 under the file-update order; completed co-removal W_A(k4) and X4=W_B(k3); S-R reverse/resume rules from W_A/W_B/X1-X3 never issue a failing groupdel (v9 stop defect removed); /var/log/lastlog captured as observed co-object (v10:731-783). Counts re-derived through JACKAL (status=exact, lane rat, NOT formal-bounded): without images 67 (I1' and cross-check 63+4), with images 104 (I2' and cross-check 100+4), matching the v9 reviewer's independent recount.",
+ "plan_constraints_assessment": "CLOSED_AT_SPEC_LEVEL. v9's U-11 (raw prover under strace outside a reviewed frame) is withdrawn as contrary to START-CLAUDE.txt:8 (verified). The only allowlisted-action runs are the I-7 differential runs, each under fresh original admission + a dispatch-stage Gate 0 receipt in a reviewed adopted frame, with an original-vs-original nondeterminism control; the facility census is S-6 source reading (E0). Until a reviewed adopted frame and that Gate 0 receipt exist, I-7 is blocked by those original gates (v10:331, 334-342). No capacity gate is lowered; the 64 MiB-selftest-allowance misuse the v9 review flagged is removed. PREMISE-ORDER is also CLOSED_AT_SPEC_LEVEL: review of the E0 critical-premise discharges precedes O-1 installing the sudo rules, and S-1 binds the running kernel image and build-id (v10:288-293, 389-394).",
+ "e0_staging_assessment": "Correct. The E0 entry rule (v10:212-217) is a five-clause conjunction (unprivileged; mutates nothing outside a lead scratch dir; runs no prover/compiler/WORLDLINE code; creates no set-ID/cap object; exercises no privilege boundary) with 'fails any clause => not E0'. E0 holds only source readings S-1..S-6 and benign unprivileged observations on the lead's own sacrificial objects (v10:295-311); any v9 phase-U step creating a set-ID/cap object, driving a boundary, or running the prover is moved to E1 (v10:310-311). Every boundary exercise is E1/E2 operator-reserved with an obligation+predicate only (v10:218-227, 313-319, 360). 'redesign, no exception' kept (v10:206-209, 285). The lead MAY execute the E0 source readings/benign observations before endorsement; this review neither authorizes nor executes them.",
+ "form_assessment": "PARTIALLY_CLOSED for W1-V9-FORM-CONSISTENCY; W1-V8-FORM-SUBUNIT REGRESSED (disclosed as W1-V10-FORM). Sampled COMPOSED/NEW v10 unit hashes (title, 0, V10-0.1, V10-0.7, 13, 13.1, 13.2, 16, 16.1, 20, 23, 18.5 map, 18.5-R, V10-C.2) all match §18.5-R/jackal.json byte-for-byte; sampled v9 CARRIED/AMENDED bindings (title, 0.2, 2.2, 4.6, 5.3, 9.8, 11.4, B.3) all match the §18.5 table and the v9 file; the sealed v9 review file hashes verify; the amendment anchors checked all exist verbatim in v9. Three v9 defects fixed (P-SECCOMP in the title list v10:24; role-identity-v2; scope-v3/census-v2; candidate view baseline evidence-only). NEW defect: §V10-C.2 (v10:1054-1056) and jackal.json I4'/I5' state 101 CARRIED/22 AMENDED/31 changed, but the actual change map (v10:887-1020) has 100 CARRIED/23 AMENDED/32 changed (23 AMENDED units counted and matched 1:1 to the Part V10-A amendment blocks); JACKAL confirms 100+23+9+2=134 and 23+9=32. The sum reaches 134 only by the off-by-one compensating; no unit is lost but the summary and the support artifact are wrong. Appendix I self-referential unit recorded as 3189/d7d3aec7 but is 3188/b116ddf2 in the assembled file (one trailing newline). W1-V10-FORM is the correct disposition and not a blocker to this review (anchors exist, edits precise), but it regresses W1-V8-FORM-SUBUNIT and the composed AMENDED bytes are not byte-pinned: the anchors are reflowed single-line while v9 is hard-wrapped (e.g. the 12.2 step-12 anchor spans v9:3182-3183), and no normalization rule is stated.",
+ "review_provenance_assessment": "Correctly stated as a change to an original admission join, not closed, adoption blocked (NEW §23, v10:442-536). Authority quoted verbatim and verified against STATUS.md ~17:05Z (v10:456-460). Original texts quoted verbatim and verified to the exact line: HANDOFF.md:173 and complete-phase1-prompt.txt:60 (v10:462-469). 14 dependent sites enumerated (v10:492-529), a superset of the v9 review's list, mirrored in the Part V10-A block (v10:825-861). Replacement join precise: sealed review-freeze over REVIEW.md/review.json/checks.json, raw-final-message.txt, reviewer agent id, reviewer task-output sha256, reviewer_kind claude-subagent, different_from_author true; never a label alone; never a GPT claim; gpt-6.1-sol rollout_join retained for GPT reviews, selected by reviewer_kind; neither form => refuse (v10:476-490). Adoption blocked until reviewed in the frame-design revision; not asserted 'not a loosening' (v10:449-454, 531-536, 405-411). MINOR DEFECT: the prompt is cited under .../outputs/complete-phase1-prompt.txt (v10:58, 467, 1085) but the file is at /home/sicarii/Documents/complete-phase1-prompt.txt; quoted text and line are correct, only the path is wrong. Correct disposition overall.",
+ "required_changes": [
+  {
+   "id": "W1-V10-COUNT",
+   "change": "Correct the unit-status partition in §18.5/§V10-C.2 and in v10-support/jackal.json I4'/I5' to the actual change map: 100 CARRIED, 23 AMENDED, 9 COMPOSED, 2 SUPERSEDED; changed = 23+9 = 32. Re-derive both sums through JACKAL.",
+   "reason": "§V10-C.2 and jackal.json state 101 CARRIED/22 AMENDED and 'changes 22+9=31', but the §18.5 table has 100 CARRIED/23 AMENDED (the 23 AMENDED units match the 23 Part V10-A amendment blocks 1:1) and 23+9=32 changed. The sum reaches 134 only by the off-by-one compensating. This is a body/summary contradiction of the W1-V9-FORM-CONSISTENCY class, propagated into the support artifact.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:1054",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:887",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:1020",
+    "v10-support/jackal.json:66",
+    "v10-support/jackal.json:74"
+   ]
+  },
+  {
+   "id": "W1-V10-FORM",
+   "change": "Keep OPEN. (a) State the whitespace/line-wrap normalization rule under which Part V10-A anchored edits compose to a unique byte sequence, so each AMENDED unit's composed v10 bytes are reproducible and hashable (the change document otherwise does not fix the composed bytes). (b) Correct the Appendix I self-referential identity (byte count 3189->3188, v10_sha256 d7d3aec7...->b116ddf2...) to match the assembled file.",
+   "reason": "Change-document form regresses the W1-V8-FORM-SUBUNIT self-containment; the 23 AMENDED units' composed bytes are unmaterialized and, because anchors are quoted reflowed while v9 is hard-wrapped, not uniquely determined; one recorded self-referential unit hash does not match the file.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:74",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:187",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:792",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:1045",
+    "v10-support/jackal.json:99"
+   ]
+  },
+  {
+   "id": "W1-V9-REVIEW-PROVENANCE",
+   "change": "Residual (minor): correct the source path of the prompt to /home/sicarii/Documents/complete-phase1-prompt.txt (there is no copy under .../outputs/) at v10:58, v10:467 and v10:1085; the quoted text and line are correct. The join change remains a change to an original admission join, to be reviewed in the frame-design revision before any adoption relies on it.",
+   "reason": "§23's purpose is to state the change exactly with the original texts it changes; a wrong source path undermines 'stated exactly'.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:58",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:467",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:1085"
+   ]
+  },
+  {
+   "id": "W1-V8-PRESERVATION-ESTABLISH",
+   "change": "Still required (execution-bound): establish §21 for every OPEN V/C/D row, or redesign.",
+   "reason": "Every §21 row OPEN; v10 establishes none.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:179",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:343"
+   ]
+  },
+  {
+   "id": "W1-V8-PREMISE-DISCHARGE",
+   "change": "Still required (execution-bound), in the order fixed by W1-V9-PREMISE-ORDER.",
+   "reason": "Every N7 premise NAMED_UNESTABLISHED.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:181",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:288"
+   ]
+  },
+  {
+   "id": "W1-V8-EVIDENCE-EQUIV",
+   "change": "Still required (execution-bound): B1-B5 for U-14/I-6; safe fresh capacity OPEN.",
+   "reason": "Equivalence and capacity unestablished.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:183",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:330"
+   ]
+  }
+ ],
+ "open_obligations": [
+  "All 219 entries of OBLIGATIONS-v2.json (sha256 1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec)",
+  "V5-B01",
+  "V5-B02",
+  "W1-V5-PRESERVATION",
+  "W1-V6-READ-MUTATION",
+  "W1-V7-HOLDER-STATE",
+  "Gate 0 (capacity, NOT ESTABLISHED)",
+  "Every N7 critical premise: P-KSRC, P-NOSUID, P-NOCAP, P-NOOWNER, P-SECCOMP, P-ASYNC (all NAMED_UNESTABLISHED)",
+  "P-ASYNC / P-RELEASE asynchronous-holder containment (closed specification; refutation exercise operator-reserved and OPEN)",
+  "W1-V10-FORM (change-document form regression of W1-V8-FORM-SUBUNIT; composed AMENDED bytes unmaterialized)",
+  "W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-EVIDENCE-EQUIV (execution-bound)",
+  "Review-provenance join change D-LEAD-REVIEW-PROVENANCE (§23): not reviewed; adoption impossible until reviewed in the frame-design revision",
+  "Every earlier PARTIALLY_CLOSED / open gap and sub-gap carried from the sealed v9 review"
+ ],
+ "approval_granted": false,
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "81419b7a6a830b78d6232412dfe686b9bb8ca9706f120a0caa1e1bd2fa515833",
+ "checks": {
+  "path": "proposal/v10-review/claude-v1/checks.json",
+  "sha256": "77ac006039e29c8124506069a7ee07139394a2741daf6d3227b85b4642394583",
+  "bytes": 13406,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "aae3a07f9c8701b8e",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/aae3a07f9c8701b8e.output",
+  "source_task_output_sha256": "91f6cf7d577f30cce3a8caa54dabc1d764c1d7d19611003f4467bc3d3f6a60b8"
+ }
+}

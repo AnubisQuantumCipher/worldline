@@ -1,0 +1,110 @@
+{
+ "reviewer": "independent Claude Code review subagent (claude-opus-5-5), fresh context",
+ "reviewer_kind": "claude-subagent",
+ "different_from_author": true,
+ "shell_hygiene": "no file written anywhere; no stdin-reading command (</dev/null used); no backgrounded command; os.listdir used (ls aliased to eza avoided)",
+ "hashes_computed": [
+  {"file": "briefs/w1-design-v10.md", "sha256": "6535ed5096e46c8978ce4b4ad2abfee83e0ed4d49cde313ca10895fc74e04335", "note": "brief; matches none stated (computed as requested)"},
+  {"file": "proposal/ISOLATION-STORAGE-PROPOSAL-v10.md", "sha256": "d5fe8f3152dd8782adeee65478d7f70fb06e5fac50f0b17943d53598da66d8ef", "bytes": 111456, "lines_newline_terminated": 1101, "matches_brief": true},
+  {"file": "proposal/v10-support/jackal.json", "sha256": "a3e84a9ce492cc53dda10ef4c23e7f2ccbd7838a1ab9e9d3645003ed72089252", "matches_brief": true},
+  {"file": "proposal/ISOLATION-STORAGE-PROPOSAL-v9.md", "sha256": "4bc0272c0c7b586a7e161b82318b7ae4a0b732067081e3a4073ea1dd3d22b53b", "bytes": 562201, "lines": 5143, "matches_brief_and_v10": true},
+  {"file": "proposal/v9-review/claude-v1/REVIEW.md", "sha256": "51e80795e688bc11df156d47ca86646da45be0dce41659db3a36cddfeb851637", "matches_freeze_and_v10": true},
+  {"file": "proposal/v9-review/claude-v1/review.json", "sha256": "050ef9d7cf3978bc7b7c8fd98d347a969808e248921bec4225404904bd3fef51", "matches_freeze": true},
+  {"file": "proposal/v9-review/claude-v1/checks.json", "sha256": "d60de10ba6dd43bcabea976c169590007dea58407c08c1247a27eab934dc1ca4", "matches_freeze": true}
+ ],
+ "v10_composed_new_unit_recompute": {
+  "method": "Python splitlines(keepends=True) over the v10 file; unit bytes = concatenation of the unit's physical lines per v9 §0.1 rule; compared to §18.5-R / jackal.json",
+  "verified_match": [
+   {"unit": "title", "lines": "1-71", "bytes": 6651, "sha256": "ab0496b948a1ef2d37461d85fc6c44a9d0067a5c830d2912922c1f1ccb43d6ec"},
+   {"unit": "0", "lines": "72-73", "bytes": 52, "sha256": "6e1fd6a108ee4d6a497569c852da181f58f9e65bc38a0fcc8f1f0674ad4693ec"},
+   {"unit": "V10-0.1", "lines": "74-97", "bytes": 1887, "sha256": "b0277d0565e04c2738f48e513f312aa12c5a61786fc40e3cb3906797ab503e4a"},
+   {"unit": "V10-0.7", "lines": "98-193", "bytes": 9248, "sha256": "eb795b24436f6a4fcae835f67218af037751398771f45b04221aa97dcc6a52b2"},
+   {"unit": "13", "lines": "203-258", "bytes": 5596, "sha256": "1dab407ff5beef49e5162d3263a0a68feb46183b6b8bb4c8d905b2e22d75570b"},
+   {"unit": "13.1", "lines": "259-280", "bytes": 5704, "sha256": "ba84454a84746f7b8acd1772335176c3c3d0ccd9f5ba0171560a19b7d475d1c6"},
+   {"unit": "13.2", "lines": "281-348", "bytes": 9779, "sha256": "55046813f122a145c66c4e4e5c0ea466bbcf4471e1d0a97fb273da924a40a353"},
+   {"unit": "16.1", "lines": "349-367", "bytes": 3881, "sha256": "ea8283a12b1bd2b47c3d1eb8cc7b33e7c5ec384e4bcbd6faac6400f4522ba237"},
+   {"unit": "16", "lines": "368-412", "bytes": 4135, "sha256": "b81f8673e563d44205721fce22d4e0dd752ae27e17d93609d4a82ca28f887ef2"},
+   {"unit": "20", "lines": "413-441", "bytes": 2776, "sha256": "9e4b6fe48866179f3a9fe0e6e6ac676973ae033de7cfafc0b1d47093a69c2582"},
+   {"unit": "23", "lines": "442-539", "bytes": 8403, "sha256": "98883301a22a964bee77897a745292e360e21c27513278305dd2287686540ec6"},
+   {"unit": "18.5 map", "lines": "875-1023", "bytes": 15746, "sha256": "f3297aeadcf15bb9aefbc0fc60b7958ee1c418ddc0a52f472c199a90af3ece8b"},
+   {"unit": "18.5-R", "lines": "1024-1051", "bytes": 2878, "sha256": "fa83e91ab20c7c0332aedea6f1f483ea30189beee6e024f0e31503ea2636989a"},
+   {"unit": "V10-C.2", "lines": "1052-1060", "bytes": 762, "sha256": "fe5ccf8ac84977cbd8e9eb1cd10d0140603f7b0e2d3e57c316e72200ee332fda"}
+  ],
+  "mismatch": [
+   {"unit": "Appendix I", "lines_recorded": "1061-1102", "recorded_bytes": 3189, "recorded_sha256": "d7d3aec701f7f5686c442a9cc7df8b28f3a803d4fe0db776c0c0127034fb00e6", "actual_bytes_to_EOF": 3188, "actual_sha256": "b116ddf21d76f32bab15a53fac644d2a5dec98060bad56f90cff04484a4cb434", "note": "off by exactly one trailing newline; file has 1101 newlines, jackal.json design_lines 1102 reflects the counting-convention difference"}
+  ]
+ },
+ "v9_carried_amended_binding_recompute": {
+  "method": "Python splitlines(keepends=True) over the v9 file; v9 line ranges and sha256 from v10 §18.5 table; all matched",
+  "verified_match": [
+   {"unit": "title", "v9_lines": "1-55", "bytes": 4912, "sha256": "1f2d0a2e955f43bcfcae97b3addf521b098f980ca79cd84f37f80accc78820e5"},
+   {"unit": "0.2 (CARRIED)", "v9_lines": "75-98", "bytes": 2266, "sha256": "2986013a0b6f35c6d88d74e8e6c50b20c0ad4c9aebe7edff78fd0756ea2691c4"},
+   {"unit": "2.2 (AMENDED base)", "v9_lines": "233-244", "bytes": 1073, "sha256": "f954d0a34a6d4eb0952d04b74d966e115ece877ea302dcba7cda7df19b569c2c"},
+   {"unit": "4.6 (AMENDED base)", "v9_lines": "820-884", "bytes": 5877, "sha256": "00b3ed65328eb21773f171bf89852ac17c227e4c242c254aa4e2bc5c739eb234"},
+   {"unit": "5.3 (AMENDED base)", "v9_lines": "948-971", "bytes": 4545, "sha256": "afba96af1fe021ef8a8705a4bfcf785481182ae4698070d3a361169694e4a647"},
+   {"unit": "9.8 (AMENDED base)", "v9_lines": "1835-2085", "bytes": 29524, "sha256": "9d84e8e6f9f01c833468290b639c6804994cce69b9ff9b0fed542baafd5c84d5"},
+   {"unit": "11.4 (AMENDED base)", "v9_lines": "2487-2638", "bytes": 14925, "sha256": "165128c67ddb943e055d82157760cd177c45aeadfc38ca30b694a10b97db6182"},
+   {"unit": "B.3 (AMENDED base)", "v9_lines": "4420-4468", "bytes": 13602, "sha256": "d5d6f30ee183ad65fa9cfb379b627511d632aec8174bc24499e0ab9f621c8b6c"}
+  ]
+ },
+ "change_map_partition_count": {
+  "method": "Python parse of the §18.5 table data rows (v10 lines 886-1020); status = last table cell",
+  "observed": {"CARRIED": 100, "AMENDED": 23, "COMPOSED": 9, "SUPERSEDED": 2, "total_data_rows": 134, "header_rows": 1},
+  "document_claim_V10C2_and_jackal": {"CARRIED": 101, "AMENDED": 22, "COMPOSED": 9, "SUPERSEDED": 2, "changed": 31},
+  "amended_units_listed": ["2.2","2.3","4.2","4.6","5.3","6.1","8.1","8.6","9.1","9.3","9.8","10.6","11.3","11.4","11.5","11.6","12.2","12.3","15.3","17","21.3","B.3","App. D"],
+  "amended_units_count": 23,
+  "cross_check": "the 23 AMENDED units match the 23 units carried by Part V10-A amendment blocks 1:1",
+  "finding": "document and support artifact misstate CARRIED/AMENDED/changed as 101/22/31; correct is 100/23/32; sum 134 holds only by off-by-one compensation"
+ },
+ "amendment_anchor_checks_v9": {
+  "method": "grep for the Part V10-A quoted old-text anchors in the v9 file",
+  "found_verbatim": [
+   "N4(iv) old clause @ v9:1971",
+   "'none by a principal outside the tree' @ v9:1984",
+   "§11.4 W_A bullet @ v9:2584",
+   "§5.3 sudo W/N cells @ v9:958",
+   "§2.2 'runs RL's code and exits' @ v9:242",
+   "§11.6 candidate view baseline @ v9:3044",
+   "§10.6 'never as a silent change' @ v9:2356",
+   "reachable-set count 'Their number is 63' @ v9:2586",
+   "§12.2 step-12 descriptor anchor @ v9:3182-3183 (spans a hard-wrapped line break; v10 quotes it reflowed)"
+  ],
+  "note": "anchors exist; the reflow-vs-hard-wrap mismatch is the basis for the W1-V10-FORM byte-pinning required change"
+ },
+ "requirement_text_verification": {
+  "complete-phase1-prompt.txt:60": "verbatim match to v10 §23.3 quote; file located at /home/sicarii/Documents/complete-phase1-prompt.txt (NOT under outputs/ as v10 cites)",
+  "HANDOFF.md:173": "verbatim match to v10 §23.3 quote; file at outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+  "START-CLAUDE.txt:8": "contains 'launch the raw prover outside the reviewed frame' prohibition supporting W1-V9-PLAN-CONSTRAINTS",
+  "STATUS.md ~17:05Z": "verbatim match to v10 §23.2 authority quote",
+  "STATUS.md ~18:40Z": "records the safety-classifier stop that grounds the obligation-only framing",
+  "frame v5 review REVIEW.md:72,82": "V5-B01 (stale-file revalidation) and V5-B02 (TOCTOU on frame-owned mutation; needs enforced location custody) are the two BLOCKING confinement findings; v10 keeps both OPEN"
+ },
+ "jackal_calls": [
+  {"tool": "mcp__jackal__jackal_exact", "expression": "4+5+3+2+2+1+1+1+1+7+10+4+6+3+3+4+0+0+2+1+1+1+1+1+1+1+1", "parsed": "4+5+3+2+2+1+1+1+1+7+10+4+6+3+3+4+0+0+2+1+1+1+1+1+1+1+1", "exact": "67", "status": "exact", "lane": "rat", "formal": false, "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I1' reachable set without images; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "63+4", "parsed": "63+4", "exact": "67", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I1'' cross-check; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "4+5+3+2+2+1+1+1-2+13+1+7+10+4+6+3+3-4+26+4+0+0+2+1+1+4+1+1+1+1+1+1", "parsed": "4+5+3+2+2+1+1+1-2+13+1+7+10+4+6+3+3-4+26+4+0+0+2+1+1+4+1+1+1+1+1+1", "exact": "104", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I2' reachable set with images; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "100+4", "parsed": "100+4", "exact": "104", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I2'' cross-check; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "1+1+1+1+1+1+1+1+1", "parsed": "1+1+1+1+1+1+1+1+1", "exact": "9", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I3' nine v9-review required changes; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "101+22+9+2", "parsed": "101+22+9+2", "exact": "134", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I4' as stated by v10: arithmetic exact but operands 101/22 WRONG vs the actual map 100/23"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "22+9", "parsed": "22+9", "exact": "31", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I5' as stated by v10: arithmetic exact but operand 22 WRONG; should be 23"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "100+23+9+2", "parsed": "100+23+9+2", "exact": "134", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "correct partition sum (reviewer)"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "23+9", "parsed": "23+9", "exact": "32", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "correct changed-unit count (reviewer)"}
+ ],
+ "files_read": [
+  {"path": "scratchpad/review-override-v2.txt", "lines": "1-13 (full)"},
+  {"path": "briefs/w1-design-v10.md", "lines": "1-88 (full)"},
+  {"path": "proposal/ISOLATION-STORAGE-PROPOSAL-v10.md", "lines": "1-1102 (full, in pages)"},
+  {"path": "proposal/v10-support/jackal.json", "lines": "1-113 (full)"},
+  {"path": "proposal/ISOLATION-STORAGE-PROPOSAL-v9.md", "lines": "targeted: unit-hash ranges + anchor regions 242,958,970,1971,1984,2356,2584,2586,3178-3186,3384,3044,51-52"},
+  {"path": "proposal/v9-review/claude-v1/review-freeze.json", "lines": "1-22 (full)"},
+  {"path": "proposal/v9-review/claude-v1/REVIEW.md", "lines": "1-201 (full)"},
+  {"path": "proposal/v9-review/claude-v1/review.json", "lines": "1-296 (full)"},
+  {"path": "STATUS.md", "lines": "275-295, 324-348"},
+  {"path": "../../../../outputs/claude-phase1-handoff-20261004/HANDOFF.md", "lines": "168-178"},
+  {"path": "../../../../outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt", "lines": "1-12"},
+  {"path": "/home/sicarii/Documents/complete-phase1-prompt.txt", "lines": "55-66"},
+  {"path": "../../../claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md", "lines": "70-90 (V5-B01, V5-B02)"}
+ ],
+ "not_read_per_independence": ["any v10 review directory", "review-records/ and review-records/live/", "any gpt61-v* dir of this revision", "drafts in progress", "session transcripts/rollouts", "~/.local/share/sia/.gbrain/"],
+ "consequence_ceiling": "informational for all JACKAL arithmetic (exact rational, not formal-bounded; no ceiling field returned); this review grants no acceptance/approval/exception and no proof/phase/source acceptance"
+}

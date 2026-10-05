@@ -1,0 +1,370 @@
+I have completed a full, independent, adversarial review. All hashes verified, all JACKAL arithmetic routed and confirmed, all amendment anchors located in v9, and all cited requirement texts checked verbatim. Producing the required final-message format.
+
+=== REVIEW.md ===
+# W-1 v10 independent design review (ISOLATION-STORAGE-PROPOSAL-v10.md)
+
+**Reviewer:** an independent Claude Code review subagent (claude-opus-5-5) with a fresh context. I authored nothing under review and I am not the drafting agent. This is a design review on W-1's own design-review track; v6/v7 (gpt-6.1-sol) and v8/v9 (independent Claude subagents) were all NOT_ENDORSED.
+
+**Verdict: NOT_ENDORSED.** This review grants no acceptance, approval, exception, proof acceptance, phase acceptance or source acceptance. Every original Phase One obligation stays OPEN with its original owner, release and dependencies.
+
+**Hashes (computed by this reviewer):**
+- Brief `briefs/w1-design-v10.md`: sha256 `6535ed5096e46c8978ce4b4ad2abfee83e0ed4d49cde313ca10895fc74e04335`.
+- Override `scratchpad/review-override-v2.txt`: read in full; item 6 shell hygiene applied (no file written, no stdin-reading command, no backgrounding, `command ls`/os.listdir only).
+- v10 under review: `d5fe8f3152dd8782adeee65478d7f70fb06e5fac50f0b17943d53598da66d8ef`, 111456 bytes, 1101 newline-terminated lines (6 trailing blank). Matches the brief.
+- `v10-support/jackal.json`: `a3e84a9ce492cc53dda10ef4c23e7f2ccbd7838a1ab9e9d3645003ed72089252`. Matches the brief.
+- v9 base: `4bc0272c0c7b586a7e161b82318b7ae4a0b732067081e3a4073ea1dd3d22b53b`, 562201 bytes, 5143 lines. Matches the brief and v10:28.
+- Sealed v9 review `proposal/v9-review/claude-v1`: REVIEW.md `51e80795…637`, review.json `050ef9d7…f51`, checks.json `d60de10b…ca4`. All match `review-freeze.json` and v10:7-9. Read REVIEW.md and review.json in full. Reviewer agent id `a2f0fe859b64fb102`, task-output sha256 `ec4f6227…839a` (review.json `sealed_by`).
+
+**Independence and limits.** I did not read: any v10 review directory, `review-records/`, `review-records/live/`, any gpt61-v* directory of this revision, the v9 author-process drafts in progress, or any session transcript/rollout; I did not read `~/.local/share/sia/.gbrain/` and did not list or stat `/home/sicarii`, `~/iPad` or `~/iPadBackup`. No SIA note was written (the SIA MCP server also disconnected mid-session; no SIA query was relied on). Nothing was executed but passive reading, read-only hashing/counting in Python, and JACKAL (MCP) calls. No WORLDLINE/COSMOGONY/frame code, prover, compiler, sudo, systemctl, project-vault or restic was run. Kernel behaviour I could not verify against installed source is labelled "(my unverified reasoning on upstream behaviour)"; v10 itself re-fetched no kernel/systemd/sudo source and relies on v9's dated observations under P-KSRC (v10:1087-1091), which I did not independently re-derive.
+
+**Sensitive-area handling.** Per the brief's SENSITIVE-AREA NOTE and override, I judged W1-V9-ASYNC-ENUM and every privilege-boundary probe only as OBLIGATION + discharge/refute PREDICATE. I did not request, write or reward any step-by-step procedure or exploit detail. The ~18:40Z safety-classifier stop that forced this framing is recorded in STATUS.md and is a legitimate operator-grounded deferral, not a narrowing.
+
+---
+
+## 1. Closure of the nine W1-V9 required changes, the three carried execution-bound changes, and the earlier open items
+
+Legend: CLOSED_AT_SPEC_LEVEL / PARTIALLY_CLOSED / NOT_CLOSED. "Plan sufficiency" = would the specified probe, IF it produced the stated observation, establish the item (none is executed; v10:286, v10:427).
+
+| Required change | This review | Plan sufficiency (nothing executed) |
+|---|---|---|
+| **W1-V9-ASYNC-ENUM** | **CLOSED_AT_SPEC_LEVEL** (§2) | The byte-equality-after-release predicate (v10:272) would, if observed, establish absence of post-commit writes through the enumerated holders — conditional on enumeration completeness, which is the OPEN P-ASYNC obligation. |
+| **W1-V9-NOOWNER-SCOPE** | **CLOSED_AT_SPEC_LEVEL** (§3) | Inventory-obligation form; P-NOOWNER stays critical/NAMED_UNESTABLISHED. |
+| **W1-V9-ENUM-USERDEL** | **CLOSED_AT_SPEC_LEVEL** (§4); counts JACKAL-verified 67/104 | O-5 would rehearse against the completed 67/104 table incl. X1–X4=W_B. |
+| **W1-V9-PLAN-CONSTRAINTS** | **CLOSED_AT_SPEC_LEVEL** (§5) | I-7 gated behind fresh original admission + dispatch-stage Gate 0 in a reviewed adopted frame, with a nondeterminism control; else blocked. |
+| **W1-V9-PREMISE-ORDER** | **CLOSED_AT_SPEC_LEVEL** (§5) | Review of E0 critical-premise discharges precedes O-1; S-1 binds running kernel image+build-id. Discharges stay OPEN. |
+| **W1-V9-RL-SELFTEST-FIXTURE** | **CLOSED_AT_SPEC_LEVEL** as a removal requirement (§5) | S-5 code review (execution-bound) must show no installed/S1/RL-reachable path creates a set-ID/cap object or affects real state. |
+| **W1-V9-INVENTORY** | **CLOSED_AT_SPEC_LEVEL** for inventory + fd rule (§7) | New V15/V16/V17 OPEN with §13.2 routes; fd set {0,1,2} exact; after-step-8 descriptors CLOEXEC/closed. |
+| **W1-V9-REVIEW-PROVENANCE** | stated as a change, **not closed**; adoption blocked (§8) — one minor path-citation defect | Correct disposition; implemented and reviewed only in the frame-design revision. |
+| **W1-V9-FORM-CONSISTENCY** | **PARTIALLY_CLOSED** (§6) — three v9 defects fixed, but a NEW inconsistency introduced (unit-partition miscount) | — |
+| **W1-V8-PRESERVATION-ESTABLISH** (carried) | **NOT_CLOSED** | Every §21 V/C/D row OPEN; routes preserved (v10:179-180). |
+| **W1-V8-PREMISE-DISCHARGE** (carried) | **NOT_CLOSED** | Premises NAMED_UNESTABLISHED, now in the PREMISE-ORDER order (v10:181-182); none discharged. |
+| **W1-V8-EVIDENCE-EQUIV** (carried) | **NOT_CLOSED** | B1–B5 predicates preserved; safe fresh capacity OPEN (v10:183-184). |
+
+**Previously-CLOSED items — regression check (brief requirement).**
+- **W1-V8-WRITER-AS-W**: stays **CLOSED_AT_SPEC_LEVEL**. Owner N removes the W vector; it now rests on the more-fully-inventoried P-NOOWNER (v10:120-126, A-§5.3 v10:568-602). Not regressed.
+- **W1-V8-FORM-SUBUNIT**: **REGRESSED** by the change-document form, disclosed by the author as OPEN item **W1-V10-FORM** (v10:31-44, 74-96, 187-190, 438-440). This is a genuine regression of a previously-closed item; see §6.
+
+**Earlier still-open obligations** stay OPEN and are not narrowed: V5-B01, V5-B02 (frame v5 review REVIEW.md:72/82 — the stale-file-revalidation and TOCTOU-on-frame-mutation BLOCKERS the same-identity view must answer), W1-V5-PRESERVATION, W1-V6-READ-MUTATION, W1-V7-HOLDER-STATE, Gate 0 (NOT ESTABLISHED), and all 219 `OBLIGATIONS-v2.json` entries (sha256 `1587e068…aeec`). v10:19-21, v10:415-417 confirm. v10 closes no obligation by itself (v10:20).
+
+## 2. W1-V9-ASYNC-ENUM as a closed specification (CLOSED_AT_SPEC_LEVEL)
+
+The v9 review's four defects (v9-review REVIEW.md:70-81, review.json io_redesign_assessment) are each answered:
+
+1. **Outside memory-context holder named and characterized held-but-unusable.** A-§9.8 N4(iv) (v10:640-654) and the "From (2) to (3)" paragraph (v10:655-667) now add the outside `get_task_mm`/`get_task_exe_file` holder reachable through a world-readable `/proc` file as a context for a deferred final `fput` after cgroup exit, holding a task-created mapping *reference* but no *usable* reference and no write path (reading needs ptrace, N2 denies; async submission unavailable, so no pending write). v8/v9's unqualified "none by a principal outside the tree" is explicitly corrected to the held-but-unusable statement (v10:666-667). This matches the v9 reviewer's own suggested restatement. **Correct as a specification.**
+2. **Enumeration basis defined.** The N7 P-ASYNC row (v10:685-703) is restated as a closed specification whose basis is every entry of both syscall tables (`AUDIT_ARCH_AARCH64` and the `AUDIT_ARCH_ARM` compat table) plus every known holder class that can retain a task-created file/memory reference past cgroup exit — task-work/delayed-`fput` workqueue, UNIX-socket GC, outside `get_task_mm`/`get_task_exe_file` holders, io-workqueue/kernel-thread. This is a 1:1 match to the basis the v9 review demanded. Each must be shown impossible under the stated confinement or incapable of changing committed bytes. Discharge is S-2 E0 source enumeration; O-ASYNC/I-5 refute only (v10:300, v10:360, v10:329).
+3. **Discharge/refute predicate (state to observe).** v10:272 and v10:329: the committed capture byte-equals a re-read taken *after every enumerated holder class is shown released*; refuted if any compared byte or `stat_key` field differs after `populated 0`. This directly encodes the v9 review's "observe after release" requirement: IF an operator probe genuinely produces that observation, it establishes absence of post-commit writes through the enumerated holders. **Sound as a predicate**, conditional on enumeration completeness (the OPEN obligation). The detailed drive-to-release procedure is operator-reserved and OPEN (v10:272, v10:360) — judged only at this level per the sensitive-area note.
+4. **Self-check overclaims withdrawn.** "never a silent change" is withdrawn in N4's absorbing sentence (v10:668-677), §10.6 (v10:709-717), §15.3 (v10:719-729) and §13.1 (v10:277-279); each self-check is restated as evidence for its own observation window only. **Correct.**
+
+Two abstract residuals (not procedure requests, no required change): (a) the predicate relies on "every enumerated holder class is shown released" but the spec does not name the *observable* by which "released" is confirmed for the outside-`get_task_mm` class, deferring it to the operator procedure — acceptable under the sensitive-area note, but a complete specification would name that release observable abstractly; (b) an outside holder able to stall the mm release indefinitely (the v9 review's FUSE point) means the predicate may be un-satisfiable for that path — a *dischargeability* limit, not a predicate-soundness defect; v10 correctly treats P-ASYNC as refute-only/OPEN and asserts no discharge (v10:421-426), which is fail-closed and honest. P-ASYNC stays NAMED_UNESTABLISHED; W1-V7-HOLDER-STATE stays OPEN.
+
+## 3. W1-V9-NOOWNER-SCOPE (CLOSED_AT_SPEC_LEVEL)
+
+The route inventory is extended from "rules that name N" to an inventory obligation over every principal, for both N and W: no sudoers rule of any principal whose Runas set resolves to the identity through `ALL`, `%group`, `#uid`, a `User_Alias`/`Runas_Alias` or a negation; no polkit grant to any subject for unit management or exec-as-user (e.g. `systemd-run --uid=`). Evidence: §V10-0.7 item 2 (v10:120-126); A-§2.3 (v10:555-566); A-§5.3 W and N cells + polkit row + the P-NOOWNER/P-W route-inventory paragraph (v10:568-602); A-§11.3 P12/P13 extended, incl. `sudo -l -U` for every non-root account `cosmov1lab`/`wlrehearsal`/`wldrill`/`worldline` (v10:628-636); A-§9.8 N7 P-NOOWNER row discharge-kind (v10:680-684); O-1 extended inventory (v10:358); A-§11.5 S-I capture (v10:778-783). The inventory states what must be shown, not how to probe — correct. P-NOOWNER stays critical and NAMED_UNESTABLISHED (an euid-N process in the initial namespace would hold full capabilities over an identity-mapped U8; v9-review §3).
+
+## 4. §11.4 §11.5 user-deletion state table (CLOSED_AT_SPEC_LEVEL; counts JACKAL-verified)
+
+`USERGROUPS_ENAB yes` co-removal is now modelled for k3 as well as k4 (k4→k2, k3→k1), with the intermediate states under the file-update order (X1–X3) and the completed co-removal states W_A (k4) and X4 = W_B (k3). S-R gains reverse/resume rules from W_A, W_B and X1–X3 that never issue a known-failing `groupdel` (the v9 stop defect, v9:2629, is explicitly removed). `/var/log/lastlog` captured as an observed co-object, never decided from. Evidence: A-§11.4 (v10:731-761), A-§11.5 (v10:763-783), §V10-0.7 item 3 (v10:127-134). Counts, re-derived through JACKAL (status=exact, lane rat, NOT formal-bounded): without images I1′ `4+5+3+2+2+1+1+1+1+7+10+4+6+3+3+4+0+0+2+1+1+1+1+1+1+1+1` = **67**, cross-check I1″ `63+4` = **67**; with images I2′ = **104**, cross-check I2″ `100+4` = **104**. These match the v9 reviewer's independent recount ("at least 67 … 63+1+1+1+1"; 100+… with images). **Correct.**
+
+## 5. Plan constraints, premise order, fixtures, E0/E1/E2 staging
+
+- **W1-V9-PLAN-CONSTRAINTS (CLOSED_AT_SPEC_LEVEL).** v9's U-11 (raw prover under `strace` outside a reviewed frame) is withdrawn as contrary to START-CLAUDE.txt:8 (I verified START-CLAUDE.txt:8 forbids "launch the raw prover outside the reviewed frame"). The only allowlisted-action runs are the I-7 differential runs, each under fresh original admission + a dispatch-stage Gate 0 receipt in a reviewed adopted frame, with an original-versus-original nondeterminism control; the facility census moves to S-6 source reading (E0). Until a reviewed adopted frame and that Gate 0 receipt exist, I-7 is blocked by those original gates. Evidence: §13.2 I-7 (v10:331), "stated plainly" (v10:334-342), §V10-0.7 item 4 (v10:135-140). No capacity gate is lowered; the 64 MiB-selftest-allowance misuse the v9 review flagged is removed.
+- **W1-V9-PREMISE-ORDER (CLOSED_AT_SPEC_LEVEL for ordering).** The independent review of the E0 source discharges of the critical premises (P-KSRC, P-NOSUID, P-NOCAP, P-NOOWNER, P-SECCOMP, P-ASYNC) is required before O-1 installs the sudo rules, because from the moment the S1 rule exists A1 can drive installed RL through `writer.py selftest`; S-1 binds the running kernel image and build-id. Evidence: §13.2 ordering (v10:288-293), §16 step 5b (v10:389-394), §16.1 note (v10:365-366), §V10-0.7 item 5 (v10:141-145). The discharges stay OPEN.
+- **W1-V9-RL-SELFTEST-FIXTURE (CLOSED_AT_SPEC_LEVEL as a removal requirement).** No installed path, nor any S1/RL-reachable path, creates a set-user-ID-root or file-capability object or drives a writer/selftest test-only switch; those fixtures are operator-only (O-2′, A6, sacrificial mount) and the test-only switches are removed from installed paths. Evidence: §13 Fixtures (v10:229-237), O-2′ (v10:359), A-§2.2 (v10:548-553), A-§9.8 N5 append (v10:704-707), §13.2 S-5 (v10:302), §V10-0.7 item 6 (v10:146-154). S-5 (the code review proving no installed/S1/RL path can affect real state) is execution-bound.
+- **E0/E1/E2 staging (brief item 5): correct.** The E0 entry rule (v10:212-217) is a five-clause conjunction (unprivileged; mutates nothing outside a lead scratch dir; runs no prover/compiler/WORLDLINE code; creates no set-ID/cap object; exercises no privilege boundary), and "a step that fails any clause is not E0". E0 holds only source readings (S-1..S-6) and benign unprivileged observations on the lead's own sacrificial objects (v10:295-311); any v9 phase-U step that would create a set-ID/cap object, drive a boundary, or run the prover is moved to E1 (v10:310-311). Every boundary exercise is E1/E2 operator-reserved (v10:218-227, 313-319). "redesign, no exception" is kept (v10:206-209, 285). So the lead MAY execute the E0 steps before endorsement; I neither authorize nor execute them. This is a positive and does not change the verdict.
+
+## 6. Form (change-document) — PARTIALLY_CLOSED; a new consistency defect and a disclosed regression
+
+**What verifies.** I recomputed, by the §0.1 unit rule over the assembled v10 file:
+- A sample of COMPOSED/NEW units — title (1-71), §0 (72-73), §V10-0.1 (74-97), §V10-0.7 (98-193), §13/§13.1/§13.2 (203-348), §16.1/§16 (349-412), §20 (413-441), §23 (442-539), §18.5 map (875-1023), §18.5-R (1024-1051), V10-C.2 (1052-1060) — **all byte counts and sha256 match §18.5-R / jackal.json exactly.**
+- A sample of v9 CARRIED/AMENDED bindings against the v9 file — title, §0.2, §2.2, §4.6, §5.3, §9.8, §11.4, App. B.3 — **all byte counts and sha256 match the §18.5 table and v9.** The sealed v9 review's own file hashes also verify, so the CARRIED/AMENDED v9 identities are anchored to a reviewer-verified base.
+- The amendment anchors I checked (N4(iv), "From (2) to (3)", §11.4 W_A bullet, §5.3 sudo cells, §2.2, §11.6, §10.6, §12.2 step 12, the reachable-set count sentence) all exist verbatim in v9, so each AMENDED edit is unambiguous enough to review against v9.
+
+**Three v9 FORM-CONSISTENCY defects fixed:** the title critical-premise list now names P-SECCOMP (v10:24; v9:51-52 omitted it); §8.1 → `wlscratch-role-identity-v2` (A-§8.1 v10:612-615); §9.1 → `wlscratch-scope-v3`/`wlscratch-census-v2` (A-§9.1 v10:617-619); §11.6 candidate view baseline = evidence only, never a comparison baseline (A-§11.6 v10:785-790). Evidence: §V10-0.7 item 9 (v10:173-176).
+
+**New consistency defect (the basis for PARTIALLY_CLOSED).** §V10-C.2 (v10:1054-1056) and `jackal.json` I4′/I5′ (jackal.json:66-80) state the unit partition as **101 CARRIED + 22 AMENDED + 9 COMPOSED + 2 SUPERSEDED**, and "v10 changes 22+9 = 31 units". The actual §18.5 change map (v10:887-1020) contains **100 CARRIED, 23 AMENDED, 9 COMPOSED, 2 SUPERSEDED**, and **23+9 = 32** changed units. I counted the table rows and confirmed the 23 AMENDED units (2.2, 2.3, 4.2, 4.6, 5.3, 6.1, 8.1, 8.6, 9.1, 9.3, 9.8, 10.6, 11.3, 11.4, 11.5, 11.6, 12.2, 12.3, 15.3, 17, 21.3, B.3, App. D) exactly match the 23 units carried by Part V10-A amendment blocks. JACKAL confirms both the stated sum (`101+22+9+2` = 134, `22+9` = 31) and the correct sum (`100+23+9+2` = 134, `23+9` = 32), all status=exact; so the arithmetic is valid but the operands 101/22/31 are wrong against the map (100/23/32), the error compensating to 134 only by the off-by-one. No unit is actually lost — all 134 rows are present and classified — but the change map's own summary (and the support artifact) misstate how many units carry inline edits. This is precisely the body/summary-contradiction class W1-V9-FORM-CONSISTENCY was raised to eliminate, newly introduced in v10's own bookkeeping. **Required change** (below).
+
+**Self-referential-unit hash miss.** §18.5-R/jackal.json record the last unit, Appendix I (lines 1061→EOF), as 3189 bytes / `d7d3aec7…`. The assembled file's actual bytes for that unit are **3188 / `b116ddf2…`** — off by exactly one trailing newline (the file ends "…unchanged.\n\n\n\n\n\n\n", 1101 newlines; jackal.json's `design_lines` 1102 reflects the one-line counting convention mismatch). Minor, but it means a recorded v10 identity does not match the file. **Required change** (below).
+
+**W1-V10-FORM (the disclosed regression).** v10 is a change document, not a self-contained re-composition; the composed v10 bytes of the 23 AMENDED units are not materialized and carry no computed per-unit v10 sha256 (v10:74-96, 187-190, 438-440). The author discloses this as a regression of W1-V8-FORM-SUBUNIT (which the v9 review had CLOSED) and records it OPEN. I judge **W1-V10-FORM is the correct disposition, not a blocker to THIS review** (the anchors exist in v9 and the edits are precise enough to assess), **but it is a genuine form regression**, and the composed AMENDED bytes are not actually byte-pinned: the anchors are quoted as reflowed single-line text while v9's bytes are hard-wrapped with newlines and indentation inside the quoted spans (e.g. the §12.2 step-12 anchor spans v9:3182-3183 with a leading-space continuation), and v10 states no whitespace/line-wrap normalization rule for applying the edits. So the "authoritative bytes = v9 bytes + described edits" claim does not yet yield a unique byte sequence. This must be stated as part of discharging W1-V10-FORM.
+
+## 7. W1-V9-INVENTORY (CLOSED_AT_SPEC_LEVEL for the inventory and descriptor rule)
+
+New OPEN V-rows with §13.2 discharge routes: V15 cross-mount `EXDEV` on `rename`/`link`/`renameat2` between the run tree, `TMPDIR` and any other host path (one mount in v5); V16 M_run idmap id restrictions (no `chgrp` to a supplementary group, no ACL entry naming an id ≠ 1000, unmapped→overflow id); V17 per-user-namespace keyrings. Evidence: §12.3 (A-§12.3 v10:802-812), §21.3 (A-§21.3 v10:814-823), §6.1 (A-§6.1 v10:604-610), §9.3 (A-§9.3 v10:621-626), §V10-0.7 item 7 (v10:155-163). RL must close or mark close-on-exec every descriptor opened after step 8 (the held g directory, helper ns fd, `open_tree` fds, Landlock ruleset fd, seccomp program fd) and verify its exact open-fd set is {0,1,2} before `execve`; G4/C1 check the exact {0,1,2} set, not fd types only (A-§12.2 v10:792-800; A-§9.3 v10:621-626). This matches the v9 review's required change. The new V-rows are OPEN like every V-row.
+
+## 8. W1-V9-REVIEW-PROVENANCE / §23 (stated as a change, not closed; adoption blocked; one minor path defect)
+
+NEW §23 (v10:442-536) states D-LEAD-REVIEW-PROVENANCE as a change to an original admission join (never as preservation):
+- **Authority stated exactly.** §23.2 (v10:456-460) quotes the operator's ~17:05Z direction verbatim; I verified it byte-for-byte against STATUS.md ("Whatever you're using GPT 6.1 SOL for you're gonna have to switch of your workflow and use your own agents for that now").
+- **Original texts quoted exactly.** §23.3 (v10:462-469) quotes HANDOFF.md:173 and complete-phase1-prompt.txt:60; I verified both quotes verbatim to the exact line in the source files.
+- **Every dependent site enumerated.** §23.5 (v10:492-529) lists 14 sites (§4.6 joins 1/2 and the uniqueness clause, §4.2 AD4/D7, §8.6, B.3, Appendix D J5/A3/A6, §17, §15.3, v5's compiled `REVIEW_PROFILE`, §16 step 9), a superset of the sites the v9 review named; the Part V10-A review-provenance block (v10:825-861) marks the same sites with their v9 sha256.
+- **Replacement join precise.** §23.4 (v10:476-490): sealed `review-freeze.json` over REVIEW.md/review.json/checks.json, `raw-final-message.txt`, reviewer agent id, reviewer task-output sha256, `reviewer_kind: claude-subagent`, `different_from_author: true`; never a label alone; never a GPT claim; the gpt-6.1-sol `rollout_join` retained for a GPT review, the form selected by `reviewer_kind`, a review of neither form refuses.
+- **Adoption blocked and not asserted "not a loosening".** §23.1/§23.6 (v10:449-454, 531-536), §16 step 9 + the closing paragraph (v10:405-411), §20 (v10:435-437): the change is not reviewed and adoption stays blocked until the frame-design revision reviews it; whether it "loosens nothing" is explicitly left as an argument for that review to judge, not a conclusion.
+
+This is the correct disposition and matches the v9 required change. **One minor defect:** §23.3, §V10-0.1 (v10:58) and Appendix I (v10:1085) cite the prompt as `…/outputs/complete-phase1-prompt.txt:60`, but that file is at `/home/sicarii/Documents/complete-phase1-prompt.txt` (there is no copy under `outputs/`; HANDOFF.md is under `outputs/`, the prompt is not). The quoted text and line number are correct; only the directory path is wrong. Because §23's whole purpose is to state the change "exactly" with the original texts it changes, the source path must be corrected. **Minor required change** (folded into W1-V9-REVIEW-PROVENANCE residual).
+
+## 9. Anything else that would weaken a contract, domain, case, fixture, control, threshold or proof floor
+
+- No obligation, fixture, control, threshold, accepted case, criterion, cap, gate or join is weakened by the change-document form or any amendment I reviewed; v10 adds no approval gate; every privileged element stays inside the existing reserved operator authority (v10:433-434, 350-354). The async self-check reclassification is a *withdrawal of an overclaim*, not a weakening. The candidate view baseline is downgraded to evidence-only, which is a tightening. The I-7 change tightens (removes the 64 MiB-selftest misuse and adds a nondeterminism control). V15/V16/V17 are disclosed as OPEN target-world changes, not narrowed away.
+- No unverified premise is presented as fact: every N7 premise is NAMED_UNESTABLISHED (v10:420), source readings are not installed-version discharges (v10:420-421), probes refute only, and the JACKAL arithmetic is correctly carried as `exact` (lane rat, NOT formal-bounded, informational) with no capacity/geometry/correctness claim (v10:428-430).
+- The §23 provenance change correctly refuses a label alone and never claims GPT — consistent with the override and the operator direction.
+
+## Why NOT_ENDORSED
+
+1. The core confinement obligations are unestablished and deferred: V5-B01, V5-B02, W1-V5-PRESERVATION, W1-V6-READ-MUTATION, W1-V7-HOLDER-STATE and every N7 critical premise stay OPEN/NAMED_UNESTABLISHED; v10 establishes nothing and routes all establishment to operator-run probes and a future independent review. The async-holder containment (P-ASYNC) — the heart of the V5-B01/B02 stale-file/TOCTOU confinement — is an OPEN obligation stated as a closed specification whose completeness is itself unestablished.
+2. W1-V9-FORM-CONSISTENCY is only PARTIALLY_CLOSED: v10 fixes the three v9 defects but newly introduces a verifiable body/summary contradiction — the §18.5/§V10-C.2 and jackal.json unit partition (101 CARRIED / 22 AMENDED / "changes 31") contradicts the actual change map (100 / 23 / 32).
+3. W1-V8-FORM-SUBUNIT (previously CLOSED) is regressed by the change-document form (W1-V10-FORM); the composed bytes of 23 AMENDED units are unmaterialized and not byte-pinned (no normalization rule), and the one self-referential unit hash checkable against the file (Appendix I) is wrong by one byte.
+4. The execution-bound W1-V8-PRESERVATION-ESTABLISH / -PREMISE-DISCHARGE / -EVIDENCE-EQUIV remain required and unclosed; the §23 provenance change is not reviewed, so the design cannot reach adoption.
+
+The design has made real progress — eight of the nine v9 items are CLOSED_AT_SPEC_LEVEL and the ninth (review-provenance) is correctly stated as an unreviewed change with adoption blocked — but it is not endorsable for the reasons above.
+
+## Required changes (none weakens any obligation)
+
+- **W1-V10-COUNT (new):** Correct the unit partition in §18.5/§V10-C.2 and in `v10-support/jackal.json` I4′/I5′ to the actual change map — 100 CARRIED, 23 AMENDED, 9 COMPOSED, 2 SUPERSEDED; 23+9 = 32 changed units — and re-derive the sums through JACKAL. (v10:1054-1056; jackal.json:66-80; map v10:887-1020.)
+- **W1-V10-FORM (carry OPEN, extend):** Keep OPEN, and (a) state the whitespace/line-wrap normalization rule under which the Part V10-A anchored edits compose to a unique byte sequence, so the AMENDED units' composed v10 bytes are reproducible and hashable; (b) correct the Appendix I self-referential `v10_sha256`/byte count (3189→3188, `d7d3aec7…`→`b116ddf2…`) to match the assembled file. (v10:1024-1050; jackal.json:96-99.)
+- **W1-V9-REVIEW-PROVENANCE (residual, minor):** Correct the source path for the prompt — it is `/home/sicarii/Documents/complete-phase1-prompt.txt`, not under `…/outputs/` — at v10:58, v10:467, v10:1085; the quoted text and line are already correct. The join change remains a change to an original admission join, to be reviewed in the frame-design revision before any adoption relies on it.
+- **Carried execution-bound (still required):** W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE (in the W1-V9-PREMISE-ORDER order), W1-V8-EVIDENCE-EQUIV. Every N7 critical premise discharge and the §21 V/C/D rows stay OPEN; the eight spec-closed v9 items remain design obligations whose execution-bound discharges and the §23 review are still pending.
+
+=== review.json ===
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v10.md",
+ "design_sha256": "d5fe8f3152dd8782adeee65478d7f70fb06e5fac50f0b17943d53598da66d8ef",
+ "support_sha256": "a3e84a9ce492cc53dda10ef4c23e7f2ccbd7838a1ab9e9d3645003ed72089252",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-4-8 (drafting subagent)",
+ "verdict": "NOT_ENDORSED",
+ "prior_closure": {
+  "W1-V9-ASYNC-ENUM": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-NOOWNER-SCOPE": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-ENUM-USERDEL": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-PLAN-CONSTRAINTS": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-PREMISE-ORDER": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-RL-SELFTEST-FIXTURE": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-INVENTORY": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V9-REVIEW-PROVENANCE": "STATED_AS_CHANGE_NOT_CLOSED (adoption blocked; minor source-path citation defect)",
+  "W1-V9-FORM-CONSISTENCY": "PARTIALLY_CLOSED (three v9 defects fixed; new unit-partition miscount introduced)",
+  "W1-V8-PRESERVATION-ESTABLISH": "NOT_CLOSED (execution-bound; every §21 V/C/D row OPEN)",
+  "W1-V8-PREMISE-DISCHARGE": "NOT_CLOSED (execution-bound; premises NAMED_UNESTABLISHED, now in PREMISE-ORDER order)",
+  "W1-V8-EVIDENCE-EQUIV": "NOT_CLOSED (execution-bound; B1-B5 predicates preserved; capacity OPEN)",
+  "W1-V8-WRITER-AS-W": "CLOSED_AT_SPEC_LEVEL (stays closed; rests on the now-fuller P-NOOWNER inventory)",
+  "W1-V8-FORM-SUBUNIT": "REGRESSED by the change-document form; disclosed OPEN as W1-V10-FORM",
+  "W1-V8-HOLDER-IOEXIT": "carried via W1-V9-ASYNC-ENUM (CLOSED_AT_SPEC_LEVEL at obligation+predicate; P-ASYNC OPEN)",
+  "W1-V8-COMPOSED-ENUM": "CLOSED_AT_SPEC_LEVEL for the table (67/104 completed); O-5 execution-bound",
+  "V5-B01": "OPEN (not narrowed)",
+  "V5-B02": "OPEN (not narrowed)",
+  "W1-V5-PRESERVATION": "OPEN (not narrowed)",
+  "W1-V6-READ-MUTATION": "OPEN (not narrowed)",
+  "W1-V7-HOLDER-STATE": "OPEN (not narrowed)",
+  "Gate 0 (capacity)": "NOT ESTABLISHED",
+  "all 219 OBLIGATIONS-v2.json entries": "OPEN"
+ },
+ "plan_sufficiency": {
+  "executed": "none (v10:286, v10:427; nothing in the plan was run for v10)",
+  "W1-V9-ASYNC-ENUM": "sufficient as a predicate: the byte-equality-after-release state (v10:272), if an operator probe produced it, would establish absence of post-commit writes through the enumerated holders, conditional on the OPEN enumeration-completeness obligation P-ASYNC; drive-to-release procedure operator-reserved and OPEN",
+  "W1-V9-ENUM-USERDEL": "O-5 would rehearse S-R against the completed 67/104 reachable set incl. X1-X4=W_B with no failing groupdel",
+  "W1-V9-PLAN-CONSTRAINTS": "I-7 differential runs, if run under fresh original admission + dispatch-stage Gate 0 in a reviewed adopted frame with the original-vs-original nondeterminism control, give per-input equality evidence only, never the universal; else blocked",
+  "W1-V9-PREMISE-ORDER": "review of E0 critical-premise discharges precedes O-1/sudo install; S-1 binds running kernel image+build-id; discharges themselves OPEN",
+  "W1-V9-RL-SELFTEST-FIXTURE": "S-5 code review (execution-bound) must show no installed/S1/RL-reachable path creates a set-ID/cap object or affects real state",
+  "W1-V8-PRESERVATION-ESTABLISH": "unchanged: every §21 V/C/D row OPEN",
+  "W1-V8-PREMISE-DISCHARGE": "insufficient until executed, but the ordering defect of v9 is corrected",
+  "W1-V8-EVIDENCE-EQUIV": "U-14/I-6 would establish B1-B5 per tested tree only; safe fresh capacity OPEN",
+  "operator_reservation": "correct: E1/E2 and O-1..O-5/O-ASYNC reserved; each labelled not a new gate (v10:352-354)",
+  "redesign_no_exception": "kept (v10:206-209, 285)"
+ },
+ "async_enum_assessment": "CLOSED_AT_SPEC_LEVEL. N4(iv) and 'From (2) to (3)' now name the outside get_task_mm/get_task_exe_file holder reachable through a world-readable /proc file as a context for the deferred final fput after cgroup exit and characterize it held-but-unusable (no usable reference, no write path: reading needs ptrace which N2 denies; async submission unavailable so no pending write); v8/v9's unqualified 'none by a principal outside the tree' is explicitly corrected (v10:640-667), matching the v9 reviewer's suggested restatement. The enumeration basis is both syscall tables (AUDIT_ARCH_AARCH64 and the ARM compat table) plus the four holder classes (task-work/delayed-fput, UNIX-socket GC, outside get_task_mm/get_task_exe_file, io-workqueue/kernel-thread) — a 1:1 match to the basis the v9 review demanded (v10:685-703). The discharge/refute predicate is a state to observe: the committed capture byte-equals a re-read taken after every enumerated holder class is shown released; refuted if any byte or stat_key field differs after populated 0 (v10:272, v10:329). As a predicate it is sound and would establish absence of post-commit writes through the enumerated holders IF the observation were produced, conditional on enumeration completeness (OPEN). The 'never a silent change' self-check overclaims are withdrawn (v10:668-677, 709-717, 719-729, 277-279). Residual (abstract, no required change): the spec does not name the observable confirming 'released' for the outside-holder class, deferring it to the operator procedure; and an indefinitely-stalled holder is a dischargeability limit, not a predicate defect. P-ASYNC stays NAMED_UNESTABLISHED; W1-V7-HOLDER-STATE OPEN; refutation exercise operator-reserved and OPEN (v10:360).",
+ "noowner_assessment": "CLOSED_AT_SPEC_LEVEL. P-NOOWNER's inventory is extended from rules naming N to an inventory obligation over every principal, for both N and W: no sudoers rule of any principal whose Runas set resolves to the identity through ALL/%group/#uid/alias/negation; no polkit grant to any subject for unit management or exec-as-user; sudo -l -U run for every non-root account incl. cosmov1lab/wlrehearsal/wldrill/worldline (v10:120-126, 555-602, 628-636, 680-684, 358, 778-783). States what must be shown, not how to probe. P-NOOWNER stays critical and NAMED_UNESTABLISHED.",
+ "enum_userdel_assessment": "CLOSED_AT_SPEC_LEVEL. USERGROUPS_ENAB co-removal modelled for k3 and k4 (k3->k1, k4->k2); intermediates X1-X3 under the file-update order; completed co-removal W_A(k4) and X4=W_B(k3); S-R reverse/resume rules from W_A/W_B/X1-X3 never issue a failing groupdel (v9 stop defect removed); /var/log/lastlog captured as observed co-object (v10:731-783). Counts re-derived through JACKAL (status=exact, lane rat, NOT formal-bounded): without images 67 (I1' and cross-check 63+4), with images 104 (I2' and cross-check 100+4), matching the v9 reviewer's independent recount.",
+ "plan_constraints_assessment": "CLOSED_AT_SPEC_LEVEL. v9's U-11 (raw prover under strace outside a reviewed frame) is withdrawn as contrary to START-CLAUDE.txt:8 (verified). The only allowlisted-action runs are the I-7 differential runs, each under fresh original admission + a dispatch-stage Gate 0 receipt in a reviewed adopted frame, with an original-vs-original nondeterminism control; the facility census is S-6 source reading (E0). Until a reviewed adopted frame and that Gate 0 receipt exist, I-7 is blocked by those original gates (v10:331, 334-342). No capacity gate is lowered; the 64 MiB-selftest-allowance misuse the v9 review flagged is removed. PREMISE-ORDER is also CLOSED_AT_SPEC_LEVEL: review of the E0 critical-premise discharges precedes O-1 installing the sudo rules, and S-1 binds the running kernel image and build-id (v10:288-293, 389-394).",
+ "e0_staging_assessment": "Correct. The E0 entry rule (v10:212-217) is a five-clause conjunction (unprivileged; mutates nothing outside a lead scratch dir; runs no prover/compiler/WORLDLINE code; creates no set-ID/cap object; exercises no privilege boundary) with 'fails any clause => not E0'. E0 holds only source readings S-1..S-6 and benign unprivileged observations on the lead's own sacrificial objects (v10:295-311); any v9 phase-U step creating a set-ID/cap object, driving a boundary, or running the prover is moved to E1 (v10:310-311). Every boundary exercise is E1/E2 operator-reserved with an obligation+predicate only (v10:218-227, 313-319, 360). 'redesign, no exception' kept (v10:206-209, 285). The lead MAY execute the E0 source readings/benign observations before endorsement; this review neither authorizes nor executes them.",
+ "form_assessment": "PARTIALLY_CLOSED for W1-V9-FORM-CONSISTENCY; W1-V8-FORM-SUBUNIT REGRESSED (disclosed as W1-V10-FORM). Sampled COMPOSED/NEW v10 unit hashes (title, 0, V10-0.1, V10-0.7, 13, 13.1, 13.2, 16, 16.1, 20, 23, 18.5 map, 18.5-R, V10-C.2) all match §18.5-R/jackal.json byte-for-byte; sampled v9 CARRIED/AMENDED bindings (title, 0.2, 2.2, 4.6, 5.3, 9.8, 11.4, B.3) all match the §18.5 table and the v9 file; the sealed v9 review file hashes verify; the amendment anchors checked all exist verbatim in v9. Three v9 defects fixed (P-SECCOMP in the title list v10:24; role-identity-v2; scope-v3/census-v2; candidate view baseline evidence-only). NEW defect: §V10-C.2 (v10:1054-1056) and jackal.json I4'/I5' state 101 CARRIED/22 AMENDED/31 changed, but the actual change map (v10:887-1020) has 100 CARRIED/23 AMENDED/32 changed (23 AMENDED units counted and matched 1:1 to the Part V10-A amendment blocks); JACKAL confirms 100+23+9+2=134 and 23+9=32. The sum reaches 134 only by the off-by-one compensating; no unit is lost but the summary and the support artifact are wrong. Appendix I self-referential unit recorded as 3189/d7d3aec7 but is 3188/b116ddf2 in the assembled file (one trailing newline). W1-V10-FORM is the correct disposition and not a blocker to this review (anchors exist, edits precise), but it regresses W1-V8-FORM-SUBUNIT and the composed AMENDED bytes are not byte-pinned: the anchors are reflowed single-line while v9 is hard-wrapped (e.g. the 12.2 step-12 anchor spans v9:3182-3183), and no normalization rule is stated.",
+ "review_provenance_assessment": "Correctly stated as a change to an original admission join, not closed, adoption blocked (NEW §23, v10:442-536). Authority quoted verbatim and verified against STATUS.md ~17:05Z (v10:456-460). Original texts quoted verbatim and verified to the exact line: HANDOFF.md:173 and complete-phase1-prompt.txt:60 (v10:462-469). 14 dependent sites enumerated (v10:492-529), a superset of the v9 review's list, mirrored in the Part V10-A block (v10:825-861). Replacement join precise: sealed review-freeze over REVIEW.md/review.json/checks.json, raw-final-message.txt, reviewer agent id, reviewer task-output sha256, reviewer_kind claude-subagent, different_from_author true; never a label alone; never a GPT claim; gpt-6.1-sol rollout_join retained for GPT reviews, selected by reviewer_kind; neither form => refuse (v10:476-490). Adoption blocked until reviewed in the frame-design revision; not asserted 'not a loosening' (v10:449-454, 531-536, 405-411). MINOR DEFECT: the prompt is cited under .../outputs/complete-phase1-prompt.txt (v10:58, 467, 1085) but the file is at /home/sicarii/Documents/complete-phase1-prompt.txt; quoted text and line are correct, only the path is wrong. Correct disposition overall.",
+ "required_changes": [
+  {
+   "id": "W1-V10-COUNT",
+   "change": "Correct the unit-status partition in §18.5/§V10-C.2 and in v10-support/jackal.json I4'/I5' to the actual change map: 100 CARRIED, 23 AMENDED, 9 COMPOSED, 2 SUPERSEDED; changed = 23+9 = 32. Re-derive both sums through JACKAL.",
+   "reason": "§V10-C.2 and jackal.json state 101 CARRIED/22 AMENDED and 'changes 22+9=31', but the §18.5 table has 100 CARRIED/23 AMENDED (the 23 AMENDED units match the 23 Part V10-A amendment blocks 1:1) and 23+9=32 changed. The sum reaches 134 only by the off-by-one compensating. This is a body/summary contradiction of the W1-V9-FORM-CONSISTENCY class, propagated into the support artifact.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:1054",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:887",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:1020",
+    "v10-support/jackal.json:66",
+    "v10-support/jackal.json:74"
+   ]
+  },
+  {
+   "id": "W1-V10-FORM",
+   "change": "Keep OPEN. (a) State the whitespace/line-wrap normalization rule under which Part V10-A anchored edits compose to a unique byte sequence, so each AMENDED unit's composed v10 bytes are reproducible and hashable (the change document otherwise does not fix the composed bytes). (b) Correct the Appendix I self-referential identity (byte count 3189->3188, v10_sha256 d7d3aec7...->b116ddf2...) to match the assembled file.",
+   "reason": "Change-document form regresses the W1-V8-FORM-SUBUNIT self-containment; the 23 AMENDED units' composed bytes are unmaterialized and, because anchors are quoted reflowed while v9 is hard-wrapped, not uniquely determined; one recorded self-referential unit hash does not match the file.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:74",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:187",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:792",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:1045",
+    "v10-support/jackal.json:99"
+   ]
+  },
+  {
+   "id": "W1-V9-REVIEW-PROVENANCE",
+   "change": "Residual (minor): correct the source path of the prompt to /home/sicarii/Documents/complete-phase1-prompt.txt (there is no copy under .../outputs/) at v10:58, v10:467 and v10:1085; the quoted text and line are correct. The join change remains a change to an original admission join, to be reviewed in the frame-design revision before any adoption relies on it.",
+   "reason": "§23's purpose is to state the change exactly with the original texts it changes; a wrong source path undermines 'stated exactly'.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:58",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:467",
+    "ISOLATION-STORAGE-PROPOSAL-v10.md:1085"
+   ]
+  },
+  {
+   "id": "W1-V8-PRESERVATION-ESTABLISH",
+   "change": "Still required (execution-bound): establish §21 for every OPEN V/C/D row, or redesign.",
+   "reason": "Every §21 row OPEN; v10 establishes none.",
+   "evidence": ["ISOLATION-STORAGE-PROPOSAL-v10.md:179", "ISOLATION-STORAGE-PROPOSAL-v10.md:343"]
+  },
+  {
+   "id": "W1-V8-PREMISE-DISCHARGE",
+   "change": "Still required (execution-bound), in the order fixed by W1-V9-PREMISE-ORDER.",
+   "reason": "Every N7 premise NAMED_UNESTABLISHED.",
+   "evidence": ["ISOLATION-STORAGE-PROPOSAL-v10.md:181", "ISOLATION-STORAGE-PROPOSAL-v10.md:288"]
+  },
+  {
+   "id": "W1-V8-EVIDENCE-EQUIV",
+   "change": "Still required (execution-bound): B1-B5 for U-14/I-6; safe fresh capacity OPEN.",
+   "reason": "Equivalence and capacity unestablished.",
+   "evidence": ["ISOLATION-STORAGE-PROPOSAL-v10.md:183", "ISOLATION-STORAGE-PROPOSAL-v10.md:330"]
+  }
+ ],
+ "open_obligations": [
+  "All 219 entries of OBLIGATIONS-v2.json (sha256 1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec)",
+  "V5-B01",
+  "V5-B02",
+  "W1-V5-PRESERVATION",
+  "W1-V6-READ-MUTATION",
+  "W1-V7-HOLDER-STATE",
+  "Gate 0 (capacity, NOT ESTABLISHED)",
+  "Every N7 critical premise: P-KSRC, P-NOSUID, P-NOCAP, P-NOOWNER, P-SECCOMP, P-ASYNC (all NAMED_UNESTABLISHED)",
+  "P-ASYNC / P-RELEASE asynchronous-holder containment (closed specification; refutation exercise operator-reserved and OPEN)",
+  "W1-V10-FORM (change-document form regression of W1-V8-FORM-SUBUNIT; composed AMENDED bytes unmaterialized)",
+  "W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-EVIDENCE-EQUIV (execution-bound)",
+  "Review-provenance join change D-LEAD-REVIEW-PROVENANCE (§23): not reviewed; adoption impossible until reviewed in the frame-design revision",
+  "Every earlier PARTIALLY_CLOSED / open gap and sub-gap carried from the sealed v9 review"
+ ],
+ "approval_granted": false,
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false
+}
+
+=== checks.json ===
+{
+ "reviewer": "independent Claude Code review subagent (claude-opus-5-5), fresh context",
+ "reviewer_kind": "claude-subagent",
+ "different_from_author": true,
+ "shell_hygiene": "no file written anywhere; no stdin-reading command (</dev/null used); no backgrounded command; os.listdir used (ls aliased to eza avoided)",
+ "hashes_computed": [
+  {"file": "briefs/w1-design-v10.md", "sha256": "6535ed5096e46c8978ce4b4ad2abfee83e0ed4d49cde313ca10895fc74e04335", "note": "brief; matches none stated (computed as requested)"},
+  {"file": "proposal/ISOLATION-STORAGE-PROPOSAL-v10.md", "sha256": "d5fe8f3152dd8782adeee65478d7f70fb06e5fac50f0b17943d53598da66d8ef", "bytes": 111456, "lines_newline_terminated": 1101, "matches_brief": true},
+  {"file": "proposal/v10-support/jackal.json", "sha256": "a3e84a9ce492cc53dda10ef4c23e7f2ccbd7838a1ab9e9d3645003ed72089252", "matches_brief": true},
+  {"file": "proposal/ISOLATION-STORAGE-PROPOSAL-v9.md", "sha256": "4bc0272c0c7b586a7e161b82318b7ae4a0b732067081e3a4073ea1dd3d22b53b", "bytes": 562201, "lines": 5143, "matches_brief_and_v10": true},
+  {"file": "proposal/v9-review/claude-v1/REVIEW.md", "sha256": "51e80795e688bc11df156d47ca86646da45be0dce41659db3a36cddfeb851637", "matches_freeze_and_v10": true},
+  {"file": "proposal/v9-review/claude-v1/review.json", "sha256": "050ef9d7cf3978bc7b7c8fd98d347a969808e248921bec4225404904bd3fef51", "matches_freeze": true},
+  {"file": "proposal/v9-review/claude-v1/checks.json", "sha256": "d60de10ba6dd43bcabea976c169590007dea58407c08c1247a27eab934dc1ca4", "matches_freeze": true}
+ ],
+ "v10_composed_new_unit_recompute": {
+  "method": "Python splitlines(keepends=True) over the v10 file; unit bytes = concatenation of the unit's physical lines per v9 §0.1 rule; compared to §18.5-R / jackal.json",
+  "verified_match": [
+   {"unit": "title", "lines": "1-71", "bytes": 6651, "sha256": "ab0496b948a1ef2d37461d85fc6c44a9d0067a5c830d2912922c1f1ccb43d6ec"},
+   {"unit": "0", "lines": "72-73", "bytes": 52, "sha256": "6e1fd6a108ee4d6a497569c852da181f58f9e65bc38a0fcc8f1f0674ad4693ec"},
+   {"unit": "V10-0.1", "lines": "74-97", "bytes": 1887, "sha256": "b0277d0565e04c2738f48e513f312aa12c5a61786fc40e3cb3906797ab503e4a"},
+   {"unit": "V10-0.7", "lines": "98-193", "bytes": 9248, "sha256": "eb795b24436f6a4fcae835f67218af037751398771f45b04221aa97dcc6a52b2"},
+   {"unit": "13", "lines": "203-258", "bytes": 5596, "sha256": "1dab407ff5beef49e5162d3263a0a68feb46183b6b8bb4c8d905b2e22d75570b"},
+   {"unit": "13.1", "lines": "259-280", "bytes": 5704, "sha256": "ba84454a84746f7b8acd1772335176c3c3d0ccd9f5ba0171560a19b7d475d1c6"},
+   {"unit": "13.2", "lines": "281-348", "bytes": 9779, "sha256": "55046813f122a145c66c4e4e5c0ea466bbcf4471e1d0a97fb273da924a40a353"},
+   {"unit": "16.1", "lines": "349-367", "bytes": 3881, "sha256": "ea8283a12b1bd2b47c3d1eb8cc7b33e7c5ec384e4bcbd6faac6400f4522ba237"},
+   {"unit": "16", "lines": "368-412", "bytes": 4135, "sha256": "b81f8673e563d44205721fce22d4e0dd752ae27e17d93609d4a82ca28f887ef2"},
+   {"unit": "20", "lines": "413-441", "bytes": 2776, "sha256": "9e4b6fe48866179f3a9fe0e6e6ac676973ae033de7cfafc0b1d47093a69c2582"},
+   {"unit": "23", "lines": "442-539", "bytes": 8403, "sha256": "98883301a22a964bee77897a745292e360e21c27513278305dd2287686540ec6"},
+   {"unit": "18.5 map", "lines": "875-1023", "bytes": 15746, "sha256": "f3297aeadcf15bb9aefbc0fc60b7958ee1c418ddc0a52f472c199a90af3ece8b"},
+   {"unit": "18.5-R", "lines": "1024-1051", "bytes": 2878, "sha256": "fa83e91ab20c7c0332aedea6f1f483ea30189beee6e024f0e31503ea2636989a"},
+   {"unit": "V10-C.2", "lines": "1052-1060", "bytes": 762, "sha256": "fe5ccf8ac84977cbd8e9eb1cd10d0140603f7b0e2d3e57c316e72200ee332fda"}
+  ],
+  "mismatch": [
+   {"unit": "Appendix I", "lines_recorded": "1061-1102", "recorded_bytes": 3189, "recorded_sha256": "d7d3aec701f7f5686c442a9cc7df8b28f3a803d4fe0db776c0c0127034fb00e6", "actual_bytes_to_EOF": 3188, "actual_sha256": "b116ddf21d76f32bab15a53fac644d2a5dec98060bad56f90cff04484a4cb434", "note": "off by exactly one trailing newline; file has 1101 newlines, jackal.json design_lines 1102 reflects the counting-convention difference"}
+  ]
+ },
+ "v9_carried_amended_binding_recompute": {
+  "method": "Python splitlines(keepends=True) over the v9 file; v9 line ranges and sha256 from v10 §18.5 table; all matched",
+  "verified_match": [
+   {"unit": "title", "v9_lines": "1-55", "bytes": 4912, "sha256": "1f2d0a2e955f43bcfcae97b3addf521b098f980ca79cd84f37f80accc78820e5"},
+   {"unit": "0.2 (CARRIED)", "v9_lines": "75-98", "bytes": 2266, "sha256": "2986013a0b6f35c6d88d74e8e6c50b20c0ad4c9aebe7edff78fd0756ea2691c4"},
+   {"unit": "2.2 (AMENDED base)", "v9_lines": "233-244", "bytes": 1073, "sha256": "f954d0a34a6d4eb0952d04b74d966e115ece877ea302dcba7cda7df19b569c2c"},
+   {"unit": "4.6 (AMENDED base)", "v9_lines": "820-884", "bytes": 5877, "sha256": "00b3ed65328eb21773f171bf89852ac17c227e4c242c254aa4e2bc5c739eb234"},
+   {"unit": "5.3 (AMENDED base)", "v9_lines": "948-971", "bytes": 4545, "sha256": "afba96af1fe021ef8a8705a4bfcf785481182ae4698070d3a361169694e4a647"},
+   {"unit": "9.8 (AMENDED base)", "v9_lines": "1835-2085", "bytes": 29524, "sha256": "9d84e8e6f9f01c833468290b639c6804994cce69b9ff9b0fed542baafd5c84d5"},
+   {"unit": "11.4 (AMENDED base)", "v9_lines": "2487-2638", "bytes": 14925, "sha256": "165128c67ddb943e055d82157760cd177c45aeadfc38ca30b694a10b97db6182"},
+   {"unit": "B.3 (AMENDED base)", "v9_lines": "4420-4468", "bytes": 13602, "sha256": "d5d6f30ee183ad65fa9cfb379b627511d632aec8174bc24499e0ab9f621c8b6c"}
+  ]
+ },
+ "change_map_partition_count": {
+  "method": "Python parse of the §18.5 table data rows (v10 lines 886-1020); status = last table cell",
+  "observed": {"CARRIED": 100, "AMENDED": 23, "COMPOSED": 9, "SUPERSEDED": 2, "total_data_rows": 134, "header_rows": 1},
+  "document_claim_V10C2_and_jackal": {"CARRIED": 101, "AMENDED": 22, "COMPOSED": 9, "SUPERSEDED": 2, "changed": 31},
+  "amended_units_listed": ["2.2","2.3","4.2","4.6","5.3","6.1","8.1","8.6","9.1","9.3","9.8","10.6","11.3","11.4","11.5","11.6","12.2","12.3","15.3","17","21.3","B.3","App. D"],
+  "amended_units_count": 23,
+  "cross_check": "the 23 AMENDED units match the 23 units carried by Part V10-A amendment blocks 1:1",
+  "finding": "document and support artifact misstate CARRIED/AMENDED/changed as 101/22/31; correct is 100/23/32; sum 134 holds only by off-by-one compensation"
+ },
+ "amendment_anchor_checks_v9": {
+  "method": "grep for the Part V10-A quoted old-text anchors in the v9 file",
+  "found_verbatim": [
+   "N4(iv) old clause @ v9:1971",
+   "'none by a principal outside the tree' @ v9:1984",
+   "§11.4 W_A bullet @ v9:2584",
+   "§5.3 sudo W/N cells @ v9:958",
+   "§2.2 'runs RL's code and exits' @ v9:242",
+   "§11.6 candidate view baseline @ v9:3044",
+   "§10.6 'never as a silent change' @ v9:2356",
+   "reachable-set count 'Their number is 63' @ v9:2586",
+   "§12.2 step-12 descriptor anchor @ v9:3182-3183 (spans a hard-wrapped line break; v10 quotes it reflowed)"
+  ],
+  "note": "anchors exist; the reflow-vs-hard-wrap mismatch is the basis for the W1-V10-FORM byte-pinning required change"
+ },
+ "requirement_text_verification": {
+  "complete-phase1-prompt.txt:60": "verbatim match to v10 §23.3 quote; file located at /home/sicarii/Documents/complete-phase1-prompt.txt (NOT under outputs/ as v10 cites)",
+  "HANDOFF.md:173": "verbatim match to v10 §23.3 quote; file at outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+  "START-CLAUDE.txt:8": "contains 'launch the raw prover outside the reviewed frame' prohibition supporting W1-V9-PLAN-CONSTRAINTS",
+  "STATUS.md ~17:05Z": "verbatim match to v10 §23.2 authority quote",
+  "STATUS.md ~18:40Z": "records the safety-classifier stop that grounds the obligation-only framing",
+  "frame v5 review REVIEW.md:72,82": "V5-B01 (stale-file revalidation) and V5-B02 (TOCTOU on frame-owned mutation; needs enforced location custody) are the two BLOCKING confinement findings; v10 keeps both OPEN"
+ },
+ "jackal_calls": [
+  {"tool": "mcp__jackal__jackal_exact", "expression": "4+5+3+2+2+1+1+1+1+7+10+4+6+3+3+4+0+0+2+1+1+1+1+1+1+1+1", "parsed": "4+5+3+2+2+1+1+1+1+7+10+4+6+3+3+4+0+0+2+1+1+1+1+1+1+1+1", "exact": "67", "status": "exact", "lane": "rat", "formal": false, "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I1' reachable set without images; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "63+4", "parsed": "63+4", "exact": "67", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I1'' cross-check; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "4+5+3+2+2+1+1+1-2+13+1+7+10+4+6+3+3-4+26+4+0+0+2+1+1+4+1+1+1+1+1+1", "parsed": "4+5+3+2+2+1+1+1-2+13+1+7+10+4+6+3+3-4+26+4+0+0+2+1+1+4+1+1+1+1+1+1", "exact": "104", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I2' reachable set with images; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "100+4", "parsed": "100+4", "exact": "104", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I2'' cross-check; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "1+1+1+1+1+1+1+1+1", "parsed": "1+1+1+1+1+1+1+1+1", "exact": "9", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I3' nine v9-review required changes; matches v10"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "101+22+9+2", "parsed": "101+22+9+2", "exact": "134", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I4' as stated by v10: arithmetic exact but operands 101/22 WRONG vs the actual map 100/23"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "22+9", "parsed": "22+9", "exact": "31", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "I5' as stated by v10: arithmetic exact but operand 22 WRONG; should be 23"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "100+23+9+2", "parsed": "100+23+9+2", "exact": "134", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "correct partition sum (reviewer)"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "23+9", "parsed": "23+9", "exact": "32", "status": "exact", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "use": "correct changed-unit count (reviewer)"}
+ ],
+ "files_read": [
+  {"path": "scratchpad/review-override-v2.txt", "lines": "1-13 (full)"},
+  {"path": "briefs/w1-design-v10.md", "lines": "1-88 (full)"},
+  {"path": "proposal/ISOLATION-STORAGE-PROPOSAL-v10.md", "lines": "1-1102 (full, in pages)"},
+  {"path": "proposal/v10-support/jackal.json", "lines": "1-113 (full)"},
+  {"path": "proposal/ISOLATION-STORAGE-PROPOSAL-v9.md", "lines": "targeted: unit-hash ranges + anchor regions 242,958,970,1971,1984,2356,2584,2586,3178-3186,3384,3044,51-52"},
+  {"path": "proposal/v9-review/claude-v1/review-freeze.json", "lines": "1-22 (full)"},
+  {"path": "proposal/v9-review/claude-v1/REVIEW.md", "lines": "1-201 (full)"},
+  {"path": "proposal/v9-review/claude-v1/review.json", "lines": "1-296 (full)"},
+  {"path": "STATUS.md", "lines": "275-295, 324-348"},
+  {"path": "../../../../outputs/claude-phase1-handoff-20261004/HANDOFF.md", "lines": "168-178"},
+  {"path": "../../../../outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt", "lines": "1-12"},
+  {"path": "/home/sicarii/Documents/complete-phase1-prompt.txt", "lines": "55-66"},
+  {"path": "../../../claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md", "lines": "70-90 (V5-B01, V5-B02)"}
+ ],
+ "not_read_per_independence": ["any v10 review directory", "review-records/ and review-records/live/", "any gpt61-v* dir of this revision", "drafts in progress", "session transcripts/rollouts", "~/.local/share/sia/.gbrain/"],
+ "consequence_ceiling": "informational for all JACKAL arithmetic (exact rational, not formal-bounded; no ceiling field returned); this review grants no acceptance/approval/exception and no proof/phase/source acceptance"
+}
+
+=== END ===
