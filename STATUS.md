@@ -329,7 +329,7 @@ own agents for that now".
 - PK-0 v3 → `packets/capi-pk0-v3/`
 - W-1 v9 → a probe-and-evidence plan, prefer self-contained
 - seam v6 → `designs/claude-root-worker-seam-design-v6/`
-- F32 resolution v2 → `designs/claude-f32-resolution-v2/` (same patch)
+- F32 resolution v2 → `designs/claude-f32-resolution-v2/` (same patch). Drafted: DESIGN.md `e52a9227…`, evidence.json `9a27640a…`, patch `226e7fc8…` (identical to v1). Its Claude review is running, brief `briefs/f32-resolution-design-v2.md` (`81bd8f94…`)
 - D1 v5 → `designs/claude-native-bigint-d1-design-v5/`, including an A-GHOST-2 horizon design for F35
 
 
