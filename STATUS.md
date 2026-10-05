@@ -179,6 +179,30 @@ V5-B02 and every original obligation stay OPEN.
   took no size reading of vault paths after the handover to Codex.
 - **What it changes.** The reading does not change any gate. S-1 stays the operator's decision.
 
+**Codex storage relief and the ext4 reserve proposal (~05:15Z; relayed by the human, not performed by the lead).**
+- **Reported by Codex.**
+  - It reclaimed redundant installer copies after reconstructing and comparing them; the compressed originals stay
+    local.
+  - 10146148352 bytes were available at its reading.
+  - Project sources, proof evidence, compiler pins and the lead's session were untouched.
+- **Proposal** (`work/local-storage-relief-20261005/RESERVE-PROPOSAL.md`, `e81d2150…`): read `tune2fs -l /dev/vda`
+  first, then `sudo tune2fs -r 2621440 /dev/vda`. That keeps a 10 GiB (10737418240-byte) privileged reserve. It is NOT
+  EXECUTED and awaits the human's sudo decision.
+- **Lead read-only checks at 05:20:35Z.**
+  - `/` is `/dev/vda`, a whole-disk ext4 filesystem (500G), also mounted at `/srv/worldline`.
+  - statvfs: bsize 4096, bfree 7722072, bavail 2459496; `df` avail 10074095616.
+  - e2fsprogs 1.47.4, kernel 7.2.6, `CONFIG_BLK_DEV_WRITE_MOUNTED=y`.
+- **Projections** (JACKAL exact; upper bounds that assume the superblock reserve equals the statvfs difference, which
+  only `tune2fs -l` can confirm):
+  - the statvfs privileged difference is 5262576 blocks (21555511296 bytes);
+  - the gain is at most 10818093056 bytes, so avail is at most 20892188672;
+  - the runbook Gate 0 margin would be at most +5912036672532/1397;
+  - the W-1 dispatch stage stays at most −152075126576/1397.
+- **What it does not touch.** The WORLDLINE reserve is project-vault's *local* reserve. Its config has no
+  `local_reserve_bytes` key, so `storage_status.py` and `cold.py` use the default 10000000000; the proposal leaves it
+  unchanged. `reserve_bytes` 50000000000 is the iPad-side reserve.
+- **Effect on the gates.** The proposal changes no gate by itself, and confinement still blocks dispatch.
+
 ## Backup repository (iPad), 2026-10-05
 
 **Observed.**
