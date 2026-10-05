@@ -1,0 +1,79 @@
+{
+  "schema": "claude-packet-source-review-checkpoint-v1",
+  "item": 5,
+  "finished": true,
+  "passive_only": true,
+  "run_evidence": false,
+  "finding": "Placement, mapping byte comparisons, signaled-exit failure and D06 descriptor scoping are credible source mechanics. Guard-fault non-conversion and lossless diagnostics need source repair; isolation/layout/launch claims need correction and concrete admitted execution supervision. No tests, helpers, native libraries or compiler probes were run.",
+  "required_changes": [
+    {
+      "id": "PK0-RC3",
+      "change": "Enforce, in the guarded-call child after native-library initialization, that a protection fault is a failed case and cannot be converted to an expected handler/refusal code. Add a reviewed fatal-fault policy and an admitted negative control that deliberately crosses a protected frontier, with its abnormal status retained. Do not execute that control before the confinement and capacity gates are satisfied.",
+      "reason": "The helper checks only process exit status and the returned code. It does not establish a SIGSEGV/SIGBUS policy. S5 handlers can return the same 255 expected by guarded refusal cases if a native runtime converts a protection fault to a handled exception. Thus normal exit plus 255 alone does not establish the promised fault-never-a-code rule. This is an unenforced distinction, not an observation that this unrun library performs such conversion.",
+      "evidence": [
+        "files/tests/capi_guard_pages.py:7-12,237-263,314-351",
+        "files/tests/test_capi_characterization.py:1095-1115",
+        "files/tests/capi_characterization.json:40,55",
+        "S5/core/evaluation_completion_c.adb:526-527",
+        "S5/core/evaluation_finalization_c.adb:505-508",
+        "S5/core/worldline_core.gpr:81-82",
+        "v4/DESIGN.md:610,626"
+      ]
+    },
+    {
+      "id": "PK0-RC4",
+      "change": "Preserve the captured fd 2 byte stream in diagnostic observations and --record output, and compare its exact bytes or decode strictly with failure on undecodable data. Retain line order, empty lines and terminators explicitly; never use replacement decoding to establish the D06 baseline.",
+      "reason": "observed() uses UTF-8 replacement decoding and record_main retains only those decoded lines. Distinct invalid byte streams can collapse to the same recorded replacement characters, so a reviewed D06 fixture derived from this output could later pass after native diagnostic bytes changed. The exact diagnostic control must retain the original bytes.",
+      "evidence": [
+        "files/tests/test_capi_diagnostics.py:5-17,110-124,158-164,188-198",
+        "files/tests/capi_characterization.json:56,332",
+        "v3/DESIGN.md:2232"
+      ]
+    },
+    {
+      "id": "PK0-RC5",
+      "change": "Correct the source and author statements about intrinsic isolation, imports and layout checking. State the actual boundary: guarded decision calls are forked; library initialization and scalar layout/version calls also occur in the parent; a hung child blocks the current reader; importing the helper loads libc; Core validates only its own _LAYOUTS, while the other component constructors are not invoked by these builders. Bind the future admitted launch to bytecode suppression, owned scratch and reviewed supervision of every native/compile/probe process. Establish these launch properties as evidence, not semantic assumptions, before the baseline.",
+      "reason": "Several assurances are stronger than the code. There is no timeout in select/waitpid or subprocess.run, parent native initialization/queries are outside run_forked, and merely importing component ctypes classes does not invoke their ABI-checking constructors. Only the diagnostic subprocess explicitly disables bytecode writes; the header scratch follows ambient temporary-directory selection. These facts cannot justify whole-suite hang/fault containment or automatic agreement of all ctypes layouts. Preserve the separate original layout spellings, including any measured defect.",
+      "evidence": [
+        "files/tests/capi_guard_pages.py:7-12,39-42,299-339",
+        "files/tests/test_capi_characterization.py:21-26,43-59,1090-1093",
+        "files/tests/test_capi_layout_identity.py:21-22,127-132,144-158,213-222",
+        "files/tests/test_capi_diagnostics.py:110-116",
+        "AUTHOR-NOTES.md:27,145,156-159",
+        "S5/runtime/worldline/core.py:171-173,317-335,402-425",
+        "S5/runtime/worldline/pending_kernel.py:85-108",
+        "S5/runtime/worldline/finalization_kernel.py:81-101",
+        "S5/runtime/worldline/completion_kernel.py:115-136",
+        "S5/runtime/worldline/recovery_authority_kernel.py:97-115"
+      ]
+    }
+  ],
+  "static_header_audit": {
+    "kind": "static AST and lexical field-name inspection only; not C or ctypes execution",
+    "ctypes_resolved": 82,
+    "header_field_rosters_checked": 72,
+    "issues": []
+  },
+  "mechanics": {
+    "placement": "Own page groups, 0xA5 initialization, protected whole objects or suffixes at the stated element frontier; only readable initial bytes are written.",
+    "comparison_scope": "All readable bytes of the child-owned mapping outside output windows; no-write windows compare raw bytes including padding; written windows compare all typed fields. Guard cases intentionally check normal exit and expected code only. No heap/global/full-address-space write claim or dynamic canonical-write-order evidence.",
+    "fault_status": "OS-signaled and nonzero exits fail; child Python errors produce nonzero exit. Native conversion of protection faults is not excluded by source (RC3).",
+    "fork_scope": "Decision scenarios and zero-roster oracle execute inside the fork. Core initialization and scalar layout/version measurement execute in the parent. Reader drains pipe before waiting; it validates status before accepting payload.",
+    "diagnostic_fd2": "Fresh interpreter; Python stderr diverted to /dev/null; actual fd 2 captured. /dev/full dup2 and restoration modify child descriptors only. D06 runtime failure latch values remain placeholders.",
+    "side_effects": "Anonymous maps and pipes are process-local. Header measurement creates and removes compiler scratch. Ambient TMPDIR and top-level import bytecode are not intrinsically bound; admitted launch must establish their confinement. No source path writes baseline JSON.",
+    "unproved_expectations": "Acceptable as explicit source-derived predictions that fail on disagreement, never proof or native observations; preserve required successes and defects.",
+    "finite_probe_domains": "U8 enumeration and finite U32 edge probes acceptable as declared finite characterization. They do not narrow the original U32 API domain or prove it.",
+    "timeouts": "A hang is not a pass, but blocks select/waitpid/subprocess.run. Correct containment claims and provide reviewed admitted supervision; a deadline must remain failure/unknown, not a semantic refusal or a reduced input domain.",
+    "header_warnings": "Without -Werror acceptable only for separately labeled layout measurement with warnings retained. The original S5 strict -Werror ABI test remains intact and required; no warning waiver.",
+    "ctypes": "82 named ctypes classes and 72 header field rosters resolve by static AST/lexical inspection. No size/alignment/native correspondence was measured. Core-only loading does not check the other component layouts; C13 preserves the independent spellings."
+  },
+  "evidence": [
+    "files/tests/capi_guard_pages.py:152-203,206-296,299-351",
+    "files/tests/test_capi_characterization.py:979-994,1009-1016,1059-1136",
+    "files/tests/test_capi_diagnostics.py:57-124,135-164,188-198",
+    "files/tests/test_capi_layout_identity.py:52-86,102-132,144-226",
+    "AUTHOR-NOTES.md:139-169",
+    "S5/tests/test_abi_layout.py:103-125",
+    "v4/DESIGN.md:586-629"
+  ]
+}

@@ -1,0 +1,344 @@
+{
+  "schema": "claude-packet-source-review-v1",
+  "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/packet.json",
+  "packet_sha256": "9808145e43e8e130bc7d8f73ad0757d838ad05dc209e64ebbccda33270eb69f9",
+  "files_sha256": {
+    "packet.json": "9808145e43e8e130bc7d8f73ad0757d838ad05dc209e64ebbccda33270eb69f9",
+    "AUTHOR-NOTES.md": "ef5de3d4136bb11c957d604bec54006676acbe259a3d055633fd07415635968c",
+    "jackal.json": "787ee005f0b84a1753e621b3805e2886d2cb8499af9004cc6ee657ae42ef7817",
+    "files/tests/capi_characterization.json": "51ba5ca271a738151c4753d26118b41087db0d8101e994c4dce3bcd883fd518a",
+    "files/tests/capi_guard_pages.py": "dbe7db5998263c9c6fb1289fbf7dfbf85d485a56a49c859c34eb0621a6c44355",
+    "files/tests/capi_layout_baseline.json": "d42264f7b193eb3f3f8abfacc93d96584e561f7375be0b57bceee041c484c055",
+    "files/tests/test_capi_characterization.py": "98dd782af94aee7da112676aca128e9d98c330b3d0ec657fa23aef8b27a2995a",
+    "files/tests/test_capi_diagnostics.py": "7c4fe2aac51b680f8e52616d8bba883d76b10a47416d3fa38733696e704ce70e",
+    "files/tests/test_capi_layout_identity.py": "99ff179a51227972abd5e5a5fb9a6525fc7d5c380893033c144952153ddd4307"
+  },
+  "different_from_author": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "item_findings": {
+    "1": {
+      "disposition": "IDENTITY_MATCHES_SOURCE_ONLY",
+      "finding": "Packet and base identities match. All bound paths and the full inventoried S5 source match their recorded hashes, sizes and modes. Payload is additive; six destinations absent in L0; no runtime/Ada/manifest payload. Final static REQUIRED_PROVED roster has 535 unique names; floor 251; sole boundary worldline-c_api; External_Name count 31; zero movers and no appended proof names.",
+      "limits": [
+        "The filesystem checks establish current bytes, not the author's historical process or provenance authenticity.",
+        "No code was run and no stage, control, proof, phase or source acceptance is granted."
+      ],
+      "evidence": [
+        "packet.json:5-43,58-153",
+        "S5/runtime/worldline/proof_manifest.py:22,25,312,314,316,924,940,953,967,972,1003,1012",
+        "S5/core/worldline-c_api.ads:72-243",
+        "v3/DESIGN.md:1897"
+      ],
+      "required_changes": []
+    },
+    "2": {
+      "disposition": "DECLARATIVE_MODEL_MATCHES_COVERAGE_AND_ENFORCEMENT_INCOMPLETE",
+      "finding": "The packet carries the required PK-0 controls and R0/R1/R2/R3/S/H/X model, with design §9.6.4 a-d OPEN, C-12 not authored and C-14 not encoded. It does not yet carry complete mixed-entry coverage or reliable exact diagnostic/fault enforcement.",
+      "evidence": [
+        "packet.json:23-43",
+        "files/tests/capi_characterization.json:15-64,66-407",
+        "files/tests/test_capi_characterization.py:1095-1175",
+        "v3/DESIGN.md:1897,2225-2244",
+        "v4/DESIGN.md:534-629",
+        "v4/review/gpt61-v1/REVIEW.md:62-68",
+        "v5/review/gpt61-v1/REVIEW.md:96",
+        "v6/review/gpt61-v1/REVIEW.md:229-230,287"
+      ],
+      "required_changes": [
+        "PK0-RC1",
+        "PK0-RC3",
+        "PK0-RC4"
+      ]
+    },
+    "3": {
+      "disposition": "SAMPLED_EXPECTATIONS_MATCH_ORIGINAL_MIXED_READY_PATHS_MISSING",
+      "finding": "The inspected actual fixtures retain S5 codes, original defect behavior and source write order. Required change PK0-RC1 addresses omitted mixed-entry frontiers and reachable controls. No accepted-input expectation was changed into a handled-native-failure refusal in the inspected cases. Predictions dependent on unproved relation bodies remain predictions, not acceptance.",
+      "spot_checks": [
+        {
+          "export": "wl_resource_ledger_compute",
+          "finding": "255 on initial/element guards; Data then staged rows; return 0 for every typed status and unconditional writes Detail_Data, Total_Data, Details ascending, Result; handler 255 preserves completed preceding writes. Typed refusal fixtures require zero arenas and empty descriptors.",
+          "evidence": [
+            "S5/core/worldline-resource_ledger_c_api.adb:118-176",
+            "S5/core/resource_ledger.ads:161-205",
+            "files/tests/capi_characterization.json:148-165,504-508,538-540",
+            "files/tests/test_capi_characterization.py:328-349"
+          ]
+        },
+        {
+          "export": "wl_resource_ledger_headroom",
+          "finding": "Capture Available, Withheld, Floor before Shape refusal, with Data unread; Output then Result; return 0, handler 255. C05 protects Data on the R1 fixture.",
+          "evidence": [
+            "S5/core/worldline-resource_ledger_c_api.adb:186-223",
+            "files/tests/capi_characterization.json:169-185,563-570",
+            "files/tests/test_capi_characterization.py:353-368"
+          ]
+        },
+        {
+          "export": "wl_pending_decide_v1",
+          "finding": "Fixed Input/Output/disjoint guards are R0; captured Input precedes every transport/header guard; Data then rows through first invalid element; sole result write, return 0, handler 255. Reserve_New/Write_Pending predictions reflect the retained reference; Is_Successor proof remains open.",
+          "evidence": [
+            "S5/core/evaluation_pending_c.adb:111-173",
+            "S5/core/evaluation_pending.ads:123-165",
+            "S5/core/evaluation_epoch.ads:13-22",
+            "files/tests/capi_characterization.json:216-231,645-686",
+            "files/tests/test_capi_characterization.py:460-518"
+          ]
+        },
+        {
+          "export": "wl_completion_decide_v1",
+          "finding": "R0 then Input; R1 then Data, journal/captured/retained/history/required staging; written typed result and handler 255. C15 preserves the original mismatched-history History_Invalid result with return 0 and exact retained summaries.",
+          "evidence": [
+            "S5/core/evaluation_completion_c.adb:393-527",
+            "S5/core/evaluation_completion.ads:351-433",
+            "files/tests/capi_characterization.json:249-261,787-843",
+            "files/tests/test_capi_characterization.py:678-768"
+          ]
+        },
+        {
+          "export": "wl_completion_raw_decide_v1",
+          "finding": "Operation must be 2; check row validity is tested before Wire and Confinement reads; Wire and Confinement are both captured before their validity refusal. Post-decision malformed-span/binding checks return 255 without a write; sole successful write at 687; handler 255.",
+          "evidence": [
+            "S5/core/evaluation_completion_c.adb:529-692",
+            "files/tests/capi_characterization.json:263-273,846-869",
+            "files/tests/test_capi_characterization.py:751-768"
+          ]
+        },
+        {
+          "export": "wl_finalization_decide_v1",
+          "finding": "Enter mark, fixed guards, captured Input then transport guards, Data then plans; Operations 0/1 allocate Captured but do not read it; Operations 2/3 stage rows; reason/promotion lines precede one Result write; 0 on typed outcomes, handler diagnostic and 255. C16 retains unwritten/PROT_NONE Rows.",
+          "evidence": [
+            "S5/core/evaluation_finalization_c.adb:121-256",
+            "files/tests/capi_characterization.json:299-311,896-941",
+            "files/tests/test_capi_characterization.py:805-854"
+          ]
+        },
+        {
+          "export": "wl_collapse_decide_finalization_v1",
+          "finding": "Initial collapse guard, dependency/nested/agent frontiers and Invalid_Request=255 mappings match sampled cases; no foreign output. Current relational cases match original roster-clear path, but ready/authorized context and metadata joins are omitted (PK0-RC1).",
+          "evidence": [
+            "S5/core/evaluation_finalization_c.adb:357-508",
+            "S5/core/worldline-collapse_wire.ads:71",
+            "S5/core/worldline-evaluation_authority.ads:23-38",
+            "S5/core/worldline-c_api.adb:331-342",
+            "files/tests/capi_characterization.json:313-323,942-965",
+            "files/tests/test_capi_characterization.py:862-911,979-991"
+          ]
+        }
+      ],
+      "required_changes": [
+        "PK0-RC1"
+      ]
+    },
+    "4": {
+      "disposition": "PLACEHOLDERS_FAIL_CLOSED_RECORD_WRITES_SCRATCH",
+      "finding": "All current run-dependent expectations fail until recorded through a reviewed change: layout exports/ctypes/header values, the three unguarded written results, and D06 stops/lines. No record mode updates a baseline or fixture file. The literal requested no-file-write --record property is false for the header compiler scratch (PK0-RC2).",
+      "static_placeholder_audit": {
+        "case_expectation_placeholders": [
+          {
+            "id": "U14d_R3_classify_op2_record",
+            "paths": [
+              "writes.arg:output"
+            ],
+            "guarded": false
+          },
+          {
+            "id": "U15f_R3_capture_op2_record",
+            "paths": [
+              "writes.arg:output"
+            ],
+            "guarded": false
+          },
+          {
+            "id": "U15f_R3_seal_op3_record",
+            "paths": [
+              "writes.arg:output"
+            ],
+            "guarded": false
+          }
+        ],
+        "diagnostic_placeholders": [
+          {
+            "id": "D06_failure_latch",
+            "paths": [
+              "returns.2",
+              "returns.6",
+              "lines"
+            ]
+          }
+        ],
+        "layout_group_values": {
+          "layout_exports": {
+            "entries": 25,
+            "all_PLACEHOLDER": true
+          },
+          "ctypes": {
+            "entries": 82,
+            "all_PLACEHOLDER": true
+          },
+          "headers": {
+            "entries": 72,
+            "all_PLACEHOLDER": true
+          }
+        }
+      },
+      "evidence": [
+        "files/tests/capi_characterization.json:332,796,901-902",
+        "files/tests/test_capi_characterization.py:999-1006,1095-1136,1178-1203",
+        "files/tests/test_capi_layout_identity.py:173-200,213-231",
+        "files/tests/test_capi_diagnostics.py:135-164,188-205"
+      ],
+      "required_changes": [
+        "PK0-RC2"
+      ]
+    },
+    "5": {
+      "disposition": "MECHANICS_REQUIRE_REPAIR_AND_EXECUTION_PROPERTIES_REMAIN_OPEN",
+      "finding": "Placement, mapping byte comparisons, signaled-exit failure and D06 descriptor scoping are credible source mechanics. Guard-fault non-conversion and lossless diagnostics need source repair; isolation/layout/launch claims need correction and concrete admitted execution supervision. No tests, helpers, native libraries or compiler probes were run.",
+      "mechanics": {
+        "placement": "Own page groups, 0xA5 initialization, protected whole objects or suffixes at the stated element frontier; only readable initial bytes are written.",
+        "comparison_scope": "All readable bytes of the child-owned mapping outside output windows; no-write windows compare raw bytes including padding; written windows compare all typed fields. Guard cases intentionally check normal exit and expected code only. No heap/global/full-address-space write claim or dynamic canonical-write-order evidence.",
+        "fault_status": "OS-signaled and nonzero exits fail; child Python errors produce nonzero exit. Native conversion of protection faults is not excluded by source (RC3).",
+        "fork_scope": "Decision scenarios and zero-roster oracle execute inside the fork. Core initialization and scalar layout/version measurement execute in the parent. Reader drains pipe before waiting; it validates status before accepting payload.",
+        "diagnostic_fd2": "Fresh interpreter; Python stderr diverted to /dev/null; actual fd 2 captured. /dev/full dup2 and restoration modify child descriptors only. D06 runtime failure latch values remain placeholders.",
+        "side_effects": "Anonymous maps and pipes are process-local. Header measurement creates and removes compiler scratch. Ambient TMPDIR and top-level import bytecode are not intrinsically bound; admitted launch must establish their confinement. No source path writes baseline JSON.",
+        "unproved_expectations": "Acceptable as explicit source-derived predictions that fail on disagreement, never proof or native observations; preserve required successes and defects.",
+        "finite_probe_domains": "U8 enumeration and finite U32 edge probes acceptable as declared finite characterization. They do not narrow the original U32 API domain or prove it.",
+        "timeouts": "A hang is not a pass, but blocks select/waitpid/subprocess.run. Correct containment claims and provide reviewed admitted supervision; a deadline must remain failure/unknown, not a semantic refusal or a reduced input domain.",
+        "header_warnings": "Without -Werror acceptable only for separately labeled layout measurement with warnings retained. The original S5 strict -Werror ABI test remains intact and required; no warning waiver.",
+        "ctypes": "82 named ctypes classes and 72 header field rosters resolve by static AST/lexical inspection. No size/alignment/native correspondence was measured. Core-only loading does not check the other component layouts; C13 preserves the independent spellings."
+      },
+      "evidence": [
+        "files/tests/capi_guard_pages.py:152-203,206-296,299-351",
+        "files/tests/test_capi_characterization.py:979-994,1009-1016,1059-1136",
+        "files/tests/test_capi_diagnostics.py:57-124,135-164,188-198",
+        "files/tests/test_capi_layout_identity.py:52-86,102-132,144-226",
+        "AUTHOR-NOTES.md:139-169",
+        "S5/tests/test_abi_layout.py:103-125",
+        "v4/DESIGN.md:586-629"
+      ],
+      "required_changes": [
+        "PK0-RC3",
+        "PK0-RC4",
+        "PK0-RC5"
+      ]
+    },
+    "6": {
+      "disposition": "NO_POLICY_OR_PROOF_DELTA_NO_ACCEPTANCE",
+      "finding": "No Ada, contract, project, runtime, existing test, proof floor, ordered proof roster or original input-domain delta is supplied. The finite characterization is additive and its placeholders remain non-passing. No C-14 stronger behavior or C-12 forced allocation experiment is encoded. Required source repairs remain; all baseline, native correspondence, full-body proof, control and stage/Phase acceptance obligations remain OPEN.",
+      "limits": [
+        "Current byte/hash identity does not authenticate historical author execution claims, atomic source custody, actual native library identity or installation.",
+        "The sample review of existing expectations is not exhaustive proof over the original domains.",
+        "A missing positive path is an unfulfilled engineering obligation, not a new refusal domain.",
+        "The guard-helper negative control required by RC3 is infrastructure validation only; it must not add class-X semantic expectations to PK-0.",
+        "Deadlines and scratch/bytecode confinement belong to concrete admitted test execution; they must not cap the original semantic domain or convert a failure/unknown outcome into an accepted refusal.",
+        "No operational continuation, source overlay, toolchain run, storage action, SIA note, acceptance or publication was performed."
+      ],
+      "evidence": [
+        "packet.json:23-51",
+        "files/tests/capi_characterization.json:15-41,50-64",
+        "AUTHOR-NOTES.md:7-11,139-169",
+        "W/outputs/claude-phase1-handoff-20261004/HANDOFF.md:25-29,151-167,173-177",
+        "/home/sicarii/Documents/complete-phase1-prompt.txt:30-34,60-68",
+        "WT/designs/claude-capi-boundary-design-v3/DESIGN.md:1897",
+        "WT/designs/claude-capi-boundary-design-v4/DESIGN.md:584-629"
+      ],
+      "required_changes": [
+        "PK0-RC1",
+        "PK0-RC2",
+        "PK0-RC3",
+        "PK0-RC4",
+        "PK0-RC5"
+      ]
+    }
+  },
+  "required_changes": [
+    {
+      "id": "PK0-RC1",
+      "change": "Complete the mixed-entry characterization and C-03/C-05/C-06/C-11 coverage for the original ready/authorized paths: build faithful ready primary and staged Kind 1/2 inputs and a genuinely admitted Agent-origin record, exercise each reachable primary/staged context and metadata join rejection plus original successful joins, and record their precise nested read frontiers. Retain the current zero-roster relational cases and every original fixture.",
+      "reason": "The mixed R1 table stops at the agent-record check and the entire mixed fixture family cannot reach Agent_Ready = 1. Consequently the original context rejection guards and authorized Kind-1 metadata joins are not characterized or controlled. This fails the one-case-per-exercisable-guard and per-export-frontier requirements; a note about the joins is not coverage.",
+      "evidence": [
+        "files/tests/capi_characterization.json:53,55-58,318-323,942-965",
+        "files/tests/test_capi_characterization.py:862-911,979-994",
+        "S5/core/evaluation_finalization_c.adb:468-502",
+        "v3/DESIGN.md:2229,2231-2232,2237",
+        "v4/DESIGN.md:577,620-626"
+      ]
+    },
+    {
+      "id": "PK0-RC2",
+      "change": "Make every --record path output-only as requested. Split the compiled-header scratch measurement from layout --record and consume its independently bound measurements read-only; keep normal measurement artifacts confined to the admitted test scratch. Correct the packet and author claims accordingly, with reviewed changes and new hashes. Never add an automatic baseline/fixture writer.",
+      "reason": "Layout record_main calls header_layouts, which creates a TemporaryDirectory, writes probe.c and causes the compiler to create probe. There is no baseline JSON rewrite, but the stronger literal no-file-write record contract is not met.",
+      "evidence": [
+        "files/tests/test_capi_layout_identity.py:13-19,112-132,213-226",
+        "packet.json:45-47",
+        "AUTHOR-NOTES.md:124"
+      ]
+    },
+    {
+      "id": "PK0-RC3",
+      "change": "Enforce, in the guarded-call child after native-library initialization, that a protection fault is a failed case and cannot be converted to an expected handler/refusal code. Add a reviewed fatal-fault policy and a harness-only negative control for the protected-memory mechanism under that initialized runtime, retaining its abnormal status. This control must validate the helper's failure reporting without encoding any WORLDLINE class-X return/write expectation. Do not execute it before the confinement and capacity gates are satisfied.",
+      "reason": "The helper checks only process exit status and the returned code. It does not establish a SIGSEGV/SIGBUS policy. S5 handlers can return the same 255 expected by guarded refusal cases if a native runtime converts a protection fault to a handled exception. Thus normal exit plus 255 alone does not establish the promised fault-never-a-code rule. This is an unenforced distinction, not an observation that this unrun library performs such conversion.",
+      "evidence": [
+        "files/tests/capi_guard_pages.py:7-12,237-263,314-351",
+        "files/tests/test_capi_characterization.py:1095-1115",
+        "files/tests/capi_characterization.json:40,55",
+        "S5/core/evaluation_completion_c.adb:526-527",
+        "S5/core/evaluation_finalization_c.adb:505-508",
+        "S5/core/worldline_core.gpr:81-82",
+        "v4/DESIGN.md:610,626"
+      ]
+    },
+    {
+      "id": "PK0-RC4",
+      "change": "Preserve the captured fd 2 byte stream in diagnostic observations and --record output, and compare its exact bytes or decode strictly with failure on undecodable data. Retain line order, empty lines and terminators explicitly; never use replacement decoding to establish the D06 baseline.",
+      "reason": "observed() uses UTF-8 replacement decoding and record_main retains only those decoded lines. Distinct invalid byte streams can collapse to the same recorded replacement characters, so a reviewed D06 fixture derived from this output could later pass after native diagnostic bytes changed. The exact diagnostic control must retain the original bytes.",
+      "evidence": [
+        "files/tests/test_capi_diagnostics.py:5-17,110-124,158-164,188-198",
+        "files/tests/capi_characterization.json:56,332",
+        "v3/DESIGN.md:2232"
+      ]
+    },
+    {
+      "id": "PK0-RC5",
+      "change": "Correct the source and author statements about intrinsic isolation, imports and layout checking. State the actual boundary: guarded decision calls are forked; library initialization and scalar layout/version calls also occur in the parent; a hung child blocks the current reader; importing the helper loads libc; Core validates only its own _LAYOUTS, while the other component constructors are not invoked by these builders. Bind the future admitted launch to bytecode suppression, owned scratch and reviewed supervision of every native/compile/probe process. Establish these launch properties as evidence, not semantic assumptions, before the baseline.",
+      "reason": "Several assurances are stronger than the code. There is no timeout in select/waitpid or subprocess.run, parent native initialization/queries are outside run_forked, and merely importing component ctypes classes does not invoke their ABI-checking constructors. Only the diagnostic subprocess explicitly disables bytecode writes; the header scratch follows ambient temporary-directory selection. These facts cannot justify whole-suite hang/fault containment or automatic agreement of all ctypes layouts. Preserve the separate original layout spellings, including any measured defect.",
+      "evidence": [
+        "files/tests/capi_guard_pages.py:7-12,39-42,299-339",
+        "files/tests/test_capi_characterization.py:21-26,43-59,1090-1093",
+        "files/tests/test_capi_layout_identity.py:21-22,127-132,144-158,213-222",
+        "files/tests/test_capi_diagnostics.py:110-116",
+        "AUTHOR-NOTES.md:27,145,156-159",
+        "S5/runtime/worldline/core.py:171-173,317-335,402-425",
+        "S5/runtime/worldline/pending_kernel.py:85-108",
+        "S5/runtime/worldline/finalization_kernel.py:81-101",
+        "S5/runtime/worldline/completion_kernel.py:115-136",
+        "S5/runtime/worldline/recovery_authority_kernel.py:97-115"
+      ]
+    }
+  ],
+  "open_obligations": [
+    "Repair and independently re-review the packet source with new identities before baseline execution.",
+    "Confinement frame v5 is UNQUALIFIED; V5-B01 and V5-B02, and the capacity gate, remain blockers as stated by the user and packet, not independently qualified by this source review.",
+    "Admitted L0 baseline and reviewed recording of every placeholder remain OPEN.",
+    "Class-H failure location/copy atomicity and native write construction/possible-outcome preservation (design §9.6.4 a-d) remain OPEN.",
+    "Actual native runtime/library/compiler/ABI identities, warnings, raw streams, waits, guard-fault mechanism and supervised process lifetimes remain unmeasured.",
+    "Full original contracts, bodies, references, producers/callers, proof scope, successful cases and fault controls remain required. PK-0 supplies no proof, source, control or Phase acceptance.",
+    "Exact source/library/tool/header/runtime selection and preservation of compiler diagnostics and raw diagnostic bytes must be bound by the admitted baseline frame.",
+    "The packet's C-05 controls provide finite frontier over-read checks, not proof that each frontier byte was read, universal pointer validity or native fault/ABI/cost correspondence.",
+    "Original strict warning/proof settings and complete original ordered ordinary/additive controls must be retained; no prior pass or source endorsement transfers to a changed packet."
+  ],
+  "run_evidence": false,
+  "control_evidence": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "report_sha256": "7d86d533a9705a606d663d426c491dde94238d4cf688decf26ec85940bfcd769",
+  "checks": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/review/gpt61-v1/checks.json",
+    "sha256": "949b6150258d0f963a901954ad4dc99705b46112be003450e8039d38ecf81886",
+    "bytes": 65269,
+    "mode": "0600"
+  }
+}

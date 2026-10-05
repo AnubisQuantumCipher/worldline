@@ -1,0 +1,54 @@
+{
+  "schema": "claude-packet-source-review-checkpoint-v1",
+  "item": 6,
+  "finished": true,
+  "passive_only": true,
+  "run_evidence": false,
+  "finding": "No Ada, contract, project, runtime, existing test, proof floor, ordered proof roster or original input-domain delta is supplied. The finite characterization is additive and its placeholders remain non-passing. No C-14 stronger behavior or C-12 forced allocation experiment is encoded. Required source repairs remain; all baseline, native correspondence, full-body proof, control and stage/Phase acceptance obligations remain OPEN.",
+  "scope_limits": [
+    "Current byte/hash identity does not authenticate historical author execution claims, atomic source custody, actual native library identity or installation.",
+    "The sample review of existing expectations is not exhaustive proof over the original domains.",
+    "A missing positive path is an unfulfilled engineering obligation, not a new refusal domain.",
+    "The guard-helper negative control required by RC3 is infrastructure validation only; it must not add class-X semantic expectations to PK-0.",
+    "Deadlines and scratch/bytecode confinement belong to concrete admitted test execution; they must not cap the original semantic domain or convert a failure/unknown outcome into an accepted refusal.",
+    "No operational continuation, source overlay, toolchain run, storage action, SIA note, acceptance or publication was performed."
+  ],
+  "required_changes": [
+    "PK0-RC1",
+    "PK0-RC2",
+    "PK0-RC3",
+    "PK0-RC4",
+    "PK0-RC5"
+  ],
+  "required_change_clarification": {
+    "id": "PK0-RC3",
+    "change": "Enforce, in the guarded-call child after native-library initialization, that a protection fault is a failed case and cannot be converted to an expected handler/refusal code. Add a reviewed fatal-fault policy and a harness-only negative control for the protected-memory mechanism under that initialized runtime, retaining its abnormal status. This control must validate the helper's failure reporting without encoding any WORLDLINE class-X return/write expectation. Do not execute it before the confinement and capacity gates are satisfied.",
+    "reason": "The helper checks only process exit status and the returned code. It does not establish a SIGSEGV/SIGBUS policy. S5 handlers can return the same 255 expected by guarded refusal cases if a native runtime converts a protection fault to a handled exception. Thus normal exit plus 255 alone does not establish the promised fault-never-a-code rule. This is an unenforced distinction, not an observation that this unrun library performs such conversion.",
+    "evidence": [
+      "files/tests/capi_guard_pages.py:7-12,237-263,314-351",
+      "files/tests/test_capi_characterization.py:1095-1115",
+      "files/tests/capi_characterization.json:40,55",
+      "S5/core/evaluation_completion_c.adb:526-527",
+      "S5/core/evaluation_finalization_c.adb:505-508",
+      "S5/core/worldline_core.gpr:81-82",
+      "v4/DESIGN.md:610,626"
+    ]
+  },
+  "open_obligations": [
+    "Repair and independently re-review the packet source with new identities before baseline execution.",
+    "Confinement frame v5 is UNQUALIFIED; V5-B01 and V5-B02, and the capacity gate, remain blockers as stated by the user and packet, not independently qualified by this source review.",
+    "Admitted L0 baseline and reviewed recording of every placeholder remain OPEN.",
+    "Class-H failure location/copy atomicity and native write construction/possible-outcome preservation (design \u00a79.6.4 a-d) remain OPEN.",
+    "Actual native runtime/library/compiler/ABI identities, warnings, raw streams, waits, guard-fault mechanism and supervised process lifetimes remain unmeasured.",
+    "Full original contracts, bodies, references, producers/callers, proof scope, successful cases and fault controls remain required. PK-0 supplies no proof, source, control or Phase acceptance."
+  ],
+  "evidence": [
+    "packet.json:23-51",
+    "files/tests/capi_characterization.json:15-41,50-64",
+    "AUTHOR-NOTES.md:7-11,139-169",
+    "W/outputs/claude-phase1-handoff-20261004/HANDOFF.md:25-29,151-167,173-177",
+    "/home/sicarii/Documents/complete-phase1-prompt.txt:30-34,60-68",
+    "WT/designs/claude-capi-boundary-design-v3/DESIGN.md:1897",
+    "WT/designs/claude-capi-boundary-design-v4/DESIGN.md:584-629"
+  ]
+}

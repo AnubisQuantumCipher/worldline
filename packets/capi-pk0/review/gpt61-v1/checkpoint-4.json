@@ -1,0 +1,78 @@
+{
+  "schema": "claude-packet-source-review-checkpoint-v1",
+  "item": 4,
+  "complete": true,
+  "source_only": true,
+  "finding": "All current run-dependent expectations fail until recorded through a reviewed change: layout exports/ctypes/header values, the three unguarded written results, and D06 stops/lines. No record mode updates a baseline or fixture file. The literal requested no-file-write --record property is false for the header compiler scratch (PK0-RC2).",
+  "evidence": [
+    "files/tests/capi_characterization.json:332,796,901-902",
+    "files/tests/test_capi_characterization.py:999-1006,1095-1136,1178-1203",
+    "files/tests/test_capi_layout_identity.py:173-200,213-231",
+    "files/tests/test_capi_diagnostics.py:135-164,188-205"
+  ],
+  "static_placeholder_audit": {
+    "case_expectation_placeholders": [
+      {
+        "id": "U14d_R3_classify_op2_record",
+        "paths": [
+          "writes.arg:output"
+        ],
+        "guarded": false
+      },
+      {
+        "id": "U15f_R3_capture_op2_record",
+        "paths": [
+          "writes.arg:output"
+        ],
+        "guarded": false
+      },
+      {
+        "id": "U15f_R3_seal_op3_record",
+        "paths": [
+          "writes.arg:output"
+        ],
+        "guarded": false
+      }
+    ],
+    "diagnostic_placeholders": [
+      {
+        "id": "D06_failure_latch",
+        "paths": [
+          "returns.2",
+          "returns.6",
+          "lines"
+        ]
+      }
+    ],
+    "layout_group_values": {
+      "layout_exports": {
+        "entries": 25,
+        "all_PLACEHOLDER": true
+      },
+      "ctypes": {
+        "entries": 82,
+        "all_PLACEHOLDER": true
+      },
+      "headers": {
+        "entries": 72,
+        "all_PLACEHOLDER": true
+      }
+    }
+  },
+  "required_changes": [
+    {
+      "id": "PK0-RC2",
+      "change": "Make every --record path output-only as requested. Split the compiled-header scratch measurement from layout --record and consume its independently bound measurements read-only; keep normal measurement artifacts confined to the admitted test scratch. Correct the packet and author claims accordingly, with reviewed changes and new hashes. Never add an automatic baseline/fixture writer.",
+      "reason": "Layout record_main calls header_layouts, which creates a TemporaryDirectory, writes probe.c and causes the compiler to create probe. There is no baseline JSON rewrite, but the stronger literal no-file-write record contract is not met.",
+      "evidence": [
+        "files/tests/test_capi_layout_identity.py:13-19,112-132,213-226",
+        "packet.json:45-47",
+        "AUTHOR-NOTES.md:124"
+      ]
+    }
+  ],
+  "open_obligations": [
+    "Record actual L0 observations only after admitted confinement and capacity gates; review the exact captured values and resulting file changes.",
+    "Recording observations is not a successful test, control evidence, acceptance or a way to relabel native failure as accepted refusal."
+  ]
+}

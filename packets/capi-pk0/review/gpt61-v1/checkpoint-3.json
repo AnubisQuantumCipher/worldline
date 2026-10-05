@@ -1,0 +1,97 @@
+{
+  "schema": "claude-packet-source-review-checkpoint-v1",
+  "item": 3,
+  "complete": true,
+  "source_only": true,
+  "finding": "The inspected actual fixtures retain S5 codes, original defect behavior and source write order. Required change PK0-RC1 addresses omitted mixed-entry frontiers and reachable controls. No accepted-input expectation was changed into a handled-native-failure refusal in the inspected cases. Predictions dependent on unproved relation bodies remain predictions, not acceptance.",
+  "spot_checks": [
+    {
+      "export": "wl_resource_ledger_compute",
+      "finding": "255 on initial/element guards; Data then staged rows; return 0 for every typed status and unconditional writes Detail_Data, Total_Data, Details ascending, Result; handler 255 preserves completed preceding writes. Typed refusal fixtures require zero arenas and empty descriptors.",
+      "evidence": [
+        "S5/core/worldline-resource_ledger_c_api.adb:118-176",
+        "S5/core/resource_ledger.ads:161-205",
+        "files/tests/capi_characterization.json:148-165,504-508,538-540",
+        "files/tests/test_capi_characterization.py:328-349"
+      ]
+    },
+    {
+      "export": "wl_resource_ledger_headroom",
+      "finding": "Capture Available, Withheld, Floor before Shape refusal, with Data unread; Output then Result; return 0, handler 255. C05 protects Data on the R1 fixture.",
+      "evidence": [
+        "S5/core/worldline-resource_ledger_c_api.adb:186-223",
+        "files/tests/capi_characterization.json:169-185,563-570",
+        "files/tests/test_capi_characterization.py:353-368"
+      ]
+    },
+    {
+      "export": "wl_pending_decide_v1",
+      "finding": "Fixed Input/Output/disjoint guards are R0; captured Input precedes every transport/header guard; Data then rows through first invalid element; sole result write, return 0, handler 255. Reserve_New/Write_Pending predictions reflect the retained reference; Is_Successor proof remains open.",
+      "evidence": [
+        "S5/core/evaluation_pending_c.adb:111-173",
+        "S5/core/evaluation_pending.ads:123-165",
+        "S5/core/evaluation_epoch.ads:13-22",
+        "files/tests/capi_characterization.json:216-231,645-686",
+        "files/tests/test_capi_characterization.py:460-518"
+      ]
+    },
+    {
+      "export": "wl_completion_decide_v1",
+      "finding": "R0 then Input; R1 then Data, journal/captured/retained/history/required staging; written typed result and handler 255. C15 preserves the original mismatched-history History_Invalid result with return 0 and exact retained summaries.",
+      "evidence": [
+        "S5/core/evaluation_completion_c.adb:393-527",
+        "S5/core/evaluation_completion.ads:351-433",
+        "files/tests/capi_characterization.json:249-261,787-843",
+        "files/tests/test_capi_characterization.py:678-768"
+      ]
+    },
+    {
+      "export": "wl_completion_raw_decide_v1",
+      "finding": "Operation must be 2; check row validity is tested before Wire and Confinement reads; Wire and Confinement are both captured before their validity refusal. Post-decision malformed-span/binding checks return 255 without a write; sole successful write at 687; handler 255.",
+      "evidence": [
+        "S5/core/evaluation_completion_c.adb:529-692",
+        "files/tests/capi_characterization.json:263-273,846-869",
+        "files/tests/test_capi_characterization.py:751-768"
+      ]
+    },
+    {
+      "export": "wl_finalization_decide_v1",
+      "finding": "Enter mark, fixed guards, captured Input then transport guards, Data then plans; Operations 0/1 allocate Captured but do not read it; Operations 2/3 stage rows; reason/promotion lines precede one Result write; 0 on typed outcomes, handler diagnostic and 255. C16 retains unwritten/PROT_NONE Rows.",
+      "evidence": [
+        "S5/core/evaluation_finalization_c.adb:121-256",
+        "files/tests/capi_characterization.json:299-311,896-941",
+        "files/tests/test_capi_characterization.py:805-854"
+      ]
+    },
+    {
+      "export": "wl_collapse_decide_finalization_v1",
+      "finding": "Initial collapse guard, dependency/nested/agent frontiers and Invalid_Request=255 mappings match sampled cases; no foreign output. Current relational cases match original roster-clear path, but ready/authorized context and metadata joins are omitted (PK0-RC1).",
+      "evidence": [
+        "S5/core/evaluation_finalization_c.adb:357-508",
+        "S5/core/worldline-collapse_wire.ads:71",
+        "S5/core/worldline-evaluation_authority.ads:23-38",
+        "S5/core/worldline-c_api.adb:331-342",
+        "files/tests/capi_characterization.json:313-323,942-965",
+        "files/tests/test_capi_characterization.py:862-911,979-991"
+      ]
+    }
+  ],
+  "required_changes": [
+    {
+      "id": "PK0-RC1",
+      "change": "Complete the mixed-entry characterization and C-03/C-05/C-06/C-11 coverage for the original ready/authorized paths: build faithful ready primary and staged Kind 1/2 inputs and a genuinely admitted Agent-origin record, exercise each reachable primary/staged context and metadata join rejection plus original successful joins, and record their precise nested read frontiers. Retain the current zero-roster relational cases and every original fixture.",
+      "reason": "The mixed R1 table stops at the agent-record check and the entire mixed fixture family cannot reach Agent_Ready = 1. Consequently the original context rejection guards and authorized Kind-1 metadata joins are not characterized or controlled. This fails the one-case-per-exercisable-guard and per-export-frontier requirements; a note about the joins is not coverage.",
+      "evidence": [
+        "files/tests/capi_characterization.json:53,55-58,318-323,942-965",
+        "files/tests/test_capi_characterization.py:862-911,979-994",
+        "S5/core/evaluation_finalization_c.adb:468-502",
+        "v3/DESIGN.md:2229,2231-2232,2237",
+        "v4/DESIGN.md:577,620-626"
+      ]
+    }
+  ],
+  "open_obligations": [
+    "All individual outcomes remain unrun; original full-domain proof and native/source correspondence remain OPEN.",
+    "Final memory comparisons do not observe the temporal write order; source order is the source-review evidence."
+  ]
+}

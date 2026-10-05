@@ -1,0 +1,51 @@
+{
+  "schema": "claude-packet-source-review-checkpoint-v1",
+  "item": 2,
+  "complete": true,
+  "source_only": true,
+  "finding": "The additive payload carries the PK-0 control roster and corrected R0/R1/R2/R3/S/H/X model. The defined handler mappings and canonical-write statements are recorded per export; all four section 9.6.4 items remain OPEN. No H/X cases, C-12 cases or C-14 assertions are authored. Control enforcement and individual fixture correctness require the item 3/5 findings; declaration presence is not coverage or run evidence.",
+  "evidence": [
+    "packet.json:23-43",
+    "files/tests/capi_characterization.json:15-64,66-407",
+    "files/tests/test_capi_characterization.py:1095-1175",
+    "v3/DESIGN.md:1897,2225-2244",
+    "v4/DESIGN.md:534-629",
+    "v4/review/gpt61-v1/REVIEW.md:62-68",
+    "v5/review/gpt61-v1/REVIEW.md:96",
+    "v6/review/gpt61-v1/REVIEW.md:229-230,287"
+  ],
+  "static_structure": {
+    "characterization_cases": 609,
+    "unique_ids": 609,
+    "generated_names_unique": 609,
+    "diagnostic_cases": 28,
+    "guard_cases": 58,
+    "version_exports": 15,
+    "layout_exports": 25,
+    "ctypes_records": 82,
+    "header_types": 72,
+    "class_counts": {
+      "S": 69,
+      "R0": 221,
+      "R1": 203,
+      "R3": 58,
+      "R2": 58
+    },
+    "case_control_counts": {
+      "C-03": 456,
+      "C-05": 58,
+      "C-01": 408,
+      "C-02": 16,
+      "C-04": 234,
+      "C-15": 5,
+      "C-16": 4,
+      "C-11": 24
+    },
+    "problems": []
+  },
+  "required_changes": [],
+  "open_obligations": [
+    "Baseline controls and complete original/additive controls remain unrun.",
+    "Canonical source write order is recorded, not temporally observed by the final-memory comparisons."
+  ]
+}

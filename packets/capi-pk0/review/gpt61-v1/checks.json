@@ -1,0 +1,1567 @@
+{
+  "schema": "claude-packet-source-review-checks-v1",
+  "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/packet.json",
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "review_kind": "PASSIVE_SOURCE_ONLY",
+  "permitted_methods": [
+    "bounded text reading",
+    "reviewer-owned JSON parsing",
+    "AST parsing and literal extraction without module evaluation or import",
+    "SHA256, byte and file-mode observations",
+    "JACKAL MCP exact arithmetic"
+  ],
+  "not_performed": [
+    "packet import or execution",
+    "unittest or pytest",
+    "WORLDLINE import or execution",
+    "packet/WORLDLINE native library loading",
+    "compiler, builder or prover invocation",
+    "signal or process interruption",
+    "systemctl or sudo",
+    "storage, reservation or window action",
+    "SIA notes",
+    "writes outside reviewer cwd"
+  ],
+  "run_evidence": false,
+  "control_evidence": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "initial_identity_audit": {
+    "packet_files": {
+      "packet.json": {
+        "sha256": "9808145e43e8e130bc7d8f73ad0757d838ad05dc209e64ebbccda33270eb69f9",
+        "bytes": 16807,
+        "match": true
+      },
+      "AUTHOR-NOTES.md": {
+        "sha256": "ef5de3d4136bb11c957d604bec54006676acbe259a3d055633fd07415635968c",
+        "bytes": 16961,
+        "match": true
+      },
+      "jackal.json": {
+        "sha256": "787ee005f0b84a1753e621b3805e2886d2cb8499af9004cc6ee657ae42ef7817",
+        "bytes": 6782,
+        "match": true
+      },
+      "files/tests/capi_characterization.json": {
+        "sha256": "51ba5ca271a738151c4753d26118b41087db0d8101e994c4dce3bcd883fd518a",
+        "bytes": 290794,
+        "match": true
+      },
+      "files/tests/capi_guard_pages.py": {
+        "sha256": "dbe7db5998263c9c6fb1289fbf7dfbf85d485a56a49c859c34eb0621a6c44355",
+        "bytes": 13421,
+        "match": true
+      },
+      "files/tests/capi_layout_baseline.json": {
+        "sha256": "d42264f7b193eb3f3f8abfacc93d96584e561f7375be0b57bceee041c484c055",
+        "bytes": 27295,
+        "match": true
+      },
+      "files/tests/test_capi_characterization.py": {
+        "sha256": "98dd782af94aee7da112676aca128e9d98c330b3d0ec657fa23aef8b27a2995a",
+        "bytes": 55122,
+        "match": true
+      },
+      "files/tests/test_capi_diagnostics.py": {
+        "sha256": "7c4fe2aac51b680f8e52616d8bba883d76b10a47416d3fa38733696e704ce70e",
+        "bytes": 8803,
+        "match": true
+      },
+      "files/tests/test_capi_layout_identity.py": {
+        "sha256": "99ff179a51227972abd5e5a5fb9a6525fc7d5c380893033c144952153ddd4307",
+        "bytes": 10430,
+        "match": true
+      }
+    },
+    "identities": {
+      "W/work/claude-composition-v5-beta/composition.json": {
+        "sha256": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+        "match": true
+      },
+      "W/work/claude-composition-v5-beta/source-inventory.json": {
+        "sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+        "match": true
+      },
+      "W/work/claude-composition-v5-beta/review/gpt61-v1/review.json": {
+        "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+        "match": true
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/review.json": {
+        "sha256": "bcfa259f8690c492b9284ef1ed9549efa7a5d3899edc1fbd5a0ae2ab7234d128",
+        "match": true
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/REVIEW.md": {
+        "sha256": "12cfde3c3eed993b6056dc75d901710bdee1273e67cfe150a9648f99627da161",
+        "match": true
+      }
+    },
+    "invariants": {
+      "MINIMUM_CHECKS": {
+        "path": "runtime/worldline/proof_manifest.py",
+        "line": 22,
+        "value": 251,
+        "ordered_length": null
+      },
+      "REQUIRED_PROVED": {
+        "path": "runtime/worldline/proof_manifest.py",
+        "line": 25,
+        "value": null,
+        "ordered_length": 535,
+        "literal_blocks": [
+          {
+            "line": 25,
+            "length": 280
+          },
+          {
+            "line": 312,
+            "length": 11
+          },
+          {
+            "line": 314,
+            "length": 4
+          },
+          {
+            "line": 924,
+            "length": 5
+          },
+          {
+            "line": 940,
+            "length": 8
+          },
+          {
+            "line": 953,
+            "length": 31
+          },
+          {
+            "line": 967,
+            "length": 34
+          },
+          {
+            "line": 972,
+            "length": 46
+          },
+          {
+            "line": 1003,
+            "length": 1
+          },
+          {
+            "line": 1012,
+            "length": 115
+          }
+        ]
+      },
+      "UNANALYZED_BOUNDARY": {
+        "path": "runtime/worldline/proof_manifest.py",
+        "line": 316,
+        "value": [
+          "worldline-c_api"
+        ],
+        "ordered_length": null
+      },
+      "External_Name_lines": [
+        72,
+        78,
+        88,
+        94,
+        100,
+        105,
+        114,
+        118,
+        125,
+        136,
+        143,
+        151,
+        161,
+        164,
+        172,
+        182,
+        187,
+        189,
+        191,
+        193,
+        195,
+        198,
+        203,
+        209,
+        215,
+        221,
+        224,
+        230,
+        232,
+        234,
+        243
+      ]
+    },
+    "ast_only": {
+      "files/tests/capi_guard_pages.py": true,
+      "files/tests/test_capi_characterization.py": true,
+      "files/tests/test_capi_diagnostics.py": true,
+      "files/tests/test_capi_layout_identity.py": true
+    },
+    "new_paths": [
+      {
+        "path": "tests/capi_characterization.json",
+        "exists_in_L0": false,
+        "manifest_matches": true
+      },
+      {
+        "path": "tests/capi_guard_pages.py",
+        "exists_in_L0": false,
+        "manifest_matches": true
+      },
+      {
+        "path": "tests/capi_layout_baseline.json",
+        "exists_in_L0": false,
+        "manifest_matches": true
+      },
+      {
+        "path": "tests/test_capi_characterization.py",
+        "exists_in_L0": false,
+        "manifest_matches": true
+      },
+      {
+        "path": "tests/test_capi_diagnostics.py",
+        "exists_in_L0": false,
+        "manifest_matches": true
+      },
+      {
+        "path": "tests/test_capi_layout_identity.py",
+        "exists_in_L0": false,
+        "manifest_matches": true
+      }
+    ],
+    "counts": {
+      "bound_inputs": 95,
+      "bound_paths_unique": 95,
+      "External_Name": 31
+    },
+    "bound_inputs_record": "Complete initial bound-input observations are retained in checkpoint-1.json, whose hash is in final_identity_audit.checkpoints; final_identity_audit.bound_inputs repeats every bound path."
+  },
+  "initial_source_inventory": {
+    "inventory_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source-inventory.json",
+    "inventoried_files_checked": 637,
+    "mismatches": []
+  },
+  "final_identity_audit": {
+    "packet_files": {
+      "packet.json": {
+        "sha256": "9808145e43e8e130bc7d8f73ad0757d838ad05dc209e64ebbccda33270eb69f9",
+        "bytes": 16807,
+        "hash_match": true,
+        "size_match": true
+      },
+      "AUTHOR-NOTES.md": {
+        "sha256": "ef5de3d4136bb11c957d604bec54006676acbe259a3d055633fd07415635968c",
+        "bytes": 16961,
+        "hash_match": true,
+        "size_match": true
+      },
+      "jackal.json": {
+        "sha256": "787ee005f0b84a1753e621b3805e2886d2cb8499af9004cc6ee657ae42ef7817",
+        "bytes": 6782,
+        "hash_match": true,
+        "size_match": true
+      },
+      "files/tests/capi_characterization.json": {
+        "sha256": "51ba5ca271a738151c4753d26118b41087db0d8101e994c4dce3bcd883fd518a",
+        "bytes": 290794,
+        "hash_match": true,
+        "size_match": true
+      },
+      "files/tests/capi_guard_pages.py": {
+        "sha256": "dbe7db5998263c9c6fb1289fbf7dfbf85d485a56a49c859c34eb0621a6c44355",
+        "bytes": 13421,
+        "hash_match": true,
+        "size_match": true
+      },
+      "files/tests/capi_layout_baseline.json": {
+        "sha256": "d42264f7b193eb3f3f8abfacc93d96584e561f7375be0b57bceee041c484c055",
+        "bytes": 27295,
+        "hash_match": true,
+        "size_match": true
+      },
+      "files/tests/test_capi_characterization.py": {
+        "sha256": "98dd782af94aee7da112676aca128e9d98c330b3d0ec657fa23aef8b27a2995a",
+        "bytes": 55122,
+        "hash_match": true,
+        "size_match": true
+      },
+      "files/tests/test_capi_diagnostics.py": {
+        "sha256": "7c4fe2aac51b680f8e52616d8bba883d76b10a47416d3fa38733696e704ce70e",
+        "bytes": 8803,
+        "hash_match": true,
+        "size_match": true
+      },
+      "files/tests/test_capi_layout_identity.py": {
+        "sha256": "99ff179a51227972abd5e5a5fb9a6525fc7d5c380893033c144952153ddd4307",
+        "bytes": 10430,
+        "hash_match": true,
+        "size_match": true
+      }
+    },
+    "bound_inputs": [
+      {
+        "path": "core/evaluation_completion.ads",
+        "sha256": "2b2a87a7a1f554486caad6c680e2c39dd4bb7b5e48619933f033cda15ea0a2f5",
+        "bytes": 21345,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_completion.h",
+        "sha256": "5f558757172e734e13c26a241c06ea90087e40c968d215f45ae57b8517f3b616",
+        "bytes": 7313,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_completion_c.adb",
+        "sha256": "b799e93af37ca90104050473119aaca380b54244a491c2cc57226db8eaa77d69",
+        "bytes": 52788,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_completion_c.ads",
+        "sha256": "e0a50887d10159aa8350734ed2acc88b8a454fbfeb0eea7d0c727ca28ac17dd7",
+        "bytes": 7967,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_completion_roster.ads",
+        "sha256": "bc086393ebdf98d397273905aa3425afe4b7cc29cbc9ac9ac1ac1a7f499d8111",
+        "bytes": 7893,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_epoch.ads",
+        "sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+        "bytes": 1136,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_finalization.ads",
+        "sha256": "e20808c44b84e02485e10a3eb1e1e36a2f2f88defd75eb97c536cee6851c287a",
+        "bytes": 21318,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_finalization.h",
+        "sha256": "6cbff3aed8e5a9cb5b02acd711482f3ced56eae9ff466a33a2cfcf1fd3b3e8e6",
+        "bytes": 3547,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_finalization_c.adb",
+        "sha256": "bdcf333878aebe4aca55333bc3b9a9a50007c187fc4b380dec1adb18127f83d3",
+        "bytes": 29143,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_finalization_c.ads",
+        "sha256": "2ca8602e87eb4605ddeda8e61c223ff39d765a81d3e22baec3e7d981bb74010b",
+        "bytes": 3701,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_history.ads",
+        "sha256": "5ab34318c4b2678aa17f679af2b5190fc8baa082dbf7191308aa21382f812601",
+        "bytes": 15854,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_pending.ads",
+        "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+        "bytes": 7636,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_pending.h",
+        "sha256": "a380be8410c82d867f1af59f79377f25f83f29b8844974175bec848f7155833c",
+        "bytes": 2547,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_pending_c.adb",
+        "sha256": "56500a7c614a5a6ac4d74107226538bd84b152730265b89703bebabf5e3e3f15",
+        "bytes": 8350,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_pending_c.ads",
+        "sha256": "6bd1472201c595be3f53b8a4ce4a73fde9bef9fb41576c9f246be6480ca0a897",
+        "bytes": 1908,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_pending_v2.ads",
+        "sha256": "2faea7935397bebf07a330b7d64c457716c40d8613076696f62359c5723fb48a",
+        "bytes": 4271,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_pending_v2.h",
+        "sha256": "550819e596ac765a10c64afb384a5b0fe6ae2413817b06a004bf8ce44f7d4ae8",
+        "bytes": 1586,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_pending_v2_c.adb",
+        "sha256": "84409e222fe43cba4b3dc8edbfe42279904bd164e68950b6ef6ae717d8ee17fc",
+        "bytes": 9641,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_pending_v2_c.ads",
+        "sha256": "10f7505c97d34a022ad51784fbad2ec9c4615992bb4fa0e08762f2f34accf350",
+        "bytes": 2160,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/evaluation_raw_roster.ads",
+        "sha256": "1640ceda9cf05cc16af4609ed986590c85e541a8dd9d76eb1ca70275133b1cd8",
+        "bytes": 10308,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/resource_ledger.ads",
+        "sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+        "bytes": 12563,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/resource_quantities.ads",
+        "sha256": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+        "bytes": 5497,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/resource_reservation_lifecycle.ads",
+        "sha256": "12a88a7153fde38ece9e0551c67d442066c6c092b4055d5d4bcfeadd14388b4f",
+        "bytes": 4610,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/resource_run_ledger_c_api.adb",
+        "sha256": "fbc97b4c17ee0a0a17e74bae669fa11e674bb234ce5cd8f73d374b7d7e114581",
+        "bytes": 11897,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/resource_run_ledger_c_api.ads",
+        "sha256": "ece3bc0eb7f332438be9938fd84b4b4e0ccc091ae8e2b7a5db5a0342118a4751",
+        "bytes": 993,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/resource_run_ledger_v1.h",
+        "sha256": "2a25c143331f31f778e0fd2035fbc3075b7eceafc59438ffc8f496d797e2e227",
+        "bytes": 2731,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/resource_run_ledger_wire.ads",
+        "sha256": "c4b2916ebfd4af06f8e732ebc012184d81bb99ccd8532c68a9102c13a60f06d8",
+        "bytes": 17580,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-c_api.adb",
+        "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+        "bytes": 56596,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-chain_authority_c_api.adb",
+        "sha256": "dae2748bdb87c55b90ed73bd82fe882d5d4c64ca3af944f463dd4798ca66328a",
+        "bytes": 4916,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-chain_authority_c_api.ads",
+        "sha256": "03d00cb9172e919507ba74b47fe8fa0431dce7fce062bc3ab409df1c8946d9f3",
+        "bytes": 800,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-chain_authority_wire.ads",
+        "sha256": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6",
+        "bytes": 3540,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-collapse_wire.ads",
+        "sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd",
+        "bytes": 13246,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-evaluation.ads",
+        "sha256": "374dd36340edde851d3e897c282800b7a626d07d441bbf798add4c546672e590",
+        "bytes": 9117,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-evaluation_authority.ads",
+        "sha256": "29ea441b1bcc0212db70143c09b961b1f911827c8f30b40cc52f88080f4c222b",
+        "bytes": 15565,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-evaluation_history_c_api.adb",
+        "sha256": "d58a26e0b9fcd774921d00740449569824377b4bca6a40d4036aa1e5fce90e5e",
+        "bytes": 9278,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-evaluation_history_c_api.ads",
+        "sha256": "c38738bbbfb544d019e13c57923e5778663e8244fdee8f921b602c5e26758344",
+        "bytes": 2384,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-evaluation_wire.ads",
+        "sha256": "e7b44365b9b16333b4cf6315eed8d2a388bb0d68ba88572ea071e84e135fbf6d",
+        "bytes": 14324,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery.ads",
+        "sha256": "09f82299af37c975b409596fb342f1ef961e309354765cde966189f23a2ee3fe",
+        "bytes": 1572,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_authorization_c_api.adb",
+        "sha256": "60309a05b5b6ec468dc46625b433c7e0ba953717ab806993a7f9ce429e21501a",
+        "bytes": 6536,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_authorization_c_api.ads",
+        "sha256": "9e2e0dde6408d1cdd6666d7f5833cd472d66eb4b6cf3a3c5b6da17d7c303cd5d",
+        "bytes": 938,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_authorization_v3_c_api.adb",
+        "sha256": "7c82035c13f36b289e1c02ca5d0ced5d79674870e7fc8daced3d0547388d929d",
+        "bytes": 7386,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_authorization_v3_c_api.ads",
+        "sha256": "ab62cd25cb96661435a0dea612efddf574844bb4064ab3cc25ff8d1c1e29c51d",
+        "bytes": 1027,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_authorization_v3_wire.ads",
+        "sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8",
+        "bytes": 12448,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_authorization_wire.ads",
+        "sha256": "ab827240f06836529ac8f5ebb95d56cb983f9fd1bfea9d08860a20ccaaf9b5ce",
+        "bytes": 7484,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_c_api.adb",
+        "sha256": "120c6c488284f5af09efc7abbdba0831a72b7cb3222fa1c8b543ef3bad3636a9",
+        "bytes": 3298,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_c_api.ads",
+        "sha256": "aec1866769caf987b60ca822b04387d49b5ac181579e163d8e901ded3a6e6c59",
+        "bytes": 1224,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_protocol.ads",
+        "sha256": "63b728d023e5013568faaabb128334c925d5d8a424a08824f05ec5607abe94d6",
+        "bytes": 1860,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_protocol_abi.ads",
+        "sha256": "4611a6ec19d5303f714865ac5022ea681b65dc7209fbd00642fe4742e3b358f2",
+        "bytes": 926,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_protocol_c_api.adb",
+        "sha256": "01b256d06f0e0b7148c3685b8dbed945a4e25a1f45ee69f4cd8030536dc5dcf5",
+        "bytes": 3066,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_protocol_c_api.ads",
+        "sha256": "b1a980f5785b0456f7b1449e0bc058c04bfa0b5bf09beeb63978f25613b22228",
+        "bytes": 730,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-recovery_protocol_wire.ads",
+        "sha256": "da4ea919d7c99607571d9ee81e28253d2cbccab90a9972a99dcadb0541f452f0",
+        "bytes": 865,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-reservation_lifecycle_c_api.adb",
+        "sha256": "9d235d2f84ff73b8408e3187c4f78c1826af2b2b63fd8ff229e8672041fa8934",
+        "bytes": 4763,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-reservation_lifecycle_c_api.ads",
+        "sha256": "a465fd5c1659e0dcd1f66d15b223c31e2ff022f9f1224f5f2e50f1d2979c6c60",
+        "bytes": 1900,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-resource_ledger_c_api.adb",
+        "sha256": "112a8ef5321240f9d13fe3135dce1b6085d6fecda1590a553f30b4dc4bf1247a",
+        "bytes": 9703,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-resource_ledger_c_api.ads",
+        "sha256": "c3a52b1e8a2a7bbcdaee4a219e965f9bd4beb69a79b30b16efc0f9fdda1795ab",
+        "bytes": 2948,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-resource_policy_c_api.adb",
+        "sha256": "794d9a4c16a0bbdd9a95da51cd762f190778aeae66ac07c000f1972eda6f5b04",
+        "bytes": 8056,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-resource_policy_c_api.ads",
+        "sha256": "24929690c6e983a054f212e4192b6d4a39da2129e9321e4786ace16d8260448c",
+        "bytes": 2786,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-resource_wire.ads",
+        "sha256": "35424de3b2452cb8b67b9652afdb225b6ec8908b4150bb0028da00cee42ae6fc",
+        "bytes": 776,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-resources.ads",
+        "sha256": "571e729f77c605d6589b18f753e635da2a324d6363860d08285551357c51b587",
+        "bytes": 7183,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-resources_c_api.adb",
+        "sha256": "f31c2dd39a50f9bf02cd345b2617b41ab4a2b02bc0947a8b4f23c917c2be50cb",
+        "bytes": 2245,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline-resources_c_api.ads",
+        "sha256": "5cb92b4cf731de16954c05af89274e120ed2c13e56d3a9d06ef16c976afc7eb5",
+        "bytes": 1285,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline_chain_authority_v1.h",
+        "sha256": "bb29c4f3c12edfda1026fbd3ca7d38b3df717c37be9957da96c0a7b31334dd16",
+        "bytes": 847,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline_core.h",
+        "sha256": "79903e02509d1e439235879160d925e3eff0982d02f7ac36763b7f354c70fe19",
+        "bytes": 22089,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline_recovery_authorization_v3.h",
+        "sha256": "fde85c64bde5fa51c903ab2ab4c55c91ba9c41aebf51683ae470c6d5d9374a95",
+        "bytes": 2656,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "core/worldline_recovery_protocol.h",
+        "sha256": "cbecc15d2d7b2c3e410e1b74ea8dae96baef3511b2cb0b0a38c93b60a8100a6f",
+        "bytes": 525,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/chain_authority.py",
+        "sha256": "9f123d62282c8189a9b7b5f300b37d94d2544626820ca5d08ee9a72c81cab7f2",
+        "bytes": 5514,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/completion_kernel.py",
+        "sha256": "46aba2b0c4ba8fb98e10fa1d9db2197c926b49cf6174dfc550638d4b1dffa9c7",
+        "bytes": 15057,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/core.py",
+        "sha256": "ee77fa7a39178b844972b3a3d704fb0732b93b73aead8c2b80137db66454786c",
+        "bytes": 29677,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/evaluation_context.py",
+        "sha256": "b6d9bc430a503b603677e7690bbc3810473b8df44a9a350002f24008e2e90de9",
+        "bytes": 30241,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/evaluation_history.py",
+        "sha256": "0df874c8284853ef49f029a790d070d7d4fe03bfc589034acea3134ae7a48fd8",
+        "bytes": 9449,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/evaluation_wire.py",
+        "sha256": "6e8934470bbadb9819b960f46eae611ca2ced6b2a87c86e8c928f026ff8c3056",
+        "bytes": 8632,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/finalization_kernel.py",
+        "sha256": "918fc2caef37d4bb5cdd4a5ff3f4b0ea072e156c3763d90afafa501c235a57a3",
+        "bytes": 17665,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/pending_kernel.py",
+        "sha256": "09c27de3f935496b2b3a51691b659111426622c968e64ab755d93c95c5fdbc83",
+        "bytes": 7672,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/pending_kernel_v2.py",
+        "sha256": "f0ae545ae8590f83abf47ceaa868d381420c4a28febc73377cacdc1388ed8ff6",
+        "bytes": 8888,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/recovery_authority_kernel.py",
+        "sha256": "1d394d23868ef360108539639593ab03e39752cf40eae1591d96329299fdf781",
+        "bytes": 8546,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/recovery_authority_kernel_v3.py",
+        "sha256": "ff2b8ae018bf7f5d1def8efddd4e8b9dcd5a4ac5c61a4dbe4451de681709fc2d",
+        "bytes": 10815,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/recovery_protocol_kernel.py",
+        "sha256": "ee8388267040d04e12ab372b3a69dbbdb87fa13dc117345c378c0dfd603ca6bc",
+        "bytes": 2336,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/reservation_lifecycle.py",
+        "sha256": "0c3028c617f959198cf5b47dba095b51d0c68d6789c3dfd83a8792e3a332185c",
+        "bytes": 4928,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/resource_ledger.py",
+        "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f",
+        "bytes": 12208,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/resource_policy.py",
+        "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40",
+        "bytes": 8619,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "runtime/worldline/resource_run_ledger.py",
+        "sha256": "14175c7da56f0c6b3425157e68bda7e19d9451cddac6dc9fc45ec3927a1588a9",
+        "bytes": 16632,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "scripts/assurance.py",
+        "sha256": "b15169fb858c591dce5f06d6c5301a6578a45d67ffea448b423e03b25c7e8cc9",
+        "bytes": 20546,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_abi_layout.py",
+        "sha256": "ff44a6d446e1a66d36ce9ff8272ffe7df47a32e2c0d6e57570f80a6a6459b7fd",
+        "bytes": 8043,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_assurance_instrument.py",
+        "sha256": "55385cdb9062f2fa29619807ec1eb93754b77ebd360f497b9a3378370dee1fbf",
+        "bytes": 12678,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_chain_authority_native.py",
+        "sha256": "e412dce8d0e01b40681e632c08a5f8d98fbe4d6fea085824257c96e5a9c261f6",
+        "bytes": 3965,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_evaluation_history.py",
+        "sha256": "261677ddea7c5b71ab406810e2e97fe5362cd4f7616a8bbc46af91eec529c20a",
+        "bytes": 11404,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_evaluation_pending.py",
+        "sha256": "5bea0dc62bb228be6bf0ee2aa348c1a60d372ca6d276958f69c467a71d2af1d1",
+        "bytes": 9584,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_evaluation_pending_requirements.py",
+        "sha256": "19c75cd78c1061822f3c74b98f83f3ce2afb2bba416c48e7883abc830b89baa8",
+        "bytes": 4010,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_evaluation_roster_d2.py",
+        "sha256": "16754c234635e5ad0bca29afa373802c2270be352f66bcb52c67151213976615",
+        "bytes": 4703,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_recovery_protocol_native.py",
+        "sha256": "91b3ca85b4d359084f30387a93b2dbe65e89dc4b287e9e7bbbfa47e7ce688a11",
+        "bytes": 1779,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_recovery_witness_relation.py",
+        "sha256": "c56fb61e0bfdeaa79c0a3df7de01d41947d6f1fb902210a6f187328e94f02f58",
+        "bytes": 11282,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_recovery_witness_relation_v3.py",
+        "sha256": "1c07f3aa52077d85ddb3d02b2b24f6bcab58a87032a7a7976b9468c3523bcbba",
+        "bytes": 16730,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_reservation_lifecycle.py",
+        "sha256": "e79e50f1810a8fb717d8bebd960c9c89a16644eafb9efb7e854623192689acc4",
+        "bytes": 9401,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_resource_policy.py",
+        "sha256": "ebb78414077adafceb1b7385296f6a02d2d6c28aaa60592179dcd3a961f50e83",
+        "bytes": 10536,
+        "hash_match": true,
+        "size_match": true
+      },
+      {
+        "path": "tests/test_resource_run_ledger_v1.py",
+        "sha256": "eff3894460e2407afaeecaef78433f660b4c80a11c621f5a7ef67ac452ac0f63",
+        "bytes": 16632,
+        "hash_match": true,
+        "size_match": true
+      }
+    ],
+    "source_inventory": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source-inventory.json",
+      "sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+      "files_checked": 637,
+      "mismatches": []
+    },
+    "identities": {
+      "W/work/claude-composition-v5-beta/composition.json": {
+        "sha256": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+        "match": true
+      },
+      "W/work/claude-composition-v5-beta/source-inventory.json": {
+        "sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+        "match": true
+      },
+      "W/work/claude-composition-v5-beta/review/gpt61-v1/review.json": {
+        "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+        "match": true
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/review.json": {
+        "sha256": "bcfa259f8690c492b9284ef1ed9549efa7a5d3899edc1fbd5a0ae2ab7234d128",
+        "match": true
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/REVIEW.md": {
+        "sha256": "12cfde3c3eed993b6056dc75d901710bdee1273e67cfe150a9648f99627da161",
+        "match": true
+      }
+    },
+    "new_paths": [
+      {
+        "path": "tests/capi_characterization.json",
+        "absent_in_L0": true
+      },
+      {
+        "path": "tests/capi_guard_pages.py",
+        "absent_in_L0": true
+      },
+      {
+        "path": "tests/capi_layout_baseline.json",
+        "absent_in_L0": true
+      },
+      {
+        "path": "tests/test_capi_characterization.py",
+        "absent_in_L0": true
+      },
+      {
+        "path": "tests/test_capi_diagnostics.py",
+        "absent_in_L0": true
+      },
+      {
+        "path": "tests/test_capi_layout_identity.py",
+        "absent_in_L0": true
+      }
+    ],
+    "checkpoints": {
+      "checkpoint-1.json": {
+        "sha256": "09f44c23be7fe3ab2942a8ce15a209d0cb6eebcda1dbbbaec93865ec0102cae7",
+        "bytes": 31254,
+        "mode": "0600"
+      },
+      "checkpoint-2.json": {
+        "sha256": "239e47d9218ff9ee0c1ba7d440860f231db8875dca5a77c3c340f63a8cc4a750",
+        "bytes": 1727,
+        "mode": "0600"
+      },
+      "checkpoint-3.json": {
+        "sha256": "3a48f01142594599203d2320819637d64a45776c526f826c09fdd77439dea56b",
+        "bytes": 6201,
+        "mode": "0600"
+      },
+      "checkpoint-4.json": {
+        "sha256": "5994555881bb7dc6693e8d7b4a01f3523683bd34c840e27b5bb4a5d07ba90662",
+        "bytes": 2949,
+        "mode": "0600"
+      },
+      "checkpoint-5.json": {
+        "sha256": "d0806fa00e754afe081bcf41c4a15ad2e69a684d4c14cf2d6ce5c2b6b9c9bf17",
+        "bytes": 7891,
+        "mode": "0600"
+      },
+      "checkpoint-6.json": {
+        "sha256": "1f072bc25a6fdb198ba882dc80469ea1371a747e1893f1225b677d95c376f2bb",
+        "bytes": 4366,
+        "mode": "0600"
+      }
+    }
+  },
+  "static_structure": {
+    "characterization_cases": 609,
+    "unique_ids": 609,
+    "generated_names_unique": 609,
+    "diagnostic_cases": 28,
+    "guard_cases": 58,
+    "version_exports": 15,
+    "layout_exports": 25,
+    "ctypes_records": 82,
+    "header_types": 72,
+    "class_counts": {
+      "S": 69,
+      "R0": 221,
+      "R1": 203,
+      "R3": 58,
+      "R2": 58
+    },
+    "case_control_counts": {
+      "C-03": 456,
+      "C-05": 58,
+      "C-01": 408,
+      "C-02": 16,
+      "C-04": 234,
+      "C-15": 5,
+      "C-16": 4,
+      "C-11": 24
+    },
+    "problems": []
+  },
+  "static_placeholder_audit": {
+    "case_expectation_placeholders": [
+      {
+        "id": "U14d_R3_classify_op2_record",
+        "paths": [
+          "writes.arg:output"
+        ],
+        "guarded": false
+      },
+      {
+        "id": "U15f_R3_capture_op2_record",
+        "paths": [
+          "writes.arg:output"
+        ],
+        "guarded": false
+      },
+      {
+        "id": "U15f_R3_seal_op3_record",
+        "paths": [
+          "writes.arg:output"
+        ],
+        "guarded": false
+      }
+    ],
+    "diagnostic_placeholders": [
+      {
+        "id": "D06_failure_latch",
+        "paths": [
+          "returns.2",
+          "returns.6",
+          "lines"
+        ]
+      }
+    ],
+    "layout_group_values": {
+      "layout_exports": {
+        "entries": 25,
+        "all_PLACEHOLDER": true
+      },
+      "ctypes": {
+        "entries": 82,
+        "all_PLACEHOLDER": true
+      },
+      "headers": {
+        "entries": 72,
+        "all_PLACEHOLDER": true
+      }
+    }
+  },
+  "static_header_field_audit": {
+    "kind": "static AST and lexical field-name inspection only; not C or ctypes execution",
+    "ctypes_resolved": 82,
+    "header_field_rosters_checked": 72,
+    "issues": []
+  },
+  "spot_checks": [
+    {
+      "export": "wl_resource_ledger_compute",
+      "finding": "255 on initial/element guards; Data then staged rows; return 0 for every typed status and unconditional writes Detail_Data, Total_Data, Details ascending, Result; handler 255 preserves completed preceding writes. Typed refusal fixtures require zero arenas and empty descriptors.",
+      "evidence": [
+        "S5/core/worldline-resource_ledger_c_api.adb:118-176",
+        "S5/core/resource_ledger.ads:161-205",
+        "files/tests/capi_characterization.json:148-165,504-508,538-540",
+        "files/tests/test_capi_characterization.py:328-349"
+      ]
+    },
+    {
+      "export": "wl_resource_ledger_headroom",
+      "finding": "Capture Available, Withheld, Floor before Shape refusal, with Data unread; Output then Result; return 0, handler 255. C05 protects Data on the R1 fixture.",
+      "evidence": [
+        "S5/core/worldline-resource_ledger_c_api.adb:186-223",
+        "files/tests/capi_characterization.json:169-185,563-570",
+        "files/tests/test_capi_characterization.py:353-368"
+      ]
+    },
+    {
+      "export": "wl_pending_decide_v1",
+      "finding": "Fixed Input/Output/disjoint guards are R0; captured Input precedes every transport/header guard; Data then rows through first invalid element; sole result write, return 0, handler 255. Reserve_New/Write_Pending predictions reflect the retained reference; Is_Successor proof remains open.",
+      "evidence": [
+        "S5/core/evaluation_pending_c.adb:111-173",
+        "S5/core/evaluation_pending.ads:123-165",
+        "S5/core/evaluation_epoch.ads:13-22",
+        "files/tests/capi_characterization.json:216-231,645-686",
+        "files/tests/test_capi_characterization.py:460-518"
+      ]
+    },
+    {
+      "export": "wl_completion_decide_v1",
+      "finding": "R0 then Input; R1 then Data, journal/captured/retained/history/required staging; written typed result and handler 255. C15 preserves the original mismatched-history History_Invalid result with return 0 and exact retained summaries.",
+      "evidence": [
+        "S5/core/evaluation_completion_c.adb:393-527",
+        "S5/core/evaluation_completion.ads:351-433",
+        "files/tests/capi_characterization.json:249-261,787-843",
+        "files/tests/test_capi_characterization.py:678-768"
+      ]
+    },
+    {
+      "export": "wl_completion_raw_decide_v1",
+      "finding": "Operation must be 2; check row validity is tested before Wire and Confinement reads; Wire and Confinement are both captured before their validity refusal. Post-decision malformed-span/binding checks return 255 without a write; sole successful write at 687; handler 255.",
+      "evidence": [
+        "S5/core/evaluation_completion_c.adb:529-692",
+        "files/tests/capi_characterization.json:263-273,846-869",
+        "files/tests/test_capi_characterization.py:751-768"
+      ]
+    },
+    {
+      "export": "wl_finalization_decide_v1",
+      "finding": "Enter mark, fixed guards, captured Input then transport guards, Data then plans; Operations 0/1 allocate Captured but do not read it; Operations 2/3 stage rows; reason/promotion lines precede one Result write; 0 on typed outcomes, handler diagnostic and 255. C16 retains unwritten/PROT_NONE Rows.",
+      "evidence": [
+        "S5/core/evaluation_finalization_c.adb:121-256",
+        "files/tests/capi_characterization.json:299-311,896-941",
+        "files/tests/test_capi_characterization.py:805-854"
+      ]
+    },
+    {
+      "export": "wl_collapse_decide_finalization_v1",
+      "finding": "Initial collapse guard, dependency/nested/agent frontiers and Invalid_Request=255 mappings match sampled cases; no foreign output. Current relational cases match original roster-clear path, but ready/authorized context and metadata joins are omitted (PK0-RC1).",
+      "evidence": [
+        "S5/core/evaluation_finalization_c.adb:357-508",
+        "S5/core/worldline-collapse_wire.ads:71",
+        "S5/core/worldline-evaluation_authority.ads:23-38",
+        "S5/core/worldline-c_api.adb:331-342",
+        "files/tests/capi_characterization.json:313-323,942-965",
+        "files/tests/test_capi_characterization.py:862-911,979-991"
+      ]
+    }
+  ],
+  "item_findings": {
+    "1": {
+      "disposition": "IDENTITY_MATCHES_SOURCE_ONLY",
+      "finding": "Packet and base identities match. All bound paths and the full inventoried S5 source match their recorded hashes, sizes and modes. Payload is additive; six destinations absent in L0; no runtime/Ada/manifest payload. Final static REQUIRED_PROVED roster has 535 unique names; floor 251; sole boundary worldline-c_api; External_Name count 31; zero movers and no appended proof names.",
+      "limits": [
+        "The filesystem checks establish current bytes, not the author's historical process or provenance authenticity.",
+        "No code was run and no stage, control, proof, phase or source acceptance is granted."
+      ],
+      "evidence": [
+        "packet.json:5-43,58-153",
+        "S5/runtime/worldline/proof_manifest.py:22,25,312,314,316,924,940,953,967,972,1003,1012",
+        "S5/core/worldline-c_api.ads:72-243",
+        "v3/DESIGN.md:1897"
+      ],
+      "required_changes": []
+    },
+    "2": {
+      "disposition": "DECLARATIVE_MODEL_MATCHES_COVERAGE_AND_ENFORCEMENT_INCOMPLETE",
+      "finding": "The packet carries the required PK-0 controls and R0/R1/R2/R3/S/H/X model, with design §9.6.4 a-d OPEN, C-12 not authored and C-14 not encoded. It does not yet carry complete mixed-entry coverage or reliable exact diagnostic/fault enforcement.",
+      "evidence": [
+        "packet.json:23-43",
+        "files/tests/capi_characterization.json:15-64,66-407",
+        "files/tests/test_capi_characterization.py:1095-1175",
+        "v3/DESIGN.md:1897,2225-2244",
+        "v4/DESIGN.md:534-629",
+        "v4/review/gpt61-v1/REVIEW.md:62-68",
+        "v5/review/gpt61-v1/REVIEW.md:96",
+        "v6/review/gpt61-v1/REVIEW.md:229-230,287"
+      ],
+      "required_changes": [
+        "PK0-RC1",
+        "PK0-RC3",
+        "PK0-RC4"
+      ]
+    },
+    "3": {
+      "disposition": "SAMPLED_EXPECTATIONS_MATCH_ORIGINAL_MIXED_READY_PATHS_MISSING",
+      "finding": "The inspected actual fixtures retain S5 codes, original defect behavior and source write order. Required change PK0-RC1 addresses omitted mixed-entry frontiers and reachable controls. No accepted-input expectation was changed into a handled-native-failure refusal in the inspected cases. Predictions dependent on unproved relation bodies remain predictions, not acceptance.",
+      "spot_checks": [
+        {
+          "export": "wl_resource_ledger_compute",
+          "finding": "255 on initial/element guards; Data then staged rows; return 0 for every typed status and unconditional writes Detail_Data, Total_Data, Details ascending, Result; handler 255 preserves completed preceding writes. Typed refusal fixtures require zero arenas and empty descriptors.",
+          "evidence": [
+            "S5/core/worldline-resource_ledger_c_api.adb:118-176",
+            "S5/core/resource_ledger.ads:161-205",
+            "files/tests/capi_characterization.json:148-165,504-508,538-540",
+            "files/tests/test_capi_characterization.py:328-349"
+          ]
+        },
+        {
+          "export": "wl_resource_ledger_headroom",
+          "finding": "Capture Available, Withheld, Floor before Shape refusal, with Data unread; Output then Result; return 0, handler 255. C05 protects Data on the R1 fixture.",
+          "evidence": [
+            "S5/core/worldline-resource_ledger_c_api.adb:186-223",
+            "files/tests/capi_characterization.json:169-185,563-570",
+            "files/tests/test_capi_characterization.py:353-368"
+          ]
+        },
+        {
+          "export": "wl_pending_decide_v1",
+          "finding": "Fixed Input/Output/disjoint guards are R0; captured Input precedes every transport/header guard; Data then rows through first invalid element; sole result write, return 0, handler 255. Reserve_New/Write_Pending predictions reflect the retained reference; Is_Successor proof remains open.",
+          "evidence": [
+            "S5/core/evaluation_pending_c.adb:111-173",
+            "S5/core/evaluation_pending.ads:123-165",
+            "S5/core/evaluation_epoch.ads:13-22",
+            "files/tests/capi_characterization.json:216-231,645-686",
+            "files/tests/test_capi_characterization.py:460-518"
+          ]
+        },
+        {
+          "export": "wl_completion_decide_v1",
+          "finding": "R0 then Input; R1 then Data, journal/captured/retained/history/required staging; written typed result and handler 255. C15 preserves the original mismatched-history History_Invalid result with return 0 and exact retained summaries.",
+          "evidence": [
+            "S5/core/evaluation_completion_c.adb:393-527",
+            "S5/core/evaluation_completion.ads:351-433",
+            "files/tests/capi_characterization.json:249-261,787-843",
+            "files/tests/test_capi_characterization.py:678-768"
+          ]
+        },
+        {
+          "export": "wl_completion_raw_decide_v1",
+          "finding": "Operation must be 2; check row validity is tested before Wire and Confinement reads; Wire and Confinement are both captured before their validity refusal. Post-decision malformed-span/binding checks return 255 without a write; sole successful write at 687; handler 255.",
+          "evidence": [
+            "S5/core/evaluation_completion_c.adb:529-692",
+            "files/tests/capi_characterization.json:263-273,846-869",
+            "files/tests/test_capi_characterization.py:751-768"
+          ]
+        },
+        {
+          "export": "wl_finalization_decide_v1",
+          "finding": "Enter mark, fixed guards, captured Input then transport guards, Data then plans; Operations 0/1 allocate Captured but do not read it; Operations 2/3 stage rows; reason/promotion lines precede one Result write; 0 on typed outcomes, handler diagnostic and 255. C16 retains unwritten/PROT_NONE Rows.",
+          "evidence": [
+            "S5/core/evaluation_finalization_c.adb:121-256",
+            "files/tests/capi_characterization.json:299-311,896-941",
+            "files/tests/test_capi_characterization.py:805-854"
+          ]
+        },
+        {
+          "export": "wl_collapse_decide_finalization_v1",
+          "finding": "Initial collapse guard, dependency/nested/agent frontiers and Invalid_Request=255 mappings match sampled cases; no foreign output. Current relational cases match original roster-clear path, but ready/authorized context and metadata joins are omitted (PK0-RC1).",
+          "evidence": [
+            "S5/core/evaluation_finalization_c.adb:357-508",
+            "S5/core/worldline-collapse_wire.ads:71",
+            "S5/core/worldline-evaluation_authority.ads:23-38",
+            "S5/core/worldline-c_api.adb:331-342",
+            "files/tests/capi_characterization.json:313-323,942-965",
+            "files/tests/test_capi_characterization.py:862-911,979-991"
+          ]
+        }
+      ],
+      "required_changes": [
+        "PK0-RC1"
+      ]
+    },
+    "4": {
+      "disposition": "PLACEHOLDERS_FAIL_CLOSED_RECORD_WRITES_SCRATCH",
+      "finding": "All current run-dependent expectations fail until recorded through a reviewed change: layout exports/ctypes/header values, the three unguarded written results, and D06 stops/lines. No record mode updates a baseline or fixture file. The literal requested no-file-write --record property is false for the header compiler scratch (PK0-RC2).",
+      "static_placeholder_audit": {
+        "case_expectation_placeholders": [
+          {
+            "id": "U14d_R3_classify_op2_record",
+            "paths": [
+              "writes.arg:output"
+            ],
+            "guarded": false
+          },
+          {
+            "id": "U15f_R3_capture_op2_record",
+            "paths": [
+              "writes.arg:output"
+            ],
+            "guarded": false
+          },
+          {
+            "id": "U15f_R3_seal_op3_record",
+            "paths": [
+              "writes.arg:output"
+            ],
+            "guarded": false
+          }
+        ],
+        "diagnostic_placeholders": [
+          {
+            "id": "D06_failure_latch",
+            "paths": [
+              "returns.2",
+              "returns.6",
+              "lines"
+            ]
+          }
+        ],
+        "layout_group_values": {
+          "layout_exports": {
+            "entries": 25,
+            "all_PLACEHOLDER": true
+          },
+          "ctypes": {
+            "entries": 82,
+            "all_PLACEHOLDER": true
+          },
+          "headers": {
+            "entries": 72,
+            "all_PLACEHOLDER": true
+          }
+        }
+      },
+      "evidence": [
+        "files/tests/capi_characterization.json:332,796,901-902",
+        "files/tests/test_capi_characterization.py:999-1006,1095-1136,1178-1203",
+        "files/tests/test_capi_layout_identity.py:173-200,213-231",
+        "files/tests/test_capi_diagnostics.py:135-164,188-205"
+      ],
+      "required_changes": [
+        "PK0-RC2"
+      ]
+    },
+    "5": {
+      "disposition": "MECHANICS_REQUIRE_REPAIR_AND_EXECUTION_PROPERTIES_REMAIN_OPEN",
+      "finding": "Placement, mapping byte comparisons, signaled-exit failure and D06 descriptor scoping are credible source mechanics. Guard-fault non-conversion and lossless diagnostics need source repair; isolation/layout/launch claims need correction and concrete admitted execution supervision. No tests, helpers, native libraries or compiler probes were run.",
+      "mechanics": {
+        "placement": "Own page groups, 0xA5 initialization, protected whole objects or suffixes at the stated element frontier; only readable initial bytes are written.",
+        "comparison_scope": "All readable bytes of the child-owned mapping outside output windows; no-write windows compare raw bytes including padding; written windows compare all typed fields. Guard cases intentionally check normal exit and expected code only. No heap/global/full-address-space write claim or dynamic canonical-write-order evidence.",
+        "fault_status": "OS-signaled and nonzero exits fail; child Python errors produce nonzero exit. Native conversion of protection faults is not excluded by source (RC3).",
+        "fork_scope": "Decision scenarios and zero-roster oracle execute inside the fork. Core initialization and scalar layout/version measurement execute in the parent. Reader drains pipe before waiting; it validates status before accepting payload.",
+        "diagnostic_fd2": "Fresh interpreter; Python stderr diverted to /dev/null; actual fd 2 captured. /dev/full dup2 and restoration modify child descriptors only. D06 runtime failure latch values remain placeholders.",
+        "side_effects": "Anonymous maps and pipes are process-local. Header measurement creates and removes compiler scratch. Ambient TMPDIR and top-level import bytecode are not intrinsically bound; admitted launch must establish their confinement. No source path writes baseline JSON.",
+        "unproved_expectations": "Acceptable as explicit source-derived predictions that fail on disagreement, never proof or native observations; preserve required successes and defects.",
+        "finite_probe_domains": "U8 enumeration and finite U32 edge probes acceptable as declared finite characterization. They do not narrow the original U32 API domain or prove it.",
+        "timeouts": "A hang is not a pass, but blocks select/waitpid/subprocess.run. Correct containment claims and provide reviewed admitted supervision; a deadline must remain failure/unknown, not a semantic refusal or a reduced input domain.",
+        "header_warnings": "Without -Werror acceptable only for separately labeled layout measurement with warnings retained. The original S5 strict -Werror ABI test remains intact and required; no warning waiver.",
+        "ctypes": "82 named ctypes classes and 72 header field rosters resolve by static AST/lexical inspection. No size/alignment/native correspondence was measured. Core-only loading does not check the other component layouts; C13 preserves the independent spellings."
+      },
+      "evidence": [
+        "files/tests/capi_guard_pages.py:152-203,206-296,299-351",
+        "files/tests/test_capi_characterization.py:979-994,1009-1016,1059-1136",
+        "files/tests/test_capi_diagnostics.py:57-124,135-164,188-198",
+        "files/tests/test_capi_layout_identity.py:52-86,102-132,144-226",
+        "AUTHOR-NOTES.md:139-169",
+        "S5/tests/test_abi_layout.py:103-125",
+        "v4/DESIGN.md:586-629"
+      ],
+      "required_changes": [
+        "PK0-RC3",
+        "PK0-RC4",
+        "PK0-RC5"
+      ]
+    },
+    "6": {
+      "disposition": "NO_POLICY_OR_PROOF_DELTA_NO_ACCEPTANCE",
+      "finding": "No Ada, contract, project, runtime, existing test, proof floor, ordered proof roster or original input-domain delta is supplied. The finite characterization is additive and its placeholders remain non-passing. No C-14 stronger behavior or C-12 forced allocation experiment is encoded. Required source repairs remain; all baseline, native correspondence, full-body proof, control and stage/Phase acceptance obligations remain OPEN.",
+      "limits": [
+        "Current byte/hash identity does not authenticate historical author execution claims, atomic source custody, actual native library identity or installation.",
+        "The sample review of existing expectations is not exhaustive proof over the original domains.",
+        "A missing positive path is an unfulfilled engineering obligation, not a new refusal domain.",
+        "The guard-helper negative control required by RC3 is infrastructure validation only; it must not add class-X semantic expectations to PK-0.",
+        "Deadlines and scratch/bytecode confinement belong to concrete admitted test execution; they must not cap the original semantic domain or convert a failure/unknown outcome into an accepted refusal.",
+        "No operational continuation, source overlay, toolchain run, storage action, SIA note, acceptance or publication was performed."
+      ],
+      "evidence": [
+        "packet.json:23-51",
+        "files/tests/capi_characterization.json:15-41,50-64",
+        "AUTHOR-NOTES.md:7-11,139-169",
+        "W/outputs/claude-phase1-handoff-20261004/HANDOFF.md:25-29,151-167,173-177",
+        "/home/sicarii/Documents/complete-phase1-prompt.txt:30-34,60-68",
+        "WT/designs/claude-capi-boundary-design-v3/DESIGN.md:1897",
+        "WT/designs/claude-capi-boundary-design-v4/DESIGN.md:584-629"
+      ],
+      "required_changes": [
+        "PK0-RC1",
+        "PK0-RC2",
+        "PK0-RC3",
+        "PK0-RC4",
+        "PK0-RC5"
+      ]
+    }
+  },
+  "required_changes": [
+    {
+      "id": "PK0-RC1",
+      "change": "Complete the mixed-entry characterization and C-03/C-05/C-06/C-11 coverage for the original ready/authorized paths: build faithful ready primary and staged Kind 1/2 inputs and a genuinely admitted Agent-origin record, exercise each reachable primary/staged context and metadata join rejection plus original successful joins, and record their precise nested read frontiers. Retain the current zero-roster relational cases and every original fixture.",
+      "reason": "The mixed R1 table stops at the agent-record check and the entire mixed fixture family cannot reach Agent_Ready = 1. Consequently the original context rejection guards and authorized Kind-1 metadata joins are not characterized or controlled. This fails the one-case-per-exercisable-guard and per-export-frontier requirements; a note about the joins is not coverage.",
+      "evidence": [
+        "files/tests/capi_characterization.json:53,55-58,318-323,942-965",
+        "files/tests/test_capi_characterization.py:862-911,979-994",
+        "S5/core/evaluation_finalization_c.adb:468-502",
+        "v3/DESIGN.md:2229,2231-2232,2237",
+        "v4/DESIGN.md:577,620-626"
+      ]
+    },
+    {
+      "id": "PK0-RC2",
+      "change": "Make every --record path output-only as requested. Split the compiled-header scratch measurement from layout --record and consume its independently bound measurements read-only; keep normal measurement artifacts confined to the admitted test scratch. Correct the packet and author claims accordingly, with reviewed changes and new hashes. Never add an automatic baseline/fixture writer.",
+      "reason": "Layout record_main calls header_layouts, which creates a TemporaryDirectory, writes probe.c and causes the compiler to create probe. There is no baseline JSON rewrite, but the stronger literal no-file-write record contract is not met.",
+      "evidence": [
+        "files/tests/test_capi_layout_identity.py:13-19,112-132,213-226",
+        "packet.json:45-47",
+        "AUTHOR-NOTES.md:124"
+      ]
+    },
+    {
+      "id": "PK0-RC3",
+      "change": "Enforce, in the guarded-call child after native-library initialization, that a protection fault is a failed case and cannot be converted to an expected handler/refusal code. Add a reviewed fatal-fault policy and a harness-only negative control for the protected-memory mechanism under that initialized runtime, retaining its abnormal status. This control must validate the helper's failure reporting without encoding any WORLDLINE class-X return/write expectation. Do not execute it before the confinement and capacity gates are satisfied.",
+      "reason": "The helper checks only process exit status and the returned code. It does not establish a SIGSEGV/SIGBUS policy. S5 handlers can return the same 255 expected by guarded refusal cases if a native runtime converts a protection fault to a handled exception. Thus normal exit plus 255 alone does not establish the promised fault-never-a-code rule. This is an unenforced distinction, not an observation that this unrun library performs such conversion.",
+      "evidence": [
+        "files/tests/capi_guard_pages.py:7-12,237-263,314-351",
+        "files/tests/test_capi_characterization.py:1095-1115",
+        "files/tests/capi_characterization.json:40,55",
+        "S5/core/evaluation_completion_c.adb:526-527",
+        "S5/core/evaluation_finalization_c.adb:505-508",
+        "S5/core/worldline_core.gpr:81-82",
+        "v4/DESIGN.md:610,626"
+      ]
+    },
+    {
+      "id": "PK0-RC4",
+      "change": "Preserve the captured fd 2 byte stream in diagnostic observations and --record output, and compare its exact bytes or decode strictly with failure on undecodable data. Retain line order, empty lines and terminators explicitly; never use replacement decoding to establish the D06 baseline.",
+      "reason": "observed() uses UTF-8 replacement decoding and record_main retains only those decoded lines. Distinct invalid byte streams can collapse to the same recorded replacement characters, so a reviewed D06 fixture derived from this output could later pass after native diagnostic bytes changed. The exact diagnostic control must retain the original bytes.",
+      "evidence": [
+        "files/tests/test_capi_diagnostics.py:5-17,110-124,158-164,188-198",
+        "files/tests/capi_characterization.json:56,332",
+        "v3/DESIGN.md:2232"
+      ]
+    },
+    {
+      "id": "PK0-RC5",
+      "change": "Correct the source and author statements about intrinsic isolation, imports and layout checking. State the actual boundary: guarded decision calls are forked; library initialization and scalar layout/version calls also occur in the parent; a hung child blocks the current reader; importing the helper loads libc; Core validates only its own _LAYOUTS, while the other component constructors are not invoked by these builders. Bind the future admitted launch to bytecode suppression, owned scratch and reviewed supervision of every native/compile/probe process. Establish these launch properties as evidence, not semantic assumptions, before the baseline.",
+      "reason": "Several assurances are stronger than the code. There is no timeout in select/waitpid or subprocess.run, parent native initialization/queries are outside run_forked, and merely importing component ctypes classes does not invoke their ABI-checking constructors. Only the diagnostic subprocess explicitly disables bytecode writes; the header scratch follows ambient temporary-directory selection. These facts cannot justify whole-suite hang/fault containment or automatic agreement of all ctypes layouts. Preserve the separate original layout spellings, including any measured defect.",
+      "evidence": [
+        "files/tests/capi_guard_pages.py:7-12,39-42,299-339",
+        "files/tests/test_capi_characterization.py:21-26,43-59,1090-1093",
+        "files/tests/test_capi_layout_identity.py:21-22,127-132,144-158,213-222",
+        "files/tests/test_capi_diagnostics.py:110-116",
+        "AUTHOR-NOTES.md:27,145,156-159",
+        "S5/runtime/worldline/core.py:171-173,317-335,402-425",
+        "S5/runtime/worldline/pending_kernel.py:85-108",
+        "S5/runtime/worldline/finalization_kernel.py:81-101",
+        "S5/runtime/worldline/completion_kernel.py:115-136",
+        "S5/runtime/worldline/recovery_authority_kernel.py:97-115"
+      ]
+    }
+  ],
+  "jackal": {
+    "request": {
+      "tool": "jackal_exact",
+      "expression": "280+11+4+5+8+31+34+46+1+115"
+    },
+    "result": {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=280+11+4+5+8+31+34+46+1+115 exact=535 approx=535",
+      "fields": {
+        "approx": "535",
+        "exact": "535",
+        "parsed": "280+11+4+5+8+31+34+46+1+115",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    },
+    "scope": "Informational arithmetic for the literal proof-roster block lengths. No code-correctness, proof, native-layout or execution conclusion follows.",
+    "author_jackal_record": "jackal.json was read and hashed as the author's recorded tool-output data. It is not a verified formal receipt or run/control evidence."
+  },
+  "checkpoint_policy": {
+    "create_only": true,
+    "mode": "0600",
+    "fsync": true,
+    "checkpoint6_clarification": "RC3's negative control is helper infrastructure validation; no WORLDLINE class-X semantic expectation is authorized."
+  },
+  "open_obligations": [
+    "Repair and independently re-review the packet source with new identities before baseline execution.",
+    "Confinement frame v5 is UNQUALIFIED; V5-B01 and V5-B02, and the capacity gate, remain blockers as stated by the user and packet, not independently qualified by this source review.",
+    "Admitted L0 baseline and reviewed recording of every placeholder remain OPEN.",
+    "Class-H failure location/copy atomicity and native write construction/possible-outcome preservation (design §9.6.4 a-d) remain OPEN.",
+    "Actual native runtime/library/compiler/ABI identities, warnings, raw streams, waits, guard-fault mechanism and supervised process lifetimes remain unmeasured.",
+    "Full original contracts, bodies, references, producers/callers, proof scope, successful cases and fault controls remain required. PK-0 supplies no proof, source, control or Phase acceptance.",
+    "Exact source/library/tool/header/runtime selection and preservation of compiler diagnostics and raw diagnostic bytes must be bound by the admitted baseline frame.",
+    "The packet's C-05 controls provide finite frontier over-read checks, not proof that each frontier byte was read, universal pointer validity or native fault/ABI/cost correspondence.",
+    "Original strict warning/proof settings and complete original ordered ordinary/additive controls must be retained; no prior pass or source endorsement transfers to a changed packet."
+  ],
+  "limits": [
+    "Hash/mode observations bind currently read files; they are not historical process authentication or an atomic snapshot.",
+    "Source assertions and finite fixtures supply no run or full-domain proof evidence.",
+    "Required source revisions must be independently re-reviewed; revised hashes cannot inherit this verdict automatically."
+  ]
+}
