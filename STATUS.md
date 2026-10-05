@@ -251,7 +251,30 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 09:40Z)
+## In progress (updated 10:54Z)
+
+- **W-1 v6** (`proposal/ISOLATION-STORAGE-PROPOSAL-v6.md` `5a0e861b…`, one complete document; `v6-support/jackal.json`
+  `10c30d8e…`).
+  - **The author's central conclusion (K0).** No custody mechanism meets V5-B01 and V5-B02 without some new
+    non-success outcome or behaviour change, so both stay OPEN and unnarrowed.
+  - **What v6 changes.**
+    - It withdraws v5's revocation and v5's new refusals, and corrects v5's false "existing rules" claim.
+    - It offers an in-place route (outputs already closed) and a copy route (O copies into fresh W roots, and W swaps
+      them with RENAME_EXCHANGE), confined at each mutation on premises PTRACE-GID, EXCH and COPY.
+    - §21 catalogues every change against the original.
+  - **Lead checks.**
+    - The hashes match the report.
+    - All 70 units marked CARRIED are byte-identical to composed v5.
+    - The JACKAL re-runs reproduce `exact`.
+  - **Process.** Recorded in `deviations/w1-v6-author-process/NOTE.md`: the author printed SIA calls from the lead's
+    transcript, mistaking it for its own record, a second instance of the pattern. Future resume messages name the
+    agent's own record path.
+  - **Review.** W-1's own actual gpt-6.1-sol design review started 10:53Z: brief `briefs/w1-design-v6.md`
+    (`e0aeed18…`), thread `01a10bb2-3d79-7253-82e0-e36669095fdc`, output to `proposal/v6-review/gpt61-v1`.
+- **Pacing, updated.** Free space was 9847558144 bytes at 10:53:13Z, 152441856 below the reserve (JACKAL exact).
+  - Seam v5 and PK-0 v2 stay held, although W-1 v6 has landed, because storage keeps falling. The critical-path W-1
+    review goes first.
+  - This is lead judgment, not S-1 option 4.
 
 - **Pacing (lead judgment, not an operator choice).** Free space was 9875791872 bytes at 09:38:04Z: 124208128 below the
   reserve, and 54571008 bytes less than at 08:38:59Z (JACKAL exact).

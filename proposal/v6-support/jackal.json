@@ -1,0 +1,98 @@
+{
+  "schema": "w1-v6-jackal-calls-v1",
+  "document": "wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v6.md",
+  "recorded_by": "drafting author (Claude Code subagent, claude-opus-5-5) for the Claude Code lead, 2026-10-05 UTC",
+  "tool": "actual MCP jackal_exact",
+  "common_response": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling": "none returned; used as informational arithmetic only"
+  },
+  "truth_boundary": "Exact rational arithmetic outside the Lean certificate chain; not formal-bounded. The calls count named items of the v6 text (the gpt61-v5 review's required W-1 corrections, partition roots, new units, routes and similar) and check the arithmetic of the v6 change map (unit counts). They establish no custody, preservation, durability, capacity, correctness or closure. Nothing here is executed evidence of the design. The JACKAL convenience ledger was not used as a source; every value below is the tool response received in this session. Calls were made in two groups, of four and of two, never more than four in a group.",
+  "called": "2026-10-05, shortly before the 10:43:14Z observation of Appendix F.2; per-call times were not captured",
+  "calls": [
+    {
+      "id": "W1_REQUIRED_CORRECTIONS_V5_REVIEW",
+      "use": "count of the gpt61-v5 review's W-1 required corrections, one per named id (W1-V5-PRESERVATION, W1-V5-REVOCATION-CONFINEMENT, W1-V5-PROTOCOL-REFUSALS, W1-V5-JOURNAL-FAILED-CLOSE, W1-V5-RECONCILIATION-STATES, W1-V5-IMAGE-PINS)",
+      "submitted": "1+1+1+1+1+1",
+      "parsed": "1+1+1+1+1+1",
+      "exact": "6",
+      "approx": "6",
+      "engine_output": "status=exact parsed=1+1+1+1+1+1 exact=6 approx=6",
+      "relied_on": true
+    },
+    {
+      "id": "CHANGE_MAP_PARTITION",
+      "use": "check that the v6 statuses partition the composed-v5 units: 70 carried + 29 amended + 16 replaced - 115 composed-v5 units",
+      "submitted": "70+29+16-115",
+      "parsed": "70+29+16-115",
+      "exact": "0",
+      "approx": "0",
+      "engine_output": "status=exact parsed=70+29+16-115 exact=0 approx=0",
+      "relied_on": true
+    },
+    {
+      "id": "V6_UNITS",
+      "use": "units of v6: 115 composed-v5 units + 3 new units (section 14.7, section 21, Appendix F)",
+      "submitted": "115+3",
+      "parsed": "115+3",
+      "exact": "118",
+      "approx": "118",
+      "engine_output": "status=exact parsed=115+3 exact=118 approx=118",
+      "relied_on": true
+    },
+    {
+      "id": "COUNT_FOUR",
+      "use": "one per named item: the partition roots obj, lib, resource-tests/obj and resource-tests/bin (and so the fresh roots of the copy route); the options (i)-(iv) of section 9.8 K0",
+      "submitted": "1+1+1+1",
+      "parsed": "1+1+1+1",
+      "exact": "4",
+      "approx": "4",
+      "engine_output": "status=exact parsed=1+1+1+1 exact=4 approx=4",
+      "relied_on": true
+    },
+    {
+      "id": "COUNT_THREE",
+      "use": "one per named item: the new units (section 14.7, section 21, Appendix F); the rows section 6.3 adds (outputs/, outputs/<A>/, the fresh and retired roots)",
+      "submitted": "1+1+1",
+      "parsed": "1+1+1",
+      "exact": "3",
+      "approx": "3",
+      "engine_output": "status=exact parsed=1+1+1 exact=3 approx=3",
+      "relied_on": true
+    },
+    {
+      "id": "COUNT_TWO",
+      "use": "one per named item: the two routes (in place, copy); SCAN-GATE and SCAN-W; the two directories an exchange renames; the two steps of an account atom and the operator's two S-R actions; a copy beside its source (section 14.7)",
+      "submitted": "1+1",
+      "parsed": "1+1",
+      "exact": "2",
+      "approx": "2",
+      "engine_output": "status=exact parsed=1+1 exact=2 approx=2",
+      "relied_on": true
+    }
+  ],
+  "earlier_evaluations": "The expressions of W1_REQUIRED_CORRECTIONS_V5_REVIEW, CHANGE_MAP_PARTITION and V6_UNITS were also evaluated earlier on 2026-10-05 in this drafting session, with the same parsed and exact values; the responses recorded above are the later ones.",
+  "carried_from_v5": {
+    "record": "wt-1/proposal/v5-support/jackal.json",
+    "sha256": "df5d2a77d6a0ba908f8079b34b33bfa0a7cb13fe43afee01821723c7a32be929",
+    "bytes": "4359",
+    "status": "used as given (Appendix E of v6, carried byte-for-byte); not recomputed for v6. v3-support and v4-support are carried in the same way (Appendix C)."
+  },
+  "values_used_as_given": {
+    "composed_v5_units": {"value": "115", "source": "printed by a read-only Python script that split the composed v5 file into units (section 0.1) and hashed them; observed, not derived"},
+    "status_counts": {"value": "70 carried, 29 amended, 16 replaced", "source": "printed by the same read-only script under the final v6 status assignment; observed, and checked by CHANGE_MAP_PARTITION"},
+    "composed_v5_size": {"value": "466105 bytes, 4780 lines", "source": "printed by the same read-only script; observed"},
+    "block_size": {"value": "4096", "source": "stat -f /var/lib (09:37:31Z) and stat -f / (10:43:14Z), observed 2026-10-05 (Appendix F.2)"},
+    "free_space": {"value": "9877860352 bytes at 09:37:31Z; 9849405440 bytes (df -h: 9.2G) at 10:43:14Z", "source": "df -B1 /, observed 2026-10-05; not Gate 0 readings"}
+  },
+  "refusals": []
+}
