@@ -276,7 +276,19 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 15:55Z, new Claude Code session)
+## In progress (updated 16:20Z, new Claude Code session)
+
+- **W-1 v8** (`proposal/ISOLATION-STORAGE-PROPOSAL-v8.md` `804da95b…`; `v8-support/jackal.json` `cdae49fc…`).
+  - **What it adopts.** A "same-identity view": c8 with a W-owned user namespace and identity maps, so the target keeps
+    the lead's uid, groups and limits. Plus a private network namespace and Landlock.
+  - **What stays OPEN.** V5-B01, V5-B02, W1-V5-PRESERVATION, W1-V6-READ-MUTATION and W1-V7-HOLDER-STATE (P-IOEXIT).
+  - **Form.** A delta over v7: hash stubs, some amendments stated as rules. All 124 map rows were verified against v7,
+    with JACKAL exact.
+  - **Process.** `deviations/w1-v8-author-process/NOTE.md`: WebFetch of upstream kernel source.
+  - **Review.** Its own actual gpt-6.1-sol review started ~16:19Z: brief `briefs/w1-design-v8.md`, output to
+    `proposal/v8-review/gpt61-v1`.
+- **Storage at 16:17:39Z.** Free 59796766720 bytes, 49796766720 above the reserve (JACKAL exact). The source of the
+  rise since 15:50Z is not attributed.
 
 - **Storage relieved by Codex** (receipt `work/local-storage-relief-20261005/CURRENT-RELIEF.md`, `a680fafb…`;
   human-authorized).
