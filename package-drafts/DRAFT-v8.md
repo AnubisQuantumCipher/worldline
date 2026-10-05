@@ -1,7 +1,7 @@
 # Operator decision package — WORLDLINE Phase One (DRAFT v8; not yet reviewed)
 
-Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~06:05Z, from frozen DRAFT-v7 `96dc07e8…`; W-1
-summary to be refreshed and the draft frozen when W-1 v5 lands).
+Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~06:05Z, from frozen DRAFT-v7 `96dc07e8…`; refreshed
+and frozen ~07:40Z with W-1 v5).
 
 **Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v8.md`. At ~04:19Z the edit
 guard refused Edit-tool changes to `W/work/claude-operator-decision-package-v1/DRAFT-v7.md`, which is outside any git
@@ -28,7 +28,7 @@ worktree and edits only copies there. The package-directory files DRAFT-v0 to DR
   - That correction also addresses the only reason the review gave for leaving PKG-SUPERVISION-RECORD NOT_CLOSED: the
     false "no interruption since the ruling" sentence.
   - Both are "corrected, awaiting review", not closed.
-  - v8 will be paired with W-1 v5, which is in drafting for the six W-1 corrections.
+  - v8 is paired with W-1 v5 (`303205b1…`), the drafting author's answer to the six W-1 corrections.
   - The status table at the end distinguishes sealed closures from "corrected, awaiting review".
 - **This draft gets its own actual gpt-6.1-sol review before it comes to you.**
 
@@ -94,7 +94,9 @@ gate is removed anywhere in this package.
     - The lead deleted, moved and offloaded nothing, and took no size reading of vault paths after the handover to
       Codex.
     - Gate 0 is still far from met (below).
-  - **10110992384 at 04:45:27Z (`df`)**, 110992384 bytes above the reserve (JACKAL exact). This is the reading this
+  - **10110992384 at 04:45:27Z (`df`)**, 110992384 bytes above the reserve (JACKAL exact).
+  - 9989894144 at 07:05:54Z (`df`), 10105856 bytes **below** the reserve (JACKAL exact).
+  - **9983582208 at 07:34:22Z (`df`), 16417792 bytes below the reserve (JACKAL exact).** This is the reading this
     draft is frozen with.
 - The configured reserve is 10000000000 bytes, unchanged.
 - At 02:01:52Z, as at 23:32:06Z, `storage_status.py` reports `backup_service`: `ActiveState=failed`, `SubState=failed`,
@@ -143,7 +145,8 @@ gate is removed anywhere in this package.
 
 **Derived** (JACKAL exact, formal=false):
 - Margin above the reserve: 460753920 bytes at 23:32:06Z; 370256896 bytes at 02:01:52Z; −1901872128 bytes at
-  03:37:37Z; 136649728 bytes at 04:17:40Z; 110992384 bytes at 04:45:27Z.
+  03:37:37Z; 136649728 bytes at 04:17:40Z; 110992384 bytes at 04:45:27Z; −10105856 bytes at 07:05:54Z; −16417792 bytes
+  at 07:34:22Z.
 - Mean declines between readings:
   - 18:49:03Z to 20:37:33Z: 296433664/3255 bytes/s;
   - 20:37:33Z to 21:02:25Z: 10458112/373 bytes/s;
@@ -168,16 +171,14 @@ list:
 - **Not owned by this task:** `~/.cache/workflow-tmp` held 11893443305 bytes at ~21:03Z, including other sessions'
   data.
 
-**Lead activity snapshot (~06:10Z; it changes as agents finish):**
-- **C-API.** The DESIGN v5 review sealed ~05:05Z, ENDORSED_WITH_REQUIRED_CHANGES (C-1..C-3). The same author has been
-  drafting v6 since ~05:07Z.
-- **Root-worker seam design v3** (`a0f2f411…`). Handed back ~05:55Z. Its actual gpt-6.1-sol review started at 05:58Z
-  (RW-1).
-- **W-1.** The v4 review is sealed, NOT_READY, inside this package's v7 review. The same author has been drafting v5
-  since ~05:59Z, and this draft is frozen with it.
+**Lead activity snapshot (~07:40Z; it changes as agents finish):**
+- **C-API.** DESIGN v6 is ENDORSED (C-1..C-3). The same author has been writing packet PK-0 as source only since
+  ~07:08Z.
+- **Root-worker seam design v3.** Its review sealed ~07:05Z, ENDORSED_WITH_REQUIRED_CHANGES (RW-1). The same author has
+  been drafting v4 since ~07:08Z.
+- **W-1 v5** (`303205b1…`). Handed back after 07:30:24Z and paired with this draft.
 - **D1 DESIGN v4 review.** INCOMPLETE and untouched (Isolation record). It holds one of three runner slots.
-- **Runner slots.** Two of the three are in use, by the stalled D1 v4 review and the seam v3 review. If all three are
-  busy, a new review waits for a free slot, and waiting interrupts nothing.
+- **Runner slots.** Only the stalled D1 v4 review holds one now. This draft's review takes another.
 - **No proof, compile or setup action** has run.
 
 ### Gate 0 (runbook v4.3; observations separate from labelled allowances)
@@ -205,6 +206,7 @@ list:
 - **Every allowance is a labelled judgment, not a bound.**
 - **At 02:01:52Z** the margin minus Required is −8787102018540/1397 bytes, about −6.29 GB (JACKAL exact).
 - **At 04:45:27Z** it is −9149294541804/1397 bytes; JACKAL's approx is −6549244482.32 (exact).
+- **At 07:34:22Z** it is −9327286557676/1397 bytes; JACKAL's approx is −6676654658.32 (exact).
 - **Under W-1 v3, carried unchanged into v4**, the proposed staged Gate 0 (§14; an author proposal, unreviewed; the
   lead reproduced it with JACKAL) adds labelled allowances. Retained inputs and messages, exports, retries, the fallback journal, target
   temporaries, journal effects and their restore account for 4340810164 bytes more.
@@ -216,7 +218,8 @@ list:
   | Selftests | 1843272351744/1397, about 1.32 GB |
 
   At 02:01:52Z the dispatch-stage margin is −14851213817648/1397, about −10.63 GB. At 04:45:27Z it is
-  −15213406340912/1397; JACKAL's approx is −10890054646.32 (exact). All stages are DEFERRED.
+  −15213406340912/1397; JACKAL's approx is −10890054646.32 (exact). At 07:34:22Z it is −15391398356784/1397; JACKAL's
+  approx is −11017464822.32 (exact). The staged figures are unchanged in W-1 v5. All stages are DEFERRED.
   **Status: NOT ESTABLISHED, so dispatch is DEFERRED.**
 - **What the gate rules out:**
   - A sampling monitor is never a bound.
@@ -371,8 +374,7 @@ and W1-IMAGE-TREE.
   verification; no design text or author self-check supplies that evidence."
 - **What it requires.** Six new W-1 corrections: W1-CUSTODY-CLOSURE, W1-PROTOCOL-FAILURE-STATES,
   W1-JOURNAL-CONTINUATION, W1-SETUP-IDENTITY, W1-SETUP-RECONCILIATION and W1-IMAGE-OBSERVATION.
-- **W-1 v5** is being drafted by the same author for them. This section describes v4 until v5 lands, and the draft is
-  frozen with v5.
+- **W-1 v5** answers them; see below.
 - **Status of v4.** It is design text only: no account, group, ACL, sudo, drop-in, install, mount, linger, unit, probe
   or selftest action exists.
 - **The author's assessment of v4.** All six v6 corrections were "CLOSED-AT-SPEC-LEVEL" in its §18. The v7 review ruled
@@ -383,6 +385,52 @@ and W1-IMAGE-TREE.
   - every section v4 says it carries byte-for-byte from v3 has an identical body, and so do Appendix A and B.1 (lead
     script);
   - §14.3 differs only by the D7→D10 renumbering.
+
+**W-1 v5** (`WT/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md`, `303205b1…`, 237502 bytes; support `v5-support/jackal.json`
+`df5d2a77…`) is the successor specification, paired with this draft for the next review.
+- **Form.** It is a delta file over v4, composed by its §0.1 rule:
+  - 69 v4 units carried, 21 replaced, 16 amended by 30 exact amendments, and 3 new units;
+  - §18.5 maps every v4 unit with its identity;
+  - the composed text is 466105 bytes, sha256 `6cbc9c07…6113490`.
+  - A derived convenience copy is `WT/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md`. The lead's script
+    composed it independently, and it is hash-equal to the author's rebuilt text.
+- **Status.** The same author-role drafting agent wrote it, and it is unreviewed. It is design text only: nothing is
+  installed or executed.
+- **The author's assessment.** All six v7-review corrections are "CLOSED-AT-SPEC-LEVEL", with W1-CUSTODY-CLOSURE
+  conditional on the premises of its §9.8 K7. That is the author's claim, not closure.
+- **What v5 changes** (the author's statements, unreviewed):
+  - **Custody closure.**
+    - Before each parent-stage walk, the observer O clears group and other write bits on the target-owned partition
+      contents, recording every change. This is a new frame mutation inside the protected tree.
+    - The walks then require every entry to be "W-CLOSED": owner R, a regular file or directory, no group or other
+      write bit, no set-ID bit, one link.
+    - The target's filter also denies `io_uring`. The user-manager drop-in adds `NoNewPrivileges`, `RestrictSUIDSGID`,
+      `SystemCallArchitectures=native` and an `io_uring` filter.
+    - v4's quiescence inference is replaced by a stated quiescence property under trusted-systemd premises.
+  - **Protocol failure states.** Explicit early-refusal and spawn-failure states (no start is ever fabricated). A late
+    release-intent result changes nothing, and no release gate is added. Success is defined per verb.
+  - **Journal continuation.** A record counts as committed only when a later chain marker confirms it, and continuation
+    markers resolve gaps. One rule covers every consumer.
+  - **Setup identity.** It is sealed from outside, and never lists itself.
+  - **Setup reconciliation.** One object per step. S-R classifies by observation and never re-runs a completed step. A
+    `check_out.py` helper replaces pipelines.
+  - **Image observation.** The images directory becomes root:W 0710, so W can check the image files, and
+    `lost+found` is a pinned special entry.
+- **New premises,** each with a probe and "redesign, no exception": K-PERM, K-CHMOD, H1–H3, LOOKUP. v4's premises
+  remain.
+- **The lead's checks** (engineering only, not review):
+  - both hashes equal the author's report;
+  - the composition reproduces the author's hash, and all 30 amendments apply exactly once;
+  - all 106 change-map rows match v4 by bytes and sha256. One cosmetic error: the Appendix D row gives v4 lines up to
+    3325, but v4 has 3324;
+  - the four recorded JACKAL values reproduce `exact`;
+  - the staged Gate 0 figures are unchanged.
+- **What the lead asks the reviewer to check specifically.**
+  - The author says W-CLOSED (c2), (c4) and (c5) are the frame walk's existing rules. If so, the new refusal surface
+    is only (c1), (c3) and O's revocation. Whether any of these can refuse or change an originally accepted run or
+    output is for the review.
+- **Process.** `WT/deviations/w1-v5-author-process/NOTE.md`: one `2>/dev/null` against the explicit limit; nothing
+  written.
 
 **What v3 specified, and v4 keeps:**
 - **Generation order.** Separate create-only records:
@@ -475,7 +523,8 @@ and W1-IMAGE-TREE.
   `io_uring` or `openat2`, or (new in v4) uses the session bus. If any is false, W-1 is redesigned and no accepted case
   is narrowed.
 
-**The current route offered for your optional preparatory choice (W-1 v4).** This replaces the earlier v2 summary.
+**The current route offered for your optional preparatory choice (W-1 v4, as amended by v5).** This replaces the
+earlier v2 summary.
 v2's two-group, direct-UID-ACL design is **superseded** and is not the route on offer.
 - **Identities: 2 new users and 3 new groups** (JACKAL exact, `1+1` and `1+1+1`):
   - writer `wlscratch`, with its private group;
@@ -522,16 +571,19 @@ v2's two-group, direct-UID-ACL design is **superseded** and is not the route on 
       inspected.
   - **Option B.** A root-owned sandbox launcher with a private mount namespace (design level only).
 - **What stays with the front:** storage and the vault, run as `sicarii`.
-- **What the review must still rule on.** The sealed v6 review called this "a plausible custody architecture" and
-  required six specification corrections:
-  - generation protocol;
-  - commit, journal and export;
-  - terminal custody;
-  - durability versus release;
-  - setup, probes and rollback;
-  - the optional-image tree.
+- **Added in v5, still inside the reserved privileged setup and rollback:**
+  - extra lines in the user-manager drop-in: `NoNewPrivileges`, `RestrictSUIDSGID`, `SystemCallArchitectures=native`
+    and an `io_uring` filter;
+  - the images directory as root:W 0710;
+  - the target's filter also denying `io_uring`;
+  - the observer's write-bit revocation, a frame mutation inside the protected tree.
 
-  W-1 v4 is the author's answer to all six. The independent review of this draft rules on them.
+  None adds an approval gate.
+- **What the review must still rule on.**
+  - The v6 review called this "a plausible custody architecture" and required six corrections, which W-1 v4 answered.
+  - The v7 review called its single-tree routing "a plausible V5-B02 design direction", found the custody argument
+    invalidated, and required six new corrections.
+  - W-1 v5 is the author's answer to those six. The independent review of this draft rules on them.
 
 V5-B01, V5-B02 and every original obligation stay OPEN.
 
@@ -1199,7 +1251,7 @@ Its seven new corrections:
 
 | Correction | Status |
 |---|---|
-| W1-CUSTODY-CLOSURE, W1-PROTOCOL-FAILURE-STATES, W1-JOURNAL-CONTINUATION, W1-SETUP-IDENTITY, W1-SETUP-RECONCILIATION, W1-IMAGE-OBSERVATION | Being drafted in W-1 v5. Not closed |
+| W1-CUSTODY-CLOSURE, W1-PROTOCOL-FAILURE-STATES, W1-JOURNAL-CONTINUATION, W1-SETUP-IDENTITY, W1-SETUP-RECONCILIATION, W1-IMAGE-OBSERVATION | Corrected in W-1 v5 (`303205b1…`; composed `6cbc9c07…`), awaiting review. Its author assesses all six as CLOSED-AT-SPEC-LEVEL, custody closure only conditionally on premises. Not closed |
 | PKG-V7-AUTHOR-RECORDS | Corrected in v8, awaiting review, in three places: the Supervision record (the ~03:38Z interruption disclosed, the false sentence corrected); S-1's backup roster (five observation files, including the completed watcher, and service success distinguished from SCOPE INCOMPLETE); and S-1's recommendation (variable pressure, not a trend) |
 
 Gap closure per the v7 review:

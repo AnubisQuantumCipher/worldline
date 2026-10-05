@@ -1,0 +1,75 @@
+{
+  "schema": "w1-v5-jackal-calls-v1",
+  "document": "wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md",
+  "recorded_by": "drafting author (Claude Code subagent, claude-opus-5-5) for the Claude Code lead, 2026-10-05 UTC",
+  "tool": "actual MCP jackal_exact",
+  "common_response": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling": "none returned; used as informational arithmetic only"
+  },
+  "truth_boundary": "Exact rational arithmetic outside the Lean certificate chain; not formal-bounded. The first call counts the named required corrections of the gpt61-v4 review; the other three check the arithmetic of the v5 change map (unit counts), and one of them, for a superseded draft partition, is not relied on. They establish no custody, durability, capacity, correctness or closure. Nothing here is executed evidence of the design. The JACKAL convenience ledger was not used as a source; every value below is the tool response received in this session. Calls were made one at a time, never more than four in a group.",
+  "calls": [
+    {
+      "id": "W1_REQUIRED_CORRECTIONS_V4_REVIEW",
+      "use": "count of the gpt61-v4 review's W-1 required corrections, one per named id (W1-CUSTODY-CLOSURE, W1-PROTOCOL-FAILURE-STATES, W1-JOURNAL-CONTINUATION, W1-SETUP-IDENTITY, W1-SETUP-RECONCILIATION, W1-IMAGE-OBSERVATION)",
+      "submitted": "1+1+1+1+1+1",
+      "parsed": "1+1+1+1+1+1",
+      "exact": "6",
+      "approx": "6",
+      "engine_output": "status=exact parsed=1+1+1+1+1+1 exact=6 approx=6",
+      "relied_on": true
+    },
+    {
+      "id": "CHANGE_MAP_DRAFT_PARTITION",
+      "use": "check of an earlier draft partition of the change map (69 carried, 33 replaced, 4 amended, 106 v4 units); superseded by CHANGE_MAP_PARTITION and not relied on",
+      "submitted": "69+33+4-106",
+      "parsed": "69+33+4-106",
+      "exact": "0",
+      "approx": "0",
+      "engine_output": "status=exact parsed=69+33+4-106 exact=0 approx=0",
+      "relied_on": false
+    },
+    {
+      "id": "CHANGE_MAP_PARTITION",
+      "use": "check that the v5 statuses partition the v4 units: 69 carried + 21 replaced + 16 amended - 106 v4 units",
+      "submitted": "69+21+16-106",
+      "parsed": "69+21+16-106",
+      "exact": "0",
+      "approx": "0",
+      "engine_output": "status=exact parsed=69+21+16-106 exact=0 approx=0",
+      "relied_on": true
+    },
+    {
+      "id": "COMPOSED_UNITS",
+      "use": "rows of the v5 change map (section 18.5): 106 v4 units + 3 new units (9.8, 13.1, Appendix E); the composed text additionally has the units of v5's section 0 subsections",
+      "submitted": "106+3",
+      "parsed": "106+3",
+      "exact": "109",
+      "approx": "109",
+      "engine_output": "status=exact parsed=106+3 exact=109 approx=109",
+      "relied_on": true
+    }
+  ],
+  "carried_from_v4": {
+    "record": "wt-1/proposal/v4-support/jackal.json",
+    "sha256": "298caa0371fe7f2b3af90f71f24e27e25051cc09c698bbec6bf469ed77f547a5",
+    "bytes": "4566",
+    "status": "used as given; the gpt61-v4 review reproduced the v4 values (48, 65488, 255, 32768, 6, 4) with status exact; not recomputed for v5. v3-support/jackal.json is carried through v4 in the same way (Appendix C)."
+  },
+  "values_used_as_given": {
+    "v4_units": {"value": "106", "source": "printed by a read-only Python script that split the v4 file into units (section 0.1 of v5) and hashed them; observed, not derived"},
+    "status_counts": {"value": "69 carried, 21 replaced, 16 amended", "source": "printed by the same read-only script under the final v5 status assignment; observed, and checked by CHANGE_MAP_PARTITION"},
+    "v4_sizes": {"value": "321052 bytes (v4), 4566 bytes (v4-support/jackal.json)", "source": "wc -c, observed"},
+    "host_counts": {"value": "93 process-starting unit-file names and 10 template names in /usr/lib/systemd/user", "source": "grep -c output, observed 2026-10-05T06:28:42Z (Appendix E)"}
+  },
+  "refusals": []
+}

@@ -246,7 +246,25 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 07:10Z)
+## In progress (updated 07:38Z)
+
+- **Operator package DRAFT-v8 + W-1 v5: frozen and under review.**
+  - **W-1 v5.** `proposal/ISOLATION-STORAGE-PROPOSAL-v5.md` `303205b1…` is a delta over v4, with
+    `v5-support/jackal.json` `df5d2a77…`.
+    - The lead's composition script reproduces the author's composed text: 466105 bytes, `6cbc9c07…`, kept as the
+      derived copy `package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md`.
+    - The 30 amendments apply exactly once.
+    - All 106 change-map rows match v4. One cosmetic error: the Appendix D row's end line says 3325 where v4 ends at
+      3324.
+    - The four JACKAL values reproduce.
+    - Process: `deviations/w1-v5-author-process/NOTE.md` records one `2>/dev/null` against the explicit limit.
+  - **DRAFT-v8.** `package-drafts/DRAFT-v8.md` `ce4bb35e…` (87867 bytes) was frozen at 07:36Z with W-1 v5.
+    - F-1 describes v5, including the new frame mutation (the observer's write-bit revocation) and W-CLOSED for the
+      reviewer to check.
+    - The storage readings run to 07:34:22Z: 16417792 below the reserve, Gate 0 −9327286557676/1397, W-1 dispatch
+      −15391398356784/1397 (JACKAL exact).
+  - **Review.** Its actual gpt-6.1-sol review started 07:36Z: brief `briefs/operator-package-review-v8.md`
+    (`02ae0145…`), thread `01a10afe-67f6-73d0-a239-5729094997e0`, output to `package-review/gpt61-v5`.
 
 - **C-API packet PK-0, source only.** The C-API author (`a15cbfbc1dbf895f6`) was resumed ~07:08Z to author it in
   `packets/capi-pk0/`: new characterization tests and the expected-effect JSON.
