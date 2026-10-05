@@ -333,6 +333,7 @@ own agents for that now".
     gaps CG-2, CG-3 and CG-4 are OPEN. Option H′ is offered, not adopted.
   - **Review.** Its Claude review is running: brief `briefs/root-worker-seam-design-v6.md` (`48e874f4…`).
 - F32 resolution v2 → `designs/claude-f32-resolution-v2/` (same patch). Drafted: DESIGN.md `e52a9227…`, evidence.json `9a27640a…`, patch `226e7fc8…` (identical to v1). Its Claude review is running, brief `briefs/f32-resolution-design-v2.md` (`81bd8f94…`)
+- F32 resolution v3 → `designs/claude-f32-resolution-v3/`: RC-5 plus notes 1–6, same patch. DESIGN.md `37879bc8…`. Its Claude review is running: brief `briefs/f32-resolution-design-v3.md` (`0284eba9…`)
 - D1 v5 → `designs/claude-native-bigint-d1-design-v5/`, including an A-GHOST-2 horizon design for F35
 
 
