@@ -345,6 +345,17 @@ JACKAL call, WebFetch or edit. Nothing was interrupted.
 
 ## D1 native Big_Integer: design ENDORSED (v6, 2026-10-05 ~21:30Z)
 ## PK-0 C-API characterization packet: SOURCE ENDORSED (v4, 2026-10-05 ~22:10Z)
+## Root-worker seam: design ENDORSED (v8, 2026-10-05 ~22:30Z)
+
+The root-worker seam design is ENDORSED at design level (fourth endorsement, after F32, D1 and PK-0). Eight prior review
+rounds (v1-v8) converged it; the final defect — a handler edit that would have silently dropped a native quarantine — is
+fixed and independently confirmed against the lane source, with the quarantine now running in every failure path.
+
+**What stays OPEN.** Design-level closure is not acceptance. The native SPARK body of the V8-H.1 handler edit and of
+`committed_front_phase`, their proof, the control V8-N.H, the router row-3 successor change, D-H7 adoption, CG-1..CG-4, the
+nine PARTIALLY_CLOSED V5-REQs, K-1..K-29 and the full fault campaign all stay OPEN. Implementation and proof require the
+reviewed source composition and the adopted frame — gated on confinement and the operator.
+
 
 The PK-0 characterization packet is ENDORSED at source level (third endorsement, after F32 and D1). 725 cases and 91
 diagnostics, each new refusal with its guard-page twin and exact byte stream; every original S5 behaviour preserved, no
@@ -468,6 +479,7 @@ independent review.
 | **Seam v8** | drafted on Opus 4.8; **under independent Claude review (Opus 4.8)** | Narrow delta closing V7R-H (the handler fix: delete `:192`, `elif`→unconditional `else:`, set phase from committed_front_phase fail-closed, so `p.quarantine` survives every owned-is-None failure; design states the handler IS changed) and V7R-CITE (citation fixes). 3/3 slices verify against v7; R8-1..R8-9; sweep clean. Brief `briefs/root-worker-seam-design-v8.md` (`4cf5bcad…`) | `designs/claude-root-worker-seam-design-v8` |
 | **PK-0 v4** | **ENDORSED** (source level; third endorsement) | Zero required changes. RC-v3-1 CLOSED (the `embed` mutation reads the region bounds from the library and fails visibly on a differing layout; D88/D89 correct), RC-v3-2 CLOSED (D76-D91 + representative_operands), so RC-v2-1 is fully closed; RC-v2-2/3/4 still closed. The reviewer confirmed all 693 v3 cases byte-identical and verified the new cases against the CC bodies. Characterization SOURCE only — the baseline run on L0 in an admitted frame stays OPEN (confinement-gated) | `packets/capi-pk0-v4/review/claude-v1` |
 | **W-1 v10** | **NOT_ENDORSED** — but 8 of 9 spec-closed | W1-V9-ASYNC-ENUM, NOOWNER-SCOPE, ENUM-USERDEL (67/104, JACKAL-verified), PLAN-CONSTRAINTS, PREMISE-ORDER, RL-SELFTEST-FIXTURE, INVENTORY all CLOSED_AT_SPEC_LEVEL; REVIEW-PROVENANCE correctly stated as an unreviewed change with adoption blocked. WRITER-AS-W stays closed. **Blocking:** W1-V10-COUNT (change-map partition 101/22/31 should be 100/23/32), W1-V10-FORM (change-document regresses FORM-SUBUNIT; AMENDED bytes unmaterialized/not byte-pinned, no normalization rule, Appendix I hash off by one byte), a §23 path-citation fix, and the execution-bound confinement obligations (V5-B01/B02, premise discharges) which stay OPEN | `proposal/v10-review/claude-v1` |
+| **Seam v8** | **ENDORSED** (design level; fourth endorsement) | Zero required changes. V7R-H closed: the `elif`→`else:` fix restores `p.quarantine` in every owned-is-None failure, before any phase read, so it does not depend on `committed_front_phase` or the router successor; the "unchanged" claim is withdrawn. V7R-CITE: all seven citations verified exact against the lane. 3/3 slices verify; nothing v7 closed regressed. Native body, proof, control V8-N.H and the router row-3 change stay OPEN | `designs/claude-root-worker-seam-design-v8/review/claude-v1` |
 | **W-1 v8** | **NOT_ENDORSED** | W1-V8-HOLDER-IOEXIT, W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-WRITER-AS-W, W1-V8-COMPOSED-ENUM, W1-V8-EVIDENCE-EQUIV, W1-V8-FORM-SUBUNIT | `proposal/v8-review/claude-v1`: freeze `c0a2bc3f…`, REVIEW.md `38dcb076…` |
 
 **PK-0 v2 closure detail.** RC4 and RC5 are CLOSED_IN_SOURCE; RC1, RC2 and RC3 are PARTIALLY_CLOSED. The reviewer independently confirms the F32 source reading and leaves it with F32-CONFLICT.
