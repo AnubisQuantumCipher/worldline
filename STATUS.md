@@ -164,8 +164,12 @@ V5-B02 and every original obligation stay OPEN.
   - Corrected diagnosis: `review-monitoring/d1-v4-review-stall-2026-10-05T0040Z.md`. The first version overstated it.
   - Recovery proposal for a human decision (R0 leave, R1 terminate codex only so the runner resumes the same thread,
     R2 a fresh review), not performed: `review-monitoring/d1-v4-review-recovery-proposal.md`.
-- C-API DESIGN v4 drafting agent (author role) on V3-RC4..RC6, output to `designs/claude-capi-boundary-design-v4`. Its
-  prompt forbids any Bash write, including redirection.
+- **C-API DESIGN v4** (`designs/claude-capi-boundary-design-v4`, DESIGN.md `a9b5dcce…`).
+  - The drafting agent finished ~02:05Z. Hashes are verified. It reports latent defects L1–L8, four of them in v3.
+  - v3 text is bound as hashed slices.
+  - Its actual gpt-6.1-sol review started ~02:08Z (`…/review/gpt61-v1`), in the third and last free runner slot. The
+    stalled D1 v4 review holds another slot.
+  - The author's process disclosures are recorded in `deviations/capi-v4-author-taskstop/NOTE.md`.
   - **Event, disclosed.** At 01:22:20.621Z it ran `TaskStop` on its own timed-out background inspection task
     `ba0hhwegp`, then finished the read with a bounded command.
   - The lead relayed the operator's no-interruption rule to it at ~01:26Z, and to the W-1 v3 author.
