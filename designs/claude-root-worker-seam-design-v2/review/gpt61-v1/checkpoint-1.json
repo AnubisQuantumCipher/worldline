@@ -1,0 +1,1546 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 1,
+  "status": "COMPLETE",
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "design_sha256": "db512ddb0bc24c1282c45ebbdb035842234a833046b46b702d020cf14027e1b5",
+  "rc_closure": {
+    "RC-01": "PARTIALLY_CLOSED",
+    "RC-02": "PARTIALLY_CLOSED",
+    "RC-03": "PARTIALLY_CLOSED",
+    "RC-04": "PARTIALLY_CLOSED",
+    "RC-05": "CLOSED_AT_DESIGN_LEVEL",
+    "RC-06": "PARTIALLY_CLOSED",
+    "RC-07": "PARTIALLY_CLOSED",
+    "RC-08": "PARTIALLY_CLOSED",
+    "RC-09": "PARTIALLY_CLOSED",
+    "RC-10": "CLOSED_AT_DESIGN_LEVEL",
+    "RC-11": "PARTIALLY_CLOSED",
+    "RC-12": "PARTIALLY_CLOSED"
+  },
+  "rc_clause_closure": [
+    {
+      "id": "RC-01",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "01.1",
+          "PARTIALLY_CLOSED",
+          "Typed Reference/Decide/Post and decision subtype supplied; \u00a73 still uses original Facts/Native_Valid, not the delegated V2 classifier.",
+          "D:431-485; D:820-845; R/core/resource_scoped_run_ledger.ads:232-268"
+        ],
+        [
+          "01.2",
+          "PARTIALLY_CLOSED",
+          "Shared production arena and identity decision mapping supplied; Rebase/Emb is not total while G3 remains uncovered.",
+          "D:518-556; D:601"
+        ],
+        [
+          "01.3",
+          "PARTIALLY_CLOSED",
+          "Field-level embedding supplied; multi-frame construction and saturated arenas are deferred.",
+          "D:529-556; D:599-601"
+        ],
+        [
+          "01.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Coherent W1-W10 does not presuppose equal decisions; producer coverage remains an independent obligation.",
+          "D:558-611"
+        ],
+        [
+          "01.5",
+          "PARTIALLY_CLOSED",
+          "Coverage lemmas supplied, but raw-domain-only exclusions cannot discharge the original full-domain target; blanket multi-frame/multi-bucket refusal controls contradict the unrestricted scoped domain.",
+          "D:589-604; D:642-654; P1/HANDOFF.md:27-29,125-131"
+        ],
+        [
+          "01.6",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Rounding withdrawn; exact divisible projection and raw Amount versus L.Amount distinguished.",
+          "D:507-516; R/core/resource_scoped_run_ledger.ads:149-152,210-211"
+        ],
+        [
+          "01.7",
+          "PARTIALLY_CLOSED",
+          "Fresh/retained/historical separated; blanket pre-effect FRESH placement and RQ-1 are not established by the launch guard.",
+          "D:487-505,629-640,667; R/core/resource_scoped_run_ledger.ads:436-438"
+        ]
+      ]
+    },
+    {
+      "id": "RC-02",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "02.1",
+          "PARTIALLY_CLOSED",
+          "CCE and per-pair producers supplied; P3 remains undefined, and framed Raw-as-subspan of unchanged JSON containers is not specified coherently.",
+          "D:686-710,718-724,802"
+        ],
+        [
+          "02.2",
+          "PARTIALLY_CLOSED",
+          "Native distinct domains proposed; expected anchors must join the authenticated roster and each claimed raw grammar. Distinct labels/hash-valid containers alone do not establish distinct authentic sources.",
+          "D:692-710,737-741"
+        ],
+        [
+          "02.3",
+          "PARTIALLY_CLOSED",
+          "Crosswalk covers operation/owner/follow-up dimensions in prose; exact schema, native decode, selected-plan joins and complete costs are pending.",
+          "D:743-763,2001-2004"
+        ],
+        [
+          "02.4",
+          "PARTIALLY_CLOSED",
+          "E1-E4 cover original fields/floors. E3's sampled admission/ledger subtraction does not demonstrate reserved future capacity; memory_high is not a minimum/low guarantee.",
+          "D:765-778; R/runtime/worldline/protected_scoped_resource_runtime.py:673-696; P1/HANDOFF.md:125-131"
+        ]
+      ]
+    },
+    {
+      "id": "RC-03",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "03.1",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Separately reviewed additive classifier/scoped/child successor and no-delegation branch replace the Python Delegate-only change.",
+          "D:818-859"
+        ],
+        [
+          "03.2",
+          "PARTIALLY_CLOSED",
+          "Concrete P-CE1-P-CE4 mechanisms/observations supplied; helper ordering requires Child_Ready before creation of its measured child. Exact protocol and OS/runtime evidence remain open.",
+          "D:866-896,913-919; R/core/worldline-resource_child_execution.ads:203-208"
+        ],
+        [
+          "03.3",
+          "PARTIALLY_CLOSED",
+          "Original predicates/cases retained by rule; compatibility only covers distinct-pair inputs and S1/B2 consumers still use the old classifier. End-to-end original-domain preservation is not yet designed completely.",
+          "D:845-859; D:445-450,467,640"
+        ]
+      ]
+    },
+    {
+      "id": "RC-04",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "04.1",
+          "PARTIALLY_CLOSED",
+          "Native append legality mandatory, but complete Legal table and correspondence at each actual state mutation are pending.",
+          "D:962-967,1004-1009,2011-2015"
+        ],
+        [
+          "04.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "ACK/ABANDON branches explicitly exclusive and ABANDON cannot reach WORKER_OWNED.",
+          "D:972-988,1004-1008"
+        ],
+        [
+          "04.3",
+          "PARTIALLY_CLOSED",
+          "Head/phase/generation CAS transaction supplied; operation phase and parallel request/drain sub-state need separate retained native state. UNIQUE(operation,generation,kind) does not itself enforce exclusive alternatives or represent repeated sub-generations.",
+          "D:965-967,990-992,1015-1021,1092-1097"
+        ],
+        [
+          "04.4",
+          "PARTIALLY_CLOSED",
+          "Seed/read-only capture, lost-ACK handling and escrow reuse supplied; selected crash table contradicts RT-2 for dispatch without HELD and omits complete crash/replay state.",
+          "D:1032-1053,1078,1090-1100; D:1562"
+        ],
+        [
+          "04.5",
+          "PARTIALLY_CLOSED",
+          "Physical independence intended; \u00a76.7 ambiguously says three awaits while enumerating handler, combined closure/wait, drains, then says physical three. Missing-terminal barrier needs an exact field/future definition.",
+          "D:1055-1059,995-998,1466-1468"
+        ],
+        [
+          "04.6",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Defined snapshot exclusion and raw-only content addressing remove recursive retention; size/OOM/native costs explicitly unclaimed.",
+          "D:1061-1067"
+        ]
+      ]
+    },
+    {
+      "id": "RC-05",
+      "status": "CLOSED_AT_DESIGN_LEVEL",
+      "clauses": [
+        [
+          "05.1",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "All ordered ordinary/lifetime/protected/lane rosters retained on matching candidate.",
+          "D:1965-1988; P1/HANDOFF.md:162"
+        ],
+        [
+          "05.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Exact v1 frontier bytes/version/domain and refusal retained.",
+          "D:1580-1587; R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+        ],
+        [
+          "05.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Separate additive v2 roster proposed; no replacement.",
+          "D:1977-1988"
+        ],
+        [
+          "05.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Lead-only retirement expressly withdrawn.",
+          "D:1588"
+        ],
+        [
+          "05.5",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "No re-enrollment proposed; any future package retains originals and reserved adjudication/review.",
+          "D:1589-1598"
+        ]
+      ]
+    },
+    {
+      "id": "RC-06",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "06.1",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Option A and all other options remain unselected.",
+          "D:1348-1363"
+        ],
+        [
+          "06.2",
+          "PARTIALLY_CLOSED",
+          "AM-1-AM-9 and concrete A/B/C/E failures supplied; no accounting option meets the full target.",
+          "D:1325-1363,2026-2028"
+        ],
+        [
+          "06.3",
+          "PARTIALLY_CLOSED",
+          "Phase/owner/recovery table supplied with exact quarantine.resolve exception; UNKNOWN and collecting progress still depend on incomplete custody/reconciliation design.",
+          "D:1365-1385; D:1555-1578"
+        ],
+        [
+          "06.4",
+          "PARTIALLY_CLOSED",
+          "to_thread and fair queue preserve loop responsiveness in intent, but shared gate/operation lock and bounded executor saturation can still block response progress; no full liveness argument supplied.",
+          "D:1396-1408,1433; R/runtime/worldline/protected_operations.py:717,728-768"
+        ]
+      ]
+    },
+    {
+      "id": "RC-07",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "07.1",
+          "PARTIALLY_CLOSED",
+          "O/U/C/P and couplings supplied; exact broker-state mapping/legal product table deferred.",
+          "D:367-423,2011-2014"
+        ],
+        [
+          "07.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "COMMITTED absorbing, genuine native quarantine and original K4 exits retained.",
+          "D:384-390,1457-1462"
+        ],
+        [
+          "07.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Original Never_Launched held-capacity release included.",
+          "D:393-398,1453; R/core/resource_run_ledger.ads:317-320"
+        ],
+        [
+          "07.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Serial order and SETTLED replay explicitly retained; later matching-source demonstration required.",
+          "D:1447-1455,1494"
+        ],
+        [
+          "07.5",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "First RESULT_CAPTURE immutable, later report captures additive, collector uses first.",
+          "D:405,1450,1464-1468"
+        ]
+      ]
+    },
+    {
+      "id": "RC-08",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "08.1",
+          "PARTIALLY_CLOSED",
+          "T1-T5 supplied, but stopping before durable FREEZE conflicts with failure table's claim that reader never stopped.",
+          "D:1157-1169"
+        ],
+        [
+          "08.2",
+          "PARTIALLY_CLOSED",
+          "Buffers/in-flight bytes intended to spool; interrupted write/cancellation and already buffered stdin output need exact quiescence rules.",
+          "D:1157-1160"
+        ],
+        [
+          "08.3",
+          "PARTIALLY_CLOSED",
+          "Durable P/W and spool head supplied; FREEZE/SPOOL crash and write-progress linearization incomplete.",
+          "D:1157-1158,1167-1169"
+        ],
+        [
+          "08.4",
+          "PARTIALLY_CLOSED",
+          "Durable intake/abandon acknowledgement supplied; new owner starts I/O before OFD evidence is recorded.",
+          "D:1160-1161"
+        ],
+        [
+          "08.5",
+          "PARTIALLY_CLOSED",
+          "Ownership table excludes pre-commit stop/spool failure and post-intake failed validation.",
+          "D:1165-1176"
+        ],
+        [
+          "08.6",
+          "PARTIALLY_CLOSED",
+          "kcmp and lock evidence correctly replace fstat-only proof, but validate before role use and record full-root lock roster evidence, not only descriptor release.",
+          "D:1160-1176; D:1041"
+        ],
+        [
+          "08.7",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Helper/init/systemd retained as reapers; only observation/reader/writer roles transfer.",
+          "D:1143-1151"
+        ]
+      ]
+    },
+    {
+      "id": "RC-09",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "09.1",
+          "PARTIALLY_CLOSED",
+          "Native raw credential/socket/ns inputs supplied; request/operation/transaction/container joins and mode-specific presence need complete predicates.",
+          "D:1220-1247,1389-1393"
+        ],
+        [
+          "09.2",
+          "PARTIALLY_CLOSED",
+          "Journaled host records/full roster first supplied; cookie unavailable yields non-ready intake despite original domain, and validation/ownership ordering remains incomplete.",
+          "D:1238,1246,1251-1259"
+        ],
+        [
+          "09.3",
+          "PARTIALLY_CLOSED",
+          "Retained exact type supplied; per-gate list deferred and J1/J3/J4 unconditional fields conflict with socket-free J8 modes.",
+          "D:1233-1243,1260-1272,2023"
+        ],
+        [
+          "09.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Full UID/GID and exited/delegated/same-UID process/preparer cases explicitly retained.",
+          "D:1274-1285"
+        ],
+        [
+          "09.5",
+          "PARTIALLY_CLOSED",
+          "No pidfd/live-client condition, but FRESH introduces mandatory cookies. No new accepted-case refusal may be approved on provider absence.",
+          "D:1238-1240,1282-1285; P1/HANDOFF.md:137"
+        ]
+      ]
+    },
+    {
+      "id": "RC-10",
+      "status": "CLOSED_AT_DESIGN_LEVEL",
+      "clauses": [
+        [
+          "10.1",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Append-only reviewed final-source effective overrides.",
+          "D:1629-1636"
+        ],
+        [
+          "10.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "External exact inventory includes manifest/control/project/header/helper/dependencies and binds to independent freeze.",
+          "D:1638-1650"
+        ],
+        [
+          "10.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "New semantic/wire units enrolled; impossible draft Off-body names explicitly transferred to reviewed On carriers, not given proof credit.",
+          "D:1652-1668"
+        ],
+        [
+          "10.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "S5 original prefix, strict command/floor/boundary and zero unproved/justified/Assume retained.",
+          "D:334-342,1670-1679,1693-1697; P1/HANDOFF.md:158-161"
+        ]
+      ]
+    },
+    {
+      "id": "RC-11",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "11.1",
+          "PARTIALLY_CLOSED",
+          "Spec/body graph is acyclic as declared; B1 omits consumed crosswalk/V2 inputs, B2b/B2c and B6 integration edges need explicit reconciliation, and gate precedence is not encoded in body Needs.",
+          "D:629-640,1499,1855-1896"
+        ],
+        [
+          "11.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "L-CAPI/L-A1 separately bound; L-CAPI-P newly identified and explicitly open.",
+          "D:1836-1849,1890-1894"
+        ],
+        [
+          "11.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Pure-value work/draft publication separated from reserved privileged decisions.",
+          "D:1926-1940"
+        ],
+        [
+          "11.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "No Optional_Marker alteration or infrastructure-resume authority from this lane; approval reconciliation remains outside acceptance.",
+          "D:357-363,1799-1801,1939-1940"
+        ]
+      ]
+    },
+    {
+      "id": "RC-12",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "12.1",
+          "PARTIALLY_CLOSED",
+          "U-1-U-12 union supplied; exact descriptor/schema keysets, provisioner DDL and every early selection remain future spec deliverables.",
+          "D:1509-1547,2033-2034"
+        ],
+        [
+          "12.2",
+          "PARTIALLY_CLOSED",
+          "RT table automatic known-outcome direction supplied; RT-7 requires HANDLER_TERMINAL, leaving authentic retained result without that frame unclassified; pre-launch table contradicts RT-2.",
+          "D:1078,1555-1578; R/runtime/worldline/protected_operations.py:812-827"
+        ],
+        [
+          "12.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "UNKNOWN retains holds and native uncertainty; no EOF/deadline settlement.",
+          "D:1562-1568,1573"
+        ],
+        [
+          "12.4",
+          "PARTIALLY_CLOSED",
+          "Original K4/quarantine.resolve retained; exact recovery progress through UNKNOWN/locks depends on complete product/native relation.",
+          "D:1383,1576-1578"
+        ],
+        [
+          "12.5",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "No missing-state initialization; one-shot offline operator provisioning.",
+          "D:1538-1553,1574-1575"
+        ]
+      ]
+    }
+  ],
+  "ruling_closure": {
+    "D-1a": "PARTIALLY_CLOSED",
+    "D-1b": "PARTIALLY_CLOSED",
+    "D-2a": "PARTIALLY_CLOSED",
+    "D-2b": "CLOSED_AT_DESIGN_LEVEL",
+    "D-3a": "PARTIALLY_CLOSED",
+    "D-4a": "PARTIALLY_CLOSED",
+    "D-5a": "PARTIALLY_CLOSED",
+    "D-5b": "PARTIALLY_CLOSED",
+    "D-6a": "PARTIALLY_CLOSED",
+    "D-7a": "PARTIALLY_CLOSED",
+    "D-8a": "PARTIALLY_CLOSED",
+    "D-8b": "PARTIALLY_CLOSED",
+    "D-9a": "PARTIALLY_CLOSED"
+  },
+  "owners_and_evidence_requirements_preserved": true,
+  "rulings": [
+    {
+      "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls.",
+      "id": "D-1a",
+      "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer",
+      "ruling": "C2 is a plausible lifted model, not an established faithful equivalence as written. Exact divisible projection replaces the draft's rounding description; require RC-01 with full-domain coverage and no changes to original references."
+    },
+    {
+      "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof.",
+      "id": "D-1b",
+      "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer",
+      "ruling": "Epoch equality alone is insufficient. Fresh new reservations obey native current-context equality; retained replay/rollover needs a complete proved origin/current/authority join and must preserve original lifecycle cases. Use Same_Context, not record equality."
+    },
+    {
+      "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls.",
+      "id": "D-2a",
+      "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+      "ruling": "Prefer an additive exact v2 descriptor, selected by schema, with v1 behavior and controls retained. No implicit migration, defaults, bypass or missing-history genesis."
+    },
+    {
+      "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit.",
+      "id": "D-2b",
+      "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review",
+      "ruling": "No lead-only retirement of the mandatory frontier control. Keep exact v1/domain behavior and additive v2 controls; any proposed re-enrollment must be explicitly adjudicated while the original obligation remains OPEN."
+    },
+    {
+      "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection.",
+      "id": "D-3a",
+      "owner": "Lead protocol designer; operator for lab execution",
+      "ruling": "Transfer complete V3 slot custody; do not require prior terminal state as a domain restriction. The transfer protocol still needs RC-08."
+    },
+    {
+      "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls.",
+      "id": "D-4a",
+      "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change",
+      "ruling": "No accounting option is selected for acceptance. A may be explored only if it preserves all original independent-request accepted cases and real cost/parent/availability guarantees; otherwise choose or design a faithful alternative."
+    },
+    {
+      "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls.",
+      "id": "D-5a",
+      "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action",
+      "ruling": "Delegate=yes is not endorsed as a complete native design. Require an additive native custody/delegation successor, unchanged original predicates/cases and a concrete coordinator enforcement argument before operator deployment choice."
+    },
+    {
+      "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations.",
+      "id": "D-5b",
+      "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation",
+      "ruling": "Prefer a separately versioned helper successor, preserving the exact V3/helper-stdin lineage and old controls. Extending V3 in place is not needed to obtain source design credit."
+    },
+    {
+      "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement.",
+      "id": "D-6a",
+      "owner": "Lead historical/canonical model designer; independent GPT-6.1 review",
+      "ruling": "Keep canonical COMMITTED immutable; permit the original native use-quarantine/K4 domain when needed for uncertainty. Define orthogonal outcome/use/resource/custody states rather than selecting a blanket ban on quarantine."
+    },
+    {
+      "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation.",
+      "id": "D-7a",
+      "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration",
+      "ruling": "Independent sourcing alone does not close OB-030. Native Decide/Well_Formed must consume/enforce the distinct source-record domains or tags and canonical payload relation; use an additive grammar/version and preserve original references/ABI."
+    },
+    {
+      "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage.",
+      "id": "D-8a",
+      "owner": "Lead OS/native requester designer; independent GPT-6.1 review",
+      "ruling": "Choose explicit native semantic correspondence inputs, carried by authentic producers. A producer-only label or digest in opaque current_source is insufficient."
+    },
+    {
+      "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client.",
+      "id": "D-8b",
+      "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review",
+      "ruling": "Do not add a blanket fresh-pidfd or still-live-client precondition. Retain original kernel socket/credential evidence under authenticated custody and define the exited-peer path; absent evidence remains explicit and unresolved where correspondence cannot be established."
+    },
+    {
+      "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes.",
+      "id": "D-9a",
+      "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign",
+      "ruling": "Yes: native custody-phase legality is mandatory because it determines who may mutate. Preserve exclusive ACK/ABANDON branches and authentic durable redecision under the actual CAS."
+    }
+  ],
+  "all_original_obligations_remain_open": true,
+  "input_audit": {
+    "design": [
+      {
+        "name": "SEAM-DESIGN.md",
+        "sha256": "db512ddb0bc24c1282c45ebbdb035842234a833046b46b702d020cf14027e1b5",
+        "bytes": 224640
+      },
+      {
+        "name": "seams.json",
+        "sha256": "65a8c73028ad1cb22550bf26ffb3d0027ce125c3ac4b29b64def7765a83415c4",
+        "bytes": 108872
+      },
+      {
+        "name": "jackal.json",
+        "sha256": "fe664cc888e348292b6e3cd28c37f89a6e4dfb7ea2e843f94253595dda4a7561",
+        "bytes": 8286
+      },
+      {
+        "name": "AUTHOR-NOTES.md",
+        "sha256": "782379cd1944dc03e59ec7f50eb4aae70bfbdf69c164e9167817b80883652990",
+        "bytes": 26150
+      }
+    ],
+    "inputs": [
+      {
+        "label": "D1V/SEAM-DESIGN.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+        "expected": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46",
+        "sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46",
+        "bytes": 76988,
+        "match": true
+      },
+      {
+        "label": "D1V/seams.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/seams.json",
+        "expected": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d",
+        "sha256": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d",
+        "bytes": 67457,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/REVIEW.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/REVIEW.md",
+        "expected": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+        "sha256": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+        "bytes": 48197,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/review.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review.json",
+        "expected": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4",
+        "sha256": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4",
+        "bytes": 74364,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/checks.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checks.json",
+        "expected": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498",
+        "sha256": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498",
+        "bytes": 68553,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/review-freeze.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review-freeze.json",
+        "expected": "f6f31ddc0bff4dd59ecccfa389f48ce85c7ad91900fe844cf72293a7d7cb1603",
+        "sha256": "f6f31ddc0bff4dd59ecccfa389f48ce85c7ad91900fe844cf72293a7d7cb1603",
+        "bytes": 559,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/checkpoint-1.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-1.json",
+        "expected": "86e13a18d1e382db4291895a06eb99df623c7bc45edd2efcd1c061d063fa01fe",
+        "sha256": "86e13a18d1e382db4291895a06eb99df623c7bc45edd2efcd1c061d063fa01fe",
+        "bytes": 14610,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/checkpoint-2.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-2.json",
+        "expected": "46f5db369033b812e859a9e8caafec0721a0de4e088621771c9aad66a526c2b2",
+        "sha256": "46f5db369033b812e859a9e8caafec0721a0de4e088621771c9aad66a526c2b2",
+        "bytes": 28915,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/checkpoint-3.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-3.json",
+        "expected": "c288826810d428957c6ba9927cf98db9dc7551728bf94db48a2fc99461802450",
+        "sha256": "c288826810d428957c6ba9927cf98db9dc7551728bf94db48a2fc99461802450",
+        "bytes": 6572,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/checkpoint-4.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-4.json",
+        "expected": "39d43cd4e158d56dc8e1ec9bd2e99d7719ff5c4c18585ebe835d1292f60e8064",
+        "sha256": "39d43cd4e158d56dc8e1ec9bd2e99d7719ff5c4c18585ebe835d1292f60e8064",
+        "bytes": 5453,
+        "match": true
+      },
+      {
+        "label": "D1V/review/gpt61-v1/checkpoint-5.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checkpoint-5.json",
+        "expected": "a899122a4e145033816f8c073e16f492bdbefd969ef9fa38dba4995651f2e55c",
+        "sha256": "a899122a4e145033816f8c073e16f492bdbefd969ef9fa38dba4995651f2e55c",
+        "bytes": 34831,
+        "match": true
+      },
+      {
+        "label": "P1/HANDOFF.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+        "expected": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+        "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+        "bytes": 30462,
+        "match": true
+      },
+      {
+        "label": "P1/START-CLAUDE.txt",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+        "expected": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e",
+        "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e",
+        "bytes": 2699,
+        "match": true
+      },
+      {
+        "label": "P1/OBLIGATIONS-v2.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+        "expected": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+        "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+        "bytes": 410484,
+        "match": true
+      },
+      {
+        "label": "P1/ALL-ORIGINAL-OBLIGATIONS.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ALL-ORIGINAL-OBLIGATIONS.md",
+        "expected": "16d28b04bf937ecc7003a0a4fcf1b62d78b1478cb79542d9341022acc5f95acb",
+        "sha256": "16d28b04bf937ecc7003a0a4fcf1b62d78b1478cb79542d9341022acc5f95acb",
+        "bytes": 167383,
+        "match": true
+      },
+      {
+        "label": "P1/REQUIRED-LIFETIME-CONTROLS.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/REQUIRED-LIFETIME-CONTROLS.json",
+        "expected": "9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9",
+        "sha256": "9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9",
+        "bytes": 1335,
+        "match": true
+      },
+      {
+        "label": "P1/ORIGINAL-ORDINARY-ROSTER.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ORIGINAL-ORDINARY-ROSTER.json",
+        "expected": "4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e",
+        "sha256": "4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e",
+        "bytes": 413601,
+        "match": true
+      },
+      {
+        "label": "PROMPT (/home/sicarii/Documents/complete-phase1-prompt.txt)",
+        "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+        "expected": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+        "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+        "bytes": 9048,
+        "match": true
+      },
+      {
+        "label": "L/handoff-to-claude-v1-retry1/HANDOFF.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/HANDOFF.md",
+        "expected": "f0d6add2f97011654d9a603df9f50f8c09d73e80cd4f3fcc37150af3ad77d14d",
+        "sha256": "f0d6add2f97011654d9a603df9f50f8c09d73e80cd4f3fcc37150af3ad77d14d",
+        "bytes": 14309,
+        "match": true
+      },
+      {
+        "label": "L/handoff-to-claude-v1-retry1/handoff-freeze.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/handoff-freeze.json",
+        "expected": "c8c6e40addc56654f28f7517f0c5ff64cc999424e1ae9ccb831fd799da96f33c",
+        "sha256": "c8c6e40addc56654f28f7517f0c5ff64cc999424e1ae9ccb831fd799da96f33c",
+        "bytes": 2803,
+        "match": true
+      },
+      {
+        "label": "L/handoff-to-claude-v1-retry1/binary-delta.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/binary-delta.json",
+        "expected": "be41995133b8641ba244397e1cf6068bade22f478bdbe15590ddaf55a2f6bb16",
+        "sha256": "be41995133b8641ba244397e1cf6068bade22f478bdbe15590ddaf55a2f6bb16",
+        "bytes": 2121982,
+        "match": true
+      },
+      {
+        "label": "L/handoff-to-claude-v1-retry1/source-inventory.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/source-inventory.json",
+        "expected": "0a12d06d2b43a1949bac24369dc615576105b3d6de11e5653ebfe559235637f3",
+        "sha256": "0a12d06d2b43a1949bac24369dc615576105b3d6de11e5653ebfe559235637f3",
+        "bytes": 133106,
+        "match": true
+      },
+      {
+        "label": "L/handoff-to-claude-v1-retry1/human-delta.patch",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/handoff-to-claude-v1-retry1/human-delta.patch",
+        "expected": "de2406cca971d51681a2b9c6265cbb4f5d22f6070c66f75f6e5d2349166c364b",
+        "sha256": "de2406cca971d51681a2b9c6265cbb4f5d22f6070c66f75f6e5d2349166c364b",
+        "bytes": 716812,
+        "match": true
+      },
+      {
+        "label": "L/origin.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/origin.json",
+        "expected": "d120385a97432f736e73454effe0ce00859ba2ace846e17f11ef5ee9226d4f74",
+        "sha256": "d120385a97432f736e73454effe0ce00859ba2ace846e17f11ef5ee9226d4f74",
+        "bytes": 2373,
+        "match": true
+      },
+      {
+        "label": "L/secondary-source-union-v1.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/secondary-source-union-v1.json",
+        "expected": "a87f12865e30789d850cff3a25c69f3ea1793f8dae47404b82acb751efb3a6f9",
+        "sha256": "a87f12865e30789d850cff3a25c69f3ea1793f8dae47404b82acb751efb3a6f9",
+        "bytes": 17829,
+        "match": true
+      },
+      {
+        "label": "L/secondary-source-union-relative-import-closure-v2.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/secondary-source-union-relative-import-closure-v2.json",
+        "expected": "f0162dc8d5371e6475ac97455943d88a039f91f4cb576ca6ff57ebb26c43a1ec",
+        "sha256": "f0162dc8d5371e6475ac97455943d88a039f91f4cb576ca6ff57ebb26c43a1ec",
+        "bytes": 1655,
+        "match": true
+      },
+      {
+        "label": "L/dependency-source/lab/intent_gate.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/dependency-source/lab/intent_gate.py",
+        "expected": "74d3f2f95a830738fcfdb741494d0b9ee1f021e63d150bcb77d51a7cf56e14d5",
+        "sha256": "74d3f2f95a830738fcfdb741494d0b9ee1f021e63d150bcb77d51a7cf56e14d5",
+        "bytes": 70391,
+        "match": true
+      },
+      {
+        "label": "L/preimage/runtime/worldline/proof_manifest.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/preimage/runtime/worldline/proof_manifest.py",
+        "expected": "3000e60ec8e7ae3a0c8680c29bafa9e866452aea7901d5ebc034d6d35822aab3",
+        "sha256": "3000e60ec8e7ae3a0c8680c29bafa9e866452aea7901d5ebc034d6d35822aab3",
+        "bytes": 120669,
+        "match": true
+      },
+      {
+        "label": "L/preimage/core/worldline-c_api.adb",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/preimage/core/worldline-c_api.adb",
+        "expected": "1cf650a0633ec83af3f2e23f3e87ed5a97199730114d3aa3a16813bb15cdd984",
+        "sha256": "1cf650a0633ec83af3f2e23f3e87ed5a97199730114d3aa3a16813bb15cdd984",
+        "bytes": 56543,
+        "match": true
+      },
+      {
+        "label": "L/preimage/runtime/worldline/protected_scoped_resource_runtime.py (equal to R's copy: unchanged by the draft)",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/preimage/runtime/worldline/protected_scoped_resource_runtime.py",
+        "expected": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+        "sha256": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+        "bytes": 78235,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/proof_manifest.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/proof_manifest.py",
+        "expected": "aa3ab1fefeb75fe3f6cdd5ecf3b7c3107c8550e14c66b964b84c2ea244be5639",
+        "sha256": "aa3ab1fefeb75fe3f6cdd5ecf3b7c3107c8550e14c66b964b84c2ea244be5639",
+        "bytes": 131154,
+        "match": true
+      },
+      {
+        "label": "R/core/worldline-c_api.adb",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-c_api.adb",
+        "expected": "806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420",
+        "sha256": "806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420",
+        "bytes": 148068,
+        "match": true
+      },
+      {
+        "label": "R/core/worldline-c_api.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-c_api.ads",
+        "expected": "d09a7b669ea71dd4833a468c627a578d1459ccf1d18840f9ba9a31e40b6f6c8d",
+        "sha256": "d09a7b669ea71dd4833a468c627a578d1459ccf1d18840f9ba9a31e40b6f6c8d",
+        "bytes": 14466,
+        "match": true
+      },
+      {
+        "label": "R/core/worldline-canonical_operation.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_operation.ads",
+        "expected": "33dbdb12904ef70c57809fed581e2e03a1e35b9f3935b30916f2c5e3cd8f0782",
+        "sha256": "33dbdb12904ef70c57809fed581e2e03a1e35b9f3935b30916f2c5e3cd8f0782",
+        "bytes": 2027,
+        "match": true
+      },
+      {
+        "label": "R/core/worldline-canonical_operation.adb",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_operation.adb",
+        "expected": "c5821527426f828807ed4eff37bc0be31df0b4cb8159e8c91fa4734410fe5f9c",
+        "sha256": "c5821527426f828807ed4eff37bc0be31df0b4cb8159e8c91fa4734410fe5f9c",
+        "bytes": 2750,
+        "match": true
+      },
+      {
+        "label": "R/core/resource_run_ledger.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_run_ledger.ads",
+        "expected": "65a38d24f3c5444bd21bc15ecf8dee6ec9e2e93a71ba911f6678ca9b4797562d",
+        "sha256": "65a38d24f3c5444bd21bc15ecf8dee6ec9e2e93a71ba911f6678ca9b4797562d",
+        "bytes": 24523,
+        "match": true
+      },
+      {
+        "label": "R/core/resource_scoped_run_ledger.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_scoped_run_ledger.ads",
+        "expected": "d25a94919a8bed008d007273ab6a887159bd1dd367d71e9a428f2e5bbd96f5ef",
+        "sha256": "d25a94919a8bed008d007273ab6a887159bd1dd367d71e9a428f2e5bbd96f5ef",
+        "bytes": 34202,
+        "match": true
+      },
+      {
+        "label": "R/core/resource_observation_classification.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_observation_classification.ads",
+        "expected": "23c43aaaad873052b8e2e192a4c33a46b1d08f7b427f11f7b27f10602553c07f",
+        "sha256": "23c43aaaad873052b8e2e192a4c33a46b1d08f7b427f11f7b27f10602553c07f",
+        "bytes": 8463,
+        "match": true
+      },
+      {
+        "label": "R/core/worldline-resource_child_execution.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-resource_child_execution.ads",
+        "expected": "5aafbe6337572c6be44801900387cde2be776b0cdf55775ef09331f48dfd0ba9",
+        "sha256": "5aafbe6337572c6be44801900387cde2be776b0cdf55775ef09331f48dfd0ba9",
+        "bytes": 22922,
+        "match": true
+      },
+      {
+        "label": "R/core/worldline-operation_authority.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-operation_authority.ads",
+        "expected": "fe3fd5583b5aa91ac902bc969c389ede02962976103118ed7c85e8f09d958b66",
+        "sha256": "fe3fd5583b5aa91ac902bc969c389ede02962976103118ed7c85e8f09d958b66",
+        "bytes": 13345,
+        "match": true
+      },
+      {
+        "label": "R/core/worldline-operation_authority.adb",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-operation_authority.adb",
+        "expected": "c0c62623152021d578cd65b96efce18a0cc7805e5c4b25fdde923c949db193d7",
+        "sha256": "c0c62623152021d578cd65b96efce18a0cc7805e5c4b25fdde923c949db193d7",
+        "bytes": 10333,
+        "match": true
+      },
+      {
+        "label": "R/core/resource_quantities.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_quantities.ads",
+        "expected": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+        "sha256": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+        "bytes": 5495,
+        "match": true
+      },
+      {
+        "label": "R/core/resource_reservation_transition.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_reservation_transition.ads",
+        "expected": "570a1cd5fc4ffb20cef000eb669cf0c15105e8a7e70f737c2933c8c2fd676c20",
+        "sha256": "570a1cd5fc4ffb20cef000eb669cf0c15105e8a7e70f737c2933c8c2fd676c20",
+        "bytes": 16228,
+        "match": true
+      },
+      {
+        "label": "R/core/worldline-recovery.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-recovery.ads",
+        "expected": "ab9555faadd4b46d294a09d8d74495b75ef017497acde9290849cf005aed921a",
+        "sha256": "ab9555faadd4b46d294a09d8d74495b75ef017497acde9290849cf005aed921a",
+        "bytes": 1586,
+        "match": true
+      },
+      {
+        "label": "R/protected-root/native_root_worker_supervisor_v1.c",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-root/native_root_worker_supervisor_v1.c",
+        "expected": "f2a321d07e667e80f4359634e8e4a956b555368b8d449e8c8c930b8f511aeff7",
+        "sha256": "f2a321d07e667e80f4359634e8e4a956b555368b8d449e8c8c930b8f511aeff7",
+        "bytes": 19578,
+        "match": true
+      },
+      {
+        "label": "R/protected-startup/controls/test_protected_startup_v1.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-startup/controls/test_protected_startup_v1.py",
+        "expected": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb",
+        "sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb",
+        "bytes": 6398,
+        "match": true
+      },
+      {
+        "label": "R/protected-canonical/required_controls.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-canonical/required_controls.json",
+        "expected": "56fa3a2d40816c05f3f253ac4bfc4700bc262d5c50fb07b9a6ae3997cb55b2d0",
+        "sha256": "56fa3a2d40816c05f3f253ac4bfc4700bc262d5c50fb07b9a6ae3997cb55b2d0",
+        "bytes": 5080,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_operations.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_operations.py",
+        "expected": "ea1a01df19ddef2418d4e4ec14dab6cea1eaa70423172eedea36a48ec383f0cb",
+        "sha256": "ea1a01df19ddef2418d4e4ec14dab6cea1eaa70423172eedea36a48ec383f0cb",
+        "bytes": 80281,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_scoped_resource_runtime.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_resource_runtime.py",
+        "expected": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+        "sha256": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+        "bytes": 78235,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_scoped_resource_service.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_resource_service.py",
+        "expected": "e062ff0335d312366c90517cca21c73c0879d0b95de469840c36cea46250248f",
+        "sha256": "e062ff0335d312366c90517cca21c73c0879d0b95de469840c36cea46250248f",
+        "bytes": 16567,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_resource_runtime.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_resource_runtime.py",
+        "expected": "fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f",
+        "sha256": "fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f",
+        "bytes": 75907,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_scoped_supervisor_v3.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_supervisor_v3.py",
+        "expected": "8d03960180e599f192d997a4b3809dc0f4e1a7624f9d4581a6b8a51fcae107ed",
+        "sha256": "8d03960180e599f192d997a4b3809dc0f4e1a7624f9d4581a6b8a51fcae107ed",
+        "bytes": 37287,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/root_worker_journal.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_journal.py",
+        "expected": "2510f8edac3937509d36bc3b38511af89f81ecf9a5eff77fefc87f927f3aa811",
+        "sha256": "2510f8edac3937509d36bc3b38511af89f81ecf9a5eff77fefc87f927f3aa811",
+        "bytes": 8930,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/root_worker_custody.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_custody.py",
+        "expected": "25f38ae7c1b63f14329400155562c18e459b80f46797851ef81d82db03172169",
+        "sha256": "25f38ae7c1b63f14329400155562c18e459b80f46797851ef81d82db03172169",
+        "bytes": 14519,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/client_peer.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/client_peer.py",
+        "expected": "1022187a02c19fb25ecfcafcc9a43a91e5ab62cf243ae38014c14d4c73463ade",
+        "sha256": "1022187a02c19fb25ecfcafcc9a43a91e5ab62cf243ae38014c14d4c73463ade",
+        "bytes": 9033,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_root_worker.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_worker.py",
+        "expected": "15cbbfcd61a98da55a704af16fd5d853a3af64bc0aba84599d936440ba8f74a1",
+        "sha256": "15cbbfcd61a98da55a704af16fd5d853a3af64bc0aba84599d936440ba8f74a1",
+        "bytes": 24960,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_root_observation.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_observation.py",
+        "expected": "f3cda07cf0556a515c9b41663d16a8a8f34bb3e4c27ed584869791628a8e4778",
+        "sha256": "f3cda07cf0556a515c9b41663d16a8a8f34bb3e4c27ed584869791628a8e4778",
+        "bytes": 11972,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_root_resource.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_resource.py",
+        "expected": "f1089a091399dd0c1a0602aebb027edff4737fbf562750e95e3a0c561067f723",
+        "sha256": "f1089a091399dd0c1a0602aebb027edff4737fbf562750e95e3a0c561067f723",
+        "bytes": 11647,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_root_endpoint.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_endpoint.py",
+        "expected": "100d635842c0df20b1a98921fbfcebc94f2ba862abc0b02a10d1792359c286b0",
+        "sha256": "100d635842c0df20b1a98921fbfcebc94f2ba862abc0b02a10d1792359c286b0",
+        "bytes": 2512,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/root_worker_closed.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_closed.py",
+        "expected": "68740eda2668faddfe28bd3a8ac1720adac3de32f0bc68d8d95e45f94170d07b",
+        "sha256": "68740eda2668faddfe28bd3a8ac1720adac3de32f0bc68d8d95e45f94170d07b",
+        "bytes": 12256,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/root_worker_endpoint_router.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_endpoint_router.py",
+        "expected": "774e35565b93aef70420183a591ceb3acf9ddc9148c0b4ae55fb83bb9efc83ce",
+        "sha256": "774e35565b93aef70420183a591ceb3acf9ddc9148c0b4ae55fb83bb9efc83ce",
+        "bytes": 2518,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/root_worker_physical.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_physical.py",
+        "expected": "474d775856a819ea7b5a333bb232651b3641cd4f4788a040a3a3193e847a9c5b",
+        "sha256": "474d775856a819ea7b5a333bb232651b3641cd4f4788a040a3a3193e847a9c5b",
+        "bytes": 8558,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/canonical_actor_execution.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_actor_execution.py",
+        "expected": "7c089300563f417c2467cb9c327202323071664762fa4c8c1df2d575915e3939",
+        "sha256": "7c089300563f417c2467cb9c327202323071664762fa4c8c1df2d575915e3939",
+        "bytes": 12607,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/canonical_operation_kernel.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_operation_kernel.py",
+        "expected": "b7c44b329c8c92701c06fcdfd7b5e6692b8b164ae7f699729afe60d0d30036a0",
+        "sha256": "b7c44b329c8c92701c06fcdfd7b5e6692b8b164ae7f699729afe60d0d30036a0",
+        "bytes": 3609,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/canonical_full_broker.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_full_broker.py",
+        "expected": "5ec258a2cbb06a8dbcc5ab02e214d111ff2845b26c19a456c5ba360cf7ea231d",
+        "sha256": "5ec258a2cbb06a8dbcc5ab02e214d111ff2845b26c19a456c5ba360cf7ea231d",
+        "bytes": 16934,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/protected_startup.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_startup.py",
+        "expected": "e29a14a63d67fa3228ede57f0ad12aaa55cbf7c7cf61a8bc09971d5731680ca6",
+        "sha256": "e29a14a63d67fa3228ede57f0ad12aaa55cbf7c7cf61a8bc09971d5731680ca6",
+        "bytes": 45797,
+        "match": true
+      },
+      {
+        "label": "R/runtime/worldline/admission.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/admission.py",
+        "expected": "a0781e70e8a4b2b630f6956d0c89208140edc871c4a2a003666573767a32d13d",
+        "sha256": "a0781e70e8a4b2b630f6956d0c89208140edc871c4a2a003666573767a32d13d",
+        "bytes": 57212,
+        "match": true
+      },
+      {
+        "label": "S5/core/worldline-c_api.adb (= commonV4)",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-c_api.adb",
+        "expected": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+        "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+        "bytes": 56596,
+        "match": true
+      },
+      {
+        "label": "S5/core/worldline-c_api.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-c_api.ads",
+        "expected": "3a3b17c47bb289e24adc3009e0a5a7510972fac07323f636cbd5722e6344319a",
+        "sha256": "3a3b17c47bb289e24adc3009e0a5a7510972fac07323f636cbd5722e6344319a",
+        "bytes": 11707,
+        "match": true
+      },
+      {
+        "label": "S5/runtime/worldline/proof_manifest.py",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+        "expected": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+        "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+        "bytes": 157262,
+        "match": true
+      },
+      {
+        "label": "S5/core/worldline-recovery.ads",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery.ads",
+        "expected": "09f82299af37c975b409596fb342f1ef961e309354765cde966189f23a2ee3fe",
+        "sha256": "09f82299af37c975b409596fb342f1ef961e309354765cde966189f23a2ee3fe",
+        "bytes": 1572,
+        "match": true
+      },
+      {
+        "label": "W/work/claude-composition-v5-beta/composition.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/composition.json",
+        "expected": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+        "sha256": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+        "bytes": 37257,
+        "match": true
+      },
+      {
+        "label": "W/work/claude-composition-v5-beta/source-inventory.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source-inventory.json",
+        "expected": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+        "sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+        "bytes": 105881,
+        "match": true
+      },
+      {
+        "label": "CAPI4/DESIGN.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/DESIGN.md",
+        "expected": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "bytes": 97143,
+        "match": true
+      },
+      {
+        "label": "CAPI4/APPENDIX-BINDINGS.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-BINDINGS.md",
+        "expected": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+        "sha256": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+        "bytes": 225451,
+        "match": true
+      },
+      {
+        "label": "CAPI4/APPENDIX-COST-MAP.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-COST-MAP.md",
+        "expected": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+        "sha256": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+        "bytes": 73929,
+        "match": true
+      },
+      {
+        "label": "CAPI4/decisions.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/decisions.json",
+        "expected": "59e71dd68724b0420b670d79a99ea74194134dbc6d219b7b91f146ad01843625",
+        "sha256": "59e71dd68724b0420b670d79a99ea74194134dbc6d219b7b91f146ad01843625",
+        "bytes": 58056,
+        "match": true
+      },
+      {
+        "label": "CAPI3R/REVIEW.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/REVIEW.md",
+        "expected": "9fe93d9dd4257aa6ea188278fecedf5971a0ac34135a390f45908d3ac80b14b0",
+        "sha256": "9fe93d9dd4257aa6ea188278fecedf5971a0ac34135a390f45908d3ac80b14b0",
+        "bytes": 31423,
+        "match": true
+      },
+      {
+        "label": "CAPI3R/review.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review.json",
+        "expected": "ab7efb2bc69d426f9480246bc2dd1f5e381d99879485d4385837ec1105d85223",
+        "sha256": "ab7efb2bc69d426f9480246bc2dd1f5e381d99879485d4385837ec1105d85223",
+        "bytes": 18528,
+        "match": true
+      },
+      {
+        "label": "CAPI3R/review-freeze.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review-freeze.json",
+        "expected": "7314f4de53972acbac91541d6a895072a50c264119dfe25e5c20b04ae63512ca",
+        "sha256": "7314f4de53972acbac91541d6a895072a50c264119dfe25e5c20b04ae63512ca",
+        "bytes": 559,
+        "match": true
+      },
+      {
+        "label": "D2D/INVENTORY.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/INVENTORY.md",
+        "expected": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+        "sha256": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+        "bytes": 58106,
+        "match": true
+      },
+      {
+        "label": "D2R/REVIEW.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/REVIEW.md",
+        "expected": "03fbf2461e857ddf9a3a0bdcf2515a14ccb6cd8498ade4e682a8a4bb60f02820",
+        "sha256": "03fbf2461e857ddf9a3a0bdcf2515a14ccb6cd8498ade4e682a8a4bb60f02820",
+        "bytes": 58182,
+        "match": true
+      },
+      {
+        "label": "D2R/review.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/review.json",
+        "expected": "20e0447f556d9f18e9b8a24e5c96056317b52ccee3d29fe804c65cdee2c9c578",
+        "sha256": "20e0447f556d9f18e9b8a24e5c96056317b52ccee3d29fe804c65cdee2c9c578",
+        "bytes": 236257,
+        "match": true
+      },
+      {
+        "label": "D2R/review-freeze.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/review-freeze.json",
+        "expected": "f94a3cce4a2727340c64b16c638e0fc6f9572cf979741bd4fbf55e6e6c2ac7e9",
+        "sha256": "f94a3cce4a2727340c64b16c638e0fc6f9572cf979741bd4fbf55e6e6c2ac7e9",
+        "bytes": 561,
+        "match": true
+      },
+      {
+        "label": "CHILD/review/gpt61-v1/REVIEW.md",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/resource-child-authority-source-v1/review/gpt61-v1/REVIEW.md",
+        "expected": "5016becf1395e56f2fb01f1c2a2201d3add9c1b7caad98b00f608103c7bfce0a",
+        "sha256": "5016becf1395e56f2fb01f1c2a2201d3add9c1b7caad98b00f608103c7bfce0a",
+        "bytes": 17084,
+        "match": true
+      },
+      {
+        "label": "CHILD/review/gpt61-v1/review.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/resource-child-authority-source-v1/review/gpt61-v1/review.json",
+        "expected": "322ec24f74a742275ca34b1ec97ebabd88ce22fce5b75bfca0c5c53042e40d3c",
+        "sha256": "322ec24f74a742275ca34b1ec97ebabd88ce22fce5b75bfca0c5c53042e40d3c",
+        "bytes": 10777,
+        "match": true
+      },
+      {
+        "label": "W/work/claude-lead-v2/approvals/optional-marker-api-v1/approval.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-v2/approvals/optional-marker-api-v1/approval.json",
+        "expected": "79d9f875bdcd17d8c2bb8add0155d15235a045706ecdb7bf60e946697ae62a40",
+        "sha256": "79d9f875bdcd17d8c2bb8add0155d15235a045706ecdb7bf60e946697ae62a40",
+        "bytes": 1390,
+        "match": true
+      },
+      {
+        "label": "CHILD/source/runtime/worldline/protected_scoped_resource_runtime.py (equal to the lane's copy)",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/resource-child-authority-source-v1/source/runtime/worldline/protected_scoped_resource_runtime.py",
+        "expected": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+        "sha256": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+        "bytes": 78235,
+        "match": true
+      },
+      {
+        "label": "CHILD/source/runtime/worldline/canonical_actor_execution.py (equal to the lane's copy)",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/resource-child-authority-source-v1/source/runtime/worldline/canonical_actor_execution.py",
+        "expected": "7c089300563f417c2467cb9c327202323071664762fa4c8c1df2d575915e3939",
+        "sha256": "7c089300563f417c2467cb9c327202323071664762fa4c8c1df2d575915e3939",
+        "bytes": 12607,
+        "match": true
+      },
+      {
+        "label": "A1/source/runtime/worldline/protected_resource_runtime.py (equal to the lane's copy)",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/scoped-committed-envelope-repair-v2-retry1/source/runtime/worldline/protected_resource_runtime.py",
+        "expected": "fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f",
+        "sha256": "fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f",
+        "bytes": 75907,
+        "match": true
+      },
+      {
+        "label": "A1/review/gpt61-v1/review.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/scoped-committed-envelope-repair-v2-retry1/review/gpt61-v1/review.json",
+        "expected": "9d8cc8345f133cff4859a799580117bb2666ff59a53bb9c15557fd05a7390794",
+        "sha256": "9d8cc8345f133cff4859a799580117bb2666ff59a53bb9c15557fd05a7390794",
+        "bytes": 2536,
+        "match": true
+      },
+      {
+        "label": "A1/review/gpt61-v1/review-freeze.json",
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/scoped-committed-envelope-repair-v2-retry1/review/gpt61-v1/review-freeze.json",
+        "expected": "47a775a2718fa721d357dcf948da2aa2216438f84cb109dd6dcbc4e4a1c74fcb",
+        "sha256": "47a775a2718fa721d357dcf948da2aa2216438f84cb109dd6dcbc4e4a1c74fcb",
+        "bytes": 1038,
+        "match": true
+      }
+    ],
+    "slices": [
+      {
+        "id": "B-NOTATION",
+        "start": 46,
+        "end": 61,
+        "sha256": "08d331e08f8659a520bb86dac169b2f9b4985c948f503b3b314b5fb5befe7b41",
+        "expected": "08d331e08f8659a520bb86dac169b2f9b4985c948f503b3b314b5fb5befe7b41",
+        "match": true
+      },
+      {
+        "id": "B-P0",
+        "start": 72,
+        "end": 151,
+        "sha256": "e61cd9f936685c1931ad93429bb23fe4b669b3c6d54dbf0f652b482c0321a993",
+        "expected": "e61cd9f936685c1931ad93429bb23fe4b669b3c6d54dbf0f652b482c0321a993",
+        "match": true
+      },
+      {
+        "id": "B-S1-CUR",
+        "start": 169,
+        "end": 195,
+        "sha256": "514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17",
+        "expected": "514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17",
+        "match": true
+      },
+      {
+        "id": "B-S1-REQ",
+        "start": 197,
+        "end": 213,
+        "sha256": "dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413",
+        "expected": "dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413",
+        "match": true
+      },
+      {
+        "id": "B-S2-CUR",
+        "start": 323,
+        "end": 351,
+        "sha256": "83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259",
+        "expected": "83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259",
+        "match": true
+      },
+      {
+        "id": "B-S2-REQ",
+        "start": 353,
+        "end": 369,
+        "sha256": "e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac",
+        "expected": "e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac",
+        "match": true
+      },
+      {
+        "id": "B-S3-CUR",
+        "start": 456,
+        "end": 471,
+        "sha256": "705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768",
+        "expected": "705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768",
+        "match": true
+      },
+      {
+        "id": "B-S3-REQ",
+        "start": 473,
+        "end": 481,
+        "sha256": "ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793",
+        "expected": "ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793",
+        "match": true
+      },
+      {
+        "id": "B-S4-CUR",
+        "start": 533,
+        "end": 548,
+        "sha256": "69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00",
+        "expected": "69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00",
+        "match": true
+      },
+      {
+        "id": "B-S4-REQ",
+        "start": 550,
+        "end": 558,
+        "sha256": "54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f",
+        "expected": "54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f",
+        "match": true
+      },
+      {
+        "id": "B-S5-CUR",
+        "start": 632,
+        "end": 644,
+        "sha256": "ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b",
+        "expected": "ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b",
+        "match": true
+      },
+      {
+        "id": "B-S5-REQ",
+        "start": 646,
+        "end": 659,
+        "sha256": "23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68",
+        "expected": "23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68",
+        "match": true
+      },
+      {
+        "id": "B-S6-CUR",
+        "start": 748,
+        "end": 764,
+        "sha256": "8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698",
+        "expected": "8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698",
+        "match": true
+      },
+      {
+        "id": "B-S6-REQ",
+        "start": 766,
+        "end": 776,
+        "sha256": "41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b",
+        "expected": "41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b",
+        "match": true
+      },
+      {
+        "id": "B-S7-CUR",
+        "start": 832,
+        "end": 856,
+        "sha256": "1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88",
+        "expected": "1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88",
+        "match": true
+      },
+      {
+        "id": "B-S7-REQ",
+        "start": 858,
+        "end": 865,
+        "sha256": "6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c",
+        "expected": "6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c",
+        "match": true
+      },
+      {
+        "id": "B-S8-CUR",
+        "start": 928,
+        "end": 945,
+        "sha256": "1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02",
+        "expected": "1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02",
+        "match": true
+      },
+      {
+        "id": "B-S8-REQ",
+        "start": 947,
+        "end": 958,
+        "sha256": "1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba",
+        "expected": "1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba",
+        "match": true
+      },
+      {
+        "id": "B-S9-CUR",
+        "start": 1033,
+        "end": 1071,
+        "sha256": "5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919",
+        "expected": "5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919",
+        "match": true
+      },
+      {
+        "id": "B-S9-REQ",
+        "start": 1073,
+        "end": 1082,
+        "sha256": "eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e",
+        "expected": "eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e",
+        "match": true
+      },
+      {
+        "id": "B-S10-CUR",
+        "start": 1153,
+        "end": 1163,
+        "sha256": "df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9",
+        "expected": "df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9",
+        "match": true
+      },
+      {
+        "id": "B-S10-REQ",
+        "start": 1165,
+        "end": 1174,
+        "sha256": "bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e",
+        "expected": "bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e",
+        "match": true
+      }
+    ],
+    "freezes": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review-freeze.json",
+        "sha256": "f6f31ddc0bff4dd59ecccfa389f48ce85c7ad91900fe844cf72293a7d7cb1603",
+        "files": [
+          {
+            "name": "REVIEW.md",
+            "sha_match": true,
+            "bytes_match": true,
+            "mode": "0o600",
+            "declared_mode": "0600"
+          },
+          {
+            "name": "checks.json",
+            "sha_match": true,
+            "bytes_match": true,
+            "mode": "0o600",
+            "declared_mode": "0600"
+          },
+          {
+            "name": "review.json",
+            "sha_match": true,
+            "bytes_match": true,
+            "mode": "0o600",
+            "declared_mode": "0600"
+          }
+        ]
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review-freeze.json",
+        "sha256": "f1dcb0a77264dedd4c08be8b71ce390db66295cb25d1eb79eeb3701c7c0413dc",
+        "files": [
+          {
+            "name": "REVIEW.md",
+            "sha_match": true,
+            "bytes_match": true,
+            "mode": "0o600",
+            "declared_mode": "0600"
+          },
+          {
+            "name": "review.json",
+            "sha_match": true,
+            "bytes_match": true,
+            "mode": "0o600",
+            "declared_mode": "0600"
+          },
+          {
+            "name": "checks.json",
+            "sha_match": true,
+            "bytes_match": true,
+            "mode": "0o600",
+            "declared_mode": "0600"
+          }
+        ]
+      }
+    ]
+  },
+  "source_acceptance": false,
+  "phase_acceptance": false,
+  "proof_acceptance": false
+}

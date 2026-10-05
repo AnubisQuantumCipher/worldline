@@ -1,0 +1,778 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 2,
+  "status": "COMPLETE",
+  "actual_model_selection": "gpt-6.1-sol",
+  "findings": [
+    {
+      "id": "N-1",
+      "status": "VERIFIED_STATIC",
+      "assessment": "AST literal roster observations match: lane 614, preimage 485, S5/commonV4 535, shared prefix 419, S5/lane set differences 116/195, preimage-only 66. The common names preserve order. S5 remains the integrated original prefix.",
+      "evidence": "D:127,1670-1679; R/runtime/worldline/proof_manifest.py:25,312,314,974,1031; S5/runtime/worldline/proof_manifest.py:25"
+    },
+    {
+      "id": "N-2",
+      "status": "SUPPORTED_STATIC_TOOL_BEHAVIOR_OPEN",
+      "assessment": "Eight enrolled names at zero-based positions 606-613 are in C_API's Off body, including nested Child_Boundary with no On aspect. Missing required-name logic is at manifest:857-859. Static boundary incompatibility is supported; no GNATprove result was produced.",
+      "evidence": "R/core/worldline-c_api.adb:31,1166-1198,2251-2254; R/core/worldline-c_api.ads:6; R/runtime/worldline/proof_manifest.py:857-859,1031; SPARK-UG/chapters/ch04-identifying-spark-code.md:19,35-36,76-78"
+    },
+    {
+      "id": "N-3",
+      "status": "VERIFIED_STATIC",
+      "assessment": "Off-file census and S5 comparison support all classes: sole C_API spec/body, S5's On component files, and protected-only Off files. These are existing open body obligations, not authorized exemptions.",
+      "evidence": "D:129,1799; P1/HANDOFF.md:29,161; R/core/worldline-canonical_operation_c_api.ads:2; R/core/worldline-canonical_operation_c_api.adb:7; S5/core/resource_run_ledger_c_api.ads:2"
+    },
+    {
+      "id": "N-4",
+      "status": "VERIFIED_BYTE_DIFF_AND_LAYOUT",
+      "assessment": "Pure insertion diffs, anchors, specs and External_Name counts match. Old child block cannot be carried verbatim into C-API v4's exact runs/residual.",
+      "evidence": "D:130,1758-1765; R/core/worldline-c_api.adb:1165-1166,2284-2285; R/core/worldline-c_api.ads:242-275; CAPI4/DESIGN.md:330-355,768-781"
+    },
+    {
+      "id": "N-5",
+      "status": "VERIFIED_LEXICAL_SCOPE",
+      "assessment": "All named renamings are within package body Child_Boundary. They are not C_API body-level declarations. Rebase scope-merging remains a hazard; no current same-scope collision is asserted.",
+      "evidence": "R/core/worldline-c_api.adb:1198-1220,2251; CAPI4/DESIGN.md:775-780"
+    },
+    {
+      "id": "N-6",
+      "status": "SUPPORTED_STATIC_CONDITIONAL_RECEIVER_RESOLVED",
+      "assessment": "All listed same-thread re-acquisitions are supported at their receivers; service and principal share the exact Gate by constructor identity. Base/service files are byte-identical to A1-selected origins. Fixing only intent_for_operation nesting leaves reserve submit/recover, launch/admission/GO/settlement/reconcile/capture blocked when reached. Not reproduced; other paths and cross-thread lock freedom remain open.",
+      "evidence": "R/runtime/worldline/protected_scoped_resource_runtime.py:62-75,357,373,385-388,412-436,507-516,526-556,567-596,612-613,630-642,701-769,854-930; R/runtime/worldline/protected_scoped_resource_service.py:62-66,213,223; R/runtime/worldline/protected_resource_runtime.py:149-150,404,474,534-595,604-624; R/runtime/worldline/protected_root_observation.py:57-61; R/runtime/worldline/canonical_actor_execution.py:61; L/dependency-source/lab/intent_gate.py:371; L/secondary-source-union-v1.json:407-431"
+    },
+    {
+      "id": "N-7",
+      "status": "VERIFIED_STATIC",
+      "assessment": "append serializes BEGIN IMMEDIATE and derives previous head itself; signature has no expected head/phase/generation and native Legal is absent.",
+      "evidence": "R/runtime/worldline/root_worker_journal.py:123-140"
+    },
+    {
+      "id": "N-8",
+      "status": "VERIFIED_STATIC_ORDER",
+      "assessment": "capture_execution appends ACTOR_EXECUTION_NATIVE inside an ACK; _current calls it. The seed-before-second-capture order supports a conditional stale-seed risk once earlier blockers are repaired.",
+      "evidence": "R/runtime/worldline/canonical_actor_execution.py:125-127; R/runtime/worldline/protected_root_observation.py:61; R/runtime/worldline/root_worker_custody.py:124-142"
+    },
+    {
+      "id": "N-9",
+      "status": "VERIFIED_TEXT_SCOPE_RESOLUTION_OPEN",
+      "assessment": "Child block counts match 84 non-attribute Size tokens and 67 Size attributes. Same-spelled literals versus spec subtype are real textual declarations; installed overload/hiding/warning behavior is unmeasured. Rename/move rule is conservative and sound.",
+      "evidence": "R/core/worldline-c_api.adb:1285-1300; CAPI4/DESIGN.md:334; D:1794; ADA-ADV/chapters/ch14-packages.md:34-36"
+    },
+    {
+      "id": "N-10",
+      "status": "VERIFIED_STATIC_PAIR_FILLING",
+      "assessment": "Root namespace/image/challenge and child image/challenge pairs are filled from the same values at the cited producers; peer pairs use distinct sources. Only these native equalities are vacuous; other classification predicates and separate producer checks remain real.",
+      "evidence": "R/runtime/worldline/root_worker_physical.py:90-98; R/runtime/worldline/protected_resource_runtime.py:881-888; R/runtime/worldline/protected_scoped_supervisor_v3.py:185-191; R/core/resource_observation_classification.ads:79-114"
+    }
+  ],
+  "defects": [
+    {
+      "id": "DF-1",
+      "status": "VERIFIED_STATIC_RECOMPUTATION",
+      "assessment": "All effective lane pins recomputed with a reviewer transcription of the read normalizer. Sole mismatch is protected_operations, with exactly the supplied stale/computed digests. Protected startup/intake require no contract_problems.",
+      "evidence": "R/runtime/worldline/proof_manifest.py:420-450,1012; R/runtime/worldline/protected_startup.py:683-684; R/runtime/worldline/protected_root_worker.py:355-357"
+    },
+    {
+      "id": "DF-2",
+      "status": "VERIFIED_STATIC",
+      "assessment": "Definitions at 52 and 961 shadow; latter loses exact early-selected producer check. No call in selected lane/runtime dependencies; defect predates lane delta.",
+      "evidence": "R/runtime/worldline/protected_scoped_resource_runtime.py:52-58,961-964; D:117"
+    },
+    {
+      "id": "DF-3",
+      "status": "VERIFIED_STATIC",
+      "assessment": "Root invoke omits genuine context/unresolved/workload guard order and DISPATCH_INTENT relative to serial path. Restore exact original exception order and quarantine semantics.",
+      "evidence": "R/runtime/worldline/protected_root_worker.py:158-171; R/runtime/worldline/protected_operations.py:728-749"
+    },
+    {
+      "id": "DF-4",
+      "status": "VERIFIED_STATIC",
+      "assessment": "Named six controller expected/observed pairs self-fill; process source lease is passed caller material. Only named equalities are vacuous; non-pair predicates retained.",
+      "evidence": "R/runtime/worldline/protected_root_observation.py:36-49,74-76,121; R/core/worldline-resource_child_execution.ads:48-59"
+    },
+    {
+      "id": "DF-5",
+      "status": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_TREES",
+      "assessment": "Historical settlement/lifecycle/owner adapters referenced through getattr but have no definitions in read selected runtime/dependency trees. Static absence claim limited to selected source.",
+      "evidence": "R/runtime/worldline/protected_scoped_resource_runtime.py:530-531,548-549,571-572; R/runtime/worldline/protected_operations.py:505-585,852-897"
+    },
+    {
+      "id": "DF-6",
+      "status": "SUPPORTED_STATIC_CONDITIONAL",
+      "assessment": "Same object's non-reentrant threading.Lock nested at intent_for_operation -> reconcile_context, conditional on passing earlier checks. N-6 widens the required audit; no observed hang.",
+      "evidence": "L/dependency-source/lab/intent_gate.py:371; R/runtime/worldline/protected_scoped_resource_runtime.py:357,385-388; R/runtime/worldline/protected_operations.py:640"
+    }
+  ],
+  "observations": {
+    "rosters": {
+      "lengths": {
+        "lane": 614,
+        "preimage": 485,
+        "S5": 535,
+        "commonV4": 535
+      },
+      "lane_S5_common_prefix": 419,
+      "lane_preimage_common_prefix": 485,
+      "S5_absent_from_lane": 116,
+      "lane_absent_from_S5": 195,
+      "preimage_absent_from_S5": 66,
+      "C_API_names": [
+        {
+          "index": 606,
+          "name": "Worldline.C_API.Child_Version"
+        },
+        {
+          "index": 607,
+          "name": "Worldline.C_API.Child_Layout"
+        },
+        {
+          "index": 608,
+          "name": "Worldline.C_API.Child_Decide"
+        },
+        {
+          "index": 609,
+          "name": "Worldline.C_API.Child_Boundary.Version"
+        },
+        {
+          "index": 610,
+          "name": "Worldline.C_API.Child_Boundary.Shape"
+        },
+        {
+          "index": 611,
+          "name": "Worldline.C_API.Child_Boundary.Array_Shape"
+        },
+        {
+          "index": 612,
+          "name": "Worldline.C_API.Child_Boundary.Layout"
+        },
+        {
+          "index": 613,
+          "name": "Worldline.C_API.Child_Boundary.Decide"
+        }
+      ]
+    },
+    "pins": {
+      "lane": {
+        "effective_keys": 191,
+        "statements": 16,
+        "sites": [
+          329,
+          418,
+          925,
+          942,
+          955,
+          969,
+          974,
+          997,
+          1002,
+          1007,
+          1012,
+          1017,
+          1022,
+          1028,
+          1031,
+          1034
+        ]
+      },
+      "preimage": {
+        "effective_keys": 171,
+        "statements": 13,
+        "sites": [
+          329,
+          418,
+          925,
+          942,
+          955,
+          969,
+          974,
+          997,
+          1002,
+          1007,
+          1012,
+          1017,
+          1022
+        ]
+      },
+      "S5": {
+        "effective_keys": 169,
+        "statements": 17,
+        "sites": [
+          329,
+          418,
+          925,
+          942,
+          955,
+          969,
+          974,
+          997,
+          1000,
+          1005,
+          1009,
+          1014,
+          1017,
+          1020,
+          1023,
+          1026,
+          1029
+        ]
+      },
+      "commonV4": {
+        "effective_keys": 167,
+        "statements": 15,
+        "sites": [
+          329,
+          418,
+          925,
+          942,
+          955,
+          969,
+          974,
+          997,
+          1000,
+          1005,
+          1009,
+          1014,
+          1017,
+          1020,
+          1023
+        ]
+      }
+    },
+    "pin_mismatches": [
+      {
+        "key": "runtime/worldline/protected_operations.py",
+        "expected": "8be1f9ab2c689ecc9e915464e8e454863c205ca2f1f4a1763a5125aa2b61139e",
+        "computed": "2a6d71c7ca81d456d41f242a880b8fa3e0f115d794f4772e115767236b183547"
+      }
+    ],
+    "off_files": [
+      {
+        "file": "evaluation_completion_c.adb",
+        "sha256": "32deb60a2065f6ec60632bc27a51251ee256df8581187a9a4369cd01360dc0e6",
+        "off_lines": [
+          14
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "evaluation_completion_c.ads",
+        "sha256": "39889fdc3b1bd18a6a14d306b77dd8af00da2c4b47934a127f64a972c33259d5",
+        "off_lines": [
+          9
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "evaluation_finalization_c.adb",
+        "sha256": "a1a5aed37185fce51c2d955ceadd3da97dbd6bc51b455dcf2445bdfcc848ec34",
+        "off_lines": [
+          8
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "evaluation_finalization_c.ads",
+        "sha256": "e798ae7ca45d75c88d59b39fced6608f846d1c6ba4df57f96ea902b40b4f441d",
+        "off_lines": [
+          11
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "evaluation_pending_c.adb",
+        "sha256": "9b0bc60e3144ad2a2dfbd1361a4e8e8c608164cb9bb0f067df724043dbf559ff",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "evaluation_pending_c.ads",
+        "sha256": "963488e96bdc4faa56a9659de557731d9a7e78ad660afd359e18350f44fb164d",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "evaluation_pending_v2_c.adb",
+        "sha256": "b6df858e6a11e8c55ee0cff5cc4e46d90416629080000198d3c4e6d6de4cb240",
+        "off_lines": [
+          6
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "evaluation_pending_v2_c.ads",
+        "sha256": "155611e01d236e0f2a200245b453e49847f58aa01a68e4c8b3c8d902b898b4a8",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "resource_run_ledger_c_api.adb",
+        "sha256": "2a53247cb53052cd169d2c3f772fe3dac86eae023c0052f0ace3c7a5d6926bba",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "resource_run_ledger_c_api.ads",
+        "sha256": "ae1d1ea5656d1e06d3545ea9db66d4959ca10c5d0626a7adbec79f5189f217a2",
+        "off_lines": [
+          4
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-actuation_full_c_api.adb",
+        "sha256": "2a5ed91bf4216c6ff9fe7cad08d5f554ae59f53c03fb148e48f5a4fa3d9339fa",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-c_api.adb",
+        "sha256": "806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420",
+        "off_lines": [
+          31
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => Off"
+        ]
+      },
+      {
+        "file": "worldline-c_api.ads",
+        "sha256": "d09a7b669ea71dd4833a468c627a578d1459ccf1d18840f9ba9a31e40b6f6c8d",
+        "off_lines": [
+          6
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => Off"
+        ]
+      },
+      {
+        "file": "worldline-canonical_exchange_c_api.adb",
+        "sha256": "aef637f8572eba8a768a87d29b0c477aa4f56436d70e469685a26692e89d0f3f",
+        "off_lines": [
+          4
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-canonical_exchange_c_api.ads",
+        "sha256": "9327c29e55e24d947e9e471a28026bd02a5c6c650ff280b8590b32e8e954a17a",
+        "off_lines": [
+          4
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-canonical_operation_c_api.adb",
+        "sha256": "bb7589d594daf50c02fb40de7ecd4ea9b5c168541c8b10ab8d36775071405a6e",
+        "off_lines": [
+          3
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-canonical_operation_c_api.ads",
+        "sha256": "82c644cbd6559a4c6e3092dc866e4a423b12fecf62869eaff592ca668f413894",
+        "off_lines": [
+          2
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-canonical_owner_completion_c_api.adb",
+        "sha256": "9c9672cd2d0ab93eaee1dc5e93159fb16e0d659093daa4468f95bf4044d11ddc",
+        "off_lines": [
+          3
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-canonical_owner_completion_c_api.ads",
+        "sha256": "b8fe8abe2ad5bf2ada104e7debc14cd1bed4cf4e748860c239bed6ae9d0ec99a",
+        "off_lines": [
+          4
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-chain_authority_c_api.adb",
+        "sha256": "4b23b9ad20dc72bd0cc689e323c19d613e83b3acd68e5ac610d95d8015655c58",
+        "off_lines": [
+          4
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-chain_authority_c_api.ads",
+        "sha256": "6b25fa86cf07e16c2702caec254ccf9c488254f3f5c2d14c86c56b1afe46776c",
+        "off_lines": [
+          4
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-evaluation_history_c_api.adb",
+        "sha256": "0be16252eb2d9e72baa8dbfbb2bbdbe9b82bb3392ec79aeb90b952d170ef166d",
+        "off_lines": [
+          6
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-evaluation_history_c_api.ads",
+        "sha256": "1040eac0113095d66f14d533d9a7663546bbffa7c078cd81a504cd86db056d92",
+        "off_lines": [
+          8
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-operation_authority_c_api.adb",
+        "sha256": "7ebc1138975fad1372bcb017a5cadde20c7b88f5e1e8384d01201c13f8c317b3",
+        "off_lines": [
+          3
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-operation_authority_c_api.ads",
+        "sha256": "bb679a778cebf1768d1598cc159c277777481be9efee79337a67a72ed75127ca",
+        "off_lines": [
+          2
+        ],
+        "S5_exists": false,
+        "S5_modes": []
+      },
+      {
+        "file": "worldline-recovery_authorization_c_api.adb",
+        "sha256": "a6b46ab83addfd635a233eb7fcb14ebb917717870d6ef163fdcbca580e0a5444",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-recovery_authorization_c_api.ads",
+        "sha256": "ce20e43de37b60e9c5840f46168bd8459c9901526bfc691357898a1c8c25eb3a",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-recovery_authorization_v3_c_api.adb",
+        "sha256": "2dfba11d1a33ab52eefd9aa6cbef8370e554dc9bfe30088abd84431c5ec75574",
+        "off_lines": [
+          6
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-recovery_authorization_v3_c_api.ads",
+        "sha256": "4f5cc3697ed76d7af2873f564ff7ef5707390ae68767ec61c053ef2fadb90f72",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-recovery_c_api.adb",
+        "sha256": "009d9ec88bdb1e0da8c9114819f8ff69d52193b747da948e4c6e3b7dd09b7bce",
+        "off_lines": [
+          5
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-recovery_c_api.ads",
+        "sha256": "f03c53ecbf92c68cbb9f70b98809ec33f87ec3ef50cccf52c8dd4d885fa0d78f",
+        "off_lines": [
+          8
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-recovery_protocol_c_api.adb",
+        "sha256": "d47f2276a08236fcd82ac0c5af3099eefde74080bbc8491ffb7c20da561d5a21",
+        "off_lines": [
+          4
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-recovery_protocol_c_api.ads",
+        "sha256": "3e4aa0c8bb48e22805abda5de2df277dfdae533b5bfda483b1b4e66cb599f71c",
+        "off_lines": [
+          4
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-reservation_lifecycle_c_api.adb",
+        "sha256": "7128313368144db894fa030a676c8f8bcb16f8067531851b2107c51e8b997a01",
+        "off_lines": [
+          6
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-reservation_lifecycle_c_api.ads",
+        "sha256": "4363e0f3f379e989cf73a9047859ad862c7175ed32074ac7631ddf039606080f",
+        "off_lines": [
+          9
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-resource_ledger_c_api.adb",
+        "sha256": "821953fcb0402ba17592f5f2a278dc2619a8e0810d4b5b0930bb37be5b195302",
+        "off_lines": [
+          6
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-resource_ledger_c_api.ads",
+        "sha256": "ab4694d6a2d79628236754c6c8ee2d1bd60ea0dc9d0980b0d911744e3548a0e0",
+        "off_lines": [
+          10
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-resource_policy_c_api.adb",
+        "sha256": "f66bfb5564e5779083ec7b59cd128bb7c1c85c8ec15e374acbd6ac2d7ab3e0ec",
+        "off_lines": [
+          6
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-resource_policy_c_api.ads",
+        "sha256": "c4c92c21fcfe20e64c4e5f9e388b4acb9b341efb8837a98d6782230327eafaf8",
+        "off_lines": [
+          9
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-resources_c_api.adb",
+        "sha256": "78c3a8a1d8eda05d3da25482604bd330977eba683584df0997d62f6dfff94718",
+        "off_lines": [
+          6
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      },
+      {
+        "file": "worldline-resources_c_api.ads",
+        "sha256": "d924009a4937a26b6f84220988696fc130f2d266fe9a5ffec8b957c0c5a679d7",
+        "off_lines": [
+          7
+        ],
+        "S5_exists": true,
+        "S5_modes": [
+          "SPARK_Mode => On"
+        ]
+      }
+    ],
+    "off_count": 41,
+    "diffs": {
+      "preimage_lane_body": [
+        {
+          "tag": "insert",
+          "old_slice": [
+            0,
+            0
+          ],
+          "new_slice": [
+            0,
+            6
+          ],
+          "inserted_lines": 6,
+          "deleted_lines": 0,
+          "inserted_sha256": "d299f6fe978481541a01f076e2db9914ef59255bf9c42ac39f53707d45ab4598"
+        },
+        {
+          "tag": "insert",
+          "old_slice": [
+            1159,
+            1159
+          ],
+          "new_slice": [
+            1165,
+            2284
+          ],
+          "inserted_lines": 1119,
+          "deleted_lines": 0,
+          "inserted_sha256": "81bacea417a056536cd025be7ca0d8c7d794d9c0bf10ad30f1c8f68783fdef6e"
+        }
+      ],
+      "preimage_S5_body": [
+        {
+          "tag": "insert",
+          "old_slice": [
+            31,
+            31
+          ],
+          "new_slice": [
+            31,
+            32
+          ],
+          "inserted_lines": 1,
+          "deleted_lines": 0,
+          "inserted_sha256": "87579ba513a1e06405347454469cf6ac1f4f75a150a1ff4e8d2ed4dafecd017f"
+        }
+      ],
+      "preimage_lane_spec": [
+        {
+          "tag": "insert",
+          "old_slice": [
+            243,
+            243
+          ],
+          "new_slice": [
+            243,
+            275
+          ],
+          "inserted_lines": 32,
+          "deleted_lines": 0,
+          "inserted_sha256": "72c00b9257944509a61914cc909c73eff3f3487b027d7b1086b3682e12fa3af8"
+        }
+      ]
+    },
+    "External_Name": {
+      "lane_spec": 34,
+      "S5_spec": 31
+    },
+    "Size": {
+      "scope": "Child_Boundary insertion at lines 1166-2284",
+      "non_attribute": 84,
+      "attribute": 67,
+      "whole_body_attribute": 73
+    },
+    "A1_identity": {
+      "protected_resource_runtime": {
+        "match": true,
+        "sha256": "fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f"
+      },
+      "protected_scoped_resource_service": {
+        "match": true,
+        "sha256": "e062ff0335d312366c90517cca21c73c0879d0b95de469840c36cea46250248f"
+      }
+    }
+  },
+  "limits": [
+    "No source imported or executed",
+    "Receiver resolution is static and conditional; no runtime reproduction",
+    "Base RunLedgerService/callback and cross-thread completeness remain open",
+    "N-2/N-9 installed-tool behavior remains open"
+  ],
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}

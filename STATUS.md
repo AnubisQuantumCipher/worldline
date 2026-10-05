@@ -60,7 +60,8 @@ written. Future scans exclude that path.
 | D1 v4 author findings (unreviewed) | F34: v3's Algorithm B ghost is unrepresentable at n = 804; repaired by DR-C5. F35: Algorithm A's ghost horizon, OPEN. F36: Compare's checked cost is dominant. **F32: an original control (`tests/test_finalization_kernel.py:257-266`) expects AUTHORIZED where the author claims Collapse.Decide gives `Identity_Absent`. Unexecuted claim; original controls untouched** | Under the D1 v4 review. F32 needs integrated execution evidence |
 | C-API design v4 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~02:47Z; gpt-6.1-sol/max from the rollout). V3-RC5 and V3-RC6 CLOSED_AT_DESIGN_LEVEL. V3-RC4 NOT_CLOSED, with two remaining changes: V4-RC4-GATE (reconcile the gate rule set) and V4-RC4-ALIAS (expanded naming invariant for indirect package paths). L1–L8 all GENUINE. D-13 clarified: the reservation concerns the component transport/library architecture, not pin edits | DESIGN v5 drafted (`533f0e04…`, handback ~04:13Z); its actual gpt-6.1-sol review started 04:17Z |
 | C-API design v3 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC3 CLOSED_AT_DESIGN_LEVEL; V3-RC4 binding spec, V3-RC5 PK-0 effect classification, V3-RC6 cost map NOT_CLOSED; D-13 operator choice on a concrete reviewed packet before PK-7; N-06 at deployment; N-01 lead-owned) | DESIGN v4 |
-| Root-worker seam design v1 | ENDORSED_WITH_REQUIRED_CHANGES (RC-01..RC-12; rulings D-1a..D-9a: `Delegate=yes` not endorsed, the frontier control cannot be retired by the lead, native custody-phase legality is mandatory) | v2 after operator decisions |
+| Root-worker seam design v1 | ENDORSED_WITH_REQUIRED_CHANGES (RC-01..RC-12; rulings D-1a..D-9a: `Delegate=yes` not endorsed, the frontier control cannot be retired by the lead, native custody-phase legality is mandatory) | v2 |
+| Root-worker seam design v2 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~04:19Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `84c176df…`, REVIEW.md `1a41b5c5…`, checks.json `63a36b12…`, freeze `d40060e5…`).<br>- **Closed at design level:** RC-05, RC-10, D-2b. All other RCs and rulings PARTIALLY_CLOSED.<br>- **Required changes:** twelve, V2-REQ-A..L. V2-REQ-K brings the C-API status up to date.<br>- **Findings:** N-1..N-10 verified or supported statically. N-6 is SUPPORTED_STATIC_CONDITIONAL_RECEIVER_RESOLVED.<br>- **RQ-1:** PARTIALLY_CLOSED: no unconditional FRESH placement; it needs caller-by-caller domain correspondence and Retained_Join.<br>- **Operator items:** OP-1..OP-9 within the reserved scope; no new gate, nothing lowered | Seam v3 (routine lead engineering) |
 | D2 checked-Ghost inventory v1 | ACCURATE_WITH_CORRECTIONS (12 corrections, hazard rulings H1–H11; see below) | Corrections carried here and into the package |
 
 ## Candidate packets (drafted; untested engineering hypotheses)
@@ -234,8 +235,16 @@ V5-B02 and every original obligation stay OPEN.
     self-check**: not WORLDLINE code, not evidence, not a control run. The reviewer may not execute the sketch.
   - **Review.** Its actual gpt-6.1-sol review started 04:17:16Z: brief `briefs/capi-design-v5.md` (`ec0472e1…`),
     thread `01a10a47-a6da-79e2-b8e0-a110e9fc7a8a`, output to `…/review/gpt61-v1`.
-- **Root-worker SEAM DESIGN v2.** Its actual gpt-6.1-sol review started 03:40:38Z (thread `01a10a26…`).
-  - At 04:17Z it had six checkpoints and an unsealed `REVIEW.md`. The lead does not read it before its freeze.
+- **Root-worker SEAM DESIGN v2.** Its actual gpt-6.1-sol review (thread `01a10a26…`, started 03:40:38Z) sealed
+  ~04:19Z: ENDORSED_WITH_REQUIRED_CHANGES (verdict table).
+- **Operator package DRAFT-v7: working copy moved into wt-1.**
+  - At ~04:19Z the edit guard refused Edit-tool changes to `work/claude-operator-decision-package-v1/DRAFT-v7.md`,
+    which is outside any git worktree.
+  - Nothing was routed around the refusal. The lead copied the file byte-identically (sha256 `044ede9f…`) to
+    `package-drafts/DRAFT-v7.md` and edits only that copy.
+  - The package-directory drafts v0–v7 are preserved unchanged.
+  - The working copy now has the 04:17Z storage reading, the C-API v4/v5 status, the D-13 restatement and the seam v2
+    verdict. The W-1 summary is still to be refreshed when W-1 v4 lands.
 - **W-1 v4.** The resumed W-1 author is drafting `proposal/ISOLATION-STORAGE-PROPOSAL-v4.md`, which exists but is not
   yet handed back.
   - It answers the six package-v6 W-1 corrections.

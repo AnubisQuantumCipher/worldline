@@ -1,0 +1,76 @@
+{
+  "item": 6,
+  "status": "COMPLETE",
+  "acceptance": false,
+  "additional_findings": [
+    {
+      "id": "TYPED-V2-CONSUMERS",
+      "finding": "S1 still consumes original Facts_Array/Native_Valid, whereas delegated Facts_V2 require Classify_V2/Native_Valid_V2. Old Custody requires Manager_Delegate=no. A delegated LIVE input cannot simply be relabelled for the old classifier. Specify typed additive pre-effect/exchange/K4 consumers and caller correspondence, preserving V1 references.",
+      "evidence": "D:445-450,467,818-859; R/core/resource_observation_classification.ads:79-95; R/core/resource_scoped_run_ledger.ads:232-268"
+    },
+    {
+      "id": "SOURCE-GRAMMAR-ANCHORS",
+      "finding": "Expected Raw is both WL-SRC-V1 framed and a subspan of unchanged provisioned JSON containers. The extraction/embedding mapping is missing. Pair_Valid does not explicitly connect supplied expected Anchor to the authenticated controller roster. P3 remains undefined; relabelling rejection needs exact grammars, not a universal prose claim.",
+      "evidence": "D:692-710,718-741"
+    },
+    {
+      "id": "CAPACITY-GUARANTEE",
+      "finding": "memory_high is not memory.min/low protection, and E3 is admission sampling/ledger accounting rather than a mechanism reserving future capacity against interference. Do not confirm RQ-4 or add policy fields unilaterally; preserve original cost/completion guarantee OPEN and develop real correspondence.",
+      "evidence": "D:765-778,2002; R/runtime/worldline/protected_scoped_resource_runtime.py:673-696; P1/HANDOFF.md:125-131; https://docs.kernel.org/admin-guide/cgroup-v2.html"
+    },
+    {
+      "id": "HELPER-ORDER",
+      "finding": "The helper protocol asks for measured Child_Ready before child creation; the dispatcher orders creation and measurement before Child_Ready. Reconcile a single exact protocol and its original admission/GO lineage.",
+      "evidence": "D:882-895,913-919; R/core/worldline-resource_child_execution.ads:203-208"
+    },
+    {
+      "id": "COORDINATOR-REACHABILITY",
+      "finding": "Read-only cgroup exposure and absence of CAP_SYS_ADMIN do not by themselves complete the euid-0 coordinator reachability/capability/FD/helper-channel argument. Bind the complete retained descriptor and writable-view authority profile and native observations to original containment. Kernel measurements remain necessary, not substituted with a readiness flag.",
+      "evidence": "D:866-877,1130-1141,1946-1959"
+    },
+    {
+      "id": "CUSTODY-PRODUCT",
+      "finding": "A latest-record-only phase does not explain independent concurrent request/drain substate while worker mutates. UNIQUE(operation,generation,kind) neither encodes an exclusive alternative set nor keys repeated per-request/per-descriptor subgenerations. Define product native state, all mutation gates and complete DDL/CAS/crash semantics.",
+      "evidence": "D:965-967,990-992,1007,1015-1021,1092-1097"
+    },
+    {
+      "id": "PHYSICAL-BARRIER",
+      "finding": "The collector awaits handler, combined CLOSED/outer wait, and drains but escrow needs 'physical three'; specify exact independent typed closure/wait/pidfd/drain conditions and exclude handler-terminal from physical settlement prerequisites.",
+      "evidence": "D:995-998,1055-1059,1466-1468"
+    },
+    {
+      "id": "DRAIN-CONTINUITY",
+      "finding": "Stopping/cancelling I/O before FREEZE contradicts the precommit failure table. Freeze/spool/inflight-write durability and crash resumption need a complete protocol; OFD/lock/freshness validation must precede authorization of new-owner I/O and all mutations.",
+      "evidence": "D:1157-1176,1041"
+    },
+    {
+      "id": "AVAILABILITY",
+      "finding": "to_thread preserves event-loop opportunity but does not alone establish protected response/recovery liveness through shared locks and executor capacity. Account for those critical paths without selecting accounting option A or introducing a new cap/accepted failure.",
+      "evidence": "D:1325-1363,1383,1396-1408,1433"
+    },
+    {
+      "id": "DAG-COMPLETENESS",
+      "finding": "The declared spec graph is acyclic but omits typed V2/crosswalk consumers and full integration dependencies; encode gates in the body graph and reconcile B2b/B2c/B6 imports.",
+      "evidence": "D:629-662,1877-1896"
+    },
+    {
+      "id": "MACHINE-TWIN",
+      "finding": "seams.json closure 01.2/01.3 calls Rebase/Emb total despite the design's explicit G3 gap. Amend prose and machine twin together; conditional/restricted coverage is not original-domain closure.",
+      "evidence": "D:521-556; seams.json:closure.required_changes[01.2,01.3]"
+    }
+  ],
+  "corrections": [
+    {
+      "item": "N-3 evidence locator",
+      "finding": "The protected canonical C API body's Off aspect is at line 3, not the illustrative line 7 recorded in checkpoint-2's broad evidence list. The verified file census/classification is unchanged.",
+      "evidence": "R/core/worldline-canonical_operation_c_api.adb:3; R/core/worldline-canonical_operation_c_api.ads:2"
+    }
+  ],
+  "process_boundaries": [
+    "AUTHOR-NOTES process-deviation statements remain author model-origin disclosures; no independent full session audit was performed, and no author tool-count assertion inherits JACKAL arithmetic assurance.",
+    "All static deadlock, scope, missing-name and stale-seed consequences are conditional source reasoning, not reproduced runtime/prover results.",
+    "Hash equality establishes selected bytes, not source/provenance authenticity or absence of unsurveyed paths.",
+    "SIA notes, privileged operations, service activity, code import/execution, tests, compilation/proofs and process interruptions were not performed."
+  ],
+  "invariant": "No assumption, new accepted refusal, domain cap, threshold relaxation, retired control, lowered proof floor or lead-only acceptance is authorized. Original owners/evidence and all original obligations remain intact and OPEN."
+}

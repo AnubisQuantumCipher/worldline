@@ -1,0 +1,94 @@
+{
+  "item": 5,
+  "status": "COMPLETE",
+  "acceptance": false,
+  "operator_items": [
+    {
+      "id": "OP-1",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "D-2a"
+      ],
+      "assessment": "Authoritative descriptor/journal/head/crosswalk/owner-plan provisioning and installation retain operator ownership. Source/schema/DDL design and review remain lead work. Runtime blocking means the relevant authoritative state, not a new gate on pure fixtures.",
+      "evidence": "D:1926,1937; v1-review.json:D-2a"
+    },
+    {
+      "id": "OP-2",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "D-2b"
+      ],
+      "assessment": "Frontier adjudication remains reserved, none proposed. Original frontier bytes and control remain.",
+      "evidence": "D:1927,1580-1598; v1-review.json:D-2b"
+    },
+    {
+      "id": "OP-3",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "D-4a"
+      ],
+      "assessment": "Any authoritative accounting/resource-policy change remains operator selected; no option chosen and no new cap/grant borrowing authorized.",
+      "evidence": "D:1928,1325-1363; v1-review.json:D-4a"
+    },
+    {
+      "id": "OP-4",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "D-5a"
+      ],
+      "assessment": "Delegation/profile installation and privileged actor/lab action retain existing reservation. Actor remains gpt-6-luna high through existing adapter, never reviewer.",
+      "evidence": "D:1929; v1-review.json:D-5a; P1/HANDOFF.md:163"
+    },
+    {
+      "id": "OP-5",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "D-5b"
+      ],
+      "assessment": "Helper privileged execution/installation reserved. Passive successor protocol/spec preparation and independent review are ordinary lead work.",
+      "evidence": "D:1930; v1-review.json:D-5b"
+    },
+    {
+      "id": "OP-6",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "D-7a"
+      ],
+      "assessment": "Reserve actual original API or owner-policy alterations only. An internal transport refactor preserving public ABI/protocol/accepted domain is not automatically a new operator gate; it still requires original source/spec/evidence review. None proposed in OP-6.",
+      "evidence": "D:1931,1793-1801; v1-review.json:D-7a"
+    },
+    {
+      "id": "OP-7",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "D-8b"
+      ],
+      "assessment": "Kernel measurements retain authorized lab/operator reservation. Static review does not perform them and ordinary pure-value design work is not newly approval gated.",
+      "evidence": "D:1932,1942-1959; v1-review.json:D-8b"
+    },
+    {
+      "id": "OP-8",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "D-9a"
+      ],
+      "assessment": "Fault campaigns retain existing specialized-validation reservation, with simulation labels and original controls.",
+      "evidence": "D:1933; P1/HANDOFF.md:163; v1-review.json:D-9a"
+    },
+    {
+      "id": "OP-9",
+      "status": "WITHIN_RESERVED_SCOPE",
+      "rulings": [
+        "original publication/deployment reservations"
+      ],
+      "assessment": "Merge/tag-release/install/sudo/production/real PRIME remain reserved. Authorized commit/push/draft PR after required reviews remain outside that gate; no publication executed in this review.",
+      "evidence": "D:1934,1938; PROMPT:72-74"
+    }
+  ],
+  "conclusion": "OP-1..OP-9 match the reserved decision categories: nothing lowered, and no additional gate is approved by this review. Required design/source reviews and evidence obligations are preserved without expanding operator authority.",
+  "approval_boundary": "No briefing, static finding, or named non-ready status supplies authority to add a gate or to weaken an existing reservation. Optional_Marker approval reconciliation stays outside this lane; this review makes no finding that permission exists.",
+  "evidence": [
+    "D:344-360,1922-1940",
+    "user supervision rule"
+  ]
+}
