@@ -213,7 +213,30 @@ V5-B02 and every original obligation stay OPEN.
   unchanged. `reserve_bytes` 50000000000 is the iPad-side reserve.
 - **Effect on the gates.** The proposal changes no gate by itself, and confinement still blocks dispatch.
 
-## Backup repository (iPad), 2026-10-05
+## Backup repository REPAIRED AND VERIFIED (Codex, ~15:14Z; relayed by the human; read by the lead)
+
+- **Receipt.** `work/backup-repository-repair-20261005/COMPLETED.md` (`f1ad5e03…`) and `VERIFIED-REPAIR.json`, state
+  REPAIRED_AND_VERIFIED.
+- **What it states.**
+  - A complete `restic check --read-data` passed at 15:13:18Z, with all 6,161 packs read and no errors.
+  - The damaged historical files were restored and match the authentic local bytes.
+  - The original snapshot and configuration hashes are preserved; nothing was pruned or rewritten.
+  - The backup timers are restored. WORLDLINE monitoring stays paused.
+- **Its non-claims.** The cause of the missing packs is unestablished. Future transport reliability is not
+  established. No Linux capacity was added.
+- **For WORLDLINE.**
+  - **Option 1 done.** S-1 option 1 (repair the iPad backup) is complete per Codex. The lead's "no vault operations or
+    offload until verified recovery" hold is lifted.
+  - **Eligible task material.** A read-only measurement at ~15:21Z found the large task directories to be earlier
+    proof-diagnostic and integrated runs (`full-formal-diagnostic-*`, `integrated-ordinary-*`). Those are raw evidence
+    that START and CLAUDE.md keep local. So no meaningful WORLDLINE offload is eligible.
+  - **No vault operations.** The lead starts none. Codex manages non-task storage, and starting them would compete for
+    `operation.lock`.
+  - **Still open.** S-1 options 2 and 7, and the D1 choice, remain the human's.
+- **The frozen package.** DRAFT-v10's S-1 text still describes the damaged repository. It will be updated in the next
+  package revision.
+
+## Backup repository (iPad), 2026-10-05 (history)
 
 **Observed.**
 - The iPad reconnected at about 02:47Z, and reads work.
