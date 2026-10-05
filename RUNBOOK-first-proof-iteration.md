@@ -1,4 +1,11 @@
-# First engineering proof iteration (scratch frame v5): lead runbook, v4.2
+# First engineering proof iteration (scratch frame v5): lead runbook, v4.3
+
+**v4.3.** This is v4.2 with observation O1's provenance corrected, following the package re-review
+(`wt-1/package-review/gpt61-v2`, PKG-V5-FACTS).
+- O1 is a whole-tree `du -sb` difference.
+- That difference equals the retained per-subdirectory `obj/*` readings.
+- The value and every allowance are unchanged.
+- v4.2 is preserved as `runbook-history/v4.2-SUPERSEDED.md`.
 
 **v4.2.** This is v4.1 with observation O4 qualified, following the actual gpt-6.1-sol package review
 (`wt-1/package-review/gpt61-v1`, PKG-FACTS). O4 is a limits-observation-to-wait proxy, not a target spawn-to-exit
@@ -59,7 +66,7 @@ Each value is as read from the named source.
 
 | Id | Observation | Source |
 |---|---|---|
-| O1 | F10K full `prove-all-k` obj growth on unchanged commonV4: 1121220323 bytes | `du -sb` of `full-formal-diagnostic-v10k-retry1/source/obj` |
+| O1 | F10K full `prove-all-k` generated-output growth on unchanged commonV4: 1121220323 bytes | One command at 2026-10-04 17:23:37Z (session transcript lines 6066–6067). It read, for `full-formal-diagnostic-v10k-retry1/source`: whole-tree `du -sb` 1129239130; `du -sb` excluding `obj` and `lib` 8018807; per-subdirectory `du -sb obj/*` 4676666 (`obj/attest-sha256`) and 1116543657 (`obj/core`). O1 is the whole-tree difference 1129239130 − 8018807 (JACKAL exact). That equals the sum of the two retained `obj/*` readings, 4676666 + 1116543657 (JACKAL exact). The `obj` directory's own entry and `lib` were not read separately. |
 | O2 | One F10K identity-record set, observed per-file sizes: runtime closure 25492333, proof data 5582338, proof ELF 3198141, vendors 701976 | F10K evidence `*-before.json` |
 | O3 | F10K `child.stderr` for the full `-k` run: 1170572 bytes | F10K evidence |
 | O4 | F10K full `-k` run interval proxy: 3632 s, the difference of whole-second timestamp displays from `effective-limits-before.json` (14:54:38Z) to `child-wait.json` (15:55:10Z). The full-stamp interval is 3631279103/1000000 s. This interval runs from the limits observation to the wait record. It is not a separately recorded target spawn-to-exit duration. 3632 is kept as the allowance input and is not lowered to the finer value. | JACKAL exact, formal=false: parsed=`15*3600+55*60+10-(14*3600+54*60+38)` gives 3632; parsed=`15*3600+55*60+10+112498/1000000-(14*3600+54*60+38+833395/1000000)` gives 3631279103/1000000. Timestamps read from the F10K records. |

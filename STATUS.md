@@ -153,12 +153,17 @@ V5-B02 and every original obligation stay OPEN.
 
 - Actual gpt-6.1-sol re-review of operator package DRAFT-v5 and W-1 v2 (`package-review/gpt61-v2`).
 - Actual gpt-6.1-sol review of D1 DESIGN v4 (`designs/claude-native-bigint-d1-design-v4/review/gpt61-v1`).
-  - **BLOCKED since 00:05:39Z, in its own tool layer.** Its `exec` JavaScript batch of about 209 concurrent
-    `jackal_exact` replays never reached its JACKAL proxy: the ledger has none of them, the server is idle in
-    `epoll_pwait`, and the proxy is waiting on codex.
-  - It was not interrupted or restarted, as instructed. Its arithmetic replay is unperformed and everything stays
-    OPEN.
-  - Diagnosis: `review-monitoring/d1-v4-review-stall-2026-10-05T0040Z.md`.
+  - **INCOMPLETE. A tool-layer stall is suspected in its concurrent `exec` batch of `jackal_exact` replays.**
+  - The evidence:
+    - its event stream and rollout have been unchanged since 00:05:39Z;
+    - its processes are in wait states;
+    - there are no completed ledger rows for the draft inputs.
+  - The evidence does **not** prove that the batch never reached JACKAL, where exactly it is stuck, or that no call ran.
+    The ledger is recall, not evidence of nonexecution.
+  - It was not interrupted or restarted, as instructed. No checkpoint or result exists, and everything stays OPEN.
+  - Corrected diagnosis: `review-monitoring/d1-v4-review-stall-2026-10-05T0040Z.md`. The first version overstated it.
+  - Recovery proposal for a human decision (R0 leave, R1 terminate codex only so the runner resumes the same thread,
+    R2 a fresh review), not performed: `review-monitoring/d1-v4-review-recovery-proposal.md`.
 - C-API DESIGN v4 drafting agent (author role) on V3-RC4..RC6, output to `designs/claude-capi-boundary-design-v4`. Its
   prompt forbids any Bash write, including redirection.
 
