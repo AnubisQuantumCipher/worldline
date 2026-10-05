@@ -29,6 +29,20 @@ than calls; only the one call above was extracted.
    The author was asked to state the stopped command, any output it produced, and that nothing else was interrupted.
 2. Sent the same restriction pre-emptively to the W-1 v3 drafting author.
 
+**The author's own final account** (its report, ~02:05Z; model output, recorded as stated).
+- **The stopped command:**
+  `cd …/claude-capi-boundary-design-v3/review/gpt61-v1 && sha256sum review.json REVIEW.md checks.json; ls; python3 …`.
+  The last step printed `review.json` keys.
+- **What it produced before the stop.** Three sha256 lines (`ab7efb2b…`, `9fe93d9d…`, `e60cdead…`). They match the
+  sealed C-API v3 review freeze. Then, it says, the command hung at `ls`.
+- **Earlier timeout wrappers.** Before the lead's rule reached it, two later read-only commands ran under a
+  `timeout 60` wrapper. Both finished normally, and nothing was killed.
+- **After the rule.** No TaskStop, kill or timeout, and no other interruption.
+- **Its other disclosures:**
+  - its Bash use went beyond the literal command list in its prompt (`head`, `cut`, `awk`, `sort`, `uniq`, `printf`,
+    `cd`, `for` loops, `ls`), all read-only, with no redirection or file creation;
+  - it made no `sia.ask` call, which it records as an omission against the global instruction.
+
 **Correction about the lead's own record.** A first draft of this note said the lead had never stopped a tool. That
 was wrong. A bounded grep of the lead's own transcript shows two earlier `TaskStop` calls by the lead, both before the
 compaction summary:

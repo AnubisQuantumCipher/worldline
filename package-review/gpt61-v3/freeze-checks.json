@@ -1,0 +1,534 @@
+[
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "48539bdf57e11edeabe0844c7860284fa1cde26c1cab58a7b86317ef82a34ef7",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md",
+        "sha256": "2c414c694ed75d72cffae2172bef967bdcf63d73cc0a3764f96762a59d49ec71",
+        "bytes": 49133,
+        "mode": "0600",
+        "expected": {
+          "bytes": 49133,
+          "mode": 384,
+          "sha256": "2c414c694ed75d72cffae2172bef967bdcf63d73cc0a3764f96762a59d49ec71"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/bound-inputs.json",
+        "sha256": "c83828caa995a22d890f95b61735bd895490454d7bf9c67a14f6b3843265a17d",
+        "bytes": 250916,
+        "mode": "0600",
+        "expected": {
+          "bytes": 250916,
+          "mode": 384,
+          "sha256": "c83828caa995a22d890f95b61735bd895490454d7bf9c67a14f6b3843265a17d"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/checks.json",
+        "sha256": "6d6399d492c6acf7223e720123a6adb2c0f3beb28cad02d00e6a0911f05b9b71",
+        "bytes": 68556,
+        "mode": "0600",
+        "expected": {
+          "bytes": 68556,
+          "mode": 384,
+          "sha256": "6d6399d492c6acf7223e720123a6adb2c0f3beb28cad02d00e6a0911f05b9b71"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/review.json",
+        "sha256": "39a2a1ea730abc6d2fe42f1a338d6c0253293e94eddf41a78dd8096b36aa4ce2",
+        "bytes": 602614,
+        "mode": "0600",
+        "expected": {
+          "bytes": 602614,
+          "mode": 384,
+          "sha256": "39a2a1ea730abc6d2fe42f1a338d6c0253293e94eddf41a78dd8096b36aa4ce2"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/tool-topology.json",
+        "sha256": "89a16e5f4f116804c8ea86fda8772d3a467d6e18e86823d55b3c1ccd7b091c2e",
+        "bytes": 8543,
+        "mode": "0600",
+        "expected": {
+          "bytes": 8543,
+          "mode": 384,
+          "sha256": "89a16e5f4f116804c8ea86fda8772d3a467d6e18e86823d55b3c1ccd7b091c2e"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "3626dc73c271c83628275d53a869835173e5d30a8f1c97e9f663f6380434a9f4",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/REVIEW.md",
+        "sha256": "04dbf7041148e0acd604b806f6ed4dd46a4b20a9e16874ad0f88056b1fa332bc",
+        "bytes": 39574,
+        "mode": "0600",
+        "expected": {
+          "sha256": "04dbf7041148e0acd604b806f6ed4dd46a4b20a9e16874ad0f88056b1fa332bc",
+          "bytes": 39574,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/review.json",
+        "sha256": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+        "bytes": 31922,
+        "mode": "0600",
+        "expected": {
+          "sha256": "ed3780b6391b35f632b8c344a2c528675a7b2a4396d5d02f01950b434103a66d",
+          "bytes": 31922,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-native-bigint-d1-design-v2/review/gpt61-v1/checks.json",
+        "sha256": "1f672eba4f3efeea6421cde6772fb66b1e36e989fef933c8bc2c67b5bc04dc38",
+        "bytes": 74871,
+        "mode": "0600",
+        "expected": {
+          "sha256": "1f672eba4f3efeea6421cde6772fb66b1e36e989fef933c8bc2c67b5bc04dc38",
+          "bytes": 74871,
+          "mode": "0600"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "52c6832f7070af65c8d947fda808bf458a7fbe7c19c78b45630b1952b08c83c7",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/REVIEW.md",
+        "sha256": "e82534cb680b70b92105c78906d9c2109c1122b367641ef78d88741d5754407f",
+        "bytes": 70619,
+        "mode": "0600",
+        "expected": {
+          "sha256": "e82534cb680b70b92105c78906d9c2109c1122b367641ef78d88741d5754407f",
+          "bytes": 70619,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/review.json",
+        "sha256": "cb1e3740ee9e0b31a77f254b6fb3a70b032e4535ff06c5b6eab9e21cfb95de45",
+        "bytes": 31651,
+        "mode": "0600",
+        "expected": {
+          "sha256": "cb1e3740ee9e0b31a77f254b6fb3a70b032e4535ff06c5b6eab9e21cfb95de45",
+          "bytes": 31651,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1/checks.json",
+        "sha256": "0631a4ff6d0136421f9a06369779eef133447ab7294a500d1f3b4b2eafe53ea2",
+        "bytes": 334189,
+        "mode": "0600",
+        "expected": {
+          "sha256": "0631a4ff6d0136421f9a06369779eef133447ab7294a500d1f3b4b2eafe53ea2",
+          "bytes": 334189,
+          "mode": "0600"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "d4d43694658c428070e46ca0ab56bf121eca61ac2dfc7675b3d48f369b281652",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/REVIEW.md",
+        "sha256": "485e52888cba7b133acc0d72f1c058629b8306cf274390aab6ba72c8320ca95d",
+        "bytes": 51147,
+        "mode": "0600",
+        "expected": {
+          "sha256": "485e52888cba7b133acc0d72f1c058629b8306cf274390aab6ba72c8320ca95d",
+          "bytes": 51147,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review.json",
+        "sha256": "42b762d94d53fe84a38cfa08d190b1e65d4b5f023f52980f78446b771a29e2ff",
+        "bytes": 24121,
+        "mode": "0600",
+        "expected": {
+          "sha256": "42b762d94d53fe84a38cfa08d190b1e65d4b5f023f52980f78446b771a29e2ff",
+          "bytes": 24121,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/checks.json",
+        "sha256": "eb1e7b0dd08abfa2f3be887fc4ba3bc19d857d915c1881a14603dec67d06a28a",
+        "bytes": 60475,
+        "mode": "0600",
+        "expected": {
+          "sha256": "eb1e7b0dd08abfa2f3be887fc4ba3bc19d857d915c1881a14603dec67d06a28a",
+          "bytes": 60475,
+          "mode": "0600"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "7314f4de53972acbac91541d6a895072a50c264119dfe25e5c20b04ae63512ca",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/REVIEW.md",
+        "sha256": "9fe93d9dd4257aa6ea188278fecedf5971a0ac34135a390f45908d3ac80b14b0",
+        "bytes": 31423,
+        "mode": "0600",
+        "expected": {
+          "bytes": 31423,
+          "mode": "0600",
+          "sha256": "9fe93d9dd4257aa6ea188278fecedf5971a0ac34135a390f45908d3ac80b14b0"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/checks.json",
+        "sha256": "e60cdead79d4db12c413a75044894c6cd793aafa20efb7c340c50d4c9d438f7e",
+        "bytes": 79282,
+        "mode": "0600",
+        "expected": {
+          "bytes": 79282,
+          "mode": "0600",
+          "sha256": "e60cdead79d4db12c413a75044894c6cd793aafa20efb7c340c50d4c9d438f7e"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review.json",
+        "sha256": "ab7efb2bc69d426f9480246bc2dd1f5e381d99879485d4385837ec1105d85223",
+        "bytes": 18528,
+        "mode": "0600",
+        "expected": {
+          "bytes": 18528,
+          "mode": "0600",
+          "sha256": "ab7efb2bc69d426f9480246bc2dd1f5e381d99879485d4385837ec1105d85223"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "f94a3cce4a2727340c64b16c638e0fc6f9572cf979741bd4fbf55e6e6c2ac7e9",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/REVIEW.md",
+        "sha256": "03fbf2461e857ddf9a3a0bdcf2515a14ccb6cd8498ade4e682a8a4bb60f02820",
+        "bytes": 58182,
+        "mode": "0600",
+        "expected": {
+          "sha256": "03fbf2461e857ddf9a3a0bdcf2515a14ccb6cd8498ade4e682a8a4bb60f02820",
+          "bytes": 58182,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/checks.json",
+        "sha256": "712328b18787b279fe8cce99778bb9f61d35868727acaac72775e089cbfd8bfe",
+        "bytes": 148847,
+        "mode": "0600",
+        "expected": {
+          "sha256": "712328b18787b279fe8cce99778bb9f61d35868727acaac72775e089cbfd8bfe",
+          "bytes": 148847,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/review.json",
+        "sha256": "20e0447f556d9f18e9b8a24e5c96056317b52ccee3d29fe804c65cdee2c9c578",
+        "bytes": 236257,
+        "mode": "0600",
+        "expected": {
+          "sha256": "20e0447f556d9f18e9b8a24e5c96056317b52ccee3d29fe804c65cdee2c9c578",
+          "bytes": 236257,
+          "mode": "0600"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "f6f31ddc0bff4dd59ecccfa389f48ce85c7ad91900fe844cf72293a7d7cb1603",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/REVIEW.md",
+        "sha256": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+        "bytes": 48197,
+        "mode": "0600",
+        "expected": {
+          "bytes": 48197,
+          "mode": "0600",
+          "sha256": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checks.json",
+        "sha256": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498",
+        "bytes": 68553,
+        "mode": "0600",
+        "expected": {
+          "bytes": 68553,
+          "mode": "0600",
+          "sha256": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review.json",
+        "sha256": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4",
+        "bytes": 74364,
+        "mode": "0600",
+        "expected": {
+          "bytes": 74364,
+          "mode": "0600",
+          "sha256": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "b0b176ae0107fccf78dc55aeda8f2b0bc000f6dbe807e6297329d66aef288e7b",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/REVIEW.md",
+        "sha256": "c854cbb347f75e384c888365e6ba251990a2b8bd55398bffa7122b1d134515da",
+        "bytes": 28824,
+        "mode": "0600",
+        "expected": {
+          "bytes": 28824,
+          "mode": 384,
+          "sha256": "c854cbb347f75e384c888365e6ba251990a2b8bd55398bffa7122b1d134515da"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/bound-inputs.json",
+        "sha256": "6802d6885dba741a1faa4721a58589e9f4745fa708cd4eaec322b16a514c1791",
+        "bytes": 588548,
+        "mode": "0600",
+        "expected": {
+          "bytes": 588548,
+          "mode": 384,
+          "sha256": "6802d6885dba741a1faa4721a58589e9f4745fa708cd4eaec322b16a514c1791"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/checks.json",
+        "sha256": "524dd677987cc374c0164d3e082e192788a2926a4d1ddb9ba1fa5616f971f8b0",
+        "bytes": 789829,
+        "mode": "0600",
+        "expected": {
+          "bytes": 789829,
+          "mode": 384,
+          "sha256": "524dd677987cc374c0164d3e082e192788a2926a4d1ddb9ba1fa5616f971f8b0"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-alpha/review/gpt61-v1/review.json",
+        "sha256": "3c9a5dc30b8071cafc4354b68aad310dee7b183c64e7bb4ebf0fa3fc2919cd51",
+        "bytes": 173824,
+        "mode": "0600",
+        "expected": {
+          "bytes": 173824,
+          "mode": 384,
+          "sha256": "3c9a5dc30b8071cafc4354b68aad310dee7b183c64e7bb4ebf0fa3fc2919cd51"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "2c07de1de69b219127465cd60023bd9312cd61accd6fec0eb6dba6d6480d871b",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/REVIEW.md",
+        "sha256": "a5cc89bbe21c80796f74a236f0c053da7ca94ec82efbf4a9924f8e489b798ebe",
+        "bytes": 41819,
+        "mode": "0600",
+        "expected": {
+          "bytes": 41819,
+          "mode": 384,
+          "sha256": "a5cc89bbe21c80796f74a236f0c053da7ca94ec82efbf4a9924f8e489b798ebe"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/bound-inputs.json",
+        "sha256": "e11ee354e94b28c989358014892b698cd0d7e22f1de2f11e8246b4530e813877",
+        "bytes": 433310,
+        "mode": "0600",
+        "expected": {
+          "bytes": 433310,
+          "mode": 384,
+          "sha256": "e11ee354e94b28c989358014892b698cd0d7e22f1de2f11e8246b4530e813877"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/checks.json",
+        "sha256": "e9e31e08339ca5844646c313623b4aa60b7c97366ab2de164b4dd77f3e621fb8",
+        "bytes": 785277,
+        "mode": "0600",
+        "expected": {
+          "bytes": 785277,
+          "mode": 384,
+          "sha256": "e9e31e08339ca5844646c313623b4aa60b7c97366ab2de164b4dd77f3e621fb8"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review.json",
+        "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+        "bytes": 495891,
+        "mode": "0600",
+        "expected": {
+          "bytes": 495891,
+          "mode": 384,
+          "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/review-freeze.json",
+    "freeze_sha256": "f3d405b083a728b4d594acdd422fd742de5977f3e88ed683ffbed0607d6178d8",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/REVIEW.md",
+        "sha256": "824c95c37c10f56c240d47b18d63953814975b0030476e40e14f3927676a44c7",
+        "bytes": 62733,
+        "mode": "0600",
+        "expected": {
+          "sha256": "824c95c37c10f56c240d47b18d63953814975b0030476e40e14f3927676a44c7",
+          "bytes": 62733,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/review.json",
+        "sha256": "922cd3de9fc059e948db31f7ac0a747f02c7ab5559495a8716053ff230f4aa19",
+        "bytes": 529804,
+        "mode": "0600",
+        "expected": {
+          "sha256": "922cd3de9fc059e948db31f7ac0a747f02c7ab5559495a8716053ff230f4aa19",
+          "bytes": 529804,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/checks.json",
+        "sha256": "b02aa8cb1a9c5ac21b0de6ef321af92c382b7c015c18a3e41ed007b9cac87b21",
+        "bytes": 592128,
+        "mode": "0600",
+        "expected": {
+          "sha256": "b02aa8cb1a9c5ac21b0de6ef321af92c382b7c015c18a3e41ed007b9cac87b21",
+          "bytes": 592128,
+          "mode": "0600"
+        },
+        "match": true
+      }
+    ]
+  },
+  {
+    "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/review-freeze.json",
+    "freeze_sha256": "79b7ac1d417b1a0098336dbbf6612515fe882b6aec65287601da0dc546539ab6",
+    "actual_model_selection": "gpt-6.1-sol",
+    "different_from_author": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md",
+        "sha256": "dc0127eb4c55b1913a6ea3e2c72b316aa9f4c57292bb3e5b00a430f4e059a226",
+        "bytes": 73321,
+        "mode": "0600",
+        "expected": {
+          "sha256": "dc0127eb4c55b1913a6ea3e2c72b316aa9f4c57292bb3e5b00a430f4e059a226",
+          "bytes": 73321,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/review.json",
+        "sha256": "85fc67aea96975a9c8cf6f25d2fe000ab953247dfc5d3c8ebff6f8c962af7e6b",
+        "bytes": 537135,
+        "mode": "0600",
+        "expected": {
+          "sha256": "85fc67aea96975a9c8cf6f25d2fe000ab953247dfc5d3c8ebff6f8c962af7e6b",
+          "bytes": 537135,
+          "mode": "0600"
+        },
+        "match": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/checks.json",
+        "sha256": "154ff442e61078f135cae9015b5ed4cbfa9984ac560a49a65dc8e0489cacf9a8",
+        "bytes": 496045,
+        "mode": "0600",
+        "expected": {
+          "sha256": "154ff442e61078f135cae9015b5ed4cbfa9984ac560a49a65dc8e0489cacf9a8",
+          "bytes": 496045,
+          "mode": "0600"
+        },
+        "match": true
+      }
+    ]
+  }
+]
