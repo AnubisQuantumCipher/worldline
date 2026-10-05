@@ -1,0 +1,123 @@
+{
+  "schema": "claude-root-worker-seam-design-v7",
+  "schema_family": "claude-root-worker-seam-design (v1 ... v6 key sets retained where still meaningful; v7 adds material_names, capacity_rule, json_modes, held_identity, cause_operand, unknown_routes, front_phase_after_abort, release_hold_scope, relay_wait, frame_order, factory_fork_point, h_prime.d_h7, h_prime.policy_fields, rc_rename, sweep)",
+  "lane": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent, author role)",
+  "status": "DRAFT_FOR_INDEPENDENT_REVIEW",
+  "acceptance": {"proof_acceptance": false, "source_acceptance": false, "phase_acceptance": false, "approval_gates_added": false, "review": "An independent review of v7 is required. The author grants nothing."},
+  "design_document": {
+    "path": "WT/designs/claude-root-worker-seam-design-v7/SEAM-DESIGN.md",
+    "sha256": "62b7d5877a4df95b86ab5354d64d4fadd6bcf8017da20b8ba53dbbec34169f16",
+    "bytes": 184450,
+    "lines": 1526,
+    "relation": "v7 is this file plus the carried v6 slices with R7-1 ... R7-86 applied, and transitively everything those slices carry (the v5, v4, v3, v2 and v1 chains with their R-blocks, minus W5-1 and W5-2)"
+  },
+  "companions": {
+    "jackal.json": {"sha256": "f691a36b3a9efbd49e6d56ad2c264f85b0b83f17ab64ef1fd58db698f181263f", "bytes": 1612},
+    "AUTHOR-NOTES.md": {"sha256": "b651f5e61fe3deca19e6bed1753bb83e7b93d059cc39a2fbc1ea1768968e9da6", "bytes": 12720},
+    "hash_cycle": "SEAM-DESIGN.md Appendix D binds jackal.json and AUTHOR-NOTES.md; this file binds SEAM-DESIGN.md; the handback binds this file"
+  },
+  "supersedes": {
+    "v6_design": {"sha256": "f41566d8bb694817f27efb4dd336d25e554357976808aad577b91365a9a10787", "bytes": 116337, "lines": 990},
+    "v6_seams": "a54dc595051b582d8c4a06dca62ad00ca9d728896c063cb2d73e4c01d046ddbe",
+    "v6_jackal": "5d6684296284d33d3580e5dc123401b493fdf2431d3d54c57b8b4d98abcc84b0",
+    "v6_author_notes": "95826c1ee59c7ef11cd9cefbcb3e212053d5ecbd05908224ba59572ebf922633"
+  },
+  "answers_review": {
+    "path": "WT/designs/claude-root-worker-seam-design-v6/review/claude-v1",
+    "reviewer_kind": "claude-subagent",
+    "different_from_author": true,
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+    "files": {
+      "REVIEW.md": {"sha256": "2f814fee89819789d6184b3802c3b77ffda45bd3e6e2fe43e264f47e05890d83", "bytes": 24144},
+      "review.json": {"sha256": "da28c753456d8ef10a0042c2ef2e62d9c4162f1cb1922e60e60b58aa2a5c1b39", "bytes": 16300},
+      "checks.json": {"sha256": "8fb88b0b13e74319a8ff27a4b677da386f6fce0528bb8f64e552918356e52b36", "bytes": 6547},
+      "review-freeze.json": {"sha256": "a148a6c86f7403f7e12915613b9c7cdc9408c932062b924d07cb5bba0e751c79", "bytes": 613}
+    },
+    "not_read": ["raw-final-message.txt", "review-records/", "every gpt61-v* directory"],
+    "answers": {
+      "V6-REQ-A": "V7-A; R7-27, R7-43 ... R7-48",
+      "V6-REQ-B": "V7-B; R7-49",
+      "V6-REQ-C": "V7-C; R7-1, R7-2, R7-6, R7-17, R7-73",
+      "V6-REQ-D": "V7-D; R7-53 ... R7-56, R7-75",
+      "V6-REQ-E": "V7-E (supersedes V6-E.4); R7-16, R7-85",
+      "V6-REQ-F": "V7-F; R7-12, R7-13, R7-21, R7-23 ... R7-26, R7-33 ... R7-35, R7-57 ... R7-59, R7-61, R7-76, R7-86",
+      "V6-REQ-G": "V7-G; R7-36, R7-38, R7-43, R7-60 ... R7-63",
+      "V6-REQ-H": "V7-H; R7-4, R7-5, R7-19, R7-20, R7-22, R7-64, R7-65, R7-77",
+      "V6-REQ-I": "V7-I; R7-29, R7-37, R7-66 ... R7-70, R7-78",
+      "V6-REQ-J": "V7-J; R7-71, R7-72",
+      "V6-REQ-K": "V7-K (supersedes V6-K); R7-28, R7-30, R7-39, R7-50, R7-51, R7-79, R7-83",
+      "V6-REQ-L": "V7-L; SEAM-DESIGN.md section A.3, A.4, C.2, C.5 and Appendix B"
+    }
+  },
+  "self_containment": {
+    "rule": "Each slice's sha256 is that of the UTF-8 bytes of its v6 lines, each followed by a newline.",
+    "v6_file": {"sha256": "f41566d8bb694817f27efb4dd336d25e554357976808aad577b91365a9a10787", "lines": 990},
+    "slices": [
+      {"id": "C6-B", "lines": "117-409", "sha256": "a7611b3cd4910c785846f0f93769a5c21ef199a555da69ccc34f76c7057f1953"},
+      {"id": "C6-VA", "lines": "449-518", "sha256": "fb86cd5637a41f8f55b3d5fa7583286f4575e04619e9dc832974582e2adc95fd"},
+      {"id": "C6-VB", "lines": "521-533", "sha256": "16f11877aa50016b4435afbbd46113e5f804fea787484d0ab2add404aeb2e0b6"},
+      {"id": "C6-VC", "lines": "536-546", "sha256": "7db1c226b4340bac273ad40950e64959e8dd94aac9669ae3229d4bda4f548379"},
+      {"id": "C6-VD", "lines": "549-575", "sha256": "1e0ac708015611b61b9c797d53c6f3f5ceb1dafc0f88df1006c29e3666a69fab"},
+      {"id": "C6-VE", "lines": "578-614", "sha256": "9accc3431095341d3c1387b5781aa47df646e73465041929c42bf68a2b050d57"},
+      {"id": "C6-VF", "lines": "632-668", "sha256": "30a9a83442d278150ac6f6c8898e6176b0c69a521a9d6e864cbeb4b0cc2284f4"},
+      {"id": "C6-VG", "lines": "671-697", "sha256": "c97e35aaa09106a00a2640283afd63b723e0a44856cf6978bc72d79e4b153e92"},
+      {"id": "C6-VH", "lines": "700-721", "sha256": "4c2c7a4986a0dd3c545d5d2225364d0fb8e9a5984ef9107fcc39cd617a40b46d"},
+      {"id": "C6-VI", "lines": "724-756", "sha256": "fae11ad33bd161e7665ce949634fb45bda69a8fec29b0480a111a0d450cf7385"},
+      {"id": "C6-VJ", "lines": "759-774", "sha256": "3c2e1144dc3e0bef26aa5f5b4f5b1f8bbd10b098b64fb318e5390f7896d0e1e4"},
+      {"id": "C6-VL", "lines": "818-829", "sha256": "d8816b982b2dfa28b18258ce542fde5471cfff11677292e2392bdee5583c9c20"},
+      {"id": "C6-VM", "lines": "832-837", "sha256": "4c3f1c7352e41598535522ea488ea6e303203d8ee1a3738dfe906731b410db02"},
+      {"id": "C6-VNOPQ", "lines": "840-923", "sha256": "b237a140db76d0bbc8205fcb08304beb1d31b9e781b7c6289b029a72ab1bade5"}
+    ],
+    "superseded_v6_ranges": {"1-115": "v7 header and section A", "410-446": "v7 section C", "616-628": "V7-E.4", "777-815": "V7-K", "924-990": "v7 appendices"},
+    "replacements": {"count": 86, "ids": "R7-1 ... R7-86", "targets_by_version": {"v2": 2, "v3": 3, "v4": 6, "v5": 22, "v6": 53}},
+    "normative_bindings": "every identity a normative statement relies on is in SEAM-DESIGN.md Appendix B; ruling owners and evidence in section A.3; aliases in section C.2",
+    "recorded_not_recomputed": ["CAPI5R/REVIEW.md", "CAPI5R/review.json", "CAPI5R/checks.json", "CAPI5R/review-freeze.json", "CAPI6R/REVIEW.md", "CAPI6R/review.json", "CAPI6R/checks.json", "CAPI6R/review-freeze.json"]
+  },
+  "material_names": {"param_count": "number of serialized parameters", "param_index": "position in PARAMETERS from 0", "slot_kind": "0 record, 1 arena, 2 roster (material's own)", "record_kind": "layout record-kind index", "m": "SHA-256 of the whole material only"},
+  "decide_v2_roster": "V1 PARAMETERS in order, then FactsV2, then Selection, immediately before Output; serialized without Output",
+  "capacity_rule": "output arena C = F * (M + 1): F span fields in the allowed output rows, M the largest input span length; successors of generation, Reattach_Epoch and sub-generations covered (JACKAL J7-1, J7-2)",
+  "fold_convention": "T with no Input record",
+  "containment_gaps": {
+    "CG-1": {"status": "OPEN", "depends_on_d4a": false, "attribution": "inherited from the preimage (pre/protected_operations.py:729-730)"},
+    "CG-2": {"status": "OPEN", "depends_on_d4a": false, "basis": "worker-served IP handlers run under the root-worker plan's worker_policy admitted under the WL request's reservation"},
+    "CG-3": {"status": "OPEN", "depends_on_d4a": false, "basis": "later WL requests queued for g+1"},
+    "CG-4": {"status": "OPEN", "depends_on_d4a": false, "basis": "owner.retry refused before any reservation (pre/protected_operations.py:720-722)"}
+  },
+  "dispatcher": {"result_values": ["stopped", "failure", "success", null], "oom_path": "resource_telemetry oomKilled and hitMemoryCeiling from the leaf memory.events", "persisted_differences": ["source", "supervisionEvidence", "events", "launcherStderr"], "obligations": ["CJ-DISP-1", "CJ-DISP-2", "CJ-DISP-3", "CJ-DISP-4", "CJ-DISP-5", "CJ-DISP-6"]},
+  "json_modes": {
+    "Canonical": ["rw/protected_startup.py:172", "rw/protected_startup.py:189", "rw/root_worker_journal.py:42", "rw/protected_resource_runtime.py:22-23 (exact, ASCII)", "crosswalk loader (new)"],
+    "Lenient": ["rw/protected_startup.py:682", "rw/protected_startup.py:706", "rw/protected_operations.py:624", "rw/protected_operations.py:723", "rw/protected_operations.py:729", "rw/canonical_owner_witness.py:25"],
+    "cj_json": "per mode: Ready for every input the site's Python check accepts"
+  },
+  "held_identity": {"init_start_tick": "read while holding the HELD-frame init pidfd, fdinfo Pid pairing, liveness poll after the read", "boot_identity": "/proc/sys/kernel/random/boot_id at HELD and in EXECUTION_NATIVE", "measurement": "K-29 (OP-7)"},
+  "custody_return_evidence": {"R1": "worker and namespace-init pidfds terminal (K-24) plus OB-ESC", "R2": "identities gone (boot identity, ESRCH, start tick, or init_exited_at_held) plus fresh exclusive flock on every transferred lock plus OB-ESC"},
+  "cause_operand": "EvidenceRec kind Cause_Record whose sha256 equals unknown_cause; no RootStateRec field or column added",
+  "unknown_routes": {"C-CHANNEL": "WORKER_REATTACHED after UNKNOWN, worker live, to Before_Unknown", "C-DEADLINE": "as C-CHANNEL", "C-APPEND": "verified chain, to Before_Unknown; replay hit or Legal re-append", "C-EVIDENCE": "none; only E-CR"},
+  "front_phase_after_abort": {"owners_open": "FRONT_OWNED with FRONT_OWNED (g+1)", "owners_closed": "HANDOFF_ABORTED plus reconstruction task in front.collectors", "commit_failure": "UNKNOWN_WORKER_OWNERSHIP plus reconcile task"},
+  "release_hold_scope": "Held_Capacity only; Irreversible_Budget root rows keep their state",
+  "relay_wait": {"on_loss": "wait for reattach, no deadline", "PEER_HELD": "re-issue the gate request", "PEER_LOST_WITH_FRONT": "RC-13 branch (a) or (b)"},
+  "frame_order": "out_seq per (g, r, s) over PROGRESS_BYTES and RESPONSE_BYTES, written in order",
+  "re_derivation": "custody owner runs rw/daemon.py:318-332 over the recorded line bytes",
+  "factory_fork_point": {"after": "C1:308-322", "before": "C1:323", "close_all_except": [0, 1, 2, "F socketpair end"]},
+  "h_prime": {
+    "adopted": false,
+    "request_root_policy": "policy['plans'][op]['launch']['policy'] (rw/protected_operations.py:476, :687; enforced as rw/protected_scoped_resource_runtime.py:729-731)",
+    "d_h7": "request-root launch while the coordinator owns custody: launch_reserved's steps, with LAUNCH_REQUEST_ROOT executed by the coordinator's root helper",
+    "policy_fields_changed": [],
+    "policy_fields": ["memory_max_bytes", "memory_high_bytes", "memory_swap_max_bytes", "cpu_quota_percent", "cpu_weight", "tasks_max", "disk_growth_max_bytes", "timeout_seconds", "max_concurrent_workloads", "enforcement"],
+    "non_field_differences": ["holder-mode main process", "agents nested in the request root (CJ-H-5)", "child ledger rows (CJ-H-1, CJ-H-2)", "D-H2 decision mode without admission fields", "coordinator service-class bound (AO-8)"],
+    "ao_marks": {"AO-1": "part", "AO-2": "part", "AO-3": "met", "AO-4": "met", "AO-5": "part", "AO-6": "part", "AO-7": "met", "AO-8": "part", "AO-9": "part", "AO-10": "part", "AO-11": "part"},
+    "deltas": ["D-H1", "D-H2", "D-H3", "D-H4", "D-H5", "D-H6", "D-H7"],
+    "who_decides": "lead only after CJ-H-1, CJ-H-2 and CJ-H-5 are shown with every field unchanged; otherwise D-4a's existing reservation (OP-3); not adopted"
+  },
+  "rc_rename": {"RC-10": "RC-13", "RC-11": "RC-14", "RC-12": "RC-15", "inherited_required_changes_untouched": "RC-01 ... RC-12"},
+  "measurements": {"K-29": "boot_id constant within a boot, different after reboot (OP-7)", "RC-5": "extended to both JSON modes", "RC-13": "KernelPeer closed-connection behaviour", "RC-14": "loader of a sealed memfd", "RC-15": "systemd-run --pipe exit status", "op7_range": "K-1 ... K-29 (R7-34)"},
+  "sweep": {"carried_normative_lines": 4698, "r7_result_lines": 86, "stale_found_beyond_review": ["v2:1363", "v2:1909", "v4:427", "v5:278", "v5:294", "v5:1478", "v5:1498", "v3:1424", "v3:1433", "v5:905", "v5:920", "v5:1049", "v5:571", "v3:660", "v4:782", "v4:783", "v5:401", "v5:402", "v4:774", "v4:451", "v4:1832", "v6:402", "v6:403", "v6:636", "v5:1496", "v5:1501", "v5:1517"], "remaining_hits": "all in kept classes (SEAM-DESIGN.md Appendix C)"},
+  "operator_items": {"added_lowered_or_widened": false, "no_new_operator_gate": true},
+  "controls": {"retained": "every original and additive control; none retired", "frontier_control": "unchanged (C2-116)", "added": "SEAM-DESIGN.md V7-N; V7-N.K outside the roster unless H-prime is adopted"},
+  "jackal": {"file": "jackal.json", "calls": 2, "ids": ["J7-1", "J7-2"], "status": "exact, formal=false", "carried": ["J5-1", "J5-2", "J5-3", "J5-4"]},
+  "process": {"writes": "Write and Edit only, only in WT/designs/claude-root-worker-seam-design-v7/", "bash": "read-only inspection, with the deviations of AUTHOR-NOTES section 5", "interruptions": "none", "execution": "none", "sia": "no call in the v7 task; no note", "skills": "all eight Ada skills"},
+  "open": ["OB-001 ... OB-219", "V6-REQ-A ... V6-REQ-L", "V5-REQ-A, C, D, E, F, G, I, J, K", "CG-1 ... CG-4", "CJ-DISP-1 ... 6, CJ-ARCH-1 ... 3, CJ-JSON, CJ-H-1 ... 5, OB-ESC/AU-2", "K-1 ... K-29; RC-1 ... RC-7, RC-9, RC-13, RC-14, RC-15", "H-prime deltas D-H1 ... D-H7", "the independent review of v7"],
+  "non_claims": ["Nothing is reviewed, accepted, proved or authorized; no approval gate is added.", "Nothing was compiled, run, imported, proved, tested or measured.", "No equivalence for the dispatcher's persisted evidence texts, worker-served IP, later WL requests, or H-prime's nesting.", "Pairing and boot identity rest on K-4 and K-29; PEER_LOST_WITH_FRONT on K-6.", "JSON refusal tables are the author's reading until RC-5.", "H-prime is not adopted."]
+}
