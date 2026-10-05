@@ -1,0 +1,1124 @@
+{
+  "source_tip": "8c5ad29d2dff4db2d91631fe5d3d808fa3c5e4ac",
+  "published_history_tip": "8127b7fa6869e9326e60da8a52fb5e5077b1287e",
+  "branch": "codex/phase1-claude-checkpoint-20261005",
+  "excluded_path_prefixes": [
+    "backup-repair-packet/"
+  ],
+  "reason": "Unrelated backup repair notes contain private device and vault identifiers; all remain untouched locally.",
+  "message_cleanup": "Removed prohibited session link trailers in publication copy only.",
+  "commits": [
+    {
+      "source_commit": "e14ccc1550e9e95be33359139e22c878470b50be",
+      "publication_commit": "e14ccc1550e9e95be33359139e22c878470b50be",
+      "source_tree": "d8a12ed8a12a75fbfee9965ce5e7446329477db0",
+      "publication_tree": "d8a12ed8a12a75fbfee9965ce5e7446329477db0",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "c2fc9644e8408a28e39390fdf1377469745c6008",
+      "publication_commit": "c2fc9644e8408a28e39390fdf1377469745c6008",
+      "source_tree": "926d2869ef766a4745eca03059202c0ed489667e",
+      "publication_tree": "926d2869ef766a4745eca03059202c0ed489667e",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "2459491c2dee60fae8df723e8e67fb4183a3102d",
+      "publication_commit": "2459491c2dee60fae8df723e8e67fb4183a3102d",
+      "source_tree": "17d5a327809e54e7a0467ce4d6caec4732b03551",
+      "publication_tree": "17d5a327809e54e7a0467ce4d6caec4732b03551",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "54fa80df3e106825ba98d8409cd0eb954a9af7cb",
+      "publication_commit": "54fa80df3e106825ba98d8409cd0eb954a9af7cb",
+      "source_tree": "bc1adf2f7abbae709145118b17effd98de590e46",
+      "publication_tree": "bc1adf2f7abbae709145118b17effd98de590e46",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "27cc5c244f4ba9120b0e4d09661970a19faf8d31",
+      "publication_commit": "27cc5c244f4ba9120b0e4d09661970a19faf8d31",
+      "source_tree": "8230a6ee65e61a6fbda78bb45e9e21e99cfb3053",
+      "publication_tree": "8230a6ee65e61a6fbda78bb45e9e21e99cfb3053",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "1b3c6977e1b965627b50d461e7105fec4b027490",
+      "publication_commit": "1b3c6977e1b965627b50d461e7105fec4b027490",
+      "source_tree": "3d60469f43de3701437b48b13c34523bb814f2be",
+      "publication_tree": "3d60469f43de3701437b48b13c34523bb814f2be",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "455bc1ad41788c861df37d562a5fb938e6841e29",
+      "publication_commit": "455bc1ad41788c861df37d562a5fb938e6841e29",
+      "source_tree": "97ea8e56808d487561c367815440d99dad19985f",
+      "publication_tree": "97ea8e56808d487561c367815440d99dad19985f",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "b9c0908243a6a23dd0761094aae9fef52294cb0b",
+      "publication_commit": "b9c0908243a6a23dd0761094aae9fef52294cb0b",
+      "source_tree": "d861d803c50b3c09386d06c385b1eda5b596aea0",
+      "publication_tree": "d861d803c50b3c09386d06c385b1eda5b596aea0",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "17e8e119e25990dee9b1d376036124812d17ea93",
+      "publication_commit": "17e8e119e25990dee9b1d376036124812d17ea93",
+      "source_tree": "2e18f6943744cbff40a6ea8884d949c542a1f311",
+      "publication_tree": "2e18f6943744cbff40a6ea8884d949c542a1f311",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "86feb49445b87e2fa4dec0fd9cb18f15884056c3",
+      "publication_commit": "86feb49445b87e2fa4dec0fd9cb18f15884056c3",
+      "source_tree": "b7580ebf32d23e1afa52ba83c953aac634021cb2",
+      "publication_tree": "b7580ebf32d23e1afa52ba83c953aac634021cb2",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "6130f9c8cad360deaf2e218c030460d0dbdd1bd5",
+      "publication_commit": "6130f9c8cad360deaf2e218c030460d0dbdd1bd5",
+      "source_tree": "524fa3407b42d31446d7f679519c4dda51d471e7",
+      "publication_tree": "524fa3407b42d31446d7f679519c4dda51d471e7",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "fb9f9a04a8cc8475f2cdcca4f18984cc54037567",
+      "publication_commit": "fb9f9a04a8cc8475f2cdcca4f18984cc54037567",
+      "source_tree": "f26bbefb59aa9ba415750eec3b888103e1ef9aa3",
+      "publication_tree": "f26bbefb59aa9ba415750eec3b888103e1ef9aa3",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "c312317382e0fc3f8f41082d9f357cfc6bedc594",
+      "publication_commit": "c312317382e0fc3f8f41082d9f357cfc6bedc594",
+      "source_tree": "d017a920f2be930f4a1407973747d163abe2a51f",
+      "publication_tree": "d017a920f2be930f4a1407973747d163abe2a51f",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "956444779e2405494ca6838decf48417790f64b4",
+      "publication_commit": "956444779e2405494ca6838decf48417790f64b4",
+      "source_tree": "66e12f4c4bf1755ec1a854bd6d2013cd58598adb",
+      "publication_tree": "66e12f4c4bf1755ec1a854bd6d2013cd58598adb",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "afeee8c3d8956c839e3fcdd2c31a8d6df2d163b0",
+      "publication_commit": "afeee8c3d8956c839e3fcdd2c31a8d6df2d163b0",
+      "source_tree": "a0abd107fd2de9d67a7e2cbfe2da42ca6e3c897c",
+      "publication_tree": "a0abd107fd2de9d67a7e2cbfe2da42ca6e3c897c",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "9c6537d029f712087e672e37ddc45535c49570f8",
+      "publication_commit": "9c6537d029f712087e672e37ddc45535c49570f8",
+      "source_tree": "6b5b25b9d170d38ea1f556e1787b46cc4a5d5560",
+      "publication_tree": "6b5b25b9d170d38ea1f556e1787b46cc4a5d5560",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "40a929f0f4fdf1962f60779201c4a839f3e601b4",
+      "publication_commit": "40a929f0f4fdf1962f60779201c4a839f3e601b4",
+      "source_tree": "bdfe5303d31839975b8e510e30dd4e7f37e827ad",
+      "publication_tree": "bdfe5303d31839975b8e510e30dd4e7f37e827ad",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "8b35816f88a2f40f1a61ea41dd1b470317f4872e",
+      "publication_commit": "8b35816f88a2f40f1a61ea41dd1b470317f4872e",
+      "source_tree": "543c8ebb378482ab198499d114c1a564630c8ee4",
+      "publication_tree": "543c8ebb378482ab198499d114c1a564630c8ee4",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "22759fda5bd6baab25240915a26bbfcaf9d0e2f2",
+      "publication_commit": "22759fda5bd6baab25240915a26bbfcaf9d0e2f2",
+      "source_tree": "4227e61cc256a01b054da2657392bc04b5f9f787",
+      "publication_tree": "4227e61cc256a01b054da2657392bc04b5f9f787",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "a0d00f01619b8f77d2cb774c7cfeb555b8c64fa6",
+      "publication_commit": "a0d00f01619b8f77d2cb774c7cfeb555b8c64fa6",
+      "source_tree": "b2378baeb05fb0da8a4a6ad627f8b56211f050b8",
+      "publication_tree": "b2378baeb05fb0da8a4a6ad627f8b56211f050b8",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "9cec077521d7db1a521ae52d2f832ef1bafd1ce2",
+      "publication_commit": "9cec077521d7db1a521ae52d2f832ef1bafd1ce2",
+      "source_tree": "42c315fc1751cde97a70654e01cff7e240c7aa83",
+      "publication_tree": "42c315fc1751cde97a70654e01cff7e240c7aa83",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "0e92b595cb3569d46e9198404dc05e581348d3e9",
+      "publication_commit": "0e92b595cb3569d46e9198404dc05e581348d3e9",
+      "source_tree": "d04d2b55c4382b99101ceb34753c0186b67edff0",
+      "publication_tree": "d04d2b55c4382b99101ceb34753c0186b67edff0",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "32564b5d42bca1c3dec49fc45679da1a4b335eb5",
+      "publication_commit": "32564b5d42bca1c3dec49fc45679da1a4b335eb5",
+      "source_tree": "d9eae2ea117cd57ea9282efee26c4f10755435eb",
+      "publication_tree": "d9eae2ea117cd57ea9282efee26c4f10755435eb",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "1e8dd839001be1c7fc1b5893b5c343782cfff9ed",
+      "publication_commit": "1e8dd839001be1c7fc1b5893b5c343782cfff9ed",
+      "source_tree": "a0862b52acb35ffb59433fd093c64ad1e4a15a6c",
+      "publication_tree": "a0862b52acb35ffb59433fd093c64ad1e4a15a6c",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "9a577826e4908a7976640cc5d4888f382969c5b4",
+      "publication_commit": "9a577826e4908a7976640cc5d4888f382969c5b4",
+      "source_tree": "50a0920743dbece5ab7eae662db20a300811ab17",
+      "publication_tree": "50a0920743dbece5ab7eae662db20a300811ab17",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "2e9fa0a582e518dd180fcae7133980dbdbb20056",
+      "publication_commit": "2e9fa0a582e518dd180fcae7133980dbdbb20056",
+      "source_tree": "9a1881020403cf2502311ed4538c6cbb709f1e41",
+      "publication_tree": "9a1881020403cf2502311ed4538c6cbb709f1e41",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "ecd5014027ee22ea3141fdb706e8034f80276d62",
+      "publication_commit": "ecd5014027ee22ea3141fdb706e8034f80276d62",
+      "source_tree": "67c89786a4af371128557d7ccc7dec1de5e0f548",
+      "publication_tree": "67c89786a4af371128557d7ccc7dec1de5e0f548",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "0c216892cd095107d80f9653b79b0372b41a0f0e",
+      "publication_commit": "0c216892cd095107d80f9653b79b0372b41a0f0e",
+      "source_tree": "e68568c23910c2a5e98c53182785aa5b54ca69e3",
+      "publication_tree": "e68568c23910c2a5e98c53182785aa5b54ca69e3",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "eb46859e9106fa7c3cea395e1f3388d869a620b3",
+      "publication_commit": "eb46859e9106fa7c3cea395e1f3388d869a620b3",
+      "source_tree": "1049cf08ddb088734572629f1f3e8b7c7ce52913",
+      "publication_tree": "1049cf08ddb088734572629f1f3e8b7c7ce52913",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "8669d21f733d2b73b259fbff152e383cf473ef3d",
+      "publication_commit": "8669d21f733d2b73b259fbff152e383cf473ef3d",
+      "source_tree": "30ab173dd0be6a258fc63375798c5e54d0bc75c3",
+      "publication_tree": "30ab173dd0be6a258fc63375798c5e54d0bc75c3",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "93ab1881fa1f944bcb953a2e283df6f5174938a3",
+      "publication_commit": "93ab1881fa1f944bcb953a2e283df6f5174938a3",
+      "source_tree": "58f64835c0e5ceaa3edadeca7edcfb5f4e7e19d0",
+      "publication_tree": "58f64835c0e5ceaa3edadeca7edcfb5f4e7e19d0",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "5e78dbfe5beb6519f9c787211be1649283895954",
+      "publication_commit": "5e78dbfe5beb6519f9c787211be1649283895954",
+      "source_tree": "90031988a3c784e01fbff4f8ae78f2397b4dd412",
+      "publication_tree": "90031988a3c784e01fbff4f8ae78f2397b4dd412",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "a7e9aa9d24c408a0a4b33101a2217404fe752922",
+      "publication_commit": "a7e9aa9d24c408a0a4b33101a2217404fe752922",
+      "source_tree": "722daca143386d74fe800cf7618d636f990188be",
+      "publication_tree": "722daca143386d74fe800cf7618d636f990188be",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "110e8d385728edc4b97b31fb214ce9bd7887c750",
+      "publication_commit": "110e8d385728edc4b97b31fb214ce9bd7887c750",
+      "source_tree": "df13c15c019999f6771ed00b37a59f35ebdc93bd",
+      "publication_tree": "df13c15c019999f6771ed00b37a59f35ebdc93bd",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "db4512b519ac6024d3f93f0d65ce4da929081980",
+      "publication_commit": "db4512b519ac6024d3f93f0d65ce4da929081980",
+      "source_tree": "9fe573130ffbb3191c623c646d9c3b8c2f88baa5",
+      "publication_tree": "9fe573130ffbb3191c623c646d9c3b8c2f88baa5",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "6fd7cc64eee6b6302c47853193e6693b5f0a2e9b",
+      "publication_commit": "6fd7cc64eee6b6302c47853193e6693b5f0a2e9b",
+      "source_tree": "742a9433e5db2603645a7a127686c4320ac40d16",
+      "publication_tree": "742a9433e5db2603645a7a127686c4320ac40d16",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "2773233afa10285060012e2adcd21921149cdfb4",
+      "publication_commit": "2773233afa10285060012e2adcd21921149cdfb4",
+      "source_tree": "8567adfb182823203fb7a12a17b56969300884a9",
+      "publication_tree": "8567adfb182823203fb7a12a17b56969300884a9",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "c77f7c62905615c6358a320c0fec0b30b5474a38",
+      "publication_commit": "c77f7c62905615c6358a320c0fec0b30b5474a38",
+      "source_tree": "699446e705358ee30b130fe1ab54a9ad5c0b1bba",
+      "publication_tree": "699446e705358ee30b130fe1ab54a9ad5c0b1bba",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "e7bedeeee89e98400b935c2ed121e0903e76c068",
+      "publication_commit": "e7bedeeee89e98400b935c2ed121e0903e76c068",
+      "source_tree": "4a7939cb2afaad042aae06b0d9e1e971583b3c0e",
+      "publication_tree": "4a7939cb2afaad042aae06b0d9e1e971583b3c0e",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "4a9e3a978a1e7deae47fe944cbb4d28a08faa37d",
+      "publication_commit": "4a9e3a978a1e7deae47fe944cbb4d28a08faa37d",
+      "source_tree": "28762196a4ddae498acb616c80468e40bd8e97fb",
+      "publication_tree": "28762196a4ddae498acb616c80468e40bd8e97fb",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "ec82e99b80b4835fb6fc766cf97f8101193683b0",
+      "publication_commit": "ec82e99b80b4835fb6fc766cf97f8101193683b0",
+      "source_tree": "ce8795b980874068214ebde017ef4e202d68bfa6",
+      "publication_tree": "ce8795b980874068214ebde017ef4e202d68bfa6",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "aaf3f870ab60344ca1094d9a28c9b0c7054922a5",
+      "publication_commit": "aaf3f870ab60344ca1094d9a28c9b0c7054922a5",
+      "source_tree": "41b8cf91a1ff2ee667cce79386653c56e198e046",
+      "publication_tree": "41b8cf91a1ff2ee667cce79386653c56e198e046",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "ab0aa9f32f418ad3bbebdadbb5a9ea9b0426fdb3",
+      "publication_commit": "ab0aa9f32f418ad3bbebdadbb5a9ea9b0426fdb3",
+      "source_tree": "36beb12c9b925ed1101720ebc8b98621f30cf953",
+      "publication_tree": "36beb12c9b925ed1101720ebc8b98621f30cf953",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "a0f4c3b58f11dcd9137edb847b11a18266feb994",
+      "publication_commit": "a0f4c3b58f11dcd9137edb847b11a18266feb994",
+      "source_tree": "015726d901fd5611975c927bd82242b96ef8f780",
+      "publication_tree": "015726d901fd5611975c927bd82242b96ef8f780",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "ba48fe7c5b51f0eef10e365d999b8f3ba022c97a",
+      "publication_commit": "ba48fe7c5b51f0eef10e365d999b8f3ba022c97a",
+      "source_tree": "b34a420f1dfee0323da45bfddadf0857116dfef9",
+      "publication_tree": "b34a420f1dfee0323da45bfddadf0857116dfef9",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "a902fbb00de31c4fd32562cb49c79a37fbd5eb6e",
+      "publication_commit": "a902fbb00de31c4fd32562cb49c79a37fbd5eb6e",
+      "source_tree": "9a8f5f7ffead63a3bbe6436554a868701efbc79d",
+      "publication_tree": "9a8f5f7ffead63a3bbe6436554a868701efbc79d",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "ab667ac35f6de2245dfba279846d856b20e8b001",
+      "publication_commit": "ab667ac35f6de2245dfba279846d856b20e8b001",
+      "source_tree": "afd8fe0c8ebda49a0d082b418a66b0299b3e376f",
+      "publication_tree": "afd8fe0c8ebda49a0d082b418a66b0299b3e376f",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "95057518d672f0dc5b58e3910047bb5df5e22e24",
+      "publication_commit": "95057518d672f0dc5b58e3910047bb5df5e22e24",
+      "source_tree": "11a29886fe1305d79689030b193795c7a7102e46",
+      "publication_tree": "11a29886fe1305d79689030b193795c7a7102e46",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "d2cccda10e2ca03a463d2896728a19c604c733ba",
+      "publication_commit": "d2cccda10e2ca03a463d2896728a19c604c733ba",
+      "source_tree": "1117902d51e71f2f73e97d166411dc8cfeedfd5a",
+      "publication_tree": "1117902d51e71f2f73e97d166411dc8cfeedfd5a",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "e4229ea483a486e5aa6b605c91195eb828537005",
+      "publication_commit": "e4229ea483a486e5aa6b605c91195eb828537005",
+      "source_tree": "680857829c8e301529d2a2c1c44550b044343ecc",
+      "publication_tree": "680857829c8e301529d2a2c1c44550b044343ecc",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "6d5abde676829bd9d54cf522af8ac2c2e68e2a0b",
+      "publication_commit": "6d5abde676829bd9d54cf522af8ac2c2e68e2a0b",
+      "source_tree": "1e4cd53054626190b6fb348ae6cbbb765c2a4622",
+      "publication_tree": "1e4cd53054626190b6fb348ae6cbbb765c2a4622",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": false
+    },
+    {
+      "source_commit": "1d0154f645acd20d65125472ac667dd1b8fd97ed",
+      "publication_commit": "2e05cc26f0ecb4b1a5074a0a71a35bcb3c042647",
+      "source_tree": "92c38e49ab0d0dad49c89b14f289a7de802339f4",
+      "publication_tree": "8e8f6ca1f2f874c2f0e2775f75f2835cd19c73c4",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "446740acb9f34ad79793c55b50e3b3e186f4d786",
+      "publication_commit": "421c00fc16fac5759d16da66d54c6b55ebe0a67f",
+      "source_tree": "dd498c440688bf078b828ab24fa04d0dfa483210",
+      "publication_tree": "72d9588a5f16841276c186781713172f7298cdf6",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "267022ca6ccdc3f4b7cb0afc0a15988521ea203b",
+      "publication_commit": "9ef8481fd8081f3db68da500b814656e3739ea3f",
+      "source_tree": "045b826473fadd820be5302792963ac54748008b",
+      "publication_tree": "62b68c001b3d03621bced469ba0a98499bbeea42",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "c404c58bf016cd9885f06b0ba98cd7c7f52724f6",
+      "publication_commit": "90d5c586e86daacfdc39190b3eeddcdaa0436360",
+      "source_tree": "d8eba9d32a516ecf129e98a633b54d37715d107f",
+      "publication_tree": "4016aa311e7a67cca1b4bc88823231bc9174e45a",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "aeece14d7de953a9931e68d26e370242f501f7f4",
+      "publication_commit": "8f215a0d5ee5976479c74d1027a0e8df8cdd4e11",
+      "source_tree": "4235531d5657e1e5fd43d17525e722b6fa52787b",
+      "publication_tree": "3e1d29fb8fd656c6aad8f656cd06d6a64cbbc173",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "99944bfc1dfe5a039c1c2bb0d4b9754b2bdeacd0",
+      "publication_commit": "6cfa1c944a51e0cb454eabd94a92ab76f99d3e92",
+      "source_tree": "1a2d08dff0ff1e9fcad001592cd15fcad60a119b",
+      "publication_tree": "4741de73fe4f582dc6721420b257c6a76690663f",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "f4703a99f39bf63931f39d1799b163b53ad649d4",
+      "publication_commit": "10a7dc3bebb9f4cd35397c5e118b9e284b74125a",
+      "source_tree": "c53ed9de7c1316c3f90d2921709cac217af124bf",
+      "publication_tree": "8065b6aa0185a4f75b0d6887bfce63f9dca43923",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "6b6fe1f6b69e3dfdb8e0e818eb4a887619d0b45e",
+      "publication_commit": "18dc8be78d05387954238872e22c8670066ee0a7",
+      "source_tree": "6c31395e9855fa93d2d6a0909ccd58344bdb50a8",
+      "publication_tree": "223eb312b6b96b54cebacd36bf0778b1d4a7194d",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "028640d14a5789696e189edb65c8439a9c3bc0bb",
+      "publication_commit": "23a387ea64e6e10605494cd93b22f5e2750a7063",
+      "source_tree": "bc211b25221da47aefc4ce39142df87f55c9bb25",
+      "publication_tree": "b5cacc2f8cbd4ca86e42999fb511ecd356dcbfc8",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "72f432f9fad3d99b619ac4d00f7d9600654f6c7d",
+      "publication_commit": "6f1535e8722118c686f3b2fc0dd7ff205c804138",
+      "source_tree": "f29e0234bb00afdea09e21abe89b48a2a953d26c",
+      "publication_tree": "aa7d6f8e14d9be7bc03b2ee76ce4e3bcd173228b",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "1768f53958abc052ba635226e41396ec513fe83e",
+      "publication_commit": "3d9fb555a1d4e63e1ec7485762443c7a5232b9a6",
+      "source_tree": "49d86850a8c9efd8daccdf35eee716f58deb1dc9",
+      "publication_tree": "5d773dce1ca93fde41cadf7630884e54126a6ab8",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "456c904fba65a0812b6440669aaa9b49f79d7fc4",
+      "publication_commit": "590534b8391903c04028cae271feb44bad25ab41",
+      "source_tree": "f210c2021ef1e042695930802a7eab3a52f27fa7",
+      "publication_tree": "3d902dd019dc526a693059866ba381798ce18551",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "41bbac5e36f632b06a102d4cc82d84276c53f4ce",
+      "publication_commit": "b50d61f509cb7ef9f479bb5296b916631e4239d0",
+      "source_tree": "2ed7e40be7074e45f291a93ed70a895e01188aa7",
+      "publication_tree": "8915cba4d261a3f6c434b599b24558cf81c1b7dd",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "4b4aa932bb188c98c855e6bb7c0d94eb3e9a7f58",
+      "publication_commit": "77022e36eaa9f38d6de77220eb218b629dedd9d2",
+      "source_tree": "dbf191a5ee99c77c4e3bbb4d21657300f45acec4",
+      "publication_tree": "3bef111590b8a5189bb53d7e34361e04afb59b27",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "6b428d46f48fc6f9f798c4d9a5e7bd6f6530f68d",
+      "publication_commit": "5ec4ff402d0788643b649f5135dc02054db9b3b3",
+      "source_tree": "9ea40ff8b0f8b869f154410a8db227b95c753288",
+      "publication_tree": "7b85e7911e6d80551ca685903322910e1ea82d06",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "765315bddce73d51b46c8458e43e650f8bff07c1",
+      "publication_commit": "c4dd74b06233260b5b721d35c12d0e26dcebe84b",
+      "source_tree": "d4dc0a5cb5bb20cf2f1f1337b203e444f6fc3228",
+      "publication_tree": "68a4d7dda1ef7bfdbfcbada07149dd1a8b9224d0",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "891b6775e620ced6cc5f5b43cd44e898e34dec6d",
+      "publication_commit": "1ece270bf959fb334ef33696364c831c801edf92",
+      "source_tree": "978d75561ca75df43fdc6f29587952c8b9f45c0b",
+      "publication_tree": "f5605309e20bbc0867dadf73cf5c8fe3cb861b7d",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "92d7a8028ebde4f4d0f01d15ad99637315141cff",
+      "publication_commit": "f79f5aea14727c6518b9e131483f14a0573f52f8",
+      "source_tree": "a70886c7807103c4ada65ed3cd133c0a4e436a90",
+      "publication_tree": "352ae2c16ac744bbfd643f862a18a75c4f3e9389",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "85b2648e508b884f693a623d6b7493ed33266247",
+      "publication_commit": "7af95356b84ba14af9509b3a015cd8d9abae31a6",
+      "source_tree": "a2fdbd32f88154a094fe00e1e2674d96426ee6e8",
+      "publication_tree": "ccc3f83b09bd39447609a7153dbf227ac528b455",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "c59f3f09bf4e5898cea533657f1cfcf1ba453fb9",
+      "publication_commit": "bbf7951e2ebfa2c9f1e7b2c0516378678bee4fb4",
+      "source_tree": "e72c85a8890564abfce1f34ca8eba9e25ac558ce",
+      "publication_tree": "894e781fec583d0fdf8d1e5a958494897856dce8",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "849fc697bb9d10b9f1a7d1f613616d8424336433",
+      "publication_commit": "f6b81ba2111b5f94b0ca06021149b18e054a2367",
+      "source_tree": "c0e528192e5b77c28d7940c37cd655c72588287c",
+      "publication_tree": "636f05e47861bc590ce0c3cc4a77ec9878041f2e",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "5da070c984317dacfe4b54d9199f6e3ffbb76c02",
+      "publication_commit": "eaca29d642d9f40338cd2864fdfe02f808c1bd3d",
+      "source_tree": "0326527d0f2ff6862307b9b68b0e5151211ac61d",
+      "publication_tree": "d0c9c5325d3abe08db6bb056399e9a663f991ec5",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "bd50d408b4f76eea46ec74044cebec47c300ceaa",
+      "publication_commit": "f2b37a110098a0ad7c6aa2645a5365af08e14a69",
+      "source_tree": "8f604a297817712213abacc6a1db3f247eea402f",
+      "publication_tree": "462c34aa09140c94a35134465025e4e736da606e",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "99ff040d78124a6b065a08f2b522f9a732ec9240",
+      "publication_commit": "73c532f8b5b96d88d8daed1b540c6d765cd2053a",
+      "source_tree": "d03fa783cbd4d0358bf4e5bd6bb9d4d0bfd92492",
+      "publication_tree": "dc4bb85a105ffaaa8ea68d2129d99a3b79d34e98",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "efb22c229ae7f25a2827479c1173adfc50e82155",
+      "publication_commit": "02b66285f009559307c595da6746d1983416aebc",
+      "source_tree": "f05aa2f3b765b1e882323e47eda7abb482991f7f",
+      "publication_tree": "2101682ea3e6bea7d4674c6497dca8ce4b85249d",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "0054ccde5e9ccfd86329ce0cd9725a126781ce36",
+      "publication_commit": "17ec11d2cfa246fa10d465fcb57c763e9ab02be9",
+      "source_tree": "b13d5369b31266732341aa9c673f11ee06061728",
+      "publication_tree": "81f2fb3c5f5bdad0b7133f97df2f31804a007223",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "5ce3339282465e66c96feb51f2333049cb2e2959",
+      "publication_commit": "a3125987a3de6fcd33199bf5579dc3bcc400d24a",
+      "source_tree": "7fc821242555b4c29f11db435e12375605de5213",
+      "publication_tree": "7404e4ac3ee6d4c45d926d864fa40c86c8cf88d4",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "ebeb879f0b83c5f0d97a3444fa5d5300aaa8978a",
+      "publication_commit": "f21dba9913eacddfa4d4ace9a0a7a3808c724a0e",
+      "source_tree": "5f377118967ebb5753657f24a51831add7c93425",
+      "publication_tree": "e79658fb944efd2e756e4fe8ad992138712bb48a",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "5271f4e5a5f28d51266623c7bbf45ed9418c2d04",
+      "publication_commit": "817e8257d7ee8eb8164b98028b39d6f795e8a6c0",
+      "source_tree": "1f4ab25566ad4d90713e66d4bd92fffa5623e0c7",
+      "publication_tree": "c53097efaa005defe732401580122d8e17a033fa",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "41f58a7eb77769f7521cff0f4e0a91b4d2339d32",
+      "publication_commit": "b70bec7d0020d053ccc23b295577850f5a57d29f",
+      "source_tree": "6a91266a780d0d1ca3e94b2b6c2dc31d5030378d",
+      "publication_tree": "fb9abb5ad238c0abc74c6c2b62c557aeddd4ccd9",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "21e331eaa124cb0a490a7ac165d610e03a5f1e74",
+      "publication_commit": "34e74b5a145c2cc1a6b6b791f193089bde987f3f",
+      "source_tree": "42d5d656a1283b22cca260d836a797245d313797",
+      "publication_tree": "78ecb1b99a23121549a3e57ab69edf7fb55c5f55",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "4798eef0a4d78b13fed0fda51bd58fa502409494",
+      "publication_commit": "f011a588fc20c6e59b84abaaab86df6949468ce9",
+      "source_tree": "9034b6b0a3444f51900fccae31beefefab63e837",
+      "publication_tree": "79a8537e67af19109683d88175396e7232011267",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "650d9fafa28259bfdc87a7307ad821c3bdcbeef4",
+      "publication_commit": "189d4893498c6f70b560a316f5ed3b450eeb991e",
+      "source_tree": "22fb887a4d10a0ac1912bc2a0354e8ae00f113c3",
+      "publication_tree": "81d7285bfcb37136997684f6408d5a8077ab36c4",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "9595914ce55b498a74f4979d0ba5c9175affdf74",
+      "publication_commit": "17b9b9c0e25b2d5fa9342252013add5c477613db",
+      "source_tree": "6605421f464537a0c282a2af0c4f98d95aa515bd",
+      "publication_tree": "077e0a2c2683a0f92fc4824c0f93947249c0b182",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "d21de9f87b7f0d3288d493d13bd3673503f8a8a5",
+      "publication_commit": "87ff894445945335cab288b41681d6a1a353ed96",
+      "source_tree": "85f5287f6743cd7a9a3e9c447193af8000060f1b",
+      "publication_tree": "de7b872da503d5f088f9345f55bc4a0fc36824ce",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "fa92c1a8d4b1f0a2c8bd6776b04077843e42f060",
+      "publication_commit": "5ea54496a5d5de226027b8f9739bdb11ba9ec3f0",
+      "source_tree": "d5754f48f60bae468750722a8a97099e825c47bc",
+      "publication_tree": "448d9cfe789507561a96e458548d4f41395752bb",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "3f90c6524544d21fc9840c128305ad51e46f619e",
+      "publication_commit": "2945dbd144b633251cf6016d08015bd78b0b9db2",
+      "source_tree": "ab466fc4cb74d2f5520c314310856092f64b5a47",
+      "publication_tree": "e3bd7729eb409a0d9c746cbe935fc6e4e7868c96",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "e17c00257920991de3df551f444a27dbaefe1099",
+      "publication_commit": "7bbebc4ab5c8db88dcaadef15dc54ab15f5ac98c",
+      "source_tree": "5ce607d1911bd1803a448b5fa1d6d05372d7378b",
+      "publication_tree": "668b6f82deb7908b90ed91b62ec8f424fb307e5a",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "38de81eceaa1190212843c316d14f6f76500854a",
+      "publication_commit": "828689fd025156aaaa929bb30e0374843d3a6ed3",
+      "source_tree": "6518b5106d1d07627c433bb7e4a92436ec2e0f65",
+      "publication_tree": "bcabaabcf1e9b1577cd3a40c8cc10176f911c5b7",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "86c0e325037c45d28b1b333debaa251da718523f",
+      "publication_commit": "2ab8dfd1ab85a26536acf32be9e1f64ff7eba70b",
+      "source_tree": "56d2b097f4ad2410e5b9ebe2d49789ac63cc8e87",
+      "publication_tree": "f561fa51bfdaa32ca5e99bd3790ef3fb3de3b178",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "c6ed6e758e544ad098f0d3e64a87c819d43bc3bc",
+      "publication_commit": "ad61387666df690c1b27c6b2623960e5acdd4058",
+      "source_tree": "8b2369b14db38ab43743092a3758be510795686c",
+      "publication_tree": "1862b6397b23f38205043e629f64ce18103242fc",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "8c4fe556e6b705d6b505ef21d7ffff7e402828b4",
+      "publication_commit": "02aa8f7cf2bd5b206cecc85f99f350083f96bac5",
+      "source_tree": "3a7857bffd5dad36570becea4c9d53b2398711ff",
+      "publication_tree": "4f6c70545b9e28aeaa33681a8c1450623fc76868",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "96350c9b580bbe6ad82b3d0dc8d381e427e23a9c",
+      "publication_commit": "b39f9359dcaf96d872b2570a41fe346f657162aa",
+      "source_tree": "54b05c7a31083d96e7511ba2667b0d04146e23e3",
+      "publication_tree": "fc55cf01f979d484d27259fc00e21c149eb8db4c",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "268e2ab13045811a74d884d4e694901ed6bd4bd4",
+      "publication_commit": "d534ab29c427572728635a082e32f1c3f70a6f17",
+      "source_tree": "e6856d37fa5d67ada0d88b0fcc8d4d429e0c0c3f",
+      "publication_tree": "1e31da015cec840e401a8bbb1b5b0593eb92e27b",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "c71813b67bb92e8fa112ab4c4c875c9924eb044e",
+      "publication_commit": "3825624fed155de61e2506d7081cd7954e3fb290",
+      "source_tree": "343b82fb6e8e5a35ac6039671871f9cf9345e00f",
+      "publication_tree": "309b1480970be10ef2cd19c81e38fa45f682bccd",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "dbcf64f7915556dde59b08fe1e86cae9dc033f0a",
+      "publication_commit": "39d5e15ae99aaa8333fc8b826def20e73db90add",
+      "source_tree": "25b7fbcf34567c7a7ed312c2a044c75fdaa6f018",
+      "publication_tree": "d08825f1aa11237df4c589645fc1411a04a73f0f",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "cba0dc295945f70ce5fe815332576e47fcaff7fc",
+      "publication_commit": "74a45dd0abcaee01eb77151d2296ecb0bb34f672",
+      "source_tree": "f089a766c39b7cd75a3a398283639c7dd7ce7082",
+      "publication_tree": "35bad09b35089148e18fa3f096b7d756e9e18d0f",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "1bdea0f9b6a2099f6d2dbd2fa27f0d1dcb7ce84d",
+      "publication_commit": "4795d144e73930d99b77435a92ba3ff3571b275e",
+      "source_tree": "b0b4e22162a67bf50408412f904ee2662f75754a",
+      "publication_tree": "9f1541ad69b4fe8ab11593ad69fbe228e54f6b19",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "f89a98e986a3106b470f19e921d186a73dfcf399",
+      "publication_commit": "fafb81e96c8372c6ef43e5568d66d855a210b557",
+      "source_tree": "d357fea617c77f7668467a6b653556faa67f1dbd",
+      "publication_tree": "f7d3bae1b63aa22e64c75b99632bc7b73e935203",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "b2d72dac313f45a6a1fb25d25ce356167d8b7837",
+      "publication_commit": "5606c5ae543c6658e71e579c7898e9f992589ae9",
+      "source_tree": "aed09624a70ea4caff205e9ba582b179e1934ceb",
+      "publication_tree": "1192474197284bc8844649fe719e6cfbaeb56233",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "b35ae7641f0c7050b3084711ec7306437e8843a4",
+      "publication_commit": "462718e4dd746adfe73b7ddf400728ccfe792423",
+      "source_tree": "076935f40ce99371f3e8a923ea82855735fe39a9",
+      "publication_tree": "1bed727e09e99ff1cf84e3a990870af8e0db1ff5",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "aaa5a3e0f6a22669ba1961dfb3d8d5d9018ba58f",
+      "publication_commit": "1716556be38a405258e674f12407a34c83982cf6",
+      "source_tree": "ea0004794b45a6c8e4f4d967d026edc076e0277d",
+      "publication_tree": "29e2ea200639054480a8d514d797820854a06147",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "2e747a34c5b3f864c3170d02bcf23c2f9a0ec00f",
+      "publication_commit": "c09b8f96cd7f200917a7aa2ca249c8df59a65072",
+      "source_tree": "36b4a8de822a4eb24fd3da7623dc8985e58c10e5",
+      "publication_tree": "fde7b73048bbf7a64db55bfb341186bbe599864b",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "fda902dad0058e4f76f3cfad6417e8ab8690224f",
+      "publication_commit": "543fb577bafcd0136e228c8a66c9c439d6f13c54",
+      "source_tree": "104415e19b767efa7d4882f30b4e4892b9384cc8",
+      "publication_tree": "3caf0dc69c05449fd3025eb3bf1676ff1c00b076",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "4ff554e66bdcc3ea65fb17e34f2466f4c1f7c1d8",
+      "publication_commit": "f236c1a16d8b9f68df7412cb2ed0cecbdd0e7ace",
+      "source_tree": "3504c5b75a0324a537c1fed4f0717be076ba0bb4",
+      "publication_tree": "9fbd45d613cb3cef2b42947581b718abe1de019e",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "30f46d5352abe6e1d56d3449c06635dfe8354a8a",
+      "publication_commit": "82deccca95818693d5a01fb04102245959139570",
+      "source_tree": "240f9e1dc85c23f17b78d0e1ceb5261fcd47372d",
+      "publication_tree": "4ce89f56180f8c8c4ced2123400bbd2304ee7e84",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "8c934340671e30727801438ded70898bba08f4cb",
+      "publication_commit": "d09f3de99dd6c4a33615b48e7e802cb7b8dd93ed",
+      "source_tree": "907f9736a852da22df10ed5d39788351b317a14c",
+      "publication_tree": "cc2d26e6647c415a4d9b94810bb432c236694f8f",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "ff81d97ac74088707fb9e2ec92abe878fedb2195",
+      "publication_commit": "5a02f5db128c71b9a0508504a591b9c0561bcf10",
+      "source_tree": "8aa3535a5d9fa2a4f8263bd11bc1e1f2d00e1c88",
+      "publication_tree": "32cf5f9c88144d84da5860e406df63e04a7f1d27",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "a62a7e1c39b3a6c5a9ce3d961dc6b4481b40c0c1",
+      "publication_commit": "b666975eb32e785c6ea2a080f97af95b7ff1bcaf",
+      "source_tree": "c90476121608362faca0cc16ad91040e0df36263",
+      "publication_tree": "337bfec17fab6ae382e6dd07f63c2cd358acc993",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "9fdb59e50d32ee4655e9381af98e03039f2bedf2",
+      "publication_commit": "27725ce648d74f1bf639702703e1e3666c9bd24a",
+      "source_tree": "cd057cd079967a7056fe0d1cb74111fc87893ed2",
+      "publication_tree": "cd1cd27990693ac5a3e17a7a3b630e034fa4c255",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "9799a413c15e4f699e3ec1efecc88424b55784cb",
+      "publication_commit": "e2a67acbb4c370ee5397ce09800c00d77b1defa1",
+      "source_tree": "7c001c2085d4e2e214bf1589403fbe2cb6e6b488",
+      "publication_tree": "7a0a7effb0324dab8ef0002ae9db13912d4eafb6",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "ab68d7b2a4e54e9e980e25041c6c757c8651f6ea",
+      "publication_commit": "0d0f6312732fe1bd8bae12454f8f9a22a773c211",
+      "source_tree": "a6695fbfeb38531622c2e3f7ec3022d906406b84",
+      "publication_tree": "2c9b7a0a113610357f0cbb70dd743d8a52c747c9",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "8b94192fe636f9c583e787734e39b3e1d739915e",
+      "publication_commit": "7d8ceab6092194c091a7a302bd11f034464c5d23",
+      "source_tree": "7cb44edca00f9bc977b0b3eb22056ff7232a33b7",
+      "publication_tree": "fc0ae5376d82d0a3e7b206103c0ee2c4ddd41cc1",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "a92e13c9af16cbe5fcde9b4f83d1a0c78761e7b1",
+      "publication_commit": "4559fe3c8df2132936afa404db2e9701f821d531",
+      "source_tree": "0be5d46bd34a534e88c7e2970b684f40bb49774b",
+      "publication_tree": "b212cbdda54966de6d5c910dd4b05d6454d3b643",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "f985eff990edfc742ec9e372467b6a65b2a052f9",
+      "publication_commit": "592925eef7dc56a2e0cc3010e6f65fc65b124a55",
+      "source_tree": "59aec9417bab6a887d8d0d44927d4eb010efc14b",
+      "publication_tree": "9e37da80e512fa4bb5c6b32c2ce3f1b9913e70ab",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "26bc01c668a55bf707a09ffb13f83f8ca7131a4f",
+      "publication_commit": "b023d2802a1370e8393a4b43d4b87f4636eda396",
+      "source_tree": "299c6505e5d18ff11ae15bada2acab97ac46e994",
+      "publication_tree": "c92b6488b36e0cad8928a8ab99e34209c3febc41",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "547d02ceb28db749f44cd9807940d4da1f3ea51c",
+      "publication_commit": "3a3e0a2371e4c44c90bdb4b055ba5321456b8631",
+      "source_tree": "b5a4a3fa547de0f77c0e016a0917969e7386ccdc",
+      "publication_tree": "3e8ec57770df5e4435e00210bed88eec40b2b385",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "2498c2423a56b49d0c3d72aafb8f65e7cd59d7f0",
+      "publication_commit": "1c4df9aaa1fd37f7a4798379dfcc918f76a4a92b",
+      "source_tree": "b6815e2b23012bb8694ac01dcf9df8f15ddc3d55",
+      "publication_tree": "7a5ad47376d5b37f9e7ec8e366ad7d5bb53ce728",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "568aa07b1526f42119d4af1171258ed7d953e064",
+      "publication_commit": "5d6a5a0f2fa79f8c71b45772848b6a906eeeb666",
+      "source_tree": "ef8321d699b7627811d768faa5341da8e7a2e6f3",
+      "publication_tree": "325e2bfc61006a96a759c54a3fadcb3432ed95f9",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "f029d924ae3f67c97b327fae0b24ccb326554c0a",
+      "publication_commit": "4726f41244403621e7fe02a5c28ba80ccd8e73a8",
+      "source_tree": "97948d00247dcc3df169321e3c9cc394bfa175f4",
+      "publication_tree": "1242bbb53cd845f374f0055f91214d3a66a71386",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "9844a709d0e2408170adf6668cb96c7d977db783",
+      "publication_commit": "e9293687eecd905e1545bbad9e6fa224f78c6636",
+      "source_tree": "36c4d7067ed1667680b98b55bed978643f01daec",
+      "publication_tree": "15465de564a4a3651ae46d46a5d836c2e0e23485",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "1d6c21565918753abed2a2e2538e0e9df89d2749",
+      "publication_commit": "e7ae96aae265c2ee2b20be9a29c5c5e0ec4bd124",
+      "source_tree": "25a05d9ae30357486e8ef3f5f92a516f87dc0ef8",
+      "publication_tree": "cdd512458c819a184ca298e755c8099a4b8ca050",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "cb6ef0647037eef71b15a29d71abfd8dee1eda90",
+      "publication_commit": "2543173a9bda41d5be44db56782e465c92bce0f8",
+      "source_tree": "e7d14d11e7278d702b0d21d1ff37c2c62def6919",
+      "publication_tree": "a09583eddc24a16957caef49aeec646fcf4a1c6d",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "d06b780b383aa7c1fe2f7552d7438d17edcee207",
+      "publication_commit": "0298574e4be53dfcda25d7739f476058e37216da",
+      "source_tree": "3e54230dd95fc2ff142e7359f2ff8a585d8ada28",
+      "publication_tree": "ff4a95d7934ae97c78634fcf7db763cffdcce6de",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "e799df742a4632a4ecaae77f06ef56db134937c6",
+      "publication_commit": "2cf9c95d2ac2808ef0717a2631055f6bb6379aa9",
+      "source_tree": "bae41ce90c1715455febb022ebfcc6f75f9f188b",
+      "publication_tree": "e89307f2f9c12cca265f0773d010ab93dfad4bd5",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "47704a4cbec295ad34465ff92a286acf8c7206b7",
+      "publication_commit": "ec1aaf9ca944770e816773cb0bca48051e82b9e4",
+      "source_tree": "0573f1acb6c43edeb9003fd80164efe1631741ca",
+      "publication_tree": "f3a84a4a1e4ba57484895386da2e81913a46e7b9",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "c81d75ab965a4723d33008087ead3cf8aefe82c1",
+      "publication_commit": "a8e6a8d19a01c4ab112e5696d688e14fd772ebac",
+      "source_tree": "e7d4ceb0349abbc49b3332b62de6367e9cba377a",
+      "publication_tree": "fa8041e999c8576ccb52880ea69c7d6634307cea",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "56223507d16f045e1afef3b5484b572d1cec087f",
+      "publication_commit": "e54b0ce9277690666b78a6f1e7bd4ec3ca6e0909",
+      "source_tree": "081f3ff37e681b3fe932ac94a1f352ab373d03e2",
+      "publication_tree": "6e21e40f541fbc44c018021a3585339557399b45",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "2b315784c8154eb75cb3d852b29ca0c1a9a9bc23",
+      "publication_commit": "0dba23393c2f4c99972ff64a96f77671a853b4d4",
+      "source_tree": "a708d8fdce20497eb2c1e9c9545f6c1d78110c4d",
+      "publication_tree": "6f8846b8c2154a53d8d26d051a7f6e0794d1611c",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "4a6e3aaefb4b14e430081051c905c82c9582efc7",
+      "publication_commit": "dc9f2d829e737bd7b66b255bc755a34119df6cf3",
+      "source_tree": "1e489ce586357cdb31a343975ee7454818066b0a",
+      "publication_tree": "0e9f35b5e2ddaaf7dded0c2536aa1a531eefb2b8",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "84b8a30068afbef0ac1a580c193e93cd750ba6d1",
+      "publication_commit": "d6cf23db0effdf1f26b1b603ceb399c2ac93818e",
+      "source_tree": "e102d018a7f1598603c120ce276db89cb8597092",
+      "publication_tree": "88c65abec1945cfcb7a3c5f538f2d7a33e036575",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "0fd238503a0a9d59266a91b2e5a41b66bb0f6b21",
+      "publication_commit": "e5ba950de1bc879159f1381fbb3b18dc303faa0f",
+      "source_tree": "8809d0c1f0b706db48ccdb2efd52cc68f47c7488",
+      "publication_tree": "2d3b61fe497668116bd654cbcce84a62c727c460",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "7e6867d436e49ffdcf8c666c038a3f0fe43109e3",
+      "publication_commit": "19dbeede822bb8a138721e12008e13366a88c633",
+      "source_tree": "7e8608d0f087362eb9deabf0333eded5fbd5afec",
+      "publication_tree": "0494a14a214b42ea2e57e1183081cf732ac59120",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "dbe3f46f1dd1e1a86923c4dd5cf8762e98784328",
+      "publication_commit": "617e3987a71fff2e5a42d92a0bb22ad924504c6e",
+      "source_tree": "6267889b1dcf5f193bd9f0d0e6d6fffeecdf1e54",
+      "publication_tree": "775fdf21a6f10c2c775a1863e6660eceebecd7f4",
+      "message_trailer_removed": false,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "9d2563373b2721b73293253fa809dc48def48ebd",
+      "publication_commit": "03dd4d9cb9dc3e5ce6ea3684e3f3a5e142b02643",
+      "source_tree": "ae70d68370e408bff65be4243db86c8fde5ba4e0",
+      "publication_tree": "a990afec90c60cdfce7485bcab0afac3332ae0fd",
+      "message_trailer_removed": true,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "b4efba33c69b2eb0b2baf89759667f28ccefa9f9",
+      "publication_commit": "cea065cd032e61b2f13a5576a460e0d8b8cabcce",
+      "source_tree": "c48dd1d7208efb649e337cdf7de0d82b70847c4e",
+      "publication_tree": "4b1ffa210a34d67540b64e356d75aacfe3fee0d2",
+      "message_trailer_removed": true,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "56d593288ced1dc09ee44b53c546bf4f3d98bf1a",
+      "publication_commit": "6c96660b7a72405178132849fd64de17b8b31952",
+      "source_tree": "8f942eb8da07e8890ef2d8032a91e5b2cd9f3cef",
+      "publication_tree": "bac35de4f2127bdc1c5025ca45482bd7689ee612",
+      "message_trailer_removed": true,
+      "backup_notes_omitted": true
+    },
+    {
+      "source_commit": "8c5ad29d2dff4db2d91631fe5d3d808fa3c5e4ac",
+      "publication_commit": "8127b7fa6869e9326e60da8a52fb5e5077b1287e",
+      "source_tree": "a92d43bac3f6d04cd4f2b6585acd50489b7c5b7d",
+      "publication_tree": "3b82fcca1f8268a4b0e17f0a4a6711b0c96f5fb1",
+      "message_trailer_removed": true,
+      "backup_notes_omitted": true
+    }
+  ]
+}
