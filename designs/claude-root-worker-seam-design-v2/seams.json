@@ -1,0 +1,775 @@
+{
+  "schema": "claude-root-worker-seam-design-v2",
+  "schema_family": "claude-root-worker-seam-design (v1 key set retained: schema, lane, author, status, seams[id,title,size,status,current_state,requirement_sources,design_direction,invariants,decisions_for_review,depends_on,authority,additive_controls,risks], plan[step,slice,title,seams,depends_on,lead_only,operator_gate,review], operator_items[id,item,blocks], non_claims; v2 adds the keys after them)",
+  "lane": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent, author role)",
+  "status": "DRAFT_FOR_GPT61_REVIEW",
+  "acceptance": {
+    "proof_acceptance": false,
+    "source_acceptance": false,
+    "phase_acceptance": false,
+    "review": "None. The author grants nothing and no author check is a review. An independent actual gpt-6.1-sol review is required."
+  },
+  "statement_basis": "Static. Every statement about source was read from files or reasoned from what was read. Nothing was compiled, run, imported, proved, tested or measured. Kernel, systemd and Ada-visibility statements marked [unverified reasoning] name the evidence they need.",
+  "design_document": {
+    "path": "SEAM-DESIGN.md",
+    "sha256": "db512ddb0bc24c1282c45ebbdb035842234a833046b46b702d020cf14027e1b5",
+    "bytes": 224640,
+    "lines": 2296,
+    "relation": "SEAM-DESIGN.md is authoritative. This file is its synchronized machine twin."
+  },
+  "companions": {
+    "jackal.json": {"sha256": "fe664cc888e348292b6e3cd28c37f89a6e4dfb7ea2e843f94253595dda4a7561", "bytes": 8286},
+    "AUTHOR-NOTES.md": {"sha256": "782379cd1944dc03e59ec7f50eb4aae70bfbdf69c164e9167817b80883652990", "bytes": 26150},
+    "hash_cycle": "None. SEAM-DESIGN.md Appendix D records jackal.json and AUTHOR-NOTES.md. This file records all three. Nothing records this file's hash except the handback message."
+  },
+  "supersedes": {
+    "v1_design": {"path": "WT/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md", "sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46"},
+    "v1_seams": {"path": "WT/designs/claude-root-worker-seam-design-v1/seams.json", "sha256": "b8fa87fb573596de9fa0a789b7a8c93c909eeeb18f4d192edad73e038a2caf5d"}
+  },
+  "answers_review": {
+    "path": "WT/designs/claude-root-worker-seam-design-v1/review/gpt61-v1",
+    "actual_model": "gpt-6.1-sol",
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+    "sha256": {
+      "REVIEW.md": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+      "review.json": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4",
+      "checks.json": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498",
+      "review-freeze.json": "f6f31ddc0bff4dd59ecccfa389f48ce85c7ad91900fe844cf72293a7d7cb1603"
+    }
+  },
+  "path_aliases": {
+    "W": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow",
+    "WT": "W/work/claude-lead-isolation-v1/wt-1",
+    "L": "W/work/protected-original-root-worker-repair-v1",
+    "R": "L/source",
+    "rw/": "R/runtime/worldline/",
+    "P1/": "W/outputs/claude-phase1-handoff-20261004/",
+    "S5": "W/work/claude-composition-v5-beta/source",
+    "S4": "W/work/reviewed-common-proof-source-composition-v4/source",
+    "D1V": "WT/designs/claude-root-worker-seam-design-v1",
+    "CAPI4": "WT/designs/claude-capi-boundary-design-v4",
+    "CAPI3R": "WT/designs/claude-capi-boundary-design-v3/review/gpt61-v1",
+    "D2D": "WT/designs/claude-d2-checked-ghost-inventory-v1",
+    "D2R": "WT/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1",
+    "CHILD": "W/work/resource-child-authority-source-v1",
+    "A1": "W/work/scoped-committed-envelope-repair-v2-retry1",
+    "RQC": "R/protected-canonical/required_controls.json"
+  },
+  "self_containment": {
+    "rule": "v2 is the text of SEAM-DESIGN.md plus the v1 SEAM-DESIGN.md line ranges below, each bound by the sha256 of its exact bytes (each line followed by a newline), with the listed replacements applied. Every other v1 text is replaced.",
+    "v1_file": {"lines": 1329, "sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46"},
+    "carried_v1_slices": [
+      {"slice": "B-NOTATION", "v1_lines": "46-61", "sha256": "08d331e08f8659a520bb86dac169b2f9b4985c948f503b3b314b5fb5befe7b41", "disposition": "CARRIED_VERBATIM", "used_in": "RR1"},
+      {"slice": "B-P0", "v1_lines": "72-151", "sha256": "e61cd9f936685c1931ad93429bb23fe4b669b3c6d54dbf0f652b482c0321a993", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS", "replacements": ["R-1", "R-2"], "used_in": "A.3, section 13"},
+      {"slice": "B-S1-CUR", "v1_lines": "169-195", "sha256": "514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17", "disposition": "CARRIED_VERBATIM", "used_in": "section 3"},
+      {"slice": "B-S1-REQ", "v1_lines": "197-213", "sha256": "dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413", "disposition": "CARRIED_VERBATIM", "used_in": "section 3"},
+      {"slice": "B-S2-CUR", "v1_lines": "323-351", "sha256": "83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259", "disposition": "CARRIED_VERBATIM", "used_in": "section 11"},
+      {"slice": "B-S2-REQ", "v1_lines": "353-369", "sha256": "e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac", "disposition": "CARRIED_VERBATIM", "used_in": "section 11"},
+      {"slice": "B-S3-CUR", "v1_lines": "456-471", "sha256": "705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768", "disposition": "CARRIED_VERBATIM", "used_in": "section 7"},
+      {"slice": "B-S3-REQ", "v1_lines": "473-481", "sha256": "ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793", "disposition": "CARRIED_VERBATIM", "used_in": "section 7"},
+      {"slice": "B-S4-CUR", "v1_lines": "533-548", "sha256": "69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00", "disposition": "CARRIED_VERBATIM", "used_in": "section 9"},
+      {"slice": "B-S4-REQ", "v1_lines": "550-558", "sha256": "54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f", "disposition": "CARRIED_VERBATIM", "used_in": "section 9"},
+      {"slice": "B-S5-CUR", "v1_lines": "632-644", "sha256": "ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b", "disposition": "CARRIED_VERBATIM", "used_in": "section 5"},
+      {"slice": "B-S5-REQ", "v1_lines": "646-659", "sha256": "23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68", "disposition": "CARRIED_VERBATIM", "used_in": "section 5"},
+      {"slice": "B-S6-CUR", "v1_lines": "748-764", "sha256": "8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698", "disposition": "CARRIED_VERBATIM", "used_in": "section 10"},
+      {"slice": "B-S6-REQ", "v1_lines": "766-776", "sha256": "41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b", "disposition": "CARRIED_VERBATIM", "used_in": "section 10"},
+      {"slice": "B-S7-CUR", "v1_lines": "832-856", "sha256": "1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS", "replacements": ["R-3"], "used_in": "section 4"},
+      {"slice": "B-S7-REQ", "v1_lines": "858-865", "sha256": "6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c", "disposition": "CARRIED_VERBATIM", "used_in": "section 4"},
+      {"slice": "B-S8-CUR", "v1_lines": "928-945", "sha256": "1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS", "replacements": ["R-4"], "used_in": "section 8"},
+      {"slice": "B-S8-REQ", "v1_lines": "947-958", "sha256": "1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba", "disposition": "CARRIED_VERBATIM", "used_in": "section 8"},
+      {"slice": "B-S9-CUR", "v1_lines": "1033-1071", "sha256": "5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919", "disposition": "CARRIED_VERBATIM", "used_in": "section 6"},
+      {"slice": "B-S9-REQ", "v1_lines": "1073-1082", "sha256": "eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e", "disposition": "CARRIED_VERBATIM", "used_in": "section 6"},
+      {"slice": "B-S10-CUR", "v1_lines": "1153-1163", "sha256": "df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9", "disposition": "CARRIED_VERBATIM", "used_in": "section 12"},
+      {"slice": "B-S10-REQ", "v1_lines": "1165-1174", "sha256": "bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e", "disposition": "CARRIED_VERBATIM", "used_in": "section 12"}
+    ],
+    "replacements": {
+      "R-1": {"replaces": "B-P0 v1 lines 84-85", "why": "review F-02: the deadlock is conditional", "text_in": "SEAM-DESIGN.md Appendix C"},
+      "R-2": {"replaces": "B-P0 v1 lines 139-140", "why": "RC-11: lineage naming L-CAPI versus L-A1", "text_in": "SEAM-DESIGN.md Appendix C"},
+      "R-3": {"replaces": "B-S7-CUR v1 lines 853-854", "why": "review F-07: only the named identity equalities are vacuous", "text_in": "SEAM-DESIGN.md Appendix C"},
+      "R-4": {"replaces": "B-S8-CUR v1 lines 939-941", "why": "review F-09: conditional PEER_REQUEST_MISMATCH", "text_in": "SEAM-DESIGN.md Appendix C"}
+    },
+    "reading_rules": [
+      "RR1: inside carried slices, v1 notation applies (R/, rw/, RW:n, P1:n, PROMPT:n, ROADMAP:n, OB-nnn, GATE).",
+      "RR2: inside carried slices, bare RC means the inherited roster R/protected-canonical/required_controls.json, called RQC here.",
+      "RR3: a carried 'A1' means L-CAPI (C-API successor) or L-A1 (scoped committed envelope) as section 15.1 assigns.",
+      "RR4: numbers in carried slices keep the status v1 gave them.",
+      "RR5: carried 'Current draft state' text describes the draft, not v2 design."
+    ]
+  },
+  "closure": {
+    "required_changes": [
+      {"id": "01.1", "rc": "RC-01", "quote": "Define the scoped canonical spec", "answer": "Additive unit Worldline.Scoped_Canonical_Operation: typed Reference, Decide with Post => Decide'Result = Reference (...), clauses C1-C4 in the original order; subtype Decision is Worldline.Canonical_Operation.Decision.", "sections": ["3.1", "3.2", "3.3", "3.11"]},
+      {"id": "01.2", "rc": "RC-01", "quote": "complete arena/span/decision mapping", "answer": "Production keeps one shared arena (canonical_operation_kernel.py:30-35). Ghost Rebase is total with two-way validity preservation, including malformed and boundary spans. The decision mapping is the identity, by type reuse.", "sections": ["3.6"]},
+      {"id": "01.3", "rc": "RC-01", "quote": "structural embedding", "answer": "Total Ghost Emb (Orig, W), field by field. Runtime never builds it.", "sections": ["3.7"]},
+      {"id": "01.4", "rc": "RC-01", "quote": "non-circular coherent witness relation", "answer": "Coherent (Orig, W) is field-level relations W1-W10. It mentions no decision, Reference, C2 predicate or scoped validity result. Its only classifier reference is the original producer's K.Classify.", "sections": ["3.8", "3.10"]},
+      {"id": "01.5", "rc": "RC-01", "quote": "prove original accepted/refusal coverage later", "answer": "Lemma statements L-EQ, per-clause lemmas, L-INV-1, CV-B, CV-C, CV-D. Gaps G1-G6 stay OPEN until proved or until the scoped model is revised (never the original).", "sections": ["3.9"]},
+      {"id": "01.6", "rc": "RC-01", "quote": "Correct the rounding claim", "answer": "Withdrawn. Projection_Valid requires a zero remainder and exact quotient (resource_scoped_run_ledger.ads:149-152); containment uses the exact quotient form at :210-211. No rounding lane exists.", "sections": ["3.5"]},
+      {"id": "01.7", "rc": "RC-01", "quote": "distinguish fresh reservation from retained rollover/lifecycle cases", "answer": "Three domains: FRESH (native current-context Same_Context), RETAINED (proved Retained_Join), HISTORICAL (no fresh peer, use or exchange).", "sections": ["3.4"]},
+      {"id": "02.1", "rc": "RC-02", "quote": "Specify canonical comparable source records", "answer": "Per-pair table of producer, raw record, extraction rule and canonical comparable encoding for the six Root_Controller identity pairs and the process source-lease pair.", "sections": ["4.1", "4.2"]},
+      {"id": "02.2", "rc": "RC-02", "quote": "native enforcement of distinct authenticated source domains for every RootController pair", "answer": "Additive SPARK grammar Worldline.Source_Record and Pair_Valid: distinct per-side domains, native payload extraction, payload equality, anchors to distinct authenticated containers. Additive Root_Controller_V2, Controller_Valid_V2, Root_Admission_V2; originals unchanged.", "sections": ["4.1", "4.3"]},
+      {"id": "02.3", "rc": "RC-02", "quote": "define full dynamic plan/cost ... correspondence", "answer": "Owner-provisioned per-operation crosswalk covering every original operation, owner route and follow-up right, with dynamic event binding. Original plan identity and magnitudes are bound, never replaced.", "sections": ["4.4"]},
+      {"id": "02.4", "rc": "RC-02", "quote": "real enforced capacity correspondence", "answer": "Native Enforcement_Corresponds over observed manager and cgroup readbacks, covering every original ResourcePolicy field, admission floor and ledger withholding. No new field, no new cap.", "sections": ["4.5"]},
+      {"id": "03.1", "rc": "RC-03", "quote": "Replace the Delegate=yes-only proposal with a separately reviewed additive native delegation/custody model", "answer": "Additive Resource_Delegated_Custody, Classify_V2, Native_Valid_V2/Check_V2 and Root_Controller_Holds_V2, as separate review slice S4.", "sections": ["5.2"]},
+      {"id": "03.2", "rc": "RC-03", "quote": "actual enforcement/provenance design", "answer": "Coordinator enforcement properties P-CE1-P-CE4, each with observation, native clause, lab measurement and negative control. Helper-mediated cgroup writes. Delegation record authenticated through the owner plan and crosswalk.", "sections": ["5.3", "5.4"]},
+      {"id": "03.3", "rc": "RC-03", "quote": "preserve the old no-delegation model, Parent_Supports, Original_Holds and every original child case", "answer": "Original Custody (Manager_Delegate = no), Classify, Check and Parent_Supports stay byte-exact and decide every row without a delegation record. Original_Holds, workload grammar, world facts, credentials and stdin/EOF unchanged.", "sections": ["5.2", "5.5"]},
+      {"id": "04.1", "rc": "RC-04", "quote": "Make native custody legality mandatory", "answer": "Additive SPARK Worldline.Root_Custody_Phase. Every custody append is decided natively under the same SQLite write transaction; Python obeys.", "sections": ["6.1"]},
+      {"id": "04.2", "rc": "RC-04", "quote": "exclusive CUSTODY_ACK/ABANDON graph", "answer": "Exclusive branches from TRANSFER_SENT. ABANDON never reaches WORKER_OWNED. Exactly one of the two commits per generation.", "sections": ["6.2"]},
+      {"id": "04.3", "rc": "RC-04", "quote": "complete durable CAS generations", "answer": "Per-operation generation, expected prior head and expected phase, checked inside BEGIN IMMEDIATE, plus native decision and readback before commit. Request sub-generations.", "sections": ["6.3"]},
+      {"id": "04.4", "rc": "RC-04", "quote": "crash/ACK/seed/reconstruction rules", "answer": "Lost ACK resolved from the journal with no second mutation. Seed after the last append, read-only capture paths. Reconstruction through the escrowed custody-lock OFD. Crash-point table.", "sections": ["6.3", "6.4", "6.5", "6.10"]},
+      {"id": "04.5", "rc": "RC-04", "quote": "independent physical collection", "answer": "Three independent collector futures: handler terminal, CLOSED with outer wait, raw drains. Physical settlement does not wait for the handler terminal.", "sections": ["6.7"]},
+      {"id": "04.6", "rc": "RC-04", "quote": "lossless acyclic retention", "answer": "Content-addressed blob table of raw observed bytes only; snapshot closure excluding the custody journal and blob store; change-only re-append; no OOM or cost claim.", "sections": ["6.8"]},
+      {"id": "05.1", "rc": "RC-05", "quote": "Retain every original required control and roster", "answer": "52-action ordinary roster, lifetime controls, RQC, protected-startup controls and every lane control file retained, run first, replaced by none.", "sections": ["17.1"]},
+      {"id": "05.2", "rc": "RC-05", "quote": "including the unchanged v1 frontier control on its exact version/domain", "answer": "test_current_source_frontier_names_full_ledger_startup_gap retained byte-exact; the v1 descriptor path keeps raising PROTECTED_FULL_LEDGER_STARTUP_RECONCILER_UNAVAILABLE.", "sections": ["11.6"]},
+      {"id": "05.3", "rc": "RC-05", "quote": "add v2 controls", "answer": "Additive protected-root/required_controls_v2.json, enumerated per seam.", "sections": ["17.2"]},
+      {"id": "05.4", "rc": "RC-05", "quote": "Remove lead-only retirement authority", "answer": "v1 retirement text (v1 seam 2 item 6, I10.5) withdrawn.", "sections": ["11.6", "B.5"]},
+      {"id": "05.5", "rc": "RC-05", "quote": "expose any concrete re-enrollment proposal for explicit applicable adjudication", "answer": "None is proposed. The procedure, if one is ever proposed, is recorded; the original obligation stays OPEN.", "sections": ["11.6", "16"]},
+      {"id": "06.1", "rc": "RC-06", "quote": "Leave in-coordinator option A unselected", "answer": "Unselected. No option is selected.", "sections": ["9.2"]},
+      {"id": "06.2", "rc": "RC-06", "quote": "until a full-domain accounting design covers independent grants/owners/kinds/costs/rollovers and requests larger than the first root hold", "answer": "Domain matrix AM-1-AM-9 with the original serial behaviour per cell; options A, B, C and E evaluated with their known gaps.", "sections": ["9.1", "9.2"]},
+      {"id": "06.3", "rc": "RC-06", "quote": "specify actual owner/recovery authority in every phase", "answer": "Phase x request-class routing table including UNKNOWN and its protected recovery authority; the exact original quarantine.resolve exception, no widening.", "sections": ["9.3"]},
+      {"id": "06.4", "rc": "RC-06", "quote": "availability beyond router-lock changes", "answer": "Protected synchronous sections off the event loop with no await inside; per-requester fair queue on original policy inputs; durable queue without a depth cap.", "sections": ["9.5"]},
+      {"id": "07.1", "rc": "RC-07", "quote": "Separate canonical committed outcome, native use quarantine, custody and physical resource states", "answer": "Four orthogonal dimensions O/U/C/P, each with its own native relation, plus coupling rules CD-1-CD-9.", "sections": ["2"]},
+      {"id": "07.2", "rc": "RC-07", "quote": "Preserve native QUARANTINE_USE/K4 recovery", "answer": "CD-2: native Quarantine_Use from Reserved | Effect_Observed | Quarantined (worldline-operation_authority.adb:129-130) and K4 resolution (:156-167) stay available. COMMITTED never changes.", "sections": ["2", "10.2"]},
+      {"id": "07.3", "rc": "RC-07", "quote": "NEVER_LAUNCHED held-capacity release", "answer": "CD-5 keeps both native release cases of resource_run_ledger.ads:317-320.", "sections": ["2", "10.1"]},
+      {"id": "07.4", "rc": "RC-07", "quote": "terminal replay and serial semantics", "answer": "Serial path keeps its exact order (protected_operations.py:778-811), including the SETTLED replay at :786-790.", "sections": ["10.1"]},
+      {"id": "07.5", "rc": "RC-07", "quote": "keep write-once original result plus additive reports", "answer": "First RESULT_CAPTURE is write-once; later captures are additive boundaries; the collector uses the retained capture.", "sections": ["2 CD-8", "10.1", "10.3"]},
+      {"id": "08.1", "rc": "RC-08", "quote": "Define full slot/drain transfer barriers", "answer": "T1 FREEZE: stop the reader at a chunk or message boundary and drain the asyncio buffers.", "sections": ["7.3"]},
+      {"id": "08.2", "rc": "RC-08", "quote": "buffered/in-flight bytes", "answer": "T1/T2: buffered bytes spooled durably before the descriptor moves.", "sections": ["7.3"]},
+      {"id": "08.3", "rc": "RC-08", "quote": "durable positions", "answer": "Spool position P recorded in FREEZE and INTAKE; the spool hash chain continues from P.", "sections": ["7.3"]},
+      {"id": "08.4", "rc": "RC-08", "quote": "acknowledgments", "answer": "T4 INTAKE (CAS) and T5: the front closes its copy only after reading the durable INTAKE.", "sections": ["7.3"]},
+      {"id": "08.5", "rc": "RC-08", "quote": "failure ownership", "answer": "Failure-ownership table for every T-step crash point; never two readers.", "sections": ["7.3"]},
+      {"id": "08.6", "rc": "RC-08", "quote": "OFD/lock custody", "answer": "kcmp OFD-identity evidence recorded by the front, plus lock-held evidence. fstat equality is not used as OFD proof.", "sections": ["7.3"]},
+      {"id": "08.7", "rc": "RC-08", "quote": "genuine helper/outer-wait producer retention or relay", "answer": "Retention: helper, namespace init and systemd remain reapers and waiters; only observation and reader roles move; no reaping right claimed.", "sections": ["7.2"]},
+      {"id": "09.1", "rc": "RC-09", "quote": "Define explicit native requester correspondence", "answer": "Additive SPARK Worldline.Requester_Correspondence; Join consumes explicit raw fields, not a digest in current_source.", "sections": ["8.1"]},
+      {"id": "09.2", "rc": "RC-09", "quote": "authenticated socket/host-record custody", "answer": "Journaled raw host records before the descriptor moves and a full-roster receive before any peer is built. Socket-object evidence is the SO_COOKIE pair (J5, K-14). Socket identity equality (J4) is necessary, not sufficient.", "sections": ["8.1", "8.2"]},
+      {"id": "09.3", "rc": "RC-09", "quote": "Label retained observations separately from fresh reads", "answer": "New exact type RetainedRequestObservation; no fresh-read gate accepts it; per-gate enumeration.", "sections": ["8.3"]},
+      {"id": "09.4", "rc": "RC-09", "quote": "preserve exited/delegated/same-UID-new-process and full UID/GID domains", "answer": "Domain list D8-1-D8-6; full unsigned UID/GID including 0 and the maximum.", "sections": ["8.4"]},
+      {"id": "09.5", "rc": "RC-09", "quote": "without a new live-client or fresh-pidfd acceptance precondition", "answer": "Pidfd evidence optional and never required. FRESH needs only what the original needs. Unestablished correspondence stays explicit and unresolved, never replaced by a PID label.", "sections": ["8.4"]},
+      {"id": "10.1", "rc": "RC-10", "quote": "Use reviewed appended effective pin overrides", "answer": "Append-only CONTRACT_PINS.update statements after the last existing line; the stale protected_operations.py pin superseded only by an appended reviewed override on reviewed final source.", "sections": ["12.1"]},
+      {"id": "10.2", "rc": "RC-10", "quote": "plus an external exact inventory/freeze for the manifest itself and all source/control/project/header/helper/dependency files", "answer": "External freeze record (sha256, bytes, mode) for every file of the integrated candidate including proof_manifest.py, held outside the sources and bound by the review freeze; no self-hash.", "sections": ["12.2"]},
+      {"id": "10.3", "rc": "RC-10", "quote": "enroll every new native semantic unit", "answer": "REQUIRED_PROVED and DECLARED_CORE_ADA_SOURCES appends for every new unit; no name inside Worldline.C_API (N-2).", "sections": ["12.3", "12.4"]},
+      {"id": "10.4", "rc": "RC-10", "quote": "retain the full original strict scope", "answer": "Floor 251, S5's 535-name ordered prefix, the sole worldline-c_api boundary, zero unproved/justified/pragma Assume, strict warnings.", "sections": ["1 G-5", "12.3"]},
+      {"id": "11.1", "rc": "RC-11", "quote": "Repair the spec/body/integration dependency DAG", "answer": "An acyclic spec DAG over S0-S4 and S6-S11 (no slice is named S5), body/caller nodes, integration gates and runtime gates, with v1's missing edges added.", "sections": ["15"]},
+      {"id": "11.2", "rc": "RC-11", "quote": "bind reviewed C-API and scoped committed-envelope lineages separately", "answer": "Distinct lineage nodes L-CAPI and L-A1; a third node L-CAPI-P is required by N-3.", "sections": ["15.1"]},
+      {"id": "11.3", "rc": "RC-11", "quote": "Correct operator-item scope for protected runtime versus pure value work and draft publication", "answer": "Pure value fixtures need no root or /srv. Draft commit, push and draft PR come under the original prompt after reviews. Only merge, tag, release, install, sudo, production and PRIME are operator-gated.", "sections": ["16"]},
+      {"id": "11.4", "rc": "RC-11", "quote": "retain Optional_Marker and paused frame/capacity/storage gates", "answer": "No Optional_Marker API change and no change routed through its dependencies (G-10). Frame, capacity and storage gates stay in force and uninspected.", "sections": ["1", "14.3", "16"]},
+      {"id": "12.1", "rc": "RC-12", "quote": "Complete startup version/loader/schema/creation-slot correspondence", "answer": "Union table U-1-U-12 over every constructor, loader entry, descriptor schema, early envelope and creation slot.", "sections": ["11.1", "11.2", "11.3"]},
+      {"id": "12.2", "rc": "RC-12", "quote": "a native full-ledger reconciliation table that automatically completes authentic known outcomes", "answer": "Table RT-1-RT-16; automatic rows decided by the existing native relations.", "sections": ["11.5"]},
+      {"id": "12.3", "rc": "RC-12", "quote": "retains all uncertain holds", "answer": "RT rows with UNKNOWN or uncertain evidence retain holds and quarantine natively.", "sections": ["11.5"]},
+      {"id": "12.4", "rc": "RC-12", "quote": "preserves the protected owner route", "answer": "K4 and quarantine.resolve stay reachable for genuine uncertainty with the exact original guard set.", "sections": ["11.5", "9.3"]},
+      {"id": "12.5", "rc": "RC-12", "quote": "without initializing absent prior state", "answer": "Diagnostic startup constructs no mutable owner; absence refuses by name; one-shot provisioning is offline and operator-run.", "sections": ["11.3", "11.4"]}
+    ],
+    "rulings": [
+      {"id": "D-1a", "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer", "evidence": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls.", "application": "C2 is a lifted model whose faithfulness is an OPEN obligation stated as L-EQ plus coverage. Projection exact. Original references untouched.", "sections": ["3"]},
+      {"id": "D-1b", "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer", "evidence": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof.", "application": "FRESH uses L.Same_Context (Row.Scope, S.Current), never record equality; RETAINED uses the Retained_Join obligation; HISTORICAL has no fresh peer or use.", "sections": ["3.4"]},
+      {"id": "D-2a", "owner": "Lead authors schema/callers; operator provisions or installs authoritative state", "evidence": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls.", "application": "Additive exact worldline.protected-startup-v2 selected by exact schema; v1 unchanged; no migration, default, bypass or missing-history genesis; provisioning operator-run.", "sections": ["11"]},
+      {"id": "D-2b", "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review", "evidence": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit.", "application": "Frontier control unchanged on v1 with additive v2 controls; no re-enrollment proposed; obligation OPEN.", "sections": ["11.6"]},
+      {"id": "D-3a", "owner": "Lead protocol designer; operator for lab execution", "evidence": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection.", "application": "Complete V3 slot custody transfers with no prior-terminal precondition; protocol T1-T5.", "sections": ["7"]},
+      {"id": "D-4a", "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change", "evidence": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls.", "application": "No option selected; matrix and option comparison provided for review.", "sections": ["9"]},
+      {"id": "D-5a", "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action", "evidence": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls.", "application": "Additive native successor plus coordinator enforcement argument P-CE1-P-CE4, before any operator deployment choice.", "sections": ["5.2", "5.3"]},
+      {"id": "D-5b", "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation", "evidence": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations.", "application": "Separately versioned helper successor; V3 and the helper-stdin lineage and their controls retained.", "sections": ["5.4"]},
+      {"id": "D-6a", "owner": "Lead historical/canonical model designer; independent GPT-6.1 review", "evidence": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement.", "application": "Orthogonal O/U/C/P dimensions; COMMITTED immutable; native use-quarantine and K4 domain permitted for genuine uncertainty.", "sections": ["2", "10"]},
+      {"id": "D-7a", "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration", "evidence": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation.", "application": "Native Pair_Valid over tagged records in an additive grammar version; no original API or owner policy altered.", "sections": ["4"]},
+      {"id": "D-8a", "owner": "Lead OS/native requester designer; independent GPT-6.1 review", "evidence": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage.", "application": "Explicit native correspondence inputs carried by journaled producers.", "sections": ["8.1", "8.2", "8.3"]},
+      {"id": "D-8b", "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review", "evidence": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client.", "application": "No blanket fresh-pidfd or live-client precondition; exited-peer path defined; this seam's kernel measurements K-1-K-4 and K-14 go to the operator under OP-7, which holds every kernel measurement K-1-K-14.", "sections": ["8.4", "8.5", "16"]},
+      {"id": "D-9a", "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign", "evidence": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes.", "application": "Mandatory native phase relation under the actual CAS, with exclusive branches.", "sections": ["6"]}
+    ],
+    "defects": [
+      {"id": "DF-1", "defect": "Stale effective pin of runtime/worldline/protected_operations.py refuses every protected start.", "evidence": "Pin 8be1f9ab2c689ecc9e915464e8e454863c205ca2f1f4a1763a5125aa2b61139e, recomputed 2a6d71c7ca81d456d41f242a880b8fa3e0f115d794f4772e115767236b183547 (review F-03); refusals at protected_startup.py:683-684 and protected_root_worker.py:355-357.", "fix": "Appended reviewed override computed on reviewed final source only, plus the external exact freeze.", "sections": ["12.1", "12.2"], "status": "OPEN"},
+      {"id": "DF-2", "defect": "Duplicate attach_scoped_resource; the later definition (:961-964) shadows the stricter one (:52-58) and drops SCOPED_EXACT_EARLY_SELECTED_PRODUCER_REQUIRED. Pre-existing; no caller.", "evidence": "review F-05", "fix": "One definition keeping the exact producer path, early-selected DATA membership and the already-attached refusal; called only from v2 construct_v2.", "sections": ["13.2", "11.7"], "status": "OPEN"},
+      {"id": "DF-3", "defect": "Root route omits three original pre-dispatch checks of _invoke_serial (request context :728, unresolved-use gate :730, workload refusal :744-745) and drops the DISPATCH_INTENT boundary (:749).", "evidence": "review F-06; protected_root_worker.py:158-171", "fix": "Apply them in the original order and position; DISPATCH_INTENT retained.", "sections": ["13.3", "9.3"], "status": "OPEN"},
+      {"id": "DF-4", "defect": "Self-comparing Root_Controller identity pairs (protected_root_observation.py:36-49, filled at :43-49); process source lease from caller material (:74-76, :121). Named identity equalities vacuous; other Controller_Valid predicates real.", "evidence": "review F-07; worldline-resource_child_execution.ads:48-59", "fix": "Tagged canonical comparable source records with native distinct-domain enforcement in an additive V2 grammar.", "sections": ["4"], "status": "OPEN"},
+      {"id": "DF-5", "defect": "Scoped historical settlement, lifecycle and owner-material adapters undefined (protected_scoped_resource_runtime.py:530-531, :548-549, :571-572).", "evidence": "review F-08", "fix": "Implement the three adapters on CanonicalOperationPrincipal over scoped committed history.", "sections": ["10.4"], "status": "OPEN"},
+      {"id": "DF-6", "defect": "Conditional gate-mutex self-deadlock: Gate.mutex is a threading.Lock (intent_gate.py:371); intent_for_operation holds it (:385) and calls reconcile_context (:388), which takes it again (:357); reached from protected_operations.py:640. Not reproduced.", "evidence": "review F-02 (SUPPORTED_STATIC_CONDITIONAL)", "fix": "SL-0 lock discipline with _locked variants and a complete receiver-resolved audit including N-6; Gate unchanged; no RLock substitution; no await inside a section.", "sections": ["13.1"], "status": "OPEN"}
+    ],
+    "observations": [
+      {"id": "N-1", "summary": "Lane REQUIRED_PROVED (614) and S5's (535) share a 419-name prefix then diverge: 116 S5 names absent from the lane, 195 lane names absent from S5 (J01, J02); preimage 485 = 419 + 66 (J03); draft adds 129 (J04).", "consequence": "The integrated roster keeps S5's 535 names as the literal prefix and appends lane names.", "sections": ["12.4"]},
+      {"id": "N-2", "summary": "Eight REQUIRED_PROVED names (lane positions 606-613, J14) designate subprograms inside the SPARK_Mode => Off body of Worldline.C_API (Child_Boundary has no SPARK_Mode aspect).", "consequence": "[static reasoning, not executed] They cannot be proved under the unchanged boundary; their obligation moves to On units; C_API keeps transport only.", "sections": ["12.3", "14.3"]},
+      {"id": "N-3", "summary": "41 lane core files are Off (J06): 2 worldline-c_api.ad[sb]; 30 = the 15 C-API units On in S5 and Off in the lane; 9 protected-lineage C API files absent from S5 and Off in the lane.", "consequence": "Take S5's On versions; new consolidation successor L-CAPI-P for the 9 protected files.", "sections": ["14.3", "15.1"]},
+      {"id": "N-4", "summary": "Layout collision with C-API v4: draft body = preimage + 6 with lines + 1119 lines (J07, J08) between end Owner_Audit_Decide; and the final end; spec appends 32 lines (J15); S5 = preimage + one 53-byte line (J09); External_Name 31 in S5, 34 in the draft (J10).", "consequence": "A reviewed rebase is required; tables are never edited to fit.", "sections": ["14.1", "14.2"]},
+      {"id": "N-5", "summary": "The draft renamings (draft :1199-1220) are declared in the body of the nested package Child_Boundary (:1198 to :2251), not at C_API body level.", "consequence": "Refines C-API v4 section 19 wording; the hazard remains for any rebase that merges texts into one scope.", "sections": ["14.2"]},
+      {"id": "N-6", "summary": "Further nested gate.mutex acquisitions beyond P0-1, receiver read at every site: (a) submit_bound -> scoped_service.recover and commit; (b) reconcile_context -> scoped_service.commit; (c) in ProtectedScopedResourcePrincipal, settle_bound, settle_historical, resolve_historical, reconcile, machine_admission and launch_reserved call self.reconcile_context; launch_reserved and go_scoped call self.machine_admission; launch_reserved and the settle_bound closure call self.submit_bound; the historical closures call self.scoped_service.commit; (d) the base ProtectedResourcePrincipal's launch_reserved and settle_bound nest through self.machine_admission and self.submit_bound, in a file taken unchanged from L-A1 (origin A1-v2-retry1); (e) RootControllerCapture._current -> capture_execution on the same p. Unresolved: base settle_historical -> run_service.RunLedgerService.", "consequence": "[static reasoning; each conditional on reaching it; none reproduced] Fixing P0-1 alone unblocks none of the reserve, launch, admission, GO, settlement or reconcile paths; SL-0 must cover every one, including the L-A1-lineage files.", "sections": ["13.1"], "detail": "AUTHOR-NOTES.md section 3"},
+      {"id": "N-7", "summary": "RootCustodyJournal.append is serialized by BEGIN IMMEDIATE but not conditioned on a caller's expected head or phase (root_worker_journal.py:123-140).", "consequence": "Native CAS generations are needed.", "sections": ["6.3"]},
+      {"id": "N-8", "summary": "capture_execution appends an operation-journal ACK boundary inside the capture path (canonical_actor_execution.py:125-127), called by RootControllerCapture._current.", "consequence": "Cause of the stale seed, defect 9(a).", "sections": ["6.4"]},
+      {"id": "N-9", "summary": "The draft block declares enumeration literals named Size (84 non-attribute whole-word occurrences, besides 67 'Size uses); C-API v4 adds a spec-level subtype Size.", "consequence": "[unverified reasoning, RM 8.3/8.4] Inner literals would hide the outer subtype inside Child_Boundary's body; v2 requires renaming.", "sections": ["14.3"]},
+      {"id": "N-10", "summary": "Classification Facts pairs compared by Custody (resource_observation_classification.ads:81-84) are filled from one value by producers for namespace, helper image and challenge (root_worker_physical.py:93-94; protected_resource_runtime.py:887-888; protected_scoped_supervisor_v3.py:190-191); peer pairs are distinct.", "consequence": "Same OB-030 vacuity as DF-4; covered by tagged records in Custody_V2 (P8-P11); original Custody unchanged.", "sections": ["4.2", "5.2"]}
+    ],
+    "other_requirements": [
+      {"requirement": "Design the shared core/worldline-c_api.adb integration with C-API DESIGN v4 (rename-capture hazards, transport names, ordering) as a design obligation with its own checks", "sections": ["14"]},
+      {"requirement": "Carry forward everything the v1 review verified or accepted, with every statically observed draft defect and its fix", "sections": ["B", "A.3"]},
+      {"requirement": "Make v2 self-contained, or bind v1 slices", "sections": ["header", "Appendix C"]},
+      {"requirement": "Reserved operator decisions only, with no invented gates", "sections": ["1 G-7", "16"]}
+    ]
+  },
+  "carried_forward": {
+    "fact_checks": [
+      {"id": "F-01", "review_status": "VERIFIED_BYTE_IDENTITY", "disposition": "Carried; re-hashed, unchanged."},
+      {"id": "F-02", "review_status": "SUPPORTED_STATIC_CONDITIONAL", "disposition": "Carried as conditional (DF-6); v1 sentence replaced by R-1."},
+      {"id": "F-03", "review_status": "VERIFIED_STATIC_RECOMPUTATION", "disposition": "Carried (DF-1); author AST count also observes 171 and 191 effective pin keys."},
+      {"id": "F-04", "review_status": "VERIFIED_STATIC_RECOMPUTATION", "disposition": "Carried: 736 files; 60 source delta entries, 24 pin-covered and 36 not (review figures)."},
+      {"id": "F-05", "review_status": "VERIFIED_STATIC", "disposition": "Carried (DF-2)."},
+      {"id": "F-06", "review_status": "VERIFIED_STATIC", "disposition": "Carried (DF-3)."},
+      {"id": "F-07", "review_status": "VERIFIED_STATIC", "disposition": "Carried with the review's correction (R-3)."},
+      {"id": "F-08", "review_status": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_TREES", "disposition": "Carried (DF-5)."},
+      {"id": "F-09", "review_status": "SOURCE_ORDER_VERIFIED_KERNEL_CONCLUSION_REASONING_ONLY", "disposition": "Carried as conditional (R-4); kernel behaviour unmeasured."},
+      {"id": "F-10", "review_status": "VERIFIED_BYTE_IDENTITY_AND_COMPOSITION_DEPENDENCY", "disposition": "Carried and extended by N-1, N-3, N-4, N-5 (section 14)."},
+      {"id": "F-11", "review_status": "CORRECTED", "disposition": "Applied: section 3.5."},
+      {"id": "F-12", "review_status": "DESIGN_CONFLICT", "disposition": "Applied: section 5 (additive native successor)."},
+      {"id": "F-13", "review_status": "DESIGN_CONFLICT_WITH_ORIGINAL_CASES", "disposition": "Applied: sections 2 and 10."},
+      {"id": "F-14", "review_status": "INTERNAL_DESIGN_CONFLICT", "disposition": "Applied: section 11.6; retirement text withdrawn."}
+    ],
+    "accepted_directions": "SEAM-DESIGN.md section B.2 (per seam, SL-0 and SL-1)",
+    "authority_statements": "SEAM-DESIGN.md section B.3",
+    "retained_invariants": ["no flattening", "no startup initialization", "no settlement on EOF or handler return", "no domain cap", "no failure counted as refusal", "no source review counted as proof"],
+    "withdrawn_v1_statements": "SEAM-DESIGN.md section B.5"
+  },
+  "global_invariants": [
+    "G-1 Original units are byte-exact; v2 adds units and additive versions only.",
+    "G-2 No narrowing: no domain cap, no narrowed precondition, no new refusal of an accepted case; interim named refusals keep their obligations OPEN.",
+    "G-3 A resource failure is never a refusal or a settlement: UNKNOWN with every hold retained.",
+    "G-4 No pragma Assume, justification, Ghost Import, warning waiver, assertion suppression, or SPARK_Mode => Off outside worldline-c_api.",
+    "G-5 Proof scope fixed: MINIMUM_CHECKS = 251, S5's 535-name ordered prefix, UNANALYZED_BOUNDARY == {worldline-c_api}, the exact strict command, zero unproved/justified/Assume, strict warnings, every body/reference/caller/flow/RTE/termination/native semantic and cost obligation.",
+    "G-6 Every original control and roster retained and run on the exact integrated candidate; additive controls replace none; no skips, mocks or fallbacks.",
+    "G-7 Reserved operator decisions only: D-2a, D-2b, D-4a, D-5a, D-5b, D-7a, D-8b, D-9a, and merge/tag/release/install/sudo/production/PRIME. No other approval gate.",
+    "G-8 No flattening; embeddings Ghost-only; scoped inputs only from the scoped producer.",
+    "G-9 One authority: every consequential condition decided natively; callers carry complete inputs and obey.",
+    "G-10 Optional_Marker untouched; S5's core/worldline-recovery.ads is taken.",
+    "G-11 Lock discipline per section 13.1 (SL-0).",
+    "G-12 Kernel, systemd, cgroup, namespace and socket semantics unmeasured; each dependent element names K-1...K-14.",
+    "G-13 Lab is not production; nothing touches production, PRIME, installed services or /srv."
+  ],
+  "state_model": {
+    "dimensions": [
+      {"id": "O", "name": "Canonical outcome", "values": ["NO_EXCHANGE", "UNDECIDED", "COMMITTED", "ABORTED", "UNKNOWN"], "relation": "canonical exchange relation (scoped successor of Worldline.Canonical_Exchange)"},
+      {"id": "U", "name": "Native capability use", "values": ["Reserved", "Effect_Observed", "Settled", "Released", "Quarantined"], "relation": "Worldline.Operation_Authority.Decide (unchanged)"},
+      {"id": "C", "name": "Custody phase", "values": "section 6.2 graph plus UNKNOWN(cause); none on the serial path", "relation": "new Worldline.Root_Custody_Phase"},
+      {"id": "P", "name": "Physical resource", "values": ["Reserved", "Launch_Intent", "Running", "Terminating", "Terminal", "Settlement_Unknown", "Released", "Charged", "liveness Unknown/Live/Reaped/Never_Launched"], "relation": "scoped Check/Classify (unchanged); Check_V2/Classify_V2 for delegated rows"}
+    ],
+    "coupling_rules": [
+      "CD-1 COMMITTED is absorbing.",
+      "CD-2 U enters Quarantined only through native Quarantine_Use, legal from Reserved, Effect_Observed and Quarantined, on genuine uncertainty, even when O = COMMITTED; deferral or a missing adapter is not uncertainty.",
+      "CD-3 U Observe_Effect needs authentic Chain_Effect, independent of P.",
+      "CD-4 U Settle_Use follows P settlement of the operation's own reservation.",
+      "CD-5 P Release_Hold and Charge_Budget only in the native cases of resource_run_ledger.ads:317-322, including the never-launched release; Retain_Uncertain covers Unknown; nothing moves on EOF, handler return, deadline or missing cgroup.",
+      "CD-6 C decides which process may mutate which state.",
+      "CD-7 C transitions never change O.",
+      "CD-8 The first RESULT_CAPTURE is write-once; later captures are additive; settlement uses the retained first capture.",
+      "CD-9 Child rows settle before their root row (native Parent_Supports)."
+    ],
+    "open": "The O-to-record-state mapping and the full legal-product table are S6 deliverables."
+  },
+  "seams": [
+    {
+      "id": 1,
+      "title": "Full scoped original pre-effect conjunction (scoped canonical operation)",
+      "v2_sections": ["3"],
+      "required_changes": ["RC-01"],
+      "rulings": ["D-1a", "D-1b"],
+      "size": "L (XL with scoped exchange and K4 successors)",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:169-195 (slice B-S1-CUR, sha256 514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17)", "observation": "Carried verbatim (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:197-213 (slice B-S1-REQ, sha256 dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-01", "quote_clauses": ["Define the scoped canonical spec", "complete arena/span/decision mapping", "structural embedding", "non-circular coherent witness relation", "prove original accepted/refusal coverage later", "Correct the rounding claim", "distinguish fresh reservation from retained rollover/lifecycle cases"]}
+      ],
+      "design_direction": [
+        "Additive SPARK unit Worldline.Scoped_Canonical_Operation; subtype Decision is Worldline.Canonical_Operation.Decision; Reference ordinary, Decide with Post equating them; no new Pre (3.1).",
+        "Clauses in the original order: C1 literal authority; C2 lifted (S.Valid, S.Native_Valid, S.Current_Facts, bound row with Retained_Origin and FRESH Same_Context); C3 literal with State.Current; C4 literal collapse (3.2, 3.3).",
+        "Domains FRESH, RETAINED (Retained_Join obligation), HISTORICAL (3.4).",
+        "Exact projection; L-PJ-1 for N = D > 0 (3.5).",
+        "One shared production arena; Ghost Rebase with L-RB-1...3; G3 arenas without room for WD uncovered (3.6).",
+        "Total Ghost embedding Emb (Orig, W) with single-frame and multi-frame variants (3.7).",
+        "Coherent witness W1-W10, non-circular, W6 producer faithfulness via the original K.Classify (3.8, 3.10).",
+        "Obligations L-EQ, L-C2a-f, L-C3, L-CL-1, L-SC-1, L-INV-1, CV-B, CV-C, CV-D (3.9).",
+        "Exports wl_scoped_canonical_operation_{version,layout,decide}_v1 through the sole boundary in the C-API v4 pattern (Scoped_Operation_Transport, On wire unit) after G-CAPI (3.12).",
+        "pre_effect exact-type branch: one crosswalk entry for plan and policy; one gate.mutex section via the 13.1 wrapper; DISPATCH_INTENT kept; B2b and B2c follow the same pattern (3.13)."
+      ],
+      "invariants": ["Original Canonical_Operation and its fixtures unchanged and running.", "No runtime flattening (G-8).", "Gaps are closed only by proof or by revising the scoped model, never the original.", "No rounding lane."],
+      "decisions_for_review": ["D-1a (applied, owner as ruled)", "D-1b (applied, owner as ruled)", "RQ-1: is a rollover between reserve and pre-effect an original accepted case?", "RQ-2: which embedding construction covers G3?", "RQ-3: is the S.Current_Facts conjunct in C2 acceptable (G4)?"],
+      "depends_on": ["S1: existing types only", "wire layout and exports: G-CAPI", "bodies and proof: R-PROOF", "B2b, B2c: S1, S6 (the section 2 model), G-A1"],
+      "authority": {"lead_only_source": ["spec S1", "bodies, wrapper and pre_effect branch", "pure native value fixtures"], "operator_or_privileged": ["runtime positives need the lab (R-LAB; installation under OP-1, D-2a)"]},
+      "additive_controls": ["Each clause mutation gives its exact named decision.", "Every original fixture vector, embedded with a coherent witness, gives the same decision; raw-domain-only vectors listed (CV-C).", "Scoped-only Resource_Refused vectors: multi-frame, multi-bucket, stale frame, missing parent row, bucket conservation off by one unit, non-zero projection remainder.", "FRESH rollover pair.", "RETAINED join vectors (B2c).", "ABI layout test per field.", "Mutants (dropped clause, weakened Same_Context) fail the proof gate.", "Lab: scoped positive on serial and root routes plus the RQC grant-refusal set (operator)."],
+      "risks": ["G1 raw inputs with differing universe heads", "G2 labels not produced by K.Classify", "G3 arenas without room for WD", "G4 the S.Current_Facts conjunct", "G5 the Same_Context algebra", "G6 Live rows without effect", "D2 checked-build native cost (Contained cubic, Sum quadratic, slot term N^2*S^4)"]
+    },
+    {
+      "id": 2,
+      "title": "Startup and provisioning correspondence (version union, reconciliation, frontier control)",
+      "v2_sections": ["11"],
+      "required_changes": ["RC-12", "RC-05"],
+      "rulings": ["D-2a", "D-2b"],
+      "size": "L",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:323-351 (slice B-S2-CUR, sha256 83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259)", "observation": "Carried verbatim (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:353-369 (slice B-S2-REQ, sha256 e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-12", "quote_clauses": ["Complete startup version/loader/schema/creation-slot correspondence", "a native full-ledger reconciliation table that automatically completes authentic known outcomes", "retains all uncertain holds", "preserves the protected owner route", "without initializing absent prior state"]}
+      ],
+      "design_direction": [
+        "Union table U-1...U-12; descriptor schema selected by exact value in every consumer; nothing defaulted between versions (11.1).",
+        "v2 descriptor binds owner-plan, crosswalk and custody-genesis schemas; v1 descriptors keep their exact behaviour (11.2).",
+        "One-shot offline operator-run provisioning; runtime opens mode=rw only; full sqlite_master.sql verified; nothing missing is ever created by a startup path (11.3).",
+        "Diagnostic startup fabricates no mutable authority; the daemon always starts (11.4).",
+        "Native reconciliation table RT-1...RT-16 using existing native relations; v1's blanket QUARANTINED rule withdrawn (11.5).",
+        "Frontier control retained byte-exact on its v1 domain; no re-enrollment proposed (11.6).",
+        "One attach_scoped_resource, called only from construct_v2 (11.7)."
+      ],
+      "invariants": ["No startup initialization of absent prior state.", "No re-genesis of existing history.", "v1 descriptor behaviour unchanged, including the frontier control."],
+      "decisions_for_review": ["D-2a (applied; provisioning operator-run)", "D-2b (applied; no re-enrollment proposed)"],
+      "depends_on": ["S11: S3, S4, S6, S7, S9", "B11: S11, B3, B6, B7, B9"],
+      "authority": {"lead_only_source": ["schemas", "provisioner source", "reconciler source", "attach wiring"], "operator_or_privileged": ["running provisioners and any /srv lab installation (OP-1, D-2a)", "every startup control needs root (protected_startup.py:153)"]},
+      "additive_controls": ["Positive v2 startup.", "Missing journal, genesis, key or head refuses with inode and bytes unchanged.", "Second provisioner run refuses.", "DDL constraint violations rejected.", "Crash between INTENT and CONSUMED resolves without reinitialization.", "Restart with LIVE or UNKNOWN rows keeps holds.", "OB-202 analog: hung or missing systemctl still starts in diagnostic state.", "v1 parity including the frontier control.", "One control per RT row."],
+      "risks": ["Reconciler completeness depends on the S9 crash-point table.", "Provisioning evidence depends on operator action."]
+    },
+    {
+      "id": 3,
+      "title": "Other-LIVE resource ownership and custody (slot and drain custody transfer)",
+      "v2_sections": ["7"],
+      "required_changes": ["RC-08"],
+      "rulings": ["D-3a"],
+      "size": "L",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:456-471 (slice B-S3-CUR, sha256 705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768)", "observation": "Carried verbatim (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:473-481 (slice B-S3-REQ, sha256 ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-08", "quote_clauses": ["Define full slot/drain transfer barriers", "buffered/in-flight bytes", "durable positions", "acknowledgments", "failure ownership", "OFD/lock custody", "genuine helper/outer-wait producer retention or relay"]}
+      ],
+      "design_direction": [
+        "Transfer the complete V3 slot custody of every non-terminal reservation with an owned slot, plus the root slot; no prior-terminal precondition; no cap (7.1).",
+        "Producer retention: helper, namespace init and systemd keep reaping and waiting; only observation and reader/writer roles move (7.2).",
+        "Per-descriptor protocol T1 FREEZE, T2 SPOOL, T3 SEND, T4 INTAKE (CAS, exclusive with DRAIN_ABANDON), T5 RELEASE with kcmp OFD evidence; failure-ownership table; never two readers or writers (7.3).",
+        "Worker-side TransferredSlot classified only by native Classify_V2 (7.4).",
+        "Custody returns at closure by the same protocol (7.5)."
+      ],
+      "invariants": ["fstat equality is never used as OFD proof.", "No reaping right is claimed.", "Every non-terminal row keeps its origin; UNKNOWN keeps its holds."],
+      "decisions_for_review": ["D-3a (applied; lab execution operator-run)"],
+      "depends_on": ["S7: S9", "B7: S7, B9, B-RECV", "receive ordering specified once in S8; bodies integrated through B-RECV and B7"],
+      "authority": {"lead_only_source": ["protocol and bodies"], "operator_or_privileged": ["lab demonstration (R-LAB)", "kernel measurements K-5, K-6, K-7 (OP-7)"]},
+      "additive_controls": ["Handoff while an actor is LIVE; terminal collected.", "UNKNOWN actor stays held.", "Substituted pidfd refused.", "Drain continuity against an independent capture.", "Kernel- and asyncio-buffered bytes survive.", "Crash at each T-step follows the failure table.", "Stdin transfer mid-pump completes exactly once with one EOF.", "Large roster across multiple SCM_RIGHTS batches with no row cap.", "Missing kcmp leaves OFD custody unresolved and named."],
+      "risks": ["kcmp unavailable on the lab kernel (K-5)", "SCM_RIGHTS and RLIMIT_NOFILE limits (K-7)"]
+    },
+    {
+      "id": 4,
+      "title": "Live request multiplexing",
+      "v2_sections": ["9"],
+      "required_changes": ["RC-06"],
+      "rulings": ["D-4a"],
+      "size": "XL",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:533-548 (slice B-S4-CUR, sha256 69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00)", "observation": "Carried verbatim (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:550-558 (slice B-S4-REQ, sha256 54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-06", "quote_clauses": ["Leave in-coordinator option A unselected", "until a full-domain accounting design covers independent grants/owners/kinds/costs/rollovers and requests larger than the first root hold", "specify actual owner/recovery authority in every phase", "availability beyond router-lock changes"]}
+      ],
+      "design_direction": [
+        "Full-domain accounting matrix AM-1...AM-9 with the original serial behaviour per cell (9.1).",
+        "Options A, B, C and E compared with their known gaps; none selected; no option preserves every cell (9.2).",
+        "Original guard order applied identically by whichever process serves; phase x request-class routing table; only quarantine.resolve excepted; UNKNOWN redecided by the Reconciler (9.3).",
+        "Durable request transfer with exclusive REQUEST_INTAKE/REQUEST_ABANDON (9.4).",
+        "Protected sections run off the event loop via asyncio.to_thread with no await inside; original operation_lock unchanged; per-requester round-robin with no new priority class or depth cap (9.5).",
+        "Pre-dispatch refusals keep FRONT_OWNED (9.6); worker lifetime rule (9.7)."
+      ],
+      "invariants": ["Queued requests are durable, never dropped, never refused for phase reasons.", "No borrowing of the first root's grant.", "No new caps."],
+      "decisions_for_review": ["D-4a (applied; no option selected; operator selects any authoritative resource-policy change)"],
+      "depends_on": ["S10: S1, S3, S4, S7, S8, S9 and the D-4a selection", "B10: S10, B1, B3, B4, B7, B9, B-RECV"],
+      "authority": {"lead_only_source": ["accounting comparison", "routing and transfer source"], "operator_or_privileged": ["lab demonstrations (R-LAB)", "authoritative resource-policy choice (OP-3, D-4a)"]},
+      "additive_controls": ["status, list and show during a long detached fork or race.", "job.cancel of a worker-owned job.", "Second consequential operation during a detached job.", "Two concurrent intents on a grant with one remaining use: exactly one succeeds natively.", "Pre-effect denial keeps FRONT_OWNED; quarantine.resolve succeeds.", "owner.adopt with a non-empty unresolved set refused as original.", "Lost transfer ACK handled exactly once.", "Requests during transfer and collection queued, never refused.", "Round-robin fairness across two requesters.", "Event-loop stall in a protected section does not block another requester."],
+      "risks": ["Option A: AM-1, AM-2, AM-4, AM-6, AM-7 gaps", "Option B: liveness regression while detached tasks run", "Option C: double counting and unmetered handler work", "Option E: root container limits may kill admitted work or need unbacked headroom"]
+    },
+    {
+      "id": 5,
+      "title": "Dynamic original child dispatch (additive delegation/custody successor)",
+      "v2_sections": ["5"],
+      "required_changes": ["RC-03"],
+      "rulings": ["D-5a", "D-5b"],
+      "size": "XL",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:632-644 (slice B-S5-CUR, sha256 ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b)", "observation": "Carried verbatim (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:646-659 (slice B-S5-REQ, sha256 23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-03", "quote_clauses": ["Replace the Delegate=yes-only proposal with a separately reviewed additive native delegation/custody model", "actual enforcement/provenance design", "preserve the old no-delegation model, Parent_Supports, Original_Holds and every original child case"]}
+      ],
+      "design_direction": [
+        "A Python change cannot work: native Custody requires Manager_Delegate = no (5.1).",
+        "New units Resource_Observation_Classification_V2 (Facts_V2, Custody_V2, Delegated_Custody, Classify_V2), Resource_Scoped_Run_Ledger_V2 and Worldline.Resource_Child_Execution_V2; originals reused unchanged (5.2).",
+        "Selection only from an authenticated delegation record named by the crosswalk entry (5.2).",
+        "Compatibility lemmas L-V2-1 and L-V2-2 (stated, not proved) (5.2).",
+        "DESIGN-5A: per-child sub-helper outside the coordinator's namespaces (5.2).",
+        "Coordinator enforcement P-CE1...P-CE4, each [unverified reasoning] until measured (5.3).",
+        "Helper successor native_root_worker_supervisor_v2.c; V1, V3 and the helper-stdin lineage retained (5.4).",
+        "Worker-side dispatcher with durable TaskIntent, child RESERVE, native task_reservation, nested closure; interim named refusal kept until accepted (5.5)."
+      ],
+      "invariants": ["Original no-delegation model decides every v1 and actor V3 row.", "Distinct operation and reservation identities do not justify inventing workload inequality.", "The root settles only after every child (CD-9)."],
+      "decisions_for_review": ["D-5a (applied; operator for delegation and privileged lab action)", "D-5b (applied; operator for privileged execution and installation)", "DESIGN-5A acceptance"],
+      "depends_on": ["S4: S2, S3 (callers also S9)", "B4: S4, B3, B6, B7, B9", "child-authority secondary (controls UNBUILT and UNRUN), actor stdin V4, SL-0, D1/D2 cost"],
+      "authority": {"lead_only_source": ["dispatcher", "helper source", "native specs"], "operator_or_privileged": ["root lab, systemd delegation and real actor quota (OP-4, D-5a)", "helper installation and privileged execution (OP-5, D-5b)", "real actors only gpt-6-luna with high reasoning as the WORLDLINE actor through the existing Codex adapter"]},
+      "additive_controls": ["Every original fork, race, simulate, ghost, prune and revalidate accepted control on the root route.", "Refusals: different capability or use, sibling unit, missing parent namespace, stale TaskIntent, copied ready flag, delegated row without a selected record, each P-CE negative.", "Child OOM contained and never PASS.", "Unknown child keeps the root held.", "Race with three children.", "Follow-up rights positive and denied.", "L-V2-1 parity vectors."],
+      "risks": ["P-CE1 rests on K-10", "Delegate=yes semantics (K-8)", "C helper body unproved (OB-048 class)"]
+    },
+    {
+      "id": 6,
+      "title": "Canonical committed outcome versus physical closure",
+      "v2_sections": ["10", "2"],
+      "required_changes": ["RC-07"],
+      "rulings": ["D-6a"],
+      "size": "L",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:748-764 (slice B-S6-CUR, sha256 8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698)", "observation": "Carried verbatim (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:766-776 (slice B-S6-REQ, sha256 41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-07", "quote_clauses": ["Separate canonical committed outcome, native use quarantine, custody and physical resource states", "Preserve native QUARANTINE_USE/K4 recovery", "NEVER_LAUNCHED held-capacity release", "terminal replay and serial semantics", "keep write-once original result plus additive reports"]}
+      ],
+      "design_direction": [
+        "finish split into observe_committed_effect, settle_physical and settle_use; serial path runs them in today's exact order with every require and the SETTLED replay (10.1).",
+        "Root route while LIVE: observe only, record ROOT_PHYSICAL_SETTLEMENT_DEFERRED; deferral never quarantines; genuine uncertainty may quarantine natively with COMMITTED unchanged (10.2).",
+        "Collector settles after CLOSED_WITNESS against the retained first RESULT_CAPTURE (10.3).",
+        "Three scoped historical adapters on CanonicalOperationPrincipal in HISTORICAL mode, none reacquiring gate.mutex (10.4).",
+        "Child holds settle before the root (10.5)."
+      ],
+      "invariants": ["COMMITTED immutable (CD-1).", "First RESULT_CAPTURE write-once (CD-8).", "No settlement on EOF or handler return."],
+      "decisions_for_review": ["D-6a (applied)"],
+      "depends_on": ["S6: S1, S9", "B6: S6, B1, B9; L-A1 lineage and SL-0"],
+      "authority": {"lead_only_source": ["finish split", "adapters", "collector settlement"], "operator_or_privileged": ["lab demonstrations (R-LAB)"]},
+      "additive_controls": ["Commit through the worker: EFFECT_OBSERVED while LIVE, SETTLED after CLOSED.", "Revoke after commit and before CLOSED: settlement without a new use.", "Lost result ACK and lost settlement ACK.", "Committed return without post rights stays COMMITTED.", "Worker crash after commit: K4 available.", "Deferred settlement never quarantines.", "Injected unknown result capture quarantines natively with COMMITTED unchanged.", "Every original serial control on matching source.", "Adapter key and binding refusal fixtures (no root)."],
+      "risks": ["Serial parity must be shown on matching source with an appended pin override."]
+    },
+    {
+      "id": 7,
+      "title": "Root plan cost and source crosswalk (canonical comparable source records, enforcement correspondence)",
+      "v2_sections": ["4"],
+      "required_changes": ["RC-02"],
+      "rulings": ["D-7a"],
+      "size": "M",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:832-856 (slice B-S7-CUR, sha256 1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88; R-3 replaces 853-854)", "observation": "Carried with line replacement R-3 (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:858-865 (slice B-S7-REQ, sha256 6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-02", "quote_clauses": ["Specify canonical comparable source records", "native enforcement of distinct authenticated source domains for every RootController pair", "define full dynamic plan/cost ... correspondence", "real enforced capacity correspondence"]}
+      ],
+      "design_direction": [
+        "Additive SPARK Worldline.Source_Record: Side, Source_Domain, Domain_Allowed, Payload_Extracted (WL-SRC-V1 framing), Container_Bound (Attest.SHA256), Pair_Valid (4.1).",
+        "Per-pair mapping P1-P7 (Root_Controller) and P8-P11 (classification Facts) (4.2).",
+        "Root_Controller_V2, Controller_Valid_V2, Root_Controller_Holds_V2, Root_Admission_V2; originals unchanged; re-review of the child-authority surface (4.3).",
+        "Owner-provisioned crosswalk worldline.protected-root-operation-crosswalk-v1 with one entry per operation, owner route and follow-up right; one source of plan truth; magnitudes unchanged (4.4).",
+        "Enforcement_Corresponds E1-E4 over observed readbacks, original ResourcePolicy fields and admission floors; no new field, no cap (4.5)."
+      ],
+      "invariants": ["Absence of a crosswalk entry is a named refusal keeping the obligation OPEN; nothing defaulted.", "E1 exact under the documented representation; never a tolerance; never a refusal of an accepted plan."],
+      "decisions_for_review": ["D-7a (applied; no original API or owner policy altered)", "RQ-4: mapping of minimum/low to admission floors and memory_high_bytes", "RQ-5: exact definition of P3"],
+      "depends_on": ["S2: existing types and Attest", "S3: S2", "S11 binds S3's table", "exports: G-CAPI", "B3: S2, S3, B9"],
+      "authority": {"lead_only_source": ["schemas and predicates"], "operator_or_privileged": ["provisioning the crosswalk (OP-1, D-2a)"]},
+      "additive_controls": ["One-producer corruption of any of P1-P11 refused (Unknown classification for P8-P11).", "Same record copied to both sides refused, with and without relabelled tags.", "Relabelled copy with mismatched container hash refused.", "Distinct-source equal payloads give the positive.", "Missing crosswalk entry gives a named refusal.", "Two operations with different cost keys both dispatch.", "MemoryMax above the projection refused (E2).", "Policy value differing from readback refused (E1).", "Changed header digest refused.", "Every original Controller_Valid vector still passes on the V1 unit."],
+      "risks": ["Producer authenticity of observed records stays an OS-workstream obligation.", "Container hashing and extraction add checked-build native cost (D2)."]
+    },
+    {
+      "id": 8,
+      "title": "Requester PID-namespace credential join (native requester correspondence)",
+      "v2_sections": ["8"],
+      "required_changes": ["RC-09"],
+      "rulings": ["D-8a", "D-8b"],
+      "size": "M",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:928-945 (slice B-S8-CUR, sha256 1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02; R-4 replaces 939-941)", "observation": "Carried with line replacement R-4 (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:947-958 (slice B-S8-REQ, sha256 1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-09", "quote_clauses": ["Define explicit native requester correspondence", "authenticated socket/host-record custody", "Label retained observations separately from fresh reads", "preserve exited/delegated/same-UID-new-process and full UID/GID domains", "without a new live-client or fresh-pidfd acceptance precondition"]}
+      ],
+      "design_direction": [
+        "Additive SPARK Worldline.Requester_Correspondence; Join J1-J8 over explicit raw fields; results Join_Ready, Ucred_Malformed, Uid_Gid_Mismatch, Namespace_Mismatch, Socket_Mismatch, Socket_Custody_Unestablished, Custody_Missing (8.1).",
+        "Consumed by Legal (REQUEST_INTAKE, CUSTODY_ACK) and Root_Admission_V2 (8.1).",
+        "Socket cookie recorded additively at accept; raw records journaled before the descriptor moves; full-roster receive before any peer; CrosswalkRequestPeer and RetainedRequestObservation as new exact types (8.2).",
+        "Per-gate enumeration: fresh-read gates unchanged; worker-custody gates need Join_Ready; historical gates accept retained observations (8.3).",
+        "Domains D8-1...D8-6 preserved with no new precondition (8.4)."
+      ],
+      "invariants": ["No digest hidden in current_source.", "No sender PID label, synthesized SO_PEERCRED bytes or fstat equality substituted.", "No host PID or crosswalk record reaches an actor role (OB-110)."],
+      "decisions_for_review": ["D-8a (applied)", "D-8b (applied; kernel measurement K-1...K-4 and K-14 under OP-7)"],
+      "depends_on": ["S8: existing types only (custody heads are identity spans); S9 consumes it", "B-RECV: S8, B9"],
+      "authority": {"lead_only_source": ["spec S8", "bodies and exact-type caller audit"], "operator_or_privileged": ["kernel measurement (OP-7, D-8b)"]},
+      "additive_controls": ["Host client whose relative PID reads 0 accepted through the crosswalk (lab).", "Socket identity or cookie mismatch refused.", "Different user namespace refused.", "Client exited before intake accepted when the socket and its re-read are valid.", "Historical settlement after the client exited.", "Requester UID 0 and the maximum unsigned UID.", "Delegated foreign-UID socket gains no rights.", "Preparer versus commit peer joins.", "Pure native Join value fixtures for every status."],
+      "risks": ["SO_COOKIE availability (K-14)", "SO_PEERCRED behaviour across namespaces and after exit (K-1, K-2)"]
+    },
+    {
+      "id": 9,
+      "title": "Closure and current-ownership correspondence (native custody phase relation)",
+      "v2_sections": ["6"],
+      "required_changes": ["RC-04"],
+      "rulings": ["D-9a"],
+      "size": "L",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:1033-1071 (slice B-S9-CUR, sha256 5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919)", "observation": "Carried verbatim (Appendix C), defects (a)-(i)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:1073-1082 (slice B-S9-REQ, sha256 eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-04", "quote_clauses": ["Make native custody legality mandatory", "exclusive CUSTODY_ACK/ABANDON graph", "complete durable CAS generations", "crash/ACK/seed/reconstruction rules", "independent physical collection", "lossless acyclic retention"]}
+      ],
+      "design_direction": [
+        "Mandatory native Worldline.Root_Custody_Phase deciding one append at a time from the latest committed record and the proposed one (6.1).",
+        "Phase graph with exclusive pairs (CUSTODY_ACK, ABANDON), (REQUEST_INTAKE, REQUEST_ABANDON), (DRAIN_INTAKE, DRAIN_ABANDON); INV-C1...INV-C5 (6.2).",
+        "CAS append protocol inside BEGIN IMMEDIATE with native decision and readback; lost-ACK table (6.3).",
+        "Read-only capture paths; seed after close and every retention append (6.4).",
+        "Reconstruction through the escrowed lock (6.5); EOF, deadlines and stops (6.6); independent physical collection (6.7).",
+        "Content-addressed acyclic blob retention, change-only, with no OOM or cost claim (6.8).",
+        "Crash-point table, selected rows (6.10); custody journal v2 with full DDL, genesis binding any v1 head, operator-run provisioning (6.11)."
+      ],
+      "invariants": ["INV-C1 one owner per generation.", "INV-C2 ABANDON(g) has no successor WORKER_OWNED(g).", "INV-C3 worker mutation legal only while worker-owned in its CUSTODY_ACK generation.", "INV-C4 PHYSICAL_SETTLED needs CLOSED_WITNESS on the root route.", "INV-C5 UNKNOWN is left only by the Reconciler."],
+      "decisions_for_review": ["D-9a (applied; fault campaigns operator-run)"],
+      "depends_on": ["S9: S8 (no S6 types)", "B9: S9, B0"],
+      "authority": {"lead_only_source": ["relation spec and bodies", "journal v2 and provisioner source"], "operator_or_privileged": ["schema provisioning (OP-1, D-2a)", "fault campaigns within the specialized-validation boundary (OP-8, D-9a)"]},
+      "additive_controls": ["Crash at each phase boundary ends in the legal state of 6.10.", "Lost CUSTODY_ACK: no stop, WORKER_OWNED.", "ABANDON race.", "Worker SIGKILL before the terminal: physical closure collected, U quarantined natively.", "Helper death: EOF then UNKNOWN with bounded CPU.", "Reconstruction succeeds with the preheld lock.", "Retention growth recorded per distinct state.", "Half-transfer: front keeps escrow, worker refuses intake.", "Pure native value fixtures of Legal."],
+      "risks": ["Complete crash-point table not yet written.", "Retention growth unmeasured.", "flock semantics for transferred OFDs (K-6)."]
+    },
+    {
+      "id": 10,
+      "title": "Review, control and proof seal (pins, external freeze, enrollment, controls)",
+      "v2_sections": ["12", "17"],
+      "required_changes": ["RC-10", "RC-05"],
+      "rulings": [],
+      "size": "M (high volume)",
+      "status": "OPEN",
+      "current_state": [{"anchor": "v1 SEAM-DESIGN.md:1153-1163 (slice B-S10-CUR, sha256 df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9)", "observation": "Carried verbatim (Appendix C)."}],
+      "requirement_sources": [
+        {"source": "v1 SEAM-DESIGN.md:1165-1174 (slice B-S10-REQ, sha256 bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e)", "quote": "Carried verbatim (Appendix C)."},
+        {"source": "review.json required_changes RC-10", "quote_clauses": ["Use reviewed appended effective pin overrides", "plus an external exact inventory/freeze for the manifest itself and all source/control/project/header/helper/dependency files", "enroll every new native semantic unit", "retain the full original strict scope"]},
+        {"source": "review.json required_changes RC-05", "quote_clauses": ["Retain every original required control and roster", "including the unchanged v1 frontier control on its exact version/domain", "add v2 controls", "Remove lead-only retirement authority", "expose any concrete re-enrollment proposal for explicit applicable adjudication"]}
+      ],
+      "design_direction": [
+        "Append-only CONTRACT_PINS.update overrides; the stale pin superseded only on reviewed final source; normalized_ada is a semantic tripwire, not exact identity (12.1).",
+        "External exact inventory and freeze bound by the review freeze, including proof_manifest.py itself; no self-hash (12.2).",
+        "REQUIRED_PROVED appends for every new unit; no name inside Worldline.C_API (12.3).",
+        "Integrated roster: S5's 535 names, the C-API successor's 98 if it composes first, the protected lineage's 66, 121 carried child/root additions plus On-unit carriers, then v2 names (12.4).",
+        "C helper hardening recorded as unproved native-body obligations (12.5).",
+        "Seal controls (12.6); retained original rosters run first (17.1); additive roster protected-root/required_controls_v2.json (17.2)."
+      ],
+      "invariants": ["Floor 251.", "S5's 535-name ordered prefix literal.", "Sole worldline-c_api boundary.", "Zero unproved, justified and pragma Assume.", "No operator approval solely because a file is pinned."],
+      "decisions_for_review": ["Exact final integrated roster (reviewed integration artifact)"],
+      "depends_on": ["B12: all bodies", "G-REVIEW, R-PROOF"],
+      "authority": {"lead_only_source": ["pin plan", "freeze records", "enrollment appends", "control rosters"], "operator_or_privileged": ["merge, tag/release, install, sudo, production, PRIME (OP-9)"]},
+      "additive_controls": ["Manifest audit recomputing effective pins against the external freeze.", "Unpinned-file detector.", "Stale-pin mutant.", "C hardening-flag check.", "No REQUIRED_PROVED name with prefix Worldline.C_API.", "No SPARK_Mode => Off outside worldline-c_api.", "Roster-prefix check.", "UNANALYZED_BOUNDARY == {worldline-c_api}.", "MINIMUM_CHECKS >= 251."],
+      "risks": ["N-2: enrolled names inside the Off C_API body", "N-3: Off units outside the boundary", "G-PROT shared caller and ABI resolution"]
+    }
+  ],
+  "source_hygiene_sl0": {
+    "sections": ["13"],
+    "defects": ["DF-2", "DF-3", "DF-6", "N-6"],
+    "lock_discipline": [
+      "One acquisition per public entry through _protected_section (), which also sets a thread-local holder marker.",
+      "_locked variants require the marker and never acquire gate.mutex; at least reconcile_context, submit_bound, machine_admission, the scoped current_context, capture_execution and the scoped service's recover and commit.",
+      "Lock order gate.mutex -> order -> store._lock -> service and database locks.",
+      "No await inside a section; sections run in worker threads.",
+      "The Gate and its threading.Lock unchanged; no RLock substitution.",
+      "Each section re-reads its inputs after acquiring."
+    ],
+    "audit": "Complete call-and-lock table resolved by receiver type and thread; every N-6 candidate classified; the L-A1-lineage files' fixes bind to G-A1 as well; implemented deadlock freedom not claimed.",
+    "attach_scoped_resource": "One definition keeping the exact producer path, early-selected DATA membership and the already-attached refusal (protected_scoped_resource_runtime.py:52-58); :961-964 removed; called only from construct_v2.",
+    "root_route_guards": "Request-context check and unresolved-use gate (with the exact quarantine.resolve exception) before _reserve; workload refusal after _reserve inside the quarantining try; DISPATCH_INTENT retained; pre-dispatch failures keep FRONT_OWNED.",
+    "review": "Different-author GPT-6.1 source review (P1:153); no runtime or proof credit."
+  },
+  "capi_integration": {
+    "sections": ["14"],
+    "status": "Neither lane is accepted or resolved here. CAPI4 is DRAFT_FOR_GPT61_REVIEW and unchanged.",
+    "facts": [
+      "S5 C_API body equals commonV4: 56596 bytes, sha256 0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b.",
+      "Lane preimage to S5 body: one inserted line at :32 (use type System.Storage_Elements.Integer_Address;), 53 bytes (J09).",
+      "Lane preimage to draft body: 6 with lines at the top and 1119 lines after end Owner_Audit_Decide; before the final end (J07, J08).",
+      "Draft spec appends 32 lines (J15) after wl_owner_audit_decide_v1: Child_Version, Child_Layout, Child_Decide.",
+      "External_Name occurrences: S5 31, draft 34 (J10).",
+      "Anchors S5/draft: end Owner_Audit_Decide; 1160/1165; final end 1161/2285; offset +5 = 6 - 1 (J11, J12).",
+      "Authority_Glue identical except line offsets.",
+      "Package renamings / use lines: draft 25/29, S5 14/22; the 11 added renamings are inside Child_Boundary's body (N-5).",
+      "CAPI4 binding text contains no Child_ identifier."
+    ],
+    "hazards": [
+      {"id": "H1", "hazard": "Body layout collision with CAPI4 R-LAYOUT", "consequence": "R-LAYOUT refuses the draft text"},
+      {"id": "H2", "hazard": "Spec layout collision", "consequence": "S-RES and R-LAYOUT refuse"},
+      {"id": "H3", "hazard": "Residual hashes and clause tables are S5-based", "consequence": "Refusal until a reviewed rebase; tables never edited to fit"},
+      {"id": "H4", "hazard": "External_Name census (CAPI4 31 -> 51; draft adds 3)", "consequence": "Census re-observed"},
+      {"id": "H5", "hazard": "Identifier homographs (U8, U32, I64, Size, single-letter renamings)", "consequence": "[unverified reasoning, RM 8.3/8.4] Merging texts can make use-visible names not use-visible; installed-compiler confirmation OPEN (CAPI4 D-38)"},
+      {"id": "H6", "hazard": "Off units (N-3)", "consequence": "Restores Off exemptions outside the sole boundary"},
+      {"id": "H7", "hazard": "Enrolled names inside the Off body (N-2)", "consequence": "The required-proved check fails [static reasoning]"},
+      {"id": "H8", "hazard": "Optional_Marker: lane worldline-recovery.ads differs from S5's", "consequence": "S5's and the C-API successor's recovery units are taken (R-RW-9)"}
+    ],
+    "rules": [
+      "R-RW-1 CAPI4 pattern for every root-worker export: one transport package and one export body appended at the run ends, one spec declaration appended, all value logic in enrolled On units; transports Child_Execution_Transport, Scoped_Operation_Transport, Root_Controller_V2_Transport, Custody_Phase_Transport, Requester_Join_Transport, Classification_V2_Transport, Scoped_Ledger_V2_Transport.",
+      "R-RW-2 C_API declares nothing beyond transports, exports and CAPI4's subtypes; no C_API body-level renaming; Child_Boundary not carried.",
+      "R-RW-3 No homograph of any C_API-level declaration; Size and Alignment literals renamed or moved into an On wire unit.",
+      "R-RW-4 Distinctive renaming identifiers; each export body uses exactly its own transport.",
+      "R-RW-5 Every new clause, renaming exclusion, write form and gate listed in stage tables; every export tiled in its own packet.",
+      "R-RW-6 Only listed write forms with their gates.",
+      "R-RW-7 No REQUIRED_PROVED name under Worldline.C_API.",
+      "R-RW-8 S5's On versions of the 15 C-API units; the 9 protected-lineage Off files consolidated by L-CAPI-P before G-PROT.",
+      "R-RW-9 S5's recovery units and the C-API successor's recovery packets taken.",
+      "R-RW-10 Every new On unit accounted in the core Library_Interface per CAPI4 K3 and G9; re-observed after the rebase."
+    ],
+    "ordering": [
+      {"id": "O1", "proposed": true, "order": "C-API successor packets PK-0...PK-S on S5; L-CAPI-P; G-PROT; root-worker packets appended at the run ends"},
+      {"id": "O2", "proposed": false, "order": "Rebase CAPI4 onto S5 plus G-PROT plus root-worker changes first"},
+      {"id": "O3", "proposed": false, "order": "Interleaved per packet"}
+    ],
+    "checks": [
+      {"id": "IC-1", "check": "CAPI4 R-LAYOUT, R-RES, S-RES, R-INV, R-ALIAS, R-W, R-GATE, R-TILE on the composed text", "mutation": "a moved export run"},
+      {"id": "IC-2", "check": "C_API-level declaration census, no homograph", "mutation": "a draft-style Size literal or a C_API-level renaming"},
+      {"id": "IC-3", "check": "Renaming identifiers unique across transports", "mutation": "a transport declaring W"},
+      {"id": "IC-4", "check": "Each export body uses exactly one transport, its own", "mutation": "an export using two transports"},
+      {"id": "IC-5", "check": "External_Name census equals CAPI4's final count plus root-worker additions, each once", "mutation": "a duplicated symbol"},
+      {"id": "IC-6", "check": "No REQUIRED_PROVED name under Worldline.C_API", "mutation": "an enrolled Worldline.C_API.X name"},
+      {"id": "IC-7", "check": "No SPARK_Mode => Off outside worldline-c_api", "mutation": "a restored Off unit"},
+      {"id": "IC-8", "check": "Authority_Glue identical to S5's except CAPI4's GE1-GE9", "mutation": "a changed glue line"},
+      {"id": "IC-9", "check": "Optional_Marker files identical to S5's or the reviewed successor's", "mutation": "the lane's worldline-recovery.ads"},
+      {"id": "IC-10", "check": "Installed-compiler confirmation of name resolution, no warning for any transported clause (CAPI4 D-38)", "mutation": "none; OPEN, needs the admitted frame"}
+    ],
+    "open": ["L-CAPI-P not designed", "Whether R-RW-2's re-authoring of the draft child exports' internals counts as a changed public transport under D2R C-ABI (AUTHOR-NOTES 2.2); v2 keeps symbols, layouts, meaning and caller protocol and adds no gate"]
+  },
+  "lineages": [
+    {"id": "L-S5", "what": "Integration base W/work/claude-composition-v5-beta/source", "status": "QUALIFIED_SOURCE_COMPOSITION; proof, source and phase acceptance false"},
+    {"id": "L-PROT", "what": "Protected canonical lineage of the lane's primary, absent from S5", "status": "Finite reviewed primary; no review credit for this draft"},
+    {"id": "L-CHILD", "what": "Child-authority source", "status": "Finite actual GPT-6.1 source review; controls UNBUILT and UNRUN"},
+    {"id": "L-A1", "what": "Scoped committed envelope W/work/scoped-committed-envelope-repair-v2-retry1", "status": "Inventory dee54c19..., binding 7e83fc5c..., freeze 1d65ca48...; also the origin of protected_resource_runtime.py and protected_scoped_resource_service.py in the lane"},
+    {"id": "L-CAPI", "what": "C-API consolidation successor", "status": "CAPI4 DRAFT_FOR_GPT61_REVIEW; packets unwritten; v3 review sealed"},
+    {"id": "L-CAPI-P", "what": "Consolidation of the protected lineage's 9 Off C API files (N-3)", "status": "Not yet designed; OPEN; own review"},
+    {"id": "L-DEP", "what": "COSMOGONY dependency overlays (intent_gate, issuer, universe) with draft preheld-lock overlays", "status": "Need own selection, review, pin and freeze"},
+    {"id": "L-RW", "what": "This lane", "status": "INCOMPLETE_UNREVIEWED_UNUSED_SOURCE_ONLY"}
+  ],
+  "integration_gates": [
+    {"id": "G-CAPI", "condition": "Reviewed C-API successor composed; needed before any root-worker export or ABI adoption"},
+    {"id": "G-CAPI-P", "condition": "L-CAPI-P reviewed and composed"},
+    {"id": "G-PROT", "condition": "L-PROT composed by explicit reviewed import; S5 versions of shared units; shared callers and ABIs resolved (P1:153)"},
+    {"id": "G-A1", "condition": "L-A1 selected and frozen separately"},
+    {"id": "G-DEP", "condition": "L-DEP selected, reviewed and frozen"},
+    {"id": "G-RW", "condition": "Root-worker packets rebased by R-RW-1...R-RW-10; IC-1...IC-10 pass"},
+    {"id": "G-REVIEW", "condition": "Different-author actual gpt-6.1-sol review per slice and a full-lane review before source selection"}
+  ],
+  "runtime_gates": [
+    {"id": "R-PROOF", "condition": "Admitted strict frame, capacity, storage, matching-source strict proof"},
+    {"id": "R-LAB", "condition": "Root /srv lab, provisioning, delegation, kernel measurements, actors, fault campaigns"},
+    {"id": "R-PUB", "condition": "Publication; draft commit/push/PR under the original prompt after reviews; merge, tag/release and deployment under OP-9"}
+  ],
+  "plan": [
+    {"step": 0, "slice": "S0", "kind": "spec", "title": "SL-0 hygiene: no new spec", "seams": [1, 2, 10], "depends_on": [], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 1, "slice": "S1", "kind": "spec", "title": "Scoped canonical operation (section 3)", "seams": [1], "depends_on": ["existing types only"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 2, "slice": "S2", "kind": "spec", "title": "Source_Record, Root_Controller_V2, Controller_Valid_V2 (4.1, 4.3)", "seams": [7], "depends_on": ["existing types", "Attest"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 3, "slice": "S8", "kind": "spec", "title": "Requester correspondence (section 8)", "seams": [8], "depends_on": ["existing types only"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 4, "slice": "S3", "kind": "spec", "title": "Crosswalk schema, Enforcement_Corresponds (4.4, 4.5)", "seams": [7], "depends_on": ["S2"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 5, "slice": "S9", "kind": "spec", "title": "Custody phase relation (section 6)", "seams": [9], "depends_on": ["S8"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 6, "slice": "S4", "kind": "spec", "title": "Delegation and classification successor (5.2)", "seams": [5], "depends_on": ["S2", "S3"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 7, "slice": "S6", "kind": "spec", "title": "State model, finish split, adapters (sections 2, 10)", "seams": [6], "depends_on": ["S1", "S9"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 8, "slice": "S7", "kind": "spec", "title": "Slot and drain transfer (section 7)", "seams": [3], "depends_on": ["S9"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 9, "slice": "S10", "kind": "spec", "title": "Multiplexing and accounting (section 9)", "seams": [4], "depends_on": ["S1", "S3", "S4", "S7", "S8", "S9", "D-4a selection"], "lead_only": true, "operator_gate": "OP-3 (D-4a) for any authoritative resource-policy change", "review": "G-REVIEW"},
+    {"step": 10, "slice": "S11", "kind": "spec", "title": "Startup union and reconciliation (section 11)", "seams": [2], "depends_on": ["S3", "S4", "S6", "S7", "S9"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 11, "slice": "B0", "kind": "body", "title": "SL-0 source changes (section 13)", "seams": [1, 2, 10], "depends_on": ["S0"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW; L-A1-lineage files also bind to G-A1", "findings": ["DF-2", "DF-3", "DF-6", "N-6"]},
+    {"step": 12, "slice": "B9", "kind": "body", "title": "Custody bodies, journal v2, provisioner source", "seams": [9], "depends_on": ["S9", "B0"], "lead_only": true, "operator_gate": "OP-1 provisioning; OP-8 fault campaigns", "review": "G-REVIEW"},
+    {"step": 13, "slice": "B-RECV", "kind": "body", "title": "Full-roster receive, CrosswalkRequestPeer, gate updates", "seams": [8], "depends_on": ["S8", "B9"], "lead_only": true, "operator_gate": "OP-7 kernel measurement for acceptance", "review": "G-REVIEW"},
+    {"step": 14, "slice": "B7", "kind": "body", "title": "Slot transfer", "seams": [3], "depends_on": ["S7", "B9", "B-RECV"], "lead_only": true, "operator_gate": "R-LAB; OP-7", "review": "G-REVIEW"},
+    {"step": 15, "slice": "B1", "kind": "body", "title": "Scoped canonical operation body, wrapper, pre_effect branch", "seams": [1], "depends_on": ["S1", "B0", "exports: G-CAPI", "proof credit: R-PROOF"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 16, "slice": "B2b", "kind": "body", "title": "Scoped exchange successor", "seams": [1], "depends_on": ["S1", "S6", "G-A1"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 17, "slice": "B2c", "kind": "body", "title": "K4 successor", "seams": [1], "depends_on": ["S1", "S6", "G-A1"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 18, "slice": "B3", "kind": "body", "title": "Crosswalk and pair producers, V2 controller callers", "seams": [7], "depends_on": ["S2", "S3", "B9"], "lead_only": true, "operator_gate": "OP-1 crosswalk provisioning", "review": "G-REVIEW"},
+    {"step": 19, "slice": "B6", "kind": "body", "title": "finish split, adapters, collector settlement", "seams": [6], "depends_on": ["S6", "B1", "B9"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW"},
+    {"step": 20, "slice": "B4", "kind": "body", "title": "Delegation successor bodies, helper successor, dispatcher", "seams": [5], "depends_on": ["S4", "B3", "B6", "B7", "B9"], "lead_only": true, "operator_gate": "OP-4 (D-5a), OP-5 (D-5b) for runtime", "review": "G-REVIEW"},
+    {"step": 21, "slice": "B10", "kind": "body", "title": "Request multiplexing", "seams": [4], "depends_on": ["S10", "B1", "B3", "B4", "B7", "B9", "B-RECV"], "lead_only": true, "operator_gate": "OP-3 selection; R-LAB", "review": "G-REVIEW"},
+    {"step": 22, "slice": "B11", "kind": "body", "title": "Startup union and reconciler", "seams": [2], "depends_on": ["S11", "B3", "B6", "B7", "B9"], "lead_only": true, "operator_gate": "OP-1 for provisioning and startup controls", "review": "G-REVIEW"},
+    {"step": 23, "slice": "B12", "kind": "body", "title": "Seal: pins, freeze, enrollment, control rosters", "seams": [10], "depends_on": ["all bodies"], "lead_only": true, "operator_gate": null, "review": "G-REVIEW, full-lane review"},
+    {"step": 24, "slice": "R-PROOF", "kind": "runtime gate", "title": "Admitted strict frame and matching-source strict proof", "seams": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "depends_on": ["B12", "paused frame, capacity and storage gates"], "lead_only": false, "operator_gate": "paused infrastructure", "review": "independent"},
+    {"step": 25, "slice": "R-LAB", "kind": "runtime gate", "title": "Root /srv lab runtime evidence", "seams": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "depends_on": ["B12"], "lead_only": false, "operator_gate": "OP-1, OP-4, OP-5, OP-7, OP-8", "review": "independent"},
+    {"step": 26, "slice": "R-PUB", "kind": "runtime gate", "title": "Publication", "seams": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "depends_on": ["R-PROOF", "R-LAB"], "lead_only": false, "operator_gate": "OP-9 for merge, tag/release, install, sudo, production, PRIME; draft commit/push/PR under the original prompt", "review": "independent"}
+  ],
+  "can_proceed_now": "Passive lead drafting of S0, S1, S2 and S8, then S3 and S9, then S4, S6 and S7, then S10 and S11, each independently reviewed. None needs the lab, root or an operator decision.",
+  "operator_items": [
+    {"id": "OP-1", "ruling": "D-2a", "item": "Provisioning or installation of authoritative state: v2 descriptor installation; custody journal v2 (U-5), operation head (U-4), crosswalk (U-12); owner plan and run-scoped configuration; any /srv lab installation. Any migration keeps prior chain and history with its own rollback and crash evidence; never a re-genesis.", "blocks": ["every seam's runtime controls"]},
+    {"id": "OP-2", "ruling": "D-2b", "item": "Frontier re-enrollment adjudication. None is proposed.", "blocks": []},
+    {"id": "OP-3", "ruling": "D-4a", "item": "Any authoritative resource-policy change selected for request accounting. None is selected.", "blocks": ["section 9 accepted cases"]},
+    {"id": "OP-4", "ruling": "D-5a", "item": "Delegation policy installation (Delegate=yes, coordinator capability and mount profile); privileged lab action including real actor runs that spend model quota (gpt-6-luna with high reasoning, only as the WORLDLINE actor through the existing Codex adapter).", "blocks": ["section 5 runtime", "fork and race accepted cases"]},
+    {"id": "OP-5", "ruling": "D-5b", "item": "Privileged installation and execution of the helper successor.", "blocks": ["section 5 runtime"]},
+    {"id": "OP-6", "ruling": "D-7a", "item": "Original API or owner-policy alteration. None is proposed.", "blocks": []},
+    {"id": "OP-7", "ruling": "D-8b", "item": "Kernel measurements K-1...K-14 in an authorized lab.", "blocks": ["sections 3-9 runtime evidence"]},
+    {"id": "OP-8", "ruling": "D-9a", "item": "Fault campaigns within the existing specialized-validation boundary: SIGKILL, OOM, systemd or daemon restart, disk full, read-only filesystem, power-loss simulation labelled as simulation.", "blocks": ["section 6 and 11 crash controls"]},
+    {"id": "OP-9", "ruling": "reserved by the brief", "item": "Merge, tag/release, install, sudo, production services, real PRIME.", "blocks": ["publication and deployment"]}
+  ],
+  "operator_scope_corrections": [
+    "Pure native value fixtures need no root and no /srv.",
+    "Draft commit, push and draft PR after the required reviews are authorized by the original prompt (PROMPT:72-74); merge, tag/release and deployment are OP-9.",
+    "No authority is granted to resume any paused window, lab, goal or storage operation.",
+    "Optional_Marker unchanged by this lane (G-10)."
+  ],
+  "kernel_measurements": [
+    {"id": "K-1", "question": "SO_PEERCRED PID rendering for a reader in a child PID namespace and a peer outside it", "used_in": ["8"]},
+    {"id": "K-2", "question": "SO_PEERCRED stability after the peer exits", "used_in": ["8.4 D8-5"]},
+    {"id": "K-3", "question": "SO_PEERPIDFD availability (header value 77 observed) and exited-peer behaviour", "used_in": ["8"]},
+    {"id": "K-4", "question": "Pidfd fdinfo NSpid rendering through host procfs", "used_in": ["8"]},
+    {"id": "K-5", "question": "kcmp (KCMP_FILE) between front and worker across PID namespaces, including ptrace access mode", "used_in": ["7.3"]},
+    {"id": "K-6", "question": "flock semantics for SCM_RIGHTS-transferred OFDs versus fresh opens", "used_in": ["6.4", "6.5", "7.3"]},
+    {"id": "K-7", "question": "SCM_RIGHTS per-message descriptor limit and RLIMIT_NOFILE under large rosters", "used_in": ["7.3"]},
+    {"id": "K-8", "question": "systemd Delegate=yes semantics, hierarchical limits, cgroup type/owner/mode under delegation, and limit readback representation used by E1", "used_in": ["4.5", "5.2", "5.3"]},
+    {"id": "K-9", "question": "CLONE_INTO_CGROUP with nested PID namespaces", "used_in": ["5.3"]},
+    {"id": "K-10", "question": "Read-only cgroup2 mount without CAP_SYS_ADMIN prevents cgroup writes and remount by an euid-0 coordinator", "used_in": ["5.3"]},
+    {"id": "K-11", "question": "cgroup.procs migration restrictions", "used_in": ["5.3"]},
+    {"id": "K-12", "question": "bwrap under a nested PID namespace with /proc remounted", "used_in": ["5.3"]},
+    {"id": "K-13", "question": "sockaddr_un length and sun_path extraction for the listener identity", "used_in": ["4.2 P1"]},
+    {"id": "K-14", "question": "SO_COOKIE availability and uniqueness", "used_in": ["8.1 J5"]}
+  ],
+  "controls": {
+    "retained": [
+      {"roster": "Ordinary roster", "identity": "P1/ORIGINAL-ORDINARY-ROSTER.json sha256 4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e", "content": "52 actions with commands and dependency order"},
+      {"roster": "Lifetime controls", "identity": "P1/REQUIRED-LIFETIME-CONTROLS.json sha256 9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9", "content": "test_context_cast_lifetime.py (5 tests), test_finalization_cast_lifetime.py (9 tests); UNRUN; these additions replace none"},
+      {"roster": "RQC", "identity": "R/protected-canonical/required_controls.json sha256 56fa3a2d40816c05f3f253ac4bfc4700bc262d5c50fb07b9a6ae3997cb55b2d0", "content": "27 required genuine cases, 8 additive protected cases, 2 additive native actions, 1 pure native action, 6 fixture requirements; replacement NONE; no skips, mocks or fallbacks; SOURCE_ONLY_UNRUN_UNADMITTED"},
+      {"roster": "Protected-startup controls", "identity": "R/protected-startup/controls/test_protected_startup_v1.py sha256 a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb", "content": "Includes the frontier control at :97-105 on its exact v1 domain"},
+      {"roster": "Lane and lineage controls", "identity": "as selected by the external freeze", "content": "canonical stdin V3, operation-authority value, canonical-exchange and owner-completion, child-authority (UNBUILT and UNRUN), original native fixture programs"}
+    ],
+    "frontier_control": {"test": "test_current_source_frontier_names_full_ledger_startup_gap", "file": "R/protected-startup/controls/test_protected_startup_v1.py:97-105", "domain": "v1 descriptor named by WORLDLINE_PROTECTED_BOOTSTRAP_CONTROL_COMPOSED_NATIVE_PROOF, schema worldline.protected-startup-v1", "expected": "construct () raises PROTECTED_FULL_LEDGER_STARTUP_RECONCILER_UNAVAILABLE; gate and store constructed; controller None", "status": "retained byte-exact; no re-enrollment proposed"},
+    "additive_roster": {"file": "protected-root/required_controls_v2.json (to be authored)", "enumerates": ["3.14", "4.6", "5.6", "6.12", "7.6", "8.7", "9.8", "10.6", "11.8", "12.6", "14.5"], "entry_fields": ["id", "seam", "kind (pure native value fixture, lab control, fault campaign, static check)", "root needed", "operator item", "original case or obligation served"], "enrolled_after": "the complete ordered original roster and the lifetime controls", "replaces": "none", "status": "SOURCE_ONLY_UNRUN"}
+  },
+  "review_questions": [
+    {"id": "RQ-1", "question": "Is a rollover between reserve and pre-effect an original accepted case? If so, the pre-effect needs the RETAINED join rather than the FRESH refusal.", "section": "3.16"},
+    {"id": "RQ-2", "question": "Which embedding construction should cover G3?", "section": "3.16"},
+    {"id": "RQ-3", "question": "Is the S.Current_Facts conjunct in C2 acceptable (G4)?", "section": "3.16"},
+    {"id": "RQ-4", "question": "Is mapping minimum/low to the original admission floors and memory_high_bytes correct?", "section": "4.7"},
+    {"id": "RQ-5", "question": "How should P3, the process source-lease pair, be defined exactly?", "section": "4.7"}
+  ],
+  "open": [
+    "All original obligations OB-001...OB-219.",
+    "Seam 1: specs, bodies and wrappers of S1, B2b, B2c; every lemma of 3.9; gaps G1-G6; RQ-1-RQ-3; checked-build native cost (D2).",
+    "Seam 7: Source_Record and V2 controller specs and bodies; P3 (RQ-5); minimum/low (RQ-4); producer authenticity; crosswalk provisioning (OP-1); child-authority re-review.",
+    "Seam 5: delegation and classification successor including L-V2-1, L-V2-2; helper successor; P-CE1-4 and K-8...K-12; dispatcher; every fork, race, simulate, ghost, prune and revalidate accepted case; OP-4, OP-5.",
+    "Seam 9: custody relation and INV-C1-5; journal v2 and provisioning; complete crash-point table; fault campaigns (OP-8); retention growth.",
+    "Seam 3: T1-T5 bodies; K-5, K-6, K-7; large-roster controls.",
+    "Seam 8: Join specs and bodies; per-gate enumeration; K-1...K-4 and K-14; OFD and socket custody where kernel evidence is unavailable.",
+    "Seam 4: accounting option (D-4a, OP-3) unselected; availability and fairness controls.",
+    "Seam 6: finish split, adapters, collector settlement; serial parity on matching source.",
+    "Seam 2: v2 descriptor and schemas; provisioners and reconciler (RT-1...RT-16); OP-1.",
+    "Seal: appended overrides and external freeze; enrollment and integrated roster; the C helper's unproved body (OB-048 class).",
+    "Integration: L-CAPI-P; G-PROT; R-RW-1...R-RW-10 and IC-1...IC-10 (IC-10 needs the admitted frame); the D2R C-ABI question for R-RW-2; CAPI4 unreviewed.",
+    "SL-0: complete receiver-resolved lock audit (N-6) including the L-A1-lineage files and run_service; deadlock freedom not claimed.",
+    "Proof and runtime: admitted strict frame; full matching-source campaign with floor 251, sole boundary, zero unproved/justified/Assume; 52-action roster, lifetime controls, RQC and every additive control; hosted assurance and publication.",
+    "Operator: OP-1...OP-9; paused frame, capacity and storage gates.",
+    "Process: independent actual gpt-6.1-sol review of this v2, every slice and the full lane."
+  ],
+  "jackal": {
+    "file": "jackal.json",
+    "calls": "J01-J18",
+    "tool": "jackal_exact",
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"],
+    "use_ceiling": "informational about arithmetic only"
+  },
+  "process": {
+    "writes": "Write and Edit tools only, all inside WT/designs/claude-root-worker-seam-design-v2/.",
+    "write_refusals": [],
+    "bash": "Read-only inspection. Deviations from the brief's literal wording: 2>/dev/null in 6 commands with 7 occurrences (J16, J17); 2>&1 in 4 commands (J18); commands outside the listed set (ls, awk, cut, cat -A, sort, uniq, tr, tail, echo, printf, test, cd, find -printf, shell variables, for loops, python3 -c and quoted here-documents). No file created, moved, copied, deleted or chmod-ed by Bash or Python.",
+    "harness_persisted_outputs": ["bh6m9szab.txt", "b3kf2t7l3.txt", "b5wcy4zjw.txt"],
+    "interruptions": "None. No TaskStop, kill or timeout wrapper; no background task; no command hung.",
+    "not_run": "No compiler, prover, test, service, systemctl, sudo, namespace tool, project-vault or restic; no WORLDLINE, COSMOGONY or root-worker code imported or executed; no /srv lab, store, socket or window touched.",
+    "sia": "sia.search once and sia.recall twice, read-only; no sia.ask (a disclosed deviation from CLAUDE.md); no sia.note (the brief forbids it).",
+    "skills": ["ada", "ada-omarchy", "spark-users-guide", "ada-programming", "advanced-ada", "gnat-toolchain", "ada-2005-amendment", "ada-high-integrity", "worldline", "cosmogony"],
+    "details": "AUTHOR-NOTES.md section 5"
+  },
+  "non_claims": [
+    "This document reviews, accepts, qualifies, proves and authorizes nothing. Every original Phase One obligation and every lane seam remains OPEN.",
+    "Nothing was compiled, run, imported, proved, tested or measured. Every design is an untested engineering hypothesis.",
+    "Hash and inventory agreement establishes only byte identity, not authenticity, atomic snapshot, installed state or producer correctness.",
+    "Statements marked [unverified reasoning] are the author's reading of kernel, systemd or Ada visibility semantics and need the named measurement or installed-compiler check.",
+    "Observed counts are tool outputs. The derived numerals (J01-J18) are JACKAL exact, formal=false, informational about arithmetic only.",
+    "SIA recall and prior Claude notes are model-origin recall, not evidence. The lead's STATUS index is not operating-state evidence.",
+    "Author checks are self-checks and do not substitute for the required independent review.",
+    "Nothing here changes any original target, accepted case, deterministic fixture, control, contract, threshold, proof floor or scope. Temporary named refusals keep their obligations OPEN."
+  ]
+}

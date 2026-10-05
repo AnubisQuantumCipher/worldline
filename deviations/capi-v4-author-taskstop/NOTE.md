@@ -56,4 +56,15 @@ compaction summary:
   ongoing tools", queued 2026-10-04 18:29:42Z. They are disclosed here as historical facts.
 - **Since then.** No `TaskStop` or other interruption by the lead: the transcript grep shows no other `TaskStop` call.
 - **Records.** Their record directories are preserved under the job scratch `p1/`.
+
+**Lead self-disclosure, 2026-10-05 ~03:38Z.**
+- **What happened.** A read-only `find` the lead ran was terminated by its own `timeout 60` wrapper (exit 143). It was
+  looking for recent large files under `~/.local/state`, `~/.cache`, `~/.codex` and the WORLDLINE work tree, pruning
+  the SIA path and never touching the iPad mounts.
+- **Classification.** It was the lead's own new command and no other agent's or reviewer's tool. A wrapper killing a
+  command is still an interruption of a tool, which is the pattern the lead asked the drafting agents to avoid.
+- **Earlier timeouts.** Other short `timeout`-wrapped probes the lead ran this morning all finished normally, and none
+  was terminated.
+- **From now on.** The lead uses only commands bounded by their own scope (named paths, limited depth), not kill-based
+  wrappers.
 - **Open question.** Whether either runner had started its codex attempt before it was stopped is not re-derived here.

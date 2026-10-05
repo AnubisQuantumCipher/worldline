@@ -211,17 +211,21 @@ V5-B02 and every original obligation stay OPEN.
   - Its actual gpt-6.1-sol review started ~02:08Z (`…/review/gpt61-v1`), in the third and last free runner slot. The
     stalled D1 v4 review holds another slot.
   - The author's process disclosures are recorded in `deviations/capi-v4-author-taskstop/NOTE.md`.
+  - **Event, disclosed, by the C-API v4 drafting agent.**
+    - At 01:22:20.621Z it ran `TaskStop` on its own timed-out background inspection task `ba0hhwegp`, then finished
+      the read with a bounded command.
+    - The lead relayed the operator's no-interruption rule to it at ~01:26Z, and to the W-1 v3 author.
+    - This grants nothing further. It is distinct from the D1 v4 reviewer, which stays untouched and INCOMPLETE.
+    - The note also covers the lead's own two historical `TaskStop` calls (17:00Z and 17:14Z on 10-04, before the first
+      no-interruption instruction at 18:29Z), and the `find` the lead ran at ~03:38Z, which its own `timeout 60` wrapper
+      terminated.
+  - **Correction.** These event lines previously sat, by an editing error, under the root-worker seam v2 bullet. The
+    seam v2 agent reported the misattribution. It never used `TaskStop`, and it started only at ~02:10Z.
 - **Root-worker SEAM DESIGN v2.** A drafting agent (author role) started ~02:10Z on RC-01..RC-12 and D-1a..D-9a,
   including the shared `worldline-c_api.adb` integration with C-API v4. Output goes to
   `designs/claude-root-worker-seam-design-v2`.
   - Its prompt forbids Bash writes and any interruption of tools.
   - Its review waits for a free runner slot.
-  - **Event, disclosed.** At 01:22:20.621Z it ran `TaskStop` on its own timed-out background inspection task
-    `ba0hhwegp`, then finished the read with a bounded command.
-  - The lead relayed the operator's no-interruption rule to it at ~01:26Z, and to the W-1 v3 author.
-  - This grants nothing further. It is distinct from the D1 v4 reviewer, which stays untouched and INCOMPLETE.
-  - Details are in `deviations/capi-v4-author-taskstop/NOTE.md`, including the lead's own two historical `TaskStop`
-    calls at 17:00Z and 17:14Z on 10-04. Those predate the first no-interruption instruction, at 18:29Z.
 - **W-1 v3** (`proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`, `97f39c89…`, 193544 bytes).
   - Drafted by an author-role agent, which finished ~01:58Z with no refusal, deviation or interruption.
   - It specifies the gate group, `no_new_privs` with an anti-setid seccomp filter, no-ACL recipe modes with exports, a
