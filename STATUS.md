@@ -252,7 +252,24 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 11:58Z)
+## In progress (updated 14:04Z)
+
+- **W-1 v7** (`proposal/ISOLATION-STORAGE-PROPOSAL-v7.md` `8646f0fe…`; `v7-support/jackal.json` `d62cca55…`).
+  - **The author's conclusion.** No candidate (root launcher with namespaces, unprivileged kernel scoping, or other
+    routes c1–c8) is established as preserving the original success domain, so V5-B01, V5-B02 and W1-V5-PRESERVATION
+    stay OPEN.
+  - **What it adopts.** The root launcher with private mount, user (root-owned) and network namespaces plus Landlock,
+    the "target view". Outputs are admitted in place with no copy and no chmod, and the target's world changes in the
+    listed ways V1–V12.
+  - **Its new premise.** TOOL-CLOSURE: none of V1–V12 changes the 5 allowlisted actions. It needs a source-grounded
+    toolchain review.
+  - **Lead checks.** The hashes match; 29/29 carried units are identical to v6; sampled JACKAL calls reproduce `exact`.
+  - **Process.** `deviations/w1-v7-author-process/NOTE.md`: one `git status` without `GIT_OPTIONAL_LOCKS=0` in wt-1,
+    which is harmless here. The author read only its own transcript.
+  - **Review.** Its own actual gpt-6.1-sol design review started 14:03Z: brief `briefs/w1-design-v7.md` (`05e18dfe…`),
+    thread `01a10c60-5764-73b3-840f-dd39a708647c`, output to `proposal/v7-review/gpt61-v1`.
+- **Storage at ~14:02Z.** Free 9730916352 bytes, 269083648 below the reserve (JACKAL exact). Seam v5 and PK-0 v2 stay
+  held.
 
 - **W-1 v7.** The W-1 author was resumed ~11:57Z with a mandated architecture evaluation beyond DAC:
   - (a) Option B extended: a root-owned launcher with private pid, net, ipc and mount namespaces not owned by sicarii,

@@ -1,0 +1,262 @@
+{
+  "schema": "w1-v7-jackal-calls-v1",
+  "document": "wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v7.md",
+  "recorded_by": "drafting author (Claude Code subagent, claude-opus-5-5) for the Claude Code lead, 2026-10-05 UTC",
+  "tool": "actual MCP jackal_exact",
+  "common_response": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling": "none returned; used as informational arithmetic only"
+  },
+  "truth_boundary": "Exact rational arithmetic outside the Lean certificate chain; not formal-bounded. The calls compute v7's raised Gate 0 expression and its checks (the payload-pack allowance A_pack and the images payloads); count named items of the v7 text (the gpt61-v6 review's required W-1 changes, the changes of section 12.3, new units, subsections, open read routes, v5's allowlisted actions), check the arithmetic of the v7 change map, convert three octal modes to the decimal values the frame v5 baselines record, and compute the id bounds of the view's user-namespace map. They establish no custody, preservation, durability, capacity, correctness or closure. Satisfying a Gate 0 inequality is not a safe-capacity argument. Nothing here is executed evidence of the design. The JACKAL convenience ledger was not used as a source; every value below is the tool response received in this session. Calls were made sequentially or in groups of at most four.",
+  "called": "2026-10-05: J1-J7 between the 13:16:27Z and 13:29:32Z observations; J8-J13 between the 13:39:04Z and 13:51:44Z observations; J14-J16 after 13:51:44Z, and J17-J21 after 13:59:10Z (Appendix G.2 and the final verification); per-call times were not captured",
+  "calls": [
+    {
+      "id": "J1_REQUIRED_WITH_PACK",
+      "use": "Required for the adopt, materialize and dispatch stages: v6's reviewed dispatch-stage Required plus the payload pack and its full restore (2 x A_pack, A_pack = A_mat = 16777216); section 14.3",
+      "submitted": "15368462701360/1397+2*16777216",
+      "parsed": "15368462701360/1397+2*16777216",
+      "exact": "15415338242864/1397",
+      "approx": "11034601462.322119",
+      "engine_output": "status=exact parsed=15368462701360/1397+2*16777216 exact=15415338242864/1397 approx=11034601462.322119",
+      "relied_on": true
+    },
+    {
+      "id": "J2_W1_ADDITION_WITH_PACK",
+      "use": "the dispatch-stage W-1 addition: X and its full restore, A_tmp, A_jrnl, A_pack and its full restore; section 14.3",
+      "submitted": "2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728+2*16777216",
+      "parsed": "2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728+2*16777216",
+      "exact": "4374364596",
+      "approx": "4374364596",
+      "engine_output": "status=exact parsed=2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728+2*16777216 exact=4374364596 approx=4374364596",
+      "relied_on": true
+    },
+    {
+      "id": "J3_ADDITION_CHECK",
+      "use": "check: raised Required minus runbook v4.3 Required minus the W-1 addition",
+      "submitted": "15368462701360/1397+2*16777216-9304350902252/1397-4374364596",
+      "parsed": "15368462701360/1397+2*16777216-9304350902252/1397-4374364596",
+      "exact": "0",
+      "approx": "0",
+      "engine_output": "status=exact parsed=15368462701360/1397+2*16777216-9304350902252/1397-4374364596 exact=0 approx=0",
+      "relied_on": true
+    },
+    {
+      "id": "J4_WORK_PAYLOAD_IMAGES",
+      "use": "work image payload allowance with images: A_mat + A_obj + A_tmp (the view's /tmp and TMPDIR lie in g on the work image); section 14.5",
+      "submitted": "16777216+2242440646+268435456",
+      "parsed": "16777216+2242440646+268435456",
+      "exact": "2527653318",
+      "approx": "2527653318",
+      "engine_output": "status=exact parsed=16777216+2242440646+268435456 exact=2527653318 approx=2527653318",
+      "relied_on": true
+    },
+    {
+      "id": "J5_RECORDS_PAYLOAD_IMAGES",
+      "use": "records image payload allowance with images: A_rec + X + A_pack; section 14.5",
+      "submitted": "545393048+1969078490+16777216",
+      "parsed": "545393048+1969078490+16777216",
+      "exact": "2531248754",
+      "approx": "2531248754",
+      "engine_output": "status=exact parsed=545393048+1969078490+16777216 exact=2531248754 approx=2531248754",
+      "relied_on": true
+    },
+    {
+      "id": "J6_IDEAL_PAYLOAD_IDENTITY_V7",
+      "use": "v7 ideal payload identity: work payload + records payload + the full restore of everything retained (temporaries excluded) + A_ambient + A_jrnl - raised Required; section 14.5; an ideal payload identity only, not capacity",
+      "submitted": "16777216+2242440646+268435456+545393048+1969078490+16777216+16777216+2242440646+545393048+1969078490+16777216+1468268019712/1397+134217728-15415338242864/1397",
+      "parsed": "16777216+2242440646+268435456+545393048+1969078490+16777216+16777216+2242440646+545393048+1969078490+16777216+1468268019712/1397+134217728-15415338242864/1397",
+      "exact": "0",
+      "approx": "0",
+      "engine_output": "status=exact parsed=16777216+2242440646+268435456+545393048+1969078490+16777216+16777216+2242440646+545393048+1969078490+16777216+1468268019712/1397+134217728-15415338242864/1397 exact=0 approx=0",
+      "relied_on": true
+    },
+    {
+      "id": "J7_REQUIRED_CHANGES_V6_REVIEW",
+      "use": "count of the gpt61-v6 review's required W-1 changes, one per named id (W1-V6-PRESERVE, W1-V6-READ-MUTATION, W1-V6-COMMIT-AMBIGUITY, W1-V6-COMPOSED-STATE, W1-V6-IMAGE-PIN, W1-V6-C1-DATA, W1-V6-SCAN-STATE, W1-V6-COPY-PROBES, W1-V6-INVARIANTS, W1-V6-EVIDENCE-RESTORE, W1-V6-CATALOGUE)",
+      "submitted": "1+1+1+1+1+1+1+1+1+1+1",
+      "parsed": "1+1+1+1+1+1+1+1+1+1+1",
+      "exact": "11",
+      "approx": "11",
+      "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1 exact=11 approx=11",
+      "relied_on": true
+    },
+    {
+      "id": "J8_CHANGE_MAP_PARTITION",
+      "use": "check that the v7 statuses partition the v6 units: 29 carried + 63 amended + 26 replaced - 118 v6 units",
+      "submitted": "29+63+26-118",
+      "parsed": "29+63+26-118",
+      "exact": "0",
+      "approx": "0",
+      "engine_output": "status=exact parsed=29+63+26-118 exact=0 approx=0",
+      "relied_on": true
+    },
+    {
+      "id": "J9_V7_UNITS",
+      "use": "units of v7: 118 v6 units + 6 new units",
+      "submitted": "118+6",
+      "parsed": "118+6",
+      "exact": "124",
+      "approx": "124",
+      "engine_output": "status=exact parsed=118+6 exact=124 approx=124",
+      "relied_on": true
+    },
+    {
+      "id": "J10_VIEW_CHANGES",
+      "use": "count of the changes V1-V12 of section 12.3, which section 0.4 also names, one per named item",
+      "submitted": "1+1+1+1+1+1+1+1+1+1+1+1",
+      "parsed": "1+1+1+1+1+1+1+1+1+1+1+1",
+      "exact": "12",
+      "approx": "12",
+      "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1 exact=12 approx=12",
+      "relied_on": true
+    },
+    {
+      "id": "J11_NEW_UNITS",
+      "use": "count of the new units: section 22, its four subsections, Appendix G, one per named unit",
+      "submitted": "1+1+1+1+1+1",
+      "parsed": "1+1+1+1+1+1",
+      "exact": "6",
+      "approx": "6",
+      "engine_output": "status=exact parsed=1+1+1+1+1+1 exact=6 approx=6",
+      "relied_on": true
+    },
+    {
+      "id": "J12_SECTION_22_SUBSECTIONS",
+      "use": "count of the subsections of section 22 (22.1-22.4), one per named subsection",
+      "submitted": "1+1+1+1",
+      "parsed": "1+1+1+1",
+      "exact": "4",
+      "approx": "4",
+      "engine_output": "status=exact parsed=1+1+1+1 exact=4 approx=4",
+      "relied_on": true
+    },
+    {
+      "id": "J13_OPEN_READ_ROUTES",
+      "use": "count of the read routes that keep V5-B02 OPEN (R-d, R-f, R-h of section 9.8 N6), one per named route",
+      "submitted": "1+1+1",
+      "parsed": "1+1+1",
+      "exact": "3",
+      "approx": "3",
+      "engine_output": "status=exact parsed=1+1+1 exact=3 approx=3",
+      "relied_on": true
+    },
+    {
+      "id": "J14_OCTAL_0700",
+      "use": "octal 0700 as the decimal mode 448 that the frame v5 runtime-closure baseline records for TMPDIR (section 8.4, Appendix G.2)",
+      "submitted": "7*8^2",
+      "parsed": "7*8^2",
+      "exact": "448",
+      "approx": "448",
+      "engine_output": "status=exact parsed=7*8^2 exact=448 approx=448",
+      "relied_on": true
+    },
+    {
+      "id": "J15_OCTAL_01777",
+      "use": "octal 01777 as the decimal mode 1023 that the baseline records for /tmp and /var/tmp",
+      "submitted": "1*8^3+7*8^2+7*8+7",
+      "parsed": "1*8^3+7*8^2+7*8+7",
+      "exact": "1023",
+      "approx": "1023",
+      "engine_output": "status=exact parsed=1*8^3+7*8^2+7*8+7 exact=1023 approx=1023",
+      "relied_on": true
+    },
+    {
+      "id": "J16_OCTAL_0755",
+      "use": "octal 0755 as the decimal mode 493 that the baseline records for the F10K source (relocated by v5 to the run's source)",
+      "submitted": "7*8^2+5*8+5",
+      "parsed": "7*8^2+5*8+5",
+      "exact": "493",
+      "approx": "493",
+      "engine_output": "status=exact parsed=7*8^2+5*8+5 exact=493 approx=493",
+      "relied_on": true
+    },
+    {
+      "id": "J17_ALLOWLISTED_ACTIONS",
+      "use": "count of frame v5's allowlisted actions (prove-all-k, prove-all, prove-file, prove-subp, compile-all; scratch.py line 88), one per named action; section 22.4",
+      "submitted": "1+1+1+1+1",
+      "parsed": "1+1+1+1+1",
+      "exact": "5",
+      "approx": "5",
+      "engine_output": "status=exact parsed=1+1+1+1+1 exact=5 approx=5",
+      "relied_on": true
+    },
+    {
+      "id": "J18_MAP_BOUND_BELOW_W",
+      "use": "U_v's map bound (section 12.2 step 10): the id just below W = 950",
+      "submitted": "950-1",
+      "parsed": "950-1",
+      "exact": "949",
+      "approx": "949",
+      "engine_output": "status=exact parsed=950-1 exact=949 approx=949",
+      "relied_on": true
+    },
+    {
+      "id": "J19_MAP_BOUND_ABOVE_GATE",
+      "use": "U_v's map bound: the id just above GATE = 952",
+      "submitted": "952+1",
+      "parsed": "952+1",
+      "exact": "953",
+      "approx": "953",
+      "engine_output": "status=exact parsed=952+1 exact=953 approx=953",
+      "relied_on": true
+    },
+    {
+      "id": "J20_MAP_BOUND_BELOW_1000",
+      "use": "U_v's map bound: the id just below sicarii's 1000",
+      "submitted": "1000-1",
+      "parsed": "1000-1",
+      "exact": "999",
+      "approx": "999",
+      "engine_output": "status=exact parsed=1000-1 exact=999 approx=999",
+      "relied_on": true
+    },
+    {
+      "id": "J21_MAP_BOUND_ABOVE_1000",
+      "use": "U_v's map bound: the id just above sicarii's 1000",
+      "submitted": "1000+1",
+      "parsed": "1000+1",
+      "exact": "1001",
+      "approx": "1001",
+      "engine_output": "status=exact parsed=1000+1 exact=1001 approx=1001",
+      "relied_on": true
+    }
+  ],
+  "earlier_evaluations": "None: each expression above was evaluated once in this drafting session.",
+  "carried_from_v6": {
+    "record": "wt-1/proposal/v6-support/jackal.json",
+    "sha256": "10c30d8ea534269d90b83c56da2dffe38c3e96dff4ff21f426fb9b1378eb23f3",
+    "status": "used as given (Appendix F of v7, carried byte for byte); not recomputed for v7. v3-, v4- and v5-support are carried in the same way (Appendices C and E)."
+  },
+  "values_used_as_given": {
+    "v6_units": {
+      "value": "118 units, 4792 lines, 501735 bytes",
+      "source": "printed by a read-only Python script that split v6 into units (section 0.1) and hashed them; observed, not derived"
+    },
+    "status_counts": {
+      "value": "29 carried, 63 amended, 26 replaced",
+      "source": "29 byte-identical units printed by the same script; the split of the 89 others into amended and replaced is the author's labelling in section 18.5; checked by J8_CHANGE_MAP_PARTITION"
+    },
+    "allowances": {
+      "value": "A_mat 16777216, A_obj 2242440646, A_rec 545393048, A_ambient 1468268019712/1397, A_idf 152953998, A_in 134217728, A_tmp 268435456, A_jrnl 134217728, X 1969078490, v4.3 Required 9304350902252/1397, v6 dispatch-stage Required 15368462701360/1397",
+      "source": "carried from earlier reviewed JACKAL records (Appendix C); A_pack = A_mat is a labelled judgment (section 14.2)"
+    },
+    "baseline_modes": {
+      "value": "448, 1023, 493",
+      "source": "read from frame v5 baselines/runtime-closure.json on 2026-10-05 (Appendix G.2); observed"
+    },
+    "free_space": {
+      "value": "9744343040 bytes at 13:51:44Z",
+      "source": "df -B1 /, observed 2026-10-05; not a Gate 0 reading"
+    }
+  },
+  "refusals": []
+}
