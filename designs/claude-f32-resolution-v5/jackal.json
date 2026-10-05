@@ -1,0 +1,41 @@
+{
+ "schema": "claude-f32-resolution-v5-jackal",
+ "lane": "MCP jackal_exact (rat lane), called sequentially",
+ "calls": [
+  {
+   "purpose": "A1 collection count: once in default-tests plus twice in metadata-tests (DESIGN.md section 2 item 6); carried from v3",
+   "expression": "1+2",
+   "status": "exact",
+   "parsed": "1+2",
+   "exact": "3",
+   "formal": false,
+   "assurance": "exact rational arithmetic (not yet checker-covered)",
+   "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+   "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"]
+  },
+  {
+   "purpose": "S5 assurance/checkpoints files that record neither patched test file: eight files minus the three that do (DESIGN.md section 2 item 4); carried from v3",
+   "expression": "8-3",
+   "status": "exact",
+   "parsed": "8-3",
+   "exact": "5",
+   "formal": false,
+   "assurance": "exact rational arithmetic (not yet checker-covered)",
+   "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+   "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"]
+  },
+  {
+   "purpose": "Roster literal launches whose runner-derived child_argv carries no IO8 path: 52 literal launches minus 13 path-bearing ones (DESIGN.md sections 0.1, 7, 8 step 3); new in v5",
+   "expression": "52-13",
+   "status": "exact",
+   "parsed": "52-13",
+   "exact": "39",
+   "formal": false,
+   "assurance": "exact rational arithmetic (not yet checker-covered)",
+   "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+   "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"]
+  }
+ ],
+ "inputs_observed_not_derived": "1 and 2 are observed collection sites (default-tests stderr :4; metadata-tests stderr :3 and :47); 8 is the observed listing of S5 assurance/checkpoints; 3 is the observed set that records either patched file; 52 is ORIGINAL-ORDINARY-ROSTER.json literal_g8_launches length and literal_launches_count_observed; 13 is the observed count of literal launches whose child_argv contains an integrated-ordinary-v8 path (modes listed in evidence.json roster_child_argv_observed)",
+ "consequence_ceiling": "informational"
+}

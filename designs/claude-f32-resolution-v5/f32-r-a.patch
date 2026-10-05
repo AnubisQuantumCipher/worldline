@@ -1,0 +1,22 @@
+--- a/tests/test_finalization_kernel.py
++++ b/tests/test_finalization_kernel.py
+@@ -248,7 +248,7 @@
+         request = replace(original, mode='CANDIDATE_EVALUATION',
+             evaluated_requirement=original.current_requirement,
+             executed_verifiers=original.declared_verifiers,
+-            expected_checkpoint=None, witnessed_checkpoint=None)
++            expected_checkpoint=None, witnessed_checkpoint=None, resulting_requirement=original.current_requirement)
+         agent = record({'id': 'agent', 'origin': 'agent', 'format': 'exit', 'status': 'PASS',
+             'exitCode': 0, 'supervision': {'kind': 'SUPERVISED'},
+             'resources': {'ceilingFired': False}}, ENGINE_DECLARATIONS['agent'])
+--- a/tests/test_raw_evaluation_default.py
++++ b/tests/test_raw_evaluation_default.py
+@@ -72,7 +72,7 @@
+         request = replace(RawDependencyControls.checkpoint(), mode='CANDIDATE_EVALUATION',
+             evaluated_requirement=RawDependencyControls.checkpoint().current_requirement,
+             executed_verifiers=RawDependencyControls.checkpoint().declared_verifiers,
+-            expected_checkpoint=None, witnessed_checkpoint=None)
++            expected_checkpoint=None, witnessed_checkpoint=None, resulting_requirement=RawDependencyControls.checkpoint().current_requirement)
+         agent = record({'id': 'agent', 'origin': 'agent', 'format': 'exit', 'status': 'PASS',
+             'exitCode': 0, 'supervision': {'kind': 'SUPERVISED'},
+             'resources': {'ceilingFired': False}}, ENGINE_DECLARATIONS['agent'])
