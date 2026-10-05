@@ -1,0 +1,72 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 5,
+  "status": "COMPLETE",
+  "assessment": "SOUND_CONDITIONAL_INCOMPLETE",
+  "capi_review_status": {
+    "v4": {
+      "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+      "V3-RC4": "NOT_CLOSED",
+      "V3-RC5": "CLOSED_AT_DESIGN_LEVEL",
+      "V3-RC6": "CLOSED_AT_DESIGN_LEVEL",
+      "required_changes": [
+        "V4-RC4-GATE",
+        "V4-RC4-ALIAS"
+      ]
+    },
+    "v5": {
+      "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+      "V4-RC4-GATE": "NOT_CLOSED",
+      "V4-RC4-ALIAS": "NOT_CLOSED",
+      "V3-RC4": "NOT_CLOSED",
+      "required_changes": [
+        "V5-RC4-GATE-EXCEPTION",
+        "V5-RC4-QUAL-CAPTURE"
+      ]
+    }
+  },
+  "stage_floor": "V-K.3 includes the complete named stage floor; K6 and D1-D5 enter at the specified predecessor stages. Layout/spec/export append positions agree with CAPI4. Real staged tables, native/library/symbol inventories, warnings and controls remain OPEN.",
+  "qualifiers": "New-scope full expanded names and exact multisets address indirect/transport/C_API/library/shortened paths. They must also incorporate the sealed v5 ancestor/prefix capture repair and explicitly define append-only canonical-name/scope attribution composition between CAPI and RW tables. A scope absent from CAPI_QUALIFIED cannot simply gain unaccounted old-name or new-name calls; old scope rows remain unchanged.",
+  "branch_gates": "RW bool/case rules preserve tested rejection diagnostics and accepted-variant access ordering. RW introduces no assignment, whole-pass or rename exception. The earlier finalization WF-X O exception remains untouched, but its sole staged identity must be independently enforced as required by the v5 review; no amended RW row may inherit it.",
+  "glue": "GE1-GE9, Authority_Glue, old tiles, diagnostics, writes and wire codes remain unchanged by design. S5 residual aliases and carried W clause tuples are not subject to a new global ban.",
+  "gate_chain": [
+    "G-CAPI",
+    "G-CAPI-P",
+    "G-PROT",
+    "G-RW"
+  ],
+  "gate_chain_assessment": "Explicit, sound dependency direction; G-CAPI remains unmet pending independent closure of the sealed review targets. This is a review dependency, not new operator authority.",
+  "ic_assessment": {
+    "IC-1": "SOUND_CONDITIONAL_INCOMPLETE: complete stage floor named; both v5 invariant repairs and actual append-only table composition still required.",
+    "IC-2": "SOUND_DIRECTION: new declarations census/homographs retained; full expanded-root/context-prefix capture belongs to the repaired qualifier invariant.",
+    "IC-3": "CORRECT_LOCAL_SCOPE_REPAIR: applies to new scopes; S5 residual and CL-T3/4/5/12/13/15 retained.",
+    "IC-4": "SOUND_DIRECTION: exactly one selected transport per export.",
+    "IC-5": "SOUND_DIRECTION: exact re-observed symbol census, no inherited count credit.",
+    "IC-6": "SOUND_FLOOR: no REQUIRED_PROVED name beneath Worldline.C_API; On carrier/body obligations retained.",
+    "IC-7": "SOUND_FLOOR: sole worldline-c_api Off boundary; L-CAPI-P remains required for protected Off files.",
+    "IC-8": "SOUND_DIRECTION: glue and all GE edits unchanged at every stage.",
+    "IC-9": "SOUND_DIRECTION: Optional_Marker remains unchanged; no approval transferred.",
+    "IC-10": "OPEN_UNPERFORMED: installed integrated compiler resolution/warnings, subject to its original admission requirements.",
+    "IC-11": "PARTIAL: indirect and transport-qualified controls specified, but missing v5 with-prefix capture amendment/positive and explicit CAPI/RW canonical-name/scope union.",
+    "IC-12": "CORRECT_LOCAL_BRANCH_DIRECTION_WITH_OPEN_DEPENDENCY: RW has no assignment exception; base sole WF-X exception must be independently hard-bound, plus amended-exception/unchanged-stage controls."
+  },
+  "required_integration_repairs": [
+    "Bind the now-sealed CAPI5 review and its two required repairs without treating ENDORSED_WITH_REQUIRED_CHANGES as closure.",
+    "Enforce empty exclusive-map roster before PK-6b, sole G21c/Finalization_Decide/O thereafter, independent of mutable tables, and prohibit any RW assignment exception.",
+    "Extend qualifier no-capture checks to every relevant with-clause prefix/ancestor and align argument, tables, controls and machine twin.",
+    "Specify the canonical-name/scope attribution union and actual staged per-call inventories, preserving all predecessor rows, residuals and exceptions.",
+    "Retain original and additive mutation/positive controls and the full native proof/cost/ABI/warning floor."
+  ],
+  "evidence": [
+    "D3:1721-1836,1930-1943",
+    "CAPI4/DESIGN.md:337-356",
+    "CAPI5/DESIGN.md:225-230",
+    "CAPI5/APPENDIX-BINDINGS.md:183-205",
+    "CAPI4R/REVIEW.md:54-60",
+    "CAPI5R/REVIEW.md:58-60,84-92,151,172-175"
+  ],
+  "acceptance_of_either_lane": false,
+  "source_acceptance": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false
+}

@@ -1,0 +1,152 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 7,
+  "status": "COMPLETE",
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "required_changes": [
+    {
+      "id": "V3-REQ-A",
+      "change": "Finish the typed V1/V2 consumer, current-fact, producer and wrapper contracts and the native-input dependencies. Reconcile V-M's preparation order with S6 depending on S1, and account for the HMAC/roster/request-product units. Keep original families/ABIs and accepted routes until the authentic successor is available.",
+      "reason": "Naming typed consumers and an acyclic declared graph does not complete consumed interfaces; the published preparation order contradicts a declared edge.",
+      "evidence": [
+        "D3:744-788,1894-1949",
+        "D3/seams.json:plan,can_proceed_now"
+      ]
+    },
+    {
+      "id": "V3-REQ-B",
+      "change": "Give one consistent witness/Rebase specification covering multiframe and saturated arenas: reconcile W8 with frame-local universe heads, reconcile L-RB-1 with compaction, and reconcile W3 with short-circuit authority refusal. Audit every extra conjunct and residual class; preserve all original inputs/fixtures and leave any unclosed correspondence obligation OPEN. Complete RQ-1's root/serial exception and recovery/cost mapping through rollover without moving native guards or weakening retained authority.",
+      "reason": "The current constructions cannot satisfy carried witness laws, and R1-R3 does not cover those contradictions. Rollover now has a later durable refusal/quarantine path whose accepted-case implications remain unestablished.",
+      "evidence": [
+        "D2:522,562,571",
+        "D3:804-895,927-955",
+        "D3/AUTHOR-NOTES.md:23-31"
+      ]
+    },
+    {
+      "id": "V3-REQ-C",
+      "change": "Specify independently selected issuer-key/genesis/current-head custody and its native/producer correspondence, initial authentication and anti-rollback limits; do not treat self-consistent HMAC/hash inputs as authentic selection. Complete both unchanged JSON-form extraction semantics, including numeric canonicality and native domain/cost obligations. Make P3's mapping scope and all non-claims identical in the replacement, prose and twin; preserve the original executed-source target.",
+      "reason": "Roster_Join depends on an open trust premise, Python remains the only numeric-canonicality authority, and executable-only versus every-file-backed mapping definitions conflict.",
+      "evidence": [
+        "D3:291,959-1041,1084-1100,1676-1692",
+        "D3/AUTHOR-NOTES.md:32-34",
+        "R/runtime/worldline/root_worker_journal.py:39-53,95-113"
+      ]
+    },
+    {
+      "id": "V3-REQ-D",
+      "change": "Complete the full-domain kind/grant/owner/amount/rollover enforcement and native-cost design comparison. Keep sampling separate from protected future capacity and compare option F against the preserved immutable outer reservation bound. Leave every actual policy selection to the existing D-4a decision, with no new cap, provider prerequisite, borrowing or accepted native failure.",
+      "reason": "Withdrawal of false capacity claims is correct but leaves the original accounting/capacity/cost target unfulfilled; option F cannot inherit permission to raise an admitted outer bound.",
+      "evidence": [
+        "D3:1110-1158",
+        "D2:866-877,1348-1364",
+        "P1/HANDOFF.md:125-131"
+      ]
+    },
+    {
+      "id": "V3-REQ-E",
+      "change": "Complete the exact E1-E12 successor event/command/native relation, ABI/argv/env/stdin/EOF/FD inheritance roster and Child_Ready enforcement at COMMIT_CHILD. Enumerate every retained capability, descriptor, writable view, IPC/device/control path and justified privilege; define authentic helper ticket/decision/ancestry bindings. Retain all original coordinator/actor containment and immutable ceiling obligations and unperformed measurement status.",
+      "reason": "The sequencing repair is useful, but event names/native relation are explicitly unwritten and the reachability table is not exhaustive. Boundary/ticket checks alone are not the full native child authority conjunction.",
+      "evidence": [
+        "D3:1159-1233",
+        "D3/AUTHOR-NOTES.md:47",
+        "D2:866-877",
+        "R/protected-root/native_root_worker_supervisor_v1.c:343-368"
+      ]
+    },
+    {
+      "id": "V3-REQ-F",
+      "change": "Define the complete native custody State/Event/Legal_Reference/Next/Mutation_Allowed relation with all request/descriptor transitions and actual mutations. Apply custody gates to operation-journal and scoped-ledger mutations as well as store/custody writes. Harmonize STOP_INTENT spooling and original cancellation/helper-stop permissions. Include subject_kind in replay identity and complete generation/initial-state/CAS/alternative joins, preserving exclusive branches.",
+      "reason": "The product is still rules plus a partial event graph; M1/M2 cannot decide custody, M6 conflicts with H1, M8 conflicts with helper/cancel paths, and replay keys are weaker than the typed subject identity.",
+      "evidence": [
+        "D3:1234-1390,1466-1477,1520,1591-1645"
+      ]
+    },
+    {
+      "id": "V3-REQ-G",
+      "change": "Reconcile r3 with genuine Never_Launched release while retaining the full CLOSED_WITNESS floor for every possibly launched row. Preserve original terminal manager/pidfd/wait semantics without an unjustified new inactive-unit condition or reset cycle. Specify durable reconstruction/physical material independent of HANDLER_TERMINAL and the complete automatic retained-result, EFFECT_OBSERVED, SETTLED, broker-progress and post-intake crash routes; retain COMMITTED and first RESULT_CAPTURE immutability.",
+      "reason": "A previously closed accepted release case is contradicted, closure adds an unestablished condition, and the old reconstruction seed depended on the terminal frame that v3 correctly removes from use recovery.",
+      "evidence": [
+        "D3:1279,1297,1391-1457,1703-1716",
+        "D2:393-398,1069-1073,1453",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:761",
+        "R/runtime/worldline/protected_root_supervisor.py:203-227",
+        "R/runtime/worldline/root_worker_closed.py:48-92"
+      ]
+    },
+    {
+      "id": "V3-REQ-H",
+      "change": "Cover kernel-read-to-spool and kernel-write-to-durable-W crash/cancellation windows, including detection of unretained bytes. Define reconstruction after closing transports, complete before/after INTAKE and RELEASE failure/restart behavior, and exact writer-duplicate ownership/EOF rules. Make the product mutation gates authorize the same quiescence/spooling protocol. Preserve full LIVE/UNKNOWN rosters and authentic reapers and keep uncertainty holds.",
+      "reason": "FREEZE fsync alone does not make earlier consumption/progress durable; a remaining writer duplicate invalidates unconditional owner-death EOF, and the restart table gives no complete post-intake/release recovery route.",
+      "evidence": [
+        "D3:1292-1293,1458-1524",
+        "D3/AUTHOR-NOTES.md:35-38"
+      ]
+    },
+    {
+      "id": "V3-REQ-I",
+      "change": "Separate pre-intake authenticated transfer/head validation from post-intake serving authority so Join can authorize intake without requiring its own future event. Type and decode every request/operation/transaction/reservation/source/custody operand, with complete per-gate mode contracts. Distinguish user-namespace equality from deliberately different PID-namespace correspondence. Preserve optional corroboration and define authentic queued-not-refused progress for requests that cannot be joined, including status/cancel/recovery under live/UNKNOWN/stalled custody.",
+      "reason": "J8 is circular, namespace comparison can decline legitimate cross-PID-namespace transfers, native join operands are not fully supplied, and waiting for FRONT_OWNED g+1 does not establish original accepted response progress.",
+      "evidence": [
+        "D3:1540-1649,1877-1889",
+        "R/runtime/worldline/client_peer.py:110-117"
+      ]
+    },
+    {
+      "id": "V3-REQ-J",
+      "change": "Finish the exact startup/loader/schema/tool/provisioner selection union, one-shot initial genesis/event/head/state authentication and prior-v1 migration paths, with no implicit creation or re-genesis. Complete each original recovery/owner mapping and keep plan-v1 consistently named. Retain exact v1 frontier/version behavior and additive v2 controls.",
+      "reason": "Tool names/provisioner paths and initial head/state semantics remain unfinished; the open list still says owner plan v2 after V-J retains plan-v1, and automatic recovery mappings are incomplete.",
+      "evidence": [
+        "D3:1650-1720,2004",
+        "D3/AUTHOR-NOTES.md:42-45,69",
+        "D2:1580-1598"
+      ]
+    },
+    {
+      "id": "V3-REQ-K",
+      "change": "Bind the sealed C-API v5 review and carry both V5-RC4-GATE-EXCEPTION and V5-RC4-QUAL-CAPTURE as unmet dependencies. Hard-bind the sole staged G21c/Finalization_Decide/O exception independently of mutable tables and forbid any RW assignment exception; cover every capturing with-clause prefix/ancestor. Define the append-only canonical-name/scope inventory union and affected-stage controls, preserving GE1-GE9, old residuals/clauses, the complete stage floor and the gate chain.",
+      "reason": "The historical unreviewed dependency labels are honest but now incomplete. Both sealed reviews leave the gating/alias target NOT_CLOSED, and RW's added tables need explicit composition with the whole-pair invariant.",
+      "evidence": [
+        "D3:1721-1836,1930-1943",
+        "CAPI4R/REVIEW.md:54-60",
+        "CAPI5R/REVIEW.md:58-60,84-92,151,172-175",
+        "CAPI5/APPENDIX-BINDINGS.md:183-205"
+      ]
+    },
+    {
+      "id": "V3-REQ-L",
+      "change": "Specify protected status/cancel/recovery response progress through shared asyncio/thread locks, stalled protected storage, registered I/O and executor occupancy, preserving original authorization at mutation. Reconcile the no-refusal queue path with that progress model. Apply all repairs to prose and seams.json, including preparation order, plan version, complete K-15..K-21 range and current sealed C-API dependency status. Retain non-reentrant Gate, SL-0 and separate A1 review lineage; add no approval gate.",
+      "reason": "Accepting/queuing connections is not protected response progress. V-L explicitly waits on storage/custody, and the prose/twin contain inconsistent ranges, versions and ordering.",
+      "evidence": [
+        "D3:1837-1893,1946-1949,1969-1984,2004",
+        "D3:257,315-320",
+        "D3/seams.json:can_proceed_now,capi_predecessor,open",
+        "D2:121,132"
+      ]
+    }
+  ],
+  "further_weakening_assessment": "No additional selected cap, lowered formal floor, new Off exemption, control retirement, original API replacement or approval authority is found in the reviewed delta. The listed internal contradictions, new inactive condition, circular intake, partial authority/cost/custody premises and indefinite waits prevent an accepted-case preservation conclusion.",
+  "prose_twin_repairs": [
+    "preparation order versus dependency edge",
+    "owner plan v1 versus open-list v2",
+    "K-20/K-21 range omissions",
+    "sealed C-API v5 dependency status and repair obligations",
+    "all repaired witness/product/requester/drain definitions"
+  ],
+  "unperformed": {
+    "kernel_measurements": "K-1..K-21 OPEN; none performed",
+    "runtime_checks": "RC-1..RC-4 OPEN; none performed",
+    "installed_compiler": "IC-10 OPEN; no compiler invoked",
+    "proofs": "all full body/reference/caller/flow/RTE/termination/native-cost obligations OPEN",
+    "controls": "all original and additive controls unrun here; none retired"
+  },
+  "original_obligations": "Every original OB-001..OB-219 remains OPEN with original scope/dependencies/owners; closure_credited=false",
+  "source_acceptance": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "method_non_claims": [
+    "Identity hashes and static control-flow/consistency readings only; no runtime or proof acceptance.",
+    "Author process records are read as disclosed prose, not independently established tool history.",
+    "Mathematical/witness/native-cost declarations are read as stated unproved obligations, not reviewer-certified arithmetic or proofs."
+  ]
+}

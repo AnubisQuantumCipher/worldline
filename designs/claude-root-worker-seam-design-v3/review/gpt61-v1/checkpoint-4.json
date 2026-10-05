@@ -1,0 +1,178 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 4,
+  "status": "COMPLETE",
+  "rq1": {
+    "closure": "PARTIALLY_CLOSED",
+    "mapping": [
+      {
+        "command": "Reserve",
+        "caller": "_reserve / scoped submit_bound",
+        "time": "t0, new resource hold",
+        "resource_join": "current scope/universe native guard",
+        "authority": "original fresh use conditions retained",
+        "evidence": "D3:943; R/core/resource_scoped_run_ledger.ads:436-438"
+      },
+      {
+        "command": "canonical pre-effect",
+        "caller": "invoke serial / root front",
+        "time": "after reserve, before EFFECT_INTENT",
+        "resource_join": "Retained_Origin + Same_Binding; no current-scope conjunct",
+        "authority": "current snapshot Reserve_Use must be Reserved_Replay; full current facts remain",
+        "evidence": "D3:927-944"
+      },
+      {
+        "command": "root before exec",
+        "caller": "root admission / custody offer",
+        "time": "after HELD/Running, before native commit ACK",
+        "resource_join": "retained root row and full current native conjunction",
+        "authority": "no READY parameter or copied native decision allowed",
+        "evidence": "D3:945; R/runtime/worldline/protected_root_supervisor.py:164-175"
+      },
+      {
+        "command": "Record_Launch_Intent / Record_Running",
+        "caller": "launch_reserved",
+        "time": "before dispatch / after HELD",
+        "resource_join": "native current scope/universe guard",
+        "authority": "authentic original launch admission and physical observations",
+        "evidence": "D3:946; R/core/resource_scoped_run_ledger.ads:436-438"
+      },
+      {
+        "command": "GO",
+        "caller": "go_scoped",
+        "time": "before helper G/actor measurement",
+        "resource_join": "retained Running and native machine admission; no such scoped context-command guard",
+        "authority": "fresh numeric and original execution conjunction remain",
+        "evidence": "D3:947; R/runtime/worldline/protected_scoped_resource_runtime.py:851-908"
+      },
+      {
+        "command": "exchange",
+        "caller": "in-request B2b",
+        "time": "during original effect",
+        "resource_join": "retained origin",
+        "authority": "unchanged C1 Reserved_Replay on current authority snapshot",
+        "evidence": "D3:948,927-932"
+      },
+      {
+        "command": "exchange recovery",
+        "caller": "broker recover / B2b",
+        "time": "after restart or lost result",
+        "resource_join": "retained origin",
+        "authority": "original _original_native_use replay is Reserved_New on retained original snapshot; no fresh Reserve_Use",
+        "evidence": "D3:949; R/runtime/worldline/protected_operations.py:430-438"
+      },
+      {
+        "command": "Record_Observed_Usage / settlement / reconcile",
+        "caller": "lifecycle / finish / collector",
+        "time": "post-effect and lifecycle",
+        "resource_join": "retained origin + current observations; no scope/universe guard of the three new-launch commands",
+        "authority": "original native legal transition and authentic historical result",
+        "evidence": "D3:950"
+      },
+      {
+        "command": "K4",
+        "caller": "owner completion B2c",
+        "time": "quarantine.resolve / recover / owner disposition",
+        "resource_join": "retained origin",
+        "authority": "original replayed use, cause, receipt and owner predicates",
+        "evidence": "D3:951; R/runtime/worldline/protected_operations.py:605-622"
+      },
+      {
+        "command": "startup",
+        "caller": "full native reconciler",
+        "time": "before endpoint or reconstruction",
+        "resource_join": "automatic lifecycle over authentic retained origin/current physical facts",
+        "authority": "no missing-state initialization; no live-client requirement",
+        "evidence": "D3:952"
+      },
+      {
+        "command": "child Reserve",
+        "caller": "task dispatcher",
+        "time": "new child hold before creation",
+        "resource_join": "current native scope/universe guard",
+        "authority": "original parent/use/ancestry/containment and separate child hold",
+        "evidence": "D3:953"
+      }
+    ],
+    "rollover_tradeoff": "Conditional on all other pre-effect conjuncts, scope/universe rollover now passes pre-effect, writes EFFECT_INTENT, and can fail Record_Launch_Intent before dispatch or Record_Running after HELD. The original quarantine/K4 route is the intended outcome. That is a changed durable path and physical classification; the complete root/serial exception and known/uncertain recovery mapping and accepted-case costs are not proved. Head-only changes do not by themselves trigger this specific Context_Changed guard, but other original native/source gates still apply.",
+    "evidence": [
+      "D3/AUTHOR-NOTES.md:23-27",
+      "D3:934-955",
+      "R/runtime/worldline/protected_operations.py:746-775"
+    ]
+  },
+  "accepted_case_risks": [
+    {
+      "id": "EMBEDDING",
+      "assessment": "R1-R3 is not an exhaustive coherent partition as written; W8/L-RB-1/W3 contradictions remain. No original raw or fixture case may disappear while repaired.",
+      "evidence": [
+        "D3:804-879",
+        "D2:522,562,571"
+      ]
+    },
+    {
+      "id": "NEVER_LAUNCHED",
+      "assessment": "r3 adds a release prohibition before CLOSED_WITNESS even for genuine never-dispatched rows; conflicts with preserved original release and PR-a.",
+      "evidence": [
+        "D3:1279,1424-1425,1433-1434",
+        "D2:393-398,1453"
+      ]
+    },
+    {
+      "id": "UNIT_INACTIVE",
+      "assessment": "CLOSED_OUTER adds inactive-unit status beyond original terminal conditions. The source launches RemainAfterExit=yes and retains reset-after-closure; equivalence is not established.",
+      "evidence": [
+        "D3:1397",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:761",
+        "R/runtime/worldline/protected_root_supervisor.py:218-227",
+        "D2:1069-1073"
+      ]
+    },
+    {
+      "id": "QUEUED_NOT_REFUSED",
+      "assessment": "Declining intake is not an operation refusal. QUEUED fallback must nevertheless preserve service progress; FRONT_OWNED g+1 may never arrive under LIVE/UNKNOWN/stalled custody. No join may be fabricated and no timeout/deadline may settle authority.",
+      "evidence": [
+        "D3:1631-1636,1877-1889"
+      ]
+    },
+    {
+      "id": "REQUEST_INTAKE",
+      "assessment": "J8 is circular, namespace comparisons can incorrectly compare deliberately distinct PID namespaces, and not all native join operands are typed.",
+      "evidence": [
+        "D3:1540-1602,1642-1645"
+      ]
+    },
+    {
+      "id": "UNSELECTED_POLICY",
+      "assessment": "No new accounting policy/cap is selected. Option F must remain unselected and may not weaken immutable outer reservation ceilings or first-root independent grant/cost obligations.",
+      "evidence": [
+        "D3:1128-1155",
+        "D2:866-877"
+      ]
+    },
+    {
+      "id": "AUTHENTICITY_PREMISE",
+      "assessment": "Native HMAC/head consistency with packet-selected key/genesis is not an established independent authenticity/currentness premise. Source-lease DATA remains Python producer/custody work, not a native proof shortcut.",
+      "evidence": [
+        "D3:988-1041",
+        "D3/AUTHOR-NOTES.md:32"
+      ]
+    }
+  ],
+  "controls": {
+    "frontier": "byte/version/domain retained",
+    "retirement": "none authorized",
+    "original_rosters": "preserved, matching candidate required",
+    "proof_floor": "unchanged; every body/reference/caller/native-cost requirement and zero-unproved/justified/Assume remain",
+    "lead_only_acceptance": false,
+    "new_cap_selected": false
+  },
+  "evidence": [
+    "D2:1580-1598,1625-1698,1965-1988",
+    "D3:1951-1969",
+    "P1/HANDOFF.md:27-29,125-143,158-166"
+  ],
+  "source_acceptance": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false
+}

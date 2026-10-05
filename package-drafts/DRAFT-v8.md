@@ -994,11 +994,13 @@ actual gpt-6.1-sol review (`…/review/gpt61-v1`).
   controls.
 - **Operator items.** OP-1..OP-9 are all WITHIN_RESERVED_SCOPE. The review found no new approval gate and no lowered
   reservation.
-- **Next.** Seam design v3 (`WT/designs/claude-root-worker-seam-design-v3`, SEAM-DESIGN.md `a0f2f411…`) answers
-  V2-REQ-A..L and RQ-1, and reports new author findings NF-1..NF-11.
-  - It binds the sealed C-API v4 review as predecessor status and labels its C-API v5 dependencies as unreviewed.
-  - Its own actual gpt-6.1-sol review started at 05:58Z.
-  - This is routine lead engineering. Nothing is asked of you.
+**Seam design v3** (`WT/designs/claude-root-worker-seam-design-v3`, SEAM-DESIGN.md `a0f2f411…`) has a sealed actual
+gpt-6.1-sol review: **ENDORSED_WITH_REQUIRED_CHANGES** (freeze verified; rollout `gpt-6.1-sol` / `max`).
+- **Closure.** V2-REQ-A..L and RQ-1 are all PARTIALLY_CLOSED, and D-2b stays CLOSED_AT_DESIGN_LEVEL.
+- **Findings.** NF-1..NF-11 are verified statically.
+- **Required changes.** Twelve, V3-REQ-A..L.
+- **Next.** Seam design v4 is in drafting. It binds the sealed C-API v5 and v6 reviews. This is routine lead
+  engineering, and nothing is asked of you.
 
 **Statically observed defects in the unreviewed draft lane:**
 - a stale `protected_operations.py` pin;
@@ -1038,8 +1040,8 @@ acceptance is established.
 No choice is asked for yet.
 
 **Lead next work.** Routine engineering, each item with independent actual gpt-6.1-sol review:
-- seam design v3 (its review is running);
-- C-API DESIGN v6 (in drafting);
+- seam design v4 (in drafting);
+- C-API packet PK-0 (source only; its gated baseline run waits for F-1 and S-1);
 - D1 DESIGN v4 (its review is INCOMPLETE and untouched; see the Isolation record);
 - frame v6-W1.
 

@@ -1,0 +1,282 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 1,
+  "status": "COMPLETE",
+  "actual_model_selection": "gpt-6.1-sol",
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "rc_closure": {
+    "V2-REQ-A": "PARTIALLY_CLOSED",
+    "V2-REQ-B": "PARTIALLY_CLOSED",
+    "V2-REQ-C": "PARTIALLY_CLOSED",
+    "V2-REQ-D": "PARTIALLY_CLOSED",
+    "V2-REQ-E": "PARTIALLY_CLOSED",
+    "V2-REQ-F": "PARTIALLY_CLOSED",
+    "V2-REQ-G": "PARTIALLY_CLOSED",
+    "V2-REQ-H": "PARTIALLY_CLOSED",
+    "V2-REQ-I": "PARTIALLY_CLOSED",
+    "V2-REQ-J": "PARTIALLY_CLOSED",
+    "V2-REQ-K": "PARTIALLY_CLOSED",
+    "V2-REQ-L": "PARTIALLY_CLOSED",
+    "RQ-1": "PARTIALLY_CLOSED"
+  },
+  "clause_closure": {
+    "01.1": "PARTIALLY_CLOSED",
+    "01.2": "NOT_CLOSED",
+    "01.3": "NOT_CLOSED",
+    "01.4": "CLOSED_AT_DESIGN_LEVEL",
+    "01.5": "PARTIALLY_CLOSED",
+    "01.6": "CLOSED_AT_DESIGN_LEVEL",
+    "01.7": "PARTIALLY_CLOSED",
+    "02.1": "PARTIALLY_CLOSED",
+    "02.2": "PARTIALLY_CLOSED",
+    "02.3": "PARTIALLY_CLOSED",
+    "02.4": "PARTIALLY_CLOSED",
+    "03.1": "CLOSED_AT_DESIGN_LEVEL",
+    "03.2": "PARTIALLY_CLOSED",
+    "03.3": "PARTIALLY_CLOSED",
+    "04.1": "NOT_CLOSED",
+    "04.2": "CLOSED_AT_DESIGN_LEVEL",
+    "04.3": "PARTIALLY_CLOSED",
+    "04.4": "PARTIALLY_CLOSED",
+    "04.5": "PARTIALLY_CLOSED",
+    "04.6": "CLOSED_AT_DESIGN_LEVEL",
+    "05.1": "CLOSED_AT_DESIGN_LEVEL",
+    "05.2": "CLOSED_AT_DESIGN_LEVEL",
+    "05.3": "CLOSED_AT_DESIGN_LEVEL",
+    "05.4": "CLOSED_AT_DESIGN_LEVEL",
+    "05.5": "CLOSED_AT_DESIGN_LEVEL",
+    "06.1": "CLOSED_AT_DESIGN_LEVEL",
+    "06.2": "PARTIALLY_CLOSED",
+    "06.3": "PARTIALLY_CLOSED",
+    "06.4": "PARTIALLY_CLOSED",
+    "07.1": "PARTIALLY_CLOSED",
+    "07.2": "CLOSED_AT_DESIGN_LEVEL",
+    "07.3": "NOT_CLOSED",
+    "07.4": "CLOSED_AT_DESIGN_LEVEL",
+    "07.5": "CLOSED_AT_DESIGN_LEVEL",
+    "08.1": "PARTIALLY_CLOSED",
+    "08.2": "PARTIALLY_CLOSED",
+    "08.3": "PARTIALLY_CLOSED",
+    "08.4": "CLOSED_AT_DESIGN_LEVEL",
+    "08.5": "PARTIALLY_CLOSED",
+    "08.6": "CLOSED_AT_DESIGN_LEVEL",
+    "08.7": "CLOSED_AT_DESIGN_LEVEL",
+    "09.1": "NOT_CLOSED",
+    "09.2": "PARTIALLY_CLOSED",
+    "09.3": "PARTIALLY_CLOSED",
+    "09.4": "CLOSED_AT_DESIGN_LEVEL",
+    "09.5": "PARTIALLY_CLOSED",
+    "10.1": "CLOSED_AT_DESIGN_LEVEL",
+    "10.2": "CLOSED_AT_DESIGN_LEVEL",
+    "10.3": "CLOSED_AT_DESIGN_LEVEL",
+    "10.4": "CLOSED_AT_DESIGN_LEVEL",
+    "11.1": "PARTIALLY_CLOSED",
+    "11.2": "CLOSED_AT_DESIGN_LEVEL",
+    "11.3": "CLOSED_AT_DESIGN_LEVEL",
+    "11.4": "CLOSED_AT_DESIGN_LEVEL",
+    "12.1": "PARTIALLY_CLOSED",
+    "12.2": "PARTIALLY_CLOSED",
+    "12.3": "CLOSED_AT_DESIGN_LEVEL",
+    "12.4": "PARTIALLY_CLOSED",
+    "12.5": "CLOSED_AT_DESIGN_LEVEL"
+  },
+  "remaining_gaps": {
+    "V2-REQ-A": "Typed families and V2 consumer names are supplied. Complete consumed native input/producer/ABI contracts and reconcile the declared graph with its preparation order; family selection must not substitute an interim refusal for an original accepted case.",
+    "V2-REQ-B": "The multiframe construction contradicts carried W8; compaction contradicts carried L-RB-1; the C1-refusal factor shortcut contradicts unconditional W3. R1-R3 completeness and original-domain correspondence remain unestablished.",
+    "V2-REQ-C": "Container extraction and roster joins are better specified, but native key/genesis/current-head trust is not independently established, numeric canonicality remains Python-only, and P3 has conflicting executable-only versus all-file-backed coverage.",
+    "V2-REQ-D": "False future-capacity and memory_high claims are withdrawn. No accounting/enforcement/native-cost option establishes the full target; option F is unselected and must preserve the immutable outer reservation bound.",
+    "V2-REQ-E": "Create/GO_FORK/measure/decide/ACK/exec ordering is repaired. Exact successor event/FD/native-command authorization and the exhaustive coordinator authority inventory remain incomplete.",
+    "V2-REQ-F": "Subject states, DDL, alternatives and replay-before-CAS improve the design. Legal/Next is not a complete product relation; actual mutation gates conflict with other sections, and replay identity omits subject_kind.",
+    "V2-REQ-G": "Typed physical futures and first-capture recovery without handler terminal are supplied. Inactive-unit closure is an additional condition beyond the original terminal check; Never_Launched release conflicts with r3; complete post-intake and recovery-seed paths remain unspecified.",
+    "V2-REQ-H": "Stop intent and validate-before-intake order are supplied. Kernel-read-to-spool and write-to-durable-W windows, consumer reconstruction, retained writer duplicates and post-intake/release failures are not covered coherently.",
+    "V2-REQ-I": "Optional corroboration, typed modes and the observed exact gate inventory improve the design. J8 requires the intake event before the Join that authorizes it; namespace comparisons and native join operands are incomplete; queued fallback does not establish protected response progress.",
+    "V2-REQ-J": "Version union, exclusive creation and no missing-state initialization are retained. Exact tool/provisioner selection, genesis/head initialization, prior-v1 migration paths and every automatic recovery state still need a consistent specification.",
+    "V2-REQ-K": "The stage floor, dependency chain, new-scope qualifier inventory and no root-worker assignment exception are sound directions. Both sealed C-API reviews keep gate/alias closure open; the v5 sole-exception and with-prefix capture repairs are not incorporated.",
+    "V2-REQ-L": "Single-acquisition Gate discipline, thread placement and callback constraints are normative. Status/cancel/recovery and declined intake can wait indefinitely behind custody or stalled protected storage; response progress and prose/twin consistency remain incomplete."
+  },
+  "clause_remaining_gaps": {
+    "01.1": "V-A supplies Facts_V2 families and typed consumer names; native input, current-observation, producer and wrapper obligations are not yet complete contracts, and preparation order disagrees with the declared graph.",
+    "01.2": "Carried L-RB-1 keeps valid span positions; V-B.6 compacts and moves them. The declared Rebase cannot satisfy both rules.",
+    "01.3": "Carried W8 requires every row universe head to equal the state head; V-B.5 constructs unequal-head histories without replacing W8. W3 also contradicts the arbitrary-factor shortcut on C1 refusal.",
+    "01.5": "Invalid-predicate controls and valid multiframe/multibucket positives are specified. CV-B-prime/CV-R and all extra-conjunct correspondence are still unproved and the constructions are inconsistent.",
+    "01.7": "Canonical/B2b/B2c use retained joins and the three native command guards are correctly distinguished. Rollover now crosses EFFECT_INTENT before launch refusal/quarantine; complete root/serial recovery and accepted-case cost/outcome mapping remain open.",
+    "02.1": "Expected JSON containers are preserved and extraction/form parameters are supplied. Numeric canonicality is entrusted to Python and UTF8/escape/path/no-cap native semantics remain unspecified or unverified.",
+    "02.2": "Roster_Join is explicit, but genesis/key/head authenticity requires an independently selected trust/custody/currentness chain; self-consistent packet hashes and MACs cannot supply that premise.",
+    "02.3": "Crosswalk schema and operation/plan/cost/follow-up joins are proposed. Complete typed native decode, dynamic producer/caller correspondence and full costs remain open.",
+    "02.4": "Sampling and memory_high are no longer described as reserved future capacity. No full-domain resource enforcement/interference/cost correspondence is supplied.",
+    "03.2": "The sequencing error is repaired; exact event relation, FD inheritance and helper enforcement of authentic native Child_Ready remain incomplete. Kernel/OS evidence remains unmeasured.",
+    "03.3": "V1 and additive V2 families are retained; compatibility and accepted-case preservation are still stated lemmas with incomplete typed producer/caller coverage.",
+    "04.1": "M1/M2 omit a native custody-product gate, M6 excludes STOP_INTENT spooling, M8 conflicts with cancellation/helper stop, and r3 contradicts Never_Launched release. The complete Legal/Next reference is not defined.",
+    "04.3": "Independent subjects/subgenerations and an exclusive alternative primary key are supplied. Replay identity must include subject_kind; legal request/descriptor transitions and initial-head/state mapping remain incomplete.",
+    "04.4": "PR-a/PR-b and retained-result recovery distinguish the old contradictions. Full post-intake/release failure and reconstruction seed/result-state mapping remain incomplete.",
+    "04.5": "The physical futures are now separately typed. CLOSED_OUTER adds unit inactivity beyond the original MainPID-zero/pidfd/wait test and can obstruct the original closure/reset route.",
+    "06.2": "A/B/C/E/F are compared and unselected; no option proves full-domain independent-request accounting, immutable parent bounds, enforcement and costs.",
+    "06.3": "UNKNOWN holds and owner routes are retained, but r3/M8 and shared-lock/custody waits prevent a complete original cancel/quarantine/owner recovery progress argument.",
+    "06.4": "Event-loop responsiveness is improved in intent. A dedicated serialized lane blocked on protected storage or held asyncio operation ownership can still prevent protected response completion.",
+    "07.1": "O mapping and O-by-U cells are supplied; C/P/request/descriptor event transitions and their actual mutation gates remain incomplete and inconsistent.",
+    "07.3": "REOPENED: carried original Never_Launched release and PR-a require release without CLOSED_WITNESS, while r3 forbids it. Repair without weakening closure requirements for any possibly launched row.",
+    "08.1": "Durable stop intent precedes quiescence. M6 does not authorize required STOP_INTENT spooling, and restart does not specify reconstruction of the closed transport/consumer.",
+    "08.2": "Raw stdin and buffer rules are proposed. Kernel write versus durable W and kernel read versus durable spool still have unclassified uncertainty windows; writer duplicates invalidate unconditional owner-death EOF.",
+    "08.3": "FREEZE requires spool fsync, but durable exact P/W and detection/recovery of pre-FREEZE consumption windows are not established.",
+    "08.4": "CLOSED_AT_DESIGN_LEVEL: full receive/validate/report/OFD evidence precedes INTAKE and new-owner I/O. Runtime/caller/native evidence remains OPEN.",
+    "08.5": "The table covers more windows but post-INTAKE/new-owner failure and post-RELEASE restart, partial drain/spool and stdin progress recovery are incomplete.",
+    "08.6": "CLOSED_AT_DESIGN_LEVEL: full root lock roster comparison/evidence is specified while originals are retained, before ACK/intake/role use. kcmp/pidfd/flock measurements and authentic roster proof remain OPEN.",
+    "09.1": "J8 requires committed REQUEST_INTAKE before Join, while Join authorizes that intake. Request/transaction/reservation inputs are named in prose but not fully represented in the native Join interface; PID versus user namespace comparison is ambiguous.",
+    "09.2": "Provider absence no longer directly refuses; validation precedes intake by rule. Circular Join and queued-only fallback still leave accepted transfer/protected response progress open.",
+    "09.3": "The exact source gate list verifies. Mode-specific types improve the design, but all own-operation/transferred/historical caller operands and admission-head phases need complete contracts.",
+    "09.5": "Cookie/namespace/pidfd absence is optional. Declining transfer then waiting until custody returns is not an accepted-case-neutral service path for live/UNKNOWN/stalled owners.",
+    "11.1": "Body/gate edges are richer, but V-M.4 preparation order places S6 before S1 although S6 depends on S1; native HMAC/roster/request product dependencies and consumed interfaces remain incomplete.",
+    "12.1": "Exact principal keysets and selection rules are proposed. Tool keys/provisioner paths, custody initial event/head/state authentication, migration paths and all constructor/loader selection artifacts remain unfinished.",
+    "12.2": "No handler terminal is required for retained first capture. Inactive-unit barrier, r3 versus PR-a, recovery material previously seeded by handler_terminal, and observed/settled mappings prevent complete closure.",
+    "12.4": "Original K4/quarantine.resolve remain. Native mutation and actual serving progress through UNKNOWN, shared locks and unavailable custody are still incomplete."
+  },
+  "evidence": {
+    "V2-REQ-A": [
+      "D3:744-795",
+      "D3:1894-1949",
+      "D2:810-878"
+    ],
+    "V2-REQ-B": [
+      "D3:804-955",
+      "D2:522-573",
+      "R/core/resource_scoped_run_ledger.ads:436-438"
+    ],
+    "V2-REQ-C": [
+      "D3:959-1109",
+      "D3:1669-1682",
+      "R/runtime/worldline/root_worker_journal.py:39-53"
+    ],
+    "V2-REQ-D": [
+      "D3:1110-1158",
+      "D2:866-877",
+      "P1/HANDOFF.md:125-131"
+    ],
+    "V2-REQ-E": [
+      "D3:1159-1233",
+      "D3/AUTHOR-NOTES.md:47",
+      "R/protected-root/native_root_worker_supervisor_v1.c:336-368"
+    ],
+    "V2-REQ-F": [
+      "D3:1234-1390",
+      "D3:1466-1477",
+      "D3:1591-1645"
+    ],
+    "V2-REQ-G": [
+      "D3:1391-1457",
+      "D3:1279-1295",
+      "R/runtime/worldline/protected_root_supervisor.py:203-227",
+      "R/runtime/worldline/root_worker_closed.py:48-92"
+    ],
+    "V2-REQ-H": [
+      "D3:1458-1524",
+      "D3:1292-1293",
+      "D3/AUTHOR-NOTES.md:35-39"
+    ],
+    "V2-REQ-I": [
+      "D3:1525-1649",
+      "D3:1877-1889",
+      "R/runtime/worldline/client_peer.py:110-117"
+    ],
+    "V2-REQ-J": [
+      "D3:1650-1720",
+      "D3:1301-1374",
+      "D3/AUTHOR-NOTES.md:42-45"
+    ],
+    "V2-REQ-K": [
+      "D3:1721-1836",
+      "CAPI4R/REVIEW.md:54-60",
+      "CAPI5R/REVIEW.md:58-60,84-92,172-175"
+    ],
+    "V2-REQ-L": [
+      "D3:1837-1893",
+      "D3:1946-1949",
+      "D3/seams.json:226-338"
+    ]
+  },
+  "ruling_closure": {
+    "D-1a": "PARTIALLY_CLOSED",
+    "D-1b": "PARTIALLY_CLOSED",
+    "D-2a": "PARTIALLY_CLOSED",
+    "D-2b": "CLOSED_AT_DESIGN_LEVEL",
+    "D-3a": "PARTIALLY_CLOSED",
+    "D-4a": "PARTIALLY_CLOSED",
+    "D-5a": "PARTIALLY_CLOSED",
+    "D-5b": "PARTIALLY_CLOSED",
+    "D-6a": "PARTIALLY_CLOSED",
+    "D-7a": "PARTIALLY_CLOSED",
+    "D-8a": "PARTIALLY_CLOSED",
+    "D-8b": "PARTIALLY_CLOSED",
+    "D-9a": "PARTIALLY_CLOSED"
+  },
+  "owners_and_evidence_requirements_preserved": true,
+  "rulings": [
+    {
+      "id": "D-1a",
+      "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer",
+      "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls."
+    },
+    {
+      "id": "D-1b",
+      "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer",
+      "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof."
+    },
+    {
+      "id": "D-2a",
+      "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+      "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls."
+    },
+    {
+      "id": "D-2b",
+      "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review",
+      "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit."
+    },
+    {
+      "id": "D-3a",
+      "owner": "Lead protocol designer; operator for lab execution",
+      "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection."
+    },
+    {
+      "id": "D-4a",
+      "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change",
+      "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls."
+    },
+    {
+      "id": "D-5a",
+      "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action",
+      "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls."
+    },
+    {
+      "id": "D-5b",
+      "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation",
+      "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations."
+    },
+    {
+      "id": "D-6a",
+      "owner": "Lead historical/canonical model designer; independent GPT-6.1 review",
+      "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement."
+    },
+    {
+      "id": "D-7a",
+      "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration",
+      "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation."
+    },
+    {
+      "id": "D-8a",
+      "owner": "Lead OS/native requester designer; independent GPT-6.1 review",
+      "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage."
+    },
+    {
+      "id": "D-8b",
+      "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review",
+      "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client."
+    },
+    {
+      "id": "D-9a",
+      "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign",
+      "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes."
+    }
+  ],
+  "source_acceptance": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false
+}

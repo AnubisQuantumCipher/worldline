@@ -1,0 +1,991 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 2,
+  "status": "COMPLETE",
+  "v3_inputs": {
+    "SEAM-DESIGN.md": {
+      "sha256": "a0f2f411d654f1cce472a1ad2a13d3c082fff42def050c5ed4694a8b094d07a0",
+      "bytes": 217264
+    },
+    "seams.json": {
+      "sha256": "093f31176dd9560a236b8ad00f5fd28a683c810c8f400d646631318ca1b582e8",
+      "bytes": 36028
+    },
+    "jackal.json": {
+      "sha256": "8cce45e34f12d9d7976cb9b04ab6ac47e3a99ae8cacc22708a84abe06ec0c024",
+      "bytes": 3736
+    },
+    "AUTHOR-NOTES.md": {
+      "sha256": "dd382e1b0f74e825735e168ab6856b1c85e93f9a39312f3bc15019faf390a0ea",
+      "bytes": 12856
+    }
+  },
+  "slice_verification": {
+    "v2": [
+      {
+        "id": "C2-A3",
+        "lines": [
+          110,
+          137
+        ],
+        "sha256": "8dac441d5568bfcef6a6c76374715a07fe27405694cfcd656e92a05a198c6c8e",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-B",
+        "lines": [
+          149,
+          245
+        ],
+        "sha256": "c67275cf95e85f817827aed32125f8176dfbff82dddad82c299c1765bc8d2ad9",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-G",
+        "lines": [
+          315,
+          366
+        ],
+        "sha256": "b5e1ebc659b11f56fef5582a7b7d6d2f8c502509eac2a063de4cdfc8224b5b28",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-S2",
+        "lines": [
+          367,
+          426
+        ],
+        "sha256": "6dcd2745d1553e7df50e36f32fcee59805fb673f3b0f071387e48cdeb4cbadec",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-31",
+        "lines": [
+          427,
+          506
+        ],
+        "sha256": "c87034a71bded859d0e99a88a434b8b41859700f016fe87b589f7d69f1d9d6e5",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-35",
+        "lines": [
+          507,
+          517
+        ],
+        "sha256": "0cddde6146e7d4dd8afb6c01251906bc0b4ba2117886c28f6492906d4d7ed38f",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-36",
+        "lines": [
+          518,
+          528
+        ],
+        "sha256": "075fa1f1cabc71e2aa8de92397b9464d2abcd6567e03cb337699f94ea2d7cfe4",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-37",
+        "lines": [
+          529,
+          557
+        ],
+        "sha256": "54e7ff5925f03274d6307277bf0d053e19da710c8ba0e9b0c23ac2acae3b8484",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-38",
+        "lines": [
+          558,
+          574
+        ],
+        "sha256": "bef4081b98fafa5007943ba15d886489742f5caea851d3b0bd18b37f6ad1066d",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-39",
+        "lines": [
+          575,
+          605
+        ],
+        "sha256": "21226be6818e55837d4adb06c998c75ec745eef118bbf56d19ac9674d35ce33d",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-310",
+        "lines": [
+          606,
+          618
+        ],
+        "sha256": "5b36da424bb523a9b3c69fdf9772654c7637ab5770de4c099c0974def5e8ee2d",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-41",
+        "lines": [
+          673,
+          711
+        ],
+        "sha256": "896299ddfd0f03131a8dae49e1750cb6ca1788392acb813b0c848a3ad61b841a",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-42",
+        "lines": [
+          712,
+          742
+        ],
+        "sha256": "fc91b4f77d8f1834dc1cc7f3201c84860b299cb054f7a3829d0d27ca8f5a3aec",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-46",
+        "lines": [
+          780,
+          792
+        ],
+        "sha256": "8e76f0684917bbbaa5f7cd4f09d057fa760c5f8162db4f07a4dd2b84c5d13597",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-51",
+        "lines": [
+          810,
+          865
+        ],
+        "sha256": "4f8921ed4b596034925228f695ba43942ecc96f88adedb9fb3322f2a8b516f0c",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-53",
+        "lines": [
+          866,
+          878
+        ],
+        "sha256": "812b0f969a4d7d83789b8e913cc29ed96018a6cb66743265be10a10db2d9c660",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-55",
+        "lines": [
+          898,
+          926
+        ],
+        "sha256": "48d0e0b2dda73fc1166cd476be7228ed467af13dca8ff92aa890d6443094d944",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-56",
+        "lines": [
+          927,
+          944
+        ],
+        "sha256": "7529db2726968380b627dee2fd78f695a0bffcaad9cc813703b1c8b9db6d7406",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-62",
+        "lines": [
+          970,
+          1010
+        ],
+        "sha256": "f3206d63e4f973203d33c9b79c6903fc8f69245d3fed5d333ee386ea319cdd39",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-64",
+        "lines": [
+          1032,
+          1054
+        ],
+        "sha256": "d20b643a28c3ce661b76d2b9e3ad946f9e114b52edc9a0627b3a13b4c4b97a00",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-68",
+        "lines": [
+          1061,
+          1073
+        ],
+        "sha256": "ca153ae5d2f5316532fdaa0556897a15d2ab7360f63b611c99070fc3e20cd5f4",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-612",
+        "lines": [
+          1102,
+          1114
+        ],
+        "sha256": "13b4b7d1d1613d5ee532b755713f585dd88ef25cf862b35d99c85adb87f7686a",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-71",
+        "lines": [
+          1128,
+          1152
+        ],
+        "sha256": "c4c99830f20477e39c1b1ce669244480784e55bd8dd4237a2125b5e01595297a",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-74",
+        "lines": [
+          1178,
+          1203
+        ],
+        "sha256": "cfd9689a5c70f04acf4c0393a5ee50cada435752b990af6480968fbb37a9903a",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-84",
+        "lines": [
+          1274,
+          1312
+        ],
+        "sha256": "ed4b145a8eab266619fd01b252c5e269f3bb9fb895e8b206954b609e4fb67ae2",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-91",
+        "lines": [
+          1325,
+          1347
+        ],
+        "sha256": "5a62982b2b8a56fea60ebf833766fed64bad3443a84db78ff5f6d347cbe8c678",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-92",
+        "lines": [
+          1348,
+          1364
+        ],
+        "sha256": "24559c4678b960b688d45bfc824b8af576718292d03743a643b8142a4abff957",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-93",
+        "lines": [
+          1365,
+          1395
+        ],
+        "sha256": "11c31e0731c39d44cc9d1f49993c554ae215cef37ab05ee65c3381bd4e3b8f8b",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-96",
+        "lines": [
+          1410,
+          1434
+        ],
+        "sha256": "fe1aa2509829dfae86875d0bbf833589b0a35362751671d45a848d2756b4652a",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-101",
+        "lines": [
+          1447,
+          1463
+        ],
+        "sha256": "97d4336ec60f9f5d7f57b6325542125755a16183ad226af2e04da9f92dce5e35",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-104",
+        "lines": [
+          1470,
+          1496
+        ],
+        "sha256": "78063127ff72fed2cf97e4ccdd8125a12716aaa5194a26b4a59bef72f3e1642a",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-111",
+        "lines": [
+          1509,
+          1527
+        ],
+        "sha256": "939f5ffea62a01b55833b59d960eb42ec21c75a7da44b27ee13b4f820a3d1401",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-113",
+        "lines": [
+          1538,
+          1554
+        ],
+        "sha256": "096a1f9cebf774dc6e0f2b46931cbfc6d424c7d77b808da0fd89d4d483473ddc",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-116",
+        "lines": [
+          1580,
+          1616
+        ],
+        "sha256": "b3e66978fdb903fd63f0d3e4cf206984093bf3fff5aa4ddc7594110dd761d222",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-12",
+        "lines": [
+          1625,
+          1698
+        ],
+        "sha256": "1270f8b508dea88d6e83f20b7c56b6845252e8ef1fa9bf8000f07398d4c5d967",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-132",
+        "lines": [
+          1724,
+          1749
+        ],
+        "sha256": "aece2edd58c21f8040a88fbc84ce9625e0d0d76f5a3631a22264c1cbc2a11822",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-141",
+        "lines": [
+          1754,
+          1783
+        ],
+        "sha256": "068c98ed137fb8f03551e40d4c18beaf1ac2ad1a74f1456d786c4a758830e097",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-151",
+        "lines": [
+          1836,
+          1850
+        ],
+        "sha256": "47c205aa2729d14e3013c875c4fed99d07c31dab03f45d1a988bddc0e3245741",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-153",
+        "lines": [
+          1903,
+          1915
+        ],
+        "sha256": "4345ba3cb8acc7aef1c691de65a4985065d6c6bf1e2bc65b4575875cf8510f4e",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-16",
+        "lines": [
+          1922,
+          1962
+        ],
+        "sha256": "cc000abe9c5f8be6e6b1d38cdc84985e9374b2e94b52767e6032b1aaa95b704e",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-17",
+        "lines": [
+          1963,
+          1991
+        ],
+        "sha256": "da7d4b09f0286d4e53fc5029d489c1fc5a44c8462726bfa299f64570a75ad27c",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-18",
+        "lines": [
+          1992,
+          2053
+        ],
+        "sha256": "30a010d01ceec959afbad58e1a744c405aa9fa21a89cf7b4b17979c160f8d368",
+        "matches": true,
+        "twin_matches": true
+      },
+      {
+        "id": "C2-APC",
+        "lines": [
+          2221,
+          2287
+        ],
+        "sha256": "92d6c824fe889f692157a260213635d1ddca56bd9f7266ee38e0c19720cc147c",
+        "matches": true,
+        "twin_matches": true
+      }
+    ],
+    "v1": [
+      {
+        "id": "B-NOTATION",
+        "lines": [
+          46,
+          61
+        ],
+        "sha256": "08d331e08f8659a520bb86dac169b2f9b4985c948f503b3b314b5fb5befe7b41",
+        "matches": true
+      },
+      {
+        "id": "B-P0",
+        "lines": [
+          72,
+          151
+        ],
+        "sha256": "e61cd9f936685c1931ad93429bb23fe4b669b3c6d54dbf0f652b482c0321a993",
+        "matches": true
+      },
+      {
+        "id": "B-S1-CUR",
+        "lines": [
+          169,
+          195
+        ],
+        "sha256": "514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17",
+        "matches": true
+      },
+      {
+        "id": "B-S1-REQ",
+        "lines": [
+          197,
+          213
+        ],
+        "sha256": "dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413",
+        "matches": true
+      },
+      {
+        "id": "B-S2-CUR",
+        "lines": [
+          323,
+          351
+        ],
+        "sha256": "83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259",
+        "matches": true
+      },
+      {
+        "id": "B-S2-REQ",
+        "lines": [
+          353,
+          369
+        ],
+        "sha256": "e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac",
+        "matches": true
+      },
+      {
+        "id": "B-S3-CUR",
+        "lines": [
+          456,
+          471
+        ],
+        "sha256": "705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768",
+        "matches": true
+      },
+      {
+        "id": "B-S3-REQ",
+        "lines": [
+          473,
+          481
+        ],
+        "sha256": "ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793",
+        "matches": true
+      },
+      {
+        "id": "B-S4-CUR",
+        "lines": [
+          533,
+          548
+        ],
+        "sha256": "69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00",
+        "matches": true
+      },
+      {
+        "id": "B-S4-REQ",
+        "lines": [
+          550,
+          558
+        ],
+        "sha256": "54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f",
+        "matches": true
+      },
+      {
+        "id": "B-S5-CUR",
+        "lines": [
+          632,
+          644
+        ],
+        "sha256": "ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b",
+        "matches": true
+      },
+      {
+        "id": "B-S5-REQ",
+        "lines": [
+          646,
+          659
+        ],
+        "sha256": "23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68",
+        "matches": true
+      },
+      {
+        "id": "B-S6-CUR",
+        "lines": [
+          748,
+          764
+        ],
+        "sha256": "8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698",
+        "matches": true
+      },
+      {
+        "id": "B-S6-REQ",
+        "lines": [
+          766,
+          776
+        ],
+        "sha256": "41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b",
+        "matches": true
+      },
+      {
+        "id": "B-S7-CUR",
+        "lines": [
+          832,
+          856
+        ],
+        "sha256": "1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88",
+        "matches": true
+      },
+      {
+        "id": "B-S7-REQ",
+        "lines": [
+          858,
+          865
+        ],
+        "sha256": "6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c",
+        "matches": true
+      },
+      {
+        "id": "B-S8-CUR",
+        "lines": [
+          928,
+          945
+        ],
+        "sha256": "1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02",
+        "matches": true
+      },
+      {
+        "id": "B-S8-REQ",
+        "lines": [
+          947,
+          958
+        ],
+        "sha256": "1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba",
+        "matches": true
+      },
+      {
+        "id": "B-S9-CUR",
+        "lines": [
+          1033,
+          1071
+        ],
+        "sha256": "5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919",
+        "matches": true
+      },
+      {
+        "id": "B-S9-REQ",
+        "lines": [
+          1073,
+          1082
+        ],
+        "sha256": "eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e",
+        "matches": true
+      },
+      {
+        "id": "B-S10-CUR",
+        "lines": [
+          1153,
+          1163
+        ],
+        "sha256": "df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9",
+        "matches": true
+      },
+      {
+        "id": "B-S10-REQ",
+        "lines": [
+          1165,
+          1174
+        ],
+        "sha256": "bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e",
+        "matches": true
+      }
+    ],
+    "no_overlapping_v2_slices": true
+  },
+  "replacement_summary": {
+    "replacement_count_observed": 43,
+    "all_quotes_exact": true,
+    "all_contained": true,
+    "all_twin_matches": true
+  },
+  "replacement_assessments": [
+    {
+      "id": "R3-1",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "REQUIRED_CHANGE: range omits K-20/K-21; preserve their reserved measurement owner."
+    },
+    {
+      "id": "R3-2",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-3",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: O-by-U table is supplied, but it is not a complete consistent product/event relation."
+    },
+    {
+      "id": "R3-4",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "REQUIRED_CHANGE: W9 still requires identity-position L-RB-1, incompatible with compaction; W8/W3 are left inconsistent."
+    },
+    {
+      "id": "R3-5",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "REQUIRED_CHANGE: executable-only mapping wording differs from V-C.7's every-file-backed-mapping definition."
+    },
+    {
+      "id": "R3-6",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-7",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "HISTORICALLY_CORRECT; update dependencies to the now-sealed C-API v5 review, which leaves both targets open."
+    },
+    {
+      "id": "R3-8",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "REQUIRED_CHANGE: OP-7 range must include K-20/K-21 under the existing D-8b reservation."
+    },
+    {
+      "id": "R3-9",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-10",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-11",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-12",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-13",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "CORRECT_LOCAL_REPAIR: removes extra handler prerequisite; full automatic recovery/barrier/seed design still incomplete."
+    },
+    {
+      "id": "R3-14",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-15",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: no direct provider refusal, but fallback waits for custody return without protected response progress."
+    },
+    {
+      "id": "R3-16",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: decline-transfer preserves original front checks, but service availability is not established."
+    },
+    {
+      "id": "R3-17",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: no accepted-request refusal for user namespace mismatch, but queue/return path lacks progress."
+    },
+    {
+      "id": "R3-18",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-19",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "REQUIRED_CHANGE: Join/intake is circular and queued fallback is not a complete accepted-case service path."
+    },
+    {
+      "id": "R3-20",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-21",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-22",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-23",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "HISTORICALLY_CORRECT; must now bind both sealed C-API v5 required repairs."
+    },
+    {
+      "id": "R3-24",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-25",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "CORRECT_LOCAL_REPAIR; retain RQ-1 original-domain/cost/recovery proof obligations."
+    },
+    {
+      "id": "R3-26",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "CORRECT_LOCAL_REPAIR; origin/current/authority correspondence remains OPEN."
+    },
+    {
+      "id": "R3-27",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "CORRECT_LOCAL_REPAIR; Retained_Origin is not itself a proved accepted-case equivalence."
+    },
+    {
+      "id": "R3-28",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "CORRECT_LOCAL_REPAIR; embedding and Same_Context correspondence remain unproved."
+    },
+    {
+      "id": "R3-29",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: correct native command guard distinction; rollover may now write EFFECT_INTENT then quarantine."
+    },
+    {
+      "id": "R3-30",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "CORRECT_LOCAL_REPAIR; every Retained_Join/caller implication remains OPEN."
+    },
+    {
+      "id": "R3-31",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "CORRECT_LOCAL_REPAIR: separates original retained Reserved_New recovery from current Reserved_Replay pre-effect."
+    },
+    {
+      "id": "R3-32",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "REQUIRED_CHANGE: compaction coverage is incompatible with carried L-RB-1."
+    },
+    {
+      "id": "R3-33",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "CORRECT: withdraws unsupported totality without excluding original flat inputs."
+    },
+    {
+      "id": "R3-34",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "REQUIRED_CHANGE: named construction contradicts carried W8; residual inventory not complete."
+    },
+    {
+      "id": "R3-35",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: constructive producer-coverage obligation remains unproved; W3/C1-refusal cases not reconciled."
+    },
+    {
+      "id": "R3-36",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: all originals retained, but R1-R3 must not be claimed exhaustive without resolving uncovered cases."
+    },
+    {
+      "id": "R3-37",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "REQUIRED_CHANGE: G1 and G3 coverage claims inherit W8/Rebase contradictions; extra-conjunct proofs remain OPEN."
+    },
+    {
+      "id": "R3-38",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-39",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: expected containers stay unchanged; exact native extraction/canonicality and authentic producers remain OPEN."
+    },
+    {
+      "id": "R3-40",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: native roster join is specified but its key/genesis/current-head trust premise is not established."
+    },
+    {
+      "id": "R3-41",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-42",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "JUSTIFIED_DESIGN_DIRECTION: declared local replacement is coherent; related full native/proof/control obligations remain OPEN."
+    },
+    {
+      "id": "R3-43",
+      "quote_exact": true,
+      "contained": true,
+      "twin_matches": true,
+      "assessment": "PARTIAL: additive schema and v1 parity retained; exact tool/provisioner selection remains unfinished."
+    }
+  ],
+  "carried_items": {
+    "RC05": "CLOSED_AT_DESIGN_LEVEL",
+    "RC10": "CLOSED_AT_DESIGN_LEVEL",
+    "D2b": "CLOSED_AT_DESIGN_LEVEL",
+    "closed_clauses": "Prior closed properties preserved except effective 07.3 contradicted by v3 r3; quoted predecessor status retained as history.",
+    "observations": "N-1..N-10 and N-3 locator erratum carried exactly",
+    "defects": "DF-1..DF-6 assessments and required fixes carried exactly",
+    "operators": "OP-1..OP-9 within existing reserved scope; measurement range incomplete"
+  },
+  "only_changes": "All declared replacements quote their exact source lines inside verified nonoverlapping slices. This is the complete change inventory within those slices; other v2 sections are explicitly replaced by B.3/B.5. Added V-sections create the reported semantic contradictions, so byte identity does not imply unchanged effective guarantees.",
+  "frontier_control": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-startup/controls/test_protected_startup_v1.py",
+    "sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb",
+    "expected": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb",
+    "matches": true
+  },
+  "evidence": [
+    "D3:198-249,250-629,631-689",
+    "D3:109-154",
+    "D2:522-573,1580-1598,1625-1698,1922-1988,2221-2287"
+  ],
+  "source_acceptance": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false
+}

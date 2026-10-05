@@ -1,0 +1,135 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 3,
+  "status": "COMPLETE",
+  "findings_assessment": {
+    "NF-1": "VERIFIED_STATIC_OPEN_FLAG_KERNEL_CONSEQUENCE_UNMEASURED",
+    "NF-2": "VERIFIED_STATIC_CONTROL_FLOW_NOT_RUNTIME_COMMIT",
+    "NF-3": "VERIFIED_STATIC_LOCK_PATH",
+    "NF-4": "VERIFIED_STATIC_AUTOMATIC_RECOVERY_BRANCH",
+    "NF-5": "VERIFIED_TEXT_AND_LEXICAL_SCOPE",
+    "NF-6": "VERIFIED_STATIC_MANAGER_CALLS_REACHABILITY_UNMEASURED",
+    "NF-7": "VERIFIED_STATIC_ROUTER_WAIT_AND_FRONT_GATE",
+    "NF-8": "VERIFIED_STATIC_ENCODING_FORMS",
+    "NF-9": "VERIFIED_BYTE_IDENTITY_AND_STATIC_RELAY_JOIN_KERNEL_VIEW_UNMEASURED",
+    "NF-10": "VERIFIED_STATIC_PLAN_SELECTION_GAP",
+    "NF-11": "VERIFIED_STATIC_GENESIS_AND_HMAC_BOUNDARY"
+  },
+  "findings_detail": {
+    "NF-1": {
+      "status": "VERIFIED_STATIC_OPEN_FLAG_KERNEL_CONSEQUENCE_UNMEASURED",
+      "evidence": [
+        "D3:182",
+        "R/runtime/worldline/root_worker_custody.py:116-120"
+      ],
+      "assessment": "The descriptor is a host /proc directory opened O_RDONLY. That observation does not establish read-only child authority. The author's write-reachability conclusion remains unverified kernel reasoning (K-18).",
+      "consequence": "M-2/read-only view and an exhaustive retained-FD capability argument are required; no measured containment credit."
+    },
+    "NF-2": {
+      "status": "VERIFIED_STATIC_CONTROL_FLOW_NOT_RUNTIME_COMMIT",
+      "evidence": [
+        "D3:183",
+        "R/runtime/worldline/protected_scoped_resource_runtime.py:356-373",
+        "R/core/resource_scoped_run_ledger.ads:334-339,436-438",
+        "R/core/resource_run_ledger.ads:110-120"
+      ],
+      "assessment": "The producer proposes Advance_Context on the listed changes, subject to native commit and reachability. Same_Context compares the listed context fields; the three command guards check scope/universe, not root/PRIME/catalogue/physical heads alone. Existing lock/refusal gaps preclude claiming observed commits.",
+      "consequence": "RQ-1 must distinguish current-fact/header validation from the scope/universe command guard; a head-only rollover is not by itself Context_Changed."
+    },
+    "NF-3": {
+      "status": "VERIFIED_STATIC_LOCK_PATH",
+      "evidence": [
+        "D3:184",
+        "R/runtime/worldline/daemon.py:84,350-357",
+        "R/runtime/worldline/protected_operations.py:716-717"
+      ],
+      "assessment": "Status is mutating and takes the daemon mutation lock; principal.invoke takes operation_lock. This is a source lock path, not a measured stall or a claim that every registered nonmutating handler takes the mutation lock.",
+      "consequence": "Status response progress must account for both locks and the protected lane."
+    },
+    "NF-4": {
+      "status": "VERIFIED_STATIC_AUTOMATIC_RECOVERY_BRANCH",
+      "evidence": [
+        "D3:185",
+        "R/runtime/worldline/protected_operations.py:363-368,778-816"
+      ],
+      "assessment": "Startup selects recover_committed on EFFECT_INTENT plus retained RESULT_CAPTURE without asking for handler terminal. recover_committed requires exactly one capture and replays the original native finish path; it can still fail its authentic/native gates.",
+      "consequence": "No successor handler-terminal prerequisite is allowed for the original automatic route; first-capture and native result/cause/receipt conditions remain."
+    },
+    "NF-5": {
+      "status": "VERIFIED_TEXT_AND_LEXICAL_SCOPE",
+      "evidence": [
+        "D3:186",
+        "CAPI5/DESIGN.md:332-339",
+        "R/core/worldline-c_api.adb:1166,1198-1220,2251",
+        "D2:131"
+      ],
+      "assessment": "CAPI5 uses the words body-level. The renamings are inside the nested Child_Boundary body. The words alone do not establish whole-C_API visibility; v2's narrower lexical finding is confirmed.",
+      "consequence": "Retain scope-specific integration inventories and checks; no review or correction of the other lane is granted here."
+    },
+    "NF-6": {
+      "status": "VERIFIED_STATIC_MANAGER_CALLS_REACHABILITY_UNMEASURED",
+      "evidence": [
+        "D3:187",
+        "R/runtime/worldline/protected_scoped_supervisor_v3.py:23-36,290-305"
+      ],
+      "assessment": "The slot invokes systemctl --system show and stop. General euid-0 manager actuation reachability is the author's unmeasured inference (K-17), not an executed authority test.",
+      "consequence": "M-1/M-4 must establish coordinator isolation and authentic helper-only manager authorization without changing original accepted manager flows."
+    },
+    "NF-7": {
+      "status": "VERIFIED_STATIC_ROUTER_WAIT_AND_FRONT_GATE",
+      "evidence": [
+        "D3:188",
+        "R/runtime/worldline/root_worker_endpoint_router.py:18-34",
+        "R/runtime/worldline/protected_root_worker.py:158-190"
+      ],
+      "assessment": "The non-FRONT_OWNED redirect awaits all selected collectors under the router lock, then requires fresh reconstruction. Front.invoke requires FRONT_OWNED. This explains a conditional availability dependency, not a reproduced hang.",
+      "consequence": "The original liveness/accepted-request obligation survives; durable queuing alone is insufficient."
+    },
+    "NF-8": {
+      "status": "VERIFIED_STATIC_ENCODING_FORMS",
+      "evidence": [
+        "D3:189",
+        "R/runtime/worldline/protected_startup.py:35-51",
+        "R/runtime/worldline/protected_resource_runtime.py:20-23",
+        "R/runtime/worldline/protected_scoped_resource_service.py:68-74"
+      ],
+      "assessment": "Startup canonical JSON is UTF8 ensure_ascii=False and allows the canonical bytes with one LF; resource exact JSON is ASCII ensure_ascii=True with no LF; the scoped config uses the latter.",
+      "consequence": "Native form-dependent extraction must preserve those exact containers and numeric/escape behavior; RC-4 and full native costs remain OPEN."
+    },
+    "NF-9": {
+      "status": "VERIFIED_BYTE_IDENTITY_AND_STATIC_RELAY_JOIN_KERNEL_VIEW_UNMEASURED",
+      "evidence": [
+        "D3:190",
+        "R/runtime/worldline/client_peer_relay.py:32-121",
+        "R/runtime/worldline/client_peer.py:110-117",
+        "R/tests/test_client_peer_producer.py:17,136-137",
+        "S5/runtime/worldline/client_peer_relay.py"
+      ],
+      "assessment": "Relay and S5 bytes have the supplied digest; the constructor enforces full peer-observation equality. The only other Python module in the selected source referring to the relay is the test module. Cross-namespace PID behavior remains unmeasured (K-1); no installed relay outcome is claimed.",
+      "consequence": "Keep front RequestPeer exact; a worker-specific native correspondence type needs the complete mode/custody/transaction join and original exited-peer cases."
+    },
+    "NF-10": {
+      "status": "VERIFIED_STATIC_PLAN_SELECTION_GAP",
+      "evidence": [
+        "D3:191",
+        "R/runtime/worldline/protected_root_endpoint.py:12,28",
+        "R/runtime/worldline/protected_root_worker.py:92-104",
+        "R/runtime/worldline/protected_startup.py:173-176"
+      ],
+      "assessment": "The plan is an endpoint argument and source-lease DATA with the stated exact plan-v1 keyset. The startup-v1 top-level keyset has no root_worker key.",
+      "consequence": "An additive v2 descriptor must select the exact plan and reject argument mismatch; keep v1 keys, constructors and frontier behavior."
+    },
+    "NF-11": {
+      "status": "VERIFIED_STATIC_GENESIS_AND_HMAC_BOUNDARY",
+      "evidence": [
+        "D3:192",
+        "R/runtime/worldline/root_worker_journal.py:25-26,39-53,95-113"
+      ],
+      "assessment": "The existing custody genesis has no MAC field and is DATA plus exact descriptor/plan/key digest equalities; stored genesis bytes are compared. Events/head are HMAC-checked under the loaded issuer key. This verifies code structure, not authentic key selection or anti-rollback.",
+      "consequence": "Native genesis/head authentication must have a independently established key/genesis/currentness custody premise and defined initial/head/migration semantics; key lifetime/zeroization are also OPEN."
+    }
+  },
+  "source_acceptance": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false
+}

@@ -1,0 +1,97 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 6,
+  "status": "COMPLETE",
+  "operator_items": {
+    "OP-1": {
+      "assessment": "WITHIN_RESERVED_SCOPE",
+      "decision": "D-2a: authoritative state provisioning/migration/installation and privileged lab installation; prior chains/history retained",
+      "evidence": [
+        "D2:1926",
+        "D3:1684-1698"
+      ]
+    },
+    "OP-2": {
+      "assessment": "WITHIN_RESERVED_SCOPE",
+      "decision": "D-2b: frontier re-enrollment adjudication; none proposed",
+      "evidence": [
+        "D2:1580-1598,1927",
+        "D3:114-116"
+      ]
+    },
+    "OP-3": {
+      "assessment": "WITHIN_RESERVED_SCOPE",
+      "decision": "D-4a: any actual authoritative resource-policy selection/change; no option selected",
+      "evidence": [
+        "D2:1928",
+        "D3:1110-1158"
+      ]
+    },
+    "OP-4": {
+      "assessment": "WITHIN_RESERVED_SCOPE",
+      "decision": "D-5a: delegation/profile installation, privileged lab use and original WORLDLINE actor quota",
+      "evidence": [
+        "D2:1929",
+        "D3:1159-1233"
+      ]
+    },
+    "OP-5": {
+      "assessment": "WITHIN_RESERVED_SCOPE",
+      "decision": "D-5b: privileged helper installation/execution",
+      "evidence": [
+        "D2:1930",
+        "D3:1190-1198"
+      ]
+    },
+    "OP-6": {
+      "assessment": "WITHIN_RESERVED_SCOPE",
+      "decision": "D-7a: original API or owner-policy alteration; none proposed here",
+      "evidence": [
+        "D2:1931",
+        "D3:109-154,1812"
+      ]
+    },
+    "OP-7": {
+      "assessment": "WITHIN_RESERVED_SCOPE_RANGE_REPAIR_REQUIRED",
+      "decision": "D-8b: kernel/system measurements; K-20/K-21 belong to the same reservation as K-15..K-19, but R3-1/R3-8 omit them",
+      "evidence": [
+        "D3:257,315-320,1969-1984",
+        "D2:1932"
+      ]
+    },
+    "OP-8": {
+      "assessment": "WITHIN_RESERVED_SCOPE",
+      "decision": "D-9a: specialized authorized fault campaigns; simulations remain simulations",
+      "evidence": [
+        "D2:1933",
+        "P1/HANDOFF.md:163"
+      ]
+    },
+    "OP-9": {
+      "assessment": "WITHIN_RESERVED_SCOPE",
+      "decision": "Merge/release/install/sudo/production/real PRIME, under existing applicable operator authority",
+      "evidence": [
+        "D2:1934,1938",
+        "PROMPT:72-74"
+      ]
+    }
+  },
+  "no_new_approval_gates": true,
+  "no_reserved_approval_lowered": true,
+  "clarifications": [
+    "C-API/root-worker independent-review gates are not new operator gates.",
+    "RC-1..RC-4 are ordinary lead-owned installed-runtime checks, OPEN and unperformed here; kernel K-15..K-21 remain D-8b reserved.",
+    "Pure-value/source/spec/schema/pin/inventory and concrete approval-package preparation retain existing authorization; draft publication retains the original review/ready conditions and is not expanded by this verdict.",
+    "S10 may be passively drafted as alternatives before D-4a selection, but its authoritative selected accounting specification cannot be claimed complete without that already-reserved decision. Clarify V-M.4 without adding a drafting gate.",
+    "This review authorizes no operational action and does not resume any paused infrastructure."
+  ],
+  "evidence": [
+    "D3:154,1969-1984,1946-1949",
+    "D2:1922-1940",
+    "D3/seams.json:operator_items",
+    "P1/HANDOFF.md:153-166"
+  ],
+  "source_acceptance": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false
+}
