@@ -172,7 +172,19 @@ V5-B02 and every original obligation stay OPEN.
   - This grants nothing further. It is distinct from the D1 v4 reviewer, which stays untouched and INCOMPLETE.
   - Details are in `deviations/capi-v4-author-taskstop/NOTE.md`, including the lead's own two historical `TaskStop`
     calls at 17:00Z and 17:14Z on 10-04. Those predate the first no-interruption instruction, at 18:29Z.
-- W-1 v3 drafting agent (author role), output to `proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`.
+- **W-1 v3** (`proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`, `97f39c89…`, 193544 bytes).
+  - Drafted by an author-role agent, which finished ~01:58Z with no refusal, deviation or interruption.
+  - It specifies the gate group, `no_new_privs` with an anti-setid seccomp filter, no-ACL recipe modes with exports, a
+    root-owned 0440 flock-only lease, commit markers, a fallback journal and launch gating.
+  - Its staged Gate 0 proposes 15368462701360/1397 for each dispatch, about 11.0 GB. The lead reproduced it with
+    JACKAL.
+- **Package v6.** DRAFT-v6 (`106dea2c…`) and W-1 v3 are frozen in `package-frozen/`. Their actual gpt-6.1-sol
+  re-review started ~02:12Z (`package-review/gpt61-v3`).
+  - The brief asks the reviewer not to interrupt tools and to batch JACKAL calls modestly.
+- **Storage at 02:01:52Z.** Free 10370256896 bytes, 370256896 above the reserve.
+  - Runbook v4.3 Gate 0 margin: −8787102018540/1397.
+  - W-1 v3 dispatch-stage margin: −14851213817648/1397.
+  - Both are JACKAL exact. All stages are DEFERRED.
 
 ## Earlier progress log
 
