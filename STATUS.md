@@ -247,7 +247,22 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 08:27Z)
+## In progress (updated 08:41Z)
+
+- **Operator package DRAFT-v9: frozen and under review.**
+  - **Freeze.** `package-drafts/DRAFT-v9.md` `e3e0e5c4…` (96186 bytes) was frozen at 08:40Z.
+  - **Content.**
+    - It makes PKG-V8-CURRENT-STATUS.
+    - It takes W-1 off the package's readiness criteria: W-1 now has its own review track, and the package reports
+      W-1's sealed status. Nothing is lowered.
+    - It gives the exact W-CLOSED criteria and the review's finding on which restrictions are new.
+    - It labels historical W-1 entries, carries the current C-API rulings, and lists every author process note.
+    - Storage to 08:38:59Z: 69637120 below the reserve; Gate 0 −9401633958892/1397; W-1 dispatch −15465745758000/1397
+      (JACKAL exact).
+  - **Review.** Its actual gpt-6.1-sol review started 08:40Z: brief `briefs/operator-package-review-v9.md` (`949ad2aa…`),
+    thread `01a10b38-e42d-73c2-9a6f-aa7af2a60814`, output to `package-review/gpt61-v6`. The brief asks the reviewer
+    to judge the scope change itself.
+- **W-1 v6** is being drafted by the resumed W-1 author (~08:36Z) as one complete document, for its own review.
 
 - **Root-worker SEAM DESIGN v4** (`designs/claude-root-worker-seam-design-v4`).
   - **Files.** SEAM-DESIGN.md `f65629cb…`, seams.json `92a814a4…`, jackal.json `4d556a45…`, AUTHOR-NOTES.md `0bd92ccd…`.
