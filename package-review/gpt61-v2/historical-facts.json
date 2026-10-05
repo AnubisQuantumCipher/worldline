@@ -1,0 +1,622 @@
+{
+  "schema": "passive-historical-fact-rechecks-v1",
+  "prior_line_rechecks": [
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 3635,
+      "timestamp": "2026-10-04T14:54:38.964Z",
+      "line_sha256": "7eaf6641772bccf08e6d7bf9a807a8e65f58a3afe39a9e9f0ff4c9c028906a6b",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "  \"at\": \"2026-10-04T14:54:38.833395+00:00\","
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6067,
+      "timestamp": "2026-10-04T17:23:39.121Z",
+      "line_sha256": "9a7f2cb5f83570fd0e28e008c2d424c9208e789ae42e1d3a02aaf64be9fdab22",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "1129239130\t/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source",
+        "8018807\t/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6079,
+      "timestamp": "2026-10-04T17:23:49.074Z",
+      "line_sha256": "012180e6af535e6ffe7842b98d81c957201ec36811bb7f209452c2c76c538114",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=1129239130-8018807 exact=1121220323 approx=1121220323\",\"fields\":{\"approx\":\"1121220323\",\"exact\":\"1121220323\",\"parsed\":\"1129239130-8018807\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6080,
+      "timestamp": "2026-10-04T17:23:49.237Z",
+      "line_sha256": "311c6fbe1d869da054d5d80b9def0f3784ccde8d7ecd6e639c6ae04b19d52d2b",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=11365019648-10000000000-2*(1129239130-8018807) exact=-877420998 approx=-877420998\",\"fields\":{\"approx\":\"-877420998\",\"exact\":\"-877420998\",\"parsed\":\"11365019648-10000000000-2*(1129239130-8018807)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6516,
+      "timestamp": "2026-10-04T17:58:11.141Z",
+      "line_sha256": "32b53d3fb12618653b7b242c806439a14636c25d0d717998145ab83bac62f5b3",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "11289907200 528325730304",
+        "11289907200 528325730304"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6743,
+      "timestamp": "2026-10-04T18:14:10.004Z",
+      "line_sha256": "ce0ec8ba4da991e35c1083a62bcf53931ceee3f565b079dbf0028bb6c1020469",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "8018807\t/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6747,
+      "timestamp": "2026-10-04T18:14:15.757Z",
+      "line_sha256": "d97b9c2ffce34b6242f9e7c165f6792f56e40bb9ae22340fac275513ee23a0c1",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "   - Full prove-all-k: G = 1121220323 bytes (measured F10K obj growth; JACKAL exact). At 17:2xZ:"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6991,
+      "timestamp": "2026-10-04T18:27:58.215Z",
+      "line_sha256": "39f7c57e89a9894cd19a14d10affcea8f4b4092dfa5957bce179f4a9c123bb57",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "1121220323\t/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7436,
+      "timestamp": "2026-10-04T18:44:45.316Z",
+      "line_sha256": "98b43bbbc23de10b021b828b5337a7d1e56d13cd2dee46e1ffe95c7988d597c0",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "free 11188842496"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7518,
+      "timestamp": "2026-10-04T18:49:03.452Z",
+      "line_sha256": "0b422ece1f3b0a1e8425d2d6986d0cdbbd4f83b261b04910c8102315f92dbc79",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "effective-limits-before.json {'at': '2026-10-04T14:54:38.833395+00:00'}"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7534,
+      "timestamp": "2026-10-04T18:49:23.845Z",
+      "line_sha256": "7a7721da849747986475af77a4dec7c05d5bc3f5dc9633d2c1dd8a75b7852c27",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=(11289907200-11188842496)/(18*3600+44*60+45-(17*3600+58*60+11)) exact=50532352/1397 approx=36172.04867573371\",\"fields\":{\"approx\":\"36172.04867573371\",\"exact\":\"50532352/1397\",\"parsed\":\"(11289907200-11188842496)/(18*3600+44*60+45-(17*3600+58*60+11))\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-cov"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7543,
+      "timestamp": "2026-10-04T18:49:24.621Z",
+      "line_sha256": "6db90100eee52d4def630812ea028c2cadbf6bbcee3882fcb446be242459e53c",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*1121220323 exact=2242440646 approx=2242440646\",\"fields\":{\"approx\":\"2242440646\",\"exact\":\"2242440646\",\"parsed\":\"2*1121220323\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7625,
+      "timestamp": "2026-10-04T18:52:12.308Z",
+      "line_sha256": "c9c09324e76c5c5147b38ea21489a0f548db308b283119d859a8b40d003ccc55",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=11185594368-10000000000-(2*(16777216+2242440646+545393048)+1468268019712/1397) exact=-7648075570156/1397 approx=-5474642498.322119\",\"fields\":{\"approx\":\"-5474642498.322119\",\"exact\":\"-7648075570156/1397\",\"parsed\":\"11185594368-10000000000-(2*(16777216+2242440646+545393048)+1468268019712/1397)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"ex"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8556,
+      "timestamp": "2026-10-04T20:37:33.140Z",
+      "line_sha256": "d1a7ec695d15871bde98d8be28b0cc8d680b5c4f26babf824776e5624a2f3fe0",
+      "matches_prior_line_sha256": false,
+      "excerpt": "Sun Oct  4 20:37:33 UTC 2026\nfree 10592727040 reserve 10000000000 backup ActiveState=failed SubState=failed ExecMainStatus=1"
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8563,
+      "timestamp": "2026-10-04T20:37:46.520Z",
+      "line_sha256": "9606ea3ecec2abf18a82c107d89db2c17f7e11eb44b41d838e1ce905726e6df8",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=(11185594368-10592727040)/(20*3600+37*60+33-(18*3600+49*60+3)) exact=296433664/3255 approx=91070.25007680492\",\"fields\":{\"approx\":\"91070.25007680492\",\"exact\":\"296433664/3255\",\"parsed\":\"(11185594368-10592727040)/(20*3600+37*60+33-(18*3600+49*60+3))\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-cov"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8581,
+      "timestamp": "2026-10-04T20:41:04.910Z",
+      "line_sha256": "cb505380238da8543be286b5038cbc9216503f85d6309d3132f1056bd1a22763",
+      "matches_prior_line_sha256": false,
+      "excerpt": "2303258624 /home/sicarii/.codex/thread_history_1.sqlite\n540635136 /home/sicarii/.codex/logs_2.sqlite\n166631656 /home/sicarii/.codex/sessions/2026/10/03/rollout-2026-10-03T11-01-35-01a10248-eb08-7df0-a926-308164412cce.jsonl\n30961688 /home/sicarii/.codex/cache/remote_plugin_catalog/b5cee66fde8ee6bf.json\n26909271 /home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl\n\n607 files, 4791874038 bytes (current sizes of files modified since 14:49 EDT)"
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8789,
+      "timestamp": "2026-10-04T20:59:40.431Z",
+      "line_sha256": "839a05d22174584fb238edc86ed03a904823a27ec62697e282d84bce46c631a7",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "65\t  - A_obj 2 \u00d7 1121220323;"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8909,
+      "timestamp": "2026-10-04T21:02:25.742Z",
+      "line_sha256": "81a613cca0cf692585d6a9c25b4b4d418513127e512ca1595670a6c41880db25",
+      "matches_prior_line_sha256": false,
+      "excerpt": "1e8dd83 Erratum E1 to the D2 inventory: chain-authority and run-ledger files are pinned (169 effective keys); every packet 01-14 touches pinned text\n21:02:25\n10550894592\n-rw-r--r-- 1 sicarii sicarii 2057275 17:01:42 events-1.jsonl\n-rw-r--r-- 1 sicarii sicarii 1255229 17:02:17 events-1.jsonl\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1:\ncheckpoint-1.json\ncheckpoint-2.json\n\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1:\ncheckpoint-1.json\ncheckpoint-2.json"
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8913,
+      "timestamp": "2026-10-04T21:02:56.210Z",
+      "line_sha256": "17f9a155f511e48c6383cf46e1088ae0075775a4378a9ea98de990829aee4032",
+      "matches_prior_line_sha256": false,
+      "excerpt": "Exit code 1\n-rw-r--r-- 1 sicarii sicarii  540635136 17:00:26 /home/sicarii/.codex/logs_2.sqlite\n-rw-r--r-- 1 sicarii sicarii      32768 17:02:43 /home/sicarii/.codex/logs_2.sqlite-shm\n-rw-r--r-- 1 sicarii sicarii    7321272 17:02:06 /home/sicarii/.codex/logs_2.sqlite-wal\n-rw-r--r-- 1 sicarii sicarii 2307952640 17:01:42 /home/sicarii/.codex/thread_history_1.sqlite\n-rw-r--r-- 1 sicarii sicarii      32768 17:02:39 /home/sicarii/.codex/thread_history_1.sqlite-shm\n-rw-r--r-- 1 sicarii sicarii    4441392 17:02:51 /home/sicarii/.codex/thread_history_1.sqlite-wal\n190175806\t/home/sicarii/.codex/sessions/2026/10/04\n11893443305\t/home/sicarii/.cache/workflow-tmp"
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9168,
+      "timestamp": "2026-10-04T21:25:47.942Z",
+      "line_sha256": "fd2be3821dd1a3ab6ca30354f87c7c644d8c2df9a8ed6bbef4215592585ec1d6",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*(16777216+2*1121220323+545393048)+1468268019712/1397 exact=9304350902252/1397 approx=6660236866.322119\",\"fields\":{\"approx\":\"6660236866.322119\",\"exact\":\"9304350902252/1397\",\"parsed\":\"2*(16777216+2*1121220323+545393048)+1468268019712/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9252,
+      "timestamp": "2026-10-04T22:06:30.442Z",
+      "line_sha256": "5bfc8beb0ebfc7ec091facba4a94717e3dd8ad5be71f638b95bd296d74d251c6",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "61:| O5 | Ambient free-space decline from 11289907200 at 17:58:11Z to 11188842496 at 18:44:45Z | `df` / `storage_status.py` |"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9267,
+      "timestamp": "2026-10-04T22:06:41.926Z",
+      "line_sha256": "affb23f74beb875f03de66e2e28a387d86a0eda038e33b34f9734892a5d96508",
+      "matches_prior_line_sha256": false,
+      "excerpt": "{'local_disk_bytes': {'total': 528325730304, 'used': 496253366272, 'free': 10516852736}, 'configured_local_reserve_bytes': 10000000000, 'blanket_eviction_enabled': False, 'reviewed_queue_policy': 'Existing worker can offload explicitly enrolled candidates; no blanket cleanup.', 'ipad_availability': 'Not probed by this local-only preflight; vault operations validate mount and identity.', 'recorded_operation': {'state': 'passed', 'phase': 'list', 'owner_pid': 2874181, 'pid': 2874238, 'started': '2026-10-04T22:00:00.400381+00:00', 'updated': '2026-10-04T22:00:00.400845+00:00', 'finished': '2026-10-04T22:00:00.915646+00:00', 'exit_code': 0, 'boundary': 'Recorded operation; a running label can be stale after interruption.'}, 'offload_queue': {'counts_by_state': {'done': 13, 'needs-review': 25, 'cancelled': 1}, 'pending_or_review': [{'id': 'a740fa66a2304501b281c7f0039ce837', 'path': '/home/sicarii/.cache/anubis-wt/target-codex-bands', 'state': 'needs-review', 'error': 'Record source commit, toolchain and rebuild command before automated offload; original retained.'}, {'id': 'e6585ad6ad994ca5bf7ff639f33893b1', 'path': '/home/sicarii/.cache/anubis-wt/target-crash', 'state': 'needs-review', 'error': 'Record source commit, toolchain and rebuild command before automated offload; original retained.'}, {'id': 'dd9ea8a62e2e4950b60b02c39f87940b', 'path': '/home/sicarii/.cache/anubis-wt/target-crash10', 'state': 'needs-review', 'error': 'Record source commit, toolchain and rebuild command before automated offload; original retained.'}, {'id': 'dddadf75cbc041a5b52b85cf6baa83e4', 'path': '/home/sicarii/.cache/anubis-wt/target-d9', 'state': 'needs-review', 'error': 'Record source commit, toolchain and rebuild command before automated offload; original retained.'}, {'id': 'cf667514fc5b493cbe57be6714c9020e', 'path': '/home/sicarii/.cache/anubis-wt/target-esc', 'state': 'needs-review', 'error': 'Record source commit, toolchain and rebuild command before automated offload; original retained.'}, {'id': '05cd50447b5648d88f1bfd0d840d4b4f', 'path': '/home/sicarii/.cache/anubis-wt/target-esc-dbg', 'state': 'needs-review', 'error': 'Record source commit, toolchain and rebuild command before automated offload; original retained.'}, {'id': '60fd7a82d23d4947833a3aeee3c1e6cc', 'path': '/home/sicarii/.cache/anubis-wt/target-esc-r37', 'state': 'needs-review', 'error': 'Record source commit, toolchain and rebuild command before automated offload; original retained.'}, {'id': '694617298aa84f1"
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9277,
+      "timestamp": "2026-10-04T22:06:53.184Z",
+      "line_sha256": "02975c0a6b2b1fba9178abbe1e3373257cab2dbe2cc012b8bb3e657f18b68de4",
+      "matches_prior_line_sha256": false,
+      "excerpt": "2026-10-04T22:06:53Z\nfree 10516545536 reserve 10000000000 backup ActiveState=failed SubState=failed ExecMainStatus=1\n2026-10-04T22:06:53Z"
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9322,
+      "timestamp": "2026-10-04T22:07:29.590Z",
+      "line_sha256": "f9930987c7e126f2bc4850d55023083d7c3dfb54be7f418c861fd7a0dea635f4",
+      "matches_prior_line_sha256": true,
+      "excerpt": [
+        "96\t  - A_obj 2 \u00d7 1121220323;"
+      ]
+    }
+  ],
+  "new_relevant_transcript_lines": [
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 2190,
+      "timestamp": "2026-10-04T13:42:59.511Z",
+      "line_sha256": "bf4a9e19a5a840c2c3e0e5e7d3c6bde6e18422f26a115a5309fc34f6789601aa",
+      "matched_lines": [
+        "   - iPad backups unhealthy (EIO, identity mismatch) \u2014 reported; no offload possible."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 4487,
+      "timestamp": "2026-10-04T16:01:35.230Z",
+      "line_sha256": "34b54a86364a6a2bc2a5c15c38444b4a240ca0deca795ccd662afb655fb91f9a",
+      "matched_lines": [
+        "-rw-r--r--  1 sicarii sicarii 620880 Oct  4 12:01 events-1.jsonl"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 5281,
+      "timestamp": "2026-10-04T16:32:21.085Z",
+      "line_sha256": "67ff94ac0f7507304e0b47dfa8b86689dbe3149c08973b6a2972bf407cf66c6e",
+      "matched_lines": [
+        "Oct 04 12:01:31 83 python3[1654528]:                             ~~~~^^",
+        "Oct 04 12:01:31 83 python3[1654528]:   File \"/home/sicarii/Projects/project-vault/scheduled.py\", line 23, in main",
+        "Oct 04 12:01:31 83 python3[1654528]:     v.initialize()",
+        "Oct 04 12:01:31 83 python3[1654528]:     ~~~~~~~~~~~~^^",
+        "Oct 04 12:01:31 83 python3[1654528]:   File \"/home/sicarii/Projects/project-vault/vault.py\", line 169, in initialize",
+        "Oct 04 12:01:31 83 python3[1654528]:     marker.write_text(self.cfg['vault_id'] + '\\n')",
+        "Oct 04 12:01:31 83 python3[1654528]:     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "Oct 04 12:01:31 83 python3[1654528]:   File \"/usr/lib/python3.14/pathlib/__init__.py\", line 809, in write_text",
+        "Oct 04 12:01:31 83 python3[1654528]:     with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:",
+        "Oct 04 12:01:31 83 python3[1654528]:          ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 5970,
+      "timestamp": "2026-10-04T17:06:16.692Z",
+      "line_sha256": "5e8fbfdb763507305f30451b27fbb4fd1de238fe254b8c9c43071172d5b3d36a",
+      "matched_lines": [
+        "3. **Storage.** The iPad backup failed with an I/O error at 12:01 EDT, so verified offload isn't available. Disk headroom is about 1.6 GB above the 10 GB reserve, so scratch proof runs must go one at a time."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6129,
+      "timestamp": "2026-10-04T17:25:54.438Z",
+      "line_sha256": "c0e05d4d054c0c562700e4661ea6896cf19acc6e2acfa12741aa814d6c7767d2",
+      "matched_lines": [
+        "- **Offload isn't available right now.** The iPad backup failed with an I/O error at 12:01 and the backup service is still `failed`. I'm not counting old receipts or the mounted path as healthy."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 6747,
+      "timestamp": "2026-10-04T18:14:15.757Z",
+      "line_sha256": "d97b9c2ffce34b6242f9e7c165f6792f56e40bb9ae22340fac275513ee23a0c1",
+      "matched_lines": [
+        "   backup/health check. The iPad backup failed with EIO at 2026-10-04 12:01 EDT and the backup service is"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7525,
+      "timestamp": "2026-10-04T18:49:10.651Z",
+      "line_sha256": "645f90864ddefca72a16633738b8f8e5701138e28cf8b5129b086fded4be9940",
+      "matched_lines": [
+        "  **M5 \u2014 MINOR. Lines 1760-1764 with 1633-1641.** Conclusion closes every handle before its final `print`. If that write fails (ENOSPC or EIO on the stdout file), `run` cannot retain `conclude-failure.json`: `write_json` on a closed handle raises TypeError, so only stderr gets it. This contradicts FRAME:209. Fix: do a guarded print before closing the handles."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7544,
+      "timestamp": "2026-10-04T18:49:24.771Z",
+      "line_sha256": "be9fb22e0aa84628ac7cc18417a507b0665de9eba21b529b7ca660ed134f9b13",
+      "matched_lines": [
+        "  **M5 \u2014 MINOR. Lines 1760-1764 with 1633-1641.** Conclusion closes every handle before its final `print`. If that write fails (ENOSPC or EIO on the stdout file), `run` cannot retain `conclude-failure.json`: `write_json` on a closed handle raises TypeError, so only stderr gets it. This contradicts FRAME:209. Fix: do a guarded print before closing the handles."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7814,
+      "timestamp": "2026-10-04T18:59:26.734Z",
+      "line_sha256": "477db1ab8ee05f8369030b33dc88e18013313ab1b5ec958315219e7465e3ea6b",
+      "matched_lines": [
+        "WORLDLINE monitor on frame-v6-PLAN.md: keep the original guarantees fixed. The proposed 'own-inode relocation, detected and refused' residual does not by itself satisfy the original requirement that frame mutations stay within the intended run tree. Keep V5-B02 OPEN until the original criterion is met; an independent reviewer can assess a design but cannot grant an operator-only weakening. Likewise, periodic storage sampling plus a factor on the maximum observed write rate does not establish a maximum future write rate or stop latency, so it cannot support the stated 'guaranteed never' storage floor or justify replacing A_obj with an enforced bound. An additive monitoring guard may be developed as defensive engineering, but retain the existing capacity gate until a reviewed, requirement-preserving admission argument exists. Correct these claims in the plan and carry the exact unresolved criteria into the actual GPT-6.1 review. Continue authorized engineering and await the completed review reports; no exception or operator approval is granted."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 7826,
+      "timestamp": "2026-10-04T19:00:40.957Z",
+      "line_sha256": "e9b876328b50a5d6f19e1340d1250f1798cfb60f31acabeeb9b7a26e9921d8e5",
+      "matched_lines": [
+        "WORLDLINE monitor on frame-v6-PLAN.md: keep the original guarantees fixed. The proposed 'own-inode relocation, detected and refused' residual does not by itself satisfy the original requirement that frame mutations stay within the intended run tree. Keep V5-B02 OPEN until the original criterion is met; an independent reviewer can assess a design but cannot grant an operator-only weakening. Likewise, periodic storage sampling plus a factor on the maximum observed write rate does not establish a maximum future write rate or stop latency, so it cannot support the stated 'guaranteed never' storage floor or justify replacing A_obj with an enforced bound. An additive monitoring guard may be developed as defensive engineering, but retain the existing capacity gate until a reviewed, requirement-preserving admission argument exists. Correct these claims in the plan and carry the exact unresolved criteria into the actual GPT-6.1 review. Continue authorized engineering and await the completed review reports; no exception or operator approval is granted."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8007,
+      "timestamp": "2026-10-04T19:13:47.674Z",
+      "line_sha256": "4f58e6897716f7e3091bad7f525ff195bda1ea6f0c13076fc23c40d7fb689c8a",
+      "matched_lines": [
+        "In response to your 19:07 status and holding v6 until a choice: no operator choice or privileged action is approved. Keep proof dispatch blocked by the original confinement and capacity gates. Continue the already-authorized preparation now: finish a concrete isolation/storage proposal with the exact authority boundary, required setup, resource budget, failure/custody behavior, commands, rollback and retained evidence; incorporate the completed D1/frame reports and C-API v3, then obtain actual GPT-6.1 review of the consolidated operator package. A root-made filesystem is a candidate, not an established sufficient design or approved sudo/install action. Keep independent reversible defensive/source work moving where it does not depend on that choice. Bring the human the concrete reviewed choices after preparation is complete. Preserve all original obligations, fixtures, contracts and thresholds. Treat interim review checkpoints as interim, and Packet 13 notice removal as an untested hypothesis until matching-source evidence exists."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8012,
+      "timestamp": "2026-10-04T19:14:23.977Z",
+      "line_sha256": "c00775f95824e2d4468cc6537c117d0ace798b5bb6424793b2cca84683ecdab0",
+      "matched_lines": [
+        "Understood. No operator choice or privileged action is approved, and proof dispatch stays blocked by both the confinement and capacity gates. The root-made filesystem is only a candidate. Interim checkpoints stay interim, and packet 13 remains an untested hypothesis. Next:"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8243,
+      "timestamp": "2026-10-04T19:25:13.944Z",
+      "line_sha256": "e9e4b0277dcd832bf599bec051c9e1aa49c8e68073bdd28e833f12304e0443db",
+      "matched_lines": [
+        "- A root-made filesystem with a run tree my user owns can't satisfy the final V5-B01 wording, because my user's other processes could still edit the files. The proposal instead uses a dedicated `wlscratch` account that owns the run tree, which my user can read but never write or rename. That mirrors the existing `worldline`, `wldrill` and `wlrehearsal` accounts."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8682,
+      "timestamp": "2026-10-04T20:58:20.505Z",
+      "line_sha256": "f013093346316aee69d30b9ddf79716de9f17360329089323d3c0752379528e2",
+      "matched_lines": [
+        "     (e) \"no operator choice or privileged action is approved. Keep proof dispatch blocked by the original confinement and capacity gates. Continue the already-authorized preparation now: finish a concrete isolation/storage proposal with the exact authority boundary, required setup, resource budget, failure/custody behavior, commands, rollback and retained evidence; incorporate the completed D1/frame reports and C-API v3, then obtain actual GPT-6.1 review of the consolidated operator package. A root-made filesystem is a candidate, not an established sufficient design or approved sudo/install action. Keep independent reversible defensive/source work moving where it does not depend on that choice. Bring the human the concrete reviewed choices after preparation is complete. Preserve all original obligations, fixtures, contracts and thresholds. Treat interim review checkpoints as interim, and Packet 13 notice removal as an untested hypothesis until matching-source evidence exists.\"",
+        "   - Pasted: \"WORLDLINE monitor on frame-v6-PLAN.md: keep the original guarantees fixed. The proposed 'own-inode relocation, detected and refused' residual does not by itself satisfy the original requirement that frame mutations stay within the intended run tree. Keep V5-B02 OPEN until the original criterion is met; an independent reviewer can assess a design but cannot grant an operator-only weakening. Likewise, periodic storage sampling plus a factor on the maximum observed write rate does not establish a maximum future write rate or stop latency... An additive monitoring guard may be developed as defensive engineering, but retain the existing capacity gate until a reviewed, requirement-preserving admission argument exists. Correct these claims in the plan and carry the exact unresolved criteria into the actual GPT-6.1 review. Continue authorized engineering and await the completed review reports; no exception or operator approval is granted.\"",
+        "   - Pasted (new turn): \"In response to your 19:07 status and holding v6 until a choice: no operator choice or privileged action is approved. Keep proof dispatch blocked by the original confinement and capacity gates. Continue the already-authorized preparation now: finish a concrete isolation/storage proposal with the exact authority boundary, required setup, resource budget, failure/custody behavior, commands, rollback and retained evidence; incorporate the completed D1/frame reports and C-API v3, then obtain actual GPT-6.1 review of the consolidated operator package. A root-made filesystem is a candidate, not an established sufficient design or approved sudo/install action. Keep independent reversible defensive/source work moving where it does not depend on that choice. Bring the human the concrete reviewed choices after preparation is complete. Preserve all original obligations, fixtures, contracts and thresholds. Treat interim review checkpoints as interim, and Packet 13 notice removal as an untested hypothesis until matching-source evidence exists.\""
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8789,
+      "timestamp": "2026-10-04T20:59:40.431Z",
+      "line_sha256": "839a05d22174584fb238edc86ed03a904823a27ec62697e282d84bce46c631a7",
+      "matched_lines": [
+        "41\t- `backup_service`: `ActiveState=failed`. The iPad backup failed with EIO at 12:01 EDT."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 8801,
+      "timestamp": "2026-10-04T20:59:51.948Z",
+      "line_sha256": "f9802c4284cd9170353bc20e89a5e75f6973a60ddf35ce4a0d5024824b6da927",
+      "matched_lines": [
+        "  - \"frame mutations stay within the intended run tree\";"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9006,
+      "timestamp": "2026-10-04T21:12:25.265Z",
+      "line_sha256": "bfe848500b84d311b41cea730505dbd0cfc918d870d1dace4902a21505b2dca7",
+      "matched_lines": [
+        "Supervision correction for DRAFT-v4 P-1: the human's preserved authorization covers routine reversible engineering; a review brief or review finding is not new authority to add approval gates. Your E1 traces the blanket pinned-text restriction to your own brief. HANDOFF.md, Complete verification and acceptance sequence item 1, explicitly requires reviewed source deltas and recomputing effective pins. Do not request retroactive or blanket operator approval solely because an implementation file is pinned. Preserve the sealed D2 review and E1, and have the actual GPT-6.1 package review correct this provenance/scope inconsistency against the original requirements. This is not permission to redefine reference semantics, change an unapproved API, lower contracts, scope, accepted cases or controls, or waive any proof/runtime/review gate. Material API/owner-policy and merge/release/install/sudo/production/real-PRIME decisions remain reserved. Continue the concrete package preparation and existing reviews under the original authorization; no tools should be interrupted."
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9322,
+      "timestamp": "2026-10-04T22:07:29.590Z",
+      "line_sha256": "f9930987c7e126f2bc4850d55023083d7c3dfb54be7f418c861fd7a0dea635f4",
+      "matched_lines": [
+        "3\tPrepared by the Claude Code lead (claude-opus-5-5) on 2026-10-04 (~22:10Z).",
+        "64\t  `ExecMainStatus=1`. The iPad backup failed with EIO at 12:01 EDT.",
+        "251\t- \"Do not request retroactive or blanket operator approval solely because an implementation file is pinned.\""
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9470,
+      "timestamp": "2026-10-04T23:22:20.219Z",
+      "line_sha256": "bd8859c22d25b36ec55b63f71e0b92d6d9d28207957c68325e9e08ea14f918b9",
+      "matched_lines": [
+        "187\tOwn-inode 'detected and refused' does not undo a prohibited frame mutation; V5-B02 stays OPEN. A root-made filesystem and W-1 are candidates, not established sufficient designs or approved sudo/install actions. A successful alternate tool after an isolation refusal supplies no clearance. Packet 13 notice removal remains an untested hypothesis until matching-source strict evidence exists. Every required review must be actual `gpt-6.1-sol`; Luna high is only the WORLDLINE actor through the original adapter. (P:7\u201318,154\u2013155,187\u2013188,292,312\u2013319,614; F5:84,119\u2013123; H:173; IS:115\u2013120.)"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9492,
+      "timestamp": "2026-10-04T23:23:50.591Z",
+      "line_sha256": "bad74c6184693746c60187f66b03291612c6db348347b8b7a7c2e86f2f9bd345",
+      "matched_lines": [
+        "-rw-r--r-- 1 sicarii sicarii 176041774 Oct  4 19:22 /home/sicarii/.codex/sessions/2026/10/03/rollout-2026-10-03T11-01-35-01a10248-eb08-7df0-a926-308164412cce.jsonl"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9609,
+      "timestamp": "2026-10-04T23:31:52.831Z",
+      "line_sha256": "bc5218b1f626a065c266351007e23bca34063643a81de93018e583b87c1df58f",
+      "matched_lines": [
+        "251:- \"Do not request retroactive or blanket operator approval solely because an implementation file is pinned.\""
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9615,
+      "timestamp": "2026-10-04T23:32:06.797Z",
+      "line_sha256": "709b9b7c3dc1dc91783a0988f1291c2d8194cd476b1e064cb3605eebfea52701",
+      "matched_lines": [
+        "2026-10-04T23:32:06Z",
+        "free 10460753920 reserve 10000000000 backup ActiveState=failed SubState=failed ExecMainStatus=1 queue {'done': 13, 'needs-review': 25, 'cancelled': 1}",
+        "2026-10-04T23:32:06Z"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9627,
+      "timestamp": "2026-10-04T23:32:10.804Z",
+      "line_sha256": "7be9111a3660fe3d8cdccc0078c9b169ac8cc83a1b3e09ba2681440e299275ba",
+      "matched_lines": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=10460753920-10000000000 exact=460753920 approx=460753920\",\"fields\":{\"approx\":\"460753920\",\"exact\":\"460753920\",\"parsed\":\"10460753920-10000000000\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9628,
+      "timestamp": "2026-10-04T23:32:10.957Z",
+      "line_sha256": "37bdefbd4bdca1253a87364b5d28cd03815cf2b47df61c605bca74be56491b0b",
+      "matched_lines": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=10460753920-10000000000-9304350902252/1397 exact=-8660677676012/1397 approx=-6199482946.322119\",\"fields\":{\"approx\":\"-6199482946.322119\",\"exact\":\"-8660677676012/1397\",\"parsed\":\"10460753920-10000000000-9304350902252/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9629,
+      "timestamp": "2026-10-04T23:32:11.106Z",
+      "line_sha256": "dc2ec99870e4c002537192da529e79c50d04a1b86cb14dd5adbe21090c2518eb",
+      "matched_lines": [
+        "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=(10516545536-10460753920)/(23*3600+32*60+6-(22*3600+6*60+53)) exact=55791616/5113 approx=10911.718364952083\",\"fields\":{\"approx\":\"10911.718364952083\",\"exact\":\"55791616/5113\",\"parsed\":\"(10516545536-10460753920)/(23*3600+32*60+6-(22*3600+6*60+53))\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9656,
+      "timestamp": "2026-10-04T23:34:31.666Z",
+      "line_sha256": "36fa83860eec7c1228cfb0595f3089c9c4a34c5e9403576bafe51720b35825c6",
+      "matched_lines": [
+        "f423d6be7f862f562cb56636ee8d03efc746e5043a12361e9dd4255911694733  work/claude-operator-decision-package-v1/DRAFT-v5.md",
+        "f423d6be7f862f562cb56636ee8d03efc746e5043a12361e9dd4255911694733  work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v5.md",
+        "1c116f27bd11bcd3e2fae0d00792b27c2e598928bb9ccc97f1db418102232cf6  work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v2.md",
+        "1c116f27bd11bcd3e2fae0d00792b27c2e598928bb9ccc97f1db418102232cf6  work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v2.md"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9677,
+      "timestamp": "2026-10-04T23:35:10.862Z",
+      "line_sha256": "f4e7dbde655f3d90ec6e3371d30d27eb3027c386ef509b3d42a1d2fe7edc9409",
+      "matched_lines": [
+        "5e78dbf Package v4 review sealed (NOT_READY, 9 corrections); W-1 proposal v2; runbook v4.2 (O4 qualified); frozen DRAFT-v5 (f423d6be) and its re-review brief"
+      ]
+    },
+    {
+      "path": "/home/sicarii/.claude/projects/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37.jsonl",
+      "line": 9801,
+      "timestamp": "2026-10-04T23:39:31.318Z",
+      "line_sha256": "0fb7197cc6330957d39bd5df9e45607ab397f5a7deb83f1b5b5b61ba1b2e0865",
+      "matched_lines": [
+        "150:- **Operator package.** DRAFT-v4 review sealed NOT_READY (9 corrections). DRAFT-v5 (`f423d6be\u2026`) and W-1 v2 (`1c116f27\u2026`) are frozen; their actual gpt-6.1-sol re-review started ~23:36Z (`wt-1/package-review/gpt61-v2`)."
+      ]
+    }
+  ],
+  "direct_evidence_rechecks": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/evidence/full-strict-formal-diagnostic-v1/runtime-closure-before.json",
+      "sha256": "24a6bc8cecc91f837515196335188eed36f8bd276f63004e07fd7ba2b4681b96",
+      "bytes": 25492333,
+      "mode": "0600",
+      "matches_previous_hash": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/evidence/full-strict-formal-diagnostic-v1/proof-data-before.json",
+      "sha256": "4cb65b87140cf3693cf9df7808f99466dfddcba13f34e546476ba41556d724fa",
+      "bytes": 5582338,
+      "mode": "0600",
+      "matches_previous_hash": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/evidence/full-strict-formal-diagnostic-v1/proof-elf-before.json",
+      "sha256": "6f07e4f02ff8338d09d13d1dfd88e1e2379aaa7939b50e2268625f1a9ad73ce7",
+      "bytes": 3198141,
+      "mode": "0600",
+      "matches_previous_hash": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/evidence/full-strict-formal-diagnostic-v1/vendors-before.json",
+      "sha256": "d9e8c07d586add62859b94639b32bbbaf0a11de28a25e01c876420847c9ce7b4",
+      "bytes": 701976,
+      "mode": "0600",
+      "matches_previous_hash": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+      "sha256": "481a884940f45f9677e28f36bace99d13422065241bbcaede8c06406cbc9b87f",
+      "bytes": 1170572,
+      "mode": "0600",
+      "matches_previous_hash": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/evidence/full-strict-formal-diagnostic-v1/child-wait.json",
+      "sha256": "7f47235b2e2e3db9fbdaee336efdfa058639c01081a027ccbee1ce45f06ca823",
+      "bytes": 447,
+      "mode": "0600",
+      "matches_previous_hash": true,
+      "data": {
+        "at": "2026-10-04T15:55:10.112498+00:00",
+        "pid": 1350073,
+        "argv": [
+          "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+          "-P",
+          "core/worldline_core_sources.gpr",
+          "-U",
+          "--mode=all",
+          "--level=3",
+          "--report=all",
+          "--checks-as-errors=on",
+          "--proof-warnings=on",
+          "-j2",
+          "-k"
+        ],
+        "returncode": 1,
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+      }
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/evidence/full-strict-formal-diagnostic-v1/result.json",
+      "sha256": "9678ea782638cd7a7caf76fbe6b17b521326c94e48934f6668e6c340eefed579",
+      "bytes": 760,
+      "mode": "0600",
+      "matches_previous_hash": true,
+      "data": {
+        "at": "2026-10-04T15:55:37.609509+00:00",
+        "scope_wait": 1,
+        "inputs_unchanged": true,
+        "native_artifacts_before": {},
+        "native_artifacts_after": {},
+        "native_inputs_unchanged": true,
+        "child_wait": {
+          "at": "2026-10-04T15:55:10.112498+00:00",
+          "pid": 1350073,
+          "argv": [
+            "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+            "-P",
+            "core/worldline_core_sources.gpr",
+            "-U",
+            "--mode=all",
+            "--level=3",
+            "--report=all",
+            "--checks-as-errors=on",
+            "--proof-warnings=on",
+            "-j2",
+            "-k"
+          ],
+          "returncode": 1,
+          "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+        },
+        "original_targets": "OPEN_UNCHANGED",
+        "no_proof_claim": true
+      }
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/evidence/full-strict-formal-diagnostic-v1/effective-limits-before.json",
+      "sha256": "090cc92b882ed6a1df6d5c34cca38b6925d9025b6a8b5bfd5e36486b6902e5e1",
+      "data": {
+        "at": "2026-10-04T14:54:38.833395+00:00",
+        "pid": 1350070,
+        "membership": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/claude-worldline-full-formal-diagnostic-v10k-full-strict-formal-diagnostic-v1.scope\n",
+        "memory.max": "8589934592",
+        "memory.swap.max": "0",
+        "core_soft_hard": [
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "source_truth_boundary": "Retained transcripts/records are historical observations, not live host state or authenticity/atomic-custody proof."
+}

@@ -1,0 +1,232 @@
+| K-01 | `32*(200+1)` | `6432` | bits in 201 limbs (F1) |
+| K-02 | `32*(200+1)/8` | `804` | bytes in 201 limbs (F1) |
+| K-03 | `8*803+1-32*200` | `25` | 6425 bits exceed 200 limbs |
+| K-04 | `32*201-(8*803+1)` | `7` | 6425 bits fit 201 limbs (256^803 representable) |
+| K-05 | `8*804+1-32*201` | `1` | 6433 bits exceed 201 limbs (256^804 not representable) |
+| K-06 | `32*202-(8*804+1)` | `31` | 6433 bits fit 202 limbs |
+| K-07 | `2^6432-10^1936` | positive integer; leading digits 67854160659933622185; trailing digits 7041591296 | 10^1936 < 2^6432 |
+| K-08 | `10^1937-2^6432` | positive integer; leading digits 83214583934006637781; trailing digits 2958408704 | 2^6432 < 10^1937 |
+| K-09 | `1936+1` | `1937` | digits of 2^6432 |
+| K-10 | `1937+1` | `1938` | first all-failing digit count |
+| K-11 | `2^63-1` | `9223372036854775807` | Byte_Count'Last; build_guard st_size bound |
+| K-12 | `256*(2^63-1+1)-2^71` | `0` | column bound equals 2^71 |
+| K-13 | `2^127-1-2^71` | `170141183460469229370504062281061498879` | 128-bit margin |
+| K-14 | `2^71-(2^63-1)` | `2351959869397967831041` | 64 bits insufficient |
+| K-15 | `10*255+9-(9*256+255)` | `0` | Multiply_Add carry <= 9 |
+| K-16 | `10*255+9` | `2559` | Multiply_Add column maximum |
+| K-17 | `3*255+2-(2*256+255)` | `0` | Pair_Sum_Order carry <= 2 |
+| K-18 | `2^63-3-(4*(2^61-1)+1)` | `0` | floor((2^63-3)/4) = 2^61-1 |
+| K-19 | `3*(2^61-1)` | `6917529027641081853` | maximum B.Length |
+| K-20 | `2^63-1-3*(2^61-1)` | `2305843009213693954` | allocation-size headroom |
+| K-21 | `10+0-20` | `-10` | RL-1 capacity |
+| K-22 | `10-10` | `0` | RL-1 Conserved |
+| K-23 | `0+0-10` | `-10` | RL-1 Contained |
+| K-24 | `1-(0+1)` | `0` | RL-1 epoch successor |
+| K-25 | `5-3` | `2` | RL-12 reference |
+| K-26 | `0-3` | `-3` | RL-12 v1; RL-12V usage-vs-amount and target c |
+| K-27 | `0-0` | `0` | RL-12 child target; RL-12V zero-amount row; RL-12I targets |
+| K-28 | `0-(0-1)` | `1` | RL-11; RL-12N reference; RL-12IN target p |
+| K-29 | `0-3-(0-1)` | `-2` | RL-12N v1 parent |
+| K-30 | `0-3-(0-3)` | `0` | RL-12N v1 duplicate child |
+| K-31 | `0-(0-5)` | `5` | RL-14 child target fails |
+| K-32 | `0-5-(0-5)` | `0` | RL-14 parent; RL-14P |
+| K-33 | `2^6432-1+1-2^6432` | `0` | RL-4a |
+| K-34 | `2^6432-1+2-2^6432` | `1` | RL-4b |
+| K-35 | `3*(2^6432-1)-(3*2^6432-3)` | `0` | RL-6 |
+| K-36 | `255+1-255` | `1` | RL-5a |
+| K-37 | `255+1-256` | `0` | RL-5b |
+| K-38 | `256-256^1` | `0` | IM-6 suffix overflow at n = 1 |
+| K-39 | `255+255*256-65535` | `0` | IM-6 65535 match |
+| K-40 | `0+0*256+1*256^2-65536` | `0` | IM-6 65536 match |
+| K-41 | `122+2` | `124` | runtime/ JSON operations incl. the two inline-child sites (counts observed) |
+| K-42 | `124+22+11+2+3+30` | `192` | direct-name JSON calls in the v3 universe (counts observed); reproduced by the v4 census |
+| K-43 | `4300+1` | `4301` | first digit count beyond the default limit |
+| K-44 | `4000-640` | `3360` | a 4000-digit chunk exceeds the minimum admitted limit |
+| K-45 | `6*640+461-4301` | `0` | 4301 digits in chunks of at most 640 |
+| K-46 | `65536-256^2` | `0` | IM-6 suffix overflow at n = 2 |
+| K-47 | `22+11+2+3+30` | `68` | direct-name JSON calls outside runtime/ in the v3 universe |
+| K-48 | `10*(256-1)+9-(256*10-1)` | `0` | instance 10(P-1)+9 = 10P-1 at P = 256 |
+| K-49 | `63*4+(63-15)/16` | `255` | Binary_At case 0 maximum |
+| K-50 | `15*16+(63-3)/4` | `255` | Binary_At case 1 maximum |
+| K-51 | `3*64+63` | `255` | Binary_At case 2 maximum; IM-11 cell 2 decode |
+| K-52 | `2^63+255*2^63-256*2^63` | `0` | column bound attained at the ceiling |
+| K-54 | `256*2^63-2^71` | `0` | 2^71 bound |
+| K-55 | `5+2+2+1` | `10` | PROD-PROTECTED operations (counts observed) |
+| K-56 | `6+9+1+5+2+2` | `25` | ORIGINAL-CONTROL operations (counts observed) |
+| K-57 | `122+2+10+25+3+30` | `192` | v3 direct-name scope partition; superseded by K-81 with the alias |
+| K-58 | `255+255-(1*256+254)` | `0` | RL-17a and RL-18 column split |
+| K-59 | `255+255-255` | `255` | RL-17a |
+| K-60 | `255+255-255-255-0` | `0` | RL-18 |
+| K-61 | `3+3-5` | `1` | RL-22 |
+| K-62 | `256-300` | `-44` | RL-5b capacity |
+| K-63 | `0+1*256-256` | `0` | IM-6 256 vs [00,01] |
+| K-64 | `257-(0+1*256)` | `1` | IM-6 257 vs [00,01] |
+| K-65 | `256^804-2^6432` | `0` | 256^804 = 2^6432 |
+| K-66 | `2^6432-(2^6432-1)` | `1` | IM-5 |
+| K-67 | `255+0-300` | `-45` | RL-5a capacity |
+| K-68 | `2*(2^6432-1)-(2^6432-1)-(2^6432-1)` | `0` | RL-6 before |
+| K-69 | `7-5` | `2` | RL-7a usage over amount; RL-7c' and RL-7d' held/charged total minus selected sum |
+| K-70 | `7+3-10` | `0` | RL-7a proposed |
+| K-72 | `1-2` | `-1` | RL-17b |
+| K-73 | `3+5-20` | `-12` | RL-7c capacity |
+| K-74 | `5000+1-4300` | `701` | IM-4 digits beyond the default limit |
+| K-75 | `10^5000+1-10^5000` | `1` | IM-4 mismatch |
+| K-77 | `65535-(254+255*256)` | `1` | IM-6 bottom-cell mismatch |
+| K-78 | `65535-(255+254*256)` | `256` | IM-6 top-cell mismatch |
+| K-79 | `192+1` | `193` | v3-universe JSON operations: 192 direct + 1 alias (V3-F2) |
+| K-80 | `30+1` | `31` | INSTALL-RELEASE-SCRIPT operations incl. the alias |
+| K-81 | `122+2+10+25+3+31` | `193` | v3-universe scope partition with the alias |
+| K-82 | `68+1` | `69` | v3-universe operations outside runtime/ incl. the alias |
+| K-83 | `121+2+1+1+4+2+5+14` | `150` | files in the v3 universe (per-directory counts observed) |
+| K-84 | `150+2+2+146` | `300` | all Python files in C5 (v3 universe, root, protected-lab, tests) |
+| K-85 | `250+1+3` | `254` | tests/ JSON operations: direct calls, encoder instantiation, instance method calls |
+| K-86 | `122+2+10+3+31+2` | `170` | routed scopes (production, inline child, protected, build tool, scripts, root tools) |
+| K-87 | `25+254` | `279` | original-control operations (protected controls and tests), unchanged |
+| K-88 | `170+279` | `449` | all JSON operations in the 300-file universe |
+| K-89 | `193+2+254` | `449` | cross-check of the total by directory group |
+| K-90 | `2+2+7` | `11` | stdlib text-parser decimal sites: tomllib 2, ast.literal_eval 2, argparse type=int 7 |
+| K-91 | `299+1` | `300` | C4/C5 Python identity: 299 identical + 1 differing (V3-F3) |
+| K-92 | `125+1` | `126` | files with JSON operations: 125 identical + proof_manifest.py |
+| K-93 | `1029-1023` | `6` | proof_manifest.py lines appended by C5 (V3-F3) |
+| K-94 | `10^19-(2^63-1)` | `776627963145224193` | 2^63-1 < 10^19 (build_guard st_size bound) |
+| K-95 | `2^63-1-10^18` | `8223372036854775807` | 2^63-1 has exactly 19 digits |
+| K-96 | `640-19` | `621` | digit margin of the build_guard bound under the minimum limit |
+| K-97 | `7*640+520-5000` | `0` | PY-5: a 5000-digit id splits into seven 640-digit chunks and one 520-digit chunk |
+| K-98 | `640+1` | `641` | first digit count above the minimum admitted limit (PY-2, PY-10) |
+| K-99 | `10-2` | `8` | PY-8: integer keys sort numerically (2 before 10) |
+| K-100 | `50-49` | `1` | PY-8: code point of '2' exceeds '1', so text order puts "10" first (the withdrawn E2-b order) |
+| K-101 | `-1-(0-10)` | `9` | PY-8: -10 sorts before -1 numerically |
+| K-102 | `8-(7+3)` | `-2` | RL-7b corrected: proposed held 8 minus selected sum 7+3 (V3-F7) |
+| K-103 | `5-5` | `0` | RL-7d selector (usage equals amount); RL-7c/7d/7e before totals |
+| K-104 | `3-3` | `0` | RL-7c proposed held |
+| K-105 | `2-(1+1)` | `0` | RL-7 epoch successor 1 to 2 |
+| K-106 | `8-(5+3)` | `0` | RL-7d and RL-7e proposed held |
+| K-107 | `8+0-20` | `-12` | RL-7d and RL-7e capacity |
+| K-108 | `2-5` | `-3` | RL-7e selector (usage below amount); RL-7e' before mismatch |
+| K-109 | `3+0-2` | `1` | RL-12V target p fails |
+| K-110 | `0+0-2` | `-2` | RL-12V wrong selector would hold |
+| K-111 | `2-(0-1)` | `3` | RL-12S selector (usage 2 over amount -1) and duplicate target |
+| K-112 | `2-1` | `1` | RL-12S target R1 fails |
+| K-113 | `0-1-1` | `-2` | RL-12S wrong selector target R1 holds |
+| K-114 | `0-1-(0-1)` | `0` | RL-12S wrong selector target R2; RL-12M reference target R2 |
+| K-115 | `0-5-(0-1)` | `-4` | RL-12M selector (usage -5 not over amount -1); wrong selector target R2 |
+| K-116 | `0-1-(0-2)` | `1` | RL-12M reference target R1 fails |
+| K-117 | `0-5-(0-2)` | `-3` | RL-12M wrong selector target R1 holds |
+| K-118 | `255+255*256+255*256^2` | `16777215` | IM-11 decimal value (cells FF FF FF) |
+| K-119 | `255+254*256+255*256^2` | `16776959` | IM-11 tagged magnitude [FF,FE,FF] |
+| K-120 | `255+254*256+255*256^2-(255+255*256+255*256^2)` | `-256` | IM-11 middle-cell difference |
+| K-121 | `256^3-16777215` | `1` | IM-11 decimal below 256^3: no carry-out at any digit |
+| K-122 | `255*2^16+254*2^8+255` | `16776959` | IM-11 base64 24-bit group of bytes FF FE FF |
+| K-123 | `63*2^18+63*2^12+59*2^6+63` | `16776959` | IM-11 sextets 63,63,59,63 give the text //7/ |
+| K-124 | `52+7` | `59` | base64 index of '7' |
+| K-125 | `63*4+3` | `255` | IM-11 Binary_At cell 0 = FF |
+| K-126 | `3*16+15` | `63` | 63 = 3*16 + 15 (quotient and remainder used by Binary_At) |
+| K-127 | `15*16+14` | `254` | IM-11 Binary_At cell 1 = FE |
+| K-128 | `14*4+3` | `59` | 59 = 14*4 + 3 (quotient and remainder used by Binary_At) |
+| K-129 | `16777215-10^7` | `6777215` | IM-11 decimal has at least 8 digits |
+| K-130 | `10^8-16777215` | `83222785` | IM-11 decimal has at most 8 digits |
+| K-131 | `3*268+1` | `805` | IM-10: 805 magnitude bytes = 268 full base64 groups + 1 byte (== padding) |
+| K-132 | `7*2^16-(1*2^18+48*2^12)` | `0` | IM-10 first quartet BwAA (bytes 07 00 00) |
+| K-133 | `26+22` | `48` | base64 index of 'w' |
+| K-134 | `6*2^16-(1*2^18+32*2^12)` | `0` | IM-10 mismatch edit BgAA (bytes 06 00 00) |
+| K-135 | `26+6` | `32` | base64 index of 'g' |
+| K-136 | `2^6432+7-(2^6432+6)` | `1` | IM-10 mismatch differs only in the bottom cell |
+| K-137 | `5000-1937` | `3063` | IM-4: 10^5000 exceeds 10^1937 > 2^6432, so its magnitude has at least 805 bytes |
+| K-138 | `2+2` | `4` | maximum Decide calls per Primary_And_Staged mixed request (V3-F5) |
+| K-139 | `4*(2+2)` | `16` | checks build: Integer_Matches evaluations per mixed request, one integer node per bundle, every Seal observed |
+| K-140 | `1*2+1*2` | `4` | release build: Integer_Matches evaluations per mixed request, one node per bundle |
+| K-141 | `4*(1-1)+1` | `1` | checks-build Work-allocation ordinal of Decide 1 |
+| K-142 | `4*(2-1)+1` | `5` | checks-build Work-allocation ordinal of Decide 2 |
+| K-143 | `4*(3-1)+1` | `9` | checks-build Work-allocation ordinal of Decide 3 |
+| K-144 | `4*(4-1)+1` | `13` | checks-build Work-allocation ordinal of Decide 4 |
+| K-145 | `3*(2+2)` | `12` | computed, not relied on: an unobserved Seal evaluates three bindings but makes Read_Ready or Final_Context_Matches reject, so the mixed request stops at that stage and 12 is not reached (DESIGN.md 9.5) |
+| K-146 | `256-10` | `246` | DR-C5: 10*256^(n-1) is below 256^n |
+| K-147 | `16+6+8+12` | `42` | Compare fixed PV-term multiplicity (Post 16, padding 6, Is_Negative 8, assertions 12) |
+| K-148 | `4+4` | `8` | Compare per-iteration PV-term multiplicity |
+| K-149 | `10^1937-(2^6432+7)` | positive integer; leading digits 83214583934006637781; trailing digits 2958408697 | IM-10 decimal 2^6432+7 has 1937 digits (with K-07) |
+| K-150 | `10^1936-2^6424` | positive integer; leading digits 99344319684922134288; trailing digits 3488118784 | IM-1: 10^1936 >= 256^803, so its magnitude has exactly 804 bytes (with K-07) |
+| K-151 | `2^6440-10^1937` | positive integer; leading digits 41970665128943007279; trailing digits 2647371776 | IM-2/IM-3: 10^1937 < 256^805, so magnitudes of 2^6432 .. 10^1937 have 805 bytes |
+| K-152 | `2^6432-1-2^6424` | positive integer; leading digits 16719848034485575647; trailing digits 0529710079 | IM-5: 2^6432-1 >= 256^803, so its magnitude has exactly 804 bytes |
+| K-153 | `(0^3+9*0^2+14*0+6)/3-(1+1)` | `0` | RP(0) closed form equals w(0)+p(0) |
+| K-154 | `0*(0+1)*(0^2+11*0+12)/6` | `0` | PV(0) = 0 |
+| K-155 | `(2*0^3+21*0^2+37*0+12)/6-(4*0+2*(0+1)+0+0)` | `0` | MA(0) base case |
+| K-156 | `1^3+5*1^2+7*1+1-(4*1+2*0+3*2+3*1+1)` | `0` | PB(1) closed form equals the direct level count |
+| K-157 | `(3*2^4+14*2^3+15*2^2-20*2)/12-(1+14)` | `0` | sum of PB(0), PB(1) equals the closed form at 2 |
+| K-158 | `(1^4+6*1^3+11*1^2-2*1)/2-(4*1+2*1+2*1+2*0)` | `0` | Compare residual Q(1) equals the direct count |
+| K-159 | `803*(803+1)*(803^2+11*803+12)/6` | `70334477708` | PV(803) Power_Reference invocations |
+| K-160 | `(8*803+42)*70334477708` | `454782732859928` | Compare PV terms, equal 803-byte operands |
+| K-161 | `(803^4+6*803^3+11*803^2-2*803)/2` | `209446213768` | Compare residual reference terms Q(803) |
+| K-162 | `4*70334477708` | `281337910832` | one checked Value on a valid 803-byte span |
+| K-163 | `4*(1^2+11*1+12)/3` | `32` | A-GHOST-0 per-term factor at c = 1 |
+| K-164 | `4*(8^2+11*8+12)/3` | `656/3` | A-GHOST-0 per-term factor at c = 8 |
+| K-165 | `4*(803^2+11*803+12)/3` | `2614616/3` | A-GHOST-0 per-term factor at c = 803 |
+| K-166 | `(803^3+12*803^2+20*803+6)/3` | `175178467` | D(803): decimal-phase PRI per digit, n = 803 |
+| K-167 | `(7*803^3+12*803^2+11*803)/6` | `605369655` | C(803): compare-phase PRI, n = 803 |
+| K-168 | `(3^3+12*3^2+20*3+6)/3` | `67` | D(3) |
+| K-169 | `(7*3^3+12*3^2+11*3)/6` | `55` | C(3) |
+| K-170 | `(803^3+6*803^2+5*803)/3` | `173884832` | PVW(803) |
+| K-171 | `803*(803+1)/2` | `322806` | r(803) |
+| K-172 | `454782732859928+209446213768` | `454992179073696` | Compare total PRI, equal 803-byte operands (RL-1 lower bound) |
+| K-173 | `281337910832/322806` | `2614616/3` | consistency: 4PV(803)/r(803) equals the factor K-165 |
+| K-174 | `0+1` | `1` | p(0) = 1 |
+| K-175 | `(1^3+12*1^2+20*1+6)/3-(1*(1+1)/2+(2*1^3+21*1^2+37*1+12)/6)` | `0` | D(1) = r(1) + MA(1) |
+| K-176 | `3+9` | `12` | Compare calls per selected usage row per column from row-sized invariant and lemma loops |
+| K-177 | `1+9+3` | `13` | Compare calls per selected usage row per column from executable Operand, LA-1 Post, outer invariant |
+| K-178 | `3+3` | `6` | Compare calls per selected usage row from Lemma_Close Pre and LA-7 Post |
+| K-179 | `2+2+2+1+3+1` | `11` | Value evaluations in LA-9's Post (upper bound) |
+| K-180 | `4*11` | `44` | LA-9 Post PV-term bound 44 PV(L) |
+| K-181 | `3*4` | `12` | Amount_Reference worst case 12 PV(L) (three Values) |
+| K-182 | `2*(2*12)+12` | `60` | computed, not relied on |
+| K-183 | `257*(2^6424-1)-2^6432` | positive integer; leading digits 65568031507786571166; trailing digits 6511880959 | RL-24: one-sided ghost sum of 257 operands 2^6424-1 exceeds 2^6432 |
+| K-184 | `2*257` | `514` | RL-24 child-row count |
+| K-185 | `256*2^6424-2^6432` | `0` | 256 * 2^6424 = 2^6432 |
+| K-186 | `2^6424-1-(2^6424-1)` | `0` | RL-24 alternating partial sums return to 0 |
+| K-187 | `0-(0-(2^6424-1))-(2^6424-1)` | `0` | RL-24 one +X/-X pair cancels exactly |
+| K-188 | `256^803-2^6424` | `0` | 256^803 = 2^6424 (X = 2^6424-1 has 803 bytes, all FF) |
+| K-189 | `255*2^6424-1-(2^6432-1-2^6424)` | `0` | closed form of K-152 |
+| K-190 | `6+3+5` | `14` | Python-source compilation sites: ast.parse 6, compile 3, exec 5 |
+| K-191 | `2+1` | `3` | (a) Compare evaluations per selected usage row per both-sides Side_Sum or Side_Total evaluation: two sign tests plus one term on the matching side; (b) Finish_Binary Post: two Value'Old * P(Upto) products plus one P(Upto) bound |
+| K-192 | `3*3` | `9` | Compare evaluations per selected usage row in LA-1's Post or in one LA-1 loop iteration (three both-sides Side_Sum kinds) |
+| K-193 | `1+1+2` | `4` | Compare evaluations per selected usage row in LA-9's Post (Usage_Selected conjunct, Counted conjunct, two Operand in the Signed_Prefix_Value conjunct) |
+| K-194 | `6+4` | `10` | once-per-call Compare coefficient on u: Lemma_Close Pre and LA-7 Post 6 (K-178) plus LA-9 4 (K-193) |
+| K-195 | `(12*1+13)*1*803` | `20075` | instance N = u = 1, K = 803: per-column Compare evaluations over all columns |
+| K-196 | `3*1*1+10*1` | `13` | instance N = u = 1: once-per-call Compare evaluations |
+| K-197 | `20075+13` | `20088` | instance: all Compare evaluations per Selected_Sum_Order call |
+| K-198 | `20088*454992179073696` | `9139882893232405248` | instance: Compare-term PRI with every Compare on equal nonnegative 803-byte spans (K-172 each) |
+| K-199 | `1+1` | `2` | the 2 in N + 2 (outer invariant 1 plus LA-1 Post 1; Lemma_Close Pre 1 plus LA-7 Post 1), the target's 2 prefix terms per column, and the 2 in K - L + 2 (invariant evaluations K - L + 1 plus the Post) of the padding facts |
+| K-200 | `2+2+1` | `5` | Amount_Reference coefficient on n_s (Selected_Sum_Order Post 2, Lemma_Close Post 2, LA-7 Post 1); target Value evaluations (the two Posts 2 + 2, LA-8 1) |
+| K-201 | `1+2` | `3` | Amount_Reference coefficient on N * n_s (LA-7 loop 1, LA-10 2) |
+| K-202 | `2*4` | `8` | LA-9L Post PV terms (two Value, 4 PV each) |
+| K-203 | `805-1` | `804` | n >= 805: Work_Value evaluates Power_Reference (n - 1) with n - 1 >= 804 |
+| K-204 | `804-1` | `803` | n = 804: Work_Value forms at most P(803); RL-2's failing iteration Completed = Count - 1 = 803 |
+| K-205 | `3*2` | `6` | Pair_Sum_Order Post Value evaluations (three operands, two conditions) |
+| K-206 | `6*4` | `24` | Pair_Sum_Order Post PV terms |
+| K-207 | `803-1` | `802` | RL-24: Offset of the failing LA-1 evaluation (Offset + 1 = 803) |
+| K-208 | `2*257-1` | `513` | RL-24: row position of the 257th positive child |
+| K-209 | `256*(2^6424-1)-(2^6432-256)` | `0` | RL-24: 256 operands X sum to 2^6432 - 256, which is representable |
+| K-210 | `8+3+4+6` | `21` | Compare PV coefficient per operand outside the loop (Post 8, padding base 3, Is_Negative 4, assertions 6) |
+| K-211 | `2+4` | `6` | radix-power evaluations at P(Offset) per column outside LA-1's loop (LA-1 Post 2, LA-3 actuals and Low updates 4) |
+| K-212 | `2+2` | `4` | radix-power evaluations at P(Offset + 1) per column in the outer invariants (Low bound 2, Carry product 2); also Lemma_Close Pre at P(K) |
+| PE-01 | `(x+1)-((x-1)+1)` = `1` | equal=true | p(e) = e+1 step |
+| PE-02 | `x*(x+1)/2 - (x-1)*x/2` = `x` | equal=true | r(c) = c(c+1)/2 step (r(c) - r(c-1) = p(c-1)) |
+| PE-03 | `x*(x+1)/2 + x*(x-1)/2 + 2*x + (x+1)` = `x^2+3*x+1` | equal=true | Radix_Power_Worker count w(e) |
+| PE-04 | `(x^3+9*x^2+14*x+6)/3 - ((x-1)^3+9*(x-1)^2+14*(x-1)+6)/3` = `x^2+5*x+2` | equal=true | RP(e) closed form step |
+| PE-05 | `x^2+3*x+1 + (x+1) + x` = `x^2+5*x+2` | equal=true | RP increment w(e)+p(e)+p(e-1) |
+| PE-06 | `x*(x+1)*(x+2)/6 - (x-1)*x*(x+1)/6` = `(x-1)*x/2 + x` | equal=true | S(c) = sum over k<c of r(k)+p(k): closed form step |
+| PE-07 | `(x-1)*x/2 + x` = `x*(x+1)/2` | equal=true | r(c-1)+p(c-1) = r(c), so S(c) = T(c) |
+| PE-08 | `x*(x+1)*(x+2)/6 + (x-1)*x*(x+1)/6 + (x-1)*x + 2*x + x*(x+1)/2` = `(x^3+6*x^2+5*x)/3` | equal=true | Prefix_Value_Worker count PVW(c) |
+| PE-09 | `x*(x+1)*(x^2+11*x+12)/6 - (x-1)*x*((x-1)^2+11*(x-1)+12)/6` = `(x^3+6*x^2+5*x)/3 + ((x-1)^3+9*(x-1)^2+14*(x-1)+6)/3 + x*(x+1)/2 + (x-1)*x/2 + x` | equal=true | public Prefix_Value PV(c) closed form step (self-referential Post) |
+| PE-10 | `4*x*(x+1)*(x^2+11*x+12)/6` = `(x*(x+1)/2)*(4*(x^2+11*x+12)/3)` | equal=true | A-GHOST-0 per-term factor: 4PV(c) = r(c) * (4/3)(c^2+11c+12) |
+| PE-11 | `x*(x+3)/2 - (x-1)*(x+2)/2` = `x+1` | equal=true | sum of p(k), k = 1..n, = n(n+3)/2 step |
+| PE-12 | `4*x*(x+1)/2 + 2*(x+1) + 2*x*(x+1)*(x+2)/6 + x*(x+3)/2` = `(2*x^3+21*x^2+37*x+12)/6` | equal=true | Multiply_Add per-call count MA(n) |
+| PE-13 | `x*(x+1)/2 + (2*x^3+21*x^2+37*x+12)/6` = `(x^3+12*x^2+20*x+6)/3` | equal=true | decimal-phase per-digit count D(n) = r(n) + MA(n) |
+| PE-14 | `2*x*(x*(x+1)/2) + x*(x+1)*(x+2)/6 + x*(x+3)/2` = `(7*x^3+12*x^2+11*x)/6` | equal=true | compare-phase count C(n) |
+| PE-15 | `4*x*(x+1)/2 + 2*(x-1)*x/2 + 3*(x+1) + 3*x` = `3*x^2+7*x+3` | equal=true | Prefix_Bounds per-level count |
+| PE-16 | `(x^3+5*x^2+7*x+1) - ((x-1)^3+5*(x-1)^2+7*(x-1)+1)` = `3*x^2+7*x+3` | equal=true | PB(o) = o^3+5o^2+7o+1 step |
+| PE-17 | `(3*x^4+14*x^3+15*x^2-20*x)/12 - (3*(x-1)^4+14*(x-1)^3+15*(x-1)^2-20*(x-1))/12` = `(x-1)^3+5*(x-1)^2+7*(x-1)+1` | equal=true | sum of PB(o), o < L, closed form step |
+| PE-18 | `4*x*(x+1)/2 + 2*(x*(x+1)*(x+2)/6 + (x-1)*x*(x+1)/6) + 2*(3*x^4+14*x^3+15*x^2-20*x)/12` = `(x^4+6*x^3+11*x^2-2*x)/2` | equal=true | Compare residual reference count Q(L), equal-length operands |
+| PE-19 | `(2*(x-x)+21+4*x) + (21+4*x)` = `42+8*x` | equal=true | general padded Compare PV formula specialises to (8L+42) at equal lengths |
+| PE-20 | `(x-1)*1+1` = `x` | equal=true | release-build Work-allocation ordinal of Decide k with one node per bundle equals k |
+| PE-21 | `x*(x+1)*(x+2)/6 - (x-1)*x*(x+1)/6` = `x*(x+1)/2` | equal=true | T(c) = c(c+1)(c+2)/6 step (T(c) - T(c-1) = r(c)) |
+| PE-22 | `x*(x+1)*(x+2)/6 + (x-1)*x*(x+1)/6` = `x*(x+1)*(2*x+1)/6` | equal=true | T(K)+T(K-1) = K(K+1)(2K+1)/6 (Compare residual; Selected_Sum_Order Prefix-term total) |
+| PE-23 | `3*x*(x+1)/2 + 3*(x+1)` = `3*(x+1)*(x+2)/2` | equal=true | Finish_Binary PRI: 3 r(Upto) + 3 p(Upto) = 3 r(Upto + 1) |

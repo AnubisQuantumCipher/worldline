@@ -43,29 +43,29 @@ Line numbers refer to this file. Section numbers are given with each entry.
 
 | Item | What the review requires | Where v4 answers it | Status |
 |---|---|---|---|
-| **V3-RC1** (a) | E2-b must preserve json's original-key sorting and failure behaviour, including the pre-coercion mixed-key `TypeError` | §11.4.2 serializer requirements S-1..S-10 and E2-b ({{L-1142}}); F30 in §3.4 ({{L-F30}}) | PACKAGE (no option selected) |
-| V3-RC1 (b) | Include aliased and forwarded JSON calls, at least `scripts/decisive_evaluation_test.py:264`, using a semantic census stronger than direct-name AST matching; update inventory, totals and settings | §11.1 ({{L-1111}}); Appendix A.2 (method), A.3 (193 + 2 + 254 = 449 operations), A.5 row 193 | CORRECTED; census results OBSERVED |
-| V3-RC1 (c) | Give the `native/build_guard.py` interpreter an E1 disposition or a reviewed bound | §11.3 class C12 ({{L-C12}}); Appendix A.5 rows 160-162 | PACKAGE plus a reviewed-bound proposal |
-| V3-RC1 (d) | Formatting exclusions as absolute-magnitude bounds; parsing exclusions as lexical digit-count bounds | §11.4.3 ({{L-1143}}); §11.4.4 ({{L-1144}}); Appendix A.4 | CORRECTED |
-| V3-RC1 (e) | Correct Appendix A's C4/C5 byte-identity statement for `proof_manifest.py` | Appendix A.1; F33 in §3.4 ({{L-F33}}) | CORRECTED |
-| V3-RC1 (f) | Integer-key and mixed-key-failure codec controls | §12.5 PY-8 and PY-9; also PY-10..PY-14 ({{L-PY8}}) | DESIGNED (unrun) |
+| **V3-RC1** (a) | E2-b must preserve json's original-key sorting and failure behaviour, including the pre-coercion mixed-key `TypeError` | §11.4.2 serializer requirements S-1..S-10 and E2-b (line 2262); F30 in §3.4 (line 399) | PACKAGE (no option selected) |
+| V3-RC1 (b) | Include aliased and forwarded JSON calls, at least `scripts/decisive_evaluation_test.py:264`, using a semantic census stronger than direct-name AST matching; update inventory, totals and settings | §11.1 (line 2132); Appendix A.2 (method), A.3 (193 + 2 + 254 = 449 operations), A.5 row 193 | CORRECTED; census results OBSERVED |
+| V3-RC1 (c) | Give the `native/build_guard.py` interpreter an E1 disposition or a reviewed bound | §11.3 class C12 (line 2208); Appendix A.5 rows 160-162 | PACKAGE plus a reviewed-bound proposal |
+| V3-RC1 (d) | Formatting exclusions as absolute-magnitude bounds; parsing exclusions as lexical digit-count bounds | §11.4.3 (line 2308); §11.4.4 (line 2331); Appendix A.4 | CORRECTED |
+| V3-RC1 (e) | Correct Appendix A's C4/C5 byte-identity statement for `proof_manifest.py` | Appendix A.1; F33 in §3.4 (line 437) | CORRECTED |
+| V3-RC1 (f) | Integer-key and mixed-key-failure codec controls | §12.5 PY-8 and PY-9; also PY-10..PY-14 (line 2554) | DESIGNED (unrun) |
 | V3-RC1 (g) | Synchronize `decisions.json`; keep E0/E1/E2 unselected | `decisions.json` `operator_items` OD-2; §11 | PACKAGE |
-| **V3-RC2** (a) | Equal and lower usage variants with full arrays, totals and status walks | §12.2 RL-7d, RL-7d′, RL-7e, RL-7e′ ({{L-RL7}}) | DESIGNED (unrun) |
-| V3-RC2 (b) | The remaining invalid-operand selector combinations | §12.3 RL-12V, RL-12I, RL-12IN, plus RL-12S and RL-12M; the selector matrix in §12.7 ({{L-RL12V}}) | DESIGNED (unrun) |
-| V3-RC2 (c) | A true middle-cell IM mismatch | §12.4 IM-11 ({{L-IM11}}) | DESIGNED (unrun) |
-| V3-RC2 (d) | Map X6 caller-Post and re-entry, and X7 pre-allocation exits, to admissible controls or to proved-unreachable obligations | §7.1 exit map X0..X7 ({{L-71}}); §12.6 W-7, W-8 ({{L-W7}}) | DESIGNED; probes OPEN |
+| **V3-RC2** (a) | Equal and lower usage variants with full arrays, totals and status walks | §12.2 RL-7d, RL-7d′, RL-7e, RL-7e′ (line 2462) | DESIGNED (unrun) |
+| V3-RC2 (b) | The remaining invalid-operand selector combinations | §12.3 RL-12V, RL-12I, RL-12IN, plus RL-12S and RL-12M; the selector matrix in §12.7 (line 2487) | DESIGNED (unrun) |
+| V3-RC2 (c) | A true middle-cell IM mismatch | §12.4 IM-11 (line 2528) | DESIGNED (unrun) |
+| V3-RC2 (d) | Map X6 caller-Post and re-entry, and X7 pre-allocation exits, to admissible controls or to proved-unreachable obligations | §7.1 exit map X0..X7 (line 1559); §12.6 W-7, W-8 (line 2576) | DESIGNED; probes OPEN |
 | V3-RC2 (e) | Cover staged-only and Primary_And_Staged export and lifetime paths | §12.4 IM-10P, IM-10S, IM-10PS; §12.6 W-5 matrix; §9.4, §9.5 | DESIGNED (unrun) |
 | V3-RC2 (f) | Specify RL-7c's row arrays | §12.2 RL-7c | DESIGNED |
 | V3-RC2 (g) | Correct RL-7b's arithmetic: proposed held 8 minus selected sum 7+3 | §12.2 RL-7b, using K-102 | CORRECTED |
 | V3-RC2 (h) | Mark RL-8 and RL-9 unused, or define them | §12.2: unused identifiers, no coverage credit | CORRECTED |
 | V3-RC2 (i) | Review notes: IM-7's empty magnitude with positive 7 is an overflow, not a guard rejection; IM-10's positive case must rebuild bindings and its mismatch must isolate the magnitude | §12.4 IM-6, IM-7, IM-10 | CORRECTED |
-| **V3-RC3** (a) | Rebuild §9.3/F29 from the self-referential `Prefix_Value`/`Radix_Power` Posts, `Magnitude`/`Value` body and Post, Compare's checked body and lemmas, every new helper, lemma and contract, and saved copies | §9.3.0-§9.3.5 ({{L-93}}); F29 corrected in §3.3 | CORRECTED (static source reasoning) |
+| **V3-RC3** (a) | Rebuild §9.3/F29 from the self-referential `Prefix_Value`/`Radix_Power` Posts, `Magnitude`/`Value` body and Post, Compare's checked body and lemmas, every new helper, lemma and contract, and saved copies | §9.3.0-§9.3.6 (line 1817); F29 corrected in §3.3 | CORRECTED (static source reasoning) |
 | V3-RC3 (b) | Correct A-GHOST-0's inherited factor estimate | §5.4 and §9.3.3: per-term factor `(4/3)(c²+11c+12)`, not "about K" | CORRECTED |
-| V3-RC3 (c) | Restrict B's "no recursion" statement to new declarations | §6.5 ({{L-65}}) | CORRECTED |
+| V3-RC3 (c) | Restrict B's "no recursion" statement to new declarations | §6.5 (line 1330) | CORRECTED |
 | V3-RC3 (d) | Qualify source-only stack-placement claims | F27 in §3.3; §7.4, §7.5, §9.3.5 | CORRECTED |
-| V3-RC3 (e) | Record actual checked failure points | §9.6 ({{L-96}}); W-2. This led to F34/DR-C5 (repaired) and F35 (OPEN) | CORRECTED; OPEN where stated |
-| V3-RC3 (f) | Expand mixed-call repetition and the readiness/context mapping to primary and staged, with dependency-qualified injection locations | §9.4 ({{L-94}}), §9.5 ({{L-95}}); §12.6 W-5 | CORRECTED |
-| V3-RC3 (g) | Synchronize RL-1 wording, trace and index labels, and `decisions.json` | §12.1 RL-1 ({{L-RL1}}); this table; `decisions.json` | CORRECTED |
+| V3-RC3 (e) | Record actual checked failure points | §9.6 (line 2071); W-2. This led to F34/DR-C5 (repaired) and F35 (OPEN) | CORRECTED; OPEN where stated |
+| V3-RC3 (f) | Expand mixed-call repetition and the readiness/context mapping to primary and staged, with dependency-qualified injection locations | §9.4 (line 2019), §9.5 (line 2034); §12.6 W-5 | CORRECTED |
+| V3-RC3 (g) | Synchronize RL-1 wording, trace and index labels, and `decisions.json` | §12.1 RL-1 (line 2446); this table; `decisions.json` | CORRECTED |
 | V3-RC3 (h) | Keep D2, native and cost obligations OPEN | §9.3.0, §14 | OPEN |
 
 ### 1.2 Fact corrections of the v3 review
@@ -189,7 +189,7 @@ Input identities [OBS `sha256sum` in this session]:
 | `core/resource_run_ledger_c_api.adb` / `core/resource_run_ledger_wire.adb` / `core/worldline_core_sources.gpr` | `fbc97b4c17ee0a0a17e74bae669fa11e674bb234ce5cd8f73d374b7d7e114581` / `d49ca335a1a3a353cdd0ce02ff2b51ea9b3eab359f557b5757fd09caad203a11` / `701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c` |
 | `runtime/worldline/canonical.py` / `core.py` / `finalization_kernel.py` / `evaluation_terminal.py` | `d80f79bcedace5364d2e9a238ab05b48250660d86cfb4c14aa5393f4b37952af` / `ee77fa7a39178b844972b3a3d704fb0732b93b73aead8c2b80137db66454786c` / `918fc2caef37d4bb5cdd4a5ff3f4b0ea072e156c3763d90afafa501c235a57a3` / `9f5e97446797f09633008c3d8c1f7d6759b674122681887e73a7a6e78db53033` |
 | `tests/test_finalization_kernel.py` / `tests/test_raw_evaluation_default.py` / `tests/test_resource_run_ledger_v1.py` | `76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62` / `22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0` / `eff3894460e2407afaeecaef78433f660b4c80a11c621f5a7ef67ac452ac0f63` |
-| `APPENDIX-A-python-conversion-surface.md` (v4) / `jackal.json` (v4) | {{SHA-A}} / {{SHA-J}} |
+| `APPENDIX-A-python-conversion-surface.md` (v4) / `jackal.json` (v4) | `8c8772d0bae606c45d06428cf6ee69da8afa94231477eb2152e5857accc5e996` / `c3de17e765f8d67f3ac01e65295a28bca199426a0b61d1cba7d3e557c8962bd3` |
 
 Python standard-library, header and other C5 Python identities are in Appendix A.1. The pins in
 `runtime/worldline/proof_manifest.py` are normalized hashes from the official generator and differ from raw file hashes
@@ -1310,7 +1310,8 @@ short-circuit right operand or a conditional dependent) would fall under the RM 
    --      (To_Big_Integer (10) * Prefix (Before, I) + To_Big_Integer (D)
    --       = (if Next_Carry (Carry_In, C_Out, I) = 0 then Prefix (After, I)
    --          else Prefix (After, I) + To_Big_Integer (Next_Carry (Carry_In, C_Out, I)) * RQ.Power_Reference (Count (I))));
-   --  Step I-1 -> I: Prefix (X, I) = Prefix (X, I-1) + X (I) * P(I-1) (one unfolding; LB-4) and
+   --  Step I-1 -> I: Prefix (X, I) = Prefix (X, I-1) + X (I) * P(I-1) (one unfolding of the expression function,
+   --  the fact LB-4 states; no Prefix-level step assertion, §9.3.4) and
    --  After (I) + 256 * c_I = 10 * Before (I) + c_(I-1); (t mod 256) + 256 * (t / 256) = t.
    --  Assertions in the body follow the same conditional discipline: P(I) is formed only for c_I /= 0, and at I = n
    --  only for C_Out /= 0 (DR-C5). No array is updated inside the lemma.
@@ -1566,8 +1567,8 @@ Injected failures are native failures, recorded OPEN.
 |---|---|---|---|---|---|
 | X0 | guard `return False` and Tagged_Matches pre-checks (normal, pre-allocation) | both | before `new` | nothing allocated | W-8a: the allocation counter for Work-call-site allocations stays 0 on every IM-7 case; PO-B14 |
 | X1 | normal return of `Result` | both | `Free_Work` before `return` | normal path | W-4 heap baseline; IM-*; P-W2 |
-| X2 | `Storage_Error` from the allocator | both | raised by `new`, which is outside the inner handled block (B.2), before `Work` is assigned; propagates to the caller | nothing owned | W-1 injection at the Work allocation; W-7c for a re-entrant invocation; P-W6 |
-| X3 | `Storage_Error` from the representation limit or heap exhaustion inside checked evaluation after allocation: `Decide_Work`/`Multiply_Add` Pre/Post, invariants, ghost lockstep, lemmas, `Work_Value`, `Prefix_Reference`, `Power_Reference`. (`Assertion_Error` is excluded by proof, PO-B13 and PO-B20) | checks | propagates into the inner block | inner handler: `Free_Work`, bare `raise` | W-2, which records the actual failing location (§9.6); W-7b for re-entrant invocations; P-W1..P-W6 |
+| X2 | `Storage_Error` from the allocator | both | raised by `new`, which is outside the inner handled block (B.2), before `Work` is assigned; propagates to the caller | nothing owned | W-1 injection at the Work allocation; W-7b for a re-entrant invocation; P-W6 |
+| X3 | `Storage_Error` from the representation limit or heap exhaustion inside checked evaluation after allocation: `Decide_Work`/`Multiply_Add` Pre/Post, invariants, ghost lockstep, lemmas, `Work_Value`, `Prefix_Reference`, `Power_Reference`. (`Assertion_Error` is excluded by proof, PO-B13 and PO-B20) | checks | propagates into the inner block | inner handler: `Free_Work`, bare `raise` | W-2, which records the actual failing location (§9.6); W-7c for re-entrant invocations; P-W1..P-W6 |
 | X4 | `Storage_Error` from saved-value copies (`Old_Work`, `Carry_In`, `Work_Value (Work)'Old`) | checks | when represented as an Ada exception; placement unknown from source (F27) | inner handler | W-3 if the harness admits it; PO-N7 |
 | X5 | primary-stack overflow without stack checking (F27) | both | SIGSEGV; GNAT may convert it to `Storage_Error` only where its handler and alternate stack exist; on a foreign thread the process may die | process death releases memory; a hard fault | W-3 and W-8b record it as a native failure (OPEN), never a recovery or acceptance |
 | X6 | **caller Post and re-entry** (F26) | checks | **X6a:** a failure in `Seal`'s Post, `Seal_Reference` or `Seal_Equation` evaluation outside any `Integer_Matches` invocation: the earlier invocation's Work was already freed at its X1. **X6b:** those contracts **re-invoke** `Integer_Matches` through `Artifact_Binding` (`.ads:395`, `.adb:129`, `.ads:362`). Each re-invocation is a fresh call with its own X0..X5; its failure propagates out of the caller's contract evaluation to `Decide`'s handler | X6a nothing to reclaim; X6b per invocation | W-7a (X6a), W-7b and W-7c (X6b). P-W2 holds per invocation (`Global => null`, local owner). P-W4: the call is made from another function's Post |
@@ -1807,7 +1808,7 @@ allocated O(L) heap and automatic digit vectors per bignum operation (F1, V2-F15
 | Run ledger: an invalid span of any Length | the value is 0, with no loop (`:24`) | the same, with zero columns | Post evaluation returns 0 |
 | Run ledger: direct-Ada `Contained` on signed operands whose one-sided magnitude sums reach `2**6432` (RL-24) | completes (False) | completes (False) | **post-D1 only:** a D1-introduced checked failure (F35, §9.6). OPEN |
 | `Integer_Matches`, a value ≥ `2**6432` (magnitude n ≥ 805) | `Storage_Error` → 255 (plain); `Invalid_Request` (mixed, at the stage of §9.4) | Boolean computed (design); heap n bytes; exhaustion OPEN | pre-D1: the original decimal or binary accumulation. Post-D1: the first decimal-loop invariant (§9.6) → X3 → CL-1 frees and re-raises → same mapping. D2 OPEN |
-| `Integer_Matches`, n ≤ 804 and decimal < `256**n` (IM-1-like) | value computed | value computed | value computed: DR-C5 keeps D1-B within the original's horizon (PO-B22). Cost OPEN |
+| `Integer_Matches`, n ≤ 804 and decimal < `2**6432` (IM-1, IM-6; with or without a carry out) | value computed | value computed | value computed: DR-C5 keeps D1-B within the original's horizon (PO-B22). Cost OPEN |
 | `Integer_Matches`, n ≤ 804 and decimal ≥ `2**6432` (IM-5) | `Storage_Error` → 255 / `Invalid_Request` | False (carry out) | the original decimal statement, now ghost, at the first prefix ≥ `2**6432`, in both pre-D1 and post-D1 checks builds (§9.6) |
 
 E0's "native code accepts every length" (v2:1455) stays withdrawn. D1 establishes no default-build success, no
@@ -2360,4 +2361,582 @@ O-PYTHON (no option selected), O-PY-AUDIT (the A.8 classification), O-PY-COST (c
 O-PY-T (the E2-T disposition), O-PY-DEPTH (E2-a depth evidence, or acceptance of E2-b's failure-to-success
 difference) and O-CENSUS (the static census limits; PY-13).
 
-<!-- PART-6 -->
+## 12. Controls: complete fixtures and source-to-control coverage map (V2-RC5, V3-RC2)
+
+### 12.0 Rules for every control
+
+- Every control is new and additive. Original controls stay byte-identical: `tests/test_resource_run_ledger_v1.py`,
+  `tests/test_finalization_kernel.py`, `artifact-tests/test_canonical_artifacts.adb` and the 52-action ordinary roster.
+- **All controls are unrun.**
+- Each control runs in both builds.
+- Expected values are **reference-evaluated**: each status is derived by walking the whole `Decision_Reference` or
+  `Contained_Reference` in priority order. Arithmetic is JACKAL (§15).
+- "Pre-D1" columns are source deductions, not observations.
+- A checks-build failure is recorded as OPEN (D2, or O-GHOST-HORIZON-A for RL-24), never as a pass, and its location is
+  recorded (PO-N8).
+- Every fixture states its complete row arrays and totals. Identifiers that are not defined here carry no coverage
+  credit; **RL-8 and RL-9 are unused identifiers** (V3-RC2 h).
+
+The C-export fixtures use the original test helpers `row`, `state`, `observation` and `request`
+(`tests/test_resource_run_ledger_v1.py:25-49`). Defaults:
+
+- scope `SCOPE`;
+- `capacity=20`, `held=0`, `charged=0`;
+- `ledger_head=b'head-<epoch>'`, `universe_head=b'universe-head'`;
+- row identities derived from the row name;
+- `planned_unit` present unless the state is `RESERVED`;
+- `observed_usage=None`.
+
+### 12.1 RL-1, RL-2, RL-3: padded READY at 803, 804 and 1000 bytes (V2-F17; RL-1 wording corrected, V3-RC3 g)
+
+**Base fixture.** This is the original control `test_present_genesis_zero_reserves_before_launch`
+(`tests/test_resource_run_ledger_v1.py:59-61`):
+
+- `before = state(0)`;
+- `first = row()`, which is Held, Reserved, amount 10, resource epoch 0, parent absent;
+- `after = state(1, held=10)`;
+- `Before_Rows = ()`, `Proposed_Rows = (first,)`, `Observed = ()`;
+- request `request(before, first)` (`RESERVE`).
+
+**Padding edit.** This follows the original raw-edit pattern of `:201-219`:
+
+1. Call `owned = kernel.prepare(…)`.
+2. For each quantity below, append to the arena the value's minimal little-endian bytes followed by zero bytes up to
+   length P (P = 803, 804 or 1000). A zero value becomes P zero bytes.
+3. Point the descriptor's `first` (1-based, as `_span` at `runtime/worldline/resource_run_ledger.py:149-157`) and
+   `length` at that encoding.
+4. Call `kernel.call` with the extended arena.
+
+The quantities padded are:
+
+- `packet.before_state.capacity` (20), `.held_total` (0), `.charged_total` (0);
+- `packet.proposed_state.capacity` (20), `.held_total` (10), `.charged_total` (0);
+- `proposed_rows[0].amount` (10);
+- `packet.intent.new_row.amount` (10).
+
+Epochs and identities are unchanged.
+
+**Reference walk.** The value-dependent predicates see quantities only through `Span_Valid` and `Value`. That covers
+`Nonnegative_Valid` (`core/resource_reservation_transition.ads:135-138`), `Compare` (its Post), `Same_Epoch`,
+`Is_Successor`, `Same_Row` and the reference sums. Padding inside the arena preserves both, so the status equals the
+base fixture's status [LEAD; PO-C1]. In priority order (`core/resource_run_ledger.ads:377-443`):
+
+| Branch | Result | Why |
+|---|---|---|
+| `Unknown_Kind` | no | `R.Kind = Reserve` |
+| `Invalid_Before` | no | `Shape (before, ())`: context and epoch valid; totals and capacity nonnegative and valid; no rows |
+| `Invalid_Proposed` | no | `first` satisfies `Row_Valid`: Reserved, no planned, actual, cgroup or invocation; amount nonnegative and valid. Same context. Row epoch 0 compares `Less` than state epoch 1. A single reservation |
+| `Native_Roster_Invalid` | no | lengths 0 = 0 |
+| `Request_Invalid` | no | all ids valid; binding valid; reservation, operation and owner agree |
+| `Stale_Epoch` | no | `Same_Epoch (0, 0)` |
+| `Ledger_Head_Mismatch` | no | `head-0 = head-0` |
+| `Context_Changed` | no | same scopes; same universe head; `Compare (20, 20) = Equal` |
+| `Epoch_Not_Successor` | no | `1 - (0 + 1) = 0` [K-24] |
+| `Ledger_Head_Mismatch` (heads equal) | no | `head-0 ≠ head-1` |
+| `Conservation_Mismatch` | no | before: `0 = Σ() = 0`, both kinds. Proposed: held `10 - 10 = 0` [K-22] (root Held `first`), charged 0 |
+| `Parent_Invalid` | no | no parents. Target `first`: children of `b'row'` sum to 0, and `0 + 0 - 10 = -10 ≤ 0` [K-23] |
+| `Capacity_Exceeded` | no | `10 + 0 - 20 = -10 ≤ 0` [K-21] |
+| Reserve checks | pass | lengths `0 → 1`; no historical rows; `Same_Row (new_row, Proposed_Rows (Last))`; binding, state `Reserved`, reservation, operation, epoch (0 = 0) and universe head agree; requester equals owner |
+| Result | **READY** | |
+
+**Expected outcomes by build:**
+
+| Fixture | Pre-D1 release | Post-D1 release | Checks build (pre and post D1) |
+|---|---|---|---|
+| RL-1 (P = 803) | READY. `Exact_Value`'s `Place` reaches `256**803 = 2**6424`, which fits: 6425 bits ≤ 6432 [K-03, K-04, K-188] | READY | **READY is the semantic expectation only.** No evaluation reaches the representation limit (§9.6), but the checked cost is OPEN: at least `454992179073696` PRI for `Context_Changed`'s `Compare` of the padded capacities alone [K-172], plus every other checked evaluation of §9.3. Recorded under O-COST-MEASURE; never a pass on time |
+| RL-2 (P = 804) | code `-1` → `CoreUnavailable('full-ledger native transport refused')` (`runtime/worldline/resource_run_ledger.py:248`). `Exact_Value (Before.Held_Total)` in `Conserved` reaches `256**804 = 2**6432` [K-65], which needs 202 limbs [K-05, K-06] | READY | fails at `core/resource_quantities.adb:181` in the iteration `Completed = 803`, reached from `Shape (Before, …)` → `Nonnegative_Valid (Capacity)` → `Is_Negative`'s Post (§9.6) → `-1`: **OPEN (D2)** |
+| RL-3 (P = 1000) | `-1` / `CoreUnavailable` | READY | the same location as RL-2: **OPEN (D2)** |
+
+### 12.2 RL-4 to RL-7: large and selection fixtures through the C export
+
+| Id | Complete inputs (helpers of §12.0) | Reference walk (first deciding branch) | Expected |
+|---|---|---|---|
+| RL-4a | budget = `row(b'budget', amount=1, kind='IRREVERSIBLE_BUDGET', state='CHARGED', effect=True)`; hold = `row(b'hold', epoch=1, amount=2**6432-1)`; before = `state(1, charged=1, capacity=2**6432)`; after = `state(2, held=2**6432-1, charged=1, capacity=2**6432)`; before rows (budget,); proposed (budget, hold); observed (`observation(budget, 1, 'REAPED')`,); `request(before, hold)`. This is the original `:173-177` shape with new values | Shape, native roster, request, epoch (`1 → 2`) and heads pass. Conserved: before charged `1 = 1`; proposed held `2**6432 − 1` and charged 1. Contained: no parents; every target `0 ≤ amount`. Capacity: `(2**6432 - 1) + 1 - 2**6432 = 0` [K-33], not exceeded. Reserve checks pass | **READY** post-D1 release; pre-D1 `-1` (sum ≥ `2**6432`); checks OPEN (§9.6) |
+| RL-4b | as RL-4a, with the budget amount and both charged totals equal to 2 | Capacity: `(2**6432 - 1) + 2 - 2**6432 = 1 > 0` [K-34] | **CAPACITY_EXCEEDED** post-D1; pre-D1 `-1`; checks OPEN |
+| RL-5a | parent = `row(b'parent', amount=255)`; one = `row(b'one', amount=255, parent=b'parent')`; two = `row(b'two', epoch=1, amount=1, parent=b'parent')`; before = `state(1, held=255, capacity=300)`; after = `state(2, held=255, capacity=300)`; before rows (parent, one); proposed (parent, one, two); observed (`observation(parent,1)`, `observation(one,1)`); `request(before, two)` | Conserved: only root Held rows count (`Included` with absent parent), so `255 = 255`. Contained(before) holds. Contained(proposed): target `b'parent'` has children `255 + 1 - 255 = 1 > 0` [K-36]. At column 0 the L side holds 256: digit 0, carry 1; the target digit is 255. The residual carry decides (LA-5) | **PARENT_INVALID** in every build (values are small) |
+| RL-5b | as RL-5a, with parent amount 256 and both held totals 256 | Contained: `255 + 1 - 256 = 0` [K-37] (equal carries; State Equal). Capacity: `256 + 0 - 300 = -44` [K-62]. Reserve checks pass | **READY** |
+| RL-6 | r1 = `row(b'r1', amount=2**6432-1)`; r2 = `row(b'r2', amount=2**6432-1)`; r3 = `row(b'r3', epoch=1, amount=2**6432-1)`; before = `state(1, held=2*(2**6432-1), capacity=3*2**6432-3)`; after = `state(2, held=3*2**6432-3, capacity=3*2**6432-3)`; before rows (r1, r2); proposed (r1, r2, r3); observed (`observation(r1,1)`, `observation(r2,1)`); `request(before, r3)` | Conserved: `2(2**6432-1) - (2**6432-1) - (2**6432-1) = 0` [K-68] and `3(2**6432-1) - (3·2**6432-3) = 0` [K-35]. Capacity: total equals capacity, not exceeded | **READY** post-D1; pre-D1 `-1`; checks OPEN |
+| RL-7a | h1 = `replace(row(b'h1', amount=5, state='RUNNING', effect=True), observed_usage=7)`; r1 = `row(b'r1', amount=9, state='RELEASED')`; n1 = `row(b'n1', epoch=1, amount=3)`; before = `state(1, held=7)`; after = `state(2, held=10)`; before rows (h1, r1); proposed (h1, r1, n1); observed (`observation(h1,1,'LIVE')`, `observation(r1,1,'REAPED')`); `request(before, n1)` | h1 contributes usage: `7 - 5 = 2 > 0` [K-69]. r1 is released, so not counted. Before held `7`; proposed `7 + 3 - 10 = 0` [K-70]. Epoch `2 - (1 + 1) = 0` [K-105]. Capacity `10 - 20 < 0` [K-21] | **READY** |
+| RL-7b | as RL-7a, with proposed held 8 (the amount-based total) | **corrected (V3-RC2 g):** the proposed state's held total 8 minus the selected sum `7 + 3`: `8 - (7 + 3) = -2 ≠ 0` [K-102]. Before is unchanged (`7 = 7`) | **CONSERVATION_MISMATCH** |
+| RL-7c | b1 = `replace(row(b'b1', amount=5, kind='IRREVERSIBLE_BUDGET', state='CHARGED', effect=True), observed_usage=7)`; n1 = `row(b'n1', epoch=1, amount=3)`; before = `state(1, charged=5)`; after = `state(2, held=3, charged=5)`; **Before_Rows = (b1,)**; **Proposed_Rows = (b1, n1)**; **Observed = (`observation(b1, 1, 'REAPED')`,)**; `request(before, n1)`. Variant: both charged totals 7 | Shape: b1 is Charged, a budget, with effect and planned unit; n1 Reserved; epochs 0 and 1 are at most the state epochs. Native roster: one observation for one before row. Epoch `2 - (1 + 1) = 0` [K-105]. Budget rows never use usage (`Amount_Reference`'s Held test), so charged `5 - 5 = 0` [K-103] before and after; proposed held `3 - 3 = 0` [K-104]. Contained: no parents. Capacity `3 + 5 - 20 = -12` [K-73]. Reserve checks: `Same_Row (b1, b1)` including equal usage; n1 binding, state, epoch `1 = 1`. Variant: before charged `7 - 5 = 2 ≠ 0` [K-69] | **READY**; variant **CONSERVATION_MISMATCH** |
+| **RL-7d** (equal usage) | as RL-7a, with h1's `observed_usage=5`, before = `state(1, held=5)`, after = `state(2, held=8)`; rows, observations and request as RL-7a | `Usage_Selected`: `Compare (5, 5) = Equal`, not Greater (`5 - 5 = 0` [K-103]), so the amount 5 is used. Before held `5 - 5 = 0` [K-103]; proposed `8 - (5 + 3) = 0` [K-106]. Contained: no parents. Capacity `8 + 0 - 20 = -12` [K-107]. Epoch [K-105]. Reserve checks as RL-7a | **READY** |
+| **RL-7d′** | as RL-7d, but with RL-7a's totals: before = `state(1, held=7)`, after = `state(2, held=10)` | Before held `7` against the selected sum 5: `7 - 5 = 2 ≠ 0` [K-69]; the `Conserved (Before)` conjunct decides first | **CONSERVATION_MISMATCH** |
+| **RL-7e** (lower usage) | as RL-7a, with h1's `observed_usage=2`, before = `state(1, held=5)`, after = `state(2, held=8)` | `Compare (2, 5) = Less` (`2 - 5 = -3` [K-108]), so the amount 5 is used. Before `5 - 5 = 0` [K-103]; proposed `8 - (5 + 3) = 0` [K-106]; capacity `-12` [K-107] | **READY** |
+| **RL-7e′** | as RL-7e, with the usage-based totals: before = `state(1, held=2)`, after = `state(2, held=5)` | Before held 2 against the selected sum 5: `2 - 5 = -3 ≠ 0` [K-108] | **CONSERVATION_MISMATCH** |
+
+RL-8 and RL-9: unused identifiers; no fixture and no coverage credit.
+
+### 12.3 Direct Ada controls for `Contained` (public; signed, invalid and duplicate domains unreachable through the C export)
+
+These are new Ada test programs. `Data` is a `Q.Byte_Array` with the non-default lower bound 17, as in the original
+builder `artifact-tests/test_canonical_artifacts.adb:11-17`. `Rows` uses a non-default first index (5) where marked.
+
+Fields `Contained` does not read are absent or default: Scope, the Binding fields other than `Reservation`, the units
+and the epochs. Quantities are written as (sign, bytes). Identities are byte strings in `Data`.
+
+- **INVALID** is a span with `First = Data'Last` and `Length = 2`, which is invalid because `2 > Data'Last - First + 1`.
+- **INVALID-H** (new) is a span with `First = Data'Last - 1` and `Length = 3` over two `16#FF#` bytes. It is invalid
+  because its Length exceeds the bytes that remain after `First`. A selector or column engine that read an invalid
+  span's raw bytes would see a nonzero value; the reference sees 0.
+
+| Id | Rows, in order | Reference walk (`Contained_Reference`, every target) | Expected (reference) | Discriminates |
+|---|---|---|---|---|
+| RL-11 | R1: Held, Reserved, reservation `r`, parent absent, Amount (−,[01]) | loop 1 vacuous. Target `r`: Σ = 0, and `0 - (0-1) = 1 > 0` [K-28] | **False** | the reviewer's counter-example (unsigned-only comparator) |
+| **RL-12** | R1 parent P: Held, Reserved, reservation `p`, parent absent, Amount (+,[03]). R2 child C: Held, Reserved, reservation `c`, parent `p`, Amount **INVALID**, usage present (+,[05]) | loop 1: `Parent_Supports (R1, R2)` holds. Target `p`: C is counted Held and `Value(usage) = 5 > Value(INVALID) = 0`, so the reference selects usage; `5 - 3 = 2 > 0` [K-25] fails. Target `c`: no children, `0 - 0 = 0` [K-27] | **False** | **v1 selector:** `Compare (valid, invalid) = Invalid`, so it selects Amount (value 0); target `p` gives `0 - 3 = -3 ≤ 0` [K-26]; the whole result is **True** |
+| **RL-12N** | R1: Held, Reserved, reservation `p`, parent absent, Amount (−,[01]). R2: Held, Reserved, reservation `p` (**duplicate identity**), parent `p`, Amount (−,[03]), usage present **INVALID** | loop 1: R1 supports R2. Target `p`: R2 contributes usage, value 0 (`0 > −3`), so `0 - (0-1) = 1 > 0` [K-28] fails | **False** | **v1:** selects Amount −3. Target from R1: `-3 - (0-1) = -2 ≤ 0` [K-29]. Target from R2: `-3 - (0-3) = 0 ≤ 0` [K-30]. Whole result **True** |
+| **RL-12V** (new; invalid usage, nonnegative amount) | R1: Held, Reserved, reservation `p`, parent absent, Amount (+,[02]). R2: Held, Reserved, reservation `c`, parent `p`, Amount (+,[03]), usage present **INVALID**. R3: Held, Reserved, reservation `c0`, parent `p`, Amount (+, Length 0), usage present **INVALID-H** | loop 1: R1 supports R2 and R3. Target `p`: R2 keeps its amount (`0 - 3 = -3`, not Greater [K-26]), R3 keeps its amount (`0 - 0 = 0` [K-27]), so Σ = 3 and `3 + 0 - 2 = 1 > 0` [K-109] fails. Targets `c`, `c0`: no children (`0 ≤ 3`, `0 ≤ 0`) | **False** | a selector that treats an `Invalid` comparison as Greater selects both usages (value 0): `0 + 0 - 2 = -2 ≤ 0` [K-110], whole **True**. A raw-byte reader on R3 changes Σ |
+| **RL-12I** (new; invalid/invalid) | R1: Held, reservation `p`, parent absent, Amount (+, Length 0). R2: Held, reservation `c`, parent `p`, Amount **INVALID**, usage present (+, **INVALID-H**) | Target `p`: R2 keeps its amount (`0 > 0` is false), value 0; `0 - 0 = 0 ≤ 0` [K-27] holds. Target `c`: `0 ≤ 0` | **True** | a raw-byte reader of the usage contributes a positive term: whole **False** |
+| **RL-12IN** (new; invalid/invalid, negative target) | as RL-12I, but R1's Amount is (−,[01]) and R2's usage is (−, **INVALID-H**) | Target `p`: Σ = 0, and `0 - (0-1) = 1 > 0` [K-28] fails. Target `c`: `0 ≤ 0` | **False** | a raw-byte reader that selects the negative usage contributes `−(raw) ≤ −1`, so `p` holds and the whole result is **True**. With RL-12I this pins the invalid/invalid contribution at exactly 0 in both directions |
+| **RL-12S** (new; signed selector) | R1: Held, reservation `p`, parent absent, Amount (+,[01]). R2: Held, reservation `p` (duplicate), parent `p`, Amount (−,[01]), usage present (+,[02]) | loop 1: R1 supports R2. Selection: `2 - (0-1) = 3 > 0` [K-111], so usage 2. Target from R1: `2 - 1 = 1 > 0` [K-112] fails. Target from R2: `2 - (0-1) = 3 > 0` [K-111] fails | **False** | a selector that keeps the amount when the usage is positive and the amount negative (for example `Compare` with swapped operands): target R1 `0-1-1 = -2 ≤ 0` [K-113], target R2 `0-1-(0-1) = 0 ≤ 0` [K-114]; whole **True** |
+| **RL-12M** (new; magnitude selector) | R1: Held, reservation `p`, parent absent, Amount (−,[02]). R2: Held, reservation `p` (duplicate), parent `p`, Amount (−,[01]), usage present (−,[05]) | Selection: `0-5-(0-1) = -4 < 0` [K-115], so the amount −1. Target from R1: `0-1-(0-2) = 1 > 0` [K-116] fails. Target from R2: `0-1-(0-1) = 0` [K-114] holds | **False** | a magnitude-only selector picks usage −5: target R1 `0-5-(0-2) = -3 ≤ 0` [K-117], target R2 `0-5-(0-1) = -4 ≤ 0` [K-115]; whole **True** |
+| RL-13 | R1: target, reservation `z`, Amount (−, Length 0). R2: as R1 but Amount (−,[00,00]). R3: Held child of `z`, Amount (+, Length 0) | every target's Σ is 0 and every value is 0 | **True** | negative zero, padding, empty |
+| **RL-14** | R1: Held, reservation `p`, parent absent, Amount (−,[05]). R2: Held, reservation `c` (distinct), parent `p`, Amount (−,[05]) | Target `p`: `(0-5) - (0-5) = 0` [K-32] holds. Target `c`: no children, `0 - (0-5) = 5 > 0` [K-31] fails | **False** | the child target matters |
+| RL-14P | R1: Held, reservation `p`, parent absent, Amount (−,[05]). R2: Held, reservation `p` (duplicate), parent `p`, Amount (−,[05]) | Target `p` (both rows): Σ over parent `p` = R2's −5, and `(0-5) - (0-5) = 0 ≤ 0` [K-32] for both targets. Loop 1: R1 supports R2 | **True** | an unrestricted topology in which every negative target holds |
+| RL-15 | R1: target, reservation `t`, Amount span with `First = Data'First` and `Length = Byte_Count'Last` (invalid) | value 0; Σ 0; **zero columns visited** (`Effective_Length = 0`) | **True** | resource edge; LA-11 |
+| RL-16 | `Conserved` with `Shape` False (for example R1 with an invalid identity) | `Shape` is False | **False** | unchanged branch |
+| RL-17a | R1 parent: reservation `p`, Amount (+,[FF]). R2, R3: Held children of `p` with Amount (+,[FF]) each | Target `p`: column 0 L = 510 = `1*256 + 254` [K-58], so digit 254 and carry 1. R digit 255, so State = Less, but carries 1 > 0 decide Greater; `255 + 255 - 255 = 255 > 0` [K-59]. Children's targets: 0 ≤ 255 | **False** | the residual carry overrides State |
+| RL-17b | R1 parent Amount (+,[02]). R2 child (+,[01]) | `1 - 2 = -1 ≤ 0` [K-72]: equal carries, the low digit decides | **True** | equal carries, different low digit |
+| RL-18 | P: reservation `p`, Amount (+, Length 0). C1, C2: children of `p`, reservations `c1`, `c2`, Amount (+,[FF]). C3: child of `p`, reservation `q`, Amount (−,[FF]). C4: child of `p`, reservation `q2`, Amount (−,[FF]). G3: reservation `q` (duplicate of C3), parent `q`, Amount (−,[FF]). G4: reservation `q2`, parent `q2`, Amount (−,[FF]). `Rows'First = 5` | Target `p`: L = 510 (digit 254, carry 1) and R = 510 (digit 254, carry 1) plus target 0, so Equal; `255 + 255 - 255 - 255 - 0 = 0` [K-60]. Targets `c1`, `c2`: 0 ≤ 255. Targets `q` (C3 and G3): Σ over parent `q` = −255 ≤ −255. Targets `q2` likewise. Loop 1: P supports C1..C4; C3 supports G3; C4 supports G4 | **True** | signed cancellation; carries on both sides; non-default bounds |
+| RL-19 | P: **Budget**, reservation `p`. C: **Held**, parent `p` | loop 1: no earlier supporter of the same kind | **False** | `Parent_Supports` kind conjunct |
+| RL-20 | P: Held, **Released**, reservation `p`. C: Held, Reserved, parent `p` | `Counted (C) ⇒ Counted (P)` fails | **False** | counted conjunct |
+| RL-21 | P: Budget, **Charged**, reservation `p`. C: Budget, **Terminal**, parent `p` | P Charged and C counted require C Charged | **False** | charged conjunct |
+| RL-22 | PH: Held, reservation `p`, Amount (+,[05]). PB: Budget, reservation `p` (duplicate), Amount (+,[05]). CH: Held, parent `p`, Amount (+,[03]). CB: Budget, parent `p`, Amount (+,[03]) | loop 1: PH supports CH and PB supports CB. Target `p`: `S_H + S_B = 3 + 3`, and `3 + 3 - 5 = 1 > 0` [K-61] | **False** | a genuine mixed-kind aggregate. A per-kind comparator would return True (3 ≤ 5 each) |
+| RL-23 | `Rows'Length = 0` | vacuous | **True** (`Contained`) | null arrays |
+| **RL-24** (new; F35) | P: Held, Reserved, reservation `p`, parent absent, Amount (+, Length 0). Then 514 children [K-184] `C_1 .. C_514`: Held, Reserved, distinct reservations, parent `p`, Amounts alternating (+, X), (−, X), starting with +, where X is one 803-byte run of `16#FF#` in `Data`, the value `2**6424 − 1` [K-188] | loop 1: P supports every child. Target `p`: the signed sum cancels pair by pair [K-187]; every original partial sum is X or 0 [K-186], so `0 ≤ 0` holds. Targets of positive children hold (`0 ≤ X`). The first negative child's target fails (`0 > −X`) | **False** | pre-D1, both builds: False (the original forms no value above `256**803`). Post-D1 release: False. **Post-D1 checks: the D1 ghost fails at the location of §9.6** (257 one-sided magnitudes exceed `2**6432` [K-183]); recorded **OPEN** (O-GHOST-HORIZON-A), never a pass |
+| RL-10 | `Exact_Value`, `Amount`, `Sum` called directly on valid 804-byte padded spans and on values of `2**6432` | — | records the **OPEN** O-HELPERS failure. **Not** a passing control until OD-1 is decided | O-HELPERS |
+
+The `Parent_Supports` effect/cgroup conjunct and the earlier-parent order are covered by the original control
+`test_parent_must_exist_earlier_and_actual_cgroup_must_be_contained` (`tests/test_resource_run_ledger_v1.py:153-164`).
+
+### 12.4 `Integer_Matches` controls
+
+Direct Ada through the public `Tagged_Matches (A, JSON_Span, Tagged_Span)`, with A built at lower bound 17. Tagged
+text is `["int",<sign>,"<base64 LE magnitude>"]`, as produced by `value_bytes`
+(`runtime/worldline/evaluation_terminal.py:76-83`).
+
+| Id | JSON text / tagged magnitude | Path exercised | Expected |
+|---|---|---|---|
+| IM-1 | `"1"` followed by 1936 zeros, with its minimal magnitude (n = 804 [K-150]) | match; `10**1936 < 2**6432` [K-07] | True (pre and post, both builds). **Post-D1 checks must not fail here** (DR-C5, PO-B22; v3's form did, F34) |
+| IM-2 | decimal of `2**6432` (1937 digits [K-09]) and its 805-byte magnitude; also `10**1937 - 1` | match beyond the old limit | True post-D1 release; pre-D1 `Storage_Error` → 255 / `Invalid_Request`; checks OPEN at the location of §9.6 |
+| IM-3 | `"1"` followed by 1937 zeros (1938 digits [K-10]) | match | True post-D1 release; checks OPEN |
+| IM-4 | `"1"` followed by 5000 zeros (5001 digits, 701 beyond the Python default [K-74]; the text is a literal, not converted from `int`); also with the magnitude of `10**5000 + 1` | match; bottom-cell mismatch (difference 1 [K-75]) | True / False (direct Ada only; the export form needs OD-2); checks OPEN |
+| IM-5 | decimal `2**6432` against the magnitude of `2**6432 - 1` (n = 804 [K-152]) | **overflow**: `256**804 = 2**6432` [K-65], so the decimal reaches `256**n`; difference 1 [K-66] | False post-D1 release; checks OPEN at the original statement (§9.6) |
+| IM-6 | `"256"` vs `[FF]`; `"255"` vs `[FF]`; `"65535"` vs `[FF,FF]`; `"65536"` vs `[00,00,01]`; `"65536"` vs `[FF,FF]`; `"256"` vs `[00,01]`; `"257"` vs `[00,01]`; `"65535"` vs `[FE,FF]`; `"65535"` vs `[FF,FE]`; **`"7"` vs the empty magnitude `""`** | suffix overflow [K-38]; match; match [K-39]; match [K-40]; suffix overflow [K-46]; match [K-63]; bottom mismatch [K-64]; bottom mismatch [K-77]; top mismatch [K-78]; **the guard passes, Work is null, and `Multiply_Add` returns the digit as `Carry_Out` at once: overflow at n = 0** (V3-RC2 i) | False; True; True; True; False; True; False; False; False; **False** |
+| IM-7 | guards: `"-5"` with tag `false`; `"5"` with tag `true`; `"0"` with `[int,true,""]`; `"1"` as `"AQA="` (`[01,00]`, high zero byte); `"0"` with `"AA=="`; base64 errors: a length not divisible by 4, a non-alphabet byte, a misplaced `=`, nonzero pad bits (`:302-323`); sign node a string (`["int","true","AQ=="]`); a wrong tag or element count | each guard conjunct reachable through `Tagged_Matches` (`:439-445`, `:494-497`, `:302-323`). The Work-allocation counter stays 0 (W-8a) | all False |
+| IM-8 | `"-"` followed by the decimal of `2**6432`, with tag `true` and its magnitude | large negative match | True post-D1 release; checks OPEN |
+| IM-9 | `"0"` with `[int,false,""]` | empty magnitude, zero | True |
+| **IM-11** (new; middle cell) | `16777215` (8 digits [K-129, K-130]) vs `["int",false,"//7/"]`, the magnitude `[FF,FE,FF]` | the decimal is `255 + 255·256 + 255·256²` [K-118] and below `256³` [K-121], so no carry ever occurs. The magnitude is `16776959` [K-119]: base64 group `16776959` [K-122] with sextets 63, 63, 59, 63 [K-123], where 59 is `'7'` [K-124]; `Binary_At` gives cells FF [K-125], FE [K-126, K-127, K-128] and FF [K-51]. The compare phase from the top: cell 3 agrees, cell 2 differs (difference −256 [K-120]) | **False**, decided at the middle cell |
+| IM-10 (plain export) | the original `test_artifact_payload_integer_and_object_order_correspondence` (`tests/test_finalization_kernel.py:179-187`) with `'z'` set to `+(2**6432 + 7)`, and separately `−(2**6432 + 7)` (1937 digits [K-149, K-07]; magnitude 805 bytes, 268 full base64 groups plus one byte [K-131]) | **positive:** the capture is rebuilt through the normal producer path (`replace (row, payload = value_bytes (payload))`, then `self.sealed (capture)`), so every artifact, metadata and identity binding is rebuilt. **Mismatch:** `evidence, environment = self.artifacts (positive_capture)`; the edited capture replaces the payload's first base64 quartet `BwAA` (bytes 07 00 00 [K-132, K-133]) by `BgAA` (06 00 00 [K-134, K-135]), a value that differs only in the bottom cell [K-136]; then `self.kernel.seal (self.with_artifacts (edited, evidence, environment))`, exactly the pattern of the original `test_checks_order_and_validation_context_are_not_hash_only` (`:189-201`). Only the artifact's decimal against the payload's tagged magnitude differs | post-D1 release: promotion True; mismatch `KernelRefused`. Pre-D1: 255 at `seal` / preparation. Post-D1 checks: OPEN at the location of §9.6 |
+| **IM-10P** (mixed, `Primary_Only`) | request **REQ-P** = `RawDependencyControls.checkpoint()` (`tests/test_raw_evaluation_default.py:523-532`) with `mode='CANDIDATE_EVALUATION'`, `evaluated_requirement = resulting_requirement = h(8)`, `executed_verifiers = h(9)` and both checkpoints `None`; `tested_root = h(7)` covers the staged content. The bundle is IM-10's positive capture, prepared with `prepare_finalization` and joined with `joined (prepared, REQ-P, agent)` (`tests/test_finalization_kernel.py:224-243`); `agent` as `collapse_values` (`:245-255`). Call `collapse_decide_with_evaluation (REQ-P, primary = prepared, staged = None, agent = agent)` | Decide 1 primary readiness, Decide 2 primary context (§9.5). **F32:** unlike the original `:257-266`, REQ-P supplies `resulting_requirement`, so `Required_Present` holds (`core/worldline-collapse.ads:148-154`) | post-D1 release `AUTHORIZED`. **Mismatch:** after preparation, a raw edit of the prepared native request's arena replaces the one occurrence of `BwAA` by `BgAA`, as the original `:268-280` edits `inputs.config`: `INVALID_REQUEST` with the mark `primary-ready-rejected` and no `finalization.decide` exception. Pre-D1 and post-D1 checks: preparation fails (255); OPEN |
+| **IM-10S** (mixed, `Staged_Only`) | request **REQ-S** = `checkpoint()` with `tested_root = None`, `staged_evaluated_requirement = h(8)`, `staged_executed_verifiers = h(9)`, `staged_examined_root = h(7)`; mode `CHECKPOINT_RETURN`, so the mode-1 wire rules hold (`core/worldline-collapse_wire.ads:128-136`). Call with `primary = None, staged = prepared` | Decide 1 staged readiness, Decide 2 staged context. `Staged_Covers` holds once `Decide_Mixed` sets `Staged_Roster_Complete := S_Ready` (`core/evaluation_finalization_c.adb:486`) | post-D1 release `AUTHORIZED`; the raw-edit mismatch gives `INVALID_REQUEST` with `staged-ready-rejected`; pre-D1 and checks as IM-10P |
+| **IM-10PS** (mixed, `Primary_And_Staged`) | request **REQ-PS** = REQ-P with `tested_root = h(11)` (primary does not cover) and the staged fields of REQ-S. Two prepared bundles from two IM-10 positive captures, each joined with REQ-PS | Decides 1-4 in the order of §9.5 | post-D1 release `AUTHORIZED`; a raw-edit mismatch in the primary bundle gives `primary-ready-rejected`, in the staged bundle `staged-ready-rejected` (after primary readiness passed); pre-D1 and checks as IM-10P |
+
+In all IM-10 requests, `h(v) = bytes([v]) * 32` (`tests/test_raw_evaluation_default.py:524`). Release-build semantic
+expectations are never checked-build success credit.
+
+The guard conjuncts `N.Valid`, `N = Prefix (A, J, 0)`, `N.Form` and `N.After = J.Length` are always satisfied through
+`Tagged_Matches` (`:478-482, :494-497`). Proof covers them (PO-B14); no public control can reach them.
+
+### 12.5 Python controls (run only after OD-2 selects E1 or E2; under E0 they record OPEN)
+
+Reference runs of R∞ use a separate interpreter started with `-X int_max_str_digits=0`; the codec under test runs at
+limits 640, 4300 and 0.
+
+| Id | Content | E1 / E2 expectation |
+|---|---|---|
+| PY-1 | `canonical_bytes(10**4300) == b"1" + b"0"*4300` (4301 digits [K-43]); parse round trip; a negative value; `2**20000`; `"01"`, `"-0"` and whitespace still refused; nested lists and dicts with big ints; `value_bytes` round trip | pass |
+| PY-2 | E2 only: the same at limits 640 (minimum), 4300 (default) and 0; chunk boundaries at 640 and 641 digits [K-98] | pass |
+| PY-3 | E1 only: startup observation per process class C1, C4 (each helper kind), C8, C10 and C13 = 0, before the first relevant conversion; C6 examiner = default; C12 argv recorded or bound accepted | pass |
+| PY-4 | E2 only: byte-differential `codec_dumps` against R∞ and against `json.dumps` for every Appendix A.5 settings combination, including Unicode, escapes, key order and duplicates, on values inside the old limit | identical bytes |
+| PY-5 | daemon request id with 5000 digits (seven 640-digit chunks and one 520-digit chunk [K-97]); response echoes the id; client parse; CLI print | pass |
+| PY-6 | producer-to-native finalization: positive and mismatch controls beyond 4300 digits, through both exports | promotion / `AUTHORIZED`; mismatch refused |
+| PY-7 | under E0: the same inputs | recorded **OPEN** (`ValueError`), never a pass |
+| **PY-8** (new; integer keys) | for every Appendix A.5 combination with `sort_keys=True`: `{10: 'a', 2: 'b'}` must give `{"2": …, "10": …}` (numeric order: `10 - 2 = 8 > 0` [K-99]; a code-point order would put `"10"` first, since `'2'` exceeds `'1'` [K-100]); `{-1: …, -10: …}` gives `-10` first (`-1 - (0-10) = 9 > 0` [K-101]); `{True: …, 2: …}`; `{1.5: …, 1: …}`; a key `10**5000` with another `int` key; `sort_keys=False` keeps insertion order | identical to R∞ |
+| **PY-9** (new; mixed keys) | `{1: 'a', 'b': 2}` and `{10**5000: 'x', 'b': 1}` with `sort_keys=True`, at top level and nested in a list and a dict | the same `TypeError` class, message and `__notes__` as R∞; nothing returned; no limit `ValueError` for the large key, because the sort fails first |
+| **PY-10** (new; exclusion probes) | for every site excluded by a demonstration: formatting probes at the edge of its absolute-magnitude bound under limit 640 (for C12, `str(±(2**63 - 1))`); parsing probes with `'0'*640 + '1'` (641 digit characters, value 1 [K-98]) through the site's actual input path, showing that the site is routed or that the text cannot reach it | pass, or the exclusion is withdrawn |
+| **PY-11** (new; depth) | nested lists and dicts from depth 1 up to the largest depth at which R∞ succeeds, found by the control, at a `canonical_bytes` site and at an `indent=2` site; at R∞'s first failing depth, the codec's behaviour is recorded | E2-a: identical below the gap, and the gap is shown unreachable, or E2-a is ineligible. E2-b: identical where R∞ succeeds; the failure-to-success difference is recorded. R-OVR: identical everywhere for values without large integers |
+| **PY-12** (new; E2-T) | `tomllib.loads` of a `pyproject.toml` whose dependency table contains a 5001-digit integer literal; `ast.parse` of source containing one; `argparse` options with a 5001-digit value and with invalid text | E0: OPEN (escaping `ValueError`, compiler error, usage error). E1-configured classes: parse. E2: per the selected E2-T option; `argparse` messages for invalid text unchanged |
+| **PY-13** (new; census) | re-run the Appendix A.2 census on the exact source identity, recording every scanned file's sha256 | totals 193, 2 and 254 (449 [K-88, K-89]) and the alias list reproduce; any new site is OPEN |
+| **PY-14** (new; non-JSON helper) | `decimal_text_to_int (s)` against `int (s)` inside the limit and against R∞ beyond it: ASCII and Unicode whitespace; signs; valid and invalid underscores; Unicode decimal digits; empty and invalid text, including invalid text longer than 200 characters (the `%.200R` truncation); 5000-digit text | identical values, exception classes and messages; `argparse` error text unchanged |
+
+### 12.6 Workspace-lifetime controls (W)
+
+Fault injection uses an interposed allocator that fails exactly one selected allocation, identified by call site and
+ordinal (§7.4). W-1 to W-9 use the **original small payload integer** (`tests/test_finalization_kernel.py:184`) unless
+stated, so that only the injected failure occurs.
+
+| Id | Content | Expectation |
+|---|---|---|
+| W-1 | X2: allocation failure injected at the Work allocation, plain export | the exception propagates; 255 with `finalization.decide` diagnostics; heap back to baseline. **Native failure: OPEN** |
+| W-2 | X3, checks build: an IM-2 magnitude (n = 805) reaches the limit after allocation | CL-1 frees and re-raises; same mapping; no leak; **the actual failing location is recorded** (expected by source: the first decimal-loop invariant, §9.6) |
+| W-3 | X4/X5, checks build: saved-copy failure (`Old_Work` on a small thread stack), if the harness admits it | `Storage_Error` handled as W-2, or a hard fault recorded OPEN |
+| W-4 | repeated calls mixing success, mathematical False and injected failure | stable heap high-water; final water mark zero |
+| **W-5** (rewritten; V3-RC2 e, V3-RC3 f) | mixed export, one injection per run at the Work-allocation ordinal of Decide k (checks `4(k − 1) + 1` [K-141..K-144]; release `k` [PE-20]), by dependency: **P1** `Primary_Only`, k = 1; **P2** `Primary_Only`, k = 2; **S1** `Staged_Only`, k = 1; **S2** `Staged_Only`, k = 2; **PS1..PS4** `Primary_And_Staged`, k = 1..4. Requests REQ-P, REQ-S, REQ-PS of §12.4. Also mixed kinds: an ordinary kind-1 primary with a kind-2 staged bundle, and the converse, where only kind-2 slots reach `Decide` and the ordinals renumber | P1, PS1: `finalization.decide` exception then `primary-ready-rejected`. S1: then `staged-ready-rejected`. **PS2: `staged-ready-rejected`, not a context mark.** P2, PS3: `finalization.decide` exception, `context.seal-rejected`, then `primary-context-rejected`. S2, PS4: `context.seal-rejected`, then `staged-context-rejected`. Every case: `Invalid_Request`; heap at baseline. Native failure: OPEN |
+| W-6 | mathematical False (IM-5 through the exports) against a native failure (W-1) | plain export: `Reason ≠ 0` against 255. Mixed export: the same `Invalid_Request`, distinguished by the diagnostic sequence only |
+| **W-7** (new; X6) | **W-7a (X6a):** a failure injected at a non-Work allocation inside `Seal`'s Post evaluation, after the body's `Integer_Matches` returned. **W-7b (X6b, X2 of a re-entry):** a failure at the Work allocation of occurrence j ∈ {2, 3, 4} within one Seal (Seal Post `:395`, `Seal_Reference` body `:129`, `Seal_Equation` `:362`), checks build only. **W-7c (X6b, X3 of a re-entry):** a failure at a bignum allocation inside occurrence j's `Decide_Work`, by call site and ordinal | W-7a: no Work outstanding; heap at baseline; 255. W-7b: nothing owned by that invocation; 255. W-7c: CL-1 frees in that invocation and re-raises through the caller's Post evaluation to `Decide`'s handler; 255; heap at baseline. All native failures: OPEN |
+| **W-8** (new; X7) | **W-8a:** on every IM-7 guard case and on every X0 path, the Work-allocation counter stays 0. **W-8b (X7-R):** native exhaustion before allocation (for example the `Base64` frame on a tiny thread stack), if the harness admits it. X7-L and X7-A are not manufactured: they are proved unreachable (PO-B19, PO-B20, PO-B1, PO-B3) | W-8a: counter 0, heap unchanged. W-8b: a hard fault or `Storage_Error` with no Work outstanding, recorded OPEN |
+| **W-9** (new; lifetime on all mixed paths) | allocation and free counters and heap water marks over the positive and mismatch runs of IM-10, IM-10P, IM-10S and IM-10PS, in both builds | allocations equal frees; final water mark zero. A checks-build failure of those runs is OPEN (§9.6) |
+
+### 12.7 Source-to-control coverage map
+
+| Source construct (C5) | Controls | Proof |
+|---|---|---|
+| `Normalized` invalid → empty (§5.3) | RL-12 (invalid amount), RL-12N, RL-12V (invalid usage), RL-12I, RL-12IN (both invalid), RL-15 (invalid target) | LA-9 |
+| `Usage_Selected` selector matrix | usage greater: RL-7a, RL-12, RL-12S; equal: RL-7d, RL-7d′; lower: RL-7e, RL-7e′, RL-12M; Budget ignored: RL-7c; invalid combinations: RL-12, RL-12N, RL-12V, RL-12I, RL-12IN | LA-9 |
+| Signed operands, negative zero, padding | RL-11, RL-12N, RL-12S, RL-12M, RL-13, RL-14, RL-14P, RL-18; RL-1..3 | LA-7, LA-8 |
+| Carry propagation and both-side carries | RL-5a, RL-6, RL-17a, RL-18 | LA-3, LA-6 |
+| Equal carries with a different low digit; residual carry overriding State | RL-17b; RL-17a, RL-5a | LA-4, LA-5 |
+| `Both_Kinds` partition | RL-22 | LA-10 |
+| `Parent_Supports` conjuncts | RL-19, RL-20, RL-21, original `:153-164`, RL-12 | unchanged loop 1 |
+| Null arrays and non-default bounds | RL-23, RL-18, the `Data'First = 17` builder | PO-A22 |
+| Check status priority | RL-1..RL-7e′ walks; the original 52-action roster | PO-A19 |
+| `Pair_Sum_Order` boundary | RL-4a/4b | PO-A17 |
+| Column extent and zero columns | RL-15, RL-13 | LA-11, PO-A14 |
+| One-sided ghost horizon (F35) | RL-24 | O-GHOST-HORIZON-A (OPEN) |
+| `Prefix` integer path (`:216-234`) | original `test_canonical_artifacts.adb:36-64`; IM-7 | PO-B1 |
+| `Integer_Matches` guard (`:439-445`) | IM-7, IM-9 | PO-B14 |
+| `Base64` guards (`:302-323`) | IM-7 | existing |
+| Decimal overflow: first digit, suffix digit, null Work | IM-5, IM-6 (including `"7"` with an empty magnitude) | PO-B8..B10 |
+| Mismatch at the top, middle and bottom cells | IM-6 (top, bottom), **IM-11 (middle)**, IM-4 (bottom) | PO-B12 |
+| Match: large positive and negative, empty | IM-1..3, IM-8, IM-9 | PO-B11 |
+| Radix horizon of D1-B (F34) | IM-1 and IM-5 in the checks build | PO-B22 |
+| Exits X0..X7 (§7.1) | X0: W-8a, IM-7. X1: W-4, IM-*. X2: W-1, W-7b. X3: W-2, W-7c. X4/X5: W-3. X6: W-7a, W-7b, W-7c. X7-R: W-8b | P-W1..P-W6; X7-L/X7-A: PO-B19, PO-B20, PO-B1, PO-B3 |
+| Export stages, primary and staged, by dependency | W-5 (P1, P2, S1, S2, PS1..PS4, mixed kinds), W-6, IM-10, IM-10P, IM-10S, IM-10PS, W-9 | PO-N5 |
+| Python classes, codec, keys, depth, parsers, census | PY-1..PY-14 | O-PY-* |
+| Helpers (OD-1) | RL-10 | O-HELPERS |
+
+Finite controls never replace the full proof floor (`HANDOFF.md:161`).
+
+## 13. Packet plan (nothing written)
+
+| Packet | Files (exact) | Gate before writing |
+|---|---|---|
+| D1-A | `core/resource_run_ledger.adb` only (§5). The spec and `resource_quantities.*` stay byte-identical | GPT-6.1 review of this design; probes P-X3 and P-R1 |
+| D1-B | `core/canonical_artifacts.ads` (`Integer_Token`; the `Prefix` Post conjunct) and `core/canonical_artifacts.adb` (context `with Ada.Unchecked_Deallocation; with Resource_Quantities;`; the `Prefix` invariant; the `Binary_At` Post; §6 entities in their DR-C5 forms; `Integer_Matches` in the B.2 shape) | design review, then probes P-W1..P-W8, P-X3 and the `'Old` placement of PO-X1 in the reviewed scratch frame |
+| D1-M | `runtime/worldline/proof_manifest.py`: **append** `REQUIRED_PROVED` names, never reorder or remove; `CONTRACT_PINS` only through the official generator; raw pins in `resource-run-ledger-source-controls-v1.json`; `proof-manifest.json` untouched (historical) | after D1-A and D1-B source review |
+| D1-C | new files only: Ada programs for RL-10..RL-24 (including RL-12V, RL-12I, RL-12IN, RL-12S, RL-12M) and IM-1..IM-11; `tests/test_resource_run_ledger_bigint_v4.py` (RL-1..RL-7e′); `tests/test_canonical_integer_bigint_v4.py` (IM-10, IM-10P, IM-10S, IM-10PS); W controls in a scratch harness; additive enrollment with the original roster unchanged | after D1-A and D1-B |
+| OD-1 | option-specific | operator decision |
+| OD-2 | the E1 class table (§11.3) or the E2 site, codec, E2-T and audit set (§11.4, Appendix A), plus PY controls | operator decision |
+
+Each packet goes through, in order:
+
+1. scratch engineering in the reviewed frame;
+2. an actual GPT-6.1 source review by a different author;
+3. the exact strict command with floor 251 and the full ordered roster;
+4. the original 52-action ordinary roster plus the additive controls, in both builds;
+5. native and fault campaigns under the existing admission and operator gates.
+
+This document authorizes and runs none of these steps.
+
+## 14. OPEN list
+
+| Id | Item |
+|---|---|
+| O-A | Full Algorithm A equivalence (PO-A0..A26) on the original signed and invalid domain, every target |
+| O-CHECK | Capacity-branch equivalence and unchanged status priority (PO-A17, PO-A19) |
+| O-BOUNDS | Installed 128-bit acceptance; every RTE and termination obligation |
+| O-B | Lockstep correspondence, overflow theorem, frames, sizing, DR-C5 forms and radix horizon (PO-B1..B23) |
+| O-PREFIX-PROOF | D-B-PREFIX proof and checked cost; or PFX-2/3/5 with their probes |
+| O-LEGALITY-PROBE | P-W1..P-W8, P-X3, P-R1, P-PFX* and the `'Old` placement (PO-X1) on GNATprove 16.1.0 |
+| O-EXCEPTION-CLEANUP | Reclamation on X2..X7 under native fault injection (P-W6; W-1..W-3, W-7, W-8) |
+| O-WORKSPACE | Heap (CL-1) or frame (CL-2) fit for every originally successful input; resource failures never accepted |
+| O-NOTICE-R1 | A-GHOST-1's `Side_Sum` notices join R-1; otherwise A-GHOST-0 |
+| O-HELPERS | OD-1 |
+| O-GHOST (D2) | Checked contracts, Ghost code and invariants, original and D1-added: representation limit, recursion, saved values, heap, stack, time (§9.3, §9.6) |
+| **O-GHOST-HORIZON-A** (new) | F35: D1-A's one-sided ghost sums exceed the original's checked horizon on direct-Ada signed inputs (RL-24, PO-A26). No candidate selected |
+| O-BUILD-SELECTION | Actual assertion scenario and runtime/library identity loaded |
+| O-PYTHON / O-PY-AUDIT / O-PY-COST | OD-2; audit of Appendix A.8; conversion costs without caps |
+| **O-PY-T** (new) | E2-T disposition for `tomllib`, `argparse`, `ast.literal_eval`, source compilation and `decimal` (§11.4.5) |
+| **O-PY-DEPTH** (new) | E2-a depth evidence, or acceptance of E2-b's failure-to-success difference, or R-OVR (S-9, PY-11) |
+| **O-CENSUS** (new) | The static census limits (Appendix A.2); PY-13 on the exact identity |
+| **O-ORIGINAL-F32** (new; lead) | The original unexecuted control at `tests/test_finalization_kernel.py:257-266` expects AUTHORIZED for a request that `Worldline.Collapse.Decide` answers `Identity_Absent`. Run it; if confirmed, a separate reviewed change outside D1 |
+| O-TRANSPORT-MAPPING | Stage-aware classification of export failures, primary and staged (§9.4, §9.5) |
+| O-COST-MEASURE | Native time, heap and stack measurements on exact identities; the §9.3 counts are static |
+| O-PROOF | Complete strict matching-source proof with floor 251, the sole boundary and the ordered roster; zero unproved, justified or assumed; every strict warning resolved |
+| O-NATIVE | Compiled call closure, `-gnatG` and assembly evidence, loaded identity, and the observed checked failure points (PO-N1..N8) |
+| O-CONTROLS | Every original and additive control in both builds under existing admission; all unrun |
+| O-PINS | Official pin regeneration; append-only roster |
+| O-JACKAL-SYMBOLIC | Universal facts are SPARK obligations; JACKAL supplied exact instances and polynomial identities only |
+| O-FINAL | Independent source, proof, native and integrated Phase One acceptance; none granted here |
+
+## 15. JACKAL evidence (verbatim `parsed=` and `exact=`)
+
+Every derived number in this package came from `mcp__jackal__jackal_exact` or `mcp__jackal__jackal_poly_eq`, called in
+this drafting session. The full records, including witnesses and per-call provenance, are in `jackal.json` (sha256 in
+§2): 232 calls, 209 `jackal_exact` and 23 `jackal_poly_eq`.
+
+- `jackal_exact`: `status=exact`, `formal=false`, `lane=rat`, assurance "exact rational arithmetic (not yet
+  checker-covered)".
+- `jackal_poly_eq`: `status=exact`, `equal=true`, `formal=false`, `lane=poly-eq`, assurance "decidable polynomial
+  identity over Q[x]", with a `jackal-exact-cert-v1` certificate.
+- Both report evaluator_sha256 `4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872`.
+- `exact` here is exact rational arithmetic outside the Lean certificate chain; it is not `formal-bounded`.
+- No `consequence_ceiling` field was returned, so every result is treated as informational about code. No refusal
+  occurred. The JSONL ledger is recall, not evidence, and is not cited.
+- K-01..K-78 are v3's identifiers, re-evaluated with identical results, except K-53, K-71 and K-76, which were not
+  re-evaluated: K-53 was historical, K-71 is withdrawn by V3-F7 (replaced by K-102), and K-76 was not relied on.
+  K-145 and K-182 were computed and are not relied on.
+
+Verbatim non_claims returned with every result:
+
+- "NOT formal-bounded: this lane carries no Lean-checked certificate"
+- "The epistemic class above is the STRONGEST claim this result supports"
+- "exact rational arithmetic (not yet checker-covered)" (`jackal_exact`), or "decidable polynomial identity over
+  Q[x]" (`jackal_poly_eq`)
+
+| Id | parsed= | exact= | Use |
+|---|---|---|---|
+| K-01 | `32*(200+1)` | `6432` | bits in 201 limbs (F1) |
+| K-02 | `32*(200+1)/8` | `804` | bytes in 201 limbs (F1) |
+| K-03 | `8*803+1-32*200` | `25` | 6425 bits exceed 200 limbs |
+| K-04 | `32*201-(8*803+1)` | `7` | 6425 bits fit 201 limbs (256^803 representable) |
+| K-05 | `8*804+1-32*201` | `1` | 6433 bits exceed 201 limbs (256^804 not representable) |
+| K-06 | `32*202-(8*804+1)` | `31` | 6433 bits fit 202 limbs |
+| K-07 | `2^6432-10^1936` | positive integer; leading digits 67854160659933622185; trailing digits 7041591296 | 10^1936 < 2^6432 |
+| K-08 | `10^1937-2^6432` | positive integer; leading digits 83214583934006637781; trailing digits 2958408704 | 2^6432 < 10^1937 |
+| K-09 | `1936+1` | `1937` | digits of 2^6432 |
+| K-10 | `1937+1` | `1938` | first all-failing digit count |
+| K-11 | `2^63-1` | `9223372036854775807` | Byte_Count'Last; build_guard st_size bound |
+| K-12 | `256*(2^63-1+1)-2^71` | `0` | column bound equals 2^71 |
+| K-13 | `2^127-1-2^71` | `170141183460469229370504062281061498879` | 128-bit margin |
+| K-14 | `2^71-(2^63-1)` | `2351959869397967831041` | 64 bits insufficient |
+| K-15 | `10*255+9-(9*256+255)` | `0` | Multiply_Add carry <= 9 |
+| K-16 | `10*255+9` | `2559` | Multiply_Add column maximum |
+| K-17 | `3*255+2-(2*256+255)` | `0` | Pair_Sum_Order carry <= 2 |
+| K-18 | `2^63-3-(4*(2^61-1)+1)` | `0` | floor((2^63-3)/4) = 2^61-1 |
+| K-19 | `3*(2^61-1)` | `6917529027641081853` | maximum B.Length |
+| K-20 | `2^63-1-3*(2^61-1)` | `2305843009213693954` | allocation-size headroom |
+| K-21 | `10+0-20` | `-10` | RL-1 capacity |
+| K-22 | `10-10` | `0` | RL-1 Conserved |
+| K-23 | `0+0-10` | `-10` | RL-1 Contained |
+| K-24 | `1-(0+1)` | `0` | RL-1 epoch successor |
+| K-25 | `5-3` | `2` | RL-12 reference |
+| K-26 | `0-3` | `-3` | RL-12 v1; RL-12V usage-vs-amount and target c |
+| K-27 | `0-0` | `0` | RL-12 child target; RL-12V zero-amount row; RL-12I targets |
+| K-28 | `0-(0-1)` | `1` | RL-11; RL-12N reference; RL-12IN target p |
+| K-29 | `0-3-(0-1)` | `-2` | RL-12N v1 parent |
+| K-30 | `0-3-(0-3)` | `0` | RL-12N v1 duplicate child |
+| K-31 | `0-(0-5)` | `5` | RL-14 child target fails |
+| K-32 | `0-5-(0-5)` | `0` | RL-14 parent; RL-14P |
+| K-33 | `2^6432-1+1-2^6432` | `0` | RL-4a |
+| K-34 | `2^6432-1+2-2^6432` | `1` | RL-4b |
+| K-35 | `3*(2^6432-1)-(3*2^6432-3)` | `0` | RL-6 |
+| K-36 | `255+1-255` | `1` | RL-5a |
+| K-37 | `255+1-256` | `0` | RL-5b |
+| K-38 | `256-256^1` | `0` | IM-6 suffix overflow at n = 1 |
+| K-39 | `255+255*256-65535` | `0` | IM-6 65535 match |
+| K-40 | `0+0*256+1*256^2-65536` | `0` | IM-6 65536 match |
+| K-41 | `122+2` | `124` | runtime/ JSON operations incl. the two inline-child sites (counts observed) |
+| K-42 | `124+22+11+2+3+30` | `192` | direct-name JSON calls in the v3 universe (counts observed); reproduced by the v4 census |
+| K-43 | `4300+1` | `4301` | first digit count beyond the default limit |
+| K-44 | `4000-640` | `3360` | a 4000-digit chunk exceeds the minimum admitted limit |
+| K-45 | `6*640+461-4301` | `0` | 4301 digits in chunks of at most 640 |
+| K-46 | `65536-256^2` | `0` | IM-6 suffix overflow at n = 2 |
+| K-47 | `22+11+2+3+30` | `68` | direct-name JSON calls outside runtime/ in the v3 universe |
+| K-48 | `10*(256-1)+9-(256*10-1)` | `0` | instance 10(P-1)+9 = 10P-1 at P = 256 |
+| K-49 | `63*4+(63-15)/16` | `255` | Binary_At case 0 maximum |
+| K-50 | `15*16+(63-3)/4` | `255` | Binary_At case 1 maximum |
+| K-51 | `3*64+63` | `255` | Binary_At case 2 maximum; IM-11 cell 2 decode |
+| K-52 | `2^63+255*2^63-256*2^63` | `0` | column bound attained at the ceiling |
+| K-54 | `256*2^63-2^71` | `0` | 2^71 bound |
+| K-55 | `5+2+2+1` | `10` | PROD-PROTECTED operations (counts observed) |
+| K-56 | `6+9+1+5+2+2` | `25` | ORIGINAL-CONTROL operations (counts observed) |
+| K-57 | `122+2+10+25+3+30` | `192` | v3 direct-name scope partition; superseded by K-81 with the alias |
+| K-58 | `255+255-(1*256+254)` | `0` | RL-17a and RL-18 column split |
+| K-59 | `255+255-255` | `255` | RL-17a |
+| K-60 | `255+255-255-255-0` | `0` | RL-18 |
+| K-61 | `3+3-5` | `1` | RL-22 |
+| K-62 | `256-300` | `-44` | RL-5b capacity |
+| K-63 | `0+1*256-256` | `0` | IM-6 256 vs [00,01] |
+| K-64 | `257-(0+1*256)` | `1` | IM-6 257 vs [00,01] |
+| K-65 | `256^804-2^6432` | `0` | 256^804 = 2^6432 |
+| K-66 | `2^6432-(2^6432-1)` | `1` | IM-5 |
+| K-67 | `255+0-300` | `-45` | RL-5a capacity |
+| K-68 | `2*(2^6432-1)-(2^6432-1)-(2^6432-1)` | `0` | RL-6 before |
+| K-69 | `7-5` | `2` | RL-7a usage over amount; RL-7c' and RL-7d' held/charged total minus selected sum |
+| K-70 | `7+3-10` | `0` | RL-7a proposed |
+| K-72 | `1-2` | `-1` | RL-17b |
+| K-73 | `3+5-20` | `-12` | RL-7c capacity |
+| K-74 | `5000+1-4300` | `701` | IM-4 digits beyond the default limit |
+| K-75 | `10^5000+1-10^5000` | `1` | IM-4 mismatch |
+| K-77 | `65535-(254+255*256)` | `1` | IM-6 bottom-cell mismatch |
+| K-78 | `65535-(255+254*256)` | `256` | IM-6 top-cell mismatch |
+| K-79 | `192+1` | `193` | v3-universe JSON operations: 192 direct + 1 alias (V3-F2) |
+| K-80 | `30+1` | `31` | INSTALL-RELEASE-SCRIPT operations incl. the alias |
+| K-81 | `122+2+10+25+3+31` | `193` | v3-universe scope partition with the alias |
+| K-82 | `68+1` | `69` | v3-universe operations outside runtime/ incl. the alias |
+| K-83 | `121+2+1+1+4+2+5+14` | `150` | files in the v3 universe (per-directory counts observed) |
+| K-84 | `150+2+2+146` | `300` | all Python files in C5 (v3 universe, root, protected-lab, tests) |
+| K-85 | `250+1+3` | `254` | tests/ JSON operations: direct calls, encoder instantiation, instance method calls |
+| K-86 | `122+2+10+3+31+2` | `170` | routed scopes (production, inline child, protected, build tool, scripts, root tools) |
+| K-87 | `25+254` | `279` | original-control operations (protected controls and tests), unchanged |
+| K-88 | `170+279` | `449` | all JSON operations in the 300-file universe |
+| K-89 | `193+2+254` | `449` | cross-check of the total by directory group |
+| K-90 | `2+2+7` | `11` | stdlib text-parser decimal sites: tomllib 2, ast.literal_eval 2, argparse type=int 7 |
+| K-91 | `299+1` | `300` | C4/C5 Python identity: 299 identical + 1 differing (V3-F3) |
+| K-92 | `125+1` | `126` | files with JSON operations: 125 identical + proof_manifest.py |
+| K-93 | `1029-1023` | `6` | proof_manifest.py lines appended by C5 (V3-F3) |
+| K-94 | `10^19-(2^63-1)` | `776627963145224193` | 2^63-1 < 10^19 (build_guard st_size bound) |
+| K-95 | `2^63-1-10^18` | `8223372036854775807` | 2^63-1 has exactly 19 digits |
+| K-96 | `640-19` | `621` | digit margin of the build_guard bound under the minimum limit |
+| K-97 | `7*640+520-5000` | `0` | PY-5: a 5000-digit id splits into seven 640-digit chunks and one 520-digit chunk |
+| K-98 | `640+1` | `641` | first digit count above the minimum admitted limit (PY-2, PY-10) |
+| K-99 | `10-2` | `8` | PY-8: integer keys sort numerically (2 before 10) |
+| K-100 | `50-49` | `1` | PY-8: code point of '2' exceeds '1', so text order puts "10" first (the withdrawn E2-b order) |
+| K-101 | `-1-(0-10)` | `9` | PY-8: -10 sorts before -1 numerically |
+| K-102 | `8-(7+3)` | `-2` | RL-7b corrected: proposed held 8 minus selected sum 7+3 (V3-F7) |
+| K-103 | `5-5` | `0` | RL-7d selector (usage equals amount); RL-7c/7d/7e before totals |
+| K-104 | `3-3` | `0` | RL-7c proposed held |
+| K-105 | `2-(1+1)` | `0` | RL-7 epoch successor 1 to 2 |
+| K-106 | `8-(5+3)` | `0` | RL-7d and RL-7e proposed held |
+| K-107 | `8+0-20` | `-12` | RL-7d and RL-7e capacity |
+| K-108 | `2-5` | `-3` | RL-7e selector (usage below amount); RL-7e' before mismatch |
+| K-109 | `3+0-2` | `1` | RL-12V target p fails |
+| K-110 | `0+0-2` | `-2` | RL-12V wrong selector would hold |
+| K-111 | `2-(0-1)` | `3` | RL-12S selector (usage 2 over amount -1) and duplicate target |
+| K-112 | `2-1` | `1` | RL-12S target R1 fails |
+| K-113 | `0-1-1` | `-2` | RL-12S wrong selector target R1 holds |
+| K-114 | `0-1-(0-1)` | `0` | RL-12S wrong selector target R2; RL-12M reference target R2 |
+| K-115 | `0-5-(0-1)` | `-4` | RL-12M selector (usage -5 not over amount -1); wrong selector target R2 |
+| K-116 | `0-1-(0-2)` | `1` | RL-12M reference target R1 fails |
+| K-117 | `0-5-(0-2)` | `-3` | RL-12M wrong selector target R1 holds |
+| K-118 | `255+255*256+255*256^2` | `16777215` | IM-11 decimal value (cells FF FF FF) |
+| K-119 | `255+254*256+255*256^2` | `16776959` | IM-11 tagged magnitude [FF,FE,FF] |
+| K-120 | `255+254*256+255*256^2-(255+255*256+255*256^2)` | `-256` | IM-11 middle-cell difference |
+| K-121 | `256^3-16777215` | `1` | IM-11 decimal below 256^3: no carry-out at any digit |
+| K-122 | `255*2^16+254*2^8+255` | `16776959` | IM-11 base64 24-bit group of bytes FF FE FF |
+| K-123 | `63*2^18+63*2^12+59*2^6+63` | `16776959` | IM-11 sextets 63,63,59,63 give the text //7/ |
+| K-124 | `52+7` | `59` | base64 index of '7' |
+| K-125 | `63*4+3` | `255` | IM-11 Binary_At cell 0 = FF |
+| K-126 | `3*16+15` | `63` | 63 = 3*16 + 15 (quotient and remainder used by Binary_At) |
+| K-127 | `15*16+14` | `254` | IM-11 Binary_At cell 1 = FE |
+| K-128 | `14*4+3` | `59` | 59 = 14*4 + 3 (quotient and remainder used by Binary_At) |
+| K-129 | `16777215-10^7` | `6777215` | IM-11 decimal has at least 8 digits |
+| K-130 | `10^8-16777215` | `83222785` | IM-11 decimal has at most 8 digits |
+| K-131 | `3*268+1` | `805` | IM-10: 805 magnitude bytes = 268 full base64 groups + 1 byte (== padding) |
+| K-132 | `7*2^16-(1*2^18+48*2^12)` | `0` | IM-10 first quartet BwAA (bytes 07 00 00) |
+| K-133 | `26+22` | `48` | base64 index of 'w' |
+| K-134 | `6*2^16-(1*2^18+32*2^12)` | `0` | IM-10 mismatch edit BgAA (bytes 06 00 00) |
+| K-135 | `26+6` | `32` | base64 index of 'g' |
+| K-136 | `2^6432+7-(2^6432+6)` | `1` | IM-10 mismatch differs only in the bottom cell |
+| K-137 | `5000-1937` | `3063` | IM-4: 10^5000 exceeds 10^1937 > 2^6432, so its magnitude has at least 805 bytes |
+| K-138 | `2+2` | `4` | maximum Decide calls per Primary_And_Staged mixed request (V3-F5) |
+| K-139 | `4*(2+2)` | `16` | checks build: Integer_Matches evaluations per mixed request, one integer node per bundle, every Seal observed |
+| K-140 | `1*2+1*2` | `4` | release build: Integer_Matches evaluations per mixed request, one node per bundle |
+| K-141 | `4*(1-1)+1` | `1` | checks-build Work-allocation ordinal of Decide 1 |
+| K-142 | `4*(2-1)+1` | `5` | checks-build Work-allocation ordinal of Decide 2 |
+| K-143 | `4*(3-1)+1` | `9` | checks-build Work-allocation ordinal of Decide 3 |
+| K-144 | `4*(4-1)+1` | `13` | checks-build Work-allocation ordinal of Decide 4 |
+| K-145 | `3*(2+2)` | `12` | computed, not relied on: an unobserved Seal evaluates three bindings but makes Read_Ready or Final_Context_Matches reject, so the mixed request stops at that stage and 12 is not reached (DESIGN.md 9.5) |
+| K-146 | `256-10` | `246` | DR-C5: 10*256^(n-1) is below 256^n |
+| K-147 | `16+6+8+12` | `42` | Compare fixed PV-term multiplicity (Post 16, padding 6, Is_Negative 8, assertions 12) |
+| K-148 | `4+4` | `8` | Compare per-iteration PV-term multiplicity |
+| K-149 | `10^1937-(2^6432+7)` | positive integer; leading digits 83214583934006637781; trailing digits 2958408697 | IM-10 decimal 2^6432+7 has 1937 digits (with K-07) |
+| K-150 | `10^1936-2^6424` | positive integer; leading digits 99344319684922134288; trailing digits 3488118784 | IM-1: 10^1936 >= 256^803, so its magnitude has exactly 804 bytes (with K-07) |
+| K-151 | `2^6440-10^1937` | positive integer; leading digits 41970665128943007279; trailing digits 2647371776 | IM-2/IM-3: 10^1937 < 256^805, so magnitudes of 2^6432 .. 10^1937 have 805 bytes |
+| K-152 | `2^6432-1-2^6424` | positive integer; leading digits 16719848034485575647; trailing digits 0529710079 | IM-5: 2^6432-1 >= 256^803, so its magnitude has exactly 804 bytes |
+| K-153 | `(0^3+9*0^2+14*0+6)/3-(1+1)` | `0` | RP(0) closed form equals w(0)+p(0) |
+| K-154 | `0*(0+1)*(0^2+11*0+12)/6` | `0` | PV(0) = 0 |
+| K-155 | `(2*0^3+21*0^2+37*0+12)/6-(4*0+2*(0+1)+0+0)` | `0` | MA(0) base case |
+| K-156 | `1^3+5*1^2+7*1+1-(4*1+2*0+3*2+3*1+1)` | `0` | PB(1) closed form equals the direct level count |
+| K-157 | `(3*2^4+14*2^3+15*2^2-20*2)/12-(1+14)` | `0` | sum of PB(0), PB(1) equals the closed form at 2 |
+| K-158 | `(1^4+6*1^3+11*1^2-2*1)/2-(4*1+2*1+2*1+2*0)` | `0` | Compare residual Q(1) equals the direct count |
+| K-159 | `803*(803+1)*(803^2+11*803+12)/6` | `70334477708` | PV(803) Power_Reference invocations |
+| K-160 | `(8*803+42)*70334477708` | `454782732859928` | Compare PV terms, equal 803-byte operands |
+| K-161 | `(803^4+6*803^3+11*803^2-2*803)/2` | `209446213768` | Compare residual reference terms Q(803) |
+| K-162 | `4*70334477708` | `281337910832` | one checked Value on a valid 803-byte span |
+| K-163 | `4*(1^2+11*1+12)/3` | `32` | A-GHOST-0 per-term factor at c = 1 |
+| K-164 | `4*(8^2+11*8+12)/3` | `656/3` | A-GHOST-0 per-term factor at c = 8 |
+| K-165 | `4*(803^2+11*803+12)/3` | `2614616/3` | A-GHOST-0 per-term factor at c = 803 |
+| K-166 | `(803^3+12*803^2+20*803+6)/3` | `175178467` | D(803): decimal-phase PRI per digit, n = 803 |
+| K-167 | `(7*803^3+12*803^2+11*803)/6` | `605369655` | C(803): compare-phase PRI, n = 803 |
+| K-168 | `(3^3+12*3^2+20*3+6)/3` | `67` | D(3) |
+| K-169 | `(7*3^3+12*3^2+11*3)/6` | `55` | C(3) |
+| K-170 | `(803^3+6*803^2+5*803)/3` | `173884832` | PVW(803) |
+| K-171 | `803*(803+1)/2` | `322806` | r(803) |
+| K-172 | `454782732859928+209446213768` | `454992179073696` | Compare total PRI, equal 803-byte operands (RL-1 lower bound) |
+| K-173 | `281337910832/322806` | `2614616/3` | consistency: 4PV(803)/r(803) equals the factor K-165 |
+| K-174 | `0+1` | `1` | p(0) = 1 |
+| K-175 | `(1^3+12*1^2+20*1+6)/3-(1*(1+1)/2+(2*1^3+21*1^2+37*1+12)/6)` | `0` | D(1) = r(1) + MA(1) |
+| K-176 | `3+9` | `12` | Compare calls per selected usage row per column from row-sized invariant and lemma loops |
+| K-177 | `1+9+3` | `13` | Compare calls per selected usage row per column from executable Operand, LA-1 Post, outer invariant |
+| K-178 | `3+3` | `6` | Compare calls per selected usage row from Lemma_Close Pre and LA-7 Post |
+| K-179 | `2+2+2+1+3+1` | `11` | Value evaluations in LA-9's Post (upper bound) |
+| K-180 | `4*11` | `44` | LA-9 Post PV-term bound 44 PV(L) |
+| K-181 | `3*4` | `12` | Amount_Reference worst case 12 PV(L) (three Values) |
+| K-182 | `2*(2*12)+12` | `60` | computed, not relied on |
+| K-183 | `257*(2^6424-1)-2^6432` | positive integer; leading digits 65568031507786571166; trailing digits 6511880959 | RL-24: one-sided ghost sum of 257 operands 2^6424-1 exceeds 2^6432 |
+| K-184 | `2*257` | `514` | RL-24 child-row count |
+| K-185 | `256*2^6424-2^6432` | `0` | 256 * 2^6424 = 2^6432 |
+| K-186 | `2^6424-1-(2^6424-1)` | `0` | RL-24 alternating partial sums return to 0 |
+| K-187 | `0-(0-(2^6424-1))-(2^6424-1)` | `0` | RL-24 one +X/-X pair cancels exactly |
+| K-188 | `256^803-2^6424` | `0` | 256^803 = 2^6424 (X = 2^6424-1 has 803 bytes, all FF) |
+| K-189 | `255*2^6424-1-(2^6432-1-2^6424)` | `0` | closed form of K-152 |
+| K-190 | `6+3+5` | `14` | Python-source compilation sites: ast.parse 6, compile 3, exec 5 |
+| K-191 | `2+1` | `3` | (a) Compare evaluations per selected usage row per both-sides Side_Sum or Side_Total evaluation: two sign tests plus one term on the matching side; (b) Finish_Binary Post: two Value'Old * P(Upto) products plus one P(Upto) bound |
+| K-192 | `3*3` | `9` | Compare evaluations per selected usage row in LA-1's Post or in one LA-1 loop iteration (three both-sides Side_Sum kinds) |
+| K-193 | `1+1+2` | `4` | Compare evaluations per selected usage row in LA-9's Post (Usage_Selected conjunct, Counted conjunct, two Operand in the Signed_Prefix_Value conjunct) |
+| K-194 | `6+4` | `10` | once-per-call Compare coefficient on u: Lemma_Close Pre and LA-7 Post 6 (K-178) plus LA-9 4 (K-193) |
+| K-195 | `(12*1+13)*1*803` | `20075` | instance N = u = 1, K = 803: per-column Compare evaluations over all columns |
+| K-196 | `3*1*1+10*1` | `13` | instance N = u = 1: once-per-call Compare evaluations |
+| K-197 | `20075+13` | `20088` | instance: all Compare evaluations per Selected_Sum_Order call |
+| K-198 | `20088*454992179073696` | `9139882893232405248` | instance: Compare-term PRI with every Compare on equal nonnegative 803-byte spans (K-172 each) |
+| K-199 | `1+1` | `2` | the 2 in N + 2 (outer invariant 1 plus LA-1 Post 1; Lemma_Close Pre 1 plus LA-7 Post 1), the target's 2 prefix terms per column, and the 2 in K - L + 2 (invariant evaluations K - L + 1 plus the Post) of the padding facts |
+| K-200 | `2+2+1` | `5` | Amount_Reference coefficient on n_s (Selected_Sum_Order Post 2, Lemma_Close Post 2, LA-7 Post 1); target Value evaluations (the two Posts 2 + 2, LA-8 1) |
+| K-201 | `1+2` | `3` | Amount_Reference coefficient on N * n_s (LA-7 loop 1, LA-10 2) |
+| K-202 | `2*4` | `8` | LA-9L Post PV terms (two Value, 4 PV each) |
+| K-203 | `805-1` | `804` | n >= 805: Work_Value evaluates Power_Reference (n - 1) with n - 1 >= 804 |
+| K-204 | `804-1` | `803` | n = 804: Work_Value forms at most P(803); RL-2's failing iteration Completed = Count - 1 = 803 |
+| K-205 | `3*2` | `6` | Pair_Sum_Order Post Value evaluations (three operands, two conditions) |
+| K-206 | `6*4` | `24` | Pair_Sum_Order Post PV terms |
+| K-207 | `803-1` | `802` | RL-24: Offset of the failing LA-1 evaluation (Offset + 1 = 803) |
+| K-208 | `2*257-1` | `513` | RL-24: row position of the 257th positive child |
+| K-209 | `256*(2^6424-1)-(2^6432-256)` | `0` | RL-24: 256 operands X sum to 2^6432 - 256, which is representable |
+| K-210 | `8+3+4+6` | `21` | Compare PV coefficient per operand outside the loop (Post 8, padding base 3, Is_Negative 4, assertions 6) |
+| K-211 | `2+4` | `6` | radix-power evaluations at P(Offset) per column outside LA-1's loop (LA-1 Post 2, LA-3 actuals and Low updates 4) |
+| K-212 | `2+2` | `4` | radix-power evaluations at P(Offset + 1) per column in the outer invariants (Low bound 2, Carry product 2); also Lemma_Close Pre at P(K) |
+| PE-01 | `(x+1)-((x-1)+1)` = `1` | equal=true | p(e) = e+1 step |
+| PE-02 | `x*(x+1)/2 - (x-1)*x/2` = `x` | equal=true | r(c) = c(c+1)/2 step (r(c) - r(c-1) = p(c-1)) |
+| PE-03 | `x*(x+1)/2 + x*(x-1)/2 + 2*x + (x+1)` = `x^2+3*x+1` | equal=true | Radix_Power_Worker count w(e) |
+| PE-04 | `(x^3+9*x^2+14*x+6)/3 - ((x-1)^3+9*(x-1)^2+14*(x-1)+6)/3` = `x^2+5*x+2` | equal=true | RP(e) closed form step |
+| PE-05 | `x^2+3*x+1 + (x+1) + x` = `x^2+5*x+2` | equal=true | RP increment w(e)+p(e)+p(e-1) |
+| PE-06 | `x*(x+1)*(x+2)/6 - (x-1)*x*(x+1)/6` = `(x-1)*x/2 + x` | equal=true | S(c) = sum over k<c of r(k)+p(k): closed form step |
+| PE-07 | `(x-1)*x/2 + x` = `x*(x+1)/2` | equal=true | r(c-1)+p(c-1) = r(c), so S(c) = T(c) |
+| PE-08 | `x*(x+1)*(x+2)/6 + (x-1)*x*(x+1)/6 + (x-1)*x + 2*x + x*(x+1)/2` = `(x^3+6*x^2+5*x)/3` | equal=true | Prefix_Value_Worker count PVW(c) |
+| PE-09 | `x*(x+1)*(x^2+11*x+12)/6 - (x-1)*x*((x-1)^2+11*(x-1)+12)/6` = `(x^3+6*x^2+5*x)/3 + ((x-1)^3+9*(x-1)^2+14*(x-1)+6)/3 + x*(x+1)/2 + (x-1)*x/2 + x` | equal=true | public Prefix_Value PV(c) closed form step (self-referential Post) |
+| PE-10 | `4*x*(x+1)*(x^2+11*x+12)/6` = `(x*(x+1)/2)*(4*(x^2+11*x+12)/3)` | equal=true | A-GHOST-0 per-term factor: 4PV(c) = r(c) * (4/3)(c^2+11c+12) |
+| PE-11 | `x*(x+3)/2 - (x-1)*(x+2)/2` = `x+1` | equal=true | sum of p(k), k = 1..n, = n(n+3)/2 step |
+| PE-12 | `4*x*(x+1)/2 + 2*(x+1) + 2*x*(x+1)*(x+2)/6 + x*(x+3)/2` = `(2*x^3+21*x^2+37*x+12)/6` | equal=true | Multiply_Add per-call count MA(n) |
+| PE-13 | `x*(x+1)/2 + (2*x^3+21*x^2+37*x+12)/6` = `(x^3+12*x^2+20*x+6)/3` | equal=true | decimal-phase per-digit count D(n) = r(n) + MA(n) |
+| PE-14 | `2*x*(x*(x+1)/2) + x*(x+1)*(x+2)/6 + x*(x+3)/2` = `(7*x^3+12*x^2+11*x)/6` | equal=true | compare-phase count C(n) |
+| PE-15 | `4*x*(x+1)/2 + 2*(x-1)*x/2 + 3*(x+1) + 3*x` = `3*x^2+7*x+3` | equal=true | Prefix_Bounds per-level count |
+| PE-16 | `(x^3+5*x^2+7*x+1) - ((x-1)^3+5*(x-1)^2+7*(x-1)+1)` = `3*x^2+7*x+3` | equal=true | PB(o) = o^3+5o^2+7o+1 step |
+| PE-17 | `(3*x^4+14*x^3+15*x^2-20*x)/12 - (3*(x-1)^4+14*(x-1)^3+15*(x-1)^2-20*(x-1))/12` = `(x-1)^3+5*(x-1)^2+7*(x-1)+1` | equal=true | sum of PB(o), o < L, closed form step |
+| PE-18 | `4*x*(x+1)/2 + 2*(x*(x+1)*(x+2)/6 + (x-1)*x*(x+1)/6) + 2*(3*x^4+14*x^3+15*x^2-20*x)/12` = `(x^4+6*x^3+11*x^2-2*x)/2` | equal=true | Compare residual reference count Q(L), equal-length operands |
+| PE-19 | `(2*(x-x)+21+4*x) + (21+4*x)` = `42+8*x` | equal=true | general padded Compare PV formula specialises to (8L+42) at equal lengths |
+| PE-20 | `(x-1)*1+1` = `x` | equal=true | release-build Work-allocation ordinal of Decide k with one node per bundle equals k |
+| PE-21 | `x*(x+1)*(x+2)/6 - (x-1)*x*(x+1)/6` = `x*(x+1)/2` | equal=true | T(c) = c(c+1)(c+2)/6 step (T(c) - T(c-1) = r(c)) |
+| PE-22 | `x*(x+1)*(x+2)/6 + (x-1)*x*(x+1)/6` = `x*(x+1)*(2*x+1)/6` | equal=true | T(K)+T(K-1) = K(K+1)(2K+1)/6 (Compare residual; Selected_Sum_Order Prefix-term total) |
+| PE-23 | `3*x*(x+1)/2 + 3*(x+1)` = `3*(x+1)*(x+2)/2` | equal=true | Finish_Binary PRI: 3 r(Upto) + 3 p(Upto) = 3 r(Upto + 1) |
+
+Universal statements about all n, all rows and all carries are SPARK proof obligations (§8). Each recurrence above is
+lead reading of the source; JACKAL establishes only that the stated polynomial identities and instances hold, not that
+GNAT executes those recurrences. Counts read from files or scans are observations; only their arithmetic went to
+JACKAL.
+
+## 16. Non-claims
+
+- No source, proof, native, test, review or Phase One acceptance is claimed. `proof_acceptance`, `source_acceptance`,
+  `phase_acceptance` and `native_acceptance` are false.
+- No compiler, prover, build, test, WORLDLINE code, systemctl, project-vault or restic command was run. No WORLDLINE
+  module was imported.
+- Installed binary strings, examples and guide text are not legality evidence for this candidate. Every legality
+  question is a named probe.
+- The Python observations are of this agent's interpreter and installed files only.
+- The cost counts of §9 are static source counts, not measurements and not proved bounds. No time was measured.
+- The checked failure points of §9.6 are read from source; they are to be observed (PO-N8), not presupposed.
+- No operator option is selected or recommended. Operator approval would not be acceptance evidence.
+- Resource failures of any kind (heap, stack, time) are never accepted refusals. They remain OPEN native obligations.
+- F35 is a D1-introduced checked-build hazard that this design does not repair; it stays OPEN.
+
+_End of DESIGN v4._

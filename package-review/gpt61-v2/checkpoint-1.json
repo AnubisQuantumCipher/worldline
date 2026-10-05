@@ -1,0 +1,219 @@
+{
+  "schema": "operator-package-item-checkpoint-v1",
+  "item": 1,
+  "complete": true,
+  "closure_scope": "CLOSED means the prior decision-text/design correction is addressed, never executed enforcement, proof, acceptance or original-obligation closure.",
+  "prior_closure": {
+    "PKG-FACTS": "CLOSED",
+    "PKG-CRITERIA": "CLOSED",
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-SETUP": "NOT_CLOSED",
+    "W1-RESOURCES": "NOT_CLOSED",
+    "W1-LIFETIME-ROLLBACK": "NOT_CLOSED",
+    "D2-CORRECTIONS": "CLOSED",
+    "OD1-CONSEQUENCES": "CLOSED",
+    "OD2-CONSEQUENCES": "NOT_CLOSED"
+  },
+  "w1_subgap_closure": {
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-FINAL-PASS": "CLOSED",
+    "W1-CLOSURE": "NOT_CLOSED",
+    "W1-CHANNEL": "NOT_CLOSED",
+    "W1-WRITE-AUTHORITY": "NOT_CLOSED",
+    "W1-READ-ACCESS": "CLOSED",
+    "W1-READ-EXPOSURE": "NOT_CLOSED",
+    "W1-PREFLIGHT-IDENTITY": "NOT_CLOSED",
+    "W1-SETUP-PRESTATE": "NOT_CLOSED",
+    "W1-SETUP-ORDER": "CLOSED",
+    "W1-SETUP-EXACTNESS": "NOT_CLOSED",
+    "W1-IMAGE-GEOMETRY": "CLOSED",
+    "W1-IMAGE-COMPATIBILITY": "CLOSED",
+    "W1-VERIFICATION-PROBES": "NOT_CLOSED",
+    "W1-FAILURE-LEASE": "NOT_CLOSED",
+    "W1-FAILURE-RECORDS": "NOT_CLOSED",
+    "W1-REBOOT-RECOVERY": "NOT_CLOSED",
+    "W1-ROLLBACK": "NOT_CLOSED",
+    "W1-EVIDENCE": "NOT_CLOSED",
+    "W1-NONCLAIMS": "CLOSED"
+  },
+  "prior_findings": [
+    {
+      "id": "PKG-FACTS",
+      "status": "CLOSED",
+      "finding": "The specified old errors are repaired: “19 notices on 11 declarations”; D1383 is Result_Conforms and D1384 Compute; the separate rollout is in 2026/10/03; linger is limited to the two observed accounts; “No qualified unprivileged route has been demonstrated”; replacement-payload scope and timed snapshots are explicit; O4 is a proxy and its allowance is retained.",
+      "evidence": "P:65-118,188-199,279-288,353-363,406-410; G0:3-6,65; Prior:49"
+    },
+    {
+      "id": "PKG-CRITERIA",
+      "status": "CLOSED",
+      "finding": "Full required changes are quoted at F-1, with exact leaves, output partitions, recipe, caps, allowlist and original gates. “These are ineligible for closure, even after an operator choice” applies to reserve, scope, warning policy and narrowed original cases. Original semantic/approval/proof authority is retained.",
+      "evidence": "P:23-42,160-175,146-147,266-267,390-392,444-447; W1:18-45; F5:76,82; Prior:50"
+    },
+    {
+      "id": "W1-CUSTODY",
+      "status": "NOT_CLOSED",
+      "finding": "“only this writer could change the admitted generation, and it does not” is not yet a coherent complete design: generation.json is created before the streamed inputs and reservation it must bind; the final pass is said to follow the last frame mutation but launch-intent is subsequently written; modes and the lease exception require precise partition treatment. The lock file is absent from setup. Separate target uid and exclusivity are sound directions, not proof.",
+      "evidence": "W1:93-106,115-163,184-229,340-353; P:211-218; Prior:51,218-222"
+    },
+    {
+      "id": "W1-SETUP",
+      "status": "NOT_CLOSED",
+      "finding": "Member installation is honestly called “a template”, with a future concrete review before approval; that is correct. Still missing are writer.lock creation/verification, symlink-safe absent states, complete optional-image/unit prestates and protected custody of validated sudoers staging. /proc/self/status has no Dumpable field on this host. Option A's claimed exact exposure set excludes paths and offers only aggregate counts. UID/environment and per-entry modes/ACLs need an exact preserving specification.",
+      "evidence": "W1:176-177,269-283,323-419; P:224-236; host-observations.json; Prior:52,220-228,231"
+    },
+    {
+      "id": "W1-RESOURCES",
+      "status": "NOT_CLOSED",
+      "finding": "“Payload allowances, not image sizes” and the ideal identity correction are made. The added budget lists setup/manager/selftest effects, but does not explicitly budget retained streamed-message/input duplication, retries and failure-channel retention, their full restore, or the final geometry/mount inventory; it only says additions come “before dispatch”, while Gate 0 precedes setup and selftests too. Specify the complete preserving budget and its stage application; no measurement or capacity is demanded by this document review.",
+      "evidence": "W1:237-253,310-319,431-463,474-478; P:107-126,238-241; Prior:53,229-230"
+    },
+    {
+      "id": "W1-LIFETIME-ROLLBACK",
+      "status": "NOT_CLOSED",
+      "finding": "“A record that exists is committed” contradicts sealed N11: complete bytes can exist after failed fsync/validation. The stderr-to-transcript last resort is not durable when the front dies or the transcript filesystem fills. Unit/pid snapshots are not genuine complete participant waits. Rollback revokes new commands first, but its quiescence check omits pending outer launchers and ACL removal does not by itself restore the recorded mask/prestate.",
+      "evidence": "W1:474-522; F5:94-110; F6:93-98; P:243-247; Prior:54,232-236"
+    },
+    {
+      "id": "D2-CORRECTIONS",
+      "status": "CLOSED",
+      "finding": "The corrections table now carries the varying-slot family, Sum/Contained distinction, full-history/identity/excluded-row costs, empty/equal-endpoint work, nested packet-12 reach, invocation-versus-native-cost limits, original whole-arena relations and mandatory material C-ABI boundary. Release's missing -gnata is correctly source configuration only. C-PINS/C-COPY's old blanket O premise is expressly overridden by the original authority.",
+      "evidence": "P:412-452,290-340,603-618; D2:172-260; Prior:55,315-330"
+    },
+    {
+      "id": "OD1-CONSEQUENCES",
+      "status": "CLOSED",
+      "finding": "Each prior requested consequence is carried in the repaired option table, including checked Q.Value/full spans, real no-axiom model binding and direct-user migration, result-type migration, runtime layout/index/vector/copy/cost/relink/loaded identity, retirement's ineligibility and additive originals remaining executable and OPEN. “No option is selected or recommended.”",
+      "evidence": "P:550-565; D1:117-119; D1D:1659-1667; Prior:56,209"
+    },
+    {
+      "id": "OD2-CONSEQUENCES",
+      "status": "NOT_CLOSED",
+      "finding": "The summary now preserves examiner restoration, unchanged payload/campaign controls, startup custody, build_guard OPEN, minimum census, lexical/magnitude bounds, key order/failure and V3-RC1 re-review. It still calls E1 “per process class” without carrying or explicitly binding the complete corrected class table: launcher/service, direct-module -X-before-import, isolated -I/-S helpers and synchronized validation flags, inherited runpy, protected early-envelope/source alternatives, bounded-script alternative and native extension host all have distinct consequences. E2's settings/hooks/escaping/numeric subclass/NaN and duplicate-key behavior also need explicit complete binding.",
+      "evidence": "P:574-601; D1:121-135; D1D:1704-1731,1735-1765; Prior:57,211"
+    }
+  ],
+  "w1_subgaps": [
+    {
+      "id": "W1-CUSTODY",
+      "status": "NOT_CLOSED",
+      "finding": "Fresh exclusive writer and separate target fix the old overlap direction; coherent binding/last-pass ordering, lock establishment and protected output/frame-parent partition rules remain.",
+      "evidence": "W1:93-163,184-229"
+    },
+    {
+      "id": "W1-FINAL-PASS",
+      "status": "CLOSED",
+      "finding": "Every encountered leaf including excluded generated leaves and named-entry joins is explicitly required; the unwritten extension is disclosed. This closes the specification omission only.",
+      "evidence": "W1:146-154; P:218-219; F5:76"
+    },
+    {
+      "id": "W1-CLOSURE",
+      "status": "NOT_CLOSED",
+      "finding": "Exact members, modes and module closure are required, but no complete fresh per-invocation identity join is specified; §5.2 cites nonexistent §8.5. The global nlink==1 requirement must distinguish regular files from directories. Preserve original real outer invocation and fresh runtime/manager gates under the new helper layout.",
+      "evidence": "W1:189,310-319,395-411; H:154,164,177; F5:91,105,120"
+    },
+    {
+      "id": "W1-CHANNEL",
+      "status": "NOT_CLOSED",
+      "finding": "Length/sequence/hash chains are integrity descriptions, not sender authentication. The generation record precedes inputs/reservation it must bind, schemas and expected chain anchors are incomplete, and dumpability cannot be read back from the named proc field. Keep the lead-authentication ceiling without treating it as a newly accepted residual.",
+      "evidence": "W1:55-63,175-197,218-229; host-observations.json"
+    },
+    {
+      "id": "W1-WRITE-AUTHORITY",
+      "status": "NOT_CLOSED",
+      "finding": "Target residual writes are correctly separated, but runtime “lease/” writes are outside G and not classified as an original permitted preparation effect; blanket 0750/0640 modes conflict with the unchanged per-entry recipe and record defaults. Specify frame mutations only through writer-exclusive parents, including post-run work.",
+      "evidence": "W1:74-78,110-116,158-163; S:308-327,913,995-1026; F5:82"
+    },
+    {
+      "id": "W1-READ-ACCESS",
+      "status": "CLOSED",
+      "finding": "Streamed independently pinned inputs resolve unreadable frozen 0600 files without a writer home ACL. This is a design correction; concrete byte/mode inventory and transport implementation remain unexecuted.",
+      "evidence": "W1:235-261; P:221-223"
+    },
+    {
+      "id": "W1-READ-EXPOSURE",
+      "status": "NOT_CLOSED",
+      "finding": "Option A acknowledges broader exposure and Option B is a candidate privileged alternative, but excluded mounts/brain paths are not assessed and aggregate counts cannot enumerate “exactly that set”. Present excluded exposure as UNKNOWN, plus an exact allowed inventory; Option B needs propagation/mount/fd/privilege and identity details before setup.",
+      "evidence": "W1:269-285; P:224-227"
+    },
+    {
+      "id": "W1-PREFLIGHT-IDENTITY",
+      "status": "NOT_CLOSED",
+      "finding": "Running storage_status only in the sicarii front fixes the uid/HOME/bus error. Vault operation on /var/lib remains explicitly unverified, and the front's promised read access is not reconciled with unchanged 0600 frame records/default ACL masks. Define what is pinned and exact scoped sacrificial verification.",
+      "evidence": "W1:291-304,422; S:308-327"
+    },
+    {
+      "id": "W1-SETUP-PRESTATE",
+      "status": "NOT_CLOSED",
+      "finding": "Account/group checks and captures are added, but test ! -e misses dangling symlinks; lock, optional images/mount units, numeric uid/gid and retained ACL/sudoers/linger prestates need complete concrete safe joins.",
+      "evidence": "W1:323-338,93-97,446-455,508-522"
+    },
+    {
+      "id": "W1-SETUP-ORDER",
+      "status": "CLOSED",
+      "finding": "Design, code, concrete inventory, Gate 0, operator setup, verification, installed review/adoption, then fresh dispatch are explicitly separated. No in-principle choice is required for preparation.",
+      "evidence": "W1:308-321; P:231-236,259-270"
+    },
+    {
+      "id": "W1-SETUP-EXACTNESS",
+      "status": "NOT_CLOSED",
+      "finding": "Two users/two primaries and the template disclaimer are corrected. Exact account/directory commands omit writer.lock and complete per-entry ACL/mode rules; predictable lead-owned /tmp sudoers files are not protected reviewed-byte staging.",
+      "evidence": "W1:80-82,93-97,342-386; P:198-207"
+    },
+    {
+      "id": "W1-IMAGE-GEOMETRY",
+      "status": "CLOSED",
+      "finding": "Payload amounts, ext4 overhead to be measured, ideal zero identity and no capacity credit are correctly stated. Physical image/usable/restore figures remain future obligations before any setup/admission that uses images.",
+      "evidence": "W1:448-455,460-463"
+    },
+    {
+      "id": "W1-IMAGE-COMPATIBILITY",
+      "status": "CLOSED",
+      "finding": "Explicit 0600/owner verification and failure-only ENOSPC are required. The original scratch allowlist is proof or compile-only; built-executable/native-loading controls retain a separate compatible frame/mount and cannot be narrowed for noexec. No compatibility execution is established.",
+      "evidence": "W1:454-463; S:86,1054-1075; H:162"
+    },
+    {
+      "id": "W1-VERIFICATION-PROBES",
+      "status": "NOT_CLOSED",
+      "finding": "Sacrificial errno probes and whole sudoers-delta comparison improve v1, but exact source/destination operations, positive preconditions, outside alias denial, file-versus-directory nlink and real dumpable/runtime/participant checks are not fully specified.",
+      "evidence": "W1:388-425"
+    },
+    {
+      "id": "W1-FAILURE-LEASE",
+      "status": "NOT_CLOSED",
+      "finding": "Intent/ack and explicit unknown holds are added, but complete target/launcher/sudo/systemd-run generation/start/boot identities, schema validation and genuine wait/reconciliation rules are absent. An empty snapshot must not prove no pending launcher.",
+      "evidence": "W1:480-501; F5:95-110; F6:93-98"
+    },
+    {
+      "id": "W1-FAILURE-RECORDS",
+      "status": "NOT_CLOSED",
+      "finding": "Existence is not a commit; retries need committed-record descriptors joined by consumers. Stderr is not a durable fallback after front death or filesystem exhaustion. Add independently specified allowed pre-established retention and an explicit durable-unknown hold when it cannot succeed.",
+      "evidence": "W1:474-478,494-496; F5:94,107"
+    },
+    {
+      "id": "W1-REBOOT-RECOVERY",
+      "status": "NOT_CLOSED",
+      "finding": "No new genesis/stale credit and explicit reserved-window resolution are correct. Exact mount-unit/prestate/ancestor checks, boot-bound participant and attempt reconciliation, and protected retained intent/commit interpretation remain unspecified.",
+      "evidence": "W1:498,518-519; H:99,149"
+    },
+    {
+      "id": "W1-ROLLBACK",
+      "status": "NOT_CLOSED",
+      "finding": "Revocation first and honest leftovers are corrected. Resolve all registered/pending participants before configuration/mount changes; restore exact ACL mask/prestate with concurrency handling; preserve full identities and quiesce mount/automount/restart sources before unmount.",
+      "evidence": "W1:503-528"
+    },
+    {
+      "id": "W1-EVIDENCE",
+      "status": "NOT_CLOSED",
+      "finding": "Raw evidence classes and copied-record ceilings are explicit, but the proposal still leaves a freeze mechanism conditional (“unless the files are frozen by a reviewed mechanism”) and lacks complete committed/error/participant/fallback records and exact pre/post restoration custody.",
+      "evidence": "W1:530-548"
+    },
+    {
+      "id": "W1-NONCLAIMS",
+      "status": "CLOSED",
+      "finding": "Candidate/no authority/no sufficiency/all-original-OPEN and toolchain/target/lead ceilings are carried. They do not make the positive setup/custody/durability assertions correct or establish an approved new exception.",
+      "evidence": "W1:3-11,55-70,550-564; P:249-255"
+    }
+  ],
+  "approval_granted": false,
+  "all_original_obligations": "OPEN"
+}
