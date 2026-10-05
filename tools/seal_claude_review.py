@@ -10,9 +10,11 @@ INTEGRITY (frame §23 R1/R2 hardening). The reviewer's final message — the ind
 bytes — MUST carry a "=== SEAL ===" block: {"completed_at": <ISO8601>, "sections": {"REVIEW.md": <sha256>,
 "review.json": <sha256>, "checks.json": <sha256>}}. The sealer VERIFIES each cited hash equals the
 hash of the extracted section bytes, so the sealed review is cryptographically bound to what the
-independent reviewer actually emitted (a post-hoc edit of any section fails the check). The freeze records
-`completed_at`, the reviewer-cited section hashes, the task-output sha256, and that raw-final-message.txt
-is the verbatim independent final message. A legacy final message with no SEAL block is sealed with a
+independent reviewer actually emitted (a post-hoc edit of any section fails the check). review.json is
+written BYTE-IDENTICAL to what the reviewer emitted (no lead fields added), so its on-disk hash equals the
+reviewer's cite. The FREEZE (not review.json) records `completed_at`, `seal_verified` (the SEAL was present
+and every cited hash matched), the reviewer-cited section hashes, the task-output sha256 and the reviewer
+agent id; the adoption join reads the binding from the freeze. A legacy final message with no SEAL block is sealed with a
 loud warning and completed_at=null; such a freeze CANNOT satisfy the hardened Claude-review adoption join.
 
 Every file is create-only (O_EXCL), fsynced, mode 0600.
@@ -107,14 +109,12 @@ def main():
     files = {}
     files['REVIEW.md'] = create(os.path.join(out, 'REVIEW.md'), review_md)
     files['checks.json'] = create(os.path.join(out, 'checks.json'), checks_txt.encode('utf-8'))
-    review['report_sha256'] = files['REVIEW.md']['sha256']
-    review['checks'] = dict(path=os.path.join(out, 'checks.json'), **files['checks.json'])
     task_out_sha = hashlib.sha256(open(src, 'rb').read()).hexdigest()
-    review['sealed_by'] = {'role': 'lead; verbatim transcription of the independent reviewer final message',
-                           'reviewer_agent_id': agent, 'source_task_output': src,
-                           'source_task_output_sha256': task_out_sha,
-                           'raw_final_message_is_verbatim_independent_final_message': True,
-                           'seal_verified': seal_ok, 'completed_at': completed_at}
+    # review.json is written BYTE-IDENTICAL to the bytes the independent reviewer emitted and cited in
+    # its SEAL block; the lead adds NO fields to it, so the on-disk review.json sha256 equals the
+    # reviewer's cite and the content-binding holds. ALL lead-added binding facts (seal_verified,
+    # reviewer_agent_id, source_task_output_sha256, reviewer_cited_section_sha256, completed_at) live in
+    # review-freeze.json below; the adoption join reads them from the FREEZE, never from review.json.
     files['review.json'] = create(os.path.join(out, 'review.json'), review_json_bytes)
     freeze = {'actual_model_selection': review.get('actual_model_selection'), 'reviewer_kind': review.get('reviewer_kind'),
               'different_from_author': review.get('different_from_author'),
