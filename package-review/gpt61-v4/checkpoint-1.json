@@ -1,0 +1,126 @@
+{
+  "schema": "claude-operator-package-review-checkpoint-v1",
+  "item": 1,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "package_sha256": "96dc07e822d117f6a4d351e652bb310873a02e84474b0e9e1f56a8462513b781",
+  "w1_proposal_sha256": "a1924e74555ca85169e33d25d9fd9adc0c89f2a19fbc846edd7c49ed11b49c1c",
+  "closure_bar": "Coherent complete specification; CLOSED is text closure only, not execution, approval or obligation acceptance.",
+  "prior_closure": {
+    "W1-GENERATION-PROTOCOL": "NOT_CLOSED",
+    "W1-COMMIT-JOURNAL-EXPORT": "NOT_CLOSED",
+    "W1-TERMINAL-CUSTODY": "NOT_CLOSED",
+    "W1-DURABILITY-RELEASE": "NOT_CLOSED",
+    "W1-SETUP-PROBES-ROLLBACK": "NOT_CLOSED",
+    "W1-IMAGE-TREE": "NOT_CLOSED",
+    "PKG-V6-OPERATOR-TEXT": "CLOSED",
+    "PKG-SUPERVISION-RECORD": "NOT_CLOSED",
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-SETUP": "NOT_CLOSED",
+    "W1-LIFETIME-ROLLBACK": "NOT_CLOSED",
+    "W1-RESOURCES": "CLOSED",
+    "OD2-CONSEQUENCES": "CLOSED",
+    "PKG-V5-FACTS": "CLOSED",
+    "PKG-CLOSURE-STATUS": "CLOSED"
+  },
+  "w1_gap_closure": {
+    "generation-order": "NOT_CLOSED",
+    "lease-and-writer-authority": "CLOSED",
+    "per-entry-modes-acls": "CLOSED",
+    "channel-and-dumpability": "NOT_CLOSED",
+    "prestate-and-installation": "NOT_CLOSED",
+    "exposure-options": "CLOSED",
+    "fresh-identities-and-vault": "CLOSED",
+    "denial-probes": "CLOSED",
+    "resources-and-images": "CLOSED",
+    "commits-and-durable-channel": "NOT_CLOSED",
+    "participants-and-recovery": "NOT_CLOSED",
+    "rollback-and-evidence": "NOT_CLOSED"
+  },
+  "w1_subgap_closure": {
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-FINAL-PASS": "CLOSED",
+    "W1-CLOSURE": "NOT_CLOSED",
+    "W1-CHANNEL": "NOT_CLOSED",
+    "W1-WRITE-AUTHORITY": "CLOSED",
+    "W1-READ-ACCESS": "CLOSED",
+    "W1-READ-EXPOSURE": "CLOSED",
+    "W1-PREFLIGHT-IDENTITY": "CLOSED",
+    "W1-SETUP-PRESTATE": "CLOSED",
+    "W1-SETUP-ORDER": "CLOSED",
+    "W1-SETUP-EXACTNESS": "NOT_CLOSED",
+    "W1-IMAGE-GEOMETRY": "CLOSED",
+    "W1-IMAGE-COMPATIBILITY": "CLOSED",
+    "W1-VERIFICATION-PROBES": "CLOSED",
+    "W1-FAILURE-LEASE": "NOT_CLOSED",
+    "W1-FAILURE-RECORDS": "NOT_CLOSED",
+    "W1-REBOOT-RECOVERY": "NOT_CLOSED",
+    "W1-ROLLBACK": "NOT_CLOSED",
+    "W1-EVIDENCE": "NOT_CLOSED",
+    "W1-NONCLAIMS": "CLOSED"
+  },
+  "findings": [
+    {
+      "finding": "Create-only stream/adoption ordering is repaired; exact channel failure states and verb-specific success remain incomplete.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:578",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1730",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3144",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3175",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3202"
+      ]
+    },
+    {
+      "finding": "Fallback allocation, slot interpretation and export ACL ordering are repaired; a torn marker ending the chain conflicts with later appended markers linking past it.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1631",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1635",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2540"
+      ]
+    },
+    {
+      "finding": "Absorbing custody assumes target-created entries stay restrictive despite target ownership and permitted ordinary chmod; current-write leases do not close future writer access from non-writable references.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:913",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1334",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1431"
+      ]
+    },
+    {
+      "finding": "Durability-only holds are expressly withdrawn, but the release timeout path still contradicts the required channel order.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1478",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1483",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3144"
+      ]
+    },
+    {
+      "finding": "absent.py and headed ACL restore capture repair old conflicts; self-pinned setup-identities and resume-before-done semantics still need definitions.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1891",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1867",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2165",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2175"
+      ]
+    },
+    {
+      "finding": "Records image is inside T; W cannot perform mandated backing-file lstat beneath root-only image directory, and lost+found needs an explicit grammar exception.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:357",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:379",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2464"
+      ]
+    },
+    {
+      "finding": "Current operator route, accounts/groups and recovery consequences are corrected; the supervision record omits a disclosed later interruption.",
+      "evidence": [
+        "../../package-drafts/DRAFT-v7.md:419",
+        "../../package-drafts/DRAFT-v7.md:994",
+        "../../package-drafts/DRAFT-v7.md:1016",
+        "../../deviations/capi-v4-author-taskstop/NOTE.md:60"
+      ]
+    }
+  ],
+  "approval_granted": false,
+  "all_original_obligations": "OPEN"
+}

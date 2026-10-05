@@ -1,0 +1,108 @@
+{
+  "schema": "claude-operator-package-review-checkpoint-v1",
+  "item": 3,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "w1_assessment": "As specified, W-1 v4 cannot yet establish V5-B01 and V5-B02 together: target-owned permissions and non-writable retained references invalidate its absorbing custody argument, and protocol, journal, setup and image checks remain internally incomplete. Its protected single-tree writer routing is a plausible V5-B02 design direction, contingent on preserving successor-frame semantics and exact installed verification; no design text or author self-check supplies that evidence.",
+  "required_corrections": [
+    {
+      "id": "W1-CUSTODY-CLOSURE",
+      "item": 3,
+      "correction": "Replace the unsupported all-directories-remain-0700/only-R-or-GATE-can-mutate argument with a complete custody mechanism for target-modifiable modes/ACLs and surviving non-writable references, including queued references and future write opens. Preserve all original accepted actions/cases. Make the promised every-process-starting-unit mask coverage agree with S-F's enabled-closure inventory, and specify the stronger asynchronous/buffered-work quiescence property needed beyond serialized API dispatch. Retain UNKNOWN and the installed-premise verification requirements; do not convert any premise or finite control into an exception.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:172-188",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:913-914",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:973-983",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1345-1352",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1398-1419",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1424-1449",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2059-2062",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2341-2348"
+      ]
+    },
+    {
+      "id": "W1-PROTOCOL-FAILURE-STATES",
+      "item": 3,
+      "correction": "Complete and reconcile exact per-verb states/keysets and dispositions: early materialize/adopt refusals; failure or STOP after spawn permission but before CHILD_START; failed spawn reporting without a fabricated start/refusal; the release-intent timeout and late responses; verb-specific W/F success for materialize/adopt/seal-front; and Option B's RL identity message. No missing start record may imply no target, and no archival timeout may add a window-release gate.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:509-511",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1360-1367",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1481-1487",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1730-1741",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2223-2224",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3065-3072",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3102-3122",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3144",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3175-3177",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3202-3203"
+      ]
+    },
+    {
+      "id": "W1-JOURNAL-CONTINUATION",
+      "item": 3,
+      "correction": "Give one unambiguous reader/writer/export recovery rule for torn or unlinked markers and later appends: a marker cannot both end the committed chain and be bypassed by a later marker that is treated as committed. Define gaps, first-marker failures, head selection, branches and prefix cuts consistently for every consumer, preserving all raw files and forbidding failed primaries from parsed/success credit.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1631-1639",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1701-1726",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2555-2579",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1551-1552"
+      ]
+    },
+    {
+      "id": "W1-SETUP-IDENTITY",
+      "item": 3,
+      "correction": "Define a constructible non-circular setup identity seal. setup-identities.json cannot be required to store its own final size/digest as an ordinary pinned member without a separate construction/verification rule. Bind its final bytes externally through the reviewed installed/adoption identity, or specify an equally strong non-circular scheme; preserve immutable versus intentionally mutable field checks.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2125-2131",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2157-2176",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:438-440"
+      ]
+    },
+    {
+      "id": "W1-SETUP-RECONCILIATION",
+      "item": 3,
+      "correction": "Make S-R resume agree with observed poststate when a mutation completed but its done record did not: do not rerun create-only account/group/mask steps blindly. Specify complete/partial multi-object steps and their checked resume/reverse transitions. Make step.py check/write the complete log line or fail, and specify malformed/torn log handling; preserve root-reviewed staging, explicit operator choice and equality captures without a new gate.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1849-1878",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1927-1938",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1948-1961",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2093-2102",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2527-2528"
+      ]
+    },
+    {
+      "id": "W1-IMAGE-OBSERVATION",
+      "item": 3,
+      "correction": "Make every W/W2 backing-file identity check possible with the actual setup permissions, while preserving image custody and the same intended tree. Reconcile root-owned lost+found with the categorical W-owned-entry/name validation and growing-tree identity rules. Retain missing-mount, boot-local device observation, geometry and full executable/native compatibility requirements.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:357-386",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2168-2171",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2461-2475",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1545-1550"
+      ]
+    }
+  ],
+  "positive_findings": [
+    "Generation/attempt/adoption partitions and pre-created stream identities now have coherent normal-path ordering.",
+    "Read-only immutable writer lock and complete W2 recover authority preserve runtime frame writes inside T.",
+    "Empty PAMName drop-in withdraws sd-pam exception; masks include bus; any unreadable required manager reference is UNKNOWN.",
+    "Lease scan expressly covers current writable descriptions including queued ones, subject to installed kernel premise; it is not lasting custody.",
+    "Fallback allocation descriptor, short-write/torn-slot rules and failed-record consumers are separated coherently.",
+    "Export ACL/mode readback precedes marker and finite cuts include later W2/front terminal evidence, subject to the journal continuation repair.",
+    "Durability-only window holds are withdrawn in prose; exact protocol must implement the timeout path.",
+    "absent.py distinguishes final ENOENT from unreadable/missing parents; headed ACL restore dump and comparison text are separate.",
+    "Resources are allowances; physical geometry, executability/native compatibility and setup are future verified work."
+  ],
+  "unverified_premises": [
+    "PAM-less manager start and delegation/runtime directory",
+    "No allowlisted action needs a session bus",
+    "Private-socket peer credentials/notify authentication",
+    "Sufficient manager barrier and complete buffered/asynchronous-work observation",
+    "Kernel read-lease conflict behavior for queued descriptions and mappings on installed filesystem",
+    "Pre-created output-directory compatibility",
+    "Home-exposure/namespace and root-launcher compatibility",
+    "ENOSPC overwrite durability and installed image geometry/noexec compatibility"
+  ],
+  "approval_granted": false,
+  "all_original_obligations": "OPEN"
+}

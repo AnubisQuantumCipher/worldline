@@ -1,0 +1,71 @@
+{
+  "schema": "claude-operator-package-review-checkpoint-v1",
+  "item": 4,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "authority_comparison": {
+    "V5-B01": {
+      "w1_verbatim": true,
+      "package_wrapped_body_verbatim": true
+    },
+    "V5-B02": {
+      "w1_verbatim": true,
+      "package_wrapped_body_verbatim": true
+    },
+    "fixed_target_first_sentence_wrapped_verbatim": true
+  },
+  "findings": [
+    {
+      "finding": "Both V5 criteria are verbatim in W-1 and have complete word-identical wrapped bodies in v7; original fixed-target sentence is carried. Outside-tree authority and own-inode prevention are unchanged.",
+      "evidence": [
+        "../../package-drafts/DRAFT-v7.md:235-266",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:118-159",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md:76",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md:82"
+      ]
+    },
+    {
+      "finding": "Pinning alone adds no approval gate; material reference/API/ABI/policy/custody/deployment and privileged decisions retain original authority.",
+      "evidence": [
+        "../../package-drafts/DRAFT-v7.md:530-562",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md:153-167"
+      ]
+    },
+    {
+      "finding": "S-R operator reconciliation and empty-PAMName drop-in belong to existing reserved privileged setup and rollback. Exact reviewed inventory, setup capacity gate, operator choice, probes, installed review and adoption precede dispatch.",
+      "evidence": [
+        "../../package-drafts/DRAFT-v7.md:433-450",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1835-1878",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2077-2105",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2607-2632"
+      ]
+    },
+    {
+      "finding": "Durability UNKNOWN expressly has no approval/release effect in prose; missing release-timeout state must be corrected to keep that ruling effective, while participant UNKNOWN and owner/token checks remain.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1478-1508",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1691-1699",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3144"
+      ]
+    },
+    {
+      "finding": "No tool interruption or alternate-tool guard bypass is authorized. The source-record contradiction is a required correction, not permission for a repeat. D1 recovery remains a separate operator choice; vault recovery remains Codex's.",
+      "evidence": [
+        "../../package-drafts/DRAFT-v7.md:111-124",
+        "../../package-drafts/DRAFT-v7.md:981-1019",
+        "../../ISOLATION.md:115-120"
+      ]
+    }
+  ],
+  "ineligibility_preserved": [
+    "Lowering reserve",
+    "Narrowing scope or accepted cases/controls",
+    "Waiving warnings or changing warning policy",
+    "Lowering proof floor",
+    "Reference/specification changes substituted for original acceptance",
+    "Suppressing checked assertions/code",
+    "New assumptions replacing required evidence"
+  ],
+  "approval_granted": false,
+  "all_original_obligations": "OPEN"
+}

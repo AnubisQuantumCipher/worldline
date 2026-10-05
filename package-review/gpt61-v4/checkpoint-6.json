@@ -1,0 +1,61 @@
+{
+  "schema": "claude-operator-package-review-checkpoint-v1",
+  "item": 6,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "findings": [
+    {
+      "risk": "The custody argument adds an unstated permission invariant: every generated directory remains R-owned 0700 and non-R/non-GATE references allow no future mutation. Ownership, ordinary chmod and ACL actions in the same design do not enforce it.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:172-188",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:913",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1345-1350",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1431-1434"
+      ],
+      "disposition": "Required W1-CUSTODY-CLOSURE; preserve original accepted cases rather than banning an original action to make the argument pass."
+    },
+    {
+      "risk": "Serialized API dispatch is weaker than completion of all buffered/deferred work. The promised mask set also needs to match its inventory-generation rule.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1403-1408",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2059-2062",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:183-188"
+      ],
+      "disposition": "Required W1-CUSTODY-CLOSURE; retain all stated installed premises and UNKNOWN behavior."
+    },
+    {
+      "risk": "An implementation could choose one side of conflicting protocol/journal/setup/image rules, creating undocumented exceptions or lost custody/failed-record evidence.",
+      "evidence": [
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1631-1638",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2165-2175",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3144",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:3175",
+        "../../proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2463-2464"
+      ],
+      "disposition": "Repair exact frozen specification and independently re-review; operator choice in principle authorizes no exception."
+    },
+    {
+      "risk": "A false clean-interruption history could obscure adherence to the standing prohibition.",
+      "evidence": [
+        "../../package-drafts/DRAFT-v7.md:1016",
+        "../../deviations/capi-v4-author-taskstop/NOTE.md:60-70"
+      ],
+      "disposition": "Required PKG-V7-AUTHOR-RECORDS; no repeat or recovery interruption authorized."
+    }
+  ],
+  "no_other_undisclosed_choice_weakening_found": "The named storage, reference, native codec, checked-Ghost, C-API, owner-policy and review choices plainly preserve the unchanged target or label changes ineligible; source/pin/component/design reviews do not establish full Phase One acceptance.",
+  "evidence_for_preserved_limits": [
+    "../../package-drafts/DRAFT-v7.md:33-52",
+    "../../package-drafts/DRAFT-v7.md:228-229",
+    "../../package-drafts/DRAFT-v7.md:546-562",
+    "../../package-drafts/DRAFT-v7.md:574-618",
+    "../../package-drafts/DRAFT-v7.md:642-678",
+    "../../package-drafts/DRAFT-v7.md:826-876",
+    "../../package-drafts/DRAFT-v7.md:1039-1095"
+  ],
+  "approval_granted": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "all_original_obligations": "OPEN"
+}

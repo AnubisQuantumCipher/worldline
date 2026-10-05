@@ -1,0 +1,42 @@
+{
+  "schema": "claude-root-worker-seam-design-v3-jackal-v1",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent, author role)",
+  "design": "WT/designs/claude-root-worker-seam-design-v3/SEAM-DESIGN.md",
+  "provider": "JACKAL MCP front door (jackal_exact and the other jackal_* tools)",
+  "calls_made_in_v3": [],
+  "derived_numerals_in_v3": "none",
+  "why_no_calls": "No numeral in the v3 text was derived by arithmetic. Every count in SEAM-DESIGN.md, AUTHOR-NOTES.md and seams.json was printed by a read-only command or read from a file, or is quoted from v1, v2, the reviews, CAPI4 or CAPI5 with its own stated status. Identifiers such as OB-001 ... OB-219, R3-1 ... R3-43 or K-1 ... K-21 are labels, not quantities. Since no derived numeral exists, no JACKAL call was needed and none was made.",
+  "observed_counts": [
+    {"value": "18 sites in 11 modules", "what": "exact-type `is RequestPeer` gates in the lane runtime", "source": "grep -n 'is RequestPeer' over R/runtime/worldline/*.py, with grep -c per module and wc -l (read-only command output)"},
+    {"value": "219", "what": "entries of review.json open_obligations, every one OPEN with closure_credited false", "source": "read-only Python print over D2R/review.json"},
+    {"value": "2296 lines, 224640 bytes, trailing newline", "what": "v2 SEAM-DESIGN.md", "source": "wc -c -l and tail -c 1 | od -c (read-only command output)"},
+    {"value": "1329 lines, trailing newline", "what": "v1 SEAM-DESIGN.md", "source": "read-only Python slice-verification script output"},
+    {"value": "11", "what": "v1 startup descriptor top-level keys", "source": "read-only Python regex count over rw/protected_startup.py:173-174"},
+    {"value": "9", "what": "v1 runtime keys", "source": "read-only Python regex count over rw/protected_startup.py:264-265"},
+    {"value": "6", "what": "v1 custody genesis keys", "source": "read-only Python regex count over rw/root_worker_journal.py:43-44"},
+    {"value": "13", "what": "owner plan keys", "source": "read-only Python regex count over rw/protected_root_worker.py:98-100"},
+    {"value": "9", "what": "fields of L.Context compared by Same_Context", "source": "read-only Python count over core/resource_run_ledger.ads:13-23"},
+    {"value": "7", "what": "descriptors in the V1 helper's HELD frame", "source": "literal `int fds[7]` at protected-root/native_root_worker_supervisor_v1.c:247"},
+    {"value": "32", "what": "Gate connection slots", "source": "literal `threading.BoundedSemaphore(32)` at L/dependency-source/lab/intent_gate.py:1159"},
+    {"value": "2", "what": "A1-origin files among the SL-0 sites (origin A1-v2-retry1)", "source": "read-only Python print over L/secondary-source-union-v1.json"},
+    {"value": "43 slice rows, 43 replacements, 22 transitive v1 slices, all matched", "what": "slice verification (Appendix C)", "source": "read-only Python verification script output"}
+  ],
+  "carried_v2_results": {
+    "ids": "J01 ... J18",
+    "where": "inside carried v2 slices only (SEAM-DESIGN.md RR3-4)",
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "consequence": "informational about arithmetic only",
+    "record": "D2/jackal.json, sha256 fe664cc888e348292b6e3cd28c37f89a6e4dfb7ea2e843f94253595dda4a7561 (observed unchanged)",
+    "re_run_in_v3": false
+  },
+  "ledger_used_as_evidence": false,
+  "status_classes_retained_verbatim": true,
+  "use_ceiling": "informational; no source, ABI, proof, native, control or acceptance inference",
+  "non_claims": [
+    "No arithmetic result is claimed by v3 itself.",
+    "Observed counts are tool outputs or file readings, not JACKAL results, and carry no JACKAL status.",
+    "The carried v2 results keep v2's status and were not re-run."
+  ]
+}

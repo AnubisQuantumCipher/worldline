@@ -52,6 +52,7 @@ written. Future scans exclude that path.
 | Scratch frame v1–v5 | All UNQUALIFIED. v5: V5-B01, V5-B02; the compact identity records and four residuals were ruled acceptable. | W-1 v2 and the frame v6-W1 design continue as routine engineering. Privileged setup needs operator approval later |
 | Operator package DRAFT-v4 | NOT_READY (9 required corrections; W-1 "potentially capable … not sufficient as described"; P-1: no operator approval solely for pinning) | DRAFT-v5 and W-1 v2 |
 | Operator package DRAFT-v5, DRAFT-v6 | Both NOT_READY (`package-review/gpt61-v2`, `gpt61-v3`). v6: W-1 v3 8 sub-gaps CLOSED, 12 NOT_CLOSED; eight new corrections | DRAFT-v7 with W-1 v4, then re-review |
+| Operator package DRAFT-v7 + W-1 v4 | NOT_READY (`package-review/gpt61-v4`, sealed ~05:55Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `70b341d6…`, REVIEW.md `75f297ce…`, checks.json `e8404e77…`, freeze `314cfa29…`).<br>- **Closed:** PKG-V6-OPERATOR-TEXT. Newly closed gaps: lease-and-writer-authority, per-entry-modes-acls, denial-probes. Newly closed sub-gaps: WRITE-AUTHORITY, SETUP-PRESTATE, VERIFICATION-PROBES.<br>- **Still NOT_CLOSED:** all six v6 W-1 corrections and PKG-SUPERVISION-RECORD.<br>- **W-1 assessment:** "target-owned permissions and non-writable retained references invalidate its absorbing custody argument". Single-tree routing is "a plausible V5-B02 design direction".<br>- **Seven new corrections:** W1-CUSTODY-CLOSURE, W1-PROTOCOL-FAILURE-STATES, W1-JOURNAL-CONTINUATION, W1-SETUP-IDENTITY, W1-SETUP-RECONCILIATION, W1-IMAGE-OBSERVATION, and the lead's own PKG-V7-AUTHOR-RECORDS. v7 wrongly said the lead had used no interruption since the ruling: the ~03:38Z `timeout 60` termination came after it | W-1 v5 (author resumed) and DRAFT-v8 (lead) |
 | Composition commonV5-alpha (packets 01, 02, 04) | QUALIFIED_SOURCE_COMPOSITION | — |
 | Composition commonV5-beta (+05..09) | QUALIFIED_SOURCE_COMPOSITION (rulings 7a/7b; notes N on packets 05/06 metadata) | — |
 | C-API design v2 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC6; LD4 rejected as written) | v3 being drafted |
@@ -243,7 +244,20 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 05:08Z)
+## In progress (updated 06:00Z)
+
+- **Root-worker SEAM DESIGN v3** (`designs/claude-root-worker-seam-design-v3`).
+  - **Files.** SEAM-DESIGN.md `a0f2f411…`, seams.json `093f3117…`, jackal.json `8cce45e3…`, AUTHOR-NOTES.md `dd382e1b…`.
+    It was handed back ~05:55Z, and the hashes match the report.
+  - **Lead check.** A lead script verified all 43 carried v2 slices, with no overlaps.
+  - **What it answers.** V2-REQ-A..L and RQ-1. It also reports new author findings NF-1..NF-11; NF-5, about the C-API
+    v5 §19 wording, was relayed to the C-API v6 author as information.
+  - **Author process.** No refusals, no interruptions, no JACKAL calls (its counts are observed), and one `sia.ask`.
+  - **Review.** Its actual gpt-6.1-sol review started 05:58Z: brief `briefs/root-worker-seam-design-v3.md`
+    (`0e2e6f5d…`), thread `01a10aa4-7a2d-7973-ad50-317bec908872`.
+- **W-1 v5.** The W-1 author was resumed ~05:59Z for the six W-1 corrections of `gpt61-v4`; output goes to
+  `proposal/ISOLATION-STORAGE-PROPOSAL-v5.md`.
+- **DRAFT-v8.** The lead is preparing it for PKG-V7-AUTHOR-RECORDS and current facts.
 
 - **C-API DESIGN v6.** Drafting started ~05:07Z. The v4/v5 author (`a15cbfbc1dbf895f6`) was resumed for
   V5-RC4-GATE-EXCEPTION and V5-RC4-QUAL-CAPTURE; output goes to `designs/claude-capi-boundary-design-v6`.
