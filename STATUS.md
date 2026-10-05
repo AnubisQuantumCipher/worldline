@@ -219,9 +219,14 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 04:20Z)
+## In progress (updated 05:08Z)
 
-- **C-API DESIGN v5** (`designs/claude-capi-boundary-design-v5`).
+- **C-API DESIGN v6.** Drafting started ~05:07Z. The v4/v5 author (`a15cbfbc1dbf895f6`) was resumed for
+  V5-RC4-GATE-EXCEPTION and V5-RC4-QUAL-CAPTURE; output goes to `designs/claude-capi-boundary-design-v6`.
+  - **Its limits:** strict read-only Bash (no `mkdir` or redirection of any kind), `sia.ask` at the start, all eight
+    Ada skills, JACKAL in groups of at most four.
+  - **Isolation from parallel work:** it may not read the seam v3 draft or the package review in progress.
+- **C-API DESIGN v5** (`designs/claude-capi-boundary-design-v5`). Its review sealed ~05:05Z (verdict table).
   - **Author.** The resumed v4 drafting agent handed back shortly before 04:13:55Z.
   - **Files.** DESIGN.md `533f0e04…`, decisions.json `a069632a…`, APPENDIX-BINDINGS.md `f22944b4…`, jackal.json
     `612d189e…`, AUTHOR-NOTES.md `ed45d1db…`. The lead's re-hashes equal the author's report.
