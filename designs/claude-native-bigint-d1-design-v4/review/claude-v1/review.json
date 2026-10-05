@@ -1,0 +1,166 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v4/DESIGN.md",
+ "design_sha256": "3c636847ee1ec735d46a435e313719a4174503cdfa5240d152f959f07a18913c",
+ "decisions_sha256": "ec2d120c69dc6d605fa1fb5e06bc8b35821fda374206ba111a6f036d488c5a6e",
+ "appendix_sha256": {
+  "A": "8c8772d0bae606c45d06428cf6ee69da8afa94231477eb2152e5857accc5e996"
+ },
+ "brief_sha256": "d79b037273d97815e7d319d332c5065b714400eff1c52ea46703180fc72ecce7",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "prior_closure": {
+  "V3-RC1": "CLOSED (a-g); census reproduced independently (193+2+254=449); C12 minor inventory note in V4-RC2(g)",
+  "V3-RC2": "CLOSED (a-i); notes: ordinal calibration V4-RC2(c), IM-10 quartet targeting V4-RC2(d), RL-12IN wording V4-RC2(e)",
+  "V3-RC3": "CLOSED (a-d,f-h); (e) closed for stated rows but incomplete: N1 failure point missing (V4-RC1)",
+  "V3-F1": "CLOSED",
+  "V3-F2": "CLOSED",
+  "V3-F3": "CLOSED",
+  "V3-F4": "CLOSED",
+  "V3-F5": "CLOSED",
+  "V3-F6": "CLOSED",
+  "V3-F7": "CLOSED",
+  "carried_forward": "R-A,R-B,R-PREFIX,R-WORKSPACE,R-OD1,R-OD2,R-NOTICE,R-SCOPE and V2-RC1..3/RC4..6 closures preserved; Appendix B E-1..E-5 and B.2 correctly incorporated; no regression"
+ },
+ "new_findings": {
+  "F32": "SUPPORTED statically via Decide Post/All_Hold/Same (Resulting_Requirement absent => not AUTHORIZED); Identity_Absent is the conditional code only if readiness/agent/context pass and Roster_Complete=1; execution still must establish actual code, fixture stages and second assertion; OPEN outside D1",
+  "F34": "ACCURATE; DR-C5 ADMISSIBLE (logically equivalent reformulation of D1's own ghost; no cap/Pre/refusal/suppression; original decision on every input); PO-B22 remains review+observation obligation",
+  "F35": "ACCURATE; correctly OPEN and BLOCKING for D1-A acceptance (PO-A26 in O-A); no Pre/cap/refusal eligible",
+  "F36": "ACCURATE; Compare-count attribution reproduced; A-SEL-L recorded, not selected",
+  "F37-N1": "NEW: Algorithm A extent includes non-operand Budget Observed_Usage spans; D1-introduced checked failure (P(804)=2^6432) on originally successful direct-Ada Contained inputs and release cost regression; preserving Held-only fix required (V4-RC1)"
+ },
+ "required_changes": [
+  {
+   "id": "V4-RC1",
+   "change": "Restrict the pre-pass extent, the per-row length test, LA-7/LA-11/Lemma_Close coverage and PO-A14 to usage spans of Held_Capacity rows; correct §5.5:818-819 and §5.11; add N1 to §9.1/§9.2/§9.6; add direct-Ada control RL-25 (Budget child with valid 804-byte usage: True in every build, no checks-build failure) and a release cost-scaling control; record F37; synchronize decisions.json",
+   "reason": "As written D1-A forms Power_Reference(804)=2^6432 in the checks build on direct-Ada Contained inputs the original decides successfully, and adds release work proportional to bytes the original never reads",
+   "evidence": "D4/DESIGN.md:724-731,754-756,787-793,858-864,818-819,1116-1124,1809,2083; C5/core/resource_run_ledger.adb:36-48,70-90; C5/core/resource_run_ledger.ads:148-153,187-199,264-265; C5/core/resource_quantities.adb:181; JACKAL J8,J20,J25,J26"
+  },
+  {
+   "id": "V4-RC2",
+   "change": "(a) restate F32 with the Post/All_Hold/Same argument, mark Identity_Absent conditional, list execution obligations; (b) add O-GHOST-EXTENT-A; (c) calibrate W-5/W-7 ordinals by an uninjected observed per-Decide allocation count; (d) IM-10 plain mismatch: assert targeted, unique BwAA quartet; (e) reword RL-12IN discriminating column; (f) state R-OVR pre-scan conditions (type-level int ops, no default/cls); (g) complete C12 operand inventory (CalledProcessError returncode, bounded); (h) correct stale /tmp 'left in place' statements",
+   "reason": "Statement precision, control calibration and record synchronization; no guarantee change",
+   "evidence": "C5/core/worldline-collapse.ads:185-220; C5/core/worldline-collapse.adb:20-25; C5/core/worldline-identities.ads:80-82; C5/core/evaluation_finalization_c.adb:485-490; C5/core/evaluation_finalization.ads:394-398; C5/tests/test_finalization_kernel.py:179-201,245-266; C5/native/build_guard.py:44-45; WT/deviations/d1v4-drafter-tmp-file/NOTE.md:15-17"
+  }
+ ],
+ "rulings": [
+  {
+   "id": "R-DRC5",
+   "ruling": "DR-C5 is an admissible repair: logically equivalent reformulation of D1-B's own ghost contracts; no cap/Pre/refusal/suppression; original decision on every input",
+   "owner": "lead",
+   "evidence_required": "PO-B22 review over final D1-B text including lemma and Finish_* bodies; IM-1 and IM-5 observed in checks build; PO-B23/PO-X1 probes"
+  },
+  {
+   "id": "R-F35",
+   "ruling": "F35 correctly OPEN and blocking for D1-A acceptance (PO-A26 in O-A); Pre/cap/domain restriction/refusal ineligible; any candidate must also satisfy V4-RC1",
+   "owner": "lead",
+   "evidence_required": "candidate design with horizon argument and independent review; RL-24 completing in checks build; full PO-A proof"
+  },
+  {
+   "id": "R-EXTENT",
+   "ruling": "Budget-usage extent (N1) is a D1-introduced checked failure and release cost regression; Held-only restriction is a required lead-owned contract-preserving correction",
+   "owner": "lead",
+   "evidence_required": "V4-RC1 text; RL-25 both builds; restated LA-7/LA-11/PO-A14 proofs"
+  },
+  {
+   "id": "R-F32",
+   "ruling": "F32 supported statically; control stays OPEN outside D1; any repair of the original control is a separate reviewed change preserving its intent; never counted as passing; D1 never modifies it",
+   "owner": "lead (finding); separate review (any control change)",
+   "evidence_required": "execution under existing admission recording actual code and preceding stages; independently reviewed disposition"
+  },
+  {
+   "id": "R-OD2-DEPTH",
+   "ruling": "E2-b failure-to-success depth behaviour is a disclosed property within the operator's existing OD-2 selection, not an additional approval gate",
+   "owner": "operator (OD-2 selection only)",
+   "evidence_required": "PY-11 records"
+  },
+  {
+   "id": "R-CARRY",
+   "ruling": "R-A, R-B, R-PREFIX, R-WORKSPACE, R-OD1, R-OD2, R-NOTICE and R-SCOPE stand unchanged",
+   "owner": "as in R3",
+   "evidence_required": "as in R3"
+  }
+ ],
+ "fact_corrections": [
+  {
+   "id": "F37",
+   "status": "NEW_FINDING",
+   "text": "Algorithm A column extent includes non-operand Budget usage spans; §5.11's 'only one-sided signed sums' horizon statement and §5.5:818-819 are incomplete",
+   "evidence": "D4/DESIGN.md:724-731,818-819,1116-1124; C5/core/resource_run_ledger.adb:36-48"
+  },
+  {
+   "id": "F32-PRECISION",
+   "status": "CORRECTION_REQUIRED",
+   "text": "Identity_Absent is conditional on prior stages; the unconditional fact is non-AUTHORIZED via Decide's Post",
+   "evidence": "C5/core/worldline-collapse.ads:198-220; C5/core/worldline-collapse.adb:20-25; C5/core/evaluation_finalization_c.adb:485"
+  },
+  {
+   "id": "C12-INVENTORY",
+   "status": "MINOR",
+   "text": "build_guard also formats readelf's bounded return code through CalledProcessError",
+   "evidence": "C5/native/build_guard.py:44-45"
+  },
+  {
+   "id": "TMP-RECORD",
+   "status": "MINOR",
+   "text": "AUTHOR-NOTES/decisions say the /tmp file was left in place; the lead removed it after copying",
+   "evidence": "D4/AUTHOR-NOTES.md:46-51; WT/deviations/d1v4-drafter-tmp-file/NOTE.md:15-17"
+  }
+ ],
+ "open_obligations": [
+  "O-A",
+  "O-CHECK",
+  "O-BOUNDS",
+  "O-B",
+  "O-PREFIX-PROOF",
+  "O-LEGALITY-PROBE",
+  "O-EXCEPTION-CLEANUP",
+  "O-WORKSPACE",
+  "O-NOTICE-R1",
+  "O-HELPERS",
+  "O-GHOST",
+  "O-GHOST-HORIZON-A",
+  "O-GHOST-EXTENT-A (new, this review)",
+  "O-BUILD-SELECTION",
+  "O-PYTHON",
+  "O-PY-AUDIT",
+  "O-PY-COST",
+  "O-PY-T",
+  "O-PY-DEPTH",
+  "O-CENSUS",
+  "O-ORIGINAL-F32",
+  "O-TRANSPORT-MAPPING",
+  "O-COST-MEASURE",
+  "O-PROOF",
+  "O-NATIVE",
+  "O-CONTROLS",
+  "O-PINS",
+  "O-JACKAL-SYMBOLIC",
+  "O-FINAL"
+ ],
+ "process_disclosures": [
+  "one scratch helper script written via Bash heredoc to the session scratchpad (census.py, 2905 bytes, sha256 2478eb3eb94b4a4f895b1f5247f02bd01331b985247ae1a866a9e424442b365f), contrary to override item 2; not a report file; left in place",
+  "one attempted redirect to /dev/stdin.lst failed with Permission denied; no file created",
+  "SIA not consulted (independence); no SIA note written"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "native_acceptance": false,
+ "report_sha256": "a81c41f66be4894afdfdf0cb19e2ec8b94c71ecc2fd209a25b885f57c9cac411",
+ "checks": {
+  "path": "designs/claude-native-bigint-d1-design-v4/review/claude-v1/checks.json",
+  "sha256": "1678634d8b7d11d28824155fa17ca039ad903d96c8b3f9d772145485e237d79e",
+  "bytes": 14649,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a3692157a5ca4073d",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a3692157a5ca4073d.output",
+  "source_task_output_sha256": "c6ebde9856befb869e1b81ddb24b3e1f4f67d3c0161864680de5c82d81c8195f"
+ }
+}
