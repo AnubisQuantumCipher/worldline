@@ -1,0 +1,214 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v7/SEAM-DESIGN.md",
+ "design_sha256": "62b7d5877a4df95b86ab5354d64d4fadd6bcf8017da20b8ba53dbbec34169f16",
+ "seams_sha256": "de716b0bf38671abef088957014885ecd1002380b8eb56f5966230cd1ba2e817",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "rc_closure": {
+  "V6-REQ-A": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-B": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-C": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-D": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-E": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-F": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-G": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-H": "PARTIALLY_CLOSED (V7R-H: the :192 replacement drops p.quarantine in the owned-None case; 'unchanged'/'elif becomes plain alternative' is incorrect)",
+  "V6-REQ-I": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-J": "CLOSED_AT_DESIGN_LEVEL",
+  "V6-REQ-K": "CLOSED_AT_DESIGN_LEVEL (design; adoption OPEN, CJ-H-1/2/5 open)",
+  "V6-REQ-L": "CLOSED_AT_DESIGN_LEVEL",
+  "V5-REQ-B": "CLOSED_AT_DESIGN_LEVEL (carried, stays closed)",
+  "V5-REQ-H": "CLOSED_AT_DESIGN_LEVEL (carried; PREPARED ordering unaffected)",
+  "V5-REQ-L": "CLOSED_AT_DESIGN_LEVEL (carried)",
+  "V5-REQ-M": "CLOSED_AT_DESIGN_LEVEL (carried)",
+  "V4-REQ-H": "CLOSED_AT_DESIGN_LEVEL (carried; condition met by V7-J)",
+  "V4-REQ-K": "CLOSED_AT_DESIGN_LEVEL (carried; CAPI identities re-bound in Appendix B)",
+  "V5-REQ-A": "PARTIALLY_CLOSED (unchanged; answered by V7-A/V7-B)",
+  "V5-REQ-C": "PARTIALLY_CLOSED (unchanged; V7-C)",
+  "V5-REQ-D": "PARTIALLY_CLOSED (unchanged; V7-D)",
+  "V5-REQ-E": "PARTIALLY_CLOSED (unchanged; V7-E)",
+  "V5-REQ-F": "PARTIALLY_CLOSED (unchanged; V7-F)",
+  "V5-REQ-G": "PARTIALLY_CLOSED (unchanged; V7-G)",
+  "V5-REQ-I": "PARTIALLY_CLOSED (unchanged; V7-I)",
+  "V5-REQ-J": "PARTIALLY_CLOSED (unchanged; V7-J)",
+  "V5-REQ-K": "PARTIALLY_CLOSED (unchanged; V7-K)"
+ },
+ "clause_closure": {
+  "01.1": "CLOSED_AT_DESIGN_LEVEL",
+  "01.5": "PARTIALLY_CLOSED (D_prod coverage OPEN)",
+  "01.7": "PARTIALLY_CLOSED (RQ-1 proofs/controls OPEN)",
+  "02.1": "CLOSED_AT_DESIGN_LEVEL",
+  "02.2": "PARTIALLY_CLOSED (P-A1..P-A4 OPEN)",
+  "02.3": "PARTIALLY_CLOSED (costs OPEN)",
+  "02.4": "CLOSED_AT_DESIGN_LEVEL (design; adoption OPEN)",
+  "03.2": "CLOSED_AT_DESIGN_LEVEL",
+  "03.3": "PARTIALLY_CLOSED (CG-1 OPEN)",
+  "04.1": "PARTIALLY_CLOSED (V7R-H: V6-REQ-H not fully closed)",
+  "04.3": "CLOSED_AT_DESIGN_LEVEL (stays closed; no column added)",
+  "04.4": "CLOSED_AT_DESIGN_LEVEL",
+  "06.2": "CLOSED_AT_DESIGN_LEVEL (design; adoption OPEN)",
+  "06.3": "PARTIALLY_CLOSED (never-reattach OPEN)",
+  "06.4": "PARTIALLY_CLOSED (CG-3 OPEN)",
+  "07.1": "CLOSED_AT_DESIGN_LEVEL (D6:83 corrected)",
+  "07.3": "PARTIALLY_CLOSED (V7R-H: :192 wedge fix defective)",
+  "09.2": "CLOSED_AT_DESIGN_LEVEL",
+  "09.4": "CLOSED_AT_DESIGN_LEVEL (met by V7-I at design level)",
+  "09.5": "PARTIALLY_CLOSED (C-EVIDENCE liveness OPEN)",
+  "11.1": "CLOSED_AT_DESIGN_LEVEL",
+  "12.1": "CLOSED_AT_DESIGN_LEVEL (stays closed; no column added)",
+  "12.2": "PARTIALLY_CLOSED (V7R-H)",
+  "12.4": "CLOSED_AT_DESIGN_LEVEL",
+  "other_37_closed": "CLOSED_AT_DESIGN_LEVEL (carried in verified slices)"
+ },
+ "ruling_closure": {
+  "D-1a": "PARTIALLY_CLOSED",
+  "D-1b": "PARTIALLY_CLOSED",
+  "D-2a": "PARTIALLY_CLOSED",
+  "D-2b": "CLOSED_AT_DESIGN_LEVEL (carried by C2-116, unchanged)",
+  "D-3a": "PARTIALLY_CLOSED (lab evidence OPEN)",
+  "D-4a": "PARTIALLY_CLOSED",
+  "D-5a": "PARTIALLY_CLOSED",
+  "D-5b": "PARTIALLY_CLOSED",
+  "D-6a": "PARTIALLY_CLOSED (retains the V6-REQ-H/V7R-H gap)",
+  "D-7a": "PARTIALLY_CLOSED",
+  "D-8a": "PARTIALLY_CLOSED",
+  "D-8b": "PARTIALLY_CLOSED (K-29 joins OP-7 by the same range repair)",
+  "D-9a": "PARTIALLY_CLOSED (retains the V6-REQ-H/V7R-H gap)"
+ },
+ "containment_gaps": {
+  "CG-1": "OPEN; attributed to the preimage (pre/protected_operations.py:729-730); does not depend on D-4a",
+  "CG-2": "OPEN; basis corrected to worker_policy admitted under the WL reservation (R7-49); does not depend on D-4a",
+  "CG-3": "OPEN; later WL requests queued for g+1; does not depend on D-4a",
+  "CG-4": "OPEN; owner.retry refused before any reservation (pre/protected_operations.py:720-722); independence from D-4a now stated (R7-73)"
+ },
+ "option_h_prime": "NOT_ADOPTED_CORRECTLY. D-H7 request-root launch designed step-for-step against launch_reserved (rw/protected_scoped_resource_runtime.py:698-776); a new path is genuinely required because launch_reserved hard-requires a bubblewrap argv[0] at :733 that holder-mode root cannot satisfy. Policy source = the WL operation's own plan policy (protected_operations.py:476,:687), not worker_policy. All ten ResourcePolicy fields (admission.py:76-85) listed and shown unchanged; field set confirmed complete (no 11th field). AO-5 and AO-9 marked part; CJ-H-1/CJ-H-2/CJ-H-5 OPEN. Adoption is the lead's only after V7-K.7's field-by-field showing, otherwise D-4a's existing reservation (OP-3); not a new gate. Not adopted.",
+ "new_elements_assessment": "V7-J (factory fork point), V7-I (PEER_STATUS reattach, re-derivation, out_seq order), V7-D (dispatcher), V7-E (JSON modes), V7-F (custody identity), V7-G (cause operand / non-circular C-APPEND) and V7-K/D-H7 are SOUND against the lane source and introduce no hidden refusal, cap, narrowed domain or assumption: the new fail-closed outcomes are correspondence failures that refuse no original accepted case, and new mechanisms (router successor, D-H1..D-H7, K-29, RC-5 extension) are flagged OPEN/unreviewed. V7-H is the exception: the specified replacement of rw/protected_root_worker.py:192 would drop the original p.quarantine in the no-dispatch-owner case (the elif at :195 guards on the phase :192 sets), a changed native settlement behaviour contradicting V7-H.1's 'original exception handling is unchanged'. V7R-H required. Carriage mechanically verified: 14/14 slices, 86/86 R7 quotes byte-exact, no double-replacement within v7 or across versions; capacity arithmetic JACKAL-confirmed exact (formal=false).",
+ "required_changes": [
+  {
+   "id": "V7R-H",
+   "change": "Specify the exact edit to rw/protected_root_worker.py:191-199 that preserves the original p.quarantine(operation,error) in the owned-is-None failure case: convert the ':195 elif self.phase==\"UNKNOWN_WORKER_OWNERSHIP\"' into an unconditional 'else:' (or re-establish the quarantine condition independently of the removed :192). Correct V7-H.1 and R7-65: with :192 removed the exception handling is NOT 'unchanged' and the elif does NOT 'become the plain alternative' — its guard evaluates False in its only reachable case, silently dropping the native quarantine.",
+   "reason": "As written, the fix for the :192 wedge changes native settlement behaviour (drops p.quarantine) and asserts preservation it does not achieve; the composed V7-H.1 specification is internally contradictory.",
+   "evidence": "rw/protected_root_worker.py:159,191-199; SEAM-DESIGN.md:1109-1119 (V7-H.1), :673-674 (R7-65); rw/root_worker_endpoint_router.py:22,26-31"
+  },
+  {
+   "id": "V7R-CITE",
+   "change": "Correct the line citations the design presents as exact: rw/daemon.py:390-393 (comment lines, not the progress send; _send is the generic writer :388-400); the D-H7 table boundaries :703->:705 (journal checks), :729-731->:730-731 (cgroup2 require), :732-736->:733-735 (sandbox require, :736 begins the env loop); and the loose wordings 'front's owners' (rw/protected_root_resource.py:161 closes resource state owners), 'V1's PARAMETERS' (rw/resource_child_execution.py:207 is the base roster) and 'host pid' (C1:241 writes the init pid).",
+   "reason": "The design claims byte-exact citations; these few are imprecise. None changes a conclusion.",
+   "evidence": "rw/daemon.py:388-400; rw/protected_scoped_resource_runtime.py:703-708,729-736; rw/protected_root_resource.py:159-161; rw/resource_child_execution.py:207; C1:241"
+  }
+ ],
+ "rulings": [
+  {
+   "id": "D-1a",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-A, V6-REQ-B",
+   "owner": "Lead source designer; independent reviewer (Claude review subagent under the 2026-10-05 17:05Z direction)",
+   "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls."
+  },
+  {
+   "id": "D-1b",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-B, V6-REQ-C",
+   "owner": "Lead scoped model/caller designer; independent reviewer",
+   "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof."
+  },
+  {
+   "id": "D-2a",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-A, V6-REQ-E",
+   "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+   "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls."
+  },
+  {
+   "id": "D-2b",
+   "ruling": "CLOSED_AT_DESIGN_LEVEL (carried by C2-116)",
+   "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent review",
+   "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit."
+  },
+  {
+   "id": "D-3a",
+   "ruling": "PARTIALLY_CLOSED; lab evidence OPEN; V6-REQ-J protects the carried V4-REQ-H closure",
+   "owner": "Lead protocol designer; operator for lab execution",
+   "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection."
+  },
+  {
+   "id": "D-4a",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-C, V6-REQ-K",
+   "owner": "Lead prepares native accounting comparison; independent review; operator selects any authoritative resource-policy change",
+   "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls."
+  },
+  {
+   "id": "D-5a",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-A, V6-REQ-D, V6-REQ-J",
+   "owner": "Lead prepares native/OS design; independent review; operator for delegation and privileged lab action",
+   "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls."
+  },
+  {
+   "id": "D-5b",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-J",
+   "owner": "Lead helper designer; independent review; operator for privileged execution/installation",
+   "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations."
+  },
+  {
+   "id": "D-6a",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-F, V6-REQ-H",
+   "owner": "Lead historical/canonical model designer; independent review",
+   "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement."
+  },
+  {
+   "id": "D-7a",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-E",
+   "owner": "Lead native/provenance designer; child-authority and independent re-review; operator for any original API/owner-policy alteration",
+   "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation."
+  },
+  {
+   "id": "D-8a",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-I",
+   "owner": "Lead OS/native requester designer; independent review",
+   "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage."
+  },
+  {
+   "id": "D-8b",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-F, V6-REQ-I, V6-REQ-J; measurements stay with the operator under OP-7",
+   "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent review",
+   "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client."
+  },
+  {
+   "id": "D-9a",
+   "ruling": "PARTIALLY_CLOSED; V6-REQ-A, V6-REQ-F, V6-REQ-G, V6-REQ-H",
+   "owner": "Lead additive SPARK relation and caller designer; independent review; operator for fault campaign",
+   "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes."
+  }
+ ],
+ "open_obligations": [
+  "OB-001 through OB-219 OPEN, closure_credited false",
+  "V6-REQ-A through V6-REQ-L (V6-REQ-H with the V7R-H gap)",
+  "V5-REQ-A, C, D, E, F, G, I, J, K (PARTIALLY_CLOSED)",
+  "Every PARTIALLY_CLOSED clause and ruling; 09.4 conditional on V6-REQ-I",
+  "CG-1, CG-2, CG-3, CG-4 (none depends on D-4a)",
+  "CJ-DISP-1..6, CJ-ARCH-1..3, CJ-JSON, CJ-H-1..5, OB-ESC/AU-2",
+  "K-1..K-29 (OP-7); RC-1..RC-7, RC-9, RC-13, RC-14, RC-15",
+  "D-4a; H-prime deltas D-H1..D-H7 and adoption; the new router successor and in-memory-phase code",
+  "All bodies, Posts, proofs, native costs, controls; P-A1..P-A4",
+  "CAPI6R open obligations; ROOT_WORKER_INTEGRATION; L-CAPI-P; G-PROT; IC-10",
+  "Hosted assurance; publication/deployment/final Phase One acceptance",
+  "The independent review of v7, of every slice and of the full lane"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "4d09a69a8af251f02ea49273ad0c35aa4c39b86628f6be6128f4184a1e19cf9f",
+ "checks": {
+  "path": "designs/claude-root-worker-seam-design-v7/review/claude-v1/checks.json",
+  "sha256": "1770794001691ab77736ef2cbfa4e26f9b107166a3c8bd6adae2248b9c09cda3",
+  "bytes": 6144,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "ad5b86a443cf0870b",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/ad5b86a443cf0870b.output",
+  "source_task_output_sha256": "044387871f9d939386e70a04ae8bba9d722c393b8c6e7289eafd07d5be87c2af"
+ }
+}
