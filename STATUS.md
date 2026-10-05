@@ -1,6 +1,6 @@
 # WORLDLINE Phase One: Claude lead status (live index)
 
-As of 2026-10-05 ~04:20Z. This file supersedes the stale status sections of the read-only
+As of 2026-10-05 ~16:55Z (gate table). This file supersedes the stale status sections of the read-only
 `work/claude-workflow-v1/REPAIR-MAP.md`, which stays preserved.
 
 **Every original Phase One obligation is OPEN.** Nothing below is proof, source, native or Phase One acceptance.
@@ -9,9 +9,9 @@ As of 2026-10-05 ~04:20Z. This file supersedes the stale status sections of the 
 
 | Gate | State | Where |
 |---|---|---|
-| Confinement / frame qualification | **BLOCKED.** Frame v5 is UNQUALIFIED (final actual gpt-6.1-sol report). V5-B01 requires custody that *prevents* the admitted generation from changing before use. V5-B02 requires enforced location custody for every frame mutation. No qualified unprivileged route has been demonstrated. W-1 (separate writer and target accounts) is the candidate: the package v6 review found W-1 v3 NOT_READY (8 sub-gaps CLOSED, 12 NOT_CLOSED), and W-1 v4 is being drafted. | frame v5 `review/gpt61-v1`; `frame-v6-PLAN.md`; `proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`; `package-review/gpt61-v3` |
-| Capacity | **BLOCKED.** Gate 0 (runbook v4.3) requires 9304350902252/1397 bytes above the 10 GB reserve for one unit run. At 04:17:40Z, free − reserve − Required = −9113451232236/1397 (JACKAL exact, formal=false). The vault timers are held for Codex's repository recovery. | `RUNBOOK-first-proof-iteration.md` |
-| Operator approvals | None given: no choice, no privileged action. | operator package |
+| Confinement / frame qualification | **BLOCKED.** Frame v5 is UNQUALIFIED: V5-B01 (custody) and V5-B02 (enforced location custody) are open. W-1 has its own design track. v6 and v7 were NOT_ENDORSED. v8 ("same-identity view") is under actual gpt-6.1-sol review (`proposal/v8-review/gpt61-v1`). | frame v5 `review/gpt61-v1`; `proposal/ISOLATION-STORAGE-PROPOSAL-v8.md` |
+| Capacity | **OPEN, not blocking** (16:52Z). Free 71430815744 bytes. Gate 0 margin (free − reserve − Required) = +76514498692116/1397 (JACKAL exact, formal=false). Codex's 50 GB relief and the repository repair are complete, and the vault timers are active. Refresh before each large run. | `RUNBOOK-first-proof-iteration.md`; `work/storage-relief-50gb-20261005/COMPLETED-50GB.json` |
+| Operator approvals | No privileged action has been approved. The routine decisions in DRAFT-v10 are resolved: S-1 by Codex's storage relief (human-authorized), and the D1 recovery (R2) by the human's 16:50Z directive. Reserved items stay reserved: privileged W-1 setup, merge, release, install, sudo, production and PRIME. | operator package; the directive below |
 
 ## Storage alert (2026-10-04 20:37Z)
 
@@ -342,7 +342,9 @@ reviewer after preservation) and kept the fresh review the lead had already star
   (its own JACKAL exact `19752144/390625` GB) and 32 items offloaded after full restore verification. The backup
   repository is REPAIRED_AND_VERIFIED. The vault timers are active.
 - **Live free space.** 71430815744 bytes, 61430815744 above the 10 GB reserve.
-- **Runbook Gate 0 margin.** +90484498692116/1397.
+- **Runbook Gate 0 margin** (free − reserve − Required). +76514498692116/1397.
+  - **Correction.** This entry first said +90484498692116/1397, which is free − Required. That omitted the reserve; it
+    was the lead's own error.
 - Both values are JACKAL `exact`, rational lane, not formal-bounded.
 - **What this changes.** Storage is not a blocker. Capacity is still refreshed before large work.
 
