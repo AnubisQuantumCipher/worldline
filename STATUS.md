@@ -276,7 +276,52 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 16:20Z, new Claude Code session)
+## Human direction, 2026-10-05 ~16:25Z (recorded as received)
+
+**What the human wrote.** "decided, not a reason to ask the human again. Record this new direction and continue until the
+complete original Phase One exit is independently evidenced. Acknowledge the received direction and the immediate actions
+you are taking."
+
+**The lead's reading.** The message's opening appears truncated.
+- **Decided matters.** Matters already decided, and matters within the lead's authority, are not reasons to go back to the
+  human.
+- **Continuation.** The lead continues autonomously until the complete original Phase One exit is independently evidenced.
+- **Unchanged.** Every original requirement and reserved gate stays as it was: merge, release, install, sudo, production and
+  PRIME. The no-interruption rule also stays.
+
+**D1 action taken under it.**
+- **Left untouched.** The stalled D1 v4 review is kept as an INCOMPLETE record: runner pid 3218302, codex pid 3218303,
+  thread `01a1095e…`, empty `gpt61-v1`.
+- **A fresh review.** A fresh actual gpt-6.1-sol review of the unchanged D1 v4 started ~16:24Z in a NEW directory,
+  `designs/claude-native-bigint-d1-design-v4/review/gpt61-v2`:
+  - brief `briefs/d1-design-v4-r2.md` (`d79b0372…`);
+  - thread `01a10cf2-c27b-7960-ad8f-12e6b7a22af4`;
+  - JACKAL calls in batches of at most 4.
+- **What this is.** R2's fresh review without the termination, so nothing is interrupted.
+
+**Record correction.** Commit `38de81e`'s message says STATUS recorded this direction. The STATUS edit in that step
+failed on a wrong anchor, so the entry was not in that commit. It is added here, in the commit that follows.
+
+## In progress (updated 16:50Z)
+
+- **PK-0 v2** (`packets/capi-pk0-v2`; packet.json `c5ce00cd…`). It answers PK0-RC1..RC5, as source only; nothing was run.
+  - **Lead checks.** All 9 hashes and all 100 bound inputs match L0. The six payload paths are absent from L0, and v1 is
+    unchanged.
+  - **What it adds.** 46 U15y cases plus diagnostics D29–D55, and HarnessFaultControl. Every `--record` path is now
+    output-only.
+  - **What stays OPEN.** Six launch obligations.
+  - **Author finding.** S5's own unexecuted tests assert AUTHORIZED for a request without Resulting_Requirement, which
+    `worldline-collapse.ads` forbids. This is related to F32. S5 was not edited.
+  - **Process record.** `deviations/capi-pk0-v2-author-process/NOTE.md`, which also records the lead's own hash
+    mistranscription.
+  - **Review.** Its actual gpt-6.1-sol review is queued: brief `briefs/capi-pk0-packet-v2.md`, output to
+    `review/gpt61-v1`.
+- **Seam v5** (`designs/claude-root-worker-seam-design-v5`).
+  - **Hashes.** SEAM-DESIGN.md `938c832d…`, seams.json `a3d3ff54…`. The lead verified 14/14 v4 slices.
+  - **Review.** Its actual gpt-6.1-sol review is queued for a runner slot: brief `briefs/root-worker-seam-design-v5.md`
+    (`e3d4f7f8…`), output to `review/gpt61-v1`.
+
+## Earlier in progress (16:20Z, new Claude Code session)
 
 - **W-1 v8** (`proposal/ISOLATION-STORAGE-PROPOSAL-v8.md` `804da95b…`; `v8-support/jackal.json` `cdae49fc…`).
   - **What it adopts.** A "same-identity view": c8 with a W-owned user namespace and identity maps, so the target keeps
@@ -305,7 +350,7 @@ V5-B02 and every original obligation stay OPEN.
   - PK-0 v2 (answering PK0-RC1..RC5, in `packets/capi-pk0-v2/`).
   Every resume message names the agent's own transcript path.
 - **D1 v4 review.** Runner pid 3218302 and codex pid 3218303 survived the session end. They are still stalled since
-  00:05:39Z and untouched. The R0/R1/R2 choice stays the human's.
+  00:05:39Z and untouched. Superseded at ~16:24Z by a fresh review under the human's direction above.
 
 - **W-1 v8.** The W-1 author was resumed ~15:17Z.
   - **Its order of work.** First, re-evaluate c8: a root-owned user namespace keeping the host uid, using the commoncap
