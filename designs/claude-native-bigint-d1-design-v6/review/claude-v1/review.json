@@ -1,0 +1,130 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v6/DESIGN.md",
+ "design_sha256": "fc3e3a6186f924fe07027b1d806b2ed7f85f04705232f0661c9eab5f39294e95",
+ "decisions_sha256": "b0b3eb63d83ab9d99c37bfc5f6a791136fa45ae3aafcefb8e7019e90c6e2c92c",
+ "appendix_sha256": {
+  "A": "c0acdc6d99f1490477b3f8630cf0eb4e21cbc0ac88e23d512771481728e01268",
+  "B": "902ac1a9d6456d1857449f1e60ca6270144f15f2aaed8e397dac93d146504db4"
+ },
+ "jackal_sha256": "61883be3bceb44f5bce5c825abe850e02eb66027f7494b43358cd5b5982c8a14",
+ "author_notes_sha256": "0cf1d24631c808afe8763dfba03231349cc874e2819522f1b772ca05716db21b",
+ "brief_sha256": "3fa7c6e35c14ec609dd92b1f6ec209e1f9d223eaf4c764d2ed3ad363736d79d7",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED",
+ "verdict_scope": "Design verdict only. ENDORSED means: the re-presented Theorem H-A is complete and correct at the design level, both v5 counterexamples (RL-25, RL-25E) are eliminated, no required change remains. It is NOT closure of F35 and NOT acceptance of the candidate; F35/O-GHOST-HORIZON-A stays OPEN and BLOCKING for D1-A pending proof (PO-A27..A33, A35) and checks-build observation.",
+ "prior_closure": {
+  "V5-RC1": "CLOSED (design text): Usage_Candidate (Kind=Held_Capacity and then Present) guards LA-9N (:1566-1568) and A-COL LA-9 (:977-982); corrections at :3.4/:5.14/:9.2/:9.6/:12.7, Appendix B.6/B.8/B.9; K-236 recounted (:2722-2723); F40 recorded (:460-470)",
+  "V5-RC2": "CLOSED (design text): LA-11 v6 body (:1590-1615) uses LR-0 + per-kind LA-10 only, no Side_Sum/Side_Total/LA-7/Both_Kinds LA-10; PO-A35 (:2481); RL-25E (:3282); PO-X7 keeps 'A-ROW adds no recursive function' including E=0 (:2440); F41 recorded (:471-479)",
+  "V5-RC3": "CLOSED (design argument): §5.12-§5.13 write out the final text; Appendix B.6 GT-01..GT-50 inventory; B.10 U-1..U-6; B.7.1/B.7.2 own LR-4/LR-4A derivations; independent re-review supplied by THIS review; F35 stays OPEN pending proof+observation",
+  "V5-RC4": "CLOSED (corrected/designed): §9.3.7 Compare term (8L+42)PV(L)+Q(L) vs 20PV(L), ratio 3233/10 [K-254], >300x [K-257], O-COST-MEASURE/D2, no cap; §9.1 release per-row E factor; RL-27 (:3285); RL-25C workspace 2E (:3283)",
+  "V5-RC5": "CLOSED: PO-A34 defined (:2480); W-11a reworded (B.8, B.10 item 6, :3361); decisions.json synchronized",
+  "V4-RC1": "CLOSED: completed by V5-RC1/RC2 (Held-only extent AND every usage-forming lemma now Usage_Candidate-guarded)",
+  "V4-RC2": "CLOSED (a)-(h) as in the D5 review; PO-A34 now defined",
+  "rulings_preserved": "R-DRC5, R-F32, R-OD2-DEPTH, R-A, R-B, R-PREFIX, R-WORKSPACE, R-OD1, R-OD2, R-NOTICE, R-SCOPE, R-F35->R-H-A, R-EXTENT->R-EXTENT-2, R-F38, R-COST-5 all preserved; §6/Algorithm B unchanged (R-DRC5). Limit: carried §6/§7.1-7.7/§10/§11/Appendix A not re-diffed line-by-line this session"
+ },
+ "findings": {
+  "F35": "NOT closed; correctly OPEN and BLOCKING for D1-A (R-H-A). v5's H-A was false; v6 repairs the two causes and the re-presented argument is sound at design level; proof (PO-A27..A33, A35) and checks-build observation (RL-24, RL-25, RL-25E, RL-26) remain. A-COL: OPEN, no horizon-safe ghost model known (R-F38)",
+  "F37": "v5's 'REPAIRED in both engines' correctly withdrawn; v6 restricts every D1-A usage-forming construct to Usage_Candidate rows; OPEN until proved and observed (O-GHOST-EXTENT-A / -LEMMA)",
+  "F38": "ACCURATE; A-COL correctly OPEN and not selected; RL-26 truncated sum 65537*(256^802-1) > 2^6432 [K-219]",
+  "F40": "repaired: LA-9N/LA-9 usage conjunct guarded by Usage_Candidate; RL-25 True in both builds with no D1 checks-build failure (verified vs C5 resource_run_ledger.adb:35-44, .ads:187-191)",
+  "F41": "repaired: LA-11 v6 body is per-kind and reaches no Side_Sum/LA-7/Both_Kinds LA-10; RL-25E True in both builds; no recursion added",
+  "F42": "cost change honestly stated and obligated (checked Compare term linear in L; release per-row E factor); no cap; verified K-254/K-255/K-256/K-257 and PV(803)=70334477708",
+  "H-A": "Re-presented argument is, at the design level, complete and correct on the complete original domain; H0, W/W1, U-1..U-6, GT-01..GT-50, LR-4/LR-4A six-case derivations check out; the two v5 counterexamples are eliminated. It remains a LEAD design argument, unproved; endorsement of the design is not closure of F35 and not acceptance"
+ },
+ "required_changes": [],
+ "rulings": [
+  {
+   "id": "R-H-A",
+   "ruling": "v5's Theorem H-A was false; v6's re-presentation repairs both causes and is sound at the design level. This review is the independent design-level re-review R-H-A requires and clears the FALSE-theorem obstacle, but closes nothing else. F35/O-GHOST-HORIZON-A stays OPEN and BLOCKING for D1-A; A-ROW endorsed as the candidate direction; no Pre/cap/domain restriction/refusal eligible",
+   "owner": "lead",
+   "evidence_required": "PO-A27..PO-A33 and PO-A35 proved; DR-C6/PO-A32 source review; RL-24, RL-25 (z,n), RL-25E (z,n), RL-26 completing in the checks build"
+  },
+  {
+   "id": "R-EXTENT-2",
+   "ruling": "the Held-only (Usage_Candidate) restriction covers every D1-A construct that forms a Big_Integer from a usage span (pre-pass, length test, LA-9N, LA-9, LA-11, LA-7 Pre, Lemma_Close); U-1 states it universally",
+   "owner": "lead",
+   "evidence_required": "PO-A30/A34/A35/A32; RL-25 and RL-25E in both builds"
+  },
+  {
+   "id": "R-F38",
+   "ruling": "A-COL correctly OPEN and not selected; V5-RC1 applied to its LA-9 (PO-A34); a revival needs a different reviewed horizon argument",
+   "owner": "lead",
+   "evidence_required": "a different reviewed horizon argument for the column engine"
+  },
+  {
+   "id": "R-COST-5",
+   "ruling": "the checked Compare term and the release per-row E factor are stated cost changes under O-COST-MEASURE/D2; never acceptance; no cap",
+   "owner": "lead",
+   "evidence_required": "V5-RC4 text (present); measurements (PO-N4), RL-25C, RL-27"
+  },
+  {
+   "id": "R-CARRY-5",
+   "ruling": "R-DRC5, R-F32, R-OD2-DEPTH, R-A, R-B, R-PREFIX, R-WORKSPACE, R-OD1, R-OD2, R-NOTICE, R-SCOPE stand unchanged",
+   "owner": "as in the v4/v5 reviews",
+   "evidence_required": "as in the v4/v5 reviews"
+  }
+ ],
+ "open_obligations": [
+  "O-A",
+  "O-CHECK",
+  "O-BOUNDS",
+  "O-B",
+  "O-PREFIX-PROOF",
+  "O-LEGALITY-PROBE",
+  "O-EXCEPTION-CLEANUP",
+  "O-WORKSPACE",
+  "O-WORKSPACE-A",
+  "O-NOTICE-R1",
+  "O-HELPERS",
+  "O-GHOST",
+  "O-GHOST-HORIZON-A (BLOCKING; R-H-A)",
+  "O-GHOST-EXTENT-A",
+  "O-GHOST-EXTENT-A-LEMMA",
+  "O-BUILD-SELECTION",
+  "O-PYTHON",
+  "O-PY-AUDIT",
+  "O-PY-COST",
+  "O-PY-T",
+  "O-PY-DEPTH",
+  "O-CENSUS",
+  "O-ORIGINAL-F32",
+  "O-TRANSPORT-MAPPING",
+  "O-COST-MEASURE",
+  "O-PROOF",
+  "O-NATIVE",
+  "O-CONTROLS",
+  "O-PINS",
+  "O-JACKAL-SYMBOLIC",
+  "O-FINAL"
+ ],
+ "process_disclosures": [
+  "no file written anywhere (override item 2/6 honoured); no stdin-reading command; no backgrounded command; command ls / os.listdir used",
+  "all eight Ada skills loaded with the Skill tool before any Ada reading",
+  "SIA not consulted; no SIA note; nothing read under ~/.local/share/sia/.gbrain/; /home/sicarii, ~/iPad, ~/iPadBackup never listed or stat'd",
+  "not read: R5/raw-final-message.txt, review-records/, any gpt61-* directory, any session transcript",
+  "23 jackal_exact calls, groups of <=4, literal exponents; all status=exact, formal=false, lane=rat, evaluator 4c0ae28d..5d872, no refusal, no consequence ceiling; exact is NOT formal-bounded",
+  "limit: carried sections (§6, §7.1-7.7, §10, §11, Appendix A) not re-diffed line-by-line; relied on the sealed D5 review's closure of them and verified the changed sections directly",
+  "limit: not every RL/IM/PY/W fixture re-walked; verified the controls central to H-A and the Budget-usage discipline, and the linchpin C5 source"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "native_acceptance": false,
+ "report_sha256": "aa0c2b74cb661d8fdcf28cfb270a727a991b00cf71ab4ae5fad9ac0012015f9c",
+ "checks": {
+  "path": "designs/claude-native-bigint-d1-design-v6/review/claude-v1/checks.json",
+  "sha256": "89f0b3d04c3cb54c682a56fde23efd89610dcf90ad0c80c4b865eb421c75308d",
+  "bytes": 7916,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a4cecd8015e84107a",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a4cecd8015e84107a.output",
+  "source_task_output_sha256": "844a17c313191a236a85bb15026a203780955d54e1becadf8306199a4b483e96"
+ }
+}

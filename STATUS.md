@@ -343,6 +343,20 @@ JACKAL call, WebFetch or edit. Nothing was interrupted.
   discharged by the operator-prepared probe under its stated criterion and an independent review; it is not asserted.
 - **Confinement stays the blocker.** V5-B01, V5-B02 and the W-1 obligations remain OPEN, so no proof run can dispatch.
 
+## D1 native Big_Integer: design ENDORSED (v6, 2026-10-05 ~21:30Z)
+
+The D1 design is ENDORSED at design level (second endorsement after F32). The A-ROW row-order engine, with Theorem H-A
+re-presented and independently re-reviewed, resolves the native Big_Integer cost correspondence without any cap, domain
+restriction, suppressed Ghost or new refusal — the START native rule met at the design level.
+
+**What is cleared.** The v5 obstacle (Theorem H-A was false) is gone; the re-presented argument is sound, and both
+counterexamples are eliminated with the `Usage_Candidate` guard and the new per-kind LA-11 body.
+
+**What stays OPEN.** F35 / O-GHOST-HORIZON-A is still BLOCKING for D1-A. The design is endorsed; the OBLIGATION needs the
+full strict proof (PO-A27..A33, A35), the DR-C6 source review, and RL-24/RL-25/RL-25E/RL-26 observed in the checks build.
+All of that requires GNATprove runs in the adopted scratch frame — blocked by confinement (V5-B01/V5-B02, W-1). The cost
+change F42 is a stated, obligated D2 item, never accepted.
+
 ## F32-CONFLICT: design ENDORSED; R-A delta lane PREPARED (2026-10-05 ~20:30Z)
 
 **Design.** The F32 resolution DESIGN is ENDORSED at design level (v6; the first lane to clear independent review outright).
@@ -440,6 +454,7 @@ independent review.
 | **D1 v6** | drafted; **under independent Claude review (Opus 4.8)** | Answers V5-RC1..RC5: Usage_Candidate guards both Budget-usage paths (F40), A-ROW gets its own per-kind LA-11 with LR-0 and RL-25E (F41), H-A re-presented with GT-01..GT-50 enumeration + U-1..U-6 + LR-4/LR-4A derivations, cost statements + RL-27 (F42). Author ran an 18-family adversarial pass. F35 stays OPEN/blocking until this review rules. Brief `briefs/d1-design-v6.md` (`3fa7c6e3…`) | `designs/claude-native-bigint-d1-design-v6` |
 | **PK-0 v4** | drafted; **under independent Claude review (Opus 4.8)** | Answers RC-v3-1 (D88/D89: the Kind 1 overlap built via a post-adopt `embed` mutation that reads region bounds from the library and fails visibly on a differing layout) and RC-v3-2 (14 sub-conjunct cases D76-D91 + a representative_operands list). 725 cases / 91 diagnostics; v1/v2/v3 unchanged; 100 bound inputs match L0. Brief `briefs/capi-pk0-packet-v4.md` (`2afd5073…`) | `packets/capi-pk0-v4` |
 | **W-1 v10** | drafted on Opus 4.8; **under independent Claude review (Opus 4.8)** | Answers the nine W1-V9 changes at spec level: ASYNC-ENUM as a closed obligation+predicate (no procedure; detailed refutation operator-reserved), NOOWNER-SCOPE, ENUM-USERDEL (67/104 states), PLAN-CONSTRAINTS (U-11 withdrawn), PREMISE-ORDER (review before O-1), RL-SELFTEST-FIXTURE removed, INVENTORY V15-V17 + fd set, REVIEW-PROVENANCE §23, FORM-CONSISTENCY; E0/E1/E2 staging with an E0 step list the lead may run before endorsement. **Disclosed regression W1-V10-FORM:** change-document, not self-contained; AMENDED units carry only v9 identities. Drafted without a classifier stop. Brief `briefs/w1-design-v10.md` (`6535ed50…`) | `proposal/ISOLATION-STORAGE-PROPOSAL-v10.md` |
+| **D1 v6** | **ENDORSED** (design level; second endorsement) | The re-presented Theorem H-A is complete and correct at design level; both v5 counterexamples (RL-25, RL-25E) are eliminated; V5-RC1..RC5 all CLOSED; zero required changes. The reviewer re-ran all 23 K-values and confirmed the Budget-usage-never-read basis in C5. **R-H-A cleared the FALSE-theorem obstacle.** F35 / O-GHOST-HORIZON-A stays OPEN and BLOCKING: it needs the strict proof (PO-A27..A33, A35) and checks-build observation (RL-24/25/25E/26), which require the admitted frame | `designs/claude-native-bigint-d1-design-v6/review/claude-v1` |
 | **W-1 v8** | **NOT_ENDORSED** | W1-V8-HOLDER-IOEXIT, W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-WRITER-AS-W, W1-V8-COMPOSED-ENUM, W1-V8-EVIDENCE-EQUIV, W1-V8-FORM-SUBUNIT | `proposal/v8-review/claude-v1`: freeze `c0a2bc3f…`, REVIEW.md `38dcb076…` |
 
 **PK-0 v2 closure detail.** RC4 and RC5 are CLOSED_IN_SOURCE; RC1, RC2 and RC3 are PARTIALLY_CLOSED. The reviewer independently confirms the F32 source reading and leaves it with F32-CONFLICT.

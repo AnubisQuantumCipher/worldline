@@ -1,0 +1,71 @@
+{
+ "schema": "claude-design-review-checks-v1",
+ "reviewer": "independent Claude Code review subagent (claude-opus-5-5), fresh context",
+ "hashes_computed": [
+  {"path": "WT/briefs/d1-design-v6.md", "sha256": "3fa7c6e35c14ec609dd92b1f6ec209e1f9d223eaf4c764d2ed3ad363736d79d7", "note": "brief; computed and reported as required"},
+  {"path": "D6/DESIGN.md", "sha256": "fc3e3a6186f924fe07027b1d806b2ed7f85f04705232f0661c9eab5f39294e95", "bytes": 353396, "match_brief": true},
+  {"path": "D6/APPENDIX-A-python-conversion-surface.md", "sha256": "c0acdc6d99f1490477b3f8630cf0eb4e21cbc0ac88e23d512771481728e01268", "match_brief": true},
+  {"path": "D6/APPENDIX-B-arow-horizon.md", "sha256": "902ac1a9d6456d1857449f1e60ca6270144f15f2aaed8e397dac93d146504db4", "match_brief": true},
+  {"path": "D6/jackal.json", "sha256": "61883be3bceb44f5bce5c825abe850e02eb66027f7494b43358cd5b5982c8a14", "match_brief": true},
+  {"path": "D6/decisions.json", "sha256": "b0b3eb63d83ab9d99c37bfc5f6a791136fa45ae3aafcefb8e7019e90c6e2c92c", "match_brief": true},
+  {"path": "D6/AUTHOR-NOTES.md", "sha256": "0cf1d24631c808afe8763dfba03231349cc874e2819522f1b772ca05716db21b", "match_brief": true},
+  {"path": "D5/review/claude-v1/REVIEW.md", "sha256": "38cb267e1abe72f0e75a72cac2368bb29410981564f91ad2403ddbd223d3ee96", "match_brief": true},
+  {"path": "D5/review/claude-v1/review.json", "sha256": "26213c66097408be6c22f6ca0cf71615d20807acda67ad9b87b13987eadfdad5", "match_brief": true},
+  {"path": "D4/review/claude-v1/REVIEW.md", "sha256": "a81c41f66be4894afdfdf0cb19e2ec8b94c71ecc2fd209a25b885f57c9cac411", "match_brief": true},
+  {"path": "D4/review/claude-v1/review.json", "sha256": "a5a26a90ace5844e453ec77d27843c12ae33ec7697c5a10007fa1677012fb652", "match_brief": true}
+ ],
+ "files_read": [
+  {"path": "scratchpad/review-override-v2.txt", "lines": "1-13 (full)"},
+  {"path": "WT/briefs/d1-design-v6.md", "lines": "1-69 (full)"},
+  {"path": "D6/AUTHOR-NOTES.md", "lines": "full"},
+  {"path": "D6/decisions.json", "lines": "full"},
+  {"path": "D6/jackal.json", "lines": "full"},
+  {"path": "D6/APPENDIX-B-arow-horizon.md", "lines": "1-344 (full)"},
+  {"path": "D6/DESIGN.md", "lines": "header grep (all §); 42-156; 361-558; 592-1271; 1271-1810; 1831-1850; 2396-2749; 3243-3402; 3414-3458; 3795-3818"},
+  {"path": "D5/review/claude-v1/REVIEW.md", "lines": "1-337 (full)"},
+  {"path": "D5/review/claude-v1/review.json", "lines": "1-151 (full)"},
+  {"path": "D4/review/claude-v1/REVIEW.md", "lines": "1-429 (full)"},
+  {"path": "D4/review/claude-v1/review.json", "lines": "1-166 (full)"},
+  {"path": "C5/core/resource_run_ledger.adb", "lines": "19-95 (Exact_Value, Amount, Sum, Conserved, Contained)"},
+  {"path": "C5/core/resource_run_ledger.ads", "lines": "180-270 (Amount_Reference, Included, Sum_Reference, Sum, Shape, Contained_Reference, Parent_Supports)"}
+ ],
+ "not_read_by_rule": ["R5/raw-final-message.txt", "review-records/", "any gpt61-* directory", "any Claude/Codex session transcript or rollout", "~/.local/share/sia/.gbrain/"],
+ "jackal_calls": [
+  {"tool": "jackal_exact", "expression": "(0+0)-0", "parsed": "0+0-0", "exact": "0", "status": "exact", "id": "K-251 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "2+2", "parsed": "2+2", "exact": "4", "status": "exact", "id": "K-252 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "1+2+1", "parsed": "1+2+1", "exact": "4", "status": "exact", "id": "K-253 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "(8*803+42)/20", "parsed": "(8*803+42)/20", "exact": "3233/10", "status": "exact", "id": "K-254 re-run (F42 leading ratio)", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "20*70334477708", "parsed": "20*70334477708", "exact": "1406689554160", "status": "exact", "id": "K-255 re-run (20*PV(803))", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "454992179073696/1406689554160", "parsed": "454992179073696/1406689554160", "exact": "35413463502/109487045", "status": "exact", "id": "K-256 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "454992179073696-300*1406689554160", "parsed": "454992179073696-300*1406689554160", "exact": "32985312825696", "status": "exact", "id": "K-257 re-run (>0 => exceeds 300x)", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "10000-256^802", "parsed": "10000-256^802", "exact": "negative; leading 25612512307729129361; trailing 5533239536", "status": "exact", "id": "K-258 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "256^802+9999-2*256^802", "parsed": "256^802+9999-2*256^802", "exact": "negative; leading 25612512307729129361; trailing 5533239537", "status": "exact", "id": "K-259 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "2*10^8", "parsed": "2*10^8", "exact": "200000000", "status": "exact", "id": "K-260 re-run (RL-25C 2E at 10^8)", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "2*10^6", "parsed": "2*10^6", "exact": "2000000", "status": "exact", "id": "K-261 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "2*804", "parsed": "2*804", "exact": "1608", "status": "exact", "id": "K-262 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "256^803-5", "parsed": "256^803-5", "exact": "positive; leading 65568031507786571166; trailing 6511881211", "status": "exact", "id": "K-263 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "1+10000", "parsed": "1+10000", "exact": "10001", "status": "exact", "id": "K-264 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "10000-65535", "parsed": "10000-65535", "exact": "-55535", "status": "exact", "id": "K-265 re-run", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "256^804-2^6432", "parsed": "256^804-2^6432", "exact": "0", "status": "exact", "id": "K-65 horizon boundary 256^804=2^6432", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "256^803-2^6424", "parsed": "256^803-2^6424", "exact": "0", "status": "exact", "id": "K-188 256^803=2^6424", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "2^6432-2*256^803", "parsed": "2^6432-2*256^803", "exact": "positive (2*256^803 < 2^6432)", "status": "exact", "id": "K-226 check", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "2^6432-3*256^803", "parsed": "2^6432-3*256^803", "exact": "positive (3*256^803 < 2^6432)", "status": "exact", "id": "K-248 check (Pair_Sum_Order G8)", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "1-5", "parsed": "1-5", "exact": "-4", "status": "exact", "id": "K-213 (RL-25 target p)", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "0-1", "parsed": "0-1", "exact": "-1", "status": "exact", "id": "K-214 (RL-25 target c / RL-27 child)", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "0-0", "parsed": "0-0", "exact": "0", "status": "exact", "id": "K-27 (RL-25E target c)", "reproduces": true},
+  {"tool": "jackal_exact", "expression": "803*804*(803^2+11*803+12)/6", "parsed": "803*804*(803^2+11*803+12)/6", "exact": "70334477708", "status": "exact", "id": "K-159 PV(803) identity", "reproduces": true}
+ ],
+ "jackal_common": {
+  "formal": false,
+  "lane": "rat",
+  "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+  "consequence_ceiling": null,
+  "refusals": 0,
+  "non_claims": [
+   "NOT formal-bounded: this lane carries no Lean-checked certificate",
+   "The epistemic class above is the STRONGEST claim this result supports",
+   "exact rational arithmetic (not yet checker-covered)"
+  ],
+  "note": "exact is exact rational arithmetic OUTSIDE the Lean certificate chain; it is not formal-bounded. JACKAL establishes the stated arithmetic instances only; the recurrences, counts, failure locations and the horizon argument they feed are LEAD reasoning and SPARK/review obligations."
+ }
+}
