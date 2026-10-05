@@ -1,0 +1,786 @@
+[
+  {
+    "id": "W1:Required, dispatch",
+    "expression": "2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728",
+    "expected": "15368462701360/1397",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1998",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728 exact=15368462701360/1397 approx=11001047030.322119\",\"fields\":{\"approx\":\"11001047030.322119\",\"exact\":\"15368462701360/1397\",\"parsed\":\"2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728 exact=15368462701360/1397 approx=11001047030.322119",
+        "fields": {
+          "approx": "11001047030.322119",
+          "exact": "15368462701360/1397",
+          "parsed": "2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728",
+    "exact": "15368462701360/1397",
+    "approx": "11001047030.322119",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:addition check",
+    "expression": "15368462701360/1397-9304350902252/1397-4340810164",
+    "expected": "0",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1999",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=15368462701360/1397-9304350902252/1397-4340810164 exact=0 approx=0\",\"fields\":{\"approx\":\"0\",\"exact\":\"0\",\"parsed\":\"15368462701360/1397-9304350902252/1397-4340810164\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=15368462701360/1397-9304350902252/1397-4340810164 exact=0 approx=0",
+        "fields": {
+          "approx": "0",
+          "exact": "0",
+          "parsed": "15368462701360/1397-9304350902252/1397-4340810164",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "15368462701360/1397-9304350902252/1397-4340810164",
+    "exact": "0",
+    "approx": "0",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:Required, setup",
+    "expression": "2*(115303191+1048576+16777216)+134217728+1468268019712/1397",
+    "expected": "2027732564230/1397",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2000",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*(115303191+1048576+16777216)+134217728+1468268019712/1397 exact=2027732564230/1397 approx=1451490740.3221188\",\"fields\":{\"approx\":\"1451490740.3221188\",\"exact\":\"2027732564230/1397\",\"parsed\":\"2*(115303191+1048576+16777216)+134217728+1468268019712/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=2*(115303191+1048576+16777216)+134217728+1468268019712/1397 exact=2027732564230/1397 approx=1451490740.3221188",
+        "fields": {
+          "approx": "1451490740.3221188",
+          "exact": "2027732564230/1397",
+          "parsed": "2*(115303191+1048576+16777216)+134217728+1468268019712/1397",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "2*(115303191+1048576+16777216)+134217728+1468268019712/1397",
+    "exact": "2027732564230/1397",
+    "approx": "1451490740.3221188",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:Required, selftest",
+    "expression": "2*67108864+134217728+1468268019712/1397",
+    "expected": "1843272351744/1397",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2001",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*67108864+134217728+1468268019712/1397 exact=1843272351744/1397 approx=1319450502.3221188\",\"fields\":{\"approx\":\"1319450502.3221188\",\"exact\":\"1843272351744/1397\",\"parsed\":\"2*67108864+134217728+1468268019712/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=2*67108864+134217728+1468268019712/1397 exact=1843272351744/1397 approx=1319450502.3221188",
+        "fields": {
+          "approx": "1319450502.3221188",
+          "exact": "1843272351744/1397",
+          "parsed": "2*67108864+134217728+1468268019712/1397",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "2*67108864+134217728+1468268019712/1397",
+    "exact": "1843272351744/1397",
+    "approx": "1319450502.3221188",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:historical margin, dispatch",
+    "expression": "10460753920-10000000000-15368462701360/1397",
+    "expected": "-14724789475120/1397",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2002",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=10460753920-10000000000-15368462701360/1397 exact=-14724789475120/1397 approx=-10540293110.322119\",\"fields\":{\"approx\":\"-10540293110.322119\",\"exact\":\"-14724789475120/1397\",\"parsed\":\"10460753920-10000000000-15368462701360/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=10460753920-10000000000-15368462701360/1397 exact=-14724789475120/1397 approx=-10540293110.322119",
+        "fields": {
+          "approx": "-10540293110.322119",
+          "exact": "-14724789475120/1397",
+          "parsed": "10460753920-10000000000-15368462701360/1397",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "10460753920-10000000000-15368462701360/1397",
+    "exact": "-14724789475120/1397",
+    "approx": "-10540293110.322119",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:historical margin, setup",
+    "expression": "10460753920-10000000000-2027732564230/1397",
+    "expected": "-1384059337990/1397",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2003",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=10460753920-10000000000-2027732564230/1397 exact=-1384059337990/1397 approx=-990736820.3221189\",\"fields\":{\"approx\":\"-990736820.3221189\",\"exact\":\"-1384059337990/1397\",\"parsed\":\"10460753920-10000000000-2027732564230/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=10460753920-10000000000-2027732564230/1397 exact=-1384059337990/1397 approx=-990736820.3221189",
+        "fields": {
+          "approx": "-990736820.3221189",
+          "exact": "-1384059337990/1397",
+          "parsed": "10460753920-10000000000-2027732564230/1397",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "10460753920-10000000000-2027732564230/1397",
+    "exact": "-1384059337990/1397",
+    "approx": "-990736820.3221189",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:historical margin, selftest",
+    "expression": "10460753920-10000000000-1843272351744/1397",
+    "expected": "-1199599125504/1397",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2004",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=10460753920-10000000000-1843272351744/1397 exact=-1199599125504/1397 approx=-858696582.3221189\",\"fields\":{\"approx\":\"-858696582.3221189\",\"exact\":\"-1199599125504/1397\",\"parsed\":\"10460753920-10000000000-1843272351744/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=10460753920-10000000000-1843272351744/1397 exact=-1199599125504/1397 approx=-858696582.3221189",
+        "fields": {
+          "approx": "-858696582.3221189",
+          "exact": "-1199599125504/1397",
+          "parsed": "10460753920-10000000000-1843272351744/1397",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "10460753920-10000000000-1843272351744/1397",
+    "exact": "-1199599125504/1397",
+    "approx": "-858696582.3221189",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:records payload with images",
+    "expression": "545393048+1969078490",
+    "expected": "2514471538",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2005",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=545393048+1969078490 exact=2514471538 approx=2514471538\",\"fields\":{\"approx\":\"2514471538\",\"exact\":\"2514471538\",\"parsed\":\"545393048+1969078490\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=545393048+1969078490 exact=2514471538 approx=2514471538",
+        "fields": {
+          "approx": "2514471538",
+          "exact": "2514471538",
+          "parsed": "545393048+1969078490",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "545393048+1969078490",
+    "exact": "2514471538",
+    "approx": "2514471538",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:ideal payload identity",
+    "expression": "16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397",
+    "expected": "0",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2006",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397 exact=0 approx=0\",\"fields\":{\"approx\":\"0\",\"exact\":\"0\",\"parsed\":\"16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397 exact=0 approx=0",
+        "fields": {
+          "approx": "0",
+          "exact": "0",
+          "parsed": "16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397",
+    "exact": "0",
+    "approx": "0",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:CHUNK",
+    "expression": "4*2^20",
+    "expected": "4194304",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2007",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=4*2^20 exact=4194304 approx=4194304\",\"fields\":{\"approx\":\"4194304\",\"exact\":\"4194304\",\"parsed\":\"4*2^20\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=4*2^20 exact=4194304 approx=4194304",
+        "fields": {
+          "approx": "4194304",
+          "exact": "4194304",
+          "parsed": "4*2^20",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "4*2^20",
+    "exact": "4194304",
+    "approx": "4194304",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:frame headroom",
+    "expression": "67108864-4*(4194304+2)/3",
+    "expected": "61516456",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2008",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=67108864-4*(4194304+2)/3 exact=61516456 approx=61516456\",\"fields\":{\"approx\":\"61516456\",\"exact\":\"61516456\",\"parsed\":\"67108864-4*(4194304+2)/3\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=67108864-4*(4194304+2)/3 exact=61516456 approx=61516456",
+        "fields": {
+          "approx": "61516456",
+          "exact": "61516456",
+          "parsed": "67108864-4*(4194304+2)/3",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "67108864-4*(4194304+2)/3",
+    "exact": "61516456",
+    "approx": "61516456",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:fallback slots",
+    "expression": "16*2^20/(64*2^10)",
+    "expected": "256",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2009",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=16*2^20/(64*2^10) exact=256 approx=256\",\"fields\":{\"approx\":\"256\",\"exact\":\"256\",\"parsed\":\"16*2^20/(64*2^10)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=16*2^20/(64*2^10) exact=256 approx=256",
+        "fields": {
+          "approx": "256",
+          "exact": "256",
+          "parsed": "16*2^20/(64*2^10)",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "16*2^20/(64*2^10)",
+    "exact": "256",
+    "approx": "256",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:slot size",
+    "expression": "64*2^10",
+    "expected": "65536",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2010",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=64*2^10 exact=65536 approx=65536\",\"fields\":{\"approx\":\"65536\",\"exact\":\"65536\",\"parsed\":\"64*2^10\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=64*2^10 exact=65536 approx=65536",
+        "fields": {
+          "approx": "65536",
+          "exact": "65536",
+          "parsed": "64*2^10",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "64*2^10",
+    "exact": "65536",
+    "approx": "65536",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:new groups",
+    "expression": "1+1+1",
+    "expected": "3",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2011",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=1+1+1 exact=3 approx=3\",\"fields\":{\"approx\":\"3\",\"exact\":\"3\",\"parsed\":\"1+1+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=1+1+1 exact=3 approx=3",
+        "fields": {
+          "approx": "3",
+          "exact": "3",
+          "parsed": "1+1+1",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "1+1+1",
+    "exact": "3",
+    "approx": "3",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:new users",
+    "expression": "1+1",
+    "expected": "2",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2012",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=1+1 exact=2 approx=2\",\"fields\":{\"approx\":\"2\",\"exact\":\"2\",\"parsed\":\"1+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=1+1 exact=2 approx=2",
+        "fields": {
+          "approx": "2",
+          "exact": "2",
+          "parsed": "1+1",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "1+1",
+    "exact": "2",
+    "approx": "2",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  },
+  {
+    "id": "W1:last id of `sicarii`'s subordinate range",
+    "expression": "100000+65536-1",
+    "expected": "165535",
+    "display_expected": null,
+    "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2013",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=100000+65536-1 exact=165535 approx=165535\",\"fields\":{\"approx\":\"165535\",\"exact\":\"165535\",\"parsed\":\"100000+65536-1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=100000+65536-1 exact=165535 approx=165535",
+        "fields": {
+          "approx": "165535",
+          "exact": "165535",
+          "parsed": "100000+65536-1",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "status": "exact",
+    "parsed": "100000+65536-1",
+    "exact": "165535",
+    "approx": "165535",
+    "reproduces": true,
+    "formal": false,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling_returned": null,
+    "review_consequence_ceiling": "informational"
+  }
+]

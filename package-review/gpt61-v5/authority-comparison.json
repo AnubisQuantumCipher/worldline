@@ -1,0 +1,61 @@
+{
+  "schema": "package-authority-comparison-v1",
+  "criteria": [
+    {
+      "criterion": "V5-B01",
+      "package_lines": [
+        298,
+        302
+      ],
+      "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/review.json",
+      "source_text": "Retain file observation identities through the complete walk and revalidate every encountered leaf, including excluded generated leaves, using complete descriptor metadata and named-entry joins at the final admission boundary. Bind the accepted source/output generation to the spawn under custody that prevents the admitted generation from changing before use. Directory-only revalidation or after-run detection must not substitute for pre-launch alias refusal. Preserve the exact base recipe, output partitions, allowlist, caps and original gates.",
+      "package_text": "Retain file observation identities through the complete walk and revalidate every encountered leaf, including excluded generated leaves, using complete descriptor metadata and named-entry joins at the final admission boundary. Bind the accepted source/output generation to the spawn under custody that prevents the admitted generation from changing before use. Directory-only revalidation or after-run detection must not substitute for pre-launch alias refusal. Preserve the exact base recipe, output partitions, allowlist, caps and original gates.",
+      "wrapped_verbatim": true
+    },
+    {
+      "criterion": "V5-B02",
+      "package_lines": [
+        306,
+        311
+      ],
+      "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/review.json",
+      "source_text": "Provide enforced location custody across each frame-owned mutation and the final admission-to-spawn handoff, rather than observer-only checks before and after it. Use an independently protected writer/location boundary or an equivalent enforced lease that concurrent same-user rename/substitution cannot invalidate while writes or launch are possible. Keep original outside-tree authority limited to the documented window protocol and prescribed preparation records. Do not relabel frame-owned outside-tree writes as the running-target residual or lower the original guarantee; retain this blocker if custody cannot yet be established.",
+      "package_text": "Provide enforced location custody across each frame-owned mutation and the final admission-to-spawn handoff, rather than observer-only checks before and after it. Use an independently protected writer/location boundary or an equivalent enforced lease that concurrent same-user rename/substitution cannot invalidate while writes or launch are possible. Keep original outside-tree authority limited to the documented window protocol and prescribed preparation records. Do not relabel frame-owned outside-tree writes as the running-target residual or lower the original guarantee; retain this blocker if custody cannot yet be established.",
+      "wrapped_verbatim": true
+    },
+    {
+      "criterion": "fixed-target first sentence",
+      "source": "complete-phase1-prompt.txt:34",
+      "package_lines": [
+        43,
+        45
+      ],
+      "source_text": "Do not lower guarantees, weaken preconditions or postconditions, remove accepted cases, lower proof floors, drop relevant bodies/callers, waive warnings, suppress failures, add assumptions, or replace missing confinement/provenance with a renamed Boolean.",
+      "package_text": "Do not lower guarantees, weaken preconditions or postconditions, remove accepted cases, lower proof floors, drop relevant bodies/callers, waive warnings, suppress failures, add assumptions, or replace missing confinement/provenance with a renamed Boolean.",
+      "wrapped_verbatim": true
+    },
+    {
+      "criterion": "HANDOFF acceptance item 1",
+      "source": "HANDOFF.md:153",
+      "package_lines": [
+        636,
+        639
+      ],
+      "source_text": "Stabilize and independently qualify the remaining source and designs. Import only explicit reviewed deltas into a new isolated integration checkout, resolving shared caller/transaction/ABI/policy changes. Preserve all original fixtures, complete source keysets/modes/directories and inverse lineage. Recompute all effective normalized pins and full ordered proof enrollment without changing the original policy prefix or replacing original accepted cases.",
+      "package_text": "Stabilize and independently qualify the remaining source and designs. Import only explicit reviewed deltas into a new isolated integration checkout, resolving shared caller/transaction/ABI/policy changes. Preserve all original fixtures, complete source keysets/modes/directories and inverse lineage. Recompute all effective normalized pins and full ordered proof enrollment without changing the original policy prefix or replacing original accepted cases.",
+      "wrapped_verbatim": true
+    }
+  ],
+  "original_obligation_rows_observed": 219,
+  "original_obligation_statuses_observed": {
+    "OPEN": 219
+  },
+  "authority_basis": {
+    "routine_engineering": "HANDOFF.md:153-154,173; complete-phase1-prompt.txt:28,60,72",
+    "reserved": "HANDOFF.md:121,166; complete-phase1-prompt.txt:74",
+    "no_new_pinning_gate": "DRAFT-v8.md:641-672; sealed package gpt61-v1 REVIEW.md:300-302",
+    "S1_option7": "RESERVE-PROPOSAL.md:1-29,36-37; DRAFT-v8.md:250-274",
+    "W1_v5_setup": "DRAFT-v8.md:574-581; v5 delta:1364-1369"
+  },
+  "all_original_obligations_remain_open": true
+}
