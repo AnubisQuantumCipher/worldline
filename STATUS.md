@@ -367,8 +367,18 @@ the review gates, reproducing the blocked exploit procedures, faking provenance)
     the extracted bytes, and records `completed_at` + the cited hashes + the task-output sha256 in the freeze. The reviewer
     instruction set is `tools/review-override-v3.txt`. Self-tested. So the sealed review is now bound to what the independent
     reviewer actually emitted.
-  - **Join v2 in progress:** the author redoes the join to consume the hardened freeze (require raw-final-message to cite
-    the section hashes = content cross-binding; require `completed_at`; form-aware sidecar). Adoption stays BLOCKED.
+  - **Join v2 drafted and under §23.6 review:** `lanes/frame-review-provenance-v2/` (postimage `c0b6bf1a…`, base == live v5
+    `f9f6596d…`, patch `a13caa56…` 7 hunks +287/−27). Lead-verified: `patch(base)==postimage` reconstructed independently;
+    change localized to the join region (REVIEW_PROFILE / rollout_join / review_profile_problems / validate_adoption_observation /
+    adopt / frame_admitted + new helpers `_seal_block`/`_raw_section`/`_mode_int`); AST-valid; live frames v5/v6 and the v1 lane
+    untouched. Implements R1 (content cross-binding — `claude_review_join` re-derives the SEAL binding from bytes and binds the
+    previously-inert task-output + agent-id pins), R2 (`completed_at` required and == SEAL completed_at), R3 (form-aware sidecar:
+    checks.json required for claude-subagent with mode-normalized compare, GPT form unchanged). **Independent §23.6 review launched
+    on Opus 4.8 under `tools/review-override-v3.txt`** (so the review itself emits a SEAL block and seals to the first
+    hardened-format freeze on disk). Author honestly flagged two discrepancies carried into the brief: (1) no hardened-format freeze
+    exists on disk yet — the v1 sample and v10/v11 Claude freezes are OLD format (no SEAL block), which join v2 correctly REFUSES
+    fail-closed; (2) `raw_final_message_is_verbatim…` lives in `review.json['sealed_by']`, which v2 reads (content-bound via the
+    freeze `files['review.json']` sha256). **Adoption stays BLOCKED** (§23.6) regardless of verdict until the operator acts.
 - `lanes/frame-v6-w1-setup-v1/` — DRAFTED (25 files): the non-enforcement setup assets (accounts/sudoers/sshd/lease/ACL
   bytes, install order S-A..S-E, rollback template) + the exists-vs-needed GAP record (EXISTS 6 / PARTIAL 7 / MISSING 30).
   Lead-verified: accounts absent, no sudoers installed, live frame v6 untouched, all .py parse. NOT review-ready: the

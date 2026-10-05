@@ -1,0 +1,90 @@
+{
+  "lane": "frame-review-provenance-v2",
+  "supersedes_for_review": "frame-review-provenance-v1 (ENDORSED_WITH_REQUIRED_CHANGES); v1 left untouched",
+  "change_id": "D-LEAD-REVIEW-PROVENANCE (join v2)",
+  "specification": "W-1 proposal ISOLATION-STORAGE-PROPOSAL-v11.md section 23, PLUS the three required changes from the sealed v1 review (WT/lanes/frame-review-provenance-v1/review/claude-v1/REVIEW.md, review.json; verdict ENDORSED_WITH_REQUIRED_CHANGES)",
+  "authored_by": "Claude Code drafting subagent (claude-opus-4-8) under the WORLDLINE Phase One lead",
+  "authored_at_utc": "2026-10-05",
+  "role": "DRAFTING_AUTHOR (not a reviewer); this delta grants no acceptance and is not itself reviewed",
+
+  "status": {
+    "source_only": true,
+    "uninstalled": true,
+    "live_frame_touched": false,
+    "adoption": "BLOCKED",
+    "adoption_block_reason": "Join v2 is itself a change to the admission join and is NOT reviewed. It must pass its own independent review in the frame-design revision (W-1 section 23.6) before any adoption relies on it. Until then adopt() cannot bind a review of either form.",
+    "not_a_loosening_is": "an argument for the frame-design review to judge; the anti-author-review weakness the v1 review found (R1) is the reason v2 exists"
+  },
+
+  "base_frame": {
+    "chosen_base": "work/claude-scratch-frame-v5/scratch.py (same base as v1)",
+    "base_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/scratch.py",
+    "base_sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86",
+    "base_equals_live_v5": true,
+    "patch_is_over_same_base": true,
+    "v6_equivalence": {
+      "v6_sha256": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84",
+      "note": "The join region remains byte-identical in v6 (verified in v1); the v2 delta transplants to v6/the next revision at the +9-line offset."
+    }
+  },
+
+  "hardened_format_dependency": {
+    "source_of_truth": "WT/tools/seal_claude_review.py (the hardened sealer). Join v2 binds exactly what this tool emits.",
+    "freeze_keys_bound": ["actual_model_selection", "reviewer_kind", "different_from_author", "completed_at", "seal_verified", "reviewer_agent_id", "source_task_output_sha256", "reviewer_cited_section_sha256", "files{REVIEW.md,review.json,checks.json}{sha256,bytes,mode}"],
+    "seal_block_in_raw_final_message": "=== SEAL ===\\n{\"completed_at\": <ISO8601>, \"sections\": {\"REVIEW.md\": <sha256>, \"review.json\": <sha256>, \"checks.json\": <sha256>}}\\n=== END ===",
+    "review_json_sealed_by": ["role", "reviewer_agent_id", "source_task_output", "source_task_output_sha256", "raw_final_message_is_verbatim_independent_final_message", "seal_verified", "completed_at"],
+    "DISCREPANCIES_FOUND_AND_HANDLED": [
+      "The sample freeze on disk at WT/lanes/frame-review-provenance-v1/review/claude-v1/review-freeze.json is STILL THE OLD FORMAT (keys: actual_model_selection, reviewer_kind, verdict, files only) and its raw-final-message.txt has NO === SEAL === block. The lead's message said that freeze was sealed with the new tool; it was not. Join v2 is written against the TOOL (authoritative), and would REFUSE that old-format sample (fail-closed) -- correct. A freeze produced by the current seal_claude_review.py with a SEAL block is required.",
+      "The lead's message said review-freeze.json records `raw_final_message_is_verbatim_independent_final_message:true`. In the actual tool that flag lives in review.json['sealed_by'], NOT the freeze top level. Join v2 reads it from review.json sealed_by (content-bound via the freeze's files['review.json'] sha256). Flagged for the reviewer to confirm the intended location."
+    ]
+  },
+
+  "required_changes_implemented": {
+    "R1_INDEPENDENCE_CONTENT_BINDING": {
+      "where": "claude_review_join (postimage), new helpers _seal_block/_raw_section/_mode_int",
+      "what": "The join RE-DERIVES from bytes (never trusting a boolean) that raw-final-message.txt -- the reviewer's verbatim independent final message -- carries a === SEAL === block whose cited section hashes equal the on-disk sha256 of REVIEW.md and checks.json, and (for the lead-re-serialized review.json) of either the on-disk review.json OR its raw emitted section (the exact dual form the sealer verifies). It further requires: freeze.reviewer_cited_section_sha256 == the SEAL sections; freeze.seal_verified is True; review.json sealed_by asserts raw_final_message_is_verbatim_independent_final_message==True; and it BINDS the task-output pin (no longer inert) by requiring freeze.source_task_output_sha256 == the pinned task-output sha256 == review.json sealed_by.source_task_output_sha256, plus freeze.reviewer_agent_id == supplied id == sealed_by.reviewer_agent_id, plus the existing agent-<id> filename binding. This mirrors the GPT form's rollout_join:741-743 (independent rollout final message must cite the sealed review hashes), so a lead cannot self-author a review that passes.",
+      "mirrors_gpt": true,
+      "task_output_pin_inert_fixed": true
+    },
+    "R2_COMPLETED_AT": {
+      "where": "claude_review_join + validate_adoption_observation (unchanged Claude branch)",
+      "what": "Requires a non-empty freeze.completed_at AND requires it to equal the SEAL block's completed_at (the reviewer's own sealed completion time, verified by the sealer -- consistent with R1, no longer a bare lead-sealed field). It is bound as review_completed_at and used as the Claude-branch ordering lower bound in validate_adoption_observation (observation must follow review completion and precede adoption). Fail-closed if absent."
+    },
+    "R3_FORM_AWARE_SIDECARS": {
+      "where": "review_profile_problems",
+      "what": "For reviewer_kind=='claude-subagent' the sidecar check keeps checks.json REQUIRED (compared by sha256+bytes+normalized mode, since the sealer records mode as the string '0600') and SKIPS bound-inputs.json and tool-topology.json (GPT-era sidecars the 3-file Claude roster does not seal; pin() would otherwise raise FileNotFoundError and crash adopt/frame_admitted). The GPT form is UNCHANGED (full-pin equality over all three sidecars)."
+    },
+    "MODE_NOTE_optional_addressed": "The disclosed mode-representation note is addressed via _mode_int, which normalizes the sealer's octal string '0600' to the int stat.S_IMODE returns. The Claude freeze member check and the R3 checks.json sidecar now bind mode (a tightening), not just sha256+bytes."
+  },
+
+  "unchanged_from_v1_and_base": {
+    "gpt_form": "rollout_join is byte-identical to v1 (docstring + one provenance key reviewer_kind:'gpt-6.1-sol'); every GPT check intact (roster/model/author, one-thread/one-rollout, cwd/provider, event-final==rollout-final, rollout-cite-of-sealed-hashes, exec argv).",
+    "dispatcher": "review_freeze_kind / review_provenance_join select the form by reviewer_kind; neither form refuses; never a label alone; never claims GPT.",
+    "proof_source_runtime_binding": "frame_inventory (schema/members/lead_module pin+sha256/base-source/inventory/dirmodes pins) and the candidate/lead_id/frame_inventory_sha256/report_sha256 checks and the five acceptance Falses are untouched and still enforced; lead observation + transcript-prefix/goal/liveness checks unchanged.",
+    "schema": "adopt writes claude-scratch-frame-lead-adoption-v6; frame_admitted accepts v5 (legacy GPT) and v6 and re-joins + re-pins by reviewer_kind at every use (Claude re-check now also covers source_task_output_sha256, reviewer_cited_section_sha256, seal_verified)."
+  },
+
+  "files": {
+    "base/scratch.py": {"role": "preimage (full base copy, == live v5)", "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86"},
+    "preimage-region.py": {"role": "preimage of the affected v5 regions (lines 96-104 and 687-863)", "sha256": "c5e86142a700ac4d6d503a13d464c0291e1d0059f7e0c28c85844b809e27a272"},
+    "postimage/scratch.py": {"role": "postimage (full patched copy; SOURCE-ONLY, UNINSTALLED; ast.parse-validated, NOT executed)", "sha256": "c0b6bf1a9038001fed79a0d26ddeca0fe2161eecc8477450a8b59fcfd9274d53"},
+    "frame-review-provenance.patch": {"role": "unified diff base -> postimage (7 hunks, +288/-28)", "sha256": "a13caa564e9b945cf5c9f8dafd255dc6f59810f8ddead54c2f6494446e500674"},
+    "changed-functions.postimage.py": {"role": "the changed/new functions in full", "sha256": "468311e60cada6fbf6b077f0237fa83cdbcf7792d2bad4cd7272f530d7a980b8"},
+    "AUTHOR-NOTES.md": {"role": "author rationale, binding derivation, discrepancies, open points for review"}
+  },
+
+  "verification_performed": {
+    "static_only": true,
+    "ast_parse": "python3 ast.parse(postimage) -> OK (file parsed as data; frame not imported or run)",
+    "executed_frame_or_prover_or_tests": false,
+    "hashes_source": "sha256sum tool output (observed, not derived)"
+  },
+
+  "non_claims": [
+    "Join v2 is NOT reviewed and grants NO acceptance of any kind; adoption stays BLOCKED pending its own review.",
+    "AST parse confirms syntax only; it is NOT evidence the R1 cross-binding is complete or behaves as intended at runtime -- in particular the join was not run against a real hardened freeze (none exists on disk yet; the sample freeze is old-format).",
+    "v2 does NOT establish 'not a loosening'; that judgement is reserved to the frame-design review.",
+    "No other Phase One obligation is changed; V5-B01/V5-B02 confinement, storage admission, custody and every section 21 preservation row remain OPEN.",
+    "The live frame files (v5, v6) and the v1 lane were NOT modified; only files under this v2 lane were written."
+  ]
+}

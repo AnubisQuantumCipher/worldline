@@ -1,0 +1,252 @@
+# D-LEAD-REVIEW-PROVENANCE join v2 (W-1 §23 + v1-review required changes R1/R2/R3) -- changed/new functions in full,
+# extracted from v2 postimage/scratch.py. Base: claude-scratch-frame-v5/scratch.py sha256 f9f6596d...be86 (== live v5).
+# SOURCE-ONLY, UNINSTALLED; adoption stays BLOCKED pending v2's own independent review.
+# UNCHANGED from v1 (GPT form + plumbing): rollout_join, review_freeze_kind, review_provenance_join,
+#   validate_adoption_observation (Claude branch already uses review_completed_at), adopt (spreads **provenance).
+
+# ---- new helpers (R1 content cross-binding + mode normalization) ----
+def _mode_int(m):
+    """D-LEAD-REVIEW-PROVENANCE v2 (R1/mode-note). Normalize a freeze/review 'mode' to int: Dir.ident returns an
+    int (stat.S_IMODE); tools/seal_claude_review.py records the octal STRING '0600'. Returns None on a bad value."""
+    if isinstance(m, bool):
+        return None
+    if isinstance(m, int):
+        return m
+    if isinstance(m, str) and m.strip() != '':
+        try:
+            return int(m, 8)
+        except ValueError:
+            return None
+    return None
+
+
+def _raw_section(raw_text, name, nxt):
+    """Bytes of the '=== name ===' section of a sealed raw-final-message.txt, up to the next '=== nxt ==='.
+    Mirrors tools/seal_claude_review.py section() exactly (strip surrounding newlines, re-append one). None if absent."""
+    head = '=== ' + name + ' ===\n'
+    tail = '\n=== ' + nxt + ' ==='
+    i = raw_text.find(head)
+    if i < 0:
+        return None
+    i += len(head)
+    j = raw_text.find(tail, i)
+    if j < 0:
+        return None
+    return (raw_text[i:j].strip('\n') + '\n').encode('utf-8')
+
+
+def _seal_block(raw_text):
+    """Parsed JSON of the '=== SEAL ===' block of a sealed raw-final-message.txt (tools/seal_claude_review.py), or
+    None. The block is {'completed_at': <ISO8601>, 'sections': {'REVIEW.md':<sha256>,'review.json':<sha256>,
+    'checks.json':<sha256>}} emitted by the INDEPENDENT reviewer in its own verbatim final message."""
+    head = '=== SEAL ===\n'
+    tail = '\n=== END ==='
+    i = raw_text.find(head)
+    if i < 0:
+        return None
+    i += len(head)
+    j = raw_text.find(tail, i)
+    if j < 0:
+        return None
+    try:
+        obj = json.loads(raw_text[i:j])
+    except ValueError:
+        return None
+    return obj if isinstance(obj, dict) else None
+
+
+# ---- claude_review_join (R1 PRIMARY + R2 + mode): dual-form unchanged; Claude form now content-cross-bound ----
+def claude_review_join(task_output_path, reviewer_agent_id):
+    """Claude-subagent form of the review-provenance join (W-1 §23.4 + the v1-review required changes R1/R2/R3;
+    SOURCE-ONLY, UNINSTALLED). For a Claude review subagent the join requires ALL of, and binds each into the
+    adoption record for re-check at every use:
+      - the sealed review-freeze.json over REVIEW.md/review.json/checks.json, each file's sha256, bytes AND
+        normalized mode (R1/mode-note) matching the sealed bytes, and the freeze's own sha256;
+      - raw-final-message.txt (the reviewer's verbatim independent final message, transcribed under seal) with sha256;
+      - the reviewer agent id, bound to BOTH the sealed task-output file name ('agent-<id>') and the freeze's
+        reviewer_agent_id and review.json sealed_by -- not a bare label;
+      - the sha256 of the reviewer's sealed task output, bound EQUAL to the freeze source_task_output_sha256 and
+        review.json sealed_by (R1: the task-output pin is no longer inert; it is the transcript identity and replaces
+        the ~/.codex/sessions rollout-file uniqueness of the GPT form, §23.5 item 3);
+      - reviewer_kind == 'claude-subagent'; different_from_author == True (the independence rule is unchanged).
+    R1 (PRIMARY) CONTENT CROSS-BINDING -- mirrors the GPT form's rollout_join:741-743, which forces the INDEPENDENT
+    codex rollout's final message to cite the sha256 of the sealed review files. Here the independent artifact is the
+    reviewer's own verbatim final message (raw-final-message.txt, drawn by the sealer from the task-output's last
+    assistant message). The join RE-DERIVES, from bytes (not from any boolean), that raw-final-message.txt carries a
+    '=== SEAL ===' block whose cited section hashes equal the on-disk sha256 of REVIEW.md and checks.json, and (for
+    the lead-re-serialized review.json) of either the on-disk review.json or its raw emitted section -- exactly the
+    two forms tools/seal_claude_review.py verifies. The freeze's reviewer_cited_section_sha256 must equal that SEAL
+    `sections` dict, seal_verified must be True, and review.json sealed_by must assert the raw message is the verbatim
+    independent final message and agree on the task-output sha256 and agent id. A lead cannot satisfy this without an
+    independent review whose own final message emitted those digests over the exact sealed bytes.
+    R2: completed_at is the reviewer's own SEAL completion time (verified by the sealer, re-checked here equal to the
+    SEAL block); it is bound as review_completed_at and used as validate_adoption_observation's Claude-branch ordering
+    lower bound. Never a label alone; never claims a GPT-6.1 gate was met."""
+    mismatches = []
+
+    def need(condition, what):
+        if not condition:
+            mismatches.append(what)
+    review = Dir.anchor(REVIEW)
+    try:
+        freeze_bytes = review.read_bytes('review-freeze.json')
+        freeze_sha = hashlib.sha256(freeze_bytes).hexdigest()
+        freeze_record = json.loads(freeze_bytes)
+        need(set(freeze_record.get('files', {})) == CLAUDE_REVIEW_ROSTER,
+             'claude review freeze roster is exactly REVIEW.md/review.json/checks.json')
+        ondisk = {}
+        for name in sorted(CLAUDE_REVIEW_ROSTER & set(freeze_record.get('files', {}))):
+            row = freeze_record['files'][name]
+            ident = review.ident(name)
+            ondisk[name] = ident
+            need(ident['sha256'] == row.get('sha256') and ident['bytes'] == row.get('bytes')
+                 and ident['mode'] == _mode_int(row.get('mode')),
+                 'claude freeze member sha256/bytes/mode ' + name)
+        need(freeze_record.get('reviewer_kind') == 'claude-subagent', 'freeze reviewer_kind is claude-subagent')
+        need(freeze_record.get('different_from_author') is True, 'freeze different_from_author is true')
+        model_selection = freeze_record.get('actual_model_selection')
+        need(isinstance(model_selection, str) and model_selection.strip() != '', 'freeze actual_model_selection present')
+        completed_at = freeze_record.get('completed_at')
+        need(isinstance(completed_at, str) and completed_at.strip() != '', 'freeze completed_at present (R2)')
+        need(freeze_record.get('seal_verified') is True, 'freeze seal_verified is true (R1)')
+        cited = freeze_record.get('reviewer_cited_section_sha256')
+        freeze_task_sha = freeze_record.get('source_task_output_sha256')
+        freeze_agent = freeze_record.get('reviewer_agent_id')
+        need(review.has('raw-final-message.txt'), 'raw-final-message.txt present and sealed')
+        raw_final_sha = review.ident('raw-final-message.txt')['sha256'] if review.has('raw-final-message.txt') else None
+        raw_text = review.read_bytes('raw-final-message.txt').decode('utf-8', 'strict') if review.has('raw-final-message.txt') else ''
+        try:
+            review_json_obj = json.loads(review.read_bytes('review.json'))
+        except ValueError:
+            review_json_obj = {}
+    finally:
+        review.close()
+    # R1: re-derive the content cross-binding from bytes (never trust seal_verified alone).
+    seal = _seal_block(raw_text)
+    need(isinstance(seal, dict), 'raw-final-message.txt carries a valid === SEAL === block (R1)')
+    seal_sections = (seal or {}).get('sections') or {}
+    seal_completed = (seal or {}).get('completed_at')
+    # REVIEW.md and checks.json are written to disk verbatim by the sealer, so the cited hash == the on-disk hash.
+    for name in ('REVIEW.md', 'checks.json'):
+        need(name in ondisk and seal_sections.get(name) == ondisk[name]['sha256'],
+             'SEAL cites the on-disk ' + name + ' sha256 (R1)')
+    # review.json is re-serialized (indent=1) by the lead; accept the cite over the on-disk form OR the raw emitted
+    # section (exactly the dual form tools/seal_claude_review.py verifies).
+    raw_rj = _raw_section(raw_text, 'review.json', 'checks.json')
+    alt_rj_sha = hashlib.sha256(raw_rj).hexdigest() if raw_rj is not None else None
+    ondisk_rj = ondisk.get('review.json', {}).get('sha256')
+    need(seal_sections.get('review.json') in (ondisk_rj, alt_rj_sha) and seal_sections.get('review.json') is not None,
+         'SEAL cites the sealed review.json sha256 (on-disk or raw emitted) (R1)')
+    need(cited == seal_sections, 'freeze reviewer_cited_section_sha256 equals the SEAL sections (R1)')
+    need(isinstance(completed_at, str) and completed_at == seal_completed, 'freeze completed_at equals the SEAL completed_at (R2)')
+    sealed_by = review_json_obj.get('sealed_by') if isinstance(review_json_obj, dict) else None
+    sealed_by = sealed_by if isinstance(sealed_by, dict) else {}
+    need(sealed_by.get('raw_final_message_is_verbatim_independent_final_message') is True,
+         'review.json sealed_by asserts raw-final-message.txt is the verbatim independent final message (R1)')
+    # task-output identity: pin it and bind its sha256 to the freeze and sealed_by (R1: stop the pin being inert).
+    _, task_pin = pinned(task_output_path)
+    need(isinstance(reviewer_agent_id, str) and reviewer_agent_id.strip() != '', 'reviewer agent id present')
+    need(isinstance(reviewer_agent_id, str) and ('agent-' + reviewer_agent_id) in Path(task_output_path).name,
+         'reviewer agent id bound to the sealed task-output file name')
+    need(freeze_agent == reviewer_agent_id, 'freeze reviewer_agent_id equals the supplied agent id (R1)')
+    need(sealed_by.get('reviewer_agent_id') == reviewer_agent_id, 'review.json sealed_by reviewer_agent_id matches (R1)')
+    need(freeze_task_sha == task_pin['sha256'], 'freeze source_task_output_sha256 equals the pinned task-output (R1)')
+    need(sealed_by.get('source_task_output_sha256') == task_pin['sha256'],
+         'review.json sealed_by source_task_output_sha256 equals the pinned task-output (R1)')
+    provenance = {'reviewer_kind': 'claude-subagent', 'different_from_author': True,
+                  'actual_model_selection': model_selection, 'review_completed_at': completed_at,
+                  'review_freeze_sha256': freeze_sha, 'raw_final_message_sha256': raw_final_sha,
+                  'reviewer_agent_id': reviewer_agent_id, 'reviewer_task_output': task_pin,
+                  'reviewer_task_output_sha256': task_pin['sha256'], 'source_task_output_sha256': freeze_task_sha,
+                  'reviewer_cited_section_sha256': cited, 'seal_verified': True}
+    return mismatches, provenance
+
+
+# ---- review_profile_problems (R3: form-aware sidecars) ----
+def review_profile_problems(review, lead_id, inventory_sha, reviewer_kind=None, model_selection=None):
+    problems = [key for key, value in REVIEW_PROFILE.items() if review.get(key) != value]
+    # D-LEAD-REVIEW-PROVENANCE (§23.5 item 13): actual_model_selection is accepted per form, selected by reviewer_kind.
+    if reviewer_kind == 'gpt-6.1-sol':
+        if review.get('actual_model_selection') != 'gpt-6.1-sol':
+            problems.append('actual_model_selection')
+        if review.get('reviewer_kind') not in (None, 'gpt-6.1-sol'):
+            problems.append('reviewer_kind')
+    elif reviewer_kind == 'claude-subagent':
+        if review.get('reviewer_kind') != 'claude-subagent':
+            problems.append('reviewer_kind')
+        if review.get('actual_model_selection') != model_selection:
+            problems.append('actual_model_selection')
+        if review.get('different_from_author') is not True:
+            problems.append('different_from_author')
+    else:
+        problems.append('unrecognized reviewer_kind: ' + repr(reviewer_kind))
+    if review.get('candidate') != str(FRAME):
+        problems.append('candidate')
+    if review.get('lead_id') != lead_id:
+        problems.append('lead_id')
+    if review.get('frame_inventory_sha256') != inventory_sha:
+        problems.append('frame_inventory_sha256')
+    if review.get('report_sha256') != sha(REVIEW / 'REVIEW.md'):
+        problems.append('report_sha256')
+    # R3 (v1-review required change): the sidecar check is form-aware. The Claude roster is exactly the three files
+    # {REVIEW.md, review.json, checks.json}; bound-inputs.json and tool-topology.json are GPT-era sidecars a Claude
+    # freeze does not seal, and pin() raises FileNotFoundError on a missing file -- so for a claude-subagent review we
+    # keep checks.json REQUIRED (mode-normalized, since the sealer records mode as the string '0600') and SKIP the
+    # other two. The GPT form is UNCHANGED (full-pin equality over all three sidecars).
+    if reviewer_kind == 'claude-subagent':
+        want = review.get('checks') or {}
+        have = pin(REVIEW / 'checks.json')
+        if not (want.get('sha256') == have['sha256'] and want.get('bytes') == have['bytes']
+                and _mode_int(want.get('mode')) == have['mode']):
+            problems.append('sidecar checks')
+    else:
+        for key, name in (('checks', 'checks.json'), ('complete_bound_inputs', 'bound-inputs.json'), ('tool_topology', 'tool-topology.json')):
+            if (review.get(key) or {}) != pin(REVIEW / name):
+                problems.append('sidecar ' + key)
+    return problems
+
+
+# ---- frame_admitted (Claude re-check extended to the new v2 bound keys) ----
+def frame_admitted():
+    """Complete frame, review profile, adoption profile, re-joined rollout provenance and the validated retained
+    adoption observation; refuses otherwise. Returns the frozen inventory."""
+    claude_lead = lead()
+    inventory = frame_inventory()
+    inventory_sha = inventory['__pin__']['sha256']
+    review = load_json(REVIEW / 'review.json')
+    adoption = load_json(ADOPTION)
+    # D-LEAD-REVIEW-PROVENANCE (W-1 §23 / §23.5 items 7, 9, 10; §17): accept both adoption schema forms (v5 = legacy
+    # GPT-6.1-only records keep their standing; v6 carries either form), and re-join + re-pin provenance by reviewer_kind.
+    require(adoption.get('schema') in ('claude-scratch-frame-lead-adoption-v5', 'claude-scratch-frame-lead-adoption-v6')
+            and adoption.get('frame') == str(FRAME), 'adoption profile')
+    require(adoption['lead_id'] == claude_lead.LEAD_ID and adoption['mismatches'] == [], 'adoption lead/mismatches')
+    require(adoption['frame_inventory_sha256'] == inventory_sha, 'adoption frame inventory')
+    require(adoption['review_sha256'] == sha(REVIEW / 'review.json'), 'adoption review pin')
+    require(adoption['review_freeze_sha256'] == sha(REVIEW / 'review-freeze.json'), 'adoption review-freeze pin')
+    require(adoption['review_report_sha256'] == sha(REVIEW / 'REVIEW.md'), 'adoption review report pin')
+    reviewer_kind = adoption.get('reviewer_kind')
+    problems = review_profile_problems(review, claude_lead.LEAD_ID, inventory_sha, reviewer_kind, adoption.get('actual_model_selection'))
+    require(not problems, 'review profile: ' + repr(problems))
+    if reviewer_kind == 'claude-subagent':
+        require(adoption.get('reviewer_task_output') is not None
+                and pin(adoption['reviewer_task_output']['path']) == adoption['reviewer_task_output'],
+                'adoption provenance pin changed: reviewer_task_output')
+        mismatches, provenance = review_provenance_join(
+            task_output_path=adoption['reviewer_task_output']['path'], reviewer_agent_id=adoption.get('reviewer_agent_id'))
+        require(not mismatches, 'claude review join no longer holds: ' + repr(mismatches))
+        for key in ('reviewer_kind', 'different_from_author', 'actual_model_selection', 'review_completed_at',
+                    'review_freeze_sha256', 'raw_final_message_sha256', 'reviewer_agent_id', 'reviewer_task_output_sha256',
+                    'source_task_output_sha256', 'reviewer_cited_section_sha256', 'seal_verified'):
+            require(provenance.get(key) == adoption.get(key), 'claude review identity changed: ' + key)
+    else:
+        for key in ('rollout', 'exec_argv_record', 'event_stream'):
+            require(adoption[key] is not None and pin(adoption[key]['path']) == adoption[key], 'adoption provenance pin changed: ' + key)
+        mismatches, provenance = review_provenance_join(adoption['event_stream']['path'], adoption['exec_argv_record']['path'])
+        require(not mismatches, 'rollout join no longer holds: ' + repr(mismatches))
+        for key in ('reviewer_thread', 'rollout_final_message_sha256', 'rollout_final_timestamp'):
+            require(provenance[key] == adoption[key], 'rollout identity changed: ' + key)
+    validate_adoption_observation(claude_lead, adoption['lead_observation'], adoption['at'], provenance)
+    return inventory
+
+
+# ---------------------------------------------------------------- confined throwaway source (B3, B5)
