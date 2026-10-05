@@ -1,0 +1,139 @@
+{
+  "schema": "claude-operator-package-confirmation-checkpoint-v1",
+  "item": 2,
+  "completed": true,
+  "correction_closure": {
+    "PKG-V8-CURRENT-STATUS": {
+      "status": "CLOSED",
+      "remaining_package_text_gap": null,
+      "reason": "The v10 W-CLOSED summary binds the exact table, uses single links only for regular files and partition-root device equality only for directories. The C-API v5 summaries disclose both mkdir and redirection, preserve author-stated no changes and the author-only/no-control/no-acceptance ceiling.",
+      "evidence": [
+        "package-drafts/DRAFT-v10.md:384-400",
+        "package-drafts/DRAFT-v10.md:471-474",
+        "package-drafts/DRAFT-v10.md:909-917",
+        "package-drafts/DRAFT-v10.md:1262",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+        "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2372-2379",
+        "package-review/gpt61-v5/REVIEW.md:155-159",
+        "deviations/capi-v5-author-process/NOTE.md:13-24",
+        "deviations/capi-v5-author-process/NOTE.md:46-56"
+      ],
+      "original_boundary": "W1-V5-PRESERVATION, revocation confinement, controls, installed evidence and all original obligations remain OPEN. This confirms text accuracy, not acceptance of W-CLOSED restrictions."
+    },
+    "PKG-V9-W1-SEALED-STATUS": {
+      "status": "CLOSED",
+      "remaining_package_text_gap": null,
+      "reason": "Both changed summaries now carry the sealed W1-SETUP-IDENTITY closure, the older W1-DURABILITY-RELEASE closure, the other prior W-1 corrections still NOT_CLOSED, and the new W1-V5 corrections OPEN. The current-status and B4 tables agree.",
+      "evidence": [
+        "package-drafts/DRAFT-v10.md:379-381",
+        "package-drafts/DRAFT-v10.md:462-466",
+        "package-drafts/DRAFT-v10.md:653-658",
+        "package-drafts/DRAFT-v10.md:1374-1381",
+        "package-review/gpt61-v5/review.json:15-37",
+        "package-review/gpt61-v5/REVIEW.md:34-39"
+      ],
+      "original_boundary": "These are historical bounded specification corrections; no V5-B01/V5-B02 closure or original Phase One obligation closure is granted."
+    },
+    "PKG-V9-LANE-SNAPSHOT": {
+      "status": "CLOSED",
+      "remaining_package_text_gap": null,
+      "reason": "The seam entry now gives draft-complete status and the inherited 08:26Z review-start snapshot, keeps every v4 finding and closure claim unreviewed until its own seal, and preserves v3 ENDORSED_WITH_REQUIRED_CHANGES. PK-0 source identity and source-only/unrun status match the packet and author notes; the queued-review snapshot conveys no verdict and the F-1/S-1 gate stays blocked.",
+      "evidence": [
+        "package-drafts/DRAFT-v10.md:198-206",
+        "package-drafts/DRAFT-v10.md:1134-1146",
+        "package-drafts/DRAFT-v10.md:1185-1192",
+        "package-review/gpt61-v6/REVIEW.md:155",
+        "deviations/seam-v4-author-process/NOTE.md:3-8",
+        "designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md:5-17",
+        "packets/capi-pk0/packet.json:3-11",
+        "packets/capi-pk0/AUTHOR-NOTES.md:7-11"
+      ],
+      "original_boundary": "Confirmed as a frozen, historical lane snapshot, not a current process census. No seam v4 or PK-0 review directory was inspected, and no new lane verdict or source acceptance is inferred."
+    }
+  },
+  "source_inventory": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md",
+      "sha256": "303205b1531eb5752fabc866f949c609725e3e42936404495ba9adfd171cd7ee",
+      "bytes": 237502,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md",
+      "sha256": "6cbc9c07994c2798910b84a02c5e445f67f24b9f51ed0efc95142df9b6113490",
+      "bytes": 466105,
+      "mode": "0444"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md",
+      "sha256": "e86b9c32d6f0fd9fdc21192d5c7a43c15c3d2763c7dcdb9fabba5f392ee99252",
+      "bytes": 4697,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/seam-v4-author-process/NOTE.md",
+      "sha256": "4cb28eaec5ebd3a7a7c316a1a0bc259811e5884a3a565779f6866bde7ff1fa4a",
+      "bytes": 3145,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md",
+      "sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+      "bytes": 233353,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/AUTHOR-NOTES.md",
+      "sha256": "0bd92ccd556e39a358a5e93db5a57fe55ba206080d7b6dc1f033508d7f9c66e4",
+      "bytes": 10119,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/packet.json",
+      "sha256": "9808145e43e8e130bc7d8f73ad0757d838ad05dc209e64ebbccda33270eb69f9",
+      "bytes": 16807,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/AUTHOR-NOTES.md",
+      "sha256": "ef5de3d4136bb11c957d604bec54006676acbe259a3d055633fd07415635968c",
+      "bytes": 16961,
+      "mode": "0644"
+    }
+  ],
+  "seam_v3_seal_verification": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/REVIEW.md",
+      "observed": {
+        "sha256": "1e1c5ef8bb396d7e3fe75b63bb9c788616dfb6b26561d729c2d867064cfea879",
+        "bytes": 84061,
+        "mode": "0600"
+      },
+      "matches_seal": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/review.json",
+      "observed": {
+        "sha256": "35b264e77922b028443b6b36718f0db2c14efc14f06746dc7510c727141463cf",
+        "bytes": 141527,
+        "mode": "0600"
+      },
+      "matches_seal": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/checks.json",
+      "observed": {
+        "sha256": "63bcb753990a9dbc0d2caf3a49db68baa103f5720cf7546bb9e7af68083c05ed",
+        "bytes": 112304,
+        "mode": "0600"
+      },
+      "matches_seal": true
+    }
+  ],
+  "snapshot_boundary": "Mutable STATUS.md reports subsequent seam and PK-0 review activity at :69 and :274. This is author-side later activity, not independently sealed evidence in this confirmation. Historical entries at :304-312 and :276-287 corroborate the documented snapshot. No outcome of either forbidden review was inspected or relied on.",
+  "no_new_restriction_or_closure_accepted": true,
+  "approval_granted": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}

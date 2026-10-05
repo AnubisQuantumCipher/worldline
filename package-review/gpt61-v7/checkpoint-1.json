@@ -1,0 +1,148 @@
+{
+  "schema": "claude-operator-package-confirmation-checkpoint-v1",
+  "item": 1,
+  "completed": true,
+  "package": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+  "package_sha256": "c54095b9408e4822f7705c46e1a2148cc32586d17667c5cd5362b5c2078bbc1a",
+  "base_package_sha256": "e3e0e5c43d4f0a206b76c7726366cc42adbecf132794ca12c0fb95e48c7d9ae7",
+  "independent_diff_sha256": "bc632476d958ab370b02309f6ea9273ec89ff77f6e7a20b25e36ac23701fe722",
+  "independent_diff_equals_lead_diff": true,
+  "draft_frozen_byte_equal": true,
+  "answer": "Every changed line is a requested correction, a consistent repetition of that correction, or header/status-table bookkeeping. No other change.",
+  "changes": [
+    {
+      "operation": "replace",
+      "v9_start": 1,
+      "v9_end": 1,
+      "v10_start": 1,
+      "v10_end": 1,
+      "category": "c",
+      "reason": "Header version bookkeeping",
+      "old_text": "# Operator decision package — WORLDLINE Phase One (DRAFT v9; not yet reviewed)\n",
+      "new_text": "# Operator decision package — WORLDLINE Phase One (DRAFT v10; corrections awaiting confirmation)\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 3,
+      "v9_end": 3,
+      "v10_start": 3,
+      "v10_end": 3,
+      "category": "c",
+      "reason": "Preparation time and parent identity bookkeeping",
+      "old_text": "Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~08:40Z, from frozen DRAFT-v8 `ce4bb35e…`).\n",
+      "new_text": "Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~09:40Z, from frozen DRAFT-v9 `e3e0e5c4…`).\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 5,
+      "v9_end": 5,
+      "v10_start": 5,
+      "v10_end": 5,
+      "category": "c",
+      "reason": "Draft filename bookkeeping",
+      "old_text": "**Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v9.md`. At ~04:19Z the edit\n",
+      "new_text": "**Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v10.md`. At ~04:19Z the edit\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 19,
+      "v9_end": 19,
+      "v10_start": 19,
+      "v10_end": 19,
+      "category": "c",
+      "reason": "Predecessor identity bookkeeping",
+      "old_text": "- **This draft replaces DRAFT-v8** (`ce4bb35e…`, preserved). The line of review:\n",
+      "new_text": "- **This draft replaces DRAFT-v9** (`e3e0e5c4…`, preserved). The line of review:\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 29,
+      "v9_end": 29,
+      "v10_start": 29,
+      "v10_end": 43,
+      "category": "c",
+      "reason": "Sealed v9 review and correction-summary bookkeeping",
+      "old_text": "- **v9.** It makes the v8 review's package-text correction, PKG-V8-CURRENT-STATUS (\"corrected, awaiting review\").\n",
+      "new_text": "  - v9 (`e3e0e5c4…`) was **READY_WITH_REQUIRED_CORRECTIONS** (`gpt61-v6`, sealed, freeze verified; rollout\n    `gpt-6.1-sol` / `max`). Its scope-change assessment, verbatim: \"The separation of W-1 design closure from package\n    review does not weaken the original requirements.\" It required three text corrections: PKG-V8-CURRENT-STATUS\n    (completion), PKG-V9-W1-SEALED-STATUS and PKG-V9-LANE-SNAPSHOT.\n- **v10.** It makes exactly those three corrections and nothing else of substance:\n  - the W-CLOSED summary in the W-1 v5 block (one link applies to regular files only; directories need the partition\n    root's `st_dev`);\n  - the C-API v5 note's `2>/dev/null` redirection, named as a disclosed rule deviation, in both places it appears;\n  - the v8 review's W-1 closures stated correctly (W1-SETUP-IDENTITY and the older W1-DURABILITY-RELEASE closed; the\n    other five v7 W-1 corrections carried and open; six W1-V5 added), in both places;\n  - the seam v4 and PK-0 lane snapshot timed and qualified.\n  This header and the correction-status table record them. Each is \"corrected, awaiting confirmation\" until an actual\n  gpt-6.1-sol confirmation review rules.\n- **v9.** It made the v8 review's package-text correction, PKG-V8-CURRENT-STATUS, and moved W-1 to its own review\n  track (below).\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 448,
+      "v9_end": 449,
+      "v10_start": 462,
+      "v10_end": 466,
+      "category": "a",
+      "reason": "PKG-V9-W1-SEALED-STATUS",
+      "old_text": "- **The author's assessment** was that all six v7-review corrections are \"CLOSED-AT-SPEC-LEVEL\". The v8 review closed\n  none of them, and replaced them with the six W1-V5 corrections above.\n",
+      "new_text": "- **The author's assessment** was that all six v7-review corrections are \"CLOSED-AT-SPEC-LEVEL\". The v8 review ruled\n  otherwise.\n  - It closed one of those six, W1-SETUP-IDENTITY. The other five stay NOT_CLOSED and carried; all remain open.\n  - It also closed the older W1-DURABILITY-RELEASE.\n  - It added the six W1-V5 corrections above, all open.\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 454,
+      "v9_end": 455,
+      "v10_start": 471,
+      "v10_end": 474,
+      "category": "a",
+      "reason": "PKG-V8-CURRENT-STATUS: exact W-CLOSED summary",
+      "old_text": "    - The walks then require every entry to be \"W-CLOSED\": owner R, a regular file or directory, no group or other\n      write bit, no set-ID bit, one link.\n",
+      "new_text": "    - The walks then require every entry to be \"W-CLOSED\". Every entry needs owner R, to be a regular file or\n      directory, no group or other write bit, and no set-ID bit. A regular file must also have exactly one link. A\n      directory must instead have its partition root's `st_dev`; no link-count rule applies to directories. The exact\n      table is under \"W-CLOSED in v5, exactly\" above.\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 634,
+      "v9_end": 634,
+      "v10_start": 653,
+      "v10_end": 655,
+      "category": "b",
+      "reason": "PKG-V9-W1-SEALED-STATUS at repeated summary",
+      "old_text": "  - W-1 v5 was the author's answer to those six. The v8 review closed none of them, and required six more (above).\n",
+      "new_text": "  - W-1 v5 was the author's answer to those six. The v8 review closed one of them, W1-SETUP-IDENTITY; the other five\n    stay open, carried. It also closed the older W1-DURABILITY-RELEASE and added six W1-V5 corrections (above), all\n    open.\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 890,
+      "v9_end": 891,
+      "v10_start": 911,
+      "v10_end": 917,
+      "category": "a",
+      "reason": "PKG-V8-CURRENT-STATUS: author deviation and effect",
+      "old_text": "  - `WT/deviations/capi-v5-author-process/NOTE.md`: a `mkdir -p /dev/null` slip that created nothing; read-only commands\n    outside the literal list; a late `sia.ask`; and an in-memory execution of the design's own check sketch.\n",
+      "new_text": "  - `WT/deviations/capi-v5-author-process/NOTE.md`:\n    - a command prefixed by `mkdir -p /dev/null 2>/dev/null`, which is a disclosed rule deviation on two counts: a\n      `mkdir` invocation and a `2>/dev/null` redirection, both outside the read-only rule. By the author's account it\n      created and changed nothing;\n    - read-only commands outside the literal list;\n    - a late `sia.ask`;\n    - an in-memory execution of the design's own check sketch.\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 1160,
+      "v9_end": 1161,
+      "v10_start": 1186,
+      "v10_end": 1190,
+      "category": "a/b",
+      "reason": "PKG-V9-LANE-SNAPSHOT: seam v4 and adjacent PK-0 consistency",
+      "old_text": "- seam design v4 (in drafting);\n- C-API packet PK-0 (source only; its gated baseline run waits for F-1 and S-1);\n",
+      "new_text": "- seam design v4: the draft is complete (`f65629cb…`). Its actual gpt-6.1-sol review has been running since 08:26Z,\n  and every v4 finding and closure claim stays unreviewed until that review seals. v3's ENDORSED_WITH_REQUIRED_CHANGES\n  is unchanged;\n- C-API packet PK-0: authored as source only (`WT/packets/capi-pk0/`, packet.json `9808145e…`, nothing executed). Its\n  actual gpt-6.1-sol source review is queued for a runner slot, and its gated baseline run waits for F-1 and S-1;\n"
+    },
+    {
+      "operation": "replace",
+      "v9_start": 1233,
+      "v9_end": 1233,
+      "v10_start": 1262,
+      "v10_end": 1262,
+      "category": "b",
+      "reason": "PKG-V8-CURRENT-STATUS at supervision-table entry",
+      "old_text": "| `WT/deviations/capi-v5-author-process/NOTE.md` | A `mkdir -p /dev/null` slip that created nothing; commands outside the literal list; a late `sia.ask`; an in-memory run of the design's own sketch (author self-check, not evidence) |\n",
+      "new_text": "| `WT/deviations/capi-v5-author-process/NOTE.md` | A command prefixed by `mkdir -p /dev/null 2>/dev/null`: a disclosed rule deviation (a `mkdir` invocation and a `2>/dev/null` redirection) that, by the author's account, created nothing; commands outside the literal list; a late `sia.ask`; an in-memory run of the design's own sketch (author self-check, not evidence) |\n"
+    },
+    {
+      "operation": "insert",
+      "v9_start": 1355,
+      "v9_end": 1354,
+      "v10_start": 1384,
+      "v10_end": 1394,
+      "category": "c",
+      "reason": "Sealed v9 review status and correction-status bookkeeping",
+      "old_text": "",
+      "new_text": "**B5. The v9 review** (`WT/package-review/gpt61-v6`, sealed, freeze verified; rollout `gpt-6.1-sol` / `max`). Verdict\n**READY_WITH_REQUIRED_CORRECTIONS**. Its W-1 status reporting was \"INACCURATE (with gaps)\", and the scope change \"does\nnot weaken the original requirements\".\n\n| Correction | Status |\n|---|---|\n| PKG-FACTS, PKG-CRITERIA, D2-CORRECTIONS, OD1-CONSEQUENCES, OD2-CONSEQUENCES, PKG-V5-FACTS, PKG-CLOSURE-STATUS, PKG-V6-OPERATOR-TEXT, PKG-SUPERVISION-RECORD, PKG-V7-AUTHOR-RECORDS | **CLOSED** |\n| PKG-V8-CURRENT-STATUS | NOT_CLOSED in v9. Completed in v10, awaiting confirmation: the W-CLOSED summary, and the C-API v5 `2>/dev/null` deviation |\n| PKG-V9-W1-SEALED-STATUS | Corrected in v10, awaiting confirmation: the v8 review's W-1 closures, stated correctly in both places |\n| PKG-V9-LANE-SNAPSHOT | Corrected in v10, awaiting confirmation: the seam v4 and PK-0 entries, timed and qualified |\n\n"
+    }
+  ],
+  "other_changes": [],
+  "approval_granted": false
+}

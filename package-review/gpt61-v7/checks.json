@@ -1,0 +1,1019 @@
+{
+  "schema": "claude-operator-package-confirmation-checks-v1",
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "package": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+    "sha256": "c54095b9408e4822f7705c46e1a2148cc32586d17667c5cd5362b5c2078bbc1a",
+    "bytes": 99564,
+    "mode": "0444"
+  },
+  "frozen_copy": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v10.md",
+    "sha256": "c54095b9408e4822f7705c46e1a2148cc32586d17667c5cd5362b5c2078bbc1a",
+    "bytes": 99564,
+    "mode": "0444"
+  },
+  "base_package": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+    "sha256": "e3e0e5c43d4f0a206b76c7726366cc42adbecf132794ca12c0fb95e48c7d9ae7",
+    "bytes": 96186,
+    "mode": "0444"
+  },
+  "independent_difference": {
+    "method": "Python standard-library difflib.unified_diff on decoded frozen bytes, labels DRAFT-v9.md and DRAFT-v10.md, n=1; SequenceMatcher with autojunk=False for exhaustive non-equal block classification",
+    "computed_sha256": "bc632476d958ab370b02309f6ea9273ec89ff77f6e7a20b25e36ac23701fe722",
+    "equals_lead_diff_byte_for_byte": true,
+    "draft_frozen_byte_equal": true,
+    "lead_diff": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9-to-v10.diff",
+      "sha256": "bc632476d958ab370b02309f6ea9273ec89ff77f6e7a20b25e36ac23701fe722",
+      "bytes": 8606,
+      "mode": "0444"
+    },
+    "changed_blocks": [
+      {
+        "operation": "replace",
+        "v9_start": 1,
+        "v9_end": 1,
+        "v10_start": 1,
+        "v10_end": 1,
+        "category": "c",
+        "reason": "Header version bookkeeping",
+        "old_text": "# Operator decision package — WORLDLINE Phase One (DRAFT v9; not yet reviewed)\n",
+        "new_text": "# Operator decision package — WORLDLINE Phase One (DRAFT v10; corrections awaiting confirmation)\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 3,
+        "v9_end": 3,
+        "v10_start": 3,
+        "v10_end": 3,
+        "category": "c",
+        "reason": "Preparation time and parent identity bookkeeping",
+        "old_text": "Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~08:40Z, from frozen DRAFT-v8 `ce4bb35e…`).\n",
+        "new_text": "Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~09:40Z, from frozen DRAFT-v9 `e3e0e5c4…`).\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 5,
+        "v9_end": 5,
+        "v10_start": 5,
+        "v10_end": 5,
+        "category": "c",
+        "reason": "Draft filename bookkeeping",
+        "old_text": "**Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v9.md`. At ~04:19Z the edit\n",
+        "new_text": "**Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v10.md`. At ~04:19Z the edit\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 19,
+        "v9_end": 19,
+        "v10_start": 19,
+        "v10_end": 19,
+        "category": "c",
+        "reason": "Predecessor identity bookkeeping",
+        "old_text": "- **This draft replaces DRAFT-v8** (`ce4bb35e…`, preserved). The line of review:\n",
+        "new_text": "- **This draft replaces DRAFT-v9** (`e3e0e5c4…`, preserved). The line of review:\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 29,
+        "v9_end": 29,
+        "v10_start": 29,
+        "v10_end": 43,
+        "category": "c",
+        "reason": "Sealed v9 review and correction-summary bookkeeping",
+        "old_text": "- **v9.** It makes the v8 review's package-text correction, PKG-V8-CURRENT-STATUS (\"corrected, awaiting review\").\n",
+        "new_text": "  - v9 (`e3e0e5c4…`) was **READY_WITH_REQUIRED_CORRECTIONS** (`gpt61-v6`, sealed, freeze verified; rollout\n    `gpt-6.1-sol` / `max`). Its scope-change assessment, verbatim: \"The separation of W-1 design closure from package\n    review does not weaken the original requirements.\" It required three text corrections: PKG-V8-CURRENT-STATUS\n    (completion), PKG-V9-W1-SEALED-STATUS and PKG-V9-LANE-SNAPSHOT.\n- **v10.** It makes exactly those three corrections and nothing else of substance:\n  - the W-CLOSED summary in the W-1 v5 block (one link applies to regular files only; directories need the partition\n    root's `st_dev`);\n  - the C-API v5 note's `2>/dev/null` redirection, named as a disclosed rule deviation, in both places it appears;\n  - the v8 review's W-1 closures stated correctly (W1-SETUP-IDENTITY and the older W1-DURABILITY-RELEASE closed; the\n    other five v7 W-1 corrections carried and open; six W1-V5 added), in both places;\n  - the seam v4 and PK-0 lane snapshot timed and qualified.\n  This header and the correction-status table record them. Each is \"corrected, awaiting confirmation\" until an actual\n  gpt-6.1-sol confirmation review rules.\n- **v9.** It made the v8 review's package-text correction, PKG-V8-CURRENT-STATUS, and moved W-1 to its own review\n  track (below).\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 448,
+        "v9_end": 449,
+        "v10_start": 462,
+        "v10_end": 466,
+        "category": "a",
+        "reason": "PKG-V9-W1-SEALED-STATUS",
+        "old_text": "- **The author's assessment** was that all six v7-review corrections are \"CLOSED-AT-SPEC-LEVEL\". The v8 review closed\n  none of them, and replaced them with the six W1-V5 corrections above.\n",
+        "new_text": "- **The author's assessment** was that all six v7-review corrections are \"CLOSED-AT-SPEC-LEVEL\". The v8 review ruled\n  otherwise.\n  - It closed one of those six, W1-SETUP-IDENTITY. The other five stay NOT_CLOSED and carried; all remain open.\n  - It also closed the older W1-DURABILITY-RELEASE.\n  - It added the six W1-V5 corrections above, all open.\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 454,
+        "v9_end": 455,
+        "v10_start": 471,
+        "v10_end": 474,
+        "category": "a",
+        "reason": "PKG-V8-CURRENT-STATUS: exact W-CLOSED summary",
+        "old_text": "    - The walks then require every entry to be \"W-CLOSED\": owner R, a regular file or directory, no group or other\n      write bit, no set-ID bit, one link.\n",
+        "new_text": "    - The walks then require every entry to be \"W-CLOSED\". Every entry needs owner R, to be a regular file or\n      directory, no group or other write bit, and no set-ID bit. A regular file must also have exactly one link. A\n      directory must instead have its partition root's `st_dev`; no link-count rule applies to directories. The exact\n      table is under \"W-CLOSED in v5, exactly\" above.\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 634,
+        "v9_end": 634,
+        "v10_start": 653,
+        "v10_end": 655,
+        "category": "b",
+        "reason": "PKG-V9-W1-SEALED-STATUS at repeated summary",
+        "old_text": "  - W-1 v5 was the author's answer to those six. The v8 review closed none of them, and required six more (above).\n",
+        "new_text": "  - W-1 v5 was the author's answer to those six. The v8 review closed one of them, W1-SETUP-IDENTITY; the other five\n    stay open, carried. It also closed the older W1-DURABILITY-RELEASE and added six W1-V5 corrections (above), all\n    open.\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 890,
+        "v9_end": 891,
+        "v10_start": 911,
+        "v10_end": 917,
+        "category": "a",
+        "reason": "PKG-V8-CURRENT-STATUS: author deviation and effect",
+        "old_text": "  - `WT/deviations/capi-v5-author-process/NOTE.md`: a `mkdir -p /dev/null` slip that created nothing; read-only commands\n    outside the literal list; a late `sia.ask`; and an in-memory execution of the design's own check sketch.\n",
+        "new_text": "  - `WT/deviations/capi-v5-author-process/NOTE.md`:\n    - a command prefixed by `mkdir -p /dev/null 2>/dev/null`, which is a disclosed rule deviation on two counts: a\n      `mkdir` invocation and a `2>/dev/null` redirection, both outside the read-only rule. By the author's account it\n      created and changed nothing;\n    - read-only commands outside the literal list;\n    - a late `sia.ask`;\n    - an in-memory execution of the design's own check sketch.\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 1160,
+        "v9_end": 1161,
+        "v10_start": 1186,
+        "v10_end": 1190,
+        "category": "a/b",
+        "reason": "PKG-V9-LANE-SNAPSHOT: seam v4 and adjacent PK-0 consistency",
+        "old_text": "- seam design v4 (in drafting);\n- C-API packet PK-0 (source only; its gated baseline run waits for F-1 and S-1);\n",
+        "new_text": "- seam design v4: the draft is complete (`f65629cb…`). Its actual gpt-6.1-sol review has been running since 08:26Z,\n  and every v4 finding and closure claim stays unreviewed until that review seals. v3's ENDORSED_WITH_REQUIRED_CHANGES\n  is unchanged;\n- C-API packet PK-0: authored as source only (`WT/packets/capi-pk0/`, packet.json `9808145e…`, nothing executed). Its\n  actual gpt-6.1-sol source review is queued for a runner slot, and its gated baseline run waits for F-1 and S-1;\n"
+      },
+      {
+        "operation": "replace",
+        "v9_start": 1233,
+        "v9_end": 1233,
+        "v10_start": 1262,
+        "v10_end": 1262,
+        "category": "b",
+        "reason": "PKG-V8-CURRENT-STATUS at supervision-table entry",
+        "old_text": "| `WT/deviations/capi-v5-author-process/NOTE.md` | A `mkdir -p /dev/null` slip that created nothing; commands outside the literal list; a late `sia.ask`; an in-memory run of the design's own sketch (author self-check, not evidence) |\n",
+        "new_text": "| `WT/deviations/capi-v5-author-process/NOTE.md` | A command prefixed by `mkdir -p /dev/null 2>/dev/null`: a disclosed rule deviation (a `mkdir` invocation and a `2>/dev/null` redirection) that, by the author's account, created nothing; commands outside the literal list; a late `sia.ask`; an in-memory run of the design's own sketch (author self-check, not evidence) |\n"
+      },
+      {
+        "operation": "insert",
+        "v9_start": 1355,
+        "v9_end": 1354,
+        "v10_start": 1384,
+        "v10_end": 1394,
+        "category": "c",
+        "reason": "Sealed v9 review status and correction-status bookkeeping",
+        "old_text": "",
+        "new_text": "**B5. The v9 review** (`WT/package-review/gpt61-v6`, sealed, freeze verified; rollout `gpt-6.1-sol` / `max`). Verdict\n**READY_WITH_REQUIRED_CORRECTIONS**. Its W-1 status reporting was \"INACCURATE (with gaps)\", and the scope change \"does\nnot weaken the original requirements\".\n\n| Correction | Status |\n|---|---|\n| PKG-FACTS, PKG-CRITERIA, D2-CORRECTIONS, OD1-CONSEQUENCES, OD2-CONSEQUENCES, PKG-V5-FACTS, PKG-CLOSURE-STATUS, PKG-V6-OPERATOR-TEXT, PKG-SUPERVISION-RECORD, PKG-V7-AUTHOR-RECORDS | **CLOSED** |\n| PKG-V8-CURRENT-STATUS | NOT_CLOSED in v9. Completed in v10, awaiting confirmation: the W-CLOSED summary, and the C-API v5 `2>/dev/null` deviation |\n| PKG-V9-W1-SEALED-STATUS | Corrected in v10, awaiting confirmation: the v8 review's W-1 closures, stated correctly in both places |\n| PKG-V9-LANE-SNAPSHOT | Corrected in v10, awaiting confirmation: the seam v4 and PK-0 entries, timed and qualified |\n\n"
+      }
+    ],
+    "other_changes": []
+  },
+  "base_sealed_review": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/review.json",
+    "sha256": "6d1c4c47836a104c499c09834404c974b015fe36c0640632134b8d9b49b5d7ff",
+    "package_sha256": "e3e0e5c43d4f0a206b76c7726366cc42adbecf132794ca12c0fb95e48c7d9ae7",
+    "verdict": "READY_WITH_REQUIRED_CORRECTIONS",
+    "verdict_meaning": "Decision structure is ready subject to the concrete package-text corrections. Frozen v9 remains inaccurate as written; repairs must be checked against the same sealed evidence before operator use. No W-1 design closure prerequisite is imposed on this package review and no original review/approval gate is lowered or added.",
+    "scope_change_assessment": "The separation of W-1 design closure from package review does not weaken the original requirements. Optional in-principle preference supplies no privilege, design endorsement, installation, admission or proof credit. F-1 option 1 retains an endorsed W-1, reviewed successor-frame code, reviewed concrete setup/prestate inventory, established Gate 0, operator authorization, installed-identity verification/review and adoption before dispatch.",
+    "required_corrections": [
+      {
+        "id": "PKG-V8-CURRENT-STATUS",
+        "item": 1,
+        "related_items": [
+          2,
+          5
+        ],
+        "correction": "Complete the prior package-text correction in every current summary: at lines 454-455 either bind the exact table at lines 370-378 or state that exactly one link applies to regular files while directories must have the partition root's st_dev. Do not add or accept a new directory-link restriction. At lines 890-891 also name the C-API v5 author's 2>/dev/null redirection as a disclosed rule deviation alongside its mkdir slip, retaining the author-stated effect and author-only/no-control/no-acceptance ceiling.",
+        "evidence": [
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:370-386",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:454-455",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:888-894",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md:13-24",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/review.json:178-194"
+        ]
+      },
+      {
+        "id": "PKG-V9-W1-SEALED-STATUS",
+        "item": 2,
+        "related_items": [
+          1,
+          5
+        ],
+        "correction": "Correct both claims at lines 448-449 and 634 that the sealed v8 review closed none of the six v7 W-1 corrections. It closed W1-SETUP-IDENTITY; the other five of those six remained NOT_CLOSED. It also closed the older W1-DURABILITY-RELEASE and issued the six new W1-V5 corrections, all still open. Use the already-correct current status at line 367 and B4 at lines 1345-1352 consistently. Say carried/open, not replaced in a way that erases an earlier obligation.",
+        "evidence": [
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:448-449",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:634",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:367",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:1345-1352",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/review.json:34-37",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/REVIEW.md:37"
+        ]
+      },
+      {
+        "id": "PKG-V9-LANE-SNAPSHOT",
+        "item": 5,
+        "correction": "Replace the unqualified seam v4 '(in drafting)' entry at line 1160 with the draft-complete/review-running timed snapshot recorded at lines 187 and 1113-1119. Do not infer a v4 verdict or upgrade v3's ENDORSED_WITH_REQUIRED_CHANGES. All v4 findings and closure claims remain unreviewed until its own sealed review.",
+        "evidence": [
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:187",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:1113-1119",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v9.md:1160",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/seam-v4-author-process/NOTE.md:3-8"
+        ]
+      }
+    ],
+    "prior_closure": {
+      "PKG-V8-CURRENT-STATUS": "NOT_CLOSED",
+      "PKG-FACTS": "CLOSED",
+      "PKG-CRITERIA": "CLOSED",
+      "D2-CORRECTIONS": "CLOSED",
+      "OD1-CONSEQUENCES": "CLOSED",
+      "OD2-CONSEQUENCES": "CLOSED",
+      "PKG-V5-FACTS": "CLOSED",
+      "PKG-CLOSURE-STATUS": "CLOSED",
+      "PKG-V6-OPERATOR-TEXT": "CLOSED",
+      "PKG-SUPERVISION-RECORD": "CLOSED",
+      "PKG-V7-AUTHOR-RECORDS": "CLOSED"
+    }
+  },
+  "correction_closure": {
+    "PKG-V8-CURRENT-STATUS": {
+      "status": "CLOSED",
+      "remaining_package_text_gap": null,
+      "reason": "The v10 W-CLOSED summary binds the exact table, uses single links only for regular files and partition-root device equality only for directories. The C-API v5 summaries disclose both mkdir and redirection, preserve author-stated no changes and the author-only/no-control/no-acceptance ceiling.",
+      "evidence": [
+        "package-drafts/DRAFT-v10.md:384-400",
+        "package-drafts/DRAFT-v10.md:471-474",
+        "package-drafts/DRAFT-v10.md:909-917",
+        "package-drafts/DRAFT-v10.md:1262",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+        "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2372-2379",
+        "package-review/gpt61-v5/REVIEW.md:155-159",
+        "deviations/capi-v5-author-process/NOTE.md:13-24",
+        "deviations/capi-v5-author-process/NOTE.md:46-56"
+      ],
+      "original_boundary": "W1-V5-PRESERVATION, revocation confinement, controls, installed evidence and all original obligations remain OPEN. This confirms text accuracy, not acceptance of W-CLOSED restrictions."
+    },
+    "PKG-V9-W1-SEALED-STATUS": {
+      "status": "CLOSED",
+      "remaining_package_text_gap": null,
+      "reason": "Both changed summaries now carry the sealed W1-SETUP-IDENTITY closure, the older W1-DURABILITY-RELEASE closure, the other prior W-1 corrections still NOT_CLOSED, and the new W1-V5 corrections OPEN. The current-status and B4 tables agree.",
+      "evidence": [
+        "package-drafts/DRAFT-v10.md:379-381",
+        "package-drafts/DRAFT-v10.md:462-466",
+        "package-drafts/DRAFT-v10.md:653-658",
+        "package-drafts/DRAFT-v10.md:1374-1381",
+        "package-review/gpt61-v5/review.json:15-37",
+        "package-review/gpt61-v5/REVIEW.md:34-39"
+      ],
+      "original_boundary": "These are historical bounded specification corrections; no V5-B01/V5-B02 closure or original Phase One obligation closure is granted."
+    },
+    "PKG-V9-LANE-SNAPSHOT": {
+      "status": "CLOSED",
+      "remaining_package_text_gap": null,
+      "reason": "The seam entry now gives draft-complete status and the inherited 08:26Z review-start snapshot, keeps every v4 finding and closure claim unreviewed until its own seal, and preserves v3 ENDORSED_WITH_REQUIRED_CHANGES. PK-0 source identity and source-only/unrun status match the packet and author notes; the queued-review snapshot conveys no verdict and the F-1/S-1 gate stays blocked.",
+      "evidence": [
+        "package-drafts/DRAFT-v10.md:198-206",
+        "package-drafts/DRAFT-v10.md:1134-1146",
+        "package-drafts/DRAFT-v10.md:1185-1192",
+        "package-review/gpt61-v6/REVIEW.md:155",
+        "deviations/seam-v4-author-process/NOTE.md:3-8",
+        "designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md:5-17",
+        "packets/capi-pk0/packet.json:3-11",
+        "packets/capi-pk0/AUTHOR-NOTES.md:7-11"
+      ],
+      "original_boundary": "Confirmed as a frozen, historical lane snapshot, not a current process census. No seam v4 or PK-0 review directory was inspected, and no new lane verdict or source acceptance is inferred."
+    }
+  },
+  "gate_assessment": {
+    "schema": "claude-operator-package-confirmation-checkpoint-v1",
+    "item": 3,
+    "completed": true,
+    "answer": "No changed text adds or lowers an approval/proof/confinement/capacity gate, weakens the fixed requirement or accepted domain, or presents an unreviewed claim as reviewed. W-CLOSED is reported as the existing unaccepted v5 proposal; preservation defects remain OPEN. The header and B5 record only the sealed v9 verdict and prior bounded closures. Seam v4 and PK-0 receive no new verdict, execution credit or source acceptance.",
+    "adds_gate": false,
+    "lowers_gate": false,
+    "weakens_requirement": false,
+    "presents_unreviewed_claim_as_reviewed": false,
+    "evidence": [
+      "package-drafts/DRAFT-v10.md:12-18",
+      "package-drafts/DRAFT-v10.md:29-54",
+      "package-drafts/DRAFT-v10.md:64-81",
+      "package-drafts/DRAFT-v10.md:394-400",
+      "package-drafts/DRAFT-v10.md:467-474",
+      "package-drafts/DRAFT-v10.md:653-658",
+      "package-drafts/DRAFT-v10.md:661-678",
+      "package-drafts/DRAFT-v10.md:909-917",
+      "package-drafts/DRAFT-v10.md:1185-1194",
+      "package-drafts/DRAFT-v10.md:1384-1393",
+      "package-drafts/DRAFT-v10.md:1403-1406",
+      "package-review/gpt61-v6/REVIEW.md:80-84",
+      "package-review/gpt61-v6/review.json:12"
+    ],
+    "basis": "All non-bookkeeping edits are individually classified in checkpoint-1 and checked against their sources in checkpoint-2. The v9 W-1 track separation and the F-1 prerequisite chain are unchanged. Closing package wording does not close an original engineering obligation.",
+    "approval_granted": false,
+    "proof_acceptance": false,
+    "phase_acceptance": false,
+    "source_acceptance": false,
+    "required_corrections": []
+  },
+  "verdict": "READY_FOR_OPERATOR",
+  "required_corrections": [],
+  "source_readback": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "sha256": "e3e0e5c43d4f0a206b76c7726366cc42adbecf132794ca12c0fb95e48c7d9ae7",
+      "bytes": 96186,
+      "mode": "0444",
+      "expected_sha256": "e3e0e5c43d4f0a206b76c7726366cc42adbecf132794ca12c0fb95e48c7d9ae7",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "sha256": "c54095b9408e4822f7705c46e1a2148cc32586d17667c5cd5362b5c2078bbc1a",
+      "bytes": 99564,
+      "mode": "0444",
+      "expected_sha256": "c54095b9408e4822f7705c46e1a2148cc32586d17667c5cd5362b5c2078bbc1a",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v10.md",
+      "sha256": "c54095b9408e4822f7705c46e1a2148cc32586d17667c5cd5362b5c2078bbc1a",
+      "bytes": 99564,
+      "mode": "0444",
+      "expected_sha256": "c54095b9408e4822f7705c46e1a2148cc32586d17667c5cd5362b5c2078bbc1a",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9-to-v10.diff",
+      "sha256": "bc632476d958ab370b02309f6ea9273ec89ff77f6e7a20b25e36ac23701fe722",
+      "bytes": 8606,
+      "mode": "0444",
+      "expected_sha256": "bc632476d958ab370b02309f6ea9273ec89ff77f6e7a20b25e36ac23701fe722",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md",
+      "sha256": "303205b1531eb5752fabc866f949c609725e3e42936404495ba9adfd171cd7ee",
+      "bytes": 237502,
+      "mode": "0644",
+      "expected_sha256": "303205b1531eb5752fabc866f949c609725e3e42936404495ba9adfd171cd7ee",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md",
+      "sha256": "6cbc9c07994c2798910b84a02c5e445f67f24b9f51ed0efc95142df9b6113490",
+      "bytes": 466105,
+      "mode": "0444",
+      "expected_sha256": "6cbc9c07994c2798910b84a02c5e445f67f24b9f51ed0efc95142df9b6113490",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md",
+      "sha256": "e86b9c32d6f0fd9fdc21192d5c7a43c15c3d2763c7dcdb9fabba5f392ee99252",
+      "bytes": 4697,
+      "mode": "0644",
+      "expected_sha256": "e86b9c32d6f0fd9fdc21192d5c7a43c15c3d2763c7dcdb9fabba5f392ee99252",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/seam-v4-author-process/NOTE.md",
+      "sha256": "4cb28eaec5ebd3a7a7c316a1a0bc259811e5884a3a565779f6866bde7ff1fa4a",
+      "bytes": 3145,
+      "mode": "0644",
+      "expected_sha256": "4cb28eaec5ebd3a7a7c316a1a0bc259811e5884a3a565779f6866bde7ff1fa4a",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md",
+      "sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+      "bytes": 233353,
+      "mode": "0644",
+      "expected_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/AUTHOR-NOTES.md",
+      "sha256": "0bd92ccd556e39a358a5e93db5a57fe55ba206080d7b6dc1f033508d7f9c66e4",
+      "bytes": 10119,
+      "mode": "0644",
+      "expected_sha256": "0bd92ccd556e39a358a5e93db5a57fe55ba206080d7b6dc1f033508d7f9c66e4",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/packet.json",
+      "sha256": "9808145e43e8e130bc7d8f73ad0757d838ad05dc209e64ebbccda33270eb69f9",
+      "bytes": 16807,
+      "mode": "0644",
+      "expected_sha256": "9808145e43e8e130bc7d8f73ad0757d838ad05dc209e64ebbccda33270eb69f9",
+      "matches_expected": true
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/AUTHOR-NOTES.md",
+      "sha256": "ef5de3d4136bb11c957d604bec54006676acbe259a3d055633fd07415635968c",
+      "bytes": 16961,
+      "mode": "0644",
+      "expected_sha256": "ef5de3d4136bb11c957d604bec54006676acbe259a3d055633fd07415635968c",
+      "matches_expected": true
+    }
+  ],
+  "sealed_report_verification": [
+    {
+      "root": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6",
+      "freeze_sha256": "7cc8433172126631b46413d20d02bd297232c1d01118b42a6af34fbd52fbd16b",
+      "actual_model_selection": "gpt-6.1-sol",
+      "different_from_author": true,
+      "members": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/REVIEW.md",
+          "expected": {
+            "sha256": "d3e0387ef4639a3f539bd2db96d73d2dc471256c62c5c7cd85eb8ce9aa6b3299",
+            "bytes": 53121,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "d3e0387ef4639a3f539bd2db96d73d2dc471256c62c5c7cd85eb8ce9aa6b3299",
+            "bytes": 53121,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/review.json",
+          "expected": {
+            "sha256": "6d1c4c47836a104c499c09834404c974b015fe36c0640632134b8d9b49b5d7ff",
+            "bytes": 532023,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "6d1c4c47836a104c499c09834404c974b015fe36c0640632134b8d9b49b5d7ff",
+            "bytes": 532023,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/checks.json",
+          "expected": {
+            "sha256": "c472e00e20d0dfbbb32c951856b7b3849e9149f838422720006b4dafa91a7d9a",
+            "bytes": 843575,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "c472e00e20d0dfbbb32c951856b7b3849e9149f838422720006b4dafa91a7d9a",
+            "bytes": 843575,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        }
+      ]
+    },
+    {
+      "root": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5",
+      "freeze_sha256": "55abff8baf67631ced785ff7b6822d78bc6bfbf20f929b86c1e65fcf20d70172",
+      "actual_model_selection": "gpt-6.1-sol",
+      "different_from_author": true,
+      "members": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/REVIEW.md",
+          "expected": {
+            "sha256": "8810306338aaf0601906914bbaa7ccba76cd3afe3ae214c87fdcabb284055bdf",
+            "bytes": 105578,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "8810306338aaf0601906914bbaa7ccba76cd3afe3ae214c87fdcabb284055bdf",
+            "bytes": 105578,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/review.json",
+          "expected": {
+            "sha256": "2307f10ed92d2d03d62271ccf066666d9a0562cd5f5b60f6c1595f2c7f47bde4",
+            "bytes": 189062,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "2307f10ed92d2d03d62271ccf066666d9a0562cd5f5b60f6c1595f2c7f47bde4",
+            "bytes": 189062,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/checks.json",
+          "expected": {
+            "sha256": "1d284b1bb08a7759e28b4ef476ecf61a68d8634ca523f5b05e61966c81f85f9f",
+            "bytes": 1063276,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "1d284b1bb08a7759e28b4ef476ecf61a68d8634ca523f5b05e61966c81f85f9f",
+            "bytes": 1063276,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        }
+      ]
+    },
+    {
+      "root": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1",
+      "freeze_sha256": "c52bd9ee470d1b29dbfcd44a1bd00331a922af6323ead6a601db65814c09de40",
+      "actual_model_selection": "gpt-6.1-sol",
+      "different_from_author": true,
+      "members": [
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/REVIEW.md",
+          "expected": {
+            "sha256": "1e1c5ef8bb396d7e3fe75b63bb9c788616dfb6b26561d729c2d867064cfea879",
+            "bytes": 84061,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "1e1c5ef8bb396d7e3fe75b63bb9c788616dfb6b26561d729c2d867064cfea879",
+            "bytes": 84061,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/review.json",
+          "expected": {
+            "sha256": "35b264e77922b028443b6b36718f0db2c14efc14f06746dc7510c727141463cf",
+            "bytes": 141527,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "35b264e77922b028443b6b36718f0db2c14efc14f06746dc7510c727141463cf",
+            "bytes": 141527,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        },
+        {
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/checks.json",
+          "expected": {
+            "sha256": "63bcb753990a9dbc0d2caf3a49db68baa103f5720cf7546bb9e7af68083c05ed",
+            "bytes": 112304,
+            "mode": "0600"
+          },
+          "observed": {
+            "sha256": "63bcb753990a9dbc0d2caf3a49db68baa103f5720cf7546bb9e7af68083c05ed",
+            "bytes": 112304,
+            "mode": "0600"
+          },
+          "matches_seal": true
+        }
+      ]
+    }
+  ],
+  "report_source_reference_readback": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/review.json",
+      "line": 9,
+      "text": "  \"verdict\": \"READY_WITH_REQUIRED_CORRECTIONS\","
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/review.json",
+      "line": 27,
+      "text": "    {"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 1,
+      "text": "# Operator decision package — WORLDLINE Phase One (DRAFT v9; not yet reviewed)"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1,
+      "text": "# Operator decision package — WORLDLINE Phase One (DRAFT v10; corrections awaiting confirmation)"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v10.md",
+      "line": 1,
+      "text": "# Operator decision package — WORLDLINE Phase One (DRAFT v10; corrections awaiting confirmation)"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9-to-v10.diff",
+      "line": 1,
+      "text": "--- DRAFT-v9.md"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 3,
+      "text": "Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~08:40Z, from frozen DRAFT-v8 `ce4bb35e…`)."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 3,
+      "text": "Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~09:40Z, from frozen DRAFT-v9 `e3e0e5c4…`)."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 5,
+      "text": "**Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v9.md`. At ~04:19Z the edit"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 5,
+      "text": "**Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v10.md`. At ~04:19Z the edit"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 19,
+      "text": "- **This draft replaces DRAFT-v8** (`ce4bb35e…`, preserved). The line of review:"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 19,
+      "text": "- **This draft replaces DRAFT-v9** (`e3e0e5c4…`, preserved). The line of review:"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 29,
+      "text": "- **v9.** It makes the v8 review's package-text correction, PKG-V8-CURRENT-STATUS (\"corrected, awaiting review\")."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 29,
+      "text": "  - v9 (`e3e0e5c4…`) was **READY_WITH_REQUIRED_CORRECTIONS** (`gpt61-v6`, sealed, freeze verified; rollout"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 448,
+      "text": "- **The author's assessment** was that all six v7-review corrections are \"CLOSED-AT-SPEC-LEVEL\". The v8 review closed"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 462,
+      "text": "- **The author's assessment** was that all six v7-review corrections are \"CLOSED-AT-SPEC-LEVEL\". The v8 review ruled"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 454,
+      "text": "    - The walks then require every entry to be \"W-CLOSED\": owner R, a regular file or directory, no group or other"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 471,
+      "text": "    - The walks then require every entry to be \"W-CLOSED\". Every entry needs owner R, to be a regular file or"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 634,
+      "text": "  - W-1 v5 was the author's answer to those six. The v8 review closed none of them, and required six more (above)."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 653,
+      "text": "  - W-1 v5 was the author's answer to those six. The v8 review closed one of them, W1-SETUP-IDENTITY; the other five"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 890,
+      "text": "  - `WT/deviations/capi-v5-author-process/NOTE.md`: a `mkdir -p /dev/null` slip that created nothing; read-only commands"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 911,
+      "text": "  - `WT/deviations/capi-v5-author-process/NOTE.md`:"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 1160,
+      "text": "- seam design v4 (in drafting);"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1186,
+      "text": "- seam design v4: the draft is complete (`f65629cb…`). Its actual gpt-6.1-sol review has been running since 08:26Z,"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 1233,
+      "text": "| `WT/deviations/capi-v5-author-process/NOTE.md` | A `mkdir -p /dev/null` slip that created nothing; commands outside the literal list; a late `sia.ask`; an in-memory run of the design's own sketch (author self-check, not evidence) |"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1262,
+      "text": "| `WT/deviations/capi-v5-author-process/NOTE.md` | A command prefixed by `mkdir -p /dev/null 2>/dev/null`: a disclosed rule deviation (a `mkdir` invocation and a `2>/dev/null` redirection) that, by the author's account, created nothing; commands outside the literal list; a late `sia.ask`; an in-memory run of the design's own sketch (author self-check, not evidence) |"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/DRAFT-v9.md",
+      "line": 1354,
+      "text": ""
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1384,
+      "text": "**B5. The v9 review** (`WT/package-review/gpt61-v6`, sealed, freeze verified; rollout `gpt-6.1-sol` / `max`). Verdict"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 384,
+      "text": "**W-CLOSED in v5, exactly** (v5 §9.8 K2). Each entry of the partition contents must satisfy all of the following."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md",
+      "line": 1088,
+      "text": "**K2. W-CLOSED.** An entry of the partition contents is W-CLOSED iff (c1) its owner is R; (c2) it is a regular file or"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md",
+      "line": 2372,
+      "text": "**K2. W-CLOSED.** An entry of the partition contents is W-CLOSED iff (c1) its owner is R; (c2) it is a regular file or"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 394,
+      "text": "**Which of these are new.** v5 claimed that (c2), (c4) and (c5) are the frame walk's existing rules. The v8 review"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/REVIEW.md",
+      "line": 155,
+      "text": "K2 says “(c2), (c4) and (c5) are the walks' existing rules.” Against the actual supplied frame source, this is only partly true. Both F5 and F6 require directories/regular files, reject aliases/special files, and require single-link regular files. Neither `observe_tree` rejects set-ID bits or requires each directory's `st_dev` to equal its partition root. Recording `st_mode`/`st_dev` in stable metadata is not a prohibition on their values. v4 §6.5 itself described set-ID refusal as “new in W-1.” Thus c4 and the directory part of c5 cannot inherit original-walk acceptance merely by calling them existing. [C:2372–2379](/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2372) [F5:510–554](/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/scratch.py:510) [F6:513–558](/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v6/scratch.py:513) [B:982–983](/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:982)"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 909,
+      "text": "- **Author process notes**, each recorded as stated. These are author-only self-checks: no control run, no review and no"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md",
+      "line": 13,
+      "text": "**What it reports.** One read-only Bash command began with `mkdir -p /dev/null 2>/dev/null;` before its read-only Python"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md",
+      "line": 46,
+      "text": "**The lead's judgment** (lead reasoning, not a review):"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 379,
+      "text": "- **Its required W-1 corrections:** W1-V5-PRESERVATION, W1-V5-REVOCATION-CONFINEMENT, W1-V5-PROTOCOL-REFUSALS,"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1374,
+      "text": "| PKG-V7-AUTHOR-RECORDS, PKG-SUPERVISION-RECORD, W1-DURABILITY-RELEASE, W1-SETUP-IDENTITY; and, carried, PKG-V6-OPERATOR-TEXT, W1-RESOURCES, OD2-CONSEQUENCES, PKG-V5-FACTS, PKG-CLOSURE-STATUS | **CLOSED** |"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/review.json",
+      "line": 15,
+      "text": "  \"prior_closure\": {"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/REVIEW.md",
+      "line": 37,
+      "text": "| W1-SETUP-IDENTITY | **CLOSED** | “The record never lists itself”; S-H excludes itself, S-I captures its final external tuple/digest, the installed review seals S, and adoption/later invocations join it. This removes the circular construction. Concrete installed identity and adoption remain future. [C:3283–3302](/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:3283) [C:3362–3384](/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:3362) |"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/review.json",
+      "line": 31,
+      "text": "    \"W1-CUSTODY-CLOSURE\": \"NOT_CLOSED\","
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/REVIEW.md",
+      "line": 28,
+      "text": "**CLOSED below means a bounded specification correction closes, never an original Phase One obligation or installed claim.** Previously closed local repairs are retained at their original scope; new preservation/confinement defects do not receive credit from those labels. The author's “CLOSED-AT-SPEC-LEVEL” assertions are not closure evidence. [P:397–400](/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v8.md:397) [P:1250–1275](/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v8.md:1250)"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 658,
+      "text": "V5-B01, V5-B02 and every original obligation stay OPEN."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1185,
+      "text": "**Lead next work.** Routine engineering, each item with independent actual gpt-6.1-sol review:"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 198,
+      "text": "**Lead activity snapshot (~08:45Z; it changes as agents finish):**"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1134,
+      "text": "**Seam design v3** (`WT/designs/claude-root-worker-seam-design-v3`, SEAM-DESIGN.md `a0f2f411…`) has a sealed actual"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md",
+      "line": 5,
+      "text": "| Author | Claude Code lead claude-opus-5-5 (drafting subagent, author role) |"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/seam-v4-author-process/NOTE.md",
+      "line": 3,
+      "text": "**Who.** The seam drafting agent (`a01ff3579cb09cea3`), resumed by the lead at ~07:08Z on 2026-10-05 to draft SEAM"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/REVIEW.md",
+      "line": 155,
+      "text": "| Seam v4 | Draft complete; review-running timed snapshot | P:187,1113-1119; WT/deviations/seam-v4-author-process/NOTE.md:3-8. P:1160 falsely says in drafting and must be updated. No in-progress review read or v4 verdict inferred. |"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1189,
+      "text": "- C-API packet PK-0: authored as source only (`WT/packets/capi-pk0/`, packet.json `9808145e…`, nothing executed). Its"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/packet.json",
+      "line": 3,
+      "text": " \"packet\": \"PK-0\","
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0/AUTHOR-NOTES.md",
+      "line": 7,
+      "text": "**Status: authored source, never run.**"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/STATUS.md",
+      "line": 69,
+      "text": "| Root-worker seam design v4 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~09:37Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `d857f8dd…`, REVIEW.md `340a6219…`, checks.json `58e3312e…`, freeze `eef0ff2c…`).<br>- **Closure:** V3-REQ-A..L and RQ-1 PARTIALLY_CLOSED. Clauses: 28 CLOSED_AT_DESIGN_LEVEL, 29 PARTIALLY_CLOSED, 2 NOT_CLOSED. D-2b CLOSED.<br>- **Findings:** NF4-1..NF4-13 verified or qualified statically. NF4-2: restoring the serial workload guard would refuse workload operations on the only selected non-owner route, and is treated as an OPEN containment gap.<br>- **Required changes:** twelve, V4-REQ-A..L | Seam v5: **paced**. It is held while free space is below the reserve; W-1 v6 (critical path) goes first |"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/STATUS.md",
+      "line": 274,
+      "text": "- **C-API PK-0 source review.** It took a runner slot after the package v9 review finished."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/STATUS.md",
+      "line": 304,
+      "text": "- **Root-worker SEAM DESIGN v4** (`designs/claude-root-worker-seam-design-v4`)."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 44,
+      "text": "- **Process change in v9: W-1 has its own review track.**"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 662,
+      "text": "1. **Later: approve the concrete privileged setup.** It comes after a W-1 design that its own sealed review endorses (current: v5, NOT_READY; v6 in drafting), reviewed v6-W1 code, a"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/REVIEW.md",
+      "line": 82,
+      "text": "Scope assessment: the separation of W-1 design closure from package review does not weaken an original requirement. The human has explicitly defined this package review scope. P:30-40 and :641-644 still require an endorsed W-1, reviewed v6-W1 code, reviewed concrete setup/prestate inventory, established Gate 0, human authorization of listed privileged actions, and subsequent installed-identity verification/review and adoption before dispatch. Optional in-principle preference at P:645 grants none of those. Declining leaves confinement OPEN; changing the criterion is explicitly ineligible for closure (P:646-649)."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 64,
+      "text": "The original exit text (`complete-phase1-prompt.txt:34`) is unchanged:"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 1403,
+      "text": "W-1 v6's own per-gap assessment will be the author's claim, and W-1's own next sealed review rules on it."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 12,
+      "text": "- **Nothing is approved, waived, closed or decided here.** Every original obligation stays OPEN."
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v10.md",
+      "line": 40,
+      "text": "  This header and the correction-status table record them. Each is \"corrected, awaiting confirmation\" until an actual"
+    }
+  ],
+  "mutable_author_snapshot_index": {
+    "identity_observed": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/STATUS.md",
+      "sha256": "f965abc3e970830c3fc19f9994887089aef9f2827baa2e45a254d23b313ace83",
+      "bytes": 45458,
+      "mode": "0644"
+    },
+    "excerpt": {
+      "69": "| Root-worker seam design v4 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~09:37Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `d857f8dd…`, REVIEW.md `340a6219…`, checks.json `58e3312e…`, freeze `eef0ff2c…`).<br>- **Closure:** V3-REQ-A..L and RQ-1 PARTIALLY_CLOSED. Clauses: 28 CLOSED_AT_DESIGN_LEVEL, 29 PARTIALLY_CLOSED, 2 NOT_CLOSED. D-2b CLOSED.<br>- **Findings:** NF4-1..NF4-13 verified or qualified statically. NF4-2: restoring the serial workload guard would refuse workload operations on the only selected non-owner route, and is treated as an OPEN containment gap.<br>- **Required changes:** twelve, V4-REQ-A..L | Seam v5: **paced**. It is held while free space is below the reserve; W-1 v6 (critical path) goes first |",
+      "70": "| Root-worker seam design v3 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~07:05Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `35b264e7…`, REVIEW.md `1e1c5ef8…`, checks.json `63bcb753…`, freeze `c52bd9ee…`).<br>- **Closure:** V2-REQ-A..L and RQ-1 all PARTIALLY_CLOSED. D-2b CLOSED_AT_DESIGN_LEVEL; other rulings PARTIALLY_CLOSED.<br>- **Findings:** NF-1..NF-11 all verified statically, with some kernel and runtime consequences unmeasured.<br>- **Required changes:** twelve, V3-REQ-A..L. V3-REQ-K asks to bind the sealed C-API v5 review; v4 binds v5 and the now-ENDORSED v6 | Seam v4 (same author, resumed ~07:08Z) |",
+      "252": "## In progress (updated 09:40Z)",
+      "253": "",
+      "254": "- **Pacing (lead judgment, not an operator choice).** Free space was 9875791872 bytes at 09:38:04Z: 124208128 below the",
+      "255": "  reserve, and 54571008 bytes less than at 08:38:59Z (JACKAL exact).",
+      "256": "  - **What is held.** No new seam drafting starts. Seam v5 is held until W-1 v6 lands or the storage situation changes.",
+      "257": "  - **Why.** Each drafting round with its review writes tens of MB. Local space below the vault's local reserve can",
+      "258": "    also constrain Codex's vault recovery.",
+      "259": "  - **What this is not.** It is not S-1 option 4, which stays the human's choice. The reviews already queued and the",
+      "260": "    W-1 v6 draft continue.",
+      "261": "- **Package confirmation review** (`package-review/gpt61-v7`): started once the seam v4 review freed a slot.",
+      "262": "",
+      "263": "- **Operator package DRAFT-v10: frozen; confirmation review queued.**",
+      "264": "  - **Freeze.** `package-drafts/DRAFT-v10.md` `c54095b9…` (99564 bytes) was frozen at 09:36Z.",
+      "265": "  - **Content.** It makes exactly the three corrections of the v9 review:",
+      "266": "    - the W-CLOSED summary (one link for regular files only);",
+      "267": "    - the C-API v5 `2>/dev/null` deviation named;",
+      "268": "    - the v8 review's W-1 closures stated correctly;",
+      "269": "    - the seam v4 and PK-0 snapshot timed.",
+      "270": "  - **Diff.** The v9-to-v10 diff is `package-frozen/DRAFT-v9-to-v10.diff` (`bc632476…`).",
+      "271": "  - **Review.** The actual gpt-6.1-sol confirmation review is queued for a runner slot: brief",
+      "272": "    `briefs/operator-package-confirm-v10.md` (`c7a59974…`), output to `package-review/gpt61-v7`.",
+      "273": "  - **Next.** If it confirms READY_FOR_OPERATOR, the package goes to the human.",
+      "274": "- **C-API PK-0 source review.** It took a runner slot after the package v9 review finished.",
+      "275": "",
+      "276": "- **C-API packet PK-0, source only** (`packets/capi-pk0/`, packet.json `9808145e…`).",
+      "277": "  - **Content.** Six new test files: characterization JSON `51ba5ca2…`, guard pages, layout baseline with RECORD_ON_L0",
+      "278": "    placeholders, and three test modules. Plus AUTHOR-NOTES and jackal.json (27 calls).",
+      "279": "  - **Lead checks.**",
+      "280": "    - All nine hashes match the report.",
+      "281": "    - All 95 bound S5 inputs match by sha256 and size.",
+      "282": "    - No existing file is touched.",
+      "283": "    - Sampled JACKAL calls reproduce `exact`.",
+      "284": "  - **Executed.** Nothing: no tests, no WORLDLINE code.",
+      "285": "  - **What stays open.** The PK-0 gate, a baseline run on L0 in an admitted frame, is blocked by F-1 and S-1.",
+      "286": "  - **Review.** Its actual gpt-6.1-sol source review is queued for a runner slot: brief `briefs/capi-pk0-packet-v1.md`",
+      "287": "    (`6aca6062…`), output to `packets/capi-pk0/review/gpt61-v1`.",
+      "304": "- **Root-worker SEAM DESIGN v4** (`designs/claude-root-worker-seam-design-v4`).",
+      "305": "  - **Files.** SEAM-DESIGN.md `f65629cb…`, seams.json `92a814a4…`, jackal.json `4d556a45…`, AUTHOR-NOTES.md `0bd92ccd…`.",
+      "306": "    Handed back after 08:23:18Z; the hashes match the report.",
+      "307": "  - **Lead check.** A lead script verified all 24 carried v3 slices, with no overlaps.",
+      "308": "  - **What it answers.** V3-REQ-A..L and RQ-1. It binds the sealed C-API v5 and v6 reviews and reports NF4-1..NF4-13.",
+      "309": "  - **Process.** Recorded in `deviations/seam-v4-author-process/NOTE.md`: the author scanned the lead's transcript",
+      "310": "    against instruction, saw two lead `sia.ask` calls, stopped, and reports using nothing.",
+      "311": "  - **Review.** Its actual gpt-6.1-sol review started 08:26Z: brief `briefs/root-worker-seam-design-v4.md` (`51c4f384…`),",
+      "312": "    thread `01a10b2c-017d-7591-b054-07317f89130f`."
+    },
+    "independent_review_evidence": false,
+    "used_for": "Context for frozen historical lane snapshots and subsequent author-reported activity only; no newly claimed verdict imported from STATUS.md",
+    "boundary": "Mutable STATUS.md reports subsequent seam and PK-0 review activity at :69 and :274. This is author-side later activity, not independently sealed evidence in this confirmation. Historical entries at :304-312 and :276-287 corroborate the documented snapshot. No outcome of either forbidden review was inspected or relied on."
+  },
+  "original_obligation_preservation": {
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/review.json",
+    "source_sha256": "6d1c4c47836a104c499c09834404c974b015fe36c0640632134b8d9b49b5d7ff",
+    "all_statuses_OPEN": true,
+    "all_closure_credited_false": true,
+    "copied_unchanged_to_review_json": true,
+    "authority_register_reaudited": false,
+    "scope": "Inherited unchanged from the sealed v9 review; no original obligation is discharged by package-text closure"
+  },
+  "mathematical_boundary": {
+    "derived_arithmetic_performed": false,
+    "jackal_calls": [],
+    "legacy_numeric_text_changed": false,
+    "scope": "No numerical claim recomputed in this confirmation; sealed v9 numeric evidence remains at its original status and non-claims. File hashes, sizes, modes, timestamps and source locations are passive observations."
+  },
+  "method": {
+    "passive_only": true,
+    "executed_worldline_or_frame_code": false,
+    "executed_compilers_provers_tests": false,
+    "executed_privileged_service_storage_commands": false,
+    "process_interruption": false,
+    "forbidden_directory_or_transcript_reads": false,
+    "sia_notes_written": false,
+    "write_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v7",
+    "artifact_open_flags": "os.O_WRONLY|os.O_CREAT|os.O_EXCL",
+    "artifact_mode": "0600",
+    "file_fsync": true,
+    "directory_fsync": true,
+    "freeze_written_last": true,
+    "skill_guidance": [
+      "ada hub",
+      "ada-omarchy",
+      "ada-programming",
+      "spark-users-guide with relevant team-workflow and assurance chapters",
+      "ada-high-integrity"
+    ],
+    "memory_use": "Routing only; findings cite currently read sources"
+  },
+  "checkpoints": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v7/checkpoint-1.json",
+      "sha256": "1205279e8bd3b53ec8340174094e525530d2d9dfb8822aaa476e007e02f30a6e",
+      "bytes": 10523,
+      "mode": "0600"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v7/checkpoint-2.json",
+      "sha256": "303c31b43f41346d9c95545e5874e501e5f39c15a7d66c02ded5c52378a93ad4",
+      "bytes": 7542,
+      "mode": "0600"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v7/checkpoint-3.json",
+      "sha256": "1c3ff4b39439a93ced9a70e91e0890c0d4345d9ff0dfee9e5f266c529be2d2e1",
+      "bytes": 1689,
+      "mode": "0600"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v7/checkpoint-4.json",
+      "sha256": "879ba0c3038181fd25a1456d5a825af8be52aec587cceae8d1bacc9dad680ebd",
+      "bytes": 13176,
+      "mode": "0600"
+    }
+  ],
+  "report": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v7/REVIEW.md",
+    "sha256": "7aa98c5e3a24a67c1ae55cf708c066f53d9225d8904fa43ec25c45e84f8c6794",
+    "bytes": 22917,
+    "mode": "0600"
+  },
+  "approval_granted": false,
+  "exception_granted": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "frame_qualification": false,
+  "dispatch_authority": false
+}
