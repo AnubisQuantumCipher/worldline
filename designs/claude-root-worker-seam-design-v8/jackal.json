@@ -1,0 +1,14 @@
+{
+  "schema": "claude-seam-design-jackal-record-v1",
+  "design": "WT/designs/claude-root-worker-seam-design-v8/SEAM-DESIGN.md",
+  "calls": [],
+  "refusals": [],
+  "note": "No numeral in v8 was derived by arithmetic, so no JACKAL call was made for v8. v8 corrects two review findings (V7R-H, V7R-CITE) and carries v7 otherwise unchanged.",
+  "carried": "v7 J7-1 '(2^64 - 1) + 1 - 256^8' and J7-2 '(2^128 - 1) + 1 - 256^16', both status=exact, value 0, lane rat, formal=false, evaluator 4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872 (carried in slice C7-VAG; they support the unchanged capacity rule); v5 J5-1..J5-4 and v2 J01..J18 keep their status inside carried slices (RR8-5)",
+  "non_claims": [
+    "NOT formal-bounded: the carried lane carries no Lean-checked certificate",
+    "exact rational arithmetic (not yet checker-covered)",
+    "informational about arithmetic only; says nothing about code correctness"
+  ],
+  "other_numerals": "Every number in v8 is observed (line numbers, counts, sizes, hashes); none was derived by arithmetic."
+}

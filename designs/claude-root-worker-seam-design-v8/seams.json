@@ -1,0 +1,94 @@
+{
+  "schema": "claude-root-worker-seam-design-v8",
+  "schema_family": "claude-root-worker-seam-design (v1 ... v7 key sets retained where still meaningful; v8 answers the v7 review's two required changes V7R-H and V7R-CITE and carries v7 otherwise unchanged)",
+  "lane": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1",
+  "author": "Claude Code lead claude-opus-4-8 (drafting subagent, author role)",
+  "status": "DRAFT_FOR_INDEPENDENT_REVIEW",
+  "acceptance": {"proof_acceptance": false, "source_acceptance": false, "phase_acceptance": false, "approval_gates_added": false, "review": "An independent review of v8 is required. The author grants nothing."},
+  "design_document": {
+    "path": "WT/designs/claude-root-worker-seam-design-v8/SEAM-DESIGN.md",
+    "sha256": "c0d0864d1a5744d4cd526bd3055c8b55fa566fddd4e893e588420f44a1a49774",
+    "bytes": 57085,
+    "lines": 459,
+    "relation": "v8 is this file plus the carried v7 slices (C7-B, C7-VAG, C7-VIQ) with R8-1 ... R8-9 applied, and transitively everything those slices carry (the v6 slices with R7-1 ... R7-86, and through them the v5 ... v1 chains, minus W5-1 and W5-2)"
+  },
+  "companions": {
+    "jackal.json": {"sha256": "30f7474c56dafca35f1cde6bbcff2c1ea220a4cf5a4cd3ca652939b51a799f87", "bytes": 1066},
+    "AUTHOR-NOTES.md": {"sha256": "bc16520eb5ddd2b6ec274f68a48c6cbf57c35cedf7c65e74de4662d79029bf87", "bytes": 7035},
+    "scratch/verify.py": {"sha256": "e3382baeb9f60b692c8b5a4061e1cffe7d2aa4f91c7dd28a965eb199a6b36156", "bytes": 5985},
+    "scratch/sweep.py": {"sha256": "e70032760236270118d555df09fdcfc2b9280e22f4b44a4fcca929599f7352df", "bytes": 4532},
+    "hash_cycle": "SEAM-DESIGN.md Appendix D binds jackal.json, AUTHOR-NOTES.md and the two scratch scripts; this file binds SEAM-DESIGN.md; the handback binds this file"
+  },
+  "supersedes": {
+    "v7_design": {"sha256": "62b7d5877a4df95b86ab5354d64d4fadd6bcf8017da20b8ba53dbbec34169f16", "bytes": 184450, "lines": 1526},
+    "v7_seams": "de716b0bf38671abef088957014885ecd1002380b8eb56f5966230cd1ba2e817",
+    "v7_jackal": "f691a36b3a9efbd49e6d56ad2c264f85b0b83f17ab64ef1fd58db698f181263f",
+    "v7_author_notes": "b651f5e61fe3deca19e6bed1753bb83e7b93d059cc39a2fbc1ea1768968e9da6"
+  },
+  "answers_review": {
+    "path": "WT/designs/claude-root-worker-seam-design-v7/review/claude-v1",
+    "reviewer_kind": "claude-subagent",
+    "different_from_author": true,
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+    "files": {
+      "REVIEW.md": {"sha256": "4d09a69a8af251f02ea49273ad0c35aa4c39b86628f6be6128f4184a1e19cf9f", "bytes": 19064},
+      "review.json": {"sha256": "4ba840c61dbf5cf58c8291535084cb8db6e2fa3088bb8a236fb24b0f8c309693", "bytes": 14979},
+      "checks.json": {"sha256": "1770794001691ab77736ef2cbfa4e26f9b107166a3c8bd6adae2248b9c09cda3", "bytes": 6144},
+      "review-freeze.json": {"sha256": "c65eed5b2ff472e22eb26e4a17392a5d4e68d3363a1b5ef098f06be94667d2f6", "bytes": 613}
+    },
+    "not_read": ["raw-final-message.txt", "review-records/", "every gpt61-v* directory"],
+    "required_changes": {
+      "V7R-H": {"status": "CLOSED_AT_DESIGN_LEVEL", "where": "V8-H; R8-2; control V8-N.H", "summary": "handler elif->else preserves p.quarantine in every owned-is-None failure; :192 removed; phase set from committed custody phase, fail-closed; handler stated as changed, not unchanged; quarantine fix independent of the OPEN router row-3 change"},
+      "V7R-CITE": {"status": "CLOSED_AT_DESIGN_LEVEL", "where": "V8-CITE; R8-1, R8-3 ... R8-9", "summary": "daemon.py progress/_send cite; D-H7 boundaries :705, :730-731, :733-735; front's resource-state owners; base PARAMETERS roster :207; C1:241 writes the init pid"}
+    }
+  },
+  "self_containment": {
+    "rule": "Each slice's sha256 is that of the UTF-8 bytes of its v7 lines, each followed by a newline.",
+    "v7_file": {"sha256": "62b7d5877a4df95b86ab5354d64d4fadd6bcf8017da20b8ba53dbbec34169f16", "lines": 1526},
+    "slices": [
+      {"id": "C7-B", "lines": "128-865", "sha256": "79e4419412ad070f773094f7bca55160e1a66e0d18ed479a2f4db9a790175ef3"},
+      {"id": "C7-VAG", "lines": "933-1104", "sha256": "dd9406c1372c93b70eb484caf90ef404e4fa2b1f823728d502089f219ec6f070"},
+      {"id": "C7-VIQ", "lines": "1127-1403", "sha256": "409d2863e9c2a8369f80731681e6db43903d75bbb974b8044100448a178813b3"}
+    ],
+    "superseded_v7_ranges": {"1-127": "v8 header and section A", "869-930": "v8 section C", "1107-1124": "V8-H", "1406-1526": "v8 appendices"},
+    "replacements": {"count": 9, "ids": "R8-1 ... R8-9", "all_target_v7": true, "none_replaced_twice": true, "none_previously_replaced_by_an_earlier_R": true},
+    "normative_bindings": "every identity a normative statement relies on is in SEAM-DESIGN.md Appendix B; ruling owners and evidence in section A.3; aliases in section C.2 (adding D7, D7R)"
+  },
+  "v7r_h": {
+    "handler_before": "except BaseException as error: / self.phase='UNKNOWN_WORKER_OWNERSHIP' / if owned is not None: retain_and_stop_unknown / elif self.phase=='UNKNOWN_WORKER_OWNERSHIP': p.quarantine / raise",
+    "handler_after": "except BaseException as error: / if owned is not None: retain_and_stop_unknown / else: p.quarantine / self.phase=self.committed_front_phase(operation) / raise",
+    "edits": [":192 deleted", ":195 elif -> else", "phase set after settlement from committed custody phase, fail-closed to UNKNOWN_WORKER_OWNERSHIP"],
+    "quarantine_preserved": "runs in the sole else arm in every owned-is-None failure, independent of any phase value",
+    "handler_changed": true,
+    "router_row3_change": "OPEN, unreviewed lane code (root_worker_endpoint_router.py:26-31); the quarantine fix does not depend on it"
+  },
+  "v7r_cite": {
+    "daemon_progress": "_send generic writer rw/daemon.py:388-400; :390-393 are its comment; :394-400 the closing-writer drop",
+    "dh7_journal_check": ":705 (NEVER_DISPATCHED/no-slot); :704 journal load; :707-708 original-request",
+    "dh7_cgroup2_require": ":730-731 (:729 is from_mapping)",
+    "dh7_sandbox_require": ":733-735 (:732 binds the path; :736 begins the env loop)",
+    "front_owners": "rw/protected_root_resource.py:161 closes resource-state owners; custody/transport descriptors survive",
+    "base_roster": "rw/resource_child_execution.py:207 is the base PARAMETERS roster",
+    "init_pid": "C1:241 writes the namespace init's pid (its pid in the host PID namespace)"
+  },
+  "carried_closed": {
+    "v6_req": "A, B, C, D, E, F, G, I, J, L CLOSED_AT_DESIGN_LEVEL; K design-level (adoption OPEN); H now closed at design level by V8-H",
+    "v5_req_closed": ["B", "H", "L", "M"],
+    "v5_req_partial": ["A", "C", "D", "E", "F", "G", "I", "J", "K"],
+    "v4_req_closed": ["H", "K"],
+    "clauses_closed_examples": ["04.3", "12.1", "09.4", "07.1"],
+    "d_2b": "CLOSED_AT_DESIGN_LEVEL; frontier control unchanged (C2-116)"
+  },
+  "controls": {"retained": "every original and additive control; none retired", "frontier_control": "unchanged (C2-116)", "added": "V8-N.H (handler before/after, quarantine preserved; negative control distinguishes the defective variant)"},
+  "sweep": {"method": "scratch/sweep.py over the reader-visible v8 composition, fenced old-text excluded", "targets_resolved": 8, "residual_hits": "kept classes accepted at v7 (withdrawal statements, D-4a negations, worker-gone/closure-barrier pidfd rows, RC rename provenance and inherited RC-01..12, V7-M sweep table)", "v6_and_earlier": "unchanged from v7, already swept and accepted"},
+  "jackal": {"file": "jackal.json", "calls": 0, "carried": ["J7-1", "J7-2", "J5-1", "J5-2", "J5-3", "J5-4"]},
+  "process": {"writes": "Write and Edit only, only in WT/designs/claude-root-worker-seam-design-v8/ (including scratch/)", "bash": "read-only; python3 on files or -c only, never on stdin; no git", "scratch_scripts": ["scratch/verify.py", "scratch/sweep.py"], "interruptions": "none", "execution": "none", "sia": "no call in the v8 task; no note", "skills": "all eight Ada skills"},
+  "open": ["OB-001 ... OB-219", "V6-REQ-A ... L (H closed at design level by V8-H)", "V5-REQ-A, C, D, E, F, G, I, J, K", "the native body of the V8-H handler edit and committed_front_phase, their proof and control V8-N.H", "the router row-3 successor change (root_worker_endpoint_router.py:26-31)", "CG-1 ... CG-4", "CJ-DISP-1..6, CJ-ARCH-1..3, CJ-JSON, CJ-H-1..5, OB-ESC/AU-2", "K-1 ... K-29; RC-1..7, RC-9, RC-13..15", "H-prime deltas D-H1 ... D-H7 and adoption", "the independent review of v8"],
+  "non_claims": [
+    "Nothing is reviewed, accepted, proved or authorized; no approval gate is added.",
+    "Nothing was compiled, run, imported, proved, tested or measured.",
+    "The V8-H handler edit is DESIGN; only 'p.quarantine/retain_and_stop_unknown is preserved in every failure case' is claimed, not equivalence of the native body.",
+    "committed_front_phase is DESIGN; the serve-again behaviour and the router row-3 change are OPEN and the quarantine fix does not depend on them.",
+    "No v7 design conclusion is changed; v8 is v7 plus V7R-H and V7R-CITE."
+  ]
+}
