@@ -1,6 +1,6 @@
 # Operator decision package — WORLDLINE Phase One (DRAFT v7; not yet reviewed)
 
-Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~03:30Z, refreshed ~04:20Z; W-1 summary to be refreshed when W-1 v4 lands).
+Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~03:30Z; refreshed and frozen ~04:46Z with W-1 v4).
 
 **Where this draft lives.** From 04:20Z this working draft is `WT/package-drafts/DRAFT-v7.md`. At ~04:19Z the edit
 guard refused Edit-tool changes to `W/work/claude-operator-decision-package-v1/DRAFT-v7.md`, which is outside any git
@@ -22,7 +22,7 @@ worktree and edits only the copy. The package-directory file is preserved unchan
   - v6 (`106dea2c…`, paired with W-1 v3) was NOT_READY with eight (`gpt61-v3`, sealed, freeze verified). It closed
     W1-RESOURCES, OD2-CONSEQUENCES, PKG-V5-FACTS and PKG-CLOSURE-STATUS.
 - **v7.** It makes v6's two package-text corrections, PKG-V6-OPERATOR-TEXT and PKG-SUPERVISION-RECORD. It is paired
-  with W-1 v4, which is in drafting for the six W-1 corrections. The status table at the end distinguishes sealed
+  with W-1 v4 (`a1924e74…`), the drafting author's answer to the six W-1 corrections. The status table at the end distinguishes sealed
   closures from "corrected, awaiting review".
 - **This draft gets its own actual gpt-6.1-sol review before it comes to you.**
 
@@ -88,6 +88,8 @@ gate is removed anywhere in this package.
     - The lead deleted, moved and offloaded nothing, and took no size reading of vault paths after the handover to
       Codex.
     - Gate 0 is still far from met (below).
+  - **10110992384 at 04:45:27Z (`df`)**, 110992384 bytes above the reserve (JACKAL exact). This is the reading this
+    draft is frozen with.
 - The configured reserve is 10000000000 bytes, unchanged.
 - At 02:01:52Z, as at 23:32:06Z, `storage_status.py` reports `backup_service`: `ActiveState=failed`, `SubState=failed`,
   `ExecMainStatus=1`. The iPad backup failed with EIO at 12:01 EDT. Guarded offload is therefore unavailable.
@@ -125,7 +127,7 @@ gate is removed anywhere in this package.
 
 **Derived** (JACKAL exact, formal=false):
 - Margin above the reserve: 460753920 bytes at 23:32:06Z; 370256896 bytes at 02:01:52Z; −1901872128 bytes at
-  03:37:37Z; 136649728 bytes at 04:17:40Z.
+  03:37:37Z; 136649728 bytes at 04:17:40Z; 110992384 bytes at 04:45:27Z.
 - Mean declines between readings:
   - 18:49:03Z to 20:37:33Z: 296433664/3255 bytes/s;
   - 20:37:33Z to 21:02:25Z: 10458112/373 bytes/s;
@@ -150,12 +152,12 @@ list:
 - **Not owned by this task:** `~/.cache/workflow-tmp` held 11893443305 bytes at ~21:03Z, including other sessions'
   data.
 
-**Lead activity snapshot (~04:20Z; it changes as agents finish):**
+**Lead activity snapshot (~04:46Z; it changes as agents finish):**
 - **C-API DESIGN v4.** Its review sealed ~02:47Z (ENDORSED_WITH_REQUIRED_CHANGES).
 - **C-API DESIGN v5** (`533f0e04…`) answers its two remaining items. Its actual gpt-6.1-sol review started at 04:17Z.
 - **Root-worker seam design v2** (`db512ddb…`). Its actual gpt-6.1-sol review sealed ~04:19Z,
-  ENDORSED_WITH_REQUIRED_CHANGES (RW-1).
-- **W-1 v4.** The W-1 author is drafting it for the six corrections of this package's v6 review.
+  ENDORSED_WITH_REQUIRED_CHANGES (RW-1). The same author has been drafting v3 since ~04:23Z.
+- **W-1 v4** (`a1924e74…`). Handed back ~04:40Z and paired with this draft.
 - **D1 DESIGN v4 review.** INCOMPLETE and untouched (Isolation record). It holds one of three runner slots.
 - **Runner slots.** Two of the three are in use, by the stalled D1 v4 review and the C-API v5 review. If all three are
   busy, this package's re-review waits for a free slot, and waiting interrupts nothing.
@@ -185,8 +187,9 @@ list:
   - 3632 stays the allowance input and is not lowered.
 - **Every allowance is a labelled judgment, not a bound.**
 - **At 02:01:52Z** the margin minus Required is −8787102018540/1397 bytes, about −6.29 GB (JACKAL exact).
-- **Under W-1 v3**, its proposed staged Gate 0 (§14; an author proposal, unreviewed; the lead reproduced it with
-  JACKAL) adds labelled allowances. Retained inputs and messages, exports, retries, the fallback journal, target
+- **At 04:45:27Z** it is −9149294541804/1397 bytes; JACKAL's approx is −6549244482.32 (exact).
+- **Under W-1 v3, carried unchanged into v4**, the proposed staged Gate 0 (§14; an author proposal, unreviewed; the
+  lead reproduced it with JACKAL) adds labelled allowances. Retained inputs and messages, exports, retries, the fallback journal, target
   temporaries, journal effects and their restore account for 4340810164 bytes more.
 
   | Stage | Required |
@@ -195,7 +198,8 @@ list:
   | Setup | 2027732564230/1397, about 1.45 GB |
   | Selftests | 1843272351744/1397, about 1.32 GB |
 
-  At 02:01:52Z the dispatch-stage margin is −14851213817648/1397, about −10.63 GB. All stages are DEFERRED.
+  At 02:01:52Z the dispatch-stage margin is −14851213817648/1397, about −10.63 GB. At 04:45:27Z it is
+  −15213406340912/1397; JACKAL's approx is −10890054646.32 (exact). All stages are DEFERRED.
   **Status: NOT ESTABLISHED, so dispatch is DEFERRED.**
 - **What the gate rules out:**
   - A sampling monitor is never a bound.
@@ -274,8 +278,11 @@ exists. Observed: `fuse2fs` is absent, and unprivileged user namespaces are enab
 | Root-made filesystem with a `sicarii`-owned run root | No relocation, but still writable by `sicarii` processes. Fails V5-B01. |
 | Rootless user namespace with `sicarii`'s subordinate UIDs as writer and target (examined 2026-10-04) | Ruled out. `/etc/subuid` and `/etc/subgid` delegate 100000–165535 to `sicarii`, so any `sicarii` process can map those UIDs in its own namespace, or join one it owns, and act as them. They are no boundary against `sicarii`. The lead's DAC probe (below) used them only to exercise kernel semantics between distinct UIDs. |
 
-**Account precedent.** The host has dedicated nologin accounts `worldline`, `wldrill` and `wlrehearsal`. Linger is
-observed only for `worldline` and `wlrehearsal`.
+**Account precedent.** The host has dedicated nologin accounts `worldline` (uid 1004), `wldrill` (1003),
+`wlrehearsal` (1002) and the lab account `cosmov1lab` (1001).
+- **Linger.** A listing of `/var/lib/systemd/linger` at 04:43:34Z shows `cosmov1lab`, `wlrehearsal` and `worldline`.
+- **Correction.** Earlier drafts said linger was observed only for `worldline` and `wlrehearsal`. That omitted
+  `cosmov1lab`, whose linger file is dated 2026-09-27. The omission came to light through W-1 v4's observation P15.
 
 ### Candidate W-1: status
 
@@ -299,14 +306,26 @@ JACKAL exact.
 
 A CLOSED specification correction transfers no installed or executed evidence.
 
-**W-1 v3** (`WT/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`, `97f39c89…`, 193544 bytes; support
-`v3-support/jackal.json` `6b085323…`) is the successor specification.
-- **Status.** An author-role drafting agent wrote it, and it is unreviewed. It is design text only: no account, ACL,
-  sudo, install, mount, linger, probe or selftest action exists. It is paired with this draft for the next review.
-- **The author's assessment.** Every NOT_CLOSED sub-gap is "CLOSED-AT-SPEC-LEVEL" in its §18. That is the author's
-  claim, not closure. Until a sealed review rules, every NOT_CLOSED sub-gap stays NOT_CLOSED.
+**W-1 v3** (`WT/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`, `97f39c89…`, 193544 bytes) was reviewed with DRAFT-v6
+(`gpt61-v3`). The review called it "a plausible custody architecture" and required six specification corrections:
+W1-GENERATION-PROTOCOL, W1-COMMIT-JOURNAL-EXPORT, W1-TERMINAL-CUSTODY, W1-DURABILITY-RELEASE, W1-SETUP-PROBES-ROLLBACK
+and W1-IMAGE-TREE.
 
-**What v3 specifies:**
+**W-1 v4** (`WT/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md`, `a1924e74…`, 321052 bytes; support
+`v4-support/jackal.json` `298caa03…`) is the successor specification, paired with this draft for the next review.
+- **Status.** The same author-role drafting agent wrote it, and it is unreviewed. It is design text only: no account,
+  group, ACL, sudo, drop-in, install, mount, linger, unit, probe or selftest action exists.
+- **The author's assessment.** All six corrections are "CLOSED-AT-SPEC-LEVEL" in its §18, and W1-TERMINAL-CUSTODY only
+  conditionally, on premises not yet verified. That is the author's claim, not closure. Until a sealed review rules,
+  every NOT_CLOSED item stays NOT_CLOSED.
+- **The lead's checks** (engineering only, not review):
+  - both hashes equal the author's report;
+  - all six new JACKAL values reproduce `exact`;
+  - every section v4 says it carries byte-for-byte from v3 has an identical body, and so do Appendix A and B.1 (lead
+    script);
+  - §14.3 differs only by the D7→D10 renumbering.
+
+**What v3 specified, and v4 keeps:**
 - **Generation order.** Separate create-only records:
   - the generation record, binding only what exists when it is written;
   - then inputs, reservation, admission and launch intent.
@@ -346,18 +365,59 @@ A CLOSED specification correction transfers no installed or executed evidence.
   exact probe operands, staged Gate 0 (S-1), and rollback ordered so new launches are revoked before participants are
   reconciled and before any withdrawal.
 
-**What v3 leaves to later evidence, as the author lists it:**
-- the concrete numeric IDs (950–952 are only candidates);
-- script bytes and digests;
-- Option B's code;
-- the post-setup baselines;
-- host behaviours to be probed (sudo signal relay and group vector, `class=none` manager behaviour, scope
-  exec-in-place, the fallback journal on a full disk);
-- compatibility hypotheses: no allowlisted action writes `HOME`, removes a partition root, uses setid modes,
-  `io_uring` or `openat2`. If any is false, W-1 is redesigned and no accepted case is narrowed.
+**What v4 changes** (the author's statements, unreviewed):
+- **Generation protocol.**
+  - Every create-only step binds only objects that already exist. Stream files are created, synced and bound before
+    the launcher intent.
+  - `attempt.json` has separate materialize and dispatch schemas.
+  - Every channel has an exact per-verb state machine with its failure transitions.
+  - The adoption record has one writer, W through a reviewed `adopt` verb, and one destination inside the protected
+    tree.
+- **Commits, journal and exports.**
+  - The fallback journal's allocation descriptor is its own committed record, and slot content is append-only.
+  - Short writes and torn slots have rules.
+  - Export copies get their ACL, which is read back before the marker records it.
+  - Exports are cut at a fixed journal prefix, with later evidence in hash-linked increments.
+- **Terminal custody.** The target account keeps no service except its user manager M. Every user unit that would start
+  a process is masked, including the user bus, and M runs without a PAM session, so no `(sd-pam)` exists.
+  - M must be quiescent, with no reference into the generation.
+  - A kernel lease test detects a writable open description of an admitted file anywhere, even one queued in a socket.
+  - v3's acceptance of an unreadable `(sd-pam)` descriptor table is withdrawn.
+- **Durability versus release.** A committed release intent is no longer a release precondition. A release record that
+  cannot be made durable withholds success only, and creates no hold and no approval gate.
+- **Setup, probes and rollback.**
+  - Absence is decided by a no-follow helper that tells ENOENT apart from every other error.
+  - Scripts are fail-stop with step logs. v3's "the script undoes exactly that change" is withdrawn as false.
+  - After any stop, the operator runs a reviewed reconciliation, S-R. It offers *resume* or *reverse*, each needing an
+    explicit choice, and calls nothing reversed without a byte-equal re-observation.
+  - A full headed `getfacl` restore dump is kept.
+- **One layout.** The protected run tree is `/var/lib/wlscratch/runs`, with records under `runs/records`. An optional
+  records image is mounted exactly there, inside that tree.
 
-**The current route offered for your optional preparatory choice (W-1 v3; v4 in drafting).** This replaces the
-earlier v2 summary. v2's two-group, direct-UID-ACL design is **superseded** and is not the route on offer.
+**What v4 leaves to later evidence, as the author lists it:**
+- **Unverified premises.** Probes P-MGR and P-QUIESCE must pass before anything relies on these:
+  - the kernel read-lease refusal (cited, not checked: no section-2 manuals are installed);
+  - systemd dispatching manager calls one at a time;
+  - the private socket's peer-credential check;
+  - the user manager running correctly with the empty-`PAMName=` drop-in.
+
+  If any fails, known-terminal ownership is unattainable and W-1 is redesigned; no exception is taken.
+- **Also:**
+  - the concrete numeric IDs, script bytes and digests;
+  - the selftest verbs' state machines;
+  - the manager baselines S_units and S_socks;
+  - image UUIDs and sizes;
+  - the contents of `/etc/default/useradd`, which was unreadable to the author;
+  - all code and installed evidence.
+- **Future probes (§13).** Among others: signal relay (P-SIG, P-RELAY), launch refusal (P-LAUNCH), setid denial
+  (P-SETID), commit failures (P-COMMIT), full-disk behaviour (P-ENOSPC), missing mounts (P-MOUNT) and setup absence
+  checks (P-SETUP). None has been executed.
+- **Compatibility hypotheses:** no allowlisted action writes `HOME`, removes a partition root, uses setid modes,
+  `io_uring` or `openat2`, or (new in v4) uses the session bus. If any is false, W-1 is redesigned and no accepted case
+  is narrowed.
+
+**The current route offered for your optional preparatory choice (W-1 v4).** This replaces the earlier v2 summary.
+v2's two-group, direct-UID-ACL design is **superseded** and is not the route on offer.
 - **Identities: 2 new users and 3 new groups** (JACKAL exact, `1+1` and `1+1+1`):
   - writer `wlscratch`, with its private group;
   - target `wlscratch-run`, with its private group;
@@ -365,12 +425,29 @@ earlier v2 summary. v2's two-group, direct-UID-ACL design is **superseded** and 
 
   The candidate IDs 950/951/952 must be re-verified at prestate. They lie outside every `/etc/subuid` and `/etc/subgid`
   range.
+- **The target account's user manager (new in v4; privileged setup, reserved to you).**
+  - `wlscratch-run` lingers, so that its user manager M exists; the scope needs it.
+  - Every user unit that would start a process is masked, including `dbus.socket` and `dbus-broker.service`.
+  - A root-owned drop-in in `/etc/systemd/system/user@<R>.service.d/` sets an empty `PAMName=` and an explicit
+    `XDG_RUNTIME_DIR`, so M runs without a PAM session and without `(sd-pam)`.
+  - The masks and the drop-in are root-owned, so the account cannot remove them.
+  - Whether M works this way is a hypothesis for probe P-MGR. If a system-range uid cannot host such a manager with cpu,
+    memory and pids delegation, the concrete inventory moves R to a regular uid and removes any subordinate range
+    `useradd` allocates, re-reviewed.
+  - If the drop-in cannot be made to work, W-1 must be redesigned; no exception is taken.
 - **Gate-bearing access.**
   - Only processes started through the reviewed launcher rule carry `wlscratch-gate`: the launcher, observer,
     in-scope child, the target and its descendants. They are the only non-writer, non-lead path into the generation.
-  - Background processes of `wlscratch-run`'s own user manager do not carry it.
+  - M and anything it starts do not carry it. With the masks, M must be quiescent and hold no reference into the
+    generation before any terminal conclusion.
   - The target runs with `no_new_privs` and an anti-setid seccomp filter, and admission and terminal scans look for
     unexpected gate holders and setid leaves.
+- **Layout.** One protected run tree, `/var/lib/wlscratch/runs`, with records under `runs/records`. An optional records
+  image is mounted exactly there. Every writer mutation stays inside that tree.
+- **If setup stops partway (new in v4).** Scripts are fail-stop with step logs, and none claims an automatic undo.
+  - You run the reviewed reconciliation S-R. It offers *resume* or *reverse*, each needing your explicit choice.
+  - It calls an object reversed only on a byte-equal re-observation of its prestate.
+  - Anything unexpected stops it for your decision.
 - **No-ACL recipe.**
   - No ACL is set on any recipe object or record, and no default ACL exists, so every v5 recipe and record mode is
     preserved exactly.
@@ -386,15 +463,22 @@ earlier v2 summary. v2's two-group, direct-UID-ACL design is **superseded** and 
       inspected.
   - **Option B.** A root-owned sandbox launcher with a private mount namespace (design level only).
 - **What stays with the front:** storage and the vault, run as `sicarii`.
-- **What the review must still rule on.** The sealed v6 review called this "a plausible custody architecture". Six
-  specification corrections are being drafted as W-1 v4: generation protocol, commit/journal/export, terminal custody,
-  durability versus release, setup/probe/rollback, and the optional-image tree.
+- **What the review must still rule on.** The sealed v6 review called this "a plausible custody architecture" and
+  required six specification corrections:
+  - generation protocol;
+  - commit, journal and export;
+  - terminal custody;
+  - durability versus release;
+  - setup, probes and rollback;
+  - the optional-image tree.
+
+  W-1 v4 is the author's answer to all six. The independent review of this draft rules on them.
 
 V5-B01, V5-B02 and every original obligation stay OPEN.
 
 ### Options
 
-1. **Later: approve the concrete privileged setup.** It comes after a reviewed W-1 design (now v3), reviewed v6-W1 code, a
+1. **Later: approve the concrete privileged setup.** It comes after a reviewed W-1 design (now v4), reviewed v6-W1 code, a
    reviewed setup inventory with prestate outputs, and an established Gate 0.
    - You run, or authorize, the listed commands.
    - Verification, installed-identity review and adoption follow before any dispatch.
@@ -992,7 +1076,8 @@ Its eight new corrections:
 
 | Correction | Status |
 |---|---|
-| W1-GENERATION-PROTOCOL, W1-COMMIT-JOURNAL-EXPORT, W1-TERMINAL-CUSTODY, W1-DURABILITY-RELEASE, W1-SETUP-PROBES-ROLLBACK, W1-IMAGE-TREE | Being drafted in W-1 v4. Not closed |
+| W1-GENERATION-PROTOCOL, W1-COMMIT-JOURNAL-EXPORT, W1-TERMINAL-CUSTODY, W1-DURABILITY-RELEASE, W1-SETUP-PROBES-ROLLBACK, W1-IMAGE-TREE | Corrected in W-1 v4 (`a1924e74…`), awaiting review. Its author assesses all six as CLOSED-AT-SPEC-LEVEL, terminal custody only conditionally on unverified premises. Not closed |
+| W1-CUSTODY, W1-SETUP, W1-LIFETIME-ROLLBACK (NOT_CLOSED above) | Carried to W-1 v4 through the six corrections and its §18 mapping, awaiting review |
 | PKG-V6-OPERATOR-TEXT | Corrected in v7, awaiting review. F-1 now shows the current route: 2 users and 3 groups, gate-bearing access, no-ACL recipe, Option A for the gate group. The Isolation record discloses R2 in full. The activity snapshot is timed and qualified |
 | PKG-SUPERVISION-RECORD | Corrected in v7, awaiting review: the new "Supervision record" section |
 
@@ -1004,7 +1089,7 @@ Gap closure per the v6 review:
 | NOT_CLOSED | generation-order, lease-and-writer-authority, per-entry-modes-acls, channel-and-dumpability, prestate-and-installation, denial-probes, commits-and-durable-channel, participants-and-recovery, rollback-and-evidence |
 
 **C. The 20 W-1 sub-gaps.** 8 are CLOSED and 12 NOT_CLOSED, as ruled by the v6 review (`gpt61-v3`); see F-1. W-1
-v4's own per-gap assessment, when it lands, is the author's claim. The next sealed review rules on it.
+v4's own per-gap assessment (its §18) is the author's claim. The next sealed review rules on it.
 
 Traceability and design intention are not closure, executed evidence, permission, qualification or acceptance of any
 original obligation.

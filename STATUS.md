@@ -251,10 +251,28 @@ V5-B02 and every original obligation stay OPEN.
   - The package-directory drafts v0–v7 are preserved unchanged.
   - The working copy now has the 04:17Z storage reading, the C-API v4/v5 status, the D-13 restatement and the seam v2
     verdict. The W-1 summary is still to be refreshed when W-1 v4 lands.
-- **W-1 v4.** The resumed W-1 author is drafting `proposal/ISOLATION-STORAGE-PROPOSAL-v4.md`, which exists but is not
-  yet handed back.
-  - It answers the six package-v6 W-1 corrections.
-  - DRAFT-v7 is refreshed and frozen with it, then goes to the package re-review.
+- **W-1 v4** (`proposal/ISOLATION-STORAGE-PROPOSAL-v4.md` `a1924e74…`, 321052 bytes; `v4-support/jackal.json`
+  `298caa03…`).
+  - **Handback.** The resumed W-1 author handed it back ~04:40Z and reports no refusal, deviation or interruption.
+  - **Author's assessment.** All six corrections CLOSED-AT-SPEC-LEVEL, with terminal custody conditional on unverified
+    premises that probes P-MGR and P-QUIESCE must check. That is not closure.
+  - **Lead checks** (engineering only):
+    - both hashes match the report;
+    - all six new JACKAL values reproduce `exact`;
+    - every section v4 says it carries from v3 has a byte-identical body;
+    - §14.3 differs only by the D7→D10 renumbering;
+    - the staged Gate 0 figures are unchanged.
+  - **A package fact corrected.** Its observation P15 showed three lingering accounts. The lead confirmed it at
+    04:43:34Z (`cosmov1lab`, `wlrehearsal`, `worldline`), and the package's "linger only for `worldline` and
+    `wlrehearsal`" is corrected in DRAFT-v7.
+- **Operator package DRAFT-v7: frozen and under review.**
+  - **Freeze.** `package-drafts/DRAFT-v7.md` `96dc07e8…` (73209 bytes) was frozen at 04:46Z with W-1 v4 into
+    `package-frozen/`; all copies are byte-identical and 0444.
+  - **Content.** F-1 now describes W-1 v4: the target account's masked user manager and its empty-`PAMName=` drop-in,
+    the single layout, the S-R reconciliation, and the unverified premises. Storage readings run to 04:45:27Z: 110992384
+    above the reserve, Gate 0 −9149294541804/1397, W-1 dispatch stage −15213406340912/1397 (all JACKAL exact).
+  - **Review.** Its actual gpt-6.1-sol review started 04:47Z: brief `briefs/operator-package-review-v7.md`
+    (`c8189bc0…`), thread `01a10a63-4ab8-7573-a998-209c9ec6fea2`, output to `package-review/gpt61-v4`.
 - Actual gpt-6.1-sol review of D1 DESIGN v4 (`designs/claude-native-bigint-d1-design-v4/review/gpt61-v1`).
   - **INCOMPLETE. A tool-layer stall is suspected in its concurrent `exec` batch of `jackal_exact` replays.**
   - The evidence:

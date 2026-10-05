@@ -1,0 +1,89 @@
+{
+  "schema": "w1-v4-jackal-calls-v1",
+  "document": "wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md",
+  "recorded_by": "drafting author (Claude Code subagent, claude-opus-5-5) for the Claude Code lead, 2026-10-05 UTC",
+  "tool": "actual MCP jackal_exact",
+  "common_response": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling": "none returned; used as informational arithmetic only"
+  },
+  "truth_boundary": "Exact rational arithmetic outside the Lean certificate chain; not formal-bounded. The first four results fix the fallback-journal slot geometry of v4 section 10.4, and the last two count named review items; they establish no durability, capacity, correctness or closure. Nothing here is executed evidence of the design. The JACKAL convenience ledger was not used as a source; every value below is the tool response received in this session.",
+  "calls": [
+    {
+      "id": "FB_SLOT_HEADER",
+      "use": "fallback slot header bytes: magic 8, slot index 4, payload length 4, payload sha256 32",
+      "submitted": "8+4+4+32",
+      "parsed": "8+4+4+32",
+      "exact": "48",
+      "approx": "48",
+      "engine_output": "status=exact parsed=8+4+4+32 exact=48 approx=48"
+    },
+    {
+      "id": "FB_SLOT_PAYLOAD_MAX",
+      "use": "largest payload of one 65536-byte fallback slot after the 48-byte header",
+      "submitted": "64*2^10-(8+4+4+32)",
+      "parsed": "64*2^10-(8+4+4+32)",
+      "exact": "65488",
+      "approx": "65488",
+      "engine_output": "status=exact parsed=64*2^10-(8+4+4+32) exact=65488 approx=65488"
+    },
+    {
+      "id": "FB_LAST_SLOT_INDEX",
+      "use": "index of the last of the 256 fallback slots (indices start at 0)",
+      "submitted": "16*2^20/(64*2^10)-1",
+      "parsed": "16*2^20/(64*2^10)-1",
+      "exact": "255",
+      "approx": "255",
+      "engine_output": "status=exact parsed=16*2^20/(64*2^10)-1 exact=255 approx=255"
+    },
+    {
+      "id": "FB_MIN_ST_BLOCKS",
+      "use": "minimum st_blocks (512-byte units) of the fully allocated 16777216-byte fallback journal",
+      "submitted": "16*2^20/512",
+      "parsed": "16*2^20/512",
+      "exact": "32768",
+      "approx": "32768",
+      "engine_output": "status=exact parsed=16*2^20/512 exact=32768 approx=32768"
+    },
+    {
+      "id": "W1_REQUIRED_CORRECTIONS",
+      "use": "count of the gpt61-v3 review's W-1 required corrections, one per named id (W1-GENERATION-PROTOCOL, W1-COMMIT-JOURNAL-EXPORT, W1-TERMINAL-CUSTODY, W1-DURABILITY-RELEASE, W1-SETUP-PROBES-ROLLBACK, W1-IMAGE-TREE)",
+      "submitted": "1+1+1+1+1+1",
+      "parsed": "1+1+1+1+1+1",
+      "exact": "6",
+      "approx": "6",
+      "engine_output": "status=exact parsed=1+1+1+1+1+1 exact=6 approx=6"
+    },
+    {
+      "id": "W1_PRIOR_CORRECTIONS",
+      "use": "count of the prior W-1 corrections the gpt61-v3 review ruled on, one per named id (W1-CUSTODY, W1-SETUP, W1-RESOURCES, W1-LIFETIME-ROLLBACK)",
+      "submitted": "1+1+1+1",
+      "parsed": "1+1+1+1",
+      "exact": "4",
+      "approx": "4",
+      "engine_output": "status=exact parsed=1+1+1+1 exact=4 approx=4"
+    }
+  ],
+  "carried_from_v3": {
+    "record": "wt-1/proposal/v3-support/jackal.json",
+    "sha256": "6b0853230bf777c9861a0b1f71cdfdd875d315eca7ddac725aeeca2243fcc86b",
+    "calls": 31,
+    "status": "used as given; every relied-on value was reproduced with status exact by the sealed gpt61-v3 review (REVIEW.md section 2, JACKAL reproduction record); not recomputed for v4"
+  },
+  "values_used_as_given": {
+    "fallback_journal_bytes": {"value": "16777216", "source": "v3 call A_fb (16*2^20), reproduced by gpt61-v3"},
+    "fallback_slots": {"value": "256", "source": "v3 call (16*2^20/(64*2^10)), reproduced by gpt61-v3"},
+    "fallback_slot_bytes": {"value": "65536", "source": "v3 call (64*2^10), reproduced by gpt61-v3"},
+    "review_counts": {"value": "12 section-3 gaps, 20 original W-1 subgaps", "source": "observed as the sizes of w1_gap_closure and w1_subgap_closure in gpt61-v3 review.json (read with a read-only Python len(), not derived); the 6 and 4 counts are the calls W1_REQUIRED_CORRECTIONS and W1_PRIOR_CORRECTIONS above"}
+  },
+  "refusals": []
+}
