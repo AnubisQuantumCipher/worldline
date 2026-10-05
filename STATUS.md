@@ -384,6 +384,7 @@ independent review.
 - F32 resolution v3 → `designs/claude-f32-resolution-v3/`: RC-5 plus notes 1–6, same patch. DESIGN.md `37879bc8…`. Its Claude review is running: brief `briefs/f32-resolution-design-v3.md` (`0284eba9…`)
 - F32 resolution v4 → `designs/claude-f32-resolution-v4/`: RC-6 launcher re-targeting plus N-1..N-4, same patch. DESIGN.md `dd241b38…`. Its Claude review is running: brief `briefs/f32-resolution-design-v4.md` (`ec53898a…`)
 - F32 resolution v5 → `designs/claude-f32-resolution-v5/`: RC-7, with runner input classes A/B/C and launch order, same patch. DESIGN.md `1752159a…`. Its Claude review is running: brief `briefs/f32-resolution-design-v5.md` (`6bd80989…`)
+- F32 resolution v6 → `designs/claude-f32-resolution-v6/`: RC-8 plus a table T of per-file identity guarantees; same patch. DESIGN.md `2fb7670c…`. Its Claude review is running (override v2, shell-hygiene): brief `briefs/f32-resolution-design-v6.md` (`996f099b…`)
 - D1 v5 → `designs/claude-native-bigint-d1-design-v5/`. Drafted: DESIGN.md `5994b243…`.
   - **New engine.** A-ROW is the primary engine, with Theorem H-A (F35 closed at design level for A-ROW, not yet reviewed).
     A-COL stays a recorded alternative, with F35 OPEN (F38).

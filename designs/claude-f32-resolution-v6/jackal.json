@@ -1,0 +1,52 @@
+{
+ "schema": "claude-f32-resolution-v6-jackal",
+ "lane": "MCP jackal_exact (rat lane), called sequentially",
+ "calls": [
+  {
+   "purpose": "A1 collection count: once in default-tests plus twice in metadata-tests (DESIGN.md section 2 item 6); carried from v3",
+   "expression": "1+2",
+   "status": "exact",
+   "parsed": "1+2",
+   "exact": "3",
+   "formal": false,
+   "assurance": "exact rational arithmetic (not yet checker-covered)",
+   "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+   "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"]
+  },
+  {
+   "purpose": "S5 assurance/checkpoints files that record neither patched test file: eight files minus the three that do (DESIGN.md section 2 item 4); carried from v3",
+   "expression": "8-3",
+   "status": "exact",
+   "parsed": "8-3",
+   "exact": "5",
+   "formal": false,
+   "assurance": "exact rational arithmetic (not yet checker-covered)",
+   "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+   "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"]
+  },
+  {
+   "purpose": "Roster literal launches whose runner-derived child_argv carries no IO8 path: 52 literal launches minus 13 path-bearing ones (DESIGN.md sections 7, 8 step 3); carried from v5",
+   "expression": "52-13",
+   "status": "exact",
+   "parsed": "52-13",
+   "exact": "39",
+   "formal": false,
+   "assurance": "exact rational arithmetic (not yet checker-covered)",
+   "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+   "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"]
+  },
+  {
+   "purpose": "Class A inputs that RUN does not check: five Class A inputs minus the two that RUN asserts against live observation (vendor-template.json, native-input-baseline.json) (DESIGN.md section 0.1 RC-8(a)); new in v6",
+   "expression": "5-2",
+   "status": "exact",
+   "parsed": "5-2",
+   "exact": "3",
+   "formal": false,
+   "assurance": "exact rational arithmetic (not yet checker-covered)",
+   "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+   "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"]
+  }
+ ],
+ "inputs_observed_not_derived": "1 and 2 are observed collection sites; 8 and 3 are observed checkpoint-file sets; 52 is ORIGINAL-ORDINARY-ROSTER.json literal_g8_launches length; 13 is the observed count of literal launches whose child_argv contains an integrated-ordinary-v8 path; 5 is the listed Class A set (three inventory modules, vendor-template.json, native-input-baseline.json) and 2 the listed members that RUN asserts (run_checks.py:223/:225, :233)",
+ "consequence_ceiling": "informational"
+}
