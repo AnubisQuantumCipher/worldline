@@ -252,7 +252,18 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 10:54Z)
+## In progress (updated 11:58Z)
+
+- **W-1 v7.** The W-1 author was resumed ~11:57Z with a mandated architecture evaluation beyond DAC:
+  - (a) Option B extended: a root-owned launcher with private pid, net, ipc and mount namespaces not owned by sicarii,
+    so that no outside principal can keep a writable description;
+  - (b) unprivileged kernel scoping (Landlock scopes, seccomp, SCM_RIGHTS/pidfd exposure);
+  - (c) any other route.
+  Each candidate is judged against the fixed original success domain. If none preserves it, V5-B01, V5-B02 and
+  W1-V5-PRESERVATION stay OPEN.
+  - The resume message names the agent's own transcript path and forbids the lead's.
+- **Storage at 11:56:11Z.** Free 9819996160 bytes, 180003840 below the reserve (JACKAL exact). Seam v5 and PK-0 v2 stay
+  held.
 
 - **W-1 v6** (`proposal/ISOLATION-STORAGE-PROPOSAL-v6.md` `5a0e861b…`, one complete document; `v6-support/jackal.json`
   `10c30d8e…`).
