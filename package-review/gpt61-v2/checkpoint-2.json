@@ -1,0 +1,72 @@
+{
+  "schema": "operator-package-item-checkpoint-v1",
+  "item": 2,
+  "complete": true,
+  "finding": "NOT_ALL_ACCURATE. Named input/freeze identities and requested arithmetic reproduce; newly identified attribution/route statements and contradictory W-1 claims require correction. Observations and allowances are otherwise distinguished; no observation establishes a future bound.",
+  "facts": [
+    {
+      "topic": "Inputs and frozen copies",
+      "status": "MATCH",
+      "evidence": "source-checks-02.json input_inventory; P:6-16; W1:3-9",
+      "finding": "Package, W-1, frozen counterparts and Gate 0 match the supplied complete SHA-256 values and byte counts."
+    },
+    {
+      "topic": "Sealed reviews and model selection",
+      "status": "MATCH_WITH_PROVENANCE_LIMIT",
+      "evidence": "source-checks-02.json review_freezes; model-selection-checks.json; P:279-288,462-472,530-546,624-625",
+      "finding": "All named review-freeze member hashes, bytes and normalized modes match. Recorded selection fields are gpt-6.1-sol/different-author. Independently reread D1-v3 and C-API-v3 rollout turn_context records name gpt-6.1-sol/max, at the correct review cwd. These are structural/recorded selection checks, not independent provider-backend attestation or new acceptance."
+    },
+    {
+      "topic": "Quotes",
+      "status": "MATCH",
+      "evidence": "quote-checks.json; P:27-29,132-135,162-175,292-314,476-479,495-512,550-570; F6:34-39",
+      "finding": "The complete required changes, original no-weakening text, reviewed design rulings and original pinned-implementation authority match. The storage quote at P:132-135 joins separate exact excerpts using an explicit ellipsis; its individual clauses match F6:34-39, rather than being one continuous source sentence."
+    },
+    {
+      "topic": "Source pins and scope",
+      "status": "MATCH",
+      "evidence": "source-facts.json; E1:13-29; P:279-288,290-340",
+      "finding": "Read proof_manifest.py as AST only; literal effective keysets observed as 169 and required-name sequence as 535. Independently normalized every effective pin against source bytes. Packet replacement files touch enrolled keys; this says nothing about whole-packet completeness or semantic approval."
+    },
+    {
+      "topic": "Notices and diagnostics",
+      "status": "MATCH",
+      "evidence": "source-facts.json; document-facts.json; P:353-371,400-410; ledger.json:28494-28573",
+      "finding": "Raw retained .spark warn_error records reproduce 25 unique positions: 19 spec notices on 11 declarations, 2 Prefix_Tail, 4 body witnesses. Tool/source pins match. D1381/1400/1401 are recursive Posts; D1383 Result_Conforms and D1384 Compute are mapped correctly. Why the Posts were unproved is not established."
+    },
+    {
+      "topic": "OD-2 census",
+      "status": "MATCH_MINIMUM_ONLY",
+      "evidence": "json-census.json; P:591-596; D1:123-135",
+      "finding": "Independent passive AST scan reproduces 122 runtime, 2 inline-child, 10 protected, 25 original-control, 3 build-tool and 30 script direct-name calls, plus the _json.dumps alias at scripts/decisive_evaluation_test.py:264. This is a demonstrated minimum; aliases/forwarded calls and non-JSON value flow remain OPEN."
+    },
+    {
+      "topic": "Historical storage and host snapshots",
+      "status": "MATCH_AS_HISTORICAL",
+      "evidence": "historical-facts.json; quote-checks.json; P:65-104; G0:62-70",
+      "finding": "Retained transcript-line pins and direct F10K record pins match. Free/reserve/queue/backup observations, O2/O3 byte sizes and O4 timestamps match retained sources. No fresh capacity, storage_status, queue or backup action was performed. No SIA brain path was inspected; its mention is historical only."
+    },
+    {
+      "topic": "Host facts",
+      "status": "MATCH_AND_READBACK_DEFECT",
+      "evidence": "host-observations.json; W1:56-60,135,176-177,399-411",
+      "finding": "protected_hardlinks/symlinks/regular and ptrace_scope read as 1; PAM sudo/system-auth and cpu memory pids delegation were reread; python3.14 digest matches c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947 and the review interpreter reports 3.14.7. /proc/self/status does not contain Dumpable, so that specified readback cannot attest PR_SET_DUMPABLE."
+    },
+    {
+      "topic": "New attribution and route defects",
+      "status": "CORRECTION_REQUIRED",
+      "evidence": "P:95,195; F6:88; G0:62; transcript:6067,9492",
+      "finding": "Private-namespace FUSE is described as 'gives detection only', but its cited source describes an unshown protected-namespace candidate, not that conclusion. G0 O1 calls a difference of whole-source du -sb readings object-tree growth; retain the allowance and correct the provenance. P:95 should distinguish the 23:22Z file mtime from the 23:23:50.591Z retained reading."
+    },
+    {
+      "topic": "Closure traceability",
+      "status": "CORRECTION_REQUIRED",
+      "evidence": "P:203,687-696; W1:568-589; checkpoint-1.json",
+      "finding": "A traceability row does not demonstrate closure. Replace 'v2 answers the review's W-1 findings' and blanket correction-completion implications with the actual CLOSED/NOT_CLOSED disposition and required residual corrections."
+    }
+  ],
+  "numeric_reproduction": "All package/W-1 scalar arithmetic checked through fresh JACKAL exact results reproduces; parsed expressions, exact results and non_claims are retained in jackal-01.json and jackal-02.json. G0 supporting computations, denominators and displayed decimal-unit conversions were also reproduced. These results do not establish capacity, native cost or code correctness.",
+  "symbolic_limit": "Static source recurrence call sites match the sealed conditional model: body plus recursive Post, Replay Post and three Wire Decide Post evaluations; Packet 14 adds successful-iteration reference assertions. Numeric instances reproduce. Polynomial identity MCP requests were rejected at the approval layer under approval=never, not by JACKAL's mathematical kernel; no identity result was obtained and no weaker lane was used to claim one. JACKAL does not certify source asymptotic or universal program-cost correspondence here.",
+  "approval_granted": false,
+  "all_original_obligations": "OPEN"
+}

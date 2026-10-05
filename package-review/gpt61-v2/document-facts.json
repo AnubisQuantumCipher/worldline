@@ -1,0 +1,90 @@
+{
+  "schema": "passive-additional-document-identities-v1",
+  "files": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/DESIGN.md",
+      "sha256": "b20554c493e8406f0fa7191802294668bf3ae94ab8a65c6a75505b6e405f261f",
+      "bytes": 168504,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/DESIGN.md",
+      "sha256": "a8a120c9a704177cdab5232a757f1ef405cb3ad1c694ff135cdd2e8f26a14aa7",
+      "bytes": 203162,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/INVENTORY.md",
+      "sha256": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+      "bytes": 58106,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+      "sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46",
+      "bytes": 76988,
+      "mode": "0644"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/ledger.json",
+      "sha256": "172b51fee23e76ebc2e3d0b7126802160b4e9b6aa1377a822195a3571f0a608c",
+      "bytes": 2111968,
+      "mode": "0644"
+    }
+  ],
+  "capi_v3_rc_closure": {
+    "RC1": "CLOSED_AT_DESIGN_LEVEL",
+    "RC2": "CLOSED_AT_DESIGN_LEVEL",
+    "RC3": "CLOSED_AT_DESIGN_LEVEL",
+    "RC4": "NOT_CLOSED",
+    "RC5": "NOT_CLOSED",
+    "RC6": "NOT_CLOSED"
+  },
+  "ledger_selected": [
+    {
+      "id": "D1381",
+      "rule": "VC_POSTCONDITION",
+      "file": "resource_ledger.ads",
+      "line": 138,
+      "col": 14,
+      "message": "postcondition might fail, cannot prove Prefix_Total'Result = (if Count = 0 then To_Big_Integer (0) else Prefix_Total (Data, Rows, Count - 1) + Row_Reference (Data, Rows, Count - 1))",
+      "state": "OPEN"
+    },
+    {
+      "id": "D1383",
+      "rule": "VC_POSTCONDITION",
+      "file": "resource_ledger.ads",
+      "line": 168,
+      "col": 14,
+      "message": "postcondition might fail",
+      "state": "OPEN"
+    },
+    {
+      "id": "D1384",
+      "rule": "VC_POSTCONDITION",
+      "file": "resource_ledger.ads",
+      "line": 205,
+      "col": 14,
+      "message": "postcondition might fail",
+      "state": "OPEN"
+    },
+    {
+      "id": "D1400",
+      "rule": "VC_POSTCONDITION",
+      "file": "resource_quantities.ads",
+      "line": 63,
+      "col": 14,
+      "message": "postcondition might fail, cannot prove  Radix_Power'Result = To_Big_Integer (256) * Radix_Power (Exponent - 1)",
+      "state": "OPEN"
+    },
+    {
+      "id": "D1401",
+      "rule": "VC_POSTCONDITION",
+      "file": "resource_quantities.ads",
+      "line": 76,
+      "col": 14,
+      "message": "postcondition might fail, cannot prove  Prefix_Value'Result = Prefix_Value (Data, Q, Count - 1) + To_Big_Integer (Digit (Data, Q, Count - 1)) * Radix_Power (Count - 1)",
+      "state": "OPEN"
+    }
+  ]
+}

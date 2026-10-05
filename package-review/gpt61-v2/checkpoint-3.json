@@ -1,0 +1,99 @@
+{
+  "schema": "operator-package-item-checkpoint-v1",
+  "item": 3,
+  "complete": true,
+  "assessment": "The separate target UID, protected ancestors, streamed pinned inputs and exclusive writer lease provide a plausible architecture for V5-B01/V5-B02. W-1 v2 cannot be judged capable as written because generation/admission ordering, modes, lock establishment, terminal/commit handling, setup and rollback remain inconsistent or underspecified; exact successor code and installed evidence are still required, and both blockers stay OPEN.",
+  "capable_as_written": "NOT_ESTABLISHED",
+  "remaining_gaps": [
+    {
+      "id": "generation-order",
+      "finding": "generation.json is created at step 3, before streamed inputs and the step-7 reservation whose digests it must already bind. Specify an initial generation record and a separate create-only complete admission/launch record, with exact schema, expected anchors and joins; do not mutate a sealed record to fill future facts. Resolve 'last frame mutation' versus later launch-intent bookkeeping by defining the immutable admitted generation and the exact permitted protected record partition.",
+      "evidence": "W1:103-106,138-154,184-197,218-229; F5:76,89"
+    },
+    {
+      "id": "lease-and-writer-authority",
+      "finding": "The reviewed lock is opened O_RDWR without O_CREAT, but setup never establishes writer.lock. Specify protected exclusive creation, exact owner/mode/nlink/name/parent identity and preservation across every invocation. nologin/no-password/no-linger alone are not an exhaustive writer-UID process/entrypoint closure. Classify any lease-file byte mutation outside G under original permitted effects, or expressly specify flock-only use with no runtime byte write; 'none outside the tree' cannot coexist with an unexplained lease write.",
+      "evidence": "W1:93-99,120-135,158-163,342-353; F5:82,104"
+    },
+    {
+      "id": "per-entry-modes-acls",
+      "finding": "Blanket 0750/0640 cannot preserve the recipe's file and directory modes. v5 materialization passes each row's original mode and sets original directory modes; frame JSON defaults to 0600. A default ACL inherited under a 0600 creation/fchmod mask does not provide the promised sicarii/launcher read access. Supply exact access/default ACL/mask rules for each source, frame record, ancestor and output partition, including target denial and permitted reads, while preserving the original source recipe. Do not quietly solve this by widening all files or changing accepted cases.",
+      "evidence": "W1:110-116,154,208,237-261,301-304,349-351; S:308-327,995-1026; H:153-164"
+    },
+    {
+      "id": "channel-and-dumpability",
+      "finding": "Message length/sequence/hash chains are not sender authentication. Preserve all v5 challenge/lead/window/argv/record/export expectations and define chain initialization, canonical byte encoding, rejection/EOF/out-of-order handling and authentic in-memory expectations. Correct the readback: this host's /proc/self/status has no Dumpable field. Specify actual set/readback API evidence and when it occurs relative to interpreter startup/imports and each invoke; retain the pre-first-call residual without claiming that it establishes a new accepted guarantee.",
+      "evidence": "W1:55-63,175-197; host-observations.json; F5:88-91,101,105"
+    },
+    {
+      "id": "prestate-and-installation",
+      "finding": "test ! -e does not reject dangling symlinks. Bind no-follow absent-state/preimage checks and exact numeric UID/GID, home/ancestor, account/password/keys/jobs/linger, ACL masks, interpreter/frame/module, sudoers and optional image/unit inventories. The predictable lead-owned /tmp sudoers files are mutable between validation and privileged installation, and the displayed validation && chain does not condition the later installs on success. Require protected reviewed-byte staging and fail-closed validation/install custody. The nlink==1 rule must apply to regular files, with separate directory identity rules, not literally every directory entry.",
+      "evidence": "W1:323-338,363-411,446-455; F5:92,105"
+    },
+    {
+      "id": "exposure-options",
+      "finding": "Option A truthfully discloses broad other-readable/other-traversable home exposure, but cannot enumerate 'exactly that set' while excluding FUSE/brain paths and recording only top-level counts. Do not inspect prohibited paths; label excluded exposure UNKNOWN and bind the actually inspected read/write permission set. The target-write residual's list is not a demonstrated complete writable-location inventory. Option B is a narrower candidate, with new privilege and trust dependencies: mount propagation, reachable paths, inherited FDs, capability/UID/GID/group drop, root-before-drop work, launch/environment/identity and custody must be reviewed in the concrete setup package. No option is selected.",
+      "evidence": "W1:65-68,269-285,355-359,386; P:224-227"
+    },
+    {
+      "id": "fresh-identities-and-vault",
+      "finding": "The authentic sicarii storage front and streamed 0600 inputs are sound design corrections. The cross-reference to §8.5 is nonexistent. Specify fresh complete front/writer/launcher runtime/module/manager/stdio/environment identity and raw outer waits per invocation, retaining the real nonisolated lead invocation and original fixed target path/caps rather than replacing them with helper -I observations. Vault /var/lib pin/status/check scope and exact read access remain open; a future sacrificial test is not evidence that they work.",
+      "evidence": "W1:189,207-214,291-304,395-425,560-562; H:154,162,164,177; F5:91,120"
+    },
+    {
+      "id": "denial-probes",
+      "finding": "Sacrificial probes are the right scope, but exact source/destination operands and positive existence/traversal preconditions are absent. A failed open/link/rename with wrong operands can show ENOENT/EEXIST/ENOTDIR rather than the intended denial. Specify each operation against the protected file/parent and an outside alias attempt under both identities, retain raw errno and any unexpected success, plus lock concurrency, full final-leaf metadata/nlink drift, launch custody, actual dumpable/manager/runtime and terminal-failure controls. These remain planned and unexecuted.",
+      "evidence": "W1:388-425; F5:76,82"
+    },
+    {
+      "id": "resources-and-images",
+      "finding": "Payload-only image figures and ideal equality are repaired; physical allocation/usable/inode/reserved/journal geometry remains an explicit future measurement. Complete all retained input/message/raw-record duplication, retries, failure retention, setup/selftests, manager/journal and full-restore/ambient allowances by stage. Gate 0 applies before setup/selftests as well as every dispatch. Images and ENOSPC establish only enforced write limits, never successful accepted cases or sufficient capacity. The proof/compile-only allowlist supports the stated noexec ceiling; original built-executable/native controls still require a compatible admitted frame and cannot be dropped.",
+      "evidence": "W1:310-319,431-470,474-478; G0:55-113; S:86,1054-1075; H:162"
+    },
+    {
+      "id": "commits-and-durable-channel",
+      "finding": "'A record that exists is committed' conflicts with N11's fully written failed fsync/post-validation primary. Define committed descriptors/markers or complete archival interpretation, retry/error/conclusion consumer joins, and non-success on every commit/close/dispatch failure. The pipe-to-front/transcript fallback cannot be asserted durable after front death or filesystem exhaustion. Specify an allowed pre-established durable channel and its retained evidence, and an explicit durability-UNKNOWN hold if all retention paths fail, without authorizing new frame-owned outside-tree writes.",
+      "evidence": "W1:474-501; F5:94,107-110; F6:93-98"
+    },
+    {
+      "id": "participants-and-recovery",
+      "finding": "A waitpid on sudo, a wait on systemd-run and a cgroup snapshot do not specify the complete target/launcher/scope/outer terminal custody. Define generation/start/boot/argv/unit/PID schemas, actual wait/reaping/relay evidence, outstanding sudo or root-wrapper late-launch reconciliation, inherited/open participant handles and unknown/unreadable/reused identity holds. Empty target UID/cgroup snapshots cannot establish no pending launcher. Preserve N12-N14 and the no-late-collector manual ceiling. Reboot needs boot-bound intent/commit/attempt interpretation and protected exact mount/unit/ancestor inventory, no fresh genesis or stale credit.",
+      "evidence": "W1:480-501; F5:95-110; H:99,149"
+    },
+    {
+      "id": "rollback-and-evidence",
+      "finding": "Revoking the first sudo rule before withdrawal and honestly retaining UIDs/groups/evidence are repairs. Wait for all pending and running launch participants, not only writer/target UID snapshots, before withdrawing further authority or mounts; an uncertain reserved window is a hold, not a reason to force release. Restore exact approved ACL/prestate/mask while detecting concurrent changes. Identify and disable any mount/start/automount source before unmount, with exact optional prestate. Keep protected raw intent/commit/participant/late-error/fallback/rollback evidence and a specified freeze/export mechanism; mutable copies and a future project-vault transfer are not authentic durable producer custody.",
+      "evidence": "W1:503-548; F5:94-110; Prior:54,232-236"
+    }
+  ],
+  "residual_judgments": [
+    {
+      "residual": "lead-process same-user interference",
+      "judgment": "An explicit inability and pre-first-call window, not an accepted new exception. The original fresh-lead/provider/adoption/challenge expectations and custody obligations remain; the proposed dumpable readback is invalid as specified.",
+      "evidence": "W1:55-60,176-177; F5:88,101,105"
+    },
+    {
+      "residual": "lead authentication",
+      "judgment": "Private pipes, a digest chain and the sudo rule do not authenticate the legitimate lead. Carry only the original v5 engineering ceiling and implement all original joins. No broader spoofing acceptance is granted.",
+      "evidence": "W1:61-63,175-197; F5:88-91,101"
+    },
+    {
+      "residual": "Option A exposure",
+      "judgment": "Disclosed broad exposure requires an accurate known/UNKNOWN inventory; excluded paths cannot be represented as enumerated or inspected. Any operator setup choice grants no closure of original confinement/provenance obligations.",
+      "evidence": "W1:269-276; P:43-45,224-227"
+    },
+    {
+      "residual": "Option B privilege",
+      "judgment": "A candidate with a separate privileged launcher, namespace/FD/privilege/identity argument and concrete review before setup approval. No implementation or sufficiency evidence exists.",
+      "evidence": "W1:278-285,386"
+    },
+    {
+      "residual": "running-target and toolchain ceilings",
+      "judgment": "Separate target UID improves writer protection, while no-target-confinement and path execution remain only the documented reference ceilings. They cover no frame mutation, unsafe pre-launch alias or original accepted-case narrowing.",
+      "evidence": "W1:65-70,160-163; F5:119-123"
+    }
+  ],
+  "implementation_evidence": false,
+  "approval_granted": false,
+  "all_original_obligations": "OPEN"
+}

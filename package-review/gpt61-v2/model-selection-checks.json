@@ -1,0 +1,66 @@
+{
+  "schema": "passive-model-selection-records-v1",
+  "records": [
+    {
+      "path": "/home/sicarii/.codex/sessions/2026/10/04/rollout-2026-10-04T16-41-39-01a108a6-9f1d-7641-9bc4-c9184568175c.jsonl",
+      "sha256": "b2f52d9ec0432c0cfcf3ab6d15da89411b8dcade61a75c9342529724c6f5b7ed",
+      "bytes": 8135161,
+      "expected_sha256": "b2f52d9ec0432c0cfcf3ab6d15da89411b8dcade61a75c9342529724c6f5b7ed",
+      "matches_prior_pin": true,
+      "contexts": [
+        {
+          "line": 8,
+          "model": "gpt-6.1-sol",
+          "effort": "max",
+          "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1"
+        },
+        {
+          "line": 295,
+          "model": "gpt-6.1-sol",
+          "effort": "max",
+          "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1"
+        }
+      ],
+      "session_meta": [
+        {
+          "line": 1,
+          "id": "01a108a6-9f1d-7641-9bc4-c9184568175c",
+          "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v3/review/gpt61-v1",
+          "model_provider": "openai-review",
+          "source": "exec"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/.codex/sessions/2026/10/04/rollout-2026-10-04T16-36-52-01a108a2-3d7c-78e0-b406-c253aabd71e6.jsonl",
+      "sha256": "db7141966bd1b86ef6ea011a65c430fba57fd7f35821154ce8081d2c3ea60129",
+      "bytes": 8033825,
+      "expected_sha256": "db7141966bd1b86ef6ea011a65c430fba57fd7f35821154ce8081d2c3ea60129",
+      "matches_prior_pin": true,
+      "contexts": [
+        {
+          "line": 8,
+          "model": "gpt-6.1-sol",
+          "effort": "max",
+          "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1"
+        },
+        {
+          "line": 227,
+          "model": "gpt-6.1-sol",
+          "effort": "max",
+          "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1"
+        }
+      ],
+      "session_meta": [
+        {
+          "line": 1,
+          "id": "01a108a2-3d7c-78e0-b406-c253aabd71e6",
+          "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1",
+          "model_provider": "openai-review",
+          "source": "exec"
+        }
+      ]
+    }
+  ],
+  "limit": "Recorded model selection and provider metadata, not independent provider-backend attestation."
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "jackal-passive-review-reproduction-v1",
+  "results": [
+    {
+      "id": "G-STREAM-ILLUSTRATION-DIFFERENCE",
+      "expression": "256*2^20/1170572-200",
+      "expected": null,
+      "result": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=256*2^20/1170572-200 exact=8580264/292643 approx=29.31990172326008",
+        "fields": {
+          "approx": "29.31990172326008",
+          "exact": "8580264/292643",
+          "parsed": "256*2^20/1170572-200",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      },
+      "reproduces": null
+    }
+  ]
+}
