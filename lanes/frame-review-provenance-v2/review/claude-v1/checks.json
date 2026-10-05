@@ -1,0 +1,48 @@
+{
+ "schema": "claude-frame-join-review-v2-checks",
+ "hashes_computed": {
+  "MANIFEST.json": "28b73cd64135a5ead854bec8fb0883310a2f0490b70a48aef41a98878543edd9",
+  "frame-review-provenance.patch": "a13caa564e9b945cf5c9f8dafd255dc6f59810f8ddead54c2f6494446e500674",
+  "postimage/scratch.py": "c0b6bf1a9038001fed79a0d26ddeca0fe2161eecc8477450a8b59fcfd9274d53",
+  "preimage-region.py": "c5e86142a700ac4d6d503a13d464c0291e1d0059f7e0c28c85844b809e27a272",
+  "changed-functions.postimage.py": "468311e60cada6fbf6b077f0237fa83cdbcf7792d2bad4cd7272f530d7a980b8",
+  "AUTHOR-NOTES.md": "7e8801a8ce490d8f319348f2a22e1de5cdba573baf626cfca58f5be0f3d32ef2",
+  "base/scratch.py": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86",
+  "live_v5_scratch.py": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86",
+  "live_v6_scratch.py": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84",
+  "patch_base_reconstructs_postimage": "c0b6bf1a9038001fed79a0d26ddeca0fe2161eecc8477450a8b59fcfd9274d53"
+ },
+ "reconstruction": {
+  "command": "patch -o - base/scratch.py frame-review-provenance.patch | sha256sum",
+  "result_sha256": "c0b6bf1a9038001fed79a0d26ddeca0fe2161eecc8477450a8b59fcfd9274d53",
+  "equals_postimage": true,
+  "hunks": 7,
+  "added_lines": 287,
+  "removed_lines": 27,
+  "no_file_written": true
+ },
+ "base_equals_live_v5": true,
+ "live_v6_untouched": true,
+ "files_read": [
+  {"path": "briefs/frame-review-provenance-v2.md", "lines": "1-103 (full)"},
+  {"path": "tools/review-override-v3.txt", "lines": "1-18 (full)"},
+  {"path": "tools/seal_claude_review.py", "lines": "1-131 (full)"},
+  {"path": "lanes/frame-review-provenance-v2/changed-functions.postimage.py", "lines": "1-253 (full)"},
+  {"path": "lanes/frame-review-provenance-v2/AUTHOR-NOTES.md", "lines": "1-102 (full)"},
+  {"path": "lanes/frame-review-provenance-v2/postimage/scratch.py", "lines": "102-113, 240-369, 446-515, 694-1122"},
+  {"path": "lanes/frame-review-provenance-v2/base/scratch.py", "lines": "687-839 (rollout_join, review_profile_problems, adopt extracts via sed/diff)"},
+  {"path": "lanes/frame-review-provenance-v2/frame-review-provenance.patch", "lines": "1-15, 15-41, 345-420 (hunk headers + REVIEW_PROFILE + frame_admitted hunk)"},
+  {"path": "proposal/v11-review/claude-v1/review-freeze.json", "lines": "metadata keys only (old-format confirmation); review content NOT read"}
+ ],
+ "jackal_calls": [
+  {"tool": "jackal_exact", "expression": "6*8^2 + 0*8 + 0", "parsed": "6*8^2+0*8+0", "status": "exact", "result": "384", "purpose": "confirm octal mode 0600 == 384 == S_IMODE(0o600) for _mode_int normalization", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"]}
+ ],
+ "limits_honored": {
+  "no_file_written": true,
+  "no_worldline_code_executed": true,
+  "patch_applied_to_stdout_only": true,
+  "no_review_dir_of_this_lane_read": true,
+  "no_transcripts_or_rollouts_read": true,
+  "no_gbrain_access": true
+ }
+}

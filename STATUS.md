@@ -379,6 +379,22 @@ the review gates, reproducing the blocked exploit procedures, faking provenance)
     exists on disk yet — the v1 sample and v10/v11 Claude freezes are OLD format (no SEAL block), which join v2 correctly REFUSES
     fail-closed; (2) `raw_final_message_is_verbatim…` lives in `review.json['sealed_by']`, which v2 reads (content-bound via the
     freeze `files['review.json']` sha256). **Adoption stays BLOCKED** (§23.6) regardless of verdict until the operator acts.
+  - **§23.6 VERDICT (sealed, first hardened-format freeze on disk): ENDORSED_WITH_REQUIRED_CHANGES**
+    (`lanes/frame-review-provenance-v2/review/claude-v1`, freeze `seal_verified:true`, reviewer agent adf8c9c7…,
+    source-task-output `36124207…`). The reviewer confirmed R2/R3/the GPT form/refusal/non-bypass all correct, and both
+    author-flagged discrepancies as execution-bound/acceptable. **R-1 (required):** the Claude form pins the task-output
+    sha but discards the bytes, whereas the GPT form re-derives its final message from the primary rollout at every check;
+    v3 must re-derive `raw-final-message.txt` from the pinned task-output bytes and require equality, to be *at least as
+    strong* as the GPT join.
+  - **New finding from sealing the first real freeze (R-4, lead):** exercising the freeze exposed that
+    `claude_review_join` (:909-912, :921-922) requires `review.json['sealed_by']` fields, but the **sealer never persists
+    `sealed_by`** — `review_json_bytes` is serialized at `seal_claude_review.py:69` before the `review['sealed_by']`
+    mutation (:113-117), so on-disk review.json is the reviewer's verbatim bytes (correct for content-binding) with no
+    `sealed_by`. So join v2 would **refuse a legitimately-sealed review fail-closed**. This traces to the lead's imprecise
+    earlier description of the sealer. Fix: review.json stays verbatim; the binding facts live in the FREEZE (already
+    there: `seal_verified`, `reviewer_agent_id`, `source_task_output_sha256`, `reviewer_cited_section_sha256`); v3 reads
+    them from the freeze and drops the `review.json['sealed_by']` dependency; the sealer's dead review.json mutations are
+    removed (artifacts byte-identical). **Join v3 implements R-1 + R-4; adoption stays BLOCKED.**
 - `lanes/frame-v6-w1-setup-v1/` — DRAFTED (25 files): the non-enforcement setup assets (accounts/sudoers/sshd/lease/ACL
   bytes, install order S-A..S-E, rollback template) + the exists-vs-needed GAP record (EXISTS 6 / PARTIAL 7 / MISSING 30).
   Lead-verified: accounts absent, no sudoers installed, live frame v6 untouched, all .py parse. NOT review-ready: the

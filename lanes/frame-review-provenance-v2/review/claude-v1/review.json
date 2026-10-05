@@ -1,0 +1,35 @@
+{
+ "schema": "claude-frame-join-review-v2",
+ "lane": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/lanes/frame-review-provenance-v2",
+ "postimage_sha256": "c0b6bf1a9038001fed79a0d26ddeca0fe2161eecc8477450a8b59fcfd9274d53",
+ "patch_sha256": "a13caa564e9b945cf5c9f8dafd255dc6f59810f8ddead54c2f6494446e500674",
+ "base_equals_live_v5": true,
+ "patch_reconstructs_postimage": true,
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-4-8 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "r1_self_authorship": "Content cross-binding implemented and correct: the SEAL block is parsed from raw-final-message.txt bytes (postimage:892) and must cite on-disk sha256 of REVIEW.md and checks.json (:897-899, both written verbatim by the sealer) and the sealed review.json over on-disk-or-raw-emitted (:902-906, mirroring the sealer's dual check); freeze.reviewer_cited_section_sha256==SEAL sections (:907), seal_verified True (:878), sealed_by verbatim flag True (:911), and the task-output sha + agent id now bound (:915-922). Parity with the GPT cite (rollout_join:741-743) is reached for REVIEW.md/checks.json. One residual asymmetry remains: the frame reads the primary task-output only as a pinned sha and discards the bytes (:914), whereas the GPT form re-extracts its final message from the primary rollout at every check (:722-739). Both forms are forgeable by a fully-privileged lead, so that is not the discriminator; but the Claude form does not observe the primary transcript's content, so it is strictly weaker on the exact dimension R1 targets. See required change R-1.",
+ "r2_completed_at": "Correct. freeze.completed_at required non-empty str (:876-877) and == SEAL completed_at (:908); carried as review_completed_at (:924) and used as the Claude-branch ordering lower bound in validate_adoption_observation (:1043-1047), fail-closed if not a str (:1045). GPT branch unchanged (:1048-1051).",
+ "r3_sidecar": "Correct and form-aware. claude-subagent: checks.json required by sha256+bytes+normalized mode, other two skipped (:979-984); GPT: full-pin over all three, byte-identical to base (:985-988). _mode_int('0600')==int('0600',8)==384==S_IMODE(0o600) (JACKAL exact, octal 600 = 384); cannot accept a wrong mode (different octal -> different int, non-octal -> None, bool guarded).",
+ "gpt_form_unchanged": "Confirmed. rollout_join differs from base only by an expanded docstring and one self-labeling 'reviewer_kind':'gpt-6.1-sol' key (:749); all binding logic is byte-identical. Form selected by reviewer_kind via review_freeze_kind (:757-773) and review_provenance_join (:932-946); sealed GPT review never downgraded, Claude review never routed to the GPT join; neither form refuses on a valid review; a bare label only selects.",
+ "refusal_and_nonbypass": "Confirmed. Neither form -> refuse (:946); label alone -> refuse (join binds every byte); change confined to the join region (7 hunks, nothing in materialization/admission/launch/spawn/recovery); frame_inventory and proof/source/runtime require()s untouched and not bypassed; five acceptance Falses and candidate/lead_id/inventory/report checks intact; schema v5->v6 handled with re-join+re-pin at every use (:1094-1121, adopt writes v6 :1075).",
+ "discrepancies": "(a) No hardened-format freeze on disk; the lone sample (proposal/v11-review/claude-v1) is old-format and is correctly refused fail-closed. Execution-bound obligation, not a source defect. (b) sealed_by verbatim flag lives in review.json['sealed_by'] and the join reads it there (:909-912), content-bound via the freeze review.json sha; acceptable.",
+ "open_points": "(i) SEAL-sealed completed_at: RATIFY (strengthens R2, no added gate on GPT path). (ii) dual review.json cite: RATIFY (required by lead post-emission mutation; mirrors the sealer; not a loophole). (iii) not re-parsing the task-output JSONL: REVISE -> required change R-1; the deliberate scope choice is the source of the Item-1 asymmetry and is not ratified as-is.",
+ "required_changes": [
+  {
+   "id": "R-1",
+   "change": "In claude_review_join, re-derive raw-final-message.txt from the pinned task-output bytes (read and discarded today at postimage:914) by applying the sealer's last_assistant_text logic (seal_claude_review.py:24-41) and require the result to equal the on-disk raw-final-message.txt bytes.",
+   "reason": "The GPT form re-extracts its final message from the primary independent transcript at every check (rollout_join:722-739); the Claude form must observe the primary transcript's content too, not merely pin its sha and trust the one-time seal-time extraction, to be at least as strong as the GPT join as R1 claims.",
+   "evidence": "postimage/scratch.py:914 (bytes discarded); :884,:892 (SEAL read from sealer-derived raw-final-message.txt); rollout_join:722-739 and :741-743 (GPT re-derivation + cite); seal_claude_review.py:24-41 (extraction logic)."
+  }
+ ],
+ "open_obligations": [
+  "Produce a hardened-format freeze with the current sealer and exercise claude_review_join against it end-to-end before any Claude review adopts (discrepancy a).",
+  "Phase One guarantees remain OPEN_UNCHANGED; this delta is uninstalled and grants nothing."
+ ],
+ "adoption_still_blocked": true,
+ "proof_acceptance": false,
+ "source_acceptance": false
+}

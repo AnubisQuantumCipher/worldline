@@ -1,0 +1,31 @@
+{
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "different_from_author": true,
+ "completed_at": "2026-10-05T23:15:00Z",
+ "seal_verified": true,
+ "reviewer_agent_id": "adf8c9c701f92c984",
+ "source_task_output_sha256": "361242073c520488a881226687478315fefa38e7cb92cd11176d2b54abe5e0b4",
+ "reviewer_cited_section_sha256": {
+  "REVIEW.md": "cab70df4d3a6daeb75a46187922defc40f68221d9811fae72e9446b29466b92f",
+  "review.json": "3968ba44f9b992da0624c3841d9b9f753b2c9945d98b5fc7125babfef5c1b9b1",
+  "checks.json": "9bff04b9ed7b10a02026b1a7f50d02df46b47467b15268374da545a1c53e8fa1"
+ },
+ "files": {
+  "REVIEW.md": {
+   "sha256": "cab70df4d3a6daeb75a46187922defc40f68221d9811fae72e9446b29466b92f",
+   "bytes": 12507,
+   "mode": "0600"
+  },
+  "checks.json": {
+   "sha256": "9bff04b9ed7b10a02026b1a7f50d02df46b47467b15268374da545a1c53e8fa1",
+   "bytes": 3092,
+   "mode": "0600"
+  },
+  "review.json": {
+   "sha256": "3968ba44f9b992da0624c3841d9b9f753b2c9945d98b5fc7125babfef5c1b9b1",
+   "bytes": 5500,
+   "mode": "0600"
+  }
+ }
+}
