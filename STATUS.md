@@ -276,7 +276,24 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 15:18Z)
+## In progress (updated 15:55Z, new Claude Code session)
+
+- **Storage relieved by Codex** (receipt `work/local-storage-relief-20261005/CURRENT-RELIEF.md`, `a680fafb…`;
+  human-authorized).
+  - **The ext4 reserve.** It went from 5258480 to 2621440 blocks, so root keeps 10 GiB. Rollback:
+    `sudo /usr/bin/tune2fs -r 5258480 /dev/vda`.
+  - **Offload.** Reviewed anubis-wt compiler caches were offloaded after full restore verification.
+  - **What stayed local.** WORLDLINE evidence, runs, worktrees, compilers and pins.
+  - **Free space.** 19667271680 bytes at 15:50:49Z: 9667271680 above the reserve. The runbook Gate 0 margin is now
+    +4200827634708/1397 (JACKAL exact).
+  - **What this changes.** S-1 is resolved for now. Gate 0 is positive, but confinement still blocks dispatch.
+- **Pacing lifted.** Three author lanes were resumed ~15:54Z:
+  - W-1 v8 (restart; the previous session ended before any v8 file was written);
+  - seam v5 (answering V4-REQ-A..L);
+  - PK-0 v2 (answering PK0-RC1..RC5, in `packets/capi-pk0-v2/`).
+  Every resume message names the agent's own transcript path.
+- **D1 v4 review.** Runner pid 3218302 and codex pid 3218303 survived the session end. They are still stalled since
+  00:05:39Z and untouched. The R0/R1/R2 choice stays the human's.
 
 - **W-1 v8.** The W-1 author was resumed ~15:17Z.
   - **Its order of work.** First, re-evaluate c8: a root-owned user namespace keeping the host uid, using the commoncap
