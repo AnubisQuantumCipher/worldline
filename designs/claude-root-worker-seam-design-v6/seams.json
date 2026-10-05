@@ -1,0 +1,124 @@
+{
+  "schema": "claude-root-worker-seam-design-v6",
+  "schema_family": "claude-root-worker-seam-design (v1 ... v5 key sets retained where still meaningful; v6 adds abi_conventions, material_layout, root_state_record, containment_gaps CG-2 ... CG-4, custody_return_evidence, unknown_route, launch_order, relay_loss, daemon_steps, sub_helper_factory and h_prime)",
+  "lane": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent, author role)",
+  "status": "DRAFT_FOR_INDEPENDENT_REVIEW",
+  "acceptance": {"proof_acceptance": false, "source_acceptance": false, "phase_acceptance": false, "approval_gates_added": false, "review": "An independent review of v6 is required. The author grants nothing."},
+  "design_document": {
+    "path": "WT/designs/claude-root-worker-seam-design-v6/SEAM-DESIGN.md",
+    "sha256": "f41566d8bb694817f27efb4dd336d25e554357976808aad577b91365a9a10787",
+    "bytes": 116337,
+    "lines": 990,
+    "relation": "v6 is this file plus the carried v5 slices with R6-1 ... R6-29 applied, and transitively everything those slices carry (v4 C4 slices with R5, then v3, v2, v1), minus W5-1 and W5-2."
+  },
+  "companions": {
+    "jackal.json": {"sha256": "5d6684296284d33d3580e5dc123401b493fdf2431d3d54c57b8b4d98abcc84b0", "bytes": 1018},
+    "AUTHOR-NOTES.md": {"sha256": "95826c1ee59c7ef11cd9cefbcb3e212053d5ecbd05908224ba59572ebf922633", "bytes": 7331},
+    "hash_cycle": "SEAM-DESIGN.md Appendix D binds jackal.json and AUTHOR-NOTES.md; this file binds SEAM-DESIGN.md; the handback records this file's hash."
+  },
+  "supersedes": {
+    "v5_design": {"sha256": "938c832d03df0910506756ec295acef86ae2cacba4d7b2478a09c6d27f3685cf", "bytes": 234572, "lines": 1628},
+    "v5_seams": "a3d3ff5482c188705050f7f83709ff2f5e418547ed4a71f26f705f8c5fe18ebe",
+    "v5_jackal": "9adaaa83960f7064552dee1f85ffa38ad5191f0e6d6cd02321b287121e931628",
+    "v5_author_notes": "d6e16bdfb23b2544218694508144ba32f72ab3c23f79fa9dcb0f2117d324b836"
+  },
+  "answers_review": {
+    "path": "WT/designs/claude-root-worker-seam-design-v5/review/claude-v1",
+    "reviewer_kind": "claude-subagent",
+    "different_from_author": true,
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+    "files": {
+      "REVIEW.md": {"sha256": "d385baca2e5eba7a9605c486d1b5afb2f3fc56cae1d893eed9ba163bf1cc0a50", "bytes": 30875},
+      "review.json": {"sha256": "0b9a3b0705df9d40f7b4e109d4f2042cb6236dcc848fd48f32f27a0de5ff8187", "bytes": 18321},
+      "checks.json": {"sha256": "6f24f1a44718ce7f8d0b5159b3b78de1cb45ddbf4a2681cacdba9cfe10ead0ab", "bytes": 8952},
+      "review-freeze.json": {"sha256": "04b87e452db87f791194a633b8602bf716edc3a41dc4451a002e10d85d000a36", "bytes": 613}
+    },
+    "not_read": ["raw-final-message.txt", "review/gpt61-v1", "review-records/"],
+    "required_changes": {
+      "V5-REQ-A": "V6-A; R6-6, R6-7, R6-14",
+      "V5-REQ-B": "V6-B (CG-2); R6-9, R6-11",
+      "V5-REQ-C": "V6-C (CG-3); R6-10, R6-25, R6-29",
+      "V5-REQ-D": "V6-D",
+      "V5-REQ-E": "V6-E; R6-12",
+      "V5-REQ-F": "V6-F; R6-18, R6-20, R6-22, R6-24",
+      "V5-REQ-G": "V6-G; R6-17, R6-19, R6-26",
+      "V5-REQ-H": "V6-H; R6-15, R6-16, R6-21",
+      "V5-REQ-I": "V6-I; R6-23",
+      "V5-REQ-J": "V6-J; R6-13",
+      "V5-REQ-K": "V6-K",
+      "V5-REQ-L": "V6-L; R6-1, R6-4, R6-5, R6-8",
+      "V5-REQ-M": "V6-M; R6-27"
+    },
+    "kept_closed": {
+      "V4-REQ-H": "C5-VH, verbatim",
+      "V4-REQ-K_and_capi_integration": "C5-VK, verbatim",
+      "clauses_closed_at_design_level": ["01.2", "01.3", "01.4", "01.6", "03.1", "04.2", "04.5", "04.6", "05.1", "05.2", "05.3", "05.4", "05.5", "06.1", "07.1", "07.2", "07.4", "07.5", "08.1", "08.2", "08.3", "08.4", "08.5", "08.6", "08.7", "09.1", "09.3", "09.4", "10.1", "10.2", "10.3", "10.4", "11.2", "11.3", "11.4", "12.3", "12.5"],
+      "D-2b": "C2-116 through C5-B",
+      "R5_W5": "carried inside C5-B; R6-2 and R6-3 change only the v5 result lines of R5-16 and R5-17 (range repair)",
+      "frontier_sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb"
+    },
+    "clauses_partially_closed": ["01.1", "01.5", "01.7", "02.1", "02.2", "02.3", "02.4", "03.2", "03.3", "04.1", "04.3", "04.4", "06.2", "06.3", "06.4", "07.3", "09.2", "09.5", "11.1", "12.1", "12.2", "12.4"]
+  },
+  "self_containment": {
+    "rule": "Each slice's sha256 is that of the UTF-8 bytes of its v5 lines, each followed by a newline.",
+    "v5_file": {"sha256": "938c832d03df0910506756ec295acef86ae2cacba4d7b2478a09c6d27f3685cf", "lines": 1628},
+    "slices": [
+      {"id": "C5-B", "lines": "181-409", "sha256": "cbd690a4b25a7ed68ed1c72f63dec1a4ed5cef481aee52642b46c962257c56ee", "replacements": ["R6-1", "R6-2", "R6-3", "R6-4", "R6-5"]},
+      {"id": "C5-VA", "lines": "463-572", "sha256": "ea7943eb07496788ef97854458b997e874a34568cef817a1e4205fc81f4e3aa3", "replacements": ["R6-6", "R6-7"]},
+      {"id": "C5-VB", "lines": "575-626", "sha256": "d248a3f6f7ac6af7c6ed768edffcdc43321c68db5d44fc43dc616209a6c56f28", "replacements": ["R6-8", "R6-9", "R6-10", "R6-11"]},
+      {"id": "C5-VC", "lines": "645-704", "sha256": "22fddc39049f02555fa5b85dfe479358ba1f629eeeddc3c4ce36c7de506b513e", "replacements": ["R6-12"]},
+      {"id": "C5-VE", "lines": "745-825", "sha256": "da99193dcd7fac3aae83265dbf0cb2209c48b1277b73ebd33de5fe69578574f6", "replacements": ["R6-13", "R6-14"]},
+      {"id": "C5-VF", "lines": "828-1036", "sha256": "503a9a76fd24177fac3656874ab9f66bd4f8d97f59841364fa5f6f90d9fd447b", "replacements": ["R6-15", "R6-16", "R6-17", "R6-18", "R6-19", "R6-20"]},
+      {"id": "C5-VG", "lines": "1039-1078", "sha256": "5390ebb82f5055ab1dc7538e5d8adc80b378b76d4744cc9f75bff9ec39be366e", "replacements": ["R6-21", "R6-22"]},
+      {"id": "C5-VH", "lines": "1081-1131", "sha256": "ca19aa5bb54fb9fcc8efcb641e912750c5f1756043ab456c9e54bac99db50a63", "replacements": []},
+      {"id": "C5-VI", "lines": "1134-1234", "sha256": "de6cb4ff0508c5bcf2d18a1c8434df08a909b2850931de36089d3081d3d4deb2", "replacements": ["R6-23", "R6-29"]},
+      {"id": "C5-VJ", "lines": "1237-1391", "sha256": "098b032a9d117fc66b433fc8dd7d7df0e4d81f508ef1b88901dfea5146196546", "replacements": []},
+      {"id": "C5-VK", "lines": "1394-1437", "sha256": "231573a82df1c4eb23ad191a5fa944a4724a44f7d572cbe9edf259acc04e7b3f", "replacements": []},
+      {"id": "C5-VL", "lines": "1440-1486", "sha256": "f6d5e08b82ba04d5d87f95d41a648db6bb1d1a134173265c691c29d10eb51614", "replacements": ["R6-24", "R6-25", "R6-26"]},
+      {"id": "C5-VMNOP", "lines": "1489-1548", "sha256": "cf864cc14c9663f05e28f4a089b5c14bda2d6577180cf84e9eee93c091061ca8", "replacements": ["R6-27", "R6-28"]}
+    ],
+    "replacement_targets": {
+      "R6-1": "v5:407", "R6-2": "v5:354", "R6-3": "v5:362", "R6-4": "v4:1801 (C4-VMNOP)", "R6-5": "v4:1804 (C4-VMNOP)",
+      "R6-6": "v5:500", "R6-7": "v5:518", "R6-8": "v5:594", "R6-9": "v5:599", "R6-10": "v5:600", "R6-11": "v5:625",
+      "R6-12": "v5:693", "R6-13": "v5:785", "R6-14": "v5:816", "R6-15": "v5:885", "R6-16": "v5:886", "R6-17": "v5:902",
+      "R6-18": "v5:903", "R6-19": "v5:909", "R6-20": "v5:962", "R6-21": "v5:1046-1048", "R6-22": "v5:1074",
+      "R6-23": "v5:1225", "R6-24": "v5:1461-1464", "R6-25": "v5:1467", "R6-26": "v5:1479", "R6-27": "v5:1515",
+      "R6-28": "v5:1544", "R6-29": "v5:1200"
+    },
+    "superseded_v5_ranges": ["1-178", "412-446", "449-461", "627-642", "707-742", "1551-1628"],
+    "new_withdrawals": []
+  },
+  "abi_conventions": {
+    "P": {"shape": "every argument a pointer and one size_t: record byte size, arena byte length, or roster element count", "observed_in": ["wl_resource_child_execution_decide_v1", "wl_resource_scoped_run_ledger_{check,validate,classify}_v1"]},
+    "T": {"shape": "Input pair, Arena pair, (pointer, element count, total byte size) triples, Result pair", "observed_in": ["wl_canonical_exchange_decide_v1", "wl_canonical_operation_decide_v1", "wl_operation_authority_decide_v1", "wl_canonical_owner_completion_decide_v1", "wl_chain_authority_replay_v1 (no arena)"]},
+    "return": "0 written; any other value is a transport refusal (CoreUnavailable)",
+    "per_export": {"X-1": "T", "X-2": "T", "X-3": "T", "X-4": "T", "X-5": "T with output triples and an output-arena pair", "X-6": "T", "X-7": "T", "X-8": "P plus FactsV2 and Selection pairs before the output", "X-9": "T", "X-10": "T"},
+    "capacity_retry": "withdrawn; outputs sized from inputs"
+  },
+  "material_layout": "WLMP, u16 version 1, u16 export version, u32 count; per parameter u32 index, u8 kind, u64 size word, u64 byte length, bytes; little-endian; sha256 of the whole is m",
+  "root_state_record": ["present", "generation", "operation", "phase", "before_unknown", "owners_open", "abort_class", "launched", "closure_ns", "closure_outer", "closure_raw", "witness", "settled", "released_unlaunched", "unknown_cause", "reattach_epoch", "head"],
+  "containment_gaps": {
+    "CG-1": {"source": "pre/protected_operations.py:729-730, carried to rw/protected_operations.py:744-745", "status": "OPEN", "attribution": "inherited from the preimage"},
+    "CG-2": {"gap": "worker-served IP requests run under the WL request's admitted bound", "status": "OPEN", "closure": "each such request runs under its own admitted bound or the daemon service's own", "depends_on_d4a": false, "design_meeting_it": "H-prime"},
+    "CG-3": {"gap": "later WL requests wait for g+1", "status": "OPEN", "closure": "served concurrently under their own reservation and bound, with no wait for a later generation", "depends_on_d4a": false, "design_meeting_it": "H-prime"},
+    "CG-4": {"source": "pre/protected_operations.py:720-722, carried to rw/protected_operations.py:735-737", "status": "OPEN", "closure": "a genuine full-resource owner adapter; every original owner.retry case served"}
+  },
+  "dispatcher": {"interface": ["launch", "stop", "outcome (13 keys)", "effective_limits", "resource_telemetry", "unit", "pid", "launcher.wait", "launcher.stdin", "launcher.stdout", "launcher.stderr"], "obligations": ["CJ-DISP-1", "CJ-DISP-2", "CJ-DISP-3", "CJ-DISP-4", "CJ-DISP-5", "CJ-DISP-6"]},
+  "archive_equal": {"layers": ["S.record", "operation_capture lift", "finalization_journal.encode", "evaluation_terminal.value_bytes + canonical ASCII JSON"], "integer": "negative flag and minimal little-endian magnitude hex", "float": "big-endian binary64 bits of Round with the sign bit from Sign(X)", "obligations": ["CJ-ARCH-1", "CJ-ARCH-2", "CJ-ARCH-3", "CJ-JSON"], "overflow_lexeme": "original ValueError raised by the original check first"},
+  "custody_return_evidence": {"R1": "worker and namespace-init pidfds terminal (K-24) plus OB-ESC", "R2": "worker and init identities gone (pidfd_open with recorded start tick) plus fresh exclusive flock on every transferred lock file plus OB-ESC", "OB-ESC": {"audit": "AU-2", "controls": ["C-ESC-1", "C-ESC-2"]}},
+  "unknown_route": {"cause_classes": ["C-CHANNEL", "C-DEADLINE", "C-APPEND", "C-EVIDENCE"], "back_to_service": "WORKER_REATTACHED legal in Unknown with a worker Before_Unknown; RECONCILED to Before_Unknown for C-CHANNEL or C-DEADLINE, or C-APPEND by successful replay", "worker_while_unknown": "no gated mutation; waits at the refused choke point without raising; no transfer; endpoint open"},
+  "launch_order": ["checks", "PREPARED (g)", "machine admission", "RECORD_LAUNCH_INTENT", "DISPATCH_INTENT", "slot", "launcher and HELD (HELD carries the former PREPARED record content)"],
+  "no_slot_failure": "UNKNOWN appended only in DISPATCH_INTENDED, NAMESPACE_HELD, GO_INTENDED or UNKNOWN, as rw/protected_scoped_resource_runtime.py:770-776",
+  "relay_loss": {"selector": "RC-10, before B-RECV review", "a": "re-raise the original exception", "b": "use the last authenticated front re-read; continue; only the write is lost"},
+  "daemon_steps": "front: line, router, parse and parse errors, queue, transfer intent; custody owner: progress, capture, retain_client_request, context, mutation lock, invoke, publish, response bytes, REQUEST_RESPONDED; RELAY write by the front; PROGRESS_BYTES frame added",
+  "sub_helper_factory": {"created": "forked by the root helper v2 before unshare(CLONE_NEWPID)", "measurement": "K-28"},
+  "h_prime": {"coordinator": "service-class, installed service limits (RC-9)", "request_root": "own top-level reservation dispatched once", "agents": "child tasks of the same request's root", "ao_marks": {"AO-1": "part", "AO-2": "part", "AO-3": "met", "AO-4": "met", "AO-5": "met", "AO-6": "part", "AO-7": "met", "AO-8": "part", "AO-9": "met", "AO-10": "part", "AO-11": "part"}, "deltas": ["D-H1", "D-H2", "D-H3", "D-H4", "D-H5", "D-H6"], "obligations": ["CJ-H-1", "CJ-H-2", "CJ-H-3", "CJ-H-4"], "adopted": false, "decision": "lead (author's reading; reviewer to check); any authoritative policy change is D-4a's, none proposed"},
+  "measurements": {"K-27": "narrowed to kernel memfd seals and mapping (OP-7)", "K-28": "PID namespace of forks after unshare (OP-7)", "RC-11": "dynamic loader of a sealed memfd (lead)", "RC-12": "systemd-run --pipe exit status mapping (lead)", "op7_range": "K-1 ... K-28 (R6-3)"},
+  "operator_items": {"added_lowered_or_widened": false, "no_new_operator_gate": true},
+  "controls": {"retained": "every original and additive control; none retired", "frontier_control": "unchanged (C2-116)", "added": "SEAM-DESIGN.md V6-N"},
+  "jackal": {"file": "jackal.json", "calls": 0, "carried": ["J5-1", "J5-2", "J5-3", "J5-4"]},
+  "process": {"writes": "Write and Edit only, only in WT/designs/claude-root-worker-seam-design-v6/", "bash": "read-only; no redirection; no git", "interruptions": "none", "execution": "none", "sia": "one sia.ask; no note", "skills": "all eight Ada skills", "deviation": "carry by hash-pinned slices instead of the preferred inlined composition (AUTHOR-NOTES §6, §7)"},
+  "open": ["OB-001 ... OB-219", "V5-REQ-A ... V5-REQ-M", "CG-1 ... CG-4", "CJ-DISP-1 ... 6, CJ-ARCH-1 ... 3, CJ-H-1 ... 4, CJ-JSON, OB-ESC/AU-2", "K-1 ... K-28; RC-1 ... RC-7, RC-9 ... RC-12", "H-prime deltas", "the independent review of v6"],
+  "non_claims": ["Nothing is reviewed, accepted, proved or authorized; no approval gate is added.", "Nothing was compiled, run, imported, proved, tested or measured.", "No equivalence for worker-served IP, later WL requests, or the dispatcher's evidence fields.", "R1 custody return does not detect an escaped holder.", "H-prime is not adopted.", "SIA recall is not evidence."]
+}

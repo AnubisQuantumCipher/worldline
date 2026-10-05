@@ -1,0 +1,19 @@
+{
+  "schema": "worldline.claude-seam-design-jackal-record-v1",
+  "design": "claude-root-worker-seam-design-v6",
+  "rule": "Every numeral derived by arithmetic would be computed by JACKAL, sequentially or at most four at a time. Observed numerals (line numbers, counts, hashes, sizes) are read, not derived.",
+  "calls": 0,
+  "groups": [],
+  "derived_numerals_in_v6": "none",
+  "notes": [
+    "The successor bound 'an n-byte magnitude needs at most n + 1 bytes' (V6-A.2) is a symbolic statement of static reasoning, not a computed numeral.",
+    "Counts stated in v6 (13 supervision keys, 22 and 37 clauses, 29 replacements, 13 slices) are observed by listing, not derived."
+  ],
+  "carried": {
+    "v5": ["J5-1", "J5-2", "J5-3", "J5-4"],
+    "v5_status": "exact, lane rat, formal false, informational about arithmetic only; re-run positive by the v5 review (D5R/checks.json)",
+    "v2": "J01 ... J18 keep their status inside carried slices"
+  },
+  "author_arithmetic_used": false,
+  "ledger_used_as_evidence": false
+}
