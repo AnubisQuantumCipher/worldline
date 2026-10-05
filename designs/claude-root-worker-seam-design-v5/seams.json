@@ -1,0 +1,318 @@
+{
+  "schema": "claude-root-worker-seam-design-v5",
+  "schema_family": "claude-root-worker-seam-design (v1 ... v4 key sets retained where still meaningful; v5 adds exports, current_observations, containment_gaps, dispatcher, reattach, relay_frame, checkviews, pending_intents and new_author_observations_v5)",
+  "lane": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent, author role)",
+  "status": "DRAFT_FOR_GPT61_REVIEW",
+  "acceptance": {
+    "proof_acceptance": false,
+    "source_acceptance": false,
+    "phase_acceptance": false,
+    "review": "An independent actual gpt-6.1-sol review of v5 is required. The author grants nothing; author checks are self-checks.",
+    "approval_gates_added": false
+  },
+  "statement_basis": "Static. Every statement about source was read from files or reasoned from what was read. Nothing was compiled, run, imported, proved, tested or measured. Kernel, systemd, SQLite, interpreter and Ada-visibility statements marked [unverified reasoning] name their K or RC item.",
+  "design_document": {
+    "path": "WT/designs/claude-root-worker-seam-design-v5/SEAM-DESIGN.md",
+    "sha256": "938c832d03df0910506756ec295acef86ae2cacba4d7b2478a09c6d27f3685cf",
+    "bytes": 234572,
+    "lines": 1628,
+    "relation": "v5 is this file plus the carried v4 slices of self_containment with R5-1 ... R5-17 applied, and transitively everything those slices carry (v3 C3 slices with R4, v2 C2 slices with R3, v1 slices), minus withdrawals W5-1 and W5-2."
+  },
+  "companions": {
+    "jackal.json": {"sha256": "9adaaa83960f7064552dee1f85ffa38ad5191f0e6d6cd02321b287121e931628", "bytes": 4827},
+    "AUTHOR-NOTES.md": {"sha256": "d6e16bdfb23b2544218694508144ba32f72ab3c23f79fa9dcb0f2117d324b836", "bytes": 9342},
+    "hash_cycle": "SEAM-DESIGN.md Appendix D binds jackal.json and AUTHOR-NOTES.md; this file binds SEAM-DESIGN.md; the handback records this file's hash."
+  },
+  "supersedes": {
+    "v4_design": {"path": "WT/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md", "sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda", "bytes": 233353, "lines": 1911},
+    "v4_seams": {"sha256": "92a814a4883d3e01680dbfeae82cb7889b038930bc4e21bcaefd39b622a2a86c"},
+    "v4_jackal": {"sha256": "4d556a457caa268c80b5d7ef4edae949433034ffeb950a5b4d2f8a29fcafcfab"},
+    "v4_author_notes": {"sha256": "0bd92ccd556e39a358a5e93db5a57fe55ba206080d7b6dc1f033508d7f9c66e4"}
+  },
+  "answers_review": {
+    "path": "WT/designs/claude-root-worker-seam-design-v4/review/gpt61-v1",
+    "actual_model": "gpt-6.1-sol",
+    "different_from_author": true,
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+    "files": {
+      "REVIEW.md": {"sha256": "340a62191e9f0c4135dc94a0282c033a64c3a55ac1884778fd0f8836c3fc95d4", "bytes": 87144},
+      "review.json": {"sha256": "d857f8ddd04f430097099f62688fb3f848d687c2f171f556db68ddefb16ba714", "bytes": 145637},
+      "checks.json": {"sha256": "58e3312e3ff655f438b32524a8a0034d0fac1b55815af20fd7207cb3e754529f", "bytes": 154173},
+      "review-freeze.json": {"sha256": "eef0ff2ca7816ddb79749f8cbddee7c3caa2c5f005dcace6dd3965462d010ee4", "bytes": 561}
+    },
+    "required_changes": {
+      "V4-REQ-A": "V5-A", "V4-REQ-B": "V5-B", "V4-REQ-C": "V5-C; R5-14", "V4-REQ-D": "V5-D",
+      "V4-REQ-E": "V5-E; R5-4, R5-6, R5-11", "V4-REQ-F": "V5-F; R5-5, R5-8, R5-9; W5-1", "V4-REQ-G": "V5-G; R5-15",
+      "V4-REQ-H": "V5-H", "V4-REQ-I": "V5-I", "V4-REQ-J": "V5-J; W5-2", "V4-REQ-K": "V5-K", "V4-REQ-L": "V5-L"
+    },
+    "rq1": "V5-B.5 (per operation class IP and WL, against each one's own original; equivalence claim withdrawn)",
+    "clauses_not_closed": ["04.1", "07.3"],
+    "clauses_partially_closed": ["01.1", "01.2", "01.3", "01.5", "01.7", "02.1", "02.2", "02.3", "02.4", "03.2", "03.3", "04.3", "04.4", "06.2", "06.3", "06.4", "07.1", "08.1", "08.2", "08.3", "08.5", "09.1", "09.2", "09.3", "09.5", "11.1", "12.1", "12.2", "12.4"],
+    "rulings_partially_closed": ["D-1a", "D-1b", "D-2a", "D-3a", "D-4a", "D-5a", "D-5b", "D-6a", "D-7a", "D-8a", "D-8b", "D-9a"],
+    "rulings_closed_at_design_level": ["D-2b"],
+    "findings_assessment": {
+      "NF4-1": "VERIFIED_STATIC_CONDITIONAL", "NF4-2": "VERIFIED_STATIC_ROUTING_CONSEQUENCE_QUALIFIED",
+      "NF4-3": "VERIFIED_STATIC_RETAINED_SEED_NOT_RECOVERY_PROOF", "NF4-4": "VERIFIED_STATIC_FULL_PATH_MAPPING_SCOPE",
+      "NF4-5": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_SOURCE", "NF4-6": "VERIFIED_STATIC_RELATIVE_KEY_AND_PREFIX_LIMIT",
+      "NF4-7": "VERIFIED_STATIC_TOOL_SELECTION", "NF4-8": "VERIFIED_STATIC_ORIGINAL_JOB_CANCEL",
+      "NF4-9": "VERIFIED_STATIC_EXPLICIT_HELPER_FD_FLOW_RUNTIME_COMPLETENESS_OPEN", "NF4-10": "VERIFIED_STATIC_EXCEPTION_BOUNDARY",
+      "NF4-11": "VERIFIED_STATIC_STATUS_MUTATION", "NF4-12": "VERIFIED_STATIC_SCOPED_LAUNCH_ORDER",
+      "NF4-13": "VERIFIED_STATIC_DDL_KIND_OMISSION_REPAIR"
+    }
+  },
+  "capi_status": {
+    "capi5r": {"verdict": "ENDORSED_WITH_REQUIRED_CHANGES", "required_changes": ["V5-RC4-GATE-EXCEPTION", "V5-RC4-QUAL-CAPTURE"], "review_json_sha256": "800880d44bff4b234c82cc392a3008fd4d37139b0827d070120cf299370f403b"},
+    "capi6r": {"verdict": "ENDORSED", "closed_at_design_level_only": ["V5-RC4-GATE-EXCEPTION", "V5-RC4-QUAL-CAPTURE", "V4-RC4-GATE", "V4-RC4-ALIAS", "V3-RC4"], "root_worker_integration": "OPEN", "review_json_sha256": "bcfa259f8690c492b9284ef1ed9549efa7a5d3899edc1fbd5a0ae2ab7234d128"},
+    "pk0_packet_read": false
+  },
+  "path_aliases": {
+    "W": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow",
+    "WT": "W/work/claude-lead-isolation-v1/wt-1",
+    "L": "W/work/protected-original-root-worker-repair-v1",
+    "R": "L/source",
+    "rw/": "R/runtime/worldline/",
+    "D2": "WT/designs/claude-root-worker-seam-design-v2",
+    "D3": "WT/designs/claude-root-worker-seam-design-v3",
+    "D4": "WT/designs/claude-root-worker-seam-design-v4",
+    "S5": "W/work/claude-composition-v5-beta/source",
+    "P1/": "W/outputs/claude-phase1-handoff-20261004/"
+  },
+  "self_containment": {
+    "rule": "Each slice's sha256 is that of the UTF-8 bytes of its v4 lines, each followed by a newline. CARRIED_VERBATIM slices are part of v5 exactly; CARRIED_WITH_LINE_REPLACEMENTS slices with the listed replacements applied.",
+    "v4_file": {"sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda", "lines": 1911},
+    "slices": [
+      {"id": "C4-B", "lines": "181-790", "sha256": "0d561bbf1c146e1148bcb7ef9e929172e97d7cae881740fdefa579acc0bf94ee", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS", "replacements": ["R5-1", "R5-2", "R5-3", "R5-4", "R5-5", "R5-6", "R5-7", "R5-8", "R5-9", "R5-10", "R5-11", "R5-16", "R5-17"], "withdrawals": ["W5-1", "W5-2"]},
+      {"id": "C4-VB14", "lines": "958-1009", "sha256": "c3d9379fa59e6fb72f66ee01468a58bdcaffa8713434b69068e4c29c44ca72f8", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS", "replacements": ["R5-12", "R5-13"]},
+      {"id": "C4-VC1", "lines": "1047-1067", "sha256": "1f5b43cdd64585f49bcddf88d368908fe9e2e0ff6a9aad90174c6a47fe46b822", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS", "replacements": ["R5-14"]},
+      {"id": "C4-VC45", "lines": "1106-1134", "sha256": "9f19804bb9b75eb501428e8fff4e7e891f32cfc457d8bf54d888460f55017e65", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VD1", "lines": "1142-1156", "sha256": "6e4246d52d91c24270d31877831daab0f38820d0915bec9a001b087af2280377", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VE4", "lines": "1229-1259", "sha256": "ece2a2323cb7b4e63a1b01007c805fda0234028e432988ca387fd74b61d9800b", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VG23", "lines": "1415-1439", "sha256": "f2fbbc45ded63474743e8ec24207a2accf266877ea04f45c53279f0147e11b5f", "disposition": "CARRIED_WITH_LINE_REPLACEMENTS", "replacements": ["R5-15"]},
+      {"id": "C4-VH2", "lines": "1468-1472", "sha256": "2c05923289180e0ad4054947397e648a8b2be119f6df902051ecf47fae3bd528", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VH56", "lines": "1499-1512", "sha256": "dca343ce4f65e7ac25b881fe07d5ffded9426ad06ef3abf0869207d87727b41b", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VI3", "lines": "1595-1598", "sha256": "a0a07f40cf293dd1c3e31ec1d8185100ff018d1d56f01f75b4b4e4b4aef4f887", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VJ12", "lines": "1642-1660", "sha256": "a589df7a2c26e06659a40740041685581aba8bc0b519554bb38eeb81fb41dfca", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VJ5", "lines": "1694-1698", "sha256": "68807edb999cc78d85e3762c55ad968d0a9f8519d0827b2b81f09fc32a0ee6bf", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VK1", "lines": "1706-1713", "sha256": "14b1ec87d217eb956fe8cdbaeceda65878a66c8b553099b7fb0b6b94a8ac7584", "disposition": "CARRIED_VERBATIM"},
+      {"id": "C4-VMNOP", "lines": "1796-1852", "sha256": "ab7ac01e4595e4b430cfd8f64f8969a7e6248e1efcabe31bf8e882e13ebd89bb", "disposition": "CARRIED_VERBATIM"}
+    ],
+    "replacements": [
+      {"id": "R5-1", "target": "v3", "lines": "825-832", "slice": "C3-VB", "subject": "four witness forms including (b')"},
+      {"id": "R5-2", "target": "v3", "lines": "876", "slice": "C3-VB", "subject": "compaction union includes the selected (b') span"},
+      {"id": "R5-3", "target": "v3", "lines": "879", "slice": "C3-VB", "subject": "residual R3 counts the (b') span"},
+      {"id": "R5-4", "target": "v3", "lines": "1179", "slice": "C3-VE", "subject": "E9 candidate and sub-helper agreement"},
+      {"id": "R5-5", "target": "v3", "lines": "1242", "slice": "C3-VF1", "subject": "ACK set includes HANDOFF_ABORT"},
+      {"id": "R5-6", "target": "v4", "lines": "443", "slice": "C4-B", "subject": "R4-27 result: child commit commands"},
+      {"id": "R5-7", "target": "v4", "lines": "480", "slice": "C4-B", "subject": "R4-31 result: RT-13"},
+      {"id": "R5-8", "target": "v4", "lines": "628", "slice": "C4-B", "subject": "R4-48 result: stops, HANDOFF_ABORT before TRANSFER_SENT"},
+      {"id": "R5-9", "target": "v4", "lines": "636", "slice": "C4-B", "subject": "R4-49 result: UNKNOWN routing"},
+      {"id": "R5-10", "target": "v4", "lines": "692", "slice": "C4-B", "subject": "R4-56 result: RT-10 with reattach"},
+      {"id": "R5-11", "target": "v4", "lines": "748", "slice": "C4-B", "subject": "R4-64 result: E10 exclusive decision after agreement"},
+      {"id": "R5-12", "target": "v4", "lines": "960", "slice": "C4-VB14", "subject": "field forms and compaction"},
+      {"id": "R5-13", "target": "v4", "lines": "969", "slice": "C4-VB14", "subject": "S-b row union"},
+      {"id": "R5-14", "target": "v4", "lines": "1061-1063", "slice": "C4-VC1", "subject": "premises as obligations, no exclusions"},
+      {"id": "R5-15", "target": "v4", "lines": "1438", "slice": "C4-VG23", "subject": "escrow precondition admits CUSTODY_RETURNED"},
+      {"id": "R5-16", "target": "v4", "lines": "227", "slice": "C4-B", "subject": "R4-1 result: G-12 measurement range"},
+      {"id": "R5-17", "target": "v4", "lines": "259", "slice": "C4-B", "subject": "R4-5 result: OP-7 range"}
+    ],
+    "withdrawals": [
+      {"id": "W5-1", "target": "v2", "lines": "970-1003", "inside": "C2-62", "superseded_by": "V5-F.2"},
+      {"id": "W5-2", "target": "v3", "lines": "1299-1374", "inside": "C3-VF5", "superseded_by": "V5-J.2"}
+    ],
+    "superseded_v4_ranges": ["1-179", "792-839", "841-952", "954-957", "1011-1041", "1043-1046", "1069-1104", "1138-1141", "1158-1177", "1180-1228", "1263-1402", "1405-1414", "1441-1454", "1457-1467", "1474-1498", "1516-1594", "1600-1636", "1638-1641", "1662-1693", "1700-1705", "1715-1745", "1747-1794", "1854-1911"]
+  },
+  "witness_laws": {
+    "field_forms": ["(a) present zero-length span", "(b) alias of an original span", "(b') one-byte sub-span of Data over a non-zero byte, for N only; a selected witness span", "(c) fresh bytes outside every rebased original span"],
+    "compaction_union": "every span the original packet references and every selected form-(b') span",
+    "residual_R3": "the union above plus the constants exceeds Byte_Count'Last; decided by the original unit",
+    "carried_forms_consistent_in": ["v3 V-B.3 (R5-1)", "v3 V-B.6 (R5-2, R5-3)", "v4 V4-B.1 (R5-12, R5-13)", "R4-2 W9"]
+  },
+  "rq1": {
+    "status": "OPEN; answered at design level per operation class",
+    "classes": {"OW": "owner.retry, owner.adopt, owner.recover; never the root route", "IP": "every other protected operation except the workload set; served on the serial route in the store-custody owner; no launch, so no W2 or W3", "WL": "fork, race, revalidate, simulate, ghost.run, ghost.enable, root.add, init; root route while the front owns"},
+    "equivalence_claimed": false,
+    "serial_order_kept": "rw/protected_operations.py:727-777 steps 1-8 unchanged",
+    "wl_differences": ["HANDOFF_ABORT and generation increment in W2 and W3", "the root launch's failure stop in W3, where the original scoped launch stops nothing", "handoff and custody costs in W4"]
+  },
+  "containment_gaps": {
+    "CG-1": {"source": "rw/protected_operations.py:744-745, :767-768", "status": "OPEN", "meaning": "the lane's workload refusal refuses originally accepted workload cases; it preserves nothing and no route, control or acceptance argument depends on it", "closes_when": "the dispatcher is implemented, reviewed and its controls pass, with every original WL accepted case served"}
+  },
+  "dispatcher": {
+    "unit": "WorkerSystemdDispatcher (spec S13, body B13)",
+    "interface": ["launch (instance_id, argv, description, nice, resource_properties)", "stop (unit)", "effective_limits (unit)", "resource_telemetry (unit)"],
+    "launch_is": "one child task through Child_Event_Legal (V5-E.1)",
+    "scope": "the root's own WL operation; later WL requests follow D-4a",
+    "obligations": ["CJ-DISP-1", "CJ-DISP-2", "CJ-DISP-3"]
+  },
+  "exports": {
+    "convention": "version (uint32), layout (kind, field) -> long, entry (arena, len, in, size, row triples..., out, size[, out_arena, capacity]) -> int; ABI refusal is negative; WL_ABI_CAPACITY reports the capacity needed",
+    "existing_unchanged": ["wl_canonical_operation_*_v1", "wl_canonical_exchange_*_v1", "wl_canonical_owner_completion_*_v1", "wl_operation_authority_*_v1", "wl_recovery_protocol_*_v1", "wl_owner_*_v1", "wl_chain_authority_*_v1", "wl_full_physical_*_v1", "wl_resource_run_ledger_*_v1", "wl_resource_scoped_run_ledger_*_v1", "wl_resource_observation_*_v1", "wl_resource_child_execution_*_v1", "wl_resource_actor_*_v1", "wl_completion_*_v1", "wl_pending_*_v1"],
+    "new": {
+      "X-1": "wl_source_json_{version,layout,recognize,number_canonical,extract,archive_equal}_v1 (S2)",
+      "X-2": "wl_roster_join_{version,layout,join}_v1 (S2)",
+      "X-3": "wl_root_crosswalk_{version,layout,decode}_v1 (S3)",
+      "X-4": "wl_custody_chain_{version,layout,verify}_v2 (S2H)",
+      "X-5": "wl_root_custody_phase_{version,layout,legal,next,fold,mutation_allowed}_v1 (S9)",
+      "X-6": "wl_requester_correspondence_{version,layout,root_admission_join,transfer_join,relay_join,serving_join,relay_frame}_v1 (S8)",
+      "X-7": "wl_child_event_{version,layout,legal}_v1 (S12)",
+      "X-8": "V2 successors: wl_resource_scoped_run_ledger_*_v2, wl_resource_observation_*_v2, wl_resource_child_execution_*_v2 (S4)",
+      "X-9": "wl_scoped_canonical_operation_{version,layout,decide}_v1 and _v2 (S1); both new (NF5-4)",
+      "X-10": "wl_scoped_canonical_exchange_*_v1/_v2 and wl_scoped_owner_completion_*_v1/_v2"
+    },
+    "v1_fallback": "additive; adds no refusal; the lane's workload refusal is not part of it"
+  },
+  "current_observations": {
+    "S1": "one ScopedSnapshot {state, history, rows, projection, buckets} from current_snapshot () under operation_lock; equality re-checked at the boundary",
+    "root_admission": "the root capture after HELD and before EXECUTION_NATIVE",
+    "custody_ack": "seed equal to current under the transferred OFDs",
+    "child": "the relayed credential frame, helper ancestry frames and the read-only procfs view, in the worker and again in the sub-helper",
+    "requester": "the operands of V5-I.2 at intake and at each gate use",
+    "custody": "chain and state rows in one transaction",
+    "hmac": "key bytes, genesis bytes, rows; DOMAIN_V2 messages exactly as V5-A.3 X-4"
+  },
+  "authenticity": {
+    "premises": ["P-A1", "P-A2", "P-A3", "P-A4"],
+    "premises_are": "OPEN obligations; no originally required case is excluded (R5-14)",
+    "rollback_detected": "a custody journal whose prefix lacks a member of the referenced set (CUSTODY_REFERENCE ids and frame-bound operation heads)",
+    "rollback_not_detected": ["tolerated append window", "removal of only unreferenced trailing events", "coordinated restores", "key holders", "rollback before the first reference"]
+  },
+  "json_forms": {
+    "number_canonical": "integers canonical and not -0; non-integers X = Repr (Sign (X), Round (M (X))) with the sign carried separately; -0.0 canonical",
+    "repr": "shortest digits, nearest, ties to even last digit; fixed notation for -4 < decpt <= 16 with .0 suffix; otherwise exponent notation with sign and at least two digits (RC-5)",
+    "thresholds": "E >= 309 not canonical without big-integer work; E <= -325 not canonical without big-integer work (J5-1 ... J5-4)",
+    "depth_cap": false
+  },
+  "p3": {"carried": "C4-VC45 (v4 V4-C.4) unchanged, with NC-P3-1 ... NC-P3-4"},
+  "accounting": {
+    "obligations": ["AO-1", "AO-2", "AO-3", "AO-4", "AO-5", "AO-6", "AO-7", "AO-8", "AO-9", "AO-10", "AO-11"],
+    "options_v4": "A, B, C, E, F and F' as v4 stated",
+    "G": "unselected; handler code shares the first root unit's admitted bound (AO-5/AO-6 for handler code, AO-11)",
+    "H": {"description": "service-class coordinator holding no reservation runs handlers and the runner, as the daemon does; each WL request uses the original launch_reserved with only systemd-run relayed (LAUNCH_SCOPED)", "meets": ["AO-1", "AO-2", "AO-3", "AO-4", "AO-5", "AO-6", "AO-7", "AO-9", "AO-10"], "part": ["AO-8", "AO-11"], "deltas_undesigned": ["D-H1", "D-H2", "D-H3", "D-H4", "D-H5"], "selected": false},
+    "selected": null
+  },
+  "child_relation": {
+    "order": ["TASK_INTENT", "child Reserve", "child Record_Launch_Intent", "CHILD_DISPATCH_INTENT + CREATE_CHILD", "CHILD_HELD", "child Record_Running", "CHILD_GO_INTENT + GO_FORK", "CHILD_MEASURED", "CHILD_CANDIDATE + COMMIT_CHILD_REQUEST", "CHILD_AGREED or CHILD_REFUSED", "CHILD_READY or CHILD_ABORT", "COMMIT_CHILD_GO or ABORT_CHILD", "ACTOR_STDIN_*", "CHILD_CLOSED", "child Record_Terminal and release or charge"],
+    "exclusive_set": "CHILD (t) = {CHILD_READY, CHILD_ABORT}",
+    "ready_requires": "CHILD_AGREED on the same material digest with both decisions Child_Ready_Conjunction",
+    "terminal_committers": {"Worker": "Worker_Owned ... Worker_Relinquish", "Collector": "from CUSTODY_RETURNED and in physical phases", "Reconciler": "Unknown, on evidence"},
+    "helper_protocol": "text frames WL-ROOT-WORKER-SUPERVISOR-v2 on SOCK_SEQPACKET; variable payloads in sealed memfds",
+    "sub_helper_library": "copied into a sealed memfd, hashed against the argv sha256, loaded through /proc/self/fd (K-27)"
+  },
+  "custody_relation": {
+    "unit": "Worldline.Root_Custody_Phase",
+    "relations": ["root", "request", "descriptor"],
+    "cross_conditions": ["XC-1", "XC-2", "XC-3", "XC-4", "XC-5", "XC-6", "XC-7"],
+    "event_kinds_added_v5": ["HANDOFF_ABORT", "WORKER_REATTACHED", "CUSTODY_RETURNED", "REQUEST_LOST"],
+    "event_kinds_withdrawn_v5": ["ROOT_STOP_INTENT"],
+    "root_phases_added_v5": ["Handoff_Aborted", "Custody_Returned", "Ended"],
+    "request_phases": ["Queued", "Transfer_Intent", "Intake", "Abandoned", "Responded", "Lost"],
+    "descriptor_phases": ["Front_Held", "Stop_Intent", "Frozen", "Ofd_Evidence", "Intake", "Abandoned", "Released", "Reclaimed"],
+    "r6": "XC-5, a precondition of CLOSED_WITNESS",
+    "m8": {"a": "store-custody owner's original failure capture and job.cancel handler; handoff window per R5-8", "b": "helper and sub-helper kill of init on channel loss or ABORT_CHILD", "c": "withdrawn"},
+    "lemma": "OWN-1"
+  },
+  "pending_intents": "V5-F.7: every committed intent with a pending effect or response has an idempotent restart action",
+  "closure": {
+    "closed_outer": "R4-30 unchanged",
+    "no_launch_route": "HANDOFF_ABORT (Never_Dispatched): Release_Hold, original quarantine, original error response, FRONT_OWNED (g+1); no CLOSED_WITNESS",
+    "custody_return": "CUSTODY_RETURNED on the worker and namespace-init pidfds (K-24); returns custody only; holds stay",
+    "routes": ["RT-21", "RT-22", "RT-23", "RT-24", "RT-25", "RT-26", "RT-27", "RT-28", "RT-29"]
+  },
+  "drain": {
+    "arm_before_read": true,
+    "fold": "ARMED, CHUNK and DISARMED records; an interval open at the end of the fold is READ_GAP_POSSIBLE whatever its last record",
+    "surviving_custodian": null,
+    "lost_pipe": "OUTPUT_CUSTODY_LOST, irrecoverably UNKNOWN",
+    "reattach": "only through a live read end held by the reattaching process; fstat identity; no kcmp without a second live descriptor",
+    "kcmp": "kcmp (pid_front, pid_worker, KCMP_FILE, fd_front, fd_worker), both live, after SEND",
+    "retained_read_copy": "writer blocks instead of EPIPE; measured by K-25; closed at once when no reattach is possible",
+    "last_writer_eof": "unchanged (V4-H.5, K-22)"
+  },
+  "requester": {
+    "joins": {"Root_Admission_Join": "pre-ACK, Transfer_Sent or Roster_Evidence, owner None", "Transfer_Join": "FRESH, after CUSTODY_ACK", "Relay_Join": "RELAY, after CUSTODY_ACK", "Serving_Join": "every gate use"},
+    "presence": "three-valued per field and mode: R, A, O (optional never decides)",
+    "relay_frame": {"magic": "WLRY", "length": "uint32 big-endian", "body": "archive record", "mac": "HMAC-SHA256 over DOMAIN_RELAY, magic, length and body", "binding": ["generation", "reattach_epoch", "request", "subgeneration", "operation", "gate", "sequence", "nonce", "admission_head"], "errors": "original WorldlineError and OSError re-raised as themselves", "transport_loss": "the closed-connection exception of the original re-read (RC-10)"}
+  },
+  "startup": {
+    "plan_version": "worldline.protected-root-worker-plan-v1",
+    "ddl": "V5-J.2",
+    "head": "ORIGIN with NULL event_id or EVENT; foreign_keys=ON",
+    "quantities": "minimal little-endian magnitude BLOBs (native Quantity); no integer bound",
+    "genesis_relation": "row value = archive (exact_json (file bytes)), natively archive_equal; no byte comparison of file and archive",
+    "migration": "new plan file P2 at a new path naming new J2 and G2; v1 descriptor, P1, G1, J1 retained read-only and bound; RetainedV1CustodyVerifier runs v1's _schema and _load"
+  },
+  "capi_integration": {
+    "checkviews": ["CV-UNITS", "CV-QUAL", "CV-LAYOUT", "CV-TILE", "CV-GATE"],
+    "rw_spark_units": "the reviewed enrolled RW roster, disjoint from CAPI_SPARK_UNITS, never derived from RW_ROUTINE_NAMES",
+    "base_tables_byte_immutable": true,
+    "rules": ["U-1", "U-2", "U-3", "U-4", "U-5", "U-6", "U-7", "U-8"],
+    "controls": ["MX-RW1", "MX-RW2", "MX-RW3", "MQ-RW1", "MQ-RW2a", "MQ-RW2b", "MQ-RW3", "MQ-RW4", "MQ-RW5", "MU-RW1", "MU-RW2", "ML-RW1", "PX-RW1", "PX-RW2", "PX-RW3"],
+    "integration_checks": "IC-1 ... IC-15"
+  },
+  "progress_model": {
+    "reattach": "authenticated endpoint; WORKER_REATTACHED (n) ends the unreachable-worker wait",
+    "custody_return": "CUSTODY_RETURNED ends the dead-worker and missing-closure waits",
+    "queued_events": "withdrawn",
+    "stated_differences": ["a worker that never completes a reattach", "a namespace whose init stays alive", "later WL requests while a worker owns, until D-4a"],
+    "deadline_settles": false,
+    "fabricated_join": false,
+    "router_awaits_under_lock": false
+  },
+  "plan": {
+    "preparation_order": [["S0", "S2"], ["S2H", "S3"], ["S8", "S4"], ["S9", "S1"], ["S7", "S12", "S6"], ["S13", "S10 (alternatives only)"], ["S11"]],
+    "new_nodes": ["S13", "B13"]
+  },
+  "integration_gates": ["G-CAPI", "G-CAPI-P", "G-PROT", "G-RW", "G-A1", "G-DEP", "G-REVIEW"],
+  "runtime_gates": ["R-PROOF", "R-LAB", "R-PUB"],
+  "operator_items": {"ids": ["OP-1", "OP-2", "OP-3", "OP-4", "OP-5", "OP-6", "OP-7", "OP-8", "OP-9"], "op7_range": "K-1 ... K-27 (R5-16, R5-17; for the reviewer to assess)", "added_lowered_or_widened": false},
+  "kernel_measurements": {"carried": ["K-1 ... K-14", "K-15 ... K-21", "K-22", "K-23"], "added": ["K-24", "K-25", "K-26", "K-27"], "owner": "operator under OP-7 (D-8b)", "performed": false},
+  "runtime_checks": {"carried": ["RC-1", "RC-2", "RC-3", "RC-4", "RC-5", "RC-6"], "added": ["RC-7", "RC-9", "RC-10"], "unused": ["RC-8"], "owner": "lead; a traced run needing root is operator work", "performed": false},
+  "controls": {"retained": "every original and additive control; none retired", "frontier_control": "unchanged (C2-116)", "changed": "V4-M's M8 (c) admission becomes a refusal check (strengthening)", "added": "SEAM-DESIGN.md V5-M"},
+  "carried_assessments": {"source": "review.json carried_assessments, unchanged", "frontier_sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb"},
+  "new_author_observations_v5": {
+    "NF5-1": "every protected operation goes through the principal's invoke and an operation-journal append; the daemon retains every request in the store first",
+    "NF5-2": "the runner's systemd interface: launch, stop, effective_limits, resource_telemetry",
+    "NF5-3": "the original scoped launch runs systemd-run from the daemon with the original properties",
+    "NF5-4": "no wl_scoped_canonical_operation export exists; both entries of X-9 are new",
+    "NF5-5": "the V1 custody channel is SOCK_STREAM with SO_PASSCRED; the actor channel SOCK_SEQPACKET",
+    "NF5-6": "job.cancel reads the store, raises NO_ACTIVE_JOB, adds to the runner's cancelled set and stops units",
+    "NF5-7": "the store uses WAL"
+  },
+  "open": [
+    "All original obligations OB-001 ... OB-219, OPEN with no closure credited",
+    "V4-REQ-A ... V4-REQ-L, V3-REQ-A ... V3-REQ-L, V2-REQ-A ... V2-REQ-L, RQ-1 ... RQ-5, inherited RC items other than RC-05 and RC-10, every NOT_CLOSED or PARTIALLY_CLOSED clause and ruling",
+    "The review's open_design_dependencies, all ten",
+    "CG-1 and CJ-DISP-1 ... CJ-DISP-3",
+    "X-1 ... X-10 bodies and costs; CJ-JSON; Number_Canonical; the three relations, XC-1 ... XC-7, OWN-1, the fold; Child_Event_Legal; Root_Admission_Join; relay_frame; the union law",
+    "P-A1 ... P-A4 as obligations; rollback non-claims",
+    "D-4a accounting choice; H deltas D-H1 ... D-H5",
+    "K-1 ... K-27; RC-1 ... RC-7, RC-9, RC-10",
+    "The independent actual gpt-6.1-sol review of v5"
+  ],
+  "jackal": {"file": "jackal.json", "calls": 4, "groups": 1, "ids": ["J5-1", "J5-2", "J5-3", "J5-4"], "status": "exact", "lane": "rat", "formal": false, "use_ceiling": "informational about arithmetic only", "ledger_used_as_evidence": false},
+  "process": {
+    "writes": "Write and Edit only, only in WT/designs/claude-root-worker-seam-design-v5/",
+    "write_refusals": "none",
+    "bash": "read-only; no redirection to any file; no mkdir, cp, mv, rm, tee, chmod, touch; no git",
+    "interruptions": "none: no TaskStop, kill, timeout wrapper or background task",
+    "execution": "none",
+    "not_read": ["WT/packets/capi-pk0/", "~/.local/share/sia/.gbrain/", "the lead's top-level transcript"],
+    "sia": "one sia.ask at the start; no note",
+    "skills": ["ada", "ada-omarchy", "spark-users-guide", "ada-programming", "advanced-ada", "gnat-toolchain", "ada-2005-amendment", "ada-high-integrity"],
+    "deviation": "none in v5"
+  },
+  "non_claims": [
+    "Nothing is reviewed, accepted, proved or authorized; no approval gate is added.",
+    "Nothing was compiled, run, imported, proved, tested or measured.",
+    "No equivalence of the root route with the serial route for in-process operations; for WL operations the additions are listed as differences.",
+    "The lane's workload refusal preserves nothing (CG-1).",
+    "No pipe is recoverable unless a live process holds a read end.",
+    "Rollback detection is exactly V5-C.2's.",
+    "Number_Canonical's constants are the author's reading until RC-5.",
+    "No accounting option, cap, prerequisite or policy field is selected or added.",
+    "v4's M8 (c) is withdrawn, not repaired.",
+    "No liveness for a worker that never completes a reattach or a namespace whose init stays alive.",
+    "SIA recall is not evidence."
+  ]
+}
