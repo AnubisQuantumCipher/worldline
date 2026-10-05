@@ -1,0 +1,69 @@
+{
+ "schema": "claude-packet-source-review-v1",
+ "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0-v4/packet.json",
+ "packet_sha256": "721e6...",
+ "note_on_packet_sha256": "packet.json recomputed sha256 = 721ef6c1c69bf6e866ef4e62a721a78b17332e81ced2d57a2bf337c7f02fc421",
+ "files_sha256": {
+  "packet.json": "721ef6c1c69bf6e866ef4e62a721a78b17332e81ced2d57a2bf337c7f02fc421",
+  "AUTHOR-NOTES.md": "ee3cb8c84ffb967401fe9f48e3f09b97eff3f00cc529377927ca903d9d6d5f06",
+  "jackal.json": "c3c41a1b581b6557cd718dca1d24b9ed583af88c74e6b7b0ce93b745717aac75",
+  "files/tests/capi_characterization.json": "645a5572d31e354c5c9112e70f17d85eb15fabe3662d6499aa31ca8db5505b1f",
+  "files/tests/capi_guard_pages.py": "bfac3aa398c490d3de20cc420ba0fea2c01b211e4e20c2a249f69529f6d3727c",
+  "files/tests/capi_layout_baseline.json": "4df25239c3fd173b4076fe34e9f250948f8c92f7068c701c364723ba18294bf0",
+  "files/tests/test_capi_characterization.py": "bc6c03ed358a0a8bc3ff92a86981641f0f90bb4bbf1db6a2d6c96d06441312ed",
+  "files/tests/test_capi_diagnostics.py": "1cbf5b2481a57b7cd486c7c9a5c1a9ee536e3e6788ec819ac35288061eda4236",
+  "files/tests/test_capi_layout_identity.py": "e19113c3554a0094dc6a0c06919a0e6bbcf367c720cdd98dc374349f8d4b3b3f"
+ },
+ "brief_sha256": "2afd50735d8c3faf17cb21697a8eb5860bebdc06cf4a538f335f1112a6e5588b",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED",
+ "rc_closure": {
+  "RC-v2-1": "CLOSED_IN_SOURCE: its two residual v3 gaps were RC-v3-1 and RC-v3-2, both now closed; C-03 per-conjunct text and nested_conjuncts complete at the packet's own granularity",
+  "RC-v2-2": "CLOSED_IN_SOURCE (gating code byte-identical to v3; test_record_shape now also checks readiness sides against shape, CHAR:1634-1639)",
+  "RC-v2-3": "CLOSED_IN_SOURCE (DIAG/LAY/GP byte-identical to v3; --record and --measure-headers gates unchanged)",
+  "RC-v2-4": "CLOSED_IN_SOURCE (HarnessFaultControl fd-1 write unchanged from v3, CHAR region byte-identical)",
+  "PK0-RC4": "CLOSED_IN_SOURCE (DIAG byte-identical; D06 RECORD_ON_L0)",
+  "PK0-RC5": "CLOSED_IN_SOURCE (GP byte-identical; boundary statements include the probe)",
+  "RC-v3-1": "CLOSED_IN_SOURCE: embed (CHAR:1283-1330) reads wl_completion_context_layout_v1(1,8)/(1,10), requires equality with the ctypes offsets (PlacementError/C-13 otherwise), copies bytes unchanged, re-aims the request field; D88/D89 code 255, exact transport stream, C-05 twins; nested_conjuncts maps CC:777/778; OPEN item and deviation 2 removed; conjunct order verified at CC:765-780; Array_Valid/Disjoint at CC:266-278",
+  "RC-v3-2": "CLOSED_IN_SOURCE: D76-D87/D90-D91 correct against CC:766,773-779,893-907; unexercisable/representative_operands/not_exercised each source-reasoned; C-03 and C-06 completeness claims corrected; representative_operands was a v3-sanctioned path"
+ },
+ "item_findings": {
+  "1_integrity": "All nine hashes match the brief and packet.json; first 693 cases and 75 diagnostic cases byte-identical to v3 in content and order (independent json.load comparison); 32 new cases (16 refusals + 16 twins, all twinned or no_twin) and D76-D91 appended; change_list exact (test_capi_characterization.py diff = docstring + embed branch + embed fn + test_record_shape only; four other payload files byte-identical to v3); invariants hold (MINIMUM_CHECKS 251, UNANALYZED_BOUNDARY {worldline-c_api}, External_Name 31, movers 0; REQUIRED_PROVED 535 carried, not recounted); 100 bound inputs in v3 order, 6 spot-checked against S5 and matching; JACKAL count cross-checks exact",
+  "2_rc_closure": "RC-v3-1 and RC-v3-2 CLOSED_IN_SOURCE; RC-v2-1 thereby fully closed; RC-v2-2/3/4, PK0-RC4/RC5 still closed. embed, D88/D89 and D76-D91 verified against CC bodies: codes 255, frontiers, twin placement and exact streams match; representative_operands sound; completeness claims accurate",
+  "3_mechanics": "test_record_shape readiness-side check present (CHAR:1634-1639) and class H/X still barred (CHAR:1621-1622); class-X stride premise stated at REC:391 (J52-J55); readiness probe, bytecode gate and HarnessFaultControl line byte-identical to v3",
+  "4_faithfulness": "All new cases follow original S5 behaviour (refusals at 255); no class-H code accepted as a refusal; no expectation weakened; no native failure counted as a refusal; F32 not decided (U15y set Resulting=Current; no case asserts a code for the S5 absent-Resulting request; no S5 file edited)",
+  "5_placeholders": "RECORD_ON_L0 parity 9=9 (none added); none can pass (check fails on any placeholder); the two embed cases are not placeholders",
+  "6_other": "Deviations 6 and 7 strengthen coverage; no contract/floor/accepted case/fixture/control/proof scope lowered; no added assumption that lowers a bar; no approval gate added; the stride class-X premise is stated, not hidden; model-identity conflict (HANDOFF.md:173) and process lapses recorded, not decided"
+ },
+ "required_changes": [],
+ "open_obligations": [
+  "Independent re-review of any further revision with new identities before baseline execution",
+  "Model-identity requirement (W/outputs/claude-phase1-handoff-20261004/HANDOFF.md:173) versus this Claude review",
+  "Baseline run on L0 in an admitted frame and reviewed recording of every placeholder (179 layout values, three written results, D06 bytes)",
+  "Six launch obligations incl. bytecode suppression for the unittest parent and the header test, owned scratch/TMPDIR, WORLDLINE_CORE_LIB/PYTHONPATH, reviewed supervision with deadlines, byte-exact capture, HarnessFaultControl line retained",
+  "V5-B01, V5-B02 and the capacity gate",
+  "F32-CONFLICT, owned outside PK-0",
+  "Class H 9.6.4 a-d, native write construction, ABI/layout measurement, full proof of the Collapse.Decide, Decide_Wire and Seal contracts (the Start.Required unexercisability and the stride class-X entry rest on unproved premises)"
+ ],
+ "run_evidence": false,
+ "control_evidence": false,
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "b8e7ec8367ba67d06e65d509ba31afe32d1bebaa2810f54168e2cca94a6a4771",
+ "checks": {
+  "path": "packets/capi-pk0-v4/review/claude-v1/checks.json",
+  "sha256": "33fd96d05ae56ad1813ff91798947c880e53fff91f4216418349576727a94b20",
+  "bytes": 7370,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a073f1905098f50bf",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a073f1905098f50bf.output",
+  "source_task_output_sha256": "9dfc5f4ed40ec2ffdc9464f500e29ec0b14080c85b37562e906aa98a05b464e9"
+ }
+}

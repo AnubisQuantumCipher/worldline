@@ -344,6 +344,16 @@ JACKAL call, WebFetch or edit. Nothing was interrupted.
 - **Confinement stays the blocker.** V5-B01, V5-B02 and the W-1 obligations remain OPEN, so no proof run can dispatch.
 
 ## D1 native Big_Integer: design ENDORSED (v6, 2026-10-05 ~21:30Z)
+## PK-0 C-API characterization packet: SOURCE ENDORSED (v4, 2026-10-05 ~22:10Z)
+
+The PK-0 characterization packet is ENDORSED at source level (third endorsement, after F32 and D1). 725 cases and 91
+diagnostics, each new refusal with its guard-page twin and exact byte stream; every original S5 behaviour preserved, no
+class-H code treated as a refusal, no expectation weakened, F32 not decided by the packet.
+
+**What stays OPEN.** This is SOURCE review only. The PK-0 stage gate — the baseline run on L0 in an admitted frame — and
+its recorded values, the 179 layout placeholders, the three written results, the D06 bytes and the six launch obligations
+are all OPEN. The run requires the adopted scratch frame — blocked by confinement (V5-B01/V5-B02, W-1).
+
 
 The D1 design is ENDORSED at design level (second endorsement after F32). The A-ROW row-order engine, with Theorem H-A
 re-presented and independently re-reviewed, resolves the native Big_Integer cost correspondence without any cap, domain
@@ -456,6 +466,7 @@ independent review.
 | **W-1 v10** | drafted on Opus 4.8; **under independent Claude review (Opus 4.8)** | Answers the nine W1-V9 changes at spec level: ASYNC-ENUM as a closed obligation+predicate (no procedure; detailed refutation operator-reserved), NOOWNER-SCOPE, ENUM-USERDEL (67/104 states), PLAN-CONSTRAINTS (U-11 withdrawn), PREMISE-ORDER (review before O-1), RL-SELFTEST-FIXTURE removed, INVENTORY V15-V17 + fd set, REVIEW-PROVENANCE §23, FORM-CONSISTENCY; E0/E1/E2 staging with an E0 step list the lead may run before endorsement. **Disclosed regression W1-V10-FORM:** change-document, not self-contained; AMENDED units carry only v9 identities. Drafted without a classifier stop. Brief `briefs/w1-design-v10.md` (`6535ed50…`) | `proposal/ISOLATION-STORAGE-PROPOSAL-v10.md` |
 | **D1 v6** | **ENDORSED** (design level; second endorsement) | The re-presented Theorem H-A is complete and correct at design level; both v5 counterexamples (RL-25, RL-25E) are eliminated; V5-RC1..RC5 all CLOSED; zero required changes. The reviewer re-ran all 23 K-values and confirmed the Budget-usage-never-read basis in C5. **R-H-A cleared the FALSE-theorem obstacle.** F35 / O-GHOST-HORIZON-A stays OPEN and BLOCKING: it needs the strict proof (PO-A27..A33, A35) and checks-build observation (RL-24/25/25E/26), which require the admitted frame | `designs/claude-native-bigint-d1-design-v6/review/claude-v1` |
 | **Seam v8** | drafted on Opus 4.8; **under independent Claude review (Opus 4.8)** | Narrow delta closing V7R-H (the handler fix: delete `:192`, `elif`→unconditional `else:`, set phase from committed_front_phase fail-closed, so `p.quarantine` survives every owned-is-None failure; design states the handler IS changed) and V7R-CITE (citation fixes). 3/3 slices verify against v7; R8-1..R8-9; sweep clean. Brief `briefs/root-worker-seam-design-v8.md` (`4cf5bcad…`) | `designs/claude-root-worker-seam-design-v8` |
+| **PK-0 v4** | **ENDORSED** (source level; third endorsement) | Zero required changes. RC-v3-1 CLOSED (the `embed` mutation reads the region bounds from the library and fails visibly on a differing layout; D88/D89 correct), RC-v3-2 CLOSED (D76-D91 + representative_operands), so RC-v2-1 is fully closed; RC-v2-2/3/4 still closed. The reviewer confirmed all 693 v3 cases byte-identical and verified the new cases against the CC bodies. Characterization SOURCE only — the baseline run on L0 in an admitted frame stays OPEN (confinement-gated) | `packets/capi-pk0-v4/review/claude-v1` |
 | **W-1 v8** | **NOT_ENDORSED** | W1-V8-HOLDER-IOEXIT, W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-WRITER-AS-W, W1-V8-COMPOSED-ENUM, W1-V8-EVIDENCE-EQUIV, W1-V8-FORM-SUBUNIT | `proposal/v8-review/claude-v1`: freeze `c0a2bc3f…`, REVIEW.md `38dcb076…` |
 
 **PK-0 v2 closure detail.** RC4 and RC5 are CLOSED_IN_SOURCE; RC1, RC2 and RC3 are PARTIALLY_CLOSED. The reviewer independently confirms the F32 source reading and leaves it with F32-CONFLICT.
