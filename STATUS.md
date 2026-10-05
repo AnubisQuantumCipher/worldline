@@ -166,6 +166,13 @@ V5-B02 and every original obligation stay OPEN.
     R2 a fresh review), not performed: `review-monitoring/d1-v4-review-recovery-proposal.md`.
 - C-API DESIGN v4 drafting agent (author role) on V3-RC4..RC6, output to `designs/claude-capi-boundary-design-v4`. Its
   prompt forbids any Bash write, including redirection.
+  - **Event, disclosed.** At 01:22:20.621Z it ran `TaskStop` on its own timed-out background inspection task
+    `ba0hhwegp`, then finished the read with a bounded command.
+  - The lead relayed the operator's no-interruption rule to it at ~01:26Z, and to the W-1 v3 author.
+  - This grants nothing further. It is distinct from the D1 v4 reviewer, which stays untouched and INCOMPLETE.
+  - Details are in `deviations/capi-v4-author-taskstop/NOTE.md`, including the lead's own two historical `TaskStop`
+    calls at 17:00Z and 17:14Z on 10-04. Those predate the first no-interruption instruction, at 18:29Z.
+- W-1 v3 drafting agent (author role), output to `proposal/ISOLATION-STORAGE-PROPOSAL-v3.md`.
 
 ## Earlier progress log
 
