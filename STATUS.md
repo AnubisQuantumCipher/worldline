@@ -237,6 +237,12 @@ V5-B02 and every original obligation stay OPEN.
     thread `01a10a47-a6da-79e2-b8e0-a110e9fc7a8a`, output to `…/review/gpt61-v1`.
 - **Root-worker SEAM DESIGN v2.** Its actual gpt-6.1-sol review (thread `01a10a26…`, started 03:40:38Z) sealed
   ~04:19Z: ENDORSED_WITH_REQUIRED_CHANGES (verdict table).
+- **Root-worker SEAM DESIGN v3.** Drafting started ~04:23Z. The v2 author (`a01ff3579cb09cea3`) was resumed for
+  V2-REQ-A..L, RQ-1 and every PARTIALLY_CLOSED item; output goes to `designs/claude-root-worker-seam-design-v3`.
+  - **Its limits.** Write/Edit only in that directory; read-only Bash with no redirection, not even `2>/dev/null`; no
+    interruption; `sia.ask` at the start; all eight Ada skills; JACKAL in groups of at most four.
+  - **C-API status.** It binds the sealed C-API v4 review as the predecessor status and labels any dependence on the
+    unreviewed v5 as such.
 - **Operator package DRAFT-v7: working copy moved into wt-1.**
   - At ~04:19Z the edit guard refused Edit-tool changes to `work/claude-operator-decision-package-v1/DRAFT-v7.md`,
     which is outside any git worktree.
