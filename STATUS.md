@@ -323,11 +323,36 @@ own agents for that now".
 - **NEW OPEN OBLIGATION F32-CONFLICT.** Two original requirements conflict: OB-003 and those AUTHORIZED controls. The
   resolution must weaken neither. It needs its own design and independent review, and is not decided here.
 
+## D-LEAD-REVIEW-PROVENANCE (lead decision, 2026-10-05 ~19:05Z)
+
+**The conflict.** The frame's adoption joins (v5 `rollout_join`, carried as W-1 v9 §4.6/§16) require gpt-6.1-sol rollout
+provenance. Since the human's 17:05Z direction, independent reviews are Claude review subagents, which produce no rollout.
+As written, `adopt` would therefore refuse every review.
+
+**The decision.** The frame's review-provenance joins will require the provenance of the review mechanism actually used.
+- **Claude review.** For a Claude review subagent, that means all of:
+  - the sealed `review-freeze.json` over REVIEW.md, review.json and checks.json;
+  - `raw-final-message.txt`;
+  - the reviewer agent id;
+  - the sha256 of the reviewer's task output;
+  - `reviewer_kind: claude-subagent` and `different_from_author: true`.
+- **Never accepted.** A label alone.
+- **Never claimed.** GPT.
+
+**Why it is not a loosening.** The join still refuses anything that is unsealed, unbound or author-reviewed. It is the
+human's direction applied to a guard.
+
+**Where it goes.** It is implemented in the frame-design revision that follows the W-1 review, and goes through its own
+independent review.
+
 ## Claude review verdicts (sealed by `tools/seal_claude_review.py`; verbatim transcription)
 
 **Authors resumed ~18:00Z.** Each was given its own transcript path:
 - PK-0 v3 → `packets/capi-pk0-v3/`
-- W-1 v9 → a probe-and-evidence plan, prefer self-contained
+- W-1 v9 → drafted: `proposal/ISOLATION-STORAGE-PROPOSAL-v9.md` (`4bc0272c…`, self-contained, 134 units).
+  - **Changes.** A seccomp ENOSYS on io_setup/io_uring_setup (V14), a namespace-owner account N, the §11.4 enumeration, the
+    §13.2 probe plan and the §16.1 operator package.
+  - **Review.** Its Claude review is running: brief `briefs/w1-design-v9.md`.
 - seam v6 → `designs/claude-root-worker-seam-design-v6/`. Drafted: SEAM-DESIGN.md `f41566d8…`, seams.json `a54dc595…`.
   - **Changes.** 13 hash-pinned v5 slices, which the lead verified 13/13, plus replacements R6-1..R6-29. New containment
     gaps CG-2, CG-3 and CG-4 are OPEN. Option H′ is offered, not adopted.

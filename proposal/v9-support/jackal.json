@@ -1,0 +1,32 @@
+{
+  "schema": "wlscratch-w1-jackal-record-v1",
+  "document": "ISOLATION-STORAGE-PROPOSAL-v9.md",
+  "date": "2026-10-05",
+  "tool": "mcp__jackal__jackal_exact (actual MCP calls, sequential or at most four at a time)",
+  "common": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling": "none returned; informational arithmetic only; exact is not formal-bounded"
+  },
+  "results": [
+    {"id": "I1", "time_utc": "2026-10-05T17:52:31Z", "parsed": "4+5+3+2+2+1+1+1+1+7+10+4+6+3+3+4+0+0+2+1+1+1+1", "exact": "63", "approx": "63", "used_in": "§11.4 reachable set without images (63 + 3·n_d + 5·n_m)"},
+    {"id": "I2", "time_utc": "2026-10-05T17:52:32Z", "parsed": "4+5+3+2+2+1+1+1-2+13+1+7+10+4+6+3+3-4+26+4+0+0+2+1+1+4+1+1", "exact": "100", "approx": "100", "used_in": "§11.4 reachable set with images (100 + 3·n_d + 5·n_m)"},
+    {"id": "I3", "time_utc": "2026-10-05T17:52:33Z", "parsed": "4+5+3+2+2+1+1+1", "exact": "19", "approx": "19", "used_in": "§11.4 N without images (19 + n_d + n_m)"},
+    {"id": "I4", "time_utc": "2026-10-05T17:52:33Z", "parsed": "4+5+3+2+2+1+1+1-2+13", "exact": "30", "approx": "30", "used_in": "§11.4 N with images (30 + n_d + n_m)"},
+    {"id": "I5", "time_utc": "2026-10-05T17:52:43Z", "parsed": "1+2", "exact": "3", "approx": "3", "used_in": "§11.4 states per frame directory"},
+    {"id": "I6", "time_utc": "2026-10-05T17:52:43Z", "parsed": "1+3+1", "exact": "5", "approx": "5", "used_in": "§11.4 states per frame member"},
+    {"id": "I7", "time_utc": "2026-10-05T18:07:05Z", "parsed": "1+1+1+1+1+1+1", "exact": "7", "approx": "7", "used_in": "§18.1 the seven required changes of the v8 review"},
+    {"id": "I8", "time_utc": "2026-10-05 (after the change map was computed)", "parsed": "86+44+1-131", "exact": "0", "approx": "0", "used_in": "§18.5 partition of v8's 131 units (86 COMPOSED, 44 REVISED, 1 IDENTICAL)"},
+    {"id": "I9", "time_utc": "2026-10-05 (after the change map was computed)", "parsed": "131+3", "exact": "134", "approx": "134", "used_in": "§18.5 v9 units (131 v8 units plus 3 NEW)"}
+  ],
+  "carried": "v8's J1-J9 (v8-support/jackal.json, sha256 cdae49fc3b537aaf8d97849882b9702087390aee4b4bab3fd0a56c5ce485a0c9; Appendix H) are reused as recorded there, not recomputed: 2^32-1 = 4294967295; the app.slice limits 24, 16 and 20 GiB; 4294967295-1 = 4294967294; A_capture 3922388356; the dispatch-stage Required 26374491309528/1397 and its checks; 2*3922388356 = 7844776712. Earlier numbers (Appendices C, E, F, G) are carried with their own records.",
+  "not_relied_on": "none"
+}
