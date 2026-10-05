@@ -1,0 +1,54 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-f32-resolution-v6/DESIGN.md",
+ "design_sha256": "2fb7670ced0607f3776e8ebad0edbb7dff9883384b719c5a520425edb3be9e84",
+ "patch_sha256": "226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650",
+ "rc_closure": {
+  "RC-1": "CLOSED",
+  "RC-2": "CLOSED",
+  "RC-3": "CLOSED",
+  "RC-4": "CLOSED",
+  "RC-5": "CLOSED",
+  "RC-6": "CLOSED",
+  "RC-7": "CLOSED",
+  "RC-8": "CLOSED (a: the three inventory modules are correctly moved from RUN assert to a provisioning-record identity check, verified by reading the modules + grep count 0 in runtime-closure.json + no -B launcher + PATH-only inbound env; b: source_files bound to the frozen reviewed <candidate-root>/source inventory containing 4da992dd/77f0cb99)"
+ },
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED",
+ "item_findings": {
+  "0": "RC-8(a) and RC-8(b) CLOSED; notes 1/2/3 CLOSED; RC-1..RC-7 remain CLOSED. Table T verified line by line against run_checks.py (b047481f, 304 lines): every file RUN reads or imports has a correctly-stated mechanism and none is left unguarded. The three inventory modules, the importable-root set, and the excluded-subtree build outputs that consuming launches read are correctly handled as reviewed record checks rather than RUN asserts; v6 correctly withdraws v5's false fails-closed claim. Nothing else changed vs v5 except RC-8/table-T text and note wording (full diff).",
+  "1": "CORRECT. AUTHORIZED unreachable for A1-A4 on S5 (checkpoint None not overridden by the two helpers); cause is item1 V2 non-propagation; OB-003 acceptance correctly read as transaction-level and requiring the positive case (OBLIGATIONS-v2.json:95 test field confirmed).",
+  "2": "SUPPORTED by pre-item1/V1/V2 bytes and handoffs; original candidate-helper fixture is V1's present=current, original checkpoint() fixture is V2's None.",
+  "3": "CONFIRMED. Byte-identical two-keyword patch preserves every assertion/kernel/wire/ABI/contract/checkpoint and all accepted cases; 35-field equivalence with raw :473-481 holds; no other caller or control changes meaning; row :97-99 dependent assertion handled.",
+  "4": "SOUND. Each rejection justified against cited contracts; no non-weakening option missed (R-A' cosmetic, R-H additive).",
+  "5": "WITHIN DELEGATION (RECOVERY-AND-AUTONOMY.txt:7). No gate added or lowered.",
+  "6": "COMPLETE in scope. Frozen-lane re-binding sequenced without in-place edits; E4 correctly flagged not satisfiable on IO8/item1-repair; strict proof and full roster remain required.",
+  "7": "No weakening found. One non-blocking observation OBS-1: /usr/bin/ldconfig (runtime_inventory.py:89) is the sole observation tool whose binary is not individually pinned (only its output is bounded via the :186 Class B reviewed regeneration), unlike readelf/systemctl which are pinned; within the design's acknowledged observation-tool class, not a required change."
+ },
+ "required_changes": [],
+ "open_obligations": [
+  "F32-CONFLICT remains OPEN pending E0-E7 (matching-source admitted-frame runs, all 14 lifetime controls, OB-003 neighbours, full original roster, strict proof, independent Claude review)",
+  "OB-003 remains OPEN: its transaction-level acceptance test; which control 'the 1.9.1 control' designates; whether its positive leg holds under the _freshness pass-through double; its mutant and proof obligations; narrowed parts OB-017/OB-018/OB-024",
+  "No item1/Item7/K4/K6/confinement/custody/Phase One exit obligation is closed",
+  "No GPT-6.1 gate is claimed; every review of this design is a Claude review subagent under the 2026-10-05 ~17:05Z direction"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "65b43cecfadacb9d88fa413a36c385f8280ac00afb815e85a1d1a2d8e6e81e72",
+ "checks": {
+  "path": "designs/claude-f32-resolution-v6/review/claude-v1/checks.json",
+  "sha256": "e5b47386b15de3a3e764b14a6e74a0c2dd9be6d54366ced8c7b76250d68eba66",
+  "bytes": 6540,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a532a5a16232acf88",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a532a5a16232acf88.output",
+  "source_task_output_sha256": "7a9d338799a077a2a7a921f5fcb61560afa60cda2f381989c1a924b2b6769548"
+ }
+}

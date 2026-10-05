@@ -1,0 +1,22 @@
+{
+  "lane": "f32-r-a-delta-v1",
+  "status": "PREPARED_SOURCE_ONLY_UNRUN",
+  "what": "The endorsed R-A fix for F32-CONFLICT, as its own delta lane. It does not touch S5.",
+  "authority": "F32 resolution DESIGN v6 ENDORSED by an independent Claude review subagent (designs/claude-f32-resolution-v6/review/claude-v1; freeze ff3662db...). R-A is lead-routine, reversible, TEST_ONLY helper engineering under the human's 2026-10-05 delegation.",
+  "base_source": "work/claude-composition-v5-beta/source (S5)",
+  "patch": {"path": "f32-r-a.patch", "sha256": "226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650"},
+  "changed_files": [
+    {"path": "tests/test_finalization_kernel.py", "preimage_sha256": "76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62", "postimage_sha256": "4da992ddfd206134131c31ea306fc19d46500ca8501a5214e540f55357327aa4"},
+    {"path": "tests/test_raw_evaluation_default.py", "preimage_sha256": "22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0", "postimage_sha256": "77f0cb999bca30a6eaa1ec663e21ee9cb152f405cb1ae1a591a20465ffad7262"}
+  ],
+  "each_file_change": "one keyword added (resulting_requirement = current_requirement) on one existing line of RawRequiredFailureControls.bound_request and FinalizationNativeControls.collapse_values; no assertion, kernel, wire, ABI, contract or checkpoint() changed (confirmed by six independent reviews v1..v6)",
+  "s5_untouched_confirmed": true,
+  "preimage_equals_s5_confirmed": true,
+  "open_obligations": [
+    "F32-CONFLICT stays OPEN: E0-E7 must run on an integrated matching-source candidate that composes this lane, in an admitted frame (blocked by confinement: V5-B01/V5-B02, W-1).",
+    "The re-targeted roster runner and per-file identity guarantees (design table T / RC-8) apply when E1-E7 run.",
+    "OB-003 acceptance stays OPEN and is owned separately.",
+    "OBS-1 (ldconfig binary not individually pinned) to be folded into the step-1 runtime-closure regeneration record; non-blocking, no new design revision."
+  ],
+  "not_claimed": "No run evidence, control evidence, proof, phase or source acceptance. Nothing here was executed."
+}

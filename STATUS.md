@@ -343,6 +343,24 @@ JACKAL call, WebFetch or edit. Nothing was interrupted.
   discharged by the operator-prepared probe under its stated criterion and an independent review; it is not asserted.
 - **Confinement stays the blocker.** V5-B01, V5-B02 and the W-1 obligations remain OPEN, so no proof run can dispatch.
 
+## F32-CONFLICT: design ENDORSED; R-A delta lane PREPARED (2026-10-05 ~20:30Z)
+
+**Design.** The F32 resolution DESIGN is ENDORSED at design level (v6; the first lane to clear independent review outright).
+The R-A fix — one keyword on each of two candidate-mode test helpers, restoring the Resulting_Requirement value item1 V1
+carried — weakens nothing and was confirmed by six consecutive independent reviews.
+
+**Delta lane PREPARED** (`lanes/f32-r-a-delta-v1/`, MANIFEST.json `2bae9367…`, SHA256SUMS present).
+- **What it is.** The patch applied to copies of S5's two test files, with preimage and post-image hashes recorded. It is
+  R-A "as its own delta lane", the step every review named.
+- **Verified.** Post-images are exactly `4da992dd…` and `77f0cb99…`; the preimages equal S5; S5 is untouched
+  (`76141dfb…`, `22b5b189…`). Nothing was executed.
+- **Authority.** Lead-routine, reversible, TEST_ONLY engineering under the ENDORSED design and the human's delegation. No
+  owner or production checkout is touched.
+
+**What stays OPEN.** F32-CONFLICT is NOT closed. It needs E0–E7 run on an integrated matching-source candidate that
+composes this lane, in an admitted frame — which is blocked by confinement (V5-B01/V5-B02, W-1). OB-003 acceptance is
+owned separately and stays open. OBS-1 is folded into the step-1 regeneration record, non-blocking.
+
 ## D-LEAD-REVIEW-PROVENANCE (lead decision, 2026-10-05 ~19:05Z)
 
 **The conflict.** The frame's adoption joins (v5 `rollout_join`, carried as W-1 v9 §4.6/§16) require gpt-6.1-sol rollout
@@ -408,6 +426,7 @@ independent review.
 | **D1 v5** | **ENDORSED_WITH_REQUIRED_CHANGES** | **Theorem H-A as written is FALSE:** RL-25 and the new RL-25E fail. **F40:** LA-9N/LA-9 evaluate a selected Budget usage. **F41:** A-ROW's E=0 path imports A-COL's LA-7. The A-ROW architecture is endorsed as the direction; the fixes are local and need no Pre or cap. **F42:** a cost statement. V4-RC1 NOT_CLOSED; V4-RC2 CLOSED. **New:** V5-RC1..RC5 and rulings R-H-A and R-EXTENT-2. F35 stays BLOCKING. All 38 K-values reproduce | `designs/claude-native-bigint-d1-design-v5/review/claude-v1` |
 | **F32 resolution v5** | **ENDORSED_WITH_REQUIRED_CHANGES** | RC-1..RC-7 CLOSED; R-A reproduced a fifth time. **New RC-8 (does not fail closed):** run_checks.py never digests the three inventory modules (`tool_`, `native_`, `runtime_inventory.py`; root is sys.path[0]), so their identity must be established in the provisioning record; `source_files` must be bound to the executed `<candidate-root>/source` inventory. The reviewer left a hung listing (`eza` alias); it is left running | `designs/claude-f32-resolution-v5/review/claude-v1` |
 | **Seam v7** | drafted; **under independent Claude review** | Answers V6-REQ-A..L. 14/14 slices verify against v6; R7-1..R7-86; a ~50-line stale-text sweep beyond the review's list. New design elements under scrutiny: V7-H router reconstruction wait, V7-I PEER_STATUS reattach, V7-J factory fork point, V7-K D-H7 request-root launch (H′ still NOT adopted; CJ-H-1/2/5 open). Review brief `briefs/root-worker-seam-design-v7.md` (`e278a242…`) | `designs/claude-root-worker-seam-design-v7` |
+| **F32 resolution v6** | **ENDORSED** (first design-level endorsement) | Zero required changes. RC-1..RC-8 and all notes CLOSED; the reviewer verified table T line-by-line against run_checks.py and the three inventory-module hashes. One non-blocking OBS-1 (ldconfig binary not individually pinned), folded into the step-1 regeneration record, no new revision. The R-A patch is now confirmed by SIX reviews | `designs/claude-f32-resolution-v6/review/claude-v1`: freeze `ff3662db…` |
 | **W-1 v8** | **NOT_ENDORSED** | W1-V8-HOLDER-IOEXIT, W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-WRITER-AS-W, W1-V8-COMPOSED-ENUM, W1-V8-EVIDENCE-EQUIV, W1-V8-FORM-SUBUNIT | `proposal/v8-review/claude-v1`: freeze `c0a2bc3f…`, REVIEW.md `38dcb076…` |
 
 **PK-0 v2 closure detail.** RC4 and RC5 are CLOSED_IN_SOURCE; RC1, RC2 and RC3 are PARTIALLY_CLOSED. The reviewer independently confirms the F32 source reading and leaves it with F32-CONFLICT.

@@ -1,0 +1,78 @@
+# Independent design review: F32-CONFLICT resolution design v6
+
+**What this is.** An independent Claude Code review subagent (claude-opus-5-5) with a fresh context. I authored nothing under review and am not the drafting agent. This review grants no acceptance; every original Phase One obligation stays OPEN. It claims no GPT-6.1 gate — the human's 2026-10-05 ~17:05Z direction moved reviews to Claude review subagents (WT/STATUS.md blob `fda902d`:279-291), recorded at DESIGN.md:197, :640-644, :938-939.
+
+**Verdict: ENDORSED.**
+- RC-8(a) and RC-8(b): **CLOSED**. RC-1..RC-7: remain **CLOSED**. Notes 1, 2, 3: **CLOSED**.
+- Table T is accurate against `run_checks.py` (`b047481f…`, 304 lines) line by line; every file RUN reads or imports has a correctly-stated mechanism, and v6 correctly *withdraws* the v5 overclaim rather than weakening anything.
+- The patch is byte-identical to v1–v5 (`226e7fc8…`); no assertion, control, contract, domain, fixture, cap, threshold or proof floor is weakened; no approval gate is added or lowered.
+- One **non-blocking observation** (ldconfig, below). It is not a required change and does not affect the verdict.
+
+## Inputs and identities (observed via sha256sum / os.listdir)
+- Override read first (`review-override-v2.txt`, 13 lines). Brief `briefs/f32-resolution-design-v6.md` sha256 **`996f099b543ba47954c2937dcaef6edd1aacff2a18d9551717375f2c3bc24dbf`** (59 lines).
+- Under review — all four match brief:15-19:
+  - DESIGN.md `2fb7670ced0607f3776e8ebad0edbb7dff9883384b719c5a520425edb3be9e84`
+  - evidence.json `9213efc0bc485739df6637609edf117ee1c33838aab8bd2b22605c80e4ff0813`
+  - jackal.json `9ceb086d272bc6a997bd382e157d667ec1786caad041fc20c6e943808b90c1e7`
+  - f32-r-a.patch `226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650`
+  - v6 directory holds exactly these four files; no `review/` subdirectory exists, so none was skipped.
+- RUN `IO8/run_checks.py` `b047481ffb47328ea09f50da3a37eb13f88b6ff4fb1ef8e7540cc95bf7d7fa18` (304 lines), read in full.
+- The three co-located modules, read in full, match DESIGN.md:718-720: `tool_inventory.py` `51aa43cc…`, `native_inventory.py` `ac693a06…`, `runtime_inventory.py` `4888f64d…`.
+- Sealed closure target: v5 review REVIEW.md `8137719a…` and review.json `91cc2eb9…` (match DESIGN.md:56-57); v5 DESIGN.md `1752159a…` (matches the v5 review's record), read for the v5→v6 scope diff.
+- **Not read:** no review directory of the revision under review (none exists), nothing under review-records/, no gpt61-* directory, no transcript or rollout, not `~/.local/share/sia/.gbrain/`, no listing/stat of `/home/sicarii`, `~/iPad` or `~/iPadBackup`. IO8 contains a `review/` directory; I listed it with `os.listdir` but did not read it.
+- **Method.** Reading and sha256 only; `command ls`/`os.listdir`, `grep`, `diff`, read-only JSON parse for counting. No WORLDLINE/COSMOGONY code imported or executed; no file written anywhere. Four `jackal_exact` MCP calls for the design's four derived counts. No process stopped or backgrounded.
+
+## 0. RC-8, notes, RC-1..RC-7, and table T verified against RUN line by line
+
+**RC-8(a) — the three inventory modules: CLOSED.** v5 (REVIEW.md:10, :148-152, :160-169) required stating that RUN does not check `tool_inventory.py`, `native_inventory.py`, `runtime_inventory.py`; establishing their identity by provisioning record (sha256-equal to IO8); listing the candidate root's importable set; and keeping "fails closed" only for `vendor-template.json` and `native-input-baseline.json`. v6 does all four (DESIGN.md:67, :706-738, table T :785-786). I independently confirmed the underlying facts:
+- Imported at RUN:4-6; `sys.dont_write_bytecode=True` set at :3 before those imports (stops writes not reads).
+- RUN digests only its own bytes (`runner_sha256`, :260); its `tools` entry covers only `/usr/bin/python3`, `/usr/bin/systemd-run`, `child[0]` (:259) — the three modules are digested nowhere.
+- The three modules import **stdlib only** (`tool_inventory.py:2-3`, `native_inventory.py:6-11`, `runtime_inventory.py:6-7`) and none of them observes the candidate root: `tool_inventory.observe` walks `spec['roots']/path_commands/direct_paths` (PATH/toolchain); `native_inventory.observe` walks `/usr/include` etc. and `DIRECT` (:14-19); `runtime_inventory.observe` walks `spec['trees']/paths` (system locations). So each module *defines the observation it is compared against* at :186, :210, :231/:233 — a changed module does not fail closed. The withdrawal is correct, not a weakening.
+- `grep -c` of the three module names in `runtime-closure.json` = **0** (confirms DESIGN.md:67, :714).
+- Launcher confirmed from ROSTER:2174-2198 (and :2374-2398): `/usr/bin/env PATH=… /usr/bin/python3 <root>/run_checks.py <mode> v1` — **no `-B`**, and `explicit_inbound_environment` records **only PATH** (no PYTHONPATH), so `sys.path[0]=root` holds and the importable-set shadowing analysis (DESIGN.md:723-729) is sound. IO8 root has **no `__pycache__`** (os.listdir: `run_checks.py`, three modules, `prepare_binding.py`, `static_check.py`, and non-colliding dirs), confirming DESIGN.md:729.
+- The three IO8 module hashes match the design's stated pin values exactly.
+
+**RC-8(b) — `source_files` binding: CLOSED.** v6 binds `action-baseline.json` `source_files` to the frozen, reviewed inventory of `<candidate-root>/source` under the RUN:170-180 exclusions, required to contain post-images `4da992dd…`/`77f0cb99…`, with the R-A-lane inventory serving only if the candidate is exactly that lane (DESIGN.md:68, :632-636, table T :791). Matches RUN:189, :285 and v5's requirement (REVIEW.md:171). This also closes v5 note 1 (PARTIALLY_CLOSED) on self-reference.
+
+**Notes 1/2/3: CLOSED.** Note 1 ordering uses v5's prescribed wording "a failure in their `depends_on` ancestry stops them; E6 requires every launch" (DESIGN.md:69, :820, §9:845); E1 ancestry now 35←34←…←8←7←3←2 (DESIGN.md:818), linear chain 8–46, side branches 1/4/5/6 (:814) — all consistent with ROSTER depends_on at :2183 (default-tests←authority-tests), :2208 (metadata←default), :2383 (finalization-kernel←finalization). Note 2: `action-baseline.json` is Class B because `source_files` must change, not an embedded path (grep count 0) (DESIGN.md:70, :747). Note 3: 0-based index base stated once in the header (DESIGN.md:45, :71).
+
+**Table T verified line by line against RUN.** Every citation and mechanism is correct:
+- `run_checks.py` own digest :260 (record check) ✓; three modules :4-6 (record check) ✓; importable-set shadowing (record check) ✓.
+- `vendor-template.json` :221 → RUN assert :223, :225 (fails closed) ✓; `native-input-baseline.json` :233 (fails closed) ✓.
+- `runtime-closure.json` :182 → :183 (env), :186 (inventory), :288 (re-check) ✓; `tool-inventory-template.json` :206 → :213 (effective env), :210 (tool inventory via its spec) ✓; `action-baseline.json` :188 → :189/:285 (source), :210 (tools), :219 (manager env), :225 (vendors) ✓.
+- `source/**` ex-excluded: `observe_source` :170-180, copy/digest :191-198, assert :189/:285, re-check :279 ✓.
+- native-artifacts `.so`/`build.json` :242-250 (recorded launch) ✓; `evidence/native-build-v1/result.json` :237-241, digest pinned/re-checked :252/:290 (recorded launch) ✓.
+- `source/lib/libworldline_core.so` :200-202, recorded :254, re-checked :279 — RUN does **not** compare it to any build output, so identity rests on a record check captured after the `build` launch (DESIGN.md:795). This honest limitation is correctly flagged.
+- Compiled test binaries :226-229 (recorded launch + record check) ✓; other excluded-subtree build outputs (obj/, lib/pending-standalone, env at :54-55) read by the child not RUN → record check over the excluded subtrees (DESIGN.md:797) ✓; receipt-internal files, `exist_ok=False` :48 ✓; cgroup limits :24-34 asserts :32-34 ✓.
+- I probed for unguarded inputs: `/usr/bin/systemctl` (RUN:214) **is** covered — `tool-inventory-template.json` lists `/usr/bin/systemctl` (tool-inventory assert :210) and its manager-environment output is asserted at :219 under the action-baseline row; `/usr/bin/readelf` is pinned in `native-input-baseline.json` (native assert :233). No PYTHONPATH shadowing is possible (launcher records PATH only).
+
+**RC-1..RC-7 remain CLOSED.** The patch is byte-identical (`226e7fc8…`); a full `diff` of v5→v6 DESIGN.md shows the only substantive changes are the §0.1 RC-8 narrative, the §8 step-3/table-T additions, and note-driven wording — section structure is identical and every §5 resolution-table verdict (R-A RECOMMENDED; R-B1/B2/B3/B4, R-C1/C2, R-D, R-E REJECTED; R-F REJECTED-as-unnecessary; R-G not-warranted; R-H optional) and every §7 "Unchanged" verdict is preserved. The AST invariants (43/43 and 26/26 methods; 62/62 and 38/38 assert-call ASTs; 561/289 lines) are unchanged (DESIGN.md:571-575). This carries forward v5's confirmations (REVIEW.md:44-107).
+
+## 1. F32 characterization: CORRECT
+AUTHORIZED is unreachable for A1–A4 on S5 because `checkpoint()` carries `resulting=None` (raw :530) and `bound_request` (raw :71-81) / `collapse_values` (fin :245-255) do not override it; cause = item1 V2's fixture change not propagated to the candidate helpers (DESIGN.md:176-182, lineage §3.1:342-346). OB-003's acceptance "while the 1.9.1 control is AUTHORIZED" (OBLIGATIONS-v2.json:95, confirmed: the `test` field requires the positive leg with `_freshness` replaced by a pass-through double) is correctly read as transaction-level and requiring the positive case, separate from A1–A4 (DESIGN.md:156-172, :446-464). The design correctly keeps "which control OB-003 means" and "its positive leg under the double" OPEN.
+
+## 2. Original intent: SUPPORTED
+The three-layer reading (pre-item1 has no field; V1 makes Resulting present = current; V2's None is an undeclared candidate-helper side effect while original for `checkpoint()`) is supported by the lineage bytes and handoffs (DESIGN.md:342-346, :398-419; V1 HANDOFF.md:5,:11; V2 HANDOFF.md:5,:9; `test_core_abi.py:190-217`). The 35-keyword value-level equivalence of post-R-A `bound_request` with the V1-updated literal at raw :473-481 (one differing key `resulting_requirement` before R-A, none after) was AST-verified in v1 and reproduced by every sealed review including v5 (REVIEW.md:125).
+
+## 3. R-A preservation: CONFIRMED
+The diff adds exactly one keyword (`resulting_requirement=original.current_requirement` / `=RawDependencyControls.checkpoint().current_requirement`) on existing lines in two helpers (DESIGN.md:539-558). Kernel, wire, ABI, contracts, production producers and `checkpoint()`'s None are untouched; assertions unchanged and in order. Other callers do not change meaning: `producer_case` overrides `resulting_requirement` (raw :224); `test_recovery_packet_producer.py` restricts collection via `load_tests` (:207-212); `test_revalidation_binding.py:303-323` builds its own request (DESIGN.md:328-334). Row :97-99 is handled: on the raw path metadata is checked only after Decide returns Authorized (`c_api.adb:857-872`, :862-868), so the refusal is attributable only once the :95-96 positive is reachable (DESIGN.md:246-251, :592).
+
+## 4. Rejected options: SOUND; none missed
+Each rejection is justified against a cited contract/handoff (DESIGN.md:495-509): R-B* reintroduce absence-authority or Python authorization (forbidden by `complete-phase1-prompt.txt:34,:42`, `O/HANDOFF.md:27,:119`, OB3-C `test_core_abi.py:248-249`); R-C* remove accepted cases (preserved-controls rule); R-D/R-E break CK and (R-D) make `test_finalization_kernel.py:282-289` pass vacuously; R-F is non-minimal; R-G would invent a gate. Non-weakening alternatives are present and correctly classed (R-A′ cosmetic, R-H additive).
+
+## 5. Authority: WITHIN DELEGATION
+R-A is TEST_ONLY helper code (two keywords), preserves the external contract and success domain, is reversible, and is not a reserved item (RECOVERY-AND-AUTONOMY.txt:7 `f0c36233…`, WT/STATUS.md:393-397 at blob `fda902d`). The launcher re-targeting/provisioning in §8 is routine sequencing. No gate added or lowered; RC-8 is a fact-correction. E1–E7 remain required and are original evidence requirements, not new gates (DESIGN.md:867-903).
+
+## 6. Closure plan: COMPLETE in scope
+E0–E7 cover matching-source runs, all 14 lifetime controls, OB-003 neighbours, the full roster with runner-derived re-based argv, and strict proof (DESIGN.md:848-857). Frozen-lane re-binding (PK-0 v2 `packet.json:198-199`, D1 v4 `DESIGN.md:191`, D1 v5 `DESIGN.md:168` at snapshot `9cd0d035…`, still being edited) is sequenced as later-revision re-binds with no in-place edits (DESIGN.md:282-288, :600, :829-834). E4 correctly flagged **not satisfiable** on integrated-ordinary-v8 or item1-repair (they lack the lifetime modules), so the baseline must be S5's lineage (DESIGN.md:608-620, :854).
+
+## 7. Anything else that would weaken: NONE FOUND (one non-blocking observation)
+R-A adds no cap, refusal, suppressed assertion/Ghost, or assumption (DESIGN.md:602). The §11 non-claims correctly bound the static reading, the unauthenticated pre-item1 runs, and the Class B reviewed-regeneration trust.
+
+**Non-blocking observation (OBS-1): `/usr/bin/ldconfig` is the one observation tool whose binary is not individually pinned.** `runtime_inventory.observe` invokes `/usr/bin/ldconfig -p` (runtime_inventory.py:89) and embeds its output in the runtime closure, which RUN asserts at :186. Unlike `/usr/bin/readelf` (pinned in `native-input-baseline.json`, assert :233) and `/usr/bin/systemctl` (pinned in the tool inventory, assert :210), the `ldconfig` *binary* has no named byte-pin; only its *output* is bounded, via the Class B reviewed regeneration of `runtime-closure.json`. This is within the design's acknowledged observation-tool class and does not falsify any mechanism (its output is covered by the named :186 assert), so it is not a required change. The design would be strictly more exact if the system/toolchain row named `/usr/bin/ldconfig` and recorded its byte identity in the runtime-closure regeneration record, matching the treatment `readelf`/`systemctl` already receive. Reported for completeness; the lead may fold it into the step-1 regeneration record without a new revision.
+
+## Required changes
+None.
+
+## Open obligations (unchanged; the design grants no acceptance)
+F32-CONFLICT stays OPEN pending E0–E7 (matching-source admitted-frame runs, all lifetime controls, OB-003 neighbours, full roster, strict proof, and independent review). OB-003 stays OPEN (its transaction-level acceptance test, which control "the 1.9.1 control" designates, its `_freshness` positive leg, its mutant/proof obligations, and the narrowed OB-017/OB-018/OB-024). No item1/Item7/K4/K6/confinement/custody/Phase One exit obligation is closed. No proof, phase or source acceptance is granted.
