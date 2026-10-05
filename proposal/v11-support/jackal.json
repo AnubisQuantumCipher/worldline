@@ -1,0 +1,88 @@
+{
+  "schema": "wlscratch-v11-jackal-and-identities-v1",
+  "about": "Every derived numeral asserted in ISOLATION-STORAGE-PROPOSAL-v11.md, with the actual MCP jackal_exact echo, plus the read-only identities computed over the assembled v11 file. JACKAL status/parsed/non_claims are carried verbatim. Unit byte counts, line ranges and sha256 are OBSERVATIONS of the file (a read-only hashing script applying the v9 §0.1 unit rule), not JACKAL-derived arithmetic. v11 is SELF-CONTAINED: every one of its 136 spec units carries its own computed v11 sha256 in §18.5 / Part V11-MAP; the only identities that cannot appear inside the file (the file cannot contain its own post-assembly hash) are recorded here.",
+  "design": "ISOLATION-STORAGE-PROPOSAL-v11.md",
+  "design_sha256": "aac18b67144c18b22c83d739a3fd4c5cff0d2a91eca75a64858d4b791cf637aa",
+  "design_bytes": 576903,
+  "design_lines": 5389,
+  "design_trailing_newline": "single",
+  "base_v9_sha256": "4bc0272c0c7b586a7e161b82318b7ae4a0b732067081e3a4073ea1dd3d22b53b",
+  "base_v9_bytes": 562201,
+  "base_v10_sha256": "d5fe8f3152dd8782adeee65478d7f70fb06e5fac50f0b17943d53598da66d8ef",
+  "answers_review": {
+    "path": "wt-1/proposal/v10-review/claude-v1",
+    "verdict": "NOT_ENDORSED",
+    "report_sha256": "81419b7a6a830b78d6232412dfe686b9bb8ca9706f120a0caa1e1bd2fa515833",
+    "reviewer_agent_id": "aae3a07f9c8701b8e",
+    "task_output_sha256": "91f6cf7d577f30cce3a8caa54dabc1d764c1d7d19611003f4467bc3d3f6a60b8",
+    "reviewer_kind": "claude-subagent",
+    "required_fixes": ["W1-V10-FORM", "W1-V10-COUNT", "W1-V9-REVIEW-PROVENANCE (residual)"]
+  },
+  "jackal_common": {
+    "tool": "mcp__jackal__jackal_exact",
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "consequence_ceiling": "none returned (informational arithmetic only; exact is not formal-bounded)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "computed_on": "2026-10-05",
+    "note": "All ten results below were called through actual MCP jackal_exact in this v11 drafting session on 2026-10-05; none is a carried-forward echo. I1'..I3' reproduce the v10 ENUM/required-change sums (unchanged in v11) so Appendix I's \"re-derived here\" is literally true; I4'..I6' are the W1-V10-COUNT partition sums."
+  },
+  "jackal_results": [
+    {"id": "I1'",  "parsed": "4+5+3+2+2+1+1+1+1+7+10+4+6+3+3+4+0+0+2+1+1+1+1+1+1+1+1", "exact": "67",  "approx": "67",  "status": "exact", "used_in": "§11.4 reachable set without images (W1-V9-ENUM-USERDEL): v9's 63 constant states plus X1,X2,X3,X4=W_B"},
+    {"id": "I1''", "parsed": "63+4", "exact": "67",  "approx": "67",  "status": "exact", "used_in": "§11.4 cross-check of the reachable set without images"},
+    {"id": "I2'",  "parsed": "4+5+3+2+2+1+1+1-2+13+1+7+10+4+6+3+3-4+26+4+0+0+2+1+1+4+1+1+1+1+1+1", "exact": "104", "approx": "104", "status": "exact", "used_in": "§11.4 reachable set with images (W1-V9-ENUM-USERDEL)"},
+    {"id": "I2''", "parsed": "100+4", "exact": "104", "approx": "104", "status": "exact", "used_in": "§11.4 cross-check of the reachable set with images"},
+    {"id": "I3'",  "parsed": "1+1+1+1+1+1+1+1+1", "exact": "9", "approx": "9", "status": "exact", "used_in": "§0.7 the nine v9-review required changes"},
+    {"id": "I4'",  "parsed": "100+23+9+2", "exact": "134", "approx": "134", "status": "exact", "used_in": "W1-V10-COUNT: the v10 change-map partition CORRECTED to 100 CARRIED + 23 AMENDED + 9 COMPOSED + 2 SUPERSEDED = 134 (v10 had wrongly stated 101/22/9/2)"},
+    {"id": "I4''", "parsed": "23+9", "exact": "32", "approx": "32", "status": "exact", "used_in": "W1-V10-COUNT: v10 units changed (AMENDED + COMPOSED) = 32 (v10 had wrongly stated 31)"},
+    {"id": "I5'",  "parsed": "100+23+11", "exact": "134", "approx": "134", "status": "exact", "used_in": "§18.5 / V11-C.2: the v11 partition of v9's 134 units = 100 CARRIED + 23 AMENDED + 11 COMPOSED (the 2 formerly-SUPERSEDED units, v9 §0.1 and v9 §18.5, are materialized as COMPOSED; 0 SUPERSEDED)"},
+    {"id": "I5''", "parsed": "23+11", "exact": "34", "approx": "34", "status": "exact", "used_in": "§18.5 / V11-C.2: v9 units v11 changes (AMENDED + COMPOSED) = 34"},
+    {"id": "I6'",  "parsed": "100+23+11+2", "exact": "136", "approx": "136", "status": "exact", "used_in": "§18.5 / V11-C.2: total v11 spec units = v9's 134 plus 2 NEW (§0.7, §23) = 136"}
+  ],
+  "v11_unit_partition": {
+    "basis": "v9's 134 units, classified by comparing each v11 unit's bytes to its v9 counterpart; NEW = v11 units with no v9 counterpart; the 4 Part-V11-MAP apparatus headers are NOT spec units (they are the change-map apparatus, placed last; their identities are below, not in §18.5).",
+    "CARRIED": 100,
+    "AMENDED": 23,
+    "COMPOSED": 11,
+    "SUPERSEDED": 0,
+    "NEW": 2,
+    "total_v9_units_accounted": 134,
+    "total_v11_spec_units": 136,
+    "amended_units": ["2.2","2.3","4.2","4.6","5.3","6.1","8.1","8.6","9.1","9.3","9.8","10.6","11.3","11.4","11.5","11.6","12.2","12.3","15.3","17","21.3","B.3","App.D"],
+    "composed_units": ["title","0","0.1","13","13.1","13.2","16","16.1","20","18.5","App.I"],
+    "new_units": ["0.7","23"],
+    "verification": "A read-only script re-parsed the assembled v11 file, recomputed every unit's sha256, and confirmed: all 100 CARRIED units are byte-identical to their v9 counterparts (v11 sha256 == v9 sha256), the 23 AMENDED match the list exactly, the 11 COMPOSED match the list exactly, and every one of the 136 §18.5 table rows equals the actual computed (line range, byte count, v11 sha256). Zero mismatches."
+  },
+  "v11_self_referential_identities": {
+    "note": "These bytes exist in the assembled file but cannot appear as a self-identity INSIDE the file (a file cannot contain its own post-assembly hash; this is the structural fact v10's Appendix I got wrong by one trailing newline). They are observed over the FINAL assembled file (design_sha256 above) by the read-only script and are recorded here instead. This is the resolution of the 'Appendix I self-referential hash' item: v11 embeds no inline whole-file self-hash; the whole-file identity lives here.",
+    "whole_file": {"sha256": "aac18b67144c18b22c83d739a3fd4c5cff0d2a91eca75a64858d4b791cf637aa", "bytes": 576903, "lines": 5389},
+    "map_apparatus": [
+      {"unit": "Part V11-MAP (header)", "v11_lines": "5222-5223", "v11_bytes": 96, "v11_sha256": "8e08a035575d4f1bb3f1e70ed1c57f9ebcb299b2d5d486cfd536588d6dea9335"},
+      {"unit": "V11-C.1 Method", "v11_lines": "5224-5234", "v11_bytes": 935, "v11_sha256": "5c70a3670284a3287b6ff319c3c673230af0c2e649fca6f7dd3628fcb8febaed"},
+      {"unit": "V11-C.2 Counts", "v11_lines": "5235-5249", "v11_bytes": 1169, "v11_sha256": "641993fa3b2a3a06b9f86e39e1665a18df4a3f4de2b4527030a0132289cda7ba"},
+      {"unit": "V11-C.3 The change map (the §18.5 table itself)", "v11_lines": "5250-5390", "v11_bytes": 24075, "v11_sha256": "978792664d6b3bcd508e70359129fc9c109a3f120ab704a8551596f86a8fb225"}
+    ],
+    "map_apparatus_note": "Appendix I (one of the 11 COMPOSED units) DOES carry its own computed v11 sha256 in §18.5, because it precedes the Part-V11-MAP table and does not embed the whole-file hash; only the four apparatus headers above are excluded from §18.5."
+  },
+  "three_fixes": {
+    "W1-V10-FORM": "RESOLVED. v11 is self-contained: all 136 spec units are materialized and each carries its own computed v11 sha256 in the §18.5 / Part-V11-MAP change map. CARRIED units reproduce v9's exact bytes (v11 sha256 == v9 sha256, cross-checkable from the two files); AMENDED units apply only the quoted edits under the §0.1 normalization rule; COMPOSED units carry v10's composed bytes updated for the three v11 fixes. No spec unit is left unmaterialized (0 residual). The former inline whole-file self-hash is removed; the whole-file identity is recorded in this file.",
+    "W1-V10-COUNT": "RESOLVED. v10's stated 101 CARRIED / 22 AMENDED / 'changes 31' corrected to 100 CARRIED / 23 AMENDED / 9 COMPOSED / 2 SUPERSEDED = 134, changed 23+9 = 32 (I4', I4''). The v11 partition it actually produces: 100 / 23 / 11 / 0 = 134 plus 2 NEW = 136 (I5', I5'', I6'). All sums JACKAL-exact.",
+    "W1-V9-REVIEW-PROVENANCE-residual": "RESOLVED. The gpt-6.1-sol admission-join requirement's prompt source is cited as /home/sicarii/Documents/complete-phase1-prompt.txt (NOT under .../outputs/) at every site (§0 corrections, §0.7, §16, §23 verbatim quote, Appendix I inputs). HANDOFF.md:173 remains correctly under .../outputs/claude-phase1-handoff-20261004/."
+  },
+  "sensitive_area_discipline": "Unchanged from v10 and carried verbatim. The asynchronous-holder containment (P-ASYNC) refutation exercise and the privilege-boundary / E0 probe procedures remain stated as OBLIGATION / PREDICATE / ENTRY-RULE only; no step-by-step procedure is present. Those procedures stay operator-reserved and OPEN.",
+  "non_claims_document": [
+    "v11 closes no obligation. V5-B01, V5-B02, W1-V5-PRESERVATION, W1-V6-READ-MUTATION, W1-V7-HOLDER-STATE, the three carried execution-bound obligations (W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-EVIDENCE-EQUIV), Gate 0 and all OBLIGATIONS-v2.json entries stay OPEN. Adoption remains blocked.",
+    "v11 fixes only form and provenance (W1-V10-FORM, W1-V10-COUNT, W1-V9-REVIEW-PROVENANCE residual). All spec-closed content of v10 is carried unchanged; no obligation, fixture, control, threshold, accepted case or join was weakened or added.",
+    "The review-provenance join change (§23, D-LEAD-REVIEW-PROVENANCE) is a change to an original admission join; it is not itself reviewed; adoption is blocked until it is reviewed in the frame-design revision.",
+    "The asynchronous-holder containment (P-ASYNC) is an OPEN obligation stated as a closed specification with an observed-state predicate; its refutation exercise is operator-reserved (procedure OPEN) and is not asserted here.",
+    "Unit byte counts, line ranges and sha256 are read-only OBSERVATIONS of the assembled file, not JACKAL-derived arithmetic; exact JACKAL results are informational arithmetic and say nothing about code correctness.",
+    "Nothing was executed for v11 but reading, read-only hashing and JACKAL calls; no probe, selftest, namespace, mount, seccomp filter, sudo, setup, vault or window action was performed."
+  ]
+}
