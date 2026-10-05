@@ -346,6 +346,31 @@ JACKAL call, WebFetch or edit. Nothing was interrupted.
 ## D1 native Big_Integer: design ENDORSED (v6, 2026-10-05 ~21:30Z)
 ## PK-0 C-API characterization packet: SOURCE ENDORSED (v4, 2026-10-05 ~22:10Z)
 ## Root-worker seam: design ENDORSED (v8, 2026-10-05 ~22:30Z)
+## PHASE ONE CONVERGENCE — the operator-reserved gate (2026-10-05 ~23:00Z)
+
+**Four work-products ENDORSED at design/source level** (F32, D1, PK-0, seam), each with zero required changes on its
+final round. **W-1 confinement has reached design completeness at v11** (all 9 W1-V9 changes spec-closed, form clean and
+self-contained, nothing weakened) but is structurally NOT_ENDORSED: its remaining obligations are execution-bound and the
+critical ones need operator privilege.
+
+**The single blocked row, RESERVED FOR THE OPERATOR:** the privileged W-1 setup and frame adoption (sudo/install;
+accounts, namespace owner, sudo/polkit rules, frame install + code review, the E1/E2 privileged probes, rollback). The
+exact plan is W-1 v11 §16 / §16.1. The lead has prepared it and does not execute it. Written up in
+`OPERATOR-PACKAGE-phase1-convergence.md` (`ad97e52d…`).
+
+**Why there is no further design work to do:** every endorsed work-product needs its proofs/tests to run in an adopted
+scratch frame; the frame needs W-1; W-1's remaining premises can only be established by execution (E0 by the lead, E1/E2
+by the operator) plus the §23 join review. More W-1 design revisions would loop — the required changes are not design
+changes.
+
+**What the lead continues autonomously:** the §23 D-LEAD-REVIEW-PROVENANCE join change implemented in frame source and
+sent for its own independent review; and the clean non-sensitive E0 source-reading discharges (e.g. S-1 kernel/package
+binding) when the operator wants E0 evidence begun. The sensitive kernel-boundary premise discharges stay at the
+obligation level, operator-prepared, per the safety-classifier deferral.
+
+**Phase One exit** (zero unproved / zero justified / zero pragma Assume, complete reports) cannot be reached until the
+frame is adopted and the proofs/controls run — that is the one critical path, and its first step is the operator's.
+
 
 The root-worker seam design is ENDORSED at design level (fourth endorsement, after F32, D1 and PK-0). Eight prior review
 rounds (v1-v8) converged it; the final defect — a handler edit that would have silently dropped a native quarantine — is
@@ -481,6 +506,7 @@ independent review.
 | **W-1 v10** | **NOT_ENDORSED** — but 8 of 9 spec-closed | W1-V9-ASYNC-ENUM, NOOWNER-SCOPE, ENUM-USERDEL (67/104, JACKAL-verified), PLAN-CONSTRAINTS, PREMISE-ORDER, RL-SELFTEST-FIXTURE, INVENTORY all CLOSED_AT_SPEC_LEVEL; REVIEW-PROVENANCE correctly stated as an unreviewed change with adoption blocked. WRITER-AS-W stays closed. **Blocking:** W1-V10-COUNT (change-map partition 101/22/31 should be 100/23/32), W1-V10-FORM (change-document regresses FORM-SUBUNIT; AMENDED bytes unmaterialized/not byte-pinned, no normalization rule, Appendix I hash off by one byte), a §23 path-citation fix, and the execution-bound confinement obligations (V5-B01/B02, premise discharges) which stay OPEN | `proposal/v10-review/claude-v1` |
 | **Seam v8** | **ENDORSED** (design level; fourth endorsement) | Zero required changes. V7R-H closed: the `elif`→`else:` fix restores `p.quarantine` in every owned-is-None failure, before any phase read, so it does not depend on `committed_front_phase` or the router successor; the "unchanged" claim is withdrawn. V7R-CITE: all seven citations verified exact against the lane. 3/3 slices verify; nothing v7 closed regressed. Native body, proof, control V8-N.H and the router row-3 change stay OPEN | `designs/claude-root-worker-seam-design-v8/review/claude-v1` |
 | **W-1 v11** | drafted on Opus 4.8; **under independent Claude review (Opus 4.8)** | Self-contained now (form regression resolved): lead-verified full parse of Part V11-MAP — 134 v9 units, 100 CARRIED byte-identical to v9, 0 hash/byte mismatches, whole-file hash matches jackal.json. Fixes the three v10-review items (W1-V10-FORM self-containment, W1-V10-COUNT 100/23/11, the prompt-path citation). All of v10's 8 spec-closed answers carried unchanged; sensitive procedures stay operator-reserved; adoption blocked. Brief `briefs/w1-design-v11.md` (`7595264e…`) | `proposal/ISOLATION-STORAGE-PROPOSAL-v11.md` |
+| **W-1 v11** | **NOT_ENDORSED — design COMPLETE; remaining obligations are execution-bound** | All three v10 form defects RESOLVED and reviewer-verified (full map parse: 136 units, 0 mismatches, 100/100 CARRIED byte-identical to v9, whole-file hash matches). All 9 W1-V9 changes spec-closed; W1-V8-FORM-SUBUNIT RESTORED; nothing weakened. **Structurally not endorsable:** V5-B01/B02, ~30 NAMED_UNESTABLISHED premises, §21 preservation and the §23 join review are execution-bound/operator-reserved. No v12: the required changes are not design changes | `proposal/v11-review/claude-v1` |
 | **W-1 v8** | **NOT_ENDORSED** | W1-V8-HOLDER-IOEXIT, W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-WRITER-AS-W, W1-V8-COMPOSED-ENUM, W1-V8-EVIDENCE-EQUIV, W1-V8-FORM-SUBUNIT | `proposal/v8-review/claude-v1`: freeze `c0a2bc3f…`, REVIEW.md `38dcb076…` |
 
 **PK-0 v2 closure detail.** RC4 and RC5 are CLOSED_IN_SOURCE; RC1, RC2 and RC3 are PARTIALLY_CLOSED. The reviewer independently confirms the F32 source reading and leaves it with F32-CONFLICT.

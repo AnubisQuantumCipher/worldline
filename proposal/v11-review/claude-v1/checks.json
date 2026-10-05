@@ -1,0 +1,84 @@
+{
+ "reviewer_kind": "claude-subagent",
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "shell_hygiene": "Override item 6 applied: no file written anywhere (not /tmp, not the scratchpad); all computation via python3 -c with </dev/null (no stdin-reading command); no command backgrounded; directory listing via Python os.listdir (no ls/eza).",
+ "hashes_computed": {
+  "briefs/w1-design-v11.md": {"sha256": "7595264e8b270e797e43131b86d3e44be037c588f29bc6efdd3e43192083e634", "bytes": 7807},
+  "proposal/ISOLATION-STORAGE-PROPOSAL-v11.md": {"sha256": "aac18b67144c18b22c83d739a3fd4c5cff0d2a91eca75a64858d4b791cf637aa", "bytes": 576903, "newline_terminated_lines": 5389, "matches_brief_and_jackal_json": true},
+  "proposal/v11-support/jackal.json": {"sha256": "4fae39d5da081643a14b0225a52aecea045c19bf6ce4298fff8eaf7a0c261d4b", "bytes": 10640, "matches_brief": true},
+  "proposal/ISOLATION-STORAGE-PROPOSAL-v10.md": {"sha256": "d5fe8f3152dd8782adeee65478d7f70fb06e5fac50f0b17943d53598da66d8ef", "bytes": 111456, "matches_brief": true},
+  "proposal/ISOLATION-STORAGE-PROPOSAL-v9.md": {"sha256": "4bc0272c0c7b586a7e161b82318b7ae4a0b732067081e3a4073ea1dd3d22b53b", "bytes": 562201, "newline_terminated_lines": 5143, "units_by_0_1_rule": 134, "matches_brief": true},
+  "proposal/v10-review/claude-v1/REVIEW.md": {"sha256": "81419b7a6a830b78d6232412dfe686b9bb8ca9706f120a0caa1e1bd2fa515833", "bytes": 27327, "read_in_full": true, "matches_brief": true},
+  "proposal/v10-review/claude-v1/review.json": {"sha256": "ac21f21fba63c862c9503cf0f2bfe89d6d603fb33a9c65376c530f3ff7f7c01f", "bytes": 16725, "read_in_full": true, "matches_brief": true},
+  "proposal/v9-review/claude-v1/REVIEW.md": {"sha256": "51e80795e688bc11df156d47ca86646da45be0dce41659db3a36cddfeb851637", "bytes": 22542, "read_in_full": true},
+  "proposal/v9-review/claude-v1/review.json": {"sha256": "050ef9d7cf3978bc7b7c8fd98d347a969808e248921bec4225404904bd3fef51", "bytes": 21456, "read_in_full": false, "note": "hash computed; nine required changes read verbatim in v9 REVIEW.md:198-200"}
+ },
+ "scripted_map_verification": {
+  "method": "python3 -c; parsed both files into units by the v9 §0.1 rule (headings # / ## / ### outside fenced code; unit runs to the line before the next; bytes = those lines with terminators; single trailing newline); parsed every §V11-C.3 row (v11:5250-5389); for each row recomputed sha256/byte-count of the stated v11 line range and compared; for CARRIED compared actual v11 bytes to the v9 file's unit bytes.",
+  "v11_physical_units": 140,
+  "v11_spec_units": 136,
+  "v11_apparatus_units": 4,
+  "v9_physical_units": 134,
+  "whole_file_sha256_recomputed": "aac18b67144c18b22c83d739a3fd4c5cff0d2a91eca75a64858d4b791cf637aa",
+  "map_rows_parsed": 136,
+  "row_byte_or_sha_mismatches": 0,
+  "map_ranges_contiguous_1_to_5221": true,
+  "internal_gaps": 0,
+  "partition_from_map": {"CARRIED": 100, "AMENDED": 23, "COMPOSED": 11, "NEW": 2, "SUPERSEDED": 0, "sum": 136},
+  "carried_byte_identical_to_v9": "100 of 100 (v11 sha256 == v9 sha256 AND actual bytes == v9 file unit bytes)",
+  "amended_label_set": ["2.2","2.3","4.2","4.6","5.3","6.1","8.1","8.6","9.1","9.3","9.8","10.6","11.3","11.4","11.5","11.6","12.2","12.3","15.3","17","21.3","B.3","App. D"],
+  "amended_label_set_matches_brief": true,
+  "composed_label_set": ["(title)","0","0.1","13","13.1","13.2","16","16.1","20","18.5","App. I"],
+  "new_label_set": ["0.7","23"],
+  "apparatus_identities_vs_jackal_json": {
+   "Part V11-MAP header 5222-5223": {"bytes": 96, "sha256_match": true},
+   "V11-C.1 5224-5234": {"bytes": 935, "sha256_match": true},
+   "V11-C.2 5235-5249": {"bytes": 1169, "sha256_match": true},
+   "V11-C.3 5250-5390(EOF)": {"bytes": 24075, "sha256_match": true}
+  }
+ },
+ "diffs_computed": {
+  "spec_closed_COMPOSED_v10_vs_v11": {
+   "§13": "differs only by v10->v11 label (actor A1w sentence; 'not executed for v11')",
+   "§13.1": "byte-identical",
+   "§13.2": "differs only by 'executed for v10'->'v11'",
+   "§16.1": "byte-identical",
+   "§16": "differs by v10->v11 labels and the provenance-path fix (complete-phase1-prompt.txt -> /home/sicarii/Documents/complete-phase1-prompt.txt); +24 bytes",
+   "§20": "differs by v10->v11 labels, added W1-V10-COUNT corrections tag, and the W1-V10-FORM bullet rewritten to 'resolved' (non-claim still weakens nothing)",
+   "§23": "differs only by the §23.3 quoted-path correction (re-wrapped, same words, line :60) and a v10->v11 label"
+  },
+  "AMENDED_vs_v9_sample": {
+   "note": "all additive, matching documented v10 Part-V10-A edits; no deletion/weakening",
+   "2.2": "+6/-2 (RL-SELFTEST-FIXTURE append)",
+   "2.3": "+8/-3 (NOOWNER-SCOPE)",
+   "5.3": "+10/-2 (NOOWNER-SCOPE sudo/polkit cells)",
+   "6.1": "+6/-1 (INVENTORY M_run)",
+   "8.1": "+1/-1 (role-identity-v1 -> -v2)",
+   "9.3": "+4/-2 (G4/C1 exact {0,1,2} fd set)",
+   "9.8": "+30/-9 (ASYNC-ENUM: held-but-unusable, enumeration basis, self-check withdrawal)",
+   "10.6": "+5/-2 (ASYNC-ENUM self-check evidence-window-only)",
+   "11.4": "+40/-13 (ENUM-USERDEL X1-X3/W_A/W_B; 67/104 preserved)",
+   "11.6": "+3/-1 (candidate baseline evidence-only)",
+   "12.2": "+5/-1 (descriptors after step 8 CLOEXEC/closed)",
+   "21.3": "+3/-0 (V15/V16/V17 OPEN rows)"
+  }
+ },
+ "provenance_path_grep": {
+  "complete-phase1-prompt.txt_sites": ["v11:49", "v11:210", "v11:3911", "v11:4324", "v11:5208"],
+  "all_use_documents_path": true,
+  "stray_outputs_prompt_path_count": 0,
+  "HANDOFF.md:173_sites_under_outputs": ["v11:50", "v11:4320", "v11:5207", "v11:3911"]
+ },
+ "jackal_calls": [
+  {"tool": "mcp__jackal__jackal_exact", "expression": "100+23+9+2", "first_attempt": "refused (plugin-args-schema: field named 'expr' not accepted; required 'expression'); retried with 'expression'", "parsed": "100+23+9+2", "exact": "134", "status": "exact", "formal": false, "lane": "rat", "consequence_ceiling": "none returned (informational)", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "used_for": "v10 corrected partition CARRIED+AMENDED+COMPOSED+SUPERSEDED = 134 (I4')"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "23+9", "parsed": "23+9", "exact": "32", "status": "exact", "formal": false, "lane": "rat", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "used_for": "v10 units changed AMENDED+COMPOSED = 32 (I4'')"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "100+23+11", "parsed": "100+23+11", "exact": "134", "status": "exact", "formal": false, "lane": "rat", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "used_for": "v11 partition of v9's 134 units CARRIED+AMENDED+COMPOSED = 134 (I5')"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "23+11", "parsed": "23+11", "exact": "34", "status": "exact", "formal": false, "lane": "rat", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "used_for": "v11 units changed from v9 AMENDED+COMPOSED = 34 (I5'')"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "100+23+11+2", "parsed": "100+23+11+2", "exact": "136", "status": "exact", "formal": false, "lane": "rat", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "used_for": "total v11 spec units = v9's 134 + 2 NEW = 136 (I6')"},
+  {"tool": "mcp__jackal__jackal_exact", "expression": "1+1+1+1+1+1+1+1+1", "parsed": "1+1+1+1+1+1+1+1+1", "exact": "9", "status": "exact", "formal": false, "lane": "rat", "non_claims": ["NOT formal-bounded: this lane carries no Lean-checked certificate", "The epistemic class above is the STRONGEST claim this result supports", "exact rational arithmetic (not yet checker-covered)"], "used_for": "the nine v9-review required changes (I3')"}
+ ],
+ "jackal_note": "All sums returned status=exact, lane=rat, formal=false (NOT formal-bounded; outside the Lean certificate chain; informational). They match the document's I3'-I6' and v11-support/jackal.json, and match the partition counts I OBSERVED from the scripted map parse. The 67/104 ENUM-USERDEL counts were not re-derived here (carried unchanged from v10, already JACKAL-verified in the sealed v10 review); byte counts, line ranges and unit sha256 are read-only OBSERVATIONS of the file, not JACKAL-derived arithmetic.",
+ "not_read": ["any v11 review directory", "review-records/ and review-records/live/", "any gpt61-v* directory", "drafts in progress", "any session transcript/rollout (~/.claude/projects/**, ~/.codex/sessions)", "~/.local/share/sia/.gbrain/"],
+ "not_statted": ["/home/sicarii itself", "~/iPad", "~/iPadBackup"],
+ "executed": "none beyond passive reading, read-only Python hashing/unit-parsing/diffing (python3 -c), and JACKAL MCP calls; no WORLDLINE/COSMOGONY/frame code, prover, compiler, sudo, systemctl, unshare, mount, strace, project-vault or restic"
+}

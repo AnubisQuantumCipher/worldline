@@ -1,0 +1,114 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v11.md",
+ "design_sha256": "aac18b67144c18b22c83d739a3fd4c5cff0d2a91eca75a64858d4b791cf637aa",
+ "support_sha256": "4fae39d5da081643a14b0225a52aecea045c19bf6ce4298fff8eaf7a0c261d4b",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-4-8 (drafting subagent)",
+ "verdict": "NOT_ENDORSED",
+ "form_assessment": "W1-V10-FORM RESOLVED; W1-V8-FORM-SUBUNIT RESTORED. v11 is a single self-contained specification (v11:31-37, 65-93). A FULL scripted parse of Part V11-MAP (§V11-C.3, v11:5250-5389) confirmed, with ZERO mismatches across all 136 rows, that every row's stated v11 line range reproduces the stated byte count and v11 sha256 from the file; the rows tile lines 1-5221 contiguously; the whole-file sha256 equals aac18b67 (jackal.json:5); and the only identities not inside the file are the 4 Part-V11-MAP apparatus headers + whole-file hash, whose values match jackal.json:65-71 exactly. All 100 CARRIED units are byte-identical to v9 (v11 sha256 == v9 sha256 AND actual bytes equal the v9 file's unit bytes; verified for all 100 against an independent 134-unit parse of v9). 23 AMENDED and 11 COMPOSED units each carry a file-matching v11 sha256 (spot-checked far beyond the >=5 required). The §V11-0.1 normalization rule is stated (v11:83-92) and, because every AMENDED unit's bytes are now materialized and sha-pinned, each AMENDED unit's bytes are uniquely determined. The v10 Appendix-I off-by-one is resolved: Appendix I is no longer the last unit, carries its own computed v11 sha256 in the map, and embeds no inline whole-file self-hash (jackal.json:63-72).",
+ "count_assessment": "W1-V10-COUNT RESOLVED and JACKAL-confirmed. The corrected v10 partition is recorded: 100 CARRIED / 23 AMENDED / 9 COMPOSED / 2 SUPERSEDED = 134, changed 23+9 = 32 (v11:5237-5241; jackal.json I4'/I4''), naming v10's wrong 101/22/'31'. The v11 partition it produces: the 2 formerly-SUPERSEDED units (v9 §0.1, v9 §18.5) materialized as COMPOSED => 100 CARRIED / 23 AMENDED / 11 COMPOSED / 0 SUPERSEDED = 134, changed-from-v9 23+11 = 34, plus 2 NEW (§0.7, §23) = 136 (v11:5243-5248; jackal.json I5'/I5''/I6'). My scripted row count equals exactly 100/23/11/2 = 136. The 23 AMENDED labels match the brief's required set exactly. Internally consistent across §V11-C.3, §V11-C.2, §18.5/§0.7 and jackal.json. JACKAL (status=exact, lane=rat, NOT formal-bounded, informational) confirms 100+23+9+2=134, 23+9=32, 100+23+11=134, 23+11=34, 100+23+11+2=136, nine-1s=9.",
+ "provenance_residual_assessment": "W1-V9-REVIEW-PROVENANCE residual RESOLVED. The prompt source path is corrected to /home/sicarii/Documents/complete-phase1-prompt.txt at every cite site (v11:49, 210, 3911, 4324, 5208); a full-file grep finds ZERO remaining outputs/complete-phase1-prompt.txt citations. HANDOFF.md:173 stays correctly under .../outputs/claude-phase1-handoff-20261004/ (v11:50, 4320, 5207, 3911). §23 is otherwise unchanged from v10's spec-closed state: my byte-diff (v10 vs v11) of §23 shows only the path correction (re-wrapped, same words, line :60) and a v10->v11 version label; the quoted ~17:05Z authority, the 14 dependent sites, the precise replacement join and adoption-blocked / not-a-loosening-by-assertion are carried unchanged. The join change remains a change to an original admission join, to be reviewed in the frame-design revision before any adoption relies on it.",
+ "nothing_else_changed": "Confirmed. 100 CARRIED units byte-identical to v9. 23 AMENDED units = v9 bytes + only the documented v10 Part-V10-A edits (diffed a sample of 12 against v9; every hunk additive and matching the documented edit; 67/104 counts and 'held-but-unusable' preserved; no deletion/weakening). Spec-closed COMPOSED §13.1/§16.1 byte-identical v10->v11; §13/§13.2/§16 differ only by v10->v11 labels and (§16) the one provenance-path fix. Bookkeeping COMPOSED (title, §0, §0.1, §18.5, §20, Appendix I) carry only the COUNT/FORM/PROVENANCE fixes; §20's non-claim still states no obligation/fixture/threshold/accepted case/join weakened. No spec answer (ASYNC-ENUM obligation+predicate, NOOWNER-SCOPE, ENUM-USERDEL, PLAN-CONSTRAINTS, PREMISE-ORDER, RL-SELFTEST-FIXTURE, INVENTORY V15-V17/fd-set) altered, weakened or newly broken; no obligation, fixture, control, threshold, accepted case or join weakened or added; sensitive procedures stay operator-reserved/OPEN.",
+ "prior_closure": {
+  "W1-V9-ASYNC-ENUM": "CLOSED_AT_SPEC_LEVEL (carried unchanged via AMENDED §9.8/§10.6/§15.3 = v9 + documented edits; P-ASYNC OPEN)",
+  "W1-V9-NOOWNER-SCOPE": "CLOSED_AT_SPEC_LEVEL (carried unchanged; P-NOOWNER critical/NAMED_UNESTABLISHED)",
+  "W1-V9-ENUM-USERDEL": "CLOSED_AT_SPEC_LEVEL (carried unchanged; 67/104 JACKAL-verified, carried from v10)",
+  "W1-V9-PLAN-CONSTRAINTS": "CLOSED_AT_SPEC_LEVEL (carried unchanged; I-7 gated, else blocked)",
+  "W1-V9-PREMISE-ORDER": "CLOSED_AT_SPEC_LEVEL (carried unchanged; discharges OPEN)",
+  "W1-V9-RL-SELFTEST-FIXTURE": "CLOSED_AT_SPEC_LEVEL as removal requirement (carried unchanged; S-5 execution-bound)",
+  "W1-V9-INVENTORY": "CLOSED_AT_SPEC_LEVEL (carried unchanged; V15/V16/V17 OPEN; exact {0,1,2} fd set)",
+  "W1-V9-REVIEW-PROVENANCE": "STATED_AS_CHANGE_NOT_CLOSED (adoption blocked); the minor source-path residual is now FIXED in v11",
+  "W1-V9-FORM-CONSISTENCY": "CLOSED_AT_SPEC_LEVEL (the three v9 defects fixed; the v10 unit-partition miscount that kept it PARTIALLY_CLOSED is now fixed as W1-V10-COUNT)",
+  "W1-V10-FORM": "RESOLVED (self-contained; normalization rule stated; every unit materialized and sha-pinned; Appendix-I off-by-one resolved)",
+  "W1-V10-COUNT": "RESOLVED (partition corrected and internally consistent; JACKAL-exact)",
+  "W1-V8-FORM-SUBUNIT": "RESTORED (no longer regressed)",
+  "W1-V8-WRITER-AS-W": "CLOSED_AT_SPEC_LEVEL (stays closed; rests on the P-NOOWNER inventory)",
+  "W1-V8-HOLDER-IOEXIT": "carried via W1-V9-ASYNC-ENUM (CLOSED_AT_SPEC_LEVEL at obligation+predicate; P-ASYNC OPEN)",
+  "W1-V8-COMPOSED-ENUM": "CLOSED_AT_SPEC_LEVEL for the table (67/104); O-5 execution-bound",
+  "W1-V8-PRESERVATION-ESTABLISH": "NOT_CLOSED (execution-bound; every §21 V/C/D row OPEN)",
+  "W1-V8-PREMISE-DISCHARGE": "NOT_CLOSED (execution-bound; premises NAMED_UNESTABLISHED, in PREMISE-ORDER order)",
+  "W1-V8-EVIDENCE-EQUIV": "NOT_CLOSED (execution-bound; B1-B5 predicates preserved; capacity OPEN)",
+  "V5-B01": "OPEN (not narrowed)",
+  "V5-B02": "OPEN (not narrowed)",
+  "W1-V5-PRESERVATION": "OPEN (not narrowed)",
+  "W1-V6-READ-MUTATION": "OPEN (not narrowed)",
+  "W1-V7-HOLDER-STATE": "OPEN (not narrowed)",
+  "Gate 0 (capacity)": "NOT ESTABLISHED",
+  "all 219 OBLIGATIONS-v2.json entries": "OPEN"
+ },
+ "required_changes": [
+  {
+   "id": "W1-V8-PRESERVATION-ESTABLISH",
+   "change": "Still required (execution-bound): establish §21 for every OPEN V/C/D row, or redesign.",
+   "reason": "Every §21 row OPEN; v11 establishes none and closes no obligation by itself.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:19",
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:4117",
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:4164"
+   ]
+  },
+  {
+   "id": "W1-V8-PREMISE-DISCHARGE",
+   "change": "Still required (execution-bound), in the order fixed by W1-V9-PREMISE-ORDER; the critical-premise E0 discharge review precedes O-1, and S-1 binds the running kernel image/build-id.",
+   "reason": "Every N7 critical premise (P-KSRC, P-NOSUID, P-NOCAP, P-NOOWNER, P-SECCOMP, P-ASYNC) is NAMED_UNESTABLISHED.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:54",
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:4093",
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:200"
+   ]
+  },
+  {
+   "id": "W1-V8-EVIDENCE-EQUIV",
+   "change": "Still required (execution-bound): B1-B5 for U-14/I-6; safe fresh capacity OPEN.",
+   "reason": "Equivalence and capacity unestablished.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:133",
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:4095"
+   ]
+  },
+  {
+   "id": "D-LEAD-REVIEW-PROVENANCE (§23 join change)",
+   "change": "The review-provenance join change must be reviewed in the frame-design revision before any adoption relies on it; adoption stays blocked until then. (Not a new gate; carries the v10 disposition.)",
+   "reason": "§23 is a change to an original admission join and is not itself reviewed.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:57",
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:3908",
+    "ISOLATION-STORAGE-PROPOSAL-v11.md:4108"
+   ]
+  }
+ ],
+ "open_obligations": [
+  "All 219 entries of OBLIGATIONS-v2.json (sha256 1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec)",
+  "V5-B01",
+  "V5-B02",
+  "W1-V5-PRESERVATION",
+  "W1-V6-READ-MUTATION",
+  "W1-V7-HOLDER-STATE",
+  "Gate 0 (capacity, NOT ESTABLISHED)",
+  "Every N7 critical premise: P-KSRC, P-NOSUID, P-NOCAP, P-NOOWNER, P-SECCOMP, P-ASYNC (all NAMED_UNESTABLISHED)",
+  "P-ASYNC / P-RELEASE asynchronous-holder containment (closed specification; refutation exercise operator-reserved and OPEN)",
+  "W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-EVIDENCE-EQUIV (execution-bound)",
+  "Review-provenance join change D-LEAD-REVIEW-PROVENANCE (§23): not reviewed; adoption impossible until reviewed in the frame-design revision",
+  "Every earlier PARTIALLY_CLOSED / open gap and sub-gap carried from the sealed v9 and v10 reviews"
+ ],
+ "approval_granted": false,
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "dfb8eef791bb25edb1b3e7ce592cc18960ee083c75d392f963aa219e3f6a3676",
+ "checks": {
+  "path": "proposal/v11-review/claude-v1/checks.json",
+  "sha256": "fc28d66fc68595c82064f06f2cc711fd23d674df036cac688761142d4ee11da1",
+  "bytes": 9527,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a9a47f616bdd93ff8",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a9a47f616bdd93ff8.output",
+  "source_task_output_sha256": "97f84f0b19fbf107df8a3468d444eee7d8616e52988dcbc3fe52c51a53b9a57d"
+ }
+}
