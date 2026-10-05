@@ -1,0 +1,112 @@
+{
+  "schema": "wlscratch-v10-jackal-and-identities-v1",
+  "about": "Every derived numeral asserted in ISOLATION-STORAGE-PROPOSAL-v10.md, with the actual MCP jackal_exact echo, and the read-only unit identities computed over the assembled v10 file. JACKAL status/parsed/non_claims are carried verbatim. Unit byte counts, line ranges and sha256 are OBSERVATIONS of the file (a read-only hashing script), not JACKAL-derived arithmetic.",
+  "design": "ISOLATION-STORAGE-PROPOSAL-v10.md",
+  "design_sha256": "d5fe8f3152dd8782adeee65478d7f70fb06e5fac50f0b17943d53598da66d8ef",
+  "design_bytes": 111456,
+  "design_lines": 1102,
+  "base_v9_sha256": "4bc0272c0c7b586a7e161b82318b7ae4a0b732067081e3a4073ea1dd3d22b53b",
+  "jackal_common": {
+    "tool": "mcp__jackal__jackal_exact",
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "consequence_ceiling": "none returned (informational arithmetic only; exact is not formal-bounded)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "computed_on": "2026-10-05"
+  },
+  "jackal_results": [
+    {
+      "id": "I1'",
+      "parsed": "4+5+3+2+2+1+1+1+1+7+10+4+6+3+3+4+0+0+2+1+1+1+1+1+1+1+1",
+      "exact": "67",
+      "approx": "67",
+      "status": "exact",
+      "used_in": "A-§11.4 reachable set without images (W1-V9-ENUM-USERDEL): v9's 63 constant states plus the four userdel co-removal states X1, X2, X3 and X4 = W_B (W_A already among v9's 63)"
+    },
+    {
+      "id": "I1''",
+      "parsed": "63+4",
+      "exact": "67",
+      "approx": "67",
+      "status": "exact",
+      "used_in": "A-§11.4 cross-check of the reachable set without images"
+    },
+    {
+      "id": "I2'",
+      "parsed": "4+5+3+2+2+1+1+1-2+13+1+7+10+4+6+3+3-4+26+4+0+0+2+1+1+4+1+1+1+1+1+1",
+      "exact": "104",
+      "approx": "104",
+      "status": "exact",
+      "used_in": "A-§11.4 reachable set with images (W1-V9-ENUM-USERDEL)"
+    },
+    {
+      "id": "I2''",
+      "parsed": "100+4",
+      "exact": "104",
+      "approx": "104",
+      "status": "exact",
+      "used_in": "A-§11.4 cross-check of the reachable set with images"
+    },
+    {
+      "id": "I3'",
+      "parsed": "1+1+1+1+1+1+1+1+1",
+      "exact": "9",
+      "approx": "9",
+      "status": "exact",
+      "used_in": "§V10-0.7 the nine v9-review required changes"
+    },
+    {
+      "id": "I4'",
+      "parsed": "101+22+9+2",
+      "exact": "134",
+      "approx": "134",
+      "status": "exact",
+      "used_in": "§18.5 / V10-C.2 status partition of v9's 134 units: 101 CARRIED + 22 AMENDED + 9 COMPOSED + 2 SUPERSEDED"
+    },
+    {
+      "id": "I5'",
+      "parsed": "22+9",
+      "exact": "31",
+      "approx": "31",
+      "status": "exact",
+      "used_in": "§18.5 / V10-C.2 v9 units v10 changes (AMENDED + COMPOSED)"
+    }
+  ],
+  "v10_unit_identities": {
+    "note": "OBSERVATIONS of the assembled v10 file by a read-only script applying the v9 §0.1 unit rule (header outside fenced code to the line before the next header; bytes include line terminators). Line ranges are over the final file (design_sha256 above). Three units cannot contain their own post-fill identity (§18.5-R, V10-C.2, Appendix I); their final identities are listed here. CARRIED and AMENDED units carry their v9 identities from the §18.5 table (not re-typed in v10; W1-V10-FORM is OPEN).",
+    "composed_and_new_units": [
+      {"unit": "title", "status": "COMPOSED", "v10_lines": "1-71", "v10_bytes": 6651, "v10_sha256": "ab0496b948a1ef2d37461d85fc6c44a9d0067a5c830d2912922c1f1ccb43d6ec"},
+      {"unit": "0", "status": "COMPOSED", "v10_lines": "72-73", "v10_bytes": 52, "v10_sha256": "6e1fd6a108ee4d6a497569c852da181f58f9e65bc38a0fcc8f1f0674ad4693ec"},
+      {"unit": "V10-0.1", "status": "NEW", "v10_lines": "74-97", "v10_bytes": 1887, "v10_sha256": "b0277d0565e04c2738f48e513f312aa12c5a61786fc40e3cb3906797ab503e4a"},
+      {"unit": "V10-0.7", "status": "NEW", "v10_lines": "98-193", "v10_bytes": 9248, "v10_sha256": "eb795b24436f6a4fcae835f67218af037751398771f45b04221aa97dcc6a52b2"},
+      {"unit": "13", "status": "COMPOSED", "v10_lines": "203-258", "v10_bytes": 5596, "v10_sha256": "1dab407ff5beef49e5162d3263a0a68feb46183b6b8bb4c8d905b2e22d75570b"},
+      {"unit": "13.1", "status": "COMPOSED", "v10_lines": "259-280", "v10_bytes": 5704, "v10_sha256": "ba84454a84746f7b8acd1772335176c3c3d0ccd9f5ba0171560a19b7d475d1c6"},
+      {"unit": "13.2", "status": "COMPOSED", "v10_lines": "281-348", "v10_bytes": 9779, "v10_sha256": "55046813f122a145c66c4e4e5c0ea466bbcf4471e1d0a97fb273da924a40a353"},
+      {"unit": "16.1", "status": "COMPOSED", "v10_lines": "349-367", "v10_bytes": 3881, "v10_sha256": "ea8283a12b1bd2b47c3d1eb8cc7b33e7c5ec384e4bcbd6faac6400f4522ba237"},
+      {"unit": "16", "status": "COMPOSED", "v10_lines": "368-412", "v10_bytes": 4135, "v10_sha256": "b81f8673e563d44205721fce22d4e0dd752ae27e17d93609d4a82ca28f887ef2"},
+      {"unit": "20", "status": "COMPOSED", "v10_lines": "413-441", "v10_bytes": 2776, "v10_sha256": "9e4b6fe48866179f3a9fe0e6e6ac676973ae033de7cfafc0b1d47093a69c2582"},
+      {"unit": "23", "status": "NEW", "v10_lines": "442-539", "v10_bytes": 8403, "v10_sha256": "98883301a22a964bee77897a745292e360e21c27513278305dd2287686540ec6"},
+      {"unit": "18.5 (new map)", "status": "COMPOSED", "v10_lines": "875-1023", "v10_bytes": 15746, "v10_sha256": "f3297aeadcf15bb9aefbc0fc60b7958ee1c418ddc0a52f472c199a90af3ece8b"},
+      {"unit": "18.5-R (self-referential)", "status": "COMPOSED", "v10_lines": "1024-1051", "v10_bytes": 2878, "v10_sha256": "fa83e91ab20c7c0332aedea6f1f483ea30189beee6e024f0e31503ea2636989a"},
+      {"unit": "V10-C.2 (self-referential)", "status": "COMPOSED", "v10_lines": "1052-1060", "v10_bytes": 762, "v10_sha256": "fe5ccf8ac84977cbd8e9eb1cd10d0140603f7b0e2d3e57c316e72200ee332fda"},
+      {"unit": "Appendix I (self-referential)", "status": "COMPOSED", "v10_lines": "1061-1102", "v10_bytes": 3189, "v10_sha256": "d7d3aec701f7f5686c442a9cc7df8b28f3a803d4fe0db776c0c0127034fb00e6"}
+    ]
+  },
+  "open_form_item": {
+    "id": "W1-V10-FORM",
+    "statement": "v10 is a change document over v9, not a self-contained re-composition. A self-contained v10 with every unit's bytes inline and a computed per-unit v10 sha256 is OPEN, to be produced by a read-only composition the drafting limits for this task did not permit. Form regression of W1-V8-FORM-SUBUNIT; weakens no obligation, fixture, threshold, accepted case or join."
+  },
+  "non_claims_document": [
+    "v10 closes no obligation. V5-B01, V5-B02, W1-V5-PRESERVATION, W1-V6-READ-MUTATION, W1-V7-HOLDER-STATE, Gate 0 and all 219 OBLIGATIONS-v2.json entries stay OPEN.",
+    "The review-provenance join change (§23) is a change to an original admission join; it is not reviewed; adoption is blocked until it is reviewed in the frame-design revision.",
+    "The asynchronous-holder containment (P-ASYNC/P-RELEASE) is an OPEN obligation stated as a closed specification with an observed-state predicate; its refutation exercise is operator-reserved (procedure OPEN) and is not asserted.",
+    "Nothing was executed for v10 but reading, the read-only identity hashing and JACKAL calls."
+  ]
+}
