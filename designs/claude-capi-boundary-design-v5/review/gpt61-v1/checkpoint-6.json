@@ -1,0 +1,46 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 6,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+  "status": "OWNERSHIP_PRESERVED_NO_NEW_APPROVAL_GATE",
+  "rulings": [
+    {
+      "id": "D-13",
+      "ruling": "OPERATOR_CHOICE_REQUIRED_BEFORE_PK-7; ONLY_ABI_AND_SCOPE_PRESERVING_ROUTE_ADMISSIBLE. Reservation concerns a concrete material component transport/library architecture choice, not editing pinned implementation files or recomputing effective pins.",
+      "owner": "operator for material architecture; lead prepares concrete artifacts",
+      "evidence_required": "Both original Decide exports and profiles/layouts, every original interface unit, SPARK_Mode-only mirror correspondence, native positive/refusal controls, complete source/project/link/header/library identity, retained native body obligations and the actual operator decision."
+    },
+    {
+      "id": "N-06",
+      "ruling": "REPROVISION_UNDER_OPERATOR_CUSTODY_AT_DEPLOYMENT; mismatch refusal remains. An old-library hold supplies no consolidated-candidate acceptance.",
+      "owner": "operator",
+      "evidence_required": "Installed/loaded matching reviewed library, protected native_sha256, operator-controlled provisioning record and mismatch refusal evidence."
+    },
+    {
+      "id": "N-01",
+      "ruling": "LEAD_OWNED_STRICT_OBLIGATION; confirming representation repairs preserve C1-C8 and satisfy E1-E6. Any nonconfirming material ABI change is separately operator-owned and grants no weakening of the original target.",
+      "owner": "lead; operator only for material ABI change",
+      "evidence_required": "Exact representation output, installed legality, strict warning/proof evidence, matching baseline layout identity, independent ABI and actual GPT-6.1 different-author delta review."
+    }
+  ],
+  "evidence": [
+    "D5/DESIGN.md:280-293",
+    "D5/decisions.json:operator_items",
+    "D3/DESIGN.md:2012-2052",
+    "D3/DESIGN.md:2248-2273",
+    "S5/protected-resource/run_service.py:117-120",
+    "H/HANDOFF.md:153-166",
+    "W/work/integrated-proof-preparation/PLAN.md:104-107",
+    "P:32-34",
+    "P:72-74"
+  ],
+  "boundary": "The current user's supervision rule is controlling. A design brief, prior review, pinning alone or this review supplies no new approval authority. No operator choice, deployment action or acceptance is granted.",
+  "acceptance": {
+    "proof": false,
+    "source": false,
+    "phase": false
+  },
+  "sketch_executed": false
+}

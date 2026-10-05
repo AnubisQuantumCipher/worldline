@@ -1,0 +1,48 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 2,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+  "status": "NOT_CLOSED",
+  "finding": "The exact scoped qualifier multisets, documented visible-renaming paths, scoped exceptions and use-clause whitelist reconcile with the current S5 inventory. R-QUAL(d) and BR6 nevertheless examine only the last identifier of a dotted with-clause unit. Ada with-clause visibility also includes units denoted by its prefixes. A capturing sibling child mentioned only through a descendant's with clause is therefore outside the advertised independent capture rule. This is a specification gap for reviewed context/table amendments; no current source capture or passing whole-checker mutation is asserted.",
+  "evidence": [
+    "D5/APPENDIX-BINDINGS.md:198-205",
+    "D5/APPENDIX-BINDINGS.md:384-395",
+    "D5/APPENDIX-BINDINGS.md:581-584",
+    "D5/APPENDIX-BINDINGS.md:616-624",
+    "D5/APPENDIX-BINDINGS.md:675-686",
+    "D5/APPENDIX-BINDINGS.md:859-862",
+    "D4/APPENDIX-BINDINGS.md:60-77",
+    "S5/core/worldline.ads:1-9"
+  ],
+  "primary_language_evidence": [
+    {
+      "url": "https://www.adaic.org/resources/add_content/standards/22rm/html/RM-10-1-2.html",
+      "paragraphs": [
+        "6/2",
+        "7"
+      ]
+    },
+    {
+      "url": "https://www.adaic.org/resources/add_content/standards/22rm/html/RM-10-1-1.html",
+      "paragraphs": [
+        "11"
+      ]
+    },
+    {
+      "url": "https://www.adaic.org/resources/add_content/standards/22rm/html/RM-8-3.html",
+      "paragraphs": [
+        "8"
+      ]
+    }
+  ],
+  "remaining_change": "Extend the deterministic no-capture context rule and algorithm to every potentially capturing library-unit prefix mentioned by a with clause, without expanding any scoped exception or permitted use clause; specify the corresponding invariant amendment control and an unchanged-context positive control.",
+  "installed_resolution": "OPEN",
+  "acceptance": {
+    "proof": false,
+    "source": false,
+    "phase": false
+  },
+  "sketch_executed": false
+}

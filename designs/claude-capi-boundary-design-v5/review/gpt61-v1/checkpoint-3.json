@@ -1,0 +1,30 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 3,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+  "status": "NOT_CLOSED",
+  "rc_closure": {
+    "V3-RC4": "NOT_CLOSED",
+    "R2_NINE_CONDITIONS": "NOT_CLOSED",
+    "PACKET_PLAN": "NOT_CLOSED"
+  },
+  "finding": "The v5 mapping preserves the relocation/binding/profile, predecessor, identity, append-only, exception-set and strict-evidence conditions and the linear, separately reviewed packet/seal discipline. Condition (4)'s advertised independent executable-path/name invariants remain incomplete for the gaps recorded in items 1 and 2. The packet plan consequently cannot yet be closed at design level. V3-RC5 and V3-RC6 retain their prior CLOSED_AT_DESIGN_LEVEL dispositions; source, proof, native and phase acceptance remain ungranted.",
+  "evidence": [
+    "D5/DESIGN.md:273-296",
+    "D5/APPENDIX-BINDINGS.md:800-841",
+    "D3/DESIGN.md:1814-1841",
+    "D3/DESIGN.md:1870-1939",
+    "D3/DESIGN.md:1970-1993",
+    "D4/DESIGN.md:534-629",
+    "D5/DESIGN.md:219-228"
+  ],
+  "remaining_change": "Resolve the independent gate-exception and qualifier-prefix-capture specifications without changing the packet lineage, acceptance sequence, predecessor reconstruction, exact proof prefix, floor, boundary or seal restrictions.",
+  "acceptance": {
+    "proof": false,
+    "source": false,
+    "phase": false
+  },
+  "sketch_executed": false
+}

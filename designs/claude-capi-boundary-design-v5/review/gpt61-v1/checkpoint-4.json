@@ -1,0 +1,39 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 4,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+  "status": "CARRIED_IDENTITIES_AND_DISPOSITIONS_PRESERVED",
+  "finding": "All requested v5 input identities, carried v4 slice hashes, replacement old quotes, replacement digests and B8 reconstruction identity verify. Nested v3 slice hashes and the v5 canonical-JSON carried-value hashes also verify. The changed text is explicitly replaced or added as declared. The replacements are correctly targeted and justified in purpose; their gate/qualifier enforcement is incomplete only as recorded in items 1 and 2. RC1/RC2 normalized diagnostic and finalization texts independently equal their carried v3 texts. RC1-RC3, LD1-LD6/LD4-R, the L1-L8 design repairs and existing qualifications, APPENDIX_C ordering, RC5/RC6 dispositions, and listed OPEN/conditional rulings are preserved rather than upgraded to implementation acceptance.",
+  "evidence": [
+    "D5/DESIGN.md:54-130",
+    "D5/DESIGN.md:132-231",
+    "D5/APPENDIX-BINDINGS.md:16-81",
+    "D5/APPENDIX-BINDINGS.md:273-556",
+    "D5/decisions.json:253-263",
+    "D4/DESIGN.md:111-172",
+    "D3/DESIGN.md:509-577",
+    "D3/DESIGN.md:729-749",
+    "D4/APPENDIX-BINDINGS.md:662-695",
+    "D4/APPENDIX-BINDINGS.md:768-772",
+    "D4/review/gpt61-v1/REVIEW.md:97-143"
+  ],
+  "source_manifest": {
+    "method": "passive AST literal inspection",
+    "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+    "minimum_checks": 251,
+    "unanalyzed_boundary": [
+      "worldline-c_api"
+    ],
+    "required_proved_order_sha256": "bf1ec89a4421ad152213721a6bd49f558a4d8847ea1c3fbe84a864519368890b",
+    "effective_contract_pins_sha256": "42f1809c2ec5a6ed4dbcb639a91c62f50ab80c75787d7110a0a69618bb9ec8c4"
+  },
+  "boundary": "Identity verification and preservation of prior design-level dispositions grant no source, proof, native or phase acceptance.",
+  "acceptance": {
+    "proof": false,
+    "source": false,
+    "phase": false
+  },
+  "sketch_executed": false
+}

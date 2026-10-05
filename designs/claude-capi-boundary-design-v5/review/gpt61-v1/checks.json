@@ -1,0 +1,3528 @@
+{
+  "schema": "claude-design-review-checks-v1",
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/DESIGN.md",
+  "boundary": {
+    "passive": true,
+    "worldline_imported": false,
+    "worldline_executed": false,
+    "sketch_executed": false,
+    "compilers_provers_builds_tests_run": false,
+    "service_window_reservation_storage_actions": false,
+    "sia_notes_written": false,
+    "other_review_in_progress_read": false,
+    "processes_interrupted": false,
+    "write_scope": "current working directory only",
+    "proof_acceptance": false,
+    "source_acceptance": false,
+    "phase_acceptance": false,
+    "source_and_sketch_method": "Reading, hashing, text comparisons and AST literal inspection only"
+  },
+  "input_integrity": {
+    "identities": {
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/DESIGN.md": {
+        "sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+        "bytes": 46731,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/decisions.json": {
+        "sha256": "a069632a035b62f18d886112763472f13040779d2d5dd79c872a6d6ce951c55b",
+        "bytes": 62067,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/APPENDIX-BINDINGS.md": {
+        "sha256": "f22944b4d52bd196f1823f9f0abf1a0f1578db14f5697bd7b63c6899af15a5a2",
+        "bytes": 94352,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/jackal.json": {
+        "sha256": "612d189e4edc29cda39c8e61ac3668bf04adb6abcda12728f7ec14272d4f46d4",
+        "bytes": 17950,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/AUTHOR-NOTES.md": {
+        "sha256": "ed45d1db766f3b03ec946946942a571ae50b0eae21e339c5724b5e2480280e47",
+        "bytes": 15349,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/DESIGN.md": {
+        "sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "bytes": 97143,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/decisions.json": {
+        "sha256": "59e71dd68724b0420b670d79a99ea74194134dbc6d219b7b91f146ad01843625",
+        "bytes": 58056,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-BINDINGS.md": {
+        "sha256": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+        "bytes": 225451,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-COST-MAP.md": {
+        "sha256": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+        "bytes": 73929,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/jackal.json": {
+        "sha256": "dec64a324685496195a7cb1c48e9ee3cf168255f8a1214d62b9491e42653f39d",
+        "bytes": 13041,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/AUTHOR-NOTES.md": {
+        "sha256": "ccac4f63a00ed36199642b8691535890719879187b135ecce69f67edc5214b07",
+        "bytes": 11329,
+        "mode": "0644"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/REVIEW.md": {
+        "sha256": "3d1ef7f82c2458f24ef9a8916e82db0d97c3e1730038cf20ac3d5e0e0323e4aa",
+        "bytes": 29178,
+        "mode": "0600"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review.json": {
+        "sha256": "d7bf825a6c3d0da5f1b9302b64991d05759ae4754eb7347dcf187eb89b2e1f4e",
+        "bytes": 18116,
+        "mode": "0600"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checks.json": {
+        "sha256": "d70fe4677ae2159ad617a0dc6f9982fc976fd86b7d43f66dc9a3913e51e96963",
+        "bytes": 119076,
+        "mode": "0600"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review-freeze.json": {
+        "sha256": "f1dcb0a77264dedd4c08be8b71ce390db66295cb25d1eb79eeb3701c7c0413dc",
+        "bytes": 560,
+        "mode": "0600"
+      }
+    },
+    "prior_freeze_matches": {
+      "REVIEW.md": true,
+      "review.json": true,
+      "checks.json": true
+    },
+    "slices": [
+      {
+        "group": "v4_design_slices",
+        "lines": "18-71",
+        "expected": "e431f6d450d8b93cb2c6d5ba900ee29407cb27bdf0b2aaa15171f35ade293bed",
+        "observed": "e431f6d450d8b93cb2c6d5ba900ee29407cb27bdf0b2aaa15171f35ade293bed",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "75-266",
+        "expected": "f743e0b189eaaaa5e120c196ec5cde9f585ec405f16e3cfa312f277f87ab9e6f",
+        "observed": "f743e0b189eaaaa5e120c196ec5cde9f585ec405f16e3cfa312f277f87ab9e6f",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "270-298",
+        "expected": "19f6559c98f31ffc37244511554783aceafbfb71d78f184ef01069983e80fd5d",
+        "observed": "19f6559c98f31ffc37244511554783aceafbfb71d78f184ef01069983e80fd5d",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "302-304",
+        "expected": "b9adec269b9f48a2cd60be79ab3cfba8ae25c6bb69d2dd93da3c6debd925f854",
+        "observed": "b9adec269b9f48a2cd60be79ab3cfba8ae25c6bb69d2dd93da3c6debd925f854",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "308-372",
+        "expected": "36701578f9dc89fef175a1ad80725a4f8aae362b61d02141894a3b038a0cc3a9",
+        "observed": "36701578f9dc89fef175a1ad80725a4f8aae362b61d02141894a3b038a0cc3a9",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "376-391",
+        "expected": "d392149c3d5671cd048a5fb546f6b1385058805a274fa310b0757a529c35502c",
+        "observed": "d392149c3d5671cd048a5fb546f6b1385058805a274fa310b0757a529c35502c",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "395-397",
+        "expected": "c43c64ff716d61c55eb85aff7cbcd62850338421d16c791adc6b40e69869f939",
+        "observed": "c43c64ff716d61c55eb85aff7cbcd62850338421d16c791adc6b40e69869f939",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "401-403",
+        "expected": "44369d5d8558c58db9c3d2367c3485916ecccf930808833acdc701f924670bc6",
+        "observed": "44369d5d8558c58db9c3d2367c3485916ecccf930808833acdc701f924670bc6",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "407-425",
+        "expected": "2eb54fafe287f1df395ba936f0fc04e51198befdc380b324fd0e8e9c850baa63",
+        "observed": "2eb54fafe287f1df395ba936f0fc04e51198befdc380b324fd0e8e9c850baa63",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "427-446",
+        "expected": "84d501a70d16ee4e7d9aaff909f5711f9a3322a50c75991d1fcce49cf68a2e5b",
+        "observed": "84d501a70d16ee4e7d9aaff909f5711f9a3322a50c75991d1fcce49cf68a2e5b",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "448-506",
+        "expected": "d72122582db0678307cd496bd29a51ee2c4a84d3bd12023e29cafa761f4ff177",
+        "observed": "d72122582db0678307cd496bd29a51ee2c4a84d3bd12023e29cafa761f4ff177",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "508-510",
+        "expected": "3585ce95bac94ef1042c84163e438a13c1d33b278634afe058b9c47cb365555d",
+        "observed": "3585ce95bac94ef1042c84163e438a13c1d33b278634afe058b9c47cb365555d",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "512-522",
+        "expected": "1a6a6787ec5e93ef4a7733c29339a1f773e727c5e4206d86301c559dce90ec7d",
+        "observed": "1a6a6787ec5e93ef4a7733c29339a1f773e727c5e4206d86301c559dce90ec7d",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "524-526",
+        "expected": "fc3e348d965ec41f448e07e7c287351c1f7a98f757db1bab74cbc3971bbe2b36",
+        "observed": "fc3e348d965ec41f448e07e7c287351c1f7a98f757db1bab74cbc3971bbe2b36",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "530-629",
+        "expected": "2aa0d9f9951a81bb064227c69235bb647876c0fd832242a224178cb83c5157c0",
+        "observed": "2aa0d9f9951a81bb064227c69235bb647876c0fd832242a224178cb83c5157c0",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "633-635",
+        "expected": "e57638c3186fe2df162de519bec392879770eb33f698ed1da9eaf74a4230c9fd",
+        "observed": "e57638c3186fe2df162de519bec392879770eb33f698ed1da9eaf74a4230c9fd",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "639-704",
+        "expected": "e081b5163fe555af2804641161b7b894a680c9e198148fdac1472215193d98b0",
+        "observed": "e081b5163fe555af2804641161b7b894a680c9e198148fdac1472215193d98b0",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "708-710",
+        "expected": "f519786b774b7526f7701a4cb0146873dd3aaf8e914bc956bde88372b27d7666",
+        "observed": "f519786b774b7526f7701a4cb0146873dd3aaf8e914bc956bde88372b27d7666",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "768-782",
+        "expected": "778557618deaa660ecd87c44ff657354b32885c2ed1ba9b9b23359d2a23abdc4",
+        "observed": "778557618deaa660ecd87c44ff657354b32885c2ed1ba9b9b23359d2a23abdc4",
+        "matches": true
+      },
+      {
+        "group": "v4_design_slices",
+        "lines": "848-850",
+        "expected": "b84beecb0360a9cb2d09e9b780a8a6b49bd95ba2502c57579a0ff217b986e2d6",
+        "observed": "b84beecb0360a9cb2d09e9b780a8a6b49bd95ba2502c57579a0ff217b986e2d6",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "26-32",
+        "expected": "f7807da9d024f34b0b7d7312e0ae3bed9a2a0fce228503762cc4b9e06424770f",
+        "observed": "f7807da9d024f34b0b7d7312e0ae3bed9a2a0fce228503762cc4b9e06424770f",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "34-43",
+        "expected": "2e13a79785e767c10b64c29393f1584e81c17bc755adf68e9604a36c8eb32426",
+        "observed": "2e13a79785e767c10b64c29393f1584e81c17bc755adf68e9604a36c8eb32426",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "45-58",
+        "expected": "b340c1ae93ff419556fc1afcb99b24fa54255bb7fbd12430a73acaf633182a2e",
+        "observed": "b340c1ae93ff419556fc1afcb99b24fa54255bb7fbd12430a73acaf633182a2e",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "60-77",
+        "expected": "8ccc7cfef1e5c2e03a372d9c2196e2ef7b9c50f729466261e53495e0106f54c8",
+        "observed": "8ccc7cfef1e5c2e03a372d9c2196e2ef7b9c50f729466261e53495e0106f54c8",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "87-102",
+        "expected": "c9adc17d27b04d363890cb26d8a80c90983d058a10e7f967dd240befdf833a82",
+        "observed": "c9adc17d27b04d363890cb26d8a80c90983d058a10e7f967dd240befdf833a82",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "116-129",
+        "expected": "729ba9ffaf86e3e50273d5f4515cd32df1f970f8062a2be1b4d9d3fee8f4b89c",
+        "observed": "729ba9ffaf86e3e50273d5f4515cd32df1f970f8062a2be1b4d9d3fee8f4b89c",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "131-148",
+        "expected": "af6c7eb4db7f5f65e070474e66d1bb73f10b6e752ae4714849785bbc34c48336",
+        "observed": "af6c7eb4db7f5f65e070474e66d1bb73f10b6e752ae4714849785bbc34c48336",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "152-175",
+        "expected": "64e4a008d2d26e8d58c1f0cad0bdd409c88bff718d2204a2ca64e64593d64ddb",
+        "observed": "64e4a008d2d26e8d58c1f0cad0bdd409c88bff718d2204a2ca64e64593d64ddb",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "191-906",
+        "expected": "4546e0f704f26efd2785f11ab6ce15ee103b4114732c5d8661254a27fbdcdc89",
+        "observed": "4546e0f704f26efd2785f11ab6ce15ee103b4114732c5d8661254a27fbdcdc89",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "918-1433",
+        "expected": "0c0c8ea8f5c1ed165b9a489be52bdd42e1616f145dad73319423349ac4ae8be1",
+        "observed": "0c0c8ea8f5c1ed165b9a489be52bdd42e1616f145dad73319423349ac4ae8be1",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "1462-1696",
+        "expected": "98ad4e27ecf7c65a248b58fe2c05054c3356c540f685d4f50732f070801de413",
+        "observed": "98ad4e27ecf7c65a248b58fe2c05054c3356c540f685d4f50732f070801de413",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "1719-1723",
+        "expected": "be0acc455dacec175b055b2f7b3888566e5aaa5ffcd300f971debffd5ed269bf",
+        "observed": "be0acc455dacec175b055b2f7b3888566e5aaa5ffcd300f971debffd5ed269bf",
+        "matches": true
+      },
+      {
+        "group": "v4_appendix_bindings_slices",
+        "lines": "1727-1775",
+        "expected": "c9d6773ab61790f4b6f8cd858e32b5cc25d30c2d4295dba2a92e8e658c27859a",
+        "observed": "c9d6773ab61790f4b6f8cd858e32b5cc25d30c2d4295dba2a92e8e658c27859a",
+        "matches": true
+      }
+    ],
+    "quotes": [
+      {
+        "id": "V-R1",
+        "target": "v4:422 (8.1 rule tables)",
+        "old_equals_source": true,
+        "old_hash": "de32948249f51cc84b52ebc218e71d16d34953c9ecee83ef473b3b8ba0ec2a48",
+        "old_hash_matches_twin": true,
+        "new_hash": "b758b64948a4d65cf93a973efee83f09d4d98d667e499f8e247920b36824a58c",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "V-R2",
+        "target": "v4:469 (R-INV (vii))",
+        "old_equals_source": true,
+        "old_hash": "d6f31e0ff07e0cd1cfd210f2f90da87fab085d4b4a1d2e950e0ced2e4c668ba5",
+        "old_hash_matches_twin": true,
+        "new_hash": "ff778d2b0bd381bd90d4232098689cd4c3df3508de50665d5f0cdd6248ad5c39",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "V-R3",
+        "target": "v4:472 (R-ALIAS; adds R-QUAL)",
+        "old_equals_source": true,
+        "old_hash": "cdef9568a766995603ab1beeb8900fa93c283c6c6f302fc57992f36904f3d6c2",
+        "old_hash_matches_twin": true,
+        "new_hash": "ffa7eddaaf2235daf761a5316caca7470a10fd1e1cb6af3f4d1bffbc8af5fa6d",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "V-R4",
+        "target": "v4:479-484 (R-GATE)",
+        "old_equals_source": true,
+        "old_hash": "a8e5a74ce5a2eda79b7b137b2a903c669854679c03a7978c3b90a4c4d1cd3ff2",
+        "old_hash_matches_twin": true,
+        "new_hash": "033a16abea498b275f1818c39efe3521f2a3becc6a858319fa5cdcc47a6e20a2",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "V-R5",
+        "target": "v4:500 (8.4.1 O5)",
+        "old_equals_source": true,
+        "old_hash": "a0c34f9ea27e8ae130a1abf9a781318e57a64393315ea6f955d974547ff63e34",
+        "old_hash_matches_twin": true,
+        "new_hash": "d4d66eb74170f7c919147ac3f68279d92d74d111a9b0bb8fc841303d86ad7fdf",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "V-R6",
+        "target": "v4:501 (8.4.1 O6 (a))",
+        "old_equals_source": true,
+        "old_hash": "51cad36996213bef9bc87a9ad06a18cb2f494c21ea63b633067460c79c5416be",
+        "old_hash_matches_twin": true,
+        "new_hash": "917f47277d811ae42e0393c6ba342dbb9bb8d3a6fd882a3f297bde851702164e",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "V-R7",
+        "target": "v4:504 (8.4.1 O7)",
+        "old_equals_source": true,
+        "old_hash": "7ec55e40d93d2cb2eba034fbf7c60874d7d23712549b923af24569a85dba2076",
+        "old_hash_matches_twin": true,
+        "new_hash": "5b0fa2703751bc20db82eed040229d5b02e2dd10c194075850e1a3675d9951f6",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "V-R8",
+        "target": "v4:522 (8.8 mutation row)",
+        "old_equals_source": true,
+        "old_hash": "028dfb345f8e916c24742083bdd8b0ea13f1d7da71dc0439e50cea298024bf2c",
+        "old_hash_matches_twin": true,
+        "new_hash": "dff7a2ae16d0825d4c73641e6c66063a1e920e81bf65e99a30a1e01262d98244",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "V-R9",
+        "target": "effective v3:1931 (9.4), as replaced by v4 R12",
+        "old_equals_source": true,
+        "old_hash": "3b6f74fb7808d3c784eab4327db3887c1ac9a40c3f89a251bbcebdde0c7b8676",
+        "old_hash_matches_twin": true,
+        "new_hash": "37ab398a7c45204762b51629221479509bf8ec803237863451e269312cab5557",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "A-R1",
+        "target": "v4 A-BIND:42 (B0.2 invariants include B0.10)",
+        "old_equals_source": true,
+        "old_hash": "f5ec6084ad0180ed48dbee4644e1732b6604488f03a91f252ac99eef5c8e652f",
+        "old_hash_matches_twin": true,
+        "new_hash": "65bead4dd3f742e68e34255e4ca35c64fe9773fa710ff1cde4a7843ed76cd250",
+        "new_hash_matches_twin": true
+      },
+      {
+        "id": "A-R2",
+        "target": "v4 A-BIND:73 (R-INV (vii) path-independent)",
+        "old_equals_source": true,
+        "old_hash": "0ca769b79737ef5d118e5c7e6fb0d5268db5fa8126dcde9d73b4fecb5ecdc052",
+        "old_hash_matches_twin": true,
+        "new_hash": "f975df745ae8becdf929efd706e804e6a1979cb5cd63ba7a61b4cc3d5b40375c",
+        "new_hash_matches_twin": true
+      }
+    ],
+    "br_blocks": {
+      "BR1": {
+        "id": "BR1",
+        "new_hash": "d7f6c4c165f117d53459e406ffc798d4cfdfc49bc0a236add2e21ee82d196953",
+        "new_hash_matches_twin": true,
+        "old_equals_source": true,
+        "old_hash_matches_twin": true
+      },
+      "BR2": {
+        "id": "BR2",
+        "new_hash": "b925fcae383767ad425143909e4469590a110bb122a7e03b857513f4c785919f",
+        "new_hash_matches_twin": true,
+        "old_equals_source": true,
+        "old_hash_matches_twin": true
+      },
+      "BR3": {
+        "id": "BR3",
+        "new_hash": "7dd45ffeaca6f494ab3e54549d04e86274cfe481697116c8f2a75877acdcc223",
+        "new_hash_matches_twin": true,
+        "old_equals_source": true,
+        "old_hash_matches_twin": true
+      },
+      "BR4": {
+        "id": "BR4",
+        "new_hash": "bd3d518320563dcd3936d82ddc35dfeafd3d50ab3942e76861bf003dc1afbf81",
+        "new_hash_matches_twin": true,
+        "insertion_anchor": 963
+      },
+      "BR5": {
+        "id": "BR5",
+        "new_hash": "a91ccc15175e6e72f97adbfaa6e28ebc14ea13875b66cd83f58b3e85538cfacf",
+        "new_hash_matches_twin": true,
+        "old_equals_source": true,
+        "old_hash_matches_twin": true
+      },
+      "BR6": {
+        "id": "BR6",
+        "new_hash": "158192ce098212b64e9c5a4f396f8e1ed7bacfc5b531c8ea45b2bb51a3261aa0",
+        "new_hash_matches_twin": true,
+        "insertion_anchor": 1263
+      },
+      "BR7": {
+        "id": "BR7",
+        "new_hash": "a93b56d33bcbcb812a97f9e48a484eb51fdc28ad8766a3a3ac2dc291087ca2fb",
+        "new_hash_matches_twin": true,
+        "old_equals_source": true,
+        "old_hash_matches_twin": true
+      },
+      "BR8": {
+        "id": "BR8",
+        "new_hash": "a26ce76240a7fddafb51c09d173bac0d0075c45b72cb7a03e1c182b623c824db",
+        "new_hash_matches_twin": true,
+        "old_equals_source": true,
+        "old_hash_matches_twin": true
+      }
+    },
+    "sketch": {
+      "sha256": "e739e0395cd4e513920baa9b6e916bcafefecf66c1f53bef21e032c71eee79cb",
+      "expected_sha256": "e739e0395cd4e513920baa9b6e916bcafefecf66c1f53bef21e032c71eee79cb",
+      "hash_matches": true,
+      "ast_parse": "success",
+      "executed": false
+    },
+    "count_expressions": {
+      "design_slices": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+      "appendix_slices": "1+1+1+1+1+1+1+1+1+1+1+1+1",
+      "design_quotes": "1+1+1+1+1+1+1+1+1",
+      "appendix_quotes": "1+1",
+      "br_blocks": "1+1+1+1+1+1+1+1"
+    }
+  },
+  "carried_ast_observations": {
+    "nested_v3_slices": [
+      {
+        "lines": "17-60",
+        "expected": "5eee9c6f40b16b659b513cdf6be29961bc03dc40f05dae3129f2a0f35cf8c65b",
+        "observed": "5eee9c6f40b16b659b513cdf6be29961bc03dc40f05dae3129f2a0f35cf8c65b",
+        "matches": true
+      },
+      {
+        "lines": "64-107",
+        "expected": "4bf7a3025d1c9b1b1880b7f870ed2b128221f8aa514236a195e3bdd48ac4817b",
+        "observed": "4bf7a3025d1c9b1b1880b7f870ed2b128221f8aa514236a195e3bdd48ac4817b",
+        "matches": true
+      },
+      {
+        "lines": "111-191",
+        "expected": "7f8950643713d597c974b32ac251ca7fffb741499ad973b89b0124478754d63c",
+        "observed": "7f8950643713d597c974b32ac251ca7fffb741499ad973b89b0124478754d63c",
+        "matches": true
+      },
+      {
+        "lines": "197-220",
+        "expected": "de660be2d570ffc0427de909bf00fb86aa0a4c4900f1ef853153cd31752dcbb6",
+        "observed": "de660be2d570ffc0427de909bf00fb86aa0a4c4900f1ef853153cd31752dcbb6",
+        "matches": true
+      },
+      {
+        "lines": "222-253",
+        "expected": "2ed8bbeae1f60c1be2cfa7581843af4eab1762c4d83960627561e34addcee0c2",
+        "observed": "2ed8bbeae1f60c1be2cfa7581843af4eab1762c4d83960627561e34addcee0c2",
+        "matches": true
+      },
+      {
+        "lines": "255-260",
+        "expected": "e0ebd131536e3a1b41d0aea6b12651d2807d564ac9e324c165dc90dccafb0a25",
+        "observed": "e0ebd131536e3a1b41d0aea6b12651d2807d564ac9e324c165dc90dccafb0a25",
+        "matches": true
+      },
+      {
+        "lines": "271-277",
+        "expected": "1c392a5de31bf37ce3fae7ce125e1ba6c819f95963704362655573f4629fd411",
+        "observed": "1c392a5de31bf37ce3fae7ce125e1ba6c819f95963704362655573f4629fd411",
+        "matches": true
+      },
+      {
+        "lines": "311-322",
+        "expected": "64fb82d9b368abfb6ea1f6d40a67b3d011d5681d6eac5bd38f1b72441fdf2a16",
+        "observed": "64fb82d9b368abfb6ea1f6d40a67b3d011d5681d6eac5bd38f1b72441fdf2a16",
+        "matches": true
+      },
+      {
+        "lines": "326-664",
+        "expected": "8e42f710e70279905392be9aa653b3e03465a96a5f11f1b0d8ff956309d99ec1",
+        "observed": "8e42f710e70279905392be9aa653b3e03465a96a5f11f1b0d8ff956309d99ec1",
+        "matches": true
+      },
+      {
+        "lines": "673-678",
+        "expected": "677c19ee8e23d504de3da97558f431a038da6bf1c7d3ecc4f3a973ea0463c059",
+        "observed": "677c19ee8e23d504de3da97558f431a038da6bf1c7d3ecc4f3a973ea0463c059",
+        "matches": true
+      },
+      {
+        "lines": "682-902",
+        "expected": "8a8f96b476a32e6e525637e8ab9f2c7de89d10ec24bd6232f2a32457a622dd97",
+        "observed": "8a8f96b476a32e6e525637e8ab9f2c7de89d10ec24bd6232f2a32457a622dd97",
+        "matches": true
+      },
+      {
+        "lines": "906-937",
+        "expected": "e442efc0ad095cc6e63b9872c403e87d626c140b2bb7249ecd8148f586f9676e",
+        "observed": "e442efc0ad095cc6e63b9872c403e87d626c140b2bb7249ecd8148f586f9676e",
+        "matches": true
+      },
+      {
+        "lines": "941-1726",
+        "expected": "5724c0ca257a3105c87381963f7e4cf3fd43aa95ffc0a7dcdc9842520e3e27b5",
+        "observed": "5724c0ca257a3105c87381963f7e4cf3fd43aa95ffc0a7dcdc9842520e3e27b5",
+        "matches": true
+      },
+      {
+        "lines": "1746-1770",
+        "expected": "3d60cfb16ba2290bea917012218a5335f58623b357628edd10a878f58a383ecc",
+        "observed": "3d60cfb16ba2290bea917012218a5335f58623b357628edd10a878f58a383ecc",
+        "matches": true
+      },
+      {
+        "lines": "1772-1778",
+        "expected": "26c2096c65e4d1bd997f55f90180bdddae4c53c90b59163f9274a83b56b4be17",
+        "observed": "26c2096c65e4d1bd997f55f90180bdddae4c53c90b59163f9274a83b56b4be17",
+        "matches": true
+      },
+      {
+        "lines": "1806-1812",
+        "expected": "604808012ae22c11cf332e3f368c5eb7384ede49b3b6804190054bcc3d825431",
+        "observed": "604808012ae22c11cf332e3f368c5eb7384ede49b3b6804190054bcc3d825431",
+        "matches": true
+      },
+      {
+        "lines": "1814-1827",
+        "expected": "f4fde5a89f55d275e19b46a0af11ab7da09b136b2cbc55a0aa39bec2f2a42189",
+        "observed": "f4fde5a89f55d275e19b46a0af11ab7da09b136b2cbc55a0aa39bec2f2a42189",
+        "matches": true
+      },
+      {
+        "lines": "1829-1841",
+        "expected": "e59632c2911a3d6fc6145c2e968f5d291e196c37558f74412bc2cee882ed583d",
+        "observed": "e59632c2911a3d6fc6145c2e968f5d291e196c37558f74412bc2cee882ed583d",
+        "matches": true
+      },
+      {
+        "lines": "1843-1852",
+        "expected": "19668c3c5cf9218413ef26eedab5484580ae395f1f5f800ec99a6569604dbac1",
+        "observed": "19668c3c5cf9218413ef26eedab5484580ae395f1f5f800ec99a6569604dbac1",
+        "matches": true
+      },
+      {
+        "lines": "1854-1864",
+        "expected": "f262ea5ecf99af3d16da545aa09d7ce63cc00ee8c7e539a581d2e22653d6549f",
+        "observed": "f262ea5ecf99af3d16da545aa09d7ce63cc00ee8c7e539a581d2e22653d6549f",
+        "matches": true
+      },
+      {
+        "lines": "1868-1925",
+        "expected": "088d7f047669b947b1d1715f83c6308de0feb3c550e605a7b7d05b0b13623357",
+        "observed": "088d7f047669b947b1d1715f83c6308de0feb3c550e605a7b7d05b0b13623357",
+        "matches": true
+      },
+      {
+        "lines": "1927-1934",
+        "expected": "5158b5cb891cbbcf9364bfe33b81a619cd923ed23306d51d97778b0bcd7d045d",
+        "observed": "5158b5cb891cbbcf9364bfe33b81a619cd923ed23306d51d97778b0bcd7d045d",
+        "matches": true
+      },
+      {
+        "lines": "1936-1939",
+        "expected": "314052df868511897fff559c64820ff6c85a2b9c71a6dd340da613827bc54a7c",
+        "observed": "314052df868511897fff559c64820ff6c85a2b9c71a6dd340da613827bc54a7c",
+        "matches": true
+      },
+      {
+        "lines": "1970-1993",
+        "expected": "ff5c8475549cd9a687f0ad70c9115d771d0b4679e0f0875f75b86c049cc9a39a",
+        "observed": "ff5c8475549cd9a687f0ad70c9115d771d0b4679e0f0875f75b86c049cc9a39a",
+        "matches": true
+      },
+      {
+        "lines": "1997-2052",
+        "expected": "258b3d2361e5f8e3ba34315d100c8ac2a37164bbe96f0dd846aadcfbf01943f6",
+        "observed": "258b3d2361e5f8e3ba34315d100c8ac2a37164bbe96f0dd846aadcfbf01943f6",
+        "matches": true
+      },
+      {
+        "lines": "2122-2132",
+        "expected": "e5c9c9f85482d18f0858d858ecccead7f916b2abce45d93b9c46873053c7ddae",
+        "observed": "e5c9c9f85482d18f0858d858ecccead7f916b2abce45d93b9c46873053c7ddae",
+        "matches": true
+      },
+      {
+        "lines": "2136-2175",
+        "expected": "25bafa834c6179064480c1581c71f464c3e8d8712833f231fbbff0bb5348c612",
+        "observed": "25bafa834c6179064480c1581c71f464c3e8d8712833f231fbbff0bb5348c612",
+        "matches": true
+      },
+      {
+        "lines": "2179-2188",
+        "expected": "6d60ea058fb75aef9f43ece9dd726cc7c56b08c358330c6e2a516a67aa8c1e41",
+        "observed": "6d60ea058fb75aef9f43ece9dd726cc7c56b08c358330c6e2a516a67aa8c1e41",
+        "matches": true
+      },
+      {
+        "lines": "2192-2211",
+        "expected": "703c7c03a8729ea248150b26d18f47f1cf848505e2796b7653c68181c09076fc",
+        "observed": "703c7c03a8729ea248150b26d18f47f1cf848505e2796b7653c68181c09076fc",
+        "matches": true
+      },
+      {
+        "lines": "2215-2244",
+        "expected": "8fc979e135f23a9554b41c644126a212c0ea437850e4bac1f8c3a860b1c1f18d",
+        "observed": "8fc979e135f23a9554b41c644126a212c0ea437850e4bac1f8c3a860b1c1f18d",
+        "matches": true
+      },
+      {
+        "lines": "2248-2273",
+        "expected": "30badbdefecb6639788dc40e4cf77aecd42afc7e521ca9123e4f954611ff6713",
+        "observed": "30badbdefecb6639788dc40e4cf77aecd42afc7e521ca9123e4f954611ff6713",
+        "matches": true
+      },
+      {
+        "lines": "2478-2589",
+        "expected": "cee26f7f6c66613cdae339b9765b1ebe5f447a045c37999b7a571ed9200a45c6",
+        "observed": "cee26f7f6c66613cdae339b9765b1ebe5f447a045c37999b7a571ed9200a45c6",
+        "matches": true
+      }
+    ],
+    "carried_twin_value_hashes": [
+      {
+        "key": "required_proved_append",
+        "expected": "c70880f90cd67e9d0a60b3a3f12f43ba78609abdf21a2512944b317f8f01dac8",
+        "observed": "c70880f90cd67e9d0a60b3a3f12f43ba78609abdf21a2512944b317f8f01dac8",
+        "matches": true
+      },
+      {
+        "key": "relocation_map",
+        "expected": "bf28ca1b7dcd756992a2a7968fc54c9b5d20aef3603c919d4597647ed8593703",
+        "observed": "bf28ca1b7dcd756992a2a7968fc54c9b5d20aef3603c919d4597647ed8593703",
+        "matches": true
+      },
+      {
+        "key": "append_schedule",
+        "expected": "efa2b7226214bc40148929f594eb358dd8362699b03d7a652e589910566d1601",
+        "observed": "efa2b7226214bc40148929f594eb358dd8362699b03d7a652e589910566d1601",
+        "matches": true
+      },
+      {
+        "key": "glue_edits",
+        "expected": "93ad2f983164b46d4baa2a78daf7fa6276f5a49f41286a11f308b2af1978795e",
+        "observed": "93ad2f983164b46d4baa2a78daf7fa6276f5a49f41286a11f308b2af1978795e",
+        "matches": true
+      },
+      {
+        "key": "residual_identity",
+        "expected": "acc6813207e4dd5db148d0bf1bf5bb7d955664fc04f38d67a9221c11c0e0a83f",
+        "observed": "acc6813207e4dd5db148d0bf1bf5bb7d955664fc04f38d67a9221c11c0e0a83f",
+        "matches": true
+      },
+      {
+        "key": "latent_v3_defects",
+        "expected": "6565ea2ba69370393f0460b90541a953694aeff7029a6726c9d785d5c53ebb60",
+        "observed": "6565ea2ba69370393f0460b90541a953694aeff7029a6726c9d785d5c53ebb60",
+        "matches": true
+      }
+    ],
+    "v3_v4_structured_equalities": [
+      {
+        "key": "required_proved_append",
+        "v3_equals_v4": false,
+        "difference": {
+          "added_metadata": "carried_from_v3=true",
+          "all_other_members_identical": true
+        }
+      },
+      {
+        "key": "relocation_map",
+        "v3_equals_v4": true
+      },
+      {
+        "key": "append_schedule",
+        "v3_equals_v4": true
+      }
+    ],
+    "source_manifest": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+      "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+      "bytes": 157262,
+      "method": "AST literal inspection (ast.literal_eval of static lists/maps only); no WORLDLINE import, builtin eval/exec, or invocation of WORLDLINE functions",
+      "minimum_checks": 251,
+      "unanalyzed_boundary": [
+        "worldline-c_api"
+      ],
+      "required_proved_segments": [
+        {
+          "line": 25,
+          "names": 280
+        },
+        {
+          "line": 312,
+          "names": 11
+        },
+        {
+          "line": 314,
+          "names": 4
+        },
+        {
+          "line": 924,
+          "names": 5
+        },
+        {
+          "line": 940,
+          "names": 8
+        },
+        {
+          "line": 953,
+          "names": 31
+        },
+        {
+          "line": 967,
+          "names": 34
+        },
+        {
+          "line": 972,
+          "names": 46
+        },
+        {
+          "line": 1003,
+          "names": 1
+        },
+        {
+          "line": 1012,
+          "names": 115
+        }
+      ],
+      "required_proved_count_expression": "280+11+4+5+8+31+34+46+1+115",
+      "required_proved_order_sha256": "bf1ec89a4421ad152213721a6bd49f558a4d8847ea1c3fbe84a864519368890b",
+      "contract_pin_updates": [
+        {
+          "line": 329,
+          "keys": 82,
+          "new_keys": 82
+        },
+        {
+          "line": 418,
+          "keys": 9,
+          "new_keys": 8
+        },
+        {
+          "line": 925,
+          "keys": 9,
+          "new_keys": 8
+        },
+        {
+          "line": 942,
+          "keys": 6,
+          "new_keys": 6
+        },
+        {
+          "line": 955,
+          "keys": 4,
+          "new_keys": 4
+        },
+        {
+          "line": 969,
+          "keys": 114,
+          "new_keys": 6
+        },
+        {
+          "line": 974,
+          "keys": 13,
+          "new_keys": 10
+        },
+        {
+          "line": 997,
+          "keys": 124,
+          "new_keys": 0
+        },
+        {
+          "line": 1000,
+          "keys": 2,
+          "new_keys": 0
+        },
+        {
+          "line": 1005,
+          "keys": 6,
+          "new_keys": 4
+        },
+        {
+          "line": 1009,
+          "keys": 1,
+          "new_keys": 0
+        },
+        {
+          "line": 1014,
+          "keys": 166,
+          "new_keys": 38
+        },
+        {
+          "line": 1017,
+          "keys": 2,
+          "new_keys": 0
+        },
+        {
+          "line": 1020,
+          "keys": 1,
+          "new_keys": 1
+        },
+        {
+          "line": 1023,
+          "keys": 167,
+          "new_keys": 0
+        },
+        {
+          "line": 1026,
+          "keys": 3,
+          "new_keys": 2
+        },
+        {
+          "line": 1029,
+          "keys": 169,
+          "new_keys": 0
+        }
+      ],
+      "effective_contract_pins_count_expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+      "effective_contract_pins_sha256": "42f1809c2ec5a6ed4dbcb639a91c62f50ab80c75787d7110a0a69618bb9ec8c4",
+      "retention_note": "Complete literal data was inspected; identities, segment observations and order/map digests are retained. No WORLDLINE source was executed."
+    },
+    "count_expressions": {
+      "nested_v3_slices": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+      "carried_twin_values": "1+1+1+1+1+1"
+    }
+  },
+  "carried_rc_text_equalities": [
+    {
+      "id": "diagnostic_spec",
+      "equal": true,
+      "left_sha256": "5a72f12456dcd96d7aef2e3756ef20e3443e1d500add49520827894f4cf5f9c4",
+      "right_sha256": "5a72f12456dcd96d7aef2e3756ef20e3443e1d500add49520827894f4cf5f9c4"
+    },
+    {
+      "id": "diagnostic_body",
+      "equal": true,
+      "left_sha256": "0712f0279dbb954eb5bd6f12278b3f0e6a619b102dc1b3fc3f2284d07d88e2d8",
+      "right_sha256": "0712f0279dbb954eb5bd6f12278b3f0e6a619b102dc1b3fc3f2284d07d88e2d8"
+    },
+    {
+      "id": "diagnostic_export",
+      "equal": true,
+      "left_sha256": "152911dd1e214ec97fec31e6450619fd03ffd9df97597d5f51e1610018b39f31",
+      "right_sha256": "152911dd1e214ec97fec31e6450619fd03ffd9df97597d5f51e1610018b39f31"
+    },
+    {
+      "id": "rc2_exclusive_segment",
+      "equal": true,
+      "left_sha256": "038d79300fa247e62657104e18be88538d9ec7bbfd60885d9d086628ba858bf6",
+      "right_sha256": "038d79300fa247e62657104e18be88538d9ec7bbfd60885d9d086628ba858bf6"
+    }
+  ],
+  "qualification_observations": {
+    "core_ads_hash_list_sha256": "e6276e7919d0bf39f41c696ec25e5c74c676d9c1e8ec3400763a2a7685a4a217",
+    "expected_core_ads_hash_list_sha256": "e6276e7919d0bf39f41c696ec25e5c74c676d9c1e8ec3400763a2a7685a4a217",
+    "graph_edges": [
+      {
+        "unit": "Canonical_Artifacts",
+        "alias": "P",
+        "target": "Evaluation_Pending",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/canonical_artifacts.ads",
+        "line": 10
+      },
+      {
+        "unit": "Evaluation_Completion",
+        "alias": "P",
+        "target": "Evaluation_Pending",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.ads",
+        "line": 10
+      },
+      {
+        "unit": "Evaluation_Completion",
+        "alias": "H",
+        "target": "Evaluation_History",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.ads",
+        "line": 11
+      },
+      {
+        "unit": "Evaluation_Completion",
+        "alias": "R",
+        "target": "Evaluation_Pending_V2",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.ads",
+        "line": 12
+      },
+      {
+        "unit": "Evaluation_Completion",
+        "alias": "E",
+        "target": "Worldline.Evaluation",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.ads",
+        "line": 13
+      },
+      {
+        "unit": "Evaluation_Completion_C",
+        "alias": "A",
+        "target": "Worldline.Evaluation_Authority",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion_c.ads",
+        "line": 159
+      },
+      {
+        "unit": "Evaluation_Completion_Roster",
+        "alias": "T",
+        "target": "Evaluation_Completion",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion_roster.ads",
+        "line": 3
+      },
+      {
+        "unit": "Evaluation_Completion_Roster",
+        "alias": "E",
+        "target": "T.E",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion_roster.ads",
+        "line": 4
+      },
+      {
+        "unit": "Evaluation_Finalization",
+        "alias": "T",
+        "target": "Evaluation_Completion",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.ads",
+        "line": 12
+      },
+      {
+        "unit": "Evaluation_Finalization",
+        "alias": "P",
+        "target": "T.P",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.ads",
+        "line": 13
+      },
+      {
+        "unit": "Evaluation_Finalization",
+        "alias": "H",
+        "target": "Evaluation_History",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.ads",
+        "line": 14
+      },
+      {
+        "unit": "Evaluation_Finalization",
+        "alias": "R",
+        "target": "Evaluation_Raw_Roster",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.ads",
+        "line": 15
+      },
+      {
+        "unit": "Evaluation_Finalization",
+        "alias": "W",
+        "target": "R.W",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.ads",
+        "line": 16
+      },
+      {
+        "unit": "Evaluation_Finalization",
+        "alias": "E",
+        "target": "R.E",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.ads",
+        "line": 17
+      },
+      {
+        "unit": "Evaluation_Pending_V2",
+        "alias": "P",
+        "target": "Evaluation_Pending",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending_v2.ads",
+        "line": 3
+      },
+      {
+        "unit": "Evaluation_Raw_Roster",
+        "alias": "T",
+        "target": "Evaluation_Completion",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_raw_roster.ads",
+        "line": 8
+      },
+      {
+        "unit": "Evaluation_Raw_Roster",
+        "alias": "Old",
+        "target": "Evaluation_Completion_Roster",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_raw_roster.ads",
+        "line": 9
+      },
+      {
+        "unit": "Evaluation_Raw_Roster",
+        "alias": "W",
+        "target": "Worldline.Evaluation_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_raw_roster.ads",
+        "line": 10
+      },
+      {
+        "unit": "Evaluation_Raw_Roster",
+        "alias": "E",
+        "target": "W.E",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_raw_roster.ads",
+        "line": 11
+      },
+      {
+        "unit": "Resource_Run_Ledger",
+        "alias": "Q",
+        "target": "Resource_Quantities",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads",
+        "line": 5
+      },
+      {
+        "unit": "Resource_Run_Ledger",
+        "alias": "T",
+        "target": "Resource_Reservation_Transition",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger.ads",
+        "line": 6
+      },
+      {
+        "unit": "Resource_Run_Ledger_Wire",
+        "alias": "Q",
+        "target": "Resource_Quantities",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger_wire.ads",
+        "line": 5
+      },
+      {
+        "unit": "Resource_Run_Ledger_Wire",
+        "alias": "L",
+        "target": "Resource_Run_Ledger",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger_wire.ads",
+        "line": 6
+      },
+      {
+        "unit": "Worldline.Chain_Authority",
+        "alias": "Q",
+        "target": "Resource_Quantities",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.ads",
+        "line": 10
+      },
+      {
+        "unit": "Worldline.Chain_Authority",
+        "alias": "R",
+        "target": "Worldline.Recovery_Authorization_V3",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority.ads",
+        "line": 11
+      },
+      {
+        "unit": "Worldline.Chain_Authority_Wire",
+        "alias": "A",
+        "target": "Worldline.Chain_Authority",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_wire.ads",
+        "line": 5
+      },
+      {
+        "unit": "Worldline.Evaluation_Authority",
+        "alias": "W",
+        "target": "Worldline.Evaluation_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_authority.ads",
+        "line": 7
+      },
+      {
+        "unit": "Worldline.Evaluation_Authority",
+        "alias": "C",
+        "target": "Worldline.Collapse_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_authority.ads",
+        "line": 18
+      },
+      {
+        "unit": "Worldline.Evaluation_Authority",
+        "alias": "T",
+        "target": "Evaluation_Completion",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_authority.ads",
+        "line": 42
+      },
+      {
+        "unit": "Worldline.Evaluation_Authority",
+        "alias": "Roster",
+        "target": "Evaluation_Completion_Roster",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_authority.ads",
+        "line": 119
+      },
+      {
+        "unit": "Worldline.Evaluation_Report_Facts",
+        "alias": "E",
+        "target": "Worldline.Evaluation",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_report_facts.ads",
+        "line": 7
+      },
+      {
+        "unit": "Worldline.Evaluation_Report_Wire",
+        "alias": "E",
+        "target": "Worldline.Evaluation",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_report_wire.ads",
+        "line": 11
+      },
+      {
+        "unit": "Worldline.Evaluation_Report_Wire",
+        "alias": "F",
+        "target": "Worldline.Evaluation_Report_Facts",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_report_wire.ads",
+        "line": 12
+      },
+      {
+        "unit": "Worldline.Evaluation_V2",
+        "alias": "F",
+        "target": "Worldline.Evaluation_Report_Facts",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_v2.ads",
+        "line": 245
+      },
+      {
+        "unit": "Worldline.Evaluation_Wire",
+        "alias": "E",
+        "target": "Worldline.Evaluation_V2",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_wire.ads",
+        "line": 9
+      },
+      {
+        "unit": "Worldline.Evaluation_Wire",
+        "alias": "R",
+        "target": "Worldline.Evaluation_Report_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_wire.ads",
+        "line": 10
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction",
+        "alias": "C",
+        "target": "Worldline.Collapse",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction.ads",
+        "line": 9
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction",
+        "alias": "I",
+        "target": "Worldline.Identities",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction.ads",
+        "line": 10
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction",
+        "alias": "E",
+        "target": "Evaluation_History",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction.ads",
+        "line": 11
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction",
+        "alias": "K",
+        "target": "Worldline.Owner_Transitions",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction.ads",
+        "line": 12
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction",
+        "alias": "R",
+        "target": "Worldline.Owner_Retry_Audit",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction.ads",
+        "line": 13
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction_Wire",
+        "alias": "K",
+        "target": "Worldline.Owner_Conjunction",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction_wire.ads",
+        "line": 6
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction_Wire",
+        "alias": "W",
+        "target": "Worldline.Owner_Transitions_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction_wire.ads",
+        "line": 7
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction_Wire",
+        "alias": "R",
+        "target": "Worldline.Owner_Retry_Audit_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction_wire.ads",
+        "line": 8
+      },
+      {
+        "unit": "Worldline.Owner_Conjunction_Wire",
+        "alias": "C",
+        "target": "Worldline.Collapse_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_conjunction_wire.ads",
+        "line": 9
+      },
+      {
+        "unit": "Worldline.Owner_Retry_Audit",
+        "alias": "E",
+        "target": "Evaluation_History",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_retry_audit.ads",
+        "line": 7
+      },
+      {
+        "unit": "Worldline.Owner_Retry_Audit",
+        "alias": "K",
+        "target": "Worldline.Owner_Transitions",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_retry_audit.ads",
+        "line": 8
+      },
+      {
+        "unit": "Worldline.Owner_Retry_Audit_Wire",
+        "alias": "K",
+        "target": "Worldline.Owner_Retry_Audit",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_retry_audit_wire.ads",
+        "line": 4
+      },
+      {
+        "unit": "Worldline.Owner_Retry_Audit_Wire",
+        "alias": "W",
+        "target": "Worldline.Owner_Transitions_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_retry_audit_wire.ads",
+        "line": 5
+      },
+      {
+        "unit": "Worldline.Owner_Retry_Audit_Wire",
+        "alias": "E",
+        "target": "W.E",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_retry_audit_wire.ads",
+        "line": 6
+      },
+      {
+        "unit": "Worldline.Owner_Subject_Projection",
+        "alias": "E",
+        "target": "Evaluation_History",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_subject_projection.ads",
+        "line": 10
+      },
+      {
+        "unit": "Worldline.Owner_Subject_Projection",
+        "alias": "K",
+        "target": "Worldline.Owner_Transitions",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_subject_projection.ads",
+        "line": 11
+      },
+      {
+        "unit": "Worldline.Owner_Subject_Projection",
+        "alias": "I",
+        "target": "Worldline.Identities",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_subject_projection.ads",
+        "line": 12
+      },
+      {
+        "unit": "Worldline.Owner_Transitions",
+        "alias": "E",
+        "target": "Evaluation_History",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_transitions.ads",
+        "line": 8
+      },
+      {
+        "unit": "Worldline.Owner_Transitions_Wire",
+        "alias": "E",
+        "target": "Evaluation_History",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_transitions_wire.ads",
+        "line": 9
+      },
+      {
+        "unit": "Worldline.Owner_Transitions_Wire",
+        "alias": "K",
+        "target": "Worldline.Owner_Transitions",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-owner_transitions_wire.ads",
+        "line": 10
+      },
+      {
+        "unit": "Worldline.Recovery_Authorization_V3",
+        "alias": "Q",
+        "target": "Resource_Quantities",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3.ads",
+        "line": 6
+      },
+      {
+        "unit": "Worldline.Recovery_Authorization_V3",
+        "alias": "T",
+        "target": "Resource_Reservation_Transition",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3.ads",
+        "line": 7
+      },
+      {
+        "unit": "Worldline.Recovery_Authorization_V3_Wire",
+        "alias": "R",
+        "target": "Worldline.Recovery_Authorization_V3",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_wire.ads",
+        "line": 8
+      },
+      {
+        "unit": "Worldline.Recovery_Authorization_V3_Wire",
+        "alias": "Q",
+        "target": "Resource_Quantities",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_wire.ads",
+        "line": 9
+      },
+      {
+        "unit": "Worldline.Recovery_Authorization_V3_Wire",
+        "alias": "T",
+        "target": "Resource_Reservation_Transition",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_wire.ads",
+        "line": 10
+      },
+      {
+        "unit": "Worldline.Recovery_Authorization_Wire",
+        "alias": "R",
+        "target": "Worldline.Recovery_Authorization",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_wire.ads",
+        "line": 5
+      },
+      {
+        "unit": "Worldline.Recovery_Protocol_ABI",
+        "alias": "W",
+        "target": "Worldline.Recovery_Protocol_Wire",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_protocol_abi.ads",
+        "line": 5
+      },
+      {
+        "unit": "Worldline.Recovery_Protocol_Wire",
+        "alias": "P",
+        "target": "Worldline.Recovery_Protocol",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_protocol_wire.ads",
+        "line": 5
+      },
+      {
+        "unit": "Worldline.Resources",
+        "alias": "Mathematics",
+        "target": "Ada.Numerics.Big_Numbers.Big_Integers",
+        "file": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources.ads",
+        "line": 5
+      }
+    ],
+    "path_groups": [
+      {
+        "group": "finalization",
+        "initial_renames": {
+          "F": "Evaluation_Finalization",
+          "P": "F.P",
+          "R": "F.R",
+          "W": "F.W",
+          "K": "Evaluation_Completion_C",
+          "CW": "Worldline.Collapse_Wire",
+          "Authority": "Worldline.Evaluation_Authority"
+        },
+        "observed": {
+          "f.t.p": "Evaluation_Pending",
+          "f.t.r": "Evaluation_Pending_V2",
+          "f.t.r.p": "Evaluation_Pending",
+          "f.p": "Evaluation_Pending",
+          "f.r.t.p": "Evaluation_Pending",
+          "f.r.t.r": "Evaluation_Pending_V2",
+          "f.r.t.r.p": "Evaluation_Pending",
+          "f.r.old": "Evaluation_Completion_Roster",
+          "f.r.old.t.p": "Evaluation_Pending",
+          "f.r.old.t.r": "Evaluation_Pending_V2",
+          "f.r.old.t.r.p": "Evaluation_Pending",
+          "p": "Evaluation_Pending",
+          "r.t.p": "Evaluation_Pending",
+          "r.t.r": "Evaluation_Pending_V2",
+          "r.t.r.p": "Evaluation_Pending",
+          "r.old": "Evaluation_Completion_Roster",
+          "r.old.t.p": "Evaluation_Pending",
+          "r.old.t.r": "Evaluation_Pending_V2",
+          "r.old.t.r.p": "Evaluation_Pending",
+          "k": "Evaluation_Completion_C",
+          "k.a.t.p": "Evaluation_Pending",
+          "k.a.t.r": "Evaluation_Pending_V2",
+          "k.a.t.r.p": "Evaluation_Pending",
+          "k.a.roster": "Evaluation_Completion_Roster",
+          "k.a.roster.t.p": "Evaluation_Pending",
+          "k.a.roster.t.r": "Evaluation_Pending_V2",
+          "k.a.roster.t.r.p": "Evaluation_Pending",
+          "authority.t.p": "Evaluation_Pending",
+          "authority.t.r": "Evaluation_Pending_V2",
+          "authority.t.r.p": "Evaluation_Pending",
+          "authority.roster": "Evaluation_Completion_Roster",
+          "authority.roster.t.p": "Evaluation_Pending",
+          "authority.roster.t.r": "Evaluation_Pending_V2",
+          "authority.roster.t.r.p": "Evaluation_Pending"
+        },
+        "equals_documented": true,
+        "missing_from_document": [],
+        "unbacked_document_paths": [],
+        "count_expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+      },
+      {
+        "group": "completion",
+        "initial_renames": {
+          "P": "Evaluation_Pending",
+          "V": "Evaluation_Pending_V2",
+          "T": "Evaluation_Completion",
+          "H": "Evaluation_History",
+          "Roster": "Evaluation_Completion_Roster",
+          "Raw_Roster": "Evaluation_Raw_Roster",
+          "W": "Worldline.Evaluation_Wire"
+        },
+        "observed": {
+          "p": "Evaluation_Pending",
+          "v": "Evaluation_Pending_V2",
+          "v.p": "Evaluation_Pending",
+          "t.p": "Evaluation_Pending",
+          "t.r": "Evaluation_Pending_V2",
+          "t.r.p": "Evaluation_Pending",
+          "roster": "Evaluation_Completion_Roster",
+          "roster.t.p": "Evaluation_Pending",
+          "roster.t.r": "Evaluation_Pending_V2",
+          "roster.t.r.p": "Evaluation_Pending",
+          "raw_roster.t.p": "Evaluation_Pending",
+          "raw_roster.t.r": "Evaluation_Pending_V2",
+          "raw_roster.t.r.p": "Evaluation_Pending",
+          "raw_roster.old": "Evaluation_Completion_Roster",
+          "raw_roster.old.t.p": "Evaluation_Pending",
+          "raw_roster.old.t.r": "Evaluation_Pending_V2",
+          "raw_roster.old.t.r.p": "Evaluation_Pending"
+        },
+        "equals_documented": true,
+        "missing_from_document": [],
+        "unbacked_document_paths": [],
+        "count_expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+      },
+      {
+        "group": "pending",
+        "initial_renames": {
+          "E": "Evaluation_Pending"
+        },
+        "observed": {
+          "e": "Evaluation_Pending"
+        },
+        "equals_documented": true,
+        "missing_from_document": [],
+        "unbacked_document_paths": [],
+        "count_expression": "1"
+      },
+      {
+        "group": "pending_v2",
+        "initial_renames": {
+          "E": "Evaluation_Pending",
+          "V2": "Evaluation_Pending_V2"
+        },
+        "observed": {
+          "e": "Evaluation_Pending",
+          "v2": "Evaluation_Pending_V2",
+          "v2.p": "Evaluation_Pending"
+        },
+        "equals_documented": true,
+        "missing_from_document": [],
+        "unbacked_document_paths": [],
+        "count_expression": "1+1+1"
+      },
+      {
+        "group": "CA",
+        "initial_renames": {
+          "CA": "Worldline.Evaluation_Authority"
+        },
+        "observed": {
+          "ca.t.p": "Evaluation_Pending",
+          "ca.t.r": "Evaluation_Pending_V2",
+          "ca.t.r.p": "Evaluation_Pending",
+          "ca.roster": "Evaluation_Completion_Roster",
+          "ca.roster.t.p": "Evaluation_Pending",
+          "ca.roster.t.r": "Evaluation_Pending_V2",
+          "ca.roster.t.r.p": "Evaluation_Pending"
+        },
+        "equals_documented": true,
+        "missing_from_document": [],
+        "unbacked_document_paths": [],
+        "count_expression": "1+1+1+1+1+1+1"
+      },
+      {
+        "group": "A",
+        "initial_renames": {
+          "A": "Worldline.Evaluation_Authority"
+        },
+        "observed": {
+          "a.t.p": "Evaluation_Pending",
+          "a.t.r": "Evaluation_Pending_V2",
+          "a.t.r.p": "Evaluation_Pending",
+          "a.roster": "Evaluation_Completion_Roster",
+          "a.roster.t.p": "Evaluation_Pending",
+          "a.roster.t.r": "Evaluation_Pending_V2",
+          "a.roster.t.r.p": "Evaluation_Pending"
+        },
+        "equals_documented": true,
+        "missing_from_document": [],
+        "unbacked_document_paths": [],
+        "count_expression": "1+1+1+1+1+1+1"
+      },
+      {
+        "group": "residual_KT",
+        "initial_renames": {
+          "K": "Evaluation_Completion_C",
+          "T": "Evaluation_Completion"
+        },
+        "observed": {
+          "k": "Evaluation_Completion_C",
+          "k.a.t.p": "Evaluation_Pending",
+          "k.a.t.r": "Evaluation_Pending_V2",
+          "k.a.t.r.p": "Evaluation_Pending",
+          "k.a.roster": "Evaluation_Completion_Roster",
+          "k.a.roster.t.p": "Evaluation_Pending",
+          "k.a.roster.t.r": "Evaluation_Pending_V2",
+          "k.a.roster.t.r.p": "Evaluation_Pending",
+          "t.p": "Evaluation_Pending",
+          "t.r": "Evaluation_Pending_V2",
+          "t.r.p": "Evaluation_Pending"
+        },
+        "equals_documented": true,
+        "missing_from_document": [],
+        "unbacked_document_paths": [],
+        "count_expression": "1+1+1+1+1+1+1+1+1+1+1"
+      }
+    ],
+    "tile_qualified_multisets": [
+      {
+        "scope": "Resources_Can_Reserve",
+        "observed": {
+          "Worldline.Resources_C_API.Negative_Flag_Valid": 1,
+          "Worldline.Resources_C_API.Can_Reserve_Value": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Recovery_Select",
+        "observed": {
+          "Worldline.Recovery_C_API.Presence_Valid": 1,
+          "Worldline.Recovery_C_API.Present": 4,
+          "Worldline.Recovery_C_API.Select_Value": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Recovery_Authorization_Decide_V2",
+        "observed": {
+          "Worldline.Recovery_Authorization_C_API.Decide_Total": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Recovery_Authorization_Decide_V3",
+        "observed": {
+          "Worldline.Recovery_Authorization_V3_C_API.Decide_Total": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Reservation_Lifecycle_Plan",
+        "observed": {
+          "Worldline.Reservation_Lifecycle_C_API.Request_Valid": 1,
+          "Worldline.Reservation_Lifecycle_C_API.Requested_Of": 1,
+          "Worldline.Reservation_Lifecycle_C_API.Operation_Of": 1,
+          "Worldline.Reservation_Lifecycle_C_API.Accept_Row": 1,
+          "Worldline.Reservation_Lifecycle_C_API.Publishes_Mask": 1,
+          "Worldline.Reservation_Lifecycle_C_API.Mask_Byte": 1,
+          "Worldline.Reservation_Lifecycle_C_API.Status_Code": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Resource_Ledger_Compute",
+        "observed": {
+          "Worldline.Resource_Ledger_C_API.Accept_Row": 1,
+          "Worldline.Resource_Ledger_C_API.Encode_Quantity": 1,
+          "Worldline.Resource_Ledger_C_API.Result_Of": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Resource_Ledger_Headroom",
+        "observed": {
+          "Worldline.Resource_Ledger_C_API.Accept_Headroom_Inputs": 1,
+          "Worldline.Resource_Ledger_C_API.Result_Of": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Resource_Policy_Admit",
+        "observed": {
+          "Worldline.Resource_Policy_C_API.Accept_Input": 1,
+          "Worldline.Resource_Policy_C_API.Accept_Disk": 1,
+          "Worldline.Resource_Policy_C_API.Encode_Decision": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Evaluation_History_Select",
+        "observed": {
+          "Worldline.Evaluation_History_C_API.Final_Flag_Valid": 1,
+          "Worldline.Evaluation_History_C_API.Final_Row_Present": 2,
+          "Worldline.Evaluation_History_C_API.Accept_Query": 1,
+          "Worldline.Evaluation_History_C_API.Accept_Final_Row": 1,
+          "Worldline.Evaluation_History_C_API.Accept_Row": 1,
+          "Worldline.Evaluation_History_C_API.Select_Result": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Run_Ledger_Check",
+        "observed": {
+          "Resource_Run_Ledger_C_API.Check_Decision": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Chain_Replay",
+        "observed": {
+          "Worldline.Chain_Authority_C_API.Accept_Row": 1,
+          "Worldline.Chain_Authority_C_API.Replay_Value": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Completion_Decide",
+        "observed": {
+          "Evaluation_Completion_C.Decide_Header_Valid": 1,
+          "Evaluation_Completion_C.Decide_Fields_Valid": 1,
+          "Evaluation_Completion_C.Accept_Journal_Row": 1,
+          "Evaluation_Completion_C.Accept_Captured_Row": 1,
+          "Evaluation_Completion_C.Accept_Result_Row": 1,
+          "Evaluation_Completion_C.Accept_History_Row": 1,
+          "Evaluation_Completion_C.Accept_Required_Row": 1,
+          "Evaluation_Completion_C.Decide_Value": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Completion_Raw_Decide",
+        "observed": {
+          "Evaluation_Completion_C.Raw_Header_Valid": 1,
+          "Evaluation_Completion_C.Raw_Fields_Valid": 1,
+          "Evaluation_Completion_C.Accept_Journal_Row": 1,
+          "Evaluation_Completion_C.Accept_Raw_Check_Row": 1,
+          "Evaluation_Completion_C.Accept_Raw_Measure": 1,
+          "Evaluation_Completion_C.Accept_Result_Row": 1,
+          "Evaluation_Completion_C.Accept_History_Row": 1,
+          "Evaluation_Completion_C.Accept_Required_Row": 1,
+          "Evaluation_Completion_C.Raw_Decide_Value": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Completion_Transport.Context_Matches",
+        "observed": {
+          "Evaluation_Completion_C.Context_Header_Valid": 1,
+          "Evaluation_Completion_C.Context_Fields_Valid": 1,
+          "Evaluation_Completion_C.Context_Agent_Matches": 1,
+          "Evaluation_Completion_C.Accept_Context_Fields": 1,
+          "Evaluation_Completion_C.Accept_Context_Row": 1,
+          "Evaluation_Completion_C.Accept_Required_Pair": 1,
+          "Evaluation_Completion_C.Context_Join_Value": 1,
+          "Evaluation_Completion_C.Join_Code": 2
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Completion_Transport.Metadata_Base",
+        "observed": {
+          "Evaluation_Completion_C.Metadata_Version_Valid": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Completion_Metadata_Matches",
+        "observed": {
+          "Evaluation_Completion_C.Metadata_Header_Valid": 1,
+          "Evaluation_Completion_C.Accept_Metadata_Row": 1,
+          "Evaluation_Completion_C.Join_Code": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Native_Diagnostic_Control",
+        "observed": {
+          "Evaluation_Completion_C.Diagnostic_Control_Of": 1,
+          "Evaluation_Completion_C.Diagnostic_Start": 1,
+          "Evaluation_Completion_C.Diagnostic_Stop": 1,
+          "Evaluation_Completion_C.Diagnostic_Invalid_Code": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "body:Diagnostic_Transport",
+        "observed": {
+          "Evaluation_Completion_C.Diagnostic_Begin_Line": 1,
+          "Evaluation_Completion_C.Diagnostic_Line": 1,
+          "Evaluation_Completion_C.Diagnostic_Latch_Failure": 3,
+          "Evaluation_Completion_C.Diagnostic_Begin_Value": 1,
+          "Evaluation_Completion_C.Diagnostic_Value_Site": 1,
+          "Evaluation_Completion_C.Diagnostic_Observe": 1,
+          "Evaluation_Completion_C.Diagnostic_Begin_Exception": 1,
+          "Evaluation_Completion_C.Diagnostic_Exception_Site": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Finalization_Decide",
+        "observed": {
+          "Evaluation_Finalization_C.Request_Header_Valid": 1,
+          "Evaluation_Finalization_C.Request_Fields_Valid": 1,
+          "Evaluation_Finalization_C.Accept_Plan": 1,
+          "Evaluation_Finalization_C.Needs_Rows": 1,
+          "Evaluation_Finalization_C.Accept_Row": 1,
+          "Evaluation_Finalization_C.Decide_Rows_Value": 1,
+          "Evaluation_Finalization_C.Decide_No_Rows_Value": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Finalization_Transport.Final_Context_Matches",
+        "observed": {
+          "Evaluation_Finalization_C.Final_Seal_Ready": 1,
+          "Evaluation_Finalization_C.Final_Plans_Valid": 1,
+          "Evaluation_Finalization_C.Final_Projected_Row": 1,
+          "Evaluation_Finalization_C.Final_Projection": 1,
+          "Completion_Transport.Context_Matches": 1,
+          "Completion_Transport.Metadata_Base": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Finalization_Decide_Mixed",
+        "observed": {
+          "Evaluation_Finalization_C.Kind_Of": 2,
+          "Evaluation_Finalization_C.Ordinary_Readiness": 1,
+          "Evaluation_Finalization_C.Finalized_Readiness": 1,
+          "Evaluation_Finalization_C.Finalized_Operation_Readiness": 1,
+          "Completion_Transport.Context_Matches": 1,
+          "Completion_Transport.Metadata_Base": 1,
+          "Evaluation_Finalization_C.Agent_Readiness": 1,
+          "Evaluation_Finalization_C.Context_Join_Needed": 2,
+          "Evaluation_Finalization_C.Mixed_Collapse_Decision": 1,
+          "Evaluation_Finalization_C.Mixed_Authorized": 1,
+          "Evaluation_Finalization_C.Mixed_Metadata_Needed": 2
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Pending_Decide_V1",
+        "observed": {
+          "Evaluation_Pending_C.Header_Valid": 1,
+          "Evaluation_Pending_C.Request_Fields_Valid": 1,
+          "Evaluation_Pending_C.Accept_Row": 1,
+          "Evaluation_Pending_C.Decide_Value": 1
+        },
+        "equals_twin": true
+      },
+      {
+        "scope": "Pending_Decide_V2",
+        "observed": {
+          "Evaluation_Pending_V2_C.Header_Valid": 1,
+          "Evaluation_Pending_V2_C.Request_Fields_Valid": 1,
+          "Evaluation_Pending_V2_C.Accept_Row": 1,
+          "Evaluation_Pending_V2_C.Decide_Value": 1
+        },
+        "equals_twin": true
+      }
+    ],
+    "residual_raw_selected_names": {
+      "Evaluation.Classify": 1,
+      "Hash_Probe.Present": 1,
+      "Counter_Probe.Present": 1,
+      "K.Raw_Decide": 2,
+      "K.Context_Matches": 2,
+      "K.Metadata_Base": 2,
+      "K.Metadata_Matches": 2,
+      "V1.Present": 1,
+      "V2.Present": 1,
+      "Owner_Wire.Decide": 1,
+      "Retry_Wire.Decide": 1
+    },
+    "canonical_equals_v4_append": true,
+    "count_expressions": {
+      "canonical_names": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+      "core_ads_files": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+      "owner_units": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+      "exceptions": "1+1+1+1+1+1+1+1+1"
+    },
+    "boundary": "Own passive textual extraction, no proposed check function imported or executed, no installed name resolution."
+  },
+  "gate_table_observations": {
+    "gate_twin_keys": [
+      "source",
+      "rows_by_kind",
+      "exclusive",
+      "rows"
+    ],
+    "doc_equals_twin_rows": true,
+    "document_rows": [
+      {
+        "id": "G06",
+        "scope": "Reservation_Lifecycle_Plan",
+        "object": "D",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G07",
+        "scope": "Resource_Ledger_Compute",
+        "object": "D",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Row",
+            "Slot"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G08",
+        "scope": "Resource_Ledger_Headroom",
+        "object": "HI",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Available",
+            "Withheld",
+            "Floor"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G09a",
+        "scope": "Resource_Policy_Admit",
+        "object": "IA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "State"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G09b",
+        "scope": "Resource_Policy_Admit",
+        "object": "D",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G10a",
+        "scope": "Evaluation_History_Select",
+        "object": "QA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G10b",
+        "scope": "Evaluation_History_Select",
+        "object": "FA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G10c",
+        "scope": "Evaluation_History_Select",
+        "object": "D",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G13a",
+        "scope": "Completion_Decide",
+        "object": "JA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G13b",
+        "scope": "Completion_Decide",
+        "object": "CR",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item",
+            "Measure"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G13c",
+        "scope": "Completion_Decide",
+        "object": "RR",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G13d",
+        "scope": "Completion_Decide",
+        "object": "HR",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G13e",
+        "scope": "Completion_Decide",
+        "object": "QR",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G14a",
+        "scope": "Completion_Raw_Decide",
+        "object": "JA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G14b",
+        "scope": "Completion_Raw_Decide",
+        "object": "KA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item",
+            "Declared"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G14c",
+        "scope": "Completion_Raw_Decide",
+        "object": "MA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G14d",
+        "scope": "Completion_Raw_Decide",
+        "object": "RR",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G14e",
+        "scope": "Completion_Raw_Decide",
+        "object": "HR",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G14f",
+        "scope": "Completion_Raw_Decide",
+        "object": "QR",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G15",
+        "scope": "Completion_Metadata_Matches",
+        "object": "MA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Row",
+            "Projected"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G16a",
+        "scope": "Completion_Transport.Context_Matches",
+        "object": "FA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Expected",
+            "Observed"
+          ],
+          "False": [
+            "Rejected_Position"
+          ]
+        }
+      },
+      {
+        "id": "G16b",
+        "scope": "Completion_Transport.Context_Matches",
+        "object": "RA",
+        "kind": "case",
+        "components": {
+          "when Evaluation_Completion_C.Row_Rejected =>": [],
+          "when Evaluation_Completion_C.Row_Field_Rejected =>": [
+            "Rejected_Field_Position"
+          ],
+          "when Evaluation_Completion_C.Row_Accepted =>": [
+            "Row",
+            "Joined"
+          ]
+        }
+      },
+      {
+        "id": "G16c",
+        "scope": "Completion_Transport.Context_Matches",
+        "object": "QA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item",
+            "Expected"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G17",
+        "scope": "Run_Ledger_Check",
+        "object": "O",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Value"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G18a",
+        "scope": "Chain_Replay",
+        "object": "D",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G18b",
+        "scope": "Chain_Replay",
+        "object": "RV",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Value"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G19a",
+        "scope": "Pending_Decide_V1",
+        "object": "D",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G19b",
+        "scope": "Pending_Decide_V1",
+        "object": "O",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Value"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G20a",
+        "scope": "Pending_Decide_V2",
+        "object": "D",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G20b",
+        "scope": "Pending_Decide_V2",
+        "object": "O",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Value"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G21a",
+        "scope": "Finalization_Decide",
+        "object": "PA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G21b",
+        "scope": "Finalization_Decide",
+        "object": "RA",
+        "kind": "bool",
+        "components": {
+          "True": [
+            "Item"
+          ],
+          "False": []
+        }
+      },
+      {
+        "id": "G21c",
+        "scope": "Finalization_Decide",
+        "object": "O",
+        "kind": "wfx",
+        "components": {
+          "True": [
+            "Value"
+          ],
+          "False": []
+        }
+      }
+    ],
+    "kind_counts_observed": {
+      "bool": 31,
+      "case": 1,
+      "wfx": 1
+    },
+    "row_count_expression": "31+1+1",
+    "exclusive": {
+      "G21c": {
+        "declaration": "O : Evaluation_Finalization_C.Decide_Acceptance;",
+        "region": "B4.20 segment 6 without its final ' if not O.Ok then return 255; end if;'",
+        "then_assignment": "O := Evaluation_Finalization_C.Decide_Rows_Value (X, A, Required, Captured);",
+        "else_assignment": "O := Evaluation_Finalization_C.Decide_No_Rows_Value (X, A, Required);"
+      }
+    },
+    "comparison_scope": "Exact scope/object/kind/component lists; gate text is in Markdown and tile, not repeated in the twin"
+  },
+  "auxiliary_identities": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/SEAM-DESIGN.md",
+      "sha256": "db512ddb0bc24c1282c45ebbdb035842234a833046b46b702d020cf14027e1b5",
+      "bytes": 224640
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md",
+      "sha256": "e86b9c32d6f0fd9fdc21192d5c7a43c15c3d2763c7dcdb9fabba5f392ee99252",
+      "bytes": 4697
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v4-author-taskstop/NOTE.md",
+      "sha256": "f5dada7c3ea424b8f404571cf5cfeef0ad7b2eb4f6a07634c6fd481e18e5a88b",
+      "bytes": 4889
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+      "bytes": 30462
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+      "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e",
+      "bytes": 2699
+    },
+    {
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+      "bytes": 9048
+    }
+  ],
+  "final_input_revalidation": {
+    "all_match": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/DESIGN.md",
+        "sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+        "bytes": 46731,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/decisions.json",
+        "sha256": "a069632a035b62f18d886112763472f13040779d2d5dd79c872a6d6ce951c55b",
+        "bytes": 62067,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/APPENDIX-BINDINGS.md",
+        "sha256": "f22944b4d52bd196f1823f9f0abf1a0f1578db14f5697bd7b63c6899af15a5a2",
+        "bytes": 94352,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/jackal.json",
+        "sha256": "612d189e4edc29cda39c8e61ac3668bf04adb6abcda12728f7ec14272d4f46d4",
+        "bytes": 17950,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/AUTHOR-NOTES.md",
+        "sha256": "ed45d1db766f3b03ec946946942a571ae50b0eae21e339c5724b5e2480280e47",
+        "bytes": 15349,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/DESIGN.md",
+        "sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "bytes": 97143,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/decisions.json",
+        "sha256": "59e71dd68724b0420b670d79a99ea74194134dbc6d219b7b91f146ad01843625",
+        "bytes": 58056,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-BINDINGS.md",
+        "sha256": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+        "bytes": 225451,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-COST-MAP.md",
+        "sha256": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+        "bytes": 73929,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/jackal.json",
+        "sha256": "dec64a324685496195a7cb1c48e9ee3cf168255f8a1214d62b9491e42653f39d",
+        "bytes": 13041,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/AUTHOR-NOTES.md",
+        "sha256": "ccac4f63a00ed36199642b8691535890719879187b135ecce69f67edc5214b07",
+        "bytes": 11329,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/REVIEW.md",
+        "sha256": "3d1ef7f82c2458f24ef9a8916e82db0d97c3e1730038cf20ac3d5e0e0323e4aa",
+        "bytes": 29178,
+        "mode": "0600",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review.json",
+        "sha256": "d7bf825a6c3d0da5f1b9302b64991d05759ae4754eb7347dcf187eb89b2e1f4e",
+        "bytes": 18116,
+        "mode": "0600",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checks.json",
+        "sha256": "d70fe4677ae2159ad617a0dc6f9982fc976fd86b7d43f66dc9a3913e51e96963",
+        "bytes": 119076,
+        "mode": "0600",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review-freeze.json",
+        "sha256": "f1dcb0a77264dedd4c08be8b71ce390db66295cb25d1eb79eeb3701c7c0413dc",
+        "bytes": 560,
+        "mode": "0600",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/SEAM-DESIGN.md",
+        "sha256": "db512ddb0bc24c1282c45ebbdb035842234a833046b46b702d020cf14027e1b5",
+        "bytes": 224640,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md",
+        "sha256": "e86b9c32d6f0fd9fdc21192d5c7a43c15c3d2763c7dcdb9fabba5f392ee99252",
+        "bytes": 4697,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v4-author-taskstop/NOTE.md",
+        "sha256": "f5dada7c3ea424b8f404571cf5cfeef0ad7b2eb4f6a07634c6fd481e18e5a88b",
+        "bytes": 4889,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+        "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+        "bytes": 30462,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+        "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e",
+        "bytes": 2699,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+        "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+        "bytes": 9048,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+        "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+        "bytes": 157262,
+        "mode": "0644",
+        "hash_matches": true,
+        "bytes_match": true,
+        "mode_matches": true
+      }
+    ]
+  },
+  "checkpoints": [
+    {
+      "item": 1,
+      "complete": true,
+      "status": "NOT_CLOSED",
+      "path": "checkpoint-1.json"
+    },
+    {
+      "item": 2,
+      "complete": true,
+      "status": "NOT_CLOSED",
+      "path": "checkpoint-2.json"
+    },
+    {
+      "item": 3,
+      "complete": true,
+      "status": "NOT_CLOSED",
+      "path": "checkpoint-3.json"
+    },
+    {
+      "item": 4,
+      "complete": true,
+      "status": "CARRIED_IDENTITIES_AND_DISPOSITIONS_PRESERVED",
+      "path": "checkpoint-4.json"
+    },
+    {
+      "item": 5,
+      "complete": true,
+      "status": "LATENT_DEFECTS_GENUINE_LOCAL_REPAIRS_CORRECT",
+      "path": "checkpoint-5.json"
+    },
+    {
+      "item": 6,
+      "complete": true,
+      "status": "OWNERSHIP_PRESERVED_NO_NEW_APPROVAL_GATE",
+      "path": "checkpoint-6.json"
+    },
+    {
+      "item": 7,
+      "complete": true,
+      "status": "NO_FURTHER_WEAKENING_FOUND_WITHIN_PASSIVE_REVIEW",
+      "path": "checkpoint-7.json"
+    }
+  ],
+  "required_changes": [
+    {
+      "id": "V5-RC4-GATE-EXCEPTION",
+      "change": "Make the sole assignment exception an independent invariant: before PK-6b the exclusive map is empty; from PK-6b its only key is G21c and the only wfx row is (Finalization_Decide, G21c, O). Validate that identity and its declared type/region/assignments against the normative G21c protocol independently of matching mutable tile/gate entries. Add an amendment control for an added, relabelled or moved wfx exception, plus positive controls for the unchanged staged tables. Preserve every current gate, branch payload, diagnostic, refusal code, assignment, write and accepted case.",
+      "reason": "BR7 admits assignment exceptions by an arbitrary row's wfx kind and CAPI_GATE_EXCLUSIVE.get(row_id); neither row validation nor the outer loop enforces the normative sole exception identity. The current fixed table is correct, but the advertised independent invariant across reviewed tile/table amendments is incomplete.",
+      "evidence": [
+        "D5/APPENDIX-BINDINGS.md:145-158",
+        "D5/APPENDIX-BINDINGS.md:304-320",
+        "D5/APPENDIX-BINDINGS.md:463-540",
+        "D5/APPENDIX-BINDINGS.md:581-583",
+        "D5/APPENDIX-BINDINGS.md:770-776",
+        "D5/APPENDIX-BINDINGS.md:865",
+        "D5/decisions.json:223"
+      ]
+    },
+    {
+      "id": "V5-RC4-QUAL-CAPTURE",
+      "change": "Extend R-QUAL(d), BR6, the closure argument, promises and machine twin to examine every potentially capturing library-unit prefix mentioned by each with clause, including ancestor units mentioned through a named descendant. Define the text-only refusal without changing the scoped exception or use-clause inventory. Add a matching amendment control and an unchanged-context positive control. Keep installed integrated name/overload resolution OPEN.",
+      "reason": "The normative with-clause restriction and BR6 check only the named dotted unit's last identifier. Ada RM 10.1.2(6/2,7) also gives visibility to library units denoted by prefixes. A capturing sibling child mentioned only as a prefix of a named descendant is outside that test, so the asserted no-capture conclusion does not follow from the rule.",
+      "evidence": [
+        "D5/APPENDIX-BINDINGS.md:202-205",
+        "D5/APPENDIX-BINDINGS.md:207-228",
+        "D5/APPENDIX-BINDINGS.md:384-395",
+        "D5/APPENDIX-BINDINGS.md:581-584",
+        "D5/APPENDIX-BINDINGS.md:862",
+        "D5/AUTHOR-NOTES.md:56",
+        "Ada RM 2022 10.1.2:6/2,7; 10.1.1:11; 8.3:8"
+      ]
+    }
+  ],
+  "primary_language_sources": [
+    {
+      "url": "https://www.adaic.org/resources/add_content/standards/22rm/html/RM-10-1-2.html",
+      "edition": "Ada 2022 RM",
+      "paragraphs": [
+        "6/2",
+        "7"
+      ],
+      "use": "Primary text: with clauses mention library units denoted by prefixes as well as the named terminal unit; supports the identified capture-rule omission"
+    },
+    {
+      "url": "https://www.adaic.org/resources/add_content/standards/22rm/html/RM-10-1-1.html",
+      "edition": "Ada 2022 RM",
+      "paragraphs": [
+        "11"
+      ],
+      "use": "Primary text: child units occur immediately within their parent's declarative region"
+    },
+    {
+      "url": "https://www.adaic.org/resources/add_content/standards/22rm/html/RM-8-3.html",
+      "edition": "Ada 2022 RM",
+      "paragraphs": [
+        "8"
+      ],
+      "use": "Primary text: inner homograph hiding; installed integrated resolution remains OPEN"
+    },
+    {
+      "url": "https://www.adaic.org/resources/add_content/standards/22rm/html/RM-8-4.html",
+      "edition": "Ada 2022 RM",
+      "paragraphs": [
+        "8/3",
+        "9"
+      ],
+      "use": "Documentary support for package use-visibility and use type readings; candidate-specific installed resolution remains OPEN"
+    }
+  ],
+  "jackal": {
+    "front_door": "MCP jackal_exact; sequential modest groups",
+    "calls": [
+      {
+        "purpose": "Carried v4 DESIGN plus A-BIND slice count asserted in brief",
+        "input": {
+          "expression": "20+13"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=20+13 exact=33 approx=33",
+          "fields": {
+            "approx": "33",
+            "exact": "33",
+            "parsed": "20+13",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "design_slices",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1 exact=20 approx=20",
+          "fields": {
+            "approx": "20",
+            "exact": "20",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "appendix_slices",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1 exact=13 approx=13",
+          "fields": {
+            "approx": "13",
+            "exact": "13",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "design_quotes",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1 exact=9 approx=9",
+          "fields": {
+            "approx": "9",
+            "exact": "9",
+            "parsed": "1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "appendix_quotes",
+        "input": {
+          "expression": "1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1 exact=2 approx=2",
+          "fields": {
+            "approx": "2",
+            "exact": "2",
+            "parsed": "1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "br_blocks",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1 exact=8 approx=8",
+          "fields": {
+            "approx": "8",
+            "exact": "8",
+            "parsed": "1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "canonical_names",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1 exact=98 approx=98",
+          "fields": {
+            "approx": "98",
+            "exact": "98",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "core_ads_files",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1 exact=69 approx=69",
+          "fields": {
+            "approx": "69",
+            "exact": "69",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "owner_units",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1 exact=17 approx=17",
+          "fields": {
+            "approx": "17",
+            "exact": "17",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "exceptions",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1 exact=9 approx=9",
+          "fields": {
+            "approx": "9",
+            "exact": "9",
+            "parsed": "1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "indirect_paths_finalization",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1 exact=34 approx=34",
+          "fields": {
+            "approx": "34",
+            "exact": "34",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "indirect_paths_completion",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1 exact=17 approx=17",
+          "fields": {
+            "approx": "17",
+            "exact": "17",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "indirect_paths_pending",
+        "input": {
+          "expression": "1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1 exact=1 approx=1",
+          "fields": {
+            "approx": "1",
+            "exact": "1",
+            "parsed": "1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "indirect_paths_pending_v2",
+        "input": {
+          "expression": "1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1 exact=3 approx=3",
+          "fields": {
+            "approx": "3",
+            "exact": "3",
+            "parsed": "1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "indirect_paths_CA",
+        "input": {
+          "expression": "1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1 exact=7 approx=7",
+          "fields": {
+            "approx": "7",
+            "exact": "7",
+            "parsed": "1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "indirect_paths_A",
+        "input": {
+          "expression": "1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1 exact=7 approx=7",
+          "fields": {
+            "approx": "7",
+            "exact": "7",
+            "parsed": "1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "indirect_paths_residual_KT",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1 exact=11 approx=11",
+          "fields": {
+            "approx": "11",
+            "exact": "11",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "indirect_path_total",
+        "input": {
+          "expression": "34+17+1+3+7+7+11"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=34+17+1+3+7+7+11 exact=80 approx=80",
+          "fields": {
+            "approx": "80",
+            "exact": "80",
+            "parsed": "34+17+1+3+7+7+11",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "Listed selectors after removed-routine enrollment",
+        "input": {
+          "expression": "85+9-1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=85+9-1 exact=93 approx=93",
+          "fields": {
+            "approx": "93",
+            "exact": "93",
+            "parsed": "85+9-1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "Indirect paths with multiple identifiers",
+        "input": {
+          "expression": "80-9"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=80-9 exact=71 approx=71",
+          "fields": {
+            "approx": "71",
+            "exact": "71",
+            "parsed": "80-9",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "Append roster final size",
+        "input": {
+          "expression": "535+98"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=535+98 exact=633 approx=633",
+          "fields": {
+            "approx": "633",
+            "exact": "633",
+            "parsed": "535+98",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "First appended index",
+        "input": {
+          "expression": "535+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=535+1 exact=536 approx=536",
+          "fields": {
+            "approx": "536",
+            "exact": "536",
+            "parsed": "535+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "Nested v3 slice observations",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1 exact=32 approx=32",
+          "fields": {
+            "approx": "32",
+            "exact": "32",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "Carried v4 twin value identities",
+        "input": {
+          "expression": "1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1 exact=6 approx=6",
+          "fields": {
+            "approx": "6",
+            "exact": "6",
+            "parsed": "1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "S5 effective required-proof roster",
+        "input": {
+          "expression": "280+11+4+5+8+31+34+46+1+115"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=280+11+4+5+8+31+34+46+1+115 exact=535 approx=535",
+          "fields": {
+            "approx": "535",
+            "exact": "535",
+            "parsed": "280+11+4+5+8+31+34+46+1+115",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "S5 effective contract-pin keys",
+        "input": {
+          "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1 exact=169 approx=169",
+          "fields": {
+            "approx": "169",
+            "exact": "169",
+            "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "L9 early residual removed-routine call sites",
+        "input": {
+          "expression": "2+2+2+2"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=2+2+2+2 exact=8 approx=8",
+          "fields": {
+            "approx": "8",
+            "exact": "8",
+            "parsed": "2+2+2+2",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "L9 staged alias-pair roster",
+        "input": {
+          "expression": "41+9"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=41+9 exact=50 approx=50",
+          "fields": {
+            "approx": "50",
+            "exact": "50",
+            "parsed": "41+9",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "Append packet schedule",
+        "input": {
+          "expression": "6+2+14+6+3+57+10"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=6+2+14+6+3+57+10 exact=98 approx=98",
+          "fields": {
+            "approx": "98",
+            "exact": "98",
+            "parsed": "6+2+14+6+3+57+10",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "S5 effective pin-key enrollment by AST segment",
+        "input": {
+          "expression": "82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0 exact=169 approx=169",
+          "fields": {
+            "approx": "169",
+            "exact": "169",
+            "parsed": "82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "purpose": "Gate-kind roster",
+        "input": {
+          "expression": "31+1+1"
+        },
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=31+1+1 exact=33 approx=33",
+          "fields": {
+            "approx": "33",
+            "exact": "33",
+            "parsed": "31+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    ],
+    "status_boundary": "Status, assurance, formal flag, identities and non_claims retained verbatim in each returned result",
+    "review_consequence_ceiling": "informational about code correctness; arithmetic does not prove source, native, custody, resolution, coverage or acceptance",
+    "ledger_used_as_evidence": false
+  },
+  "limitations": [
+    "The two invariant findings are static specification reasoning, not executed counterexamples or claims of a passing whole-checker mutation",
+    "Current scoped qualifiers and visible-renaming inventory were compared as text; installed name/type/overload resolution remains OPEN",
+    "Author simulation results and process claims were not relied upon as evidence",
+    "All proof, native, control, custody, integration and acceptance obligations retain their original scope"
+  ],
+  "checkpoint_identities": {
+    "all_match": true,
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checkpoint-1.json",
+        "sha256": "761cbc664809cc89a2b877286958d0109cd696c9987cf18b5cdf845924f4b8ad",
+        "bytes": 1516,
+        "mode": "0600",
+        "content_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checkpoint-2.json",
+        "sha256": "8e1e1a5d9bba282c7a1463d62556df3f0e3e935e3baebebc59ef8f1e9a11359e",
+        "bytes": 2156,
+        "mode": "0600",
+        "content_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checkpoint-3.json",
+        "sha256": "c6c662a66e5861122a36aa5a9277945e987a412ac45b6f1e432b0ca6e95bd527",
+        "bytes": 1506,
+        "mode": "0600",
+        "content_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checkpoint-4.json",
+        "sha256": "2a01dbeb241df3454a22ae127e53b89f61b59a99d96f50c25c7a98c4127d8697",
+        "bytes": 2145,
+        "mode": "0600",
+        "content_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checkpoint-5.json",
+        "sha256": "17be73b958929bd2729d1dacd677f7db79896f0f794c5a6c701399fc0c04666e",
+        "bytes": 2142,
+        "mode": "0600",
+        "content_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checkpoint-6.json",
+        "sha256": "19c433068017cd2e560673c8cd3a18e730345b82528dcfe9c8f45cffdb30c327",
+        "bytes": 2566,
+        "mode": "0600",
+        "content_matches": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checkpoint-7.json",
+        "sha256": "6ab637ac78a5b2e1c8becdc71b1e6341a6e2a75205468b7f74b94b3bae1ba41b",
+        "bytes": 1538,
+        "mode": "0600",
+        "content_matches": true
+      }
+    ]
+  }
+}

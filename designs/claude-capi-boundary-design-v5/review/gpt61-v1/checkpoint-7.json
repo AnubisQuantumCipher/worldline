@@ -1,0 +1,31 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 7,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+  "status": "NO_FURTHER_WEAKENING_FOUND_WITHIN_PASSIVE_REVIEW",
+  "finding": "Beyond the incomplete gate-exception and qualifier-capture invariants recorded in items 1 and 2, no v5 change was found that lowers contracts, accepted domains/cases, proof floors, controls or body/caller scope, adds an assumption, waives warnings or grants a new Off exemption. Full source, installed-tool, proof, native accepted-domain, custody/confinement, producer/caller, control, integration and acceptance obligations remain OPEN. The root-worker design's shared C_API collision is noted without endorsing or resolving either lane. Author process disclosures remain model-origin records and provide no execution or acceptance evidence.",
+  "evidence": [
+    "H/HANDOFF.md:25-29",
+    "H/HANDOFF.md:129-131",
+    "H/HANDOFF.md:151-167",
+    "P:32-34",
+    "P:60-66",
+    "D3/DESIGN.md:197-260",
+    "D3/DESIGN.md:2192-2244",
+    "D4/APPENDIX-BINDINGS.md:131-148",
+    "D4/APPENDIX-COST-MAP.md:453-482",
+    "D5/DESIGN.md:300-339",
+    "ROOT_WORKER/SEAM-DESIGN.md:1750-1830",
+    "D5/AUTHOR-NOTES.md:58-75",
+    "WT/deviations/capi-v5-author-process/NOTE.md:32-56",
+    "WT/deviations/capi-v4-author-taskstop/NOTE.md:3-29"
+  ],
+  "acceptance": {
+    "proof": false,
+    "source": false,
+    "phase": false
+  },
+  "sketch_executed": false
+}

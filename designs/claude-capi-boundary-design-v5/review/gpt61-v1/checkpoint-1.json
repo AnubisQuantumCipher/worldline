@@ -1,0 +1,35 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 1,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+  "status": "NOT_CLOSED",
+  "finding": "The current G16a/G16b branch rules, A1 and G21c exclusive region are reconciled and preserve the specified source behavior. BR7 nevertheless treats any row of kind wfx, with any corresponding CAPI_GATE_EXCLUSIVE entry, as an assignment exception. It does not enforce the normative sole identity (Finalization_Decide, G21c, O), so the promised invariant across reviewed tile/table amendments is incomplete.",
+  "evidence": [
+    "D5/APPENDIX-BINDINGS.md:145-158",
+    "D5/APPENDIX-BINDINGS.md:463-519",
+    "D5/APPENDIX-BINDINGS.md:523-540",
+    "D5/APPENDIX-BINDINGS.md:581-583",
+    "D5/decisions.json:126",
+    "D4/APPENDIX-BINDINGS.md:628-631",
+    "D4/APPENDIX-BINDINGS.md:684-688",
+    "S5/core/evaluation_completion_c.adb:795-828",
+    "S5/core/evaluation_finalization_c.adb:168-250"
+  ],
+  "spot_checks": [
+    "G16a",
+    "G16b",
+    "G21c",
+    "G07",
+    "G19a",
+    "G19b"
+  ],
+  "remaining_change": "Validate the sole wfx row and exclusive-map identity independently of mutable tile/gate rows; add an amendment control for an extra or relabelled wfx exception. Keep all current diagnostics, components, assignments and accepted cases.",
+  "acceptance": {
+    "proof": false,
+    "source": false,
+    "phase": false
+  },
+  "sketch_executed": false
+}

@@ -1,0 +1,34 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 5,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "design_sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+  "status": "LATENT_DEFECTS_GENUINE_LOCAL_REPAIRS_CORRECT",
+  "latent_defects": {
+    "L9": "GENUINE; REPAIRED_AT_DESIGN_LEVEL for the fixed staged inventory. Staging changes only the premature removed-routine pairs; exact residual identity and the designed tiles/clause roster remain fixed. No existing designed text loses a refusal, and the complete former roster is restored with GE1-GE8 at PK-6b.",
+    "L10": "GENUINE; REPAIRED_AT_DESIGN_LEVEL for the listed Boolean and case gates. False/True and case components are now confined to the correct branch. The distinct sole-exception validation gap in item 1 remains required.",
+    "L11": "GENUINE; REPAIRED_AT_DESIGN_LEVEL. With the carried transport roster the whole-clause whitelist strictly strengthens (vii), excluding indirect and unrelated package use paths that previously escaped (vii), while preserving the existing exact scoped clauses.",
+    "L12": "GENUINE; REPAIRED_AT_DESIGN_LEVEL for the fixed acceptance-type inventory. Completeness now covers every Ok/Verdict selection and every declared type spelling ending _Acceptance. This is a text convention check, not installed type/name resolution."
+  },
+  "evidence": [
+    "D5/DESIGN.md:42-49",
+    "D4/APPENDIX-BINDINGS.md:177-185",
+    "D4/APPENDIX-BINDINGS.md:1303-1335",
+    "D5/APPENDIX-BINDINGS.md:95-110",
+    "D5/APPENDIX-BINDINGS.md:239-250",
+    "D5/APPENDIX-BINDINGS.md:324-342",
+    "D5/APPENDIX-BINDINGS.md:475-518",
+    "D5/APPENDIX-BINDINGS.md:533-540",
+    "D5/APPENDIX-BINDINGS.md:860-865",
+    "S5/core/worldline-c_api.adb:758-817",
+    "S5/core/worldline-c_api.adb:832-876"
+  ],
+  "boundary": "Independent passive assessment; no author's simulation result is treated as evidence, no mutation/control has been run, and all implementation and acceptance obligations remain OPEN.",
+  "acceptance": {
+    "proof": false,
+    "source": false,
+    "phase": false
+  },
+  "sketch_executed": false
+}
