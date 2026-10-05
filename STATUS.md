@@ -170,6 +170,17 @@ V5-B02 and every original obligation stay OPEN.
 - Codex reports verified vault health when its recovery completes. No offload or proof admission follows from the
   takeover alone.
 
+**Codex's update, ~03:5xZ.** Relayed by the supervisor; reported by Codex, not observed by the lead.
+- The original backup scope finished naturally and deferred on the normal maintenance lock.
+- Metadata preservation and read-only reference inspection hit I/O errors.
+- The iPad then disappeared from the USB bridge and both mounts went offline.
+- Nothing has been repaired, forgotten or pruned.
+- Recovery records and a partial metadata copy are in `work/backup-repository-repair-20261005`. One missing blob has
+  matching local original bytes preserved.
+- Repository health is not established. The vault timers are held for maintenance.
+- The lead does nothing on the vault, does no offload and touches no iPad mount path (FUSE hang risk), until Codex
+  reports verified recovery.
+
 ## Package v6 review (sealed ~03:08Z)
 
 **Verdict: NOT_READY.**

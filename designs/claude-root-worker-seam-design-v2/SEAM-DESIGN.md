@@ -57,7 +57,7 @@ Sub-requirements quote the sealed `review.json` `required_changes[].change`, spl
 | 06.3 | "specify actual owner/recovery authority in every phase" | A phase × request-class routing table, including UNKNOWN and its protected recovery authority. The exact original `quarantine.resolve` exception is preserved, with no widening to other owner routes. | §9.3 |
 | 06.4 | "availability beyond router-lock changes" | Protected synchronous sections run off the event loop with no await inside. A per-requester fair queue uses only original policy inputs. A durable queue without a depth cap. | §9.5 |
 | 07.1 | "Separate canonical committed outcome, native use quarantine, custody and physical resource states" | Four orthogonal dimensions O/U/C/P, each with its own native relation, plus the coupling rules CD-1…CD-9. | §2 |
-| 07.2 | "Preserve native QUARANTINE_USE/K4 recovery" | CD-2: native `Quarantine_Use` from `Reserved | Effect_Observed | Quarantined` (`worldline-operation_authority.adb:129-130`) and K4 resolution (`:156-167`) stay available. COMMITTED is never changed. | §2, §10.2 |
+| 07.2 | "Preserve native QUARANTINE_USE/K4 recovery" | CD-2: native `Quarantine_Use` from `Reserved \| Effect_Observed \| Quarantined` (`worldline-operation_authority.adb:129-130`) and K4 resolution (`:156-167`) stay available. COMMITTED is never changed. | §2, §10.2 |
 | 07.3 | "NEVER_LAUNCHED held-capacity release" | CD-5 keeps both native release cases of `resource_run_ledger.ads:317-320`. | §2, §10.1 |
 | 07.4 | "terminal replay and serial semantics" | The serial path keeps its exact order (`protected_operations.py:778-811`), including the SETTLED replay at `:786-790`. | §10.1 |
 | 07.5 | "keep write-once original result plus additive reports" | The first `RESULT_CAPTURE` is write-once. Later captures are additive boundaries. The collector uses the retained capture. | §2 CD-8, §10.1, §10.3 |
@@ -229,7 +229,7 @@ These invariants are retained. The review identified concrete ways the v1 implem
 | Seam 7 item 4 and I7.4: distinct tags alone (v1:885-894, 903) | D-7a | §4 |
 | Seam 8 item 6: crosswalk digest into `current_source` (v1:995-996) | D-8a | §8.1 |
 | Seam 8 item 3: host-PID evidence "must equal the original PID" as an acceptance precondition (v1:983-984) | D-8b | §8.4 |
-| Seam 9 item 1: `(CUSTODY_ACK | ABANDON) → WORKER_OWNED` (v1:1087-1090) | RC-04 | §6.2 |
+| Seam 9 item 1: `(CUSTODY_ACK \| ABANDON) → WORKER_OWNED` (v1:1087-1090) | RC-04 | §6.2 |
 | I9.7 deduplication as an unbounded-growth remedy (v1:1112-1113, 1128) | RC-04 | §6.8 |
 | §3: "SL-1 … needs no lab, root, operator or other seam" and its single-file check basis (v1:1234-1238) | Review §3: too broad | §15.2 |
 | OP-7 "blocks publication and deployment" (seams.json) | RC-11 | §16 |
@@ -464,9 +464,9 @@ end Worldline.Scoped_Canonical_Operation;
 | Clause | Original (`core/worldline-canonical_operation.adb:10-34`) | Scoped |
 |---|---|---|
 | C1 authority (literal) | `A.Decide (Data,G,H,B,Now,A.Reserve_Use,E,Empty,Empty) /= A.Reserved_Replay` → `Authority_Refused` | Identical text. |
-| C2 resource (lifted) | `not L.Conserved (Data,State,Rows) or else not L.Contained (Data,Rows) or else not L.Native_Valid (Data,State,Rows,Observed) or else not (for some I => L.Same_Binding (Rows(I).Bound,Bound) and then Rows(I).State in Reserved|Launch_Intent|Running)` → `Resource_Refused` | `not S.Valid (Data,State,Frames,Rows,Projection,Buckets,Current) or else not S.Native_Valid (Data,State,Frames,Rows,Observed,Facts) or else not S.Current_Facts (Data,Current,Facts) or else not (for some I => S.Retained_Origin (Data,State,Frames,Rows(I)) and then L.Same_Binding (Data,Rows(I).Bound,Bound) and then Rows(I).State in L.Reserved|L.Launch_Intent|L.Running and then L.Same_Context (Data,Rows(I).Scope,State.Current))` → `Resource_Refused` |
+| C2 resource (lifted) | `not L.Conserved (Data,State,Rows) or else not L.Contained (Data,Rows) or else not L.Native_Valid (Data,State,Rows,Observed) or else not (for some I => L.Same_Binding (Rows(I).Bound,Bound) and then Rows(I).State in Reserved\|Launch_Intent\|Running)` → `Resource_Refused` | `not S.Valid (Data,State,Frames,Rows,Projection,Buckets,Current) or else not S.Native_Valid (Data,State,Frames,Rows,Observed,Facts) or else not S.Current_Facts (Data,Current,Facts) or else not (for some I => S.Retained_Origin (Data,State,Frames,Rows(I)) and then L.Same_Binding (Data,Rows(I).Bound,Bound) and then Rows(I).State in L.Reserved\|L.Launch_Intent\|L.Running and then L.Same_Context (Data,Rows(I).Scope,State.Current))` → `Resource_Refused` |
 | C3 binding (literal, scope re-read) | Equalities of peer, owner and the seven bound digests; `State.Scope.Instance`, `.Policy`, `.Policy_Epoch` against `B`; `Bound.Resource_Epoch` against `B.Resource_Epoch` → `Binding_Mismatch` | Identical, with `State.Scope` replaced by `State.Current` (the scoped ledger's current context) and `O.Digest_Matches` reused. |
-| C4 collapse (literal) | For `Commit_Collapse | Commit_Transaction`: well-formed, decoded phase `Commit`, `Decide_Wire = Authorized`, else `Collapse_Refused` | Identical text. |
+| C4 collapse (literal) | For `Commit_Collapse \| Commit_Transaction`: well-formed, decoded phase `Commit`, `Decide_Wire = Authorized`, else `Collapse_Refused` | Identical text. |
 
 - `S.Valid` is `Shape ∧ Physical_Reference ∧ Contained_Reference ∧ Current_Valid` (`core/resource_scoped_run_ledger.ads:303-312`).
 - `S.Current_Facts` (`:296-300`) is included so that the fact roster belongs to the same current observation as `Current`. The scoped `Check` has the same conjunct (`:410-411`). It is a design choice for review (G4, §3.9).
@@ -2041,6 +2041,7 @@ All of these run first, on the exact integrated candidate. None is replaced.
   - L-CAPI-P, which is not yet designed.
   - G-PROT, with shared caller and ABI resolution.
   - R-RW-1 … R-RW-10 and IC-1 … IC-10; IC-10 needs the admitted frame.
+  - Whether R-RW-2's re-authoring of the draft child exports' internals counts as a changed public transport under D2R C-ABI (AUTHOR-NOTES §2.2). v2 keeps their symbols, layouts, meaning and caller protocol, and adds no gate.
   - CAPI4 is itself unreviewed.
 - **SL-0.** The complete receiver-resolved lock audit (N-6), including the L-A1-lineage files and `run_service`. Implemented deadlock freedom is not claimed.
 - **Proof and runtime.**
@@ -2291,5 +2292,5 @@ Computed with read-only `sha256sum` and `wc -c` after each file's last change.
 | File | sha256 | Bytes | Content |
 |---|---|---|---|
 | `jackal.json` | `fe664cc888e348292b6e3cd28c37f89a6e4dfb7ea2e843f94253595dda4a7561` | 8286 | Every JACKAL call, J01–J18 |
-| `AUTHOR-NOTES.md` | `f7b248380a460c6b6f581f4c3b695f9deb9335c2c9945a27efaa2b1392d7cc64` | 25502 | Reviewer priorities, unresolved items, uncertainties, the N-6 scan, the process record |
+| `AUTHOR-NOTES.md` | `782379cd1944dc03e59ec7f50eb4aae70bfbdf69c164e9167817b80883652990` | 26150 | Reviewer priorities, unresolved items, uncertainties, the N-6 scan, the process record |
 | `seams.json` | not recorded here | — | The machine twin. It records this file's sha256 and size and the two identities above. Its own identity is given in the handback message, so no hash cycle exists. |

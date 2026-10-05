@@ -93,6 +93,10 @@ In priority order. Each item names the design section and why it is the most lik
   - Where a unit exists in both, S5's version is the base, and the protected callers must compile and prove against it.
   - The size of that work is unknown.
 - **N-6 (a) and (b).** These assume the scoped service's `gate` and the principal's `gate` are one object. That rests on service `:62`, `:66` and the principal's construction. It is not checked against a running object.
+- **R-RW-2 and D2R C-ABI.**
+  - v2 re-authors the internals of the child-authority lineage's draft exports `wl_resource_child_execution_{version,layout,decide}_v1`, moving value logic into On units.
+  - Their symbols, layouts, meaning and caller protocol are kept, and no original export changes, so v2 names no operator item (§4.3, §14.3).
+  - D2R C-ABI says a changed public transport's code, meaning, layout or caller protocol needs operator approval. Whether those draft exports count as public transports under C-ABI, and if so which reserved decision covers them, is for the reviewer and the lead to rule. v2 adds no gate of its own (G-7).
 
 ### 2.3 Items outside this lane to reconcile (reported, not acted on)
 
