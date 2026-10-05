@@ -1,0 +1,141 @@
+{
+  "item": 1,
+  "status": "complete",
+  "closure_bar": "Coherent complete specification; deferred installed execution does not by itself prevent specification closure. No obligation acceptance.",
+  "prior_closure": {
+    "W1-GENERATION-PROTOCOL": "NOT_CLOSED",
+    "W1-COMMIT-JOURNAL-EXPORT": "NOT_CLOSED",
+    "W1-TERMINAL-CUSTODY": "NOT_CLOSED",
+    "W1-DURABILITY-RELEASE": "CLOSED",
+    "W1-SETUP-PROBES-ROLLBACK": "NOT_CLOSED",
+    "W1-IMAGE-TREE": "NOT_CLOSED",
+    "PKG-V6-OPERATOR-TEXT": "CLOSED",
+    "PKG-SUPERVISION-RECORD": "CLOSED",
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-SETUP": "NOT_CLOSED",
+    "W1-LIFETIME-ROLLBACK": "NOT_CLOSED",
+    "W1-RESOURCES": "CLOSED",
+    "OD2-CONSEQUENCES": "CLOSED",
+    "PKG-V5-FACTS": "CLOSED",
+    "PKG-CLOSURE-STATUS": "CLOSED",
+    "W1-CUSTODY-CLOSURE": "NOT_CLOSED",
+    "W1-PROTOCOL-FAILURE-STATES": "NOT_CLOSED",
+    "W1-JOURNAL-CONTINUATION": "NOT_CLOSED",
+    "W1-SETUP-IDENTITY": "CLOSED",
+    "W1-SETUP-RECONCILIATION": "NOT_CLOSED",
+    "W1-IMAGE-OBSERVATION": "NOT_CLOSED",
+    "PKG-V7-AUTHOR-RECORDS": "CLOSED"
+  },
+  "w1_gap_closure": {
+    "generation-order": "NOT_CLOSED",
+    "lease-and-writer-authority": "CLOSED",
+    "per-entry-modes-acls": "CLOSED",
+    "channel-and-dumpability": "NOT_CLOSED",
+    "prestate-and-installation": "NOT_CLOSED",
+    "exposure-options": "CLOSED",
+    "fresh-identities-and-vault": "CLOSED",
+    "denial-probes": "CLOSED",
+    "resources-and-images": "CLOSED",
+    "commits-and-durable-channel": "NOT_CLOSED",
+    "participants-and-recovery": "NOT_CLOSED",
+    "rollback-and-evidence": "NOT_CLOSED"
+  },
+  "w1_subgap_closure": {
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-FINAL-PASS": "CLOSED",
+    "W1-CLOSURE": "NOT_CLOSED",
+    "W1-CHANNEL": "NOT_CLOSED",
+    "W1-WRITE-AUTHORITY": "CLOSED",
+    "W1-READ-ACCESS": "CLOSED",
+    "W1-READ-EXPOSURE": "CLOSED",
+    "W1-PREFLIGHT-IDENTITY": "CLOSED",
+    "W1-SETUP-PRESTATE": "CLOSED",
+    "W1-SETUP-ORDER": "CLOSED",
+    "W1-SETUP-EXACTNESS": "NOT_CLOSED",
+    "W1-IMAGE-GEOMETRY": "CLOSED",
+    "W1-IMAGE-COMPATIBILITY": "CLOSED",
+    "W1-VERIFICATION-PROBES": "CLOSED",
+    "W1-FAILURE-LEASE": "NOT_CLOSED",
+    "W1-FAILURE-RECORDS": "NOT_CLOSED",
+    "W1-REBOOT-RECOVERY": "NOT_CLOSED",
+    "W1-ROLLBACK": "NOT_CLOSED",
+    "W1-EVIDENCE": "NOT_CLOSED",
+    "W1-NONCLAIMS": "CLOSED"
+  },
+  "findings": [
+    {
+      "id": "W1-V5-PRESERVATION",
+      "quote": "(c2), (c4) and (c5) are the walks\u2019 existing rules; No target action is refused or changed.",
+      "finding": "The supplied v5/v6 observe_tree checks regular/directory type and regular-file single links, but not set-ID bits or directory device equality. New owner/write checks and observer chmod change observable modes, ACL masks and ctime, and can refuse readable ordinary states the original walk accepted. Preserve the original accepted behavior, identify every actual new restriction and do not call a refusal a preserved acceptance.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1065-1095",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1148",
+        "package-drafts/DRAFT-v8.md:429-431",
+        "W/work/claude-scratch-frame-v5/scratch.py:495-567",
+        "W/work/claude-scratch-frame-v6/scratch.py:495-576"
+      ]
+    },
+    {
+      "id": "W1-V5-REVOCATION-CONFINEMENT",
+      "quote": "the following fstat then shows a second link, the stage refuses ... whose only change was the removal of that granted write access",
+      "finding": "K1 expressly permits its own fchmodat2 mutation before discovering an outside second name. Holding an anchored descriptor and detecting a second link afterwards do not prove the own-inode/location requirement. Confinement must hold at the mutation itself.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1062-1086",
+        "frame-v6-PLAN.md:25-40",
+        "package-drafts/DRAFT-v8.md:304-333"
+      ]
+    },
+    {
+      "id": "W1-V5-PROTOCOL-REFUSALS",
+      "quote": "Every refusal by C before its spawn call (C1-C11 ... ) sends CHILD_REFUSAL ... These machines ... are the complete set of legal sequences.",
+      "finding": "C1 can fail before C_HELLO, and C RECORDS checks can fail before ADMIT; the helper HELLO and RECORDS rows do not admit those refusal frames/transitions. L_REFUSAL names G4 failures while HELLO lacks that frame. The common STOP rule also demands REFUSAL in states where the row does not list it (adopt INPUTS and seal FRONT_TERMINAL). Complete every legal early refusal and STOP branch without inventing no-target evidence.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:708-719",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:729-751",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:789-797",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2333-2335",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2359-2380",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2423-2451"
+      ]
+    },
+    {
+      "id": "W1-V5-JOURNAL-FAILED-CLOSE",
+      "quote": "links to the last marker it fully wrote; a later chain marker confirms it",
+      "finding": "A fully written primary marker followed by a failed close is followed by a continuation linked to that primary. The continuation confirms the original primary under the new chain rule, while carried retain semantics downgrade on any step-3 failure and consumer precedence selects a committed primary over retry. P-CHAIN explicitly expects a torn close to leave the record committed. Reconcile this with the failed-primary raw/never-parsed guarantee and the three-write primitive; retain every failure and downgrade for all consumers.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1207-1242",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1853",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1617-1619",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1641-1645",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1703-1706"
+      ]
+    },
+    {
+      "id": "W1-V5-RECONCILIATION-STATES",
+      "quote": "E for every atom before some atom j ... Any other pattern ... stops S-R",
+      "finding": "Later atoms intentionally change objects earlier atoms classify: S-B creates no-ACL directories, then applies ACLs to them. The directory-class E still requires the original mode and no ACL; current state cannot be the required E-prefix after a later ACL atom. The same state model needs explicit treatment of checks/service actions and setup/rollback intermediates. Define composed/phase-aware states and reversals rather than treating a normal reachable state as other. Short-write and producer-status repairs themselves are substantive.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1326-1368",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1586-1618",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1830-1843"
+      ]
+    },
+    {
+      "id": "W1-V5-IMAGE-PINS",
+      "quote": "its exact entry set, captured by the operator (W cannot list it)",
+      "finding": "The images-directory exact entry set is newly in the pinned-at-every-use column, but W/W2 receive search-only access and explicitly cannot list it. The per-invocation exact comparison is unspecified/impossible with those credentials. The backing-file lookup and lost+found grammar repairs are otherwise coherent, with LOOKUP kept as an installed premise.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:505-529",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2157-2164",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1169"
+      ]
+    }
+  ],
+  "closed_explanations": {
+    "W1-SETUP-IDENTITY": "External S-I capture -> installed review S -> adoption digest/size/dev/ino removes self-reference (v5:541-563,1804-1823).",
+    "W1-DURABILITY-RELEASE": "The two release directions interleave, F writes at control deadline, late intent is legal and changes nothing; no durability gate (v5:959-995,2415-2426,2471).",
+    "PKG-V7-AUTHOR-RECORDS": "v8 discloses the lead timeout interruption, reconciles the five observation files and service-success versus incomplete scopes, and qualifies variable pressure (v8:114-142,280-285,1135-1163).",
+    "PKG-SUPERVISION-RECORD": "The false no-interruption sentence is explicitly corrected, standing rules and independent D1 recovery authority remain (v8:1135-1163)."
+  },
+  "approval_granted": false
+}

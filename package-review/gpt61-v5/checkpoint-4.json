@@ -1,0 +1,61 @@
+{
+  "item": 4,
+  "status": "complete",
+  "findings": [
+    {
+      "ruling": "PRESERVED",
+      "detail": "Full V5-B01/V5-B02 required-change text, fixed-target first sentence and HANDOFF acceptance item 1 reproduce verbatim with whitespace wrapping. The omitted fixed-target second sentence is substantively retained by OPEN/ineligibility text, not waived. Original full body/caller/domain/native scope, strict warnings, zero unproved/justified/Assume, no suppression and all original controls remain binding.",
+      "evidence": [
+        "authority-comparison.json",
+        "package-drafts/DRAFT-v8.md:39-58",
+        "package-drafts/DRAFT-v8.md:296-320",
+        "package-drafts/DRAFT-v8.md:703-725",
+        "HANDOFF.md:27-29,153-166",
+        "complete-phase1-prompt.txt:32-34,64"
+      ]
+    },
+    {
+      "ruling": "AUTHORITY_PRESERVED",
+      "detail": "Pinning alone adds no operator gate. Reference redefinition, material API/ABI or owner policy, operator custody/runtime architecture, merge/release/install/sudo/production/PRIME remain reserved. Routine preserving implementation is independently reviewed engineering with pins/enrollment refreshed and fixed fixtures.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:623-672",
+        "package-drafts/DRAFT-v8.md:774-785",
+        "package-drafts/DRAFT-v8.md:837-878",
+        "HANDOFF.md:121,153-166",
+        "complete-phase1-prompt.txt:74"
+      ]
+    },
+    {
+      "ruling": "NO_NEW_SETUP_APPROVAL_GATE",
+      "detail": "Additional manager drop-in lines, target filter, 0710 image directory, observer revocation, setup atoms/reconciliation and external seal are specified inside the existing privileged setup/rollback request. S-R choices do not authorize runtime exceptions; F-1 now is optional accounts-in-principle only.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:64-72",
+        "package-drafts/DRAFT-v8.md:574-603",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1364-1369"
+      ]
+    },
+    {
+      "ruling": "S1_OPTION7_DISTINCT_PENDING_OPERATOR_DECISION",
+      "detail": "Proposed reduction of ext4 root-only reserved blocks keeps at least 10 GiB privileged reserve and project-vault/WORLDLINE 10000000000-byte reserve unchanged. NOT EXECUTED, conditional fresh privileged identity/health/block-size/old-count capture, rollback and after-readback; no physical capacity creation, deletion or admission. Applicable sudo reservation is original. Option 6 lowers task reserve and remains ineligible. No tune2fs was run here.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:248-274",
+        "W/work/local-storage-relief-20261005/RESERVE-PROPOSAL.md:1-29,36-37",
+        "complete-phase1-prompt.txt:74"
+      ]
+    },
+    {
+      "ruling": "OPEN_DESIGN_CONFLICT",
+      "detail": "K6 says a refused next launch is never narrowed acceptance and K1 claims inside-tree mutation despite its stated alias timing. Those assertions cannot override the original preservation and own-inode requirements. Their corrections remain mandatory, with no proposed exception.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1077-1095",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1148",
+        "package-drafts/DRAFT-v8.md:304-320",
+        "HANDOFF.md:27-29"
+      ]
+    }
+  ],
+  "original_obligation_rows_observed": 219,
+  "all_original_source_statuses": "OPEN",
+  "approval_granted": false,
+  "exception_granted": false
+}

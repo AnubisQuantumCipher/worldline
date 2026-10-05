@@ -1,0 +1,4471 @@
+{
+  "schema": "claude-operator-package-review-v1",
+  "package": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v8.md",
+  "package_sha256": "ce4bb35e7fff0b25b6a086801463e8427623c7f7cd1a74340b67a6dd09cd9843",
+  "w1_proposal": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md",
+  "w1_proposal_sha256": "303205b1531eb5752fabc866f949c609725e3e42936404495ba9adfd171cd7ee",
+  "w1_composed": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md",
+  "w1_composed_sha256": "6cbc9c07994c2798910b84a02c5e445f67f24b9f51ed0efc95142df9b6113490",
+  "runbook": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/RUNBOOK-first-proof-iteration.md",
+  "runbook_sha256": "d7db4439c75e664bc20022b01bc49a68be4c7f1b8316f90a80aaf225258f7201",
+  "different_from_author": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "author": "Claude Code lead claude-opus-5-5 (W-1 v5 via drafting subagent)",
+  "verdict": "NOT_READY",
+  "prior_closure": {
+    "W1-GENERATION-PROTOCOL": "NOT_CLOSED",
+    "W1-COMMIT-JOURNAL-EXPORT": "NOT_CLOSED",
+    "W1-TERMINAL-CUSTODY": "NOT_CLOSED",
+    "W1-DURABILITY-RELEASE": "CLOSED",
+    "W1-SETUP-PROBES-ROLLBACK": "NOT_CLOSED",
+    "W1-IMAGE-TREE": "NOT_CLOSED",
+    "PKG-V6-OPERATOR-TEXT": "CLOSED",
+    "PKG-SUPERVISION-RECORD": "CLOSED",
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-SETUP": "NOT_CLOSED",
+    "W1-LIFETIME-ROLLBACK": "NOT_CLOSED",
+    "W1-RESOURCES": "CLOSED",
+    "OD2-CONSEQUENCES": "CLOSED",
+    "PKG-V5-FACTS": "CLOSED",
+    "PKG-CLOSURE-STATUS": "CLOSED",
+    "W1-CUSTODY-CLOSURE": "NOT_CLOSED",
+    "W1-PROTOCOL-FAILURE-STATES": "NOT_CLOSED",
+    "W1-JOURNAL-CONTINUATION": "NOT_CLOSED",
+    "W1-SETUP-IDENTITY": "CLOSED",
+    "W1-SETUP-RECONCILIATION": "NOT_CLOSED",
+    "W1-IMAGE-OBSERVATION": "NOT_CLOSED",
+    "PKG-V7-AUTHOR-RECORDS": "CLOSED"
+  },
+  "w1_gap_closure": {
+    "generation-order": "NOT_CLOSED",
+    "lease-and-writer-authority": "CLOSED",
+    "per-entry-modes-acls": "CLOSED",
+    "channel-and-dumpability": "NOT_CLOSED",
+    "prestate-and-installation": "NOT_CLOSED",
+    "exposure-options": "CLOSED",
+    "fresh-identities-and-vault": "CLOSED",
+    "denial-probes": "CLOSED",
+    "resources-and-images": "CLOSED",
+    "commits-and-durable-channel": "NOT_CLOSED",
+    "participants-and-recovery": "NOT_CLOSED",
+    "rollback-and-evidence": "NOT_CLOSED"
+  },
+  "w1_subgap_closure": {
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-FINAL-PASS": "CLOSED",
+    "W1-CLOSURE": "NOT_CLOSED",
+    "W1-CHANNEL": "NOT_CLOSED",
+    "W1-WRITE-AUTHORITY": "CLOSED",
+    "W1-READ-ACCESS": "CLOSED",
+    "W1-READ-EXPOSURE": "CLOSED",
+    "W1-PREFLIGHT-IDENTITY": "CLOSED",
+    "W1-SETUP-PRESTATE": "CLOSED",
+    "W1-SETUP-ORDER": "CLOSED",
+    "W1-SETUP-EXACTNESS": "NOT_CLOSED",
+    "W1-IMAGE-GEOMETRY": "CLOSED",
+    "W1-IMAGE-COMPATIBILITY": "CLOSED",
+    "W1-VERIFICATION-PROBES": "CLOSED",
+    "W1-FAILURE-LEASE": "NOT_CLOSED",
+    "W1-FAILURE-RECORDS": "NOT_CLOSED",
+    "W1-REBOOT-RECOVERY": "NOT_CLOSED",
+    "W1-ROLLBACK": "NOT_CLOSED",
+    "W1-EVIDENCE": "NOT_CLOSED",
+    "W1-NONCLAIMS": "CLOSED"
+  },
+  "required_corrections": [
+    {
+      "id": "W1-V5-PRESERVATION",
+      "item": 3,
+      "related_items": [
+        1,
+        3,
+        6
+      ],
+      "correction": "The supplied v5/v6 observe_tree checks regular/directory type and regular-file single links, but not set-ID bits or directory device equality. New owner/write checks and observer chmod change observable modes, ACL masks and ctime, and can refuse readable ordinary states the original walk accepted. Preserve the original accepted behavior, identify every actual new restriction and do not call a refusal a preserved acceptance.",
+      "operative_quote": "(c2), (c4) and (c5) are the walks’ existing rules; No target action is refused or changed.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1065-1095",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1148",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v8.md:429-431",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/scratch.py:495-567",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v6/scratch.py:495-576"
+      ]
+    },
+    {
+      "id": "W1-V5-REVOCATION-CONFINEMENT",
+      "item": 3,
+      "related_items": [
+        1,
+        3,
+        6
+      ],
+      "correction": "K1 expressly permits its own fchmodat2 mutation before discovering an outside second name. Holding an anchored descriptor and detecting a second link afterwards do not prove the own-inode/location requirement. Confinement must hold at the mutation itself.",
+      "operative_quote": "the following fstat then shows a second link, the stage refuses ... whose only change was the removal of that granted write access",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1062-1086",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/frame-v6-PLAN.md:25-40",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v8.md:304-333"
+      ]
+    },
+    {
+      "id": "W1-V5-PROTOCOL-REFUSALS",
+      "item": 3,
+      "related_items": [
+        1,
+        3,
+        6
+      ],
+      "correction": "C1 can fail before C_HELLO, and C RECORDS checks can fail before ADMIT; the helper HELLO and RECORDS rows do not admit those refusal frames/transitions. L_REFUSAL names G4 failures while HELLO lacks that frame. The common STOP rule also demands REFUSAL in states where the row does not list it (adopt INPUTS and seal FRONT_TERMINAL). Complete every legal early refusal and STOP branch without inventing no-target evidence.",
+      "operative_quote": "Every refusal by C before its spawn call (C1-C11 ... ) sends CHILD_REFUSAL ... These machines ... are the complete set of legal sequences.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:708-719",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:729-751",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:789-797",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2333-2335",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2359-2380",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2423-2451"
+      ]
+    },
+    {
+      "id": "W1-V5-JOURNAL-FAILED-CLOSE",
+      "item": 3,
+      "related_items": [
+        1,
+        3,
+        6
+      ],
+      "correction": "A fully written primary marker followed by a failed close is followed by a continuation linked to that primary. The continuation confirms the original primary under the new chain rule, while carried retain semantics downgrade on any step-3 failure and consumer precedence selects a committed primary over retry. P-CHAIN explicitly expects a torn close to leave the record committed. Reconcile this with the failed-primary raw/never-parsed guarantee and the three-write primitive; retain every failure and downgrade for all consumers.",
+      "operative_quote": "links to the last marker it fully wrote; a later chain marker confirms it",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1207-1242",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1853",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1617-1619",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1641-1645",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1703-1706"
+      ]
+    },
+    {
+      "id": "W1-V5-RECONCILIATION-STATES",
+      "item": 3,
+      "related_items": [
+        1,
+        3,
+        6
+      ],
+      "correction": "Later atoms intentionally change objects earlier atoms classify: S-B creates no-ACL directories, then applies ACLs to them. The directory-class E still requires the original mode and no ACL; current state cannot be the required E-prefix after a later ACL atom. The same state model needs explicit treatment of checks/service actions and setup/rollback intermediates. Define composed/phase-aware states and reversals rather than treating a normal reachable state as other. Short-write and producer-status repairs themselves are substantive.",
+      "operative_quote": "E for every atom before some atom j ... Any other pattern ... stops S-R",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1326-1368",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1586-1618",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1830-1843"
+      ]
+    },
+    {
+      "id": "W1-V5-IMAGE-PINS",
+      "item": 3,
+      "related_items": [
+        1,
+        3
+      ],
+      "correction": "The images-directory exact entry set is newly in the pinned-at-every-use column, but W/W2 receive search-only access and explicitly cannot list it. The per-invocation exact comparison is unspecified/impossible with those credentials. The backing-file lookup and lost+found grammar repairs are otherwise coherent, with LOOKUP kept as an installed premise.",
+      "operative_quote": "its exact entry set, captured by the operator (W cannot list it)",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:505-529",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2157-2164",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1169"
+      ]
+    },
+    {
+      "id": "PKG-V8-CURRENT-STATUS",
+      "item": 5,
+      "related_items": [
+        2,
+        5
+      ],
+      "correction": "Reconcile the unqualified C-API Next text with the sealed v6 ruling, mark preserved historical tables explicitly as historical, name W-1 v5 as the current successor, and give the exact regular-file versus directory W-CLOSED criteria. Preserve all implementation and original obligations OPEN. Link and summarize C-API v5/v6 process notes (v5 mkdir/redirection and in-memory proposal sketch; v6 indirect lead-transcript summaries and in-memory sketch), retaining author-only/no-control/no-acceptance limits.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/DRAFT-v8.md:405-406",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/DRAFT-v8.md:592-595",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/DRAFT-v8.md:795-833",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/DRAFT-v8.md:880-887",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v5-author-process/NOTE.md:13-56",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/capi-v6-author-process/NOTE.md:17-38",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-drafts/DRAFT-v8.md:1104-1179"
+      ]
+    }
+  ],
+  "item_findings": {
+    "1": {
+      "item": 1,
+      "status": "complete",
+      "closure_bar": "Coherent complete specification; deferred installed execution does not by itself prevent specification closure. No obligation acceptance.",
+      "prior_closure": {
+        "W1-GENERATION-PROTOCOL": "NOT_CLOSED",
+        "W1-COMMIT-JOURNAL-EXPORT": "NOT_CLOSED",
+        "W1-TERMINAL-CUSTODY": "NOT_CLOSED",
+        "W1-DURABILITY-RELEASE": "CLOSED",
+        "W1-SETUP-PROBES-ROLLBACK": "NOT_CLOSED",
+        "W1-IMAGE-TREE": "NOT_CLOSED",
+        "PKG-V6-OPERATOR-TEXT": "CLOSED",
+        "PKG-SUPERVISION-RECORD": "CLOSED",
+        "W1-CUSTODY": "NOT_CLOSED",
+        "W1-SETUP": "NOT_CLOSED",
+        "W1-LIFETIME-ROLLBACK": "NOT_CLOSED",
+        "W1-RESOURCES": "CLOSED",
+        "OD2-CONSEQUENCES": "CLOSED",
+        "PKG-V5-FACTS": "CLOSED",
+        "PKG-CLOSURE-STATUS": "CLOSED",
+        "W1-CUSTODY-CLOSURE": "NOT_CLOSED",
+        "W1-PROTOCOL-FAILURE-STATES": "NOT_CLOSED",
+        "W1-JOURNAL-CONTINUATION": "NOT_CLOSED",
+        "W1-SETUP-IDENTITY": "CLOSED",
+        "W1-SETUP-RECONCILIATION": "NOT_CLOSED",
+        "W1-IMAGE-OBSERVATION": "NOT_CLOSED",
+        "PKG-V7-AUTHOR-RECORDS": "CLOSED"
+      },
+      "w1_gap_closure": {
+        "generation-order": "NOT_CLOSED",
+        "lease-and-writer-authority": "CLOSED",
+        "per-entry-modes-acls": "CLOSED",
+        "channel-and-dumpability": "NOT_CLOSED",
+        "prestate-and-installation": "NOT_CLOSED",
+        "exposure-options": "CLOSED",
+        "fresh-identities-and-vault": "CLOSED",
+        "denial-probes": "CLOSED",
+        "resources-and-images": "CLOSED",
+        "commits-and-durable-channel": "NOT_CLOSED",
+        "participants-and-recovery": "NOT_CLOSED",
+        "rollback-and-evidence": "NOT_CLOSED"
+      },
+      "w1_subgap_closure": {
+        "W1-CUSTODY": "NOT_CLOSED",
+        "W1-FINAL-PASS": "CLOSED",
+        "W1-CLOSURE": "NOT_CLOSED",
+        "W1-CHANNEL": "NOT_CLOSED",
+        "W1-WRITE-AUTHORITY": "CLOSED",
+        "W1-READ-ACCESS": "CLOSED",
+        "W1-READ-EXPOSURE": "CLOSED",
+        "W1-PREFLIGHT-IDENTITY": "CLOSED",
+        "W1-SETUP-PRESTATE": "CLOSED",
+        "W1-SETUP-ORDER": "CLOSED",
+        "W1-SETUP-EXACTNESS": "NOT_CLOSED",
+        "W1-IMAGE-GEOMETRY": "CLOSED",
+        "W1-IMAGE-COMPATIBILITY": "CLOSED",
+        "W1-VERIFICATION-PROBES": "CLOSED",
+        "W1-FAILURE-LEASE": "NOT_CLOSED",
+        "W1-FAILURE-RECORDS": "NOT_CLOSED",
+        "W1-REBOOT-RECOVERY": "NOT_CLOSED",
+        "W1-ROLLBACK": "NOT_CLOSED",
+        "W1-EVIDENCE": "NOT_CLOSED",
+        "W1-NONCLAIMS": "CLOSED"
+      },
+      "findings": [
+        {
+          "id": "W1-V5-PRESERVATION",
+          "quote": "(c2), (c4) and (c5) are the walks’ existing rules; No target action is refused or changed.",
+          "finding": "The supplied v5/v6 observe_tree checks regular/directory type and regular-file single links, but not set-ID bits or directory device equality. New owner/write checks and observer chmod change observable modes, ACL masks and ctime, and can refuse readable ordinary states the original walk accepted. Preserve the original accepted behavior, identify every actual new restriction and do not call a refusal a preserved acceptance.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1065-1095",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1148",
+            "package-drafts/DRAFT-v8.md:429-431",
+            "W/work/claude-scratch-frame-v5/scratch.py:495-567",
+            "W/work/claude-scratch-frame-v6/scratch.py:495-576"
+          ]
+        },
+        {
+          "id": "W1-V5-REVOCATION-CONFINEMENT",
+          "quote": "the following fstat then shows a second link, the stage refuses ... whose only change was the removal of that granted write access",
+          "finding": "K1 expressly permits its own fchmodat2 mutation before discovering an outside second name. Holding an anchored descriptor and detecting a second link afterwards do not prove the own-inode/location requirement. Confinement must hold at the mutation itself.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1062-1086",
+            "frame-v6-PLAN.md:25-40",
+            "package-drafts/DRAFT-v8.md:304-333"
+          ]
+        },
+        {
+          "id": "W1-V5-PROTOCOL-REFUSALS",
+          "quote": "Every refusal by C before its spawn call (C1-C11 ... ) sends CHILD_REFUSAL ... These machines ... are the complete set of legal sequences.",
+          "finding": "C1 can fail before C_HELLO, and C RECORDS checks can fail before ADMIT; the helper HELLO and RECORDS rows do not admit those refusal frames/transitions. L_REFUSAL names G4 failures while HELLO lacks that frame. The common STOP rule also demands REFUSAL in states where the row does not list it (adopt INPUTS and seal FRONT_TERMINAL). Complete every legal early refusal and STOP branch without inventing no-target evidence.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:708-719",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:729-751",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:789-797",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2333-2335",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2359-2380",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2423-2451"
+          ]
+        },
+        {
+          "id": "W1-V5-JOURNAL-FAILED-CLOSE",
+          "quote": "links to the last marker it fully wrote; a later chain marker confirms it",
+          "finding": "A fully written primary marker followed by a failed close is followed by a continuation linked to that primary. The continuation confirms the original primary under the new chain rule, while carried retain semantics downgrade on any step-3 failure and consumer precedence selects a committed primary over retry. P-CHAIN explicitly expects a torn close to leave the record committed. Reconcile this with the failed-primary raw/never-parsed guarantee and the three-write primitive; retain every failure and downgrade for all consumers.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1207-1242",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1853",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1617-1619",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1641-1645",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1703-1706"
+          ]
+        },
+        {
+          "id": "W1-V5-RECONCILIATION-STATES",
+          "quote": "E for every atom before some atom j ... Any other pattern ... stops S-R",
+          "finding": "Later atoms intentionally change objects earlier atoms classify: S-B creates no-ACL directories, then applies ACLs to them. The directory-class E still requires the original mode and no ACL; current state cannot be the required E-prefix after a later ACL atom. The same state model needs explicit treatment of checks/service actions and setup/rollback intermediates. Define composed/phase-aware states and reversals rather than treating a normal reachable state as other. Short-write and producer-status repairs themselves are substantive.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1326-1368",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1586-1618",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1830-1843"
+          ]
+        },
+        {
+          "id": "W1-V5-IMAGE-PINS",
+          "quote": "its exact entry set, captured by the operator (W cannot list it)",
+          "finding": "The images-directory exact entry set is newly in the pinned-at-every-use column, but W/W2 receive search-only access and explicitly cannot list it. The per-invocation exact comparison is unspecified/impossible with those credentials. The backing-file lookup and lost+found grammar repairs are otherwise coherent, with LOOKUP kept as an installed premise.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:505-529",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2157-2164",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1169"
+          ]
+        }
+      ],
+      "closed_explanations": {
+        "W1-SETUP-IDENTITY": "External S-I capture -> installed review S -> adoption digest/size/dev/ino removes self-reference (v5:541-563,1804-1823).",
+        "W1-DURABILITY-RELEASE": "The two release directions interleave, F writes at control deadline, late intent is legal and changes nothing; no durability gate (v5:959-995,2415-2426,2471).",
+        "PKG-V7-AUTHOR-RECORDS": "v8 discloses the lead timeout interruption, reconciles the five observation files and service-success versus incomplete scopes, and qualifies variable pressure (v8:114-142,280-285,1135-1163).",
+        "PKG-SUPERVISION-RECORD": "The false no-interruption sentence is explicitly corrected, standing rules and independent D1 recovery authority remain (v8:1135-1163)."
+      },
+      "approval_granted": false
+    },
+    "2": {
+      "item": 2,
+      "status": "complete",
+      "findings": [
+        {
+          "result": "VERIFIED",
+          "detail": "All supplied primary hashes and frozen identities match. Independently recomposed v5 delta plus v4 equals the supplied composed bytes; amendments each applied once, map identities verified.",
+          "evidence": [
+            "source-checks.json:composition",
+            "DRAFT-v8.md:389-427"
+          ]
+        },
+        {
+          "result": "REPRODUCES",
+          "detail": "Fresh JACKAL replays reproduce every compared exact value; v5 current and explicitly superseded draft map arithmetic, carried Gate 0 allowances and staged amounts, fallback geometry, source-call examples, storage rates/margins and option-7 blocks are included. Rounded displays agree with returned approximations. exact/formal=false, informational only, full parsed inputs and non_claims retained.",
+          "evidence": [
+            "arithmetic-replays.json",
+            "arithmetic-supplement.json",
+            "DRAFT-v8.md:146-228",
+            "proposal/v5-support/jackal.json:20-66"
+          ]
+        },
+        {
+          "result": "VERIFIED_AS_HISTORICAL_SOURCE",
+          "detail": "Frozen reviews match all sealed members. Passive AST reproduces 169 effective pin keys and every named packet replacement key; all payload bytes match the previous passive comparison. Self-check and backup claims are qualified author-side observations, not installed acceptance.",
+          "evidence": [
+            "passive-facts.json",
+            "source-checks.json:review_freezes",
+            "DRAFT-v8.md:611-621",
+            "DRAFT-v8.md:114-142",
+            "DRAFT-v8.md:1167-1179"
+          ]
+        },
+        {
+          "result": "LIMIT",
+          "detail": "New storage readings are frozen author-reported readings, not independently observed fresh capacity by this review. No live storage/vault/systemd call was made; relay claims, incomplete D1 review and live STATUS are not seals.",
+          "evidence": [
+            "DRAFT-v8.md:81-100",
+            "DRAFT-v8.md:136-140",
+            "DRAFT-v8.md:174-182",
+            "author-source-checks.json"
+          ]
+        },
+        {
+          "result": "NOT_CORRECT",
+          "detail": "The current C-API v6 summary reports closure at design level, but its later unqualified Next sentence still says R2_NINE_CONDITIONS and PACKET_PLAN remain NOT_CLOSED and v6 review is next. W-CLOSED summary says one link for every entry although c5 gives single-link only for regular files and same-device for directories; F-1 later calls the current reviewed design now v4.",
+          "evidence": [
+            "DRAFT-v8.md:795-805",
+            "DRAFT-v8.md:832-833",
+            "DRAFT-v8.md:405-406",
+            "DRAFT-v8.md:592-595",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+            "designs/claude-capi-boundary-design-v6/review/gpt61-v1/review.json:rc_closure,ruling_closure,rulings"
+          ]
+        }
+      ],
+      "additional_required_correction": {
+        "id": "PKG-V8-CURRENT-STATUS",
+        "item": "2,5",
+        "correction": "Reconcile the unqualified C-API Next text with the sealed v6 ruling, mark preserved historical tables explicitly as historical, name W-1 v5 as the current successor, and give the exact regular-file versus directory W-CLOSED criteria. Preserve all implementation and original obligations OPEN.",
+        "evidence": [
+          "DRAFT-v8.md:405-406",
+          "DRAFT-v8.md:592-595",
+          "DRAFT-v8.md:795-833",
+          "DRAFT-v8.md:880-887",
+          "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095"
+        ]
+      },
+      "allowances_are_bounds": false,
+      "capacity_established": false,
+      "approval_granted": false
+    },
+    "3": {
+      "item": 3,
+      "status": "complete",
+      "w1_capable_as_written": false,
+      "assessment": "As composed, W-1 v5 cannot yet meet V5-B01 and V5-B02 together: its new revocation is not proven confined at mutation time or preserving of the original accepted behavior, and protocol, journal, reconciliation and image-pin specifications remain inconsistent. The protected writer tree, complete final leaf pass, conditional quiescence/credential closure, external setup seal and non-gating release repairs are plausible parts of a successor, but require a coherent corrected specification, independent successor-frame review and installed evidence without an exception.",
+      "findings": [
+        {
+          "topic": "observer revocation and own inode",
+          "status": "NOT_CLOSED",
+          "detail": "New O mutation includes mode/ACL mask/ctime changes; K1 admits a new outside name before fchmodat2 and only refuses afterward. Anchored fd is inode identity, not exclusive tree naming at the mutation.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1058-1086",
+            "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2342-2370",
+            "frame-v6-PLAN.md:25-40"
+          ]
+        },
+        {
+          "topic": "W-CLOSED and preservation",
+          "status": "NOT_CLOSED",
+          "detail": "c2 and regular-file single-link c5 are present in original v5/v6 walks. c4 set-ID refusal and directory same-device c5 are absent; c1 ownership and c3 no-write plus revocation are not the full new surface. Owner access does not preserve observed mode/ACL/time/output or granted collaboration behavior. Existing compatibility hypotheses cannot narrow accepted cases.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1148",
+            "W/work/claude-scratch-frame-v5/scratch.py:495-567",
+            "W/work/claude-scratch-frame-v6/scratch.py:495-576",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:982-983",
+            "package-drafts/DRAFT-v8.md:522-524"
+          ]
+        },
+        {
+          "topic": "quiescence and trusted systemd",
+          "status": "CONDITIONAL_SPECIFICATION_REPAIR",
+          "detail": "M-QUIESCENT Q1-Q8 covers jobs, unit state, refs, connections, queues and pending work. S1-S6 cover process/job sources, dispatch order, drained internal work, reply/connection ordering and protected routes; stronger than serialized API calls alone. Requires applicable installed-version source review plus probes; finite equal snapshots do not prove it. No premise is observed or accepted here.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:862-909",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1150-1169"
+          ]
+        },
+        {
+          "topic": "credential closure and io_uring",
+          "status": "CONDITIONAL_SPECIFICATION_REPAIR",
+          "detail": "K3 names sudo, M inheritance, no minted set-ID/capabilities, locked group passwords, subordinate identities and trusted root. S-F explicitly sets PAMName empty, XDG_RUNTIME_DIR, NoNewPrivileges, RestrictSUIDSGID, native syscall architecture and io_uring ENOSYS denial; masks cover every loaded process-starting unit file including static/disabled/templates/aliases. Target C9 denies io_uring as well as set-ID requests and openat2; filter completeness and original behavior remain H1-H3 and compatibility obligations.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:764-771",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1097-1110",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1720-1746"
+          ]
+        },
+        {
+          "topic": "protocol failure states",
+          "status": "NOT_CLOSED",
+          "detail": "Spawn permission/failure and release directions repaired, but C pre-HELLO and pre-ADMIT CHILD_REFUSAL, L HELLO/G4 L_REFUSAL and STOP/REFUSAL in adopt INPUTS or seal FRONT_TERMINAL are not legal in the enumerated complete tables. Missing start never means nothing started.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:729-751",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:789-797",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2333-2380",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2423-2451"
+          ]
+        },
+        {
+          "topic": "journal continuation",
+          "status": "NOT_CLOSED",
+          "detail": "One chain, gap/branch/genesis/cut and raw-export rules substantially improved. But a failed close after a fully written primary leads J4 continuation to confirm that primary; P-CHAIN wants it committed, while carried three-step retain downgrades on the failed step and committed primary wins over retry. All consumers need a single rule preserving raw failed-primary/non-success truth.",
+          "evidence": [
+            "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2469-2471",
+            "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2509-2544",
+            "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2559-2563",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1853",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1703-1706"
+          ]
+        },
+        {
+          "topic": "release independent of durability",
+          "status": "CLOSED",
+          "detail": "F owns release and writes at the bounded control deadline; INTENT result may arrive late and changes nothing. UNKNOWN withholds success but alone adds neither a release hold nor approval gate.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:959-995",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2415-2426",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2471"
+          ]
+        },
+        {
+          "topic": "external setup identity",
+          "status": "CLOSED",
+          "detail": "S excludes itself; S-I external file tuple/digest is sealed by installed review, adopted into later records and rechecked. Materialization has expressly unadopted bookkeeping before comparison; this is not installed admission.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:541-563",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1804-1823"
+          ]
+        },
+        {
+          "topic": "atom S-R, step.py and check_out.py",
+          "status": "NOT_CLOSED",
+          "detail": "Full short-write/fsync/torn-log handling and direct producer exit-status handling fix prior defects. E-prefix observation conflicts with later ACL atoms intentionally changing earlier directory E=no ACL/mode; check/service-action class has no distinct E. Specify reachable phase-aware state vectors and partial reversals across setup and rollback; expected future numeric IDs/captures are not the defect.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1326-1369",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1432-1534",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1586-1618",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1825-1843"
+          ]
+        },
+        {
+          "topic": "images-directory and lost+found",
+          "status": "NOT_CLOSED",
+          "detail": "Search-only root:W 0710 permits named backing-file observation conditional on LOOKUP; lost+found has an explicit pinned special-entry rule. New exact directory entry-set pin is compared at every use although W/W2 cannot list it, and no privileged per-use comparison is specified.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:505-529",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1169",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2157-2164"
+          ]
+        }
+      ],
+      "premise_inventory": [
+        {
+          "premise": "L1",
+          "probe": "P-QUIESCE(d-f)",
+          "failure": "redesign"
+        },
+        {
+          "premise": "K-PERM",
+          "probe": "P-WCLOSED",
+          "failure": "redesign"
+        },
+        {
+          "premise": "K-CHMOD",
+          "probe": "P-WCLOSED",
+          "failure": "redesign K1"
+        },
+        {
+          "premise": "H1",
+          "probe": "P-SETID A2",
+          "failure": "redesign"
+        },
+        {
+          "premise": "H2",
+          "probe": "P-MGR and P-SETID A3",
+          "failure": "redesign"
+        },
+        {
+          "premise": "H3",
+          "probe": "installed syscall/filter review and P-SETID",
+          "failure": "redesign"
+        },
+        {
+          "premise": "S1-S6",
+          "probe": "installed-version source review and P-QUIESCE(a-c,g-k)",
+          "failure": "redesign"
+        },
+        {
+          "premise": "M-PAM",
+          "probe": "P-MGR",
+          "failure": "redesign"
+        },
+        {
+          "premise": "BUS",
+          "probe": "first engineering run",
+          "failure": "redesign"
+        },
+        {
+          "premise": "ROOTS",
+          "probe": "first engineering run",
+          "failure": "redesign"
+        },
+        {
+          "premise": "OPT-B",
+          "probe": "concrete launcher/namespace/exposure probes",
+          "failure": "redesign branch or do not use"
+        },
+        {
+          "premise": "ENOSPC",
+          "probe": "P-ENOSPC",
+          "failure": "no allocation-failure durability claim; original requirement stays OPEN"
+        },
+        {
+          "premise": "IMG",
+          "probe": "sacrificial geometry/noexec/native measurement",
+          "failure": "original controls on compatible admitted frame; no narrowing"
+        },
+        {
+          "premise": "LOOKUP",
+          "probe": "P-IMAGE",
+          "failure": "redesign image branch"
+        }
+      ],
+      "installed_evidence": "NOT_EXECUTED_NOT_ACCEPTED",
+      "all_original_obligations": "OPEN",
+      "approval_granted": false
+    },
+    "4": {
+      "item": 4,
+      "status": "complete",
+      "findings": [
+        {
+          "ruling": "PRESERVED",
+          "detail": "Full V5-B01/V5-B02 required-change text, fixed-target first sentence and HANDOFF acceptance item 1 reproduce verbatim with whitespace wrapping. The omitted fixed-target second sentence is substantively retained by OPEN/ineligibility text, not waived. Original full body/caller/domain/native scope, strict warnings, zero unproved/justified/Assume, no suppression and all original controls remain binding.",
+          "evidence": [
+            "authority-comparison.json",
+            "package-drafts/DRAFT-v8.md:39-58",
+            "package-drafts/DRAFT-v8.md:296-320",
+            "package-drafts/DRAFT-v8.md:703-725",
+            "HANDOFF.md:27-29,153-166",
+            "complete-phase1-prompt.txt:32-34,64"
+          ]
+        },
+        {
+          "ruling": "AUTHORITY_PRESERVED",
+          "detail": "Pinning alone adds no operator gate. Reference redefinition, material API/ABI or owner policy, operator custody/runtime architecture, merge/release/install/sudo/production/PRIME remain reserved. Routine preserving implementation is independently reviewed engineering with pins/enrollment refreshed and fixed fixtures.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:623-672",
+            "package-drafts/DRAFT-v8.md:774-785",
+            "package-drafts/DRAFT-v8.md:837-878",
+            "HANDOFF.md:121,153-166",
+            "complete-phase1-prompt.txt:74"
+          ]
+        },
+        {
+          "ruling": "NO_NEW_SETUP_APPROVAL_GATE",
+          "detail": "Additional manager drop-in lines, target filter, 0710 image directory, observer revocation, setup atoms/reconciliation and external seal are specified inside the existing privileged setup/rollback request. S-R choices do not authorize runtime exceptions; F-1 now is optional accounts-in-principle only.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:64-72",
+            "package-drafts/DRAFT-v8.md:574-603",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1364-1369"
+          ]
+        },
+        {
+          "ruling": "S1_OPTION7_DISTINCT_PENDING_OPERATOR_DECISION",
+          "detail": "Proposed reduction of ext4 root-only reserved blocks keeps at least 10 GiB privileged reserve and project-vault/WORLDLINE 10000000000-byte reserve unchanged. NOT EXECUTED, conditional fresh privileged identity/health/block-size/old-count capture, rollback and after-readback; no physical capacity creation, deletion or admission. Applicable sudo reservation is original. Option 6 lowers task reserve and remains ineligible. No tune2fs was run here.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:248-274",
+            "W/work/local-storage-relief-20261005/RESERVE-PROPOSAL.md:1-29,36-37",
+            "complete-phase1-prompt.txt:74"
+          ]
+        },
+        {
+          "ruling": "OPEN_DESIGN_CONFLICT",
+          "detail": "K6 says a refused next launch is never narrowed acceptance and K1 claims inside-tree mutation despite its stated alias timing. Those assertions cannot override the original preservation and own-inode requirements. Their corrections remain mandatory, with no proposed exception.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1077-1095",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1148",
+            "package-drafts/DRAFT-v8.md:304-320",
+            "HANDOFF.md:27-29"
+          ]
+        }
+      ],
+      "original_obligation_rows_observed": 219,
+      "all_original_source_statuses": "OPEN",
+      "approval_granted": false,
+      "exception_granted": false
+    },
+    "5": {
+      "item": 5,
+      "status": "complete",
+      "findings": [
+        {
+          "topic": "decision timing and consequences",
+          "result": "SUBSTANTIALLY_COMPLETE",
+          "detail": "S-1 options address immediate storage pressure; F-1 accounts-in-principle is optional now and concrete privileged setup only later after reviewed inventory/Gate 0, installed verification and adoption. R-1/R-2, D-13, N-06, OD-1/OD-2 and seam operator choices remain later and tied to their evidence. No recommendation becomes a fact or choice. Ineligible scope/reserve/warning/reference/helper-removal routes do not close the original target.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:60-73",
+            "package-drafts/DRAFT-v8.md:239-285",
+            "package-drafts/DRAFT-v8.md:590-603",
+            "package-drafts/DRAFT-v8.md:711-727",
+            "package-drafts/DRAFT-v8.md:774-787",
+            "package-drafts/DRAFT-v8.md:835-878",
+            "package-drafts/DRAFT-v8.md:916-1007",
+            "package-drafts/DRAFT-v8.md:1072-1092"
+          ]
+        },
+        {
+          "topic": "latest sealed conclusions",
+          "result": "REQUIRED_CORRECTION",
+          "detail": "C-API latest v6 status/closures at 795-805 match sealed v6, but unqualified Next at 832-833 conflicts. Historical v3-v4 table at 880-888 should explicitly say it is superseded where v6 updates it. F-1 now v4 label and the universal one-link W-CLOSED summary also need correction. New correction PKG-V8-CURRENT-STATUS.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:405-406",
+            "package-drafts/DRAFT-v8.md:592-595",
+            "package-drafts/DRAFT-v8.md:795-833",
+            "package-drafts/DRAFT-v8.md:880-888",
+            "designs/claude-capi-boundary-design-v6/review/gpt61-v1/review.json:rulings"
+          ]
+        },
+        {
+          "topic": "historical correction tables",
+          "result": "ACCURATE_WITH_TIME_SCOPE",
+          "detail": "Tables A/B/B2/B3/C name historical reviews and later rulings. v8 calls author v5 closures awaiting review, not accepted. Our new closures replace the pending status only for specification corrections; every original obligation remains OPEN. Older awaiting-review rows must be read under the named later B2/B3 rulings.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:1183-1275",
+            "package-drafts/DRAFT-v8.md:397-400",
+            "checkpoint-1.json"
+          ]
+        },
+        {
+          "topic": "corrected interruption record",
+          "result": "CLOSED_SPECIFICATION_CORRECTION",
+          "detail": "v8 names both pre-ruling lead TaskStop queue actions, the post-ruling C-API v4 TaskStop and lead timeout-killed find, explicitly retracts the false blanket no-interruption sentence. This matches preserved note; its since-then absence statements remain author statements rather than independently proved absence. Standing no-interruption rule and human-only D1 recovery choice remain.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:1135-1163",
+            "deviations/capi-v4-author-taskstop/NOTE.md:46-70"
+          ]
+        },
+        {
+          "topic": "isolation record and incomplete D1 review",
+          "result": "PRESERVED",
+          "detail": "ISOLATION.md preserves old alternate-tool guard bypasses, attempted E2BIG write and uncompliant Claude pre-read as history without clearance. D1 drafting tempfile is separately disclosed, not mislabeled as refusal workaround. D1 v4 review remains INCOMPLETE; R1 same-thread runner restart after codex termination, R2 both processes/new review, misleading transport-failure text and human authority are disclosed. This review did not read the stalled directory or act on a process.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:1104-1133",
+            "ISOLATION.md:18-45,49-120",
+            "review-monitoring/d1-v4-review-recovery-proposal.md"
+          ]
+        },
+        {
+          "topic": "author records coverage",
+          "result": "ADDITIONAL_DETAIL_FOR_PKG-V8-CURRENT-STATUS",
+          "detail": "Link and summarize the latest C-API v5/v6 process notes alongside the W-1 v5 note: v5 mkdir/redirection deviation and in-memory proposal sketch; v6 indirect lead-transcript summaries and in-memory sketch. They remain attributed author-side observations, no WORLDLINE controls or acceptance. Current package does not surface these records in its supervision/isolation/self-check sections, while surfacing the other drafting deviations. This is completeness of supplied known author records, not an invented approval gate or a claim the independent C-API review is invalid.",
+          "evidence": [
+            "deviations/capi-v5-author-process/NOTE.md:13-30,32-56",
+            "deviations/capi-v6-author-process/NOTE.md:17-38",
+            "package-drafts/DRAFT-v8.md:432-433",
+            "package-drafts/DRAFT-v8.md:1104-1179"
+          ]
+        },
+        {
+          "topic": "backup and variable pressure record",
+          "result": "CLOSED_SPECIFICATION_CORRECTION",
+          "detail": "Five retained observation files include naturally completed watcher. Unit success is separated from Anubis backup exit 3 and failed post-check scopes, missing pack observations versus disconnect hypothesis and saved snapshot non-health. Codex recovery/hold/offline claims are relayed; no offload permitted before verified recovery. v8 removes monotone-pressure claim.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:114-142",
+            "package-drafts/DRAFT-v8.md:280-285",
+            "backup-repair-packet/README.md",
+            "backup-repair-packet/observations/bldlm9jlr.output"
+          ]
+        }
+      ],
+      "decision_or_permission_granted": false,
+      "live_indexes_not_seals": true
+    },
+    "6": {
+      "item": 6,
+      "status": "complete",
+      "findings": [
+        {
+          "risk": "Accepted behavior silently narrowed",
+          "required_corrections": [
+            "W1-V5-PRESERVATION"
+          ],
+          "detail": "K6 says no target action changes and calls a refused next launch never narrowed acceptance. New owner/mode/set-ID/device/filter constraints and observable chmod/ACL-mask/ctime changes need a complete preserving argument for original accepted runs, outputs, modes and cases. A hypothetical no-use compatibility claim, a finite run, or operator agreement is no replacement.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1169",
+            "package-drafts/DRAFT-v8.md:429-431",
+            "HANDOFF.md:27-29"
+          ]
+        },
+        {
+          "risk": "Own-inode mutation relabeled as harmless refused run",
+          "required_corrections": [
+            "W1-V5-REVOCATION-CONFINEMENT"
+          ],
+          "detail": "K1 admits an outside name before its mutation and then refuses. Removing write access, recording it and not changing content do not exempt this frame mutation from V5-B02.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1077-1086",
+            "package-drafts/DRAFT-v8.md:304-320",
+            "frame-v6-PLAN.md:25-40"
+          ]
+        },
+        {
+          "risk": "Ambiguous failed-record truth or omitted failure transition",
+          "required_corrections": [
+            "W1-V5-JOURNAL-FAILED-CLOSE",
+            "W1-V5-PROTOCOL-REFUSALS"
+          ],
+          "detail": "Every reader/consumer needs one failed-close rule that preserves failed-primary raw/downgrade and errors, and every refusal needs a legal state. Global error joins and verb-specific success already withhold final success; this review does not claim a proven end-to-end false-success execution. Missing starts/refusals or a confirmed primary must not hide original failure evidence.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1207-1242",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:789-797",
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2423-2451",
+            "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2559-2563,2642-2681"
+          ]
+        },
+        {
+          "risk": "Premise accepted as assumption or finite probe accepted as proof",
+          "detail": "K7 expressly requires redesign and says finite probes can refute but not establish premises. Installed systemd/kernel/filter/source and compatible-frame evidence remain required. No operator choice may turn an unverified premise into a contract axiom or exception.",
+          "evidence": [
+            "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1150-1169",
+            "HANDOFF.md:27-29,129-131,153-167"
+          ]
+        },
+        {
+          "risk": "Weakened target through an offered alternative",
+          "detail": "Package plainly declares lowering task reserve/scope/warnings, removing Ghost helpers, capping native/decimal domains, refusing formerly valid values or selecting release to suppress checked code ineligible. Equivalent-reference claims excuse no caller/control; independent reviews, strict formal/native/cost, original ordinary and fault floors remain. No such choice is made.",
+          "evidence": [
+            "package-drafts/DRAFT-v8.md:39-58",
+            "package-drafts/DRAFT-v8.md:248-274",
+            "package-drafts/DRAFT-v8.md:599-600",
+            "package-drafts/DRAFT-v8.md:723-725",
+            "package-drafts/DRAFT-v8.md:770-785",
+            "package-drafts/DRAFT-v8.md:918-1007",
+            "package-drafts/DRAFT-v8.md:1011-1024"
+          ]
+        }
+      ],
+      "original_obligations_remain": "OPEN",
+      "approval_granted": false,
+      "proof_acceptance": false,
+      "phase_acceptance": false,
+      "source_acceptance": false,
+      "review_skipping_authorized": false,
+      "exception_granted": false
+    }
+  },
+  "w1_assessment": "As composed, W-1 v5 cannot yet meet V5-B01 and V5-B02 together: its new revocation is not proven confined at mutation time or preserving of the original accepted behavior, and protocol, journal, reconciliation and image-pin specifications remain inconsistent. The protected writer tree, complete final leaf pass, conditional quiescence/credential closure, external setup seal and non-gating release repairs are plausible parts of a successor, but require a coherent corrected specification, independent successor-frame review and installed evidence without an exception.",
+  "w1_capable_as_written": false,
+  "jackal_reproduction": [
+    {
+      "id": "W1-v5-map-partition",
+      "expression": "69+21+16-106",
+      "status": "exact",
+      "parsed": "69+21+16-106",
+      "exact": "0",
+      "approx": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "0",
+      "reproduces": true,
+      "source_recorded": null,
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:v5 frame member total",
+      "expression": "13976+19614+922860+4986+5773785+3198141+26383551+4153+1974792+1467+5300+7869+4763+749+755+745+116891",
+      "status": "exact",
+      "parsed": "13976+19614+922860+4986+5773785+3198141+26383551+4153+1974792+1467+5300+7869+4763+749+755+745+116891",
+      "exact": "38434397",
+      "approx": "38434397",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "38434397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1983",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:v5 frame review roster",
+      "expression": "49133+602614+68556+250916+8543",
+      "status": "exact",
+      "parsed": "49133+602614+68556+250916+8543",
+      "exact": "979762",
+      "approx": "979762",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "979762",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1984",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:base descriptors",
+      "expression": "1735+105491+1542",
+      "status": "exact",
+      "parsed": "1735+105491+1542",
+      "exact": "108768",
+      "approx": "108768",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "108768",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1985",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:recipe file-mode rows",
+      "expression": "617+18",
+      "status": "exact",
+      "parsed": "617+18",
+      "exact": "635",
+      "approx": "635",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "635",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1986",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:A_idf",
+      "expression": "2*3*25492333",
+      "status": "exact",
+      "parsed": "2*3*25492333",
+      "exact": "152953998",
+      "approx": "152953998",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "152953998",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1987",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:A_in, A_jrnl",
+      "expression": "128*2^20",
+      "status": "exact",
+      "parsed": "128*2^20",
+      "exact": "134217728",
+      "approx": "134217728",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "134217728",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1988",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:A_fb, A_setuprec",
+      "expression": "16*2^20",
+      "status": "exact",
+      "parsed": "16*2^20",
+      "exact": "16777216",
+      "approx": "16777216",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "16777216",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1989",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:A_tmp",
+      "expression": "256*2^20",
+      "status": "exact",
+      "parsed": "256*2^20",
+      "exact": "268435456",
+      "approx": "268435456",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "268435456",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1990",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:A_selftest, MAX_FRAME",
+      "expression": "64*2^20",
+      "status": "exact",
+      "parsed": "64*2^20",
+      "exact": "67108864",
+      "approx": "67108864",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "67108864",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1991",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:A_homes",
+      "expression": "1*2^20",
+      "status": "exact",
+      "parsed": "1*2^20",
+      "exact": "1048576",
+      "approx": "1048576",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "1048576",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1992",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:A_install",
+      "expression": "3*38434397",
+      "status": "exact",
+      "parsed": "3*38434397",
+      "exact": "115303191",
+      "approx": "115303191",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "115303191",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1993",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:A_exp, A_retry",
+      "expression": "545393048+152953998+134217728",
+      "status": "exact",
+      "parsed": "545393048+152953998+134217728",
+      "exact": "832564774",
+      "approx": "832564774",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "832564774",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1994",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:X",
+      "expression": "2*545393048+3*152953998+3*134217728+16777216",
+      "status": "exact",
+      "parsed": "2*545393048+3*152953998+3*134217728+16777216",
+      "exact": "1969078490",
+      "approx": "1969078490",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "1969078490",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1995",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:X check",
+      "expression": "152953998+134217728+545393048+152953998+134217728+545393048+152953998+134217728+16777216-1969078490",
+      "status": "exact",
+      "parsed": "152953998+134217728+545393048+152953998+134217728+545393048+152953998+134217728+16777216-1969078490",
+      "exact": "0",
+      "approx": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "0",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1996",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:W-1 dispatch addition",
+      "expression": "2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728",
+      "status": "exact",
+      "parsed": "2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728",
+      "exact": "4340810164",
+      "approx": "4340810164",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "4340810164",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1997",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:Required, dispatch",
+      "expression": "2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728",
+      "status": "exact",
+      "parsed": "2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728",
+      "exact": "15368462701360/1397",
+      "approx": "11001047030.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "15368462701360/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1998",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:addition check",
+      "expression": "15368462701360/1397-9304350902252/1397-4340810164",
+      "status": "exact",
+      "parsed": "15368462701360/1397-9304350902252/1397-4340810164",
+      "exact": "0",
+      "approx": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "0",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1999",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:Required, setup",
+      "expression": "2*(115303191+1048576+16777216)+134217728+1468268019712/1397",
+      "status": "exact",
+      "parsed": "2*(115303191+1048576+16777216)+134217728+1468268019712/1397",
+      "exact": "2027732564230/1397",
+      "approx": "1451490740.3221188",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2027732564230/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2000",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:Required, selftest",
+      "expression": "2*67108864+134217728+1468268019712/1397",
+      "status": "exact",
+      "parsed": "2*67108864+134217728+1468268019712/1397",
+      "exact": "1843272351744/1397",
+      "approx": "1319450502.3221188",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "1843272351744/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2001",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:historical margin, dispatch",
+      "expression": "10460753920-10000000000-15368462701360/1397",
+      "status": "exact",
+      "parsed": "10460753920-10000000000-15368462701360/1397",
+      "exact": "-14724789475120/1397",
+      "approx": "-10540293110.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-14724789475120/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2002",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:historical margin, setup",
+      "expression": "10460753920-10000000000-2027732564230/1397",
+      "status": "exact",
+      "parsed": "10460753920-10000000000-2027732564230/1397",
+      "exact": "-1384059337990/1397",
+      "approx": "-990736820.3221189",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-1384059337990/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2003",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:historical margin, selftest",
+      "expression": "10460753920-10000000000-1843272351744/1397",
+      "status": "exact",
+      "parsed": "10460753920-10000000000-1843272351744/1397",
+      "exact": "-1199599125504/1397",
+      "approx": "-858696582.3221189",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-1199599125504/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2004",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:records payload with images",
+      "expression": "545393048+1969078490",
+      "status": "exact",
+      "parsed": "545393048+1969078490",
+      "exact": "2514471538",
+      "approx": "2514471538",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2514471538",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2005",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:ideal payload identity",
+      "expression": "16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397",
+      "status": "exact",
+      "parsed": "16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397",
+      "exact": "0",
+      "approx": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "0",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2006",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:CHUNK",
+      "expression": "4*2^20",
+      "status": "exact",
+      "parsed": "4*2^20",
+      "exact": "4194304",
+      "approx": "4194304",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "4194304",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2007",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:frame headroom",
+      "expression": "67108864-4*(4194304+2)/3",
+      "status": "exact",
+      "parsed": "67108864-4*(4194304+2)/3",
+      "exact": "61516456",
+      "approx": "61516456",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "61516456",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2008",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:fallback slots",
+      "expression": "16*2^20/(64*2^10)",
+      "status": "exact",
+      "parsed": "16*2^20/(64*2^10)",
+      "exact": "256",
+      "approx": "256",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "256",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2009",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:slot size",
+      "expression": "64*2^10",
+      "status": "exact",
+      "parsed": "64*2^10",
+      "exact": "65536",
+      "approx": "65536",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "65536",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2010",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:new groups",
+      "expression": "1+1+1",
+      "status": "exact",
+      "parsed": "1+1+1",
+      "exact": "3",
+      "approx": "3",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "3",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2011",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:new users",
+      "expression": "1+1",
+      "status": "exact",
+      "parsed": "1+1",
+      "exact": "2",
+      "approx": "2",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2012",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "W1:last id of `sicarii`'s subordinate range",
+      "expression": "100000+65536-1",
+      "status": "exact",
+      "parsed": "100000+65536-1",
+      "exact": "165535",
+      "approx": "165535",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "165535",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:2013",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:S-MARGIN",
+      "expression": "10460753920-10000000000",
+      "status": "exact",
+      "parsed": "10460753920-10000000000",
+      "exact": "460753920",
+      "approx": "460753920",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "460753920",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:144",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:S-RATE1",
+      "expression": "(11185594368-10592727040)/(20*3600+37*60+33-(18*3600+49*60+3))",
+      "status": "exact",
+      "parsed": "(11185594368-10592727040)/(20*3600+37*60+33-(18*3600+49*60+3))",
+      "exact": "296433664/3255",
+      "approx": "91070.25007680492",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "296433664/3255",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:145",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:S-RATE2",
+      "expression": "(10592727040-10550894592)/(21*3600+2*60+25-(20*3600+37*60+33))",
+      "status": "exact",
+      "parsed": "(10592727040-10550894592)/(21*3600+2*60+25-(20*3600+37*60+33))",
+      "exact": "10458112/373",
+      "approx": "28037.833780160858",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "10458112/373",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:146",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:S-RATE3",
+      "expression": "(10550894592-10516545536)/(22*3600+6*60+53-(21*3600+2*60+25))",
+      "status": "exact",
+      "parsed": "(10550894592-10516545536)/(22*3600+6*60+53-(21*3600+2*60+25))",
+      "exact": "8587264/967",
+      "approx": "8880.314374353671",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "8587264/967",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:147",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:S-RATE4",
+      "expression": "(10516545536-10460753920)/(23*3600+32*60+6-(22*3600+6*60+53))",
+      "status": "exact",
+      "parsed": "(10516545536-10460753920)/(23*3600+32*60+6-(22*3600+6*60+53))",
+      "exact": "55791616/5113",
+      "approx": "10911.718364952083",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "55791616/5113",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:148",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:S-RATE4-KB",
+      "expression": "55791616/5113/1000",
+      "status": "exact",
+      "parsed": "55791616/5113/1000",
+      "exact": "6973952/639125",
+      "approx": "10.911718364952083",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "6973952/639125",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:149",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-OBJ",
+      "expression": "2*1121220323",
+      "status": "exact",
+      "parsed": "2*1121220323",
+      "exact": "2242440646",
+      "approx": "2242440646",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2242440646",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:150",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-RECORDS",
+      "expression": "2*3*(25492333+5582338+3198141+701976)+256*2^20+64*2^20",
+      "status": "exact",
+      "parsed": "2*3*(25492333+5582338+3198141+701976)+256*2^20+64*2^20",
+      "exact": "545393048",
+      "approx": "545393048",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "545393048",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:151",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-O1-GROWTH",
+      "expression": "1129239130-8018807",
+      "status": "exact",
+      "parsed": "1129239130-8018807",
+      "exact": "1121220323",
+      "approx": "1121220323",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "1121220323",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:152",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-DURATION",
+      "expression": "15*3600+55*60+10-(14*3600+54*60+38)",
+      "status": "exact",
+      "parsed": "15*3600+55*60+10-(14*3600+54*60+38)",
+      "exact": "3632",
+      "approx": "3632",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "3632",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:153",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-DURATION-FULL",
+      "expression": "15*3600+55*60+10+112498/1000000-(14*3600+54*60+38+833395/1000000)",
+      "status": "exact",
+      "parsed": "15*3600+55*60+10+112498/1000000-(14*3600+54*60+38+833395/1000000)",
+      "exact": "3631279103/1000000",
+      "approx": "3631.279103",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "3631279103/1000000",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:154",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-AMBIENT-RATE",
+      "expression": "(11289907200-11188842496)/(18*3600+44*60+45-(17*3600+58*60+11))",
+      "status": "exact",
+      "parsed": "(11289907200-11188842496)/(18*3600+44*60+45-(17*3600+58*60+11))",
+      "exact": "50532352/1397",
+      "approx": "36172.04867573371",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "50532352/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:155",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-AMBIENT",
+      "expression": "4*3632*2*50532352/1397",
+      "status": "exact",
+      "parsed": "4*3632*2*50532352/1397",
+      "exact": "1468268019712/1397",
+      "approx": "1051015046.3221189",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "1468268019712/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:156",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-RESTORE",
+      "expression": "16777216+2*1121220323+545393048",
+      "status": "exact",
+      "parsed": "16777216+2*1121220323+545393048",
+      "exact": "2804610910",
+      "approx": "2804610910",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2804610910",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:157",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-REQUIRED",
+      "expression": "2*(16777216+2*1121220323+545393048)+1468268019712/1397",
+      "status": "exact",
+      "parsed": "2*(16777216+2*1121220323+545393048)+1468268019712/1397",
+      "exact": "9304350902252/1397",
+      "approx": "6660236866.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "9304350902252/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:158",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-MARGIN-LATEST",
+      "expression": "10460753920-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+      "status": "exact",
+      "parsed": "10460753920-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+      "exact": "-8660677676012/1397",
+      "approx": "-6199482946.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-8660677676012/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:159",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-MARGIN-W1",
+      "expression": "10516545536-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+      "status": "exact",
+      "parsed": "10516545536-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+      "exact": "-8582736788460/1397",
+      "approx": "-6143691330.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-8582736788460/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:160",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-MARGIN-RUNBOOK",
+      "expression": "11185594368-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+      "status": "exact",
+      "parsed": "11185594368-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+      "exact": "-7648075570156/1397",
+      "approx": "-5474642498.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-7648075570156/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:161",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:W-PAYLOAD-WORK",
+      "expression": "16777216+2*1121220323",
+      "status": "exact",
+      "parsed": "16777216+2*1121220323",
+      "exact": "2259217862",
+      "approx": "2259217862",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2259217862",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:162",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:W-IDEAL-EQUALITY",
+      "expression": "2259217862+545393048+16777216+2242440646+545393048+1468268019712/1397-(2*(16777216+2242440646+545393048)+1468268019712/1397)",
+      "status": "exact",
+      "parsed": "2259217862+545393048+16777216+2242440646+545393048+1468268019712/1397-(2*(16777216+2242440646+545393048)+1468268019712/1397)",
+      "exact": "0",
+      "approx": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "0",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:163",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-NOTICES",
+      "expression": "19+2+4",
+      "status": "exact",
+      "parsed": "19+2+4",
+      "exact": "25",
+      "approx": "25",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "25",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:165",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-SPEC-NOTICES",
+      "expression": "1+2+2+2+2+2+1+2+1+2+2",
+      "status": "exact",
+      "parsed": "1+2+2+2+2+2+1+2+1+2+2",
+      "exact": "19",
+      "approx": "19",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "19",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:166",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-SPEC-DECLARATIONS",
+      "expression": "1+1+1+1+1+1+1+1+1+1+1",
+      "status": "exact",
+      "parsed": "1+1+1+1+1+1+1+1+1+1+1",
+      "exact": "11",
+      "approx": "11",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "11",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:167",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-EXP10",
+      "expression": "10+1",
+      "status": "exact",
+      "parsed": "10+1",
+      "exact": "11",
+      "approx": "11",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "11",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:168",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-EXP30",
+      "expression": "30+1",
+      "status": "exact",
+      "parsed": "30+1",
+      "exact": "31",
+      "approx": "31",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "31",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:169",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:N-MINIMUM-CENSUS",
+      "expression": "192+1",
+      "status": "exact",
+      "parsed": "192+1",
+      "exact": "193",
+      "approx": "193",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "193",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:170",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:N-DIRECT-CENSUS",
+      "expression": "122+2+10+25+3+30",
+      "status": "exact",
+      "parsed": "122+2+10+25+3+30",
+      "exact": "192",
+      "approx": "192",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "192",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:171",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:P-EFFECTIVE-KEYS",
+      "expression": "82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0",
+      "status": "exact",
+      "parsed": "82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0",
+      "exact": "169",
+      "approx": "169",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "169",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:172",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:C-ORDERED-PREFIX",
+      "expression": "280+11+4+5+8+31+34+46+1+115",
+      "status": "exact",
+      "parsed": "280+11+4+5+8+31+34+46+1+115",
+      "exact": "535",
+      "approx": "535",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "535",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:173",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-STREAM-FACTOR",
+      "expression": "256*2^20/1170572",
+      "status": "exact",
+      "parsed": "256*2^20/1170572",
+      "exact": "67108864/292643",
+      "approx": "229.31990172326007",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "67108864/292643",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:174",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-GB",
+      "expression": "9304350902252/1397/1000000000",
+      "status": "exact",
+      "parsed": "9304350902252/1397/1000000000",
+      "exact": "2326087725563/349250000000",
+      "approx": "6.660236866322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2326087725563/349250000000",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:175",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-LATEST-GB",
+      "expression": "-8660677676012/1397/1000000000",
+      "status": "exact",
+      "parsed": "-8660677676012/1397/1000000000",
+      "exact": "-2165169419003/349250000000",
+      "approx": "-6.199482946322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-2165169419003/349250000000",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:176",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-CHAIN10",
+      "expression": "9*2^11-10-10",
+      "status": "exact",
+      "parsed": "9*2^11-10-10",
+      "exact": "18412",
+      "approx": "18412",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "18412",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:177",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-CHAIN30",
+      "expression": "9*2^31-30-10",
+      "status": "exact",
+      "parsed": "9*2^31-30-10",
+      "exact": "19327352792",
+      "approx": "19327352792",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "19327352792",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:178",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-PACKET14-10",
+      "expression": "11*2^11-2*10-14",
+      "status": "exact",
+      "parsed": "11*2^11-2*10-14",
+      "exact": "22494",
+      "approx": "22494",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "22494",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:179",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:R-PACKET14-30",
+      "expression": "11*2^31-2*30-14",
+      "status": "exact",
+      "parsed": "11*2^31-2*30-14",
+      "exact": "23622320054",
+      "approx": "23622320054",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "23622320054",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:180",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "Prior:G-STREAM-ILLUSTRATION-DIFFERENCE",
+      "expression": "256*2^20/1170572-200",
+      "status": "exact",
+      "parsed": "256*2^20/1170572-200",
+      "exact": "8580264/292643",
+      "approx": "29.31990172326008",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "8580264/292643",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:182",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "P-NEW-MARGIN",
+      "expression": "10370256896-10000000000",
+      "status": "exact",
+      "parsed": "10370256896-10000000000",
+      "exact": "370256896",
+      "approx": "370256896",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "370256896",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v6.md:82",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "P-NEW-RATE",
+      "expression": "(10460753920-10370256896)/(24*3600+2*3600+1*60+52-(23*3600+32*60+6))",
+      "status": "exact",
+      "parsed": "(10460753920-10370256896)/(24*3600+2*3600+1*60+52-(23*3600+32*60+6))",
+      "exact": "45248512/4493",
+      "approx": "10070.89071889606",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "45248512/4493",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v6.md:88",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "P-NEW-G0-MARGIN",
+      "expression": "10370256896-10000000000-9304350902252/1397",
+      "status": "exact",
+      "parsed": "10370256896-10000000000-9304350902252/1397",
+      "exact": "-8787102018540/1397",
+      "approx": "-6289979970.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-8787102018540/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v6.md:136",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "P-NEW-W1-MARGIN",
+      "expression": "10370256896-10000000000-15368462701360/1397",
+      "status": "exact",
+      "parsed": "10370256896-10000000000-15368462701360/1397",
+      "exact": "-14851213817648/1397",
+      "approx": "-10630790134.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-14851213817648/1397",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v6.md:147",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "O1-SUBDIR-SUM",
+      "expression": "4676666+1116543657",
+      "status": "exact",
+      "parsed": "4676666+1116543657",
+      "exact": "1121220323",
+      "approx": "1121220323",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "1121220323",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v6.md:117",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "MEMORY-CAP",
+      "expression": "8*2^30",
+      "status": "exact",
+      "parsed": "8*2^30",
+      "exact": "8589934592",
+      "approx": "8589934592",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "8589934592",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:823",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "P-W1-SUBGAP-TOTAL",
+      "expression": "6+14",
+      "status": "exact",
+      "parsed": "6+14",
+      "exact": "20",
+      "approx": "20",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "20",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v6.md:238",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "P-PRIOR-CORRECTIONS",
+      "expression": "5+2",
+      "status": "exact",
+      "parsed": "5+2",
+      "exact": "7",
+      "approx": "7",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "7",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v6.md:17",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "P-V5-CLOSED",
+      "expression": "9-5",
+      "status": "exact",
+      "parsed": "9-5",
+      "exact": "4",
+      "approx": "4",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "4",
+      "reproduces": true,
+      "source_recorded": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-operator-decision-package-v1/DRAFT-v6.md:17",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v4:FB_SLOT_HEADER",
+      "expression": "8+4+4+32",
+      "status": "exact",
+      "parsed": "8+4+4+32",
+      "exact": "48",
+      "approx": "48",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "48",
+      "reproduces": true,
+      "source_recorded": "../../proposal/v4-support/jackal.json",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v4:FB_SLOT_PAYLOAD_MAX",
+      "expression": "64*2^10-(8+4+4+32)",
+      "status": "exact",
+      "parsed": "64*2^10-(8+4+4+32)",
+      "exact": "65488",
+      "approx": "65488",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "65488",
+      "reproduces": true,
+      "source_recorded": "../../proposal/v4-support/jackal.json",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v4:FB_LAST_SLOT_INDEX",
+      "expression": "16*2^20/(64*2^10)-1",
+      "status": "exact",
+      "parsed": "16*2^20/(64*2^10)-1",
+      "exact": "255",
+      "approx": "255",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "255",
+      "reproduces": true,
+      "source_recorded": "../../proposal/v4-support/jackal.json",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v4:FB_MIN_ST_BLOCKS",
+      "expression": "16*2^20/512",
+      "status": "exact",
+      "parsed": "16*2^20/512",
+      "exact": "32768",
+      "approx": "32768",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "32768",
+      "reproduces": true,
+      "source_recorded": "../../proposal/v4-support/jackal.json",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v4:W1_REQUIRED_CORRECTIONS",
+      "expression": "1+1+1+1+1+1",
+      "status": "exact",
+      "parsed": "1+1+1+1+1+1",
+      "exact": "6",
+      "approx": "6",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "6",
+      "reproduces": true,
+      "source_recorded": "../../proposal/v4-support/jackal.json",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v4:W1_PRIOR_CORRECTIONS",
+      "expression": "1+1+1+1",
+      "status": "exact",
+      "parsed": "1+1+1+1",
+      "exact": "4",
+      "approx": "4",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "4",
+      "reproduces": true,
+      "source_recorded": "../../proposal/v4-support/jackal.json",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:below reserve at 03:37",
+      "expression": "8098127872-10000000000",
+      "status": "exact",
+      "parsed": "8098127872-10000000000",
+      "exact": "-1901872128",
+      "approx": "-1901872128",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-1901872128",
+      "reproduces": true,
+      "source_recorded": "P:82",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:decline from 02:06 to 03:37",
+      "expression": "10362494976-8098127872",
+      "status": "exact",
+      "parsed": "10362494976-8098127872",
+      "exact": "2264367104",
+      "approx": "2264367104",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2264367104",
+      "reproduces": true,
+      "source_recorded": "P:82-83; Transcript:10641,11160",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:above reserve at 04:17",
+      "expression": "10136649728-10000000000",
+      "status": "exact",
+      "parsed": "10136649728-10000000000",
+      "exact": "136649728",
+      "approx": "136649728",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "136649728",
+      "reproduces": true,
+      "source_recorded": "P:85",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:increase from 03:39 to 04:17",
+      "expression": "10136649728-8096395264",
+      "status": "exact",
+      "parsed": "10136649728-8096395264",
+      "exact": "2040254464",
+      "approx": "2040254464",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2040254464",
+      "reproduces": true,
+      "source_recorded": "P:85-86",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:above reserve at freeze",
+      "expression": "10110992384-10000000000",
+      "status": "exact",
+      "parsed": "10110992384-10000000000",
+      "exact": "110992384",
+      "approx": "110992384",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "110992384",
+      "reproduces": true,
+      "source_recorded": "P:91",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:unit margin at freeze",
+      "expression": "10110992384-10000000000-9304350902252/1397",
+      "status": "exact",
+      "parsed": "10110992384-10000000000-9304350902252/1397",
+      "exact": "-9149294541804/1397",
+      "approx": "-6549244482.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-9149294541804/1397",
+      "reproduces": true,
+      "source_recorded": "P:187",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:dispatch margin at freeze",
+      "expression": "10110992384-10000000000-15368462701360/1397",
+      "status": "exact",
+      "parsed": "10110992384-10000000000-15368462701360/1397",
+      "exact": "-15213406340912/1397",
+      "approx": "-10890054646.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-15213406340912/1397",
+      "reproduces": true,
+      "source_recorded": "P:203",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:unit margin at 04:17",
+      "expression": "10136649728-10000000000-9304350902252/1397",
+      "status": "exact",
+      "parsed": "10136649728-10000000000-9304350902252/1397",
+      "exact": "-9113451232236/1397",
+      "approx": "-6523587138.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-9113451232236/1397",
+      "reproduces": true,
+      "source_recorded": "STATUS:176",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:v6 subgap counts",
+      "expression": "8+12",
+      "status": "exact",
+      "parsed": "8+12",
+      "exact": "20",
+      "approx": "20",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "20",
+      "reproduces": true,
+      "source_recorded": "P:1070",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:v6 corrections count",
+      "expression": "6+2",
+      "status": "exact",
+      "parsed": "6+2",
+      "exact": "8",
+      "approx": "8",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "8",
+      "reproduces": true,
+      "source_recorded": "P:24-25",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7:closed prior review dispositions",
+      "expression": "1+1+1+1",
+      "status": "exact",
+      "parsed": "1+1+1+1",
+      "exact": "4",
+      "approx": "4",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "4",
+      "reproduces": true,
+      "source_recorded": "P:24",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v5-six-W1-corrections",
+      "expression": "1+1+1+1+1+1",
+      "status": "exact",
+      "parsed": "1+1+1+1+1+1",
+      "exact": "6",
+      "approx": "6",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "6",
+      "reproduces": true,
+      "source_recorded": "V5:28,2492",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v5-earlier-draft-map",
+      "expression": "69+33+4-106",
+      "status": "exact",
+      "parsed": "69+33+4-106",
+      "exact": "0",
+      "approx": "0",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "0",
+      "reproduces": true,
+      "source_recorded": "v5-support/jackal.json: superseded, not used",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v5-map-rows",
+      "expression": "106+3",
+      "status": "exact",
+      "parsed": "106+3",
+      "exact": "109",
+      "approx": "109",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "109",
+      "reproduces": true,
+      "source_recorded": "V5:74-75,2494",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-new-below-reserve-0705",
+      "expression": "10000000000-9989894144",
+      "status": "exact",
+      "parsed": "10000000000-9989894144",
+      "exact": "10105856",
+      "approx": "10105856",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "10105856",
+      "reproduces": true,
+      "source_recorded": "P:98",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-new-below-reserve-0734",
+      "expression": "10000000000-9983582208",
+      "status": "exact",
+      "parsed": "10000000000-9983582208",
+      "exact": "16417792",
+      "approx": "16417792",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "16417792",
+      "reproduces": true,
+      "source_recorded": "P:99",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-new-margin-0705",
+      "expression": "9989894144-10000000000",
+      "status": "exact",
+      "parsed": "9989894144-10000000000",
+      "exact": "-10105856",
+      "approx": "-10105856",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-10105856",
+      "reproduces": true,
+      "source_recorded": "P:148",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-new-margin-0734",
+      "expression": "9983582208-10000000000",
+      "status": "exact",
+      "parsed": "9983582208-10000000000",
+      "exact": "-16417792",
+      "approx": "-16417792",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-16417792",
+      "reproduces": true,
+      "source_recorded": "P:149",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-new-unit-margin",
+      "expression": "9983582208-10000000000-9304350902252/1397",
+      "status": "exact",
+      "parsed": "9983582208-10000000000-9304350902252/1397",
+      "exact": "-9327286557676/1397",
+      "approx": "-6676654658.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-9327286557676/1397",
+      "reproduces": true,
+      "source_recorded": "P:209",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-new-dispatch-margin",
+      "expression": "9983582208-10000000000-15368462701360/1397",
+      "status": "exact",
+      "parsed": "9983582208-10000000000-15368462701360/1397",
+      "exact": "-15391398356784/1397",
+      "approx": "-11017464822.322119",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "-15391398356784/1397",
+      "reproduces": true,
+      "source_recorded": "P:221-222",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-new-setup-margin",
+      "expression": "9983582208-10000000000-2027732564230/1397",
+      "status": "exact",
+      "parsed": "9983582208-10000000000-2027732564230/1397",
+      "exact": "-2050668219654/1397",
+      "approx": "-1467908532.3221188",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": null,
+      "reproduces": null,
+      "source_recorded": "P:99,218; W1 section14",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-new-selftest-margin",
+      "expression": "9983582208-10000000000-1843272351744/1397",
+      "status": "exact",
+      "parsed": "9983582208-10000000000-1843272351744/1397",
+      "exact": "-1866208007168/1397",
+      "approx": "-1335868294.3221188",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": null,
+      "reproduces": null,
+      "source_recorded": "P:99,219; W1 section14",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "S1-option7-reserved-blocks",
+      "expression": "10*1024^3/4096",
+      "status": "exact",
+      "parsed": "10*1024^3/4096",
+      "exact": "2621440",
+      "approx": "2621440",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "2621440",
+      "reproduces": true,
+      "source_recorded": "P:261-274; RESERVE-PROPOSAL.md:21-22",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7-subgap-partition",
+      "expression": "11+9",
+      "status": "exact",
+      "parsed": "11+9",
+      "exact": "20",
+      "approx": "20",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "20",
+      "reproduces": true,
+      "source_recorded": "P:1264-1270",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v7-required-total",
+      "expression": "6+1",
+      "status": "exact",
+      "parsed": "6+1",
+      "exact": "7",
+      "approx": "7",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "7",
+      "reproduces": true,
+      "source_recorded": "P:25,1254-1255",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v5-unit-filter-existence",
+      "expression": "93-10",
+      "status": "exact",
+      "parsed": "93-10",
+      "exact": "83",
+      "approx": "83",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "83",
+      "reproduces": true,
+      "source_recorded": "V5:1722-1724; distinction observed templates, non-template calculation informational only",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-rate5-KB-display",
+      "expression": "45248512/4493/1000",
+      "status": "exact",
+      "parsed": "45248512/4493/1000",
+      "exact": "5656064/561625",
+      "approx": "10.070890718896061",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": null,
+      "reproduces": null,
+      "source_recorded": "DRAFT-v8.md:155; displayed about 10.1 KB/s",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-W1-dispatch-GB-display",
+      "expression": "15368462701360/1397/1000000000",
+      "status": "exact",
+      "parsed": "15368462701360/1397/1000000000",
+      "exact": "192105783767/17462500000",
+      "approx": "11.001047030322118",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": null,
+      "reproduces": null,
+      "source_recorded": "DRAFT-v8.md:216; displayed about 11.0 GB",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-W1-setup-GB-display",
+      "expression": "2027732564230/1397/1000000000",
+      "status": "exact",
+      "parsed": "2027732564230/1397/1000000000",
+      "exact": "202773256423/139700000000",
+      "approx": "1.4514907403221189",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": null,
+      "reproduces": null,
+      "source_recorded": "DRAFT-v8.md:217; displayed about 1.45 GB",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-W1-selftest-GB-display",
+      "expression": "1843272351744/1397/1000000000",
+      "status": "exact",
+      "parsed": "1843272351744/1397/1000000000",
+      "exact": "3600141312/2728515625",
+      "approx": "1.3194505023221188",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": null,
+      "reproduces": null,
+      "source_recorded": "DRAFT-v8.md:218; displayed about 1.32 GB",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-backup-end-EDT-to-UTC",
+      "expression": "(23*3600+29*60+18+4*3600)-24*3600",
+      "status": "exact",
+      "parsed": "23*3600+29*60+18+4*3600-24*3600",
+      "exact": "12558",
+      "approx": "12558",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "12558",
+      "reproduces": true,
+      "source_recorded": "backup-repair-packet/observations/bldlm9jlr.output:5; UTC seconds match package 03:29:18Z",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-backup-end-UTC-display",
+      "expression": "3*3600+29*60+18",
+      "status": "exact",
+      "parsed": "3*3600+29*60+18",
+      "exact": "12558",
+      "approx": "12558",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "12558",
+      "reproduces": true,
+      "source_recorded": "DRAFT-v8.md:117",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-materialization-allowance-MiB",
+      "expression": "16*2^20",
+      "status": "exact",
+      "parsed": "16*2^20",
+      "exact": "16777216",
+      "approx": "16777216",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "16777216",
+      "reproduces": true,
+      "source_recorded": "DRAFT-v8.md:196; runbook:87",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    },
+    {
+      "id": "v8-current-closure-partition",
+      "expression": "1+1+1+1+1+1+1+1+1+1+1+1+1+4",
+      "status": "exact",
+      "parsed": "1+1+1+1+1+1+1+1+1+1+1+1+1+4",
+      "exact": "17",
+      "approx": "17",
+      "formal": false,
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "review_consequence_ceiling": "informational",
+      "expected": "17",
+      "reproduces": true,
+      "source_recorded": "reviewer count only: prior seven required plus ten NOT_CLOSED closure targets",
+      "raw_response_location": "checks.json:arithmetic.entries"
+    }
+  ],
+  "jackal_status": "exact",
+  "jackal_formal": false,
+  "jackal_non_claims": [
+    "NOT formal-bounded: this lane carries no Lean-checked certificate",
+    "The epistemic class above is the STRONGEST claim this result supports",
+    "exact rational arithmetic (not yet checker-covered)"
+  ],
+  "jackal_review_consequence_ceiling": "informational",
+  "original_obligation_source": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+    "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+    "bytes": 410484,
+    "mode": "0600"
+  },
+  "open_obligations": [
+    {
+      "id": "OB-001",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "3a7c0eb14ac4b85233c169323c56be0b589542d5038355b0c9770e56851f94bc"
+    },
+    {
+      "id": "OB-002",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d56f7fc909a823abd8a1ee9990b8948c0ee27092f3588dd8b690fa8b02988e94"
+    },
+    {
+      "id": "OB-003",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b1f0fa9f01059c3366c42c8efc534b955da94131d7bcd313aa767f24c71676f0"
+    },
+    {
+      "id": "OB-004",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "306e1aa0a386b9fcd662afa957d0838a0205d8a3f5c2f5bdc5e60597bdaab556"
+    },
+    {
+      "id": "OB-005",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "41a93eafea0ca1e0ab7909872ff59c8c14fda9868764d574596f4148ce75bf85"
+    },
+    {
+      "id": "OB-006",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "428b30f3ae416c93c20143e55c4ca1279a4486e1a4b098fad8289e0662e7edb8"
+    },
+    {
+      "id": "OB-007",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "be37337dbfdc94d50d74c6e233312340c7d5c0b79cce13291a034874a42fd83f"
+    },
+    {
+      "id": "OB-008",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "dfb309023dc0de34c49caee9acc7528262a22dc44d512d5626367042e0cf26d6"
+    },
+    {
+      "id": "OB-009",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "923a1e637b99d688519d13912a075d8a9b32474903d9952ff9e8537d80b6c3c9"
+    },
+    {
+      "id": "OB-010",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ecbdc88414fdb5b17f728aca5a4be47f5afee5eae7c3386d176d558729875851"
+    },
+    {
+      "id": "OB-011",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e4e068a1b2063c914c19fe73a341561fe77587648869677bc1533053319c8f75"
+    },
+    {
+      "id": "OB-012",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b4bd9076d233f469d5ba16c1e24ec653c81aa4c2dfdc1240c46cc4f7d2460f3a"
+    },
+    {
+      "id": "OB-013",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "2f7395ea00b0f1a79fc8b54531f1b53204171447e3833dfa1652b0c6c33f2f0e"
+    },
+    {
+      "id": "OB-014",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a42c246c205be29a796111113e3528f30026ac91f0c5d98b41249ac66a376990"
+    },
+    {
+      "id": "OB-015",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e9f32352640a5cbd8b9fa20c0033663ec1b11a35849b078def1b8b1b6ff024f5"
+    },
+    {
+      "id": "OB-016",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "3d650f96e68404f68eac7f31478d8f44f6fbb45d78d0606ff764571ea8decc92"
+    },
+    {
+      "id": "OB-017",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "162d4cd6b6c240dd3c7da321abe7ac09154410aca3fdcc6b4a8a15bdf2e8d771"
+    },
+    {
+      "id": "OB-018",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b53ae523d251c682a9b8def69af111d546f70124df6b7d60056d837f321cc80e"
+    },
+    {
+      "id": "OB-019",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "388b0c7aba04cb2dd74f187cafd5f4f9752563ecd64d1ced6e2e125fd6015ccf"
+    },
+    {
+      "id": "OB-020",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "f44e482c8675d28910e46d0d4a947e819a0dfbf5cff01aa84acfa8816458b5a7"
+    },
+    {
+      "id": "OB-021",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "89266dbf812dfe07b3b827a2799e1a1a2019050e0474fba49128fc05d2b0d111"
+    },
+    {
+      "id": "OB-022",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d2a2c3848982df4fdb87f334c7b77eb62b4a43f4e852d0cd29b68b0a237c3a43"
+    },
+    {
+      "id": "OB-023",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "9e1c8f919074c2cf7641a03e7b4d50fab6ce96ef687ececafb07c91c8b67e894"
+    },
+    {
+      "id": "OB-024",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "0cec12aff8a0e94c3b8aebbfac522e5b6d019989e418ce8247c03c9bdf2d8823"
+    },
+    {
+      "id": "OB-025",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "bc9f2b6a2ba85ce723822187c362d921323429d2a3c367abc96642b7b7d9a765"
+    },
+    {
+      "id": "OB-026",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "092a516998864245c4efe6f1acb8b2b22281862428ac0d13254230668115ce2f"
+    },
+    {
+      "id": "OB-027",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "05f95e0c22ba377fa65d49cbb7270b75c852aee0fe835c7638a472ca864d4f0c"
+    },
+    {
+      "id": "OB-028",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "76d21edacb9b2fa48363b9a2380cf1fb4f1198fd2e8b128dbf1b60b04a46ad01"
+    },
+    {
+      "id": "OB-029",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "15e3a3996db282001218a964b4788f40d6ecfe2327e3ab060ca360a1d71c5b6a"
+    },
+    {
+      "id": "OB-030",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c8bb4a934deeb4e2e7ca726a7b40f5484f1a9f39c1a5c45b771c51bad7230a7b"
+    },
+    {
+      "id": "OB-031",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "96363bf751f663dce4fac0de3040c68d1396d157e6fb5bc2daee64c779d36182"
+    },
+    {
+      "id": "OB-032",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "bb444ce099804097cc0137dac0c5097a1cb508973ce251d81c6704ebb9306417"
+    },
+    {
+      "id": "OB-033",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "42b9ba2bd25dc25d4b59f0f8e2341e852ce8658df29b06da12f123aca3c2da48"
+    },
+    {
+      "id": "OB-034",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "041997a0baf068f0e2353faaa5cc50f4443df746dc54ad76c6e73d4562128849"
+    },
+    {
+      "id": "OB-035",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "bb8d6cd0e030a1afa5977240ec94d8764033bcc34d03286543eaa52332e10edc"
+    },
+    {
+      "id": "OB-036",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b83bde82fe310f758665628e1eb805cd1b9a62ad8fd98915aac237fd5379afee"
+    },
+    {
+      "id": "OB-037",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "419059b0d03300929baafb03b0c18b411011677e95a737347f0c678a7e17c941"
+    },
+    {
+      "id": "OB-038",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c3e88a754684d6fb7c92de7462d27c45420d4b3db18363c95bde0ea62321c411"
+    },
+    {
+      "id": "OB-039",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "80b29de4e786585a01d2b3dfa62b859325492c33392564b4f89afa0734101a73"
+    },
+    {
+      "id": "OB-040",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "cdc1bc2f6bb21d6bca0aca8c8e7b9577afa7c22cea6d10a18b3c71c264607b31"
+    },
+    {
+      "id": "OB-041",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e3491e7723304bca5a5d9795cd2a3a73c3c708a0384c94a12f33b1b71e146722"
+    },
+    {
+      "id": "OB-042",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "494f62b4e1095615f288c3dd76fd4741861a6ce4910341dd5bd9b4310c270a5d"
+    },
+    {
+      "id": "OB-043",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "231582b7bb63bfbd7a185f53044bcb003c556bebeebb79f3fec2294a9d0947bf"
+    },
+    {
+      "id": "OB-044",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "1ade91e8ac568e0801f4673193ff45c5595690496d1f3f20faafb67e7b3a3b6d"
+    },
+    {
+      "id": "OB-045",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "0eae8238ceb18521fa48fd77c7c70ffb984b5a4e4253eef610c0087ca2987343"
+    },
+    {
+      "id": "OB-046",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d63f1f38a71087329cbac7f8638b520ccd0a609911003b4200b61db8de25481e"
+    },
+    {
+      "id": "OB-047",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b4c3216f2d345cd151254735efe389c7c43bf6da8ab898c89fd49597e2b25e2b"
+    },
+    {
+      "id": "OB-048",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "db38264c384ea8a30cbff42fab5ecca435f8c4eb29dbf109959804f94124f330"
+    },
+    {
+      "id": "OB-049",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "8895a2c2afd6a08061405358ab27f6fa293567907524c5eb6de53230708e6055"
+    },
+    {
+      "id": "OB-050",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d9ad521b949022333e71a9f3ff42796d6773230ed0dd76c57797aab22fa3d7da"
+    },
+    {
+      "id": "OB-051",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "516ce5c637c02f156505dc4fbcfbe37a880696f1c206de30cb2d88425326f2b3"
+    },
+    {
+      "id": "OB-052",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d9ea53a48a9ef17b629d9f2ce165833a934e80acbc6b18dbe987587009efbce7"
+    },
+    {
+      "id": "OB-053",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "f08ffc78acacd81b6adf1c93eea6a1c54ed843cdbf96347dae65bae5537aac7e"
+    },
+    {
+      "id": "OB-054",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "f26e4536a877392502573d0c6f1e9eefafab4595b69e1b6fc4953b8709fbe0a0"
+    },
+    {
+      "id": "OB-055",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "54102eb2202b456d2a824bf2b68ee01b6e9d664c3e3e9556ff9811c64bcc4f4d"
+    },
+    {
+      "id": "OB-056",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "90935ae578237db837e364e011c52d65769f221de08131a40ab57454178f1f30"
+    },
+    {
+      "id": "OB-057",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e06e47c2c7fcad3cfbecd8261697ec4ad42ac2d55767d92d6cb6bb4d560703f8"
+    },
+    {
+      "id": "OB-058",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "6f78df61fad70b3efe1f96408cb3d7e9734a7f3fd278b6618552db62b332031b"
+    },
+    {
+      "id": "OB-059",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "99a210368b9ac2e7be1cdff9bd169d84d5888da3b101f8b452a4435fffd48b85"
+    },
+    {
+      "id": "OB-060",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "5c23dbb687d37cb0d09db2b83c92205d3850f30c46ceaadeeb08404a47aa4ff2"
+    },
+    {
+      "id": "OB-061",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d745e92405a55ebe8079d261ec769b2e2eaacfdf4e6fb8c87f39de99a56d9528"
+    },
+    {
+      "id": "OB-062",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "4b372e0e651b033bcfb2c91ca334955381edffb101b097dd14566f1669aeb162"
+    },
+    {
+      "id": "OB-063",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d03ff02f824f5e6e227265f37a6b20af1a60582c755b515956891cf5b333b9b7"
+    },
+    {
+      "id": "OB-064",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "f643e255d25fbaa3c3885d10a1f6e18a1d8241eba46f7b05855a2b264f62d5b1"
+    },
+    {
+      "id": "OB-065",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "2d6555d919bd999561dce5dddcc4d115adc10f5b80fe1e82fe632145b2489fe8"
+    },
+    {
+      "id": "OB-066",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "807464e13c9fadfc06677de111815a0ec4d4ed71993809270e8ea08b87979cc6"
+    },
+    {
+      "id": "OB-067",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "49a5daceed69376375c54b2cc72e65cbb40617b5837827af26f81cf353d0652c"
+    },
+    {
+      "id": "OB-068",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "2ae1813e82d8b78d3d99d7507992e9f896adb8e382c3110f157efd7888ac4008"
+    },
+    {
+      "id": "OB-069",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "eab53a2e9822402431416103229ec483d94adfbcf20024f6491fc19f9a1c6331"
+    },
+    {
+      "id": "OB-070",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "cd13472844aea696ad1a4db757fbcfcf336bdd3c96a6faedcfefc52777f51d2d"
+    },
+    {
+      "id": "OB-071",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "bc4095e396268024398b145cd1de69f1696232e1d14bd0260d0d8e105fe7357c"
+    },
+    {
+      "id": "OB-072",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "393d776db4036be07333b034b4e0e05b1b4810b9c0ad28fc1ad25741185086c2"
+    },
+    {
+      "id": "OB-073",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a681de121003cd71b8bb9f3808ec97522d34f72c5c52941fd44f7809d4c5ec89"
+    },
+    {
+      "id": "OB-074",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "302cad5d5a62bfd4164022299dfd4b552027ab31cf1c5d650cb49c84efd067c9"
+    },
+    {
+      "id": "OB-075",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d18e824cda55d86c0fecb548c40d15361a0f4999ffab5675d62a27d324536798"
+    },
+    {
+      "id": "OB-076",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d27b66290761b63ad64f6a7ec0a3e19af6012def7fb51253e38d94e1752f7122"
+    },
+    {
+      "id": "OB-077",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b0683548fe62f4955093c26d0290e55e7e940a5dc11cafdee4e6ae0c0eb9ca6e"
+    },
+    {
+      "id": "OB-078",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "32589bb9d6849fbec0b2efdbe01abb8a2058c0e18a4f73ab7448b4e9f9a114fa"
+    },
+    {
+      "id": "OB-079",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "df348f1df74712a42df608e8bfca9c8aae9217f1ec40f6ee9c5fabdfdff9a006"
+    },
+    {
+      "id": "OB-080",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c12229abbd57a81ecd007a02466b3af1aa34911a25c81dd43563e486d97948a9"
+    },
+    {
+      "id": "OB-081",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c159e785b2b4e19852c71ab38d62d271df433721cc918a43ad83779a2dc00b2e"
+    },
+    {
+      "id": "OB-082",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "123a74f44f3f7fe9f444ca0382de93ccb61b83bd3c5ddb6636c02e4891d4db09"
+    },
+    {
+      "id": "OB-083",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "cf1ef3c3e93297bb50efe18655beb39499dc178d532adef102661fa2f4a7599a"
+    },
+    {
+      "id": "OB-084",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d634b236d3d750108c02e4f40a218fd1aa05b906349d0916ded0af0459752cdd"
+    },
+    {
+      "id": "OB-085",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c4860b003713a47a8b5e789a10eb75ec2dbaf655131de35f04c4904413eeb403"
+    },
+    {
+      "id": "OB-086",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ba486236d0ebc025fbfd7adaec4c492fe5178d545c277917168de4d482459c14"
+    },
+    {
+      "id": "OB-087",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e2b83454f3f6d4f1cdfb5f23fd56be1e1e6b8aaeba0c9c3d5ef85f0a1fa2f330"
+    },
+    {
+      "id": "OB-088",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "139c277679e2858bf265682d035f973f48f32054c2e38546399bf2c65a749af5"
+    },
+    {
+      "id": "OB-089",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "1529d348f44cb3284f28cc59df9725524b196300af447655ef53bdc86202d1b0"
+    },
+    {
+      "id": "OB-090",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c42dbe9f1204f02e941f4f7861d4079bb013360360f8d9d6b02fcf32865dcca3"
+    },
+    {
+      "id": "OB-091",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ba502d3a6c9d9873a053ecdc607bc23c9fd7c2b29e704b79427c16f42d8caf24"
+    },
+    {
+      "id": "OB-092",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "292199da8bae465e48e68f4c13570c4747183e048fe25efb6e6e3b38413376e0"
+    },
+    {
+      "id": "OB-093",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e465476ff578729a7c9fd5dbadeaabd32cb1f37e3ce80721c39ec40b1c5bb6fd"
+    },
+    {
+      "id": "OB-094",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "fd52cbbe452e16836da600117e3e5071861400e82d5229a84bbb5a7fc8e597da"
+    },
+    {
+      "id": "OB-095",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "7fe4d2637d35d306544d048909e467266e6a3957322aebdc4dc3b945860b3f72"
+    },
+    {
+      "id": "OB-096",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a433fbbaa56764ab69ac67ff15eafe36c7f6a07556f067ccedb032835b083043"
+    },
+    {
+      "id": "OB-097",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "f6b9241ace07b7e9a2568e8f10e7f3c14b923a9d1adde853fd865a1ab3df8aa8"
+    },
+    {
+      "id": "OB-098",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "756510edd8cc289ab60d0c4347c08ece9cef4270cbd6dc4a09752fc81122cca9"
+    },
+    {
+      "id": "OB-099",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "221a372ae1ffbddc3f6dffd523d28f2327b91dd4e244099e79f3a310deb00541"
+    },
+    {
+      "id": "OB-100",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e35d3f1e8612063fbbf00e336820b93ae0550158ae3e31dedf782d4d8ad9ee24"
+    },
+    {
+      "id": "OB-101",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "227ece329b6df395d533d3f09826862c0f724fc927a64604d4985e5b41dfc2a1"
+    },
+    {
+      "id": "OB-102",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "51b9c5d1987709e34f6687318c0a3c163897eeddc047cd6ca93721303bc9e657"
+    },
+    {
+      "id": "OB-103",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "3bd46a43dff9bfc106b3c62838c959e6a8481ad0ac8d902b7a6588c61798a811"
+    },
+    {
+      "id": "OB-104",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ae54738ca364bf25191f01afa57e28f9ccf632712be80e89a1817939630f0c74"
+    },
+    {
+      "id": "OB-105",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c7b7f32aa46b013710ecbf87e3aa576b9a991c0e26ef0caadf5942592629ac35"
+    },
+    {
+      "id": "OB-106",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "8902ca024a8a5ad77845038d3e30ee40dc48a393f7c0a890b78b73f729dfbe12"
+    },
+    {
+      "id": "OB-107",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "80790a1aa55d8e413f96a71bb401416dfa2be89edf21f89f870eedf34b27bcd7"
+    },
+    {
+      "id": "OB-108",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "f4e565df5a25c04acf466ac03c0942fbd8afb266111b5de3ba606a75e7fa2eb8"
+    },
+    {
+      "id": "OB-109",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "8f791a6f12c18105c1bc14f73702ab2c97f4532bb67d9f6005aa3625f28b98e9"
+    },
+    {
+      "id": "OB-110",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "f630bb084854923e527540edc8ef74efae86fde4f379572cbb3c395ea849ec5c"
+    },
+    {
+      "id": "OB-111",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "5145b30ad7a45d867531820fb414090c4dc64e997127a9145252cb9f2d8bd9a0"
+    },
+    {
+      "id": "OB-112",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "bd3e4f1ea317c03d8edf15aad2180091825829e8574ccb3410bd9b071fa73d7e"
+    },
+    {
+      "id": "OB-113",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a3647d588c57c61e9fb5df276c6465f841bc379dc9a04082aa42c94bbd33d8f8"
+    },
+    {
+      "id": "OB-114",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "0b5b552c3fd8bc1b97a1a166eb8c339ae94576c9776038103e8967ec08680215"
+    },
+    {
+      "id": "OB-115",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "8e73fa8d5f9c2deb30d441ecac18ae5c53f56a7da94524a1513991419b63052a"
+    },
+    {
+      "id": "OB-116",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "14e8a82af0df898bff0390d2d0a520daa73d4b42971de8bf1776746c4ebbec5c"
+    },
+    {
+      "id": "OB-117",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "4c356b4b3d6afb0f47b705691be41722e88c0f9593ed8ed1c86b7bed88c68cf2"
+    },
+    {
+      "id": "OB-118",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ff42571a7b3be0890e1ba430152a33b5457181dce0aa50fce8c1a37a17b546b1"
+    },
+    {
+      "id": "OB-119",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "67cdd3cf49e1cee3e56ca75aa501e9b6340f04cc6ed5b20ec97d4394c9f4c6c8"
+    },
+    {
+      "id": "OB-120",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "10b668c8ab2f2736773af2d3113bfd4ba772fbd283e563715829058cf1d20a2d"
+    },
+    {
+      "id": "OB-121",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "57e4888fcad66b3248ab3fb2a1b044f42108e1b6f4306d40a0a02ec159bb4360"
+    },
+    {
+      "id": "OB-122",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "6d73044b35193330c752d590e6b8aa5822cce419968533aed58896cb07a9086c"
+    },
+    {
+      "id": "OB-123",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "2b482e78bb5c7ebd77fe73e2ac6408b21efbb3f624b41511b6fdea431cc08ec2"
+    },
+    {
+      "id": "OB-124",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b808da14c1ff4d1bf53dd7ec8784434bc46ab5350cf4a601ef07665b67abcd03"
+    },
+    {
+      "id": "OB-125",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a6189f3351d56a2907411f8621a5dfc9ee973181703b3a478d7d47f5e76fa3cb"
+    },
+    {
+      "id": "OB-126",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e8d50a562d24cedfd20aad70512f44fc71c1de66d51bd72ed61d5c8bc6eebe8c"
+    },
+    {
+      "id": "OB-127",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "3503a45502577f67499050e6f0ac9da04d13c520d9d8e0cd81840c1ac80033dc"
+    },
+    {
+      "id": "OB-128",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ae3f6f32a709bde07321da55053f4110f7f2fb392826b21765b9eecc690ca9e4"
+    },
+    {
+      "id": "OB-129",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "1b1da05b0e7e95a3198f9de754e70f4f1d976045f98a451691043866142f0d6a"
+    },
+    {
+      "id": "OB-130",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e33fd8c3d1b889c27ac6ed169e00f57a6e3950875b2164fae47357a68dfa8fae"
+    },
+    {
+      "id": "OB-131",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "69759f64bd908c4d8671d826a48bc05169927dfe9662118561f47f1006070bb8"
+    },
+    {
+      "id": "OB-132",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "0bc4ff67c21cbc6b105d2a0369367e8608de68e70a331fff57c17f1cc7c1c961"
+    },
+    {
+      "id": "OB-133",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a2fecf1df21e75e0609b99cda0dfa7c63e227481807fd39ab3e7f77c5ec8ec57"
+    },
+    {
+      "id": "OB-134",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "36b04e3f5cfe06b07380e85eb8c6a42edbbba1fe6cc639c584bb1d895dc31083"
+    },
+    {
+      "id": "OB-135",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "15d3a5fc579ba9cc82892a4645b46b283d5b0a5759fe3b14bfc9676e21461478"
+    },
+    {
+      "id": "OB-136",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "00a3e742eff8ba39acd198d0e346a97f36534d8e31a1de2c29eb6a1e963f845e"
+    },
+    {
+      "id": "OB-137",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a80be8423a604407c0e6460a0766977b6f59f83be569ed1990d3890baa203310"
+    },
+    {
+      "id": "OB-138",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "8b410d5132bbd66ed9d9e163237aed6a53e55733daaacafbae9772da3612854c"
+    },
+    {
+      "id": "OB-139",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c9fddceccaca25ac3f6a774d94af20c70613d6582b416e482e5de54744d8161c"
+    },
+    {
+      "id": "OB-140",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "406272df8ef9cdfccefcbb163a719e8850c681b43b29d2ca9ba4e0ff5f83a03f"
+    },
+    {
+      "id": "OB-141",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "38238e236b10f0b230eec9f41ee7de4450d39b432e0a7920364386653e257e9c"
+    },
+    {
+      "id": "OB-142",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "20fa9496821b9f1dd43078331b4d1fce3760bb1fe37bb8a6869440f462c4be92"
+    },
+    {
+      "id": "OB-143",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "49020ac4cff73eb9909b7e0e5c99f109c4d9a2ec6d1c9bb974411bfcd4493d18"
+    },
+    {
+      "id": "OB-144",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "734b70eb8c88099daf9ba60fcf869e1f09025385a9903aedd6a363f3b9bfd90b"
+    },
+    {
+      "id": "OB-145",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "8445d51515ff8e63e5e3d2856abcb2ed8577b79cdb9be43a07c5ed76c36cf7b1"
+    },
+    {
+      "id": "OB-146",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "aa1ba43a85905dee4443e2f320a18f20281b77160051285a5bd898757522bbf7"
+    },
+    {
+      "id": "OB-147",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a055f7d48a5d3bbd2504574b0a806c99434b186ca05249c04c236afb8e80035c"
+    },
+    {
+      "id": "OB-148",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a3ed2f83575121d3ba0fe7d1723c085a2481e51118039d1968435fb062d04d18"
+    },
+    {
+      "id": "OB-149",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "1118ddba452e5c1657efddf29390249ddd8f4ce7668ec181e4b3ccd65a59c111"
+    },
+    {
+      "id": "OB-150",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b95d5a565b3ebaa39282ead7a7ca5ff33c9b76f2bd6435d7f76e26e967e14607"
+    },
+    {
+      "id": "OB-151",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "55700993bd1de8bacc8c8b03a46be915983a57b3d88952c132d6d8c48d968a86"
+    },
+    {
+      "id": "OB-152",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "208d46ffde76c68bc4c50196acee31468c27d717a95f1134f09dda34052b43f3"
+    },
+    {
+      "id": "OB-153",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "4babd659ff9535ebccfb9222d2816ac1ad2563eee933a6ded230ed477ab6548d"
+    },
+    {
+      "id": "OB-154",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ac08d21fcd7ec10e15a3855a0ad93b6da7000712cace14f5b040b1c986346a1d"
+    },
+    {
+      "id": "OB-155",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "d5193cda05d3779c7060d4f4ca8db97dabfad7294644dbc40bdf2ee78b83a28d"
+    },
+    {
+      "id": "OB-156",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "de4ca3a1c18d85ab07c42777b14694e9f416a4e311dc5e678c8acf1a84266a01"
+    },
+    {
+      "id": "OB-157",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "1ba876dfd33a7925d4f969cc509855c64c9c793a45936f3335aa511ef1184c4a"
+    },
+    {
+      "id": "OB-158",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "de57ce66b49780092183550500663cdb1584af8251639068fa2f920815a6fb63"
+    },
+    {
+      "id": "OB-159",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "4fd23d3c4389e9088580ec666bcae227f3cc916729e1c050c5e3f985203e4ed6"
+    },
+    {
+      "id": "OB-160",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e68a37f80fbf09f327639503e5661781365fd081778a7a64803ca4b82ce1ae88"
+    },
+    {
+      "id": "OB-161",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "1535f791dd9fe50077819b6996e3e545c87317d9fe46e31c15f375d1ca4b13e8"
+    },
+    {
+      "id": "OB-162",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "04b9e4097a2d25adf0a46611dfb2f00af0f05a2995443c243687aa39bc1868db"
+    },
+    {
+      "id": "OB-163",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "6fb13876b303f6a579e34773ddc5f49934de97515e1bc0f68cfd7c87b73185c4"
+    },
+    {
+      "id": "OB-164",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "0564f993dfbe40a49413691fcbd7e9b08528f2b7a9fff596b7ad563ad9db19cc"
+    },
+    {
+      "id": "OB-165",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "9d730f04743b4539909f46a8313deea9cf20d68d3d5adf10b5d76d393a0dd753"
+    },
+    {
+      "id": "OB-166",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "5e7f94b29c0d14ca7d87180bd235485b6efc27d1e0ee3b92c41309dbb7eda9ca"
+    },
+    {
+      "id": "OB-167",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "473592609df647a03545156637250f8f2ec43b3cb4d78e2ac65ed4b6ad35be68"
+    },
+    {
+      "id": "OB-168",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "eabf8caac9e87eb863bb2e5c009321ee6839f2cde350c6f8322c0525026c8785"
+    },
+    {
+      "id": "OB-169",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e138cd13e363ae146b8c986fa84cc68a30f3a548db977eba6c3e8e217a791a87"
+    },
+    {
+      "id": "OB-170",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c37b9e6c2a41b1a524fbc76ed21ead2acac9b06a1452fe8ea30c2300debd34a9"
+    },
+    {
+      "id": "OB-171",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "9845db6ff6fee72483ea46cfc9ce3e2403f590282e1c8a9c72711c042f3e3e01"
+    },
+    {
+      "id": "OB-172",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "69b7d567f9d30f52123d5544b2dc48201b4cc6a6d6c1a9627d4273f458eedb7c"
+    },
+    {
+      "id": "OB-173",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "0f8abda69f28eb044fb12d126212950ff156402e293694e875ba1ff44c868659"
+    },
+    {
+      "id": "OB-174",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "1c2b3b4ab006ce741cc041b539d09f5687632edd4273869ca1bf3006f351f27e"
+    },
+    {
+      "id": "OB-175",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "9d95cd129522c32eaeadc713e84f410355245d355b8993f4885745441d5dbb31"
+    },
+    {
+      "id": "OB-176",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "1dbfe502581ef02592d40d23dea6c15f308ab5ca93f415aa6553aa60c630872e"
+    },
+    {
+      "id": "OB-177",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c82076257105e1b4f4b24d504d3e79a85a5e3efaf2a390f43d798f3a00f980a9"
+    },
+    {
+      "id": "OB-178",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "81c3f5469d8ca12e08281d43dc2aa2f3f6a6fa4b8fb8f72fa99bb2efaabde831"
+    },
+    {
+      "id": "OB-179",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "2a7f7fdcb48f2ccf628870eba0845b9ec634298a224f102268c3290c8fef6943"
+    },
+    {
+      "id": "OB-180",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "3ea3bbc46ca8b0cdd818af8cd6ec667840ed5664c673c024558406a925f010bf"
+    },
+    {
+      "id": "OB-181",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "70d43af01355cbada6eb17dda154da7e48bd74744c65c1a14637630c9924cba3"
+    },
+    {
+      "id": "OB-182",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "218a884268ae58c60732ad6272dcf8972625bf219262266c0102824990c2e147"
+    },
+    {
+      "id": "OB-183",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "e14e5782e2a75024d9f307b7d1c4c3f7052aaf51fdf26db536c3707cce720872"
+    },
+    {
+      "id": "OB-184",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "87f3c8d8dd77bfd55b77be3bb0dfe9756a9c0e2635c3869ef312a2c7ab9fc2c8"
+    },
+    {
+      "id": "OB-185",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "f09d379ccafdffaa3dcf2c0bebfdbdc61c5b23d94494533b79b805d02be9f409"
+    },
+    {
+      "id": "OB-186",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "cdc23795b607e34f721cae91f3926f987e2013331f26cce5073a845bebe9541f"
+    },
+    {
+      "id": "OB-187",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "dc3be21ee1a7c0a9f977bade33f58d874549d7190239269db71acec040bf3d96"
+    },
+    {
+      "id": "OB-188",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "be50a0dd60d18c9d79d67c28fa675c2a0dbdcb819049200413d5efc877d424fa"
+    },
+    {
+      "id": "OB-189",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "be44c079566a32aed76416ebb20c2de03f76a3f2e54648f3666f1e9bc4aa0d7c"
+    },
+    {
+      "id": "OB-190",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c4b69a2eb83bf1b92f7e6b6692f1a6838b7ccc7e53ce800d75dfa9e39b537e50"
+    },
+    {
+      "id": "OB-191",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ffc651ac891c25a483c3ad876783ff47348ebf00e2c34e325090172f663ac1bc"
+    },
+    {
+      "id": "OB-192",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b514613b4b87a7879138d2a573f748556d57de146da3db68b12692562cdcf630"
+    },
+    {
+      "id": "OB-193",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "dc15229b1db670ab4e7d77077e092892df9af99d71c408b10dac709685999f13"
+    },
+    {
+      "id": "OB-194",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "c290799e1690b4047091b0aa06a2282dea1aa5993416c68cc36f75176521b27c"
+    },
+    {
+      "id": "OB-195",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "8626c1b2f299bb7ff872d2fd15e79d36a51cd8666eb8c54700398c05b88b0f62"
+    },
+    {
+      "id": "OB-196",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "2257b09ccc18a88279a9b97f26d144bcb2c6d7bb8d832077aaf9035b5a4c61d2"
+    },
+    {
+      "id": "OB-197",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "5bcc6a926f8079e68c204e891d53259be24a7dd703744649cf2c3e79b8834487"
+    },
+    {
+      "id": "OB-198",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "ce4d30c0d2b8a1c6bd08623887a49fbd2c535f76fee9a856c953bda862642d86"
+    },
+    {
+      "id": "OB-199",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "b875cb36b90d4fcdd7b243a4fa9b2396184c8e04b38290cae4aadd4e175ea7fa"
+    },
+    {
+      "id": "OB-200",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "a069dde5535e87feee3ee680c3c362fa3ca07c2854632f36ee2912cbb2bf75e7"
+    },
+    {
+      "id": "OB-201",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "2403b75d99a4cfe77435fd81b2c2f10f67f79d3f1b27b5b98ba3db1fb679d387"
+    },
+    {
+      "id": "OB-202",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "921784cfcb697b40373afce3017c90b1f6a12e9cc59a684e544a61578c4ee35d"
+    },
+    {
+      "id": "OB-203",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "5dd4e55af511da8527be687ef9ba52145c832bd49f6cd6327f550f6ffab9a5a5"
+    },
+    {
+      "id": "OB-204",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "55293b921394ae6fc06f38a7c9ef61d2f88a62e1508dec93c92e0649b651b014"
+    },
+    {
+      "id": "OB-205",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "6f349be965c7633395060db5003594d441f870142992bd76f74ceeb167cbf43f"
+    },
+    {
+      "id": "OB-206",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "3e24d2c7f4e013515e72f9149fc18cd39c0068ec6b353ed6b064e4de6c630618"
+    },
+    {
+      "id": "OB-207",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "0a3ca00270ca5d330341c3581184a692a2ec745a05e39b45566bab93b92e35a3"
+    },
+    {
+      "id": "OB-208",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "021655fd67e735b1e479639ccae88f1bc270e7f82a60993cc9865e240d344308"
+    },
+    {
+      "id": "OB-209",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "6e74226863e43ab9eb6b68e66e935dac304eea8c4f6c82f7c151893c0ad7e7a9"
+    },
+    {
+      "id": "OB-210",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "13bb33afa2cd6170d6934a182387cabc276f6b850d990880391157c7ac91f9ec"
+    },
+    {
+      "id": "OB-211",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "5080a45f8fd723bd45448d4eaa376ec574a69d4b795934875c6877aa6153b27a"
+    },
+    {
+      "id": "OB-212",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "cefac787830e25ccf198edf463dbbc4e5be83129b533ab926c1ff0375f4f2e7f"
+    },
+    {
+      "id": "OB-213",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "7f43dc91b5b72b2cfb4a4f7cdb2dc5e1e2a831e3b76b99ef46325b08e3f47b64"
+    },
+    {
+      "id": "OB-214",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "3dfc3b3ffbddf40205e9042d6a8351af9525f2ff94ab57f45a802bceb85d9a33"
+    },
+    {
+      "id": "OB-215",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "edf33383e7a0be7f76c88085ba963cbef18e9b2783f8c00cfcede8cfa8850a9f"
+    },
+    {
+      "id": "OB-216",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "8ee222e7c344c9923174283eb00f7f9fde2deb49734f6cfc7206f496348c6d83"
+    },
+    {
+      "id": "OB-217",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "003fa64edade5768e77f57557b2d5580c3f795ab59c97798d509a8817867f4a7"
+    },
+    {
+      "id": "OB-218",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "3ab1d929f4cfa620fdcdcfa4ee269a5d14eeca3c778802df26714bd8cf6a19ae"
+    },
+    {
+      "id": "OB-219",
+      "status": "OPEN",
+      "source_status": "OPEN",
+      "target_sha256": "32afa22121e3edad1e2c1f5396fea0afec0c004565c96e928f866fc811d384cf"
+    }
+  ],
+  "additional_open_requirements": [
+    {
+      "id": "V5-B01",
+      "status": "OPEN"
+    },
+    {
+      "id": "V5-B02",
+      "status": "OPEN"
+    },
+    {
+      "id": "safe-fresh-capacity",
+      "status": "OPEN"
+    },
+    {
+      "id": "successor-frame-qualification-adoption",
+      "status": "OPEN"
+    },
+    {
+      "id": "W1-installed-identity-probes",
+      "status": "OPEN"
+    },
+    {
+      "id": "full-original-strict-proof",
+      "status": "OPEN"
+    },
+    {
+      "id": "original-native-semantic-and-cost-correspondence",
+      "status": "OPEN"
+    },
+    {
+      "id": "complete-original-ordinary-and-additive-controls",
+      "status": "OPEN"
+    },
+    {
+      "id": "original-fault-campaigns",
+      "status": "OPEN"
+    },
+    {
+      "id": "integrated-source-identity",
+      "status": "OPEN"
+    },
+    {
+      "id": "actual-GPT6.1-independent-acceptance",
+      "status": "OPEN"
+    },
+    {
+      "id": "hosted-assurance-publication-deployment",
+      "status": "OPEN"
+    },
+    {
+      "id": "verified-backup-restore-rollback",
+      "status": "OPEN"
+    },
+    {
+      "id": "applicable-operator-decisions",
+      "status": "OPEN"
+    }
+  ],
+  "approval_granted": false,
+  "exception_granted": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "frame_qualification": false,
+  "dispatch_authority": false,
+  "report_sha256": "8810306338aaf0601906914bbaa7ccba76cd3afe3ae214c87fdcabb284055bdf",
+  "checks": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/checks.json",
+    "sha256": "1d284b1bb08a7759e28b4ef476ecf61a68d8634ca523f5b05e61966c81f85f9f",
+    "bytes": 1063276,
+    "mode": "0600"
+  },
+  "closure_boundary": "Specification corrections only; deferred installed execution alone is not the reason for NOT_READY. Every original obligation remains OPEN.",
+  "model_truth_boundary": "Actual model selection recorded, without independent provider-backend attestation."
+}

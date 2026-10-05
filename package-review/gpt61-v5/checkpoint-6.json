@@ -1,0 +1,73 @@
+{
+  "item": 6,
+  "status": "complete",
+  "findings": [
+    {
+      "risk": "Accepted behavior silently narrowed",
+      "required_corrections": [
+        "W1-V5-PRESERVATION"
+      ],
+      "detail": "K6 says no target action changes and calls a refused next launch never narrowed acceptance. New owner/mode/set-ID/device/filter constraints and observable chmod/ACL-mask/ctime changes need a complete preserving argument for original accepted runs, outputs, modes and cases. A hypothetical no-use compatibility claim, a finite run, or operator agreement is no replacement.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1169",
+        "package-drafts/DRAFT-v8.md:429-431",
+        "HANDOFF.md:27-29"
+      ]
+    },
+    {
+      "risk": "Own-inode mutation relabeled as harmless refused run",
+      "required_corrections": [
+        "W1-V5-REVOCATION-CONFINEMENT"
+      ],
+      "detail": "K1 admits an outside name before its mutation and then refuses. Removing write access, recording it and not changing content do not exempt this frame mutation from V5-B02.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1077-1086",
+        "package-drafts/DRAFT-v8.md:304-320",
+        "frame-v6-PLAN.md:25-40"
+      ]
+    },
+    {
+      "risk": "Ambiguous failed-record truth or omitted failure transition",
+      "required_corrections": [
+        "W1-V5-JOURNAL-FAILED-CLOSE",
+        "W1-V5-PROTOCOL-REFUSALS"
+      ],
+      "detail": "Every reader/consumer needs one failed-close rule that preserves failed-primary raw/downgrade and errors, and every refusal needs a legal state. Global error joins and verb-specific success already withhold final success; this review does not claim a proven end-to-end false-success execution. Missing starts/refusals or a confirmed primary must not hide original failure evidence.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1207-1242",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:789-797",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2423-2451",
+        "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2559-2563,2642-2681"
+      ]
+    },
+    {
+      "risk": "Premise accepted as assumption or finite probe accepted as proof",
+      "detail": "K7 expressly requires redesign and says finite probes can refute but not establish premises. Installed systemd/kernel/filter/source and compatible-frame evidence remain required. No operator choice may turn an unverified premise into a contract axiom or exception.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1150-1169",
+        "HANDOFF.md:27-29,129-131,153-167"
+      ]
+    },
+    {
+      "risk": "Weakened target through an offered alternative",
+      "detail": "Package plainly declares lowering task reserve/scope/warnings, removing Ghost helpers, capping native/decimal domains, refusing formerly valid values or selecting release to suppress checked code ineligible. Equivalent-reference claims excuse no caller/control; independent reviews, strict formal/native/cost, original ordinary and fault floors remain. No such choice is made.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:39-58",
+        "package-drafts/DRAFT-v8.md:248-274",
+        "package-drafts/DRAFT-v8.md:599-600",
+        "package-drafts/DRAFT-v8.md:723-725",
+        "package-drafts/DRAFT-v8.md:770-785",
+        "package-drafts/DRAFT-v8.md:918-1007",
+        "package-drafts/DRAFT-v8.md:1011-1024"
+      ]
+    }
+  ],
+  "original_obligations_remain": "OPEN",
+  "approval_granted": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "review_skipping_authorized": false,
+  "exception_granted": false
+}

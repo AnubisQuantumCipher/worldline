@@ -1,0 +1,72 @@
+{
+  "item": 2,
+  "status": "complete",
+  "findings": [
+    {
+      "result": "VERIFIED",
+      "detail": "All supplied primary hashes and frozen identities match. Independently recomposed v5 delta plus v4 equals the supplied composed bytes; amendments each applied once, map identities verified.",
+      "evidence": [
+        "source-checks.json:composition",
+        "DRAFT-v8.md:389-427"
+      ]
+    },
+    {
+      "result": "REPRODUCES",
+      "detail": "Fresh JACKAL replays reproduce every compared exact value; v5 current and explicitly superseded draft map arithmetic, carried Gate 0 allowances and staged amounts, fallback geometry, source-call examples, storage rates/margins and option-7 blocks are included. Rounded displays agree with returned approximations. exact/formal=false, informational only, full parsed inputs and non_claims retained.",
+      "evidence": [
+        "arithmetic-replays.json",
+        "arithmetic-supplement.json",
+        "DRAFT-v8.md:146-228",
+        "proposal/v5-support/jackal.json:20-66"
+      ]
+    },
+    {
+      "result": "VERIFIED_AS_HISTORICAL_SOURCE",
+      "detail": "Frozen reviews match all sealed members. Passive AST reproduces 169 effective pin keys and every named packet replacement key; all payload bytes match the previous passive comparison. Self-check and backup claims are qualified author-side observations, not installed acceptance.",
+      "evidence": [
+        "passive-facts.json",
+        "source-checks.json:review_freezes",
+        "DRAFT-v8.md:611-621",
+        "DRAFT-v8.md:114-142",
+        "DRAFT-v8.md:1167-1179"
+      ]
+    },
+    {
+      "result": "LIMIT",
+      "detail": "New storage readings are frozen author-reported readings, not independently observed fresh capacity by this review. No live storage/vault/systemd call was made; relay claims, incomplete D1 review and live STATUS are not seals.",
+      "evidence": [
+        "DRAFT-v8.md:81-100",
+        "DRAFT-v8.md:136-140",
+        "DRAFT-v8.md:174-182",
+        "author-source-checks.json"
+      ]
+    },
+    {
+      "result": "NOT_CORRECT",
+      "detail": "The current C-API v6 summary reports closure at design level, but its later unqualified Next sentence still says R2_NINE_CONDITIONS and PACKET_PLAN remain NOT_CLOSED and v6 review is next. W-CLOSED summary says one link for every entry although c5 gives single-link only for regular files and same-device for directories; F-1 later calls the current reviewed design now v4.",
+      "evidence": [
+        "DRAFT-v8.md:795-805",
+        "DRAFT-v8.md:832-833",
+        "DRAFT-v8.md:405-406",
+        "DRAFT-v8.md:592-595",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+        "designs/claude-capi-boundary-design-v6/review/gpt61-v1/review.json:rc_closure,ruling_closure,rulings"
+      ]
+    }
+  ],
+  "additional_required_correction": {
+    "id": "PKG-V8-CURRENT-STATUS",
+    "item": "2,5",
+    "correction": "Reconcile the unqualified C-API Next text with the sealed v6 ruling, mark preserved historical tables explicitly as historical, name W-1 v5 as the current successor, and give the exact regular-file versus directory W-CLOSED criteria. Preserve all implementation and original obligations OPEN.",
+    "evidence": [
+      "DRAFT-v8.md:405-406",
+      "DRAFT-v8.md:592-595",
+      "DRAFT-v8.md:795-833",
+      "DRAFT-v8.md:880-887",
+      "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095"
+    ]
+  },
+  "allowances_are_bounds": false,
+  "capacity_established": false,
+  "approval_granted": false
+}

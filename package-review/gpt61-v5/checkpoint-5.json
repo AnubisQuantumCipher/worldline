@@ -1,0 +1,86 @@
+{
+  "item": 5,
+  "status": "complete",
+  "findings": [
+    {
+      "topic": "decision timing and consequences",
+      "result": "SUBSTANTIALLY_COMPLETE",
+      "detail": "S-1 options address immediate storage pressure; F-1 accounts-in-principle is optional now and concrete privileged setup only later after reviewed inventory/Gate 0, installed verification and adoption. R-1/R-2, D-13, N-06, OD-1/OD-2 and seam operator choices remain later and tied to their evidence. No recommendation becomes a fact or choice. Ineligible scope/reserve/warning/reference/helper-removal routes do not close the original target.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:60-73",
+        "package-drafts/DRAFT-v8.md:239-285",
+        "package-drafts/DRAFT-v8.md:590-603",
+        "package-drafts/DRAFT-v8.md:711-727",
+        "package-drafts/DRAFT-v8.md:774-787",
+        "package-drafts/DRAFT-v8.md:835-878",
+        "package-drafts/DRAFT-v8.md:916-1007",
+        "package-drafts/DRAFT-v8.md:1072-1092"
+      ]
+    },
+    {
+      "topic": "latest sealed conclusions",
+      "result": "REQUIRED_CORRECTION",
+      "detail": "C-API latest v6 status/closures at 795-805 match sealed v6, but unqualified Next at 832-833 conflicts. Historical v3-v4 table at 880-888 should explicitly say it is superseded where v6 updates it. F-1 now v4 label and the universal one-link W-CLOSED summary also need correction. New correction PKG-V8-CURRENT-STATUS.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:405-406",
+        "package-drafts/DRAFT-v8.md:592-595",
+        "package-drafts/DRAFT-v8.md:795-833",
+        "package-drafts/DRAFT-v8.md:880-888",
+        "designs/claude-capi-boundary-design-v6/review/gpt61-v1/review.json:rulings"
+      ]
+    },
+    {
+      "topic": "historical correction tables",
+      "result": "ACCURATE_WITH_TIME_SCOPE",
+      "detail": "Tables A/B/B2/B3/C name historical reviews and later rulings. v8 calls author v5 closures awaiting review, not accepted. Our new closures replace the pending status only for specification corrections; every original obligation remains OPEN. Older awaiting-review rows must be read under the named later B2/B3 rulings.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:1183-1275",
+        "package-drafts/DRAFT-v8.md:397-400",
+        "checkpoint-1.json"
+      ]
+    },
+    {
+      "topic": "corrected interruption record",
+      "result": "CLOSED_SPECIFICATION_CORRECTION",
+      "detail": "v8 names both pre-ruling lead TaskStop queue actions, the post-ruling C-API v4 TaskStop and lead timeout-killed find, explicitly retracts the false blanket no-interruption sentence. This matches preserved note; its since-then absence statements remain author statements rather than independently proved absence. Standing no-interruption rule and human-only D1 recovery choice remain.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:1135-1163",
+        "deviations/capi-v4-author-taskstop/NOTE.md:46-70"
+      ]
+    },
+    {
+      "topic": "isolation record and incomplete D1 review",
+      "result": "PRESERVED",
+      "detail": "ISOLATION.md preserves old alternate-tool guard bypasses, attempted E2BIG write and uncompliant Claude pre-read as history without clearance. D1 drafting tempfile is separately disclosed, not mislabeled as refusal workaround. D1 v4 review remains INCOMPLETE; R1 same-thread runner restart after codex termination, R2 both processes/new review, misleading transport-failure text and human authority are disclosed. This review did not read the stalled directory or act on a process.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:1104-1133",
+        "ISOLATION.md:18-45,49-120",
+        "review-monitoring/d1-v4-review-recovery-proposal.md"
+      ]
+    },
+    {
+      "topic": "author records coverage",
+      "result": "ADDITIONAL_DETAIL_FOR_PKG-V8-CURRENT-STATUS",
+      "detail": "Link and summarize the latest C-API v5/v6 process notes alongside the W-1 v5 note: v5 mkdir/redirection deviation and in-memory proposal sketch; v6 indirect lead-transcript summaries and in-memory sketch. They remain attributed author-side observations, no WORLDLINE controls or acceptance. Current package does not surface these records in its supervision/isolation/self-check sections, while surfacing the other drafting deviations. This is completeness of supplied known author records, not an invented approval gate or a claim the independent C-API review is invalid.",
+      "evidence": [
+        "deviations/capi-v5-author-process/NOTE.md:13-30,32-56",
+        "deviations/capi-v6-author-process/NOTE.md:17-38",
+        "package-drafts/DRAFT-v8.md:432-433",
+        "package-drafts/DRAFT-v8.md:1104-1179"
+      ]
+    },
+    {
+      "topic": "backup and variable pressure record",
+      "result": "CLOSED_SPECIFICATION_CORRECTION",
+      "detail": "Five retained observation files include naturally completed watcher. Unit success is separated from Anubis backup exit 3 and failed post-check scopes, missing pack observations versus disconnect hypothesis and saved snapshot non-health. Codex recovery/hold/offline claims are relayed; no offload permitted before verified recovery. v8 removes monotone-pressure claim.",
+      "evidence": [
+        "package-drafts/DRAFT-v8.md:114-142",
+        "package-drafts/DRAFT-v8.md:280-285",
+        "backup-repair-packet/README.md",
+        "backup-repair-packet/observations/bldlm9jlr.output"
+      ]
+    }
+  ],
+  "decision_or_permission_granted": false,
+  "live_indexes_not_seals": true
+}

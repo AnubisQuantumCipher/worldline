@@ -1,0 +1,188 @@
+{
+  "item": 3,
+  "status": "complete",
+  "w1_capable_as_written": false,
+  "assessment": "As composed, W-1 v5 cannot yet meet V5-B01 and V5-B02 together: its new revocation is not proven confined at mutation time or preserving of the original accepted behavior, and protocol, journal, reconciliation and image-pin specifications remain inconsistent. The protected writer tree, complete final leaf pass, conditional quiescence/credential closure, external setup seal and non-gating release repairs are plausible parts of a successor, but require a coherent corrected specification, independent successor-frame review and installed evidence without an exception.",
+  "findings": [
+    {
+      "topic": "observer revocation and own inode",
+      "status": "NOT_CLOSED",
+      "detail": "New O mutation includes mode/ACL mask/ctime changes; K1 admits a new outside name before fchmodat2 and only refuses afterward. Anchored fd is inode identity, not exclusive tree naming at the mutation.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1058-1086",
+        "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2342-2370",
+        "frame-v6-PLAN.md:25-40"
+      ]
+    },
+    {
+      "topic": "W-CLOSED and preservation",
+      "status": "NOT_CLOSED",
+      "detail": "c2 and regular-file single-link c5 are present in original v5/v6 walks. c4 set-ID refusal and directory same-device c5 are absent; c1 ownership and c3 no-write plus revocation are not the full new surface. Owner access does not preserve observed mode/ACL/time/output or granted collaboration behavior. Existing compatibility hypotheses cannot narrow accepted cases.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1139-1148",
+        "W/work/claude-scratch-frame-v5/scratch.py:495-567",
+        "W/work/claude-scratch-frame-v6/scratch.py:495-576",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:982-983",
+        "package-drafts/DRAFT-v8.md:522-524"
+      ]
+    },
+    {
+      "topic": "quiescence and trusted systemd",
+      "status": "CONDITIONAL_SPECIFICATION_REPAIR",
+      "detail": "M-QUIESCENT Q1-Q8 covers jobs, unit state, refs, connections, queues and pending work. S1-S6 cover process/job sources, dispatch order, drained internal work, reply/connection ordering and protected routes; stronger than serialized API calls alone. Requires applicable installed-version source review plus probes; finite equal snapshots do not prove it. No premise is observed or accepted here.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:862-909",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1150-1169"
+      ]
+    },
+    {
+      "topic": "credential closure and io_uring",
+      "status": "CONDITIONAL_SPECIFICATION_REPAIR",
+      "detail": "K3 names sudo, M inheritance, no minted set-ID/capabilities, locked group passwords, subordinate identities and trusted root. S-F explicitly sets PAMName empty, XDG_RUNTIME_DIR, NoNewPrivileges, RestrictSUIDSGID, native syscall architecture and io_uring ENOSYS denial; masks cover every loaded process-starting unit file including static/disabled/templates/aliases. Target C9 denies io_uring as well as set-ID requests and openat2; filter completeness and original behavior remain H1-H3 and compatibility obligations.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:764-771",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1097-1110",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1720-1746"
+      ]
+    },
+    {
+      "topic": "protocol failure states",
+      "status": "NOT_CLOSED",
+      "detail": "Spawn permission/failure and release directions repaired, but C pre-HELLO and pre-ADMIT CHILD_REFUSAL, L HELLO/G4 L_REFUSAL and STOP/REFUSAL in adopt INPUTS or seal FRONT_TERMINAL are not legal in the enumerated complete tables. Missing start never means nothing started.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:729-751",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:789-797",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2333-2380",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2423-2451"
+      ]
+    },
+    {
+      "topic": "journal continuation",
+      "status": "NOT_CLOSED",
+      "detail": "One chain, gap/branch/genesis/cut and raw-export rules substantially improved. But a failed close after a fully written primary leads J4 continuation to confirm that primary; P-CHAIN wants it committed, while carried three-step retain downgrades on the failed step and committed primary wins over retry. All consumers need a single rule preserving raw failed-primary/non-success truth.",
+      "evidence": [
+        "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2469-2471",
+        "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2509-2544",
+        "package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md:2559-2563",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1853",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:1703-1706"
+      ]
+    },
+    {
+      "topic": "release independent of durability",
+      "status": "CLOSED",
+      "detail": "F owns release and writes at the bounded control deadline; INTENT result may arrive late and changes nothing. UNKNOWN withholds success but alone adds neither a release hold nor approval gate.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:959-995",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2415-2426",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:2471"
+      ]
+    },
+    {
+      "topic": "external setup identity",
+      "status": "CLOSED",
+      "detail": "S excludes itself; S-I external file tuple/digest is sealed by installed review, adopted into later records and rechecked. Materialization has expressly unadopted bookkeeping before comparison; this is not installed admission.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:541-563",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1804-1823"
+      ]
+    },
+    {
+      "topic": "atom S-R, step.py and check_out.py",
+      "status": "NOT_CLOSED",
+      "detail": "Full short-write/fsync/torn-log handling and direct producer exit-status handling fix prior defects. E-prefix observation conflicts with later ACL atoms intentionally changing earlier directory E=no ACL/mode; check/service-action class has no distinct E. Specify reachable phase-aware state vectors and partial reversals across setup and rollback; expected future numeric IDs/captures are not the defect.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1326-1369",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1432-1534",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1586-1618",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1825-1843"
+      ]
+    },
+    {
+      "topic": "images-directory and lost+found",
+      "status": "NOT_CLOSED",
+      "detail": "Search-only root:W 0710 permits named backing-file observation conditional on LOOKUP; lost+found has an explicit pinned special-entry rule. New exact directory entry-set pin is compared at every use although W/W2 cannot list it, and no privileged per-use comparison is specified.",
+      "evidence": [
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:505-529",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1169",
+        "proposal/ISOLATION-STORAGE-PROPOSAL-v4.md:2157-2164"
+      ]
+    }
+  ],
+  "premise_inventory": [
+    {
+      "premise": "L1",
+      "probe": "P-QUIESCE(d-f)",
+      "failure": "redesign"
+    },
+    {
+      "premise": "K-PERM",
+      "probe": "P-WCLOSED",
+      "failure": "redesign"
+    },
+    {
+      "premise": "K-CHMOD",
+      "probe": "P-WCLOSED",
+      "failure": "redesign K1"
+    },
+    {
+      "premise": "H1",
+      "probe": "P-SETID A2",
+      "failure": "redesign"
+    },
+    {
+      "premise": "H2",
+      "probe": "P-MGR and P-SETID A3",
+      "failure": "redesign"
+    },
+    {
+      "premise": "H3",
+      "probe": "installed syscall/filter review and P-SETID",
+      "failure": "redesign"
+    },
+    {
+      "premise": "S1-S6",
+      "probe": "installed-version source review and P-QUIESCE(a-c,g-k)",
+      "failure": "redesign"
+    },
+    {
+      "premise": "M-PAM",
+      "probe": "P-MGR",
+      "failure": "redesign"
+    },
+    {
+      "premise": "BUS",
+      "probe": "first engineering run",
+      "failure": "redesign"
+    },
+    {
+      "premise": "ROOTS",
+      "probe": "first engineering run",
+      "failure": "redesign"
+    },
+    {
+      "premise": "OPT-B",
+      "probe": "concrete launcher/namespace/exposure probes",
+      "failure": "redesign branch or do not use"
+    },
+    {
+      "premise": "ENOSPC",
+      "probe": "P-ENOSPC",
+      "failure": "no allocation-failure durability claim; original requirement stays OPEN"
+    },
+    {
+      "premise": "IMG",
+      "probe": "sacrificial geometry/noexec/native measurement",
+      "failure": "original controls on compatible admitted frame; no narrowing"
+    },
+    {
+      "premise": "LOOKUP",
+      "probe": "P-IMAGE",
+      "failure": "redesign image branch"
+    }
+  ],
+  "installed_evidence": "NOT_EXECUTED_NOT_ACCEPTED",
+  "all_original_obligations": "OPEN",
+  "approval_granted": false
+}
