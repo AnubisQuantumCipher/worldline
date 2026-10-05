@@ -1,0 +1,902 @@
+{
+ "schema": "claude-f32-resolution-v1-evidence",
+ "status": "author citations; static; not review or acceptance",
+ "read_at_utc_date": "2026-10-05",
+ "citations": [
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/test_raw_evaluation_default.py",
+   "sha256": "22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0",
+   "bytes": 37504,
+   "lines": [
+    {
+     "range": "67",
+     "claim": "synthetic join projection computed from the request"
+    },
+    {
+     "range": "71-81",
+     "claim": "bound_request: candidate derivation without resulting_requirement"
+    },
+    {
+     "range": "83-90",
+     "claim": "positive control A1, AUTHORIZED at 88-89"
+    },
+    {
+     "range": "92-160",
+     "claim": "refusal twins using bound_request"
+    },
+    {
+     "range": "162-226",
+     "claim": "producer_case sets resulting explicitly (217-225)"
+    },
+    {
+     "range": "228-249",
+     "claim": "producer-path positive and refusal"
+    },
+    {
+     "range": "358-380",
+     "claim": "post-stage producer positive"
+    },
+    {
+     "range": "457",
+     "claim": "REQUIREMENT_CHANGED history reason (unrelated)"
+    },
+    {
+     "range": "471-492",
+     "claim": "literal candidate request with resulting=h(8) (478), AUTHORIZED at 490, EEI at 492"
+    },
+    {
+     "range": "522-533",
+     "claim": "checkpoint fixture: roster False (526), resulting None (530)"
+    },
+    {
+     "range": "535-550",
+     "claim": "checkpoint controls"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/test_finalization_kernel.py",
+   "sha256": "76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62",
+   "bytes": 16902,
+   "lines": [
+    {
+     "range": "224-243",
+     "claim": "joined: projection from request at 239"
+    },
+    {
+     "range": "245-255",
+     "claim": "collapse_values: candidate derivation without resulting"
+    },
+    {
+     "range": "257-266",
+     "claim": "positive control A2, AUTHORIZED at 262-263, metadata refusal 264-266"
+    },
+    {
+     "range": "268-280",
+     "claim": "refusal twins"
+    },
+    {
+     "range": "282-289",
+     "claim": "checkpoint ignored-data control"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/test_evaluation_row_projection.py",
+   "sha256": "74a195970ce6bdd052cb3778079796deafe369ee0284fb78da6f009b3f9ddc6a",
+   "bytes": 9576,
+   "lines": [
+    {
+     "range": "12-20",
+     "claim": "inherits RawRequiredFailureControls"
+    },
+    {
+     "range": "86-99",
+     "claim": "positive control A3 AUTHORIZED at 95-96; metadata refusal 97-99"
+    },
+    {
+     "range": "105-110",
+     "claim": "missing projection refusal"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/test_context_cast_lifetime.py",
+   "sha256": "f6bc3e2f7c21c371072a11400a3f93b719f2e3f99f5a2b41aada484e89c87f07",
+   "bytes": 8944,
+   "lines": [
+    {
+     "range": "15",
+     "claim": "imports test_finalization_kernel"
+    },
+    {
+     "range": "19-37",
+     "claim": "oracle pins on oracle_* files"
+    },
+    {
+     "range": "66-90",
+     "claim": "fixture is FinalizationNativeControls"
+    },
+    {
+     "range": "73-77",
+     "claim": "oracle file names"
+    },
+    {
+     "range": "107-118",
+     "claim": "refusal twins"
+    },
+    {
+     "range": "152-168",
+     "claim": "lifetime control A4, AUTHORIZED at 162-163"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-collapse.ads",
+   "sha256": "98b2661b6911332da1b460a78003ea5d3b692c8406c6c34c32b70ab9d6988a95",
+   "bytes": 14966,
+   "lines": [
+    {
+     "range": "27-28",
+     "claim": "two absent values are never the same"
+    },
+    {
+     "range": "58-62",
+     "claim": "Resulting independently recomputed, never copied"
+    },
+    {
+     "range": "139-157",
+     "claim": "Required_Present; Resulting present in candidate mode at 151"
+    },
+    {
+     "range": "184-195",
+     "claim": "Evidence_Holds; Same(Current,Resulting) at 188"
+    },
+    {
+     "range": "197-211",
+     "claim": "All_Hold"
+    },
+    {
+     "range": "213-217",
+     "claim": "Post: Authorized = All_Hold"
+    },
+    {
+     "range": "231-232",
+     "claim": "Identity_Absent refusal postcondition"
+    },
+    {
+     "range": "269-272",
+     "claim": "Requirement_Changed postcondition"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-collapse.adb",
+   "sha256": "ba797079cf4316688eab9a7be2092e7c20db91c0881151e9df707cfa128937ef",
+   "bytes": 3083,
+   "lines": [
+    {
+     "range": "20-25",
+     "claim": "EEI then Identity_Absent"
+    },
+    {
+     "range": "41-45",
+     "claim": "Requirement_Changed"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-identities.ads",
+   "sha256": "3935a4aa1d670f42738b0b1e7968a8d6560fd3580150f9dada6bfe6145bb7f10",
+   "bytes": 4362,
+   "lines": [
+    {
+     "range": "76-82",
+     "claim": "Optional_Requirement_Id and Same"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-collapse_wire.ads",
+   "sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd",
+   "bytes": 13246,
+   "lines": [
+    {
+     "range": "55-57",
+     "claim": "wire field order"
+    },
+    {
+     "range": "77-81",
+     "claim": "Hash_Well_Formed"
+    },
+    {
+     "range": "89-137",
+     "claim": "Well_Formed; checkpoint requires resulting absent 132-136; slot rule comment 126-127"
+    },
+    {
+     "range": "237",
+     "claim": "Decode Resulting"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_authority.ads",
+   "sha256": "29ea441b1bcc0212db70143c09b961b1f911827c8f30b40cc52f88080f4c222b",
+   "bytes": 15565,
+   "lines": [
+    {
+     "range": "23-29",
+     "claim": "Dependencies"
+    },
+    {
+     "range": "197-199",
+     "claim": "Without_Carried_Rosters"
+    },
+    {
+     "range": "202-227",
+     "claim": "Context_Reference: Request = Projection modulo rosters at 225-226"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-c_api.adb",
+   "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+   "bytes": 56596,
+   "lines": [
+    {
+     "range": "809-819",
+     "claim": "context join then roster overwrite then Decide_Wire"
+    },
+    {
+     "range": "832-876",
+     "claim": "Decide_Raw_Metadata: metadata checked only after Authorized at 857-872"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.adb",
+   "sha256": "bdcf333878aebe4aca55333bc3b9a9a50007c187fc4b380dec1adb18127f83d3",
+   "bytes": 29143,
+   "lines": [
+    {
+     "range": "399-409",
+     "claim": "Context_Joined: kind 2 uses metadata in join"
+    },
+    {
+     "range": "473-503",
+     "claim": "join, roster overwrite, decide, post-decision metadata for kind 1"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/core.py",
+   "sha256": "ee77fa7a39178b844972b3a3d704fb0732b93b73aead8c2b80137db66454786c",
+   "bytes": 29677,
+   "lines": [
+    {
+     "range": "120-122",
+     "claim": "hash field roster order"
+    },
+    {
+     "range": "214-258",
+     "claim": "CollapseInput no defaults"
+    },
+    {
+     "range": "595-598",
+     "claim": "_optional_hash None -> absent zero"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_wire.py",
+   "sha256": "6e8934470bbadb9819b960f46eae611ca2ced6b2a87c86e8c928f026ff8c3056",
+   "bytes": 8632,
+   "lines": [
+    {
+     "range": "94-122",
+     "claim": "raw v3 caller"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/finalization_kernel.py",
+   "sha256": "918fc2caef37d4bb5cdd4a5ff3f4b0ea072e156c3763d90afafa501c235a57a3",
+   "bytes": 17665,
+   "lines": [
+    {
+     "range": "286-322",
+     "claim": "decide_mixed caller"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_context.py",
+   "sha256": "b6d9bc430a503b603677e7690bbc3810473b8df44a9a350002f24008e2e90de9",
+   "bytes": 30241,
+   "lines": [
+    {
+     "range": "20-23",
+     "claim": "CONTEXT_FIELDS"
+    },
+    {
+     "range": "419-426",
+     "claim": "production projection: resulting from resulting policy, None for checkpoint"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/transaction.py",
+   "sha256": "83e825f806d04e0527fe464ba867583513e882dc9af9f1c761bfe402416b2229",
+   "bytes": 125653,
+   "lines": [
+    {
+     "range": "364-366",
+     "claim": "prepare: resulting measured from staged tree"
+    },
+    {
+     "range": "745-750",
+     "claim": "commit: resulting re-measured"
+    },
+    {
+     "range": "1118-1120",
+     "claim": "native request: resulting None only for checkpoint"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/test_core_abi.py",
+   "sha256": "ce563636ea1a658600c960860ecd29967a1968716806eab448c64927350a7e9f",
+   "bytes": 19509,
+   "lines": [
+    {
+     "range": "190-217",
+     "claim": "V2 checkpoint resulting must be absent"
+    },
+    {
+     "range": "219-254",
+     "claim": "OB-003 explicit controls: AUTHORIZED, REQUIREMENT_CHANGED, IDENTITY_ABSENT"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/test_revalidation_binding.py",
+   "sha256": "180988e547c32d75742799da1f43b6867152e9499febb68d358b172e86aa168e",
+   "bytes": 37297,
+   "lines": [
+    {
+     "range": "300-318",
+     "claim": "candidate derived from checkpoint() with explicit resulting at 315"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/test_recovery_packet_producer.py",
+   "sha256": "5468d5183ad12098a74831661f107f1b60052813dbb3fd6fc112ff08f45e1877",
+   "bytes": 14583,
+   "lines": [
+    {
+     "range": "40-53",
+     "claim": "producer path supplies resulting policy"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/worldline_collapse_checks.adb",
+   "sha256": "afdf21435ba32e3950f4cd3fcf502b9d7d0bb63d092a3b7931e39478ac61e57c",
+   "bytes": 18004,
+   "lines": [
+    {
+     "range": "60",
+     "claim": "Resulting Rq(8) in base"
+    },
+    {
+     "range": "328-341",
+     "claim": "V2 checkpoint absence Ada controls"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/assurance/checkpoints/phase1-native-lifetime-2026-10-03.json",
+   "sha256": "c57a57c96143219f6c0d4712c9e644f54dce76752e8291d52f507b9068e2f3c6",
+   "bytes": 132840,
+   "lines": [
+    {
+     "range": "1642-1650",
+     "claim": "remaining_required_actions include default/metadata/finalization-kernel tests"
+    },
+    {
+     "range": "2853-2855",
+     "claim": "historical inventory test_finalization_kernel"
+    },
+    {
+     "range": "2888-2891",
+     "claim": "historical inventory records pre-item1 test_raw_evaluation_default 53db45a0"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/source/tests/test_raw_evaluation_default.py",
+   "sha256": "53db45a046953fff43d688bf6672cfb7109935f642c1f00e28973deb588c2aa2",
+   "bytes": 37278,
+   "lines": [
+    {
+     "range": "71-75",
+     "claim": "pre-item1 bound_request"
+    },
+    {
+     "range": "522-533",
+     "claim": "pre-item1 checkpoint fixture, no resulting field (529)"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/source/core/worldline-collapse.ads",
+   "sha256": "ba6e2a5325fe438922d63d188f936fce556a7b2e8aab99ec38f36d6a1d2ae3ce",
+   "bytes": 14335,
+   "lines": [
+    {
+     "range": "135-152",
+     "claim": "pre-item1 Required_Present, no Resulting"
+    },
+    {
+     "range": "180-189",
+     "claim": "pre-item1 Evidence_Holds"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/authority-item1-priority-v1/source/tests/test_raw_evaluation_default.py",
+   "sha256": "979e46399676441291b10b10b8deb90ad1e9a61543715279f0d801aff412154f",
+   "bytes": 37504,
+   "lines": [
+    {
+     "range": "478",
+     "claim": "literal resulting h(8)"
+    },
+    {
+     "range": "530",
+     "claim": "V1 checkpoint fixture resulting=h(8)"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/authority-item1-priority-v1/source/core/worldline-collapse_wire.ads",
+   "sha256": "c09c0dcd8b5eef55d16f4cbb5d7e4f5a56c8ea225468de9575f495a2602723ac",
+   "bytes": 13183,
+   "lines": [
+    {
+     "range": "129-136",
+     "claim": "V1 checkpoint slot rule without Resulting"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/authority-item1-priority-v1/HANDOFF.md",
+   "sha256": "e2b71e1baa67c7ab01f1f34ced180e1b8e7a5b18930f7bf1e3596852c1460319",
+   "bytes": 3894,
+   "lines": [
+    {
+     "range": "5",
+     "claim": "OB-003 conjunct; no defaulting to current/evaluated"
+    },
+    {
+     "range": "11",
+     "claim": "valid typed/raw fixtures explicitly supply actual resulting identity"
+    },
+    {
+     "range": "13",
+     "claim": "new controls unexecuted"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/authority-item1-priority-v1/original-methods.json",
+   "sha256": "09375019c622ce75f48e24596acd57ad5c53a170f1f0b9d72b4e7b937f4d4c2c",
+   "bytes": 1031,
+   "lines": [
+    {
+     "range": "1-27",
+     "claim": "changed test methods list (test_* only)"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/authority-item1-priority-v1/original-assertions.json",
+   "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "bytes": 3,
+   "lines": [
+    {
+     "range": "1",
+     "claim": "empty"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/authority-item1-priority-v2/source/tests/test_raw_evaluation_default.py",
+   "sha256": "22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0",
+   "bytes": 37504,
+   "lines": [
+    {
+     "range": "530",
+     "claim": "V2 checkpoint fixture resulting=None"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/authority-item1-priority-v2/source/core/worldline-collapse_wire.ads",
+   "sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd",
+   "bytes": 13246,
+   "lines": [
+    {
+     "range": "132-136",
+     "claim": "V2 checkpoint requires resulting absent"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-owned-acquisition-engineering-v1/authority-item1-priority-v2/HANDOFF.md",
+   "sha256": "8051d7c87fae525cde272de065a97fada8d38dcb29386220bfea07a807d6f615",
+   "bytes": 1543,
+   "lines": [
+    {
+     "range": "5",
+     "claim": "checkpoint fixtures supply absence; candidate keeps mandatory equality, no defaulting"
+    },
+    {
+     "range": "9",
+     "claim": "V1 assertions/cases remain with checkpoint fixture updates"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/item1-repair/HANDOFF.md",
+   "sha256": "ea88be11ff0dc6c05e38cce51e514382aee45eb3d6271550623ffe44eb79b443",
+   "bytes": 3940,
+   "lines": [
+    {
+     "range": "18-22",
+     "claim": "checkpoint absent slot preserved"
+    },
+    {
+     "range": "30-38",
+     "claim": "resulting caller controls; original native mutants remain"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-evaluation-checked-scan-ordinary-v1/evidence/default-tests-v1/child.stderr",
+   "sha256": "388f0d9f210f8eb75ab1d62a6bed911320dc2e80492bb41645402f5e7e373d24",
+   "bytes": 7245,
+   "lines": [
+    {
+     "range": "4",
+     "claim": "test_complete_owned_join_and_padded_epoch ok"
+    },
+    {
+     "range": "44",
+     "claim": "Ran 41 tests"
+    },
+    {
+     "range": "46",
+     "claim": "OK"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-evaluation-checked-scan-ordinary-v1/evidence/default-tests-v1/child-wait.json",
+   "sha256": "d513bc4cd4d780d85c547dd416c70e5534ce221d0bfa5aa804b9564499899a6c",
+   "bytes": 274,
+   "lines": [
+    {
+     "range": "all",
+     "claim": "returncode 0"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-evaluation-checked-scan-ordinary-v1/evidence/default-tests-v1/inputs/tests/test_raw_evaluation_default.py",
+   "sha256": "53db45a046953fff43d688bf6672cfb7109935f642c1f00e28973deb588c2aa2",
+   "bytes": 37278,
+   "lines": [
+    {
+     "range": "all",
+     "claim": "pre-item1 bytes used by run"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-ordinary-v2/evidence/default-tests-v1/child.stderr",
+   "sha256": "8be504884822468ebafb81af14ea460b0cbf913a6a652a1b4fa20104730538d2",
+   "bytes": 7245,
+   "lines": [
+    {
+     "range": "4",
+     "claim": "ok"
+    },
+    {
+     "range": "44",
+     "claim": "Ran 41 tests"
+    },
+    {
+     "range": "46",
+     "claim": "OK"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Work/ada-spark-readiness-20260927/codex-continuation-20260930/phase1-finalization-ordinary-v2/evidence/default-tests-v1/inputs/tests/test_raw_evaluation_default.py",
+   "sha256": "53db45a046953fff43d688bf6672cfb7109935f642c1f00e28973deb588c2aa2",
+   "bytes": 37278,
+   "lines": [
+    {
+     "range": "all",
+     "claim": "pre-item1 bytes used by run"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+   "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+   "bytes": 410484,
+   "lines": [
+    {
+     "range": "80-95",
+     "claim": "OB-003 target/closure/test; 95 requires 1.9.1 control AUTHORIZED"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ALL-ORIGINAL-OBLIGATIONS.md",
+   "sha256": "16d28b04bf937ecc7003a0a4fcf1b62d78b1478cb79542d9341022acc5f95acb",
+   "bytes": 167383,
+   "lines": [
+    {
+     "range": "47-65",
+     "claim": "OB-003 section; closure at 57"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/WORKSPACE-RULES.md",
+   "sha256": "1eb82291ca40cb7084de753f77d18ace299bf2bfe1beb40560b9f820087ad484",
+   "bytes": 3002,
+   "lines": [
+    {
+     "range": "6",
+     "claim": "fixed guarantees, fixtures and controls"
+    },
+    {
+     "range": "7",
+     "claim": "GPT-6.1 reviews"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+   "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+   "bytes": 30462,
+   "lines": [
+    {
+     "range": "27-29",
+     "claim": "fixed completion standard; Python no independent authorization"
+    },
+    {
+     "range": "117-121",
+     "claim": "typed absence; absent equality never authorizes"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+   "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e",
+   "bytes": 2699,
+   "lines": [
+    {
+     "range": "4",
+     "claim": "preserve every control and contract"
+    },
+    {
+     "range": "8",
+     "claim": "no caps or success-to-refusal"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ORIGINAL-ORDINARY-ROSTER.json",
+   "sha256": "4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e",
+   "bytes": 413601,
+   "lines": [
+    {
+     "range": "2174-2198",
+     "claim": "default-tests launch"
+    },
+    {
+     "range": "2199-2223",
+     "claim": "metadata-tests launch"
+    },
+    {
+     "range": "2374-2398",
+     "claim": "finalization-kernel-tests launch"
+    },
+    {
+     "range": "2600-2605",
+     "claim": "results_transferred false; source_matching_rerun_required true"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/REQUIRED-LIFETIME-CONTROLS.json",
+   "sha256": "9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9",
+   "bytes": 1335,
+   "lines": [
+    {
+     "range": "3-24",
+     "claim": "context-cast lifetime controls required, UNRUN"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+   "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+   "bytes": 9048,
+   "lines": [
+    {
+     "range": "32-34",
+     "claim": "fixed phase exit; no lowering"
+    },
+    {
+     "range": "38",
+     "claim": "collapse authority includes resulting requirement"
+    },
+    {
+     "range": "42",
+     "claim": "typed absence: missing facts never acquire authority"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-session-monitor-v1/autonomy-20261005T163701Z/RECOVERY-AND-AUTONOMY.txt",
+   "sha256": "f0c3623336007299fc72c803d03e6245538cf772b9c01aa0063e734a2457f232",
+   "bytes": 3685,
+   "lines": [
+    {
+     "range": "5",
+     "claim": "keep every contract, accepted case, fixture, control fixed"
+    },
+    {
+     "range": "7",
+     "claim": "routine engineering delegated; reserved items listed"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/STATUS.md",
+   "sha256": "d327f01414a65a20a617f1d01f2a47f2f15d94fdf2904231927b2d6ffa72af43",
+   "bytes": 69425,
+   "lines": [
+    {
+     "range": "66",
+     "claim": "D1 v4 author F32 note"
+    },
+    {
+     "range": "312-324",
+     "claim": "F32 investigation and F32-CONFLICT obligation"
+    },
+    {
+     "range": "335-339",
+     "claim": "directive: delegated vs reserved"
+    },
+    {
+     "range": "433",
+     "claim": "PK-0 v2 author finding"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/investigations/f32-resulting-requirement/FINDINGS.md",
+   "sha256": "1746bcb007474612296562aae62cdec39e8b7f0aadf5faf37c61845c255b3a64",
+   "bytes": 8490,
+   "lines": [
+    {
+     "range": "all",
+     "claim": "static F32 investigation (input)"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0-v2/packet.json",
+   "sha256": "c5ce00cd7d0dbeaff29a35f87e257abe165a8c116acf3b02760d732ef12e032d",
+   "bytes": 25245,
+   "lines": [
+    {
+     "range": "198-199",
+     "claim": "binds current bytes of both test files"
+    }
+   ]
+  },
+  {
+   "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v4/DESIGN.md",
+   "sha256": "3c636847ee1ec735d46a435e313719a4174503cdfa5240d152f959f07a18913c",
+   "bytes": 261885,
+   "lines": [
+    {
+     "range": "191",
+     "claim": "binds current bytes of both test files"
+    }
+   ]
+  }
+ ],
+ "scratch_artifacts": {
+  "preimage_test_finalization_kernel": {
+   "path": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/scratchpad/f32/a/tests/test_finalization_kernel.py",
+   "sha256": "76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62"
+  },
+  "preimage_test_raw_evaluation_default": {
+   "path": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/scratchpad/f32/a/tests/test_raw_evaluation_default.py",
+   "sha256": "22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0"
+  },
+  "postimage_test_finalization_kernel": {
+   "path": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/scratchpad/f32/b/tests/test_finalization_kernel.py",
+   "sha256": "4da992ddfd206134131c31ea306fc19d46500ca8501a5214e540f55357327aa4"
+  },
+  "postimage_test_raw_evaluation_default": {
+   "path": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/scratchpad/f32/b/tests/test_raw_evaluation_default.py",
+   "sha256": "77f0cb999bca30a6eaa1ec663e21ee9cb152f405cb1ae1a591a20465ffad7262"
+  },
+  "patch": {
+   "path": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/scratchpad/f32/f32-r-a.patch",
+   "sha256": "226e7fc871b7f17622f7ea2480725644d1ab527765a391157af8b24e5f136650"
+  }
+ },
+ "static_checks": {
+  "method": "python3 stdlib ast.parse of scratch pre/post copies; no import or execution of WORLDLINE code",
+  "observed_output": [
+   "test_raw_evaluation_default.py methods a/b 43 43 changed [('RawRequiredFailureControls', 'bound_request')] missing [] added []",
+   "  assert calls a/b 62 62 identical ordered: True",
+   "test_finalization_kernel.py methods a/b 26 26 changed [('FinalizationNativeControls', 'collapse_values')] missing [] added []",
+   "  assert calls a/b 38 38 identical ordered: True",
+   "field sets equal: True count 35",
+   "differences: {}",
+   "pre-edit differences: {'resulting_requirement': ('None', 'h(8)')}"
+  ],
+  "meaning": "post-R-A bound_request request equals the literal request of test_collapse_recomputes_carried_roster (raw :473-481) keyword-for-keyword; pre-R-A differs only in resulting_requirement"
+ },
+ "lineage_hashes_observed": {
+  "tests/test_raw_evaluation_default.py": {
+   "ENG/source": "53db45a046953fff43d688bf6672cfb7109935f642c1f00e28973deb588c2aa2",
+   "V1": "979e46399676441291b10b10b8deb90ad1e9a61543715279f0d801aff412154f",
+   "V2": "22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0",
+   "S5": "22b5b189f9686f456214666b5a4dc4b0e3c93ee5b48f983b18994f8119f1a4f0"
+  },
+  "tests/test_finalization_kernel.py": {
+   "ENG/source": "76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62",
+   "V1": "76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62",
+   "V2": "76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62",
+   "S5": "76141dfb2ddea1c9fb62e5ea09d27830432e96273f85e984da94f5ebbafb4a62"
+  },
+  "core/worldline-collapse.ads": {
+   "ENG/source": "ba6e2a5325fe438922d63d188f936fce556a7b2e8aab99ec38f36d6a1d2ae3ce",
+   "V1": "98b2661b6911332da1b460a78003ea5d3b692c8406c6c34c32b70ab9d6988a95",
+   "V2": "98b2661b6911332da1b460a78003ea5d3b692c8406c6c34c32b70ab9d6988a95",
+   "S5": "98b2661b6911332da1b460a78003ea5d3b692c8406c6c34c32b70ab9d6988a95"
+  },
+  "core/worldline-collapse_wire.ads": {
+   "V1": "c09c0dcd8b5eef55d16f4cbb5d7e4f5a56c8ea225468de9575f495a2602723ac",
+   "V2": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd",
+   "S5": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd"
+  },
+  "tests/test_evaluation_row_projection.py": {
+   "ENG/source": "74a195970ce6bdd052cb3778079796deafe369ee0284fb78da6f009b3f9ddc6a",
+   "S5": "74a195970ce6bdd052cb3778079796deafe369ee0284fb78da6f009b3f9ddc6a"
+  },
+  "tests/test_context_cast_lifetime.py": {
+   "S5": "f6bc3e2f7c21c371072a11400a3f93b719f2e3f99f5a2b41aada484e89c87f07"
+  }
+ },
+ "jackal": "none; no derived numbers",
+ "non_claims": [
+  "no WORLDLINE code, test, compiler, prover or native library executed",
+  "recorded runs read as found, authenticity not established",
+  "no decision code observed at S5 or R-A bytes"
+ ]
+}

@@ -323,6 +323,27 @@ own agents for that now".
 - **NEW OPEN OBLIGATION F32-CONFLICT.** Two original requirements conflict: OB-003 and those AUTHORIZED controls. The
   resolution must weaken neither. It needs its own design and independent review, and is not decided here.
 
+## F32-CONFLICT resolution design v1 (drafted ~17:35Z; under independent Claude review)
+
+`designs/claude-f32-resolution-v1/`: DESIGN.md `d83bd68e…`, evidence.json `18051d25…`, f32-r-a.patch `226e7fc8…`.
+
+**What it recommends: R-A.**
+- **The change.** The candidate-mode test helpers `bound_request` and `collapse_values` supply
+  `resulting_requirement = current_requirement`, which is item1 V1's consistent value.
+- **What it leaves alone.** Every assertion, the kernel, wire, ABI, contract and `checkpoint()` are unchanged.
+- **Its argument.** It is not a real conflict: OB-003's own acceptance requires "the 1.9.1 control is AUTHORIZED"
+  (OBLIGATIONS-v2.json:95).
+
+**What the lead checked.** The patch preimage is byte-identical to S5's two test files, and it applies cleanly in a
+scratch copy.
+
+**Its own claim and process.**
+- **Author's authority claim.** This is lead-routine work and reserves nothing.
+- **Closure.** It needs a separate delta lane, matching-source runs in the admitted frame, and a re-bind of the PK-0 and
+  D1 lanes.
+- **Superseded line.** Its line calling for "a real GPT-6.1 review" is superseded by the 17:05Z direction.
+- **Review.** A Claude review subagent is reviewing it: brief `briefs/f32-resolution-design-v1.md`.
+
 ## Full human directive, 2026-10-05 ~16:50Z (supersedes the truncated reading below)
 
 **Where it came from.** The human told the lead: "Read and apply …/work/claude-session-monitor-v1/autonomy-20261005T163701Z/RECOVERY-AND-AUTONOMY.txt
