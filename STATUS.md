@@ -149,7 +149,14 @@ V5-B02 and every original obligation stay OPEN.
 **Author correction.** W-1 v2 §4.5 understates: the v6 working copy already revalidates excluded leaves
 (`scratch.py:554`, `:569-573`). Recorded in `frame-v6-selfcheck/RESULTS.md`. The frozen v2 is not edited.
 
-## In progress
+## In progress (00:05Z)
+
+- Actual gpt-6.1-sol re-review of operator package DRAFT-v5 and W-1 v2 (`package-review/gpt61-v2`).
+- Actual gpt-6.1-sol review of D1 DESIGN v4 (`designs/claude-native-bigint-d1-design-v4/review/gpt61-v1`).
+- C-API DESIGN v4 drafting agent (author role) on V3-RC4..RC6, output to `designs/claude-capi-boundary-design-v4`. Its
+  prompt forbids any Bash write, including redirection.
+
+## Earlier progress log
 
 - **Operator package.** DRAFT-v4 review sealed NOT_READY (9 corrections). DRAFT-v5 (`f423d6be…`) and W-1 v2 (`1c116f27…`) are frozen; their actual gpt-6.1-sol re-review started ~23:36Z (`wt-1/package-review/gpt61-v2`).
   actual gpt-6.1-sol review started 22:08Z (runner, thread `01a108f6…`), with output in `wt-1/package-review/gpt61-v1`.
