@@ -325,9 +325,16 @@ own agents for that now".
 
 ## Claude review verdicts (sealed by `tools/seal_claude_review.py`; verbatim transcription)
 
+**Authors resumed ~18:00Z.** Each was given its own transcript path:
+- PK-0 v3 → `packets/capi-pk0-v3/`
+- W-1 v9 → a probe-and-evidence plan, prefer self-contained
+- seam v6 → `designs/claude-root-worker-seam-design-v6/`
+
+
 | Item | Verdict | Required changes | Sealed at |
 |---|---|---|---|
 | **PK-0 v2** | **ENDORSED_WITH_REQUIRED_CHANGES** | **RC-v2-1** One case per Context_Matches transport conjunct reachable through the mixed entry; reasoned `unexercisable` replaces `not_exercised`. **RC-v2-2** Readiness observable per refusal case, and the route/three-check claims corrected. **RC-v2-3** Bytecode gate before non-stdlib imports, and `--measure-headers` gated. **RC-v2-4** HarnessFaultControl retains its observed status | `packets/capi-pk0-v2/review/claude-v1`: freeze `8d799c0f…`, REVIEW.md `0246243a…` |
+| **Seam v5** | **ENDORSED_WITH_REQUIRED_CHANGES** | V5-REQ-A..M. V4-REQ-H and V4-REQ-K are now CLOSED_AT_DESIGN_LEVEL, and clauses 04.1 and 07.3 move up to PARTIALLY_CLOSED. The reviewer verified 14/14 slices, 17/17 R5 quotes and NF5-1..7 | `designs/claude-root-worker-seam-design-v5/review/claude-v1`: freeze `04b87e45…` |
 | **W-1 v8** | **NOT_ENDORSED** | W1-V8-HOLDER-IOEXIT, W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-WRITER-AS-W, W1-V8-COMPOSED-ENUM, W1-V8-EVIDENCE-EQUIV, W1-V8-FORM-SUBUNIT | `proposal/v8-review/claude-v1`: freeze `c0a2bc3f…`, REVIEW.md `38dcb076…` |
 
 **PK-0 v2 closure detail.** RC4 and RC5 are CLOSED_IN_SOURCE; RC1, RC2 and RC3 are PARTIALLY_CLOSED. The reviewer independently confirms the F32 source reading and leaves it with F32-CONFLICT.

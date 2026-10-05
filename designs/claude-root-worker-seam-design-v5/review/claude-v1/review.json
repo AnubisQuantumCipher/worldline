@@ -1,0 +1,328 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v5/SEAM-DESIGN.md",
+ "design_sha256": "938c832d03df0910506756ec295acef86ae2cacba4d7b2478a09c6d27f3685cf",
+ "seams_sha256": "a3d3ff5482c188705050f7f83709ff2f5e418547ed4a71f26f705f8c5fe18ebe",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "rc_closure": {
+  "V4-REQ-A": "PARTIALLY_CLOSED",
+  "V4-REQ-B": "PARTIALLY_CLOSED",
+  "V4-REQ-C": "PARTIALLY_CLOSED",
+  "V4-REQ-D": "PARTIALLY_CLOSED",
+  "V4-REQ-E": "PARTIALLY_CLOSED",
+  "V4-REQ-F": "PARTIALLY_CLOSED",
+  "V4-REQ-G": "PARTIALLY_CLOSED",
+  "V4-REQ-H": "CLOSED_AT_DESIGN_LEVEL",
+  "V4-REQ-I": "PARTIALLY_CLOSED",
+  "V4-REQ-J": "PARTIALLY_CLOSED",
+  "V4-REQ-K": "CLOSED_AT_DESIGN_LEVEL",
+  "V4-REQ-L": "PARTIALLY_CLOSED",
+  "RQ-1": "PARTIALLY_CLOSED"
+ },
+ "clause_closure": {
+  "01.1": "PARTIALLY_CLOSED",
+  "01.2": "CLOSED_AT_DESIGN_LEVEL",
+  "01.3": "CLOSED_AT_DESIGN_LEVEL",
+  "01.4": "CLOSED_AT_DESIGN_LEVEL",
+  "01.5": "PARTIALLY_CLOSED",
+  "01.6": "CLOSED_AT_DESIGN_LEVEL",
+  "01.7": "PARTIALLY_CLOSED",
+  "02.1": "PARTIALLY_CLOSED",
+  "02.2": "PARTIALLY_CLOSED",
+  "02.3": "PARTIALLY_CLOSED",
+  "02.4": "PARTIALLY_CLOSED",
+  "03.1": "CLOSED_AT_DESIGN_LEVEL",
+  "03.2": "PARTIALLY_CLOSED",
+  "03.3": "PARTIALLY_CLOSED",
+  "04.1": "PARTIALLY_CLOSED",
+  "04.2": "CLOSED_AT_DESIGN_LEVEL",
+  "04.3": "PARTIALLY_CLOSED",
+  "04.4": "PARTIALLY_CLOSED",
+  "04.5": "CLOSED_AT_DESIGN_LEVEL",
+  "04.6": "CLOSED_AT_DESIGN_LEVEL",
+  "05.1": "CLOSED_AT_DESIGN_LEVEL",
+  "05.2": "CLOSED_AT_DESIGN_LEVEL",
+  "05.3": "CLOSED_AT_DESIGN_LEVEL",
+  "05.4": "CLOSED_AT_DESIGN_LEVEL",
+  "05.5": "CLOSED_AT_DESIGN_LEVEL",
+  "06.1": "CLOSED_AT_DESIGN_LEVEL",
+  "06.2": "PARTIALLY_CLOSED",
+  "06.3": "PARTIALLY_CLOSED",
+  "06.4": "PARTIALLY_CLOSED",
+  "07.1": "CLOSED_AT_DESIGN_LEVEL",
+  "07.2": "CLOSED_AT_DESIGN_LEVEL",
+  "07.3": "PARTIALLY_CLOSED",
+  "07.4": "CLOSED_AT_DESIGN_LEVEL",
+  "07.5": "CLOSED_AT_DESIGN_LEVEL",
+  "08.1": "CLOSED_AT_DESIGN_LEVEL",
+  "08.2": "CLOSED_AT_DESIGN_LEVEL",
+  "08.3": "CLOSED_AT_DESIGN_LEVEL",
+  "08.4": "CLOSED_AT_DESIGN_LEVEL",
+  "08.5": "CLOSED_AT_DESIGN_LEVEL",
+  "08.6": "CLOSED_AT_DESIGN_LEVEL",
+  "08.7": "CLOSED_AT_DESIGN_LEVEL",
+  "09.1": "CLOSED_AT_DESIGN_LEVEL",
+  "09.2": "PARTIALLY_CLOSED",
+  "09.3": "CLOSED_AT_DESIGN_LEVEL",
+  "09.4": "CLOSED_AT_DESIGN_LEVEL",
+  "09.5": "PARTIALLY_CLOSED",
+  "10.1": "CLOSED_AT_DESIGN_LEVEL",
+  "10.2": "CLOSED_AT_DESIGN_LEVEL",
+  "10.3": "CLOSED_AT_DESIGN_LEVEL",
+  "10.4": "CLOSED_AT_DESIGN_LEVEL",
+  "11.1": "PARTIALLY_CLOSED",
+  "11.2": "CLOSED_AT_DESIGN_LEVEL",
+  "11.3": "CLOSED_AT_DESIGN_LEVEL",
+  "11.4": "CLOSED_AT_DESIGN_LEVEL",
+  "12.1": "PARTIALLY_CLOSED",
+  "12.2": "PARTIALLY_CLOSED",
+  "12.3": "CLOSED_AT_DESIGN_LEVEL",
+  "12.4": "PARTIALLY_CLOSED",
+  "12.5": "CLOSED_AT_DESIGN_LEVEL"
+ },
+ "clause_notes": {
+  "09.4": "carried closed; conditional on V5-REQ-I not turning RELAY transport loss into a new refusal",
+  "04.1": "upgraded from NOT_CLOSED",
+  "07.3": "upgraded from NOT_CLOSED"
+ },
+ "ruling_closure": {
+  "D-1a": "PARTIALLY_CLOSED",
+  "D-1b": "PARTIALLY_CLOSED",
+  "D-2a": "PARTIALLY_CLOSED",
+  "D-2b": "CLOSED_AT_DESIGN_LEVEL",
+  "D-3a": "PARTIALLY_CLOSED",
+  "D-4a": "PARTIALLY_CLOSED",
+  "D-5a": "PARTIALLY_CLOSED",
+  "D-5b": "PARTIALLY_CLOSED",
+  "D-6a": "PARTIALLY_CLOSED",
+  "D-7a": "PARTIALLY_CLOSED",
+  "D-8a": "PARTIALLY_CLOSED",
+  "D-8b": "PARTIALLY_CLOSED",
+  "D-9a": "PARTIALLY_CLOSED"
+ },
+ "findings_assessment": {
+  "NF5-1": "VERIFIED_STATIC_WITH_OWNER_ROUTE_EXCEPTION: owner ops return before _reserve (rw/protected_operations.py:731-742); retain_client_request precedes _invoke (rw/daemon.py:342-348), the router redirect precedes both (:307-313); daemon-level steps for transferred requests unspecified",
+  "NF5-2": "VERIFIED_STATIC_INCOMPLETE: runner also uses systemd.outcome (rw/runner.py:342-347), unit.pid (:804), launcher.wait (:276) and launcher stdio (:837-908)",
+  "NF5-3": "VERIFIED_STATIC: rw/protected_scoped_resource_runtime.py:739-769; launch_reserved has no static caller and is single-dispatch, top-level-only (:705-706,:723)",
+  "NF5-4": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_SOURCE: no wl_scoped_* symbol in L/source",
+  "NF5-5": "VERIFIED_STATIC: C1:323-330",
+  "NF5-6": "VERIFIED_STATIC: rw/controller.py:811-826; rw/runner.py:471-483",
+  "NF5-7": "VERIFIED_STATIC: rw/store.py:278-284"
+ },
+ "assessments": {
+  "routing_change": "DIRECTION_CORRECT_COST_EQUALITY_OVERCLAIMED_FOR_WORKER_SERVED_IP",
+  "m8c_withdrawal": "ACCEPTABLE_REMOVES_NON_ORIGINAL_STOP_PROGRESS_OBLIGATION_OPEN",
+  "cg1": "CORRECTLY_OPEN_CONTAINMENT_INHERITED_FROM_PREIMAGE_OWNER_RETRY_ANALOG_UNRECORDED",
+  "custody_returned_k24": "DEPENDS_ON_K24_AND_AN_UNLISTED_NO_ESCAPE_PREMISE_UNDEFINED_AFTER_FRONT_RESTART",
+  "option_h": "PROMISING_INCOMPLETE_MISSING_PER_AGENT_LAUNCH_MAPPING",
+  "k24_k27_op7": "WITHIN_RESERVED_SCOPE_RANGE_REPAIR_COMPLETED_K27_LOADER_PART_SHOULD_BE_RC",
+  "slices": "14_OF_14_VERIFY",
+  "r5_quotes": "17_OF_17_EXACT",
+  "withdrawals": "W5_1_W5_2_BOUNDARIES_CORRECT_JUSTIFIED",
+  "other_changes": "RR5_7_AND_V5_M_PROSE_CHANGE_CARRIED_VERBATIM_V4_1804_AND_LEAVE_V4_1801_STALE"
+ },
+ "required_changes": [
+  {
+   "id": "V5-REQ-A",
+   "change": "Record the actual per-export ABI conventions (pairs vs triples), fix the convention of each new/successor export including X-8 and the sub-helper material, and make X-5 RootStateRec equal Root_State and the V5-J.2 columns (drop stop_intent/returned; add Owners_Open, Abort, Launched, Witness, Settled, Released_Unlaunched, Reattach_Epoch).",
+   "reason": "V5-A.1 labels a new convention as observed; X-5 disagrees with V5-F.1 and the DDL.",
+   "evidence": "D5:455-461,500,518,816,851-862,1291-1317; rw/resource_child_execution.py:105-121,207; rw/resource_scoped_run_ledger.py:316-321; rw/canonical_exchange_kernel.py:37; rw/chain_authority.py:75-76"
+  },
+  {
+   "id": "V5-REQ-B",
+   "change": "State that IP requests served in the worker run under the WL request's root-unit bound (AO-5/AO-6/AO-11 gap as for G); withdraw the serial-route cost equality for them; design a non-borrowing route or record an OPEN containment gap with a closure condition.",
+   "reason": "The coordinator runs under the root unit's admitted properties.",
+   "evidence": "D5:599,625,730,737,784; rw/root_worker_plan.py:37"
+  },
+  {
+   "id": "V5-REQ-C",
+   "change": "Record queueing of later WL requests for g+1 as an OPEN containment gap against original per-request concurrency, not as a difference resolvable only by D-4a.",
+   "reason": "D-4a cannot waive an original obligation; detached jobs keep the worker owning.",
+   "evidence": "D5:600,741,1467; rw/protected_root_worker.py:184-190; P1/HANDOFF.md:115"
+  },
+  {
+   "id": "V5-REQ-D",
+   "change": "Complete the dispatcher interface and CJ-DISP-1: outcome, pid, launcher.wait, launcher stdio, supervision dict semantics and the original exceptions.",
+   "reason": "The runner uses more than four methods.",
+   "evidence": "rw/runner.py:276,342-347,697-703,804,837-908,935-982"
+  },
+  {
+   "id": "V5-REQ-E",
+   "change": "Specify archive_equal against the actual archive encoding (int sign plus LE magnitude; float binary64 bits via Round), with correspondence and costs; correct D5:693; map the original ValueError refusal class of the JSON checks.",
+   "reason": "The archive does not store canonical number text.",
+   "evidence": "D5:474,693; rw/operation_capture.py:34,36; rw/evaluation_terminal.py:76-86; rw/finalization_journal.py:57-60; rw/protected_startup.py:35-51"
+  },
+  {
+   "id": "V5-REQ-F",
+   "change": "Define authentic CUSTODY_RETURNED and XC-4 evidence after a front restart; make the no-custody-descriptor-escape premise an explicit design obligation with an audit and a control.",
+   "reason": "The pidfds held since HELD are process-local; the premise appears only in AUTHOR-NOTES.",
+   "evidence": "D5:903,962-964,1074,1463; AUTHOR-NOTES.md:59; rw/root_worker_closed.py:41-42"
+  },
+  {
+   "id": "V5-REQ-G",
+   "change": "Give a legal durable route from Unknown back to service for a live reattachable worker, and specify the worker's behaviour while its mutations are refused.",
+   "reason": "WORKER_REATTACHED is illegal in Unknown and RECONCILED needs durable evidence.",
+   "evidence": "D5:902,908-909,930,1464"
+  },
+  {
+   "id": "V5-REQ-H",
+   "change": "Specify PREPARED before machine admission and Record_Launch_Intent; replace the lane's unconditional UNKNOWN append in its no-slot failure branch with the original phase-conditional one.",
+   "reason": "Otherwise HANDOFF_ABORT(Never_Dispatched), Never_Holds and Release_Hold cannot apply.",
+   "evidence": "rw/protected_root_resource.py:80-89,142-148; rw/protected_scoped_resource_runtime.py:770-776; core/resource_observation_classification.ads:96-102; core/resource_run_ledger.ads:317-320; D5:885,1046-1049"
+  },
+  {
+   "id": "V5-REQ-I",
+   "change": "Specify the RELAY transport-loss outcome if RC-10 shows that the original re-read raises nothing, adding no refusal or quarantine; specify the daemon-level steps for FRESH and RELAY requests.",
+   "reason": "KernelPeer re-reads SO_PEERCRED on an owned dup ([unverified reasoning] cached credentials); daemon steps precede and follow _invoke.",
+   "evidence": "D5:1225,1518; rw/client_peer.py:73-90,131-137; rw/daemon.py:307-360"
+  },
+  {
+   "id": "V5-REQ-J",
+   "change": "Specify how the sub-helper is created outside the coordinator's PID namespace given unshare(CLONE_NEWPID), and add a kernel measurement under OP-7.",
+   "reason": "[unverified reasoning] Later forks of an unshared process enter the new PID namespace.",
+   "evidence": "D5:785-786; C1:336-337"
+  },
+  {
+   "id": "V5-REQ-K",
+   "change": "Complete Option H with the mapping from per-agent launches onto launch_reserved (single dispatch per reservation, top-level only) and revise its AO marks.",
+   "reason": "A WL request may launch several agents.",
+   "evidence": "D5:713-739; rw/runner.py:694-703; rw/protected_scoped_resource_runtime.py:705-706,723"
+  },
+  {
+   "id": "V5-REQ-L",
+   "change": "Add explicit R5 replacements for v4:1801 and v4:1804 in place of RR5-7 neutralisation; attribute CG-1 to the preimage; record owner.retry's UNINTEGRATED refusal as an OPEN containment gap.",
+   "reason": "Carried verbatim text contradicts V5-B.5; OW is called unchanged although it contains a containment refusal.",
+   "evidence": "D4:1801,1804; D5:407,594,629,1491; rw/protected_operations.py:735-737; pre/protected_operations.py:720-722,729-730"
+  },
+  {
+   "id": "V5-REQ-M",
+   "change": "Split K-27: kernel memfd mapping under OP-7; dynamic-loader behaviour as a lead-owned RC item.",
+   "reason": "Avoid moving lead-owned installed-runtime checks into the operator reservation.",
+   "evidence": "D5:1515"
+  }
+ ],
+ "rulings": [
+  {
+   "id": "D-1a",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-A, V5-REQ-B",
+   "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer",
+   "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls."
+  },
+  {
+   "id": "D-1b",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-B",
+   "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer",
+   "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof."
+  },
+  {
+   "id": "D-2a",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-A, V5-REQ-E",
+   "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+   "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls."
+  },
+  {
+   "id": "D-2b",
+   "ruling": "CLOSED_AT_DESIGN_LEVEL (carried by C2-116)",
+   "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review",
+   "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit."
+  },
+  {
+   "id": "D-3a",
+   "ruling": "PARTIALLY_CLOSED; design-level repair complete (V4-REQ-H), lab evidence OPEN",
+   "owner": "Lead protocol designer; operator for lab execution",
+   "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection."
+  },
+  {
+   "id": "D-4a",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-B, V5-REQ-C, V5-REQ-K",
+   "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change",
+   "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls."
+  },
+  {
+   "id": "D-5a",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-A, V5-REQ-J",
+   "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action",
+   "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls."
+  },
+  {
+   "id": "D-5b",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-J",
+   "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation",
+   "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations."
+  },
+  {
+   "id": "D-6a",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-F, V5-REQ-H",
+   "owner": "Lead historical/canonical model designer; independent GPT-6.1 review",
+   "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement."
+  },
+  {
+   "id": "D-7a",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-E",
+   "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration",
+   "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation."
+  },
+  {
+   "id": "D-8a",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-I",
+   "owner": "Lead OS/native requester designer; independent GPT-6.1 review",
+   "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage."
+  },
+  {
+   "id": "D-8b",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-F, V5-REQ-I, V5-REQ-J; measurements stay with the operator under OP-7",
+   "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review",
+   "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client."
+  },
+  {
+   "id": "D-9a",
+   "ruling": "PARTIALLY_CLOSED; V5-REQ-A, V5-REQ-F, V5-REQ-G, V5-REQ-H",
+   "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign",
+   "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes."
+  }
+ ],
+ "operator_items": {
+  "OP-1": "WITHIN_RESERVED_SCOPE",
+  "OP-2": "WITHIN_RESERVED_SCOPE",
+  "OP-3": "WITHIN_RESERVED_SCOPE",
+  "OP-4": "WITHIN_RESERVED_SCOPE",
+  "OP-5": "WITHIN_RESERVED_SCOPE",
+  "OP-6": "WITHIN_RESERVED_SCOPE",
+  "OP-7": "WITHIN_RESERVED_SCOPE_RANGE_REPAIR_COMPLETED for K-1 through K-27 (K-27 loader part should become a lead-owned RC item, V5-REQ-M)",
+  "OP-8": "WITHIN_RESERVED_SCOPE",
+  "OP-9": "WITHIN_RESERVED_SCOPE"
+ },
+ "no_new_operator_gate": true,
+ "open_obligations": [
+  "OB-001 through OB-219 OPEN, closure_credited false (registry P1/OBLIGATIONS-v2.json 1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec)",
+  "V5-REQ-A through V5-REQ-M",
+  "V4-REQ-A..L except V4-REQ-H and V4-REQ-K (design level only); V3-REQ-A..L; V2-REQ-A..L; RQ-1..RQ-5; inherited RC items except RC-05/RC-10",
+  "Every PARTIALLY_CLOSED clause and ruling above",
+  "CG-1; the owner.retry containment refusal; the later-WL queueing gap; CJ-DISP-1..3",
+  "K-1..K-27 (OP-7); RC-1..RC-7, RC-9, RC-10",
+  "D-4a; H deltas D-H1..D-H5 and the per-agent launch mapping",
+  "All bodies, Posts, proofs, native costs, controls; P-A1..P-A4",
+  "CAPI6R open obligations; ROOT_WORKER_INTEGRATION; L-CAPI-P; G-PROT; IC-10",
+  "Hosted assurance; publication/deployment/final Phase One acceptance"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "d385baca2e5eba7a9605c486d1b5afb2f3fc56cae1d893eed9ba163bf1cc0a50",
+ "checks": {
+  "path": "designs/claude-root-worker-seam-design-v5/review/claude-v1/checks.json",
+  "sha256": "6f24f1a44718ce7f8d0b5159b3b78de1cb45ddbf4a2681cacdba9cfe10ead0ab",
+  "bytes": 8952,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a907f9bdf8344f1ea",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a907f9bdf8344f1ea.output",
+  "source_task_output_sha256": "c9555782a20a46ee0d58745b02829de60e1b5049bf52f479c66da2771eeda22c"
+ }
+}
