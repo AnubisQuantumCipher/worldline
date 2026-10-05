@@ -150,6 +150,22 @@ V5-B02 and every original obligation stay OPEN.
 **Author correction.** W-1 v2 §4.5 understates: the v6 working copy already revalidates excluded leaves
 (`scratch.py:554`, `:569-573`). Recorded in `frame-v6-selfcheck/RESULTS.md`. The frozen v2 is not edited.
 
+## RESERVE CROSSED (2026-10-05 03:37Z)
+
+- **Readings (`df`).** Free 8098127872 bytes at 03:37:37Z, and 8096395264 at 03:39:12Z.
+- **Derived (JACKAL exact).** That is 1901872128 bytes **below** the unchanged 10000000000 reserve, and 2264367104
+  bytes less than at 02:06:26Z.
+- **Read-only size readings of named local paths:**
+  - the vault's `restic-cache`: 1184994266 bytes;
+  - Codex's repair folder: 135204714;
+  - `~/.codex/sessions/2026/10/03`: 542287870;
+  - `~/.codex/thread_history_1.sqlite`: 2330456064;
+  - `workflow-tmp`: 11894682920, essentially unchanged.
+- **Attribution.** The per-file share of the drop is not attributed.
+- **Gates.** Every Gate 0 stage is far from established. The lead's own additions are small: agent transcripts and
+  review records.
+- **Decision.** S-1, including option 4 (hold the lead's review and agent work), is the operator's choice.
+
 ## Backup repository (iPad), 2026-10-05
 
 **Observed.**
