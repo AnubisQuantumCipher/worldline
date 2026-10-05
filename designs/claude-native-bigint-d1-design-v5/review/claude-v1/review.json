@@ -1,0 +1,151 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-native-bigint-d1-design-v5/DESIGN.md",
+ "design_sha256": "5994b2436376d71d8cbf6eb8c90f2c1c601244d6c239872f604c469046a11ebd",
+ "decisions_sha256": "fd470295050c0bac53ed176f4c46450dbaefe94b9c58b6d2b6a28b262fc70396",
+ "appendix_sha256": {
+  "A": "11cad97d194d90e8e7c16ffbac6e61221fd4d0c9fec2ff3f00094826ffd07f98",
+  "B": "b588941d059d7e9c6a8679714b0873faad1bb54faf8407665c53fbc1ddd71fc4"
+ },
+ "brief_sha256": "92db0bef949a16b2a99a9ab5c0bea23c320a39c58adf3e126e34b622596cffd8",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "prior_closure": {
+  "V4-RC1": "NOT_CLOSED: parts (1),(3),(6),(7) closed in text and (2) closed for the named sites, but the Held-only restriction is incomplete: LA-9N/LA-9 evaluate a selected Budget row's usage (F40) and A-ROW's LA-11 body runs LA-7/LA-9 (F41), so RL-25's True expectation (5) fails in the post-D1 checks build; the §9.2/§9.6 v5 claims are false",
+  "V4-RC2": "CLOSED (a)-(h); (b) cites the undefined PO-A34 (V5-RC5)",
+  "rulings_preserved": "R-DRC5, R-F35 (no Pre/cap/refusal), R-F32, R-OD2-DEPTH, R-CARRY preserved; R-EXTENT not yet satisfied"
+ },
+ "findings": {
+  "F35": "NOT closed at design level for A-ROW in v5: the one-sided/truncated-sum mechanism is avoided by A-ROW, but Theorem H-A as written is false (F40, F41); O-GHOST-HORIZON-A OPEN and BLOCKING",
+  "F37": "Repaired in the extent and length test only; residual Budget-usage evaluation in LA-9N/LA-9 and LA-11's body (F40/F41); RL-25 fails as designed",
+  "F38": "ACCURATE; K-215..K-223, K-243..K-245 reproduced; A-COL correctly OPEN and not selected",
+  "H-A": "FALSE as written: counterexamples RL-25 (E=1; LA-9N Value on an 804-byte Budget usage forms 256^804=2^6432 at resource_quantities.adb:181) and RL-25E (E=0; LA-11 -> LA-7 -> LA-9). Otherwise W1, H0, set W, Lemmas S/S', the B.7 sign table, G1c, G8 and per-kind LA-10 check out; repairable without Pre/cap/refusal (V5-RC1..RC3)",
+  "F40": "NEW: LA-9N (DESIGN.md:1364, from LA-9 :919-921) evaluates Q.Value on the usage of every selected row with usage present, including Budget rows; called per selected row in Decide_Rows (:1272)",
+  "F41": "NEW: A-ROW's E=0 path calls LA-11 whose only body is LA-7+LA-8 (:996), importing Side_Sum (recursive), Both_Kinds LA-10 mixed partial sums and unguarded LA-9; contradicts F20/PO-X7 and B.10(3)",
+  "F42": "NEW (cost): §9.3.7 'within a constant factor' is false in L: per-Held-usage-row checked Compare (8L+42)PV(L)+Q(L) vs original 20PV(L), ratio 3233/10 at L=803; the instance exceeds 300x; release per-row O(E) case unstated"
+ },
+ "required_changes": [
+  {
+   "id": "V5-RC1",
+   "change": "Guard LA-9N's and LA-9's usage conjunct by Usage_Candidate (Kind=Held_Capacity and then Present) in both engines; correct DESIGN.md:98,1415-1416,1424-1426,2176,2414,2957, APPENDIX-B:122-123,166, decisions.json:76,97 and K-236; record F40",
+   "reason": "As written, the D1-A checks build forms 2^6432 on RL-25, which the original decides True (D1-introduced checked failure)",
+   "evidence": "DESIGN.md:916-921,1270-1272,1364,2871; C5 core/resource_quantities.adb:181,210-226; core/resource_quantities.ads:92-96; core/resource_run_ledger.adb:36-48,70-90; core/resource_run_ledger.ads:187-192; RT s-genbig.adb:1176,1190-1191; JACKAL J1,J2,J39"
+  },
+  {
+   "id": "V5-RC2",
+   "change": "Give A-ROW its own iterative per-kind LA-11 body (no Side_Sum/Side_Total/LA-7/Both_Kinds LA-10; guarded LA-9N); move LA-11 into A-ROW's PO set; add the direct-Ada control RL-25E (Budget P and C with Length-0 amounts, C usage valid 804 bytes; True in every build; E=0/XA0)",
+   "reason": "The E=0 path imports A-COL ghost and the unguarded LA-9: a checked failure on RL-25E and a recursive function contrary to F20/PO-X7",
+   "evidence": "DESIGN.md:851-852,937-946,986-990,996,1224-1226,1372,2062,2069,2082,3020; APPENDIX-B:183-184; JACKAL J46"
+  },
+  {
+   "id": "V5-RC3",
+   "change": "Re-present Theorem H-A: complete per-construct enumeration of the final A-ROW ghost text (each LA-9N conjunct, the new LA-11 body); add to B.10 'every quantity span passed to a Big_Integer-forming function is the target, a selected amount or a Usage_Candidate usage'; own derivation for LR-3A/LR-4A (high part not in {-1,0,1}); independent re-review",
+   "reason": "The v5 argument misclassifies G1a/G1b and so proves a false statement",
+   "evidence": "APPENDIX-B:118-138,142-159,178-188; DESIGN.md:1332-1339"
+  },
+  {
+   "id": "V5-RC4",
+   "change": "(a) restate the §9.3.7 checked-cost comparison with the per-row Compare term (8L+42)PV(L)+Q(L) vs 20PV(L), obligated under O-COST-MEASURE/D2; (b) state in §9.1 the release case of O(E) work per short row (factor up to E<=803 on originally successful inputs) and add a release timing control; (c) RL-25C Held series workspace is 2E (2*10^8 bytes at 10^8)",
+   "reason": "Cost changes must be stated and obligated; the current statements are inaccurate",
+   "evidence": "DESIGN.md:591-595,1229,1324-1327,2159,2166,2229,2242,2348-2353,2872; JACKAL J40-J45"
+  },
+  {
+   "id": "V5-RC5",
+   "change": "Define PO-A34 or remove its citations; reword APPENDIX-B:187-188 ('on an input where the original also fails'); synchronize decisions.json",
+   "reason": "Record precision",
+   "evidence": "DESIGN.md:2071-2101,2413,2949,2958,3011,3024; decisions.json:55,130,143"
+  }
+ ],
+ "rulings": [
+  {
+   "id": "R-H-A",
+   "ruling": "Theorem H-A as written is false (RL-25, RL-25E); F35/O-GHOST-HORIZON-A not closed for A-ROW and blocking for D1-A; the A-ROW architecture is endorsed as the candidate; no Pre/cap/domain restriction/refusal eligible",
+   "owner": "lead",
+   "evidence_required": "V5-RC1..RC3 text; independent re-review of the revised H-A; PO-A27..PO-A33 proved; RL-24, RL-25 (z,n), RL-25E, RL-26 completing in the checks build"
+  },
+  {
+   "id": "R-EXTENT-2",
+   "ruling": "The Held-only restriction covers every D1-A construct that forms a Big_Integer from a usage span, not only the extent and length test",
+   "owner": "lead",
+   "evidence_required": "V5-RC1/RC2 text; RL-25 and RL-25E in both builds"
+  },
+  {
+   "id": "R-F38",
+   "ruling": "A-COL correctly OPEN and not selected; V5-RC1 applies to its LA-9 if revived",
+   "owner": "lead",
+   "evidence_required": "a different reviewed horizon argument"
+  },
+  {
+   "id": "R-COST-5",
+   "ruling": "The checked Compare term and the release per-row E factor are stated cost changes obligated under O-COST-MEASURE/D2, never acceptance; no cap",
+   "owner": "lead",
+   "evidence_required": "V5-RC4 text; measurements"
+  },
+  {
+   "id": "R-CARRY-5",
+   "ruling": "R-DRC5, R-F32, R-OD2-DEPTH, R-A, R-B, R-PREFIX, R-WORKSPACE, R-OD1, R-OD2, R-NOTICE, R-SCOPE stand unchanged",
+   "owner": "as in the v4 review",
+   "evidence_required": "as in the v4 review"
+  }
+ ],
+ "open_obligations": [
+  "O-A",
+  "O-CHECK",
+  "O-BOUNDS",
+  "O-B",
+  "O-PREFIX-PROOF",
+  "O-LEGALITY-PROBE",
+  "O-EXCEPTION-CLEANUP",
+  "O-WORKSPACE",
+  "O-WORKSPACE-A",
+  "O-NOTICE-R1",
+  "O-HELPERS",
+  "O-GHOST",
+  "O-GHOST-HORIZON-A",
+  "O-GHOST-EXTENT-A",
+  "O-GHOST-EXTENT-A-LEMMA (new, this review: F40/F41)",
+  "O-BUILD-SELECTION",
+  "O-PYTHON",
+  "O-PY-AUDIT",
+  "O-PY-COST",
+  "O-PY-T",
+  "O-PY-DEPTH",
+  "O-CENSUS",
+  "O-ORIGINAL-F32",
+  "O-TRANSPORT-MAPPING",
+  "O-COST-MEASURE",
+  "O-PROOF",
+  "O-NATIVE",
+  "O-CONTROLS",
+  "O-PINS",
+  "O-JACKAL-SYMBOLIC",
+  "O-FINAL"
+ ],
+ "process_disclosures": [
+  "no file written",
+  "read-only python via a terminating shell heredoc for v4/v5 section diffs and JSON key reads; no WORLDLINE import",
+  "SIA not consulted; no SIA note",
+  "all eight Ada skills loaded before Ada reading",
+  "not read: review-records/, D4/review/gpt61-*, any v5 review directory, any transcript"
+ ],
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "native_acceptance": false,
+ "report_sha256": "38cb267e1abe72f0e75a72cac2368bb29410981564f91ad2403ddbd223d3ee96",
+ "checks": {
+  "path": "designs/claude-native-bigint-d1-design-v5/review/claude-v1/checks.json",
+  "sha256": "957094c65bb1e0a8529f7a7ea167273fbbe7fff9a16c716644155aad14dd21ae",
+  "bytes": 10106,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "ae72ef822d38430d7",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/ae72ef822d38430d7.output",
+  "source_task_output_sha256": "5a23b2fbc6d4511c5ca67243536178453985da2da25f06e45ac6c82f4874f789"
+ }
+}
