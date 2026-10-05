@@ -357,12 +357,18 @@ question. Everything the directive forbids (password collection, policy weakenin
 the review gates, reproducing the blocked exploit procedures, faking provenance) is honored.
 
 **Concrete deliverables now in progress (uninstalled, reviewable):**
-- `lanes/frame-review-provenance-v1/` — the §23 D-LEAD-REVIEW-PROVENANCE join change in frame source. DRAFTED and
-  lead-verified: live v5/v6 frames UNTOUCHED, base == live v5, postimage `61f3dd4b…`, change bounded to the 13 join-region
-  hunks (net +149). Dual-form by reviewer_kind; Claude form binds the sealed freeze + raw-final-message + agent id +
-  task-output sha256 + reviewer_kind + different_from_author; neither form refuses; never a bare label; never a GPT claim.
-  One flagged tightening (requires a sealed `completed_at`). **Under its own §23.6 independent review** (Opus 4.8); brief
-  `briefs/frame-review-provenance-v1.md` (`2fa36747…`). Adoption stays BLOCKED.
+- `lanes/frame-review-provenance-v1/` — the §23 join change. Its §23.6 review is SEALED: **ENDORSED_WITH_REQUIRED_CHANGES**
+  (`lanes/frame-review-provenance-v1/review/claude-v1`). The reviewer confirmed the four enumerated refusals hold and the
+  proof/source/runtime binding is not bypassed, and found three required changes — **R1 (primary): the Claude form never
+  cross-bound the independent transcript's content to the sealed review**, so a review could in principle be self-authored;
+  R2 (`completed_at` empty in real freezes); R3 (sidecar check not form-aware).
+  - **Tooling hardened in response (R1/R2):** `tools/seal_claude_review.py` now REQUIRES a `=== SEAL ===` block in the
+    reviewer's independent final message citing the sha256 of its REVIEW.md/review.json/checks.json, verifies each against
+    the extracted bytes, and records `completed_at` + the cited hashes + the task-output sha256 in the freeze. The reviewer
+    instruction set is `tools/review-override-v3.txt`. Self-tested. So the sealed review is now bound to what the independent
+    reviewer actually emitted.
+  - **Join v2 in progress:** the author redoes the join to consume the hardened freeze (require raw-final-message to cite
+    the section hashes = content cross-binding; require `completed_at`; form-aware sidecar). Adoption stays BLOCKED.
 - `lanes/frame-v6-w1-setup-v1/` — DRAFTED (25 files): the non-enforcement setup assets (accounts/sudoers/sshd/lease/ACL
   bytes, install order S-A..S-E, rollback template) + the exists-vs-needed GAP record (EXISTS 6 / PARTIAL 7 / MISSING 30).
   Lead-verified: accounts absent, no sudoers installed, live frame v6 untouched, all .py parse. NOT review-ready: the

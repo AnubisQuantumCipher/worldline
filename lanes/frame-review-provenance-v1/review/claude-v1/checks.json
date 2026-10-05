@@ -1,0 +1,38 @@
+{
+  "reviewer": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+  "reviewer_kind": "claude-subagent",
+  "hashes_computed": [
+    {"path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/briefs/frame-review-provenance-v1.md", "sha256": "2fa36747670efa1f686bbfb006e32da2170c964045ef3152eca4b48ba7c4cb2f", "tool": "sha256sum", "note": "review brief"},
+    {"path": "lanes/frame-review-provenance-v1/MANIFEST.json", "sha256": "0272cdfbb8337d65ac685fccbca2723473b762c54fd31f4c99c390c03121a2f5", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/frame-review-provenance.patch", "sha256": "b67221f741b897a7cdeb882fdbeef19e4989803af59c531ac37475944a37632f", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/postimage/scratch.py", "sha256": "61f3dd4bab7d016285d155f8bb1f5205a37e47ac9493f8b460ada1a75ba91e5b", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/preimage-region.py", "sha256": "c5e86142a700ac4d6d503a13d464c0291e1d0059f7e0c28c85844b809e27a272", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/changed-functions.postimage.py", "sha256": "e2efb183bef34032db07538e558edc170106d5ea55815277d3a55f57a94e9206", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/AUTHOR-NOTES.md", "sha256": "4dab335db493056ea01f095cbb716ad38f733d81896ccf754be0101e5b50d20e", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/base/scratch.py", "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86", "tool": "sha256sum", "matches_brief": true},
+    {"path": "work/claude-scratch-frame-v5/scratch.py", "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86", "tool": "sha256sum", "note": "live v5 == lane base => base_equals_live_v5 true"},
+    {"path": "work/claude-scratch-frame-v6/scratch.py", "sha256": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84", "tool": "sha256sum", "note": "live v6 == MANIFEST v6_sha256; differs from postimage (not installed)"},
+    {"path": "proposal/v10-review/claude-v1/review-freeze.json", "sha256": "25a567040639c8b24ca51edeab853f0f414b6eafe1a51794169e746b2cdea922", "tool": "sha256sum", "note": "real Claude freeze; roster={REVIEW.md,review.json,checks.json}; completed_at=None; mode='0600' (string)"},
+    {"path": "proposal/v11-review/claude-v1/review-freeze.json", "sha256": "b9011a9555ff621576547a946bb43a1b95027cd4397238b46a035407fac9f44b", "tool": "sha256sum", "note": "real Claude freeze; roster={REVIEW.md,review.json,checks.json}; completed_at=None; mode='0600' (string)"}
+  ],
+  "files_read": [
+    {"path": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/scratchpad/review-override-v2.txt", "lines": "1-13 (full)"},
+    {"path": "briefs/frame-review-provenance-v1.md", "lines": "1-61 (full)"},
+    {"path": "lanes/frame-review-provenance-v1/frame-review-provenance.patch", "lines": "1-268 (full)"},
+    {"path": "lanes/frame-review-provenance-v1/AUTHOR-NOTES.md", "lines": "1-124 (full)"},
+    {"path": "lanes/frame-review-provenance-v1/MANIFEST.json", "lines": "1-119 (full)"},
+    {"path": "lanes/frame-review-provenance-v1/postimage/scratch.py", "lines": "139-178, 240-374, 446-485, 680-1024 (helpers Dir/pin/pinned/sha/load_json/existing_name; full join region rollout_join..frame_admitted and frame_inventory)"},
+    {"path": "proposal/ISOLATION-STORAGE-PROPOSAL-v11.md", "lines": "4299-4394 (§23 in full incl. §23.1-§23.6); grep index of §17/§23 references"},
+    {"path": "proposal/v10-review/claude-v1/review-freeze.json", "lines": "parsed as JSON (keys/roster/fields)"},
+    {"path": "proposal/v11-review/claude-v1/review-freeze.json", "lines": "parsed as JSON (keys/roster/fields)"}
+  ],
+  "jackal_calls": [],
+  "jackal_note": "No derived numbers arose in this review. Every number reported (sha256 digests, byte lengths, line numbers) is OBSERVED tool output (sha256sum / Python hashlib / file line numbers), not derived by reasoning, so per the JACKAL rule none were routed. scratch.py was read as text/AST only and never executed; no WORLDLINE/COSMOGONY/prover/test/sudo/systemctl/project-vault/restic was run; no files were written; no process was stopped; SIA MCP server was reported as failed-to-connect and no SIA notes were made.",
+  "non_claims": [
+    "This review grants no acceptance of W-1 or the frame; adoption remains BLOCKED regardless of verdict until the operator acts.",
+    "No proof, source, phase, admission, or ordinary-evidence acceptance is implied; even exact hashing is informational about code correctness.",
+    "AST/text reading confirms structure and logic paths only; it is not evidence the join behaves as specified at runtime (the frame was never imported or executed).",
+    "'base_equals_live_v5 true' and 'live frames untouched' are supported by the observed hashes of the three files I hashed (lane base == live v5; live v6 == MANIFEST; postimage differs); I did not inspect the installed/protected tree beyond those source files.",
+    "The refusal-completeness confirmation covers the four enumerated attacks; R1 identifies a distinct, non-enumerated independence gap that this verdict treats as a required change."
+  ]
+}

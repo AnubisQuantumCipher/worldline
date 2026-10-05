@@ -2,11 +2,20 @@
 """Seal an independent Claude review subagent's final message into a review directory.
 
 The harness refuses report files from subagents, so a reviewer returns REVIEW.md, review.json and
-checks.json as text between "=== NAME ===" markers. This tool takes the LAST assistant text message of
-the reviewer's own task output (JSONL), writes it unmodified to raw-final-message.txt, splits it into
-the three files verbatim, adds report_sha256 and checks to review.json (the only lead-computed fields),
-and writes review-freeze.json last. Every file is create-only (O_EXCL), fsynced, mode 0600.
+checks.json as text between "=== NAME ===" markers, then a "=== SEAL ===" JSON block, then "=== END ===".
+This tool takes the LAST assistant text message of the reviewer's own task output (JSONL), writes it
+unmodified to raw-final-message.txt, splits it into the three files verbatim, and writes review-freeze.json.
 
+INTEGRITY (frame §23 R1/R2 hardening). The reviewer's final message — the independent transcript's own
+bytes — MUST carry a "=== SEAL ===" block: {"completed_at": <ISO8601>, "sections": {"REVIEW.md": <sha256>,
+"review.json": <sha256>, "checks.json": <sha256>}}. The sealer VERIFIES each cited hash equals the
+hash of the extracted section bytes, so the sealed review is cryptographically bound to what the
+independent reviewer actually emitted (a post-hoc edit of any section fails the check). The freeze records
+`completed_at`, the reviewer-cited section hashes, the task-output sha256, and that raw-final-message.txt
+is the verbatim independent final message. A legacy final message with no SEAL block is sealed with a
+loud warning and completed_at=null; such a freeze CANNOT satisfy the hardened Claude-review adoption join.
+
+Every file is create-only (O_EXCL), fsynced, mode 0600.
 usage: seal_claude_review.py TASK_OUTPUT_JSONL REVIEW_DIR AGENT_ID
 """
 import hashlib, json, os, sys
@@ -50,26 +59,71 @@ def section(text, name, nxt):
 def main():
     src, out, agent = sys.argv[1:4]
     text = last_assistant_text(src)
+    has_seal = '=== SEAL ===\n' in text
     os.makedirs(out, exist_ok=False)
     create(os.path.join(out, 'raw-final-message.txt'), text.encode('utf-8'))
     review_md = section(text, 'REVIEW.md', 'review.json').encode('utf-8')
     review = json.loads(section(text, 'review.json', 'checks.json'))
-    checks_txt = section(text, 'checks.json', 'END')
+    checks_txt = section(text, 'checks.json', 'SEAL' if has_seal else 'END')
     json.loads(checks_txt)
+    review_json_bytes = (json.dumps(review, indent=1, ensure_ascii=False) + '\n').encode('utf-8')
+
+    # SEAL verification: the independent final message must cite the hashes of the exact section bytes.
+    completed_at = None
+    cited = None
+    seal_ok = False
+    if has_seal:
+        seal = json.loads(section(text, 'SEAL', 'END'))
+        completed_at = seal.get('completed_at')
+        cited = seal.get('sections') or {}
+        # The reviewer cites the sha256 of the EXACT bytes it emits for each section. review.json is
+        # re-serialized by the lead with indent=1; the reviewer must cite the hash of that canonical form,
+        # OR of its own emitted text. We verify against BOTH the emitted-text hash and (for review.json)
+        # the canonical re-serialized hash, and record which matched.
+        emit = {
+            'REVIEW.md': hashlib.sha256(review_md).hexdigest(),
+            'review.json': hashlib.sha256(review_json_bytes).hexdigest(),
+            'checks.json': hashlib.sha256(checks_txt.encode('utf-8')).hexdigest(),
+        }
+        raw_review_json = section(text, 'review.json', 'checks.json').encode('utf-8')
+        alt_review_json = hashlib.sha256(raw_review_json).hexdigest()
+        mism = []
+        for k in ('REVIEW.md', 'review.json', 'checks.json'):
+            c = cited.get(k)
+            if c == emit[k]:
+                continue
+            if k == 'review.json' and c == alt_review_json:
+                continue
+            mism.append(f'{k}: cited {c} != emitted {emit[k]}' + (f' (raw {alt_review_json})' if k == 'review.json' else ''))
+        if mism:
+            sys.exit('SEAL section-hash MISMATCH (sealed review not bound to the independent final message):\n' + '\n'.join(mism))
+        if not completed_at or not isinstance(completed_at, str):
+            sys.exit('SEAL missing a non-empty completed_at (R2)')
+        seal_ok = True
+    else:
+        sys.stderr.write('WARNING: no === SEAL === block in the final message; completed_at=null; this '
+                         'freeze CANNOT satisfy the hardened Claude-review adoption join (frame §23 R1/R2).\n')
+
     files = {}
     files['REVIEW.md'] = create(os.path.join(out, 'REVIEW.md'), review_md)
     files['checks.json'] = create(os.path.join(out, 'checks.json'), checks_txt.encode('utf-8'))
     review['report_sha256'] = files['REVIEW.md']['sha256']
     review['checks'] = dict(path=os.path.join(out, 'checks.json'), **files['checks.json'])
-    review['sealed_by'] = {'role': 'lead (claude-opus-5-5); verbatim transcription of the reviewer final message',
+    task_out_sha = hashlib.sha256(open(src, 'rb').read()).hexdigest()
+    review['sealed_by'] = {'role': 'lead; verbatim transcription of the independent reviewer final message',
                            'reviewer_agent_id': agent, 'source_task_output': src,
-                           'source_task_output_sha256': hashlib.sha256(open(src, 'rb').read()).hexdigest()}
-    files['review.json'] = create(os.path.join(out, 'review.json'),
-                                  (json.dumps(review, indent=1, ensure_ascii=False) + '\n').encode('utf-8'))
+                           'source_task_output_sha256': task_out_sha,
+                           'raw_final_message_is_verbatim_independent_final_message': True,
+                           'seal_verified': seal_ok, 'completed_at': completed_at}
+    files['review.json'] = create(os.path.join(out, 'review.json'), review_json_bytes)
     freeze = {'actual_model_selection': review.get('actual_model_selection'), 'reviewer_kind': review.get('reviewer_kind'),
-              'different_from_author': review.get('different_from_author'), 'files': files}
+              'different_from_author': review.get('different_from_author'),
+              'completed_at': completed_at, 'seal_verified': seal_ok,
+              'reviewer_agent_id': agent, 'source_task_output_sha256': task_out_sha,
+              'reviewer_cited_section_sha256': cited, 'files': files}
     create(os.path.join(out, 'review-freeze.json'), (json.dumps(freeze, indent=1) + '\n').encode('utf-8'))
-    print(json.dumps({'verdict': review.get('verdict'), 'files': files}, indent=1))
+    print(json.dumps({'verdict': review.get('verdict'), 'seal_verified': seal_ok, 'completed_at': completed_at,
+                      'files': files}, indent=1))
 
 
 if __name__ == '__main__':

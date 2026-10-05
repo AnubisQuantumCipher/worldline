@@ -1,0 +1,153 @@
+All inputs verified. Key confirmations from the real freezes: roster is exactly `{REVIEW.md, review.json, checks.json}` = `CLAUDE_REVIEW_ROSTER`; `reviewer_kind='claude-subagent'`, `different_from_author=True`; but **`completed_at` is `None` in both real freezes**, and `mode` is the string `"0600"` (vs `Dir.ident`'s int). No derived numbers arose — all hashes are observed `sha256sum`/`hashlib` tool output, so no JACKAL calls were needed. Here is the review.
+
+=== REVIEW.md ===
+# REVIEW — D-LEAD-REVIEW-PROVENANCE join change (W-1 §23 / §23.6), lane `frame-review-provenance-v1`
+
+**Reviewer:** independent Claude Code review subagent (claude-opus-5-5), fresh context. I authored nothing under review and am not the drafting agent.
+**Author under review:** Claude Code lead claude-opus-4-8 (drafting subagent).
+**Verdict:** ENDORSED_WITH_REQUIRED_CHANGES. Nothing is installed; adoption stays BLOCKED regardless of this verdict until the operator acts and the required changes land.
+
+## 0. Inputs verified (hashes observed, not derived)
+All seven lane files match the brief's sealed hashes exactly: MANIFEST.json `0272cdfb…`, frame-review-provenance.patch `b67221f7…`, postimage/scratch.py `61f3dd4b…`, preimage-region.py `c5e86142…`, changed-functions.postimage.py `e2efb183…`, AUTHOR-NOTES.md `4dab335d…`, base/scratch.py `f9f6596d…`. Brief sha256 = `2fa36747670efa1f686bbfb006e32da2170c964045ef3152eca4b48ba7c4cb2f`.
+`base_equals_live_v5` = **true** (observed): live `work/claude-scratch-frame-v5/scratch.py` = `f9f6596d…` = lane base = MANIFEST base_sha256. Live `…v6/scratch.py` = `2255d6e1…` = MANIFEST v6_sha256. Postimage `61f3dd4b…` differs from both live frames → the change is SOURCE-ONLY and not installed. (I did not read this lane's review dirs or any transcript.)
+
+## 1. Faithfulness to §23.4 (Claude-subagent form) — SOUND, with tightenings
+`claude_review_join` (postimage/scratch.py:776-831) binds every element §23.4 enumerates (proposal §23.4, ISOLATION-STORAGE-PROPOSAL-v11.md:4333-4341):
+- sealed freeze over exactly `CLAUDE_REVIEW_ROSTER = {REVIEW.md, review.json, checks.json}` (:92, roster-equality :804-805), each member's on-disk sha256 **and bytes** vs the sealed row (:806-810), freeze's own sha256 (:802, bound as `review_freeze_sha256` :828);
+- `raw-final-message.txt` present + sha256 (:818-819, :828);
+- reviewer agent id, bound to the sealed task-output filename `agent-<id>` (:823-825) — stronger than §23.4's bare "agent id";
+- reviewer task-output sha256 (:822, :830) replacing the `~/.codex/sessions` rollout-file uniqueness (§23.5 item 3, :4356-4359);
+- `reviewer_kind == 'claude-subagent'` (:811); `different_from_author is True` (:812).
+Checked against the real freezes `proposal/v10-review/claude-v1/review-freeze.json` (`25a56704…`) and `…/v11-review/claude-v1/review-freeze.json` (`b9011a95…`): both carry exactly that 3-file roster, `reviewer_kind='claude-subagent'`, `different_from_author=true`, `actual_model_selection` present. Faithful. The byte check (§23.4 says only "each file's sha256") and roster-equality are tightenings, not loosenings.
+
+## 2. GPT form — RETAINED unchanged in substance (item 2 PASS)
+`rollout_join` (:694-754) is byte-identical to base except its docstring and one added key `reviewer_kind:'gpt-6.1-sol'` in the returned provenance (:749). Every substantive check is intact: freeze roster/model/author (:706-711), one-thread/one-rollout (:718-723), model=`gpt-6.1-sol` in every turn context, cwd=REVIEW, provider openai (:736-738), event-final == rollout-final (:739), the independent rollout's final message must cite the sha256 of review.json/REVIEW.md/review-freeze.json (:712, :741-743), exec argv (:744-748). The GPT form is selected by `reviewer_kind` via `review_freeze_kind`/`review_provenance_join` (:757-773, :834-848); an already-sealed GPT review (`reviewer_kind` absent/`gpt-6.1-sol` with `actual_model_selection=='gpt-6.1-sol'`) still routes to `rollout_join` (:771, :840-843) and is never downgraded. A claude-subagent review never reaches `rollout_join`.
+
+## 3. Refusal completeness (the crux) — all four enumerated attacks are REFUSED
+- **Bare label.** The label only *selects* the form (`review_freeze_kind` :757-773); the selected join then binds and re-verifies every byte. A `reviewer_kind` with no matching sealed bytes accumulates mismatches in `claude_review_join`/`rollout_join`, and `adopt` fails `require(not mismatches)` (:961). If the freeze file is absent, `review_freeze_kind` raises (`read_bytes`→`read_observed`→`os.open`, no catch) → refuse. ✔
+- **Unsealed / unbound / mismatched.** Freeze roster-equality (:804-805) and per-member on-disk `ident` vs sealed sha256+bytes (:806-810) catch any tampering or substitution; `raw-final-message.txt` must exist (:818); task-output byte-pinned (:822). ✔
+- **A Claude review claiming GPT.** To be treated as GPT, the freeze must present `actual_model_selection=='gpt-6.1-sol'` and route to `rollout_join`, which requires a genuine `~/.codex/sessions` codex-exec rollout (model/provider/cwd/final-message/digest-cite/exec-argv). A Claude review has none → refuse; and a `claude-subagent` review is recorded/re-checked as `claude-subagent` (:826, :1001-1003). ✔
+- **`different_from_author` False.** Refused in three independent places: `REVIEW_PROFILE` base loop (REVIEW_PROFILE retains `'different_from_author': True`, :105-114; enforced :852), the claude branch of `review_profile_problems` (:864-865), and the freeze check in `claude_review_join` (:812). ✔
+
+Unrecognized `reviewer_kind` double-refuses: `review_provenance_join` returns a refusal mismatch (:848) and `review_profile_problems` appends `'unrecognized reviewer_kind'` (:866-867).
+
+**Caveat — the deeper independence gap (beyond the enumerated four): see R1.** The four cases above hold, but the join does not actually *prevent an author-written review*; it only refuses a self-asserted `different_from_author:False`.
+
+## 4. The `completed_at` augmentation (item 4) — sound direction, but currently INERT against the real freeze format → see R2
+`claude_review_join` additionally requires a non-empty `completed_at` string in the freeze (:815-817) and `validate_adoption_observation` uses it as the ordering lower bound for the Claude branch (:933-937), mirroring the GPT branch's `rollout_final_timestamp` (:938-941). This preserves the "observation after review completion, before adoption" invariant and refuses if absent (fail-closed; correct direction, a tightening). **But both real v10/v11 freezes carry `completed_at: None`**, so as written the Claude form refuses *every* current real Claude freeze. The augmentation therefore demands a change to the freeze-*sealing* format, which §23.4 does not specify. Additionally, `completed_at` is a lead-sealed field (unlike the GPT rollout timestamp, which is drawn from the independent rollout) — so its trust depends on R1.
+
+## 5. Localization and binding integrity (item 5) — GOOD
+The patch is the complete diff between two files whose endpoint hashes I verified, so its 6 hunks are the entire change; all lie within the join region (rosters :92; REVIEW_PROFILE :105-114; rollout_join; the new `review_freeze_kind`/`claude_review_join`/`review_provenance_join`; `review_profile_problems`; `validate_adoption_observation`; `adopt`; `frame_admitted`). Nothing in materialization/admission/reservation/launch/spawn/observe/retain/recovery is touched.
+Proof/source/runtime binding is NOT bypassed: `frame_inventory` (schema, `members==frame_members()`, lead_module pin+sha256, base_source_binding/base_inventory/base_directory_modes pins) is unchanged (:680-691) and still called by both `adopt` (:950) and `frame_admitted` (:978); `review_profile_problems` still checks candidate/lead_id/`frame_inventory_sha256`/`report_sha256` (:868-875); the lead observation and `validate_adoption_observation` transcript-prefix/goal/liveness checks are unchanged (:882-928); the five acceptance Falses remain in `REVIEW_PROFILE` and are enforced by the base loop (:852). Schema bump handled: `adopt` writes `…lead-adoption-v6` (:965); `frame_admitted` accepts v5 (legacy GPT) and v6 (:984) and re-joins + re-pins provenance by `reviewer_kind` at every use (claude branch :994-1003 re-runs `claude_review_join` and re-pins the task-output; GPT branch :1004-1010 unchanged). A review-provenance change does not become an adoption path around the proof/source gates.
+
+## 6. Adversarial findings — anything that weakens, or admits weaker provenance than the GPT join (item 6)
+
+### R1 (PRIMARY, REQUIRED) — the Claude form never cross-binds the independent artifact's *content* to the sealed review; a self-authored review can pass
+The GPT form cross-binds an independent-origin artifact's *content* to the sealed review: the `~/.codex/sessions` rollout (written by the codex process, not the lead) must have its final message equal the event-stream final (:739) and must cite the sha256 of review.json/REVIEW.md/review-freeze.json (:741-743). A lead cannot fabricate this without actually running an independent gpt-6.1-sol review that emits those digests.
+The Claude form does **not** do this. `task_bytes` is read and then discarded (`task_bytes, task_pin = pinned(task_output_path)`, :822 — `task_bytes` is never referenced again); `reviewer_agent_id` is checked only for non-emptiness and as a filename substring (:823-825); `raw-final-message.txt`'s sha256 is bound but its content is never compared to anything. Nothing forces the sealed review (freeze + review.json + REVIEW.md + checks.json + raw-final-message.txt) to have *originated from* the independent task-output transcript. Consequently a lead can run any trivial subagent (to produce a genuine `subagents/agent-<id>.jsonl`), self-write the entire sealed review, assert `different_from_author:true`, and adopt. Independence is reduced to a self-asserted boolean plus an inert byte-pin. §23.6 (:4388-4393) explicitly claims the join "refuses … author-reviewed" and reserves the "not a loosening" judgment to this review; on the anti-author-review axis the Claude form is **weaker** than the GPT join. This is the one place adoption could proceed on weaker provenance than the original GPT join demanded.
+**Required change:** bind the sealed review to independently-originated bytes — e.g. require `raw-final-message.txt` (or the task-output's final agent_message) to cite the sha256 of REVIEW.md/review.json/checks.json (mirroring :741-743), and/or verify `raw-final-message.txt` equals the task-output's final message, so the task-output pin stops being inert. (Equivalently, §23.4 should be respecified to add this binding.)
+
+### R2 (REQUIRED) — `completed_at` requirement is unsatisfiable by the real freeze format
+As in §4: `claude_review_join` requires a non-empty `completed_at` (:815-817) but both real freezes have `completed_at: None`. Fail-closed, so not a loosening, but the Claude form cannot adopt any real review until the freeze-sealing format is changed.
+**Required change:** §23.6 must either ratify adding a sealed `completed_at` to the Claude-review freeze format (a change to the sealing step, not just the join) bound to an independent completion-time source (consistent with R1), or specify an alternative sealed completion-time source.
+
+### R3 (REQUIRED) — shared sidecar check is incompatible with the 3-file Claude roster
+`review_profile_problems` unconditionally pins `bound-inputs.json` and `tool-topology.json` from the review dir for **both** forms (:876-878). `pin` raises `FileNotFoundError` on a missing file (:446-454). The Claude roster excludes those sidecars (:92; comment :8-10 "no bound-inputs/tool-topology sidecars") and the real v10/v11 freezes seal only 3 files. So for a Claude review without those two files, `review_profile_problems` raises and `adopt`/`frame_admitted` crash. Fail-closed (not a loosening), but it makes the Claude form non-adoptable unless the lead also fabricates the two GPT-era sidecars — contradicting the 3-file design.
+**Required change:** make the sidecar check form-aware (skip `bound-inputs`/`tool-topology` for `reviewer_kind == 'claude-subagent'`) or reconcile `CLAUDE_REVIEW_ROSTER` with the profile check.
+
+### Noted (disclosed, acceptable; not blocking)
+- **mode representation.** Real freezes store `mode` as the string `"0600"`; `Dir.ident` returns `mode` as an int. `claude_review_join` deliberately compares only sha256+bytes (:809), not mode, which is *necessary* given the format (a comparison would always refuse). The files are read via `read_observed` (single-link regular, O_NOFOLLOW; :253-273), so mode is not a load-bearing binding here. Recommend §23.6 normalize the freeze `mode` to int so the Claude form can bind it as the GPT form does (:709).
+- **`REVIEW` path constant** `FRAME/'review/gpt61-v1'` (:71) retains a GPT-specific basename; the join reads via `Dir.anchor(REVIEW)` and does not depend on the basename, so this is a cosmetic non-join follow-up (AUTHOR-NOTES §4), not a defect in the join.
+
+## 7. Bottom line
+The dual-form dispatch, GPT-form retention, schema-v6 handling, localization, and the preservation of the proof/source/runtime binding are sound, and the four enumerated refusal cases the crux names all hold. The change is ENDORSED_WITH_REQUIRED_CHANGES: R1 (the Claude form is not yet at-least-as-strong as the GPT join on anti-author-review), R2 (`completed_at` unsatisfiable by the real freeze format), and R3 (sidecar check vs 3-file roster) must be resolved before any adoption relies on a Claude-subagent review. I grant no acceptance of W-1 or the frame; adoption remains BLOCKED; no proof/source/phase acceptance is implied.
+
+=== review.json ===
+{
+  "schema": "claude-frame-join-review-v1",
+  "lane": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/lanes/frame-review-provenance-v1",
+  "postimage_sha256": "61f3dd4bab7d016285d155f8bb1f5205a37e47ac9493f8b460ada1a75ba91e5b",
+  "patch_sha256": "b67221f741b897a7cdeb882fdbeef19e4989803af59c531ac37475944a37632f",
+  "base_equals_live_v5": true,
+  "different_from_author": true,
+  "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+  "reviewer_kind": "claude-subagent",
+  "author": "Claude Code lead claude-opus-4-8 (drafting subagent)",
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "faithfulness": "claude_review_join (postimage:776-831) binds every element of proposal §23.4 (v11.md:4333-4341): 3-file sealed freeze over CLAUDE_REVIEW_ROSTER={REVIEW.md,review.json,checks.json} with roster-equality (804-805) and per-member on-disk sha256+bytes vs sealed row (806-810), freeze own sha256 (802,828), raw-final-message.txt+sha256 (818-819,828), reviewer agent id bound to the agent-<id> task-output filename (823-825), reviewer task-output sha256 replacing the ~/.codex/sessions rollout uniqueness (822,830; §23.5 item 3), reviewer_kind=='claude-subagent' (811), different_from_author is True (812). Verified against the real v10 freeze (25a56704) and v11 freeze (b9011a95): both carry exactly that 3-file roster, reviewer_kind='claude-subagent', different_from_author=true, actual_model_selection present. The byte check and roster-equality are tightenings. Faithful.",
+  "gpt_form": "rollout_join (postimage:694-754) is byte-identical to base except its docstring and one added provenance key reviewer_kind:'gpt-6.1-sol' (749). All substantive GPT checks intact: freeze roster/model/author (706-711), one-thread/one-rollout (718-723), model=gpt-6.1-sol in every turn context + cwd=REVIEW + openai provider (736-738), event-final==rollout-final (739), rollout final message must cite the sha256 of review.json/REVIEW.md/review-freeze.json (712,741-743), exec argv (744-748). Selected by reviewer_kind via review_freeze_kind/review_provenance_join (757-773,834-848); a sealed GPT review keeps standing and is never downgraded; a claude review never routes here.",
+  "refusal_completeness": "All four enumerated attacks are refused. Bare label: the label only selects the form; the selected join binds every byte and adopt fails require(not mismatches) (961); a missing freeze raises in review_freeze_kind. Unsealed/unbound/mismatched: roster-equality (804-805) and on-disk ident vs sealed sha256+bytes (806-810), raw-final presence (818), task-output pin (822). Claude-claiming-GPT: the GPT route needs a genuine codex-exec rollout a Claude review cannot produce; a claude review is recorded/re-checked as claude-subagent (826,1001-1003). different_from_author False: refused in three places (REVIEW_PROFILE base loop 105-114/852; claude branch 864-865; freeze check 812). Unrecognized reviewer_kind double-refuses (848,866-867). CAVEAT (R1): the join does not prevent an author-WRITTEN review — it only refuses a self-asserted different_from_author:False — because the independent task-output content is never cross-bound to the sealed review.",
+  "completed_at_augmentation": "Sound in direction and fail-closed: claude_review_join requires a non-empty completed_at (815-817) and validate_adoption_observation uses it as the Claude-branch ordering lower bound (933-937), mirroring the GPT branch's rollout_final_timestamp (938-941); refuses if absent. But both real v10/v11 freezes carry completed_at:None, so as written the Claude form refuses every current real freeze — the augmentation demands a freeze-sealing-format change §23.4 does not specify (R2). completed_at is also lead-sealed (unlike the GPT rollout timestamp drawn from the independent rollout), so its trust depends on R1. §23.6 must ratify adding completed_at to the Claude freeze format bound to an independent source, or specify an alternative.",
+  "localization_and_binding": "GOOD. The patch is the full diff between two files whose endpoint hashes I verified; its 6 hunks all lie in the join region (rosters 92; REVIEW_PROFILE 105-114; rollout_join; new review_freeze_kind/claude_review_join/review_provenance_join; review_profile_problems; validate_adoption_observation; adopt; frame_admitted). Nothing in materialization/admission/reservation/launch/spawn/observe/retain/recovery touched. Proof/source/runtime binding not bypassed: frame_inventory (schema, members==frame_members, lead_module pin+sha256, base_source_binding/inventory/dirmodes pins) unchanged (680-691) and still called by adopt (950) and frame_admitted (978); candidate/lead_id/frame_inventory_sha256/report_sha256 checks and the five acceptance Falses retained (852,868-875); lead observation + transcript-prefix/goal/liveness checks unchanged (882-928). Schema bumped to lead-adoption-v6 (965); frame_admitted accepts v5+v6 (984) and re-joins + re-pins provenance by reviewer_kind at every use (claude 994-1003, gpt 1004-1010).",
+  "required_changes": [
+    {
+      "id": "R1-INDEPENDENCE-CONTENT-BINDING",
+      "change": "The Claude form must cross-bind an independent-origin artifact's content to the sealed review: require raw-final-message.txt (or the task-output's final agent_message) to cite the sha256 of REVIEW.md/review.json/checks.json (mirroring rollout_join:741-743), and/or verify raw-final-message.txt equals the task-output's final message, so the task-output pin is no longer inert. Equivalently respecify §23.4 to add this binding.",
+      "reason": "The GPT form ties the sealed review to an independent codex rollout whose final message must cite the three digests (739,741-743). The Claude form reads task_bytes and discards it (822), checks the agent id only as a filename substring (823-825), and never compares raw-final-message.txt content to anything. So a lead can run any trivial subagent for a valid agent-<id>.jsonl, self-write the whole sealed review, assert different_from_author:true, and adopt. Independence collapses to a self-asserted boolean + inert byte-pin — weaker than the GPT join, contradicting §23.6's claim (v11.md:4388-4393) that the join refuses author-reviewed provenance.",
+      "evidence": "postimage/scratch.py:822 (task_bytes read then never used), :823-825 (agent-id substring only), :818-819 (raw-final sha256 bound, content unused); contrast rollout_join :739 and :741-743; §23.6 v11.md:4388-4393"
+    },
+    {
+      "id": "R2-COMPLETED-AT-FREEZE-FORMAT",
+      "change": "§23.6 must ratify adding a sealed completed_at to the Claude-review freeze format (a change to the sealing step), bound to an independent completion-time source consistent with R1, or specify an alternative sealed completion-time source.",
+      "reason": "claude_review_join requires a non-empty completed_at (815-817) but both real v10/v11 freezes carry completed_at:None, so the Claude form currently refuses every real freeze. Fail-closed (not a loosening) but the form is inert until the freeze format is changed.",
+      "evidence": "postimage/scratch.py:815-817; proposal/v10-review/claude-v1/review-freeze.json (25a56704, completed_at=None); proposal/v11-review/claude-v1/review-freeze.json (b9011a95, completed_at=None)"
+    },
+    {
+      "id": "R3-SIDECAR-FORM-AWARENESS",
+      "change": "Make the sidecar check in review_profile_problems form-aware (skip bound-inputs.json/tool-topology.json for reviewer_kind=='claude-subagent'), or reconcile CLAUDE_REVIEW_ROSTER with the profile check.",
+      "reason": "review_profile_problems unconditionally pins bound-inputs.json and tool-topology.json for both forms (876-878); pin raises FileNotFoundError on a missing file (446-454). The Claude roster excludes those sidecars (92; comment 8-10) and the real freezes seal only 3 files, so adopt/frame_admitted crash for a conformant Claude review. Fail-closed, but the Claude form is non-adoptable unless the lead fabricates the two GPT-era sidecars.",
+      "evidence": "postimage/scratch.py:876-878, :92, :446-454; v10/v11 freeze rosters = {REVIEW.md,review.json,checks.json}"
+    }
+  ],
+  "open_obligations": [
+    "§23.6 frame-design ratification of the completed_at requirement and freeze-format change (R2), and of R1's content cross-binding, before any adoption relies on a Claude-subagent review.",
+    "Normalize the freeze 'mode' representation to int so the Claude form can bind mode as the GPT form does (currently mode is checked only for GPT; real freezes store mode='0600' as a string vs Dir.ident's int). Disclosed/acceptable, non-blocking.",
+    "REVIEW path constant basename 'review/gpt61-v1' (:71) is GPT-specific; join is basename-independent, so a form-neutral install-time basename is a non-join follow-up (AUTHOR-NOTES §4).",
+    "All original Phase One obligations remain OPEN with their owners: V5-B01/V5-B02 confinement, storage admission, custody, and every §21 preservation row. This change grants nothing toward them.",
+    "Live frame files (v5 f9f6596d, v6 2255d6e1) remain untouched; postimage is uninstalled."
+  ],
+  "adoption_still_blocked": true,
+  "proof_acceptance": false,
+  "source_acceptance": false
+}
+
+=== checks.json ===
+{
+  "reviewer": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+  "reviewer_kind": "claude-subagent",
+  "hashes_computed": [
+    {"path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/briefs/frame-review-provenance-v1.md", "sha256": "2fa36747670efa1f686bbfb006e32da2170c964045ef3152eca4b48ba7c4cb2f", "tool": "sha256sum", "note": "review brief"},
+    {"path": "lanes/frame-review-provenance-v1/MANIFEST.json", "sha256": "0272cdfbb8337d65ac685fccbca2723473b762c54fd31f4c99c390c03121a2f5", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/frame-review-provenance.patch", "sha256": "b67221f741b897a7cdeb882fdbeef19e4989803af59c531ac37475944a37632f", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/postimage/scratch.py", "sha256": "61f3dd4bab7d016285d155f8bb1f5205a37e47ac9493f8b460ada1a75ba91e5b", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/preimage-region.py", "sha256": "c5e86142a700ac4d6d503a13d464c0291e1d0059f7e0c28c85844b809e27a272", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/changed-functions.postimage.py", "sha256": "e2efb183bef34032db07538e558edc170106d5ea55815277d3a55f57a94e9206", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/AUTHOR-NOTES.md", "sha256": "4dab335db493056ea01f095cbb716ad38f733d81896ccf754be0101e5b50d20e", "tool": "sha256sum", "matches_brief": true},
+    {"path": "lanes/frame-review-provenance-v1/base/scratch.py", "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86", "tool": "sha256sum", "matches_brief": true},
+    {"path": "work/claude-scratch-frame-v5/scratch.py", "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86", "tool": "sha256sum", "note": "live v5 == lane base => base_equals_live_v5 true"},
+    {"path": "work/claude-scratch-frame-v6/scratch.py", "sha256": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84", "tool": "sha256sum", "note": "live v6 == MANIFEST v6_sha256; differs from postimage (not installed)"},
+    {"path": "proposal/v10-review/claude-v1/review-freeze.json", "sha256": "25a567040639c8b24ca51edeab853f0f414b6eafe1a51794169e746b2cdea922", "tool": "sha256sum", "note": "real Claude freeze; roster={REVIEW.md,review.json,checks.json}; completed_at=None; mode='0600' (string)"},
+    {"path": "proposal/v11-review/claude-v1/review-freeze.json", "sha256": "b9011a9555ff621576547a946bb43a1b95027cd4397238b46a035407fac9f44b", "tool": "sha256sum", "note": "real Claude freeze; roster={REVIEW.md,review.json,checks.json}; completed_at=None; mode='0600' (string)"}
+  ],
+  "files_read": [
+    {"path": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/scratchpad/review-override-v2.txt", "lines": "1-13 (full)"},
+    {"path": "briefs/frame-review-provenance-v1.md", "lines": "1-61 (full)"},
+    {"path": "lanes/frame-review-provenance-v1/frame-review-provenance.patch", "lines": "1-268 (full)"},
+    {"path": "lanes/frame-review-provenance-v1/AUTHOR-NOTES.md", "lines": "1-124 (full)"},
+    {"path": "lanes/frame-review-provenance-v1/MANIFEST.json", "lines": "1-119 (full)"},
+    {"path": "lanes/frame-review-provenance-v1/postimage/scratch.py", "lines": "139-178, 240-374, 446-485, 680-1024 (helpers Dir/pin/pinned/sha/load_json/existing_name; full join region rollout_join..frame_admitted and frame_inventory)"},
+    {"path": "proposal/ISOLATION-STORAGE-PROPOSAL-v11.md", "lines": "4299-4394 (§23 in full incl. §23.1-§23.6); grep index of §17/§23 references"},
+    {"path": "proposal/v10-review/claude-v1/review-freeze.json", "lines": "parsed as JSON (keys/roster/fields)"},
+    {"path": "proposal/v11-review/claude-v1/review-freeze.json", "lines": "parsed as JSON (keys/roster/fields)"}
+  ],
+  "jackal_calls": [],
+  "jackal_note": "No derived numbers arose in this review. Every number reported (sha256 digests, byte lengths, line numbers) is OBSERVED tool output (sha256sum / Python hashlib / file line numbers), not derived by reasoning, so per the JACKAL rule none were routed. scratch.py was read as text/AST only and never executed; no WORLDLINE/COSMOGONY/prover/test/sudo/systemctl/project-vault/restic was run; no files were written; no process was stopped; SIA MCP server was reported as failed-to-connect and no SIA notes were made.",
+  "non_claims": [
+    "This review grants no acceptance of W-1 or the frame; adoption remains BLOCKED regardless of verdict until the operator acts.",
+    "No proof, source, phase, admission, or ordinary-evidence acceptance is implied; even exact hashing is informational about code correctness.",
+    "AST/text reading confirms structure and logic paths only; it is not evidence the join behaves as specified at runtime (the frame was never imported or executed).",
+    "'base_equals_live_v5 true' and 'live frames untouched' are supported by the observed hashes of the three files I hashed (lane base == live v5; live v6 == MANIFEST; postimage differs); I did not inspect the installed/protected tree beyond those source files.",
+    "The refusal-completeness confirmation covers the four enumerated attacks; R1 identifies a distinct, non-enumerated independence gap that this verdict treats as a required change."
+  ]
+}
+=== END ===
