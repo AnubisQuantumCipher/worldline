@@ -1,0 +1,23 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 6,
+  "status": "COMPLETE",
+  "assessment": "OWNERSHIP_PRESERVED_NO_NEW_APPROVAL_GATE",
+  "rulings": {
+    "D-13": "Operator-owned concrete material component transport/library architecture choice before PK-7; lead prepares reviewable artifacts. Only an ABI- and scope-preserving route is admissible. No choice is made by v6.",
+    "N-06": "Operator custody at deployment for re-provisioning native_sha256 against the installed and loaded reviewed library; mismatch refusal retained. An old-library hold gives no consolidated-candidate acceptance.",
+    "N-01": "Lead-owned strict warning obligation. Confirming representation clauses preserve C1-C8 and require E1-E6. Nonconfirming material ABI change separately needs the original operator decision and does not authorize weakening."
+  },
+  "approval_gates": "The carried rules reserve material API/ABI/owner-policy, operator custody, deployment architecture and the original production/publication actions. Pinning or changing an implementation file creates no new approval gate solely because it is pinned; reviewed deltas and recomputation of effective pins are required by HANDOFF acceptance sequence item 1. The earlier draft-PR authorization is not rewritten by this design review.",
+  "evidence": [
+    "D6/DESIGN.md:263-276,310",
+    "D3/DESIGN.md:2032-2052,2248-2273",
+    "S5/protected-resource/run_service.py:117-120",
+    "W/work/integrated-proof-preparation/PLAN.md:104-107",
+    "H/HANDOFF.md:153-166",
+    "P:72-74"
+  ],
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}

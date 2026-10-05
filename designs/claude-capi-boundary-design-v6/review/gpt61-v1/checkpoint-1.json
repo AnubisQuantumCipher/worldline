@@ -1,0 +1,40 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": "1",
+  "complete": true,
+  "design_sha256": "cfa0dca9e275e878b958f2f8da6b5cf54824534867773382965f2a887e98a417",
+  "finding": "V5-RC4-GATE-EXCEPTION CLOSED_AT_DESIGN_LEVEL",
+  "subclauses": {
+    "E.1": "Fixed PK-1 CAPI_WFX_PROTOCOL; no stage updates it; CR6 compares tables against it.",
+    "E.2": "Before Finalization_Decide is in CAPI_LAYOUT_EXPORTS, CR6 requires empty exclusive keys and empty wfx roster.",
+    "E.3": "After relocation only exclusive key G21c; not inferred from table mutual agreement.",
+    "E.4": "Only wfx triple (Finalization_Decide,G21c,O); CR5 also requires fixed row id/object.",
+    "E.5": "Fixed declaration/type/no initializer, exact region digest, assignments and test independently compared; BR7 binds source text to entry.",
+    "E.6": "MX9-MX12 specify coherent added, relabelled id/object and moved amendments; protocol check must refuse. Actual execution OPEN.",
+    "E.7": "Unchanged PK-1/PK-5 and PK-6b/PK-7 positive control specifications adequate; actual execution OPEN.",
+    "E.8": "No tile, branch, diagnostic, refusal, write or accepted runtime case is changed by the named deltas.",
+    "E.9": "CR5 at row validation plus CR6 at function level after row loop closes the arbitrary-wfx-kind exception gap."
+  },
+  "evidence": [
+    "D6/DESIGN.md:26-34",
+    "D6/APPENDIX-BINDINGS.md:64-70",
+    "D6/APPENDIX-BINDINGS.md:160-163",
+    "D6/APPENDIX-BINDINGS.md:227-241",
+    "D6/APPENDIX-BINDINGS.md:279",
+    "D6/APPENDIX-BINDINGS.md:327-334",
+    "D6/APPENDIX-BINDINGS.md:391-411",
+    "D5/APPENDIX-BINDINGS.md:463-541",
+    "D4/APPENDIX-BINDINGS.md:B4.20 segment 6"
+  ],
+  "passive_verification": {
+    "quoted_replacements_match": true,
+    "code_ast_parse": "PASS",
+    "reconstructed_v6_sketch_sha256": "e0360db00ee2c2316cb2bcfc56851816575267c101f3e938daffb3cb512fc081",
+    "region_sha256": "34b1492a5b5a757dab0cd1c62fcc241155be318e42a728da6649387d62c5b4d0",
+    "sketch_executed": false,
+    "author_simulation_used_as_evidence": false
+  },
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

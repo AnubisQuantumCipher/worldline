@@ -1,0 +1,22 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 5,
+  "status": "COMPLETE",
+  "latent_defects": {
+    "L13": "GENUINE; REPAIRED_AT_DESIGN_LEVEL. The former pair-only scan omitted declarations and inherited context/use clauses in the parent specification. d1-d3 now inspect that whole specification. This does not assert that S5 already contains a capturing declaration.",
+    "L14": "GENUINE; REPAIRED_AT_DESIGN_LEVEL. The former root-only context rule omitted library units named by a listed routine's simple name. d2 now rejects those names at every prefix component on each of the three units.",
+    "L15": "GENUINE; REPAIRED_AT_DESIGN_LEVEL. A separate body would introduce unexamined context/declarations. d4 now refuses the reserved word separate throughout all three units. It does not delete an existing S5 accepted form.",
+    "L16": "GENUINE_WORDING_DEFECT; CORRECTED_AT_DESIGN_LEVEL. The root-worker draft's named renamings are inside package body Child_Boundary, not at C_API body level. X-R7/X-R8 correct that description only; no collision or semantic repair is asserted."
+  },
+  "MQ24": "Adequate nested-declaration control specification. In the declared mutation, the nested package-renaming defining identifier Evaluation_Pending is encountered by d1's whole-text scan regardless of nesting. R-INV(ii) and R-RES remain independent fixed-source guards. Neither the control nor the sketch was executed by this reviewer; actual control evidence stays OPEN.",
+  "narrowing": "No runtime domain, accepted case, gate, branch, diagnostic, assignment or write is narrowed by these repairs. The stricter source-text invariants retain the staged-context positive controls.",
+  "evidence": [
+    "D6/DESIGN.md:56-59,205-214,319-324",
+    "D6/APPENDIX-BINDINGS.md:97-109,140-153,273,338-388",
+    "Root-worker draft/core/worldline-c_api.adb:1198-1220,2251",
+    "Sealed root-worker seam v2 review.json: findings_assessment.N-5 and findings_detail.N-5"
+  ],
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}

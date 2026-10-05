@@ -740,7 +740,17 @@ code is absent. Selecting release was never established, and using it to dischar
 
 ### Source and review status
 
-- **Current design:** DESIGN v6 is being drafted by the same author (`WT/designs/claude-capi-boundary-design-v6`).
+- **Current design: DESIGN v6** (`WT/designs/claude-capi-boundary-design-v6`, DESIGN.md `cfa0dca9…`).
+  - **Review.** Sealed actual gpt-6.1-sol review (freeze verified; rollout `gpt-6.1-sol` / `max`): **ENDORSED**, with no
+    required changes.
+  - **Closed at design level:** V5-RC4-GATE-EXCEPTION, V5-RC4-QUAL-CAPTURE, V4-RC4-GATE, V4-RC4-ALIAS, V3-RC4,
+    R2_NINE_CONDITIONS and PACKET_PLAN.
+  - **Latent defects:** L13–L16 genuine and repaired (L16 is a wording defect).
+  - **Still OPEN:** implementation, stage reviews and control runs; installed name resolution (D-38); full strict proof;
+    the native full domain and costs; OB-048; the root-worker integration.
+  - **What an endorsement is not.** A design endorsement is not source, proof or Phase One acceptance.
+  - **Next.** The lead is authoring packet PK-0 (characterization tests) as source only. Its gate, a baseline run in
+    an admitted frame, is blocked by F-1 and S-1.
 - **DESIGN v5** (DESIGN.md `533f0e04…`) has a sealed actual gpt-6.1-sol review (`…/design-v5/review/gpt61-v1`; freeze
   verified; rollout `gpt-6.1-sol` / `max`).
   - **Verdict:** ENDORSED_WITH_REQUIRED_CHANGES. V4-RC4-GATE, V4-RC4-ALIAS and V3-RC4 stay NOT_CLOSED.

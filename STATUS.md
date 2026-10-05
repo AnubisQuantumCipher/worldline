@@ -59,6 +59,7 @@ written. Future scans exclude that path.
 | D1 native design v2 | NOT_ENDORSED (V2-RC1..RC6; RC4–RC7 still open) | superseded by v3 |
 | D1 native design v3 | ENDORSED_WITH_REQUIRED_CHANGES (V2-RC1..RC3 and RC4..RC6 CLOSED; V3-RC1 OD-2 codec/census, V3-RC2 controls/fixtures, V3-RC3 checked-cost model; R-OD1/R-OD2 operator architecture choices unselected) | DESIGN v4 drafted ~00:00Z (`3c636847…`); its actual gpt-6.1-sol review started ~00:03Z |
 | D1 v4 author findings (unreviewed) | F34: v3's Algorithm B ghost is unrepresentable at n = 804; repaired by DR-C5. F35: Algorithm A's ghost horizon, OPEN. F36: Compare's checked cost is dominant. **F32: an original control (`tests/test_finalization_kernel.py:257-266`) expects AUTHORIZED where the author claims Collapse.Decide gives `Identity_Absent`. Unexecuted claim; original controls untouched** | Under the D1 v4 review. F32 needs integrated execution evidence |
+| **C-API design v6** | **ENDORSED** (sealed ~07:03Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `bcfa259f…`, REVIEW.md `12cfde3c…`, checks.json `12642ce4…`, freeze `15fc9f07…`). No required changes.<br>- **CLOSED_AT_DESIGN_LEVEL:** V5-RC4-GATE-EXCEPTION, V5-RC4-QUAL-CAPTURE, V4-RC4-GATE, V4-RC4-ALIAS and V3-RC4; R2_NINE_CONDITIONS and PACKET_PLAN.<br>- **Latent defects:** L13–L15 GENUINE and repaired; L16 a wording defect, corrected.<br>- **Still OPEN:** implementation and stage reviews (B8 text supplies no control-run evidence), D-38/RM application, full strict proof, N-01, D-05/18/19/28, D-15/34/36, native full domain and costs, controls, OB-048, ROOT_WORKER_INTEGRATION.<br>- **Operator items:** D-13 before PK-7, N-06 at deployment | PK-0 packet (source only; its gate, a baseline run in an admitted frame, is blocked) |
 | C-API design v5 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~05:05Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `800880d4…`, REVIEW.md `73e82489…`, checks.json `c1398253…`, freeze `91bddf1a…`).<br>- **Still NOT_CLOSED:** V4-RC4-GATE, V4-RC4-ALIAS and V3-RC4.<br>- **Latent defects:** L9–L12 GENUINE and REPAIRED_AT_DESIGN_LEVEL.<br>- **Two new required changes:**<br>&nbsp;&nbsp;- **V5-RC4-GATE-EXCEPTION:** the sole WF-X assignment exception becomes an independent invariant (empty before PK-6b; only G21c after), with amendment and positive controls.<br>&nbsp;&nbsp;- **V5-RC4-QUAL-CAPTURE:** R-QUAL (d) must cover every library-unit prefix a `with` clause mentions, per RM 10.1.2(6/2,7).<br>- **Rulings:** the carried rulings are preserved (D-13, N-06, N-01 as before), and ROOT_WORKER_INTEGRATION stays OPEN | DESIGN v6 (same author) |
 | C-API design v4 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~02:47Z; gpt-6.1-sol/max from the rollout). V3-RC5 and V3-RC6 CLOSED_AT_DESIGN_LEVEL. V3-RC4 NOT_CLOSED, with two remaining changes: V4-RC4-GATE (reconcile the gate rule set) and V4-RC4-ALIAS (expanded naming invariant for indirect package paths). L1–L8 all GENUINE. D-13 clarified: the reservation concerns the component transport/library architecture, not pin edits | DESIGN v5 drafted (`533f0e04…`, handback ~04:13Z); its actual gpt-6.1-sol review started 04:17Z |
 | C-API design v3 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC3 CLOSED_AT_DESIGN_LEVEL; V3-RC4 binding spec, V3-RC5 PK-0 effect classification, V3-RC6 cost map NOT_CLOSED; D-13 operator choice on a concrete reviewed packet before PK-7; N-06 at deployment; N-01 lead-owned) | DESIGN v4 |
@@ -244,7 +245,16 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 06:15Z)
+## In progress (updated 07:10Z)
+
+- **C-API packet PK-0, source only.** The C-API author (`a15cbfbc1dbf895f6`) was resumed ~07:08Z to author it in
+  `packets/capi-pk0/`: new characterization tests and the expected-effect JSON.
+  - **What it may not do.** Nothing is executed. Run-dependent values are explicit placeholders that must refuse. It
+    may not read other sessions' transcripts.
+  - **What stays blocked.** The PK-0 gate, a baseline run on L0 in an admitted frame, is blocked by confinement and
+    capacity.
+- **Storage at 07:05:54Z.** Free 9989894144 bytes, **10105856 below the reserve** (JACKAL exact). The ext4
+  root-reserve proposal is pending the human.
 
 - **C-API DESIGN v6** (`designs/claude-capi-boundary-design-v6`).
   - **Files.** DESIGN.md `cfa0dca9…`, APPENDIX-BINDINGS.md `9f9f3dfa…`, decisions.json `357bb2d4…`, jackal.json

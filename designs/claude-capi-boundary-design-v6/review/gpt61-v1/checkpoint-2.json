@@ -1,0 +1,43 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": "2",
+  "complete": true,
+  "design_sha256": "cfa0dca9e275e878b958f2f8da6b5cf54824534867773382965f2a887e98a417",
+  "finding": "V5-RC4-QUAL-CAPTURE CLOSED_AT_DESIGN_LEVEL",
+  "subclauses": {
+    "Q.1": "Rule (d1)-(d4) explicitly covers SPEC, BODY, PARENT.",
+    "Q.2": "CR3 scans all noninitial with-clause components for roots and every component for listed simple names; CR4 calls it on each required unit.",
+    "Q.3": "Expanded-name argument now covers ancestors mentioned through descendants, parent declarations/context/use clauses, routine-named library units and subunits.",
+    "Q.4": "Promise rows 42 and 44, maps and DESIGN X-R2/X-R5 agree.",
+    "Q.5": "decisions.json qualified_v6 reproduces all units, rules, exceptions and controls.",
+    "Q.6": "Every potentially capturing noninitial library-unit prefix is examined; limited/private modifiers do not evade the with-token scan.",
+    "Q.7": "Text-only refusal independent of unit existence; scoped exceptions and use-clause inventory unchanged.",
+    "Q.8": "MQ15-MQ24 specify descendant/parent/routine/stub/empty-text/nested controls; actual executions OPEN.",
+    "Q.9": "Unchanged contexts at PK-1/PK-5/PK-6b/PK-7 plus later context additions are adequate positive-control specifications.",
+    "Q.10": "D-38, installed integrated name/overload resolution, child-unit capture and RM readings explicitly OPEN.",
+    "Q.11": "Last-selector-only omission replaced by every-prefix check, with conclusion restricted to text-level argument."
+  },
+  "evidence": [
+    "D6/DESIGN.md:40-50",
+    "D6/APPENDIX-BINDINGS.md:81-154",
+    "D6/APPENDIX-BINDINGS.md:172-198",
+    "D6/APPENDIX-BINDINGS.md:204-220",
+    "D6/APPENDIX-BINDINGS.md:265-273",
+    "D6/APPENDIX-BINDINGS.md:338-389",
+    "D6/DESIGN.md:264",
+    "D6/DESIGN.md:289-291",
+    "S5/core/worldline.ads:1-9",
+    "S5/core/worldline-c_api.ads:1-6",
+    "S5/core/worldline-c_api.adb:1-25"
+  ],
+  "boundaries": {
+    "sketch_executed": false,
+    "semantic_resolution_performed": false,
+    "author_simulation_used_as_evidence": false,
+    "installed_rm_obligations": "OPEN",
+    "primary_web_fulltext_retrieval": "INCOMPLETE; not relied on for installed-resolution closure"
+  },
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

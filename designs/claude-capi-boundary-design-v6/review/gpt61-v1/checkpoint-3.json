@@ -1,0 +1,45 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": "3",
+  "complete": true,
+  "design_sha256": "cfa0dca9e275e878b958f2f8da6b5cf54824534867773382965f2a887e98a417",
+  "findings": {
+    "V4-RC4-GATE": "CLOSED_AT_DESIGN_LEVEL",
+    "V4-RC4-ALIAS": "CLOSED_AT_DESIGN_LEVEL",
+    "V3-RC4": "CLOSED_AT_DESIGN_LEVEL",
+    "R2_NINE_CONDITIONS": "CLOSED_AT_DESIGN_LEVEL for the mapped design/binding specification; implementation and evidence obligations OPEN",
+    "PACKET_PLAN": "CLOSED_AT_DESIGN_LEVEL; execution, stage qualification and operator D-13 OPEN"
+  },
+  "reason": "The sole remaining design gaps identified by the sealed v5 review are closed by the fixed WF-X protocol and every-prefix/parent/subunit capture rules. The complete carried mapping and packet discipline are unchanged. No design-level gap remains in these scoped RC items.",
+  "mapping": {
+    "(1)": "Relocation map and B2/B3 carried",
+    "(2)": "G1-G10 and K1-K6 carried",
+    "(3)": "P1-P3 and S-RES carried",
+    "(4)": "Exact tile/write/gate/alias/qualified/glue and diagnostics with v6 independent invariant repairs",
+    "(5)": "PP1-PP3 preserved",
+    "(6)": "Complete pin and evidence identity layers preserved",
+    "(7)": "Ordered append-only proof enrollment preserved",
+    "(8)": "Sole worldline-c_api boundary, no new Off units",
+    "(9)": "Original strict command, floor and all-body/caller/flow/RTE/termination/native scope preserved"
+  },
+  "packet_constraints": [
+    "linear single-packet lineage",
+    "exact bases and reviewed deltas",
+    "effective whole-closure tables at every stage",
+    "PK-6a immediate enrollment and pins",
+    "separate ABI-preserving representation repair packets",
+    "PK-S identities-only seal",
+    "operator D-13 before material component choice at PK-7"
+  ],
+  "evidence": [
+    "D6/DESIGN.md:254-279",
+    "D5/review/gpt61-v1/REVIEW.md:90-96",
+    "D6/APPENDIX-BINDINGS.md:160-163",
+    "D5/DESIGN.md:219-228",
+    "D4/DESIGN.md:407-510",
+    "D3/DESIGN.md:1870-1993"
+  ],
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

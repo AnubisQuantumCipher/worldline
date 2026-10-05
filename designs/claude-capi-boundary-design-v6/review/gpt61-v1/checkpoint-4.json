@@ -1,0 +1,24 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 4,
+  "status": "COMPLETE",
+  "assessment": "VERIFIED_CARRY_AND_DECLARED_DELTAS",
+  "findings": {
+    "slices": "All v6 DESIGN and A-BIND bound v5 slices match their line-range sha256 identities; inherited v5/v4 bound slices and prior sealed review files also match.",
+    "replacements": "X-R1..X-R8 and W-A1..W-A20 old quotations or insertion anchors match. Machine-twin old/new line hashes match. Inherited R1..R15, A-R1..A-R2 and V-R1..V-R9 quotations also match their effective predecessors.",
+    "sketch": "BR1..BR8 and CR1..CR6 were applied as inert text. The effective sketches parse as Python AST; they were never executed. The v5-to-v6 text diff contains the declared CR changes only.",
+    "rulings": "Every field of the carried v5 ruling objects, including owner and evidence_required, is exact. Their historical NOT_CLOSED findings are preserved as history and superseded only by the explicit v6 design-closure mapping.",
+    "L9_L12": "The canonical latent_v4_defects payload is exact. The v5 staging, branch confinement, whole-use-clause whitelist and acceptance completeness repairs remain present. Installed resolution and actual controls remain OPEN.",
+    "scope": "No tile, gate text, write row, branch payload, refusal code, diagnostic, accepted case, contract or packet lineage change was found outside the declared specification repairs and L16 wording correction."
+  },
+  "evidence": [
+    "D6/DESIGN.md:67-108,127-146,152-214,254-279",
+    "D6/APPENDIX-BINDINGS.md:37-51,61-279,308-425",
+    "D5/DESIGN.md:138-231",
+    "D4/DESIGN.md:166-265",
+    "D5/APPENDIX-BINDINGS.md:18-80,794-868"
+  ],
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false
+}
