@@ -357,7 +357,12 @@ question. Everything the directive forbids (password collection, policy weakenin
 the review gates, reproducing the blocked exploit procedures, faking provenance) is honored.
 
 **Concrete deliverables now in progress (uninstalled, reviewable):**
-- `lanes/frame-review-provenance-v1/` — the §23 D-LEAD-REVIEW-PROVENANCE join change in frame source.
+- `lanes/frame-review-provenance-v1/` — the §23 D-LEAD-REVIEW-PROVENANCE join change in frame source. DRAFTED and
+  lead-verified: live v5/v6 frames UNTOUCHED, base == live v5, postimage `61f3dd4b…`, change bounded to the 13 join-region
+  hunks (net +149). Dual-form by reviewer_kind; Claude form binds the sealed freeze + raw-final-message + agent id +
+  task-output sha256 + reviewer_kind + different_from_author; neither form refuses; never a bare label; never a GPT claim.
+  One flagged tightening (requires a sealed `completed_at`). **Under its own §23.6 independent review** (Opus 4.8); brief
+  `briefs/frame-review-provenance-v1.md` (`2fa36747…`). Adoption stays BLOCKED.
 - `lanes/frame-v6-w1-setup-v1/` — the §16/§16.1 installer package (accounts/sudo/polkit/unit bytes, install order,
   rollback) + an exact exists-vs-needed gap record.
 - `evidence/E0-S1-pksrc-20261005/` — the first E0 premise observation (honest: PARTIAL, P-KSRC stays OPEN).

@@ -1,0 +1,119 @@
+{
+  "lane": "frame-review-provenance-v1",
+  "change_id": "D-LEAD-REVIEW-PROVENANCE",
+  "specification": "W-1 proposal ISOLATION-STORAGE-PROPOSAL-v11.md, section 23 (and its dependent-site enumeration section 23.5; placement row section 17)",
+  "authored_by": "Claude Code drafting subagent (claude-opus-4-8) under the WORLDLINE Phase One lead",
+  "authored_at_utc": "2026-10-05",
+  "role": "DRAFTING_AUTHOR (not a reviewer); this delta grants no acceptance and is not itself reviewed",
+
+  "status": {
+    "source_only": true,
+    "uninstalled": true,
+    "live_frame_touched": false,
+    "adoption": "BLOCKED",
+    "adoption_block_reason": "Per W-1 section 23.6, this is a CHANGE to an original admission join (not preservation). It is not reviewed. It must go through its own independent review in the frame-design revision before any adoption relies on it; until then adopt() cannot bind a review of either form and v11 cannot reach adoption.",
+    "not_a_loosening_is": "an argument for the frame-design review to judge, NOT asserted here as a conclusion"
+  },
+
+  "authority": {
+    "operator_direction_utc": "2026-10-05 ~17:05Z",
+    "operator_quote_verbatim": "Whatever you're using GPT 6.1 SOL for you're gonna have to switch of your workflow and use your own agents for that now.",
+    "recorded_in": "WT/STATUS.md and v11 section 23.2 (D-LEAD-REVIEW-PROVENANCE, STATUS.md ~19:05Z)"
+  },
+
+  "base_frame": {
+    "chosen_base": "work/claude-scratch-frame-v5/scratch.py",
+    "why_v5": "Section 23 cites v5 line numbers (REVIEW_PROFILE scratch.py:98-103; review appendix S:687-863). v5 is the frozen, reviewed base the change is written against.",
+    "base_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/scratch.py",
+    "base_sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86",
+    "base_lines": 2007,
+    "v6_equivalence": {
+      "v6_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v6/scratch.py",
+      "v6_sha256": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84",
+      "note": "The entire review-provenance join region is BYTE-IDENTICAL between v5 and v6 (verified by diff); v6 differs only by a +9-line offset before the join (REVIEW_PROFILE lines 98-103 identical; join functions at v6 696-872). The same delta transplants to v6 and to the eventual frame revision at the shifted offset."
+    }
+  },
+
+  "affected_sites": {
+    "note": "All sites are within the review-provenance join as section 23.5 (Every dependent site) and section 17 (placement row: adopt, validate_adoption_observation, rollout_join, review_profile_problems) define it. Nothing outside the join was touched: materialization, admission, reservation, launch, spawn, observe/census, retain/result, recovery and every other subsystem are unchanged.",
+    "base_v5_line_ranges": {
+      "FRAME_REVIEW_ROSTER / CLAUDE_REVIEW_ROSTER (new const)": "89 (+inserted after)",
+      "REVIEW_PROFILE const": "98-103",
+      "rollout_join (GPT-6.1 form, retained)": "687-745",
+      "new: review_freeze_kind / claude_review_join / review_provenance_join": "inserted after 745",
+      "review_profile_problems": "748-761",
+      "validate_adoption_observation": "764-813",
+      "adopt": "816-837",
+      "frame_admitted": "840-863"
+    },
+    "postimage_line_ranges": {
+      "CLAUDE_REVIEW_ROSTER": "92",
+      "REVIEW_PROFILE": "105-114",
+      "rollout_join": "694-755",
+      "review_freeze_kind": "757-774",
+      "claude_review_join": "776-832",
+      "review_provenance_join": "834-849",
+      "review_profile_problems": "851-880",
+      "validate_adoption_observation": "882-942",
+      "adopt": "944-972",
+      "frame_admitted": "974-1015"
+    }
+  },
+
+  "change_summary": {
+    "form_selected_by": "reviewer_kind in the sealed review-freeze.json (review_freeze_kind())",
+    "form_a_gpt": "reviewer_kind absent or 'gpt-6.1-sol' with actual_model_selection=='gpt-6.1-sol' -> existing rollout_join RETAINED UNCHANGED (one line added: reviewer_kind:'gpt-6.1-sol' in its returned provenance). Sealed GPT-6.1 reviews keep their standing.",
+    "form_b_claude": "reviewer_kind=='claude-subagent' -> new claude_review_join: sealed review-freeze.json over REVIEW.md/review.json/checks.json (each file sha256+bytes, freeze own sha256), raw-final-message.txt (sha256), reviewer agent id (bound to the sealed task-output file name), reviewer task-output sha256 (replaces the ~/.codex/sessions rollout-file uniqueness), reviewer_kind=='claude-subagent', different_from_author==True.",
+    "neither_form": "review_provenance_join returns a refusal mismatch; adopt() then fails 'adoption mismatches'. A review of neither recognized form REFUSES.",
+    "never_a_label_alone": "reviewer_kind alone is never accepted; every byte in section 23.4's set is bound and re-verified at every use (frame_admitted re-runs the join and re-pins the task-output file).",
+    "never_claims_gpt": "a claude-subagent review is recorded as claude-subagent; it never claims a GPT-6.1 gate was met.",
+    "adoption_schema": "bumped claude-scratch-frame-lead-adoption-v5 -> -v6 to carry both provenance forms (section 23.5 item 7); frame_admitted accepts both v5 (legacy GPT-only) and v6."
+  },
+
+  "author_augmentation_beyond_23_4": {
+    "field": "completed_at (sealed in the Claude-review freeze), bound as review_completed_at",
+    "reason": "validate_adoption_observation must order the adoption observation AFTER review completion AND before the adoption record. The GPT form uses rollout_final_timestamp. Section 23.4's enumerated Claude-form set carries NO completion timestamp, and the sealed review.json carries none either. To PRESERVE the ordering invariant without loosening it, claude_review_join REQUIRES a sealed completed_at in the freeze and refuses if absent. This is STRICTER than section 23.4's literal list (adds one required field), never weaker.",
+    "flagged_for": "the section 23.6 frame-design review -- either ratify requiring completed_at in the Claude-review freeze, or specify an alternative sealed completion-time source."
+  },
+
+  "files": {
+    "base/scratch.py": {
+      "role": "preimage (full base copy of v5 scratch.py)",
+      "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86"
+    },
+    "preimage-region.py": {
+      "role": "preimage of only the affected regions of v5 (lines 96-104 and 687-863)",
+      "sha256": "c5e86142a700ac4d6d503a13d464c0291e1d0059f7e0c28c85844b809e27a272"
+    },
+    "postimage/scratch.py": {
+      "role": "postimage (full patched copy; SOURCE-ONLY, UNINSTALLED). Syntactically validated by ast.parse only; NOT executed.",
+      "sha256": "61f3dd4bab7d016285d155f8bb1f5205a37e47ac9493f8b460ada1a75ba91e5b"
+    },
+    "frame-review-provenance.patch": {
+      "role": "unified diff base/scratch.py -> postimage/scratch.py (6 hunks, +174/-25)",
+      "sha256": "b67221f741b897a7cdeb882fdbeef19e4989803af59c531ac37475944a37632f"
+    },
+    "changed-functions.postimage.py": {
+      "role": "the changed/new functions in full, extracted from the postimage",
+      "sha256": "e2efb183bef34032db07538e558edc170106d5ea55815277d3a55f57a94e9206"
+    },
+    "AUTHOR-NOTES.md": {
+      "role": "author rationale, binding choices, open points for review"
+    }
+  },
+
+  "verification_performed": {
+    "static_only": true,
+    "ast_parse": "python3 ast.parse(postimage) -> OK (static parse of the file AS DATA; the frame was not imported or run)",
+    "executed_frame_or_prover_or_tests": false,
+    "hashes_source": "sha256sum / sha256 tool output (observed, not derived)"
+  },
+
+  "non_claims": [
+    "This delta is NOT reviewed and grants NO acceptance, approval, exception, proof acceptance, phase acceptance or source acceptance.",
+    "It does NOT establish that the dual-form join 'loosens nothing'; that is left for the frame-design review to judge (section 23.6).",
+    "It does NOT change, and makes no claim about, any other Phase One obligation; the confinement blockers (V5-B01/V5-B02), storage admission, custody, and every section 21 preservation row remain OPEN with their original owners.",
+    "AST parse confirms syntax only; it is NOT evidence the join is correct, complete, or behaves as specified at runtime.",
+    "The live frame files (v5 and v6) were NOT modified; only files under this lane were written."
+  ]
+}

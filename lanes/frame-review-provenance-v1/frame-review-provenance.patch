@@ -1,0 +1,267 @@
+--- /home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/lanes/frame-review-provenance-v1/base/scratch.py	2026-10-05 17:48:28.172800294 -0400
++++ /home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/lanes/frame-review-provenance-v1/postimage/scratch.py	2026-10-05 17:50:25.568854784 -0400
+@@ -87,7 +87,10 @@
+ SIGNALS = (signal.SIGTERM, signal.SIGINT, signal.SIGHUP)
+ ACTIONS = ('prove-all-k', 'prove-all', 'prove-file', 'prove-subp', 'compile-all')
+ FRAME_REVIEW_ROSTER = {'REVIEW.md', 'review.json', 'checks.json', 'bound-inputs.json', 'tool-topology.json'}
+-INVENTORY_MODULES = ('tool_inventory', 'proof_elf_inventory', 'proof_data_inventory', 'runtime_inventory')
++# D-LEAD-REVIEW-PROVENANCE (W-1 §23.4, NEW): a Claude-subagent review freeze seals exactly these three files
++# (no bound-inputs/tool-topology sidecars). SOURCE-ONLY, UNINSTALLED; adoption BLOCKED until this change is reviewed.
++CLAUDE_REVIEW_ROSTER = {'REVIEW.md', 'review.json', 'checks.json'}
++INVENTORY_MODULES =('tool_inventory', 'proof_elf_inventory', 'proof_data_inventory', 'runtime_inventory')
+ NAME_RE = r'[a-z0-9][a-z0-9-]{0,40}'
+ STAMP_RE = r'[0-9]{8}t[0-9]{6}-[0-9a-f]{8}'
+ UNIT_RE = r'[a-z][a-z0-9_]*(?:-[a-z0-9_]+)*\.ad[bs]'
+@@ -95,8 +98,12 @@
+ SHA_RE = r'[0-9a-f]{64}'
+ LABEL = ('ENGINEERING_ONLY: scratch result on a throwaway copy; never proof, review, admission, ordinary, '
+          'source-qualification or Phase One acceptance evidence. Original guarantees OPEN_UNCHANGED.')
++# D-LEAD-REVIEW-PROVENANCE (W-1 §23.5 item 13): the compiled profile no longer fixes a single model.
++# `actual_model_selection` is accepted per form, selected by `reviewer_kind` in review_profile_problems():
++# 'gpt-6.1-sol' for a GPT-6.1 review, the sealed Claude model string for a claude-subagent review. Every
++# other profile key (schema, different_from_author, author, disposition, the five acceptance Falses) is UNCHANGED.
+ REVIEW_PROFILE = {'schema': 'claude-scratch-frame-review-v5', 'different_from_author': True,
+-                  'actual_model_selection': 'gpt-6.1-sol', 'author': 'Claude Code lead claude-opus-5-5',
++                  'author': 'Claude Code lead claude-opus-5-5',
+                   'disposition': 'QUALIFIED_ENGINEERING_SCRATCH_FRAME', 'blocking_findings': [],
+                   'execution_authority': 'NONE_FRESH_LEAD_ADOPTION_AND_ORIGINAL_GATES_REQUIRED',
+                   'scratch_results_as_evidence': False, 'proof_acceptance': False, 'phase_acceptance': False,
+@@ -685,8 +692,9 @@
+ 
+ 
+ def rollout_join(events_path, argv_path):
+-    """Actual codex-exec review joined to its recorded rollout: roster, model, cwd, provider, final message and its
+-    timestamp, argv. All reads anchored."""
++    """GPT-6.1 form of the review-provenance join (W-1 §23: the gpt-6.1-sol `rollout_join`, RETAINED unchanged for a
++    GPT-6.1 review and selected by `reviewer_kind` via review_provenance_join). Actual codex-exec review joined to its
++    recorded rollout: roster, model, cwd, provider, final message and its timestamp, argv. All reads anchored."""
+     mismatches = []
+ 
+     def need(condition, what):
+@@ -738,15 +746,125 @@
+     need(isinstance(argv, list) and len(argv) > 4 and argv[0] == '/usr/lib/chatgpt/resources/codex' and argv[1] == 'exec'
+          and '-m' in argv and argv[argv.index('-m') + 1] == 'gpt-6.1-sol' and 'model_reasoning_effort=max' in argv,
+          'recorded exec argv is an actual gpt-6.1-sol max-effort codex exec')
+-    provenance = {'reviewer_thread': thread, 'rollout': rollout_pin, 'turn_contexts': contexts, 'session_providers': providers,
++    provenance = {'reviewer_kind': 'gpt-6.1-sol',
++                  'reviewer_thread': thread, 'rollout': rollout_pin, 'turn_contexts': contexts, 'session_providers': providers,
+                   'exec_argv': argv, 'exec_argv_record': argv_pin, 'event_stream': events_pin,
+                   'rollout_final_message_sha256': hashlib.sha256((rollout_final or '').encode()).hexdigest(),
+                   'rollout_final_timestamp': rollout_final_at}
+     return mismatches, provenance
+ 
+ 
+-def review_profile_problems(review, lead_id, inventory_sha):
++def review_freeze_kind():
++    """D-LEAD-REVIEW-PROVENANCE (W-1 §23). Read the sealed review-freeze.json of the installed frame review and name
++    which provenance form it is. Selection is by `reviewer_kind`: 'claude-subagent' selects the Claude-review join;
++    an absent `reviewer_kind` with `actual_model_selection == 'gpt-6.1-sol'` is the retained GPT-6.1 rollout form (so
++    an already-sealed GPT-6.1 review keeps its standing). Anything else returns the raw value so the caller REFUSES.
++    This never accepts a label alone: the chosen join still binds and re-verifies every byte listed in §23.4."""
++    review = Dir.anchor(REVIEW)
++    try:
++        freeze = json.loads(review.read_bytes('review-freeze.json'))
++    finally:
++        review.close()
++    kind = freeze.get('reviewer_kind')
++    if kind == 'claude-subagent':
++        return 'claude-subagent'
++    if kind in (None, 'gpt-6.1-sol') and freeze.get('actual_model_selection') == 'gpt-6.1-sol':
++        return 'gpt-6.1-sol'
++    return kind
++
++
++def claude_review_join(task_output_path, reviewer_agent_id):
++    """Claude-subagent form of the review-provenance join (W-1 §23.4, NEW; SOURCE-ONLY, UNINSTALLED). For a Claude
++    review subagent the join requires ALL of, and binds each into the adoption record for re-check at every use:
++      - the sealed review-freeze.json over REVIEW.md/review.json/checks.json, each file's sha256 (and bytes) matching
++        the sealed bytes, and the freeze's own sha256;
++      - raw-final-message.txt (the reviewer's verbatim final message, transcribed under seal) with its sha256;
++      - the reviewer agent id, bound to the identity of the sealed task-output file (the harness names it
++        'agent-<id>.jsonl'), not accepted as a bare label;
++      - the sha256 of the reviewer's sealed task output (the harness task-output file the lead sealed from); this
++        replaces the ~/.codex/sessions rollout-file uniqueness of the GPT form (§23.5 item 3) -- there is no codex
++        rollout for a Claude review, so the task-output/agent-id identity is bound instead;
++      - reviewer_kind == 'claude-subagent';
++      - different_from_author == True (the independence rule is unchanged).
++    AUTHOR NOTE (for the §23.6 frame-design review): §23.4's enumerated Claude-form set carries no review-completion
++    timestamp, yet validate_adoption_observation() must order the adoption observation AFTER review completion. To
++    avoid loosening that invariant, this join ADDITIONALLY requires a sealed `completed_at` in the freeze and binds it
++    as `review_completed_at`; this one required field is stricter than §23.4's literal list and is flagged for review.
++    Never a label alone; never claims a GPT-6.1 gate was met."""
++    mismatches = []
++
++    def need(condition, what):
++        if not condition:
++            mismatches.append(what)
++    review = Dir.anchor(REVIEW)
++    try:
++        freeze_bytes = review.read_bytes('review-freeze.json')
++        freeze_sha = hashlib.sha256(freeze_bytes).hexdigest()
++        freeze_record = json.loads(freeze_bytes)
++        need(set(freeze_record.get('files', {})) == CLAUDE_REVIEW_ROSTER,
++             'claude review freeze roster is exactly REVIEW.md/review.json/checks.json')
++        for name in sorted(CLAUDE_REVIEW_ROSTER & set(freeze_record.get('files', {}))):
++            row = freeze_record['files'][name]
++            ident = review.ident(name)
++            need(ident['sha256'] == row.get('sha256') and ident['bytes'] == row.get('bytes'),
++                 'claude freeze member sha256/bytes ' + name)
++        need(freeze_record.get('reviewer_kind') == 'claude-subagent', 'freeze reviewer_kind is claude-subagent')
++        need(freeze_record.get('different_from_author') is True, 'freeze different_from_author is true')
++        model_selection = freeze_record.get('actual_model_selection')
++        need(isinstance(model_selection, str) and model_selection.strip() != '', 'freeze actual_model_selection present')
++        completed_at = freeze_record.get('completed_at')
++        need(isinstance(completed_at, str) and completed_at.strip() != '',
++             'freeze completed_at present (adoption-observation ordering; §23 author note)')
++        need(review.has('raw-final-message.txt'), 'raw-final-message.txt present and sealed')
++        raw_final_sha = review.ident('raw-final-message.txt')['sha256'] if review.has('raw-final-message.txt') else None
++    finally:
++        review.close()
++    task_bytes, task_pin = pinned(task_output_path)
++    need(isinstance(reviewer_agent_id, str) and reviewer_agent_id.strip() != '', 'reviewer agent id present')
++    need(isinstance(reviewer_agent_id, str) and ('agent-' + reviewer_agent_id) in Path(task_output_path).name,
++         'reviewer agent id bound to the sealed task-output file name')
++    provenance = {'reviewer_kind': 'claude-subagent', 'different_from_author': True,
++                  'actual_model_selection': model_selection, 'review_completed_at': completed_at,
++                  'review_freeze_sha256': freeze_sha, 'raw_final_message_sha256': raw_final_sha,
++                  'reviewer_agent_id': reviewer_agent_id, 'reviewer_task_output': task_pin,
++                  'reviewer_task_output_sha256': task_pin['sha256']}
++    return mismatches, provenance
++
++
++def review_provenance_join(events_path=None, argv_path=None, task_output_path=None, reviewer_agent_id=None):
++    """D-LEAD-REVIEW-PROVENANCE (W-1 §23) dual-form dispatcher. The form is selected by `reviewer_kind` in the sealed
++    review-freeze.json (review_freeze_kind()): a GPT-6.1 review uses the retained rollout join (§23.4 keeps the
++    gpt-6.1-sol form), a claude-subagent review uses claude_review_join(). A review of NEITHER recognized form
++    REFUSES. Returns (mismatches, provenance); provenance always carries 'reviewer_kind'."""
++    kind = review_freeze_kind()
++    if kind == 'gpt-6.1-sol':
++        if events_path is None or argv_path is None:
++            return ['gpt-6.1-sol review requires the recorded event stream and exec-argv record'], {'reviewer_kind': 'gpt-6.1-sol'}
++        return rollout_join(events_path, argv_path)
++    if kind == 'claude-subagent':
++        if task_output_path is None or reviewer_agent_id is None:
++            return ['claude-subagent review requires the sealed task-output path and reviewer agent id'], {'reviewer_kind': 'claude-subagent'}
++        return claude_review_join(task_output_path, reviewer_agent_id)
++    return ['unrecognized reviewer_kind (neither gpt-6.1-sol rollout nor claude-subagent): ' + repr(kind)], {'reviewer_kind': kind}
++
++
++def review_profile_problems(review, lead_id, inventory_sha, reviewer_kind=None, model_selection=None):
+     problems = [key for key, value in REVIEW_PROFILE.items() if review.get(key) != value]
++    # D-LEAD-REVIEW-PROVENANCE (§23.5 item 13): actual_model_selection is accepted per form, selected by reviewer_kind.
++    if reviewer_kind == 'gpt-6.1-sol':
++        if review.get('actual_model_selection') != 'gpt-6.1-sol':
++            problems.append('actual_model_selection')
++        if review.get('reviewer_kind') not in (None, 'gpt-6.1-sol'):
++            problems.append('reviewer_kind')
++    elif reviewer_kind == 'claude-subagent':
++        if review.get('reviewer_kind') != 'claude-subagent':
++            problems.append('reviewer_kind')
++        if review.get('actual_model_selection') != model_selection:
++            problems.append('actual_model_selection')
++        if review.get('different_from_author') is not True:
++            problems.append('different_from_author')
++    else:
++        problems.append('unrecognized reviewer_kind: ' + repr(reviewer_kind))
+     if review.get('candidate') != str(FRAME):
+         problems.append('candidate')
+     if review.get('lead_id') != lead_id:
+@@ -808,27 +926,43 @@
+     recorded_silence = observed.get('transcriptSilenceSeconds')
+     require(isinstance(recorded_silence, (int, float)) and abs(silence - recorded_silence) <= 1.0
+             and 0 <= silence <= claude_lead.MAX_LEAD_SILENCE_SECONDS, 'adoption observation liveness')
+-    require(isinstance(provenance.get('rollout_final_timestamp'), str)
+-            and parse_time(provenance['rollout_final_timestamp']) <= observed_at <= parse_time(adoption_at),
+-            'adoption observation must follow the review completion and precede the adoption record')
+-
+-
+-def adopt(events_path, argv_path):
++    # D-LEAD-REVIEW-PROVENANCE (W-1 §23): the observation must follow review completion and precede the adoption
++    # record, for EITHER provenance form. The GPT-6.1 form bounds it by the rollout completion timestamp; the
++    # claude-subagent form bounds it by the sealed freeze `completed_at` (bound as review_completed_at by
++    # claude_review_join). The invariant is preserved, not loosened; a review of neither form never reaches here.
++    if provenance.get('reviewer_kind') == 'claude-subagent':
++        lower = provenance.get('review_completed_at')
++        require(isinstance(lower, str)
++                and parse_time(lower) <= observed_at <= parse_time(adoption_at),
++                'adoption observation must follow the claude review completion and precede the adoption record')
++    else:
++        require(isinstance(provenance.get('rollout_final_timestamp'), str)
++                and parse_time(provenance['rollout_final_timestamp']) <= observed_at <= parse_time(adoption_at),
++                'adoption observation must follow the review completion and precede the adoption record')
++
++
++def adopt(events_path=None, argv_path=None, task_output_path=None, reviewer_agent_id=None):
++    # D-LEAD-REVIEW-PROVENANCE (W-1 §23): the review-provenance join is now dual-form, selected by the sealed
++    # review-freeze.json `reviewer_kind`. A GPT-6.1 review supplies (events_path, argv_path); a claude-subagent
++    # review supplies (task_output_path, reviewer_agent_id). A review of neither form refuses. SCHEMA bumped to
++    # ...-v6 to carry both forms (§23.5 item 7). SOURCE-ONLY, UNINSTALLED; adoption BLOCKED pending review of §23.
+     claude_lead = lead()
+     inventory = frame_inventory()
+     review_dir = Dir.anchor(FRAME / 'review')
+     try:
+         require(not review_dir.has('lead-adoption.json'), 'adoption already recorded')
+         review = load_json(REVIEW / 'review.json')
+-        mismatches, provenance = rollout_join(events_path, argv_path)
+-        mismatches += ['review profile: ' + p for p in review_profile_problems(review, claude_lead.LEAD_ID, inventory['__pin__']['sha256'])]
++        mismatches, provenance = review_provenance_join(events_path, argv_path, task_output_path, reviewer_agent_id)
++        reviewer_kind = provenance.get('reviewer_kind')
++        mismatches += ['review profile: ' + p for p in review_profile_problems(
++            review, claude_lead.LEAD_ID, inventory['__pin__']['sha256'], reviewer_kind, provenance.get('actual_model_selection'))]
+         observation = claude_lead.observe('scratch-adopt', str(FRAME))
+         claude_lead.check_observation(observation, 'scratch-adopt', str(FRAME))
+         require(not mismatches, 'adoption mismatches: ' + repr(mismatches))
+         at = now()
+         validate_adoption_observation(claude_lead, observation, at, provenance)
+         record = review_dir.write_json('lead-adoption.json', {
+-            'schema': 'claude-scratch-frame-lead-adoption-v5', 'at': at, 'frame': str(FRAME), 'lead_id': claude_lead.LEAD_ID,
++            'schema': 'claude-scratch-frame-lead-adoption-v6', 'at': at, 'frame': str(FRAME), 'lead_id': claude_lead.LEAD_ID,
+             'frame_inventory_sha256': inventory['__pin__']['sha256'], 'review_sha256': sha(REVIEW / 'review.json'),
+             'review_freeze_sha256': sha(REVIEW / 'review-freeze.json'), 'review_report_sha256': sha(REVIEW / 'REVIEW.md'),
+             'mismatches': [], **provenance, 'lead_observation': observation, 'truth_boundary': LABEL})
+@@ -844,21 +978,36 @@
+     inventory = frame_inventory()
+     inventory_sha = inventory['__pin__']['sha256']
+     review = load_json(REVIEW / 'review.json')
+-    problems = review_profile_problems(review, claude_lead.LEAD_ID, inventory_sha)
+-    require(not problems, 'review profile: ' + repr(problems))
+     adoption = load_json(ADOPTION)
+-    require(adoption.get('schema') == 'claude-scratch-frame-lead-adoption-v5' and adoption.get('frame') == str(FRAME), 'adoption profile')
++    # D-LEAD-REVIEW-PROVENANCE (W-1 §23 / §23.5 items 7, 9, 10; §17): accept both adoption schema forms (v5 = legacy
++    # GPT-6.1-only records keep their standing; v6 carries either form), and re-join + re-pin provenance by reviewer_kind.
++    require(adoption.get('schema') in ('claude-scratch-frame-lead-adoption-v5', 'claude-scratch-frame-lead-adoption-v6')
++            and adoption.get('frame') == str(FRAME), 'adoption profile')
+     require(adoption['lead_id'] == claude_lead.LEAD_ID and adoption['mismatches'] == [], 'adoption lead/mismatches')
+     require(adoption['frame_inventory_sha256'] == inventory_sha, 'adoption frame inventory')
+     require(adoption['review_sha256'] == sha(REVIEW / 'review.json'), 'adoption review pin')
+     require(adoption['review_freeze_sha256'] == sha(REVIEW / 'review-freeze.json'), 'adoption review-freeze pin')
+     require(adoption['review_report_sha256'] == sha(REVIEW / 'REVIEW.md'), 'adoption review report pin')
+-    for key in ('rollout', 'exec_argv_record', 'event_stream'):
+-        require(adoption[key] is not None and pin(adoption[key]['path']) == adoption[key], 'adoption provenance pin changed: ' + key)
+-    mismatches, provenance = rollout_join(adoption['event_stream']['path'], adoption['exec_argv_record']['path'])
+-    require(not mismatches, 'rollout join no longer holds: ' + repr(mismatches))
+-    for key in ('reviewer_thread', 'rollout_final_message_sha256', 'rollout_final_timestamp'):
+-        require(provenance[key] == adoption[key], 'rollout identity changed: ' + key)
++    reviewer_kind = adoption.get('reviewer_kind')
++    problems = review_profile_problems(review, claude_lead.LEAD_ID, inventory_sha, reviewer_kind, adoption.get('actual_model_selection'))
++    require(not problems, 'review profile: ' + repr(problems))
++    if reviewer_kind == 'claude-subagent':
++        require(adoption.get('reviewer_task_output') is not None
++                and pin(adoption['reviewer_task_output']['path']) == adoption['reviewer_task_output'],
++                'adoption provenance pin changed: reviewer_task_output')
++        mismatches, provenance = review_provenance_join(
++            task_output_path=adoption['reviewer_task_output']['path'], reviewer_agent_id=adoption.get('reviewer_agent_id'))
++        require(not mismatches, 'claude review join no longer holds: ' + repr(mismatches))
++        for key in ('reviewer_kind', 'different_from_author', 'actual_model_selection', 'review_completed_at',
++                    'review_freeze_sha256', 'raw_final_message_sha256', 'reviewer_agent_id', 'reviewer_task_output_sha256'):
++            require(provenance.get(key) == adoption.get(key), 'claude review identity changed: ' + key)
++    else:
++        for key in ('rollout', 'exec_argv_record', 'event_stream'):
++            require(adoption[key] is not None and pin(adoption[key]['path']) == adoption[key], 'adoption provenance pin changed: ' + key)
++        mismatches, provenance = review_provenance_join(adoption['event_stream']['path'], adoption['exec_argv_record']['path'])
++        require(not mismatches, 'rollout join no longer holds: ' + repr(mismatches))
++        for key in ('reviewer_thread', 'rollout_final_message_sha256', 'rollout_final_timestamp'):
++            require(provenance[key] == adoption[key], 'rollout identity changed: ' + key)
+     validate_adoption_observation(claude_lead, adoption['lead_observation'], adoption['at'], provenance)
+     return inventory
+ 
