@@ -1,0 +1,362 @@
+[
+  {
+    "id": "Prior:G-REQUIRED",
+    "expression": "2*(16777216+2*1121220323+545393048)+1468268019712/1397",
+    "expected_exact": "9304350902252/1397",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:158",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2*(16777216+2*1121220323+545393048)+1468268019712/1397 exact=9304350902252/1397 approx=6660236866.322119\",\"fields\":{\"approx\":\"6660236866.322119\",\"exact\":\"9304350902252/1397\",\"parsed\":\"2*(16777216+2*1121220323+545393048)+1468268019712/1397\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=2*(16777216+2*1121220323+545393048)+1468268019712/1397 exact=9304350902252/1397 approx=6660236866.322119",
+        "fields": {
+          "approx": "6660236866.322119",
+          "exact": "9304350902252/1397",
+          "parsed": "2*(16777216+2*1121220323+545393048)+1468268019712/1397",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:G-MARGIN-LATEST",
+    "expression": "10460753920-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+    "expected_exact": "-8660677676012/1397",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:159",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=10460753920-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397) exact=-8660677676012/1397 approx=-6199482946.322119\",\"fields\":{\"approx\":\"-6199482946.322119\",\"exact\":\"-8660677676012/1397\",\"parsed\":\"10460753920-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=10460753920-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397) exact=-8660677676012/1397 approx=-6199482946.322119",
+        "fields": {
+          "approx": "-6199482946.322119",
+          "exact": "-8660677676012/1397",
+          "parsed": "10460753920-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:G-MARGIN-W1",
+    "expression": "10516545536-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+    "expected_exact": "-8582736788460/1397",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:160",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=10516545536-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397) exact=-8582736788460/1397 approx=-6143691330.322119\",\"fields\":{\"approx\":\"-6143691330.322119\",\"exact\":\"-8582736788460/1397\",\"parsed\":\"10516545536-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=10516545536-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397) exact=-8582736788460/1397 approx=-6143691330.322119",
+        "fields": {
+          "approx": "-6143691330.322119",
+          "exact": "-8582736788460/1397",
+          "parsed": "10516545536-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:G-MARGIN-RUNBOOK",
+    "expression": "11185594368-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+    "expected_exact": "-7648075570156/1397",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:161",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=11185594368-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397) exact=-7648075570156/1397 approx=-5474642498.322119\",\"fields\":{\"approx\":\"-5474642498.322119\",\"exact\":\"-7648075570156/1397\",\"parsed\":\"11185594368-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=11185594368-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397) exact=-7648075570156/1397 approx=-5474642498.322119",
+        "fields": {
+          "approx": "-5474642498.322119",
+          "exact": "-7648075570156/1397",
+          "parsed": "11185594368-10000000000-(2*(16777216+2*1121220323+545393048)+1468268019712/1397)",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:W-PAYLOAD-WORK",
+    "expression": "16777216+2*1121220323",
+    "expected_exact": "2259217862",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:162",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=16777216+2*1121220323 exact=2259217862 approx=2259217862\",\"fields\":{\"approx\":\"2259217862\",\"exact\":\"2259217862\",\"parsed\":\"16777216+2*1121220323\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=16777216+2*1121220323 exact=2259217862 approx=2259217862",
+        "fields": {
+          "approx": "2259217862",
+          "exact": "2259217862",
+          "parsed": "16777216+2*1121220323",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:W-IDEAL-EQUALITY",
+    "expression": "2259217862+545393048+16777216+2242440646+545393048+1468268019712/1397-(2*(16777216+2242440646+545393048)+1468268019712/1397)",
+    "expected_exact": "0",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:163",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2259217862+545393048+16777216+2242440646+545393048+1468268019712/1397-(2*(16777216+2242440646+545393048)+1468268019712/1397) exact=0 approx=0\",\"fields\":{\"approx\":\"0\",\"exact\":\"0\",\"parsed\":\"2259217862+545393048+16777216+2242440646+545393048+1468268019712/1397-(2*(16777216+2242440646+545393048)+1468268019712/1397)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=2259217862+545393048+16777216+2242440646+545393048+1468268019712/1397-(2*(16777216+2242440646+545393048)+1468268019712/1397) exact=0 approx=0",
+        "fields": {
+          "approx": "0",
+          "exact": "0",
+          "parsed": "2259217862+545393048+16777216+2242440646+545393048+1468268019712/1397-(2*(16777216+2242440646+545393048)+1468268019712/1397)",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:R-NOTICES",
+    "expression": "19+2+4",
+    "expected_exact": "25",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:165",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=19+2+4 exact=25 approx=25\",\"fields\":{\"approx\":\"25\",\"exact\":\"25\",\"parsed\":\"19+2+4\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=19+2+4 exact=25 approx=25",
+        "fields": {
+          "approx": "25",
+          "exact": "25",
+          "parsed": "19+2+4",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:R-SPEC-NOTICES",
+    "expression": "1+2+2+2+2+2+1+2+1+2+2",
+    "expected_exact": "19",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:166",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=1+2+2+2+2+2+1+2+1+2+2 exact=19 approx=19\",\"fields\":{\"approx\":\"19\",\"exact\":\"19\",\"parsed\":\"1+2+2+2+2+2+1+2+1+2+2\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=1+2+2+2+2+2+1+2+1+2+2 exact=19 approx=19",
+        "fields": {
+          "approx": "19",
+          "exact": "19",
+          "parsed": "1+2+2+2+2+2+1+2+1+2+2",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:R-SPEC-DECLARATIONS",
+    "expression": "1+1+1+1+1+1+1+1+1+1+1",
+    "expected_exact": "11",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:167",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=1+1+1+1+1+1+1+1+1+1+1 exact=11 approx=11\",\"fields\":{\"approx\":\"11\",\"exact\":\"11\",\"parsed\":\"1+1+1+1+1+1+1+1+1+1+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1+1+1+1 exact=11 approx=11",
+        "fields": {
+          "approx": "11",
+          "exact": "11",
+          "parsed": "1+1+1+1+1+1+1+1+1+1+1",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  },
+  {
+    "id": "Prior:R-EXP10",
+    "expression": "10+1",
+    "expected_exact": "11",
+    "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:168",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=10+1 exact=11 approx=11\",\"fields\":{\"approx\":\"11\",\"exact\":\"11\",\"parsed\":\"10+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=10+1 exact=11 approx=11",
+        "fields": {
+          "approx": "11",
+          "exact": "11",
+          "parsed": "10+1",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true
+  }
+]

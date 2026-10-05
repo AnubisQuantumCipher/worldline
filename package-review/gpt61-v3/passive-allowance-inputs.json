@@ -1,0 +1,97 @@
+{
+  "schema": "passive-allowance-inputs-v1",
+  "files": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/frame-inventory.json",
+      "sha256": "c45720ef1f3e938b58a557387f6ddd32dc1db9839987b8dd691a21294dd5aa45",
+      "bytes": 4703,
+      "observed_members": {
+        "AUTHOR-SELFCHECK.json": {
+          "bytes": 13976,
+          "mode": 420,
+          "sha256": "f08255b6a83e1314d21073e18a540a70ad3b7870e9050f544ff99cd540cdabd4"
+        },
+        "FRAME.md": {
+          "bytes": 19614,
+          "mode": 420,
+          "sha256": "417cb61b58c0a6605afd3201a9318f5902b012e5a077099b7cf90af033c7c139"
+        },
+        "baselines/action-baseline.json": {
+          "bytes": 922860,
+          "mode": 384,
+          "sha256": "c80cc8dc8157ad72ade993f197e87e548fc9d8d8f4ccc0adb355bf33c6f581ee"
+        },
+        "baselines/launch-environment.json": {
+          "bytes": 4986,
+          "mode": 384,
+          "sha256": "7fd63ab39ddc11747d8653a0f32123a950c1abf3cd338820900a283d9c79272f"
+        },
+        "baselines/proof-data-closure.json": {
+          "bytes": 5773785,
+          "mode": 384,
+          "sha256": "e82975a3d4ddca6ddb8598fd127664eebcc6666c28beae75244e9b8860367f9d"
+        },
+        "baselines/proof-elf-baseline.json": {
+          "bytes": 3198141,
+          "mode": 384,
+          "sha256": "5fab08bd8e2f5b2db6badf54cf49b20530af30731948594d886801eac88d611f"
+        },
+        "baselines/runtime-closure.json": {
+          "bytes": 26383551,
+          "mode": 384,
+          "sha256": "d49b6e07075a8f9969e062f41a28119594c8cf2c94a926155a62543a09e8b74b"
+        },
+        "baselines/tool-inventory-template.json": {
+          "bytes": 4153,
+          "mode": 384,
+          "sha256": "e8e566fa027c6f058fbbdec5cef617218e03b6ff3e131bdc39bdf73c76e50921"
+        },
+        "baselines/vendor-template.json": {
+          "bytes": 1974792,
+          "mode": 420,
+          "sha256": "edc2c8a2d312f29f12a1e2fab5a9f03fb9e2f4f76a12628c724010c0ae257e00"
+        },
+        "modules/proof_data_inventory.py": {
+          "bytes": 1467,
+          "mode": 420,
+          "sha256": "b5f98ac5f951f723f56c5a4c7d5e6066d7498c17b9734533333d41d682d4f37b"
+        },
+        "modules/proof_elf_inventory.py": {
+          "bytes": 5300,
+          "mode": 420,
+          "sha256": "a65d14ac5f0dcac1c5bfd6b6b5ed530180b39b7ff689a5508a10d23da7f40e59"
+        },
+        "modules/runtime_inventory.py": {
+          "bytes": 7869,
+          "mode": 420,
+          "sha256": "4888f64d6125e1bce74fdde7e07f7ced16a961930903d725cd47adb2e3ff0259"
+        },
+        "modules/tool_inventory.py": {
+          "bytes": 4763,
+          "mode": 420,
+          "sha256": "51aa43cc5797254a6262f11f87889d69f6171d4303d29e077758aa9ee21cb80b"
+        },
+        "receipts/positive-boundary-receipt.json": {
+          "bytes": 749,
+          "mode": 420,
+          "sha256": "996db8227409712f68bfb0fbbafce39b6b43af4fb05aa81e415d9ba71c988833"
+        },
+        "receipts/threshold-receipt.json": {
+          "bytes": 755,
+          "mode": 420,
+          "sha256": "82998fd75e79efeff9687ceb5b44cb03e0b89ff8a0490d87f65c80d1c2c95361"
+        },
+        "receipts/zero-boundary-receipt.json": {
+          "bytes": 745,
+          "mode": 420,
+          "sha256": "fa9abcb0fdc231a32fefe7766afe5988d86d9fe4cb22d814d6e887c346f3bc97"
+        },
+        "scratch.py": {
+          "bytes": 116891,
+          "mode": 420,
+          "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86"
+        }
+      }
+    }
+  ]
+}

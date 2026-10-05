@@ -1,0 +1,136 @@
+{
+  "schema": "claude-operator-package-review-checkpoint-v1",
+  "item": 1,
+  "complete": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "prior_closure": {
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-SETUP": "NOT_CLOSED",
+    "W1-RESOURCES": "CLOSED",
+    "W1-LIFETIME-ROLLBACK": "NOT_CLOSED",
+    "OD2-CONSEQUENCES": "CLOSED",
+    "PKG-V5-FACTS": "CLOSED",
+    "PKG-CLOSURE-STATUS": "CLOSED"
+  },
+  "w1_gap_closure": {
+    "generation-order": "NOT_CLOSED",
+    "lease-and-writer-authority": "NOT_CLOSED",
+    "per-entry-modes-acls": "NOT_CLOSED",
+    "channel-and-dumpability": "NOT_CLOSED",
+    "prestate-and-installation": "NOT_CLOSED",
+    "exposure-options": "CLOSED",
+    "fresh-identities-and-vault": "CLOSED",
+    "denial-probes": "NOT_CLOSED",
+    "resources-and-images": "CLOSED",
+    "commits-and-durable-channel": "NOT_CLOSED",
+    "participants-and-recovery": "NOT_CLOSED",
+    "rollback-and-evidence": "NOT_CLOSED"
+  },
+  "w1_subgap_closure": {
+    "W1-CUSTODY": "NOT_CLOSED",
+    "W1-FINAL-PASS": "CLOSED",
+    "W1-CLOSURE": "NOT_CLOSED",
+    "W1-CHANNEL": "NOT_CLOSED",
+    "W1-WRITE-AUTHORITY": "NOT_CLOSED",
+    "W1-READ-ACCESS": "CLOSED",
+    "W1-READ-EXPOSURE": "CLOSED",
+    "W1-PREFLIGHT-IDENTITY": "CLOSED",
+    "W1-SETUP-PRESTATE": "NOT_CLOSED",
+    "W1-SETUP-ORDER": "CLOSED",
+    "W1-SETUP-EXACTNESS": "NOT_CLOSED",
+    "W1-IMAGE-GEOMETRY": "CLOSED",
+    "W1-IMAGE-COMPATIBILITY": "CLOSED",
+    "W1-VERIFICATION-PROBES": "NOT_CLOSED",
+    "W1-FAILURE-LEASE": "NOT_CLOSED",
+    "W1-FAILURE-RECORDS": "NOT_CLOSED",
+    "W1-REBOOT-RECOVERY": "NOT_CLOSED",
+    "W1-ROLLBACK": "NOT_CLOSED",
+    "W1-EVIDENCE": "NOT_CLOSED",
+    "W1-NONCLAIMS": "CLOSED"
+  },
+  "findings": [
+    {
+      "id": "W1-GENERATION-PROTOCOL",
+      "item": 3,
+      "correction": "Make create-only ordering, verb-specific exact schemas and state transitions executable as one coherent specification: open and bind stream inodes before sealing launcher-intent; distinguish materialize versus dispatch generation_pins; define materialize, seal-front and failure channel states/keysets; specify the authorized destination and writer for the fresh installed-frame adoption record. Do not relax any original admission join.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:303-343",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:368-371",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:410-412",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:516-520",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1662-1674",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1927-1931",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1955-1973",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/scratch.py:816-837"
+      ]
+    },
+    {
+      "id": "W1-COMMIT-JOURNAL-EXPORT",
+      "item": 3,
+      "correction": "Separate the immutable fallback allocation descriptor from the append-only slot content; specify short-write/torn-slot interpretation and all commit consumers. Apply and read back export ACLs before recording final export mode/digest expectations. Define a finite journal prefix for export/freeze, export the necessary markers and the later W2 terminal evidence, and preserve raw failed-record interpretation without success credit.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:424-428",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:741-745",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1081-1120",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1633-1642",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1936-1942"
+      ]
+    },
+    {
+      "id": "W1-TERMINAL-CUSTODY",
+      "item": 3,
+      "correction": "Close, rather than assume away, baseline-service references and descriptor queues before asserting final-pass custody or known-terminal ownership. Unreadable relevant references remain UNKNOWN; specify enforced quiescence or an equally strong reviewed argument for asynchronous manager/bus activity. Make the W-death recovery path obtain complete units/refs scans within a permitted W2/observer authority, and do not infer nothing-started from missing child-start evidence.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:148-150",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:201-209",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:460-469",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:516-520",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:995-1041",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1050-1056"
+      ]
+    },
+    {
+      "id": "W1-DURABILITY-RELEASE",
+      "item": 4,
+      "correction": "Reconcile the mandatory committed release-intent/no-committable-intent hold with the explicit failed-durability ruling. Archival UNKNOWN must withhold success and preserve uncertainty, while authentic independently established known-terminal ownership governs release; no new window hold or approval gate solely from failed durability. Keep all participant UNKNOWN holds and original holder/candidate/token checks.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1030-1041",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1122-1138",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/REVIEW.md:230"
+      ]
+    },
+    {
+      "id": "W1-SETUP-PROBES-ROLLBACK",
+      "item": 3,
+      "correction": "Use absence checks that distinguish ENOENT from errors, explicit probe operand/precondition tables with errno compatible with the ACL matrix, and accurate partial-setup handling. Preserve a full getfacl restore dump with file headers, not only the -c comparison text. Define pinned versus intentionally mutable fields of setup-directory identities for later invokes/reboot. Keep concrete inventory and installed evidence deferred, but repair these logical template conflicts now.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:620-635",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1158-1166",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1236-1239",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1243-1288",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1366-1371",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1473-1488",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1612-1616"
+      ]
+    },
+    {
+      "id": "W1-IMAGE-TREE",
+      "item": 3,
+      "correction": "Make the optional-image record tree part of an explicitly protected intended run tree without extending original outside-tree authority. Specify its anchors, generation/attempt/marker/export routing and missing-mount checks consistently with the immutable partitions and complete writer mutation list. The current second records mount conflicts with the categorical only-under-runs rule.",
+      "evidence": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:247-274",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:501-514",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1578-1582",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md:1633-1642"
+      ]
+    }
+  ],
+  "notes": [
+    "CLOSED is specification correction closure only; no original obligation is closed.",
+    "Resource-stage arithmetic reproduction belongs to item 2; the specification carries labelled allowances and unchanged restore/reserve rules.",
+    "Fresh role/baseline/real-front/vault-export scope is fully specified as future work. Installed evidence and full original backup obligations remain OPEN.",
+    "PKG-V5-FACTS repairs the prior text at package lines 98-103,115-121,222; current observational provenance is checked in item 2.",
+    "OD2-CONSEQUENCES is closed by package lines 683-748 against D1 v3 DESIGN 1702-1790 and review 121-135.",
+    "PKG-CLOSURE-STATUS is closed by package lines 18-20,238-252,860-893 and W1 lines 1704-1759: author assessments are explicitly not sealed closure."
+  ]
+}

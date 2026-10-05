@@ -1,0 +1,931 @@
+{
+  "schema": "passive-notice-json-supplement-v1",
+  "reason": "Nested raw message.text normalized explicitly; first passive accessor compared a dict to its text, so its false booleans are accessor failures, not absent diagnostics. This create-only supplement supplies the actual comparison.",
+  "raw_notice_checks": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/canonical_artifacts.spark",
+      "sha256": "787019c7cab74083c34f6af0cbb17aeaa33bae5b27713d102fc1673f892e6ce2",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "canonical_artifacts.ads",
+            "line": 32,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "canonical_artifacts.ads",
+          "line": 32,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/evaluation_completion.spark",
+      "sha256": "c359d028a92c951d8dfa50159628603314088f43b4906b33ee6806b49a4b6699",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "resource_quantities.ads",
+            "line": 40,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_quantities.ads",
+            "line": 40,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_quantities.ads",
+            "line": 58,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_quantities.ads",
+            "line": 47,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_quantities.ads",
+            "line": 47,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_quantities.ads",
+            "line": 69,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 58,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 69,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/evaluation_epoch.spark",
+      "sha256": "4a8e2e9f85363944b986faba9076ffb5327abc4db36b49ed0d585382a7460033",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "evaluation_epoch.adb",
+            "line": 141,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "evaluation_epoch.adb",
+            "line": 162,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 58,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 69,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "evaluation_epoch.adb",
+          "line": 141,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "evaluation_epoch.adb",
+          "line": 162,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/resource_ledger.spark",
+      "sha256": "910c8748eb413f072926c58af5a6abdf9892d0b257b9dfb13786f88b7cd4d92c",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "resource_ledger.ads",
+            "line": 124,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "implicit function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_ledger.ads",
+            "line": 124,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_ledger.ads",
+            "line": 133,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 58,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 69,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_ledger.ads",
+          "line": 124,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "implicit function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_ledger.ads",
+          "line": 124,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_ledger.ads",
+          "line": 133,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/resource_quantities.spark",
+      "sha256": "51259827db01d7f10c8a2f49a3aa1118e265b8e9b40a858f40e504a589177fe9",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "resource_quantities.ads",
+            "line": 58,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_quantities.ads",
+            "line": 69,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 58,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 58,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 69,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 69,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/resource_reservation_transition.spark",
+      "sha256": "98f1616b102d76660c8e1bab6df92b91c0399bfc9a1976d7296121237684e655",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "resource_reservation_transition.adb",
+            "line": 85,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_reservation_transition.adb",
+            "line": 85,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 58,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 69,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_reservation_transition.adb",
+          "line": 85,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_reservation_transition.adb",
+          "line": 85,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/resource_run_ledger.spark",
+      "sha256": "0437a5a6a0db49afb82d8df44a50a6d97c13f548cd4f49b0d79d10d38417a0b0",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "resource_run_ledger.ads",
+            "line": 200,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "implicit function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "resource_run_ledger.ads",
+            "line": 200,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 40,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 58,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 47,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "resource_quantities.ads",
+          "line": 69,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_run_ledger.ads",
+          "line": 200,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "implicit function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "resource_run_ledger.ads",
+          "line": 200,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/worldline-chain_authority.spark",
+      "sha256": "760fdc161700d4225235eda61a9c007c9bda8601f23620b8cfd782e797c22bf9",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "worldline-chain_authority.ads",
+            "line": 74,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "worldline-chain_authority.ads",
+          "line": 74,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/worldline-resource_wire.spark",
+      "sha256": "2bea2c342b34ddbdfe9385b530cef4910400dcd6aef506a3ac28b52a39ca8bd1",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "worldline-resources.ads",
+            "line": 29,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "implicit function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "worldline-resources.ads",
+            "line": 29,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "worldline-resources.ads",
+            "line": 34,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "worldline-resources.ads",
+            "line": 34,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "worldline-resources.ads",
+          "line": 29,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "implicit function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "worldline-resources.ads",
+          "line": 29,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "worldline-resources.ads",
+          "line": 34,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "worldline-resources.ads",
+          "line": 34,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/worldline-resources.spark",
+      "sha256": "4987f871f6cfcc7a5c6522b07f8fed83b0b9c1c13ebc4a2ba90a86bec6912890",
+      "hash_matches": true,
+      "expected_matches": [
+        {
+          "entry": {
+            "file": "worldline-resources.adb",
+            "line": 9,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        },
+        {
+          "entry": {
+            "file": "worldline-resources.adb",
+            "line": 33,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": true
+        }
+      ],
+      "all_notice_entries": [
+        {
+          "file": "worldline-resources.ads",
+          "line": 29,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "implicit function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "worldline-resources.ads",
+          "line": 29,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "worldline-resources.ads",
+          "line": 34,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "worldline-resources.ads",
+          "line": 34,
+          "col": 13,
+          "rule": "numeric-variant",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]"
+        },
+        {
+          "file": "worldline-resources.adb",
+          "line": 9,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        },
+        {
+          "file": "worldline-resources.adb",
+          "line": 33,
+          "col": 13,
+          "rule": "contracts-recursive",
+          "severity": "warning",
+          "suppressed": "",
+          "message": "function contract might not be available on recursive calls [contracts-recursive]"
+        }
+      ]
+    }
+  ],
+  "notice_count_observed": 59,
+  "direct_json_count_observed": 190,
+  "missing_from_prior_census": [],
+  "missing_from_source": []
+}

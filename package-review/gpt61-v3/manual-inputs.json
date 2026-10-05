@@ -1,0 +1,18 @@
+{
+  "schema": "local-primary-manual-inputs-v1",
+  "files": [
+    {
+      "path": "/usr/share/man/man1/getfacl.1.gz",
+      "sha256": "d159f03800f011121bf259ea0a42aa37e5a7601801e8f470aae136990a774e62",
+      "bytes": 2730,
+      "read_only": true
+    },
+    {
+      "path": "/usr/share/man/man1/setfacl.1.gz",
+      "sha256": "28f78d7e8149410e14593ac89e6c60e602fd80a632f83d5bdedb78364f162f27",
+      "bytes": 4073,
+      "read_only": true
+    }
+  ],
+  "fact": "getfacl --omit-header removes the file comment header; --restore consumes getfacl backup records. The proposed headerless comparison capture cannot locate the target file for --restore. No ACL command was run."
+}

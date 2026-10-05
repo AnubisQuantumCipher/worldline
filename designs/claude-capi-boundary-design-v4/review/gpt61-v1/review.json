@@ -1,0 +1,247 @@
+{
+  "schema": "claude-design-review-v1",
+  "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/DESIGN.md",
+  "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+  "decisions_sha256": "59e71dd68724b0420b670d79a99ea74194134dbc6d219b7b91f146ad01843625",
+  "appendix_sha256": {
+    "APPENDIX-BINDINGS.md": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+    "APPENDIX-COST-MAP.md": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4"
+  },
+  "different_from_author": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "rc_closure": {
+    "V3-RC4": "NOT_CLOSED",
+    "V3-RC5": "CLOSED_AT_DESIGN_LEVEL",
+    "V3-RC6": "CLOSED_AT_DESIGN_LEVEL"
+  },
+  "required_changes": [
+    {
+      "id": "V4-RC4-GATE",
+      "change": "Reconcile normative B0.7, DESIGN 8.4, B4 tiles, B8 gate algorithm, B10 gate rows, B11 promises, mutation specifications and the machine twin. State branch-sensitive payload rules that permit the existing False-variant rejection diagnostic after its discriminant test. State the sole WF-X finalization O assignment exception with exact exclusive assignments before its test. Preserve A1, diagnostics, codes, write order and the accepted domain.",
+      "reason": "B0.7 requires every non-discriminant selection after the entire gate and forbids every acceptance-object assignment. G16a instead selects FA.Rejected_Position inside its rejection gate, after testing FA.Ok; finalization O is necessarily assigned on the two exclusive paths. B8 implements the different after-test/assigned-exception rule. These are contradictory normative specifications, so O4/R-W/B4/B8 alignment is not closed.",
+      "evidence": [
+        "D4/APPENDIX-BINDINGS.md:104-114",
+        "D4/APPENDIX-BINDINGS.md:681-695",
+        "D4/APPENDIX-BINDINGS.md:1313-1327",
+        "D4/APPENDIX-BINDINGS.md:1779",
+        "D4/APPENDIX-BINDINGS.md:1803-1815",
+        "D4/DESIGN.md:450",
+        "D4/DESIGN.md:479-484",
+        "D3/DESIGN.md:238-241",
+        "D3/DESIGN.md:775-794"
+      ]
+    },
+    {
+      "id": "V4-RC4-ALIAS",
+      "change": "Complete the fully expanded naming invariant for indirect package paths admitted by the scoped inventory, including F.P.Decide and paths through the transport package qualifier. Define deterministic path-aware exclusion or an exact per-call expanded-qualifier invariant, and specify matching indirect-path mutation controls. Do not weaken V7/O6(a) or relax the scoped inventory.",
+      "reason": "The B9.4 list and B8 pattern cover simple alias.routine spellings. The pattern excludes a match preceded by a dot and does not enumerate F.P.Decide, although the permitted F renaming exposes P through Evaluation_Finalization.P -> Evaluation_Completion.P -> Evaluation_Pending. Exact current tiles/residual identity protect current text, but the claimed independent invariant for later reviewed tile amendments is stronger than this checking specification. No full-check successor bypass is claimed or executed.",
+      "evidence": [
+        "D4/APPENDIX-BINDINGS.md:34-43",
+        "D4/APPENDIX-BINDINGS.md:79-85",
+        "D4/APPENDIX-BINDINGS.md:1259-1263",
+        "D4/APPENDIX-BINDINGS.md:1455",
+        "D4/APPENDIX-BINDINGS.md:1541",
+        "D4/APPENDIX-BINDINGS.md:1702-1717",
+        "D4/APPENDIX-BINDINGS.md:1841",
+        "D4/APPENDIX-BINDINGS.md:1884",
+        "S5/core/evaluation_finalization.ads:12-13",
+        "S5/core/evaluation_completion.ads:10"
+      ]
+    }
+  ],
+  "rulings": [
+    {
+      "id": "RC1",
+      "ruling": "CLOSED_AT_DESIGN_LEVEL preserved; diagnostic state/control/value logic stays in SPARK and the carried transport tiles are identical. Installed legality, proof, native and diagnostic-control evidence remain OPEN.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:326-664; D4/APPENDIX-BINDINGS.md:662-670,764-776,869-885; exact candidate full strict proof and C-06."
+    },
+    {
+      "id": "RC2",
+      "ruling": "CLOSED_AT_DESIGN_LEVEL preserved; Operations 0/1 do not read or pass Captured, while the original allocation is retained.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:694-847; D4/APPENDIX-BINDINGS.md:681-695; exact no-rows/rows bodies, initialized active results, full caller proof and C-16."
+    },
+    {
+      "id": "RC3",
+      "ruling": "CLOSED_AT_DESIGN_LEVEL preserved for the N-01 resolution discipline; warnings and all strict evidence remain OPEN.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:1997-2052; exact confirming representation packets, independent ABI review and matching integrated strict command."
+    },
+    {
+      "id": "LD1",
+      "ruling": "CONDITIONALLY_ACCEPTABLE_AT_DESIGN_LEVEL preserved; maximal value runs and staged reads/writes remain required; enlarged OB-048 boundary and custody remain OPEN.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:113-125,197-220,2192-2211; exact successor bodies/callers, guard/allocation/handler correspondence, complete proof and native evidence."
+    },
+    {
+      "id": "LD2",
+      "ruling": "CONDITIONALLY_ACCEPTABLE_AT_DESIGN_LEVEL preserved; no new transport-facing Pre or functional Post; Global null is only an effect boundary. Full totality/body/caller obligations remain OPEN.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:127-138,222-253,839-878; every malformed/originally accepted case, defined active outputs, full flow/RTE/termination/functional evidence."
+    },
+    {
+      "id": "LD3",
+      "ruling": "CONDITIONALLY_ACCEPTABLE_PENDING_D-13 preserved; SPARK_Mode-only component mirrors and existing-Off transport relocation preserve ABI and scope, earning no canonical proof credit.",
+      "owner": "lead; operator for concrete D-13 architecture choice",
+      "evidence_required": "D3/DESIGN.md:140-149,2252-2260; D4/APPENDIX-BINDINGS.md:232-265; complete component source/project/link/native closure and mirror evidence."
+    },
+    {
+      "id": "LD4",
+      "ruling": "WITHDRAWN preserved; no wholesale diagnostic relocation.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:151-168; successor retains LD4-R division."
+    },
+    {
+      "id": "LD4-R",
+      "ruling": "CLOSED_AT_DESIGN_LEVEL for RC1 preserved; only irreducible T1-T5 transport/interleaving remains Off.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:360-641; installed External/Atomic/Image legality, exact access/effect order, strict proof/warnings, matching library and C-06."
+    },
+    {
+      "id": "LD5",
+      "ruling": "CONDITIONALLY_ACCEPTABLE preserved; direct original Well_Formed followed by total wrapper; native recheck and D-36 remain OPEN.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:170-180; D4/APPENDIX-COST-MAP.md:435-436,475-482; matching wrapper/caller proof, assertion and native construction evidence."
+    },
+    {
+      "id": "LD6",
+      "ruling": "CONDITIONALLY_ACCEPTABLE preserved; its V3-RC5 design condition is now discharged at design level. Every original/additive control remains required and unrun here.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:182-191,2215-2244; D4/DESIGN.md:534-629; exact integrated original roster/lifetime/provider/fault and added controls."
+    },
+    {
+      "id": "D-13",
+      "ruling": "OPERATOR_CHOICE_REQUIRED_BEFORE_PK-7; ONLY_ABI_AND_SCOPE_PRESERVING_ROUTE_ADMISSIBLE. The reservation concerns concrete component transport/library architecture, not editing pinned files or recomputing pins. Lead prepares the reviewable packet; no choice made. Options (ii)/(iii) remain inadmissible.",
+      "owner": "operator for architecture choice; lead for concrete packet/evidence preparation",
+      "evidence_required": "D3/DESIGN.md:2252-2260; D4/decisions.json:187; H/HANDOFF.md:153; concrete source/project/link closure, both Decide profiles/layouts, exact mirror, original positive/refusal/native-body controls, source/library/header bindings and actual GPT-6.1 packet review."
+    },
+    {
+      "id": "N-06",
+      "ruling": "REPROVISION_UNDER_OPERATOR_CUSTODY_AT_DEPLOYMENT preserved; native digest mismatch refusal stays. Keeping the old library is a hold with no successor-service credit.",
+      "owner": "operator at deployment; lead prepares identity evidence",
+      "evidence_required": "D3/DESIGN.md:2262-2271; S5/protected-resource/run_service.py:117-120; installed/loaded matching reviewed library, protected native_sha256, provisioning/rollback record and mismatch refusal."
+    },
+    {
+      "id": "N-01",
+      "ruling": "LEAD_OWNED_STRICT_OBLIGATION preserved. Confirming clauses are engineering; a nonconfirming material ABI proposal is outside this design and cannot reduce the target.",
+      "owner": "lead for confirming repair/proof; operator only for separately proposed material ABI change",
+      "evidence_required": "D3/DESIGN.md:2012-2052,2273; all C1-C8 and E1-E6 on exact targets/scenarios, no relocation-as-resolution, no warning waiver, full strict proof and independent ABI/GPT-6.1 reviews."
+    },
+    {
+      "id": "D-05",
+      "ruling": "OPEN preserved; contextual proof at every original partial-decoder caller or separately reviewed non-narrowing total restructure. No helper Pre approved here.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:247-252,2282; installed full caller/body proof and native cost evidence, no assumptions."
+    },
+    {
+      "id": "D-18",
+      "ruling": "CLOSED_AT_DESIGN_LEVEL for the index design preserved; proof remains OPEN. No journal/history equality guard or new ABI refusal.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:848-878; unchanged Apply/History_Index contracts, exact array bounds/conversion correspondence and C-15."
+    },
+    {
+      "id": "D-19",
+      "ruling": "OPEN preserved; original raw Operation /= 2 gate and both SPARK branches retained; no strict-warning waiver by domain changes.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:880-893; strict exact-source proof/warnings and C-01/C-04 including post-decision malformed-span refusal."
+    },
+    {
+      "id": "D-28",
+      "ruling": "CONDITIONALLY_ACCEPTABLE_AT_DESIGN_LEVEL preserved; fixed valid local initialization before nested calls; native cost/failure correspondence OPEN.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:895-902; D4/APPENDIX-COST-MAP.md:C16; original outcomes, full initialization/copy/stack/native correspondence."
+    },
+    {
+      "id": "D-36",
+      "ruling": "OPEN for every write form; no malformed fixture or proposed stronger C-14 supplies original internal-exception equivalence.",
+      "owner": "lead",
+      "evidence_required": "D4/APPENDIX-COST-MAP.md:435-482; matching original/successor generated construction, copy/padding/order/exception behavior and full accepted-domain evidence."
+    },
+    {
+      "id": "D-15/D-34/D-38",
+      "ruling": "OPEN preserved; source equality establishes no loaded symbol resolution, calling convention/layout, integrated name resolution or installed-tool legality.",
+      "owner": "lead",
+      "evidence_required": "D4/DESIGN.md:721,743-758; exact source/project/scenario/tool/runtime/header/ctypes/linked-loaded library closure, export/ABI/strict evidence."
+    },
+    {
+      "id": "N-03",
+      "ruling": "OPEN preserved; existing callees and every relevant body require full matching-source strict proof. No reported PROVED_ROW transfers.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:2292; D4/DESIGN.md:748-750; full integrated strict campaign including Can_Reserve, Compute, Seal, Replay and Decode_Native."
+    },
+    {
+      "id": "N-04",
+      "ruling": "CLOSED_AT_DESIGN_LEVEL for explicit Classify enrollment preserved; full unit/body proof remains required.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:2556; exact ordered suffix and matching full Classify/unit proof."
+    },
+    {
+      "id": "N-05",
+      "ruling": "OPEN preserved; original exact-set static-audit assertion stays. No unilateral exact-set-to-subset reinterpretation or removal.",
+      "owner": "lead; independent review of a concrete correction",
+      "evidence_required": "D3/DESIGN.md:2294; S5/tests/test_authority_static_audit.py:268-280,314-321; S5/verify_proof_manifest.py:22-44; reconcile required guarantee with full effective pins without weakening."
+    },
+    {
+      "id": "N-07",
+      "ruling": "CLOSED_AT_DESIGN_LEVEL for explicit pending Decide enrollments preserved; full body/caller/native obligations remain OPEN.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:2578-2587; exact suffix including both existing Decide bodies, complete proof and native/source identity."
+    },
+    {
+      "id": "APPENDIX_C",
+      "ruling": "CLOSED_AT_DESIGN_LEVEL for exact append-only ordering/enrollment preserved; immediate PK-6a enrollment and no reordering/reappend.",
+      "owner": "lead",
+      "evidence_required": "D3/DESIGN.md:1918-1939,2478-2589; D4/decisions.json:required_proved_append/append_schedule; same names and identities when packets exist, complete body/caller proof."
+    },
+    {
+      "id": "R2_NINE_CONDITIONS",
+      "ruling": "NOT_CLOSED pending V3-RC4; the normative gate and indirect naming invariants require reconciliation.",
+      "owner": "lead",
+      "evidence_required": "V4-RC4-GATE and V4-RC4-ALIAS, exact implementation/mutation specifications, full body/caller review and matching native evidence."
+    },
+    {
+      "id": "PACKET_PLAN",
+      "ruling": "NOT_CLOSED pending V3-RC4. V3-RC5/V3-RC6 are closed at design level only. Linear lineage, representation packet discipline and identities-only seal preserved; no adoption/run authority granted.",
+      "owner": "lead; operator for applicable original gates",
+      "evidence_required": "D3/DESIGN.md:1868-1993; D4/DESIGN.md:534-700; corrected RC4 and every exact-predecessor packet/stage independently reviewed, authentic controls/proof/native/frame identities."
+    }
+  ],
+  "open_obligations": [
+    "V4-RC4-GATE and V4-RC4-ALIAS; R2_NINE_CONDITIONS and PACKET_PLAN remain NOT_CLOSED.",
+    "All successor source, installed legality and integrated name-resolution evidence; transported-clause warnings and L3 actual GNAT warning behavior.",
+    "Complete original consequential contracts and relevant bodies/references/callers, flow/RTE/termination/functional proof; floor 251, sole boundary, exact prefix, zero unproved/justified/pragma Assume, all strict warning obligations.",
+    "D-05 decoder/caller evidence; D-18 index proof; D-19 strict branch evidence; N-01 confirming-layout evidence; N-03 full callee proof.",
+    "D-15/D-34/D-38 complete source/project/scenario/tool/runtime/header/ctypes/linked-loaded library and ABI evidence.",
+    "D-36 every write construction form; all A-COST N-marks and C21-a through C21-h, original Big_Integer/runtime/representability/allocation/controlled-operation/checked-Ghost/assertion-build/full native accepted-domain obligations; no new cap or accepted refusal.",
+    "Exact implementation of manifest tables/overrides, E1-E4 and GE1-GE9, regenerated effective pins, mutation controls, exact-base packet/stage reviews and final integrated review.",
+    "Original ordered ordinary roster, lifetime/additive/deterministic/provider/fault campaigns and every accepted/refusal case on the matching integrated candidate.",
+    "PK-0 class-H failure location and copy atomicity; foreign faults and violated premises remain class X, distinct from defined handler mappings.",
+    "OB-048 enlarged and pre-existing boundary; custody, independently measured confinement, producer authenticity, immutability premises D-27 and foreign-fault obligation D-23.",
+    "N-05 original control/manifest exact-set inconsistency, with its required guarantee preserved.",
+    "D-13 concrete operator component architecture choice; N-06 protected provisioning at deployment; all original operator publication/install/sudo/production/PRIME gates and required deployment obligations.",
+    "Root-worker shared C_API/Authority_Glue overlap and name capture: exact-base re-observation, reviewed rebase and affected-scope proof/native correspondence; integration order not selected here."
+  ],
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "report_sha256": "3d1ef7f82c2458f24ef9a8916e82db0d97c3e1730038cf20ac3d5e0e0323e4aa",
+  "checks": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checks.json",
+    "sha256": "d70fe4677ae2159ad617a0dc6f9982fc976fd86b7d43f66dc9a3913e51e96963",
+    "bytes": 119076,
+    "mode": "0600"
+  },
+  "latent_defects": {
+    "L1": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by explicit scoped T/L/A tuples. Installed legality remains OPEN.",
+    "L2": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by explicit operator visibility clauses; compilation remains OPEN.",
+    "L3": "GENUINE unused rename after retargeting; GE9 is a correct design repair. Actual GNAT 16.1.0 warning behavior UNVERIFIED.",
+    "L4": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by parsing actual ordered Library_Interface membership. No sketch executed.",
+    "L5": "GENUINE blanket write-rule contradiction; repaired by explicit write-form/provenance rows. Separate new B0.7 gating contradiction remains RC4.",
+    "L6": "GENUINE; REPAIRED_AT_DESIGN_LEVEL with Joined_Metadata in tile and carried line R9.",
+    "L7": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by removing direct-store policy/ledger from proposed local-completion C-14 scope; no baseline control weakened.",
+    "L8": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by excluding := from object-declaration pattern. Static reading only, no sketch/pattern control execution."
+  }
+}

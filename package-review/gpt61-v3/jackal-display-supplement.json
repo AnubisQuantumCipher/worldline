@@ -1,0 +1,224 @@
+[
+  {
+    "id": "P-DISPLAY-RATE",
+    "expression": "45248512/4493/1000",
+    "source": "P:88",
+    "display_expected": "10.1",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=45248512/4493/1000 exact=5656064/561625 approx=10.070890718896061\",\"fields\":{\"approx\":\"10.070890718896061\",\"exact\":\"5656064/561625\",\"parsed\":\"45248512/4493/1000\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=45248512/4493/1000 exact=5656064/561625 approx=10.070890718896061",
+        "fields": {
+          "approx": "10.070890718896061",
+          "exact": "5656064/561625",
+          "parsed": "45248512/4493/1000",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true,
+    "reproduction_basis": "Exact quotient and returned approx are consistent with the quoted coarse decimal display; exact fraction governs."
+  },
+  {
+    "id": "P-DISPLAY-G0",
+    "expression": "-8787102018540/1397/1000000000",
+    "source": "P:136",
+    "display_expected": "-6.29",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=-8787102018540/1397/1000000000 exact=-439355100927/69850000000 approx=-6.289979970322118\",\"fields\":{\"approx\":\"-6.289979970322118\",\"exact\":\"-439355100927/69850000000\",\"parsed\":\"-8787102018540/1397/1000000000\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=-8787102018540/1397/1000000000 exact=-439355100927/69850000000 approx=-6.289979970322118",
+        "fields": {
+          "approx": "-6.289979970322118",
+          "exact": "-439355100927/69850000000",
+          "parsed": "-8787102018540/1397/1000000000",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true,
+    "reproduction_basis": "Exact quotient and returned approx are consistent with the quoted coarse decimal display; exact fraction governs."
+  },
+  {
+    "id": "P-DISPLAY-DISPATCH",
+    "expression": "15368462701360/1397/1000000000",
+    "source": "P:143",
+    "display_expected": "11.0",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=15368462701360/1397/1000000000 exact=192105783767/17462500000 approx=11.001047030322118\",\"fields\":{\"approx\":\"11.001047030322118\",\"exact\":\"192105783767/17462500000\",\"parsed\":\"15368462701360/1397/1000000000\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=15368462701360/1397/1000000000 exact=192105783767/17462500000 approx=11.001047030322118",
+        "fields": {
+          "approx": "11.001047030322118",
+          "exact": "192105783767/17462500000",
+          "parsed": "15368462701360/1397/1000000000",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true,
+    "reproduction_basis": "Exact quotient and returned approx are consistent with the quoted coarse decimal display; exact fraction governs."
+  },
+  {
+    "id": "P-DISPLAY-SETUP",
+    "expression": "2027732564230/1397/1000000000",
+    "source": "P:144",
+    "display_expected": "1.45",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2027732564230/1397/1000000000 exact=202773256423/139700000000 approx=1.4514907403221189\",\"fields\":{\"approx\":\"1.4514907403221189\",\"exact\":\"202773256423/139700000000\",\"parsed\":\"2027732564230/1397/1000000000\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=2027732564230/1397/1000000000 exact=202773256423/139700000000 approx=1.4514907403221189",
+        "fields": {
+          "approx": "1.4514907403221189",
+          "exact": "202773256423/139700000000",
+          "parsed": "2027732564230/1397/1000000000",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true,
+    "reproduction_basis": "Exact quotient and returned approx are consistent with the quoted coarse decimal display; exact fraction governs."
+  },
+  {
+    "id": "P-DISPLAY-SELFTEST",
+    "expression": "1843272351744/1397/1000000000",
+    "source": "P:145",
+    "display_expected": "1.32",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=1843272351744/1397/1000000000 exact=3600141312/2728515625 approx=1.3194505023221188\",\"fields\":{\"approx\":\"1.3194505023221188\",\"exact\":\"3600141312/2728515625\",\"parsed\":\"1843272351744/1397/1000000000\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=1843272351744/1397/1000000000 exact=3600141312/2728515625 approx=1.3194505023221188",
+        "fields": {
+          "approx": "1.3194505023221188",
+          "exact": "3600141312/2728515625",
+          "parsed": "1843272351744/1397/1000000000",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true,
+    "reproduction_basis": "Exact quotient and returned approx are consistent with the quoted coarse decimal display; exact fraction governs."
+  },
+  {
+    "id": "P-DISPLAY-W1-MARGIN",
+    "expression": "-14851213817648/1397/1000000000",
+    "source": "P:147",
+    "display_expected": "-10.63",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=-14851213817648/1397/1000000000 exact=-928200863603/87312500000 approx=-10.630790134322119\",\"fields\":{\"approx\":\"-10.630790134322119\",\"exact\":\"-928200863603/87312500000\",\"parsed\":\"-14851213817648/1397/1000000000\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=-14851213817648/1397/1000000000 exact=-928200863603/87312500000 approx=-10.630790134322119",
+        "fields": {
+          "approx": "-10.630790134322119",
+          "exact": "-928200863603/87312500000",
+          "parsed": "-14851213817648/1397/1000000000",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    },
+    "reproduces": true,
+    "reproduction_basis": "Exact quotient and returned approx are consistent with the quoted coarse decimal display; exact fraction governs."
+  }
+]

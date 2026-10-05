@@ -1,0 +1,64 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 1,
+  "complete": true,
+  "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+  "rc_closure": {
+    "V3-RC4": "NOT_CLOSED",
+    "V3-RC5": "CLOSED_AT_DESIGN_LEVEL",
+    "V3-RC6": "CLOSED_AT_DESIGN_LEVEL"
+  },
+  "rc4_subrequirements": {
+    "scoped_inventory": "SUPPLIED; exact residual and T/L/A tuples, with GE9 deletion; installed legality remains OPEN",
+    "deterministic_o6_b_c": "SUPPLIED via R-INV; alias/full-qualification claim needs indirect-path reconciliation",
+    "k3_actual_membership": "CLOSED_AT_DESIGN_LEVEL: literal Library_Interface parsing and ordered tuple equality",
+    "write_provenance": "SUPPLIED per WF-C/A/F/O/B/R/P/X/H; full source/native proof remains OPEN",
+    "gating_and_b0_b4_b8_alignment": "NOT_CLOSED: normative B0.7 contradicts rejection payload in G16a and assigned finalization O; B8 follows the different DESIGN 8.4/B10 rule"
+  },
+  "findings": [
+    {
+      "id": "V4-RC4-GATE",
+      "evidence": [
+        "APPENDIX-BINDINGS.md:104-114",
+        "APPENDIX-BINDINGS.md:1313-1327",
+        "APPENDIX-BINDINGS.md:1779",
+        "APPENDIX-BINDINGS.md:1803-1815",
+        "DESIGN.md:450",
+        "DESIGN.md:479-484"
+      ],
+      "reason": "Normative rule requires all other selections after whole gate and forbids all assignments; exact G16a contains a rejection payload within gate and WF-X assigns O; align the rule without changing diagnostics or variant guards."
+    },
+    {
+      "id": "V4-RC4-ALIAS",
+      "evidence": [
+        "APPENDIX-BINDINGS.md:81-85",
+        "APPENDIX-BINDINGS.md:1259-1263",
+        "APPENDIX-BINDINGS.md:1541",
+        "APPENDIX-BINDINGS.md:1702-1717"
+      ],
+      "reason": "The assertion that only full expanded names remain is stronger than the listed simple-alias patterns: indirect F.P.Decide is not represented. Existing exact tiles/residue bind current source but do not establish the claimed amendment invariant."
+    }
+  ],
+  "rc5_evidence": [
+    "DESIGN.md:540-629",
+    "APPENDIX-BINDINGS.md:522-528",
+    "APPENDIX-BINDINGS.md:681-688",
+    "S5/core/evaluation_pending_c.adb:111-173",
+    "S5/core/worldline-resource_ledger_c_api.adb:118-223",
+    "S5/core/evaluation_finalization_c.adb:128-256"
+  ],
+  "rc6_evidence": [
+    "DESIGN.md:641-700",
+    "APPENDIX-COST-MAP.md:25-72",
+    "APPENDIX-COST-MAP.md:93-112",
+    "APPENDIX-COST-MAP.md:279",
+    "APPENDIX-COST-MAP.md:412-482"
+  ],
+  "method": "Passive text/JSON/AST review and hashing only; no WORLDLINE or design sketch execution.",
+  "jackal": "MCP not exposed in this session; no reviewer arithmetic derived. Author recorded results are observations, not independently replayed arithmetic.",
+  "acceptance": {
+    "proof": false,
+    "phase": false,
+    "source": false
+  }
+}

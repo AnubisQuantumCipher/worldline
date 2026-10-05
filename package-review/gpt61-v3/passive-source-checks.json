@@ -1,0 +1,4399 @@
+{
+  "schema": "independent-passive-source-checks-v1",
+  "no_source_executed": true,
+  "manifest": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+    "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+    "pins_observed": 169,
+    "roster_observed": 535,
+    "steps": [
+      {
+        "line": 329,
+        "literal_count_observed": 82,
+        "new_keys_observed": 82,
+        "effective_count_observed": 82
+      },
+      {
+        "line": 418,
+        "literal_count_observed": 9,
+        "new_keys_observed": 8,
+        "effective_count_observed": 90
+      },
+      {
+        "line": 925,
+        "literal_count_observed": 9,
+        "new_keys_observed": 8,
+        "effective_count_observed": 98
+      },
+      {
+        "line": 942,
+        "literal_count_observed": 6,
+        "new_keys_observed": 6,
+        "effective_count_observed": 104
+      },
+      {
+        "line": 955,
+        "literal_count_observed": 4,
+        "new_keys_observed": 4,
+        "effective_count_observed": 108
+      },
+      {
+        "line": 969,
+        "literal_count_observed": 114,
+        "new_keys_observed": 6,
+        "effective_count_observed": 114
+      },
+      {
+        "line": 974,
+        "literal_count_observed": 13,
+        "new_keys_observed": 10,
+        "effective_count_observed": 124
+      },
+      {
+        "line": 997,
+        "literal_count_observed": 124,
+        "new_keys_observed": 0,
+        "effective_count_observed": 124
+      },
+      {
+        "line": 1000,
+        "literal_count_observed": 2,
+        "new_keys_observed": 0,
+        "effective_count_observed": 124
+      },
+      {
+        "line": 1005,
+        "literal_count_observed": 6,
+        "new_keys_observed": 4,
+        "effective_count_observed": 128
+      },
+      {
+        "line": 1009,
+        "literal_count_observed": 1,
+        "new_keys_observed": 0,
+        "effective_count_observed": 128
+      },
+      {
+        "line": 1014,
+        "literal_count_observed": 166,
+        "new_keys_observed": 38,
+        "effective_count_observed": 166
+      },
+      {
+        "line": 1017,
+        "literal_count_observed": 2,
+        "new_keys_observed": 0,
+        "effective_count_observed": 166
+      },
+      {
+        "line": 1020,
+        "literal_count_observed": 1,
+        "new_keys_observed": 1,
+        "effective_count_observed": 167
+      },
+      {
+        "line": 1023,
+        "literal_count_observed": 167,
+        "new_keys_observed": 0,
+        "effective_count_observed": 167
+      },
+      {
+        "line": 1026,
+        "literal_count_observed": 3,
+        "new_keys_observed": 2,
+        "effective_count_observed": 169
+      },
+      {
+        "line": 1029,
+        "literal_count_observed": 169,
+        "new_keys_observed": 0,
+        "effective_count_observed": 169
+      }
+    ],
+    "required_steps": [
+      {
+        "line": 25,
+        "added_observed": 280
+      },
+      {
+        "line": 312,
+        "added_observed": 11
+      },
+      {
+        "line": 314,
+        "added_observed": 4
+      },
+      {
+        "line": 924,
+        "added_observed": 5
+      },
+      {
+        "line": 940,
+        "added_observed": 8
+      },
+      {
+        "line": 953,
+        "added_observed": 31
+      },
+      {
+        "line": 967,
+        "added_observed": 34
+      },
+      {
+        "line": 972,
+        "added_observed": 46
+      },
+      {
+        "line": 1003,
+        "added_observed": 1
+      },
+      {
+        "line": 1012,
+        "added_observed": 115
+      }
+    ],
+    "pin_checks": [
+      {
+        "key": "core/canonical_artifacts.ads",
+        "expected": "303ac80cabec2e2ef34029f6f8bd27c4100592cc9b8791b79f9a7475b9a0fa11",
+        "normalized_sha256": "303ac80cabec2e2ef34029f6f8bd27c4100592cc9b8791b79f9a7475b9a0fa11",
+        "raw_sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+        "matches": true
+      },
+      {
+        "key": "core/canonical_artifacts.adb",
+        "expected": "c987131d691b96262103161f3cdd79421fd7769de7513e02df80032ffd6c23e3",
+        "normalized_sha256": "c987131d691b96262103161f3cdd79421fd7769de7513e02df80032ffd6c23e3",
+        "raw_sha256": "979466c0c24fadb5ae5f4aac29a08cff680d367c4356ec69faa0596c7c5f2aa3",
+        "matches": true
+      },
+      {
+        "key": "artifact-tests/canonical_artifact_tests.gpr",
+        "expected": "bce2824cc8181edb5f1e9d5b9c0a391d70d68302b9f717ae44f87a0cd4a1ea05",
+        "normalized_sha256": "bce2824cc8181edb5f1e9d5b9c0a391d70d68302b9f717ae44f87a0cd4a1ea05",
+        "raw_sha256": "9b8c5297f459ac249c82ab208d59d7088f43c70a193c0db905a9d87d5977e933",
+        "matches": true
+      },
+      {
+        "key": "artifact-tests/test_canonical_artifacts.adb",
+        "expected": "43137b6f14b3c71b87de8f09c957e95d29a7d44dab5c67fc92698be12c50b8f1",
+        "normalized_sha256": "43137b6f14b3c71b87de8f09c957e95d29a7d44dab5c67fc92698be12c50b8f1",
+        "raw_sha256": "2a8d127846ae5981d6021df9dc92a80c30a88b5e86b1040404a484dbe5df5fa1",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_finalization.ads",
+        "expected": "c1717fb0356136faa6f040e6c9fc96b43410e65a7199cf4bd0d1e605ffd89bdf",
+        "normalized_sha256": "c1717fb0356136faa6f040e6c9fc96b43410e65a7199cf4bd0d1e605ffd89bdf",
+        "raw_sha256": "e20808c44b84e02485e10a3eb1e1e36a2f2f88defd75eb97c536cee6851c287a",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_finalization.adb",
+        "expected": "a5ae5bda090ce0039c20f5ee0d250c24919d433f7011319c48aebb1d734237c3",
+        "normalized_sha256": "a5ae5bda090ce0039c20f5ee0d250c24919d433f7011319c48aebb1d734237c3",
+        "raw_sha256": "c64f17246f0dfa3d88299a534e3e716ada35fd05120983a3d8f53a7c28d1a738",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_finalization_c.ads",
+        "expected": "8080094b47ce399c6a76c990e7112a4504faf81731066d26439d56bd2f447ec6",
+        "normalized_sha256": "8080094b47ce399c6a76c990e7112a4504faf81731066d26439d56bd2f447ec6",
+        "raw_sha256": "2ca8602e87eb4605ddeda8e61c223ff39d765a81d3e22baec3e7d981bb74010b",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_finalization_c.adb",
+        "expected": "ccb7a2fed1ff3de44a29ec427606837064c6eb8d51e93856ad89310927459cb2",
+        "normalized_sha256": "ccb7a2fed1ff3de44a29ec427606837064c6eb8d51e93856ad89310927459cb2",
+        "raw_sha256": "bdcf333878aebe4aca55333bc3b9a9a50007c187fc4b380dec1adb18127f83d3",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_completion.ads",
+        "expected": "e1caaf4b7523a4b1ee7f7fd86e7cc41039830cf65e57fe9c999c5c5035fbe252",
+        "normalized_sha256": "e1caaf4b7523a4b1ee7f7fd86e7cc41039830cf65e57fe9c999c5c5035fbe252",
+        "raw_sha256": "2b2a87a7a1f554486caad6c680e2c39dd4bb7b5e48619933f033cda15ea0a2f5",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_completion.adb",
+        "expected": "2a7d3cc5e4154b1e98602cd3d3e47f32aad7c03f0ad4895e6fc3a68a5fa35808",
+        "normalized_sha256": "2a7d3cc5e4154b1e98602cd3d3e47f32aad7c03f0ad4895e6fc3a68a5fa35808",
+        "raw_sha256": "f5742fa1f7017566ea97aaee8596dfb9e9c5b139d13b369e29454453357f6487",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_completion_roster.ads",
+        "expected": "5af5ec8259073ad74444b5a4596b2a4b05e568c7d26739b9210e9b4616a2a2a3",
+        "normalized_sha256": "5af5ec8259073ad74444b5a4596b2a4b05e568c7d26739b9210e9b4616a2a2a3",
+        "raw_sha256": "bc086393ebdf98d397273905aa3425afe4b7cc29cbc9ac9ac1ac1a7f499d8111",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_completion_roster.adb",
+        "expected": "f52e2b9d4a909b3c2b616e92aaf7b87ce4ddb8a6e8b34ea99068915dc9bb253a",
+        "normalized_sha256": "f52e2b9d4a909b3c2b616e92aaf7b87ce4ddb8a6e8b34ea99068915dc9bb253a",
+        "raw_sha256": "9779f6f10d68fe7f9bbd806f20a2bcd3217d3ae2e6869bc8e02d3142902350fd",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_pending_v2.ads",
+        "expected": "1e20de75c125ff20b5ad5750466430e959fb104b27f905403e38a35eb01f8321",
+        "normalized_sha256": "1e20de75c125ff20b5ad5750466430e959fb104b27f905403e38a35eb01f8321",
+        "raw_sha256": "2faea7935397bebf07a330b7d64c457716c40d8613076696f62359c5723fb48a",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_pending_v2.adb",
+        "expected": "d8864beff6356c688f3ed26c84d27e6d0e315c423e150ee257e45df71bad3a66",
+        "normalized_sha256": "d8864beff6356c688f3ed26c84d27e6d0e315c423e150ee257e45df71bad3a66",
+        "raw_sha256": "ae66c2389c362e4c9b0a4b333a3267adaa095fdbe72d28bab98857e1a53a3423",
+        "matches": true
+      },
+      {
+        "key": "evaluation-authority-tests/test_evaluation_authority.adb",
+        "expected": "071e0f859f92ac1576f95dc1c6e6f89df84c59edb304b36c3e15f0a887e98730",
+        "normalized_sha256": "071e0f859f92ac1576f95dc1c6e6f89df84c59edb304b36c3e15f0a887e98730",
+        "raw_sha256": "16f72d1b1e89f94d11bec88a6d92991159980ed222733cb45383f79dffc96b90",
+        "matches": true
+      },
+      {
+        "key": "evaluation-authority-tests/evaluation_authority_tests.gpr",
+        "expected": "f9ba8e8e3b9593454c25f74a5678599ebdf09afbf8510b119ebfa6f8820a98f4",
+        "normalized_sha256": "f9ba8e8e3b9593454c25f74a5678599ebdf09afbf8510b119ebfa6f8820a98f4",
+        "raw_sha256": "fe56372cadd165065b83f595d62b8a5b9b549776b8f0b838d37abf18d667031c",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_authority.ads",
+        "expected": "1ee7d183c40c6b98b7f98277f96924e3135fedd83900134a3ff4461bcf237694",
+        "normalized_sha256": "1ee7d183c40c6b98b7f98277f96924e3135fedd83900134a3ff4461bcf237694",
+        "raw_sha256": "29ea441b1bcc0212db70143c09b961b1f911827c8f30b40cc52f88080f4c222b",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_authority.adb",
+        "expected": "d907b1d4eda41e7f7167695520085071686c834f8c1adb6691307661c3043d3a",
+        "normalized_sha256": "d907b1d4eda41e7f7167695520085071686c834f8c1adb6691307661c3043d3a",
+        "raw_sha256": "bb4201fc146208e5bae73a9f2a322db6bd54ccc7f3403cff69abc3c95bfb2ab3",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_completion_c.ads",
+        "expected": "d3f7dd59480c257d5e488801a98f46de5435967c0c468a52db5b61d3cf360ee0",
+        "normalized_sha256": "d3f7dd59480c257d5e488801a98f46de5435967c0c468a52db5b61d3cf360ee0",
+        "raw_sha256": "e0a50887d10159aa8350734ed2acc88b8a454fbfeb0eea7d0c727ca28ac17dd7",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_completion_c.adb",
+        "expected": "33e4763cf15e91c699627371a257e7dee58dd1de1875e38e300ba6310c8f57a3",
+        "normalized_sha256": "33e4763cf15e91c699627371a257e7dee58dd1de1875e38e300ba6310c8f57a3",
+        "raw_sha256": "b799e93af37ca90104050473119aaca380b54244a491c2cc57226db8eaa77d69",
+        "matches": true
+      },
+      {
+        "key": "core/resource_ledger.ads",
+        "expected": "ddf46ac440a9c372f7c4b30d1d91463061a45be05653fee181f25164bdd2f0f1",
+        "normalized_sha256": "ddf46ac440a9c372f7c4b30d1d91463061a45be05653fee181f25164bdd2f0f1",
+        "raw_sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+        "matches": true
+      },
+      {
+        "key": "core/resource_ledger.adb",
+        "expected": "9865db7777cec55fc7b58a6fb716f6aa6cb82407e7f8b93d6ee3f0b98a378176",
+        "normalized_sha256": "9865db7777cec55fc7b58a6fb716f6aa6cb82407e7f8b93d6ee3f0b98a378176",
+        "raw_sha256": "4a5fe307f79a8d6cf0afa7bec2f3fe2a6e58b6eeaf0c8d8790333c4dc6b24fe1",
+        "matches": true
+      },
+      {
+        "key": "core/resource_reservation_transition.adb",
+        "expected": "1aae6cf108db24fa2774629d7f230b8c4919f9e343a7eb3df0b665641e272864",
+        "normalized_sha256": "1aae6cf108db24fa2774629d7f230b8c4919f9e343a7eb3df0b665641e272864",
+        "raw_sha256": "705f7102a64c06e4e03ab354fc3deac928129249fcb054146a486291ff1f04f3",
+        "matches": true
+      },
+      {
+        "key": "core/resource_quantities.ads",
+        "expected": "eccfd39b55cc38bedcbc1a129380879725aa55d10c0ea3c4061a6725cad274fb",
+        "normalized_sha256": "eccfd39b55cc38bedcbc1a129380879725aa55d10c0ea3c4061a6725cad274fb",
+        "raw_sha256": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+        "matches": true
+      },
+      {
+        "key": "core/resource_quantities.adb",
+        "expected": "ee060b7a47f95477ffce24b22b888d92ceb16bbcd7db21a37785720b8162467d",
+        "normalized_sha256": "ee060b7a47f95477ffce24b22b888d92ceb16bbcd7db21a37785720b8162467d",
+        "raw_sha256": "5e87d8a0e874a0f2010070e31140ee1eb638ff866beea6f85da1f41599863b9b",
+        "matches": true
+      },
+      {
+        "key": "pending-component/core/resource_quantities.ads",
+        "expected": "eccfd39b55cc38bedcbc1a129380879725aa55d10c0ea3c4061a6725cad274fb",
+        "normalized_sha256": "eccfd39b55cc38bedcbc1a129380879725aa55d10c0ea3c4061a6725cad274fb",
+        "raw_sha256": "7bb5ebf110cfb6caec3c204e97be8bc4d7a93ebdb3b9e6251f48a456eeae1a28",
+        "matches": true
+      },
+      {
+        "key": "pending-component/core/resource_quantities.adb",
+        "expected": "93a42adfed8b5f2311f33818e3d33c5e1a21c089b7930d26d7a3b9bdb53169b4",
+        "normalized_sha256": "93a42adfed8b5f2311f33818e3d33c5e1a21c089b7930d26d7a3b9bdb53169b4",
+        "raw_sha256": "a4998f3286116821eb5531d5d711adeb93f32b094a59bc076f5192b987eeeaf6",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_history.ads",
+        "expected": "e58eea740afa7f385a386ad97ad78380eb61ccac35d7669f14768dd4ac30cc3a",
+        "normalized_sha256": "e58eea740afa7f385a386ad97ad78380eb61ccac35d7669f14768dd4ac30cc3a",
+        "raw_sha256": "5ab34318c4b2678aa17f679af2b5190fc8baa082dbf7191308aa21382f812601",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_history.adb",
+        "expected": "74a24e09ac21e8900167db0f25b43cfd33d000eb52922653133a8e631a911c3f",
+        "normalized_sha256": "74a24e09ac21e8900167db0f25b43cfd33d000eb52922653133a8e631a911c3f",
+        "raw_sha256": "94ea3238c300759334c2e60f6a3a146b187fc08296c562e96d28e1fd4c315840",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_epoch.ads",
+        "expected": "91b6ffd9a92440ad93a4b871123459af54642a5483f6a037db4eeb78a88aeeb5",
+        "normalized_sha256": "91b6ffd9a92440ad93a4b871123459af54642a5483f6a037db4eeb78a88aeeb5",
+        "raw_sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_epoch.adb",
+        "expected": "76fa1977a41b3cdef9ee15972a1970db67771ec2f5bf0dab2cada0088679f363",
+        "normalized_sha256": "76fa1977a41b3cdef9ee15972a1970db67771ec2f5bf0dab2cada0088679f363",
+        "raw_sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+        "matches": true
+      },
+      {
+        "key": "pending-component/core/evaluation_epoch.ads",
+        "expected": "91b6ffd9a92440ad93a4b871123459af54642a5483f6a037db4eeb78a88aeeb5",
+        "normalized_sha256": "91b6ffd9a92440ad93a4b871123459af54642a5483f6a037db4eeb78a88aeeb5",
+        "raw_sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+        "matches": true
+      },
+      {
+        "key": "pending-component/core/evaluation_epoch.adb",
+        "expected": "76fa1977a41b3cdef9ee15972a1970db67771ec2f5bf0dab2cada0088679f363",
+        "normalized_sha256": "76fa1977a41b3cdef9ee15972a1970db67771ec2f5bf0dab2cada0088679f363",
+        "raw_sha256": "61b009aca52b112a372501b119d687cfee8258b7788b7a0201bc4f932dddd7aa",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resources.ads",
+        "expected": "4d670ff2d2d091f0abad0a5aeb999aa60c3164986410a2aaba0c1afa42be0b43",
+        "normalized_sha256": "4d670ff2d2d091f0abad0a5aeb999aa60c3164986410a2aaba0c1afa42be0b43",
+        "raw_sha256": "571e729f77c605d6589b18f753e635da2a324d6363860d08285551357c51b587",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resources.adb",
+        "expected": "554938c05e2113f86516ed4fe79a2f15c042aa05ffea02ae443bbde0582f71fa",
+        "normalized_sha256": "554938c05e2113f86516ed4fe79a2f15c042aa05ffea02ae443bbde0582f71fa",
+        "raw_sha256": "053d9c59ad1223939e98913af7b56cf860a4979444aea169dd16b876bfe7f3dc",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_v2.ads",
+        "expected": "8e1f18244b924a7c9c05c67fdf785491a910c9f7c59966381b38962c2f68a72c",
+        "normalized_sha256": "8e1f18244b924a7c9c05c67fdf785491a910c9f7c59966381b38962c2f68a72c",
+        "raw_sha256": "f527206d00c47fe71e31ee79c599e8ffaa8614fbb1c66743c847cfcb46710cf6",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_v2.adb",
+        "expected": "2fc57758a66ac2c7aa9ef6e108fdcbf93b1b286fd64b6620d8bca54ce32312eb",
+        "normalized_sha256": "2fc57758a66ac2c7aa9ef6e108fdcbf93b1b286fd64b6620d8bca54ce32312eb",
+        "raw_sha256": "b58dfbdcf47a9271cd2ebc5d87f71cb638bd8b2094950529b31dc8ab64b18f3f",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_wire.ads",
+        "expected": "8b190a32f057a30a700e3331bd72aa2cfc18c5d6f3540b824756197f09077c7a",
+        "normalized_sha256": "8b190a32f057a30a700e3331bd72aa2cfc18c5d6f3540b824756197f09077c7a",
+        "raw_sha256": "e7b44365b9b16333b4cf6315eed8d2a388bb0d68ba88572ea071e84e135fbf6d",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_wire.adb",
+        "expected": "30696c9e2b4be84aad47d406864213a176f494e07dbed6f6907efe601d3be530",
+        "normalized_sha256": "30696c9e2b4be84aad47d406864213a176f494e07dbed6f6907efe601d3be530",
+        "raw_sha256": "224be0d2c2e90f5fd70c002b49594d3b4fcd141cc86e0097190d120819e68ce9",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_raw_roster.ads",
+        "expected": "6bdb761e4be7a6dec36373293ffb7de064ddaa250a811ce9ebb6dcf2db69788b",
+        "normalized_sha256": "6bdb761e4be7a6dec36373293ffb7de064ddaa250a811ce9ebb6dcf2db69788b",
+        "raw_sha256": "1640ceda9cf05cc16af4609ed986590c85e541a8dd9d76eb1ca70275133b1cd8",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_raw_roster.adb",
+        "expected": "807532e6fb340903d4342a384d8c4c7ca22df7f0da42382134c1731e4af386cd",
+        "normalized_sha256": "807532e6fb340903d4342a384d8c4c7ca22df7f0da42382134c1731e4af386cd",
+        "raw_sha256": "495775ae49764c359079ad5b47665f7f17bb7b449d0e0aab186d8c42b72f43a4",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_report_facts.ads",
+        "expected": "f8bfee03303776b2825662bb1ce394fdf3c3e6acf3e7b1084500e50eba430f82",
+        "normalized_sha256": "f8bfee03303776b2825662bb1ce394fdf3c3e6acf3e7b1084500e50eba430f82",
+        "raw_sha256": "485c0df20a5b2a3b96811106ba1aa73fb87294c9e01d81919741740c58ee6f2a",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_report_facts.adb",
+        "expected": "ffdc1629f8eaef1ec4ab1bbc4fc988f2f1546dd8b5013ec4635888d77f8240fb",
+        "normalized_sha256": "ffdc1629f8eaef1ec4ab1bbc4fc988f2f1546dd8b5013ec4635888d77f8240fb",
+        "raw_sha256": "962c7d6abd8ea0cbd1369db73b5e5353da4abd35eb5deb3bc9556f2eb07feff1",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_report_wire.ads",
+        "expected": "a58347985c4242421c4114ecf61ddaf6f84229e62ab2114cd0947b7feee29b19",
+        "normalized_sha256": "a58347985c4242421c4114ecf61ddaf6f84229e62ab2114cd0947b7feee29b19",
+        "raw_sha256": "7699dc6ed19cc1a8f57c8eb02c8bef3d2ebdd63b5c9b84789178c6941c8e41ae",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_report_wire.adb",
+        "expected": "19ed101a83a9a9350a660cd7693a8be7ffee86557fa6d58e7959a0ae9973ff78",
+        "normalized_sha256": "19ed101a83a9a9350a660cd7693a8be7ffee86557fa6d58e7959a0ae9973ff78",
+        "raw_sha256": "df63281b3d33be3fa2af75dcf03cde181ce4a0b2c5dcd256c0e87253d5fffa6a",
+        "matches": true
+      },
+      {
+        "key": "evaluation-wire-tests/evaluation_wire_tests.gpr",
+        "expected": "8fde6733c882c9be99a7fbcdce0c6ba0a8eca138a4b68e65ec77efdc84160d89",
+        "normalized_sha256": "8fde6733c882c9be99a7fbcdce0c6ba0a8eca138a4b68e65ec77efdc84160d89",
+        "raw_sha256": "711cdb89530f27571980e356ef6c5ea308fcb6c42bfd5a7632bfb3308220aa74",
+        "matches": true
+      },
+      {
+        "key": "worldline.gpr",
+        "expected": "edc9682fe5cb62ab041cc586de03c59e1d30cd0de7d8dcc7646ebe50ce6c0021",
+        "normalized_sha256": "edc9682fe5cb62ab041cc586de03c59e1d30cd0de7d8dcc7646ebe50ce6c0021",
+        "raw_sha256": "e60f6fc969048d0af1d53c809d1c237dec8eaf99f018fd075e88b2e08f38731c",
+        "matches": true
+      },
+      {
+        "key": "core/worldline_core.gpr",
+        "expected": "702cc20adf361a486634004088771fa7cd515a9c24b746ae51ef8973b01f94d1",
+        "normalized_sha256": "702cc20adf361a486634004088771fa7cd515a9c24b746ae51ef8973b01f94d1",
+        "raw_sha256": "5497fabb698d53efc2bfb39104bdcd48b1c0f46e0c706c2643c8ce1af72fd5b0",
+        "matches": true
+      },
+      {
+        "key": "core/worldline_core_sources.gpr",
+        "expected": "fc7be69ee1d21269d12f600a3dab22b53c21362d178280d5f8ddcacf5c09802c",
+        "normalized_sha256": "fc7be69ee1d21269d12f600a3dab22b53c21362d178280d5f8ddcacf5c09802c",
+        "raw_sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+        "matches": true
+      },
+      {
+        "key": "core/attest_sha256.gpr",
+        "expected": "5d75d10379e9397a9e08517d56728b2f53479fd7c0e9dff3b5dccaa8e8c0f9ee",
+        "normalized_sha256": "5d75d10379e9397a9e08517d56728b2f53479fd7c0e9dff3b5dccaa8e8c0f9ee",
+        "raw_sha256": "33c7a58b9d13c4dfa48f5a437d18bcd7eeb0ce90fe80d1ef692aeacbe5fef0d5",
+        "matches": true
+      },
+      {
+        "key": "tests/worldline_tests.gpr",
+        "expected": "d452b39691f23078635cb829b0ef94040342cefec9288cd4cccb821a51ca6a82",
+        "normalized_sha256": "d452b39691f23078635cb829b0ef94040342cefec9288cd4cccb821a51ca6a82",
+        "raw_sha256": "8f2468eb0eaa2b24d6ae8566f581255f91a0b1fe2b1dc2b853300f1c0587d8e8",
+        "matches": true
+      },
+      {
+        "key": "core/worldline.ads",
+        "expected": "4e08ff1dedc1f28b526a19b37c343b2d71f5f1e35409abda2afdbd92a73ab866",
+        "normalized_sha256": "4e08ff1dedc1f28b526a19b37c343b2d71f5f1e35409abda2afdbd92a73ab866",
+        "raw_sha256": "6b171d3fa0b9a0cdbd7e3777e4af35e557ed74e67f6b3ee9bdc1bbfe41305286",
+        "matches": true
+      },
+      {
+        "key": "core/attest/attest.ads",
+        "expected": "bb777936dfaf882e68b399dd2fdfc531e5edd0d24b5b01a6d0906161aa89e587",
+        "normalized_sha256": "bb777936dfaf882e68b399dd2fdfc531e5edd0d24b5b01a6d0906161aa89e587",
+        "raw_sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3",
+        "matches": true
+      },
+      {
+        "key": "core/attest/attest-sha256.ads",
+        "expected": "1d38534d6bcaa9a6646225db8f26f0a7b940444cda3ed0d109816119d51bff05",
+        "normalized_sha256": "1d38534d6bcaa9a6646225db8f26f0a7b940444cda3ed0d109816119d51bff05",
+        "raw_sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-c_api.ads",
+        "expected": "4c533f63b629146beea81b20c7bddcae385beafb61ffc62cc866212f6d5c4c6b",
+        "normalized_sha256": "4c533f63b629146beea81b20c7bddcae385beafb61ffc62cc866212f6d5c4c6b",
+        "raw_sha256": "3a3b17c47bb289e24adc3009e0a5a7510972fac07323f636cbd5722e6344319a",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-collapse.ads",
+        "expected": "94ef49a258a46363eea81d44e168ce4e7cc618fdf128e916e92e447f2ffe32e2",
+        "normalized_sha256": "94ef49a258a46363eea81d44e168ce4e7cc618fdf128e916e92e447f2ffe32e2",
+        "raw_sha256": "98b2661b6911332da1b460a78003ea5d3b692c8406c6c34c32b70ab9d6988a95",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-collapse_wire.ads",
+        "expected": "48270be156ee3f1c7d7f6215917c9b8026ac5346c45064cf7803950c137ddd76",
+        "normalized_sha256": "48270be156ee3f1c7d7f6215917c9b8026ac5346c45064cf7803950c137ddd76",
+        "raw_sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-identities.ads",
+        "expected": "ceed7b08935c05d52014b8f7e8d68f8b8876214428be145aa88bf2878cabca21",
+        "normalized_sha256": "ceed7b08935c05d52014b8f7e8d68f8b8876214428be145aa88bf2878cabca21",
+        "raw_sha256": "3935a4aa1d670f42738b0b1e7968a8d6560fd3580150f9dada6bfe6145bb7f10",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation.ads",
+        "expected": "06f281db13982fa57cb96391c54e4d53268577b52422d5f6e640804a016c3b9e",
+        "normalized_sha256": "06f281db13982fa57cb96391c54e4d53268577b52422d5f6e640804a016c3b9e",
+        "raw_sha256": "374dd36340edde851d3e897c282800b7a626d07d441bbf798add4c546672e590",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-transitions.ads",
+        "expected": "5b9c8f89900d01eeb40818de6392e1f23f8e2606cba702dd06e72e4257406c27",
+        "normalized_sha256": "5b9c8f89900d01eeb40818de6392e1f23f8e2606cba702dd06e72e4257406c27",
+        "raw_sha256": "ea500c9367706f06251de7d4a1048c45d1dbfdce4fef96f1807c37191cafffaf",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-c_api.adb",
+        "expected": "4c0564d7870ab50b44eec707140d4402166811190d1b88307265134b2d0273fa",
+        "normalized_sha256": "4c0564d7870ab50b44eec707140d4402166811190d1b88307265134b2d0273fa",
+        "raw_sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-receipts.ads",
+        "expected": "45e8c276cf73d8d0311f247a1c87e9bf88614d46fde2bfe6c5f858ee2d20827b",
+        "normalized_sha256": "45e8c276cf73d8d0311f247a1c87e9bf88614d46fde2bfe6c5f858ee2d20827b",
+        "raw_sha256": "7fb7c8345ee3fce58b97dbd5a85568b426e5b0a5269b9e80bb387b3501db93ea",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-receipts.adb",
+        "expected": "1ee34566208a835951d21d79be1bc6ffd287b3c61b43bad76210a7a546b156bb",
+        "normalized_sha256": "1ee34566208a835951d21d79be1bc6ffd287b3c61b43bad76210a7a546b156bb",
+        "raw_sha256": "0ad93ce1f5f175fec85fc1431a24ccb140063fd52110786a08d608509873b225",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-causal_graph.ads",
+        "expected": "1f5271eed9dc2bdacf2642a9647bab7a2b29a707c7749664ba09f7fac79ce14f",
+        "normalized_sha256": "1f5271eed9dc2bdacf2642a9647bab7a2b29a707c7749664ba09f7fac79ce14f",
+        "raw_sha256": "0c68302dc55b891639f0bcbee7ebfe43e1d6d7a9cfcaa969ee1f0fb664d13e97",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-causal_graph.adb",
+        "expected": "a7e80ad0b061be82ce2727e5aeabd6fa27335807d66445ad01dc3fb3931dfab5",
+        "normalized_sha256": "a7e80ad0b061be82ce2727e5aeabd6fa27335807d66445ad01dc3fb3931dfab5",
+        "raw_sha256": "7a1989c91fb712b795040276c39edaf5fd12f46e9059788643ca14aeb6dcee7e",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-world.ads",
+        "expected": "3e64007aa82d309185c9e3b1f2abf870e5de7123d35ebc5e6eadca9cd2121ef5",
+        "normalized_sha256": "3e64007aa82d309185c9e3b1f2abf870e5de7123d35ebc5e6eadca9cd2121ef5",
+        "raw_sha256": "aa2ef8a552d1151a771596f5c4a454cf550926f14e80d7adcffb028d3453c386",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-ancestry.ads",
+        "expected": "718cb0a45fe3bfa5b4d1b29696ec544b827b0d9cca74b59f836b08b01c1485db",
+        "normalized_sha256": "718cb0a45fe3bfa5b4d1b29696ec544b827b0d9cca74b59f836b08b01c1485db",
+        "raw_sha256": "f7916f911d49716d25fe7a4503e6078125f50c6530deb926fe48f2a63ab734ce",
+        "matches": true
+      },
+      {
+        "key": "core/resource_admission.adb",
+        "expected": "0da682e7cd0aa85daea88a9f36926fa213240b9273cd7015108f95f4f48ee63c",
+        "normalized_sha256": "0da682e7cd0aa85daea88a9f36926fa213240b9273cd7015108f95f4f48ee63c",
+        "raw_sha256": "56561dc5fbe3a1cd62710b34678fe894ea55de200b0e3742bbdd31ea4dddf887",
+        "matches": true
+      },
+      {
+        "key": "core/resource_admission.ads",
+        "expected": "2d93c087e980ec50ce77a21efdeb4c2d3a96e503493e55c0a9cbbb27e80381f2",
+        "normalized_sha256": "2d93c087e980ec50ce77a21efdeb4c2d3a96e503493e55c0a9cbbb27e80381f2",
+        "raw_sha256": "269a14b1f9e23a8ff35c2d76d8cdb4bd9e530721f4e17fd6e06a5b3f821a94d0",
+        "matches": true
+      },
+      {
+        "key": "core/resource_reservation_lifecycle.adb",
+        "expected": "3cf6bbe8dfef85f485be16eb9185768ace28ddc6a3ea5bfe0cd0aa26dd8aef41",
+        "normalized_sha256": "3cf6bbe8dfef85f485be16eb9185768ace28ddc6a3ea5bfe0cd0aa26dd8aef41",
+        "raw_sha256": "e8019d148f4883b4742f3f69429d42b20b67f02743d60a906769de8515b10e8f",
+        "matches": true
+      },
+      {
+        "key": "core/resource_reservation_lifecycle.ads",
+        "expected": "8e3c85334abc8ff747e6f468bea29f04196c3c11cffa10a68207b96c8b3e0400",
+        "normalized_sha256": "8e3c85334abc8ff747e6f468bea29f04196c3c11cffa10a68207b96c8b3e0400",
+        "raw_sha256": "12a88a7153fde38ece9e0551c67d442066c6c092b4055d5d4bcfeadd14388b4f",
+        "matches": true
+      },
+      {
+        "key": "core/resource_reservation_transition.ads",
+        "expected": "c82a593982275ceed2574269328981d0d6915bd70f1f91fe7a19e954c266b4c9",
+        "normalized_sha256": "c82a593982275ceed2574269328981d0d6915bd70f1f91fe7a19e954c266b4c9",
+        "raw_sha256": "886bb13a69cdf029bc10703b39bce49eaeadb9be543d8449509badf6e6fd2aae",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery.adb",
+        "expected": "75763d6eb35c647df523a728c6939e21cda6c3d7b44ba54fb2a4a917f3149e24",
+        "normalized_sha256": "75763d6eb35c647df523a728c6939e21cda6c3d7b44ba54fb2a4a917f3149e24",
+        "raw_sha256": "9da694c03edf6804bfb7dbbdb71deb80949bedadbcb64dd56079a2c49741db8c",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery.ads",
+        "expected": "b2eff79e29cd18c5a69672e3c6063faa120345d19a3f4cc76cf8ae31a69df7fc",
+        "normalized_sha256": "b2eff79e29cd18c5a69672e3c6063faa120345d19a3f4cc76cf8ae31a69df7fc",
+        "raw_sha256": "09f82299af37c975b409596fb342f1ef961e309354765cde966189f23a2ee3fe",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization.adb",
+        "expected": "d90b75ec516fbf8ddb0f0bf40ee39297e70eebc001d4edad6b0142c7da092e7d",
+        "normalized_sha256": "d90b75ec516fbf8ddb0f0bf40ee39297e70eebc001d4edad6b0142c7da092e7d",
+        "raw_sha256": "38d2a7b8e31017fff388c29995e9adec1269b41f12140e9433d8fa339365610d",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization.ads",
+        "expected": "3b95bc25da8343b9d0c4cd6e133614bb59cdce65740142d9c2d2ed072e62dec6",
+        "normalized_sha256": "3b95bc25da8343b9d0c4cd6e133614bb59cdce65740142d9c2d2ed072e62dec6",
+        "raw_sha256": "ce151b0ecbed472395c68acc0b3507387c4d06a80bb760462df9ca10b2f27117",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_c_api.adb",
+        "expected": "bf4819001b99778de6bfc17f4ab5543ee8107ee83f3e7b8bb1ea410f932e542d",
+        "normalized_sha256": "bf4819001b99778de6bfc17f4ab5543ee8107ee83f3e7b8bb1ea410f932e542d",
+        "raw_sha256": "60309a05b5b6ec468dc46625b433c7e0ba953717ab806993a7f9ce429e21501a",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_c_api.ads",
+        "expected": "0ee0ae55e1c0958bf0f385dbe738961bd35217f82dafffcc5524b5eed376fd01",
+        "normalized_sha256": "0ee0ae55e1c0958bf0f385dbe738961bd35217f82dafffcc5524b5eed376fd01",
+        "raw_sha256": "9e2e0dde6408d1cdd6666d7f5833cd472d66eb4b6cf3a3c5b6da17d7c303cd5d",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_wire.adb",
+        "expected": "e0c1054dd20e34bf1ddbcaefd9665c7588fc4683c8dad1a91351c89597928f62",
+        "normalized_sha256": "e0c1054dd20e34bf1ddbcaefd9665c7588fc4683c8dad1a91351c89597928f62",
+        "raw_sha256": "b2a82ed0262f46ab5b7c3fbac5f4c129f50a821a100cfa41090f1edf1fa3f51e",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_wire.ads",
+        "expected": "a6b453f40b2eee2d860008ecb11b9720f6be2a5be5c1aca52a91f264c40d687c",
+        "normalized_sha256": "a6b453f40b2eee2d860008ecb11b9720f6be2a5be5c1aca52a91f264c40d687c",
+        "raw_sha256": "ab827240f06836529ac8f5ebb95d56cb983f9fd1bfea9d08860a20ccaaf9b5ce",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resource_wire.adb",
+        "expected": "ec1ea00cf321f841aafcb874047c48d1ff28363d29ea042c6703a60a2be32f80",
+        "normalized_sha256": "ec1ea00cf321f841aafcb874047c48d1ff28363d29ea042c6703a60a2be32f80",
+        "raw_sha256": "25e3163ab7d9ff02a72fa06aff10ecbe8dd88de9a2dea24f1d7db7850f491472",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resource_wire.ads",
+        "expected": "b0af3ef936e727ba9113430ebc29c2843124f82e584b3bb294dc23af2667ad75",
+        "normalized_sha256": "b0af3ef936e727ba9113430ebc29c2843124f82e584b3bb294dc23af2667ad75",
+        "raw_sha256": "35424de3b2452cb8b67b9652afdb225b6ec8908b4150bb0028da00cee42ae6fc",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_v3.adb",
+        "expected": "21536d8595e0d6d14764b56309eb2f88d28bd88fc47b6fe9c16f915c98ed63dd",
+        "normalized_sha256": "21536d8595e0d6d14764b56309eb2f88d28bd88fc47b6fe9c16f915c98ed63dd",
+        "raw_sha256": "f93952704858a8cca146d72c9fdfd311066288bc10407c1bedf2d4eb8dcaf11f",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_v3.ads",
+        "expected": "8b3f3c7477c461dadceba33ab421cf54d4c77129e2875768346d93c91f3fdd51",
+        "normalized_sha256": "8b3f3c7477c461dadceba33ab421cf54d4c77129e2875768346d93c91f3fdd51",
+        "raw_sha256": "2669b7ab590b34df3417b159d92bf78f8d67151aecce2a686bd441ee884f6afd",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_v3_c_api.adb",
+        "expected": "ba72af17a278f31ad28b4673cbf6209a85e7cf698c9393f8c4622073fee7f7e5",
+        "normalized_sha256": "ba72af17a278f31ad28b4673cbf6209a85e7cf698c9393f8c4622073fee7f7e5",
+        "raw_sha256": "7c82035c13f36b289e1c02ca5d0ced5d79674870e7fc8daced3d0547388d929d",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_v3_c_api.ads",
+        "expected": "2353d8de714b2a052d272ca41fc5abf6e95b41471793b573507b38476e37bce0",
+        "normalized_sha256": "2353d8de714b2a052d272ca41fc5abf6e95b41471793b573507b38476e37bce0",
+        "raw_sha256": "ab62cd25cb96661435a0dea612efddf574844bb4064ab3cc25ff8d1c1e29c51d",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_v3_wire.adb",
+        "expected": "5df8bd9bcd6842aaf033bde67edd121e6d9e0bdfd6f29158f0f8b1a57fd36bc6",
+        "normalized_sha256": "5df8bd9bcd6842aaf033bde67edd121e6d9e0bdfd6f29158f0f8b1a57fd36bc6",
+        "raw_sha256": "0f629ff89f864478e3d9eb9eac7d0ba8424fd49f014cc502216e62d231dadf50",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_authorization_v3_wire.ads",
+        "expected": "30a49ffee1fecf33fe798e524cda06f73a8a2164ffe92c2bce8a10155a45f90e",
+        "normalized_sha256": "30a49ffee1fecf33fe798e524cda06f73a8a2164ffe92c2bce8a10155a45f90e",
+        "raw_sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8",
+        "matches": true
+      },
+      {
+        "key": "recovery-epoch-tests/recovery_epoch_tests.gpr",
+        "expected": "600c9e1b3b3524f1419f2419a0e0925641a9dec1c822fb0b5ddb1e2afc9bc880",
+        "normalized_sha256": "600c9e1b3b3524f1419f2419a0e0925641a9dec1c822fb0b5ddb1e2afc9bc880",
+        "raw_sha256": "61ba2602581e71218fc348398269098bd6b036eb32406f6591610fb424c75d6b",
+        "matches": true
+      },
+      {
+        "key": "recovery-epoch-tests/test_epochs.adb",
+        "expected": "b134c380bb6990c55df7c21c590627585c57a8f0bbb99453a4d4c61913a68670",
+        "normalized_sha256": "b134c380bb6990c55df7c21c590627585c57a8f0bbb99453a4d4c61913a68670",
+        "raw_sha256": "19259f2155673191b512760e8144b1a79defce090128692754f4164def4634c5",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_protocol.adb",
+        "expected": "1188891c1663c1c0c3ec47d304af9aaf5b14b1f9a74cff6ad771d47d06f5f573",
+        "normalized_sha256": "1188891c1663c1c0c3ec47d304af9aaf5b14b1f9a74cff6ad771d47d06f5f573",
+        "raw_sha256": "74c9f2872866c940ea8d32166452357e93f57ce0105623c99be0a5c7ec189413",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_protocol.ads",
+        "expected": "7ca9a947061fce2a3278ab064ede1f8c2edad77fb3ecbdb68ef3f1cc41131eec",
+        "normalized_sha256": "7ca9a947061fce2a3278ab064ede1f8c2edad77fb3ecbdb68ef3f1cc41131eec",
+        "raw_sha256": "63b728d023e5013568faaabb128334c925d5d8a424a08824f05ec5607abe94d6",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_protocol_c_api.adb",
+        "expected": "66481b8aa19d26eeffe28230b6557ce181dad9183386c81a88b88729567fcdd0",
+        "normalized_sha256": "66481b8aa19d26eeffe28230b6557ce181dad9183386c81a88b88729567fcdd0",
+        "raw_sha256": "01b256d06f0e0b7148c3685b8dbed945a4e25a1f45ee69f4cd8030536dc5dcf5",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_protocol_c_api.ads",
+        "expected": "89720f0d302e8d707c51cf5d292dc4e51a5c64cf3f3280260a574d2442af79ea",
+        "normalized_sha256": "89720f0d302e8d707c51cf5d292dc4e51a5c64cf3f3280260a574d2442af79ea",
+        "raw_sha256": "b1a980f5785b0456f7b1449e0bc058c04bfa0b5bf09beeb63978f25613b22228",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_protocol_wire.adb",
+        "expected": "4716e4c67604bc3ebb236994a30a1f98a2f2684e99fa8a3dde6c6529c2c49d2b",
+        "normalized_sha256": "4716e4c67604bc3ebb236994a30a1f98a2f2684e99fa8a3dde6c6529c2c49d2b",
+        "raw_sha256": "2dcbbaceb032c2abe564678ae0c244a74f852f61ce5bc9517e08427bc6afa812",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_protocol_wire.ads",
+        "expected": "389d2fd4ad5a625f1ac5274da214c9b8e953f261882b300fbbfa96d17b5c1cd4",
+        "normalized_sha256": "389d2fd4ad5a625f1ac5274da214c9b8e953f261882b300fbbfa96d17b5c1cd4",
+        "raw_sha256": "da4ea919d7c99607571d9ee81e28253d2cbccab90a9972a99dcadb0541f452f0",
+        "matches": true
+      },
+      {
+        "key": "recovery-protocol-tests/test_protocol.adb",
+        "expected": "04a6b065ae31533e8dcb04b4661aedb467bc0c89a5613bb4fcec01b7734c0447",
+        "normalized_sha256": "04a6b065ae31533e8dcb04b4661aedb467bc0c89a5613bb4fcec01b7734c0447",
+        "raw_sha256": "c0c10158ee8fe7f5451618a201c6ccd204dfdd02a060be51a51700a148a16fa1",
+        "matches": true
+      },
+      {
+        "key": "recovery-protocol-tests/recovery_protocol_tests.gpr",
+        "expected": "2ab0cb616d8ff722655c92a6767e3c4bf8feb94707b5330f881601d8eb054d40",
+        "normalized_sha256": "2ab0cb616d8ff722655c92a6767e3c4bf8feb94707b5330f881601d8eb054d40",
+        "raw_sha256": "79ab102bee4b5e4bfd655e74c48b37fa27fd1114b047ed5c03c37040a4e6ae75",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-chain_authority.adb",
+        "expected": "4c7052b3835615308d6332303d9e9ccc2bab7b741a6c7a8457c7f98a8a4b8881",
+        "normalized_sha256": "4c7052b3835615308d6332303d9e9ccc2bab7b741a6c7a8457c7f98a8a4b8881",
+        "raw_sha256": "a72d60bd07d5d591b4232c1e3d7857ecd67b6613e1f3e0ea0bccf9e891abbbe4",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-chain_authority.ads",
+        "expected": "5a37eeb3d50c9541b522b467d7d2511138c0436b2a22a5eb0635849f77c92cf4",
+        "normalized_sha256": "5a37eeb3d50c9541b522b467d7d2511138c0436b2a22a5eb0635849f77c92cf4",
+        "raw_sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-chain_authority_c_api.adb",
+        "expected": "12182bc025f1312fdaa96c7354d08a2364fff4809454f5c702e1d4143c4d9e0e",
+        "normalized_sha256": "12182bc025f1312fdaa96c7354d08a2364fff4809454f5c702e1d4143c4d9e0e",
+        "raw_sha256": "dae2748bdb87c55b90ed73bd82fe882d5d4c64ca3af944f463dd4798ca66328a",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-chain_authority_c_api.ads",
+        "expected": "c2f4ab1103fb9aab92b7809bb6914e698a387c1f5850a3b3771f785d9c56e115",
+        "normalized_sha256": "c2f4ab1103fb9aab92b7809bb6914e698a387c1f5850a3b3771f785d9c56e115",
+        "raw_sha256": "03d00cb9172e919507ba74b47fe8fa0431dce7fce062bc3ab409df1c8946d9f3",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-chain_authority_wire.adb",
+        "expected": "9ff2355dbebbf8192b78e21adb225bb8405968612a1c8cc6e6778f27c42961e4",
+        "normalized_sha256": "9ff2355dbebbf8192b78e21adb225bb8405968612a1c8cc6e6778f27c42961e4",
+        "raw_sha256": "ab5fdba5291c115a5ffabc3538b443336b504e8484ba2096d573fa6ca4030ad1",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-chain_authority_wire.ads",
+        "expected": "7baf22c73d65bb6ba5dbe5386453da06a8b600f8a81e58931bf9c6377bada4f1",
+        "normalized_sha256": "7baf22c73d65bb6ba5dbe5386453da06a8b600f8a81e58931bf9c6377bada4f1",
+        "raw_sha256": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_transitions.adb",
+        "expected": "b3049b6773bed28e252c1faaa6926e6e71c3ca51a40701ad2293aa0474d8556f",
+        "normalized_sha256": "b3049b6773bed28e252c1faaa6926e6e71c3ca51a40701ad2293aa0474d8556f",
+        "raw_sha256": "d0eae2e8caa289c937e51bceb32f8babb3454f91a8f5f4e7b5a6ef3ceb586d9d",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_transitions.ads",
+        "expected": "0d7692119a7eb400f06d1bc8b3792f9f6925f58096d23b059d8f6ea5a49000b3",
+        "normalized_sha256": "0d7692119a7eb400f06d1bc8b3792f9f6925f58096d23b059d8f6ea5a49000b3",
+        "raw_sha256": "56b1e77f35e5b0ef45fb2960318c0b8fad60f6e0d0d9b584e41631ace98a0b01",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_transitions_wire.adb",
+        "expected": "dcb872cec43e33aec9773ab1e95757d487dee0da9b7eb50a1f9c0a1dffe55afd",
+        "normalized_sha256": "dcb872cec43e33aec9773ab1e95757d487dee0da9b7eb50a1f9c0a1dffe55afd",
+        "raw_sha256": "7e81439b2e709c7196106e346674a96ed9e6d67ad338dbad797e5af78e0f0d72",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_transitions_wire.ads",
+        "expected": "8867a739ddc2b22c3d73c8908a0be7bb8ecd1410bbe9232776499aa57837f814",
+        "normalized_sha256": "8867a739ddc2b22c3d73c8908a0be7bb8ecd1410bbe9232776499aa57837f814",
+        "raw_sha256": "39ed5300dd43112ed6507c89fddf4c96dcab86e51509eac121e37641f49360a1",
+        "matches": true
+      },
+      {
+        "key": "core/resource_run_ledger.adb",
+        "expected": "eab01a895796c7e679d9241668b1d18bc768cf021fb48aed6d7fba982b042152",
+        "normalized_sha256": "eab01a895796c7e679d9241668b1d18bc768cf021fb48aed6d7fba982b042152",
+        "raw_sha256": "8e7c02c50954b9bb3ef2a7cf4a818931b6d0871c88c221e528eee81a964dbe42",
+        "matches": true
+      },
+      {
+        "key": "core/resource_run_ledger.ads",
+        "expected": "77eaebdce9f0ed74f7478518a6ce1e9635fb1071e1409c17d5e7f2b5ac830648",
+        "normalized_sha256": "77eaebdce9f0ed74f7478518a6ce1e9635fb1071e1409c17d5e7f2b5ac830648",
+        "raw_sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+        "matches": true
+      },
+      {
+        "key": "core/resource_run_ledger_c_api.adb",
+        "expected": "414cd21f48edb89e878b8efd44c77fdbe9e37b689275e5b8414f65ef83218ba1",
+        "normalized_sha256": "414cd21f48edb89e878b8efd44c77fdbe9e37b689275e5b8414f65ef83218ba1",
+        "raw_sha256": "fbc97b4c17ee0a0a17e74bae669fa11e674bb234ce5cd8f73d374b7d7e114581",
+        "matches": true
+      },
+      {
+        "key": "core/resource_run_ledger_c_api.ads",
+        "expected": "4c4f966a69168902bda7ed222790ca046ffd7fd7694869bebe65079bd6ff49e2",
+        "normalized_sha256": "4c4f966a69168902bda7ed222790ca046ffd7fd7694869bebe65079bd6ff49e2",
+        "raw_sha256": "ece3bc0eb7f332438be9938fd84b4b4e0ccc091ae8e2b7a5db5a0342118a4751",
+        "matches": true
+      },
+      {
+        "key": "core/resource_run_ledger_wire.adb",
+        "expected": "bea60305b4242bcf72caaaa7eb1e2ded6837e72755006d9410dfb218c0b11c2c",
+        "normalized_sha256": "bea60305b4242bcf72caaaa7eb1e2ded6837e72755006d9410dfb218c0b11c2c",
+        "raw_sha256": "d49ca335a1a3a353cdd0ce02ff2b51ea9b3eab359f557b5757fd09caad203a11",
+        "matches": true
+      },
+      {
+        "key": "core/resource_run_ledger_wire.ads",
+        "expected": "b09d4e07df8652f8f87b2a6526f0fa26875253ea1dc8909bbec6b330d6d02eed",
+        "normalized_sha256": "b09d4e07df8652f8f87b2a6526f0fa26875253ea1dc8909bbec6b330d6d02eed",
+        "raw_sha256": "c4b2916ebfd4af06f8e732ebc012184d81bb99ccd8532c68a9102c13a60f06d8",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_retry_audit.ads",
+        "expected": "f10e8a5758de157d40ab487c2b5071232cc8ede3b0984b36e75e922dff5b49e0",
+        "normalized_sha256": "f10e8a5758de157d40ab487c2b5071232cc8ede3b0984b36e75e922dff5b49e0",
+        "raw_sha256": "920d6ba78daccc4023b1732106864ceeb5d3a3fe1656db70ca55baae72c69919",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_retry_audit.adb",
+        "expected": "d444de903bc184300bbfd6e95348f4307827b7ad3948e4fe77c091daec52b5bd",
+        "normalized_sha256": "d444de903bc184300bbfd6e95348f4307827b7ad3948e4fe77c091daec52b5bd",
+        "raw_sha256": "5056784024cd4bf925dbc76789beafa98aa4b70f3005b87b75355aceded6353d",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_retry_audit_wire.ads",
+        "expected": "60772578c6f02b53ea7b4d5614dde93f4e6d02e073847932c4647853d205f979",
+        "normalized_sha256": "60772578c6f02b53ea7b4d5614dde93f4e6d02e073847932c4647853d205f979",
+        "raw_sha256": "2ee62008ccc9ff73abb3e386c5084ee147432925e69537abb5e373cba8e9e73b",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_retry_audit_wire.adb",
+        "expected": "a90756485c89699537c11c14b86fe5444c9ab7eb8fd3352ca4006f4610ab666f",
+        "normalized_sha256": "a90756485c89699537c11c14b86fe5444c9ab7eb8fd3352ca4006f4610ab666f",
+        "raw_sha256": "c7d25a1a84a71c81e8cc623dbf4fdb06a606e079d248a7595d11017144b68655",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_conjunction.ads",
+        "expected": "e22469d537d1aaf60d9c19557edcef9405fccd19a90eace7cd328a2c2f6573c3",
+        "normalized_sha256": "e22469d537d1aaf60d9c19557edcef9405fccd19a90eace7cd328a2c2f6573c3",
+        "raw_sha256": "dd53efbf3350f39de17fb8d73999c21e8daacf0d9518013a77979caa5684a5b7",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_conjunction.adb",
+        "expected": "9d6f3f09c955a8612747f088a14802c5004a9a656009389e11254d6d623f3c32",
+        "normalized_sha256": "9d6f3f09c955a8612747f088a14802c5004a9a656009389e11254d6d623f3c32",
+        "raw_sha256": "8884f6bed4c39eb89567106ea7df0d750dc06eb14933402c7cc6ac112976c225",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_conjunction_wire.ads",
+        "expected": "a078f33e659fcb0c0eac74e63777425181bd5e2865566abfb79f36fc34aa510d",
+        "normalized_sha256": "a078f33e659fcb0c0eac74e63777425181bd5e2865566abfb79f36fc34aa510d",
+        "raw_sha256": "5e533307294b66fc15e401239a6d3df6ce6aca41e960f9bbe4a51fe3bf09e17f",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_conjunction_wire.adb",
+        "expected": "8aedcbc566fc59ca8a600a6410199ef8ec31b3fbffb655e856e679007f0fc7c7",
+        "normalized_sha256": "8aedcbc566fc59ca8a600a6410199ef8ec31b3fbffb655e856e679007f0fc7c7",
+        "raw_sha256": "1c28a34c5dc7954f9430dff76c3a1e5e5b267cda7a54cc4ac5dd118227bd3f4e",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_subject_projection.ads",
+        "expected": "2aa7d9d7208c340ae46ac36a4bf74d0dfe1ce2f53fdae435f95fcdc39479b7f7",
+        "normalized_sha256": "2aa7d9d7208c340ae46ac36a4bf74d0dfe1ce2f53fdae435f95fcdc39479b7f7",
+        "raw_sha256": "8b485958cef075e0ce5f62cbf8c6d7790dc2351024ab841ea9cabb848190631f",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-owner_subject_projection.adb",
+        "expected": "51c949a3c2fe5c266dd14835178c31dab88dee3496a4d999c2d621b2f853e0df",
+        "normalized_sha256": "51c949a3c2fe5c266dd14835178c31dab88dee3496a4d999c2d621b2f853e0df",
+        "raw_sha256": "98403559ab7d1f7649621477e99d7dd6b0aae1a77557fb3cb870e8d21289f697",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_protocol_abi.ads",
+        "expected": "7ca9a017eb112cde748227006cd5c6ffccda126cd7dd09fa7d4c36b1499ab62b",
+        "normalized_sha256": "7ca9a017eb112cde748227006cd5c6ffccda126cd7dd09fa7d4c36b1499ab62b",
+        "raw_sha256": "4611a6ec19d5303f714865ac5022ea681b65dc7209fbd00642fe4742e3b358f2",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_protocol_abi.adb",
+        "expected": "362c5447a336cb8a1a87a81ce42e0c02deb8c2224bfe5330e4ca8e9a653c5247",
+        "normalized_sha256": "362c5447a336cb8a1a87a81ce42e0c02deb8c2224bfe5330e4ca8e9a653c5247",
+        "raw_sha256": "294d0c51657cde63c9ede3c451bf2c8e55bf319ad04c8d3bfcdeacf567717a17",
+        "matches": true
+      },
+      {
+        "key": "protocol-adapter-tests/protocol_adapter_tests.gpr",
+        "expected": "7e57d05ba13972588bc37cbe9b3b1a1d5c64b297a92e52349df6f08fcb5fbe47",
+        "normalized_sha256": "7e57d05ba13972588bc37cbe9b3b1a1d5c64b297a92e52349df6f08fcb5fbe47",
+        "raw_sha256": "f488534e50cfc5cad8b3b703683193267c6c72b045baa7ad724d6380148ce447",
+        "matches": true
+      },
+      {
+        "key": "protocol-adapter-tests/test_protocol_adapter.adb",
+        "expected": "6055576865adf8a23c98ae8b7c9def207c8f253debbeb0d39548a94fdc310680",
+        "normalized_sha256": "6055576865adf8a23c98ae8b7c9def207c8f253debbeb0d39548a94fdc310680",
+        "raw_sha256": "e0e6b7dc5aa2c74d2474911e1490c5ff7f49d547d6da62a31bc68bb25d84e4d5",
+        "matches": true
+      },
+      {
+        "key": "epoch-correspondence-tests/epoch_correspondence_core_tests.gpr",
+        "expected": "5216f9a5a0d7f9430e4f8fe400181a6d111179bff4520d981ae3c37d18f2bc4e",
+        "normalized_sha256": "5216f9a5a0d7f9430e4f8fe400181a6d111179bff4520d981ae3c37d18f2bc4e",
+        "raw_sha256": "25d6a41224301ac762703a025bb5137e9a6236b559391f6bb838cf62bf1fbf14",
+        "matches": true
+      },
+      {
+        "key": "epoch-correspondence-tests/epoch_correspondence_pending_tests.gpr",
+        "expected": "1af95a0f4a5851f4aac0775bd8d2493fa26224639d312f097db87fb88da8ba28",
+        "normalized_sha256": "1af95a0f4a5851f4aac0775bd8d2493fa26224639d312f097db87fb88da8ba28",
+        "raw_sha256": "f3f81705da1b4b06530f58bbcf9def376b4a97508cc5b4096935d43435534a2f",
+        "matches": true
+      },
+      {
+        "key": "epoch-correspondence-tests/test_epoch_correspondence.adb",
+        "expected": "a297bb45d5c87dd010997741f10beb7598310dd7662a255e50ad51160dd88c1a",
+        "normalized_sha256": "a297bb45d5c87dd010997741f10beb7598310dd7662a255e50ad51160dd88c1a",
+        "raw_sha256": "2339a64d585521bc2af048df9af3f41987647dc9b6f1d129bb8eb959f50a2c32",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_finalization-values.adb",
+        "expected": "c6dd5ea011677b3a8ae31f9d5b2ccddd51fc5549ed5f07eef27add39a3ead320",
+        "normalized_sha256": "c6dd5ea011677b3a8ae31f9d5b2ccddd51fc5549ed5f07eef27add39a3ead320",
+        "raw_sha256": "d889bb153ec7dee45ce06aaecacec8490fbc3c7b2244c90c0d019918e06a1a02",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_finalization-values.ads",
+        "expected": "f3fe2b54ad04f1a43c5fdd181fc149fffc3441f2b744b9da6da6ef8bab8d13ce",
+        "normalized_sha256": "f3fe2b54ad04f1a43c5fdd181fc149fffc3441f2b744b9da6da6ef8bab8d13ce",
+        "raw_sha256": "4d64c43e10f7718226c9925ef1f2a8440f486e5b5da94e4193b61fd480cbb146",
+        "matches": true
+      },
+      {
+        "key": "finalization-value-controls/finalization_value_controls.gpr",
+        "expected": "756918630a4b54abaff8e68e4ae84aac7a7de2b670ebea00bb86b0a6edc6e421",
+        "normalized_sha256": "756918630a4b54abaff8e68e4ae84aac7a7de2b670ebea00bb86b0a6edc6e421",
+        "raw_sha256": "3d18f50892909738ab0092209490d329ab88f29f9cf9487bcfd07a20e805fbb6",
+        "matches": true
+      },
+      {
+        "key": "finalization-value-controls/test_finalization_parent_values.adb",
+        "expected": "9e87197fa326dc73f582f05cc473beff73d0b08c82da4dee29951827e358de28",
+        "normalized_sha256": "9e87197fa326dc73f582f05cc473beff73d0b08c82da4dee29951827e358de28",
+        "raw_sha256": "d8f3d92c22c22b7e77e49214e7ae2417c3f600248b3675b8cd6812e9c64410e9",
+        "matches": true
+      },
+      {
+        "key": "finalization-value-controls/test_finalization_projection.adb",
+        "expected": "669b4aa0804d272585ab5fa3569a7db4435e14ea0d7224165ee8470370ebdefd",
+        "normalized_sha256": "669b4aa0804d272585ab5fa3569a7db4435e14ea0d7224165ee8470370ebdefd",
+        "raw_sha256": "abe661e5276f56a70779532eaaf7e54c237874b1d239877348fe7ab6434c0fb0",
+        "matches": true
+      },
+      {
+        "key": "finalization-value-controls/test_finalization_values.adb",
+        "expected": "3242b812f6c19ea65f5d523c6155964e6e41b7b06976718f6391761db7106b6d",
+        "normalized_sha256": "3242b812f6c19ea65f5d523c6155964e6e41b7b06976718f6391761db7106b6d",
+        "raw_sha256": "fe3448a9f1fcf9dc180721c0116158b3ab16b78c59ea161e6aead3ec93f44e80",
+        "matches": true
+      },
+      {
+        "key": "resources-prefix-correspondence-tests/resources_prefix_correspondence_tests.gpr",
+        "expected": "d238363ed2e518627c36a4afe965398ac4cef15b4264f7b3d50f25b771460978",
+        "normalized_sha256": "d238363ed2e518627c36a4afe965398ac4cef15b4264f7b3d50f25b771460978",
+        "raw_sha256": "4428e181f971fed018ef2fb156ec0434e2afa71d374eb027323a2650c475717c",
+        "matches": true
+      },
+      {
+        "key": "resources-prefix-correspondence-tests/test_resources_prefix_correspondence.adb",
+        "expected": "19a94f3caffa77dfa2ffd705db5c1b9cd842b43fb53b7023227a3c4718cf3725",
+        "normalized_sha256": "19a94f3caffa77dfa2ffd705db5c1b9cd842b43fb53b7023227a3c4718cf3725",
+        "raw_sha256": "b3590a0f077f021e1f8741749c50025e7e4aab4bdd2cdafd511b6bcf393df245",
+        "matches": true
+      },
+      {
+        "key": "wire-initialization-tests/test_wire_initialization.adb",
+        "expected": "e779f4827c714b6329addd074cdefee94737bbada08f81a82875a6a4daba000c",
+        "normalized_sha256": "e779f4827c714b6329addd074cdefee94737bbada08f81a82875a6a4daba000c",
+        "raw_sha256": "eed7e42e63db5a58953acbbb7734153ed425e6f36c4a1bd343bfa1ea42d82f0d",
+        "matches": true
+      },
+      {
+        "key": "wire-initialization-tests/wire_initialization_tests.gpr",
+        "expected": "bfe67074a1b0fa4193667beae58279c4746b50f8a05a6c0184354dcbe7570224",
+        "normalized_sha256": "bfe67074a1b0fa4193667beae58279c4746b50f8a05a6c0184354dcbe7570224",
+        "raw_sha256": "1e6f6782415f875e6f71c4958a5c79ab1c11c687cb1f5a0b030d0e850fba30fe",
+        "matches": true
+      },
+      {
+        "key": "resource-ledger-correspondence-tests/resource_ledger_correspondence_tests.gpr",
+        "expected": "d1f489d22d3508c17e9c529836ec22db29d339db94f5ed70a6a0b3c365883ec8",
+        "normalized_sha256": "d1f489d22d3508c17e9c529836ec22db29d339db94f5ed70a6a0b3c365883ec8",
+        "raw_sha256": "eb9b8c3b015f98f05625686a587b0af75c6c8975df18d48996a6dfc9bb7fcf70",
+        "matches": true
+      },
+      {
+        "key": "resource-ledger-correspondence-tests/test_resource_ledger_correspondence.adb",
+        "expected": "b90bec45288928ed08de52b0103f16243c221bf05887cdd0eb4a0d75c498fa3f",
+        "normalized_sha256": "b90bec45288928ed08de52b0103f16243c221bf05887cdd0eb4a0d75c498fa3f",
+        "raw_sha256": "be11396e8d55c2ffdae3a0a4606050e01659ac323126d9d99e5464025d401a0e",
+        "matches": true
+      },
+      {
+        "key": "decision-correspondence-tests/decision_correspondence_tests.gpr",
+        "expected": "52637b39b04f201af2c2088f748a3ab7c1b032e813457638b12f1d6c18661016",
+        "normalized_sha256": "52637b39b04f201af2c2088f748a3ab7c1b032e813457638b12f1d6c18661016",
+        "raw_sha256": "d4540d17025f5499669fb5a230d5499accf540b79799f507636bc96e119499fd",
+        "matches": true
+      },
+      {
+        "key": "decision-correspondence-tests/test_completion_correspondence.adb",
+        "expected": "6ad18e9ec3136d2bf14ca45cb711801fc125ac6e307598ce0c7e0b5c6e36e945",
+        "normalized_sha256": "6ad18e9ec3136d2bf14ca45cb711801fc125ac6e307598ce0c7e0b5c6e36e945",
+        "raw_sha256": "760447f7f84fda8672d78581f1d4e73b3d6333f3f99642daf06d5b2e04acc962",
+        "matches": true
+      },
+      {
+        "key": "decision-correspondence-tests/test_history_correspondence.adb",
+        "expected": "d293c070a38372238ac0c546deb2b8cab3df6f83ba21428f720ebccb6ed597cf",
+        "normalized_sha256": "d293c070a38372238ac0c546deb2b8cab3df6f83ba21428f720ebccb6ed597cf",
+        "raw_sha256": "802569ba4cee1966edfa410264c9fa28aeb1b53c5f6c484acdc701e675f6d204",
+        "matches": true
+      },
+      {
+        "key": "decision-correspondence-tests/test_raw_roster_correspondence.adb",
+        "expected": "ba17660670e42559e2b38af0d71f1c08c7126fbc527096bfb988e1aa2a59956b",
+        "normalized_sha256": "ba17660670e42559e2b38af0d71f1c08c7126fbc527096bfb988e1aa2a59956b",
+        "raw_sha256": "3befec3ad2f45e2e0625f79de7ec7be8a7c5ed5206341f88221880706a736d2c",
+        "matches": true
+      },
+      {
+        "key": "decision-correspondence-tests/test_run_metadata_correspondence.adb",
+        "expected": "93b4b7b7f610aaf0c844738886c347589769363e94f26d77edd4ccf4bedecad9",
+        "normalized_sha256": "93b4b7b7f610aaf0c844738886c347589769363e94f26d77edd4ccf4bedecad9",
+        "raw_sha256": "383194ce8238acc4ec257893a7ac9d5c8105a4d945ad743f3ec1996ab95a39d5",
+        "matches": true
+      },
+      {
+        "key": "decision-correspondence-tests/test_transition_correspondence.adb",
+        "expected": "ac2b451ac7e78e52fcf4ee89d164fdb006f5326748517aa3b52cd99a00fb9fb1",
+        "normalized_sha256": "ac2b451ac7e78e52fcf4ee89d164fdb006f5326748517aa3b52cd99a00fb9fb1",
+        "raw_sha256": "6bd91dfb55741084ac43905a21b8662142a9a2eb40248fad82c49ef4559e4276",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_pending_c.ads",
+        "expected": "9a829c27690ccecd8bf06a77357aaa0f0997b5c247848e7a9ca3697347f91f47",
+        "normalized_sha256": "9a829c27690ccecd8bf06a77357aaa0f0997b5c247848e7a9ca3697347f91f47",
+        "raw_sha256": "6bd1472201c595be3f53b8a4ce4a73fde9bef9fb41576c9f246be6480ca0a897",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_pending_c.adb",
+        "expected": "4fca4bd24b1edb06a3cfb1e2c87c3dedcfc97cdbe54a264044f8116da0cf19d0",
+        "normalized_sha256": "4fca4bd24b1edb06a3cfb1e2c87c3dedcfc97cdbe54a264044f8116da0cf19d0",
+        "raw_sha256": "56500a7c614a5a6ac4d74107226538bd84b152730265b89703bebabf5e3e3f15",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_pending_v2_c.ads",
+        "expected": "6044a6ef02b3b91d1064f2202a0370c34afbaff174570df26aca69f5e350653c",
+        "normalized_sha256": "6044a6ef02b3b91d1064f2202a0370c34afbaff174570df26aca69f5e350653c",
+        "raw_sha256": "10f7505c97d34a022ad51784fbad2ec9c4615992bb4fa0e08762f2f34accf350",
+        "matches": true
+      },
+      {
+        "key": "core/evaluation_pending_v2_c.adb",
+        "expected": "54d2ea7a0a5e0bd99bc0b74fff2da73b2e233b0e451c9d5dfe3fed373de15d41",
+        "normalized_sha256": "54d2ea7a0a5e0bd99bc0b74fff2da73b2e233b0e451c9d5dfe3fed373de15d41",
+        "raw_sha256": "84409e222fe43cba4b3dc8edbfe42279904bd164e68950b6ef6ae717d8ee17fc",
+        "matches": true
+      },
+      {
+        "key": "core/spark-big_integers.ads",
+        "expected": "f96017313a6e785d5c4697d95e610ced1a3612d20b7310dddb5af230226dbf1a",
+        "normalized_sha256": "f96017313a6e785d5c4697d95e610ced1a3612d20b7310dddb5af230226dbf1a",
+        "raw_sha256": "fe80da029611497ba25aca43d5599a220f2be41f33010f6b04d42febc2bfec52",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_history_c_api.ads",
+        "expected": "3f2c70e3fc6f86cb5879e4b75b2e62c83eafe68f480e530c30d8b8612e194995",
+        "normalized_sha256": "3f2c70e3fc6f86cb5879e4b75b2e62c83eafe68f480e530c30d8b8612e194995",
+        "raw_sha256": "c38738bbbfb544d019e13c57923e5778663e8244fdee8f921b602c5e26758344",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-evaluation_history_c_api.adb",
+        "expected": "3e5a4ceba275452894625d63364cd3d2c8abee223850808ef28000e5681f8f8d",
+        "normalized_sha256": "3e5a4ceba275452894625d63364cd3d2c8abee223850808ef28000e5681f8f8d",
+        "raw_sha256": "d58a26e0b9fcd774921d00740449569824377b4bca6a40d4036aa1e5fce90e5e",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_c_api.ads",
+        "expected": "b0543c4f0fbc16e5247a2fb2528c419702676f1b1a8dbb1fe52708355e619f09",
+        "normalized_sha256": "b0543c4f0fbc16e5247a2fb2528c419702676f1b1a8dbb1fe52708355e619f09",
+        "raw_sha256": "aec1866769caf987b60ca822b04387d49b5ac181579e163d8e901ded3a6e6c59",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-recovery_c_api.adb",
+        "expected": "76d9095196c575d754b7cfb8c8ee31e631a8c0454d3455ea88edf99645c2864f",
+        "normalized_sha256": "76d9095196c575d754b7cfb8c8ee31e631a8c0454d3455ea88edf99645c2864f",
+        "raw_sha256": "120c6c488284f5af09efc7abbdba0831a72b7cb3222fa1c8b543ef3bad3636a9",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-reservation_lifecycle_c_api.ads",
+        "expected": "877551b73cb48992858a63d21961ffb9a7ab7cd7ad80312c1555c4d1cd55928f",
+        "normalized_sha256": "877551b73cb48992858a63d21961ffb9a7ab7cd7ad80312c1555c4d1cd55928f",
+        "raw_sha256": "a465fd5c1659e0dcd1f66d15b223c31e2ff022f9f1224f5f2e50f1d2979c6c60",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-reservation_lifecycle_c_api.adb",
+        "expected": "2a37628e389855c7ad24cb2423d1cfdb716e63fc683108f019cec12225702598",
+        "normalized_sha256": "2a37628e389855c7ad24cb2423d1cfdb716e63fc683108f019cec12225702598",
+        "raw_sha256": "9d235d2f84ff73b8408e3187c4f78c1826af2b2b63fd8ff229e8672041fa8934",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resource_ledger_c_api.ads",
+        "expected": "6ae817dda2eff2f1c9ef1e68fb43926b13ec4fdf954fb74a5948c0234e45c0aa",
+        "normalized_sha256": "6ae817dda2eff2f1c9ef1e68fb43926b13ec4fdf954fb74a5948c0234e45c0aa",
+        "raw_sha256": "c3a52b1e8a2a7bbcdaee4a219e965f9bd4beb69a79b30b16efc0f9fdda1795ab",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resource_ledger_c_api.adb",
+        "expected": "b78d12f34a0803a9b1e9a6d6617529c7bacaabc98944055b661583a4d6fddf7c",
+        "normalized_sha256": "b78d12f34a0803a9b1e9a6d6617529c7bacaabc98944055b661583a4d6fddf7c",
+        "raw_sha256": "112a8ef5321240f9d13fe3135dce1b6085d6fecda1590a553f30b4dc4bf1247a",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resource_policy_c_api.ads",
+        "expected": "e76d6da8722bd145d3c58093e578cf821c9a3d593e6fe94628315d45e5e775ff",
+        "normalized_sha256": "e76d6da8722bd145d3c58093e578cf821c9a3d593e6fe94628315d45e5e775ff",
+        "raw_sha256": "24929690c6e983a054f212e4192b6d4a39da2129e9321e4786ace16d8260448c",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resource_policy_c_api.adb",
+        "expected": "e7fb372df8cd92f7af6925b68678867ce4c24c94a83c35a0f64cc05a66fb57fd",
+        "normalized_sha256": "e7fb372df8cd92f7af6925b68678867ce4c24c94a83c35a0f64cc05a66fb57fd",
+        "raw_sha256": "794d9a4c16a0bbdd9a95da51cd762f190778aeae66ac07c000f1972eda6f5b04",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resources_c_api.ads",
+        "expected": "81210bc3272c53b7210e76033f19d96d2a066dedef17f7c9c6726fcf7f1e31d7",
+        "normalized_sha256": "81210bc3272c53b7210e76033f19d96d2a066dedef17f7c9c6726fcf7f1e31d7",
+        "raw_sha256": "5cb92b4cf731de16954c05af89274e120ed2c13e56d3a9d06ef16c976afc7eb5",
+        "matches": true
+      },
+      {
+        "key": "core/worldline-resources_c_api.adb",
+        "expected": "5216ff373877ffbb60d71be980f666c23c74f06f99d383dd89ffca37e8dc7bcd",
+        "normalized_sha256": "5216ff373877ffbb60d71be980f666c23c74f06f99d383dd89ffca37e8dc7bcd",
+        "raw_sha256": "f31c2dd39a50f9bf02cd345b2617b41ab4a2b02bc0947a8b4f23c917c2be50cb",
+        "matches": true
+      },
+      {
+        "key": "core/attest/attest-sha256.adb",
+        "expected": "7ef39ea3e0627f562a3db75f3f392337869f96aa17ed5bf76015410b95306e9f",
+        "normalized_sha256": "7ef39ea3e0627f562a3db75f3f392337869f96aa17ed5bf76015410b95306e9f",
+        "raw_sha256": "db0fc9736ed92c274993452f02a3484680d815cfdaeb7a9ce8d1a49b94da417b",
+        "matches": true
+      },
+      {
+        "key": "explicit-recovery-marker-tests/test_explicit_recovery_markers.adb",
+        "expected": "28b5ec869dfe195e56e2ebb0ced6fa999c5a1741723823a76a4ac13238eb4587",
+        "normalized_sha256": "28b5ec869dfe195e56e2ebb0ced6fa999c5a1741723823a76a4ac13238eb4587",
+        "raw_sha256": "dc7008dc06a5a9d4543e0456a43ec61bf8ed72ad78748f6ada6e039000367f76",
+        "matches": true
+      },
+      {
+        "key": "explicit-recovery-marker-tests/explicit_recovery_marker_tests.gpr",
+        "expected": "384aebff4d2ab33af8d460dc1c3f74e7f6472db93333b637c3aed0076a05162c",
+        "normalized_sha256": "384aebff4d2ab33af8d460dc1c3f74e7f6472db93333b637c3aed0076a05162c",
+        "raw_sha256": "a0ee1bd4184e2a9e7914490a8773942dbf86e90b9a08ea7bba0d8bd4343b1737",
+        "matches": true
+      }
+    ],
+    "steps_match_prior": true,
+    "roster_steps_match_prior": true
+  },
+  "notice_source_checks": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/canonical_artifacts.ads",
+      "sha256": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "expected": "bb62783aefa5b2b105dcec33d0273165d2cb5ba86c07006df11f101f5a057fee",
+      "matches": true,
+      "bytes": 3884
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/evaluation_epoch.adb",
+      "sha256": "e34c585d8cfe665c7c8f57248d0b9f58fbbe8620d9a7cabc6165cd9636ce12cf",
+      "expected": "e34c585d8cfe665c7c8f57248d0b9f58fbbe8620d9a7cabc6165cd9636ce12cf",
+      "matches": true,
+      "bytes": 23343
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/resource_ledger.ads",
+      "sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "expected": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "matches": true,
+      "bytes": 12563
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/resource_quantities.ads",
+      "sha256": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+      "expected": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+      "matches": true,
+      "bytes": 5495
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/resource_reservation_transition.adb",
+      "sha256": "6f8e1f379c6a5c4620c9d48d3fe066e656429df816f4d55d667cb3cfb649c061",
+      "expected": "6f8e1f379c6a5c4620c9d48d3fe066e656429df816f4d55d667cb3cfb649c061",
+      "matches": true,
+      "bytes": 33485
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/resource_run_ledger.ads",
+      "sha256": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "expected": "9a761421da3799da2ecb3b8b1df3daa05b5d4c050f31bf32f2d12e50687d6c02",
+      "matches": true,
+      "bytes": 28211
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/worldline-chain_authority.ads",
+      "sha256": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "expected": "4b0874385a6f7e3acb7663a834f3ef168307af6786ba3cbbaad45bade5f78d02",
+      "matches": true,
+      "bytes": 5482
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/worldline-resources.adb",
+      "sha256": "659064075f2a64827ab2a3f990ee9359e78f2ad1b9ccea25d7ca8616e8b5bf8f",
+      "expected": "659064075f2a64827ab2a3f990ee9359e78f2ad1b9ccea25d7ca8616e8b5bf8f",
+      "matches": true,
+      "bytes": 42331
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/core/worldline-resources.ads",
+      "sha256": "dcd93c005097a687470256df5a9e2dab9641e5af31aacce549090cd8c264a501",
+      "expected": "dcd93c005097a687470256df5a9e2dab9641e5af31aacce549090cd8c264a501",
+      "matches": true,
+      "bytes": 7177
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "sha256": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9",
+      "expected": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9",
+      "matches": true,
+      "bytes": 66111984
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/gnat2why",
+      "sha256": "375d0100954a66c78bace00d2229c9b96a30b6cf28845e00c4db220ba1efddb5",
+      "expected": "375d0100954a66c78bace00d2229c9b96a30b6cf28845e00c4db220ba1efddb5",
+      "matches": true,
+      "bytes": 106334584
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/canonical_artifacts.spark",
+      "sha256": "787019c7cab74083c34f6af0cbb17aeaa33bae5b27713d102fc1673f892e6ce2",
+      "expected": "787019c7cab74083c34f6af0cbb17aeaa33bae5b27713d102fc1673f892e6ce2",
+      "matches": true,
+      "bytes": 1043705,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "canonical_artifacts.spark",
+            "file": "canonical_artifacts.ads",
+            "line": 32,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/evaluation_completion.spark",
+      "sha256": "c359d028a92c951d8dfa50159628603314088f43b4906b33ee6806b49a4b6699",
+      "expected": "c359d028a92c951d8dfa50159628603314088f43b4906b33ee6806b49a4b6699",
+      "matches": true,
+      "bytes": 362668,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "evaluation_completion.spark",
+            "file": "resource_quantities.ads",
+            "line": 40,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "evaluation_completion.spark",
+            "file": "resource_quantities.ads",
+            "line": 40,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "evaluation_completion.spark",
+            "file": "resource_quantities.ads",
+            "line": 58,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "evaluation_completion.spark",
+            "file": "resource_quantities.ads",
+            "line": 47,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "evaluation_completion.spark",
+            "file": "resource_quantities.ads",
+            "line": 47,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "evaluation_completion.spark",
+            "file": "resource_quantities.ads",
+            "line": 69,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/evaluation_epoch.spark",
+      "sha256": "4a8e2e9f85363944b986faba9076ffb5327abc4db36b49ed0d585382a7460033",
+      "expected": "4a8e2e9f85363944b986faba9076ffb5327abc4db36b49ed0d585382a7460033",
+      "matches": true,
+      "bytes": 551894,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "evaluation_epoch.spark",
+            "file": "evaluation_epoch.adb",
+            "line": 141,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "evaluation_epoch.spark",
+            "file": "evaluation_epoch.adb",
+            "line": 162,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/resource_ledger.spark",
+      "sha256": "910c8748eb413f072926c58af5a6abdf9892d0b257b9dfb13786f88b7cd4d92c",
+      "expected": "910c8748eb413f072926c58af5a6abdf9892d0b257b9dfb13786f88b7cd4d92c",
+      "matches": true,
+      "bytes": 1749889,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "resource_ledger.spark",
+            "file": "resource_ledger.ads",
+            "line": 124,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "implicit function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "resource_ledger.spark",
+            "file": "resource_ledger.ads",
+            "line": 124,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "resource_ledger.spark",
+            "file": "resource_ledger.ads",
+            "line": 133,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/resource_quantities.spark",
+      "sha256": "51259827db01d7f10c8a2f49a3aa1118e265b8e9b40a858f40e504a589177fe9",
+      "expected": "51259827db01d7f10c8a2f49a3aa1118e265b8e9b40a858f40e504a589177fe9",
+      "matches": true,
+      "bytes": 584161,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "resource_quantities.spark",
+            "file": "resource_quantities.ads",
+            "line": 58,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "resource_quantities.spark",
+            "file": "resource_quantities.ads",
+            "line": 69,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/resource_reservation_transition.spark",
+      "sha256": "98f1616b102d76660c8e1bab6df92b91c0399bfc9a1976d7296121237684e655",
+      "expected": "98f1616b102d76660c8e1bab6df92b91c0399bfc9a1976d7296121237684e655",
+      "matches": true,
+      "bytes": 909319,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "resource_reservation_transition.spark",
+            "file": "resource_reservation_transition.adb",
+            "line": 85,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "resource_reservation_transition.spark",
+            "file": "resource_reservation_transition.adb",
+            "line": 85,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/resource_run_ledger.spark",
+      "sha256": "0437a5a6a0db49afb82d8df44a50a6d97c13f548cd4f49b0d79d10d38417a0b0",
+      "expected": "0437a5a6a0db49afb82d8df44a50a6d97c13f548cd4f49b0d79d10d38417a0b0",
+      "matches": true,
+      "bytes": 524973,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "resource_run_ledger.spark",
+            "file": "resource_run_ledger.ads",
+            "line": 200,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "implicit function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "resource_run_ledger.spark",
+            "file": "resource_run_ledger.ads",
+            "line": 200,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/worldline-chain_authority.spark",
+      "sha256": "760fdc161700d4225235eda61a9c007c9bda8601f23620b8cfd782e797c22bf9",
+      "expected": "760fdc161700d4225235eda61a9c007c9bda8601f23620b8cfd782e797c22bf9",
+      "matches": true,
+      "bytes": 80296,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "worldline-chain_authority.spark",
+            "file": "worldline-chain_authority.ads",
+            "line": 74,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/worldline-resource_wire.spark",
+      "sha256": "2bea2c342b34ddbdfe9385b530cef4910400dcd6aef506a3ac28b52a39ca8bd1",
+      "expected": "2bea2c342b34ddbdfe9385b530cef4910400dcd6aef506a3ac28b52a39ca8bd1",
+      "matches": true,
+      "bytes": 12959,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "worldline-resource_wire.spark",
+            "file": "worldline-resources.ads",
+            "line": 29,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "implicit function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "worldline-resource_wire.spark",
+            "file": "worldline-resources.ads",
+            "line": 29,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "worldline-resource_wire.spark",
+            "file": "worldline-resources.ads",
+            "line": 34,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "worldline-resource_wire.spark",
+            "file": "worldline-resources.ads",
+            "line": 34,
+            "col": 13,
+            "rule": "numeric-variant",
+            "severity": "warning",
+            "message": "expression function body of subprograms with a numeric variant might not be available on recursive calls [numeric-variant]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/full-formal-diagnostic-v10k-retry1/source/obj/core/gnatprove/worldline-resources.spark",
+      "sha256": "4987f871f6cfcc7a5c6522b07f8fed83b0b9c1c13ebc4a2ba90a86bec6912890",
+      "expected": "4987f871f6cfcc7a5c6522b07f8fed83b0b9c1c13ebc4a2ba90a86bec6912890",
+      "matches": true,
+      "bytes": 1629001,
+      "notice_checks": [
+        {
+          "entry": {
+            "spark_file": "worldline-resources.spark",
+            "file": "worldline-resources.adb",
+            "line": 9,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        },
+        {
+          "entry": {
+            "spark_file": "worldline-resources.spark",
+            "file": "worldline-resources.adb",
+            "line": 33,
+            "col": 13,
+            "rule": "contracts-recursive",
+            "severity": "warning",
+            "message": "function contract might not be available on recursive calls [contracts-recursive]",
+            "suppressed": ""
+          },
+          "found": false
+        }
+      ]
+    }
+  ],
+  "json_census": {
+    "files": [
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/protected_startup.py",
+        "sha256": "5fc388e4ae747af482666ae8631aca37aa749be62108aa91fcab6d0a7d9169d0",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/payload.py",
+        "sha256": "b18d2ae475bd097688f5b4127d88384a2112e21f375bd02705161cc81afdb92d",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_authority.py",
+        "sha256": "26771457c7a675ba5ef5f36d931eea165ad7dcb9b8c96a41e70a52437a6365de",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/admission.py",
+        "sha256": "a0781e70e8a4b2b630f6956d0c89208140edc871c4a2a003666573767a32d13d",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/manifest.py",
+        "sha256": "c25dbf3e74ab38877741d4cbca8102c48da5ad3e029f3b7c073168a859b690a1",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/recovery_kernel.py",
+        "sha256": "d74458fa2439ff021b8f25978391f6f978d23d31d3851c17526d597252e4991c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/runner.py",
+        "sha256": "88b0c6ebcc4c00032641fe168b943d8e0c8667aa10603485b2ec03d99462128b",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/examiner_audit.py",
+        "sha256": "81ae0b9c7bf3e048b60dd6cdd1aa334f1efd881fadb06f45651132a0738c7836",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/executed.py",
+        "sha256": "904a41b6fd06785551147863676afc21a0fc4054c71081b491084605e9fad1a1",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/daemon_main.py",
+        "sha256": "fe95b626b4e179f2fdb9115c4a1a963e15ef70ccac9c820cd90f11f1b2baace8",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/protected_owner.py",
+        "sha256": "17664c88daa5e8d707e3309ecfa01f1db75fa30090597662d6aa23b3d57589bd",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_history.py",
+        "sha256": "0df874c8284853ef49f029a790d070d7d4fe03bfc589034acea3134ae7a48fd8",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof.py",
+        "sha256": "e334a871536f7fab8e6d7c2ccfb575e0f41220da8a2311bf62e77e06c1186e6b",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_writer.py",
+        "sha256": "d5e435606f060ee3497d5d017088c6e82fc7f9c069e1aa2ca8760724c9bfd498",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/recovery_authority_kernel_v3.py",
+        "sha256": "ff2b8ae018bf7f5d1def8efddd4e8b9dcd5a4ac5c61a4dbe4451de681709fc2d",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/fstree.py",
+        "sha256": "d6e99ff89e6736a276e53e023ec7d2463d9621ac70a4e9a2a729f3cd049e4ab7",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/install_config.py",
+        "sha256": "69b24b2a1ea04baed0d6c590fee0078aee6c8e542572930c0d22af4127e95261",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+        "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/checks.py",
+        "sha256": "110d95f7f0146c0c8e97b0c43807b9ea18f30ba48cb62b71cccd8d9ed46af565",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_context.py",
+        "sha256": "b6d9bc430a503b603677e7690bbc3810473b8df44a9a350002f24008e2e90de9",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/owner_retry_audit.py",
+        "sha256": "796a20440f439dd9126396c539906139619e214dd4b6ef828587761f7e7a5c93",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/resource_kernel.py",
+        "sha256": "a0038f7306f89233b523832124cf409e57d5669458959a6a955a8da850c5414a",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/client_peer_relay.py",
+        "sha256": "52276d2f7e8f76362e4e97e2dd64ff51f2e5198f57969542bf85e9f50c9ef1f4",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/report_facts.py",
+        "sha256": "249e38865d77be77fa849ddb2456c4f216d495140672ee8ff5736c20cfb3c61c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/app.py",
+        "sha256": "05bcb4bd1f14c58b4d11a9ba697b21643d1fb9fa0b52fa594f32f8cc3ae142fc",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/resource_ledger.py",
+        "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/environment.py",
+        "sha256": "22afe46da5bf2c96ac42ac901cc643b0c6a26d28f95377bc23e4c4c20c8e2456",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/protected_recovery_capture.py",
+        "sha256": "07d65100a32e7c818c76e42a90257a999c60e0c3e51a0e4821d6cbbe561edfc9",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/scoring.py",
+        "sha256": "e991c6b451939077f6b44c9cb9be5eba2d33a741de7fa2acf8aa9fe97ccd2e72",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/finalization_journal.py",
+        "sha256": "bf5472672be296d4b37c5cae113407a733625611b79b34c46316da729e1df8d7",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/transaction.py",
+        "sha256": "83e825f806d04e0527fe464ba867583513e882dc9af9f1c761bfe402416b2229",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/store.py",
+        "sha256": "554b0a9dbe0b91f4fd9a6cd38d830e8b920d7e0d54e987f173865a0b33f68c9b",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/pending_kernel_v2.py",
+        "sha256": "f0ae545ae8590f83abf47ceaa868d381420c4a28febc73377cacdc1388ed8ff6",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/anchor.py",
+        "sha256": "85eb65c7023e84cbd115ebd358a67c19f1ef8f5ff07814f1f641e43d6d32fb60",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/status.py",
+        "sha256": "4655c410769feffa7d86add208228a265bfacb5530d8d6c7de8d4d507205311b",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/resolution.py",
+        "sha256": "6eea85bf8e930b61110f599941442aa2dff371f113b24e5875f6690ade9871b9",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/revalidate.py",
+        "sha256": "a4b5b51aea10738d2bf6e784d7b49e9b0483cecc92d1b725e808a11471fb897e",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/controller.py",
+        "sha256": "7d04e6871b3f90008535a0c96becdeefdf4c8336817c8fcb7df7376adfaecf2e",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/reservation_lifecycle.py",
+        "sha256": "0c3028c617f959198cf5b47dba095b51d0c68d6789c3dfd83a8792e3a332185c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/completion_kernel.py",
+        "sha256": "46aba2b0c4ba8fb98e10fa1d9db2197c926b49cf6174dfc550638d4b1dffa9c7",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/raw_observation.py",
+        "sha256": "788b9c8108eaf4006d9704ee8422d49b68b89fd0f767b1702dec47591cec1b6e",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/chain_authority.py",
+        "sha256": "9f123d62282c8189a9b7b5f300b37d94d2544626820ca5d08ee9a72c81cab7f2",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/prime.py",
+        "sha256": "6e261b48e45732861ec2e42655bbde2bc2af8cfc8272111c9103e337e06adad7",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/model.py",
+        "sha256": "51384676f63545ce8ee44c74268db30a0407338a65c05dfcc7a8b71c57c18f4c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/resource_run_ledger.py",
+        "sha256": "14175c7da56f0c6b3425157e68bda7e19d9451cddac6dc9fc45ec3927a1588a9",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/validation.py",
+        "sha256": "0cb1dbbe1ef238ce59c45a20475fdf2ceae31fa8a79da853fddf7c65c944f15b",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/client.py",
+        "sha256": "a1fcdc67bdf484e0fa976d8d3e2b2200fe7fd6544c68d973c3671933a28255a4",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/__init__.py",
+        "sha256": "4b1ee269709526466aa1d677bce48993b012777a9b7e3ae4f91bc0de423d9ec8",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/paths.py",
+        "sha256": "d22af79fab7954e78f7f2f3b48b3e3d517c937022c90f41717d80f015bbaacf4",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/owner_intent_endpoint.py",
+        "sha256": "9a08645a6b3ab186bf040f88cbda29b95bc4a010a3a82fa6d21fe042b1adcc61",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/engine_codes.py",
+        "sha256": "0fb27dfa2f27df2404a794c6cb00e1cfdcd026bbe5fb09ebaefb61b106185dd6",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/recovery_material.py",
+        "sha256": "9c12f590d06a642c8ec61f8372c92425558323bccb7d114799957742987cb7b0",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/roots.py",
+        "sha256": "c96a51708961c07be4e199c0a503fcab35a3aafbc17c101857ddf7f407b11f23",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/config.py",
+        "sha256": "64a0163f2938b0cd4858a3b133af3614a3f2dc39bdbb16016dccca650d54c00b",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/finalize.py",
+        "sha256": "479dee9d5f314fdf5d3f2bffd2fee10f72559f4b3f5c4e8de8844c39bd8f3c0e",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_pending.py",
+        "sha256": "559dc067399ade18658116727cbe2f364f718791cb299bd563765075de5569fa",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/checkpoint.py",
+        "sha256": "b728e426fde8b7fd25995e16760c77ae371a814f2faa89489efe6f24f5792ed7",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/client_peer.py",
+        "sha256": "1022187a02c19fb25ecfcafcc9a43a91e5ab62cf243ae38014c14d4c73463ade",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/fork.py",
+        "sha256": "2f957224ebc64cf79f5609c08775caf035578c52598e32fb764624f7c7962d1f",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/finalization_writer.py",
+        "sha256": "c3079f3120b421b17b0c03db9f32e593b70253bb2578c9bf4c9e6d300e5fd97c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/cli_main.py",
+        "sha256": "adc4d1dd857c0da0ac20eaf3affeccc600eb3acbd72c313157dbe3f457d4aff5",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_wire.py",
+        "sha256": "6e8934470bbadb9819b960f46eae611ca2ced6b2a87c86e8c928f026ff8c3056",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/completion_observations.py",
+        "sha256": "d9f8e93f550fd9ac2313cf363d5296cf8497931cb073a6eb43d8837ac89b15b1",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/causal.py",
+        "sha256": "739de7a87fe6486538faa89de37a87593004eae0541729a98a3667ccb4de9de0",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/canonical.py",
+        "sha256": "d80f79bcedace5364d2e9a238ab05b48250660d86cfb4c14aa5393f4b37952af",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/returning.py",
+        "sha256": "120238cf2a6dd928f2d3eadac170965417e480afd5fd5823191a9a8d6732860f",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/recovery_protocol_kernel.py",
+        "sha256": "ee8388267040d04e12ab372b3a69dbbdb87fa13dc117345c378c0dfd603ca6bc",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/relocate.py",
+        "sha256": "7d3fe3a557c9d5ba8b9c3b058aa8ba5c2d0bceeede81173a95b9dbeeec0542e5",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/protected_owner_bootstrap.py",
+        "sha256": "190f9d59fae06cf93bf021817d12fa4d686f0d146bb26c46f72becfb4413f68c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/core.py",
+        "sha256": "ee77fa7a39178b844972b3a3d704fb0732b93b73aead8c2b80137db66454786c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/reconcile.py",
+        "sha256": "76c655e00fdbece12464ca6feaf4888790b52c6984c381a9632d8c5122a91b8a",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/delta.py",
+        "sha256": "192efbe8b8b761a4e76c7361a2c06dcac801641d524f18efda5de74452ce4059",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/recovery_observation.py",
+        "sha256": "dcb80e8a0c72050e12bc418b1efbc4ac6238e287c219617bce867496feb4cee7",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/prune.py",
+        "sha256": "770e612f2acfc85e2c60a0f1cf7e9742e414e102d59d9037b5eae539485672a4",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/ghosts.py",
+        "sha256": "af031cfeb7c06e3ad9151eb45cc776783b1c05e4b080ce640bdfbfce4f21de7f",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/pending_kernel.py",
+        "sha256": "09c27de3f935496b2b3a51691b659111426622c968e64ab755d93c95c5fdbc83",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/finalization_kernel.py",
+        "sha256": "918fc2caef37d4bb5cdd4a5ff3f4b0ea072e156c3763d90afafa501c235a57a3",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/receipt.py",
+        "sha256": "5f46ffa8d7a2d308b6148ccbf705ac713bc9eef3a609dd5e2640096a42fd9851",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/capability_use_kernel.py",
+        "sha256": "ce145a31c71596679c8803d5e2d9617cedd057c270a0443038a963f9488c63cc",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/finalization_values.py",
+        "sha256": "c0b65b21f7d7e39eb94839e3e70d4650aa476928b199328e5b02ace2d6a73c0e",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/recovery_authority_kernel.py",
+        "sha256": "1d394d23868ef360108539639593ab03e39752cf40eae1591d96329299fdf781",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/daemon.py",
+        "sha256": "2b302f89b6147d4aa72111e7f7f28e56cf517804e1db765f805381d681a12f92",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/owner_collapse_data.py",
+        "sha256": "27fcc4842bdae6177e2224242d42cb757c1b30c625ca2486aecbd80de84534e9",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/simulation.py",
+        "sha256": "aa5391fe990cfca43a79a2927548eb5518e6b9ece41bd3f116185727035b06fe",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/evaluation_terminal.py",
+        "sha256": "9f5e97446797f09633008c3d8c1f7d6759b674122681887e73a7a6e78db53033",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/protected_capability_uses.py",
+        "sha256": "97ccbecb8c7d87538374fbc9a981309b4ea929527ce01a852b0e4e93bb34a4c1",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/errors.py",
+        "sha256": "610c9ecd0081d354cbfb1327c36a06a56fafb2cfa03fae69c82e009be0b3bc2d",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/report.py",
+        "sha256": "9034de47dce2c5cba3fb095be6a058cc18a2820d1c5aed15cd1909089538da14",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/services.py",
+        "sha256": "9c6189980e551bdfb9064a911d804c6583c4fc42ec0f016988579fd4206b9a61",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/project.py",
+        "sha256": "54cd7e46fbecb9fc9287986a4a5c81e3b665addebe4932f0e4f797a56fdd4161",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/capabilities.py",
+        "sha256": "8f84afb77b4381881ec0c01238441d4cfa05bb8ef615165037fe392220ea8d29",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/resource_policy.py",
+        "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/owner_transitions.py",
+        "sha256": "c8ef34f9ca01737a00e307509dcb161bd7956752e4e81c24473fea0622dfb0d1",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/raw_completion_kernel.py",
+        "sha256": "d253338f5f83c868af17dff71a22ab0d6171371facc53262e35698249cb3b132",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/trusted.py",
+        "sha256": "0e95e086cd5214fa45d1ee88ff923b1ccdcf3c73b18fac4aa5666daa6ee40890",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/agents/codex.py",
+        "sha256": "3e647e10d4a31c59fd7a994d8e87ecf943623b6d7032f792f574907e1a3d483a",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/agents/claude.py",
+        "sha256": "1bc5757e94f4c22ee99f942f4bacda6da618911ab5fbcca782e9d42eac40f316",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/agents/pi.py",
+        "sha256": "0b623932b51af84663d76bd45230f3e4088c9ff616629dcf18dbfa54e8d042da",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/agents/__init__.py",
+        "sha256": "56d96886cf8a99bd6484615aff595ac28495284f18a867fbc348c5dec332a99c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/agents/generic.py",
+        "sha256": "22ce9848c30938d45ad4b0a020f9bbc70dd3ad6cbc4fe94fd5eeed38e27446c9",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/agents/base.py",
+        "sha256": "474901c662205db043c5753b02f67126d96b1a01754684521708ef0620fdfb3a",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/agents/omp.py",
+        "sha256": "366338d00cef9c2bcbef41aebc39cfd32f256d57344c200d50eb6bf9fdea9bdc",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/atomic.py",
+        "sha256": "868c6c3db77f12e074dced0a2fb7f4655098c6dff3c70ce54fbbb93b63e292b8",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/kernel_role_observer.py",
+        "sha256": "cd5c16013477833b937f9fa48c23db77db07f6724dfd47939f5dae55f2441ac9",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/btrfs.py",
+        "sha256": "cc25fc1f948b270165801ded686026abb688c62153912bec0ec7bf2d1bd524df",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/cgroups.py",
+        "sha256": "94f3e3e2bf6438d15b52a5e2c51d9c62ec2c8c91b478d5d36af431ff10ad5c30",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/overlay.py",
+        "sha256": "d451e121206c7ec8e709b5abc8f6f16243be6f70f78df353993f9a9acc3eab3a",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/hyprland.py",
+        "sha256": "fe9e98a04311353b0ea2b1ca969f31712a30b46d92421505f34c571c3c76ba10",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/private_case_copy.py",
+        "sha256": "70dee5f29e20322336b25063a2b481985362bd62d5dc8fdf425a6d9895aa3197",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/docker.py",
+        "sha256": "256f09951a474f60f6154dcfa381bc7738b834984559895f23c8bdd5a9c42bf1",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/inotify.py",
+        "sha256": "38dacd8b7c71fa75ff3ef8167ec1fbbc347c751b28d3801765da814e353d867a",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/criu.py",
+        "sha256": "fce20d417123189254b3c4e023ba5bd20aff619dccbf3eb49b5194efaaa1b498",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/native_lifetime.py",
+        "sha256": "e23a0d058fda2f0905df8de40ebed01d159cde2d1759cb75ae1f3a81bdd21a66",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/systemd.py",
+        "sha256": "710d37c77de105bdd62d96e1ce31d5b0ad79fcbd7ae8b7e556bd1b7656462784",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/netguard.py",
+        "sha256": "97ff9cba80d507db7971254a2c8377e4c7ecd86a16750550df90ec8d2171b92e",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/__init__.py",
+        "sha256": "36944b96f2ae76dc3f73178841eb4a1693f875aa7050fa13c593f85355027bb6",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/examiner_loader.py",
+        "sha256": "e631d8e637231c42eca439c546ae2ddee32913dba27223630a611f6f1586b06c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/namespaces.py",
+        "sha256": "a68540008b00012c42fc0bdb1558eb39d949d21b6b094ff0a04c0d980f1545ff",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/private_evaluator.py",
+        "sha256": "667d2dc6f9c06fea758d2b924fa067d3b45e366c6ef7cf286c41efb5024db2fc",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/namespace_lifetime.py",
+        "sha256": "fd999f1b9f273f52a98a9f7ae8d228e3d8ae88663fa55e49cbc02d31124d59f1",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/linux/git.py",
+        "sha256": "6a8e96e820fb58ccb0f5f3dccfb0ccd472591b0e39a91206bbfd29e1b807e67e",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-resource/run_service.py",
+        "sha256": "dced2e7f96948aee711cbdfe5ca11650894024abc1680f8b1ceef4e277358c8a",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-resource/gate_bridge.py",
+        "sha256": "425ca3cd58ba73314f1da6cfec76d2f7a77dbb4c21ddf1da82efbd71a6ba5df4",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-resource/controls/run_campaign.py",
+        "sha256": "ee7e42ec5cfff3384ad03af06b1dad7ea86ea0b53b9d553cd7060e196e21fa51",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-resource/controls/test_full_resource_replay_v2.py",
+        "sha256": "2c8de9509d488d002910c272f5444583fb76709eb4b1ec6a7a67eb5c60257063",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-startup/launcher.py",
+        "sha256": "7ae6453c2e900d49e17db81c9109eb5474e129bc7d6111f24ccedf912733b4b4",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-startup/owner_provision_bootstrap.py",
+        "sha256": "cbaf362ed221359c391c861462dbbdc5dc867334a08da63182a15da7589f50b2",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-startup/controls/run_campaign.py",
+        "sha256": "4ca3a15614eff36d1ef9e876c667e4cd9067f9f701426249728e7b679a4b7630",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-startup/controls/test_protected_startup_v1.py",
+        "sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-startup/controls/additional_startup_controls.py",
+        "sha256": "c620a7ebc680fd1b1f21b29d7f0c8f7ddad156030f5d643e34221b8e5a024e98",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-runtime/approved_source_loader.py",
+        "sha256": "18f17cb713b779270d9130943346020f09fa5519c97b2e6bbb644875faf49835",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/protected-runtime/controls/loader_probe.py",
+        "sha256": "783da47ad312fb06b8d57c89de92dbb1a1c36ed522d02f7c5e41fce03854cd5c",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/native/build_guard.py",
+        "sha256": "949f917d8a194c41d94ba6ea262d1758c3803c58bac4d18f22604524ee8d07d7",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/plugin_compat.py",
+        "sha256": "0eeaa58aa04c24baa01ed2c8b2f19946579ff42a7d8a3ca8d2c025d600241f44",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/release_notes.py",
+        "sha256": "0f0aee513a8936989e82538efca665eef8a48bceff32dba67dc8ed4670fd6052",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/install_proof_sources.py",
+        "sha256": "62acf4f06594810bb7e6344aa10a921e56af896ff8fe3c4f1cd335b510d29c52",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/evaluation_domain_gate.py",
+        "sha256": "734a7381e8e08a6ff71432f4c16251fc4ab4d57f032e924dc61119abfafeae5e",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/engine_codes.py",
+        "sha256": "b67db55730a9996413cefef19e96987966ecbf423ee88f2f19f54bd71280e4d3",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/verify_release_pair_report.py",
+        "sha256": "4032dc92d502ac5ef15ace3097216ef668f6a434b2db7321de696311e978760f",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/prune_backups.py",
+        "sha256": "cea5d2919ee63451686d5e9450ade5e3cf843324bec3002e4e4c8c9a1e47beb8",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/verify_install.py",
+        "sha256": "47775efc33fd7987dc938cc24c0c89a189d7201655724f2199dc0cacf9fcdfdb",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/backup_manifest.py",
+        "sha256": "718235312c3c385efe00e3c12b105e79f82744916fae101ba9de5e9e9d654ed7",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/assurance.py",
+        "sha256": "b15169fb858c591dce5f06d6c5301a6578a45d67ffea448b423e03b25c7e8cc9",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/release_gate.py",
+        "sha256": "0a8cd41836f0984fc34d2cd524288e49dd6036bf347e9cff7872eed8550aa607",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/decisive_evaluation_test.py",
+        "sha256": "559e72a5ccce331da79a9e67c8698c8599b31688f5b253abffde0c600932daa1",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/assurance_contract.py",
+        "sha256": "848cebc468e0b9f7c2845465cf7272c15502e4b3cc77b5448232bd0ec8d32c47",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/scripts/preflight.py",
+        "sha256": "31e5aa70fef3d14cbe371e66f57cde333bb484608a71b1eb0c953f03dde24f05",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/cli/worldline-relocate",
+        "sha256": "a7b8fad4f71edde41d70f540caa8b95ca333a22e4ff75997570b113a07e36945",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/cli/worldline",
+        "sha256": "0281e435a293c709574883c1f7f00489ac4f08472dc79d7c7b33d6282c869f8d",
+        "matches_prior": true
+      },
+      {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/daemon/worldlined",
+        "sha256": "ca304eeaf77c3809657d263e31c0d55bddc414009d6f7cade79ee83f9d88df8d",
+        "matches_prior": true
+      }
+    ],
+    "scopes": {
+      "PROD-RUNTIME": [
+        {
+          "path": "runtime/worldline/protected_startup.py",
+          "line": 47,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook",
+            "parse_constant"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/protected_startup.py",
+          "line": 36,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "ensure_ascii",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/admission.py",
+          "line": 430,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/admission.py",
+          "line": 477,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/runner.py",
+          "line": 844,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/protected_owner.py",
+          "line": 43,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/protected_owner.py",
+          "line": 35,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "ensure_ascii",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/proof.py",
+          "line": 129,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/proof.py",
+          "line": 165,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/install_config.py",
+          "line": 31,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/install_config.py",
+          "line": 58,
+          "name": "json.dumps",
+          "keywords": [
+            "ensure_ascii",
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/proof_manifest.py",
+          "line": 921,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/checks.py",
+          "line": 878,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/client_peer_relay.py",
+          "line": 95,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/client_peer_relay.py",
+          "line": 102,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/environment.py",
+          "line": 227,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/environment.py",
+          "line": 140,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/protected_recovery_capture.py",
+          "line": 58,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/transaction.py",
+          "line": 791,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/transaction.py",
+          "line": 810,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/transaction.py",
+          "line": 1918,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/transaction.py",
+          "line": 1933,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/transaction.py",
+          "line": 552,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/store.py",
+          "line": 211,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/store.py",
+          "line": 1005,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/store.py",
+          "line": 1174,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/store.py",
+          "line": 887,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/store.py",
+          "line": 1010,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/store.py",
+          "line": 1063,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/store.py",
+          "line": 1085,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/anchor.py",
+          "line": 343,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/controller.py",
+          "line": 1208,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/client.py",
+          "line": 61,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/config.py",
+          "line": 83,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/evaluation_pending.py",
+          "line": 75,
+          "name": "json.dumps",
+          "keywords": [
+            "ensure_ascii",
+            "sort_keys",
+            "separators",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/client_peer.py",
+          "line": 220,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/client_peer.py",
+          "line": 115,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/client_peer.py",
+          "line": 137,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/cli_main.py",
+          "line": 105,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys",
+            "ensure_ascii"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/cli_main.py",
+          "line": 109,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys",
+            "ensure_ascii"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/cli_main.py",
+          "line": 654,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/causal.py",
+          "line": 277,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/canonical.py",
+          "line": 54,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/canonical.py",
+          "line": 43,
+          "name": "json.dumps",
+          "keywords": [
+            "ensure_ascii",
+            "allow_nan",
+            "sort_keys",
+            "separators"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/returning.py",
+          "line": 182,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/relocate.py",
+          "line": 1142,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/relocate.py",
+          "line": 454,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/relocate.py",
+          "line": 1124,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/relocate.py",
+          "line": 1134,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/relocate.py",
+          "line": 1140,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/daemon.py",
+          "line": 304,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/simulation.py",
+          "line": 238,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/evaluation_terminal.py",
+          "line": 122,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/evaluation_terminal.py",
+          "line": 150,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/evaluation_terminal.py",
+          "line": 657,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/evaluation_terminal.py",
+          "line": 685,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/evaluation_terminal.py",
+          "line": 568,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/evaluation_terminal.py",
+          "line": 614,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/report.py",
+          "line": 118,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/report.py",
+          "line": 193,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/report.py",
+          "line": 74,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/project.py",
+          "line": 106,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/agents/pi.py",
+          "line": 52,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 445,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 580,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 1117,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook",
+            "parse_constant",
+            "parse_float"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 445,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 1061,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 1121,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 1370,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook",
+            "parse_constant",
+            "parse_float"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 1395,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook",
+            "parse_constant",
+            "parse_float"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 1503,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 1535,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 911,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/kernel_role_observer.py",
+          "line": 1455,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/hyprland.py",
+          "line": 36,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_case_copy.py",
+          "line": 260,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/docker.py",
+          "line": 86,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/criu.py",
+          "line": 72,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/native_lifetime.py",
+          "line": 711,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/native_lifetime.py",
+          "line": 676,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/systemd.py",
+          "line": 265,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/systemd.py",
+          "line": 593,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/examiner_loader.py",
+          "line": 285,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook",
+            "parse_constant"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 445,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1939,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1977,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 445,
+          "name": "json.dumps",
+          "keywords": [
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 491,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1596,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 454,
+          "name": "json.dumps",
+          "keywords": [
+            "allow_nan",
+            "separators"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 462,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 601,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 797,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1224,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1535,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1666,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2026,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2609,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2692,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2714,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2759,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 578,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 671,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2681,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1368,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1782,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 1866,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 993,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "ensure_ascii"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2616,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2304,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2540,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2503,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2507,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2308,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2544,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/private_evaluator.py",
+          "line": 2297,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/namespace_lifetime.py",
+          "line": 204,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/namespace_lifetime.py",
+          "line": 176,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/namespace_lifetime.py",
+          "line": 565,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/namespace_lifetime.py",
+          "line": 606,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "runtime/worldline/linux/namespace_lifetime.py",
+          "line": 707,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        }
+      ],
+      "PROD-PROTECTED": [
+        {
+          "path": "protected-resource/run_service.py",
+          "line": 51,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/run_service.py",
+          "line": 23,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "ensure_ascii",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-resource/gate_bridge.py",
+          "line": 16,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/gate_bridge.py",
+          "line": 270,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/gate_bridge.py",
+          "line": 290,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/gate_bridge.py",
+          "line": 31,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/gate_bridge.py",
+          "line": 156,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-startup/launcher.py",
+          "line": 26,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-startup/launcher.py",
+          "line": 41,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-startup/owner_provision_bootstrap.py",
+          "line": 24,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        }
+      ],
+      "ORIGINAL-CONTROL": [
+        {
+          "path": "protected-resource/controls/run_campaign.py",
+          "line": 39,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook",
+            "parse_constant"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/run_campaign.py",
+          "line": 108,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/run_campaign.py",
+          "line": 134,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/run_campaign.py",
+          "line": 176,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/run_campaign.py",
+          "line": 32,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "ensure_ascii",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/run_campaign.py",
+          "line": 180,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 17,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 51,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 66,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 73,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 105,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 56,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 68,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 73,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-resource/controls/test_full_resource_replay_v2.py",
+          "line": 108,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-startup/controls/run_campaign.py",
+          "line": 47,
+          "name": "json.loads",
+          "keywords": [
+            "object_pairs_hook",
+            "parse_constant"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-startup/controls/run_campaign.py",
+          "line": 157,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-startup/controls/run_campaign.py",
+          "line": 41,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "ensure_ascii",
+            "allow_nan"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-startup/controls/run_campaign.py",
+          "line": 191,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "protected-startup/controls/run_campaign.py",
+          "line": 195,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-startup/controls/test_protected_startup_v1.py",
+          "line": 28,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-startup/controls/test_protected_startup_v1.py",
+          "line": 36,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-startup/controls/additional_startup_controls.py",
+          "line": 13,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-runtime/controls/loader_probe.py",
+          "line": 51,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "protected-runtime/controls/loader_probe.py",
+          "line": 58,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        }
+      ],
+      "BUILD-TOOL": [
+        {
+          "path": "native/build_guard.py",
+          "line": 33,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "native/build_guard.py",
+          "line": 51,
+          "name": "json.dumps",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "native/build_guard.py",
+          "line": 50,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys"
+          ],
+          "found": true
+        }
+      ],
+      "INSTALL-RELEASE-SCRIPT": [
+        {
+          "path": "scripts/plugin_compat.py",
+          "line": 53,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/plugin_compat.py",
+          "line": 85,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/plugin_compat.py",
+          "line": 89,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/release_notes.py",
+          "line": 41,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/release_notes.py",
+          "line": 42,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/evaluation_domain_gate.py",
+          "line": 47,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/engine_codes.py",
+          "line": 350,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/verify_release_pair_report.py",
+          "line": 70,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/verify_release_pair_report.py",
+          "line": 36,
+          "name": "json.dumps",
+          "keywords": [
+            "sort_keys",
+            "separators",
+            "ensure_ascii"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/verify_release_pair_report.py",
+          "line": 66,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/verify_release_pair_report.py",
+          "line": 66,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/prune_backups.py",
+          "line": 92,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/prune_backups.py",
+          "line": 62,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/verify_install.py",
+          "line": 143,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/verify_install.py",
+          "line": 88,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/verify_install.py",
+          "line": 205,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/backup_manifest.py",
+          "line": 53,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/assurance.py",
+          "line": 140,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/assurance.py",
+          "line": 371,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/release_gate.py",
+          "line": 242,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/release_gate.py",
+          "line": 244,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/release_gate.py",
+          "line": 266,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/release_gate.py",
+          "line": 234,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/release_gate.py",
+          "line": 265,
+          "name": "json.dumps",
+          "keywords": [
+            "indent",
+            "sort_keys"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/preflight.py",
+          "line": 125,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/preflight.py",
+          "line": 206,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/preflight.py",
+          "line": 391,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/preflight.py",
+          "line": 177,
+          "name": "json.dumps",
+          "keywords": [
+            "indent"
+          ],
+          "found": true
+        },
+        {
+          "path": "scripts/preflight.py",
+          "line": 274,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        },
+        {
+          "path": "scripts/preflight.py",
+          "line": 350,
+          "name": "json.loads",
+          "keywords": [],
+          "found": true
+        }
+      ]
+    },
+    "inline": [
+      {
+        "path": "runtime/worldline/simulation.py",
+        "host_line": 30,
+        "inline_line": 8,
+        "name": "json.loads",
+        "found": true
+      },
+      {
+        "path": "runtime/worldline/simulation.py",
+        "host_line": 30,
+        "inline_line": 24,
+        "name": "json.dumps",
+        "found": true
+      }
+    ],
+    "aliases": [
+      {
+        "path": "scripts/decisive_evaluation_test.py",
+        "line": 264,
+        "name": "_json.dumps",
+        "keywords": [
+          "indent"
+        ],
+        "found": true
+      }
+    ],
+    "scope_counts_observed": {
+      "PROD-RUNTIME": 122,
+      "PROD-PROTECTED": 10,
+      "ORIGINAL-CONTROL": 25,
+      "BUILD-TOOL": 3,
+      "INSTALL-RELEASE-SCRIPT": 30
+    }
+  },
+  "obligations": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+    "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+    "observed_count": 219,
+    "statuses": {
+      "OB-001": "OPEN",
+      "OB-002": "OPEN",
+      "OB-003": "OPEN",
+      "OB-004": "OPEN",
+      "OB-005": "OPEN",
+      "OB-006": "OPEN",
+      "OB-007": "OPEN",
+      "OB-008": "OPEN",
+      "OB-009": "OPEN",
+      "OB-010": "OPEN",
+      "OB-011": "OPEN",
+      "OB-012": "OPEN",
+      "OB-013": "OPEN",
+      "OB-014": "OPEN",
+      "OB-015": "OPEN",
+      "OB-016": "OPEN",
+      "OB-017": "OPEN",
+      "OB-018": "OPEN",
+      "OB-019": "OPEN",
+      "OB-020": "OPEN",
+      "OB-021": "OPEN",
+      "OB-022": "OPEN",
+      "OB-023": "OPEN",
+      "OB-024": "OPEN",
+      "OB-025": "OPEN",
+      "OB-026": "OPEN",
+      "OB-027": "OPEN",
+      "OB-028": "OPEN",
+      "OB-029": "OPEN",
+      "OB-030": "OPEN",
+      "OB-031": "OPEN",
+      "OB-032": "OPEN",
+      "OB-033": "OPEN",
+      "OB-034": "OPEN",
+      "OB-035": "OPEN",
+      "OB-036": "OPEN",
+      "OB-037": "OPEN",
+      "OB-038": "OPEN",
+      "OB-039": "OPEN",
+      "OB-040": "OPEN",
+      "OB-041": "OPEN",
+      "OB-042": "OPEN",
+      "OB-043": "OPEN",
+      "OB-044": "OPEN",
+      "OB-045": "OPEN",
+      "OB-046": "OPEN",
+      "OB-047": "OPEN",
+      "OB-048": "OPEN",
+      "OB-049": "OPEN",
+      "OB-050": "OPEN",
+      "OB-051": "OPEN",
+      "OB-052": "OPEN",
+      "OB-053": "OPEN",
+      "OB-054": "OPEN",
+      "OB-055": "OPEN",
+      "OB-056": "OPEN",
+      "OB-057": "OPEN",
+      "OB-058": "OPEN",
+      "OB-059": "OPEN",
+      "OB-060": "OPEN",
+      "OB-061": "OPEN",
+      "OB-062": "OPEN",
+      "OB-063": "OPEN",
+      "OB-064": "OPEN",
+      "OB-065": "OPEN",
+      "OB-066": "OPEN",
+      "OB-067": "OPEN",
+      "OB-068": "OPEN",
+      "OB-069": "OPEN",
+      "OB-070": "OPEN",
+      "OB-071": "OPEN",
+      "OB-072": "OPEN",
+      "OB-073": "OPEN",
+      "OB-074": "OPEN",
+      "OB-075": "OPEN",
+      "OB-076": "OPEN",
+      "OB-077": "OPEN",
+      "OB-078": "OPEN",
+      "OB-079": "OPEN",
+      "OB-080": "OPEN",
+      "OB-081": "OPEN",
+      "OB-082": "OPEN",
+      "OB-083": "OPEN",
+      "OB-084": "OPEN",
+      "OB-085": "OPEN",
+      "OB-086": "OPEN",
+      "OB-087": "OPEN",
+      "OB-088": "OPEN",
+      "OB-089": "OPEN",
+      "OB-090": "OPEN",
+      "OB-091": "OPEN",
+      "OB-092": "OPEN",
+      "OB-093": "OPEN",
+      "OB-094": "OPEN",
+      "OB-095": "OPEN",
+      "OB-096": "OPEN",
+      "OB-097": "OPEN",
+      "OB-098": "OPEN",
+      "OB-099": "OPEN",
+      "OB-100": "OPEN",
+      "OB-101": "OPEN",
+      "OB-102": "OPEN",
+      "OB-103": "OPEN",
+      "OB-104": "OPEN",
+      "OB-105": "OPEN",
+      "OB-106": "OPEN",
+      "OB-107": "OPEN",
+      "OB-108": "OPEN",
+      "OB-109": "OPEN",
+      "OB-110": "OPEN",
+      "OB-111": "OPEN",
+      "OB-112": "OPEN",
+      "OB-113": "OPEN",
+      "OB-114": "OPEN",
+      "OB-115": "OPEN",
+      "OB-116": "OPEN",
+      "OB-117": "OPEN",
+      "OB-118": "OPEN",
+      "OB-119": "OPEN",
+      "OB-120": "OPEN",
+      "OB-121": "OPEN",
+      "OB-122": "OPEN",
+      "OB-123": "OPEN",
+      "OB-124": "OPEN",
+      "OB-125": "OPEN",
+      "OB-126": "OPEN",
+      "OB-127": "OPEN",
+      "OB-128": "OPEN",
+      "OB-129": "OPEN",
+      "OB-130": "OPEN",
+      "OB-131": "OPEN",
+      "OB-132": "OPEN",
+      "OB-133": "OPEN",
+      "OB-134": "OPEN",
+      "OB-135": "OPEN",
+      "OB-136": "OPEN",
+      "OB-137": "OPEN",
+      "OB-138": "OPEN",
+      "OB-139": "OPEN",
+      "OB-140": "OPEN",
+      "OB-141": "OPEN",
+      "OB-142": "OPEN",
+      "OB-143": "OPEN",
+      "OB-144": "OPEN",
+      "OB-145": "OPEN",
+      "OB-146": "OPEN",
+      "OB-147": "OPEN",
+      "OB-148": "OPEN",
+      "OB-149": "OPEN",
+      "OB-150": "OPEN",
+      "OB-151": "OPEN",
+      "OB-152": "OPEN",
+      "OB-153": "OPEN",
+      "OB-154": "OPEN",
+      "OB-155": "OPEN",
+      "OB-156": "OPEN",
+      "OB-157": "OPEN",
+      "OB-158": "OPEN",
+      "OB-159": "OPEN",
+      "OB-160": "OPEN",
+      "OB-161": "OPEN",
+      "OB-162": "OPEN",
+      "OB-163": "OPEN",
+      "OB-164": "OPEN",
+      "OB-165": "OPEN",
+      "OB-166": "OPEN",
+      "OB-167": "OPEN",
+      "OB-168": "OPEN",
+      "OB-169": "OPEN",
+      "OB-170": "OPEN",
+      "OB-171": "OPEN",
+      "OB-172": "OPEN",
+      "OB-173": "OPEN",
+      "OB-174": "OPEN",
+      "OB-175": "OPEN",
+      "OB-176": "OPEN",
+      "OB-177": "OPEN",
+      "OB-178": "OPEN",
+      "OB-179": "OPEN",
+      "OB-180": "OPEN",
+      "OB-181": "OPEN",
+      "OB-182": "OPEN",
+      "OB-183": "OPEN",
+      "OB-184": "OPEN",
+      "OB-185": "OPEN",
+      "OB-186": "OPEN",
+      "OB-187": "OPEN",
+      "OB-188": "OPEN",
+      "OB-189": "OPEN",
+      "OB-190": "OPEN",
+      "OB-191": "OPEN",
+      "OB-192": "OPEN",
+      "OB-193": "OPEN",
+      "OB-194": "OPEN",
+      "OB-195": "OPEN",
+      "OB-196": "OPEN",
+      "OB-197": "OPEN",
+      "OB-198": "OPEN",
+      "OB-199": "OPEN",
+      "OB-200": "OPEN",
+      "OB-201": "OPEN",
+      "OB-202": "OPEN",
+      "OB-203": "OPEN",
+      "OB-204": "OPEN",
+      "OB-205": "OPEN",
+      "OB-206": "OPEN",
+      "OB-207": "OPEN",
+      "OB-208": "OPEN",
+      "OB-209": "OPEN",
+      "OB-210": "OPEN",
+      "OB-211": "OPEN",
+      "OB-212": "OPEN",
+      "OB-213": "OPEN",
+      "OB-214": "OPEN",
+      "OB-215": "OPEN",
+      "OB-216": "OPEN",
+      "OB-217": "OPEN",
+      "OB-218": "OPEN",
+      "OB-219": "OPEN"
+    },
+    "all_open": true
+  }
+}

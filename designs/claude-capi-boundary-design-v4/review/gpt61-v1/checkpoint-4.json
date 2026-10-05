@@ -1,0 +1,55 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 4,
+  "complete": true,
+  "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+  "operator_items": {
+    "D-13": {
+      "ruling": "OPERATOR_CHOICE_REQUIRED_BEFORE_PK-7 for the concrete component transport/library architecture, not for pinning alone. Only the ABI/scope/correspondence-preserving route is admissible. Lead prepares source/project/link and evidence package; no choice or implementation acceptance here.",
+      "evidence": [
+        "D3/DESIGN.md:2252-2260",
+        "APPENDIX-BINDINGS.md:232-265",
+        "decisions.json:187",
+        "W/work/integrated-proof-preparation/PLAN.md:104-107"
+      ]
+    },
+    "N-06": {
+      "ruling": "REPROVISION_UNDER_OPERATOR_CUSTODY_AT_DEPLOYMENT. Preserve native digest mismatch refusal. An old-library hold earns no consolidated-candidate credit.",
+      "evidence": [
+        "D3/DESIGN.md:2262-2271",
+        "decisions.json:188",
+        "S5/protected-resource/run_service.py:117-120",
+        "H/HANDOFF.md:164-166"
+      ]
+    }
+  },
+  "lead_items": {
+    "N-01": {
+      "ruling": "LEAD_OWNED_STRICT_OBLIGATION. Confirming representation repair is independently reviewed engineering with unchanged layouts and strict proof. A nonconfirming material ABI proposal is outside this design and operator-owned; approval cannot reduce the target.",
+      "evidence": [
+        "D3/DESIGN.md:2012-2052",
+        "D3/DESIGN.md:2273",
+        "DESIGN.md:728",
+        "H/HANDOFF.md:158-161",
+        "P:32-34"
+      ]
+    },
+    "pinning_and_integration": {
+      "ruling": "Reviewed implementation deltas, effective pin regeneration and routine engineering remain lead-owned. No operator gate merely for a pinned file. Root-worker integration order is lead-owned but requires exact-base affected-scope re-review; no integration is resolved here.",
+      "evidence": [
+        "H/HANDOFF.md:153",
+        "D3/DESIGN.md:1829-1841",
+        "DESIGN.md:768-782"
+      ]
+    }
+  },
+  "mislabelled_ownership_found": false,
+  "new_approval_gate_without_original_basis_found": false,
+  "ownership_basis": "User supervision rule reserves material API/ABI/owner-policy, reference/contract redefinition, operator custody, toolchain/runtime/deployment architecture, and original publication/production gates. Prior review is a disposition, not new authority. D-13 concerns the concrete component architecture and N-06 protected deployment custody; pinning alone supplies no basis.",
+  "process_record": "Read WT/deviations/capi-v4-author-taskstop/NOTE.md as disclosed historical report only. No review evidence or action authority transferred. Reviewer performed no interruption.",
+  "acceptance": {
+    "proof": false,
+    "phase": false,
+    "source": false
+  }
+}

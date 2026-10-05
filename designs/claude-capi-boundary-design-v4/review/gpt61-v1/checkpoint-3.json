@@ -1,0 +1,107 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 3,
+  "complete": true,
+  "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+  "carriage": {
+    "slice_hashes": "Every hash row in DESIGN B.2 independently matches exact v3 bytes; REPLACED section 8.8 hash is verified but not counted as carried text.",
+    "quoted_replacements": "R1-R15 old lines independently equal the cited v3 lines; replacement purposes match RC4/RC5/RC6 and L6/L7 without lowering original guarantees. RC4 new inconsistencies remain as checkpoint-1 findings.",
+    "rc1_rc2_rc3": "CLOSED_AT_DESIGN_LEVEL preserved, not implementation/proof acceptance.",
+    "closed_and_conditional_rulings": "Preserved with their evidence obligations. LD4 remains withdrawn; LD4-R retained. LD6 RC5 design condition discharged only at design level. R2_NINE_CONDITIONS and PACKET_PLAN remain NOT_CLOSED for RC4.",
+    "appendix_c": "Exact names list, append_schedule and relocation_map equal v3. Entire bound Appendix C read. Immediate PK-6a enrollment, no reordering/reappend, full body/caller scope preserved.",
+    "mechanical_tile_comparisons": {
+      "diagnostic_transport_spec_equal": true,
+      "diagnostic_transport_body_equal": true,
+      "native_diagnostic_control_equal": true,
+      "rc2_rows_block_equal": true
+    },
+    "bindings_carried_blocks": "B1, B2.1, B2.2, B3, B5, B6, B7 equal v3 after excluding separately marked appended v4 notes."
+  },
+  "latent_defects": {
+    "L1": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by explicit scoped T/L/A tuples. Installed legality remains OPEN.",
+      "evidence": [
+        "DESIGN.md:64",
+        "APPENDIX-BINDINGS.md:1527-1565",
+        "D3/DESIGN.md:1789-1802"
+      ]
+    },
+    "L2": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by explicit operator visibility clauses; compilation remains OPEN.",
+      "evidence": [
+        "DESIGN.md:65",
+        "APPENDIX-BINDINGS.md:1560",
+        "APPENDIX-BINDINGS.md:1564"
+      ]
+    },
+    "L3": {
+      "assessment": "GENUINE unused rename after retargeting; GE9 is a correct design repair. Actual GNAT 16.1.0 warning behavior UNVERIFIED.",
+      "evidence": [
+        "DESIGN.md:66",
+        "APPENDIX-BINDINGS.md:742-756",
+        "S5/core/worldline-c_api.adb:832-876"
+      ]
+    },
+    "L4": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by parsing actual ordered Library_Interface membership. No sketch executed.",
+      "evidence": [
+        "D3/APPENDIX-BINDINGS.md:1018-1020",
+        "S5/pending-component/pending.gpr:5-11",
+        "APPENDIX-BINDINGS.md:1043-1060"
+      ]
+    },
+    "L5": {
+      "assessment": "GENUINE blanket write-rule contradiction; repaired by explicit write-form/provenance rows. Separate new B0.7 gating contradiction remains RC4.",
+      "evidence": [
+        "DESIGN.md:68",
+        "APPENDIX-BINDINGS.md:1729-1775",
+        "D3/DESIGN.md:1785-1788"
+      ]
+    },
+    "L6": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL with Joined_Metadata in tile and carried line R9.",
+      "evidence": [
+        "D3/APPENDIX-BINDINGS.md:605",
+        "D3/DESIGN.md:1472",
+        "S5/core/evaluation_completion_c.adb:973-978",
+        "APPENDIX-BINDINGS.md:649",
+        "DESIGN.md:226-230"
+      ]
+    },
+    "L7": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by removing direct-store policy/ledger from proposed local-completion C-14 scope; no baseline control weakened.",
+      "evidence": [
+        "D3/DESIGN.md:2240",
+        "DESIGN.md:262-265",
+        "S5/core/worldline-resource_policy_c_api.adb:171-176",
+        "S5/core/worldline-resource_ledger_c_api.adb:166-172",
+        "APPENDIX-COST-MAP.md:451"
+      ]
+    },
+    "L8": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by excluding := from object-declaration pattern. Static reading only, no sketch/pattern control execution.",
+      "evidence": [
+        "D3/APPENDIX-BINDINGS.md:1031-1035",
+        "APPENDIX-BINDINGS.md:1144-1148",
+        "APPENDIX-BINDINGS.md:681"
+      ]
+    }
+  },
+  "evidence": [
+    "DESIGN.md:75-265",
+    "D3/DESIGN.md:111-191",
+    "D3/DESIGN.md:326-664",
+    "D3/DESIGN.md:682-902",
+    "D3/DESIGN.md:1868-1993",
+    "D3/DESIGN.md:1997-2052",
+    "D3/DESIGN.md:2215-2244",
+    "D3/DESIGN.md:2478-2589",
+    "D3/review/gpt61-v1/review.json:rulings"
+  ],
+  "method": "Passive reading, byte hashing, JSON/AST/string comparisons only. No arithmetic derived by reviewer; author numeric labels retained as observations.",
+  "acceptance": {
+    "proof": false,
+    "phase": false,
+    "source": false
+  }
+}

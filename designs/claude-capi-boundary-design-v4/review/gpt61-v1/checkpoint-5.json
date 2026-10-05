@@ -1,0 +1,67 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 5,
+  "complete": true,
+  "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+  "additional_weakening_or_assumption_found": false,
+  "fixed_guarantees": {
+    "sole_boundary": "UNANALYZED_BOUNDARY literal equals {worldline-c_api}; no added canonical Off unit or exception.",
+    "minimum_checks": "MINIMUM_CHECKS literal 251 unchanged; exact full strict command retained.",
+    "ordered_required_prefix": "Whitelisted literal AST reconstruction gives ordered-name digest bf1ec89a4421ad152213721a6bd49f558a4d8847ea1c3fbe84a864519368890b, identical to sealed v3 review. MCP JACKAL status=exact parsed=280+11+4+5+8+31+34+46+1+115 exact=535; arithmetic only, not proof.",
+    "effective_pins": "Effective literal pin-map digest 42f1809c2ec5a6ed4dbcb639a91c62f50ab80c75787d7110a0a69618bb9ec8c4, identical to sealed v3 review. MCP JACKAL status=exact parsed=82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0 exact=169. No candidate pin execution.",
+    "append_only": "Exact suffix names and schedule equal v3; same-packet PK-6a enrollment retained. MCP JACKAL status=exact parsed=6+2+14+6+3+57+10 exact=98; parsed=535+98 exact=633.",
+    "domains_contracts_bodies": "No new transport-facing Pre or functional Post; no new array equality/length/Operation narrowing; original relation contracts and full body/caller/flow/RTE/termination scope remain required.",
+    "controls": "Original roster, lifetime/additive/provider/fault and deterministic controls retained. C-14 remains proposed outside baseline. Finite controls provide no proof or native accepted-domain closure.",
+    "native": "No new accepted-domain cap, proof-only light library, suppressed checked Ghost code or failure-as-accepted-refusal route. Every native construction/storage/ABI/calling-convention cost remains OPEN; original Big_Integer/runtime/assertion blockers retained.",
+    "custody": "OB-048 covers enlarged and pre-existing boundary; custody, producer authenticity, immutability and foreign-fault obligations remain OPEN. Pins, source checks and returned Booleans establish none of them.",
+    "predecessors": "PP1-PP3 preserve original assertions except exact E1-E4 relocation edits, checked through reconstruction; override calls predecessor first and appends problems rather than skipping checks.",
+    "unresolved_control": "N-05 exact-set static-audit inconsistency retained OPEN; no exact-set-to-subset reinterpretation authorized.",
+    "integration": "Root-worker overlap and name capture remain OPEN. No merge or order chosen."
+  },
+  "evidence": [
+    "DESIGN.md:109",
+    "DESIGN.md:741-782",
+    "D3/DESIGN.md:197-260",
+    "D3/DESIGN.md:271-277",
+    "D3/DESIGN.md:311-322",
+    "D3/DESIGN.md:1814-1841",
+    "D3/DESIGN.md:1918-1925",
+    "D3/DESIGN.md:2192-2244",
+    "D3/DESIGN.md:2294",
+    "APPENDIX-BINDINGS.md:1422-1431",
+    "APPENDIX-BINDINGS.md:1832-1871",
+    "APPENDIX-COST-MAP.md:19",
+    "APPENDIX-COST-MAP.md:435-482",
+    "S5/runtime/worldline/proof_manifest.py:22-25",
+    "S5/runtime/worldline/proof_manifest.py:316",
+    "S5/runtime/worldline/proof_manifest.py:863-868",
+    "S5/tests/test_authority_static_audit.py:268-280",
+    "S5/tests/test_authority_static_audit.py:314-321",
+    "H/HANDOFF.md:29",
+    "H/HANDOFF.md:153-166"
+  ],
+  "jackal_update": "Fresh MCP discovery exposed mcp__jackal__jackal_exact after checkpoints 1-4. Relevant arithmetic independently replayed sequentially. Earlier checkpoint availability statements are historical and superseded by this observation; files remain create-only.",
+  "jackal_assurance": "exact rational arithmetic (not yet checker-covered)",
+  "jackal_formal": false,
+  "jackal_non_claims": [
+    "NOT formal-bounded: this lane carries no Lean-checked certificate",
+    "The epistemic class above is the STRONGEST claim this result supports",
+    "exact rational arithmetic (not yet checker-covered)"
+  ],
+  "jackal_consequence": "Informational about code correctness; conditional on text/AST inputs. No ledger used as evidence.",
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "rc_closure": {
+    "V3-RC4": "NOT_CLOSED",
+    "V3-RC5": "CLOSED_AT_DESIGN_LEVEL",
+    "V3-RC6": "CLOSED_AT_DESIGN_LEVEL"
+  },
+  "required_changes": [
+    "V4-RC4-GATE",
+    "V4-RC4-ALIAS"
+  ],
+  "acceptance": {
+    "proof": false,
+    "phase": false,
+    "source": false
+  }
+}

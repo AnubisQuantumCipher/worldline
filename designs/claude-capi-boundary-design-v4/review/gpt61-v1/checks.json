@@ -1,0 +1,2359 @@
+{
+  "schema": "claude-design-review-checks-v1",
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+  "method": "Passive reading, byte hashing, JSON/string comparison and whitelisted text/AST inspection; real MCP JACKAL arithmetic only. No WORLDLINE module or proposed sketch executed.",
+  "passive_only": true,
+  "candidate_code_imported": false,
+  "candidate_code_executed": false,
+  "design_check_sketches_executed": false,
+  "compiler_prover_build_tests_run": false,
+  "worldline_window_reservation_actions": false,
+  "service_actions": false,
+  "vault_restic_actions": false,
+  "process_interruption_actions": false,
+  "sia_notes_written": false,
+  "forbidden_home_inventory_performed": false,
+  "gbrain_read_or_inventory_performed": false,
+  "direct_artifact_writes_confined_to_current_review_directory": true,
+  "write_method": "O_WRONLY|O_CREAT|O_EXCL, mode 0600, file fsync and review-directory fsync. No output file overwritten.",
+  "design_inputs": {
+    "DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/DESIGN.md",
+      "sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+      "bytes": 97143,
+      "mode": "0644",
+      "expected_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+      "match": true
+    },
+    "decisions.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/decisions.json",
+      "sha256": "59e71dd68724b0420b670d79a99ea74194134dbc6d219b7b91f146ad01843625",
+      "bytes": 58056,
+      "mode": "0644",
+      "expected_sha256": "59e71dd68724b0420b670d79a99ea74194134dbc6d219b7b91f146ad01843625",
+      "match": true
+    },
+    "APPENDIX-BINDINGS.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-BINDINGS.md",
+      "sha256": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+      "bytes": 225451,
+      "mode": "0644",
+      "expected_sha256": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+      "match": true
+    },
+    "APPENDIX-COST-MAP.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-COST-MAP.md",
+      "sha256": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+      "bytes": 73929,
+      "mode": "0644",
+      "expected_sha256": "5592df3a6330da44e60957c8754e50972b6ac0ccfbdc1a53308365e9ccc5f1a4",
+      "match": true
+    },
+    "jackal.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/jackal.json",
+      "sha256": "dec64a324685496195a7cb1c48e9ee3cf168255f8a1214d62b9491e42653f39d",
+      "bytes": 13041,
+      "mode": "0644",
+      "expected_sha256": "dec64a324685496195a7cb1c48e9ee3cf168255f8a1214d62b9491e42653f39d",
+      "match": true
+    },
+    "AUTHOR-NOTES.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/AUTHOR-NOTES.md",
+      "sha256": "ccac4f63a00ed36199642b8691535890719879187b135ecce69f67edc5214b07",
+      "bytes": 11329,
+      "mode": "0644",
+      "expected_sha256": "ccac4f63a00ed36199642b8691535890719879187b135ecce69f67edc5214b07",
+      "match": true
+    }
+  },
+  "v3_sealed_review": {
+    "REVIEW.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/REVIEW.md",
+      "sha256": "9fe93d9dd4257aa6ea188278fecedf5971a0ac34135a390f45908d3ac80b14b0",
+      "bytes": 31423,
+      "mode": "0600",
+      "matches_frozen_sha256": true,
+      "matches_frozen_bytes": true,
+      "matches_frozen_mode": true
+    },
+    "checks.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/checks.json",
+      "sha256": "e60cdead79d4db12c413a75044894c6cd793aafa20efb7c340c50d4c9d438f7e",
+      "bytes": 79282,
+      "mode": "0600",
+      "matches_frozen_sha256": true,
+      "matches_frozen_bytes": true,
+      "matches_frozen_mode": true
+    },
+    "review.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review.json",
+      "sha256": "ab7efb2bc69d426f9480246bc2dd1f5e381d99879485d4385837ec1105d85223",
+      "bytes": 18528,
+      "mode": "0600",
+      "matches_frozen_sha256": true,
+      "matches_frozen_bytes": true,
+      "matches_frozen_mode": true
+    },
+    "review-freeze.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review-freeze.json",
+      "sha256": "7314f4de53972acbac91541d6a895072a50c264119dfe25e5c20b04ae63512ca",
+      "bytes": 559,
+      "mode": "0600"
+    }
+  },
+  "v3_review_report_binding_match": true,
+  "v3_review_checks_binding_match": true,
+  "bound_inputs": [
+    {
+      "label": "W/work/claude-capi-boundary-design-v2/DESIGN.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/DESIGN.md",
+      "sha256": "554fe8b08577fd74a5ca5ece30e6674c605c7a46bd35c97ae3f5c699a9a705d3",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-capi-boundary-design-v2/decisions.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/decisions.json",
+      "sha256": "db403247b328df70573600653e4eec40007473be0f164cfb15f3748bfcbf159d",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-capi-boundary-design-v2/review/gpt61-v1/REVIEW.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/REVIEW.md",
+      "sha256": "485e52888cba7b133acc0d72f1c058629b8306cf274390aab6ba72c8320ca95d",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-capi-boundary-design-v2/review/gpt61-v1/review.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review.json",
+      "sha256": "42b762d94d53fe84a38cfa08d190b1e65d4b5f023f52980f78446b771a29e2ff",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-capi-boundary-design-v2/review/gpt61-v1/checks.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/checks.json",
+      "sha256": "eb1e7b0dd08abfa2f3be887fc4ba3bc19d857d915c1881a14603dec67d06a28a",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-capi-boundary-design-v2/review/gpt61-v1/review-freeze.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-capi-boundary-design-v2/review/gpt61-v1/review-freeze.json",
+      "sha256": "d4d43694658c428070e46ca0ab56bf121eca61ac2dfc7675b3d48f369b281652",
+      "match": true
+    },
+    {
+      "label": "W/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+      "match": true
+    },
+    {
+      "label": "W/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+      "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e",
+      "match": true
+    },
+    {
+      "label": "W/outputs/claude-phase1-handoff-20261004/ORIGINAL-ORDINARY-ROSTER.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ORIGINAL-ORDINARY-ROSTER.json",
+      "sha256": "4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e",
+      "match": true
+    },
+    {
+      "label": "W/outputs/claude-phase1-handoff-20261004/REQUIRED-LIFETIME-CONTROLS.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/REQUIRED-LIFETIME-CONTROLS.json",
+      "sha256": "9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9",
+      "match": true
+    },
+    {
+      "label": "W/outputs/claude-phase1-handoff-20261004/ALL-ORIGINAL-OBLIGATIONS.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ALL-ORIGINAL-OBLIGATIONS.md",
+      "sha256": "16d28b04bf937ecc7003a0a4fcf1b62d78b1478cb79542d9341022acc5f95acb",
+      "match": true
+    },
+    {
+      "label": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-v2/executions/f10k-retry1/diagnostic-map-v1.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-v2/executions/f10k-retry1/diagnostic-map-v1.json",
+      "sha256": "1587b41b87d95dde1a76d80cd0b7922fce751948680ce8448160cb051465e59e",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-v2/executions/f10k-retry1/strict-report-analysis-v1.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-v2/executions/f10k-retry1/strict-report-analysis-v1.json",
+      "sha256": "b53c2c180727c54034b18e03251158bb70d34f13d35740df72d2446bedc61e3f",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-workflow-v1/ledger.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/ledger.json",
+      "sha256": "172b51fee23e76ebc2e3d0b7126802160b4e9b6aa1377a822195a3571f0a608c",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-workflow-v1/compose.py",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/compose.py",
+      "sha256": "ee186ab25ed9c05c54a9d433bc9f1cef2b1f85a4f750d7e6b9e1b2e432ec7549",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-workflow-v1/REPAIR-MAP.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-workflow-v1/REPAIR-MAP.md",
+      "sha256": "05a99c06accad5a0eb717e6ca4195625c4ccbf9081e6dc471aa3c6ad16f27ec9",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-composition-v5-beta/composition.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/composition.json",
+      "sha256": "a0e0bb5cbca667ad8e02eff9ea79c80459f4066544542178362257dbe347fa3e",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-composition-v5-beta/source-binding.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source-binding.json",
+      "sha256": "49a344a48f796295735f9161abc0be39e6493d8c9f32d0a7e8376365a67784bb",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-composition-v5-beta/source-inventory.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source-inventory.json",
+      "sha256": "3407119bdf9e8497ed8259d76ea783f6d207f15fd155ee9c45534c3b0eaf937a",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-composition-v5-beta/review/gpt61-v1/review.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/review.json",
+      "sha256": "df6cbc9dd0791232a3ac169908237798909955abe3d896a328ccf3bc55843476",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-composition-v5-beta/review/gpt61-v1/REVIEW.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/review/gpt61-v1/REVIEW.md",
+      "sha256": "a5cc89bbe21c80796f74a236f0c053da7ca94ec82efbf4a9924f8e489b798ebe",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-v2/approvals/optional-marker-api-v1/approval.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-v2/approvals/optional-marker-api-v1/approval.json",
+      "sha256": "79d9f875bdcd17d8c2bb8add0155d15235a045706ecdb7bf60e946697ae62a40",
+      "match": true
+    },
+    {
+      "label": "W/work/reviewed-common-proof-source-composition-v4/source-inventory.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source-inventory.json",
+      "sha256": "943ea95ec98bd770ae9dd22ff1ea85bbf932db3192f6ba07f120284c1122e3bf",
+      "match": true
+    },
+    {
+      "label": "W/work/integrated-proof-preparation/PLAN.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/integrated-proof-preparation/PLAN.md",
+      "sha256": "dad210ac27bbe6bf78a6c127528607ba432a4307491457f69f54f9749ffd5b82",
+      "match": true
+    },
+    {
+      "label": "S4 core/worldline-recovery.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/worldline-recovery.ads",
+      "sha256": "ab9555faadd4b46d294a09d8d74495b75ef017497acde9290849cf005aed921a",
+      "match": true
+    },
+    {
+      "label": "S4 core/evaluation_finalization.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/evaluation_finalization.ads",
+      "sha256": "6eb37dc6e7d2bcf9dd320edf682c3cffde8cb4a00b8f3fb5e55984189c8dfb01",
+      "match": true
+    },
+    {
+      "label": "S4 core/evaluation_finalization.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/core/evaluation_finalization.adb",
+      "sha256": "d9f144be28256acd91e80918f6099eb0923d9e812df0b950454e8facb015c36d",
+      "match": true
+    },
+    {
+      "label": "S4 runtime/worldline/proof_manifest.py",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/reviewed-common-proof-source-composition-v4/source/runtime/worldline/proof_manifest.py",
+      "sha256": "8ae6c3c14b835af3825acca806649b11daeb839b45a6506a5fbd29732bbfcd23",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-c_api.ads",
+      "sha256": "3a3b17c47bb289e24adc3009e0a5a7510972fac07323f636cbd5722e6344319a",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-c_api.adb",
+      "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-resources_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources_c_api.ads",
+      "sha256": "5cb92b4cf731de16954c05af89274e120ed2c13e56d3a9d06ef16c976afc7eb5",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-resources_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resources_c_api.adb",
+      "sha256": "f31c2dd39a50f9bf02cd345b2617b41ab4a2b02bc0947a8b4f23c917c2be50cb",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_c_api.ads",
+      "sha256": "aec1866769caf987b60ca822b04387d49b5ac181579e163d8e901ded3a6e6c59",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_c_api.adb",
+      "sha256": "120c6c488284f5af09efc7abbdba0831a72b7cb3222fa1c8b543ef3bad3636a9",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery_authorization_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_c_api.ads",
+      "sha256": "9e2e0dde6408d1cdd6666d7f5833cd472d66eb4b6cf3a3c5b6da17d7c303cd5d",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery_authorization_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_c_api.adb",
+      "sha256": "60309a05b5b6ec468dc46625b433c7e0ba953717ab806993a7f9ce429e21501a",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery_authorization_v3_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_c_api.ads",
+      "sha256": "ab62cd25cb96661435a0dea612efddf574844bb4064ab3cc25ff8d1c1e29c51d",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery_authorization_v3_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_authorization_v3_c_api.adb",
+      "sha256": "7c82035c13f36b289e1c02ca5d0ced5d79674870e7fc8daced3d0547388d929d",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery_protocol_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_protocol_c_api.ads",
+      "sha256": "b1a980f5785b0456f7b1449e0bc058c04bfa0b5bf09beeb63978f25613b22228",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery_protocol_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery_protocol_c_api.adb",
+      "sha256": "01b256d06f0e0b7148c3685b8dbed945a4e25a1f45ee69f4cd8030536dc5dcf5",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-reservation_lifecycle_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-reservation_lifecycle_c_api.ads",
+      "sha256": "a465fd5c1659e0dcd1f66d15b223c31e2ff022f9f1224f5f2e50f1d2979c6c60",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-reservation_lifecycle_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-reservation_lifecycle_c_api.adb",
+      "sha256": "9d235d2f84ff73b8408e3187c4f78c1826af2b2b63fd8ff229e8672041fa8934",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-resource_ledger_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_ledger_c_api.ads",
+      "sha256": "c3a52b1e8a2a7bbcdaee4a219e965f9bd4beb69a79b30b16efc0f9fdda1795ab",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-resource_ledger_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_ledger_c_api.adb",
+      "sha256": "112a8ef5321240f9d13fe3135dce1b6085d6fecda1590a553f30b4dc4bf1247a",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-resource_policy_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_policy_c_api.ads",
+      "sha256": "24929690c6e983a054f212e4192b6d4a39da2129e9321e4786ace16d8260448c",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-resource_policy_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-resource_policy_c_api.adb",
+      "sha256": "794d9a4c16a0bbdd9a95da51cd762f190778aeae66ac07c000f1972eda6f5b04",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-evaluation_history_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_history_c_api.ads",
+      "sha256": "c38738bbbfb544d019e13c57923e5778663e8244fdee8f921b602c5e26758344",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-evaluation_history_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_history_c_api.adb",
+      "sha256": "d58a26e0b9fcd774921d00740449569824377b4bca6a40d4036aa1e5fce90e5e",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_pending_c.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending_c.ads",
+      "sha256": "6bd1472201c595be3f53b8a4ce4a73fde9bef9fb41576c9f246be6480ca0a897",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_pending_c.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending_c.adb",
+      "sha256": "56500a7c614a5a6ac4d74107226538bd84b152730265b89703bebabf5e3e3f15",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_pending_v2_c.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending_v2_c.ads",
+      "sha256": "10f7505c97d34a022ad51784fbad2ec9c4615992bb4fa0e08762f2f34accf350",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_pending_v2_c.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending_v2_c.adb",
+      "sha256": "84409e222fe43cba4b3dc8edbfe42279904bd164e68950b6ef6ae717d8ee17fc",
+      "match": true
+    },
+    {
+      "label": "S5 core/resource_run_ledger_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger_c_api.ads",
+      "sha256": "ece3bc0eb7f332438be9938fd84b4b4e0ccc091ae8e2b7a5db5a0342118a4751",
+      "match": true
+    },
+    {
+      "label": "S5 core/resource_run_ledger_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_run_ledger_c_api.adb",
+      "sha256": "fbc97b4c17ee0a0a17e74bae669fa11e674bb234ce5cd8f73d374b7d7e114581",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-chain_authority_c_api.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_c_api.ads",
+      "sha256": "03d00cb9172e919507ba74b47fe8fa0431dce7fce062bc3ab409df1c8946d9f3",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-chain_authority_c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-chain_authority_c_api.adb",
+      "sha256": "dae2748bdb87c55b90ed73bd82fe882d5d4c64ca3af944f463dd4798ca66328a",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_completion_c.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion_c.ads",
+      "sha256": "e0a50887d10159aa8350734ed2acc88b8a454fbfeb0eea7d0c727ca28ac17dd7",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_completion_c.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion_c.adb",
+      "sha256": "b799e93af37ca90104050473119aaca380b54244a491c2cc57226db8eaa77d69",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_finalization_c.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.ads",
+      "sha256": "2ca8602e87eb4605ddeda8e61c223ff39d765a81d3e22baec3e7d981bb74010b",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_finalization_c.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization_c.adb",
+      "sha256": "bdcf333878aebe4aca55333bc3b9a9a50007c187fc4b380dec1adb18127f83d3",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_completion.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion.ads",
+      "sha256": "2b2a87a7a1f554486caad6c680e2c39dd4bb7b5e48619933f033cda15ea0a2f5",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_finalization.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.ads",
+      "sha256": "e20808c44b84e02485e10a3eb1e1e36a2f2f88defd75eb97c536cee6851c287a",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_finalization.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_finalization.adb",
+      "sha256": "c64f17246f0dfa3d88299a534e3e716ada35fd05120983a3d8f53a7c28d1a738",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-recovery.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-recovery.ads",
+      "sha256": "09f82299af37c975b409596fb342f1ef961e309354765cde966189f23a2ee3fe",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline-evaluation_authority.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-evaluation_authority.ads",
+      "sha256": "29ea441b1bcc0212db70143c09b961b1f911827c8f30b40cc52f88080f4c222b",
+      "match": true
+    },
+    {
+      "label": "S5 core/resource_ledger.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/resource_ledger.ads",
+      "sha256": "f290ca5e5b39d351359227115081ab3fe09c9976a0e5de6a844a48b394742946",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_pending.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending.ads",
+      "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_pending_v2.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_pending_v2.ads",
+      "sha256": "2faea7935397bebf07a330b7d64c457716c40d8613076696f62359c5723fb48a",
+      "match": true
+    },
+    {
+      "label": "S5 core/evaluation_completion_roster.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/evaluation_completion_roster.ads",
+      "sha256": "bc086393ebdf98d397273905aa3425afe4b7cc29cbc9ac9ac1ac1a7f499d8111",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline_core.gpr",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core.gpr",
+      "sha256": "5497fabb698d53efc2bfb39104bdcd48b1c0f46e0c706c2643c8ce1af72fd5b0",
+      "match": true
+    },
+    {
+      "label": "S5 core/worldline_core_sources.gpr",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline_core_sources.gpr",
+      "sha256": "701931bc94f17aae8a14268cf7051f9a6d7b5bf8c7a1e0adccb9be0f5c0dff3c",
+      "match": true
+    },
+    {
+      "label": "S5 pending-component/pending.gpr",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/pending-component/pending.gpr",
+      "sha256": "d8f1a3ef831c1186eb99e0b729a89f7f379a81e04f2f2bbd7f68f06add739b5e",
+      "match": true
+    },
+    {
+      "label": "S5 pending-component/core/evaluation_pending_c.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/pending-component/core/evaluation_pending_c.ads",
+      "sha256": "963488e96bdc4faa56a9659de557731d9a7e78ad660afd359e18350f44fb164d",
+      "match": true
+    },
+    {
+      "label": "S5 pending-component/core/evaluation_pending_c.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/pending-component/core/evaluation_pending_c.adb",
+      "sha256": "9b0bc60e3144ad2a2dfbd1361a4e8e8c608164cb9bb0f067df724043dbf559ff",
+      "match": true
+    },
+    {
+      "label": "S5 pending-component/core/evaluation_pending_v2_c.ads",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/pending-component/core/evaluation_pending_v2_c.ads",
+      "sha256": "155611e01d236e0f2a200245b453e49847f58aa01a68e4c8b3c8d902b898b4a8",
+      "match": true
+    },
+    {
+      "label": "S5 pending-component/core/evaluation_pending_v2_c.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/pending-component/core/evaluation_pending_v2_c.adb",
+      "sha256": "b6df858e6a11e8c55ee0cff5cc4e46d90416629080000198d3c4e6d6de4cb240",
+      "match": true
+    },
+    {
+      "label": "S5 runtime/worldline/proof_manifest.py",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+      "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+      "match": true
+    },
+    {
+      "label": "S5 verify_proof_manifest.py",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/verify_proof_manifest.py",
+      "sha256": "9b5bcbae627fe755eada5ca7e1cd503144a87e89ebf5208af6d972b98df02a9f",
+      "match": true
+    },
+    {
+      "label": "S5 tests/test_authority_static_audit.py",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/test_authority_static_audit.py",
+      "sha256": "cea28ef16f4a12c8c5859741cbdd6c2e18cb8f27017e30bbd6cb4749e555359b",
+      "match": true
+    },
+    {
+      "label": "S5 tests/revalidation_diagnostic.py",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/tests/revalidation_diagnostic.py",
+      "sha256": "7c55efd017338f7fe68352479f7b9087cb4495bc9e64f7468260869e3738526e",
+      "match": true
+    },
+    {
+      "label": "G libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-textio.ads",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-textio.ads",
+      "sha256": "2ced279c28898b6d56e0cacb75cc7a64793a9c7dc710e1841954469464b7e267",
+      "match": true
+    },
+    {
+      "label": "G libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-except.ads",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-except.ads",
+      "sha256": "61cac87bb1541705da0a2dbcf2d4afe7bb0e95215d41e2583b0c632dcb16444a",
+      "match": true
+    },
+    {
+      "label": "G libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-atacco.ads",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-atacco.ads",
+      "sha256": "23f10a63aab7541fb42e6acddd167d80555f7f2e619ebb31d738a5eaea7cb360",
+      "match": true
+    },
+    {
+      "label": "G libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/system.ads",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/system.ads",
+      "sha256": "3a5b4293192d2a8792ea61074be763a411466abdbd9937f07b5a0ead55b3c1b1",
+      "match": true
+    },
+    {
+      "label": "G share/spark/explain_codes/E0004.md",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/spark/explain_codes/E0004.md",
+      "sha256": "4cd4a59fd1efdf92265ba1ae14a03916749c8676178ff59a9d9f5285cba8e315",
+      "match": true
+    },
+    {
+      "label": "G share/spark/explain_codes/E0005.md",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/spark/explain_codes/E0005.md",
+      "sha256": "e44a739556b9718cb9b8913d94d5d14dbc1e5a810c38c109e9ae5f0d88ba7f80",
+      "match": true
+    },
+    {
+      "label": "D3/DESIGN.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/DESIGN.md",
+      "sha256": "a8a120c9a704177cdab5232a757f1ef405cb3ad1c694ff135cdd2e8f26a14aa7",
+      "match": true
+    },
+    {
+      "label": "D3/decisions.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/decisions.json",
+      "sha256": "2517dd49f6b96e4fe23cd9631aead320ac038605b7286fe8fc5b72c92d99813a",
+      "match": true
+    },
+    {
+      "label": "D3/APPENDIX-BINDINGS.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/APPENDIX-BINDINGS.md",
+      "sha256": "5ffb8736b6ce89f655041129991ed0bce4133941129bc7b1566b0da68695d32e",
+      "match": true
+    },
+    {
+      "label": "D3/APPENDIX-COST-MAP.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/APPENDIX-COST-MAP.md",
+      "sha256": "c2a320a266fdd088c203e0d61f4cd7c5ea94f7b3b731f5be400f6b2f3d5b114f",
+      "match": true
+    },
+    {
+      "label": "D3/review/gpt61-v1/review.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review.json",
+      "sha256": "ab7efb2bc69d426f9480246bc2dd1f5e381d99879485d4385837ec1105d85223",
+      "match": true
+    },
+    {
+      "label": "D3/review/gpt61-v1/REVIEW.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/REVIEW.md",
+      "sha256": "9fe93d9dd4257aa6ea188278fecedf5971a0ac34135a390f45908d3ac80b14b0",
+      "match": true
+    },
+    {
+      "label": "D3/review/gpt61-v1/checks.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/checks.json",
+      "sha256": "e60cdead79d4db12c413a75044894c6cd793aafa20efb7c340c50d4c9d438f7e",
+      "match": true
+    },
+    {
+      "label": "D3/review/gpt61-v1/review-freeze.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v3/review/gpt61-v1/review-freeze.json",
+      "sha256": "7314f4de53972acbac91541d6a895072a50c264119dfe25e5c20b04ae63512ca",
+      "match": true
+    },
+    {
+      "label": "W/work/protected-original-root-worker-repair-v1/source/core/worldline-c_api.adb",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-c_api.adb",
+      "sha256": "806f3972277d9385b0d32c5e3faf1bf6fb24f9024dbc1c8274411b8c1d0e3420",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+      "sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/REVIEW.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/REVIEW.md",
+      "sha256": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review.json",
+      "sha256": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/INVENTORY.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/INVENTORY.md",
+      "sha256": "e5b9984d2beadf12f35e3018aff33c23a47d93adea7bd886abe8df2db46574b6",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/REVIEW.md",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/REVIEW.md",
+      "sha256": "03fbf2461e857ddf9a3a0bdcf2515a14ccb6cd8498ade4e682a8a4bb60f02820",
+      "match": true
+    },
+    {
+      "label": "W/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/review.json",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1/review.json",
+      "sha256": "20e0447f556d9f18e9b8a24e5c96056317b52ccee3d29fe804c65cdee2c9c578",
+      "match": true
+    },
+    {
+      "label": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/share/info/gnat_ugn.info",
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/share/info/gnat_ugn.info",
+      "sha256": "07f6d253c1a536946cdd0d5a26ddc4338d23c7c560a0f35bf918be51f576f17c",
+      "match": true
+    }
+  ],
+  "v3_slice_hash_and_replacement_checks": {
+    "slices": [
+      {
+        "section": "§0 Truth boundary, bases, reading rules",
+        "range": "17-60",
+        "sha256": "5eee9c6f40b16b659b513cdf6be29961bc03dc40f05dae3129f2a0f35cf8c65b",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM, with the §0 supplement"
+      },
+      {
+        "section": "§1 Trace of the v2 review (history)",
+        "range": "64-107",
+        "sha256": "4bf7a3025d1c9b1b1880b7f870ed2b128221f8aa514236a195e3bdd48ac4817b",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM as history; §A supersedes its RC4–RC6 answers (reading rule RR6)"
+      },
+      {
+        "section": "§2 Lead decisions",
+        "range": "111-191",
+        "sha256": "7f8950643713d597c974b32ac251ca7fffb741499ad973b89b0124478754d63c",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§3.1 Classification, maximal-run rule",
+        "range": "197-220",
+        "sha256": "de660be2d570ffc0427de909bf00fb86aa0a4c4900f1ef853153cd31752dcbb6",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§3.2 Value-routine form",
+        "range": "222-253",
+        "sha256": "2ed8bbeae1f60c1be2cfa7581843af4eab1762c4d83960627561e34addcee0c2",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (v3:246)"
+      },
+      {
+        "section": "§3.3 Staged reads",
+        "range": "255-260",
+        "sha256": "e0ebd131536e3a1b41d0aea6b12651d2807d564ac9e324c165dc90dccafb0a25",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§3.5 Exception and allocation scope",
+        "range": "271-277",
+        "sha256": "1c392a5de31bf37ce3fae7ce125e1ba6c819f95963704362655573f4629fd411",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (v3:276)"
+      },
+      {
+        "section": "§3.7 What stays in each SPARK unit",
+        "range": "311-322",
+        "sha256": "64fb82d9b368abfb6ea1f6d40a67b3d011d5681d6eac5bd38f1b72441fdf2a16",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM; enforced in v4 by G9"
+      },
+      {
+        "section": "§4.1–§4.8 Diagnostics (RC1)",
+        "range": "326-664",
+        "sha256": "8e42f710e70279905392be9aa653b3e03465a96a5f11f1b0d8ff956309d99ec1",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§4.10 OPEN",
+        "range": "673-678",
+        "sha256": "677c19ee8e23d504de3da97558f431a038da6bf1c7d3ecc4f3a973ea0463c059",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§5 RC2",
+        "range": "682-902",
+        "sha256": "8a8f96b476a32e6e525637e8ab9f2c7de89d10ec24bd6232f2a32457a622dd97",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§6 Relocation map",
+        "range": "906-937",
+        "sha256": "e442efc0ad095cc6e63b9872c403e87d626c140b2bb7249ecd8148f586f9676e",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM (reading rule RR7)"
+      },
+      {
+        "section": "§7 Per-unit designs",
+        "range": "941-1726",
+        "sha256": "5724c0ca257a3105c87381963f7e4cf3fd43aa95ffc0a7dcdc9842520e3e27b5",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (v3:945, :1069, :1192, :1232, :1238, :1270, :1472)"
+      },
+      {
+        "section": "§8.2 Whole-closure checks",
+        "range": "1746-1770",
+        "sha256": "3d60cfb16ba2290bea917012218a5335f58623b357628edd10a878f58a383ecc",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (v3:1765, K3), plus the additions G9, G10, K5, K6"
+      },
+      {
+        "section": "§8.3 Resolved C profile",
+        "range": "1772-1778",
+        "sha256": "26c2096c65e4d1bd997f55f90180bdddae4c53c90b59163f9274a83b56b4be17",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§8.5 Diagnostic confinement",
+        "range": "1806-1812",
+        "sha256": "604808012ae22c11cf332e3f368c5eb7384ede49b3b6804190054bcc3d825431",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§8.6 Preserved predecessor assertions",
+        "range": "1814-1827",
+        "sha256": "f4fde5a89f55d275e19b46a0af11ab7da09b136b2cbc55a0aa39bec2f2a42189",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§8.7 Identity binding",
+        "range": "1829-1841",
+        "sha256": "e59632c2911a3d6fc6145c2e968f5d291e196c37558f74412bc2cee882ed583d",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§8.8 Mutation controls",
+        "range": "1843-1852",
+        "sha256": "19668c3c5cf9218413ef26eedab5484580ae395f1f5f800ec99a6569604dbac1",
+        "match": true,
+        "disposition": "REPLACED (v3 rows reinterpreted for tiles; A-BIND §B12 added)"
+      },
+      {
+        "section": "§8.9 What the checks do not establish",
+        "range": "1854-1864",
+        "sha256": "f262ea5ecf99af3d16da545aa09d7ce63cc00ee8c7e539a581d2e22653d6549f",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (v3:1858)"
+      },
+      {
+        "section": "§9.1–§9.3 Lineage, packets, append schedule",
+        "range": "1868-1925",
+        "sha256": "088d7f047669b947b1d1715f83c6308de0feb3c550e605a7b7d05b0b13623357",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§9.4 Intermediate binding tables",
+        "range": "1927-1934",
+        "sha256": "5158b5cb891cbbcf9364bfe33b81a619cd923ed23306d51d97778b0bcd7d045d",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (v3:1931)"
+      },
+      {
+        "section": "§9.5 PK-6a enrolment, PK-6b",
+        "range": "1936-1939",
+        "sha256": "314052df868511897fff559c64820ff6c85a2b9c71a6dd340da613827bc54a7c",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§9.7–§9.9 Representation placement, seal, after PK-S",
+        "range": "1970-1993",
+        "sha256": "ff5c8475549cd9a687f0ad70c9115d771d0b4679e0f0875f75b86c049cc9a39a",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§10 RC3",
+        "range": "1997-2052",
+        "sha256": "258b3d2361e5f8e3ba34315d100c8ac2a37164bbe96f0dd846aadcfbf01943f6",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§11.5 Original native blockers",
+        "range": "2122-2132",
+        "sha256": "e5c9c9f85482d18f0858d858ecccead7f916b2abce45d93b9c46873053c7ddae",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§12 ABI and behaviour matrix",
+        "range": "2136-2175",
+        "sha256": "25bafa834c6179064480c1581c71f464c3e8d8712833f231fbbff0bb5348c612",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§13 R4",
+        "range": "2179-2188",
+        "sha256": "6d60ea058fb75aef9f43ece9dd726cc7c56b08c358330c6e2a516a67aa8c1e41",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§14 R5, OB-048",
+        "range": "2192-2211",
+        "sha256": "703c7c03a8729ea248150b26d18f47f1cf848505e2796b7653c68181c09076fc",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "§15 Controls",
+        "range": "2215-2244",
+        "sha256": "8fc979e135f23a9554b41c644126a212c0ea437850e4bac1f8c3a860b1c1f18d",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (v3:2227, :2231, :2240)"
+      },
+      {
+        "section": "§16 Operator decision items",
+        "range": "2248-2273",
+        "sha256": "30badbdefecb6639788dc40e4cf77aecd42afc7e521ca9123e4f954611ff6713",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      {
+        "section": "Appendix C REQUIRED_PROVED append",
+        "range": "2478-2589",
+        "sha256": "cee26f7f6c66613cdae339b9765b1ebe5f447a045c37999b7a571ed9200a45c6",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      }
+    ],
+    "replacements": [
+      {
+        "id": "R1",
+        "v3_line": "246",
+        "old_match": true,
+        "old": "- **V7 Naming.** New names are unique, unoverloaded and fully qualified at every transport call. This keeps the name-keyed coverage map and the ordered-token checks unambiguous (`proof_manifest.py:787-789`).",
+        "new": "- **V7 Naming.** New names are unique, unoverloaded and fully qualified at every transport call. This keeps the name-keyed coverage map, the exact tiles (R-TILE) and the alias exclusion (R-ALIAS) unambiguous (`proof_manifest.py:787-789`; A-BIND §B0.2, §B0.5)."
+      },
+      {
+        "id": "R2",
+        "v3_line": "276",
+        "old_match": true,
+        "old": "- Every SPARK call that could raise `Storage_Error` is inside the handler. This covers native Big_Integer `Normalize` (Bignum_Limit 200, per `H/native-cost-gap/REVIEW.md`) and the new temporaries listed in A-COST.",
+        "new": "- Every SPARK call that could raise `Storage_Error` is inside the handler. This covers native Big_Integer `Normalize` (Bignum_Limit 200, per `H/native-cost-gap/REVIEW.md`) and any storage that the successor's new source objects and function results need (A-COST S-OBJ entries); whether, where and how much storage they need natively is OPEN (A-COST N-OBJ, N-ALLOC)."
+      },
+      {
+        "id": "R3",
+        "v3_line": "945",
+        "old_match": true,
+        "old": "- A-BIND §B4 gives each export's ordered tokens, and A-COST gives each call site's cost row.",
+        "new": "- A-BIND §B4 gives each export's exact tile (v4; reading rule RR1), and A-COST gives each call site's source row and its native counterpart."
+      },
+      {
+        "id": "R4",
+        "v3_line": "1069",
+        "old_match": true,
+        "old": "- **v3 deltas** (A-COST §C5): one extra `Well_Formed` per call in both builds; the `Owned` local and its copy.",
+        "new": "- **v3 deltas** (A-COST §C5): one extra `Well_Formed` source evaluation per accepted call in both builds; one constant object `Owned` and one source assignment of it through the access value (WF-C). Emitted calls, copies and construction are OPEN (A-COST §C19, D-36)."
+      },
+      {
+        "id": "R5",
+        "v3_line": "1192",
+        "old_match": true,
+        "old": "- **v3 deltas** (A-COST §C8): one `Request_Valid` re-check; per-row acceptance temporaries; one SPARK call per mask byte over a loop whose length the caller sets.",
+        "new": "- **v3 deltas** (A-COST §C8): one `Request_Valid` re-check; one acceptance object per row (X4); one SPARK call per mask byte over a loop whose length the caller sets, its result stored directly (WF-F). Native temporaries, calls and inlining are OPEN."
+      },
+      {
+        "id": "R6",
+        "v3_line": "1232",
+        "old_match": true,
+        "old": "- **Handler:** 255, covering the nested allocations. **A partial write is possible if an exception occurs during writeback, exactly as in the original.** PK-0 does not assert otherwise (§9.6).",
+        "new": "- **Handler:** 255, covering the nested allocations. The handler undoes no write. On a handled internal exception raised after the first write of step 6, the writes already completed persist, in the canonical order of step 6. Which writes have completed, and whether a write in progress completed partly, is implementation-dependent and OPEN (§9.6.3, §9.6.4). On that path PK-0 asserts the code, and that nothing outside the write set changed."
+      },
+      {
+        "id": "R7",
+        "v3_line": "1238",
+        "old_match": true,
+        "old": "- **v3 deltas** (A-COST §C9): per-row temporaries; a per-detail call into another unit to `Encode_Quantity` instead of a body-local expression; result temporaries.",
+        "new": "- **v3 deltas** (A-COST §C9): one acceptance object per row; per detail, a source call into another unit to `Encode_Quantity` instead of a body-local expression function, its result stored directly (WF-F); the `Result_Of` result stored directly (WF-F). Native calls, temporaries and construction are OPEN."
+      },
+      {
+        "id": "R8",
+        "v3_line": "1270",
+        "old_match": true,
+        "old": "- **v3 deltas** (A-COST §C10): the write construction changes from a direct aggregate store to a SPARK result copied once.",
+        "new": "- **v3 deltas** (A-COST §C10): the aggregate of adb:171-176 is built in SPARK by `Encode_Decision`, and the function result is stored directly through the access value (WF-F), as the original stored the aggregate directly. Native construction is OPEN (A-COST §C19, D-36)."
+      },
+      {
+        "id": "R9",
+        "v3_line": "1472",
+        "old_match": true,
+        "old": "9. Value join-result; return `Join_Code (Joined)`.",
+        "new": "9. Value join-result; return `Join_Code (Joined_Metadata)` (the S5 local is `Joined_Metadata`, adb:973-978)."
+      },
+      {
+        "id": "R10",
+        "v3_line": "1765",
+        "old_match": true,
+        "old": "- **K3** `pending.gpr`'s `Library_Interface` lists every unit that holds a component export (after PK-7, including any D-13 transport unit) and keeps every original interface unit. Observed: 8 units (A-BIND §B2.3).",
+        "new": "- **K3** (actual membership) `pending.gpr` contains exactly one `for Library_Interface use (…);` declaration, whose value is a list of string literals only (no `&`, variable, `external` or attribute reference). Its lowercased tuple equals `CAPI_COMPONENT_INTERFACE` exactly, in order and without duplicates: the 8 observed L0 units, plus `evaluation_pending_transport` from PK-7 under D-13 option (i) (9 units, JACKAL J16). `for Interfaces use` occurs zero times (A-BIND §B2.3)."
+      },
+      {
+        "id": "R11",
+        "v3_line": "1858",
+        "old_match": true,
+        "old": "- faithful actuals beyond the token text;",
+        "new": "- faithful actuals beyond the tile text;"
+      },
+      {
+        "id": "R12",
+        "v3_line": "1931",
+        "old_match": true,
+        "old": "- Every stage enforces G1–G8, P1–P3 and O1–O7 for the relocated set, and from PK-6b also D1–D5.",
+        "new": "- Every stage enforces G1–G10, K1–K5 (K6 from PK-7), P1–P3, R-TILE, R-TRANS, R-INV, R-ALIAS, R-W, R-GATE, R-RES, S-RES, R-LAYOUT and R-GLUE for the units bound so far (§8, A-BIND §B1.1), and from PK-6b also D1–D5."
+      },
+      {
+        "id": "R13",
+        "v3_line": "2227",
+        "old_match": true,
+        "old": "| C-01 | No-write on *defined* refusal paths only (§9.6), with outputs pre-filled `0xA5` | exports with outputs |",
+        "new": "| C-01 | No-write only on the defined refusal paths of §9.6: R0, R1 and R2 refusals and the no-write R3 outcomes, with outputs pre-filled `0xA5`. Never asserted on class H or class X paths. | exports with outputs |"
+      },
+      {
+        "id": "R14",
+        "v3_line": "2231",
+        "old_match": true,
+        "old": "| C-05 | Read gating with PROT_NONE pages in child processes; asserts normal exit and the expected code only | as §9.6 |",
+        "new": "| C-05 | Read gating with PROT_NONE pages in child processes, placed exactly beyond each refusal's read frontier (§9.6.2) and on absent or unneeded inputs; asserts normal exit and the expected code only | as §9.6 |"
+      },
+      {
+        "id": "R15",
+        "v3_line": "2240",
+        "old_match": true,
+        "old": "| C-14 | **Proposed** behaviour only (D-36): no partial write on internal exceptions for local-then-write exports; review evidence, never baseline | v2, v3, chain, run ledger, pending, policy, ledger |",
+        "new": "| C-14 | **Proposed** behaviour only (D-36): no partial write on an internal exception for the WF-C and WF-A exports, which complete the stored value before the write; review evidence, never baseline and never a PK-0 pass condition | v2, v3, run ledger, chain, pending v1/v2 |"
+      }
+    ]
+  },
+  "carried_binding_and_tile_comparisons": {
+    "B1": {
+      "carried_text_equal": true,
+      "v3_text_sha256": "b633b0771be6224f35fed9360c7a6b6baed9cce3989998a85e8c7ef69a4fb61d",
+      "v4_carried_text_sha256": "b633b0771be6224f35fed9360c7a6b6baed9cce3989998a85e8c7ef69a4fb61d"
+    },
+    "B2.1": {
+      "carried_text_equal": true,
+      "v3_text_sha256": "07f8ebb56b94e190c3a3cdc0450846e207841932ed353c6102ec0ad717357235",
+      "v4_carried_text_sha256": "07f8ebb56b94e190c3a3cdc0450846e207841932ed353c6102ec0ad717357235"
+    },
+    "B2.2": {
+      "carried_text_equal": true,
+      "v3_text_sha256": "63290adfeb059e22e0993113cd4fe7cdbcd3e557092176159537bac1674fbd99",
+      "v4_carried_text_sha256": "63290adfeb059e22e0993113cd4fe7cdbcd3e557092176159537bac1674fbd99",
+      "method": "Exclude explicitly marked appended v4 note before comparison."
+    },
+    "B3": {
+      "carried_text_equal": true,
+      "v3_text_sha256": "9b7c36f6a9f1f2a1f1433339b1c50da63f9370efefc797f459765ff92d418934",
+      "v4_carried_text_sha256": "9b7c36f6a9f1f2a1f1433339b1c50da63f9370efefc797f459765ff92d418934"
+    },
+    "B5": {
+      "carried_text_equal": true,
+      "v3_text_sha256": "eed4780c0dd58a18d38b1742f96a9e38ad0ae2eaa8fb73173b77f507fed98d8d",
+      "v4_carried_text_sha256": "eed4780c0dd58a18d38b1742f96a9e38ad0ae2eaa8fb73173b77f507fed98d8d"
+    },
+    "B6": {
+      "carried_text_equal": true,
+      "v3_text_sha256": "dcd0415698fffcab59fcf16c90c3fcb50db7776c857505b127a67f0370328f95",
+      "v4_carried_text_sha256": "dcd0415698fffcab59fcf16c90c3fcb50db7776c857505b127a67f0370328f95"
+    },
+    "B7": {
+      "carried_text_equal": true,
+      "v3_text_sha256": "887b04f13ab1343befba15b51a69bdd2582fc2126977b7d6e408bd0c5e5f1a1b",
+      "v4_carried_text_sha256": "887b04f13ab1343befba15b51a69bdd2582fc2126977b7d6e408bd0c5e5f1a1b"
+    },
+    "rc1_diagnostic_exact_tile": {
+      "spec_equal": true,
+      "body_equal": true
+    },
+    "rc1_control_exact_tile": {
+      "equal": true
+    },
+    "rc2_rows_exact_tile": {
+      "equal": true
+    },
+    "machine_carriage": {
+      "append_names_equal": true,
+      "append_schedule_equal": true,
+      "relocation_map_equal": true
+    }
+  },
+  "manifest_literal_ast": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/runtime/worldline/proof_manifest.py",
+    "sha256": "51dd30d1a2c19cea4b9794e869400c5cb7c4193043f66678e62efa695b058fcb",
+    "bytes": 157262,
+    "mode": "0644",
+    "same_bytes_as_v3_review_manifest": true,
+    "minimum_checks_literal": 251,
+    "boundary_literal": [
+      "worldline-c_api"
+    ],
+    "ordered_required_names_sha256": "bf1ec89a4421ad152213721a6bd49f558a4d8847ea1c3fbe84a864519368890b",
+    "ordered_required_names_digest_matches_v3": true,
+    "effective_pin_map_sha256": "42f1809c2ec5a6ed4dbcb639a91c62f50ab80c75787d7110a0a69618bb9ec8c4",
+    "effective_pin_map_digest_matches_v3": true,
+    "method": "Whitelisted literal assignment/append/update AST nodes only; no candidate module imported or executed. Numeric prefix/key counts not derived.",
+    "user_provided_prefix_count": 535,
+    "user_provided_effective_pin_count": 169
+  },
+  "ast_segment_observations": {
+    "prefix_segments_observed": [
+      {
+        "line": 25,
+        "observed_literal_items": 280
+      },
+      {
+        "line": 312,
+        "observed_literal_items": 11
+      },
+      {
+        "line": 314,
+        "observed_literal_items": 4
+      },
+      {
+        "line": 924,
+        "observed_literal_items": 5
+      },
+      {
+        "line": 940,
+        "observed_literal_items": 8
+      },
+      {
+        "line": 953,
+        "observed_literal_items": 31
+      },
+      {
+        "line": 967,
+        "observed_literal_items": 34
+      },
+      {
+        "line": 972,
+        "observed_literal_items": 46
+      },
+      {
+        "line": 1003,
+        "observed_literal_items": 1
+      },
+      {
+        "line": 1012,
+        "observed_literal_items": 115
+      }
+    ],
+    "pin_segments_observed": [
+      {
+        "line": 329,
+        "observed_new_keys": 82
+      },
+      {
+        "line": 418,
+        "observed_new_keys": 8
+      },
+      {
+        "line": 925,
+        "observed_new_keys": 8
+      },
+      {
+        "line": 942,
+        "observed_new_keys": 6
+      },
+      {
+        "line": 955,
+        "observed_new_keys": 4
+      },
+      {
+        "line": 969,
+        "observed_new_keys": 6
+      },
+      {
+        "line": 974,
+        "observed_new_keys": 10
+      },
+      {
+        "line": 997,
+        "observed_new_keys": 0
+      },
+      {
+        "line": 1000,
+        "observed_new_keys": 0
+      },
+      {
+        "line": 1005,
+        "observed_new_keys": 4
+      },
+      {
+        "line": 1009,
+        "observed_new_keys": 0
+      },
+      {
+        "line": 1014,
+        "observed_new_keys": 38
+      },
+      {
+        "line": 1017,
+        "observed_new_keys": 0
+      },
+      {
+        "line": 1020,
+        "observed_new_keys": 1
+      },
+      {
+        "line": 1023,
+        "observed_new_keys": 0
+      },
+      {
+        "line": 1026,
+        "observed_new_keys": 2
+      },
+      {
+        "line": 1029,
+        "observed_new_keys": 0
+      }
+    ],
+    "prefix_sum_input": "280+11+4+5+8+31+34+46+1+115",
+    "pins_sum_input": "82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0",
+    "suffix_stage_input": "6+2+14+6+3+57+10",
+    "method": "Literal AST data read only; totals delegated to MCP JACKAL."
+  },
+  "jackal": {
+    "front_door": "actual MCP mcp__jackal__jackal_exact",
+    "availability_update": "Tools were not exposed at earlier checkpoint discovery. Fresh discovery later exposed the exact tool; relevant reviewer arithmetic was then replayed sequentially. Earlier checkpoint availability statements are historical and remain unchanged.",
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_for_code": "Informational and conditional on observed static inputs; not native measurement, proof, source acceptance or phase acceptance.",
+    "calls": [
+      {
+        "id": "diagnostic_fit_pair",
+        "expression": "1+1",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1 exact=2 approx=2",
+          "fields": {
+            "approx": "2",
+            "exact": "2",
+            "parsed": "1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "diagnostic_fits_with_active_nested_mark",
+        "expression": "2+2",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=2+2 exact=4 approx=4",
+          "fields": {
+            "approx": "4",
+            "exact": "4",
+            "parsed": "2+2",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "diagnostic_image_delta",
+        "expression": "2-1",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=2-1 exact=1 approx=1",
+          "fields": {
+            "approx": "1",
+            "exact": "1",
+            "parsed": "2-1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "run_ledger_array_actuals",
+        "expression": "1+2+1",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+2+1 exact=4 approx=4",
+          "fields": {
+            "approx": "4",
+            "exact": "4",
+            "parsed": "1+2+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "run_ledger_all_actuals",
+        "expression": "4+1",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=4+1 exact=5 approx=5",
+          "fields": {
+            "approx": "5",
+            "exact": "5",
+            "parsed": "4+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "required_proved_final_length",
+        "expression": "535+98",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=535+98 exact=633 approx=633",
+          "fields": {
+            "approx": "633",
+            "exact": "633",
+            "parsed": "535+98",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "component_pin_key_schedule",
+        "expression": "169+4+2+1",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=169+4+2+1 exact=176 approx=176",
+          "fields": {
+            "approx": "176",
+            "exact": "176",
+            "parsed": "169+4+2+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "required_prefix_ast_total",
+        "expression": "280+11+4+5+8+31+34+46+1+115",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=280+11+4+5+8+31+34+46+1+115 exact=535 approx=535",
+          "fields": {
+            "approx": "535",
+            "exact": "535",
+            "parsed": "280+11+4+5+8+31+34+46+1+115",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "effective_pin_keys_ast_total",
+        "expression": "82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0 exact=169 approx=169",
+          "fields": {
+            "approx": "169",
+            "exact": "169",
+            "parsed": "82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "ordered_suffix_stage_total",
+        "expression": "6+2+14+6+3+57+10",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=6+2+14+6+3+57+10 exact=98 approx=98",
+          "fields": {
+            "approx": "98",
+            "exact": "98",
+            "parsed": "6+2+14+6+3+57+10",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "optional_component_and_core_pin_keys",
+        "expression": "169+4+2+1+2",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=169+4+2+1+2 exact=178 approx=178",
+          "fields": {
+            "approx": "178",
+            "exact": "178",
+            "parsed": "169+4+2+1+2",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      },
+      {
+        "id": "named_export_spot_checks",
+        "expression": "1+1+1+1+1+1+1+1",
+        "result": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=1+1+1+1+1+1+1+1 exact=8 approx=8",
+          "fields": {
+            "approx": "8",
+            "exact": "8",
+            "parsed": "1+1+1+1+1+1+1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    ],
+    "author_results": "D4/jackal.json is a bound record of author calls. Reviewer relied on original source/text reading and independently replayed the relevant arithmetic; the author record is not a reviewer receipt.",
+    "ledger_used_as_evidence": false
+  },
+  "design_findings": [
+    {
+      "id": "V4-RC4-GATE",
+      "change": "Reconcile normative B0.7, DESIGN 8.4, B4 tiles, B8 gate algorithm, B10 gate rows, B11 promises, mutation specifications and the machine twin. State branch-sensitive payload rules that permit the existing False-variant rejection diagnostic after its discriminant test. State the sole WF-X finalization O assignment exception with exact exclusive assignments before its test. Preserve A1, diagnostics, codes, write order and the accepted domain.",
+      "reason": "B0.7 requires every non-discriminant selection after the entire gate and forbids every acceptance-object assignment. G16a instead selects FA.Rejected_Position inside its rejection gate, after testing FA.Ok; finalization O is necessarily assigned on the two exclusive paths. B8 implements the different after-test/assigned-exception rule. These are contradictory normative specifications, so O4/R-W/B4/B8 alignment is not closed.",
+      "evidence": [
+        "D4/APPENDIX-BINDINGS.md:104-114",
+        "D4/APPENDIX-BINDINGS.md:681-695",
+        "D4/APPENDIX-BINDINGS.md:1313-1327",
+        "D4/APPENDIX-BINDINGS.md:1779",
+        "D4/APPENDIX-BINDINGS.md:1803-1815",
+        "D4/DESIGN.md:450",
+        "D4/DESIGN.md:479-484",
+        "D3/DESIGN.md:238-241",
+        "D3/DESIGN.md:775-794"
+      ]
+    },
+    {
+      "id": "V4-RC4-ALIAS",
+      "change": "Complete the fully expanded naming invariant for indirect package paths admitted by the scoped inventory, including F.P.Decide and paths through the transport package qualifier. Define deterministic path-aware exclusion or an exact per-call expanded-qualifier invariant, and specify matching indirect-path mutation controls. Do not weaken V7/O6(a) or relax the scoped inventory.",
+      "reason": "The B9.4 list and B8 pattern cover simple alias.routine spellings. The pattern excludes a match preceded by a dot and does not enumerate F.P.Decide, although the permitted F renaming exposes P through Evaluation_Finalization.P -> Evaluation_Completion.P -> Evaluation_Pending. Exact current tiles/residual identity protect current text, but the claimed independent invariant for later reviewed tile amendments is stronger than this checking specification. No full-check successor bypass is claimed or executed.",
+      "evidence": [
+        "D4/APPENDIX-BINDINGS.md:34-43",
+        "D4/APPENDIX-BINDINGS.md:79-85",
+        "D4/APPENDIX-BINDINGS.md:1259-1263",
+        "D4/APPENDIX-BINDINGS.md:1455",
+        "D4/APPENDIX-BINDINGS.md:1541",
+        "D4/APPENDIX-BINDINGS.md:1702-1717",
+        "D4/APPENDIX-BINDINGS.md:1841",
+        "D4/APPENDIX-BINDINGS.md:1884",
+        "S5/core/evaluation_finalization.ads:12-13",
+        "S5/core/evaluation_completion.ads:10"
+      ]
+    }
+  ],
+  "rc_closure": {
+    "V3-RC4": "NOT_CLOSED",
+    "V3-RC5": "CLOSED_AT_DESIGN_LEVEL",
+    "V3-RC6": "CLOSED_AT_DESIGN_LEVEL"
+  },
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "unperformed_required_verification": [
+    "Compiler/prover/build/test execution prohibited by this review brief.",
+    "Proposed binding-check/mutation sketches inspected as text/AST only; no execution or simulation of their algorithms.",
+    "Full implementation-body/caller/flow/RTE/termination/functional proof and strict-warning closure remain OPEN.",
+    "Matching generated-code, ABI, loaded-library and full accepted-domain native construction/storage/cost evidence remain OPEN.",
+    "Original ordinary/lifetime/additive/provider/fault runtime campaigns remain OPEN on exact integrated successor.",
+    "Operator component architecture choice, protected deployment provisioning and original release/production gates remain OPEN.",
+    "Root-worker integration overlap noted without resolution; no rebase, merge or qualification."
+  ],
+  "skills_used": [
+    "/home/sicarii/.agents/skills/ada/SKILL.md",
+    "/home/sicarii/.agents/skills/ada-omarchy/SKILL.md",
+    "/home/sicarii/.agents/skills/ada-programming/SKILL.md",
+    "/home/sicarii/.agents/skills/spark-users-guide/SKILL.md",
+    "/home/sicarii/.agents/skills/advanced-ada/SKILL.md",
+    "/home/sicarii/.agents/skills/gnat-toolchain/SKILL.md",
+    "/home/sicarii/.agents/skills/ada-high-integrity/SKILL.md",
+    "/home/sicarii/.codex/skills/jackel/SKILL.md"
+  ],
+  "reference_scope": "Relevant package/use visibility, interfacing, exceptions, RM 6.2 parameter passing, RM 11.6 exception effects and SPARK proof-team/full-scope guidance. SPARK Guide 28.0w is not installed-tool 16.1.0 evidence.",
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false,
+  "checkpoints": {
+    "checkpoint-1.json": {
+      "identity": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checkpoint-1.json",
+        "sha256": "49888a025b9a6e6053607d743f8ff79fe2f321ec92d612be22ccfdee743008e9",
+        "bytes": 2819,
+        "mode": "0600"
+      },
+      "result": {
+        "schema": "claude-design-review-checkpoint-v1",
+        "item": 1,
+        "complete": true,
+        "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "rc_closure": {
+          "V3-RC4": "NOT_CLOSED",
+          "V3-RC5": "CLOSED_AT_DESIGN_LEVEL",
+          "V3-RC6": "CLOSED_AT_DESIGN_LEVEL"
+        },
+        "rc4_subrequirements": {
+          "scoped_inventory": "SUPPLIED; exact residual and T/L/A tuples, with GE9 deletion; installed legality remains OPEN",
+          "deterministic_o6_b_c": "SUPPLIED via R-INV; alias/full-qualification claim needs indirect-path reconciliation",
+          "k3_actual_membership": "CLOSED_AT_DESIGN_LEVEL: literal Library_Interface parsing and ordered tuple equality",
+          "write_provenance": "SUPPLIED per WF-C/A/F/O/B/R/P/X/H; full source/native proof remains OPEN",
+          "gating_and_b0_b4_b8_alignment": "NOT_CLOSED: normative B0.7 contradicts rejection payload in G16a and assigned finalization O; B8 follows the different DESIGN 8.4/B10 rule"
+        },
+        "findings": [
+          {
+            "id": "V4-RC4-GATE",
+            "evidence": [
+              "APPENDIX-BINDINGS.md:104-114",
+              "APPENDIX-BINDINGS.md:1313-1327",
+              "APPENDIX-BINDINGS.md:1779",
+              "APPENDIX-BINDINGS.md:1803-1815",
+              "DESIGN.md:450",
+              "DESIGN.md:479-484"
+            ],
+            "reason": "Normative rule requires all other selections after whole gate and forbids all assignments; exact G16a contains a rejection payload within gate and WF-X assigns O; align the rule without changing diagnostics or variant guards."
+          },
+          {
+            "id": "V4-RC4-ALIAS",
+            "evidence": [
+              "APPENDIX-BINDINGS.md:81-85",
+              "APPENDIX-BINDINGS.md:1259-1263",
+              "APPENDIX-BINDINGS.md:1541",
+              "APPENDIX-BINDINGS.md:1702-1717"
+            ],
+            "reason": "The assertion that only full expanded names remain is stronger than the listed simple-alias patterns: indirect F.P.Decide is not represented. Existing exact tiles/residue bind current source but do not establish the claimed amendment invariant."
+          }
+        ],
+        "rc5_evidence": [
+          "DESIGN.md:540-629",
+          "APPENDIX-BINDINGS.md:522-528",
+          "APPENDIX-BINDINGS.md:681-688",
+          "S5/core/evaluation_pending_c.adb:111-173",
+          "S5/core/worldline-resource_ledger_c_api.adb:118-223",
+          "S5/core/evaluation_finalization_c.adb:128-256"
+        ],
+        "rc6_evidence": [
+          "DESIGN.md:641-700",
+          "APPENDIX-COST-MAP.md:25-72",
+          "APPENDIX-COST-MAP.md:93-112",
+          "APPENDIX-COST-MAP.md:279",
+          "APPENDIX-COST-MAP.md:412-482"
+        ],
+        "method": "Passive text/JSON/AST review and hashing only; no WORLDLINE or design sketch execution.",
+        "jackal": "MCP not exposed in this session; no reviewer arithmetic derived. Author recorded results are observations, not independently replayed arithmetic.",
+        "acceptance": {
+          "proof": false,
+          "phase": false,
+          "source": false
+        }
+      }
+    },
+    "checkpoint-2.json": {
+      "identity": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checkpoint-2.json",
+        "sha256": "371dd33cb0e9465c759d44f46743cb7092a17601d4f57c69a98ae1df79666b97",
+        "bytes": 5320,
+        "mode": "0600"
+      },
+      "result": {
+        "schema": "claude-design-review-checkpoint-v1",
+        "item": 2,
+        "complete": true,
+        "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "spot_checks": [
+          {
+            "export": "wl_resource_ledger_compute",
+            "finding": "S5 initial guard, Data-first allocation order, staged first-row refusal and unconditional Detail_Data, Total_Data, Details, Result order retained; handler 255 covers statement region; direct Encode_Quantity/Result_Of provenance is WF-F with WF-O producer outputs. Decoder/caller and native construction obligations remain OPEN.",
+            "evidence": [
+              "S5/core/worldline-resource_ledger_c_api.adb:115-176",
+              "D3/DESIGN.md:1206-1237",
+              "APPENDIX-BINDINGS.md:454-461",
+              "APPENDIX-BINDINGS.md:1755-1758",
+              "DESIGN.md:564",
+              "APPENDIX-COST-MAP.md:238-247"
+            ]
+          },
+          {
+            "export": "wl_resource_ledger_headroom",
+            "finding": "A/W/F captured before Shape acceptance; Data read follows acceptance. Output then Result writes and 255 handler retained. Earlier pure decodes are conditional on infallibility proof (M4/D-05); parameter/result storage remains native OPEN.",
+            "evidence": [
+              "S5/core/worldline-resource_ledger_c_api.adb:184-223",
+              "APPENDIX-BINDINGS.md:466-470",
+              "APPENDIX-BINDINGS.md:1759-1760",
+              "DESIGN.md:565",
+              "APPENDIX-COST-MAP.md:243-247"
+            ]
+          },
+          {
+            "export": "wl_pending_decide_v1",
+            "finding": "Fixed extents precede captured R; header then lengths/extents/disjointness then field predicates retained; Data then staged rows. Completed acceptance written once with return 0; 255 refusals/handler retained. Same-constant totality rechecks add no designed refusal; proof and native accepted-domain correspondence remain OPEN.",
+            "evidence": [
+              "S5/core/evaluation_pending_c.adb:105-173",
+              "APPENDIX-BINDINGS.md:522-528",
+              "APPENDIX-BINDINGS.md:1767",
+              "DESIGN.md:568",
+              "D3/DESIGN.md:1696-1718",
+              "APPENDIX-COST-MAP.md:299-306"
+            ]
+          },
+          {
+            "export": "wl_finalization_decide_v1",
+            "finding": "Enter mark, fixed extents, X capture, transport/value guards, Data/Required/Captured allocations and required-plan loop retained. Operations 0/1 do not read or pass Captured; 2/3 stage rows. Exclusive O assignments preserve Reason outcomes, diagnostic order, one output write, handler diagnostic and 255. Full value-body proof/native effects OPEN.",
+            "evidence": [
+              "S5/core/evaluation_finalization_c.adb:121-256",
+              "D3/DESIGN.md:694-757",
+              "APPENDIX-BINDINGS.md:681-695",
+              "APPENDIX-BINDINGS.md:1769",
+              "DESIGN.md:576",
+              "APPENDIX-COST-MAP.md:356-363"
+            ]
+          },
+          {
+            "export": "wl_resource_policy_admit",
+            "finding": "Input captured before its shape refusal; disks stage before Data arena read; typed decision output store remains unconditional with return 0. No Result/input overlap guard added. Result encoding is WF-F.",
+            "evidence": [
+              "S5/core/worldline-resource_policy_c_api.adb:120-182",
+              "APPENDIX-BINDINGS.md:482-489",
+              "APPENDIX-BINDINGS.md:1761",
+              "DESIGN.md:566",
+              "APPENDIX-COST-MAP.md:253-259"
+            ]
+          },
+          {
+            "export": "wl_evaluation_history_select",
+            "finding": "Query then entire Data arena read precede query validation. Optional Final_Row and staged rows retain first-refusal frontier; one output store and 255 handler retained. Pure query decode moved earlier remains a proof/native obligation.",
+            "evidence": [
+              "S5/core/worldline-evaluation_history_c_api.adb:133-190",
+              "APPENDIX-BINDINGS.md:499-507",
+              "APPENDIX-BINDINGS.md:1762",
+              "DESIGN.md:567",
+              "APPENDIX-COST-MAP.md:265-272"
+            ]
+          },
+          {
+            "export": "wl_resource_run_ledger_check_v1",
+            "finding": "Raw capture then Data/Before/Proposed/Observed allocation and copy order retained; Well_Formed follows all reads. Completed O payload written once; overlapping accepted arenas remain allowed; handler -1. Array/record categories resolved in source; native OPEN.",
+            "evidence": [
+              "S5/core/resource_run_ledger_c_api.adb:192-222",
+              "APPENDIX-BINDINGS.md:548-554",
+              "APPENDIX-BINDINGS.md:1765",
+              "DESIGN.md:570",
+              "APPENDIX-COST-MAP.md:278-282"
+            ]
+          },
+          {
+            "export": "wl_recovery_authorization_decide_v2",
+            "finding": "Length/shape/alignment guard, Raw capture then Well_Formed refusal and accepted overlap retained. New Owned constant replaces direct W.Decide result store; -1/0 codes retained. Recheck and D-36 construction delta explicitly OPEN.",
+            "evidence": [
+              "S5/core/worldline-recovery_authorization_c_api.adb:129-150",
+              "APPENDIX-BINDINGS.md:394-399",
+              "APPENDIX-BINDINGS.md:1751",
+              "DESIGN.md:560",
+              "APPENDIX-COST-MAP.md:435"
+            ]
+          }
+        ],
+        "assessment": "Source staging and code/order intent consistent in these comparisons. This does not establish preservation of every accepted native case. Native costs, totality proofs, body/caller/ABI correspondence and D-36 remain OPEN. RC4 findings in checkpoint-1 remain.",
+        "acceptance": {
+          "proof": false,
+          "phase": false,
+          "source": false
+        }
+      }
+    },
+    "checkpoint-3.json": {
+      "identity": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checkpoint-3.json",
+        "sha256": "c2b5e2e07a5aa262167a3c8442a2ed81bfdced9149316eb60c2cf1e41dc9d297",
+        "bytes": 4608,
+        "mode": "0600"
+      },
+      "result": {
+        "schema": "claude-design-review-checkpoint-v1",
+        "item": 3,
+        "complete": true,
+        "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "carriage": {
+          "slice_hashes": "Every hash row in DESIGN B.2 independently matches exact v3 bytes; REPLACED section 8.8 hash is verified but not counted as carried text.",
+          "quoted_replacements": "R1-R15 old lines independently equal the cited v3 lines; replacement purposes match RC4/RC5/RC6 and L6/L7 without lowering original guarantees. RC4 new inconsistencies remain as checkpoint-1 findings.",
+          "rc1_rc2_rc3": "CLOSED_AT_DESIGN_LEVEL preserved, not implementation/proof acceptance.",
+          "closed_and_conditional_rulings": "Preserved with their evidence obligations. LD4 remains withdrawn; LD4-R retained. LD6 RC5 design condition discharged only at design level. R2_NINE_CONDITIONS and PACKET_PLAN remain NOT_CLOSED for RC4.",
+          "appendix_c": "Exact names list, append_schedule and relocation_map equal v3. Entire bound Appendix C read. Immediate PK-6a enrollment, no reordering/reappend, full body/caller scope preserved.",
+          "mechanical_tile_comparisons": {
+            "diagnostic_transport_spec_equal": true,
+            "diagnostic_transport_body_equal": true,
+            "native_diagnostic_control_equal": true,
+            "rc2_rows_block_equal": true
+          },
+          "bindings_carried_blocks": "B1, B2.1, B2.2, B3, B5, B6, B7 equal v3 after excluding separately marked appended v4 notes."
+        },
+        "latent_defects": {
+          "L1": {
+            "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by explicit scoped T/L/A tuples. Installed legality remains OPEN.",
+            "evidence": [
+              "DESIGN.md:64",
+              "APPENDIX-BINDINGS.md:1527-1565",
+              "D3/DESIGN.md:1789-1802"
+            ]
+          },
+          "L2": {
+            "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by explicit operator visibility clauses; compilation remains OPEN.",
+            "evidence": [
+              "DESIGN.md:65",
+              "APPENDIX-BINDINGS.md:1560",
+              "APPENDIX-BINDINGS.md:1564"
+            ]
+          },
+          "L3": {
+            "assessment": "GENUINE unused rename after retargeting; GE9 is a correct design repair. Actual GNAT 16.1.0 warning behavior UNVERIFIED.",
+            "evidence": [
+              "DESIGN.md:66",
+              "APPENDIX-BINDINGS.md:742-756",
+              "S5/core/worldline-c_api.adb:832-876"
+            ]
+          },
+          "L4": {
+            "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by parsing actual ordered Library_Interface membership. No sketch executed.",
+            "evidence": [
+              "D3/APPENDIX-BINDINGS.md:1018-1020",
+              "S5/pending-component/pending.gpr:5-11",
+              "APPENDIX-BINDINGS.md:1043-1060"
+            ]
+          },
+          "L5": {
+            "assessment": "GENUINE blanket write-rule contradiction; repaired by explicit write-form/provenance rows. Separate new B0.7 gating contradiction remains RC4.",
+            "evidence": [
+              "DESIGN.md:68",
+              "APPENDIX-BINDINGS.md:1729-1775",
+              "D3/DESIGN.md:1785-1788"
+            ]
+          },
+          "L6": {
+            "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL with Joined_Metadata in tile and carried line R9.",
+            "evidence": [
+              "D3/APPENDIX-BINDINGS.md:605",
+              "D3/DESIGN.md:1472",
+              "S5/core/evaluation_completion_c.adb:973-978",
+              "APPENDIX-BINDINGS.md:649",
+              "DESIGN.md:226-230"
+            ]
+          },
+          "L7": {
+            "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by removing direct-store policy/ledger from proposed local-completion C-14 scope; no baseline control weakened.",
+            "evidence": [
+              "D3/DESIGN.md:2240",
+              "DESIGN.md:262-265",
+              "S5/core/worldline-resource_policy_c_api.adb:171-176",
+              "S5/core/worldline-resource_ledger_c_api.adb:166-172",
+              "APPENDIX-COST-MAP.md:451"
+            ]
+          },
+          "L8": {
+            "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by excluding := from object-declaration pattern. Static reading only, no sketch/pattern control execution.",
+            "evidence": [
+              "D3/APPENDIX-BINDINGS.md:1031-1035",
+              "APPENDIX-BINDINGS.md:1144-1148",
+              "APPENDIX-BINDINGS.md:681"
+            ]
+          }
+        },
+        "evidence": [
+          "DESIGN.md:75-265",
+          "D3/DESIGN.md:111-191",
+          "D3/DESIGN.md:326-664",
+          "D3/DESIGN.md:682-902",
+          "D3/DESIGN.md:1868-1993",
+          "D3/DESIGN.md:1997-2052",
+          "D3/DESIGN.md:2215-2244",
+          "D3/DESIGN.md:2478-2589",
+          "D3/review/gpt61-v1/review.json:rulings"
+        ],
+        "method": "Passive reading, byte hashing, JSON/AST/string comparisons only. No arithmetic derived by reviewer; author numeric labels retained as observations.",
+        "acceptance": {
+          "proof": false,
+          "phase": false,
+          "source": false
+        }
+      }
+    },
+    "checkpoint-4.json": {
+      "identity": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checkpoint-4.json",
+        "sha256": "cb790b6b092f479844008c0d1fb9ecf8abbc435b926b93cccaf32341d6773572",
+        "bytes": 2800,
+        "mode": "0600"
+      },
+      "result": {
+        "schema": "claude-design-review-checkpoint-v1",
+        "item": 4,
+        "complete": true,
+        "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "operator_items": {
+          "D-13": {
+            "ruling": "OPERATOR_CHOICE_REQUIRED_BEFORE_PK-7 for the concrete component transport/library architecture, not for pinning alone. Only the ABI/scope/correspondence-preserving route is admissible. Lead prepares source/project/link and evidence package; no choice or implementation acceptance here.",
+            "evidence": [
+              "D3/DESIGN.md:2252-2260",
+              "APPENDIX-BINDINGS.md:232-265",
+              "decisions.json:187",
+              "W/work/integrated-proof-preparation/PLAN.md:104-107"
+            ]
+          },
+          "N-06": {
+            "ruling": "REPROVISION_UNDER_OPERATOR_CUSTODY_AT_DEPLOYMENT. Preserve native digest mismatch refusal. An old-library hold earns no consolidated-candidate credit.",
+            "evidence": [
+              "D3/DESIGN.md:2262-2271",
+              "decisions.json:188",
+              "S5/protected-resource/run_service.py:117-120",
+              "H/HANDOFF.md:164-166"
+            ]
+          }
+        },
+        "lead_items": {
+          "N-01": {
+            "ruling": "LEAD_OWNED_STRICT_OBLIGATION. Confirming representation repair is independently reviewed engineering with unchanged layouts and strict proof. A nonconfirming material ABI proposal is outside this design and operator-owned; approval cannot reduce the target.",
+            "evidence": [
+              "D3/DESIGN.md:2012-2052",
+              "D3/DESIGN.md:2273",
+              "DESIGN.md:728",
+              "H/HANDOFF.md:158-161",
+              "P:32-34"
+            ]
+          },
+          "pinning_and_integration": {
+            "ruling": "Reviewed implementation deltas, effective pin regeneration and routine engineering remain lead-owned. No operator gate merely for a pinned file. Root-worker integration order is lead-owned but requires exact-base affected-scope re-review; no integration is resolved here.",
+            "evidence": [
+              "H/HANDOFF.md:153",
+              "D3/DESIGN.md:1829-1841",
+              "DESIGN.md:768-782"
+            ]
+          }
+        },
+        "mislabelled_ownership_found": false,
+        "new_approval_gate_without_original_basis_found": false,
+        "ownership_basis": "User supervision rule reserves material API/ABI/owner-policy, reference/contract redefinition, operator custody, toolchain/runtime/deployment architecture, and original publication/production gates. Prior review is a disposition, not new authority. D-13 concerns the concrete component architecture and N-06 protected deployment custody; pinning alone supplies no basis.",
+        "process_record": "Read WT/deviations/capi-v4-author-taskstop/NOTE.md as disclosed historical report only. No review evidence or action authority transferred. Reviewer performed no interruption.",
+        "acceptance": {
+          "proof": false,
+          "phase": false,
+          "source": false
+        }
+      }
+    },
+    "checkpoint-5.json": {
+      "identity": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checkpoint-5.json",
+        "sha256": "8f856d3e369db088338215ecc80127dc3d4132edce7ae3faa898b0f4c636c964",
+        "bytes": 4392,
+        "mode": "0600"
+      },
+      "result": {
+        "schema": "claude-design-review-checkpoint-v1",
+        "item": 5,
+        "complete": true,
+        "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+        "additional_weakening_or_assumption_found": false,
+        "fixed_guarantees": {
+          "sole_boundary": "UNANALYZED_BOUNDARY literal equals {worldline-c_api}; no added canonical Off unit or exception.",
+          "minimum_checks": "MINIMUM_CHECKS literal 251 unchanged; exact full strict command retained.",
+          "ordered_required_prefix": "Whitelisted literal AST reconstruction gives ordered-name digest bf1ec89a4421ad152213721a6bd49f558a4d8847ea1c3fbe84a864519368890b, identical to sealed v3 review. MCP JACKAL status=exact parsed=280+11+4+5+8+31+34+46+1+115 exact=535; arithmetic only, not proof.",
+          "effective_pins": "Effective literal pin-map digest 42f1809c2ec5a6ed4dbcb639a91c62f50ab80c75787d7110a0a69618bb9ec8c4, identical to sealed v3 review. MCP JACKAL status=exact parsed=82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0 exact=169. No candidate pin execution.",
+          "append_only": "Exact suffix names and schedule equal v3; same-packet PK-6a enrollment retained. MCP JACKAL status=exact parsed=6+2+14+6+3+57+10 exact=98; parsed=535+98 exact=633.",
+          "domains_contracts_bodies": "No new transport-facing Pre or functional Post; no new array equality/length/Operation narrowing; original relation contracts and full body/caller/flow/RTE/termination scope remain required.",
+          "controls": "Original roster, lifetime/additive/provider/fault and deterministic controls retained. C-14 remains proposed outside baseline. Finite controls provide no proof or native accepted-domain closure.",
+          "native": "No new accepted-domain cap, proof-only light library, suppressed checked Ghost code or failure-as-accepted-refusal route. Every native construction/storage/ABI/calling-convention cost remains OPEN; original Big_Integer/runtime/assertion blockers retained.",
+          "custody": "OB-048 covers enlarged and pre-existing boundary; custody, producer authenticity, immutability and foreign-fault obligations remain OPEN. Pins, source checks and returned Booleans establish none of them.",
+          "predecessors": "PP1-PP3 preserve original assertions except exact E1-E4 relocation edits, checked through reconstruction; override calls predecessor first and appends problems rather than skipping checks.",
+          "unresolved_control": "N-05 exact-set static-audit inconsistency retained OPEN; no exact-set-to-subset reinterpretation authorized.",
+          "integration": "Root-worker overlap and name capture remain OPEN. No merge or order chosen."
+        },
+        "evidence": [
+          "DESIGN.md:109",
+          "DESIGN.md:741-782",
+          "D3/DESIGN.md:197-260",
+          "D3/DESIGN.md:271-277",
+          "D3/DESIGN.md:311-322",
+          "D3/DESIGN.md:1814-1841",
+          "D3/DESIGN.md:1918-1925",
+          "D3/DESIGN.md:2192-2244",
+          "D3/DESIGN.md:2294",
+          "APPENDIX-BINDINGS.md:1422-1431",
+          "APPENDIX-BINDINGS.md:1832-1871",
+          "APPENDIX-COST-MAP.md:19",
+          "APPENDIX-COST-MAP.md:435-482",
+          "S5/runtime/worldline/proof_manifest.py:22-25",
+          "S5/runtime/worldline/proof_manifest.py:316",
+          "S5/runtime/worldline/proof_manifest.py:863-868",
+          "S5/tests/test_authority_static_audit.py:268-280",
+          "S5/tests/test_authority_static_audit.py:314-321",
+          "H/HANDOFF.md:29",
+          "H/HANDOFF.md:153-166"
+        ],
+        "jackal_update": "Fresh MCP discovery exposed mcp__jackal__jackal_exact after checkpoints 1-4. Relevant arithmetic independently replayed sequentially. Earlier checkpoint availability statements are historical and superseded by this observation; files remain create-only.",
+        "jackal_assurance": "exact rational arithmetic (not yet checker-covered)",
+        "jackal_formal": false,
+        "jackal_non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "jackal_consequence": "Informational about code correctness; conditional on text/AST inputs. No ledger used as evidence.",
+        "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+        "rc_closure": {
+          "V3-RC4": "NOT_CLOSED",
+          "V3-RC5": "CLOSED_AT_DESIGN_LEVEL",
+          "V3-RC6": "CLOSED_AT_DESIGN_LEVEL"
+        },
+        "required_changes": [
+          "V4-RC4-GATE",
+          "V4-RC4-ALIAS"
+        ],
+        "acceptance": {
+          "proof": false,
+          "phase": false,
+          "source": false
+        }
+      }
+    }
+  },
+  "spot_checks": [
+    {
+      "export": "wl_resource_ledger_compute",
+      "finding": "S5 initial guard, Data-first allocation order, staged first-row refusal and unconditional Detail_Data, Total_Data, Details, Result order retained; handler 255 covers statement region; direct Encode_Quantity/Result_Of provenance is WF-F with WF-O producer outputs. Decoder/caller and native construction obligations remain OPEN.",
+      "evidence": [
+        "S5/core/worldline-resource_ledger_c_api.adb:115-176",
+        "D3/DESIGN.md:1206-1237",
+        "APPENDIX-BINDINGS.md:454-461",
+        "APPENDIX-BINDINGS.md:1755-1758",
+        "DESIGN.md:564",
+        "APPENDIX-COST-MAP.md:238-247"
+      ]
+    },
+    {
+      "export": "wl_resource_ledger_headroom",
+      "finding": "A/W/F captured before Shape acceptance; Data read follows acceptance. Output then Result writes and 255 handler retained. Earlier pure decodes are conditional on infallibility proof (M4/D-05); parameter/result storage remains native OPEN.",
+      "evidence": [
+        "S5/core/worldline-resource_ledger_c_api.adb:184-223",
+        "APPENDIX-BINDINGS.md:466-470",
+        "APPENDIX-BINDINGS.md:1759-1760",
+        "DESIGN.md:565",
+        "APPENDIX-COST-MAP.md:243-247"
+      ]
+    },
+    {
+      "export": "wl_pending_decide_v1",
+      "finding": "Fixed extents precede captured R; header then lengths/extents/disjointness then field predicates retained; Data then staged rows. Completed acceptance written once with return 0; 255 refusals/handler retained. Same-constant totality rechecks add no designed refusal; proof and native accepted-domain correspondence remain OPEN.",
+      "evidence": [
+        "S5/core/evaluation_pending_c.adb:105-173",
+        "APPENDIX-BINDINGS.md:522-528",
+        "APPENDIX-BINDINGS.md:1767",
+        "DESIGN.md:568",
+        "D3/DESIGN.md:1696-1718",
+        "APPENDIX-COST-MAP.md:299-306"
+      ]
+    },
+    {
+      "export": "wl_finalization_decide_v1",
+      "finding": "Enter mark, fixed extents, X capture, transport/value guards, Data/Required/Captured allocations and required-plan loop retained. Operations 0/1 do not read or pass Captured; 2/3 stage rows. Exclusive O assignments preserve Reason outcomes, diagnostic order, one output write, handler diagnostic and 255. Full value-body proof/native effects OPEN.",
+      "evidence": [
+        "S5/core/evaluation_finalization_c.adb:121-256",
+        "D3/DESIGN.md:694-757",
+        "APPENDIX-BINDINGS.md:681-695",
+        "APPENDIX-BINDINGS.md:1769",
+        "DESIGN.md:576",
+        "APPENDIX-COST-MAP.md:356-363"
+      ]
+    },
+    {
+      "export": "wl_resource_policy_admit",
+      "finding": "Input captured before its shape refusal; disks stage before Data arena read; typed decision output store remains unconditional with return 0. No Result/input overlap guard added. Result encoding is WF-F.",
+      "evidence": [
+        "S5/core/worldline-resource_policy_c_api.adb:120-182",
+        "APPENDIX-BINDINGS.md:482-489",
+        "APPENDIX-BINDINGS.md:1761",
+        "DESIGN.md:566",
+        "APPENDIX-COST-MAP.md:253-259"
+      ]
+    },
+    {
+      "export": "wl_evaluation_history_select",
+      "finding": "Query then entire Data arena read precede query validation. Optional Final_Row and staged rows retain first-refusal frontier; one output store and 255 handler retained. Pure query decode moved earlier remains a proof/native obligation.",
+      "evidence": [
+        "S5/core/worldline-evaluation_history_c_api.adb:133-190",
+        "APPENDIX-BINDINGS.md:499-507",
+        "APPENDIX-BINDINGS.md:1762",
+        "DESIGN.md:567",
+        "APPENDIX-COST-MAP.md:265-272"
+      ]
+    },
+    {
+      "export": "wl_resource_run_ledger_check_v1",
+      "finding": "Raw capture then Data/Before/Proposed/Observed allocation and copy order retained; Well_Formed follows all reads. Completed O payload written once; overlapping accepted arenas remain allowed; handler -1. Array/record categories resolved in source; native OPEN.",
+      "evidence": [
+        "S5/core/resource_run_ledger_c_api.adb:192-222",
+        "APPENDIX-BINDINGS.md:548-554",
+        "APPENDIX-BINDINGS.md:1765",
+        "DESIGN.md:570",
+        "APPENDIX-COST-MAP.md:278-282"
+      ]
+    },
+    {
+      "export": "wl_recovery_authorization_decide_v2",
+      "finding": "Length/shape/alignment guard, Raw capture then Well_Formed refusal and accepted overlap retained. New Owned constant replaces direct W.Decide result store; -1/0 codes retained. Recheck and D-36 construction delta explicitly OPEN.",
+      "evidence": [
+        "S5/core/worldline-recovery_authorization_c_api.adb:129-150",
+        "APPENDIX-BINDINGS.md:394-399",
+        "APPENDIX-BINDINGS.md:1751",
+        "DESIGN.md:560",
+        "APPENDIX-COST-MAP.md:435"
+      ]
+    }
+  ],
+  "latent_defects": {
+    "L1": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by explicit scoped T/L/A tuples. Installed legality remains OPEN.",
+      "evidence": [
+        "DESIGN.md:64",
+        "APPENDIX-BINDINGS.md:1527-1565",
+        "D3/DESIGN.md:1789-1802"
+      ]
+    },
+    "L2": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by explicit operator visibility clauses; compilation remains OPEN.",
+      "evidence": [
+        "DESIGN.md:65",
+        "APPENDIX-BINDINGS.md:1560",
+        "APPENDIX-BINDINGS.md:1564"
+      ]
+    },
+    "L3": {
+      "assessment": "GENUINE unused rename after retargeting; GE9 is a correct design repair. Actual GNAT 16.1.0 warning behavior UNVERIFIED.",
+      "evidence": [
+        "DESIGN.md:66",
+        "APPENDIX-BINDINGS.md:742-756",
+        "S5/core/worldline-c_api.adb:832-876"
+      ]
+    },
+    "L4": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by parsing actual ordered Library_Interface membership. No sketch executed.",
+      "evidence": [
+        "D3/APPENDIX-BINDINGS.md:1018-1020",
+        "S5/pending-component/pending.gpr:5-11",
+        "APPENDIX-BINDINGS.md:1043-1060"
+      ]
+    },
+    "L5": {
+      "assessment": "GENUINE blanket write-rule contradiction; repaired by explicit write-form/provenance rows. Separate new B0.7 gating contradiction remains RC4.",
+      "evidence": [
+        "DESIGN.md:68",
+        "APPENDIX-BINDINGS.md:1729-1775",
+        "D3/DESIGN.md:1785-1788"
+      ]
+    },
+    "L6": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL with Joined_Metadata in tile and carried line R9.",
+      "evidence": [
+        "D3/APPENDIX-BINDINGS.md:605",
+        "D3/DESIGN.md:1472",
+        "S5/core/evaluation_completion_c.adb:973-978",
+        "APPENDIX-BINDINGS.md:649",
+        "DESIGN.md:226-230"
+      ]
+    },
+    "L7": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by removing direct-store policy/ledger from proposed local-completion C-14 scope; no baseline control weakened.",
+      "evidence": [
+        "D3/DESIGN.md:2240",
+        "DESIGN.md:262-265",
+        "S5/core/worldline-resource_policy_c_api.adb:171-176",
+        "S5/core/worldline-resource_ledger_c_api.adb:166-172",
+        "APPENDIX-COST-MAP.md:451"
+      ]
+    },
+    "L8": {
+      "assessment": "GENUINE; REPAIRED_AT_DESIGN_LEVEL by excluding := from object-declaration pattern. Static reading only, no sketch/pattern control execution.",
+      "evidence": [
+        "D3/APPENDIX-BINDINGS.md:1031-1035",
+        "APPENDIX-BINDINGS.md:1144-1148",
+        "APPENDIX-BINDINGS.md:681"
+      ]
+    }
+  },
+  "operator_rulings": {
+    "schema": "claude-design-review-checkpoint-v1",
+    "item": 4,
+    "complete": true,
+    "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+    "operator_items": {
+      "D-13": {
+        "ruling": "OPERATOR_CHOICE_REQUIRED_BEFORE_PK-7 for the concrete component transport/library architecture, not for pinning alone. Only the ABI/scope/correspondence-preserving route is admissible. Lead prepares source/project/link and evidence package; no choice or implementation acceptance here.",
+        "evidence": [
+          "D3/DESIGN.md:2252-2260",
+          "APPENDIX-BINDINGS.md:232-265",
+          "decisions.json:187",
+          "W/work/integrated-proof-preparation/PLAN.md:104-107"
+        ]
+      },
+      "N-06": {
+        "ruling": "REPROVISION_UNDER_OPERATOR_CUSTODY_AT_DEPLOYMENT. Preserve native digest mismatch refusal. An old-library hold earns no consolidated-candidate credit.",
+        "evidence": [
+          "D3/DESIGN.md:2262-2271",
+          "decisions.json:188",
+          "S5/protected-resource/run_service.py:117-120",
+          "H/HANDOFF.md:164-166"
+        ]
+      }
+    },
+    "lead_items": {
+      "N-01": {
+        "ruling": "LEAD_OWNED_STRICT_OBLIGATION. Confirming representation repair is independently reviewed engineering with unchanged layouts and strict proof. A nonconfirming material ABI proposal is outside this design and operator-owned; approval cannot reduce the target.",
+        "evidence": [
+          "D3/DESIGN.md:2012-2052",
+          "D3/DESIGN.md:2273",
+          "DESIGN.md:728",
+          "H/HANDOFF.md:158-161",
+          "P:32-34"
+        ]
+      },
+      "pinning_and_integration": {
+        "ruling": "Reviewed implementation deltas, effective pin regeneration and routine engineering remain lead-owned. No operator gate merely for a pinned file. Root-worker integration order is lead-owned but requires exact-base affected-scope re-review; no integration is resolved here.",
+        "evidence": [
+          "H/HANDOFF.md:153",
+          "D3/DESIGN.md:1829-1841",
+          "DESIGN.md:768-782"
+        ]
+      }
+    },
+    "mislabelled_ownership_found": false,
+    "new_approval_gate_without_original_basis_found": false,
+    "ownership_basis": "User supervision rule reserves material API/ABI/owner-policy, reference/contract redefinition, operator custody, toolchain/runtime/deployment architecture, and original publication/production gates. Prior review is a disposition, not new authority. D-13 concerns the concrete component architecture and N-06 protected deployment custody; pinning alone supplies no basis.",
+    "process_record": "Read WT/deviations/capi-v4-author-taskstop/NOTE.md as disclosed historical report only. No review evidence or action authority transferred. Reviewer performed no interruption.",
+    "acceptance": {
+      "proof": false,
+      "phase": false,
+      "source": false
+    }
+  },
+  "additional_guarantee_audit": {
+    "schema": "claude-design-review-checkpoint-v1",
+    "item": 5,
+    "complete": true,
+    "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+    "additional_weakening_or_assumption_found": false,
+    "fixed_guarantees": {
+      "sole_boundary": "UNANALYZED_BOUNDARY literal equals {worldline-c_api}; no added canonical Off unit or exception.",
+      "minimum_checks": "MINIMUM_CHECKS literal 251 unchanged; exact full strict command retained.",
+      "ordered_required_prefix": "Whitelisted literal AST reconstruction gives ordered-name digest bf1ec89a4421ad152213721a6bd49f558a4d8847ea1c3fbe84a864519368890b, identical to sealed v3 review. MCP JACKAL status=exact parsed=280+11+4+5+8+31+34+46+1+115 exact=535; arithmetic only, not proof.",
+      "effective_pins": "Effective literal pin-map digest 42f1809c2ec5a6ed4dbcb639a91c62f50ab80c75787d7110a0a69618bb9ec8c4, identical to sealed v3 review. MCP JACKAL status=exact parsed=82+8+8+6+4+6+10+0+0+4+0+38+0+1+0+2+0 exact=169. No candidate pin execution.",
+      "append_only": "Exact suffix names and schedule equal v3; same-packet PK-6a enrollment retained. MCP JACKAL status=exact parsed=6+2+14+6+3+57+10 exact=98; parsed=535+98 exact=633.",
+      "domains_contracts_bodies": "No new transport-facing Pre or functional Post; no new array equality/length/Operation narrowing; original relation contracts and full body/caller/flow/RTE/termination scope remain required.",
+      "controls": "Original roster, lifetime/additive/provider/fault and deterministic controls retained. C-14 remains proposed outside baseline. Finite controls provide no proof or native accepted-domain closure.",
+      "native": "No new accepted-domain cap, proof-only light library, suppressed checked Ghost code or failure-as-accepted-refusal route. Every native construction/storage/ABI/calling-convention cost remains OPEN; original Big_Integer/runtime/assertion blockers retained.",
+      "custody": "OB-048 covers enlarged and pre-existing boundary; custody, producer authenticity, immutability and foreign-fault obligations remain OPEN. Pins, source checks and returned Booleans establish none of them.",
+      "predecessors": "PP1-PP3 preserve original assertions except exact E1-E4 relocation edits, checked through reconstruction; override calls predecessor first and appends problems rather than skipping checks.",
+      "unresolved_control": "N-05 exact-set static-audit inconsistency retained OPEN; no exact-set-to-subset reinterpretation authorized.",
+      "integration": "Root-worker overlap and name capture remain OPEN. No merge or order chosen."
+    },
+    "evidence": [
+      "DESIGN.md:109",
+      "DESIGN.md:741-782",
+      "D3/DESIGN.md:197-260",
+      "D3/DESIGN.md:271-277",
+      "D3/DESIGN.md:311-322",
+      "D3/DESIGN.md:1814-1841",
+      "D3/DESIGN.md:1918-1925",
+      "D3/DESIGN.md:2192-2244",
+      "D3/DESIGN.md:2294",
+      "APPENDIX-BINDINGS.md:1422-1431",
+      "APPENDIX-BINDINGS.md:1832-1871",
+      "APPENDIX-COST-MAP.md:19",
+      "APPENDIX-COST-MAP.md:435-482",
+      "S5/runtime/worldline/proof_manifest.py:22-25",
+      "S5/runtime/worldline/proof_manifest.py:316",
+      "S5/runtime/worldline/proof_manifest.py:863-868",
+      "S5/tests/test_authority_static_audit.py:268-280",
+      "S5/tests/test_authority_static_audit.py:314-321",
+      "H/HANDOFF.md:29",
+      "H/HANDOFF.md:153-166"
+    ],
+    "jackal_update": "Fresh MCP discovery exposed mcp__jackal__jackal_exact after checkpoints 1-4. Relevant arithmetic independently replayed sequentially. Earlier checkpoint availability statements are historical and superseded by this observation; files remain create-only.",
+    "jackal_assurance": "exact rational arithmetic (not yet checker-covered)",
+    "jackal_formal": false,
+    "jackal_non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "jackal_consequence": "Informational about code correctness; conditional on text/AST inputs. No ledger used as evidence.",
+    "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+    "rc_closure": {
+      "V3-RC4": "NOT_CLOSED",
+      "V3-RC5": "CLOSED_AT_DESIGN_LEVEL",
+      "V3-RC6": "CLOSED_AT_DESIGN_LEVEL"
+    },
+    "required_changes": [
+      "V4-RC4-GATE",
+      "V4-RC4-ALIAS"
+    ],
+    "acceptance": {
+      "proof": false,
+      "phase": false,
+      "source": false
+    }
+  }
+}

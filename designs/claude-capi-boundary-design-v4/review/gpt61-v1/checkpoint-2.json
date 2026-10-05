@@ -1,0 +1,105 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 2,
+  "complete": true,
+  "design_sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+  "spot_checks": [
+    {
+      "export": "wl_resource_ledger_compute",
+      "finding": "S5 initial guard, Data-first allocation order, staged first-row refusal and unconditional Detail_Data, Total_Data, Details, Result order retained; handler 255 covers statement region; direct Encode_Quantity/Result_Of provenance is WF-F with WF-O producer outputs. Decoder/caller and native construction obligations remain OPEN.",
+      "evidence": [
+        "S5/core/worldline-resource_ledger_c_api.adb:115-176",
+        "D3/DESIGN.md:1206-1237",
+        "APPENDIX-BINDINGS.md:454-461",
+        "APPENDIX-BINDINGS.md:1755-1758",
+        "DESIGN.md:564",
+        "APPENDIX-COST-MAP.md:238-247"
+      ]
+    },
+    {
+      "export": "wl_resource_ledger_headroom",
+      "finding": "A/W/F captured before Shape acceptance; Data read follows acceptance. Output then Result writes and 255 handler retained. Earlier pure decodes are conditional on infallibility proof (M4/D-05); parameter/result storage remains native OPEN.",
+      "evidence": [
+        "S5/core/worldline-resource_ledger_c_api.adb:184-223",
+        "APPENDIX-BINDINGS.md:466-470",
+        "APPENDIX-BINDINGS.md:1759-1760",
+        "DESIGN.md:565",
+        "APPENDIX-COST-MAP.md:243-247"
+      ]
+    },
+    {
+      "export": "wl_pending_decide_v1",
+      "finding": "Fixed extents precede captured R; header then lengths/extents/disjointness then field predicates retained; Data then staged rows. Completed acceptance written once with return 0; 255 refusals/handler retained. Same-constant totality rechecks add no designed refusal; proof and native accepted-domain correspondence remain OPEN.",
+      "evidence": [
+        "S5/core/evaluation_pending_c.adb:105-173",
+        "APPENDIX-BINDINGS.md:522-528",
+        "APPENDIX-BINDINGS.md:1767",
+        "DESIGN.md:568",
+        "D3/DESIGN.md:1696-1718",
+        "APPENDIX-COST-MAP.md:299-306"
+      ]
+    },
+    {
+      "export": "wl_finalization_decide_v1",
+      "finding": "Enter mark, fixed extents, X capture, transport/value guards, Data/Required/Captured allocations and required-plan loop retained. Operations 0/1 do not read or pass Captured; 2/3 stage rows. Exclusive O assignments preserve Reason outcomes, diagnostic order, one output write, handler diagnostic and 255. Full value-body proof/native effects OPEN.",
+      "evidence": [
+        "S5/core/evaluation_finalization_c.adb:121-256",
+        "D3/DESIGN.md:694-757",
+        "APPENDIX-BINDINGS.md:681-695",
+        "APPENDIX-BINDINGS.md:1769",
+        "DESIGN.md:576",
+        "APPENDIX-COST-MAP.md:356-363"
+      ]
+    },
+    {
+      "export": "wl_resource_policy_admit",
+      "finding": "Input captured before its shape refusal; disks stage before Data arena read; typed decision output store remains unconditional with return 0. No Result/input overlap guard added. Result encoding is WF-F.",
+      "evidence": [
+        "S5/core/worldline-resource_policy_c_api.adb:120-182",
+        "APPENDIX-BINDINGS.md:482-489",
+        "APPENDIX-BINDINGS.md:1761",
+        "DESIGN.md:566",
+        "APPENDIX-COST-MAP.md:253-259"
+      ]
+    },
+    {
+      "export": "wl_evaluation_history_select",
+      "finding": "Query then entire Data arena read precede query validation. Optional Final_Row and staged rows retain first-refusal frontier; one output store and 255 handler retained. Pure query decode moved earlier remains a proof/native obligation.",
+      "evidence": [
+        "S5/core/worldline-evaluation_history_c_api.adb:133-190",
+        "APPENDIX-BINDINGS.md:499-507",
+        "APPENDIX-BINDINGS.md:1762",
+        "DESIGN.md:567",
+        "APPENDIX-COST-MAP.md:265-272"
+      ]
+    },
+    {
+      "export": "wl_resource_run_ledger_check_v1",
+      "finding": "Raw capture then Data/Before/Proposed/Observed allocation and copy order retained; Well_Formed follows all reads. Completed O payload written once; overlapping accepted arenas remain allowed; handler -1. Array/record categories resolved in source; native OPEN.",
+      "evidence": [
+        "S5/core/resource_run_ledger_c_api.adb:192-222",
+        "APPENDIX-BINDINGS.md:548-554",
+        "APPENDIX-BINDINGS.md:1765",
+        "DESIGN.md:570",
+        "APPENDIX-COST-MAP.md:278-282"
+      ]
+    },
+    {
+      "export": "wl_recovery_authorization_decide_v2",
+      "finding": "Length/shape/alignment guard, Raw capture then Well_Formed refusal and accepted overlap retained. New Owned constant replaces direct W.Decide result store; -1/0 codes retained. Recheck and D-36 construction delta explicitly OPEN.",
+      "evidence": [
+        "S5/core/worldline-recovery_authorization_c_api.adb:129-150",
+        "APPENDIX-BINDINGS.md:394-399",
+        "APPENDIX-BINDINGS.md:1751",
+        "DESIGN.md:560",
+        "APPENDIX-COST-MAP.md:435"
+      ]
+    }
+  ],
+  "assessment": "Source staging and code/order intent consistent in these comparisons. This does not establish preservation of every accepted native case. Native costs, totality proofs, body/caller/ABI correspondence and D-36 remain OPEN. RC4 findings in checkpoint-1 remain.",
+  "acceptance": {
+    "proof": false,
+    "phase": false,
+    "source": false
+  }
+}
