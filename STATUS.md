@@ -170,6 +170,11 @@ V5-B02 and every original obligation stay OPEN.
   - Its actual gpt-6.1-sol review started ~02:08Z (`…/review/gpt61-v1`), in the third and last free runner slot. The
     stalled D1 v4 review holds another slot.
   - The author's process disclosures are recorded in `deviations/capi-v4-author-taskstop/NOTE.md`.
+- **Root-worker SEAM DESIGN v2.** A drafting agent (author role) started ~02:10Z on RC-01..RC-12 and D-1a..D-9a,
+  including the shared `worldline-c_api.adb` integration with C-API v4. Output goes to
+  `designs/claude-root-worker-seam-design-v2`.
+  - Its prompt forbids Bash writes and any interruption of tools.
+  - Its review waits for a free runner slot.
   - **Event, disclosed.** At 01:22:20.621Z it ran `TaskStop` on its own timed-out background inspection task
     `ba0hhwegp`, then finished the read with a bounded command.
   - The lead relayed the operator's no-interruption rule to it at ~01:26Z, and to the W-1 v3 author.
