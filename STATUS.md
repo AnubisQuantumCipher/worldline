@@ -150,6 +150,32 @@ V5-B02 and every original obligation stay OPEN.
 **Author correction.** W-1 v2 §4.5 understates: the v6 working copy already revalidates excluded leaves
 (`scratch.py:554`, `:569-573`). Recorded in `frame-v6-selfcheck/RESULTS.md`. The frozen v2 is not edited.
 
+## Backup repository (iPad), 2026-10-05
+
+**Observed.**
+- The iPad reconnected at about 02:47Z, and reads work.
+- The 03:00Z backup saved snapshots, but every scope's `restic check` fails with 4 missing packs. The lead verified at
+  03:16:00Z that all four are absent (ENOENT).
+
+**How far that goes.**
+- The missing packs and failed checks are verified.
+- That the disconnect caused them is a hypothesis.
+- The saved snapshots do not establish a healthy backup or write reliability.
+
+**Next.**
+- **Not consented:** repair, prune, forget, offload, and any timer or lock change.
+- After the run ends on its own, the lead builds a read-only, lock-respecting impact and recovery packet. It goes to an
+  actual gpt-6.1-sol review, and then to the human.
+
+## Package v6 review (sealed ~03:08Z)
+
+**Verdict: NOT_READY.**
+- **Closed:** W1-RESOURCES, OD2-CONSEQUENCES, PKG-V5-FACTS, PKG-CLOSURE-STATUS.
+- **W-1 sub-gaps:** 8 CLOSED, 12 NOT_CLOSED.
+- **Eight new corrections:**
+  - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
+  - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
+
 ## In progress (00:05Z)
 
 - Actual gpt-6.1-sol re-review of operator package DRAFT-v5 and W-1 v2 (`package-review/gpt61-v2`).

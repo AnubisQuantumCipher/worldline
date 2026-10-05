@@ -1,0 +1,151 @@
+{
+  "schema": "claude-root-worker-seam-design-v2-jackal-v1",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent, author role)",
+  "provider": "JACKAL MCP front door, tool jackal_exact",
+  "ledger_used_as_evidence": false,
+  "status_classes_retained_verbatim": true,
+  "non_claims_retained_verbatim": true,
+  "use_ceiling": "informational about arithmetic only; no source, ABI, proof, native, control or acceptance inference",
+  "common_result_fields": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling": null
+  },
+  "calls": [
+    {
+      "id": "J01",
+      "input": "535-419",
+      "result": {"status": "exact", "parsed": "535-419", "exact": "116", "approx": "116", "formal": false, "lane": "rat"},
+      "observed_inputs": "535 = S5 REQUIRED_PROVED length; 419 = longest common ordered prefix of the lane and S5 rosters (read-only AST script)",
+      "use": "N-1: S5 names after the common prefix, none present in the lane roster (agrees with the observed set difference 116)"
+    },
+    {
+      "id": "J02",
+      "input": "614-419",
+      "result": {"status": "exact", "parsed": "614-419", "exact": "195", "approx": "195", "formal": false, "lane": "rat"},
+      "observed_inputs": "614 = lane source REQUIRED_PROVED length; 419 = common prefix",
+      "use": "N-1: lane names after the common prefix, none present in S5 (agrees with the observed set difference 195)"
+    },
+    {
+      "id": "J03",
+      "input": "485-419",
+      "result": {"status": "exact", "parsed": "485-419", "exact": "66", "approx": "66", "formal": false, "lane": "rat"},
+      "observed_inputs": "485 = lane preimage REQUIRED_PROVED length; 419 = common prefix with S5",
+      "use": "N-1, section 12.4: protected-lineage names absent from S5"
+    },
+    {
+      "id": "J04",
+      "input": "614-485",
+      "result": {"status": "exact", "parsed": "614-485", "exact": "129", "approx": "129", "formal": false, "lane": "rat"},
+      "observed_inputs": "614 lane source length; 485 preimage length (preimage roster is an exact prefix of the lane roster, observed)",
+      "use": "N-1, section 12.4: names added by the draft and secondary union"
+    },
+    {
+      "id": "J05",
+      "input": "66+129",
+      "result": {"status": "exact", "parsed": "66+129", "exact": "195", "approx": "195", "formal": false, "lane": "rat"},
+      "observed_inputs": "J03 and J04 results",
+      "use": "Consistency of J02 with J03 + J04"
+    },
+    {
+      "id": "J06",
+      "input": "2+30+9",
+      "result": {"status": "exact", "parsed": "2+30+9", "exact": "41", "approx": "41", "formal": false, "lane": "rat"},
+      "observed_inputs": "2 Off in lane and S5 (worldline-c_api.ads/.adb); 30 Off in lane and On in S5; 9 Off in lane and absent from S5 (grep classification)",
+      "use": "N-3: equals the observed 41 lane Off files"
+    },
+    {
+      "id": "J07",
+      "input": "2284-1166+1",
+      "result": {"status": "exact", "parsed": "2284-1166+1", "exact": "1119", "approx": "1119", "formal": false, "lane": "rat"},
+      "observed_inputs": "difflib opcode: insert draft[1166..2284]",
+      "use": "N-4, section 14.1: lines of the draft's appended C_API block"
+    },
+    {
+      "id": "J08",
+      "input": "1160+6+1119",
+      "result": {"status": "exact", "parsed": "1160+6+1119", "exact": "2285", "approx": "2285", "formal": false, "lane": "rat"},
+      "observed_inputs": "1160 preimage C_API lines; 6 inserted with lines; J07",
+      "use": "N-4: consistency with the observed draft line count 2285"
+    },
+    {
+      "id": "J09",
+      "input": "56596-56543",
+      "result": {"status": "exact", "parsed": "56596-56543", "exact": "53", "approx": "53", "formal": false, "lane": "rat"},
+      "observed_inputs": "56596 S5 C_API body bytes; 56543 preimage C_API body bytes",
+      "use": "Section 14.1: byte difference, equal to the observed 53-byte inserted line at S5:32"
+    },
+    {
+      "id": "J10",
+      "input": "34-31",
+      "result": {"status": "exact", "parsed": "34-31", "exact": "3", "approx": "3", "formal": false, "lane": "rat"},
+      "observed_inputs": "External_Name occurrences: draft spec 34, S5 spec 31",
+      "use": "N-4, section 14.1: three draft exports"
+    },
+    {
+      "id": "J11",
+      "input": "1165-1160",
+      "result": {"status": "exact", "parsed": "1165-1160", "exact": "5", "approx": "5", "formal": false, "lane": "rat"},
+      "observed_inputs": "end Owner_Audit_Decide; at draft 1165 and S5 1160",
+      "use": "Section 14.1: anchor offset"
+    },
+    {
+      "id": "J12",
+      "input": "6-1",
+      "result": {"status": "exact", "parsed": "6-1", "exact": "5", "approx": "5", "formal": false, "lane": "rat"},
+      "observed_inputs": "6 draft-inserted with lines; 1 S5-inserted use type line",
+      "use": "Section 14.1: explains the J11 offset"
+    },
+    {
+      "id": "J13",
+      "input": "129-8",
+      "result": {"status": "exact", "parsed": "129-8", "exact": "121", "approx": "121", "formal": false, "lane": "rat"},
+      "observed_inputs": "J04 and J14 results",
+      "use": "Section 12.4: draft additions carried after replacing the 8 Worldline.C_API names by On-unit carriers"
+    },
+    {
+      "id": "J14",
+      "input": "613-606+1",
+      "result": {"status": "exact", "parsed": "613-606+1", "exact": "8", "approx": "8", "formal": false, "lane": "rat"},
+      "observed_inputs": "0-based lane roster positions 606..613 of the Worldline.C_API names (script listing)",
+      "use": "N-2: count of enrolled names inside the Off C_API body (agrees with the observed listing of 8 names)"
+    },
+    {
+      "id": "J15",
+      "input": "275-244+1",
+      "result": {"status": "exact", "parsed": "275-244+1", "exact": "32", "approx": "32", "formal": false, "lane": "rat"},
+      "observed_inputs": "difflib opcode: insert draft spec lines 244..275",
+      "use": "N-4, section 14.1: lines appended to the draft C_API spec"
+    },
+    {
+      "id": "J16",
+      "input": "1+1+1+1+1+1",
+      "result": {"status": "exact", "parsed": "1+1+1+1+1+1", "exact": "6", "approx": "6", "formal": false, "lane": "rat"},
+      "observed_inputs": "Read-only audit of this agent's own session record: Bash commands at indices 42, 82, 87, 91, 93 and 94 each contain the text 2>/dev/null (transcript-audit scripts, which contain it only as a string literal, excluded)",
+      "use": "Section C.1 and AUTHOR-NOTES section 5: number of Bash commands that discarded standard error with 2>/dev/null"
+    },
+    {
+      "id": "J17",
+      "input": "1+1+1+2+1+1",
+      "result": {"status": "exact", "parsed": "1+1+1+2+1+1", "exact": "7", "approx": "7", "formal": false, "lane": "rat"},
+      "observed_inputs": "Per-command 2>/dev/null occurrence counts printed by the same audit: 1, 1, 1, 2, 1, 1",
+      "use": "Section C.1 and AUTHOR-NOTES section 5: total 2>/dev/null occurrences"
+    },
+    {
+      "id": "J18",
+      "input": "1+1+1+1",
+      "result": {"status": "exact", "parsed": "1+1+1+1", "exact": "4", "approx": "4", "formal": false, "lane": "rat"},
+      "observed_inputs": "Bash commands at indices 82, 86, 115 and 142 each contain 2>&1 once (same audit and exclusion)",
+      "use": "Section C.1 and AUTHOR-NOTES section 5: number of Bash commands that merged standard error into standard output"
+    }
+  ],
+  "observed_not_derived": "Roster lengths, LCPs, set differences, effective pin keys, pin statement count, External_Name counts, line counts, renaming and use counts, Off-file counts, Size occurrence counts, gate.mutex site counts, RQC list lengths, lifetime test counts and v1 slice line counts were read from files or printed by read-only commands and are reported as observations, not derivations. The per-command redirect counts behind J16-J18, the tool-use counts and the Bash command total were printed by a read-only audit script over this agent's own session record and are observations."
+}
