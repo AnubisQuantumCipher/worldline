@@ -1,0 +1,296 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v9.md",
+ "design_sha256": "4bc0272c0c7b586a7e161b82318b7ae4a0b732067081e3a4073ea1dd3d22b53b",
+ "support_sha256": "2d225e26780c95035f2ef57d79cc1a1758304fb82f08c4a75adab254d2b02270",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "NOT_ENDORSED",
+ "prior_closure": {
+  "W1-V8-HOLDER-IOEXIT": "PARTIALLY_CLOSED",
+  "W1-V8-PRESERVATION-ESTABLISH": "NOT_CLOSED",
+  "W1-V8-PREMISE-DISCHARGE": "NOT_CLOSED",
+  "W1-V8-WRITER-AS-W": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V8-COMPOSED-ENUM": "PARTIALLY_CLOSED",
+  "W1-V8-EVIDENCE-EQUIV": "PARTIALLY_CLOSED",
+  "W1-V8-FORM-SUBUNIT": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-ARCHITECTURE": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-VIEW-ROOT": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-HOLDER-STATE": "PARTIALLY_CLOSED",
+  "W1-V7-FULL-DOMAIN": "PARTIALLY_CLOSED",
+  "W1-V7-C3-DATA": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-READ-EFFECTS": "PARTIALLY_CLOSED",
+  "W1-V7-PROBES": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-COMPOSED-STATE": "PARTIALLY_CLOSED",
+  "W1-V7-SYNC-PROVENANCE": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-EVIDENCE-RESTORE": "PARTIALLY_CLOSED",
+  "W1-V7-PREMISES": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V5-PRESERVATION": "NOT_CLOSED",
+  "W1-V6-PRESERVE": "NOT_CLOSED",
+  "W1-COMMIT-JOURNAL-EXPORT": "PARTIALLY_CLOSED",
+  "W1-CUSTODY": "PARTIALLY_CLOSED",
+  "W1-CUSTODY-CLOSURE": "PARTIALLY_CLOSED",
+  "W1-TERMINAL-CUSTODY": "PARTIALLY_CLOSED",
+  "W1-V5-REVOCATION-CONFINEMENT": "PARTIALLY_CLOSED",
+  "W1-LIFETIME-ROLLBACK": "PARTIALLY_CLOSED",
+  "W1-SETUP": "PARTIALLY_CLOSED",
+  "W1-SETUP-RECONCILIATION": "PARTIALLY_CLOSED",
+  "W1-SETUP-PROBES-ROLLBACK": "PARTIALLY_CLOSED",
+  "W1-PROTOCOL-FAILURE-STATES": "PARTIALLY_CLOSED",
+  "W1-GENERATION-PROTOCOL": "PARTIALLY_CLOSED",
+  "W1-IMAGE-TREE": "PARTIALLY_CLOSED",
+  "W1-V5-JOURNAL-FAILED-CLOSE": "PARTIALLY_CLOSED",
+  "W1-V5-RECONCILIATION-STATES": "PARTIALLY_CLOSED",
+  "W1-DURABILITY-RELEASE": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-IMAGE-OBSERVATION": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-JOURNAL-CONTINUATION": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-RESOURCES": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-SETUP-IDENTITY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V5-IMAGE-PINS": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V5-PROTOCOL-REFUSALS": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V6-C1-DATA": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V6-IMAGE-PIN": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V6-INVARIANTS": "CLOSED_AT_SPEC_LEVEL_CARRIED"
+ },
+ "w1_gap_closure": {
+  "denial-probes": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "exposure-options": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "fresh-identities-and-vault": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "lease-and-writer-authority": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "per-entry-modes-acls": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "resources-and-images": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "channel-and-dumpability": "PARTIALLY_CLOSED",
+  "commits-and-durable-channel": "PARTIALLY_CLOSED",
+  "generation-order": "PARTIALLY_CLOSED",
+  "participants-and-recovery": "PARTIALLY_CLOSED",
+  "prestate-and-installation": "PARTIALLY_CLOSED",
+  "rollback-and-evidence": "PARTIALLY_CLOSED"
+ },
+ "w1_subgap_closure": {
+  "W1-FINAL-PASS": "CLOSED_AT_SPEC_LEVEL",
+  "W1-NONCLAIMS": "CLOSED_AT_SPEC_LEVEL",
+  "W1-IMAGE-COMPATIBILITY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-IMAGE-GEOMETRY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-PREFLIGHT-IDENTITY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-READ-ACCESS": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-READ-EXPOSURE": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-SETUP-ORDER": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-SETUP-PRESTATE": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-VERIFICATION-PROBES": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-WRITE-AUTHORITY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-CHANNEL": "PARTIALLY_CLOSED",
+  "W1-CLOSURE": "PARTIALLY_CLOSED",
+  "W1-CUSTODY": "PARTIALLY_CLOSED",
+  "W1-EVIDENCE": "PARTIALLY_CLOSED",
+  "W1-FAILURE-LEASE": "PARTIALLY_CLOSED",
+  "W1-FAILURE-RECORDS": "PARTIALLY_CLOSED",
+  "W1-REBOOT-RECOVERY": "PARTIALLY_CLOSED",
+  "W1-ROLLBACK": "PARTIALLY_CLOSED",
+  "W1-SETUP-EXACTNESS": "PARTIALLY_CLOSED"
+ },
+ "plan_sufficiency": {
+  "executed": "none (v9:3405-3406, 4113-4116)",
+  "W1-V8-HOLDER-IOEXIT": "insufficient: S-2 lacks an exhaustive enumeration basis for the universal P-ASYNC (v9:3413); U-9 does not hold the mm across exit nor observe after the holder releases it (v9:3388, 3431)",
+  "W1-V8-PRESERVATION-ESTABLISH": "insufficient: §12.3 inventory incomplete (EXDEV cross-mount, M_run id restrictions); U-11/I-7 violate START-CLAUDE.txt:8 and run proof actions under a selftest-stage Gate 0 (A_selftest 67108864, v9:3495, 3504); I-7 lacks an original-vs-original nondeterminism control (v9:3451, 4147-4154)",
+  "W1-V8-PREMISE-DISCHARGE": "insufficient as ordered: the independent review of the critical S-readings is §16 step 8, after installation (step 6) and selftests (step 7) (v9:3772-3783), while A1 can drive installed RL through writer.py selftest from S-D onward; S-1 does not bind the running kernel image (v9:3412); P-NOOWNER inventory sicarii-scoped (v9:2452-2453)",
+  "W1-V8-COMPOSED-ENUM": "O-5 would rehearse against an incomplete reachable set (missing userdel co-removal states)",
+  "W1-V8-EVIDENCE-EQUIV": "U-14/I-6 would establish B1-B5 for the tested trees only (per input); capacity remains OPEN by design; consistency inherits the P-ASYNC gaps",
+  "S/P/T classes": "used consistently; no circular qualification, except that §11.6's 'candidate view baseline' (v9:3043-3044) must be evidence-only, per §8.4 (v9:1353)",
+  "operator_reservation": "correct: O-1..O-5 reserved, labelled not a new gate (v9:3798-3800)",
+  "redesign_no_exception": "kept (v9:2040-2042, 3400)"
+ },
+ "io_redesign_assessment": "Denying io_setup (aarch64 0, compat 243) and io_uring_setup (425 both tables; numbers observed in the installed build's unistd_64.h:4,284 and unistd_32.h:204,382) closes Linux AIO (contexts only from io_setup, not inherited across fork/exec) and io_uring (rings only from io_uring_setup; no ring fd reaches a view) — my unverified reasoning on upstream behaviour. splice/vmsplice/sendfile/copy_file_range/synchronous direct I/O/writeback/fsync/timers/signals are synchronous or physical; binder has no device; userfaultfd is not configured (observed); g is on ext4, so NFS/FUSE are irrelevant. Defects: (1) N4(iv) and 'From (2) to (3)' omit the outside memory-context holder: a /proc/<pid>/cmdline reader holds mm_users, so vm_file references of mapped admitted files are dropped by A1's mmput after cgroup exit; v9:1983-1984's 'none by a principal outside the tree' is literally false under N0's definition (v9:1848-1850), and must be restated as held-but-unusable; 'briefly' (v9:1921) is understated, since FUSE-backed copy-out can stall indefinitely (my unverified reasoning); (2) P-ASYNC is a universal negative with an S-discharge that names functions but gives no exhaustive enumeration basis; (3) U-9's refutation does not exercise a long-held mm; (4) the self-checks detect only changes inside their window, so 'never as a silent change' (v9:1989-1991, 2355-2356, 3729-3731) overclaims. V14 is correctly an OPEN domain change (v9:3241, 4185); a passive string search of ~/opt/gnat found io_uring/io_submit only in sanitizer runtimes and gdb (observation, not discharge).",
+ "namespace_owner_assessment": "Owner N removes the W vector (v9:1905); W1-V8-WRITER-AS-W is closed at spec level for that vector. The helper sequence and root map write are sound (suid_dumpable=2 observed; my unverified reasoning on upstream verify_root_map). The mount/net namespaces are owned by the initial namespace (v9:3146), so an euid-N process could setns into U8 (full caps there, and through the identity map DAC override over the host) but not into the view's mount namespace: P-NOOWNER is correctly critical. Setup is correctly operator-reserved (S-A k2/k4, O-1; N expired at setup, v9:962). Gap: the route inventory (§2.3 v9:247-251, §5.3 v9:958,964, P12 v9:2452, P13 v9:2453, S-I v9:2998-2999) covers only sicarii's routes and rules naming N. It must also exclude any principal's Runas list resolving to N (ALL, %group, #uid, aliases, negations) and any polkit grant to any subject for unit management or exec-as-user; the host has other non-root accounts (v9:974-975).",
+ "enumeration_assessment": "Arithmetic reproduces under JACKAL exact (19/63 and 30/100; independent recount 33 forward intermediates, 63 and 100 totals). The set is incomplete: USERGROUPS_ENAB yes (observed /etc/login.defs:305) means userdel of k3 also removes group W (k1), not only k4's W_A (v9:2584-2585, 3016). With the update order the class table implies, these states are missing: X1 (k2 gshadow-without-group with k3 post), X2 (k3 shadow-without-passwd with k2 absent), X3 (k1 gshadow-without-group with k2 post, k3 absent), X4 (k1 absent, k2 post, k3 absent). That is at least 67 constant states (JACKAL exact 63+1+1+1+1), so 'exactly' (v9:2575) and 'never other' (v9:3031-3032) are false. S-R has no reverse rule from W_A (v9:2619, 2622-2626), and the reversing groupdel of an already co-removed group fails and stops S-R (v9:2629). Whether useradd touches /var/log/lastlog (present, 0 bytes) is unverified. The rollback machine (v9:3629-3643) is acceptable.",
+ "form_assessment": "Self-contained (v9:64-68). All 134 §18.5 rows verify against units recomputed by the §0.1 rule (v7 124, v8 131, v9 134): every v8 and v9 range, byte count and sha256, except §18.5's own sha256 as stated. 41 '= v7 unit' rows equal v7 units marked CARRIED by v8; only Appendix H equals a v8 unit. Counts 86=45+41 and 44=38+6 hold (JACKAL 45+41+38+6+1-131=0, 131+3=134). The v8-carried release-rule paragraphs are inlined with v8's amendments (v7:1652-1695 vs v9:1668-1717). Consistency defects: role-identity v1/v2 (v9:1247 vs 4379); scope v2/v3 and census v1/v2 (v9:1433-1435 vs 4404, 4408); the header's critical-premise list omits P-SECCOMP (v9:51-52 vs 2041-2042).",
+ "review_provenance_assessment": "v9 states the conflict honestly as an open item 'not decided here' (v9:3789-3794, 4124-4125) but predates and omits D-LEAD-REVIEW-PROVENANCE (STATUS.md:326-346). It names only §4.6's joins; further dependent sites: v9:526, 624, 839-840, 847-850, 862-866, 872, 1410, 1414, 3674, 3817-3818, 4467, 4775, 4816, 4819, and v5 REVIEW_PROFILE actual_model_selection gpt-6.1-sol (scratch.py:98-103). The sealed v5 review recorded these joins as part of the reviewed boundary (v9:4332). The original requirement says to retain the review gate blocked rather than substitute a model (complete-phase1-prompt.txt:60; HANDOFF.md:173); the lead records a human supersession at 17:05Z (STATUS.md:279-290). Replacing the compiled join is therefore a change to an original admission join. It must be recorded with that authority quoted exactly, not as 'not a loosening' by assertion (STATUS.md:341-342), and reviewed in the frame-design revision. As written, adopt refuses, so v9 cannot reach adoption.",
+ "required_changes": [
+  {
+   "id": "W1-V9-ASYNC-ENUM",
+   "change": "Restate N4(iv) and 'From (2) to (3)' to include outside memory-context holders (get_task_mm users reachable through world-readable /proc files) as holders of task-created mapping references and as a context for the final fput after cgroup exit; show those references are unusable. Make P-ASYNC's S-2 discharge an exhaustive enumeration with a defined basis (every syscall of both tables; every context that can hold a task-created file or mm reference past exit). Make U-9 hold the mm across exit (for example a FUSE-stalled cmdline reader) and observe after release. Withdraw the 'never a silent change' self-check claims.",
+   "reason": "The closed list and its absorbing argument omit a real holder; the universal P-ASYNC has no complete discharge method; the refutation does not exercise the path; the self-checks overclaim.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1848",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1920",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1970",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1983",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1989",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2355",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3388",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3413",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3431",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3729"
+   ]
+  },
+  {
+   "id": "W1-V9-NOOWNER-SCOPE",
+   "change": "Extend §2.3, §5.3, P12, P13 and S-I so that P-NOOWNER's inventory covers every principal: no sudoers rule of any user whose Runas set resolves to N (ALL, %group, #uid, aliases, negations); no polkit grant to any subject for unit management or exec-as-user; the same for W.",
+   "reason": "Owner N is critical (an euid-N process gains full capabilities over every identity-mapped U8), but the inventory checks only sicarii's routes and rules that literally name N.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:247",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:958",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2050",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2452",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2453",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2998",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3220"
+   ]
+  },
+  {
+   "id": "W1-V9-ENUM-USERDEL",
+   "change": "Model userdel's USERGROUPS_ENAB co-removal for k3 as well as k4, with every intermediate under the actual file-update order (at least X1-X4). Add S-R reverse rules from W_A and from co-removed states, without a failing groupdel. Capture any other useradd/userdel co-objects (for example /var/log/lastlog). Recompute the counts with JACKAL.",
+   "reason": "The reachable set claimed exact is incomplete, so S-R would classify reachable states as other and stop on reversal.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2575",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2584",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2619",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2622",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3016",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3031",
+    "/etc/login.defs:305"
+   ]
+  },
+  {
+   "id": "W1-V9-PLAN-CONSTRAINTS",
+   "change": "Respecify U-11 and I-7 so that no allowlisted prover or build action runs outside a reviewed, adopted frame under fresh original admission and a dispatch-stage Gate 0 receipt; otherwise mark them blocked by those original gates. Add an original-versus-original nondeterminism control to I-7's comparison.",
+   "reason": "As written they launch gnatprove/gprbuild outside the reviewed frame or through the blocked v5 frame and an unadopted view, under the 64 MiB selftest allowance, and their refute criterion misattributes nondeterminism.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3433",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3451",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3495",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3504",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:4147",
+    "START-CLAUDE.txt:8",
+    "scratch.py(v5):88"
+   ]
+  },
+  {
+   "id": "W1-V9-PREMISE-ORDER",
+   "change": "Require the independent review of the S-discharges of the critical premises (P-KSRC, P-NOSUID, P-NOCAP, P-NOOWNER, P-SECCOMP, P-ASYNC) before O-1 installs the sudo rules. Bind the running kernel image and build-id to the package in S-1.",
+   "reason": "From S-D onward A1 can drive installed RL through writer.py selftest, so installed use precedes the reviewed discharge, contrary to W1-V8-PREMISE-DISCHARGE.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3412",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3413",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3772",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3779",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3782",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2927"
+   ]
+  },
+  {
+   "id": "W1-V9-RL-SELFTEST-FIXTURE",
+   "change": "Remove set-user-ID-root and file-capability fixture creation, and the writer's test-only switches, from installed code paths reachable through the S1 and RL rules, or confine them to an operator-only mechanism. List any that remain in §2.2 and N5, and add to S-5 the requirement that test paths cannot affect real state.",
+   "reason": "Installed RL would manufacture the catastrophic precondition at A1's request; if P-NOSUID ever failed, this hands A1 euid 0 in an identity-mapped U8.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3805",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3266",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3351",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3362",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3416",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3220"
+   ]
+  },
+  {
+   "id": "W1-V9-INVENTORY",
+   "change": "Add OPEN V-rows for: EXDEV on rename/link between the run tree, TMPDIR and other host paths (one mount in v5); M_run id restrictions (no chgrp to supplementary groups, no ACL entries for ids other than 1000, overflow display); and examine per-user-namespace keyrings. Require RL to close or mark close-on-exec every descriptor opened after step 8, and require G4/C1 to check the exact fd set {0,1,2}.",
+   "reason": "§12.3 claims the complete known inventory but omits observable changes the author's own probes expect; the descriptor closure is asserted but not mechanized.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:270",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:989",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2063",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3182",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3224",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3315",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1497",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1528"
+   ]
+  },
+  {
+   "id": "W1-V9-REVIEW-PROVENANCE",
+   "change": "State D-LEAD-REVIEW-PROVENANCE exactly, with the authority text it rests on and the original texts it changes. Enumerate every dependent site. Record it as a change of an original admission join (not as preservation) to be reviewed in the frame-design revision; no adoption until then.",
+   "reason": "v9 names only §4.6, predates the decision, and leaves the design unable to adopt.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:526",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:624",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:847",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:862",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3789",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:4332",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:4816",
+    "STATUS.md:326",
+    "complete-phase1-prompt.txt:60",
+    "HANDOFF.md:173"
+   ]
+  },
+  {
+   "id": "W1-V9-FORM-CONSISTENCY",
+   "change": "Align the schema names (role-identity, scope, census), the header's critical-premise list, and the status of §11.6's candidate view baseline (evidence only).",
+   "reason": "Contradictions between body and appendices and lists.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1247",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:4379",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1433",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:4404",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:51",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2041",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:3043",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1353"
+   ]
+  },
+  {
+   "id": "W1-V8-PRESERVATION-ESTABLISH",
+   "change": "Still required (execution-bound): establish §21.1 for every OPEN V/C/D row, or redesign.",
+   "reason": "Every §21 row OPEN.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:4168",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:4210"
+   ]
+  },
+  {
+   "id": "W1-V8-PREMISE-DISCHARGE",
+   "change": "Still required (execution-bound), in the order fixed by W1-V9-PREMISE-ORDER.",
+   "reason": "Every N7 premise NAMED_UNESTABLISHED.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:2035"
+   ]
+  },
+  {
+   "id": "W1-V8-EVIDENCE-EQUIV",
+   "change": "Still required (execution-bound): U-14/I-6 for B1-B5; safe fresh capacity OPEN.",
+   "reason": "Equivalence and capacity unestablished.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1377",
+    "ISOLATION-STORAGE-PROPOSAL-v9.md:1397"
+   ]
+  }
+ ],
+ "open_obligations": [
+  "All 219 entries of OBLIGATIONS-v2.json (sha256 1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec)",
+  "V5-B01",
+  "V5-B02",
+  "W1-V5-PRESERVATION",
+  "W1-V6-READ-MUTATION",
+  "W1-V7-HOLDER-STATE",
+  "Gate 0 (capacity, NOT ESTABLISHED)",
+  "Review-provenance join change (D-LEAD-REVIEW-PROVENANCE): not reviewed; adoption impossible as v9 is written"
+ ],
+ "approval_granted": false,
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "51e80795e688bc11df156d47ca86646da45be0dce41659db3a36cddfeb851637",
+ "checks": {
+  "path": "proposal/v9-review/claude-v1/checks.json",
+  "sha256": "d60de10ba6dd43bcabea976c169590007dea58407c08c1247a27eab934dc1ca4",
+  "bytes": 7879,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a2f0fe859b64fb102",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a2f0fe859b64fb102.output",
+  "source_task_output_sha256": "ec4f6227252e0b26ef6feb0da21907c988af492d0cfa0b5940e2da14317f839a"
+ }
+}
