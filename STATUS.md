@@ -162,10 +162,13 @@ V5-B02 and every original obligation stay OPEN.
 - That the disconnect caused them is a hypothesis.
 - The saved snapshots do not establish a healthy backup or write reliability.
 
-**Next.**
-- **Not consented:** repair, prune, forget, offload, and any timer or lock change.
-- After the run ends on its own, the lead builds a read-only, lock-respecting impact and recovery packet. It goes to an
-  actual gpt-6.1-sol review, and then to the human.
+**Ownership changed, ~03:24Z.** The human assigned vault recovery to **Codex**.
+- The lead starts no vault inspection, repository command, lock action or timer change.
+- The planned packet was not completed. Its script was never run.
+- The lead's completed read-only observations, with hashes, are in `backup-repair-packet/` (README and
+  `observations/`).
+- Codex reports verified vault health when its recovery completes. No offload or proof admission follows from the
+  takeover alone.
 
 ## Package v6 review (sealed ~03:08Z)
 

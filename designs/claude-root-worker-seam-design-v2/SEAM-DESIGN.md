@@ -277,12 +277,14 @@ These invariants are retained. The review identified concrete ways the v1 implem
 | `rw/` | `R/runtime/worldline/` |
 | `RW:n` | `L/handoff-to-claude-v1-retry1/HANDOFF.md`, line n |
 | `P1:n` | `W/outputs/claude-phase1-handoff-20261004/HANDOFF.md`, line n |
+| `P1/` | The directory `W/outputs/claude-phase1-handoff-20261004/` (Appendix B, §17.1) |
 | `PROMPT:n` | `/home/sicarii/Documents/complete-phase1-prompt.txt`, line n |
 | `S5` | `W/work/claude-composition-v5-beta/source` (QUALIFIED_SOURCE_COMPOSITION; proof, source and phase acceptance false) |
 | `S4` | `W/work/reviewed-common-proof-source-composition-v4/source` (commonV4) |
 | `D1V` | `WT/designs/claude-root-worker-seam-design-v1` (v1 design and its sealed review) |
 | `CAPI4` | `WT/designs/claude-capi-boundary-design-v4` (DRAFT_FOR_GPT61_REVIEW; its review directory existed and was empty when inspected) |
 | `CAPI3R` | `WT/designs/claude-capi-boundary-design-v3/review/gpt61-v1` (sealed) |
+| `D2D` | `WT/designs/claude-d2-checked-ghost-inventory-v1` (the D2 checked-Ghost inventory design) |
 | `D2R` | `WT/designs/claude-d2-checked-ghost-inventory-v1/review/gpt61-v1` (sealed, ACCURATE_WITH_CORRECTIONS) |
 | `CHILD` | `W/work/resource-child-authority-source-v1` (finite actual GPT-6.1 source review) |
 | `A1` | `W/work/scoped-committed-envelope-repair-v2-retry1` |
@@ -2210,7 +2212,8 @@ fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f  A1/source/runt
 47a775a2718fa721d357dcf948da2aa2216438f84cb109dd6dcbc4e4a1c74fcb  A1/review/gpt61-v1/review-freeze.json
 ```
 
-`WT/STATUS.md` is the lead's live index. It is read only, it is not evidence, and it is **not bound**. It changed while v2 was being drafted: observed first as `775ca1a5…`, later as `afc93363…`.
+- A read-only script recomputed every entry above from the files after the last change to this list: 92 entries, all equal. It also recomputed the 22 Appendix C slice hashes, all equal. Every other full hash in this document is one of these, or one of the known non-file values: the stale and recomputed pins of DF-1 and the JACKAL evaluator.
+- `WT/STATUS.md` is the lead's live index. It is read only, it is not evidence, and it is **not bound**. It changed while v2 was being drafted: observed as `775ca1a5…`, then `afc93363…`, then `d761eb7f…`.
 
 ---
 
