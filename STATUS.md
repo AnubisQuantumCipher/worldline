@@ -348,6 +348,24 @@ JACKAL call, WebFetch or edit. Nothing was interrupted.
 ## Root-worker seam: design ENDORSED (v8, 2026-10-05 ~22:30Z)
 ## PHASE ONE CONVERGENCE — the operator-reserved gate (2026-10-05 ~23:00Z)
 ## Lead frontier work after convergence (2026-10-05 ~21:40Z)
+## Phase One setup DELEGATED (Codex relay, 2026-10-05 ~21:47Z)
+
+The human delegated the Phase One setup (DIRECTIVE.txt `c378e13c…`; recorded in
+`deviations/setup-delegation-20261005/DIRECTIVE-RECORD.md`). **Codex owns the privileged execution and the human's
+authentication; the lead produces the exact reviewed installer package.** The setup is no longer an open permission
+question. Everything the directive forbids (password collection, policy weakening, marking-executed, installing before
+the review gates, reproducing the blocked exploit procedures, faking provenance) is honored.
+
+**Concrete deliverables now in progress (uninstalled, reviewable):**
+- `lanes/frame-review-provenance-v1/` — the §23 D-LEAD-REVIEW-PROVENANCE join change in frame source.
+- `lanes/frame-v6-w1-setup-v1/` — the §16/§16.1 installer package (accounts/sudo/polkit/unit bytes, install order,
+  rollback) + an exact exists-vs-needed gap record.
+- `evidence/E0-S1-pksrc-20261005/` — the first E0 premise observation (honest: PARTIAL, P-KSRC stays OPEN).
+
+Each gets its own independent Claude review. Nothing is installed; adoption stays BLOCKED until the frozen package and
+the critical-premise E0 evidence meet their review gates. Then the lead sends Codex the package path + readiness
+evidence for execution.
+
 
 Using best judgment under "I want phase 1 complete", the lead is pushing the two remaining lead-executable advances so
 the operator residue is minimal. Neither reaches the exit (which is operator-gated), and neither weakens any guarantee.
