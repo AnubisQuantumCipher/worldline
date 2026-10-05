@@ -1,0 +1,73 @@
+{
+  "schema": "claude-d1-design-jackal-log-v5",
+  "package": "WT/designs/claude-native-bigint-d1-design-v5",
+  "session": "v5 drafting session of the D1 drafting subagent, 2026-10-05",
+  "tool": "mcp__jackal__jackal_exact",
+  "call_count": 38,
+  "call_policy": "one call at a time or at most four in parallel, as the lead instructed",
+  "common_result_fields": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "consequence_ceiling": null,
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ]
+  },
+  "interpretation": "exact is exact rational arithmetic outside the Lean certificate chain; it is not formal-bounded. No consequence_ceiling was returned, so every result is informational about code. No refusal occurred. The JACKAL JSONL ledger is recall, not evidence, and is not cited.",
+  "carried": {
+    "ids": "K-01..K-212 and PE-01..PE-23",
+    "source": "WT/designs/claude-native-bigint-d1-design-v4/jackal.json",
+    "source_sha256": "c3de17e765f8d67f3ac01e65295a28bca199426a0b61d1cba7d3e557c8962bd3",
+    "note": "Evaluated in the v4 drafting session (232 calls: 209 jackal_exact, 23 jackal_poly_eq); not re-evaluated in v5. DESIGN.md section 15.1 reproduces their parsed= and exact= values."
+  },
+  "records": [
+    {"id": "K-213", "parsed": "1-5", "exact": "-4", "relied_on": true, "use": "RL-25 target p: children 1 minus target 5"},
+    {"id": "K-214", "parsed": "0-1", "exact": "-1", "relied_on": true, "use": "RL-25 target c: no children minus target 1"},
+    {"id": "K-215", "parsed": "2*256^802-1-(256^802+(256^802-1))", "exact": "0", "relied_on": true, "use": "RL-26: X = 2*256^802 - 1 = 256^802 + (256^802 - 1)"},
+    {"id": "K-216", "parsed": "(2*256^802-1)-(2*256^802)", "exact": "-1", "relied_on": true, "use": "RL-26: each +X/-Y pair sums to -1"},
+    {"id": "K-217", "parsed": "256^803-2*256^802", "exact_summary": "positive integer; leading digits 65055781261631988578; trailing digits 5445382144", "relied_on": true, "use": "RL-26: Y < 256^803 (Y has 803 bytes)"},
+    {"id": "K-218", "parsed": "2*256^802-1-256^802", "exact_summary": "positive integer; leading digits 25612512307729129361; trailing digits 5533249535", "relied_on": true, "use": "RL-26: X >= 256^802 (X has 803 bytes)"},
+    {"id": "K-219", "parsed": "65537*(256^802-1)-2^6432", "exact_summary": "positive integer; leading digits 25612512307729129361; trailing digits 5533183999", "relied_on": true, "use": "RL-26 / F38: truncated sum of 65537 +X rows at extent 802 exceeds 2^6432"},
+    {"id": "K-220", "parsed": "2^6432-65536*(256^802-1)", "exact": "65536", "relied_on": true, "use": "RL-26: 65536 truncated +X rows stay below 2^6432"},
+    {"id": "K-221", "parsed": "2*65537", "exact": "131074", "relied_on": true, "use": "RL-26 child-row count"},
+    {"id": "K-222", "parsed": "65537*((2*256^802-1)-2*256^802)", "exact": "-65537", "relied_on": true, "use": "RL-26 final signed sum"},
+    {"id": "K-223", "parsed": "2^6424-(2*256^802-1)", "exact_summary": "positive integer; leading digits 65055781261631988578; trailing digits 5445382145", "relied_on": true, "use": "RL-26: X < 2^6424, every original value representable"},
+    {"id": "K-224", "parsed": "255+255+1-(256+255)", "exact": "0", "relied_on": true, "use": "A-ROW byte addition carry at most 1"},
+    {"id": "K-225", "parsed": "0-255-1+256", "exact": "0", "relied_on": true, "use": "A-ROW byte subtraction borrow at most 1"},
+    {"id": "K-226", "parsed": "2^6432-2*256^803", "exact_summary": "positive integer; leading digits 16654280002977789076; trailing digits 4017828864", "relied_on": true, "use": "DR-C6 / Theorem H-A: 2*256^803 < 2^6432"},
+    {"id": "K-227", "parsed": "(2^63-1)+1-2^63", "exact": "0", "relied_on": false, "use": "computed, not relied on"},
+    {"id": "K-228", "parsed": "3*803*804*805/6", "exact": "259858830", "relied_on": true, "use": "3*T(803): A-ROW per-row prefix work at E = 803"},
+    {"id": "K-229", "parsed": "281337910832-259858830", "exact": "281078052002", "relied_on": true, "use": "3*T(803) below one checked Value on an 803-byte span (K-162)"},
+    {"id": "K-230", "parsed": "2*803", "exact": "1606", "relied_on": true, "use": "A-ROW workspace at E = 803, Both_Kinds"},
+    {"id": "K-231", "parsed": "1+131074", "exact": "131075", "relied_on": true, "use": "RL-26 total rows"},
+    {"id": "K-232", "parsed": "2^6432-(2^6424-1+2*256^803)", "exact_summary": "positive integer; leading digits 16588711971470002505; trailing digits 7505947649", "relied_on": false, "use": "computed, not relied on"},
+    {"id": "K-233", "parsed": "2*(2^63-1)+1-(2^64-1)", "exact": "0", "relied_on": true, "use": "A-ROW combined high part at most 2^64 - 1"},
+    {"id": "K-234", "parsed": "2^64-1-(2^63-1)", "exact": "9223372036854775808", "relied_on": true, "use": "combined high part can exceed the 64-bit range (128-bit base for High_Count)"},
+    {"id": "K-235", "parsed": "4+1", "exact": "5", "relied_on": true, "use": "A-ROW Amount_Reference coefficient on n_s before LA-10 (two Posts' four Selected_Sum, plus LR-2)"},
+    {"id": "K-236", "parsed": "1+4+1", "exact": "6", "relied_on": true, "use": "A-ROW operand Value evaluations per selected row"},
+    {"id": "K-237", "parsed": "6*4", "exact": "24", "relied_on": true, "use": "24 PV(L) per selected row"},
+    {"id": "K-238", "parsed": "2+2+1", "exact": "5", "relied_on": true, "use": "A-ROW target Value evaluations"},
+    {"id": "K-239", "parsed": "4+4+12", "exact": "20", "relied_on": true, "use": "original per-included-Held-row PV terms"},
+    {"id": "K-240", "parsed": "10^3-255", "exact": "745", "relied_on": true, "use": "C12 item 3: abs returncode <= 255 < 10^3"},
+    {"id": "K-241", "parsed": "640-3", "exact": "637", "relied_on": true, "use": "C12 item 3: digit margin under the minimum limit"},
+    {"id": "K-242", "parsed": "9223372036854775808-2^63", "exact": "0", "relied_on": true, "use": "K-234's value equals 2^63"},
+    {"id": "K-243", "parsed": "65537*(256^802-1)-65536*256^802-(256^802-65537)", "exact": "0", "relied_on": true, "use": "RL-26 / A-COL: 65537*(256^802-1) = 65536*256^802 + (256^802 - 65537)"},
+    {"id": "K-244", "parsed": "65536*256^802-2^6432", "exact": "0", "relied_on": true, "use": "A-COL carry difference times 256^802 equals 2^6432"},
+    {"id": "K-245", "parsed": "(256^802-65537)/256^802", "exact_summary": "fraction; numerator positive (leading digits 25612512307729129361, trailing digits 5533183999), denominator trailing digits 5533249536, numerator below denominator; approx=1", "relied_on": true, "use": "remainder in [0, 256^802), carry quotient exactly 65536"},
+    {"id": "K-246", "parsed": "1+2", "exact": "3", "relied_on": true, "use": "A-ROW Amount_Reference coefficient on N*n_s (invariants 1, LA-10 Posts 2)"},
+    {"id": "K-247", "parsed": "5+1", "exact": "6", "relied_on": true, "use": "A-ROW Amount_Reference coefficient on n_s including LA-10's step term"},
+    {"id": "K-248", "parsed": "2^6432-3*256^803", "exact_summary": "positive integer; leading digits 16588711971470002505; trailing digits 7505947648", "relied_on": true, "use": "Theorem H-A class G8: 3*256^803 < 2^6432"},
+    {"id": "K-249", "parsed": "10^10-2^31", "exact": "7852516352", "relied_on": true, "use": "C12 item 5: C int magnitude <= 2^31 < 10^10"},
+    {"id": "K-250", "parsed": "640-10", "exact": "630", "relied_on": true, "use": "C12 item 5: digit margin under the minimum limit"}
+  ],
+  "summaries_note": "exact_summary values give the sign and leading/trailing digits read from the tool output; the full values are in the tool results of the session and were not transcribed.",
+  "non_claims": [
+    "JACKAL establishes the stated arithmetic instances only; every recurrence, call count and failure location they feed is lead reading of source.",
+    "No result here is formal-bounded."
+  ]
+}

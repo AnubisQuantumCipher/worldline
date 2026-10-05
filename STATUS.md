@@ -363,7 +363,12 @@ independent review.
 - F32 resolution v2 → `designs/claude-f32-resolution-v2/` (same patch). Drafted: DESIGN.md `e52a9227…`, evidence.json `9a27640a…`, patch `226e7fc8…` (identical to v1). Its Claude review is running, brief `briefs/f32-resolution-design-v2.md` (`81bd8f94…`)
 - F32 resolution v3 → `designs/claude-f32-resolution-v3/`: RC-5 plus notes 1–6, same patch. DESIGN.md `37879bc8…`. Its Claude review is running: brief `briefs/f32-resolution-design-v3.md` (`0284eba9…`)
 - F32 resolution v4 → `designs/claude-f32-resolution-v4/`: RC-6 launcher re-targeting plus N-1..N-4, same patch. DESIGN.md `dd241b38…`. Its Claude review is running: brief `briefs/f32-resolution-design-v4.md` (`ec53898a…`)
-- D1 v5 → `designs/claude-native-bigint-d1-design-v5/`, including an A-GHOST-2 horizon design for F35
+- D1 v5 → `designs/claude-native-bigint-d1-design-v5/`. Drafted: DESIGN.md `5994b243…`.
+  - **New engine.** A-ROW is the primary engine, with Theorem H-A (F35 closed at design level for A-ROW, not yet reviewed).
+    A-COL stays a recorded alternative, with F35 OPEN (F38).
+  - **Review.** Its Claude review is running: brief `briefs/d1-design-v5.md` (`92db0bef…`).
+  - **Disclosure.** The author grepped the lead's transcript once during v4 drafting; recorded in
+    `deviations/d1v5-author-process/NOTE.md`.
 
 
 | Item | Verdict | Required changes | Sealed at |
