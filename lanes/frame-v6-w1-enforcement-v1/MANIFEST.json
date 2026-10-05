@@ -1,0 +1,101 @@
+{
+  "schema": "frame-v6w1-enforcement-manifest-v1",
+  "lane": "frame-v6-w1-enforcement-v1",
+  "produced_by": "Claude (Opus 4.8), DRAFTING implementer for WORLDLINE Phase One (not a reviewer)",
+  "produced_at_utc": "2026-10-05",
+  "what_this_is": "FROZEN, REVIEWABLE, UNINSTALLED source for the W-1 scratch-frame ENFORCEMENT CORE: the four frozen frame members, the §12.2 view construction, and the N-owner C helper. Input to the v11 §16 step-2 code review; NOT an installation.",
+  "authoritative_spec": {
+    "file": "../../proposal/ISOLATION-STORAGE-PROPOSAL-v11.md",
+    "sha256": "aac18b67144c18b22c83d739a3fd4c5cff0d2a91eca75a64858d4b791cf637aa",
+    "bytes": 576903,
+    "note": "sha256/bytes carried as read by the sealed v11 review REVIEW.md:10; verified there, not re-hashed here"
+  },
+  "base_frame": {
+    "file": "../../../claude-scratch-frame-v6/scratch.py",
+    "sha256": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84",
+    "bytes_lines": "2016 lines",
+    "role": "the v5/v6 unprivileged single-process DAC frame; reused primitives are CITED by function/line, never modified",
+    "sha256_confirmed_this_session": true
+  },
+  "members": [
+    {"file": "front.py", "role": "F (front/coordinator), uid 1000; verbs adopt/materialize/dispatch; issues W via the S1 sudo rule; runs the shared-window protocol; writes NOTHING in T", "sha256": "e491587a1752717277ac1253731b84740343ab2c42d453fae2d36c49134db96f", "bytes": 6679, "installed": false, "executed": false},
+    {"file": "writer.py", "role": "W (privileged writer), uid/gid wlscratch; §5.1 lease, §5.2 mutation choke point, §10.1 O_TMPFILE commit; issues RL via the RL sudo rule; makes NO boundary call", "sha256": "17db5d9baac764945aff580e4c34b613a47e89947673d594e0adf8ed9235b837", "bytes": 11653, "installed": false, "executed": false},
+    {"file": "sandbox_launch.py", "role": "RL (root launcher), root; the whole §12.2 view construction (steps 1-16 incl. 13b seccomp and 13 Landlock); drops privilege; execs L/O", "sha256": "652d74a1b9dfb196067599ff14d1f9f944739c6850d9a8d85415fd8fcdbb40b4", "bytes": 45643, "installed": false, "executed": false},
+    {"file": "launch_target.py", "role": "L/C/O (in-view target entrypoint), uid 1000 inside the view; verifies RL_IDENTITY + /proc/self/exe mount id; runs the v5 admission/spawn re-homed onto the view", "sha256": "8d651056eae9cf30580a6a1155a1db091089e4035cf9b4bd637992421c66e2c7", "bytes": 6376, "installed": false, "executed": false},
+    {"file": "nsowner_helper.c", "role": "the §12.2 step-10 N-owner / idmap-namespace helper (C source): assumes N, unshare(CLONE_NEWUSER), yields for RL to write the maps, exits; 'runs no other code'", "sha256": "9201332a5c92eef370d823ac45d6978a019038053644dc45d8f0748a6442306a", "bytes": 5365, "installed": false, "executed": false, "compiled": false},
+    {"file": "framelib.py", "role": "shared reused-primitive module (DISCLOSED drafting-structure deviation): faithful transcriptions of the CITED base-frame primitives + the NEW §10.1 O_TMPFILE commit", "sha256": "1c45b08257a02c4ab79745a300a6e1543adec2502614bf8fb894b67fff32253e", "bytes": 16804, "installed": false, "executed": false},
+    {"file": "SELFCHECK.md", "role": "§12.2 step→member coverage, construct→premise-served map, flagged installed-build correspondences, disclosed deviations", "sha256": "b5d5b4eb17afc1fd48551911e816c7dc098a61b4a1b1f43bdcfbf7e4c575aef9", "bytes": 14128},
+    {"file": "MANIFEST.json", "role": "this file", "sha256": null, "note": "a file cannot carry its own post-write sha256; the reviewer hashes it independently"}
+  ],
+  "step_to_member_coverage": {
+    "1": {"member": "sandbox_launch.py", "function": "stage1 (+ load_view_spec)", "status": "delegates-cited"},
+    "2": {"member": "sandbox_launch.py", "function": "check_invoker_is_W", "status": "authored"},
+    "3": {"member": "sandbox_launch.py", "function": "require_fd_set({0,1,2})", "status": "authored"},
+    "4": {"member": "sandbox_launch.py", "function": "stage1 -> Dir.anchor; load_view_spec", "status": "authored+delegates"},
+    "5": {"member": "sandbox_launch.py", "function": "root_scan_no_N (+ _ns_owner_uid, _pid_in_rl_scope)", "status": "authored"},
+    "6": {"member": "sandbox_launch.py", "function": "stage1 -> build_scope_argv", "status": "authored"},
+    "7": {"member": "sandbox_launch.py", "function": "record_initial_ns", "status": "authored"},
+    "8": {"member": "sandbox_launch.py", "function": "step8_mount_namespace", "status": "authored"},
+    "9": {"member": "sandbox_launch.py", "function": "step9_network_namespace", "status": "authored"},
+    "10": {"member": "sandbox_launch.py + nsowner_helper.c", "function": "make_owned_userns + main", "status": "authored"},
+    "11": {"member": "sandbox_launch.py", "function": "step11_bind / step11_skeleton (+ openat2_nofollow)", "status": "authored"},
+    "12": {"member": "sandbox_launch.py", "function": "step12_verify + require_fd_set({0,1,2})", "status": "authored"},
+    "13": {"member": "sandbox_launch.py", "function": "build_landlock_domain", "status": "authored"},
+    "13b": {"member": "sandbox_launch.py", "function": "build_async_submission_filter + install_async_submission_filter", "status": "authored"},
+    "14": {"member": "sandbox_launch.py", "function": "step14_credentials", "status": "authored"},
+    "15": {"member": "sandbox_launch.py", "function": "apply_process_attributes", "status": "delegates-cited (§8.3 table)"},
+    "16": {"member": "sandbox_launch.py + launch_target.py", "function": "send_rl_identity; read_rl_identity + verify_self_exe_mount", "status": "authored+delegates"}
+  },
+  "construct_to_premise_served": {
+    "note": "Implementing a construct is NOT discharging its premise. Every premise below is NAMED_UNESTABLISHED and OPEN (v11 §9.8 N7). Discharge is the operator's reviewed runtime probe (E0/E1/E2, §13.1/§13.2), in the W1-V9-PREMISE-ORDER before O-1. See SELFCHECK.md section B.",
+    "P-NOSUID": "MOUNT_ATTR_NOSUID on '/' recursive (step8) and on every bind/re-attach/skeleton tmpfs (step11)",
+    "P-NOCAP": "the no-capability exec: setresuid(1000) clearing Prm/Eff/Amb + bounding set to F's + nosuid mounts (step14)",
+    "P-NOOWNER": "N owns every U8 (make_owned_userns, NS_GET_OWNER_UID==N) + root_scan_no_N + the §5.3 route design (W never owns U8)",
+    "P-SECCOMP": "the step-13b asynchronous-submission filter (io_setup/io_uring_setup -> ENOSYS on both tables)",
+    "P-ASYNC_P-RELEASE": "the filter + private net/user ns + Landlock topology collectively close v11 §9.8 N4's write paths; completeness itself UNESTABLISHED; NO refutation/holder-defeat procedure is reproduced here (operator-reserved, §16.1 O-ASYNC, procedure OPEN)",
+    "P-IDMAP_P-XMNT": "the two idmapped binds + M_run 'W 1000 1' (step10/step11)",
+    "P-ROOT_P-MSET_P-PROP_P-SKEL": "the private mount ns copy + propagation + skeleton (step8/step11)",
+    "P-LL_P-LOCK": "the Landlock domain (step13)",
+    "P-NETNS": "the private network ns (step9)",
+    "P-CG_P-SLICE_P-MGR_P-LOGLEVEL": "the system transient scope in user-1000.slice (step6/build_scope_argv)"
+  },
+  "explicit_statements": {
+    "executed_anything": false,
+    "installed_anything": false,
+    "compiled_anything": false,
+    "ran_sudo_unshare_mount_seccomp_systemctl_prover_or_test": false,
+    "created_any_setid_or_capability_object": false,
+    "collected_or_wrote_any_password": false,
+    "marked_anything_executed": false,
+    "writes_only_under_this_lane_directory": true,
+    "all_named_unestablished_premises_stay_OPEN": true,
+    "critical_premises_OPEN": ["P-KSRC", "P-NOSUID", "P-NOCAP", "P-NOOWNER", "P-SECCOMP", "P-ASYNC"],
+    "adoption_blocked": true,
+    "adoption_block_reason": "v11 §23 review-provenance join change is unreviewed; the sealed v11 design review is NOT_ENDORSED (proposal/v11-review/claude-v1)",
+    "original_contracts_fixtures_controls_proof_floors_source_identities_preserved": true,
+    "base_frame_modified": false,
+    "no_exploit_or_boundary_refutation_or_async_holder_defeat_procedure_reproduced": true,
+    "seccomp_filter_and_view_construction_are_defensive_sandbox_enforcement": true,
+    "honest_provenance": "Claude (Opus 4.8) drafting work; never GPT/GPT-6.1; grants no acceptance",
+    "sia_status": "sia MCP server DISCONNECTED this session (connection failure, not missing capability); no SIA recall/note written"
+  },
+  "jackal_exact_numerals": {
+    "note": "the two map literals, confirmed status=exact (lane rat, NOT formal-bounded, informational), evaluator_sha256 4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "2^32-1": 4294967295,
+    "4294967295-1": 4294967294,
+    "use": "U8 identity map '0 0 4294967295'; highest id 4294967294 (v11 §12.2 step 10, carried verbatim)"
+  },
+  "syscall_numbers_read_from_installed_headers": {
+    "source": "/usr/include/asm-generic/unistd.h and /usr/include/asm/unistd_64.h (read-only, 7.2.6-1-aarch64-ARCH)",
+    "aarch64": {"io_setup": 0, "io_uring_setup": 425, "unshare": 97, "setns": 268, "seccomp": 277, "open_tree": 428, "move_mount": 429, "fsopen": 430, "fsconfig": 431, "fsmount": 432, "openat2": 437, "mount_setattr": 442, "landlock_create_ruleset": 444, "landlock_add_rule": 445, "landlock_restrict_self": 446, "statmount": 457, "listmount": 458},
+    "arm_compat_CARRIED_FROM_SPEC": {"io_setup": 243, "io_uring_setup": 425, "why": "not in the aarch64 /usr/include; carried from v11 §12.2 step 13b / Appendix I, pending S-1/S-2 installed-build reading"}
+  },
+  "remaining_before_code_review_ready": [
+    "installed verb bodies (front/writer/launch_target NotImplementedError hooks): the reviewed v5/v6 logic re-homed onto T anchors + framelib.commit + invoke_rl/start_writer",
+    "load_view_spec / apply_process_attributes: the full sealed-record (launch.json/admission.json/observer-intent) reader and the §8.3 attribute table application",
+    "_pid_in_rl_scope and args_unit installed bodies (cgroup read; <g12>,<A>[,<n>] parse)",
+    "the three flagged installed-build correspondences (ARM compat numbers via S-1/S-2; NS_GET_MNTNS_ID vs NS_MNT_GET_INFO; landlock attr size/ABI) resolved against the installed source",
+    "nsowner_helper build + pin (operator/staging), and RL_IDENTITY/field schema finalization",
+    "the §16 step-5b independent review of the critical-premise E0 source discharges, BEFORE O-1 installs the sudo rules"
+  ]
+}

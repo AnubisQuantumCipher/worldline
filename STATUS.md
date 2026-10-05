@@ -383,11 +383,20 @@ the review gates, reproducing the blocked exploit procedures, faking provenance)
   bytes, install order S-A..S-E, rollback template) + the exists-vs-needed GAP record (EXISTS 6 / PARTIAL 7 / MISSING 30).
   Lead-verified: accounts absent, no sudoers installed, live frame v6 untouched, all .py parse. NOT review-ready: the
   enforcement core is MISSING.
-- `lanes/frame-v6-w1-enforcement-v1/` (in progress) — the ENFORCEMENT CORE: the four frame members (front/writer/
-  sandbox_launch=RL/launch_target) and the §12.2 view construction (the step-13b seccomp io→ENOSYS filter, Landlock,
-  N+idmap U8, nosuid mount skeleton, step-12 verification, the {0,1,2}/O_CLOEXEC discipline). Defensive containment
-  implementation, source-only; the blocked boundary-refutation procedures stay obligation-level/OPEN. Then the §16 step-2
-  code review.
+- `lanes/frame-v6-w1-enforcement-v1/` — the ENFORCEMENT CORE, **DRAFTED** (8 files, FROZEN/REVIEWABLE/UNINSTALLED):
+  `front.py` (F coordinator), `writer.py` (W: §5.1 lease + §5.2 mutation choke point + §10.1 O_TMPFILE commit),
+  `sandbox_launch.py` (RL: the whole §12.2 view construction, steps 1–16 + 13b), `launch_target.py` (L/C/O),
+  `nsowner_helper.c` (the §12.2-step-10 N-owner/idmap helper), `framelib.py` (shared reused primitives — disclosed
+  deviation), `SELFCHECK.md`, `MANIFEST.json`. Lead-verified: base frame v6 (`2255d6e1…`) cited and UNMODIFIED, live v5
+  untouched, all 5 .py parse-clean, MANIFEST pins all 7 member hashes (0 mismatch). The step-13b seccomp BPF table is
+  hand-laid (io_setup/io_uring_setup → ERRNO|ENOSYS on AARCH64 0/425 and ARM 243/425, else ALLOW). **Serving a premise is
+  NOT discharging it** — P-NOSUID/P-NOCAP/P-NOOWNER/P-SECCOMP/P-ASYNC stay NAMED_UNESTABLISHED/OPEN (construct→premise map
+  in SELFCHECK §B). No boundary-exploit/refutation/async-defeat procedure authored (§16.1 O-ASYNC stays obligation-level).
+  Three flagged installed-build correspondences for P-KSRC review (ARM compat 243/425 carried from v11 App I, not in
+  aarch64 headers; `NS_GET_MNTNS_ID` absent → uses `NS_MNT_GET_INFO` + `/proc/self/ns/mnt` inode; Landlock attr-size ABI).
+  **§16 step-2 independent code review launched on Opus 4.8** under override-v3. Remaining before code-review-ready
+  (per author): installed verb-body hooks, resolving the three correspondences against installed source, building/pinning
+  `nsowner_helper`, RL_IDENTITY schema, and the §16 step-5b E0 review before O-1 installs the sudo rules.
 - `evidence/E0-S1-pksrc-20261005/` — the first E0 premise observation (honest: PARTIAL, P-KSRC stays OPEN).
 
 Each gets its own independent Claude review. Nothing is installed; adoption stays BLOCKED until the frozen package and
