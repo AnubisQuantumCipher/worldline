@@ -323,6 +323,25 @@ own agents for that now".
 - **NEW OPEN OBLIGATION F32-CONFLICT.** Two original requirements conflict: OB-003 and those AUTHORIZED controls. The
   resolution must weaken neither. It needs its own design and independent review, and is not decided here.
 
+## Claude review verdicts (sealed by `tools/seal_claude_review.py`; verbatim transcription)
+
+| Item | Verdict | Required changes | Sealed at |
+|---|---|---|---|
+| **PK-0 v2** | **ENDORSED_WITH_REQUIRED_CHANGES** | **RC-v2-1** One case per Context_Matches transport conjunct reachable through the mixed entry; reasoned `unexercisable` replaces `not_exercised`. **RC-v2-2** Readiness observable per refusal case, and the route/three-check claims corrected. **RC-v2-3** Bytecode gate before non-stdlib imports, and `--measure-headers` gated. **RC-v2-4** HarnessFaultControl retains its observed status | `packets/capi-pk0-v2/review/claude-v1`: freeze `8d799c0f…`, REVIEW.md `0246243a…` |
+| **W-1 v8** | **NOT_ENDORSED** | W1-V8-HOLDER-IOEXIT, W1-V8-PRESERVATION-ESTABLISH, W1-V8-PREMISE-DISCHARGE, W1-V8-WRITER-AS-W, W1-V8-COMPOSED-ENUM, W1-V8-EVIDENCE-EQUIV, W1-V8-FORM-SUBUNIT | `proposal/v8-review/claude-v1`: freeze `c0a2bc3f…`, REVIEW.md `38dcb076…` |
+
+**PK-0 v2 closure detail.** RC4 and RC5 are CLOSED_IN_SOURCE; RC1, RC2 and RC3 are PARTIALLY_CLOSED. The reviewer independently confirms the F32 source reading and leaves it with F32-CONFLICT.
+
+**W-1 v8 closure detail.** 7 of the 11 v7 changes are now at CLOSED_AT_SPEC_LEVEL. The SIV pull-route correction is sound but conditional on its premises. V5-B01, V5-B02, PRESERVATION and HOLDER-STATE stay OPEN.
+
+**Model-identity requirement: recorded, not hidden.**
+- **What the original texts say.** The handoff (`HANDOFF.md:173`) and `complete-phase1-prompt.txt:60` require actual gpt-6.1-sol for every required independent review. They state that a Claude review cannot count as that gate, and that if GPT-6.1 is unavailable the gate is retained as blocked.
+- **What the human then directed.** The 17:05Z direction moved the review work to Claude's own agents.
+- **How the lead follows both:**
+  - every review is a Claude review subagent, and is labelled so;
+  - no review, closure or acceptance record will claim the GPT-6.1 gate was met;
+  - any exit claim will state that its independent reviews were Claude subagents under the human's 2026-10-05 direction.
+
 ## F32-CONFLICT resolution design v1 (drafted ~17:35Z; under independent Claude review)
 
 `designs/claude-f32-resolution-v1/`: DESIGN.md `d83bd68e…`, evidence.json `18051d25…`, f32-r-a.patch `226e7fc8…`.

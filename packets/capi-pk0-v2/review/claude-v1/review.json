@@ -1,0 +1,91 @@
+{
+ "schema": "claude-packet-source-review-v1",
+ "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0-v2/packet.json",
+ "packet_sha256": "c5ce00cd7d0dbeaff29a35f87e257abe165a8c116acf3b02760d732ef12e032d",
+ "files_sha256": {
+  "packet.json": "c5ce00cd7d0dbeaff29a35f87e257abe165a8c116acf3b02760d732ef12e032d",
+  "AUTHOR-NOTES.md": "4f50ad4611727746e1645d35c5ea1d0144ab4c7819e3a5ca146dd45219dde514",
+  "jackal.json": "f4b69fdf0ce1080f96aa5c7f1c6f466a59d0a455a260b1fd1e9f081a1db7668e",
+  "files/tests/capi_characterization.json": "42d23d67f1d324ff41ddff29759d206492137cbc9088c927b0e0cd8bbda9befb",
+  "files/tests/capi_guard_pages.py": "29e496d590db927315e69b45bb5d474e8a3aa8ecebebcc1d3bdad2649ab3d12b",
+  "files/tests/capi_layout_baseline.json": "4df25239c3fd173b4076fe34e9f250948f8c92f7068c701c364723ba18294bf0",
+  "files/tests/test_capi_characterization.py": "acbdcc42eefff6d0d0988694e9e62f0e89641274b336ac0d9d07b93e221bc5b1",
+  "files/tests/test_capi_diagnostics.py": "835377234921c004db221d90c6cb81323d1923639e873bceefa2996ef28c8f7b",
+  "files/tests/test_capi_layout_identity.py": "76f086ddff012854a6962cae3bc1c62f8adae4e09dbda616e5c8828e01af12fa"
+ },
+ "brief_sha256": "02f7eff795ff99e621c0132f3099942023edc21d8d8bf8c693ccc54337847ea9",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "rc_closure": {
+  "PK0-RC1": "PARTIALLY_CLOSED: genuine S5 producers/fixtures, sound _adopt owner check, correct guard twins and end guards, every mixed join site reached with exact C-06 streams; gaps: Context_Matches transport conjuncts reachable only via the mixed entry (incl. v4 C-03 refused descriptor overlaps and X.Agent /= Raw_Agent) uncovered, undefined not_exercised category, oracle/route/three-check claims overstated (RC-v2-1, RC-v2-2)",
+  "PK0-RC2": "PARTIALLY_CLOSED: layout --record output-only with digest-bound --headers, scratch-confined probe; characterization --record bytecode gate runs after non-stdlib imports; --measure-headers ungated yet claims scratch-only writes (RC-v2-3)",
+  "PK0-RC3": "PARTIALLY_CLOSED: SIG_DFL policy with before/after verification, assert_child_ok first, harness-only control; control does not emit/retain the abnormal status on its passing path (RC-v2-4)",
+  "PK0-RC4": "CLOSED_IN_SOURCE: byte-exact fd 2, hex fallback, strict report decode, lossless record output, pre-built steps; D06 bytes remain RECORD_ON_L0",
+  "PK0-RC5": "CLOSED_IN_SOURCE: isolation, import, layout and deadline statements corrected; launch properties stated as OPEN obligations, unevidenced"
+ },
+ "item_findings": {
+  "1_integrity": "All nine hashes match; 100 bound inputs match S5 (first 95 equal v1); 6 payload paths absent in S5; v1 and its sealed review unchanged; change list exact; 609 v1 cases and 28 v1 diagnostic cases identical in content and order (two lines differ only by an added trailing list comma); invariants hold: REQUIRED_PROVED 535 (JACKAL exact), MINIMUM_CHECKS 251, UNANALYZED_BOUNDARY {worldline-c_api}, 0 movers, External_Name 31",
+  "2_rc_closure": "see rc_closure; Start.Required group is unexercisable conditional on Seal's postcondition (required-proved, not proved) and must be so recorded; Metadata_Matches transport not_exercised acceptable given U14m per-conjunct coverage; Context_Matches transport not acceptable",
+  "3_resulting_requirement": "Finding correct at contract level (test_raw_evaluation_default.py:71-75,88-89,530; test_finalization_kernel.py:245-251,262-263; core.py:597-598; worldline-collapse_wire.ads:255-260; worldline-collapse.ads:148-151,213-220). Deviation does not redefine original behaviour, edit any fixture/control or narrow a domain; it matches S5's own AUTHORIZED control shape (test_raw_evaluation_default.py:471-490); staged-only shape unaffected. Original AUTHORIZED controls remain and are owned by F32-CONFLICT (STATUS.md:323-324); PK-0 must not and does not decide it",
+  "4_faithfulness": "D29, D30, D31, D34, D35, D36, D37, D40, D41, D42, D46, D47, D49, D52 checked against the bodies: codes, frontiers, line order and values match; no class-H code accepted; no expectation weakened",
+  "5_mechanics": "Fault policy, abnormal-exit-first, fd 2 exactness, layout --record/--headers gate, isolation statements acceptable; characterization --record gate too late, --measure-headers ungated, HarnessFaultControl status not retained on pass; six launch obligations acceptable as OPEN but unevidenced",
+  "6_placeholders": "Unchanged from v1, none added, all fail closed",
+  "7_other": "REC:56 relaxes C-03 per-conjunct granularity for the mixed entry's Context_Matches conjuncts (RC-v2-1); model-identity requirement of HANDOFF.md:173 vs this Claude review recorded, not decided; no other weakening"
+ },
+ "required_changes": [
+  {
+   "id": "RC-v2-1",
+   "change": "One U15y case (with C-05 twin where applicable and exact C-06 stream) per Context_Matches transport conjunct reachable through the mixed entry, including the context/request arrays against the Context_Input descriptor and X.Agent /= Raw_Agent; list unreachable ones as unexercisable with source reasons; record the Start.Required group as unexercisable conditional on Seal's postcondition; remove the reasonless not_exercised category",
+   "reason": "v3 C-03 one case per guard conjunct and v4 §9.6.6 refused context-array overlaps; Context_Matches has no export of its own",
+   "evidence": "REC:56,327; S5/core/evaluation_completion_c.adb:765-780; S5/core/evaluation_completion_c.ads:188-190; v3 DESIGN.md:2229; v4 DESIGN.md:623-624; P1 review REVIEW.md:110,126"
+  },
+  {
+   "id": "RC-v2-2",
+   "change": "Make readiness observable per refusal case (preferred) or correct the oracle claim; correct the 'for each route', 'genuine S5 mix' and 'three checks' claims; recommended K1-primary both-mode case",
+   "reason": "Unguarded and guarded twins pass on a fixture that fails Read_Ready or agent admission (same 255)",
+   "evidence": "test_capi_characterization.py:1287-1299; AUTHOR-NOTES.md:64-74,81-86; REC:61; evaluation_finalization_c.adb:433-436,445-448,464-466; finalization_kernel.py:296-306"
+  },
+  {
+   "id": "RC-v2-3",
+   "change": "Refuse characterization --record before non-stdlib imports without bytecode suppression; gate --measure-headers likewise or qualify its scratch-only claim; replace 'opens no file' with 'writes no file'",
+   "reason": "The refusal follows imports that can write bytecode; the measurement path imports runtime modules ungated",
+   "evidence": "test_capi_characterization.py:21-22,61-77,1525-1535; test_capi_layout_identity.py:22-31,128-130,286-292; packet.json:79; AUTHOR-NOTES.md:105-114"
+  },
+  {
+   "id": "RC-v2-4",
+   "change": "HarnessFaultControl emits the observed wait status/signal on its passing path to a launch-captured channel",
+   "reason": "RC3 retention and launch obligation 6 cannot be met from a silent pass",
+   "evidence": "test_capi_characterization.py:1497-1506; AUTHOR-NOTES.md:136; packet.json:93; P1 review REVIEW.md:142"
+  }
+ ],
+ "open_obligations": [
+  "Independent re-review of a revised packet before baseline execution",
+  "Baseline run on L0 in an admitted frame and reviewed recording of every placeholder",
+  "Six launch obligations, with bytecode suppression covering --measure-headers and the header test",
+  "V5-B01, V5-B02 and the capacity gate",
+  "F32-CONFLICT (STATUS.md:323-324), owned outside PK-0",
+  "Class H 9.6.4 a-d, native write construction, ABI/layout measurement, full proof of Collapse.Decide/Decide_Wire/Seal contracts",
+  "HANDOFF.md:173 model-identity requirement versus this Claude review"
+ ],
+ "run_evidence": false,
+ "control_evidence": false,
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "0246243a9c4e0bf83b77bd9482b2a864dc7d8862e6be326895ce6d12cc85ebcf",
+ "checks": {
+  "path": "packets/capi-pk0-v2/review/claude-v1/checks.json",
+  "sha256": "432c3a40025940261bc87ae545216733434ce15b7fb813316f02233ad7306ee7",
+  "bytes": 8545,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "aead9222d7617ad3e",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/aead9222d7617ad3e.output",
+  "source_task_output_sha256": "728de856849b7b6874c5c94a1e46b2b61490f6b312250f8e9f5df1cbbda19755"
+ }
+}

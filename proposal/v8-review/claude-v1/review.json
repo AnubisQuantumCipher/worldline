@@ -1,0 +1,188 @@
+{
+ "schema": "claude-design-review-v1",
+ "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v8.md",
+ "design_sha256": "804da95bed429aded004a433d9b43aa6f7fe94a9e94d66eda74d2a44ec4367a6",
+ "support_sha256": "cdae49fc3b537aaf8d97849882b9702087390aee4b4bab3fd0a56c5ce485a0c9",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "NOT_ENDORSED",
+ "prior_closure": {
+  "W1-V7-ARCHITECTURE": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-VIEW-ROOT": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-HOLDER-STATE": "PARTIALLY_CLOSED",
+  "W1-V7-FULL-DOMAIN": "PARTIALLY_CLOSED",
+  "W1-V7-C3-DATA": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-READ-EFFECTS": "PARTIALLY_CLOSED",
+  "W1-V7-PROBES": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-COMPOSED-STATE": "PARTIALLY_CLOSED",
+  "W1-V7-SYNC-PROVENANCE": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V7-EVIDENCE-RESTORE": "PARTIALLY_CLOSED",
+  "W1-V7-PREMISES": "CLOSED_AT_SPEC_LEVEL",
+  "W1-V5-PRESERVATION": "NOT_CLOSED",
+  "W1-V6-PRESERVE": "NOT_CLOSED",
+  "W1-COMMIT-JOURNAL-EXPORT": "PARTIALLY_CLOSED",
+  "W1-CUSTODY": "PARTIALLY_CLOSED",
+  "W1-CUSTODY-CLOSURE": "PARTIALLY_CLOSED",
+  "W1-TERMINAL-CUSTODY": "PARTIALLY_CLOSED",
+  "W1-V5-REVOCATION-CONFINEMENT": "PARTIALLY_CLOSED",
+  "W1-LIFETIME-ROLLBACK": "PARTIALLY_CLOSED",
+  "W1-SETUP": "PARTIALLY_CLOSED",
+  "W1-SETUP-RECONCILIATION": "PARTIALLY_CLOSED",
+  "W1-SETUP-PROBES-ROLLBACK": "PARTIALLY_CLOSED",
+  "W1-PROTOCOL-FAILURE-STATES": "PARTIALLY_CLOSED",
+  "W1-GENERATION-PROTOCOL": "PARTIALLY_CLOSED",
+  "W1-IMAGE-TREE": "PARTIALLY_CLOSED",
+  "W1-V5-JOURNAL-FAILED-CLOSE": "PARTIALLY_CLOSED",
+  "W1-V5-RECONCILIATION-STATES": "PARTIALLY_CLOSED",
+  "W1-DURABILITY-RELEASE": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-IMAGE-OBSERVATION": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-JOURNAL-CONTINUATION": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-RESOURCES": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-SETUP-IDENTITY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V5-IMAGE-PINS": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V5-PROTOCOL-REFUSALS": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V6-C1-DATA": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V6-IMAGE-PIN": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-V6-INVARIANTS": "CLOSED_AT_SPEC_LEVEL_CARRIED"
+ },
+ "w1_gap_closure": {
+  "denial-probes": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "exposure-options": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "fresh-identities-and-vault": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "lease-and-writer-authority": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "per-entry-modes-acls": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "resources-and-images": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "channel-and-dumpability": "PARTIALLY_CLOSED",
+  "commits-and-durable-channel": "PARTIALLY_CLOSED",
+  "generation-order": "PARTIALLY_CLOSED",
+  "participants-and-recovery": "PARTIALLY_CLOSED",
+  "prestate-and-installation": "PARTIALLY_CLOSED",
+  "rollback-and-evidence": "PARTIALLY_CLOSED"
+ },
+ "w1_subgap_closure": {
+  "W1-FINAL-PASS": "CLOSED_AT_SPEC_LEVEL",
+  "W1-IMAGE-COMPATIBILITY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-IMAGE-GEOMETRY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-NONCLAIMS": "CLOSED_AT_SPEC_LEVEL",
+  "W1-PREFLIGHT-IDENTITY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-READ-ACCESS": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-READ-EXPOSURE": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-SETUP-ORDER": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-SETUP-PRESTATE": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-VERIFICATION-PROBES": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-WRITE-AUTHORITY": "CLOSED_AT_SPEC_LEVEL_CARRIED",
+  "W1-CHANNEL": "PARTIALLY_CLOSED",
+  "W1-CLOSURE": "PARTIALLY_CLOSED",
+  "W1-CUSTODY": "PARTIALLY_CLOSED",
+  "W1-EVIDENCE": "PARTIALLY_CLOSED",
+  "W1-FAILURE-LEASE": "PARTIALLY_CLOSED",
+  "W1-FAILURE-RECORDS": "PARTIALLY_CLOSED",
+  "W1-REBOOT-RECOVERY": "PARTIALLY_CLOSED",
+  "W1-ROLLBACK": "PARTIALLY_CLOSED",
+  "W1-SETUP-EXACTNESS": "PARTIALLY_CLOSED"
+ },
+ "siv_assessment": "Pull-route correction (N2) is sound as premise-conditional reasoning: A1 passes the uid half of __ptrace_may_access and fails the commoncap capability half because U8's owner is W, not A1's euid; this supplies the same-user-namespace half the v7 review found missing, conditional on P-KSRC. Push (N1) and name (N3) routes are closed under the stated Landlock/netns/propagation/file-handle premises. The W-owned namespace choice is justified by P-UCOUNT. The identity-map set-ID-root privilege risk is contained only under P-NOSUID and P-NOCAP, which are correctly flagged critical with redesign-on-failure. One vector is under-surfaced: A1 may invoke the sicarii->wlscratch sudo rule to obtain euid W, which holds the owner rule and CAP_SYS_PTRACE over every U8; the pull closure for A1 therefore rests on reviewed writer.py (adversarial argv) never entering a U8, named only in §16/§2.2/P-SETNS and not in N2's A1 analysis (RC W1-V8-WRITER-AS-W). The SIV is correct and complete only as a premise-conditional argument; it launders nothing and establishes no custody. Every premise is NAMED_UNESTABLISHED.",
+ "alternatives_assessment": "The §22.3 table is sound and comprehensive. SIV supersedes v7 (a); c8 root-owned rejected on host-wide accounting; SIV+PIDns rejected because a delegated user-manager scope breaks v5's terminal predicate; SIV-without-netns rejected on inbound abstract sockets; broker and forwarder correctly listed as V1/V2 rework candidates, not adopted, with full costs; BPF-LSM recorded unavailable on this boot (read fact). No preserving route missed; the one preserving direction (narrower mediating LSM in a different kernel) is correctly a reserved toolchain decision. The honest conclusion — no candidate preserves the full domain, SIV is smallest-change custody-under-premises — is carried faithfully.",
+ "change_and_premise_assessment": "V1-V13 and the frame-side C/D rows are all listed as OPEN domain changes; none is presented as a criterion entitlement or narrowed by rule. V8/V10'/V13 are criterion-required through the only available mechanism; V1/V2/V7' are custody-serving and not shown irrelevant. Foreign-owner reads (R-d/R-e') stay accepted; label-lifecycle C6' and the K-census-stricter-than-v5 case (D1) are disclosed OPEN, conservative, not laundered. HOLDER-STATE (P-IOEXIT) is correctly left OPEN and stated exactly. The N7 register is one complete list with S/P/T discharge kinds used correctly, circular first-run removed, false universals corrected, redesign-no-exception kept; P-IOEXIT's 'S' discharge overstates what a source reading can close for the external-mm-holder path, though the prose keeps HOLDER-STATE OPEN. No threshold, cap, fixture, control or proof floor is lowered; no new approval gate is added (v7 D2 reviewer-ruling and the lead-prep step are removed). No premise is presented as fact; arithmetic is correctly classed JACKAL exact / not-formal-bounded / informational.",
+ "form_assessment": "Composable and fully verified by this reviewer: all 124 v7 unit hashes and all 86 CARRIED/AMENDED stubs match; counts 45+41+38-124=0 and 124+7=131 reproduce (JACKAL exact). Unambiguous enough to review but not fully self-verifying: §9.4 and §11.4 are REPLACED units that carry paragraph sub-ranges of the v7 unit by reference (line numbers + quoted boundary phrases) under a change-map hash that covers the whole v7 unit, not the sub-range, so the carried sub-range is not independently hash-pinned; several AMENDED stubs state superseding rules rather than exact old/new text, requiring merge-by-rule. Author discloses both. Finding RC W1-V8-FORM-SUBUNIT.",
+ "required_changes": [
+  {
+   "id": "W1-V8-HOLDER-IOEXIT",
+   "change": "Close the P-IOEXIT asynchronous path (direct-I/O/AIO write completing after cgroup populated 0 via an outside /proc/<pid>/cmdline reader holding the mm) by establishing H(U)'s absorbing property for all asynchronous paths (not refutation-only), or redesign the holder boundary; resolve the dependent consistency of the §15.3 complete capture and §10.6 stream finality.",
+   "reason": "A required v7 change (W1-V7-HOLDER-STATE) is not closed: the absorbing property is unproved for this path and the capture and stream-finality guarantees depend on it.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:973",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1053",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1138",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1527"
+   ]
+  },
+  {
+   "id": "W1-V8-PRESERVATION-ESTABLISH",
+   "change": "Establish the §21.1 preservation relation over the complete original domain for each OPEN V/C/D row with source-to-binary correspondence, or redesign to remove the change; keep V5-B01, V5-B02, W1-V5-PRESERVATION and W1-V6-READ-MUTATION OPEN until done.",
+   "reason": "§21 is a framework with every row OPEN; preservation is established for no row, so the central obligation is unmet.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1842",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1885",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1925"
+   ]
+  },
+  {
+   "id": "W1-V8-PREMISE-DISCHARGE",
+   "change": "Before any installed use, supply the S/P discharges of N7 matched to the installed 7.2.6-1-aarch64-ARCH build (P-KSRC first), in particular P-NOSUID and P-NOCAP on which the identity-map design's host-DAC safety rests.",
+   "reason": "The entire SIV is conditional on ~30 NAMED_UNESTABLISHED premises; none is discharged, and P-NOSUID/P-NOCAP failure yields host-wide DAC override.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1033",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1359"
+   ]
+  },
+  {
+   "id": "W1-V8-WRITER-AS-W",
+   "change": "Surface in N2 the A1-via-sudo euid-W vector (A1 may run writer.py as W, which holds the owner rule and CAP_SYS_PTRACE over every U8) as an explicit premise/obligation, not only a §16 code-review item and general trusted-base clause.",
+   "reason": "A1's pull closure ultimately rests on reviewed writer.py under adversarial argv never entering a U8; this load-bearing reliance is not surfaced in N2's A1 analysis.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:225",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:492",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:937",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1548"
+   ]
+  },
+  {
+   "id": "W1-V8-COMPOSED-ENUM",
+   "change": "Produce the actual global state-vector table and reachable-state enumeration required by W1-V7-COMPOSED-STATE; the current spec gives a model only, deferring the table to a concrete inventory that does not exist.",
+   "reason": "The required enumeration of global setup/partial/resumption/rollback states is not delivered, only the classification model.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1204",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1616"
+   ]
+  },
+  {
+   "id": "W1-V8-EVIDENCE-EQUIV",
+   "change": "Establish capture equivalence for every original backup consumer (V-BACKUP via V-VAULT) and safe fresh capacity, and resolve the capture's dependence on H(U)/P-IOEXIT.",
+   "reason": "W1-V7-EVIDENCE-RESTORE is specified but equivalence and capacity are OPEN, and the capture (written after populated 0) inherits the unproved P-IOEXIT.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:704",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1902",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1425"
+   ]
+  },
+  {
+   "id": "W1-V8-FORM-SUBUNIT",
+   "change": "Independently hash-pin every carried paragraph sub-range (§9.4 release-rule paragraphs; §11.4 staging/status rules), or inline the composed text, so the specification is self-verifying.",
+   "reason": "These sub-ranges are pinned only by line numbers and quoted phrases under a whole-unit hash, leaving part of the composed specification outside the hash-bound integrity the form otherwise provides.",
+   "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:818",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1733",
+    "ISOLATION-STORAGE-PROPOSAL-v8.md:1750"
+   ]
+  }
+ ],
+ "open_obligations": [
+  "All 219 entries of OBLIGATIONS-v2.json (sha256 1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec)",
+  "V5-B01",
+  "V5-B02",
+  "W1-V5-PRESERVATION",
+  "W1-V6-READ-MUTATION",
+  "W1-V7-HOLDER-STATE",
+  "Gate 0 (capacity, NOT ESTABLISHED)"
+ ],
+ "approval_granted": false,
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "38dcb076a7f60e33c0c2ab158bf8c8f74179fbfb9c8601e81e0dda5a7d2bdf2b",
+ "checks": {
+  "path": "proposal/v8-review/claude-v1/checks.json",
+  "sha256": "0bbdf32bd9d813c80c6eb8978c3d07d0994e06d5e5ce3bd04f0d6a03abb41bd0",
+  "bytes": 7484,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "ad9971a06c91a25aa",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/ad9971a06c91a25aa.output",
+  "source_task_output_sha256": "4926ee637b3f192f6d64f375a2217285471dfc8764499ed60811942ff5b3f784"
+ }
+}
