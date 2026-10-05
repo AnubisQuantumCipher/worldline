@@ -377,7 +377,7 @@ This model is the foundation that §6, §9, §10 and §11 use. Each operation ha
 | C | Custody phase | §6.2 graph (FRONT_OWNED … WORKER_OWNED … CLOSED_WITNESS … plus `UNKNOWN(cause)`). The serial path has no custody dimension. | New `Worldline.Root_Custody_Phase` (§6) | `rw/root_worker_journal.py:21-23` |
 | P | Physical resource | Row phase `Reserved`, `Launch_Intent`, `Running`, `Terminating`, `Terminal`, `Settlement_Unknown`, `Released`, `Charged`, plus observed liveness `Unknown`, `Live`, `Reaped`, `Never_Launched` | Scoped `Check`/`Classify` (unchanged), and the additive `Check_V2`/`Classify_V2` for delegated rows (§5) | `core/resource_run_ledger.ads:37-38,56`; `core/resource_scoped_run_ledger.ads:232-246,443-457` |
 
-The exact mapping from O's values to the broker's and transaction store's record states is an SL-6 specification deliverable (OPEN). O is recorded once per exchange-bearing operation. Operations without an exchange keep `NO_EXCHANGE`, and their effect is tracked in U.
+The exact mapping from O's values to the broker's and transaction store's record states is a deliverable of spec slice S6 (OPEN). O is recorded once per exchange-bearing operation. Operations without an exchange keep `NO_EXCHANGE`, and their effect is tracked in U.
 
 ### 2.2 Coupling rules
 
@@ -405,7 +405,7 @@ The exact mapping from O's values to the broker's and transaction store's record
 - **CD-8.** The first `RESULT_CAPTURE` boundary is write-once (`rw/protected_operations.py:780-785`). Later captures are additive report boundaries. Two already exist: `RETURN_REPORT` (`:763-764`) and `ROOT_WORKER_FINAL_RESULT_CAPTURE` (`rw/protected_root_worker.py:300-303`). Settlement uses the retained first capture.
 - **CD-9.** Child rows settle before their root row. Native `Parent_Supports` already requires `(if Counted (Child) then Counted (Parent))` (`core/resource_run_ledger.ads:250`), so a root release while a child is counted fails containment natively. The Python order only follows the native rule.
 
-### 2.3 Illustrative combinations (DESIGN; the full legal-product table is an SL-6 deliverable)
+### 2.3 Illustrative combinations (DESIGN; the full legal-product table is an S6 deliverable)
 
 | O | U | C | P (root row) | Legal? | Why |
 |---|---|---|---|---|---|
@@ -486,13 +486,13 @@ end Worldline.Scoped_Canonical_Operation;
 
 ### 3.4 Domains: FRESH, RETAINED, HISTORICAL (D-1b)
 
-**FRESH.** This covers the pre-effect conjunction of this unit and an in-request scoped exchange input (SL-2b).
+**FRESH.** This covers the pre-effect conjunction of this unit and an in-request scoped exchange input (B2b). B2b and B2c are the body nodes of the scoped exchange and K4 successors in §15.2.
 - The bound row's origin context must be `L.Same_Context` with `State.Current`. That is a semantic comparison, never record equality.
 - Static consistency argument (STATIC_REASONING): a fresh reservation natively requires `Same_Context (Before.Current, R.New_Row.Scope)` (`resource_scoped_run_ledger.ads:359`). `Record_Launch_Intent` and `Record_Running` natively refuse `Context_Changed` when `Before.Current` differs from the request scope (`:436-438`), and a non-Reserve request scope must equal the row's origin scope (`:373-375`). So a rollover between reserve and launch already blocks the launch in the original scoped kernel. The FRESH clause asks the same of the pre-effect.
 - A rollover between reserve and pre-effect therefore gives `Resource_Refused`, with holds retained and the native release still available (CD-5).
 - This case has **no counterpart** in the original flat domain, because the single-frame embedding admits no rollover. Review question RQ-1 asks whether the reviewer treats it as an accepted case. If so, the pre-effect needs the RETAINED join below rather than refusal, and that join's obligations apply.
 
-**RETAINED.** This covers the scoped successors that decide after a possible rollover: K4 owner completion (`rw/protected_operations.py:605-622`, slice SL-2c), and exchange recovery after restart (SL-2b). Each needs a `Retained_Join` obligation, as a native relation proved with its caller:
+**RETAINED.** This covers the scoped successors that decide after a possible rollover: K4 owner completion (`rw/protected_operations.py:605-622`, B2c), and exchange recovery after restart (B2b). Each needs a `Retained_Join` obligation, as a native relation proved with its caller:
 1. There is a frame index k such that `S.Origin (Row, Frames (k))`, and `Row.Bound.Resource_Epoch < Frames (k + 1).First_Epoch` when k < `Frames'Last`. This is exactly the witness of `Retained_Origin` (`:116-121`).
 2. The authority binding equalities of C3 are evaluated against `Frames (k).Scope` (instance, policy, policy epoch): the context in which the use was reserved, not `State.Current`.
 3. The original native use replays to `Reserved_New` on its retained snapshot (`_original_native_use`, `rw/protected_operations.py:430-438`). No fresh `Reserve_Use` is decided.
@@ -637,7 +637,7 @@ Known potential gaps. Each stays OPEN until proved, or until the **scoped** mode
   - retains the raw native input and output in `FULL_PRE_EFFECT_BOUNDARY`;
   - keeps `collapse_packet` and `collapse_values` byte-compatible for the broker.
 - The root route keeps `DISPATCH_INTENT` (DF-3).
-- The scoped exchange (SL-2b) and K4 (SL-2c) successors follow the same pattern, with the RETAINED join where §3.4 applies.
+- The scoped exchange (B2b) and K4 (B2c) successors follow the same pattern, with the RETAINED join where §3.4 applies.
 
 ### 3.14 Additive controls (pure native value fixtures, Ada `-gnata`; no root needed)
 
@@ -651,7 +651,7 @@ Known potential gaps. Each stays OPEN until proved, or until the **scoped** mode
   - bucket conservation off by one unit;
   - a non-zero projection remainder.
 - FRESH rollover pair: a rollover between reserve and pre-effect gives `Resource_Refused`, with holds retained and release available. No rollover gives `Ready`.
-- RETAINED join vectors (SL-2c): origin-frame binding, a stale origin, and a wrong frame index.
+- RETAINED join vectors (B2c): origin-frame binding, a stale origin, and a wrong frame index.
 - An ABI layout test per field.
 - Mutants: a body dropping a clause, and a weakened `Same_Context`. Each must fail the proof gate (pins plus `REQUIRED_PROVED`).
 - Lab controls (operator, §16): a scoped positive operation on both the serial and the root route, plus the RQC grant-refusal set.
@@ -659,7 +659,7 @@ Known potential gaps. Each stays OPEN until proved, or until the **scoped** mode
 ### 3.15 Dependencies and authority
 
 - **S1, the spec**, depends on existing types only: authority, collapse, scoped ledger and classification `Facts`.
-- **Wire layout and exports** depend on G-CAPI. Bodies and proof depend on the admitted frame (R-PROOF). The successors SL-2b and SL-2c depend on S1, on §2 and on L-A1.
+- **Wire layout and exports** depend on G-CAPI. Bodies and proof depend on the admitted frame (R-PROOF). The successors B2b and B2c depend on S1, on S6 (the §2 model) and on G-A1 (§15.2).
 - Drafting is lead work, with independent GPT-6.1 review. Runtime positives need the lab (operator).
 
 ### 3.16 Review questions for this seam (not operator decisions)
@@ -2286,4 +2286,10 @@ fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f  A1/source/runt
 
 ## Appendix D. Companion file identities
 
-<!-- APPENDIX-D-PLACEHOLDER -->
+Computed with read-only `sha256sum` and `wc -c` after each file's last change.
+
+| File | sha256 | Bytes | Content |
+|---|---|---|---|
+| `jackal.json` | `fe664cc888e348292b6e3cd28c37f89a6e4dfb7ea2e843f94253595dda4a7561` | 8286 | Every JACKAL call, J01–J18 |
+| `AUTHOR-NOTES.md` | `f7b248380a460c6b6f581f4c3b695f9deb9335c2c9945a27efaa2b1392d7cc64` | 25502 | Reviewer priorities, unresolved items, uncertainties, the N-6 scan, the process record |
+| `seams.json` | not recorded here | — | The machine twin. It records this file's sha256 and size and the two identities above. Its own identity is given in the handback message, so no hash cycle exists. |
