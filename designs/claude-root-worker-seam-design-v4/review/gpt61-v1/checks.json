@@ -1,0 +1,3496 @@
+{
+  "schema": "claude-design-review-checks-v1",
+  "actual_model_selection": "gpt-6.1-sol",
+  "different_from_author": true,
+  "method": "Passive source/JSON/Markdown line reads, bounded rg, hashing and review-owned data processing. Target code was never imported or executed.",
+  "primary_hashes": {
+    "SEAM-DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md",
+      "sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+      "bytes": 233353,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+      "expected_match": true
+    },
+    "seams.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/seams.json",
+      "sha256": "92a814a4883d3e01680dbfeae82cb7889b038930bc4e21bcaefd39b622a2a86c",
+      "bytes": 32096,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "92a814a4883d3e01680dbfeae82cb7889b038930bc4e21bcaefd39b622a2a86c",
+      "expected_match": true
+    },
+    "jackal.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/jackal.json",
+      "sha256": "4d556a457caa268c80b5d7ef4edae949433034ffeb950a5b4d2f8a29fcafcfab",
+      "bytes": 3606,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "4d556a457caa268c80b5d7ef4edae949433034ffeb950a5b4d2f8a29fcafcfab",
+      "expected_match": true
+    },
+    "AUTHOR-NOTES.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/AUTHOR-NOTES.md",
+      "sha256": "0bd92ccd556e39a358a5e93db5a57fe55ba206080d7b6dc1f033508d7f9c66e4",
+      "bytes": 10119,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "0bd92ccd556e39a358a5e93db5a57fe55ba206080d7b6dc1f033508d7f9c66e4",
+      "expected_match": true
+    }
+  },
+  "input_files": {
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md",
+      "sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+      "bytes": 233353,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/seams.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/seams.json",
+      "sha256": "92a814a4883d3e01680dbfeae82cb7889b038930bc4e21bcaefd39b622a2a86c",
+      "bytes": 32096,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "92a814a4883d3e01680dbfeae82cb7889b038930bc4e21bcaefd39b622a2a86c",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/jackal.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/jackal.json",
+      "sha256": "4d556a457caa268c80b5d7ef4edae949433034ffeb950a5b4d2f8a29fcafcfab",
+      "bytes": 3606,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "4d556a457caa268c80b5d7ef4edae949433034ffeb950a5b4d2f8a29fcafcfab",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/AUTHOR-NOTES.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/AUTHOR-NOTES.md",
+      "sha256": "0bd92ccd556e39a358a5e93db5a57fe55ba206080d7b6dc1f033508d7f9c66e4",
+      "bytes": 10119,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "0bd92ccd556e39a358a5e93db5a57fe55ba206080d7b6dc1f033508d7f9c66e4",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review-freeze.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review-freeze.json",
+      "sha256": "f6f31ddc0bff4dd59ecccfa389f48ce85c7ad91900fe844cf72293a7d7cb1603",
+      "bytes": 559,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": null,
+      "expected_match": null
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/REVIEW.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/REVIEW.md",
+      "sha256": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+      "bytes": 48197,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "a1e54a5b0f58e54fec854d3b3eda8780ddaa1a956169f1ac547e1a033722f496",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checks.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/checks.json",
+      "sha256": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498",
+      "bytes": 68553,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "b1834ee42369df2a907147874a671c39891c587852bb5b79229c0400db66d498",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review.json",
+      "sha256": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4",
+      "bytes": 74364,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "721bce3ae3e7444fed19ee502c6ac6f3620c0aaedb3a5caa26c6c5a596f00bd4",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/review-freeze.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/review-freeze.json",
+      "sha256": "d40060e5d9cdea0f65c117b95a1048570a3e3d18c6ce002efa8d1d8a2198c32b",
+      "bytes": 561,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "d40060e5d9cdea0f65c117b95a1048570a3e3d18c6ce002efa8d1d8a2198c32b",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/REVIEW.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/REVIEW.md",
+      "sha256": "1a41b5c5bc0b0fba759ecd66357c401a8b5cdee6c5bf1e3914d6989242f010ac",
+      "bytes": 80074,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "1a41b5c5bc0b0fba759ecd66357c401a8b5cdee6c5bf1e3914d6989242f010ac",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/review.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/review.json",
+      "sha256": "84c176dfc3f2f49deb2a0967da90179ab1e80681e00fa33203a158066d01b942",
+      "bytes": 112348,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "84c176dfc3f2f49deb2a0967da90179ab1e80681e00fa33203a158066d01b942",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/checks.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/checks.json",
+      "sha256": "63a36b12ec283916619a668162129ea4562dc316ec30a0410f45b42d2d124fe4",
+      "bytes": 296461,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "63a36b12ec283916619a668162129ea4562dc316ec30a0410f45b42d2d124fe4",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/review-freeze.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/review-freeze.json",
+      "sha256": "c52bd9ee470d1b29dbfcd44a1bd00331a922af6323ead6a601db65814c09de40",
+      "bytes": 561,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "c52bd9ee470d1b29dbfcd44a1bd00331a922af6323ead6a601db65814c09de40",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/REVIEW.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/REVIEW.md",
+      "sha256": "1e1c5ef8bb396d7e3fe75b63bb9c788616dfb6b26561d729c2d867064cfea879",
+      "bytes": 84061,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "1e1c5ef8bb396d7e3fe75b63bb9c788616dfb6b26561d729c2d867064cfea879",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/review.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/review.json",
+      "sha256": "35b264e77922b028443b6b36718f0db2c14efc14f06746dc7510c727141463cf",
+      "bytes": 141527,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "35b264e77922b028443b6b36718f0db2c14efc14f06746dc7510c727141463cf",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/checks.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/checks.json",
+      "sha256": "63bcb753990a9dbc0d2caf3a49db68baa103f5720cf7546bb9e7af68083c05ed",
+      "bytes": 112304,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "63bcb753990a9dbc0d2caf3a49db68baa103f5720cf7546bb9e7af68083c05ed",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/review-freeze.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/review-freeze.json",
+      "sha256": "91bddf1a46763251940db658f5115cd13ab9de4aa67c0a41ae169de165649af1",
+      "bytes": 560,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "91bddf1a46763251940db658f5115cd13ab9de4aa67c0a41ae169de165649af1",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/REVIEW.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/REVIEW.md",
+      "sha256": "73e82489706e03ca465e7dea2aed1823df0b50a8ce1c5ab0555c545579dc34d8",
+      "bytes": 33299,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "73e82489706e03ca465e7dea2aed1823df0b50a8ce1c5ab0555c545579dc34d8",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/review.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/review.json",
+      "sha256": "800880d44bff4b234c82cc392a3008fd4d37139b0827d070120cf299370f403b",
+      "bytes": 19071,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "800880d44bff4b234c82cc392a3008fd4d37139b0827d070120cf299370f403b",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checks.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/checks.json",
+      "sha256": "c1398253713aa6d42ed11fda5194502ccae5a64825b36ef8100206f7d40719ef",
+      "bytes": 135152,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "c1398253713aa6d42ed11fda5194502ccae5a64825b36ef8100206f7d40719ef",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/review-freeze.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/review-freeze.json",
+      "sha256": "15fc9f07786eba0e0c1d3cde0250c8696e8ebeb96961ce6c22aeea2fcc590742",
+      "bytes": 560,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "15fc9f07786eba0e0c1d3cde0250c8696e8ebeb96961ce6c22aeea2fcc590742",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/REVIEW.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/REVIEW.md",
+      "sha256": "12cfde3c3eed993b6056dc75d901710bdee1273e67cfe150a9648f99627da161",
+      "bytes": 48543,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "12cfde3c3eed993b6056dc75d901710bdee1273e67cfe150a9648f99627da161",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/review.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/review.json",
+      "sha256": "bcfa259f8690c492b9284ef1ed9549efa7a5d3899edc1fbd5a0ae2ab7234d128",
+      "bytes": 21783,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "bcfa259f8690c492b9284ef1ed9549efa7a5d3899edc1fbd5a0ae2ab7234d128",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/checks.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/checks.json",
+      "sha256": "12642ce4501f12b0a608264d9bd93a23f39fd6c7d2c85cee69d94a91a3e2f284",
+      "bytes": 341795,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "12642ce4501f12b0a608264d9bd93a23f39fd6c7d2c85cee69d94a91a3e2f284",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/SEAM-DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/SEAM-DESIGN.md",
+      "sha256": "db512ddb0bc24c1282c45ebbdb035842234a833046b46b702d020cf14027e1b5",
+      "bytes": 224640,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "db512ddb0bc24c1282c45ebbdb035842234a833046b46b702d020cf14027e1b5",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/seams.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/seams.json",
+      "sha256": "65a8c73028ad1cb22550bf26ffb3d0027ce125c3ac4b29b64def7765a83415c4",
+      "bytes": 108872,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "65a8c73028ad1cb22550bf26ffb3d0027ce125c3ac4b29b64def7765a83415c4",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/REVIEW.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/REVIEW.md",
+      "sha256": "3d1ef7f82c2458f24ef9a8916e82db0d97c3e1730038cf20ac3d5e0e0323e4aa",
+      "bytes": 29178,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "3d1ef7f82c2458f24ef9a8916e82db0d97c3e1730038cf20ac3d5e0e0323e4aa",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review.json",
+      "sha256": "d7bf825a6c3d0da5f1b9302b64991d05759ae4754eb7347dcf187eb89b2e1f4e",
+      "bytes": 18116,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "d7bf825a6c3d0da5f1b9302b64991d05759ae4754eb7347dcf187eb89b2e1f4e",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checks.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/checks.json",
+      "sha256": "d70fe4677ae2159ad617a0dc6f9982fc976fd86b7d43f66dc9a3913e51e96963",
+      "bytes": 119076,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "d70fe4677ae2159ad617a0dc6f9982fc976fd86b7d43f66dc9a3913e51e96963",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review-freeze.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/review/gpt61-v1/review-freeze.json",
+      "sha256": "f1dcb0a77264dedd4c08be8b71ce390db66295cb25d1eb79eeb3701c7c0413dc",
+      "bytes": 560,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "f1dcb0a77264dedd4c08be8b71ce390db66295cb25d1eb79eeb3701c7c0413dc",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/DESIGN.md",
+      "sha256": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+      "bytes": 46731,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "533f0e043fb991d015bcf16494674d791b6f8f8bd5049fef5a8e60594c9341de",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/jackal.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/jackal.json",
+      "sha256": "fe664cc888e348292b6e3cd28c37f89a6e4dfb7ea2e843f94253595dda4a7561",
+      "bytes": 8286,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "fe664cc888e348292b6e3cd28c37f89a6e4dfb7ea2e843f94253595dda4a7561",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/AUTHOR-NOTES.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/AUTHOR-NOTES.md",
+      "sha256": "782379cd1944dc03e59ec7f50eb4aae70bfbdf69c164e9167817b80883652990",
+      "bytes": 26150,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "782379cd1944dc03e59ec7f50eb4aae70bfbdf69c164e9167817b80883652990",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/SEAM-DESIGN.md",
+      "sha256": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46",
+      "bytes": 76988,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "531d11282f811518b868470c0012f23a5e34bdbe3891ef39194cd8f230933f46",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/DESIGN.md",
+      "sha256": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+      "bytes": 97143,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "a9b5dcce5ca5808f8049ae8e7020a79c3fbfc33cc4dcbcc3706fd8f4f40fbfd6",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-BINDINGS.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v4/APPENDIX-BINDINGS.md",
+      "sha256": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+      "bytes": 225451,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "39ca995998d68b57d13c02796ee30d8826eecc07e750abf95a83f7d348f7d626",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+      "bytes": 30462,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+      "bytes": 410484,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-c_api.adb": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-composition-v5-beta/source/core/worldline-c_api.adb",
+      "sha256": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+      "bytes": 56596,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "0a17c0efb95904ee865182a20d3bcabceeef93b1cc3639687aab27696339f35b",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/dependency-source/lab/intent_gate.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/dependency-source/lab/intent_gate.py",
+      "sha256": "74d3f2f95a830738fcfdb741494d0b9ee1f021e63d150bcb77d51a7cf56e14d5",
+      "bytes": 70391,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "74d3f2f95a830738fcfdb741494d0b9ee1f021e63d150bcb77d51a7cf56e14d5",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/secondary-source-union-v1.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/secondary-source-union-v1.json",
+      "sha256": "a87f12865e30789d850cff3a25c69f3ea1793f8dae47404b82acb751efb3a6f9",
+      "bytes": 17829,
+      "mode": "0600",
+      "prior_read_unchanged": true,
+      "expected": "a87f12865e30789d850cff3a25c69f3ea1793f8dae47404b82acb751efb3a6f9",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_scoped_run_ledger.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_scoped_run_ledger.ads",
+      "sha256": "d25a94919a8bed008d007273ab6a887159bd1dd367d71e9a428f2e5bbd96f5ef",
+      "bytes": 34202,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "d25a94919a8bed008d007273ab6a887159bd1dd367d71e9a428f2e5bbd96f5ef",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_run_ledger.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_run_ledger.ads",
+      "sha256": "65a38d24f3c5444bd21bc15ecf8dee6ec9e2e93a71ba911f6678ca9b4797562d",
+      "bytes": 24523,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "65a38d24f3c5444bd21bc15ecf8dee6ec9e2e93a71ba911f6678ca9b4797562d",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_observation_classification.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_observation_classification.ads",
+      "sha256": "23c43aaaad873052b8e2e192a4c33a46b1d08f7b427f11f7b27f10602553c07f",
+      "bytes": 8463,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "23c43aaaad873052b8e2e192a4c33a46b1d08f7b427f11f7b27f10602553c07f",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_quantities.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_quantities.ads",
+      "sha256": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+      "bytes": 5495,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "ea4397f3b8b1e4561603253dddcc5f9515116f4096d35b8ead50fbfe70470e0d",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_reservation_transition.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/resource_reservation_transition.ads",
+      "sha256": "570a1cd5fc4ffb20cef000eb669cf0c15105e8a7e70f737c2933c8c2fd676c20",
+      "bytes": 16228,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "570a1cd5fc4ffb20cef000eb669cf0c15105e8a7e70f737c2933c8c2fd676c20",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-operation_authority.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-operation_authority.ads",
+      "sha256": "fe3fd5583b5aa91ac902bc969c389ede02962976103118ed7c85e8f09d958b66",
+      "bytes": 13345,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "fe3fd5583b5aa91ac902bc969c389ede02962976103118ed7c85e8f09d958b66",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-operation_authority.adb": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-operation_authority.adb",
+      "sha256": "c0c62623152021d578cd65b96efce18a0cc7805e5c4b25fdde923c949db193d7",
+      "bytes": 10333,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "c0c62623152021d578cd65b96efce18a0cc7805e5c4b25fdde923c949db193d7",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-resource_child_execution.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-resource_child_execution.ads",
+      "sha256": "5aafbe6337572c6be44801900387cde2be776b0cdf55775ef09331f48dfd0ba9",
+      "bytes": 22922,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "5aafbe6337572c6be44801900387cde2be776b0cdf55775ef09331f48dfd0ba9",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_operation.adb": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_operation.adb",
+      "sha256": "c5821527426f828807ed4eff37bc0be31df0b4cb8159e8c91fa4734410fe5f9c",
+      "bytes": 2750,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "c5821527426f828807ed4eff37bc0be31df0b4cb8159e8c91fa4734410fe5f9c",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_exchange.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_exchange.ads",
+      "sha256": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600",
+      "bytes": 10891,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_owner_completion.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_owner_completion.ads",
+      "sha256": "f3300f5408493b100157dd286d80dd818cf2abd2479f26bad5b26e903a635b79",
+      "bytes": 4291,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "f3300f5408493b100157dd286d80dd818cf2abd2479f26bad5b26e903a635b79",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-root/native_root_worker_supervisor_v1.c": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-root/native_root_worker_supervisor_v1.c",
+      "sha256": "f2a321d07e667e80f4359634e8e4a956b555368b8d449e8c8c930b8f511aeff7",
+      "bytes": 19578,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "f2a321d07e667e80f4359634e8e4a956b555368b8d449e8c8c930b8f511aeff7",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-startup/protected-startup-v1.schema.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-startup/protected-startup-v1.schema.json",
+      "sha256": "56a3643486fb9ca3eaef735c0af6a210128f47267d6af5c226015146be62d211",
+      "bytes": 4585,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "56a3643486fb9ca3eaef735c0af6a210128f47267d6af5c226015146be62d211",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_operations.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_operations.py",
+      "sha256": "ea1a01df19ddef2418d4e4ec14dab6cea1eaa70423172eedea36a48ec383f0cb",
+      "bytes": 80281,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "ea1a01df19ddef2418d4e4ec14dab6cea1eaa70423172eedea36a48ec383f0cb",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_worker.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_worker.py",
+      "sha256": "15cbbfcd61a98da55a704af16fd5d853a3af64bc0aba84599d936440ba8f74a1",
+      "bytes": 24960,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "15cbbfcd61a98da55a704af16fd5d853a3af64bc0aba84599d936440ba8f74a1",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_journal.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_journal.py",
+      "sha256": "2510f8edac3937509d36bc3b38511af89f81ecf9a5eff77fefc87f927f3aa811",
+      "bytes": 8930,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "2510f8edac3937509d36bc3b38511af89f81ecf9a5eff77fefc87f927f3aa811",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_custody.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_custody.py",
+      "sha256": "25f38ae7c1b63f14329400155562c18e459b80f46797851ef81d82db03172169",
+      "bytes": 14519,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "25f38ae7c1b63f14329400155562c18e459b80f46797851ef81d82db03172169",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_closed.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_closed.py",
+      "sha256": "68740eda2668faddfe28bd3a8ac1720adac3de32f0bc68d8d95e45f94170d07b",
+      "bytes": 12256,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "68740eda2668faddfe28bd3a8ac1720adac3de32f0bc68d8d95e45f94170d07b",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/client_peer.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/client_peer.py",
+      "sha256": "1022187a02c19fb25ecfcafcc9a43a91e5ab62cf243ae38014c14d4c73463ade",
+      "bytes": 9033,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "1022187a02c19fb25ecfcafcc9a43a91e5ab62cf243ae38014c14d4c73463ade",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/client_peer_relay.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/client_peer_relay.py",
+      "sha256": "52276d2f7e8f76362e4e97e2dd64ff51f2e5198f57969542bf85e9f50c9ef1f4",
+      "bytes": 6761,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "52276d2f7e8f76362e4e97e2dd64ff51f2e5198f57969542bf85e9f50c9ef1f4",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_resource_runtime.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_resource_runtime.py",
+      "sha256": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+      "bytes": 78235,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_supervisor_v3.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_supervisor_v3.py",
+      "sha256": "8d03960180e599f192d997a4b3809dc0f4e1a7624f9d4581a6b8a51fcae107ed",
+      "bytes": 37287,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "8d03960180e599f192d997a4b3809dc0f4e1a7624f9d4581a6b8a51fcae107ed",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_startup.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_startup.py",
+      "sha256": "e29a14a63d67fa3228ede57f0ad12aaa55cbf7c7cf61a8bc09971d5731680ca6",
+      "bytes": 45797,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "e29a14a63d67fa3228ede57f0ad12aaa55cbf7c7cf61a8bc09971d5731680ca6",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/daemon.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/daemon.py",
+      "sha256": "9d448dcc8741b698750147a8a0ccb9aaaf0215cba6a16c702facde394b6b52e4",
+      "bytes": 22369,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "9d448dcc8741b698750147a8a0ccb9aaaf0215cba6a16c702facde394b6b52e4",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_endpoint_router.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_endpoint_router.py",
+      "sha256": "774e35565b93aef70420183a591ceb3acf9ddc9148c0b4ae55fb83bb9efc83ce",
+      "bytes": 2518,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "774e35565b93aef70420183a591ceb3acf9ddc9148c0b4ae55fb83bb9efc83ce",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_full_broker.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_full_broker.py",
+      "sha256": "5ec258a2cbb06a8dbcc5ab02e214d111ff2845b26c19a456c5ba360cf7ea231d",
+      "bytes": 16934,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "5ec258a2cbb06a8dbcc5ab02e214d111ff2845b26c19a456c5ba360cf7ea231d",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_observation.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_observation.py",
+      "sha256": "f3cda07cf0556a515c9b41663d16a8a8f34bb3e4c27ed584869791628a8e4778",
+      "bytes": 11972,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "f3cda07cf0556a515c9b41663d16a8a8f34bb3e4c27ed584869791628a8e4778",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_process_capture.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_process_capture.py",
+      "sha256": "7e7eaed2b8ebf191a89224d26daa69f69a6ef130f5008088b64cd377a76d9ecb",
+      "bytes": 6650,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "7e7eaed2b8ebf191a89224d26daa69f69a6ef130f5008088b64cd377a76d9ecb",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical.py",
+      "sha256": "d80f79bcedace5364d2e9a238ab05b48250660d86cfb4c14aa5393f4b37952af",
+      "bytes": 3169,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "d80f79bcedace5364d2e9a238ab05b48250660d86cfb4c14aa5393f4b37952af",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_resource_runtime.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_resource_runtime.py",
+      "sha256": "fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f",
+      "bytes": 75907,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "fc6f00f698160f1a854ef7ae72c425f3c7ed11243809b6dac1a5132c0e2ad33f",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/store.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/store.py",
+      "sha256": "fe8dc07d25d5da50d8678e644c1e19c076226774436abb56079aff3b02039e91",
+      "bytes": 60752,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "fe8dc07d25d5da50d8678e644c1e19c076226774436abb56079aff3b02039e91",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/admission.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/admission.py",
+      "sha256": "a0781e70e8a4b2b630f6956d0c89208140edc871c4a2a003666573767a32d13d",
+      "bytes": 57212,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "a0781e70e8a4b2b630f6956d0c89208140edc871c4a2a003666573767a32d13d",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/config.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/config.py",
+      "sha256": "64a0163f2938b0cd4858a3b133af3614a3f2dc39bdbb16016dccca650d54c00b",
+      "bytes": 15630,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "64a0163f2938b0cd4858a3b133af3614a3f2dc39bdbb16016dccca650d54c00b",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_endpoint.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_endpoint.py",
+      "sha256": "100d635842c0df20b1a98921fbfcebc94f2ba862abc0b02a10d1792359c286b0",
+      "bytes": 2512,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "100d635842c0df20b1a98921fbfcebc94f2ba862abc0b02a10d1792359c286b0",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_resource_service.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_scoped_resource_service.py",
+      "sha256": "e062ff0335d312366c90517cca21c73c0879d0b95de469840c36cea46250248f",
+      "bytes": 16567,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "e062ff0335d312366c90517cca21c73c0879d0b95de469840c36cea46250248f",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_resource.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_resource.py",
+      "sha256": "f1089a091399dd0c1a0602aebb027edff4737fbf562750e95e3a0c561067f723",
+      "bytes": 11647,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "f1089a091399dd0c1a0602aebb027edff4737fbf562750e95e3a0c561067f723",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/operation_authority_kernel.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/operation_authority_kernel.py",
+      "sha256": "0fc7f5fde1357f1a97da2ce1977c60290cb15bb4e4e5b77205b4e678f6a5f482",
+      "bytes": 10472,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "0fc7f5fde1357f1a97da2ce1977c60290cb15bb4e4e5b77205b4e678f6a5f482",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_actor_execution.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_actor_execution.py",
+      "sha256": "7c089300563f417c2467cb9c327202323071664762fa4c8c1df2d575915e3939",
+      "bytes": 12607,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "7c089300563f417c2467cb9c327202323071664762fa4c8c1df2d575915e3939",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_owner.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_owner.py",
+      "sha256": "17664c88daa5e8d707e3309ecfa01f1db75fa30090597662d6aa23b3d57589bd",
+      "bytes": 50309,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "17664c88daa5e8d707e3309ecfa01f1db75fa30090597662d6aa23b3d57589bd",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_owner_witness.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/canonical_owner_witness.py",
+      "sha256": "4a8c71fa4617b09af2aab8724375c09fabfb2acb5c1676e10f6690b7153270d9",
+      "bytes": 8545,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "4a8c71fa4617b09af2aab8724375c09fabfb2acb5c1676e10f6690b7153270d9",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_supervisor.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/protected_root_supervisor.py",
+      "sha256": "37b58317dac57e21888a01c7b1254d20ec94e85cefe094e68df40fa4c5771d43",
+      "bytes": 26487,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "37b58317dac57e21888a01c7b1254d20ec94e85cefe094e68df40fa4c5771d43",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/SEAM-DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/SEAM-DESIGN.md",
+      "sha256": "a0f2f411d654f1cce472a1ad2a13d3c082fff42def050c5ed4694a8b094d07a0",
+      "bytes": 217264,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "a0f2f411d654f1cce472a1ad2a13d3c082fff42def050c5ed4694a8b094d07a0",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/seams.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/seams.json",
+      "sha256": "093f31176dd9560a236b8ad00f5fd28a683c810c8f400d646631318ca1b582e8",
+      "bytes": 36028,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "093f31176dd9560a236b8ad00f5fd28a683c810c8f400d646631318ca1b582e8",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/jackal.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/jackal.json",
+      "sha256": "8cce45e34f12d9d7976cb9b04ab6ac47e3a99ae8cacc22708a84abe06ec0c024",
+      "bytes": 3736,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "8cce45e34f12d9d7976cb9b04ab6ac47e3a99ae8cacc22708a84abe06ec0c024",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/AUTHOR-NOTES.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/AUTHOR-NOTES.md",
+      "sha256": "dd382e1b0f74e825735e168ab6856b1c85e93f9a39312f3bc15019faf390a0ea",
+      "bytes": 12856,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "dd382e1b0f74e825735e168ab6856b1c85e93f9a39312f3bc15019faf390a0ea",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/APPENDIX-BINDINGS.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/APPENDIX-BINDINGS.md",
+      "sha256": "f22944b4d52bd196f1823f9f0abf1a0f1578db14f5697bd7b63c6899af15a5a2",
+      "bytes": 94352,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "f22944b4d52bd196f1823f9f0abf1a0f1578db14f5697bd7b63c6899af15a5a2",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/DESIGN.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/DESIGN.md",
+      "sha256": "cfa0dca9e275e878b958f2f8da6b5cf54824534867773382965f2a887e98a417",
+      "bytes": 53631,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "cfa0dca9e275e878b958f2f8da6b5cf54824534867773382965f2a887e98a417",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/APPENDIX-BINDINGS.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/APPENDIX-BINDINGS.md",
+      "sha256": "9f9f3dfa897d0c320226df39c89bc5c156fc87ebc3e24959ab0c08bba5db1946",
+      "bytes": 50088,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "9f9f3dfa897d0c320226df39c89bc5c156fc87ebc3e24959ab0c08bba5db1946",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_operation.ads": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/core/worldline-canonical_operation.ads",
+      "sha256": "33dbdb12904ef70c57809fed581e2e03a1e35b9f3935b30916f2c5e3cd8f0782",
+      "bytes": 2027,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "33dbdb12904ef70c57809fed581e2e03a1e35b9f3935b30916f2c5e3cd8f0782",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-resource/native_namespace_supervisor_v3.c": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-resource/native_namespace_supervisor_v3.c",
+      "sha256": "71019128a1f613ed641052737ecafaa425a842e078f066308e655b24f94c15f8",
+      "bytes": 19776,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "71019128a1f613ed641052737ecafaa425a842e078f066308e655b24f94c15f8",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_codec.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_codec.py",
+      "sha256": "f2bc319b69f3491b9b16fde710fde122d94203ab2d5cfb94fb348d7c79d65793",
+      "bytes": 1338,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "f2bc319b69f3491b9b16fde710fde122d94203ab2d5cfb94fb348d7c79d65793",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/operation_capture.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/operation_capture.py",
+      "sha256": "d133785f88a76f09f816f484a58a85d4cd75052a96424b12a52c5434121afb05",
+      "bytes": 5011,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "d133785f88a76f09f816f484a58a85d4cd75052a96424b12a52c5434121afb05",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_plan.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/root_worker_plan.py",
+      "sha256": "25b590b09ebcf81f46726bdc276093a6e9861b6ab60859924eb151525f4adfe3",
+      "bytes": 2308,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "25b590b09ebcf81f46726bdc276093a6e9861b6ab60859924eb151525f4adfe3",
+      "expected_match": true
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/controller.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/runtime/worldline/controller.py",
+      "sha256": "17ccd237864d4b11a19fbd836ad9e585df718558d0d0c83569c1397761cb7aba",
+      "bytes": 76192,
+      "mode": "0644",
+      "prior_read_unchanged": true,
+      "expected": "17ccd237864d4b11a19fbd836ad9e585df718558d0d0c83569c1397761cb7aba",
+      "expected_match": true
+    }
+  },
+  "additional_hashed_files": {
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+      "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e",
+      "bytes": 2699,
+      "mode": "0644"
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ALL-ORIGINAL-OBLIGATIONS.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ALL-ORIGINAL-OBLIGATIONS.md",
+      "sha256": "16d28b04bf937ecc7003a0a4fcf1b62d78b1478cb79542d9341022acc5f95acb",
+      "bytes": 167383,
+      "mode": "0600"
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/REQUIRED-LIFETIME-CONTROLS.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/REQUIRED-LIFETIME-CONTROLS.json",
+      "sha256": "9c836b3e42158c0e71629fda69f3e07e863abf2cd959678075e780c229b178a9",
+      "bytes": 1335,
+      "mode": "0600"
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ORIGINAL-ORDINARY-ROSTER.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/ORIGINAL-ORDINARY-ROSTER.json",
+      "sha256": "4a4cd1b3f605f4f078e15be6ffd75b71dbd80b2420491de80221d42f1a23c41e",
+      "bytes": 413601,
+      "mode": "0600"
+    },
+    "/home/sicarii/Documents/complete-phase1-prompt.txt": {
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327",
+      "bytes": 9048,
+      "mode": "0644"
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/seam-v4-author-process/NOTE.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/seam-v4-author-process/NOTE.md",
+      "sha256": "4cb28eaec5ebd3a7a7c316a1a0bc259811e5884a3a565779f6866bde7ff1fa4a",
+      "bytes": 3145,
+      "mode": "0644"
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-root/worker_entry.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-root/worker_entry.py",
+      "sha256": "b4689aed0c31d2b48e5b66f2925a09cb383516b7056fbfda90378d9d866e92e3",
+      "bytes": 2965,
+      "mode": "0644"
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-startup/controls/test_protected_startup_v1.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/protected-original-root-worker-repair-v1/source/protected-startup/controls/test_protected_startup_v1.py",
+      "sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb",
+      "bytes": 6398,
+      "mode": "0644"
+    }
+  },
+  "slice_checks": {
+    "v3": {
+      "C3-A7": {
+        "range": [
+          178,
+          192
+        ],
+        "expected": "5c07c30f76c7c480d6fb23d321b0659c5657e49ee196546b703bfcd8c9a81080",
+        "sha256": "5c07c30f76c7c480d6fb23d321b0659c5657e49ee196546b703bfcd8c9a81080",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C3-B": {
+        "range": [
+          196,
+          691
+        ],
+        "expected": "7f770eb7006abb991e676062f57da00898026771ed3951751af373a07b8c66cc",
+        "sha256": "7f770eb7006abb991e676062f57da00898026771ed3951751af373a07b8c66cc",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-1 … R4-17, R4-52)",
+        "replacement_list_match": true
+      },
+      "C3-VA": {
+        "range": [
+          744,
+          793
+        ],
+        "expected": "5d6600e199279605b4890015dc16e9e269e8b0f01e3de898d908265852e47d52",
+        "sha256": "5d6600e199279605b4890015dc16e9e269e8b0f01e3de898d908265852e47d52",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-18)",
+        "replacement_list_match": true
+      },
+      "C3-VB": {
+        "range": [
+          796,
+          955
+        ],
+        "expected": "eba45664dab8c9df0fa3131e5967a2fbe16c4dc1fbc237412d21519a667d4f38",
+        "sha256": "eba45664dab8c9df0fa3131e5967a2fbe16c4dc1fbc237412d21519a667d4f38",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-19, R4-20)",
+        "replacement_list_match": true
+      },
+      "C3-VC": {
+        "range": [
+          959,
+          1106
+        ],
+        "expected": "de8b15e2b007d60f216abfcdf1f8da3ba8fd68b3bbded44ed8cda12e3b11d9cd",
+        "sha256": "de8b15e2b007d60f216abfcdf1f8da3ba8fd68b3bbded44ed8cda12e3b11d9cd",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-21 … R4-23)",
+        "replacement_list_match": true
+      },
+      "C3-VD": {
+        "range": [
+          1110,
+          1155
+        ],
+        "expected": "5e5d1e6dbd88bcb5b55fa2df7236a920fac3d54c07f2160bdaf1d5a4f7949aaa",
+        "sha256": "5e5d1e6dbd88bcb5b55fa2df7236a920fac3d54c07f2160bdaf1d5a4f7949aaa",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-24, R4-25)",
+        "replacement_list_match": true
+      },
+      "C3-VE": {
+        "range": [
+          1159,
+          1231
+        ],
+        "expected": "71a7780cddc94e607e565e2ea4c0d6905a9fade1361aa158040c240d21fbd02d",
+        "sha256": "71a7780cddc94e607e565e2ea4c0d6905a9fade1361aa158040c240d21fbd02d",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-26 … R4-28, R4-54, R4-59 … R4-64)",
+        "replacement_list_match": true
+      },
+      "C3-VF1": {
+        "range": [
+          1234,
+          1275
+        ],
+        "expected": "57c06a24ff21b87bd1f7605289879bb8bf724d3f0e432a6810109c588e9e95fe",
+        "sha256": "57c06a24ff21b87bd1f7605289879bb8bf724d3f0e432a6810109c588e9e95fe",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C3-VF5": {
+        "range": [
+          1299,
+          1374
+        ],
+        "expected": "b262e46822f6fa1df6f5562f2e62b541f0fdd4e2fd1ca0f089cff7ba0d5dedf6",
+        "sha256": "b262e46822f6fa1df6f5562f2e62b541f0fdd4e2fd1ca0f089cff7ba0d5dedf6",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-29)",
+        "replacement_list_match": true
+      },
+      "C3-VG": {
+        "range": [
+          1391,
+          1454
+        ],
+        "expected": "306b743e0cfef06baa4d6d9938de9b7c0efe6aef877e250b6e8e7229cf66feb2",
+        "sha256": "306b743e0cfef06baa4d6d9938de9b7c0efe6aef877e250b6e8e7229cf66feb2",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-30 … R4-33, R4-56)",
+        "replacement_list_match": true
+      },
+      "C3-VH1": {
+        "range": [
+          1458,
+          1494
+        ],
+        "expected": "3d75bffbf71d9ee7e4953b39652bb4608529073973bc636fba6a4a5eec821ace",
+        "sha256": "3d75bffbf71d9ee7e4953b39652bb4608529073973bc636fba6a4a5eec821ace",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-34 … R4-36)",
+        "replacement_list_match": true
+      },
+      "C3-VH4": {
+        "range": [
+          1516,
+          1521
+        ],
+        "expected": "b9a8bcb47af453524c4c19eb706c78096c7f7302ddbf83b6cd34fc9d32628b37",
+        "sha256": "b9a8bcb47af453524c4c19eb706c78096c7f7302ddbf83b6cd34fc9d32628b37",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C3-VI1": {
+        "range": [
+          1525,
+          1533
+        ],
+        "expected": "ea9f9d61dc020416728b9f6a8b3ab34039f901f5c0942d447abddf02f38468bf",
+        "sha256": "ea9f9d61dc020416728b9f6a8b3ab34039f901f5c0942d447abddf02f38468bf",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C3-VI45": {
+        "range": [
+          1593,
+          1629
+        ],
+        "expected": "ba30a22e41ee223d3b2baac70e692cd207c8eac36c03fd015c131eebf013acd8",
+        "sha256": "ba30a22e41ee223d3b2baac70e692cd207c8eac36c03fd015c131eebf013acd8",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C3-VJ": {
+        "range": [
+          1650,
+          1717
+        ],
+        "expected": "1c62c4e50cd47c29741327c937acc549caa55b4ac117db9b1edb3be23f968dd1",
+        "sha256": "1c62c4e50cd47c29741327c937acc549caa55b4ac117db9b1edb3be23f968dd1",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-37 … R4-40, R4-53)",
+        "replacement_list_match": true
+      },
+      "C3-VK2": {
+        "range": [
+          1738,
+          1768
+        ],
+        "expected": "9279a36162787286562fec5ea5e6972f3ceb98c2e6b5a1563a3584c150a5cd8e",
+        "sha256": "9279a36162787286562fec5ea5e6972f3ceb98c2e6b5a1563a3584c150a5cd8e",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-41, R4-42)",
+        "replacement_list_match": true
+      },
+      "C3-VK5": {
+        "range": [
+          1777,
+          1833
+        ],
+        "expected": "43c9cd0f838890f572b5482704c095d9205ffae349cb71aef06e7fa13c62ba84",
+        "sha256": "43c9cd0f838890f572b5482704c095d9205ffae349cb71aef06e7fa13c62ba84",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-43)",
+        "replacement_list_match": true
+      },
+      "C3-VL1": {
+        "range": [
+          1837,
+          1851
+        ],
+        "expected": "5366d957d66239900c181e57bb7be69e84eadaacbe3f63ca9110234d804fc88c",
+        "sha256": "5366d957d66239900c181e57bb7be69e84eadaacbe3f63ca9110234d804fc88c",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C3-VL3": {
+        "range": [
+          1859,
+          1865
+        ],
+        "expected": "cfab791373814513e5c25257cb1982f0b44dfdf585a40f7e1320521448111e34",
+        "sha256": "cfab791373814513e5c25257cb1982f0b44dfdf585a40f7e1320521448111e34",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-44)",
+        "replacement_list_match": true
+      },
+      "C3-VL6": {
+        "range": [
+          1885,
+          1890
+        ],
+        "expected": "7264dbf84cdab8dc5dff79019a7a580aad9e18627e4f99a10d818f70aa56dc42",
+        "sha256": "7264dbf84cdab8dc5dff79019a7a580aad9e18627e4f99a10d818f70aa56dc42",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C3-VN": {
+        "range": [
+          1950,
+          1964
+        ],
+        "expected": "490f27c2e00f25eacec9b470a49b5060101212000f6c04f25709be3fe1b4ba35",
+        "sha256": "490f27c2e00f25eacec9b470a49b5060101212000f6c04f25709be3fe1b4ba35",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-50, R4-55)",
+        "replacement_list_match": true
+      },
+      "C3-VO": {
+        "range": [
+          1968,
+          1984
+        ],
+        "expected": "635a7a87b4bba6c331c71873f3caaa53f0e004aacab57e89be1353c4761090b2",
+        "sha256": "635a7a87b4bba6c331c71873f3caaa53f0e004aacab57e89be1353c4761090b2",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-57)",
+        "replacement_list_match": true
+      },
+      "C3-VQ": {
+        "range": [
+          2023,
+          2033
+        ],
+        "expected": "1c5f3e2b73c1d592b8f70400c857afcf931c8851b7c037b610d06ebd94451ba6",
+        "sha256": "1c5f3e2b73c1d592b8f70400c857afcf931c8851b7c037b610d06ebd94451ba6",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-51)",
+        "replacement_list_match": true
+      },
+      "C3-APB": {
+        "range": [
+          2041,
+          2108
+        ],
+        "expected": "328a57676f3b567ae3a648d3fef80473e1da596d0dd9d4b39e1a3c1a64934dd7",
+        "sha256": "328a57676f3b567ae3a648d3fef80473e1da596d0dd9d4b39e1a3c1a64934dd7",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      }
+    },
+    "v2": {
+      "C2-A3": {
+        "range": [
+          110,
+          137
+        ],
+        "expected": "8dac441d5568bfcef6a6c76374715a07fe27405694cfcd656e92a05a198c6c8e",
+        "sha256": "8dac441d5568bfcef6a6c76374715a07fe27405694cfcd656e92a05a198c6c8e",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-B": {
+        "range": [
+          149,
+          245
+        ],
+        "expected": "c67275cf95e85f817827aed32125f8176dfbff82dddad82c299c1765bc8d2ad9",
+        "sha256": "c67275cf95e85f817827aed32125f8176dfbff82dddad82c299c1765bc8d2ad9",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-G": {
+        "range": [
+          315,
+          366
+        ],
+        "expected": "b5e1ebc659b11f56fef5582a7b7d6d2f8c502509eac2a063de4cdfc8224b5b28",
+        "sha256": "b5e1ebc659b11f56fef5582a7b7d6d2f8c502509eac2a063de4cdfc8224b5b28",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-1)",
+        "replacement_list_match": true
+      },
+      "C2-S2": {
+        "range": [
+          367,
+          426
+        ],
+        "expected": "6dcd2745d1553e7df50e36f32fcee59805fb673f3b0f071387e48cdeb4cbadec",
+        "sha256": "6dcd2745d1553e7df50e36f32fcee59805fb673f3b0f071387e48cdeb4cbadec",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-2, R3-3)",
+        "replacement_list_match": true
+      },
+      "C2-31": {
+        "range": [
+          427,
+          506
+        ],
+        "expected": "c87034a71bded859d0e99a88a434b8b41859700f016fe87b589f7d69f1d9d6e5",
+        "sha256": "c87034a71bded859d0e99a88a434b8b41859700f016fe87b589f7d69f1d9d6e5",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-25 … R3-31)",
+        "replacement_list_match": true
+      },
+      "C2-35": {
+        "range": [
+          507,
+          517
+        ],
+        "expected": "0cddde6146e7d4dd8afb6c01251906bc0b4ba2117886c28f6492906d4d7ed38f",
+        "sha256": "0cddde6146e7d4dd8afb6c01251906bc0b4ba2117886c28f6492906d4d7ed38f",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-36": {
+        "range": [
+          518,
+          528
+        ],
+        "expected": "075fa1f1cabc71e2aa8de92397b9464d2abcd6567e03cb337699f94ea2d7cfe4",
+        "sha256": "075fa1f1cabc71e2aa8de92397b9464d2abcd6567e03cb337699f94ea2d7cfe4",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-32)",
+        "replacement_list_match": true
+      },
+      "C2-37": {
+        "range": [
+          529,
+          557
+        ],
+        "expected": "54e7ff5925f03274d6307277bf0d053e19da710c8ba0e9b0c23ac2acae3b8484",
+        "sha256": "54e7ff5925f03274d6307277bf0d053e19da710c8ba0e9b0c23ac2acae3b8484",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-33, R3-34)",
+        "replacement_list_match": true
+      },
+      "C2-38": {
+        "range": [
+          558,
+          574
+        ],
+        "expected": "bef4081b98fafa5007943ba15d886489742f5caea851d3b0bd18b37f6ad1066d",
+        "sha256": "bef4081b98fafa5007943ba15d886489742f5caea851d3b0bd18b37f6ad1066d",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-4)",
+        "replacement_list_match": true
+      },
+      "C2-39": {
+        "range": [
+          575,
+          605
+        ],
+        "expected": "21226be6818e55837d4adb06c998c75ec745eef118bbf56d19ac9674d35ce33d",
+        "sha256": "21226be6818e55837d4adb06c998c75ec745eef118bbf56d19ac9674d35ce33d",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-35 … R3-37)",
+        "replacement_list_match": true
+      },
+      "C2-310": {
+        "range": [
+          606,
+          618
+        ],
+        "expected": "5b36da424bb523a9b3c69fdf9772654c7637ab5770de4c099c0974def5e8ee2d",
+        "sha256": "5b36da424bb523a9b3c69fdf9772654c7637ab5770de4c099c0974def5e8ee2d",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-41": {
+        "range": [
+          673,
+          711
+        ],
+        "expected": "896299ddfd0f03131a8dae49e1750cb6ca1788392acb813b0c848a3ad61b841a",
+        "sha256": "896299ddfd0f03131a8dae49e1750cb6ca1788392acb813b0c848a3ad61b841a",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-38 … R3-40)",
+        "replacement_list_match": true
+      },
+      "C2-42": {
+        "range": [
+          712,
+          742
+        ],
+        "expected": "fc91b4f77d8f1834dc1cc7f3201c84860b299cb054f7a3829d0d27ca8f5a3aec",
+        "sha256": "fc91b4f77d8f1834dc1cc7f3201c84860b299cb054f7a3829d0d27ca8f5a3aec",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-5, R3-6)",
+        "replacement_list_match": true
+      },
+      "C2-46": {
+        "range": [
+          780,
+          792
+        ],
+        "expected": "8e76f0684917bbbaa5f7cd4f09d057fa760c5f8162db4f07a4dd2b84c5d13597",
+        "sha256": "8e76f0684917bbbaa5f7cd4f09d057fa760c5f8162db4f07a4dd2b84c5d13597",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-51": {
+        "range": [
+          810,
+          865
+        ],
+        "expected": "4f8921ed4b596034925228f695ba43942ecc96f88adedb9fb3322f2a8b516f0c",
+        "sha256": "4f8921ed4b596034925228f695ba43942ecc96f88adedb9fb3322f2a8b516f0c",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-53": {
+        "range": [
+          866,
+          878
+        ],
+        "expected": "812b0f969a4d7d83789b8e913cc29ed96018a6cb66743265be10a10db2d9c660",
+        "sha256": "812b0f969a4d7d83789b8e913cc29ed96018a6cb66743265be10a10db2d9c660",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-55": {
+        "range": [
+          898,
+          926
+        ],
+        "expected": "48d0e0b2dda73fc1166cd476be7228ed467af13dca8ff92aa890d6443094d944",
+        "sha256": "48d0e0b2dda73fc1166cd476be7228ed467af13dca8ff92aa890d6443094d944",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-41, R3-42)",
+        "replacement_list_match": true
+      },
+      "C2-56": {
+        "range": [
+          927,
+          944
+        ],
+        "expected": "7529db2726968380b627dee2fd78f695a0bffcaad9cc813703b1c8b9db6d7406",
+        "sha256": "7529db2726968380b627dee2fd78f695a0bffcaad9cc813703b1c8b9db6d7406",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-62": {
+        "range": [
+          970,
+          1010
+        ],
+        "expected": "f3206d63e4f973203d33c9b79c6903fc8f69245d3fed5d333ee386ea319cdd39",
+        "sha256": "f3206d63e4f973203d33c9b79c6903fc8f69245d3fed5d333ee386ea319cdd39",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-10 … R3-13)",
+        "replacement_list_match": true
+      },
+      "C2-64": {
+        "range": [
+          1032,
+          1054
+        ],
+        "expected": "d20b643a28c3ce661b76d2b9e3ad946f9e114b52edc9a0627b3a13b4c4b97a00",
+        "sha256": "d20b643a28c3ce661b76d2b9e3ad946f9e114b52edc9a0627b3a13b4c4b97a00",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-68": {
+        "range": [
+          1061,
+          1073
+        ],
+        "expected": "ca153ae5d2f5316532fdaa0556897a15d2ab7360f63b611c99070fc3e20cd5f4",
+        "sha256": "ca153ae5d2f5316532fdaa0556897a15d2ab7360f63b611c99070fc3e20cd5f4",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-612": {
+        "range": [
+          1102,
+          1114
+        ],
+        "expected": "13b4b7d1d1613d5ee532b755713f585dd88ef25cf862b35d99c85adb87f7686a",
+        "sha256": "13b4b7d1d1613d5ee532b755713f585dd88ef25cf862b35d99c85adb87f7686a",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-71": {
+        "range": [
+          1128,
+          1152
+        ],
+        "expected": "c4c99830f20477e39c1b1ce669244480784e55bd8dd4237a2125b5e01595297a",
+        "sha256": "c4c99830f20477e39c1b1ce669244480784e55bd8dd4237a2125b5e01595297a",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-74": {
+        "range": [
+          1178,
+          1203
+        ],
+        "expected": "cfd9689a5c70f04acf4c0393a5ee50cada435752b990af6480968fbb37a9903a",
+        "sha256": "cfd9689a5c70f04acf4c0393a5ee50cada435752b990af6480968fbb37a9903a",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-14)",
+        "replacement_list_match": true
+      },
+      "C2-84": {
+        "range": [
+          1274,
+          1312
+        ],
+        "expected": "ed4b145a8eab266619fd01b252c5e269f3bb9fb895e8b206954b609e4fb67ae2",
+        "sha256": "ed4b145a8eab266619fd01b252c5e269f3bb9fb895e8b206954b609e4fb67ae2",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-15 … R3-17)",
+        "replacement_list_match": true
+      },
+      "C2-91": {
+        "range": [
+          1325,
+          1347
+        ],
+        "expected": "5a62982b2b8a56fea60ebf833766fed64bad3443a84db78ff5f6d347cbe8c678",
+        "sha256": "5a62982b2b8a56fea60ebf833766fed64bad3443a84db78ff5f6d347cbe8c678",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-92": {
+        "range": [
+          1348,
+          1364
+        ],
+        "expected": "24559c4678b960b688d45bfc824b8af576718292d03743a643b8142a4abff957",
+        "sha256": "24559c4678b960b688d45bfc824b8af576718292d03743a643b8142a4abff957",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-93": {
+        "range": [
+          1365,
+          1395
+        ],
+        "expected": "11c31e0731c39d44cc9d1f49993c554ae215cef37ab05ee65c3381bd4e3b8f8b",
+        "sha256": "11c31e0731c39d44cc9d1f49993c554ae215cef37ab05ee65c3381bd4e3b8f8b",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-18, R3-19)",
+        "replacement_list_match": true
+      },
+      "C2-96": {
+        "range": [
+          1410,
+          1434
+        ],
+        "expected": "fe1aa2509829dfae86875d0bbf833589b0a35362751671d45a848d2756b4652a",
+        "sha256": "fe1aa2509829dfae86875d0bbf833589b0a35362751671d45a848d2756b4652a",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-101": {
+        "range": [
+          1447,
+          1463
+        ],
+        "expected": "97d4336ec60f9f5d7f57b6325542125755a16183ad226af2e04da9f92dce5e35",
+        "sha256": "97d4336ec60f9f5d7f57b6325542125755a16183ad226af2e04da9f92dce5e35",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-104": {
+        "range": [
+          1470,
+          1496
+        ],
+        "expected": "78063127ff72fed2cf97e4ccdd8125a12716aaa5194a26b4a59bef72f3e1642a",
+        "sha256": "78063127ff72fed2cf97e4ccdd8125a12716aaa5194a26b4a59bef72f3e1642a",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-111": {
+        "range": [
+          1509,
+          1527
+        ],
+        "expected": "939f5ffea62a01b55833b59d960eb42ec21c75a7da44b27ee13b4f820a3d1401",
+        "sha256": "939f5ffea62a01b55833b59d960eb42ec21c75a7da44b27ee13b4f820a3d1401",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-43)",
+        "replacement_list_match": true
+      },
+      "C2-113": {
+        "range": [
+          1538,
+          1554
+        ],
+        "expected": "096a1f9cebf774dc6e0f2b46931cbfc6d424c7d77b808da0fd89d4d483473ddc",
+        "sha256": "096a1f9cebf774dc6e0f2b46931cbfc6d424c7d77b808da0fd89d4d483473ddc",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-116": {
+        "range": [
+          1580,
+          1616
+        ],
+        "expected": "b3e66978fdb903fd63f0d3e4cf206984093bf3fff5aa4ddc7594110dd761d222",
+        "sha256": "b3e66978fdb903fd63f0d3e4cf206984093bf3fff5aa4ddc7594110dd761d222",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-12": {
+        "range": [
+          1625,
+          1698
+        ],
+        "expected": "1270f8b508dea88d6e83f20b7c56b6845252e8ef1fa9bf8000f07398d4c5d967",
+        "sha256": "1270f8b508dea88d6e83f20b7c56b6845252e8ef1fa9bf8000f07398d4c5d967",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-132": {
+        "range": [
+          1724,
+          1749
+        ],
+        "expected": "aece2edd58c21f8040a88fbc84ce9625e0d0d76f5a3631a22264c1cbc2a11822",
+        "sha256": "aece2edd58c21f8040a88fbc84ce9625e0d0d76f5a3631a22264c1cbc2a11822",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-141": {
+        "range": [
+          1754,
+          1783
+        ],
+        "expected": "068c98ed137fb8f03551e40d4c18beaf1ac2ad1a74f1456d786c4a758830e097",
+        "sha256": "068c98ed137fb8f03551e40d4c18beaf1ac2ad1a74f1456d786c4a758830e097",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-151": {
+        "range": [
+          1836,
+          1850
+        ],
+        "expected": "47c205aa2729d14e3013c875c4fed99d07c31dab03f45d1a988bddc0e3245741",
+        "sha256": "47c205aa2729d14e3013c875c4fed99d07c31dab03f45d1a988bddc0e3245741",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-7)",
+        "replacement_list_match": true
+      },
+      "C2-153": {
+        "range": [
+          1903,
+          1915
+        ],
+        "expected": "4345ba3cb8acc7aef1c691de65a4985065d6c6bf1e2bc65b4575875cf8510f4e",
+        "sha256": "4345ba3cb8acc7aef1c691de65a4985065d6c6bf1e2bc65b4575875cf8510f4e",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      },
+      "C2-16": {
+        "range": [
+          1922,
+          1962
+        ],
+        "expected": "cc000abe9c5f8be6e6b1d38cdc84985e9374b2e94b52767e6032b1aaa95b704e",
+        "sha256": "cc000abe9c5f8be6e6b1d38cdc84985e9374b2e94b52767e6032b1aaa95b704e",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-8)",
+        "replacement_list_match": true
+      },
+      "C2-17": {
+        "range": [
+          1963,
+          1991
+        ],
+        "expected": "da7d4b09f0286d4e53fc5029d489c1fc5a44c8462726bfa299f64570a75ad27c",
+        "sha256": "da7d4b09f0286d4e53fc5029d489c1fc5a44c8462726bfa299f64570a75ad27c",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-9)",
+        "replacement_list_match": true
+      },
+      "C2-18": {
+        "range": [
+          1992,
+          2053
+        ],
+        "expected": "30a010d01ceec959afbad58e1a744c405aa9fa21a89cf7b4b17979c160f8d368",
+        "sha256": "30a010d01ceec959afbad58e1a744c405aa9fa21a89cf7b4b17979c160f8d368",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-20 … R3-24)",
+        "replacement_list_match": true
+      },
+      "C2-APC": {
+        "range": [
+          2221,
+          2287
+        ],
+        "expected": "92d6c824fe889f692157a260213635d1ddca56bd9f7266ee38e0c19720cc147c",
+        "sha256": "92d6c824fe889f692157a260213635d1ddca56bd9f7266ee38e0c19720cc147c",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM",
+        "replacement_list_match": true
+      }
+    },
+    "v1": {
+      "B-NOTATION": {
+        "range": [
+          46,
+          61
+        ],
+        "expected": "08d331e08f8659a520bb86dac169b2f9b4985c948f503b3b314b5fb5befe7b41",
+        "sha256": "08d331e08f8659a520bb86dac169b2f9b4985c948f503b3b314b5fb5befe7b41",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-P0": {
+        "range": [
+          72,
+          151
+        ],
+        "expected": "e61cd9f936685c1931ad93429bb23fe4b669b3c6d54dbf0f652b482c0321a993",
+        "sha256": "e61cd9f936685c1931ad93429bb23fe4b669b3c6d54dbf0f652b482c0321a993",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R-1, R-2)"
+      },
+      "B-S1-CUR": {
+        "range": [
+          169,
+          195
+        ],
+        "expected": "514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17",
+        "sha256": "514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S1-REQ": {
+        "range": [
+          197,
+          213
+        ],
+        "expected": "dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413",
+        "sha256": "dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S2-CUR": {
+        "range": [
+          323,
+          351
+        ],
+        "expected": "83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259",
+        "sha256": "83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S2-REQ": {
+        "range": [
+          353,
+          369
+        ],
+        "expected": "e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac",
+        "sha256": "e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S3-CUR": {
+        "range": [
+          456,
+          471
+        ],
+        "expected": "705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768",
+        "sha256": "705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S3-REQ": {
+        "range": [
+          473,
+          481
+        ],
+        "expected": "ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793",
+        "sha256": "ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S4-CUR": {
+        "range": [
+          533,
+          548
+        ],
+        "expected": "69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00",
+        "sha256": "69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S4-REQ": {
+        "range": [
+          550,
+          558
+        ],
+        "expected": "54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f",
+        "sha256": "54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S5-CUR": {
+        "range": [
+          632,
+          644
+        ],
+        "expected": "ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b",
+        "sha256": "ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S5-REQ": {
+        "range": [
+          646,
+          659
+        ],
+        "expected": "23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68",
+        "sha256": "23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S6-CUR": {
+        "range": [
+          748,
+          764
+        ],
+        "expected": "8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698",
+        "sha256": "8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S6-REQ": {
+        "range": [
+          766,
+          776
+        ],
+        "expected": "41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b",
+        "sha256": "41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S7-CUR": {
+        "range": [
+          832,
+          856
+        ],
+        "expected": "1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88",
+        "sha256": "1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R-3)"
+      },
+      "B-S7-REQ": {
+        "range": [
+          858,
+          865
+        ],
+        "expected": "6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c",
+        "sha256": "6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S8-CUR": {
+        "range": [
+          928,
+          945
+        ],
+        "expected": "1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02",
+        "sha256": "1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02",
+        "match": true,
+        "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R-4)"
+      },
+      "B-S8-REQ": {
+        "range": [
+          947,
+          958
+        ],
+        "expected": "1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba",
+        "sha256": "1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S9-CUR": {
+        "range": [
+          1033,
+          1071
+        ],
+        "expected": "5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919",
+        "sha256": "5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S9-REQ": {
+        "range": [
+          1073,
+          1082
+        ],
+        "expected": "eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e",
+        "sha256": "eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S10-CUR": {
+        "range": [
+          1153,
+          1163
+        ],
+        "expected": "df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9",
+        "sha256": "df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      },
+      "B-S10-REQ": {
+        "range": [
+          1165,
+          1174
+        ],
+        "expected": "bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e",
+        "sha256": "bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e",
+        "match": true,
+        "disposition": "CARRIED_VERBATIM"
+      }
+    }
+  },
+  "r4_quote_and_semantic_checks": {
+    "R4-1": {
+      "source_version": 3,
+      "range": [
+        259,
+        259
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-3": {
+      "source_version": 3,
+      "range": [
+        291,
+        291
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-4": {
+      "source_version": 3,
+      "range": [
+        307,
+        307
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-5": {
+      "source_version": 3,
+      "range": [
+        315,
+        315
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-6": {
+      "source_version": 3,
+      "range": [
+        323,
+        323
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-11": {
+      "source_version": 3,
+      "range": [
+        428,
+        428
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-12": {
+      "source_version": 3,
+      "range": [
+        436,
+        436
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-13": {
+      "source_version": 3,
+      "range": [
+        444,
+        444
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-16": {
+      "source_version": 3,
+      "range": [
+        628,
+        628
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-17": {
+      "source_version": 3,
+      "range": [
+        664,
+        664
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-18": {
+      "source_version": 3,
+      "range": [
+        777,
+        777
+      ],
+      "slice": "C3-VA",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-26": {
+      "source_version": 3,
+      "range": [
+        1194,
+        1194
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-27": {
+      "source_version": 3,
+      "range": [
+        1219,
+        1219
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-28": {
+      "source_version": 3,
+      "range": [
+        1223,
+        1223
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-30": {
+      "source_version": 3,
+      "range": [
+        1397,
+        1397
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-37": {
+      "source_version": 3,
+      "range": [
+        1673,
+        1673
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-38": {
+      "source_version": 3,
+      "range": [
+        1678,
+        1678
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-39": {
+      "source_version": 3,
+      "range": [
+        1689,
+        1689
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-40": {
+      "source_version": 3,
+      "range": [
+        1690,
+        1690
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-41": {
+      "source_version": 3,
+      "range": [
+        1749,
+        1751
+      ],
+      "slice": "C3-VK2",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-42": {
+      "source_version": 3,
+      "range": [
+        1755,
+        1755
+      ],
+      "slice": "C3-VK2",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-43": {
+      "source_version": 3,
+      "range": [
+        1828,
+        1829
+      ],
+      "slice": "C3-VK5",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-50": {
+      "source_version": 3,
+      "range": [
+        1961,
+        1961
+      ],
+      "slice": "C3-VN",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-51": {
+      "source_version": 3,
+      "range": [
+        2028,
+        2028
+      ],
+      "slice": "C3-VQ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-52": {
+      "source_version": 3,
+      "range": [
+        396,
+        396
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-53": {
+      "source_version": 3,
+      "range": [
+        1707,
+        1707
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-54": {
+      "source_version": 3,
+      "range": [
+        1211,
+        1211
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-55": {
+      "source_version": 3,
+      "range": [
+        1964,
+        1964
+      ],
+      "slice": "C3-VN",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-57": {
+      "source_version": 3,
+      "range": [
+        1983,
+        1983
+      ],
+      "slice": "C3-VO",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-59": {
+      "source_version": 3,
+      "range": [
+        1173,
+        1173
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-60": {
+      "source_version": 3,
+      "range": [
+        1175,
+        1175
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-61": {
+      "source_version": 3,
+      "range": [
+        1176,
+        1176
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-62": {
+      "source_version": 3,
+      "range": [
+        1177,
+        1177
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-63": {
+      "source_version": 3,
+      "range": [
+        1178,
+        1178
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-2": {
+      "source_version": 3,
+      "range": [
+        283,
+        283
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-14": {
+      "source_version": 3,
+      "range": [
+        530,
+        530
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-15": {
+      "source_version": 3,
+      "range": [
+        546,
+        546
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-19": {
+      "source_version": 3,
+      "range": [
+        814,
+        814
+      ],
+      "slice": "C3-VB",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-20": {
+      "source_version": 3,
+      "range": [
+        846,
+        849
+      ],
+      "slice": "C3-VB",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-45": {
+      "source_version": 2,
+      "range": [
+        522,
+        522
+      ],
+      "slice": "C2-36",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-46": {
+      "source_version": 2,
+      "range": [
+        571,
+        571
+      ],
+      "slice": "C2-38",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-58": {
+      "source_version": 2,
+      "range": [
+        561,
+        561
+      ],
+      "slice": "C2-38",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-7": {
+      "source_version": 3,
+      "range": [
+        372,
+        372
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-8": {
+      "source_version": 3,
+      "range": [
+        380,
+        380
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-9": {
+      "source_version": 3,
+      "range": [
+        388,
+        388
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-10": {
+      "source_version": 3,
+      "range": [
+        404,
+        404
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-31": {
+      "source_version": 3,
+      "range": [
+        1445,
+        1445
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-32": {
+      "source_version": 3,
+      "range": [
+        1451,
+        1451
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-33": {
+      "source_version": 3,
+      "range": [
+        1452,
+        1452
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-34": {
+      "source_version": 3,
+      "range": [
+        1466,
+        1466
+      ],
+      "slice": "C3-VH1",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-35": {
+      "source_version": 3,
+      "range": [
+        1477,
+        1477
+      ],
+      "slice": "C3-VH1",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-36": {
+      "source_version": 3,
+      "range": [
+        1480,
+        1483
+      ],
+      "slice": "C3-VH1",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-44": {
+      "source_version": 3,
+      "range": [
+        1862,
+        1862
+      ],
+      "slice": "C3-VL3",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-48": {
+      "source_version": 2,
+      "range": [
+        1053,
+        1053
+      ],
+      "slice": "C2-64",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-49": {
+      "source_version": 2,
+      "range": [
+        1383,
+        1383
+      ],
+      "slice": "C2-93",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-56": {
+      "source_version": 3,
+      "range": [
+        1442,
+        1442
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-21": {
+      "source_version": 3,
+      "range": [
+        980,
+        980
+      ],
+      "slice": "C3-VC",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_NATIVE_JSON_AUTHENTICITY_REPAIR; native signed-zero semantics, full cost, selection/producer premise discharge and anti-rollback boundary remain OPEN."
+    },
+    "R4-22": {
+      "source_version": 3,
+      "range": [
+        1012,
+        1013
+      ],
+      "slice": "C3-VC",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_NATIVE_JSON_AUTHENTICITY_REPAIR; native signed-zero semantics, full cost, selection/producer premise discharge and anti-rollback boundary remain OPEN."
+    },
+    "R4-23": {
+      "source_version": 3,
+      "range": [
+        1096,
+        1096
+      ],
+      "slice": "C3-VC",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_NATIVE_JSON_AUTHENTICITY_REPAIR; native signed-zero semantics, full cost, selection/producer premise discharge and anti-rollback boundary remain OPEN."
+    },
+    "R4-24": {
+      "source_version": 3,
+      "range": [
+        1153,
+        1153
+      ],
+      "slice": "C3-VD",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_WITHDRAWAL_OF_OUTER_BOUND_INCREASE; no accounting option selected or proven to meet the unchanged floor."
+    },
+    "R4-25": {
+      "source_version": 3,
+      "range": [
+        1155,
+        1155
+      ],
+      "slice": "C3-VD",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_WITHDRAWAL_OF_OUTER_BOUND_INCREASE; no accounting option selected or proven to meet the unchanged floor."
+    },
+    "R4-29": {
+      "source_version": 3,
+      "range": [
+        1321,
+        1323
+      ],
+      "slice": "C3-VF5",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_CUSTODY_REPAIR; new event names and Never_Launched exception require a complete product transition/DDL encoding and legal settlement path."
+    },
+    "R4-47": {
+      "source_version": 2,
+      "range": [
+        1008,
+        1008
+      ],
+      "slice": "C2-62",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_CUSTODY_REPAIR; new event names and Never_Launched exception require a complete product transition/DDL encoding and legal settlement path."
+    },
+    "R4-64": {
+      "source_version": 3,
+      "range": [
+        1180,
+        1180
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "NOT_SUFFICIENT_AS_WRITTEN; durable CHILD_READY precedes the sub-helper decision while CHILD_ABORT remains its disagreement response, conflicting with the exclusive READY/ABORT set. Required repair is in item 4."
+    }
+  },
+  "r3_quote_checks": {
+    "R3-1": {
+      "source_version": 2,
+      "range": [
+        362,
+        362
+      ],
+      "slice": "C2-G",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-2": {
+      "source_version": 2,
+      "range": [
+        380,
+        380
+      ],
+      "slice": "C2-S2",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-3": {
+      "source_version": 2,
+      "range": [
+        408,
+        408
+      ],
+      "slice": "C2-S2",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-4": {
+      "source_version": 2,
+      "range": [
+        572,
+        572
+      ],
+      "slice": "C2-38",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-5": {
+      "source_version": 2,
+      "range": [
+        720,
+        720
+      ],
+      "slice": "C2-42",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-6": {
+      "source_version": 2,
+      "range": [
+        738,
+        738
+      ],
+      "slice": "C2-42",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-7": {
+      "source_version": 2,
+      "range": [
+        1844,
+        1844
+      ],
+      "slice": "C2-151",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-8": {
+      "source_version": 2,
+      "range": [
+        1932,
+        1932
+      ],
+      "slice": "C2-16",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-9": {
+      "source_version": 2,
+      "range": [
+        1980,
+        1980
+      ],
+      "slice": "C2-17",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-10": {
+      "source_version": 2,
+      "range": [
+        985,
+        985
+      ],
+      "slice": "C2-62",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-11": {
+      "source_version": 2,
+      "range": [
+        986,
+        986
+      ],
+      "slice": "C2-62",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-12": {
+      "source_version": 2,
+      "range": [
+        992,
+        992
+      ],
+      "slice": "C2-62",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-13": {
+      "source_version": 2,
+      "range": [
+        998,
+        998
+      ],
+      "slice": "C2-62",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-14": {
+      "source_version": 2,
+      "range": [
+        1188,
+        1188
+      ],
+      "slice": "C2-74",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-15": {
+      "source_version": 2,
+      "range": [
+        1285,
+        1285
+      ],
+      "slice": "C2-84",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-16": {
+      "source_version": 2,
+      "range": [
+        1304,
+        1304
+      ],
+      "slice": "C2-84",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-17": {
+      "source_version": 2,
+      "range": [
+        1305,
+        1305
+      ],
+      "slice": "C2-84",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-18": {
+      "source_version": 2,
+      "range": [
+        1389,
+        1389
+      ],
+      "slice": "C2-93",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-19": {
+      "source_version": 2,
+      "range": [
+        1391,
+        1391
+      ],
+      "slice": "C2-93",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-20": {
+      "source_version": 2,
+      "range": [
+        2002,
+        2002
+      ],
+      "slice": "C2-18",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-21": {
+      "source_version": 2,
+      "range": [
+        2018,
+        2018
+      ],
+      "slice": "C2-18",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-22": {
+      "source_version": 2,
+      "range": [
+        2043,
+        2043
+      ],
+      "slice": "C2-18",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-23": {
+      "source_version": 2,
+      "range": [
+        2045,
+        2045
+      ],
+      "slice": "C2-18",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-24": {
+      "source_version": 2,
+      "range": [
+        2053,
+        2053
+      ],
+      "slice": "C2-18",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-25": {
+      "source_version": 2,
+      "range": [
+        467,
+        467
+      ],
+      "slice": "C2-31",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-26": {
+      "source_version": 2,
+      "range": [
+        468,
+        468
+      ],
+      "slice": "C2-31",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-27": {
+      "source_version": 2,
+      "range": [
+        482,
+        482
+      ],
+      "slice": "C2-31",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-28": {
+      "source_version": 2,
+      "range": [
+        484,
+        484
+      ],
+      "slice": "C2-31",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-29": {
+      "source_version": 2,
+      "range": [
+        489,
+        493
+      ],
+      "slice": "C2-31",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-30": {
+      "source_version": 2,
+      "range": [
+        495,
+        495
+      ],
+      "slice": "C2-31",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-31": {
+      "source_version": 2,
+      "range": [
+        498,
+        498
+      ],
+      "slice": "C2-31",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-32": {
+      "source_version": 2,
+      "range": [
+        527,
+        527
+      ],
+      "slice": "C2-36",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-33": {
+      "source_version": 2,
+      "range": [
+        529,
+        529
+      ],
+      "slice": "C2-37",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-34": {
+      "source_version": 2,
+      "range": [
+        556,
+        556
+      ],
+      "slice": "C2-37",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-35": {
+      "source_version": 2,
+      "range": [
+        592,
+        592
+      ],
+      "slice": "C2-39",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-36": {
+      "source_version": 2,
+      "range": [
+        593,
+        593
+      ],
+      "slice": "C2-39",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-37": {
+      "source_version": 2,
+      "range": [
+        599,
+        604
+      ],
+      "slice": "C2-39",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-38": {
+      "source_version": 2,
+      "range": [
+        688,
+        688
+      ],
+      "slice": "C2-41",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-39": {
+      "source_version": 2,
+      "range": [
+        693,
+        693
+      ],
+      "slice": "C2-41",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-40": {
+      "source_version": 2,
+      "range": [
+        694,
+        696
+      ],
+      "slice": "C2-41",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-41": {
+      "source_version": 2,
+      "range": [
+        914,
+        914
+      ],
+      "slice": "C2-55",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-42": {
+      "source_version": 2,
+      "range": [
+        915,
+        919
+      ],
+      "slice": "C2-55",
+      "quote_match": true,
+      "in_slice": true
+    },
+    "R3-43": {
+      "source_version": 2,
+      "range": [
+        1517,
+        1517
+      ],
+      "slice": "C2-111",
+      "quote_match": true,
+      "in_slice": true
+    }
+  },
+  "sealed_review_checks": {
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review-freeze.json": {
+      "model": "gpt-6.1-sol",
+      "different_from_author": true,
+      "files": {
+        "REVIEW.md": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "checks.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "review.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        }
+      }
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/review-freeze.json": {
+      "model": "gpt-6.1-sol",
+      "different_from_author": true,
+      "files": {
+        "REVIEW.md": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "review.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "checks.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        }
+      }
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/review-freeze.json": {
+      "model": "gpt-6.1-sol",
+      "different_from_author": true,
+      "files": {
+        "REVIEW.md": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "review.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "checks.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        }
+      }
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/review-freeze.json": {
+      "model": "gpt-6.1-sol",
+      "different_from_author": true,
+      "files": {
+        "REVIEW.md": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "review.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "checks.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        }
+      }
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/review-freeze.json": {
+      "model": "gpt-6.1-sol",
+      "different_from_author": true,
+      "files": {
+        "REVIEW.md": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "review.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        },
+        "checks.json": {
+          "hash_match": true,
+          "bytes_match": true,
+          "mode_match": true
+        }
+      }
+    }
+  },
+  "quoted_review_cells": {
+    "observed_quoted_cells": 69,
+    "bad": []
+  },
+  "carry_semantics": {
+    "unmapped_substantive_v3_lines": [],
+    "NF_assessment_equal": true,
+    "N_assessment_equal": true,
+    "DF_assessment_equal": true,
+    "NF_text_preserved": true,
+    "op7": {
+      "ids": [
+        "OP-1",
+        "OP-2",
+        "OP-3",
+        "OP-4",
+        "OP-5",
+        "OP-6",
+        "OP-7",
+        "OP-8",
+        "OP-9"
+      ],
+      "assessment": "WITHIN_RESERVED_SCOPE (review); OP-7 range repaired",
+      "op7_range": "K-1 ... K-14, K-15 ... K-21 and K-22, K-23 (R4-1, R4-5)",
+      "added_lowered_or_widened": false
+    },
+    "custody_twin": {
+      "unit": "Worldline.Root_Custody_Phase",
+      "functions": [
+        "Legal_Reference",
+        "Legal",
+        "Next",
+        "Mutation_Allowed"
+      ],
+      "event_kinds_added": [
+        "FRONT_OWNED",
+        "ROOT_STOP_INTENT",
+        "DRAIN_RECLAIMED"
+      ],
+      "request_phases": [
+        "Queued",
+        "Transfer_Intent",
+        "Intake",
+        "Abandoned",
+        "Responded"
+      ],
+      "descriptor_phases": [
+        "Front_Held",
+        "Stop_Intent",
+        "Frozen",
+        "Ofd_Evidence",
+        "Intake",
+        "Abandoned",
+        "Released",
+        "Reclaimed"
+      ],
+      "cxp_rules": [
+        "r1",
+        "r2",
+        "r3'",
+        "r4",
+        "r5'",
+        "r6"
+      ],
+      "mutation_gates": {
+        "M1": "operation journal",
+        "M2": "scoped ledger",
+        "M3": "store",
+        "M4": "custody",
+        "M5": "response",
+        "M6": "read and spool, front allowed in Stop_Intent",
+        "M7": "stdin write",
+        "M8": "stop: original owner paths, helper kill before GO, authorized job.cancel when no owner is reachable; never settles",
+        "M9": "helper command",
+        "M10": "unit reset after CLOSED_WITNESS",
+        "M11": "escrow claim"
+      },
+      "replay_identity": [
+        "generation",
+        "operation",
+        "subject_kind",
+        "subject",
+        "subgeneration",
+        "kind",
+        "record digest"
+      ],
+      "exclusive_sets": [
+        "ACK",
+        "REQUEST",
+        "DRAIN"
+      ],
+      "v1_deployments_gated": false
+    },
+    "requester_twin": {
+      "joins": {
+        "Transfer_Join": "FRESH, before intake, over the authenticated transfer-intent head",
+        "Relay_Join": "RELAY, before intake, over the same head and the relay channel",
+        "Serving_Join": "every gate use after intake"
+      },
+      "circular": false,
+      "user_namespace": "equality when both records are present",
+      "pid_namespace": "correspondence to the HELD identity, never equality",
+      "corroboration_optional": true,
+      "fallback": "FRESH, then RELAY, then queued until an owner can serve; never refused"
+    },
+    "progress_twin": {
+      "dedicated_lane": "withdrawn",
+      "registered_root_executor": "kept",
+      "router_awaits_under_lock": false,
+      "added_waits": [
+        "handoff window",
+        "an unreachable worker's completion or an authorized cancellation",
+        "collection",
+        "evidence for UNKNOWN"
+      ],
+      "deadline_settles": false,
+      "fabricated_join": false,
+      "queued_events_count_as_progress": false
+    }
+  },
+  "owners_and_evidence_requirements_preserved": "The v4 A.5 owner/evidence cells reproduce the sealed v3 ruling strings; no original evidence requirement or owner changed. New reviews do not add an operator gate.",
+  "original_obligations": {
+    "id_set_equal": true,
+    "owner_release_dependencies_operator_fields_equal_after_key_normalization": true,
+    "all_open_no_closure_credit": true,
+    "registry": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+      "bytes": 410484,
+      "mode": "0600"
+    },
+    "observed_entries": 219
+  },
+  "findings_assessment": {
+    "NF4-1": {
+      "status": "VERIFIED_STATIC_CONDITIONAL",
+      "evidence": "D4:165; R/runtime/worldline/protected_root_worker.py:170-171,191-199; R/runtime/worldline/protected_operations.py:749,767-775",
+      "assessment": "After launch returns an owned object, the root exception branch stops/retains and does not itself call original quarantine; with owned None it does quarantine. EFFECT_INTENT lacks the serial DISPATCH_INTENT boundary. This is static control flow, not proof that all dispatched failures take that branch.",
+      "consequence": "V4-B.5 must preserve exception order, durable dispatch boundary and original quarantine. A custody failure must not make those actions impossible while the use remains RESERVED."
+    },
+    "NF4-2": {
+      "status": "VERIFIED_STATIC_ROUTING_CONSEQUENCE_QUALIFIED",
+      "evidence": "D4:166; R/runtime/worldline/protected_operations.py:719-745; R/runtime/worldline/protected_root_worker.py:162-179",
+      "assessment": "Every selected non-owner invocation routes to RootWorkerFront when attached; the listed workload operations are refused/quarantined by the serial path. The root path has no corresponding workload guard. This supports the selected invocation-path observation, not a whole-program proof that no scoped launch exists elsewhere.",
+      "consequence": "Restoring the serial guard corrects DF-3 but would refuse workload operations on the draft's only selected non-owner route. It cannot count as preserving all original required accepted workload cases."
+    },
+    "NF4-3": {
+      "status": "VERIFIED_STATIC_RETAINED_SEED_NOT_RECOVERY_PROOF",
+      "evidence": "D4:167; R/runtime/worldline/root_worker_custody.py:125-133,178-185; R/runtime/worldline/protected_root_observation.py:105-117,157-164; R/protected-root/worker_entry.py:36-45",
+      "assessment": "The retained intent includes root_native and original_native_use; the referenced EXECUTION_NATIVE includes material, observation and provenance. Worker current capture requires that exact root_native event and ROOT_READY_CONJUNCTION. The abbreviated :105-109 reference is protected_root_observation.py, not protected_root_worker.py.",
+      "consequence": "V4-G.3 can reconstruct a seed before HANDLER_TERMINAL, but authentic current physical/closure evidence and legal settlement still require separate evidence."
+    },
+    "NF4-4": {
+      "status": "VERIFIED_STATIC_FULL_PATH_MAPPING_SCOPE",
+      "evidence": "D4:168; R/runtime/worldline/root_worker_process_capture.py:69-88",
+      "assessment": "Every maps line with a pathname beginning '/' is source checked with INTERPRETER/EXECUTABLE/EXTENSION/DATA roles, without an execute-permission filter; exe has INTERPRETER/EXECUTABLE roles.",
+      "consequence": "R4-3/R4-23 correctly restore the original file-backed mapping scope. NC-P3 exclusions must remain explicit; subset coverage is not proof that no unlisted dynamically executed bytes exist."
+    },
+    "NF4-5": {
+      "status": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_SOURCE",
+      "evidence": "D4:169; R/runtime/worldline/root_worker_journal.py:43-45; bounded rg over R/source for initial_event",
+      "assessment": "The only selected-source occurrence of initial_event is the exact genesis key set. No selected producer/consumer was found. Absence is limited to that source tree.",
+      "consequence": "Defining v2 initial_event null is justified, but the empty-chain head must be consistent with the carried DDL foreign key and native origin representation."
+    },
+    "NF4-6": {
+      "status": "VERIFIED_STATIC_RELATIVE_KEY_AND_PREFIX_LIMIT",
+      "evidence": "D4:170; R/runtime/worldline/root_worker_journal.py:50-53,98-113",
+      "assessment": "The issuer key is selected beneath descriptor authority_root, and head MAC covers head plus genesis. A self-consistent retained prefix and its head have no external monotonic comparison in this loader.",
+      "consequence": "V4-C.2 correctly limits self-MAC authenticity and all-history rollback. Boundary cross-reference checks detect only rollback behind references retained elsewhere, not every valid earlier prefix."
+    },
+    "NF4-7": {
+      "status": "VERIFIED_STATIC_TOOL_SELECTION",
+      "evidence": "D4:171; R/runtime/worldline/root_worker_plan.py:18-20; R/runtime/worldline/protected_scoped_resource_runtime.py:73-74,732-735; R/runtime/worldline/protected_resource_runtime.py:171-172",
+      "assessment": "The stated exact native_components keys and tool lookups/value membership are present.",
+      "consequence": "R4-16/R4-37 and V4-J.2 correctly enumerate the selected tools without replacing v1 command-name/which semantics. Provisioning and runtime resolution remain OPEN."
+    },
+    "NF4-8": {
+      "status": "VERIFIED_STATIC_ORIGINAL_JOB_CANCEL",
+      "evidence": "D4:172; R/runtime/worldline/controller.py:423,811-826",
+      "assessment": "job.cancel is mutating; validates a world string, reads world and active_jobs_for_world, raises NO_ACTIVE_JOB for an empty set, and calls runner.cancel once for each recorded job/unit.",
+      "consequence": "The source supports custody-owner store access and original job-unit stopping. It does not itself authorize the new M8(c) generation-root stop without equivalent world/job/unit and current authorization evidence."
+    },
+    "NF4-9": {
+      "status": "VERIFIED_STATIC_EXPLICIT_HELPER_FD_FLOW_RUNTIME_COMPLETENESS_OPEN",
+      "evidence": "D4:173; R/protected-root/native_root_worker_supervisor_v1.c:271-291,323-335; R/protected-resource/native_namespace_supervisor_v3.c:265-275,297-305,337-360",
+      "assessment": "The helpers' created pipes/socketpairs are CLOEXEC; explicit actor stdio is dup2'd, and V1 additionally clears CLOEXEC on its custody sender and appends its descriptor number. V3 sends the measurement receiver to the owner and closes its local receiver without reading that frame. An exhaustive actual inherited-FD roster is not established by these lexical excerpts alone.",
+      "consequence": "A changed relaying sub-helper can enforce COMMIT_CHILD only with its own authenticated material/native decision, cost/source/privilege coverage, and fixed event ordering. The READY-then-ABORT contradiction remains."
+    },
+    "NF4-10": {
+      "status": "VERIFIED_STATIC_EXCEPTION_BOUNDARY",
+      "evidence": "D4:174; R/runtime/worldline/protected_operations.py:355-384",
+      "assessment": "recover_committed at EFFECT_OBSERVED/SETTLED and EFFECT_INTENT+RESULT_CAPTURE is outside the branch try handlers. Broker/owner/K4 recovery catches WorldlineError into unresolved.",
+      "consequence": "R4-53 and RT-21/RT-22 correctly preserve that startup exception boundary; new recovery must not reinterpret the original refusal as successful settlement."
+    },
+    "NF4-11": {
+      "status": "VERIFIED_STATIC_STATUS_MUTATION",
+      "evidence": "D4:175; R/runtime/worldline/daemon.py:84,407-422",
+      "assessment": "status is registered mutating; a dirty store with a reconciler triggers recapture. WorldlineError is reported as degraded status, with store meta updates.",
+      "consequence": "V4-L must preserve genuine status semantics and original dependencies, while demonstrating that its added handoff/UNKNOWN/queue waits do not remove responsiveness."
+    },
+    "NF4-12": {
+      "status": "VERIFIED_STATIC_SCOPED_LAUNCH_ORDER",
+      "evidence": "D4:176; R/runtime/worldline/protected_scoped_resource_runtime.py:739-769; D4:R4-59,R4-61",
+      "assessment": "RECORD_LAUNCH_INTENT precedes DISPATCH_INTENT and systemd dispatch; RECORD_RUNNING follows accept_held.",
+      "consequence": "R4-59/R4-61 correctly repair E3/E6 ordering. Helper READY commit and native gates remain separate open integration obligations."
+    },
+    "NF4-13": {
+      "status": "VERIFIED_STATIC_DDL_KIND_OMISSION_REPAIR",
+      "evidence": "D4:177; D2:1000; D3:1316-1323; D4:R4-29",
+      "assessment": "The carried graph includes FRONT_RECONSTRUCTION -> FRONT_OWNED(g+1), and v3's event-kind CHECK lacked FRONT_OWNED. R4-29 adds it.",
+      "consequence": "The event-kind omission is repaired; the product transition, owner projection, native encoding and complete DDL-to-Next correspondence still require a precise mapping."
+    }
+  },
+  "numbered_item_checkpoints": {
+    "1": {
+      "path": "checkpoint-1.json",
+      "sha256": "88ef67b3ae30487926b62c84d44541445dfd0fae3bd71f22ea0b2e59e63876bd",
+      "bytes": 43633,
+      "mode": "0600"
+    },
+    "2": {
+      "path": "checkpoint-2.json",
+      "sha256": "d164eb60418be528621eef4b5b72773820a4439d617dbae178d39501e44bfe68",
+      "bytes": 72327,
+      "mode": "0600"
+    },
+    "3": {
+      "path": "checkpoint-3.json",
+      "sha256": "559dda6d8c83ab6cd4184d462f6879320e671dfbb66ba6b8bf019a263e990e21",
+      "bytes": 8672,
+      "mode": "0600"
+    },
+    "4": {
+      "path": "checkpoint-4.json",
+      "sha256": "6e2f6a746058e25ff7d875a78be876fd3fe4fe6651d9314d94c7354390c52dc0",
+      "bytes": 12430,
+      "mode": "0600"
+    },
+    "5": {
+      "path": "checkpoint-5.json",
+      "sha256": "6c3eb46f31060b2dd13217ff99de269386fbb7ad41d406a03c4759e898020d30",
+      "bytes": 5019,
+      "mode": "0600"
+    },
+    "6": {
+      "path": "checkpoint-6.json",
+      "sha256": "b36a219eeec460353f3c255237a45904f0e0054041e7f9f3ef5330dbcc49ea21",
+      "bytes": 5272,
+      "mode": "0600"
+    },
+    "7": {
+      "path": "checkpoint-7.json",
+      "sha256": "a44e45423a050ace742a9b3eb23f64e9722b08bf5acd73231471a6cf58e9b550",
+      "bytes": 5223,
+      "mode": "0600"
+    }
+  },
+  "final_closure_amendment": {
+    "supersedes": "checkpoint-1.json item-1 preliminary V3-REQ-K assessment, after the detailed numbered item-5 check",
+    "rc_closure": {
+      "V3-REQ-K": "PARTIALLY_CLOSED"
+    },
+    "reason": "The effective owning-unit/scope view and MQ-RW2 stimulus were not completed by the sealed-review carry alone."
+  },
+  "jackal_calls": [
+    {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=2^63-1 exact=9223372036854775807 approx=9223372036854776000.0",
+      "fields": {
+        "approx": "9223372036854776000.0",
+        "exact": "9223372036854775807",
+        "parsed": "2^63-1",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    }
+  ],
+  "math_consequence_ceiling": "informational about the arithmetic result; no code or runtime correctness follows",
+  "passive_primary_documentation": [
+    {
+      "url": "https://www.sqlite.org/datatype3.html",
+      "lines": "74-83",
+      "use": "INTEGER storage is finite; non-primary columns retain dynamic typing. Passive official documentation read."
+    },
+    {
+      "url": "https://www.sqlite.org/lang_createtable.html",
+      "lines": "260-265",
+      "use": "rowid/INTEGER PRIMARY KEY signed 64-bit semantics. Passive official documentation read."
+    }
+  ],
+  "skills_read": [
+    "/home/sicarii/.agents/skills/ada/SKILL.md",
+    "/home/sicarii/.agents/skills/ada-omarchy/SKILL.md",
+    "/home/sicarii/.agents/skills/ada-programming/SKILL.md",
+    "/home/sicarii/.agents/skills/spark-users-guide/SKILL.md",
+    "/home/sicarii/.agents/skills/ada-high-integrity/SKILL.md",
+    "/home/sicarii/.agents/skills/worldline/SKILL.md",
+    "/home/sicarii/.agents/skills/cosmogony/SKILL.md",
+    "/home/sicarii/.codex/skills/jackel/SKILL.md",
+    "/home/sicarii/.agents/skills/discernment-nudge/SKILL.md"
+  ],
+  "controls": {
+    "original_frontier_sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb",
+    "retired": [],
+    "original_and_additive": "REQUIRED_UNRUN; original domains/bytes/thresholds/proof floor retained"
+  },
+  "operations_not_performed": [
+    "WORLDLINE/COSMOGONY/root-worker import or execution",
+    "compiler/prover/test",
+    "service/systemctl/sudo/namespace",
+    "project-vault/restic",
+    "process interruption/kill/stop",
+    "lab/store/socket/window access",
+    "SIA note",
+    "session transcript read",
+    "forbidden in-progress packet/review read",
+    "reviewer filesystem write outside cwd"
+  ],
+  "process_disclosure": {
+    "evidence": "WT/deviations/seam-v4-author-process/NOTE.md:19-31; AUTHOR-NOTES.md:28,66",
+    "finding": "The author disclosed reading the lead's transcript against instructions and reports using nothing from it. This reviewer read only the designated disclosure/author notes, no transcript. That report is model prose and does not prove absence of influence; the static design findings here come from independently read bound files. The deviation remains disclosed and does not create an approval gate or any acceptance credit."
+  },
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

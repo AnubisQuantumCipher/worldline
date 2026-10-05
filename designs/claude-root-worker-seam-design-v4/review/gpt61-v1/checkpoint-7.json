@@ -1,0 +1,66 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 7,
+  "status": "COMPLETE",
+  "design_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+  "additional_gaps": {
+    "genesis_head": {
+      "evidence": "D4:1666-1683; D3:1365-1368; R/runtime/worldline/root_worker_journal.py:78-98",
+      "finding": "Fresh provisioning inserts no events but a non-null head.event_id equal to a genesis-origin digest while the carried DDL requires that id in events. The original connection enables foreign keys. Specify a genesis-or-event head representation without disabling the foreign-key/history check or inventing an event the initial-state fold does not allow."
+    },
+    "genesis_encoding": {
+      "evidence": "D4:1665-1669,1678; R/runtime/worldline/root_worker_journal.py:39-48,96-98; R/runtime/worldline/root_worker_codec.py:19-27",
+      "finding": "The file is canonical JSON while the row stores the typed archive. Startup must compare the canonical decode/archive relation, not byte-equal unlike encodings. The original loader compares archive(self.genesis) with the row."
+    },
+    "migration_path": {
+      "evidence": "D4:1651-1654,1664-1671,1689-1692",
+      "finding": "A closed old v1 journal stays in place while v2 exclusively creates a new database at plan.handoff_journal. Specify the changed plan path/digest and the retained old plan/loader context; same-path exclusive creation cannot do both. No implicit migration or re-genesis."
+    },
+    "storage": {
+      "evidence": "D4:1285-1304,1368; D3:1307-1358; AUTHOR-NOTES.md:78; P1/HANDOFF.md:125,129-131",
+      "finding": "root_state.generation INTEGER PRIMARY KEY and events.seq INTEGER PRIMARY KEY are rowid-backed finite integers, whereas native Generation/Subgeneration/Position have the original arbitrary quantity domain. Full lossless representation/order/replay and the missing state-field projections remain OPEN. Non-primary INTEGER affinity is flexible; that alone supplies no chosen canonical big-quantity encoding."
+    },
+    "witness_carriage": {
+      "evidence": "D4:960-975,1000-1009; D3:825-832,875-879; AUTHOR-NOTES.md:80",
+      "finding": "W2'/W8', positive N and split Rebase laws improve the specification. The compaction input union must explicitly include the newly chosen form-(b') span as well as original spans whenever text constants still require compaction. The carried 'three forms' and original-packet-only union must be amended or precisely scoped. Every called body, new successor, invalid span and full original native cost remains required."
+    },
+    "consumer_and_native_floor": {
+      "evidence": "D4:845-881,895-948,1101-1104,1223-1227,1831-1838; P1/HANDOFF.md:119,125-131,161-164; complete-phase1-prompt.txt:32-34,64-66",
+      "finding": "The specification graph is improved and the original proof/control floor retained. Several consumer ABI/export/material rows are schematic; HMAC/JSON/child/helper/native parser bodies and exact native runtime/representability/cost correspondence are unwritten/unproved. Dependency order or static identity supplies no producer/body/control/acceptance credit."
+    },
+    "process_disclosure": {
+      "evidence": "WT/deviations/seam-v4-author-process/NOTE.md:19-31; AUTHOR-NOTES.md:28,66",
+      "finding": "The author disclosed reading the lead's transcript against instructions and reports using nothing from it. This reviewer read only the designated disclosure/author notes, no transcript. That report is model prose and does not prove absence of influence; the static design findings here come from independently read bound files. The deviation remains disclosed and does not create an approval gate or any acceptance credit."
+    }
+  },
+  "contract_floor": {
+    "evidence": "D4:1800-1852; P1/HANDOFF.md:119-131,155-167; complete-phase1-prompt.txt:32-34,64-78",
+    "assessment": "FIXED_AND_OPEN. Preserve original raw/producer domains, fixture bytes, accepted cases, controls including v1 frontier, original API/Optional_Marker policy, exact native quantities/costs, sole C_API boundary, strict full body/reference/caller/flow/RTE/termination scope, protected floor and zero unproved/justified/pragma Assume. Any partial implementation, temporary refusal, conditional queue, native allocation failure or premise remains an engineering gap."
+  },
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "verdict_scope": "Useful design direction with mandatory repairs; no source, proof, runtime, lane, phase, production or operator acceptance. All original obligations remain OPEN.",
+  "required_change_ids": [
+    "V4-REQ-A",
+    "V4-REQ-B",
+    "V4-REQ-C",
+    "V4-REQ-D",
+    "V4-REQ-E",
+    "V4-REQ-F",
+    "V4-REQ-G",
+    "V4-REQ-H",
+    "V4-REQ-I",
+    "V4-REQ-J",
+    "V4-REQ-K",
+    "V4-REQ-L"
+  ],
+  "rc_closure_override": {
+    "supersedes": "checkpoint-1.json item-1 preliminary V3-REQ-K assessment, after the detailed numbered item-5 check",
+    "rc_closure": {
+      "V3-REQ-K": "PARTIALLY_CLOSED"
+    },
+    "reason": "The effective owning-unit/scope view and MQ-RW2 stimulus were not completed by the sealed-review carry alone."
+  },
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

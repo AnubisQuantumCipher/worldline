@@ -1,0 +1,138 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 6,
+  "status": "COMPLETE",
+  "design_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+  "operator_items": {
+    "OP-1": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-2a: authoritative state provisioning or installation, including descriptor/custody/operation head/crosswalk/plan/configuration and any privileged lab installation",
+      "evidence": "D2:1926; D4:118,1665-1692"
+    },
+    "OP-2": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-2b: frontier re-enrollment adjudication; none proposed",
+      "evidence": "D2:1927; D4:131,1696-1698"
+    },
+    "OP-3": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-4a: authoritative resource-policy selection; none selected. Choice cannot weaken the original fixed obligations.",
+      "evidence": "D2:1928; D4:120,1155-1176"
+    },
+    "OP-4": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-5a: delegation/profile installation and privileged lab action; Luna high is only the actor in the existing adapter",
+      "evidence": "D2:1929; D4:121,1259,1821"
+    },
+    "OP-5": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-5b: privileged successor-helper installation/execution",
+      "evidence": "D2:1930; D4:122,1212,1259"
+    },
+    "OP-6": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-7a: original API or owner-policy alteration. No concrete change is approved by the brief or this review.",
+      "evidence": "D2:1931; D4:124; D4:1383; item-4 M8(c) finding"
+    },
+    "OP-7": {
+      "ruling": "WITHIN_RESERVED_SCOPE_RANGE_REPAIR_COMPLETED",
+      "reservation": "D-8b: original and additive kernel measurements, now K-1 through K-23, in an authorized lab",
+      "evidence": "D2:1932; D4:222-227,254-259,137,1814-1819"
+    },
+    "OP-8": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-9a: original applicable fault campaigns within the existing specialized-validation boundary",
+      "evidence": "D2:1933; D4:127,1839; P1/HANDOFF.md:163"
+    },
+    "OP-9": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "Merge/tag/release/install/sudo/production/real PRIME; draft engineering publication remains separately governed by existing authorization",
+      "evidence": "D2:1934-1939; P1/HANDOFF.md:165-166"
+    }
+  },
+  "owner_evidence": {
+    "D-1a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-1b": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-2a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-2b": {
+      "owner_in_doc": true,
+      "evidence_in_doc": true
+    },
+    "D-3a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-4a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-5a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-5b": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-6a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-7a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-8a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-8b": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    },
+    "D-9a": {
+      "owner": true,
+      "evidence_required": true,
+      "remaining_gap": true
+    }
+  },
+  "measurement_items": {
+    "K-22": "Same OP-7/D-8b reservation. EOF/write-copy question retained. The new read copy's writer/backpressure effects require evidence within this same reservation; no new approval item.",
+    "K-23": "Same OP-7/D-8b reservation. Child-PID-namespace signal reachability is unmeasured, not an assumed guarantee."
+  },
+  "lead_checks": {
+    "RC-5": "Lead-owned installed CPython encoding characterization; unperformed here; ordinary engineering check does not become an operator approval gate.",
+    "RC-6": "Lead-owned static original-handler privilege/IPC/path/syscall inventory; any traced run needing root remains OP-4. This cannot silently drop a used capability or original accepted handler case."
+  },
+  "capi_operator_items": "D-13 and N-06 are carried pre-existing C-API material-architecture/deployment reservations, not new root-worker gates. G-CAPI/G-CAPI-P/G-PROT/G-RW are engineering review dependencies, not operator approvals.",
+  "finding": "No added, lowered or widened operator decision was found. Preserve every reserved one. M8(c) must meet original authorization correspondence or receive the already-reserved concrete owner-policy adjudication, without treating a review finding as new authority.",
+  "evidence": [
+    "D4:110-139,1706-1726,1814-1821",
+    "D2:1926-1939",
+    "CAPI6R/review.json:rulings D-13,N-06,ROOT_WORKER_INTEGRATION",
+    "P1/HANDOFF.md:165-166"
+  ],
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

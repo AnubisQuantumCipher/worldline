@@ -1,0 +1,90 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 3,
+  "status": "COMPLETE",
+  "design_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+  "findings_assessment": {
+    "NF4-1": {
+      "status": "VERIFIED_STATIC_CONDITIONAL",
+      "evidence": "D4:165; R/runtime/worldline/protected_root_worker.py:170-171,191-199; R/runtime/worldline/protected_operations.py:749,767-775",
+      "assessment": "After launch returns an owned object, the root exception branch stops/retains and does not itself call original quarantine; with owned None it does quarantine. EFFECT_INTENT lacks the serial DISPATCH_INTENT boundary. This is static control flow, not proof that all dispatched failures take that branch.",
+      "consequence": "V4-B.5 must preserve exception order, durable dispatch boundary and original quarantine. A custody failure must not make those actions impossible while the use remains RESERVED."
+    },
+    "NF4-2": {
+      "status": "VERIFIED_STATIC_ROUTING_CONSEQUENCE_QUALIFIED",
+      "evidence": "D4:166; R/runtime/worldline/protected_operations.py:719-745; R/runtime/worldline/protected_root_worker.py:162-179",
+      "assessment": "Every selected non-owner invocation routes to RootWorkerFront when attached; the listed workload operations are refused/quarantined by the serial path. The root path has no corresponding workload guard. This supports the selected invocation-path observation, not a whole-program proof that no scoped launch exists elsewhere.",
+      "consequence": "Restoring the serial guard corrects DF-3 but would refuse workload operations on the draft's only selected non-owner route. It cannot count as preserving all original required accepted workload cases."
+    },
+    "NF4-3": {
+      "status": "VERIFIED_STATIC_RETAINED_SEED_NOT_RECOVERY_PROOF",
+      "evidence": "D4:167; R/runtime/worldline/root_worker_custody.py:125-133,178-185; R/runtime/worldline/protected_root_observation.py:105-117,157-164; R/protected-root/worker_entry.py:36-45",
+      "assessment": "The retained intent includes root_native and original_native_use; the referenced EXECUTION_NATIVE includes material, observation and provenance. Worker current capture requires that exact root_native event and ROOT_READY_CONJUNCTION. The abbreviated :105-109 reference is protected_root_observation.py, not protected_root_worker.py.",
+      "consequence": "V4-G.3 can reconstruct a seed before HANDLER_TERMINAL, but authentic current physical/closure evidence and legal settlement still require separate evidence."
+    },
+    "NF4-4": {
+      "status": "VERIFIED_STATIC_FULL_PATH_MAPPING_SCOPE",
+      "evidence": "D4:168; R/runtime/worldline/root_worker_process_capture.py:69-88",
+      "assessment": "Every maps line with a pathname beginning '/' is source checked with INTERPRETER/EXECUTABLE/EXTENSION/DATA roles, without an execute-permission filter; exe has INTERPRETER/EXECUTABLE roles.",
+      "consequence": "R4-3/R4-23 correctly restore the original file-backed mapping scope. NC-P3 exclusions must remain explicit; subset coverage is not proof that no unlisted dynamically executed bytes exist."
+    },
+    "NF4-5": {
+      "status": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_SOURCE",
+      "evidence": "D4:169; R/runtime/worldline/root_worker_journal.py:43-45; bounded rg over R/source for initial_event",
+      "assessment": "The only selected-source occurrence of initial_event is the exact genesis key set. No selected producer/consumer was found. Absence is limited to that source tree.",
+      "consequence": "Defining v2 initial_event null is justified, but the empty-chain head must be consistent with the carried DDL foreign key and native origin representation."
+    },
+    "NF4-6": {
+      "status": "VERIFIED_STATIC_RELATIVE_KEY_AND_PREFIX_LIMIT",
+      "evidence": "D4:170; R/runtime/worldline/root_worker_journal.py:50-53,98-113",
+      "assessment": "The issuer key is selected beneath descriptor authority_root, and head MAC covers head plus genesis. A self-consistent retained prefix and its head have no external monotonic comparison in this loader.",
+      "consequence": "V4-C.2 correctly limits self-MAC authenticity and all-history rollback. Boundary cross-reference checks detect only rollback behind references retained elsewhere, not every valid earlier prefix."
+    },
+    "NF4-7": {
+      "status": "VERIFIED_STATIC_TOOL_SELECTION",
+      "evidence": "D4:171; R/runtime/worldline/root_worker_plan.py:18-20; R/runtime/worldline/protected_scoped_resource_runtime.py:73-74,732-735; R/runtime/worldline/protected_resource_runtime.py:171-172",
+      "assessment": "The stated exact native_components keys and tool lookups/value membership are present.",
+      "consequence": "R4-16/R4-37 and V4-J.2 correctly enumerate the selected tools without replacing v1 command-name/which semantics. Provisioning and runtime resolution remain OPEN."
+    },
+    "NF4-8": {
+      "status": "VERIFIED_STATIC_ORIGINAL_JOB_CANCEL",
+      "evidence": "D4:172; R/runtime/worldline/controller.py:423,811-826",
+      "assessment": "job.cancel is mutating; validates a world string, reads world and active_jobs_for_world, raises NO_ACTIVE_JOB for an empty set, and calls runner.cancel once for each recorded job/unit.",
+      "consequence": "The source supports custody-owner store access and original job-unit stopping. It does not itself authorize the new M8(c) generation-root stop without equivalent world/job/unit and current authorization evidence."
+    },
+    "NF4-9": {
+      "status": "VERIFIED_STATIC_EXPLICIT_HELPER_FD_FLOW_RUNTIME_COMPLETENESS_OPEN",
+      "evidence": "D4:173; R/protected-root/native_root_worker_supervisor_v1.c:271-291,323-335; R/protected-resource/native_namespace_supervisor_v3.c:265-275,297-305,337-360",
+      "assessment": "The helpers' created pipes/socketpairs are CLOEXEC; explicit actor stdio is dup2'd, and V1 additionally clears CLOEXEC on its custody sender and appends its descriptor number. V3 sends the measurement receiver to the owner and closes its local receiver without reading that frame. An exhaustive actual inherited-FD roster is not established by these lexical excerpts alone.",
+      "consequence": "A changed relaying sub-helper can enforce COMMIT_CHILD only with its own authenticated material/native decision, cost/source/privilege coverage, and fixed event ordering. The READY-then-ABORT contradiction remains."
+    },
+    "NF4-10": {
+      "status": "VERIFIED_STATIC_EXCEPTION_BOUNDARY",
+      "evidence": "D4:174; R/runtime/worldline/protected_operations.py:355-384",
+      "assessment": "recover_committed at EFFECT_OBSERVED/SETTLED and EFFECT_INTENT+RESULT_CAPTURE is outside the branch try handlers. Broker/owner/K4 recovery catches WorldlineError into unresolved.",
+      "consequence": "R4-53 and RT-21/RT-22 correctly preserve that startup exception boundary; new recovery must not reinterpret the original refusal as successful settlement."
+    },
+    "NF4-11": {
+      "status": "VERIFIED_STATIC_STATUS_MUTATION",
+      "evidence": "D4:175; R/runtime/worldline/daemon.py:84,407-422",
+      "assessment": "status is registered mutating; a dirty store with a reconciler triggers recapture. WorldlineError is reported as degraded status, with store meta updates.",
+      "consequence": "V4-L must preserve genuine status semantics and original dependencies, while demonstrating that its added handoff/UNKNOWN/queue waits do not remove responsiveness."
+    },
+    "NF4-12": {
+      "status": "VERIFIED_STATIC_SCOPED_LAUNCH_ORDER",
+      "evidence": "D4:176; R/runtime/worldline/protected_scoped_resource_runtime.py:739-769; D4:R4-59,R4-61",
+      "assessment": "RECORD_LAUNCH_INTENT precedes DISPATCH_INTENT and systemd dispatch; RECORD_RUNNING follows accept_held.",
+      "consequence": "R4-59/R4-61 correctly repair E3/E6 ordering. Helper READY commit and native gates remain separate open integration obligations."
+    },
+    "NF4-13": {
+      "status": "VERIFIED_STATIC_DDL_KIND_OMISSION_REPAIR",
+      "evidence": "D4:177; D2:1000; D3:1316-1323; D4:R4-29",
+      "assessment": "The carried graph includes FRONT_RECONSTRUCTION -> FRONT_OWNED(g+1), and v3's event-kind CHECK lacked FRONT_OWNED. R4-29 adds it.",
+      "consequence": "The event-kind omission is repaired; the product transition, owner projection, native encoding and complete DDL-to-Next correspondence still require a precise mapping."
+    }
+  },
+  "method": "Passive line reads and bounded rg only. No target module imported, C/Python executed, test, service, kernel or process action performed.",
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

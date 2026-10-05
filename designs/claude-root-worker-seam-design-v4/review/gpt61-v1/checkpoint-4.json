@@ -1,0 +1,109 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 4,
+  "status": "COMPLETE",
+  "design_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+  "assessments": {
+    "workload_refusal": {
+      "assessment": "NOT_ESTABLISHED_BEHAVIOUR_NEUTRAL; temporary containment only",
+      "evidence": "D4:1013-1024,1039,1851; AUTHOR-NOTES.md:77; R/runtime/worldline/protected_operations.py:723-745,767-775; R/runtime/worldline/protected_root_worker.py:162-199; P1/HANDOFF.md:91-93,115,125-131; complete-phase1-prompt.txt:32-34",
+      "remaining_gap": "DF-3's historical serial exception-order repair is preserved. It does not authorize a permanent workload refusal. The guard adds a refusal on the draft's selected root route and leaves the required dynamic child/Codex/AgentRunner accepted cases unimplemented. Specify an additive genuine dispatcher and original-positive correspondence before claiming no accepted case changes."
+    },
+    "rq1_windows": {
+      "assessment": "PARTIALLY_CLOSED",
+      "evidence": "D4:1026-1039; R/core/resource_scoped_run_ledger.ads:426-441; R/runtime/worldline/protected_operations.py:742-768",
+      "windows": {
+        "W0": "Correct native stale-context refusal at Reserve; original no-row/no-hold mapping needs per-command producer correspondence.",
+        "W1": "Retained_Join, unchanged C1 and frame-local history are retained; current original gates and actual-cost proofs remain required.",
+        "W2": "Same native Launch_Intent refusal site, but adding launch to a previously in-process handler does not establish the same accepted operation, new quarantine/K4 cost or legal no-launch return.",
+        "W3": "Correct native Running refusal and no-GO uncertainty consequence; ABANDON is currently only legal from transfer phases, so an earlier HELD capture failure has no stated stop route. A root-inserted launch/currentness dependency needs operation-specific original correspondence.",
+        "W4": "The three Context_Changed guards cease after Running; this is not a claim that every subsequent original/current gate disappears or that added custody/costs are absent.",
+        "W5": "A head-only change is not Context_Changed for those guards. Native Current_Valid, operation/canonical and physical gates still apply. 'normal/none' and all-window durable/cost equality overstate what the table proves."
+      },
+      "remaining_gap": "Maintain the original Retained_Join and original scoped commands. Complete original accepted/refusal, U/P recovery and exact-cost mapping for each operation and window without removing the workload positives."
+    },
+    "m8_cancel": {
+      "assessment": "HOLDS_SAFETY_PRESERVED; ORIGINAL_STOP_AUTHORITY_AND_BEHAVIOUR_NOT_ESTABLISHED",
+      "evidence": "D4:1383,1767-1780; D4:R4-48,R4-49; AUTHOR-NOTES.md:71; R/runtime/worldline/controller.py:811-826",
+      "remaining_gap": "An original authorized cancel looks up the current world and active job/unit roster, returns NO_ACTIVE_JOB when empty, and cancels recorded job units. M8(c) substitutes a front stop of a generation's root without supplying native evidence of that same current request/world/job/unit authorization while store custody is unavailable. ROOT_STOP_INTENT durability supplies retention, not authority. Keep clause 12.3's no-settlement/hold rule closed; cancellation correspondence and response progress remain OPEN. Existing D-7a covers any concrete original owner-policy alteration; no new approval gate is created."
+    },
+    "relay_queue": {
+      "assessment": "PROMISING_PARTIAL_REPAIR; NEW_PROTOCOL_AND_LIVENESS_DEPENDENCIES_OPEN",
+      "evidence": "D4:1338-1343,1520-1548,1572-1598,1604-1634,1764-1792; AUTHOR-NOTES.md:73,79",
+      "remaining_gap": "Specify exact authenticated per-gate request/generation/subgeneration/operation/gate/head/response binding, freshness and error propagation, native ABI and cost. Distinguish original RequestPeer re-read errors, which remain original errors, from an unavailable correspondence transport, which may queue. Provide a legal persisted fallback from declined RELAY and the original-response path; prove all own/transferred/retained/historical gates are covered. Optional namespace/cookie/provider records must remain optional. Root ACK requires its distinct pre-worker-owned admission relation. Queue wait must preserve original accepted response progress; progress notices are not completed responses."
+    },
+    "accounting_g": {
+      "assessment": "UNSELECTED; DOES_NOT_MEET_FIXED_TARGET",
+      "evidence": "D4:1146-1176; AUTHOR-NOTES.md:74; P1/HANDOFF.md:125-131",
+      "remaining_gap": "G separates request workload unit accounting but leaves handler work in the coordinator under the first root's limits. AO-6/AO-11 remain unsatisfied, as the design admits. No operator selection may waive independent grants, exact kinds/amounts/costs, immutable bounds, no double count, physical enforcement or original responsiveness. F's bound increase and SET_ROOT_CEILING are correctly withdrawn."
+    },
+    "escrow_read_copy": {
+      "assessment": "CANNOT_SUPPORT_STATED_FRONT_CRASH_REATTACHMENT",
+      "evidence": "D4:1463-1506; D2:1043-1047; AUTHOR-NOTES.md:75; R/runtime/worldline/root_worker_closed.py:19-37",
+      "remaining_gap": "A process-local ClosedFrontEscrow copy dies with the front. Durable P/W or identity metadata cannot recreate a pipe after the only owning processes die; rows B/C and host-as-front-crash claims need correction. A concrete surviving custodian, if designed, needs complete source/authority/FD/cost/reaper coverage. Otherwise retain explicit irrecoverable UNKNOWN without claiming continuity or successful recoverability. Retained read ends do not control EOF, but their effects on writer broken-pipe/backpressure must also be measured and mapped to original behaviour."
+    },
+    "armed_intervals": {
+      "assessment": "PARTIAL_REPAIR_WITH_ORDERING_AND_FOLD_ERRORS",
+      "evidence": "D4:1463-1481; D3:1468-1474; R/runtime/worldline/protected_scoped_supervisor_v3.py:482-493",
+      "remaining_gap": "Durably arm before enabling any transport/read. Reattach step 3 currently starts a reader before step 4's ARMED. Recovery must fold ARMED/chunk/DISARMED intervals: a last chunk record does not imply the preceding ARMED interval closed. A post-read/pre-fsync crash must never receive PASS. Specify real kernel kcmp operands and custody evidence; an identity record is not an open fd."
+    },
+    "child_subhelper": {
+      "assessment": "ADDITIVE_NATIVE_SURFACE; COMMIT_PROTOCOL_CONTRADICTS_EXCLUSIVITY",
+      "evidence": "D4:1186-1227; D4:R4-64; AUTHOR-NOTES.md:76; R/protected-resource/native_namespace_supervisor_v3.c:265-275,358-360",
+      "remaining_gap": "Native self-decision and relayed credential-byte/ancestry binding are useful, with unproved C/native cost and ABI obligations retained. A worker commits CHILD_READY before the helper may disagree and commit CHILD_ABORT, though exactly one is allowed. Introduce a non-authorizing candidate/decision stage or another coherent exclusive commit protocol, retaining actor-not-executed negatives and genuine successful exec. Make collector/current-owner terminal commits legal outside the blanket WORKER_OWNED condition."
+    },
+    "custody_product": {
+      "assessment": "INCOMPLETE_TRANSITION_RELATION",
+      "evidence": "D4:1324-1401; D2:974-1002,1053; R3-11 as bound by D4:183-214; D4:R4-47,R4-48",
+      "remaining_gap": "Project the root graph independently from REQUEST/DRAIN subjects; define each Legal/Next/owner transition. Reconcile r1 with r3' and supply never-launched release/return without CLOSED. Express r6 as the closure barrier rather than forbidding all live Intake. ABANDON currently originates only TRANSFER_SENT/ROSTER_EVIDENCE, so earlier launch/capture failures cannot satisfy the stop-before-ABANDON rule. Specify replay of a committed intent whose physical command or response was not yet completed, without duplicating uncertain effects."
+    },
+    "caps_and_storage": {
+      "assessment": "UNBOUNDED_NATIVE_TO_STORAGE_CORRESPONDENCE_OPEN",
+      "evidence": "D4:1285-1304,1368; D3:1307-1368; AUTHOR-NOTES.md:78; P1/HANDOFF.md:125,129-131; SQLite official datatype3.html:74-83 and lang_createtable.html:260-265",
+      "remaining_gap": "Q.Quantity generation/subgeneration and optional Position have no bound; the proposed mapping says SQLite INTEGER and seq INTEGER PRIMARY KEY. Integer storage and rowid are finite; non-primary INTEGER affinity alone does not forbid a BLOB, but no exact alternate representation/validator/order mapping is supplied. The inherited v1 rowid limit is an open native-representability obligation, not permission to cap the new domain. Supply a lossless full-domain encoding, fold/replay/order semantics and exact representation for Before_Unknown, Stop_Intent, Mode and carried_from. Do not accept integer overflow/rounding/native failure as a new refusal."
+    },
+    "assumptions_and_native_json": {
+      "assessment": "OPEN_PREMISES_ARE_NOT_DISCHARGED_REQUIREMENTS",
+      "evidence": "D4:1061-1081,1095-1104,1231-1259,1802,1844-1851; AUTHOR-NOTES.md:70,80; complete-phase1-prompt.txt:32-34,64",
+      "remaining_gap": "P-A1..P-A4 and coordinator-compromise exclusions do not establish authentic producer/currentness/confinement. Cross-references detect rollback behind recorded references only, with a tolerated append interval, not every older valid prefix. Decimal_Value as an exact rational lacks an explicit signed-zero channel; the named accepted -0.0 control requires it. Complete native Repr/rounding specification and costs on the installed-match domain. RC-6 must decide drops only after preserving all original handler needs. Specification-only L-RB-4 audit does not replace every called-body/reference/native-cost obligation."
+    },
+    "controls_and_acceptance": {
+      "assessment": "NO_RETIRED_CONTROL_OR_LEAD_ONLY_ACCEPTANCE_FOUND; SUBSTANTIVE_GAPS_REMAIN_OPEN",
+      "evidence": "D4:1696-1698,1800-1852; D4:110-139; R/protected-startup/controls/test_protected_startup_v1.py:97-105; P1/HANDOFF.md:161-167",
+      "remaining_gap": "All original fixtures, finite and full-domain controls, frontier v1 bytes/domain, ordinary/lifetime roster, sole C_API boundary, protected floor, zero unproved/justified/Assume and native bodies/costs are retained. New controls are additive and unrun. Defect containment/refusal and conditional waits cannot be counted as original completion. No source, proof, phase or production acceptance is granted."
+    }
+  },
+  "math": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2^63-1 exact=9223372036854775807 approx=9223372036854776000.0\",\"fields\":{\"approx\":\"9223372036854776000.0\",\"exact\":\"9223372036854775807\",\"parsed\":\"2^63-1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+      }
+    ],
+    "structuredContent": {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=2^63-1 exact=9223372036854775807 approx=9223372036854776000.0",
+      "fields": {
+        "approx": "9223372036854776000.0",
+        "exact": "9223372036854775807",
+        "parsed": "2^63-1",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    }
+  },
+  "math_non_claim": "Arithmetic is informational about the representability bound only; it establishes no code correctness or installed-runtime behaviour.",
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

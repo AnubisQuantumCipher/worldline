@@ -66,6 +66,7 @@ written. Future scans exclude that path.
 | C-API design v4 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~02:47Z; gpt-6.1-sol/max from the rollout). V3-RC5 and V3-RC6 CLOSED_AT_DESIGN_LEVEL. V3-RC4 NOT_CLOSED, with two remaining changes: V4-RC4-GATE (reconcile the gate rule set) and V4-RC4-ALIAS (expanded naming invariant for indirect package paths). L1–L8 all GENUINE. D-13 clarified: the reservation concerns the component transport/library architecture, not pin edits | DESIGN v5 drafted (`533f0e04…`, handback ~04:13Z); its actual gpt-6.1-sol review started 04:17Z |
 | C-API design v3 | ENDORSED_WITH_REQUIRED_CHANGES (RC1–RC3 CLOSED_AT_DESIGN_LEVEL; V3-RC4 binding spec, V3-RC5 PK-0 effect classification, V3-RC6 cost map NOT_CLOSED; D-13 operator choice on a concrete reviewed packet before PK-7; N-06 at deployment; N-01 lead-owned) | DESIGN v4 |
 | Root-worker seam design v1 | ENDORSED_WITH_REQUIRED_CHANGES (RC-01..RC-12; rulings D-1a..D-9a: `Delegate=yes` not endorsed, the frontier control cannot be retired by the lead, native custody-phase legality is mandatory) | v2 |
+| Root-worker seam design v4 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~09:37Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `d857f8dd…`, REVIEW.md `340a6219…`, checks.json `58e3312e…`, freeze `eef0ff2c…`).<br>- **Closure:** V3-REQ-A..L and RQ-1 PARTIALLY_CLOSED. Clauses: 28 CLOSED_AT_DESIGN_LEVEL, 29 PARTIALLY_CLOSED, 2 NOT_CLOSED. D-2b CLOSED.<br>- **Findings:** NF4-1..NF4-13 verified or qualified statically. NF4-2: restoring the serial workload guard would refuse workload operations on the only selected non-owner route, and is treated as an OPEN containment gap.<br>- **Required changes:** twelve, V4-REQ-A..L | Seam v5: **paced**. It is held while free space is below the reserve; W-1 v6 (critical path) goes first |
 | Root-worker seam design v3 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~07:05Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `35b264e7…`, REVIEW.md `1e1c5ef8…`, checks.json `63bcb753…`, freeze `c52bd9ee…`).<br>- **Closure:** V2-REQ-A..L and RQ-1 all PARTIALLY_CLOSED. D-2b CLOSED_AT_DESIGN_LEVEL; other rulings PARTIALLY_CLOSED.<br>- **Findings:** NF-1..NF-11 all verified statically, with some kernel and runtime consequences unmeasured.<br>- **Required changes:** twelve, V3-REQ-A..L. V3-REQ-K asks to bind the sealed C-API v5 review; v4 binds v5 and the now-ENDORSED v6 | Seam v4 (same author, resumed ~07:08Z) |
 | Root-worker seam design v2 | ENDORSED_WITH_REQUIRED_CHANGES (sealed ~04:19Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `84c176df…`, REVIEW.md `1a41b5c5…`, checks.json `63a36b12…`, freeze `d40060e5…`).<br>- **Closed at design level:** RC-05, RC-10, D-2b. All other RCs and rulings PARTIALLY_CLOSED.<br>- **Required changes:** twelve, V2-REQ-A..L. V2-REQ-K brings the C-API status up to date.<br>- **Findings:** N-1..N-10 verified or supported statically. N-6 is SUPPORTED_STATIC_CONDITIONAL_RECEIVER_RESOLVED.<br>- **RQ-1:** PARTIALLY_CLOSED: no unconditional FRESH placement; it needs caller-by-caller domain correspondence and Retained_Join.<br>- **Operator items:** OP-1..OP-9 within the reserved scope; no new gate, nothing lowered | Seam v3 (routine lead engineering) |
 | D2 checked-Ghost inventory v1 | ACCURATE_WITH_CORRECTIONS (12 corrections, hazard rulings H1–H11; see below) | Corrections carried here and into the package |
@@ -248,7 +249,16 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 09:37Z)
+## In progress (updated 09:40Z)
+
+- **Pacing (lead judgment, not an operator choice).** Free space was 9875791872 bytes at 09:38:04Z: 124208128 below the
+  reserve, and 54571008 bytes less than at 08:38:59Z (JACKAL exact).
+  - **What is held.** No new seam drafting starts. Seam v5 is held until W-1 v6 lands or the storage situation changes.
+  - **Why.** Each drafting round with its review writes tens of MB. Local space below the vault's local reserve can
+    also constrain Codex's vault recovery.
+  - **What this is not.** It is not S-1 option 4, which stays the human's choice. The reviews already queued and the
+    W-1 v6 draft continue.
+- **Package confirmation review** (`package-review/gpt61-v7`): started once the seam v4 review freed a slot.
 
 - **Operator package DRAFT-v10: frozen; confirmation review queued.**
   - **Freeze.** `package-drafts/DRAFT-v10.md` `c54095b9…` (99564 bytes) was frozen at 09:36Z.

@@ -1,0 +1,60 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 5,
+  "status": "COMPLETE",
+  "design_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+  "assessment": "PARTIALLY_CLOSED",
+  "status_binding": {
+    "CAPI5": "ENDORSED_WITH_REQUIRED_CHANGES; V5-RC4-GATE-EXCEPTION and V5-RC4-QUAL-CAPTURE required",
+    "CAPI6": "ENDORSED; those changes and V4-RC4-GATE/V4-RC4-ALIAS/V3-RC4 closed at design level only",
+    "ROOT_WORKER_INTEGRATION": "OPEN; no ruling on the other lane or integration order",
+    "seals": "hash/bytes/mode matched for both sealed reviews",
+    "evidence": "D4:1708-1713; CAPI5R/review.json:required_changes; CAPI6R/review.json:rc_closure,rulings,open_obligations"
+  },
+  "rules": {
+    "U-1": "Correct append-only full routine/removed-name discipline and effective root/simple-name definition. Complete the owning-On-unit checkview as well.",
+    "U-2": "Correctly forbids modifying old qualified rows to fit new RW names and applies (d1)-(d4) to pair plus parent; an already-listed simple selector does not itself change that census.",
+    "U-3": "Correct all-prefix with-clause restriction, parent check, unchanged use inventory, no separate and new-scope-only qualified inventories. Old-scope exemptions remain exact.",
+    "U-4": "Sound fixed wfx roster over effective gate union, RW bool/case only, no new assignment exception.",
+    "U-5": "Sound fixed CAPI_GATE_EXCLUSIVE keys and PK-1 protocol/parent-spec constants; RW has no exclusive table.",
+    "U-6": "Sound old table byte identity at RW stages and append-only new RW tables. The check's effective scopes/layout/tile/owning-unit views must be distinguished explicitly from those immutable CAPI base tables.",
+    "U-7": "GE1-GE9, residuals, diagnostics, old S5 renamings and clause tuples retained unchanged.",
+    "U-8": "Full predecessor stage floor and dependency chain retained; implementing a stage/check remains OPEN."
+  },
+  "controls": {
+    "MX-RW1": "Correct negative design target: added RW wfx violates CR6.",
+    "MX-RW2": "Correct negative design target: added exclusive-map key violates CR6.",
+    "MX-RW3": "Correct negative design target: RW gate kind outside bool/case must refuse.",
+    "MQ-RW1": "Correct named-descendant/prefix capture negative under (d2).",
+    "MQ-RW2": "UNDERSPECIFIED_EXPECTED_REFUSAL: if the RW selector is already an effective simple name and its root already an effective root, reobserving an unchanged old context can give exactly the same old row. The CAPI5 definition explicitly includes Decide. The control must ensure a newly added selector creates a new census member, or mutate a concrete old-scope call/path; include a positive case for an already-listed selector with old rows unchanged.",
+    "MQ-RW3": "Correct nested effective-root declaration negative under (d1).",
+    "MQ-RW4": "Correct separate negative under (d4).",
+    "MQ-RW5": "Correct unlisted use-clause negative under R-INV.",
+    "PX-RW1": "Required unchanged old-table/context positive; unrun.",
+    "PX-RW2": "Required ordinary new-scope bool/case positive; unrun.",
+    "IC-13": "Required all-old-scope reobservation with effective names at each stage; unrun.",
+    "IC-14": "Required byte identity of all fixed CAPI base tables at each stage; unrun.",
+    "IC-10": "Installed name/overload/transported-clause legality remains OPEN; no compiler/prover run here."
+  },
+  "remaining_gap": "Define an explicit effective joined checkview for the owning On-unit roster, qualified scope attribution and appended layout/tile sets while retaining every CAPI base-table byte. CAPI5's carried qualifier check tests each routine prefix for membership in CAPI_SPARK_UNITS, and V4 adds RW_ROUTINE_NAMES but supplies no explicit corresponding effective owning-unit map; derive it from a reviewed enrolled RW unit roster, not from the candidate name alone. Repair MQ-RW2's stimulus/expected relation without narrowing any existing qualified/gate rule or C-API row.",
+  "evidence": [
+    "D4:1719-1726,1732-1743",
+    "D3:1744-1768,1779-1833",
+    "CAPI5/APPENDIX-BINDINGS.md:185-199,347-381",
+    "CAPI6/APPENDIX-BINDINGS.md:97-103,391-425",
+    "CAPI6/DESIGN.md:319-324",
+    "S5/core/worldline-c_api.adb:879-881,1024-1027",
+    "CAPI4/APPENDIX-BINDINGS.md:1529-1541"
+  ],
+  "acceptance_boundary": "The fixed union gate/capture contract is sound in intent. Completeness of the advertised integration-control contract is still partial. No other-lane acceptance, corrected source, executed invariant control, installed resolution or integration order is decided.",
+  "closure_amendment": {
+    "supersedes": "checkpoint-1.json item-1 preliminary V3-REQ-K assessment, after the detailed numbered item-5 check",
+    "rc_closure": {
+      "V3-REQ-K": "PARTIALLY_CLOSED"
+    },
+    "reason": "The effective owning-unit/scope view and MQ-RW2 stimulus were not completed by the sealed-review carry alone."
+  },
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

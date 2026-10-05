@@ -1,0 +1,2026 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 2,
+  "status": "COMPLETE",
+  "design_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+  "integrity": {
+    "all_four_primary_hashes_match": true,
+    "slices": {
+      "v3": {
+        "C3-A7": {
+          "range": [
+            178,
+            192
+          ],
+          "expected": "5c07c30f76c7c480d6fb23d321b0659c5657e49ee196546b703bfcd8c9a81080",
+          "sha256": "5c07c30f76c7c480d6fb23d321b0659c5657e49ee196546b703bfcd8c9a81080",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C3-B": {
+          "range": [
+            196,
+            691
+          ],
+          "expected": "7f770eb7006abb991e676062f57da00898026771ed3951751af373a07b8c66cc",
+          "sha256": "7f770eb7006abb991e676062f57da00898026771ed3951751af373a07b8c66cc",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-1 … R4-17, R4-52)",
+          "replacement_list_match": true
+        },
+        "C3-VA": {
+          "range": [
+            744,
+            793
+          ],
+          "expected": "5d6600e199279605b4890015dc16e9e269e8b0f01e3de898d908265852e47d52",
+          "sha256": "5d6600e199279605b4890015dc16e9e269e8b0f01e3de898d908265852e47d52",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-18)",
+          "replacement_list_match": true
+        },
+        "C3-VB": {
+          "range": [
+            796,
+            955
+          ],
+          "expected": "eba45664dab8c9df0fa3131e5967a2fbe16c4dc1fbc237412d21519a667d4f38",
+          "sha256": "eba45664dab8c9df0fa3131e5967a2fbe16c4dc1fbc237412d21519a667d4f38",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-19, R4-20)",
+          "replacement_list_match": true
+        },
+        "C3-VC": {
+          "range": [
+            959,
+            1106
+          ],
+          "expected": "de8b15e2b007d60f216abfcdf1f8da3ba8fd68b3bbded44ed8cda12e3b11d9cd",
+          "sha256": "de8b15e2b007d60f216abfcdf1f8da3ba8fd68b3bbded44ed8cda12e3b11d9cd",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-21 … R4-23)",
+          "replacement_list_match": true
+        },
+        "C3-VD": {
+          "range": [
+            1110,
+            1155
+          ],
+          "expected": "5e5d1e6dbd88bcb5b55fa2df7236a920fac3d54c07f2160bdaf1d5a4f7949aaa",
+          "sha256": "5e5d1e6dbd88bcb5b55fa2df7236a920fac3d54c07f2160bdaf1d5a4f7949aaa",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-24, R4-25)",
+          "replacement_list_match": true
+        },
+        "C3-VE": {
+          "range": [
+            1159,
+            1231
+          ],
+          "expected": "71a7780cddc94e607e565e2ea4c0d6905a9fade1361aa158040c240d21fbd02d",
+          "sha256": "71a7780cddc94e607e565e2ea4c0d6905a9fade1361aa158040c240d21fbd02d",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-26 … R4-28, R4-54, R4-59 … R4-64)",
+          "replacement_list_match": true
+        },
+        "C3-VF1": {
+          "range": [
+            1234,
+            1275
+          ],
+          "expected": "57c06a24ff21b87bd1f7605289879bb8bf724d3f0e432a6810109c588e9e95fe",
+          "sha256": "57c06a24ff21b87bd1f7605289879bb8bf724d3f0e432a6810109c588e9e95fe",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C3-VF5": {
+          "range": [
+            1299,
+            1374
+          ],
+          "expected": "b262e46822f6fa1df6f5562f2e62b541f0fdd4e2fd1ca0f089cff7ba0d5dedf6",
+          "sha256": "b262e46822f6fa1df6f5562f2e62b541f0fdd4e2fd1ca0f089cff7ba0d5dedf6",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-29)",
+          "replacement_list_match": true
+        },
+        "C3-VG": {
+          "range": [
+            1391,
+            1454
+          ],
+          "expected": "306b743e0cfef06baa4d6d9938de9b7c0efe6aef877e250b6e8e7229cf66feb2",
+          "sha256": "306b743e0cfef06baa4d6d9938de9b7c0efe6aef877e250b6e8e7229cf66feb2",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-30 … R4-33, R4-56)",
+          "replacement_list_match": true
+        },
+        "C3-VH1": {
+          "range": [
+            1458,
+            1494
+          ],
+          "expected": "3d75bffbf71d9ee7e4953b39652bb4608529073973bc636fba6a4a5eec821ace",
+          "sha256": "3d75bffbf71d9ee7e4953b39652bb4608529073973bc636fba6a4a5eec821ace",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-34 … R4-36)",
+          "replacement_list_match": true
+        },
+        "C3-VH4": {
+          "range": [
+            1516,
+            1521
+          ],
+          "expected": "b9a8bcb47af453524c4c19eb706c78096c7f7302ddbf83b6cd34fc9d32628b37",
+          "sha256": "b9a8bcb47af453524c4c19eb706c78096c7f7302ddbf83b6cd34fc9d32628b37",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C3-VI1": {
+          "range": [
+            1525,
+            1533
+          ],
+          "expected": "ea9f9d61dc020416728b9f6a8b3ab34039f901f5c0942d447abddf02f38468bf",
+          "sha256": "ea9f9d61dc020416728b9f6a8b3ab34039f901f5c0942d447abddf02f38468bf",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C3-VI45": {
+          "range": [
+            1593,
+            1629
+          ],
+          "expected": "ba30a22e41ee223d3b2baac70e692cd207c8eac36c03fd015c131eebf013acd8",
+          "sha256": "ba30a22e41ee223d3b2baac70e692cd207c8eac36c03fd015c131eebf013acd8",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C3-VJ": {
+          "range": [
+            1650,
+            1717
+          ],
+          "expected": "1c62c4e50cd47c29741327c937acc549caa55b4ac117db9b1edb3be23f968dd1",
+          "sha256": "1c62c4e50cd47c29741327c937acc549caa55b4ac117db9b1edb3be23f968dd1",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-37 … R4-40, R4-53)",
+          "replacement_list_match": true
+        },
+        "C3-VK2": {
+          "range": [
+            1738,
+            1768
+          ],
+          "expected": "9279a36162787286562fec5ea5e6972f3ceb98c2e6b5a1563a3584c150a5cd8e",
+          "sha256": "9279a36162787286562fec5ea5e6972f3ceb98c2e6b5a1563a3584c150a5cd8e",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-41, R4-42)",
+          "replacement_list_match": true
+        },
+        "C3-VK5": {
+          "range": [
+            1777,
+            1833
+          ],
+          "expected": "43c9cd0f838890f572b5482704c095d9205ffae349cb71aef06e7fa13c62ba84",
+          "sha256": "43c9cd0f838890f572b5482704c095d9205ffae349cb71aef06e7fa13c62ba84",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-43)",
+          "replacement_list_match": true
+        },
+        "C3-VL1": {
+          "range": [
+            1837,
+            1851
+          ],
+          "expected": "5366d957d66239900c181e57bb7be69e84eadaacbe3f63ca9110234d804fc88c",
+          "sha256": "5366d957d66239900c181e57bb7be69e84eadaacbe3f63ca9110234d804fc88c",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C3-VL3": {
+          "range": [
+            1859,
+            1865
+          ],
+          "expected": "cfab791373814513e5c25257cb1982f0b44dfdf585a40f7e1320521448111e34",
+          "sha256": "cfab791373814513e5c25257cb1982f0b44dfdf585a40f7e1320521448111e34",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-44)",
+          "replacement_list_match": true
+        },
+        "C3-VL6": {
+          "range": [
+            1885,
+            1890
+          ],
+          "expected": "7264dbf84cdab8dc5dff79019a7a580aad9e18627e4f99a10d818f70aa56dc42",
+          "sha256": "7264dbf84cdab8dc5dff79019a7a580aad9e18627e4f99a10d818f70aa56dc42",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C3-VN": {
+          "range": [
+            1950,
+            1964
+          ],
+          "expected": "490f27c2e00f25eacec9b470a49b5060101212000f6c04f25709be3fe1b4ba35",
+          "sha256": "490f27c2e00f25eacec9b470a49b5060101212000f6c04f25709be3fe1b4ba35",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-50, R4-55)",
+          "replacement_list_match": true
+        },
+        "C3-VO": {
+          "range": [
+            1968,
+            1984
+          ],
+          "expected": "635a7a87b4bba6c331c71873f3caaa53f0e004aacab57e89be1353c4761090b2",
+          "sha256": "635a7a87b4bba6c331c71873f3caaa53f0e004aacab57e89be1353c4761090b2",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-57)",
+          "replacement_list_match": true
+        },
+        "C3-VQ": {
+          "range": [
+            2023,
+            2033
+          ],
+          "expected": "1c5f3e2b73c1d592b8f70400c857afcf931c8851b7c037b610d06ebd94451ba6",
+          "sha256": "1c5f3e2b73c1d592b8f70400c857afcf931c8851b7c037b610d06ebd94451ba6",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R4-51)",
+          "replacement_list_match": true
+        },
+        "C3-APB": {
+          "range": [
+            2041,
+            2108
+          ],
+          "expected": "328a57676f3b567ae3a648d3fef80473e1da596d0dd9d4b39e1a3c1a64934dd7",
+          "sha256": "328a57676f3b567ae3a648d3fef80473e1da596d0dd9d4b39e1a3c1a64934dd7",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        }
+      },
+      "v2": {
+        "C2-A3": {
+          "range": [
+            110,
+            137
+          ],
+          "expected": "8dac441d5568bfcef6a6c76374715a07fe27405694cfcd656e92a05a198c6c8e",
+          "sha256": "8dac441d5568bfcef6a6c76374715a07fe27405694cfcd656e92a05a198c6c8e",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-B": {
+          "range": [
+            149,
+            245
+          ],
+          "expected": "c67275cf95e85f817827aed32125f8176dfbff82dddad82c299c1765bc8d2ad9",
+          "sha256": "c67275cf95e85f817827aed32125f8176dfbff82dddad82c299c1765bc8d2ad9",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-G": {
+          "range": [
+            315,
+            366
+          ],
+          "expected": "b5e1ebc659b11f56fef5582a7b7d6d2f8c502509eac2a063de4cdfc8224b5b28",
+          "sha256": "b5e1ebc659b11f56fef5582a7b7d6d2f8c502509eac2a063de4cdfc8224b5b28",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-1)",
+          "replacement_list_match": true
+        },
+        "C2-S2": {
+          "range": [
+            367,
+            426
+          ],
+          "expected": "6dcd2745d1553e7df50e36f32fcee59805fb673f3b0f071387e48cdeb4cbadec",
+          "sha256": "6dcd2745d1553e7df50e36f32fcee59805fb673f3b0f071387e48cdeb4cbadec",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-2, R3-3)",
+          "replacement_list_match": true
+        },
+        "C2-31": {
+          "range": [
+            427,
+            506
+          ],
+          "expected": "c87034a71bded859d0e99a88a434b8b41859700f016fe87b589f7d69f1d9d6e5",
+          "sha256": "c87034a71bded859d0e99a88a434b8b41859700f016fe87b589f7d69f1d9d6e5",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-25 … R3-31)",
+          "replacement_list_match": true
+        },
+        "C2-35": {
+          "range": [
+            507,
+            517
+          ],
+          "expected": "0cddde6146e7d4dd8afb6c01251906bc0b4ba2117886c28f6492906d4d7ed38f",
+          "sha256": "0cddde6146e7d4dd8afb6c01251906bc0b4ba2117886c28f6492906d4d7ed38f",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-36": {
+          "range": [
+            518,
+            528
+          ],
+          "expected": "075fa1f1cabc71e2aa8de92397b9464d2abcd6567e03cb337699f94ea2d7cfe4",
+          "sha256": "075fa1f1cabc71e2aa8de92397b9464d2abcd6567e03cb337699f94ea2d7cfe4",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-32)",
+          "replacement_list_match": true
+        },
+        "C2-37": {
+          "range": [
+            529,
+            557
+          ],
+          "expected": "54e7ff5925f03274d6307277bf0d053e19da710c8ba0e9b0c23ac2acae3b8484",
+          "sha256": "54e7ff5925f03274d6307277bf0d053e19da710c8ba0e9b0c23ac2acae3b8484",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-33, R3-34)",
+          "replacement_list_match": true
+        },
+        "C2-38": {
+          "range": [
+            558,
+            574
+          ],
+          "expected": "bef4081b98fafa5007943ba15d886489742f5caea851d3b0bd18b37f6ad1066d",
+          "sha256": "bef4081b98fafa5007943ba15d886489742f5caea851d3b0bd18b37f6ad1066d",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-4)",
+          "replacement_list_match": true
+        },
+        "C2-39": {
+          "range": [
+            575,
+            605
+          ],
+          "expected": "21226be6818e55837d4adb06c998c75ec745eef118bbf56d19ac9674d35ce33d",
+          "sha256": "21226be6818e55837d4adb06c998c75ec745eef118bbf56d19ac9674d35ce33d",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-35 … R3-37)",
+          "replacement_list_match": true
+        },
+        "C2-310": {
+          "range": [
+            606,
+            618
+          ],
+          "expected": "5b36da424bb523a9b3c69fdf9772654c7637ab5770de4c099c0974def5e8ee2d",
+          "sha256": "5b36da424bb523a9b3c69fdf9772654c7637ab5770de4c099c0974def5e8ee2d",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-41": {
+          "range": [
+            673,
+            711
+          ],
+          "expected": "896299ddfd0f03131a8dae49e1750cb6ca1788392acb813b0c848a3ad61b841a",
+          "sha256": "896299ddfd0f03131a8dae49e1750cb6ca1788392acb813b0c848a3ad61b841a",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-38 … R3-40)",
+          "replacement_list_match": true
+        },
+        "C2-42": {
+          "range": [
+            712,
+            742
+          ],
+          "expected": "fc91b4f77d8f1834dc1cc7f3201c84860b299cb054f7a3829d0d27ca8f5a3aec",
+          "sha256": "fc91b4f77d8f1834dc1cc7f3201c84860b299cb054f7a3829d0d27ca8f5a3aec",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-5, R3-6)",
+          "replacement_list_match": true
+        },
+        "C2-46": {
+          "range": [
+            780,
+            792
+          ],
+          "expected": "8e76f0684917bbbaa5f7cd4f09d057fa760c5f8162db4f07a4dd2b84c5d13597",
+          "sha256": "8e76f0684917bbbaa5f7cd4f09d057fa760c5f8162db4f07a4dd2b84c5d13597",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-51": {
+          "range": [
+            810,
+            865
+          ],
+          "expected": "4f8921ed4b596034925228f695ba43942ecc96f88adedb9fb3322f2a8b516f0c",
+          "sha256": "4f8921ed4b596034925228f695ba43942ecc96f88adedb9fb3322f2a8b516f0c",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-53": {
+          "range": [
+            866,
+            878
+          ],
+          "expected": "812b0f969a4d7d83789b8e913cc29ed96018a6cb66743265be10a10db2d9c660",
+          "sha256": "812b0f969a4d7d83789b8e913cc29ed96018a6cb66743265be10a10db2d9c660",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-55": {
+          "range": [
+            898,
+            926
+          ],
+          "expected": "48d0e0b2dda73fc1166cd476be7228ed467af13dca8ff92aa890d6443094d944",
+          "sha256": "48d0e0b2dda73fc1166cd476be7228ed467af13dca8ff92aa890d6443094d944",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-41, R3-42)",
+          "replacement_list_match": true
+        },
+        "C2-56": {
+          "range": [
+            927,
+            944
+          ],
+          "expected": "7529db2726968380b627dee2fd78f695a0bffcaad9cc813703b1c8b9db6d7406",
+          "sha256": "7529db2726968380b627dee2fd78f695a0bffcaad9cc813703b1c8b9db6d7406",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-62": {
+          "range": [
+            970,
+            1010
+          ],
+          "expected": "f3206d63e4f973203d33c9b79c6903fc8f69245d3fed5d333ee386ea319cdd39",
+          "sha256": "f3206d63e4f973203d33c9b79c6903fc8f69245d3fed5d333ee386ea319cdd39",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-10 … R3-13)",
+          "replacement_list_match": true
+        },
+        "C2-64": {
+          "range": [
+            1032,
+            1054
+          ],
+          "expected": "d20b643a28c3ce661b76d2b9e3ad946f9e114b52edc9a0627b3a13b4c4b97a00",
+          "sha256": "d20b643a28c3ce661b76d2b9e3ad946f9e114b52edc9a0627b3a13b4c4b97a00",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-68": {
+          "range": [
+            1061,
+            1073
+          ],
+          "expected": "ca153ae5d2f5316532fdaa0556897a15d2ab7360f63b611c99070fc3e20cd5f4",
+          "sha256": "ca153ae5d2f5316532fdaa0556897a15d2ab7360f63b611c99070fc3e20cd5f4",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-612": {
+          "range": [
+            1102,
+            1114
+          ],
+          "expected": "13b4b7d1d1613d5ee532b755713f585dd88ef25cf862b35d99c85adb87f7686a",
+          "sha256": "13b4b7d1d1613d5ee532b755713f585dd88ef25cf862b35d99c85adb87f7686a",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-71": {
+          "range": [
+            1128,
+            1152
+          ],
+          "expected": "c4c99830f20477e39c1b1ce669244480784e55bd8dd4237a2125b5e01595297a",
+          "sha256": "c4c99830f20477e39c1b1ce669244480784e55bd8dd4237a2125b5e01595297a",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-74": {
+          "range": [
+            1178,
+            1203
+          ],
+          "expected": "cfd9689a5c70f04acf4c0393a5ee50cada435752b990af6480968fbb37a9903a",
+          "sha256": "cfd9689a5c70f04acf4c0393a5ee50cada435752b990af6480968fbb37a9903a",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-14)",
+          "replacement_list_match": true
+        },
+        "C2-84": {
+          "range": [
+            1274,
+            1312
+          ],
+          "expected": "ed4b145a8eab266619fd01b252c5e269f3bb9fb895e8b206954b609e4fb67ae2",
+          "sha256": "ed4b145a8eab266619fd01b252c5e269f3bb9fb895e8b206954b609e4fb67ae2",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-15 … R3-17)",
+          "replacement_list_match": true
+        },
+        "C2-91": {
+          "range": [
+            1325,
+            1347
+          ],
+          "expected": "5a62982b2b8a56fea60ebf833766fed64bad3443a84db78ff5f6d347cbe8c678",
+          "sha256": "5a62982b2b8a56fea60ebf833766fed64bad3443a84db78ff5f6d347cbe8c678",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-92": {
+          "range": [
+            1348,
+            1364
+          ],
+          "expected": "24559c4678b960b688d45bfc824b8af576718292d03743a643b8142a4abff957",
+          "sha256": "24559c4678b960b688d45bfc824b8af576718292d03743a643b8142a4abff957",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-93": {
+          "range": [
+            1365,
+            1395
+          ],
+          "expected": "11c31e0731c39d44cc9d1f49993c554ae215cef37ab05ee65c3381bd4e3b8f8b",
+          "sha256": "11c31e0731c39d44cc9d1f49993c554ae215cef37ab05ee65c3381bd4e3b8f8b",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-18, R3-19)",
+          "replacement_list_match": true
+        },
+        "C2-96": {
+          "range": [
+            1410,
+            1434
+          ],
+          "expected": "fe1aa2509829dfae86875d0bbf833589b0a35362751671d45a848d2756b4652a",
+          "sha256": "fe1aa2509829dfae86875d0bbf833589b0a35362751671d45a848d2756b4652a",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-101": {
+          "range": [
+            1447,
+            1463
+          ],
+          "expected": "97d4336ec60f9f5d7f57b6325542125755a16183ad226af2e04da9f92dce5e35",
+          "sha256": "97d4336ec60f9f5d7f57b6325542125755a16183ad226af2e04da9f92dce5e35",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-104": {
+          "range": [
+            1470,
+            1496
+          ],
+          "expected": "78063127ff72fed2cf97e4ccdd8125a12716aaa5194a26b4a59bef72f3e1642a",
+          "sha256": "78063127ff72fed2cf97e4ccdd8125a12716aaa5194a26b4a59bef72f3e1642a",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-111": {
+          "range": [
+            1509,
+            1527
+          ],
+          "expected": "939f5ffea62a01b55833b59d960eb42ec21c75a7da44b27ee13b4f820a3d1401",
+          "sha256": "939f5ffea62a01b55833b59d960eb42ec21c75a7da44b27ee13b4f820a3d1401",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-43)",
+          "replacement_list_match": true
+        },
+        "C2-113": {
+          "range": [
+            1538,
+            1554
+          ],
+          "expected": "096a1f9cebf774dc6e0f2b46931cbfc6d424c7d77b808da0fd89d4d483473ddc",
+          "sha256": "096a1f9cebf774dc6e0f2b46931cbfc6d424c7d77b808da0fd89d4d483473ddc",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-116": {
+          "range": [
+            1580,
+            1616
+          ],
+          "expected": "b3e66978fdb903fd63f0d3e4cf206984093bf3fff5aa4ddc7594110dd761d222",
+          "sha256": "b3e66978fdb903fd63f0d3e4cf206984093bf3fff5aa4ddc7594110dd761d222",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-12": {
+          "range": [
+            1625,
+            1698
+          ],
+          "expected": "1270f8b508dea88d6e83f20b7c56b6845252e8ef1fa9bf8000f07398d4c5d967",
+          "sha256": "1270f8b508dea88d6e83f20b7c56b6845252e8ef1fa9bf8000f07398d4c5d967",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-132": {
+          "range": [
+            1724,
+            1749
+          ],
+          "expected": "aece2edd58c21f8040a88fbc84ce9625e0d0d76f5a3631a22264c1cbc2a11822",
+          "sha256": "aece2edd58c21f8040a88fbc84ce9625e0d0d76f5a3631a22264c1cbc2a11822",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-141": {
+          "range": [
+            1754,
+            1783
+          ],
+          "expected": "068c98ed137fb8f03551e40d4c18beaf1ac2ad1a74f1456d786c4a758830e097",
+          "sha256": "068c98ed137fb8f03551e40d4c18beaf1ac2ad1a74f1456d786c4a758830e097",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-151": {
+          "range": [
+            1836,
+            1850
+          ],
+          "expected": "47c205aa2729d14e3013c875c4fed99d07c31dab03f45d1a988bddc0e3245741",
+          "sha256": "47c205aa2729d14e3013c875c4fed99d07c31dab03f45d1a988bddc0e3245741",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-7)",
+          "replacement_list_match": true
+        },
+        "C2-153": {
+          "range": [
+            1903,
+            1915
+          ],
+          "expected": "4345ba3cb8acc7aef1c691de65a4985065d6c6bf1e2bc65b4575875cf8510f4e",
+          "sha256": "4345ba3cb8acc7aef1c691de65a4985065d6c6bf1e2bc65b4575875cf8510f4e",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        },
+        "C2-16": {
+          "range": [
+            1922,
+            1962
+          ],
+          "expected": "cc000abe9c5f8be6e6b1d38cdc84985e9374b2e94b52767e6032b1aaa95b704e",
+          "sha256": "cc000abe9c5f8be6e6b1d38cdc84985e9374b2e94b52767e6032b1aaa95b704e",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-8)",
+          "replacement_list_match": true
+        },
+        "C2-17": {
+          "range": [
+            1963,
+            1991
+          ],
+          "expected": "da7d4b09f0286d4e53fc5029d489c1fc5a44c8462726bfa299f64570a75ad27c",
+          "sha256": "da7d4b09f0286d4e53fc5029d489c1fc5a44c8462726bfa299f64570a75ad27c",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-9)",
+          "replacement_list_match": true
+        },
+        "C2-18": {
+          "range": [
+            1992,
+            2053
+          ],
+          "expected": "30a010d01ceec959afbad58e1a744c405aa9fa21a89cf7b4b17979c160f8d368",
+          "sha256": "30a010d01ceec959afbad58e1a744c405aa9fa21a89cf7b4b17979c160f8d368",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R3-20 … R3-24)",
+          "replacement_list_match": true
+        },
+        "C2-APC": {
+          "range": [
+            2221,
+            2287
+          ],
+          "expected": "92d6c824fe889f692157a260213635d1ddca56bd9f7266ee38e0c19720cc147c",
+          "sha256": "92d6c824fe889f692157a260213635d1ddca56bd9f7266ee38e0c19720cc147c",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM",
+          "replacement_list_match": true
+        }
+      },
+      "v1": {
+        "B-NOTATION": {
+          "range": [
+            46,
+            61
+          ],
+          "expected": "08d331e08f8659a520bb86dac169b2f9b4985c948f503b3b314b5fb5befe7b41",
+          "sha256": "08d331e08f8659a520bb86dac169b2f9b4985c948f503b3b314b5fb5befe7b41",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-P0": {
+          "range": [
+            72,
+            151
+          ],
+          "expected": "e61cd9f936685c1931ad93429bb23fe4b669b3c6d54dbf0f652b482c0321a993",
+          "sha256": "e61cd9f936685c1931ad93429bb23fe4b669b3c6d54dbf0f652b482c0321a993",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R-1, R-2)"
+        },
+        "B-S1-CUR": {
+          "range": [
+            169,
+            195
+          ],
+          "expected": "514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17",
+          "sha256": "514de20c4d9ba15da31d8f48cdb1772c5a9dca559099de479dafb191df7b7a17",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S1-REQ": {
+          "range": [
+            197,
+            213
+          ],
+          "expected": "dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413",
+          "sha256": "dc6c3d91efda0993ef6255f7fce95a96c2b9b4f644465418284753d07d1a2413",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S2-CUR": {
+          "range": [
+            323,
+            351
+          ],
+          "expected": "83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259",
+          "sha256": "83d8232004997e316647ef43a37a1124470b1745ec5443dd6f2f5b88a9e80259",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S2-REQ": {
+          "range": [
+            353,
+            369
+          ],
+          "expected": "e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac",
+          "sha256": "e79a931a292d012654378044fd7c9ac77e236b48358b481ce91665dc429478ac",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S3-CUR": {
+          "range": [
+            456,
+            471
+          ],
+          "expected": "705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768",
+          "sha256": "705c8b7823440d001ece1ccf3205208980d6ea02e06bf7a07f825ee41c469768",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S3-REQ": {
+          "range": [
+            473,
+            481
+          ],
+          "expected": "ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793",
+          "sha256": "ed1a12df1ae01dfb4743c4b1d80b3ab0e5a4d1457aed6eaa43ba357dd4145793",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S4-CUR": {
+          "range": [
+            533,
+            548
+          ],
+          "expected": "69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00",
+          "sha256": "69b63f24b45323bf3e774aecb31765dbbf1e4639647dc187934908d536289a00",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S4-REQ": {
+          "range": [
+            550,
+            558
+          ],
+          "expected": "54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f",
+          "sha256": "54c66b823906346a56597678473d5b6577b262e5d6b7b6829a7eb11293f1b31f",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S5-CUR": {
+          "range": [
+            632,
+            644
+          ],
+          "expected": "ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b",
+          "sha256": "ff1c4209dd9e5d5e55f754eda03e846368f656ead39fd7f4eeeb70cd1bde2f2b",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S5-REQ": {
+          "range": [
+            646,
+            659
+          ],
+          "expected": "23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68",
+          "sha256": "23e7c4449b6df68fb28d7370d4957a49c63eadf93669167ef521702ead7ace68",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S6-CUR": {
+          "range": [
+            748,
+            764
+          ],
+          "expected": "8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698",
+          "sha256": "8a50e1d7df8408c52c65c0f725ec75fd3ec556c00cadb1aaa344d55eb7ceb698",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S6-REQ": {
+          "range": [
+            766,
+            776
+          ],
+          "expected": "41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b",
+          "sha256": "41120d75c2c1c762dcbc61d237ca66c3a2ca647a20d4e3a849b3cf53e004c23b",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S7-CUR": {
+          "range": [
+            832,
+            856
+          ],
+          "expected": "1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88",
+          "sha256": "1b1b53e6c79ddb34ef8f146377c75e9a1391a389bcd70e0d7106cc7042640a88",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R-3)"
+        },
+        "B-S7-REQ": {
+          "range": [
+            858,
+            865
+          ],
+          "expected": "6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c",
+          "sha256": "6576a14839ff9996b4bf54ae5453f5f04169a053b7c71f9fb39f9cba4d15266c",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S8-CUR": {
+          "range": [
+            928,
+            945
+          ],
+          "expected": "1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02",
+          "sha256": "1a204ee1c9d87de6d996f003f456f2443b7e2daf686f19359aa3043ba71e6b02",
+          "match": true,
+          "disposition": "CARRIED_WITH_LINE_REPLACEMENTS (R-4)"
+        },
+        "B-S8-REQ": {
+          "range": [
+            947,
+            958
+          ],
+          "expected": "1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba",
+          "sha256": "1a2298439ca37d6656a57278cfb93124e240a80261ef55542ca4284c5911ceba",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S9-CUR": {
+          "range": [
+            1033,
+            1071
+          ],
+          "expected": "5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919",
+          "sha256": "5092b947ea146505f7e5dfa764c4df55ba4e67069bd9062e18bd1e078591b919",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S9-REQ": {
+          "range": [
+            1073,
+            1082
+          ],
+          "expected": "eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e",
+          "sha256": "eb731c8247643108b691bb810e1c9f6f4ae9b1d181bac48f0edf895bdaee940e",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S10-CUR": {
+          "range": [
+            1153,
+            1163
+          ],
+          "expected": "df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9",
+          "sha256": "df8962cc5afe7519913582c624671971cae5e68c5bb80e6b2c89a6ae486c88b9",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        },
+        "B-S10-REQ": {
+          "range": [
+            1165,
+            1174
+          ],
+          "expected": "bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e",
+          "sha256": "bc9f9c701a5df8616b3b44f92d70d4a1354e016f0336b1faf50cbc2967fb3d7e",
+          "match": true,
+          "disposition": "CARRIED_VERBATIM"
+        }
+      }
+    },
+    "sealed_reviews": {
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v1/review/gpt61-v1/review-freeze.json": {
+        "model": "gpt-6.1-sol",
+        "different_from_author": true,
+        "files": {
+          "REVIEW.md": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "checks.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "review.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          }
+        }
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v2/review/gpt61-v1/review-freeze.json": {
+        "model": "gpt-6.1-sol",
+        "different_from_author": true,
+        "files": {
+          "REVIEW.md": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "review.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "checks.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          }
+        }
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v3/review/gpt61-v1/review-freeze.json": {
+        "model": "gpt-6.1-sol",
+        "different_from_author": true,
+        "files": {
+          "REVIEW.md": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "review.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "checks.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          }
+        }
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v5/review/gpt61-v1/review-freeze.json": {
+        "model": "gpt-6.1-sol",
+        "different_from_author": true,
+        "files": {
+          "REVIEW.md": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "review.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "checks.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          }
+        }
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-capi-boundary-design-v6/review/gpt61-v1/review-freeze.json": {
+        "model": "gpt-6.1-sol",
+        "different_from_author": true,
+        "files": {
+          "REVIEW.md": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "review.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          },
+          "checks.json": {
+            "hash_match": true,
+            "bytes_match": true,
+            "mode_match": true
+          }
+        }
+      }
+    },
+    "diagnostics": [],
+    "quoted_review_cells": {
+      "observed_quoted_cells": 69,
+      "bad": []
+    }
+  },
+  "carry": {
+    "unmapped_substantive_v3_lines": [],
+    "NF_assessment_equal": true,
+    "N_assessment_equal": true,
+    "DF_assessment_equal": true,
+    "NF_text_preserved": true,
+    "op7": {
+      "ids": [
+        "OP-1",
+        "OP-2",
+        "OP-3",
+        "OP-4",
+        "OP-5",
+        "OP-6",
+        "OP-7",
+        "OP-8",
+        "OP-9"
+      ],
+      "assessment": "WITHIN_RESERVED_SCOPE (review); OP-7 range repaired",
+      "op7_range": "K-1 ... K-14, K-15 ... K-21 and K-22, K-23 (R4-1, R4-5)",
+      "added_lowered_or_widened": false
+    },
+    "custody_twin": {
+      "unit": "Worldline.Root_Custody_Phase",
+      "functions": [
+        "Legal_Reference",
+        "Legal",
+        "Next",
+        "Mutation_Allowed"
+      ],
+      "event_kinds_added": [
+        "FRONT_OWNED",
+        "ROOT_STOP_INTENT",
+        "DRAIN_RECLAIMED"
+      ],
+      "request_phases": [
+        "Queued",
+        "Transfer_Intent",
+        "Intake",
+        "Abandoned",
+        "Responded"
+      ],
+      "descriptor_phases": [
+        "Front_Held",
+        "Stop_Intent",
+        "Frozen",
+        "Ofd_Evidence",
+        "Intake",
+        "Abandoned",
+        "Released",
+        "Reclaimed"
+      ],
+      "cxp_rules": [
+        "r1",
+        "r2",
+        "r3'",
+        "r4",
+        "r5'",
+        "r6"
+      ],
+      "mutation_gates": {
+        "M1": "operation journal",
+        "M2": "scoped ledger",
+        "M3": "store",
+        "M4": "custody",
+        "M5": "response",
+        "M6": "read and spool, front allowed in Stop_Intent",
+        "M7": "stdin write",
+        "M8": "stop: original owner paths, helper kill before GO, authorized job.cancel when no owner is reachable; never settles",
+        "M9": "helper command",
+        "M10": "unit reset after CLOSED_WITNESS",
+        "M11": "escrow claim"
+      },
+      "replay_identity": [
+        "generation",
+        "operation",
+        "subject_kind",
+        "subject",
+        "subgeneration",
+        "kind",
+        "record digest"
+      ],
+      "exclusive_sets": [
+        "ACK",
+        "REQUEST",
+        "DRAIN"
+      ],
+      "v1_deployments_gated": false
+    },
+    "requester_twin": {
+      "joins": {
+        "Transfer_Join": "FRESH, before intake, over the authenticated transfer-intent head",
+        "Relay_Join": "RELAY, before intake, over the same head and the relay channel",
+        "Serving_Join": "every gate use after intake"
+      },
+      "circular": false,
+      "user_namespace": "equality when both records are present",
+      "pid_namespace": "correspondence to the HELD identity, never equality",
+      "corroboration_optional": true,
+      "fallback": "FRESH, then RELAY, then queued until an owner can serve; never refused"
+    },
+    "progress_twin": {
+      "dedicated_lane": "withdrawn",
+      "registered_root_executor": "kept",
+      "router_awaits_under_lock": false,
+      "added_waits": [
+        "handoff window",
+        "an unreachable worker's completion or an authorized cancellation",
+        "collection",
+        "evidence for UNKNOWN"
+      ],
+      "deadline_settles": false,
+      "fabricated_join": false,
+      "queued_events_count_as_progress": false
+    },
+    "assessments": {
+      "NF": {
+        "NF-1": "VERIFIED_STATIC_OPEN_FLAG_KERNEL_CONSEQUENCE_UNMEASURED",
+        "NF-2": "VERIFIED_STATIC_CONTROL_FLOW_NOT_RUNTIME_COMMIT",
+        "NF-3": "VERIFIED_STATIC_LOCK_PATH",
+        "NF-4": "VERIFIED_STATIC_AUTOMATIC_RECOVERY_BRANCH",
+        "NF-5": "VERIFIED_TEXT_AND_LEXICAL_SCOPE",
+        "NF-6": "VERIFIED_STATIC_MANAGER_CALLS_REACHABILITY_UNMEASURED",
+        "NF-7": "VERIFIED_STATIC_ROUTER_WAIT_AND_FRONT_GATE",
+        "NF-8": "VERIFIED_STATIC_ENCODING_FORMS",
+        "NF-9": "VERIFIED_BYTE_IDENTITY_AND_STATIC_RELAY_JOIN_KERNEL_VIEW_UNMEASURED",
+        "NF-10": "VERIFIED_STATIC_PLAN_SELECTION_GAP",
+        "NF-11": "VERIFIED_STATIC_GENESIS_AND_HMAC_BOUNDARY"
+      },
+      "N": {
+        "N-1": "VERIFIED_STATIC",
+        "N-2": "SUPPORTED_STATIC_TOOL_BEHAVIOR_OPEN",
+        "N-3": "VERIFIED_STATIC",
+        "N-4": "VERIFIED_BYTE_DIFF_AND_LAYOUT",
+        "N-5": "VERIFIED_LEXICAL_SCOPE",
+        "N-6": "SUPPORTED_STATIC_CONDITIONAL_RECEIVER_RESOLVED",
+        "N-7": "VERIFIED_STATIC",
+        "N-8": "VERIFIED_STATIC_ORDER",
+        "N-9": "VERIFIED_TEXT_SCOPE_RESOLUTION_OPEN",
+        "N-10": "VERIFIED_STATIC_PAIR_FILLING"
+      },
+      "DF": {
+        "DF-1": "VERIFIED_STATIC_RECOMPUTATION",
+        "DF-2": "VERIFIED_STATIC",
+        "DF-3": "VERIFIED_STATIC",
+        "DF-4": "VERIFIED_STATIC",
+        "DF-5": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_TREES",
+        "DF-6": "SUPPORTED_STATIC_CONDITIONAL"
+      },
+      "frontier_sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb"
+    },
+    "owner_cells": {
+      "D-1a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-1b": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-2a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-2b": {
+        "owner_in_doc": true,
+        "evidence_in_doc": true
+      },
+      "D-3a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-4a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-5a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-5b": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-6a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-7a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-8a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-8b": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      },
+      "D-9a": {
+        "owner": true,
+        "evidence_required": true,
+        "remaining_gap": true
+      }
+    },
+    "controls": {
+      "retained": "every original and additive control; none retired",
+      "frontier_control": "unchanged (C2-116)",
+      "added": "SEAM-DESIGN.md V4-M"
+    }
+  },
+  "replacement_assessment": {
+    "R4-1": {
+      "source_version": 3,
+      "range": [
+        259,
+        259
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-3": {
+      "source_version": 3,
+      "range": [
+        291,
+        291
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-4": {
+      "source_version": 3,
+      "range": [
+        307,
+        307
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-5": {
+      "source_version": 3,
+      "range": [
+        315,
+        315
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-6": {
+      "source_version": 3,
+      "range": [
+        323,
+        323
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-11": {
+      "source_version": 3,
+      "range": [
+        428,
+        428
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-12": {
+      "source_version": 3,
+      "range": [
+        436,
+        436
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-13": {
+      "source_version": 3,
+      "range": [
+        444,
+        444
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-16": {
+      "source_version": 3,
+      "range": [
+        628,
+        628
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-17": {
+      "source_version": 3,
+      "range": [
+        664,
+        664
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-18": {
+      "source_version": 3,
+      "range": [
+        777,
+        777
+      ],
+      "slice": "C3-VA",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-26": {
+      "source_version": 3,
+      "range": [
+        1194,
+        1194
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-27": {
+      "source_version": 3,
+      "range": [
+        1219,
+        1219
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-28": {
+      "source_version": 3,
+      "range": [
+        1223,
+        1223
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-30": {
+      "source_version": 3,
+      "range": [
+        1397,
+        1397
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-37": {
+      "source_version": 3,
+      "range": [
+        1673,
+        1673
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-38": {
+      "source_version": 3,
+      "range": [
+        1678,
+        1678
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-39": {
+      "source_version": 3,
+      "range": [
+        1689,
+        1689
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-40": {
+      "source_version": 3,
+      "range": [
+        1690,
+        1690
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-41": {
+      "source_version": 3,
+      "range": [
+        1749,
+        1751
+      ],
+      "slice": "C3-VK2",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-42": {
+      "source_version": 3,
+      "range": [
+        1755,
+        1755
+      ],
+      "slice": "C3-VK2",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-43": {
+      "source_version": 3,
+      "range": [
+        1828,
+        1829
+      ],
+      "slice": "C3-VK5",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-50": {
+      "source_version": 3,
+      "range": [
+        1961,
+        1961
+      ],
+      "slice": "C3-VN",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-51": {
+      "source_version": 3,
+      "range": [
+        2028,
+        2028
+      ],
+      "slice": "C3-VQ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-52": {
+      "source_version": 3,
+      "range": [
+        396,
+        396
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-53": {
+      "source_version": 3,
+      "range": [
+        1707,
+        1707
+      ],
+      "slice": "C3-VJ",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-54": {
+      "source_version": 3,
+      "range": [
+        1211,
+        1211
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-55": {
+      "source_version": 3,
+      "range": [
+        1964,
+        1964
+      ],
+      "slice": "C3-VN",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-57": {
+      "source_version": 3,
+      "range": [
+        1983,
+        1983
+      ],
+      "slice": "C3-VO",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-59": {
+      "source_version": 3,
+      "range": [
+        1173,
+        1173
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-60": {
+      "source_version": 3,
+      "range": [
+        1175,
+        1175
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-61": {
+      "source_version": 3,
+      "range": [
+        1176,
+        1176
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-62": {
+      "source_version": 3,
+      "range": [
+        1177,
+        1177
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-63": {
+      "source_version": 3,
+      "range": [
+        1178,
+        1178
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_CORRECTION_OR_SCOPE_CARRY; substantive completion remains as item 1 and items 3-7. Source measurement, helper verification, provisioning and installed-runtime assertions are not verified by the quotes."
+    },
+    "R4-2": {
+      "source_version": 3,
+      "range": [
+        283,
+        283
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-14": {
+      "source_version": 3,
+      "range": [
+        530,
+        530
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-15": {
+      "source_version": 3,
+      "range": [
+        546,
+        546
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-19": {
+      "source_version": 3,
+      "range": [
+        814,
+        814
+      ],
+      "slice": "C3-VB",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-20": {
+      "source_version": 3,
+      "range": [
+        846,
+        849
+      ],
+      "slice": "C3-VB",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-45": {
+      "source_version": 2,
+      "range": [
+        522,
+        522
+      ],
+      "slice": "C2-36",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-46": {
+      "source_version": 2,
+      "range": [
+        571,
+        571
+      ],
+      "slice": "C2-38",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-58": {
+      "source_version": 2,
+      "range": [
+        561,
+        561
+      ],
+      "slice": "C2-38",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_PARTIAL_CORRESPONDENCE_REPAIR; frame-local witnesses and rebasing improve the construction, but residual coverage, RQ-1 and original acceptance/cost correspondence remain OPEN."
+    },
+    "R4-7": {
+      "source_version": 3,
+      "range": [
+        372,
+        372
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-8": {
+      "source_version": 3,
+      "range": [
+        380,
+        380
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-9": {
+      "source_version": 3,
+      "range": [
+        388,
+        388
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-10": {
+      "source_version": 3,
+      "range": [
+        404,
+        404
+      ],
+      "slice": "C3-B",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-31": {
+      "source_version": 3,
+      "range": [
+        1445,
+        1445
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-32": {
+      "source_version": 3,
+      "range": [
+        1451,
+        1451
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-33": {
+      "source_version": 3,
+      "range": [
+        1452,
+        1452
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-34": {
+      "source_version": 3,
+      "range": [
+        1466,
+        1466
+      ],
+      "slice": "C3-VH1",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-35": {
+      "source_version": 3,
+      "range": [
+        1477,
+        1477
+      ],
+      "slice": "C3-VH1",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-36": {
+      "source_version": 3,
+      "range": [
+        1480,
+        1483
+      ],
+      "slice": "C3-VH1",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-44": {
+      "source_version": 3,
+      "range": [
+        1862,
+        1862
+      ],
+      "slice": "C3-VL3",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-48": {
+      "source_version": 2,
+      "range": [
+        1053,
+        1053
+      ],
+      "slice": "C2-64",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-49": {
+      "source_version": 2,
+      "range": [
+        1383,
+        1383
+      ],
+      "slice": "C2-93",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-56": {
+      "source_version": 3,
+      "range": [
+        1442,
+        1442
+      ],
+      "slice": "C3-VG",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_SEMANTIC_REPAIR; RELAY message/freshness/response semantics, crash-surviving escrow, armed-interval ordering, M8(c) authorization and progress, and ABANDON from a pre-transfer failure phase remain unresolved. Exact quote integrity does not justify the changed behaviour."
+    },
+    "R4-21": {
+      "source_version": 3,
+      "range": [
+        980,
+        980
+      ],
+      "slice": "C3-VC",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_NATIVE_JSON_AUTHENTICITY_REPAIR; native signed-zero semantics, full cost, selection/producer premise discharge and anti-rollback boundary remain OPEN."
+    },
+    "R4-22": {
+      "source_version": 3,
+      "range": [
+        1012,
+        1013
+      ],
+      "slice": "C3-VC",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_NATIVE_JSON_AUTHENTICITY_REPAIR; native signed-zero semantics, full cost, selection/producer premise discharge and anti-rollback boundary remain OPEN."
+    },
+    "R4-23": {
+      "source_version": 3,
+      "range": [
+        1096,
+        1096
+      ],
+      "slice": "C3-VC",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_NATIVE_JSON_AUTHENTICITY_REPAIR; native signed-zero semantics, full cost, selection/producer premise discharge and anti-rollback boundary remain OPEN."
+    },
+    "R4-24": {
+      "source_version": 3,
+      "range": [
+        1153,
+        1153
+      ],
+      "slice": "C3-VD",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_WITHDRAWAL_OF_OUTER_BOUND_INCREASE; no accounting option selected or proven to meet the unchanged floor."
+    },
+    "R4-25": {
+      "source_version": 3,
+      "range": [
+        1155,
+        1155
+      ],
+      "slice": "C3-VD",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "JUSTIFIED_WITHDRAWAL_OF_OUTER_BOUND_INCREASE; no accounting option selected or proven to meet the unchanged floor."
+    },
+    "R4-29": {
+      "source_version": 3,
+      "range": [
+        1321,
+        1323
+      ],
+      "slice": "C3-VF5",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_CUSTODY_REPAIR; new event names and Never_Launched exception require a complete product transition/DDL encoding and legal settlement path."
+    },
+    "R4-47": {
+      "source_version": 2,
+      "range": [
+        1008,
+        1008
+      ],
+      "slice": "C2-62",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "PARTIAL_CUSTODY_REPAIR; new event names and Never_Launched exception require a complete product transition/DDL encoding and legal settlement path."
+    },
+    "R4-64": {
+      "source_version": 3,
+      "range": [
+        1180,
+        1180
+      ],
+      "slice": "C3-VE",
+      "quote_match": true,
+      "in_slice": true,
+      "assessment": "NOT_SUFFICIENT_AS_WRITTEN; durable CHILD_READY precedes the sub-helper decision while CHILD_ABORT remains its disagreement response, conflicting with the exclusive READY/ABORT set. Required repair is in item 4."
+    }
+  },
+  "evidence": [
+    "D4/SEAM-DESIGN.md:110-139",
+    "D4/SEAM-DESIGN.md:183-789",
+    "D3/SEAM-DESIGN.md:178-691",
+    "D3/SEAM-DESIGN.md:744-2033",
+    "D2/SEAM-DESIGN.md:522,561,571,1008,1053,1383"
+  ],
+  "only_changes": "Every substantive carried v3 line is carried or explicitly superseded. Within carried slices, the R4 replacements are the declared amendments, including the six explicitly addressed v2 lines; v4 also openly adds/supersedes its named new sections. No hash/quote mismatch or hidden range edit was found. This is a textual integrity finding, not a claim that the amendments are behaviour-neutral.",
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

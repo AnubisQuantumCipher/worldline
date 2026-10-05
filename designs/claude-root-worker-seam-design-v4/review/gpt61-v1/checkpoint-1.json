@@ -1,0 +1,964 @@
+{
+  "schema": "claude-design-review-checkpoint-v1",
+  "item": 1,
+  "status": "COMPLETE",
+  "design_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+  "rc_closure": {
+    "V3-REQ-A": "PARTIALLY_CLOSED",
+    "V3-REQ-B": "PARTIALLY_CLOSED",
+    "V3-REQ-C": "PARTIALLY_CLOSED",
+    "V3-REQ-D": "PARTIALLY_CLOSED",
+    "V3-REQ-E": "PARTIALLY_CLOSED",
+    "V3-REQ-F": "PARTIALLY_CLOSED",
+    "V3-REQ-G": "PARTIALLY_CLOSED",
+    "V3-REQ-H": "PARTIALLY_CLOSED",
+    "V3-REQ-I": "PARTIALLY_CLOSED",
+    "V3-REQ-J": "PARTIALLY_CLOSED",
+    "V3-REQ-K": "CLOSED_AT_DESIGN_LEVEL",
+    "V3-REQ-L": "PARTIALLY_CLOSED",
+    "RQ-1": "PARTIALLY_CLOSED"
+  },
+  "required_change_detail": {
+    "V3-REQ-A": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The specification waves repair the S1/S6 edge and include HMAC/request/child nodes. Most consumer rows still use schematic ABI/export and producer descriptions rather than complete typed consumed interfaces; V1 fallback also inherits a newly imposed root workload guard.",
+      "evidence": [
+        "D4:845-881",
+        "D4:883-948",
+        "D4:1017-1024"
+      ]
+    },
+    "V3-REQ-B": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "W2/W8 are frame-local, positional/compaction Rebase are distinguished and the C1 shortcut is removed. Compaction must retain the newly selected witness subspan as well as original packet spans, and the carried three-form text must agree. RQ-1 does not establish original operation-by-operation acceptance or cost equivalence.",
+      "evidence": [
+        "D4:958-1009",
+        "D4:1011-1039",
+        "D3:823-879"
+      ]
+    },
+    "V3-REQ-C": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "P3 scope and non-claims now agree. Number_Canonical loses the sign of zero through its rational intermediate and leaves Repr as an external CPython definition. Authentic selection/currentness is still an open premise; compromise exclusions and rollback-detection overstatement cannot discharge the original target.",
+      "evidence": [
+        "D4:1047-1104",
+        "D4:1106-1134",
+        "D4:1802"
+      ]
+    },
+    "V3-REQ-D": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "AO-1..AO-11 and unselected G improve the comparison and correctly reject F. The matrix admits that no option satisfies all obligations; qualitative cost labels and ledger checkmarks do not complete kind/amount/rollover/physical/native-cost correspondence. D-4a cannot authorize a weaker target.",
+      "evidence": [
+        "D4:1142-1176",
+        "P1/HANDOFF.md:125-131"
+      ]
+    },
+    "V3-REQ-E": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Launch ordering, measurement relay and native sub-helper redecision improve the design. READY followed by a disagreement ABORT violates the exclusive pair. The blanket worker-owned condition excludes collector finalization, and complete command material, C ABI and authority-preserving surfaces remain unfinished.",
+      "evidence": [
+        "D4:1184-1227",
+        "D4:1229-1259",
+        "D4:735-748"
+      ]
+    },
+    "V3-REQ-F": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Subject-kind replay and mutation choke points improve the proposal. The carried root graph still mixes request/drain and root transitions, root r1 excludes the newly permitted prelaunch release, r6 is written as an invariant instead of a barrier check, and M8(c) lacks an original job/unit authorization correspondence. The DDL cannot encode all new native fields/modes/quantities as specified.",
+      "evidence": [
+        "D4:1267-1401",
+        "D2:974-1002",
+        "D3:1301-1369"
+      ]
+    },
+    "V3-REQ-G": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The inactive-unit condition is removed and the handoff seed no longer requires HANDLER_TERMINAL. Never_Launched release is permitted in r3 but no coherent root-product release/return route is supplied. Complete restart recovery still depends on descriptor/escrow survival and serving authority not supplied by the tables.",
+      "evidence": [
+        "D4:1359-1364",
+        "D4:1409-1453",
+        "D2:976-1000"
+      ]
+    },
+    "V3-REQ-H": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Armed intervals detect uncertainty and duplicate writers are distinguished. Reattachment enables a reader before ARMED, READ interval detection is underspecified after chunk records, and front-crash/restart rows claim recovery of process-local pipe copies. Durable P/W cannot recreate an absent pipe or its consumed bytes.",
+      "evidence": [
+        "D4:1461-1512",
+        "D4:1449-1451"
+      ]
+    },
+    "V3-REQ-I": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Request Transfer_Join no longer requires its future intake and PID/user namespaces are separated. RELAY framing, per-gate response/request/generation binding and costs are unspecified, optional presence is internally inconsistent, the root ACK path is conflated with already-worker-owned request joins, and all own/historical gate modes are not supplied.",
+      "evidence": [
+        "D4:1520-1634",
+        "D4:1572-1593",
+        "D4:1604-1617",
+        "AUTHOR-NOTES.md:73"
+      ]
+    },
+    "V3-REQ-J": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Tool keys, provisioner paths and explicit migration alternatives are supplied. Empty-genesis head references an absent events row under the retained foreign-key setting, genesis raw bytes versus archive representation are conflated, new State fields have no exact DDL/fold encoding, and plan-v1 migration needs an explicit changed-path/exclusive-create mapping.",
+      "evidence": [
+        "D4:1646-1698",
+        "D3:1339-1368",
+        "rw/root_worker_journal.py:78-98"
+      ]
+    },
+    "V3-REQ-K": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "The sealed CAPI5 and CAPI6 status, fixed WF-X exception, prefix/parent capture checks, append-only union, controls and stage floor are specified coherently. Implementation, stage reviews, IC-10, controls, installed resolution and both lanes' acceptance remain OPEN.",
+      "evidence": [
+        "D4:1706-1743",
+        "D4:561-589",
+        "CAPI6/APPENDIX-BINDINGS.md:97-103,391-425"
+      ]
+    },
+    "V3-REQ-L": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The dedicated lane is withdrawn and router waits leave the lock. The progress table lists new custody/UNKNOWN/collection waits but does not show original accepted response progress when the owner or its physical evidence never becomes available. M8(c) is not a proved substitute; RELAY and executor/storage dependencies remain incomplete.",
+      "evidence": [
+        "D4:1751-1792",
+        "D4:1383",
+        "D4:1624-1626"
+      ]
+    }
+  },
+  "inherited_rc_closure": {
+    "RC-01": "PARTIALLY_CLOSED",
+    "RC-02": "PARTIALLY_CLOSED",
+    "RC-03": "PARTIALLY_CLOSED",
+    "RC-04": "PARTIALLY_CLOSED",
+    "RC-05": "CLOSED_AT_DESIGN_LEVEL",
+    "RC-06": "PARTIALLY_CLOSED",
+    "RC-07": "PARTIALLY_CLOSED",
+    "RC-08": "PARTIALLY_CLOSED",
+    "RC-09": "PARTIALLY_CLOSED",
+    "RC-10": "CLOSED_AT_DESIGN_LEVEL",
+    "RC-11": "PARTIALLY_CLOSED",
+    "RC-12": "PARTIALLY_CLOSED"
+  },
+  "clause_closure": {
+    "01.1": "PARTIALLY_CLOSED",
+    "01.2": "PARTIALLY_CLOSED",
+    "01.3": "PARTIALLY_CLOSED",
+    "01.4": "CLOSED_AT_DESIGN_LEVEL",
+    "01.5": "PARTIALLY_CLOSED",
+    "01.6": "CLOSED_AT_DESIGN_LEVEL",
+    "01.7": "PARTIALLY_CLOSED",
+    "02.1": "PARTIALLY_CLOSED",
+    "02.2": "PARTIALLY_CLOSED",
+    "02.3": "PARTIALLY_CLOSED",
+    "02.4": "PARTIALLY_CLOSED",
+    "03.1": "CLOSED_AT_DESIGN_LEVEL",
+    "03.2": "PARTIALLY_CLOSED",
+    "03.3": "PARTIALLY_CLOSED",
+    "04.1": "NOT_CLOSED",
+    "04.2": "CLOSED_AT_DESIGN_LEVEL",
+    "04.3": "PARTIALLY_CLOSED",
+    "04.4": "PARTIALLY_CLOSED",
+    "04.5": "CLOSED_AT_DESIGN_LEVEL",
+    "04.6": "CLOSED_AT_DESIGN_LEVEL",
+    "05.1": "CLOSED_AT_DESIGN_LEVEL",
+    "05.2": "CLOSED_AT_DESIGN_LEVEL",
+    "05.3": "CLOSED_AT_DESIGN_LEVEL",
+    "05.4": "CLOSED_AT_DESIGN_LEVEL",
+    "05.5": "CLOSED_AT_DESIGN_LEVEL",
+    "06.1": "CLOSED_AT_DESIGN_LEVEL",
+    "06.2": "PARTIALLY_CLOSED",
+    "06.3": "PARTIALLY_CLOSED",
+    "06.4": "PARTIALLY_CLOSED",
+    "07.1": "PARTIALLY_CLOSED",
+    "07.2": "CLOSED_AT_DESIGN_LEVEL",
+    "07.3": "NOT_CLOSED",
+    "07.4": "CLOSED_AT_DESIGN_LEVEL",
+    "07.5": "CLOSED_AT_DESIGN_LEVEL",
+    "08.1": "PARTIALLY_CLOSED",
+    "08.2": "PARTIALLY_CLOSED",
+    "08.3": "PARTIALLY_CLOSED",
+    "08.4": "CLOSED_AT_DESIGN_LEVEL",
+    "08.5": "PARTIALLY_CLOSED",
+    "08.6": "CLOSED_AT_DESIGN_LEVEL",
+    "08.7": "CLOSED_AT_DESIGN_LEVEL",
+    "09.1": "PARTIALLY_CLOSED",
+    "09.2": "PARTIALLY_CLOSED",
+    "09.3": "PARTIALLY_CLOSED",
+    "09.4": "CLOSED_AT_DESIGN_LEVEL",
+    "09.5": "PARTIALLY_CLOSED",
+    "10.1": "CLOSED_AT_DESIGN_LEVEL",
+    "10.2": "CLOSED_AT_DESIGN_LEVEL",
+    "10.3": "CLOSED_AT_DESIGN_LEVEL",
+    "10.4": "CLOSED_AT_DESIGN_LEVEL",
+    "11.1": "PARTIALLY_CLOSED",
+    "11.2": "CLOSED_AT_DESIGN_LEVEL",
+    "11.3": "CLOSED_AT_DESIGN_LEVEL",
+    "11.4": "CLOSED_AT_DESIGN_LEVEL",
+    "12.1": "PARTIALLY_CLOSED",
+    "12.2": "PARTIALLY_CLOSED",
+    "12.3": "CLOSED_AT_DESIGN_LEVEL",
+    "12.4": "PARTIALLY_CLOSED",
+    "12.5": "CLOSED_AT_DESIGN_LEVEL"
+  },
+  "clause_detail": {
+    "01.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Typed interfaces are schematic; graph order repaired, caller/ABI contracts incomplete.",
+      "evidence": [
+        "D4:845-948"
+      ]
+    },
+    "01.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Rebase variants remove the positional contradiction, but compaction needs a precise union including witness N and a consistent form roster.",
+      "evidence": [
+        "D4:960-975; D3:823-879"
+      ]
+    },
+    "01.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Frame-local W2/W8 and unconditional positive-factor intent repair the old contradictions; saturated compaction/witness coverage and consistent carried forms remain incomplete.",
+      "evidence": [
+        "D4:966-1009; D4:374-386,599-613,751-757"
+      ]
+    },
+    "01.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:744-955",
+        "D2:522-574,606-618"
+      ]
+    },
+    "01.5": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Extra-conjunct and R0 audits are explicit and all originals remain, but D_prod coverage and saturated witness specification remain open.",
+      "evidence": [
+        "D4:981-1009"
+      ]
+    },
+    "01.6": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:744-955",
+        "D2:522-574,606-618"
+      ]
+    },
+    "01.7": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The W0-W5 table preserves the three scoped Context_Changed sites and Retained_Join, but W2/W3/W5 equivalence is overclaimed. The root route inserts launch/currentness/physical waits before handlers that may not launch on the serial route, and restoring an unintegrated lane guard adds a root workload refusal. Exact per-operation original durable outcomes, recovery, accepted cases and costs are still required.",
+      "evidence": [
+        "D4:1013-1039"
+      ]
+    },
+    "02.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Native canonicality is proposed, but signed zero and fully specified binary64/Repr/extraction correspondence remain unresolved.",
+      "evidence": [
+        "D4:1085-1104,1802"
+      ]
+    },
+    "02.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Independent selection and currentness remain premises; cross-references only constrain referenced prefixes and cannot justify the full detection claim.",
+      "evidence": [
+        "D4:1049-1081"
+      ]
+    },
+    "02.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Typed decoding/caller table improves the crosswalk; full consumed operands and authentic producer/ABI/native-cost contracts remain incomplete.",
+      "evidence": [
+        "D4:1118-1134; D4:858-868"
+      ]
+    },
+    "02.4": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Sampling stays separate from protection; no option meets enforcement/capacity/native-cost target.",
+      "evidence": [
+        "D4:1140-1176"
+      ]
+    },
+    "03.1": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:744-795,1159-1233",
+        "D2:810-878"
+      ]
+    },
+    "03.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Helper redecision and launch order repaired; exclusive child decisions, collector completion, exact payload/C ABI and retained authority correspondence remain incomplete.",
+      "evidence": [
+        "D4:1186-1259"
+      ]
+    },
+    "03.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "V1/V2 separation remains, but root-route refusal and schematic compatibility interfaces leave end-to-end accepted cases open.",
+      "evidence": [
+        "D4:883-887,858-868,1021"
+      ]
+    },
+    "04.1": {
+      "closure": "NOT_CLOSED",
+      "remaining_gap": "No complete consistent product: r1/release, r6, request-versus-root transitions, M8(c), State/DDL and predicate inputs conflict or are missing.",
+      "evidence": [
+        "D4:1324-1401; D2:974-1002; D3:1339-1358"
+      ]
+    },
+    "04.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1524",
+        "D2:970-1010,1061-1073"
+      ]
+    },
+    "04.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Replay includes subject_kind; CAS/exclusivity intent preserved. Exact State/DDL/fold, transition ownership and replay-authorized recovery actions remain incomplete.",
+      "evidence": [
+        "D4:1392-1401; D4:1324-1388; D3:1307-1368"
+      ]
+    },
+    "04.4": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Durable seed and added routes improve recovery; process-local descriptor loss and legal post-crash serving/side-effect replay remain unresolved.",
+      "evidence": [
+        "D4:1427-1453,1487-1495"
+      ]
+    },
+    "04.5": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Original MainPID-zero/helper-pidfd/launcher-wait semantics restored; no inactive-unit/reset-cycle condition. All actual physical/native evidence remains OPEN.",
+      "evidence": [
+        "D4:467-473,1417-1423; rw/protected_root_supervisor.py:203-227"
+      ]
+    },
+    "04.6": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1524",
+        "D2:970-1010,1061-1073"
+      ]
+    },
+    "05.1": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "05.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "05.3": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "05.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "05.5": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "06.1": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1110-1158,1837-1893",
+        "D2:1348-1364"
+      ]
+    },
+    "06.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "No option satisfies all AO obligations; actual costs and per-kind enforcement remain incomplete.",
+      "evidence": [
+        "D4:1144-1176"
+      ]
+    },
+    "06.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "UNKNOWN holds remain but job.cancel-root-stop mapping and owner diagnosis progress are incomplete.",
+      "evidence": [
+        "D4:1383,1767-1780"
+      ]
+    },
+    "06.4": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Serialized lane withdrawn; fair executor isolation is a proposal and custody/evidence waits still obstruct accepted responses.",
+      "evidence": [
+        "D4:1753-1792"
+      ]
+    },
+    "07.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "O/U mapping carried; C/P/request/descriptor and mutation relation remains inconsistent.",
+      "evidence": [
+        "D4:1265-1401; D2:974-1002"
+      ]
+    },
+    "07.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1457",
+        "D2:384-405,1447-1463,1470-1496"
+      ]
+    },
+    "07.3": {
+      "closure": "NOT_CLOSED",
+      "remaining_gap": "r3 and INV-C4 now permit Never_Launched release, but r1 still restricts pre-HELD root rows to RESERVED/LAUNCH_INTENT and the root graph supplies no no-launch settlement/return branch. The complete product still cannot admit the case.",
+      "evidence": [
+        "D4:1359-1364,1409-1413; D2:976-1000"
+      ]
+    },
+    "07.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1457",
+        "D2:384-405,1447-1463,1470-1496"
+      ]
+    },
+    "07.5": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1457",
+        "D2:384-405,1447-1463,1470-1496"
+      ]
+    },
+    "08.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "STOP_INTENT spooling is authorized; reattachment and front-crash custody survival remain incomplete.",
+      "evidence": [
+        "D4:1381,1463-1495"
+      ]
+    },
+    "08.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Armed/duplicate rules improve accounting; restart FD survival, exact open-interval detection and write truncation/progress remain incomplete.",
+      "evidence": [
+        "D4:1463-1506"
+      ]
+    },
+    "08.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Clean-stop P/W durability specified, but reattach starts reading before ARMED and crash-gap detection needs a precise interval fold.",
+      "evidence": [
+        "D4:1463-1481"
+      ]
+    },
+    "08.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1458-1524",
+        "D2:1128-1152"
+      ]
+    },
+    "08.5": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "A-G table covers intended windows but several front-restart rows require lost FDs and gate states; no complete reconstruction route.",
+      "evidence": [
+        "D4:1487-1495,1449-1451"
+      ]
+    },
+    "08.6": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1458-1524",
+        "D2:1128-1152"
+      ]
+    },
+    "08.7": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1458-1524",
+        "D2:1128-1152"
+      ]
+    },
+    "09.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Request-intake circularity removed and namespace semantics separated; root ACK and native join operands/presence/independent selection remain incomplete.",
+      "evidence": [
+        "D4:1524-1598,1630-1634"
+      ]
+    },
+    "09.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Receive/validate before request intake retained. RELAY supplies a direction, but exact authentication/framing and real queue progress remain open.",
+      "evidence": [
+        "D4:1624-1634; AUTHOR-NOTES.md:73"
+      ]
+    },
+    "09.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Per-gate table exists but own/RETAINED/HISTORICAL modes and root-before-ACK versus request-intake phases remain incomplete.",
+      "evidence": [
+        "D4:1604-1620,1633"
+      ]
+    },
+    "09.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1525-1649"
+      ]
+    },
+    "09.5": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Providers remain optional in intent; optional-field presence rules conflict and RELAY/queue adds unresolved service dependencies.",
+      "evidence": [
+        "D4:1534-1593,1624-1626,1765-1780"
+      ]
+    },
+    "10.1": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1625-1698",
+        "D3:113,1810-1827"
+      ]
+    },
+    "10.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1625-1698",
+        "D3:113,1810-1827"
+      ]
+    },
+    "10.3": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1625-1698",
+        "D3:113,1810-1827"
+      ]
+    },
+    "10.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1625-1698",
+        "D3:113,1810-1827"
+      ]
+    },
+    "11.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Spec waves now follow declared edges; full consumed interfaces and exact exports/body dependencies still schematic.",
+      "evidence": [
+        "D4:870-948"
+      ]
+    },
+    "11.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1894-1949",
+        "D2:1836-1850,1926-1940"
+      ]
+    },
+    "11.3": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1894-1949",
+        "D2:1836-1850,1926-1940"
+      ]
+    },
+    "11.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1894-1949",
+        "D2:1836-1850,1926-1940"
+      ]
+    },
+    "12.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Selection union improves; initial FK/encoding and native State-to-DDL/migration contracts remain inconsistent.",
+      "evidence": [
+        "D4:1648-1692; D3:1339-1368"
+      ]
+    },
+    "12.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Closure inactivity removed, seed and recover_committed routes restored; no-launch product and crash custody survival still incomplete.",
+      "evidence": [
+        "D4:1409-1453,1487-1495"
+      ]
+    },
+    "12.3": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1391-1457,1650-1720",
+        "D2:1538-1554"
+      ]
+    },
+    "12.4": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Original K4 and unresolved exception preserved in intent; unavailable-owner/UNKNOWN serving progress still incomplete.",
+      "evidence": [
+        "D4:1773-1792,1383"
+      ]
+    },
+    "12.5": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1391-1457,1650-1720",
+        "D2:1538-1554"
+      ]
+    }
+  },
+  "ruling_closure": {
+    "D-1a": "PARTIALLY_CLOSED",
+    "D-1b": "PARTIALLY_CLOSED",
+    "D-2a": "PARTIALLY_CLOSED",
+    "D-2b": "CLOSED_AT_DESIGN_LEVEL",
+    "D-3a": "PARTIALLY_CLOSED",
+    "D-4a": "PARTIALLY_CLOSED",
+    "D-5a": "PARTIALLY_CLOSED",
+    "D-5b": "PARTIALLY_CLOSED",
+    "D-6a": "PARTIALLY_CLOSED",
+    "D-7a": "PARTIALLY_CLOSED",
+    "D-8a": "PARTIALLY_CLOSED",
+    "D-8b": "PARTIALLY_CLOSED",
+    "D-9a": "PARTIALLY_CLOSED"
+  },
+  "rulings": [
+    {
+      "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls.",
+      "id": "D-1a",
+      "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer",
+      "ruling": "C2 is a plausible lifted model, not an established faithful equivalence as written. Exact divisible projection replaces the draft's rounding description; require RC-01 with full-domain coverage and no changes to original references.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "V4-A/B improve specification but typed interfaces, compaction witnesses and full original domain remain unfinished.",
+      "required_changes": [
+        "V2-REQ-A",
+        "V2-REQ-B"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2318",
+        "D:445-450,467,518-611,818-859"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof.",
+      "id": "D-1b",
+      "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer",
+      "ruling": "Epoch equality alone is insufficient. Fresh new reservations obey native current-context equality; retained replay/rollover needs a complete proved origin/current/authority join and must preserve original lifecycle cases. Use Same_Context, not record equality.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The W0-W5 table preserves the three scoped Context_Changed sites and Retained_Join, but W2/W3/W5 equivalence is overclaimed. The root route inserts launch/currentness/physical waits before handlers that may not launch on the serial route, and restoring an unintegrated lane guard adds a root workload refusal. Exact per-operation original durable outcomes, recovery, accepted cases and costs are still required.",
+      "required_changes": [
+        "V2-REQ-B"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2324",
+        "D:487-505,667; R/core/resource_scoped_run_ledger.ads:436-441"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls.",
+      "id": "D-2a",
+      "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+      "ruling": "Prefer an additive exact v2 descriptor, selected by schema, with v1 behavior and controls retained. No implicit migration, defaults, bypass or missing-history genesis.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Initial genesis FK/encoding, exact native-state storage and migration/reconstruction remain unfinished; provisioning/install stay operator-owned.",
+      "required_changes": [
+        "V2-REQ-J"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2330",
+        "D:1509-1578,1926"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit.",
+      "id": "D-2b",
+      "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review",
+      "ruling": "No lead-only retirement of the mandatory frontier control. Keep exact v1/domain behavior and additive v2 controls; any proposed re-enrollment must be explicitly adjudicated while the original obligation remains OPEN.",
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Exact frontier bytes/version/domain and reserved re-enrollment adjudication preserved; runtime/proof/phase obligations OPEN.",
+      "required_changes": [],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2336",
+        "D:1580-1598,1927; R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection.",
+      "id": "D-3a",
+      "owner": "Lead protocol designer; operator for lab execution",
+      "ruling": "Transfer complete V3 slot custody; do not require prior terminal state as a domain restriction. The transfer protocol still needs RC-08.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Crash/restart pipe custody, reader-before-ARMED ordering and complete role-state reconstruction unresolved; physical lab evidence OPEN.",
+      "required_changes": [
+        "V2-REQ-H"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2342",
+        "D:1130-1189"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls.",
+      "id": "D-4a",
+      "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change",
+      "ruling": "No accounting option is selected for acceptance. A may be explored only if it preserves all original independent-request accepted cases and real cost/parent/availability guarantees; otherwise choose or design a faithful alternative.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "No admissible accounting option selected; fixed costs/enforcement and accepted response progress unresolved. Operator cannot waive original guarantees.",
+      "required_changes": [
+        "V2-REQ-D",
+        "V2-REQ-L"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2348",
+        "D:765-778,1325-1408,1928"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls.",
+      "id": "D-5a",
+      "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action",
+      "ruling": "Delegate=yes is not endorsed as a complete native design. Require an additive native custody/delegation successor, unchanged original predicates/cases and a concrete coordinator enforcement argument before operator deployment choice.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Exhaustive inventory remains contingent on RC-6; retained capabilities/views/helper commands and original handler compatibility unestablished.",
+      "required_changes": [
+        "V2-REQ-A",
+        "V2-REQ-D",
+        "V2-REQ-E"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2354",
+        "D:818-877,1929; R/core/resource_observation_classification.ads:95"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations.",
+      "id": "D-5b",
+      "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation",
+      "ruling": "Prefer a separately versioned helper successor, preserving the exact V3/helper-stdin lineage and old controls. Extending V3 in place is not needed to obtain source design credit.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Child decision alternatives, collector completion and native C-helper ABI/payload/cost remain unfinished; no privileged execution or installation authority granted.",
+      "required_changes": [
+        "V2-REQ-E"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2360",
+        "D:881-925,1930"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement.",
+      "id": "D-6a",
+      "owner": "Lead historical/canonical model designer; independent GPT-6.1 review",
+      "ruling": "Keep canonical COMMITTED immutable; permit the original native use-quarantine/K4 domain when needed for uncertainty. Define orthogonal outcome/use/resource/custody states rather than selecting a blanket ban on quarantine.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Seed/outer semantics repaired, but no-launch product and crash-safe automatic/historical recovery remain incomplete.",
+      "required_changes": [
+        "V2-REQ-A",
+        "V2-REQ-F",
+        "V2-REQ-G"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2366",
+        "D:367-423,1447-1478,1561-1578; R/runtime/worldline/protected_operations.py:812-816"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation.",
+      "id": "D-7a",
+      "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration",
+      "ruling": "Independent sourcing alone does not close OB-030. Native Decide/Well_Formed must consume/enforce the distinct source-record domains or tags and canonical payload relation; use an additive grammar/version and preserve original references/ABI.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "P3 repaired and C-API integration specified, but signed-zero canonicality and authenticity/currentness/producer/native-cost remain unfinished.",
+      "required_changes": [
+        "V2-REQ-C",
+        "V2-REQ-D",
+        "V2-REQ-K"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2372",
+        "D:692-763,1931"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage.",
+      "id": "D-8a",
+      "owner": "Lead OS/native requester designer; independent GPT-6.1 review",
+      "ruling": "Choose explicit native semantic correspondence inputs, carried by authentic producers. A producer-only label or digest in opaque current_source is insufficient.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Request transfer join repaired, but root ACK phases, full gate modes/operands and RELAY protocol remain incomplete.",
+      "required_changes": [
+        "V2-REQ-I"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2378",
+        "D:1220-1272,2023"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client.",
+      "id": "D-8b",
+      "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review",
+      "ruling": "Do not add a blanket fresh-pidfd or still-live-client precondition. Retain original kernel socket/credential evidence under authenticated custody and define the exited-peer path; absent evidence remains explicit and unresolved where correspondence cannot be established.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Providers optional in intent; optional-field contracts, queue progress and all kernel measurements remain unresolved.",
+      "required_changes": [
+        "V2-REQ-I"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2384",
+        "D:1238-1241,1274-1285,1932"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes.",
+      "id": "D-9a",
+      "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign",
+      "ruling": "Yes: native custody-phase legality is mandatory because it determines who may mutate. Preserve exclusive ACK/ABANDON branches and authentic durable redecision under the actual CAS.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Complete legal product, serialization, crash custody and mutation/cancellation correspondence remain incomplete.",
+      "required_changes": [
+        "V2-REQ-F",
+        "V2-REQ-G"
+      ],
+      "review_evidence": [
+        "D4:110-139"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2390",
+        "D:965-1100,1933"
+      ],
+      "required_review_repairs": []
+    }
+  ],
+  "rq1": {
+    "closure": "PARTIALLY_CLOSED",
+    "remaining_gap": "The W0-W5 table preserves the three scoped Context_Changed sites and Retained_Join, but W2/W3/W5 equivalence is overclaimed. The root route inserts launch/currentness/physical waits before handlers that may not launch on the serial route, and restoring an unintegrated lane guard adds a root workload refusal. Exact per-operation original durable outcomes, recovery, accepted cases and costs are still required.",
+    "evidence": [
+      "D4:1013-1039",
+      "rw/protected_operations.py:742-768",
+      "rw/protected_root_worker.py:162-199",
+      "P1/HANDOFF.md:91-93,115,125-131"
+    ]
+  },
+  "owners_and_evidence_requirements_preserved": true,
+  "owner_verification": "The v4 A.5 owner/evidence cells reproduce the sealed v3 ruling strings; no original evidence requirement or owner changed. New reviews do not add an operator gate.",
+  "proof_acceptance": false,
+  "source_acceptance": false,
+  "phase_acceptance": false
+}

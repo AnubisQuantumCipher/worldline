@@ -1,0 +1,3827 @@
+{
+  "schema": "claude-design-review-v1",
+  "design": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/SEAM-DESIGN.md",
+  "design_sha256": "f65629cb45e6e8a5ea798f5130a7f98e1d365758a7175343444f4022864efbda",
+  "seams_sha256": "92a814a4883d3e01680dbfeae82cb7889b038930bc4e21bcaefd39b622a2a86c",
+  "different_from_author": true,
+  "actual_model_selection": "gpt-6.1-sol",
+  "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+  "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+  "rc_closure": {
+    "V3-REQ-A": "PARTIALLY_CLOSED",
+    "V3-REQ-B": "PARTIALLY_CLOSED",
+    "V3-REQ-C": "PARTIALLY_CLOSED",
+    "V3-REQ-D": "PARTIALLY_CLOSED",
+    "V3-REQ-E": "PARTIALLY_CLOSED",
+    "V3-REQ-F": "PARTIALLY_CLOSED",
+    "V3-REQ-G": "PARTIALLY_CLOSED",
+    "V3-REQ-H": "PARTIALLY_CLOSED",
+    "V3-REQ-I": "PARTIALLY_CLOSED",
+    "V3-REQ-J": "PARTIALLY_CLOSED",
+    "V3-REQ-K": "PARTIALLY_CLOSED",
+    "V3-REQ-L": "PARTIALLY_CLOSED",
+    "RQ-1": "PARTIALLY_CLOSED"
+  },
+  "required_change_detail": {
+    "V3-REQ-A": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The specification waves repair the S1/S6 edge and include HMAC/request/child nodes. Most consumer rows still use schematic ABI/export and producer descriptions rather than complete typed consumed interfaces; V1 fallback also inherits a newly imposed root workload guard.",
+      "evidence": [
+        "D4:845-881",
+        "D4:883-948",
+        "D4:1017-1024"
+      ]
+    },
+    "V3-REQ-B": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "W2/W8 are frame-local, positional/compaction Rebase are distinguished and the C1 shortcut is removed. Compaction must retain the newly selected witness subspan as well as original packet spans, and the carried three-form text must agree. RQ-1 does not establish original operation-by-operation acceptance or cost equivalence.",
+      "evidence": [
+        "D4:958-1009",
+        "D4:1011-1039",
+        "D3:823-879"
+      ]
+    },
+    "V3-REQ-C": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "P3 scope and non-claims now agree. The exact-rational Decimal_Value intermediate has no explicit lexical-sign channel for accepted negative zero, and Repr remains an external CPython definition. Authentic selection/currentness is still an open premise; compromise exclusions and rollback-detection overstatement cannot discharge the original target.",
+      "evidence": [
+        "D4:1047-1104",
+        "D4:1106-1134",
+        "D4:1802"
+      ]
+    },
+    "V3-REQ-D": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "AO-1..AO-11 and unselected G improve the comparison and correctly reject F. The matrix admits that no option satisfies all obligations; qualitative cost labels and ledger checkmarks do not complete kind/amount/rollover/physical/native-cost correspondence. D-4a cannot authorize a weaker target.",
+      "evidence": [
+        "D4:1142-1176",
+        "P1/HANDOFF.md:125-131"
+      ]
+    },
+    "V3-REQ-E": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Launch ordering, measurement relay and native sub-helper redecision improve the design. READY followed by a disagreement ABORT violates the exclusive pair. The blanket worker-owned condition excludes collector finalization, and complete command material, C ABI and authority-preserving surfaces remain unfinished.",
+      "evidence": [
+        "D4:1184-1227",
+        "D4:1229-1259",
+        "D4:735-748"
+      ]
+    },
+    "V3-REQ-F": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Subject-kind replay and mutation choke points improve the proposal. The carried root graph still mixes request/drain and root transitions, root r1 excludes the newly permitted prelaunch release, r6 is written as an invariant instead of a barrier check, and M8(c) lacks an original job/unit authorization correspondence. The DDL cannot encode all new native fields/modes/quantities as specified.",
+      "evidence": [
+        "D4:1267-1401",
+        "D2:974-1002",
+        "D3:1301-1369"
+      ]
+    },
+    "V3-REQ-G": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The inactive-unit condition is removed and the handoff seed no longer requires HANDLER_TERMINAL. Never_Launched release is permitted in r3 but no coherent root-product release/return route is supplied. Complete restart recovery still depends on descriptor/escrow survival and serving authority not supplied by the tables.",
+      "evidence": [
+        "D4:1359-1364",
+        "D4:1409-1453",
+        "D2:976-1000"
+      ]
+    },
+    "V3-REQ-H": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Armed intervals detect uncertainty and duplicate writers are distinguished. Reattachment enables a reader before ARMED, READ interval detection is underspecified after chunk records, and front-crash/restart rows claim recovery of process-local pipe copies. Durable P/W cannot recreate an absent pipe or its consumed bytes.",
+      "evidence": [
+        "D4:1461-1512",
+        "D4:1449-1451"
+      ]
+    },
+    "V3-REQ-I": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Request Transfer_Join no longer requires its future intake and PID/user namespaces are separated. RELAY framing, per-gate response/request/generation binding and costs are unspecified, optional presence is internally inconsistent, the root ACK path is conflated with already-worker-owned request joins, and all own/historical gate modes are not supplied.",
+      "evidence": [
+        "D4:1520-1634",
+        "D4:1572-1593",
+        "D4:1604-1617",
+        "AUTHOR-NOTES.md:73"
+      ]
+    },
+    "V3-REQ-J": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Tool keys, provisioner paths and explicit migration alternatives are supplied. Empty-genesis head references an absent events row under the retained foreign-key setting, genesis raw bytes versus archive representation are conflated, new State fields have no exact DDL/fold encoding, and plan-v1 migration needs an explicit changed-path/exclusive-create mapping.",
+      "evidence": [
+        "D4:1646-1698",
+        "D3:1339-1368",
+        "rw/root_worker_journal.py:78-98"
+      ]
+    },
+    "V3-REQ-K": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Define an explicit effective joined checkview for the owning On-unit roster, qualified scope attribution and appended layout/tile sets while retaining every CAPI base-table byte. CAPI5's carried qualifier check tests each routine prefix for membership in CAPI_SPARK_UNITS, and V4 adds RW_ROUTINE_NAMES but supplies no explicit corresponding effective owning-unit map; derive it from a reviewed enrolled RW unit roster, not from the candidate name alone. Repair MQ-RW2's stimulus/expected relation without narrowing any existing qualified/gate rule or C-API row.",
+      "evidence": [
+        "D4:1719-1726,1732-1743",
+        "D3:1744-1768,1779-1833",
+        "CAPI5/APPENDIX-BINDINGS.md:185-199,347-381",
+        "CAPI6/APPENDIX-BINDINGS.md:97-103,391-425",
+        "CAPI6/DESIGN.md:319-324",
+        "S5/core/worldline-c_api.adb:879-881,1024-1027",
+        "CAPI4/APPENDIX-BINDINGS.md:1529-1541"
+      ]
+    },
+    "V3-REQ-L": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The dedicated lane is withdrawn and router waits leave the lock. The progress table lists new custody/UNKNOWN/collection waits but does not show original accepted response progress when the owner or its physical evidence never becomes available. M8(c) is not a proved substitute; RELAY and executor/storage dependencies remain incomplete.",
+      "evidence": [
+        "D4:1751-1792",
+        "D4:1383",
+        "D4:1624-1626"
+      ]
+    }
+  },
+  "inherited_required_change_closure": {
+    "V2-REQ-A": "PARTIALLY_CLOSED",
+    "V2-REQ-B": "PARTIALLY_CLOSED",
+    "V2-REQ-C": "PARTIALLY_CLOSED",
+    "V2-REQ-D": "PARTIALLY_CLOSED",
+    "V2-REQ-E": "PARTIALLY_CLOSED",
+    "V2-REQ-F": "PARTIALLY_CLOSED",
+    "V2-REQ-G": "PARTIALLY_CLOSED",
+    "V2-REQ-H": "PARTIALLY_CLOSED",
+    "V2-REQ-I": "PARTIALLY_CLOSED",
+    "V2-REQ-J": "PARTIALLY_CLOSED",
+    "V2-REQ-K": "PARTIALLY_CLOSED",
+    "V2-REQ-L": "PARTIALLY_CLOSED"
+  },
+  "inherited_rc_closure": {
+    "RC-01": "PARTIALLY_CLOSED",
+    "RC-02": "PARTIALLY_CLOSED",
+    "RC-03": "PARTIALLY_CLOSED",
+    "RC-04": "PARTIALLY_CLOSED",
+    "RC-05": "CLOSED_AT_DESIGN_LEVEL",
+    "RC-06": "PARTIALLY_CLOSED",
+    "RC-07": "PARTIALLY_CLOSED",
+    "RC-08": "PARTIALLY_CLOSED",
+    "RC-09": "PARTIALLY_CLOSED",
+    "RC-10": "CLOSED_AT_DESIGN_LEVEL",
+    "RC-11": "PARTIALLY_CLOSED",
+    "RC-12": "PARTIALLY_CLOSED"
+  },
+  "clause_closure": {
+    "01.1": "PARTIALLY_CLOSED",
+    "01.2": "PARTIALLY_CLOSED",
+    "01.3": "PARTIALLY_CLOSED",
+    "01.4": "CLOSED_AT_DESIGN_LEVEL",
+    "01.5": "PARTIALLY_CLOSED",
+    "01.6": "CLOSED_AT_DESIGN_LEVEL",
+    "01.7": "PARTIALLY_CLOSED",
+    "02.1": "PARTIALLY_CLOSED",
+    "02.2": "PARTIALLY_CLOSED",
+    "02.3": "PARTIALLY_CLOSED",
+    "02.4": "PARTIALLY_CLOSED",
+    "03.1": "CLOSED_AT_DESIGN_LEVEL",
+    "03.2": "PARTIALLY_CLOSED",
+    "03.3": "PARTIALLY_CLOSED",
+    "04.1": "NOT_CLOSED",
+    "04.2": "CLOSED_AT_DESIGN_LEVEL",
+    "04.3": "PARTIALLY_CLOSED",
+    "04.4": "PARTIALLY_CLOSED",
+    "04.5": "CLOSED_AT_DESIGN_LEVEL",
+    "04.6": "CLOSED_AT_DESIGN_LEVEL",
+    "05.1": "CLOSED_AT_DESIGN_LEVEL",
+    "05.2": "CLOSED_AT_DESIGN_LEVEL",
+    "05.3": "CLOSED_AT_DESIGN_LEVEL",
+    "05.4": "CLOSED_AT_DESIGN_LEVEL",
+    "05.5": "CLOSED_AT_DESIGN_LEVEL",
+    "06.1": "CLOSED_AT_DESIGN_LEVEL",
+    "06.2": "PARTIALLY_CLOSED",
+    "06.3": "PARTIALLY_CLOSED",
+    "06.4": "PARTIALLY_CLOSED",
+    "07.1": "PARTIALLY_CLOSED",
+    "07.2": "CLOSED_AT_DESIGN_LEVEL",
+    "07.3": "NOT_CLOSED",
+    "07.4": "CLOSED_AT_DESIGN_LEVEL",
+    "07.5": "CLOSED_AT_DESIGN_LEVEL",
+    "08.1": "PARTIALLY_CLOSED",
+    "08.2": "PARTIALLY_CLOSED",
+    "08.3": "PARTIALLY_CLOSED",
+    "08.4": "CLOSED_AT_DESIGN_LEVEL",
+    "08.5": "PARTIALLY_CLOSED",
+    "08.6": "CLOSED_AT_DESIGN_LEVEL",
+    "08.7": "CLOSED_AT_DESIGN_LEVEL",
+    "09.1": "PARTIALLY_CLOSED",
+    "09.2": "PARTIALLY_CLOSED",
+    "09.3": "PARTIALLY_CLOSED",
+    "09.4": "CLOSED_AT_DESIGN_LEVEL",
+    "09.5": "PARTIALLY_CLOSED",
+    "10.1": "CLOSED_AT_DESIGN_LEVEL",
+    "10.2": "CLOSED_AT_DESIGN_LEVEL",
+    "10.3": "CLOSED_AT_DESIGN_LEVEL",
+    "10.4": "CLOSED_AT_DESIGN_LEVEL",
+    "11.1": "PARTIALLY_CLOSED",
+    "11.2": "CLOSED_AT_DESIGN_LEVEL",
+    "11.3": "CLOSED_AT_DESIGN_LEVEL",
+    "11.4": "CLOSED_AT_DESIGN_LEVEL",
+    "12.1": "PARTIALLY_CLOSED",
+    "12.2": "PARTIALLY_CLOSED",
+    "12.3": "CLOSED_AT_DESIGN_LEVEL",
+    "12.4": "PARTIALLY_CLOSED",
+    "12.5": "CLOSED_AT_DESIGN_LEVEL"
+  },
+  "clause_detail": {
+    "01.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Typed interfaces are schematic; graph order repaired, caller/ABI contracts incomplete.",
+      "evidence": [
+        "D4:845-948"
+      ]
+    },
+    "01.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Rebase variants remove the positional contradiction, but compaction needs a precise union including witness N and a consistent form roster.",
+      "evidence": [
+        "D4:960-975; D3:823-879"
+      ]
+    },
+    "01.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Frame-local W2/W8 and unconditional positive-factor intent repair the old contradictions; saturated compaction/witness coverage and consistent carried forms remain incomplete.",
+      "evidence": [
+        "D4:966-1009; D4:374-386,599-613,751-757"
+      ]
+    },
+    "01.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:744-955",
+        "D2:522-574,606-618"
+      ]
+    },
+    "01.5": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Extra-conjunct and R0 audits are explicit and all originals remain, but D_prod coverage and saturated witness specification remain open.",
+      "evidence": [
+        "D4:981-1009"
+      ]
+    },
+    "01.6": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:744-955",
+        "D2:522-574,606-618"
+      ]
+    },
+    "01.7": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The W0-W5 table preserves the three scoped Context_Changed sites and Retained_Join, but W2/W3/W5 equivalence is overclaimed. The root route inserts launch/currentness/physical waits before handlers that may not launch on the serial route, and restoring an unintegrated lane guard adds a root workload refusal. Exact per-operation original durable outcomes, recovery, accepted cases and costs are still required.",
+      "evidence": [
+        "D4:1013-1039"
+      ]
+    },
+    "02.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Native canonicality is proposed, but signed zero and fully specified binary64/Repr/extraction correspondence remain unresolved.",
+      "evidence": [
+        "D4:1085-1104,1802"
+      ]
+    },
+    "02.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Independent selection and currentness remain premises; cross-references only constrain referenced prefixes and cannot justify the full detection claim.",
+      "evidence": [
+        "D4:1049-1081"
+      ]
+    },
+    "02.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Typed decoding/caller table improves the crosswalk; full consumed operands and authentic producer/ABI/native-cost contracts remain incomplete.",
+      "evidence": [
+        "D4:1118-1134; D4:858-868"
+      ]
+    },
+    "02.4": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Sampling stays separate from protection; no option meets enforcement/capacity/native-cost target.",
+      "evidence": [
+        "D4:1140-1176"
+      ]
+    },
+    "03.1": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:744-795,1159-1233",
+        "D2:810-878"
+      ]
+    },
+    "03.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Helper redecision and launch order repaired; exclusive child decisions, collector completion, exact payload/C ABI and retained authority correspondence remain incomplete.",
+      "evidence": [
+        "D4:1186-1259"
+      ]
+    },
+    "03.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "V1/V2 separation remains, but root-route refusal and schematic compatibility interfaces leave end-to-end accepted cases open.",
+      "evidence": [
+        "D4:883-887,858-868,1021"
+      ]
+    },
+    "04.1": {
+      "closure": "NOT_CLOSED",
+      "remaining_gap": "No complete consistent product: r1/release, r6, request-versus-root transitions, M8(c), State/DDL and predicate inputs conflict or are missing.",
+      "evidence": [
+        "D4:1324-1401; D2:974-1002; D3:1339-1358"
+      ]
+    },
+    "04.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1524",
+        "D2:970-1010,1061-1073"
+      ]
+    },
+    "04.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Replay includes subject_kind; CAS/exclusivity intent preserved. Exact State/DDL/fold, transition ownership and replay-authorized recovery actions remain incomplete.",
+      "evidence": [
+        "D4:1392-1401; D4:1324-1388; D3:1307-1368"
+      ]
+    },
+    "04.4": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Durable seed and added routes improve recovery; process-local descriptor loss and legal post-crash serving/side-effect replay remain unresolved.",
+      "evidence": [
+        "D4:1427-1453,1487-1495"
+      ]
+    },
+    "04.5": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Original MainPID-zero/helper-pidfd/launcher-wait semantics restored; no inactive-unit/reset-cycle condition. All actual physical/native evidence remains OPEN.",
+      "evidence": [
+        "D4:467-473,1417-1423; rw/protected_root_supervisor.py:203-227"
+      ]
+    },
+    "04.6": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1524",
+        "D2:970-1010,1061-1073"
+      ]
+    },
+    "05.1": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "05.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "05.3": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "05.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "05.5": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1580-1598,1965-1988",
+        "D3:109-116",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ]
+    },
+    "06.1": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1110-1158,1837-1893",
+        "D2:1348-1364"
+      ]
+    },
+    "06.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "No option satisfies all AO obligations; actual costs and per-kind enforcement remain incomplete.",
+      "evidence": [
+        "D4:1144-1176"
+      ]
+    },
+    "06.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "UNKNOWN holds remain but job.cancel-root-stop mapping and owner diagnosis progress are incomplete.",
+      "evidence": [
+        "D4:1383,1767-1780"
+      ]
+    },
+    "06.4": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Serialized lane withdrawn; fair executor isolation is a proposal and custody/evidence waits still obstruct accepted responses.",
+      "evidence": [
+        "D4:1753-1792"
+      ]
+    },
+    "07.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "O/U mapping carried; C/P/request/descriptor and mutation relation remains inconsistent.",
+      "evidence": [
+        "D4:1265-1401; D2:974-1002"
+      ]
+    },
+    "07.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1457",
+        "D2:384-405,1447-1463,1470-1496"
+      ]
+    },
+    "07.3": {
+      "closure": "NOT_CLOSED",
+      "remaining_gap": "r3 and INV-C4 now permit Never_Launched release, but r1 still restricts pre-HELD root rows to RESERVED/LAUNCH_INTENT and the root graph supplies no no-launch settlement/return branch. The complete product still cannot admit the case.",
+      "evidence": [
+        "D4:1359-1364,1409-1413; D2:976-1000"
+      ]
+    },
+    "07.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1457",
+        "D2:384-405,1447-1463,1470-1496"
+      ]
+    },
+    "07.5": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1234-1457",
+        "D2:384-405,1447-1463,1470-1496"
+      ]
+    },
+    "08.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "STOP_INTENT spooling is authorized; reattachment and front-crash custody survival remain incomplete.",
+      "evidence": [
+        "D4:1381,1463-1495"
+      ]
+    },
+    "08.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Armed/duplicate rules improve accounting; restart FD survival, exact open-interval detection and write truncation/progress remain incomplete.",
+      "evidence": [
+        "D4:1463-1506"
+      ]
+    },
+    "08.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Clean-stop P/W durability specified, but reattach starts reading before ARMED and crash-gap detection needs a precise interval fold.",
+      "evidence": [
+        "D4:1463-1481"
+      ]
+    },
+    "08.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1458-1524",
+        "D2:1128-1152"
+      ]
+    },
+    "08.5": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "A-G table covers intended windows but several front-restart rows require lost FDs and gate states; no complete reconstruction route.",
+      "evidence": [
+        "D4:1487-1495,1449-1451"
+      ]
+    },
+    "08.6": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1458-1524",
+        "D2:1128-1152"
+      ]
+    },
+    "08.7": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1458-1524",
+        "D2:1128-1152"
+      ]
+    },
+    "09.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Request-intake circularity removed and namespace semantics separated; root ACK and native join operands/presence/independent selection remain incomplete.",
+      "evidence": [
+        "D4:1524-1598,1630-1634"
+      ]
+    },
+    "09.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Receive/validate before request intake retained. RELAY supplies a direction, but exact authentication/framing and real queue progress remain open.",
+      "evidence": [
+        "D4:1624-1634; AUTHOR-NOTES.md:73"
+      ]
+    },
+    "09.3": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Per-gate table exists but own/RETAINED/HISTORICAL modes and root-before-ACK versus request-intake phases remain incomplete.",
+      "evidence": [
+        "D4:1604-1620,1633"
+      ]
+    },
+    "09.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1525-1649"
+      ]
+    },
+    "09.5": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Providers remain optional in intent; optional-field presence rules conflict and RELAY/queue adds unresolved service dependencies.",
+      "evidence": [
+        "D4:1534-1593,1624-1626,1765-1780"
+      ]
+    },
+    "10.1": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1625-1698",
+        "D3:113,1810-1827"
+      ]
+    },
+    "10.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1625-1698",
+        "D3:113,1810-1827"
+      ]
+    },
+    "10.3": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1625-1698",
+        "D3:113,1810-1827"
+      ]
+    },
+    "10.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D2:1625-1698",
+        "D3:113,1810-1827"
+      ]
+    },
+    "11.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Spec waves now follow declared edges; full consumed interfaces and exact exports/body dependencies still schematic.",
+      "evidence": [
+        "D4:870-948"
+      ]
+    },
+    "11.2": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1894-1949",
+        "D2:1836-1850,1926-1940"
+      ]
+    },
+    "11.3": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1894-1949",
+        "D2:1836-1850,1926-1940"
+      ]
+    },
+    "11.4": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1894-1949",
+        "D2:1836-1850,1926-1940"
+      ]
+    },
+    "12.1": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Selection union improves; initial FK/encoding and native State-to-DDL/migration contracts remain inconsistent.",
+      "evidence": [
+        "D4:1648-1692; D3:1339-1368"
+      ]
+    },
+    "12.2": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Closure inactivity removed, seed and recover_committed routes restored; no-launch product and crash custody survival still incomplete.",
+      "evidence": [
+        "D4:1409-1453,1487-1495"
+      ]
+    },
+    "12.3": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1391-1457,1650-1720",
+        "D2:1538-1554"
+      ]
+    },
+    "12.4": {
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Original K4 and unresolved exception preserved in intent; unavailable-owner/UNKNOWN serving progress still incomplete.",
+      "evidence": [
+        "D4:1773-1792,1383"
+      ]
+    },
+    "12.5": {
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Carried unchanged at design level; implementation, full matching-source proofs, authentic runtime and original/additive controls remain OPEN.",
+      "evidence": [
+        "D4:129-139",
+        "D3:1391-1457,1650-1720",
+        "D2:1538-1554"
+      ]
+    }
+  },
+  "ruling_closure": {
+    "D-1a": "PARTIALLY_CLOSED",
+    "D-1b": "PARTIALLY_CLOSED",
+    "D-2a": "PARTIALLY_CLOSED",
+    "D-2b": "CLOSED_AT_DESIGN_LEVEL",
+    "D-3a": "PARTIALLY_CLOSED",
+    "D-4a": "PARTIALLY_CLOSED",
+    "D-5a": "PARTIALLY_CLOSED",
+    "D-5b": "PARTIALLY_CLOSED",
+    "D-6a": "PARTIALLY_CLOSED",
+    "D-7a": "PARTIALLY_CLOSED",
+    "D-8a": "PARTIALLY_CLOSED",
+    "D-8b": "PARTIALLY_CLOSED",
+    "D-9a": "PARTIALLY_CLOSED"
+  },
+  "findings_assessment": {
+    "NF4-1": "VERIFIED_STATIC_CONDITIONAL: After launch returns an owned object, the root exception branch stops/retains and does not itself call original quarantine; with owned None it does quarantine. EFFECT_INTENT lacks the serial DISPATCH_INTENT boundary. This is static control flow, not proof that all dispatched failures take that branch. Consequence: V4-B.5 must preserve exception order, durable dispatch boundary and original quarantine. A custody failure must not make those actions impossible while the use remains RESERVED.",
+    "NF4-2": "VERIFIED_STATIC_ROUTING_CONSEQUENCE_QUALIFIED: Every selected non-owner invocation routes to RootWorkerFront when attached; the listed workload operations are refused/quarantined by the serial path. The root path has no corresponding workload guard. This supports the selected invocation-path observation, not a whole-program proof that no scoped launch exists elsewhere. Consequence: Restoring the serial guard corrects DF-3 but would refuse workload operations on the draft's only selected non-owner route. It cannot count as preserving all original required accepted workload cases.",
+    "NF4-3": "VERIFIED_STATIC_RETAINED_SEED_NOT_RECOVERY_PROOF: The retained intent includes root_native and original_native_use; the referenced EXECUTION_NATIVE includes material, observation and provenance. Worker current capture requires that exact root_native event and ROOT_READY_CONJUNCTION. The abbreviated :105-109 reference is protected_root_observation.py, not protected_root_worker.py. Consequence: V4-G.3 can reconstruct a seed before HANDLER_TERMINAL, but authentic current physical/closure evidence and legal settlement still require separate evidence.",
+    "NF4-4": "VERIFIED_STATIC_FULL_PATH_MAPPING_SCOPE: Every maps line with a pathname beginning '/' is source checked with INTERPRETER/EXECUTABLE/EXTENSION/DATA roles, without an execute-permission filter; exe has INTERPRETER/EXECUTABLE roles. Consequence: R4-3/R4-23 correctly restore the original file-backed mapping scope. NC-P3 exclusions must remain explicit; subset coverage is not proof that no unlisted dynamically executed bytes exist.",
+    "NF4-5": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_SOURCE: The only selected-source occurrence of initial_event is the exact genesis key set. No selected producer/consumer was found. Absence is limited to that source tree. Consequence: Defining v2 initial_event null is justified, but the empty-chain head must be consistent with the carried DDL foreign key and native origin representation.",
+    "NF4-6": "VERIFIED_STATIC_RELATIVE_KEY_AND_PREFIX_LIMIT: The issuer key is selected beneath descriptor authority_root, and head MAC covers head plus genesis. A self-consistent retained prefix and its head have no external monotonic comparison in this loader. Consequence: V4-C.2 correctly limits self-MAC authenticity and all-history rollback. Boundary cross-reference checks detect only rollback behind references retained elsewhere, not every valid earlier prefix.",
+    "NF4-7": "VERIFIED_STATIC_TOOL_SELECTION: The stated exact native_components keys and tool lookups/value membership are present. Consequence: R4-16/R4-37 and V4-J.2 correctly enumerate the selected tools without replacing v1 command-name/which semantics. Provisioning and runtime resolution remain OPEN.",
+    "NF4-8": "VERIFIED_STATIC_ORIGINAL_JOB_CANCEL: job.cancel is mutating; validates a world string, reads world and active_jobs_for_world, raises NO_ACTIVE_JOB for an empty set, and calls runner.cancel once for each recorded job/unit. Consequence: The source supports custody-owner store access and original job-unit stopping. It does not itself authorize the new M8(c) generation-root stop without equivalent world/job/unit and current authorization evidence.",
+    "NF4-9": "VERIFIED_STATIC_EXPLICIT_HELPER_FD_FLOW_RUNTIME_COMPLETENESS_OPEN: The helpers' created pipes/socketpairs are CLOEXEC; explicit actor stdio is dup2'd, and V1 additionally clears CLOEXEC on its custody sender and appends its descriptor number. V3 sends the measurement receiver to the owner and closes its local receiver without reading that frame. An exhaustive actual inherited-FD roster is not established by these lexical excerpts alone. Consequence: A changed relaying sub-helper can enforce COMMIT_CHILD only with its own authenticated material/native decision, cost/source/privilege coverage, and fixed event ordering. The READY-then-ABORT contradiction remains.",
+    "NF4-10": "VERIFIED_STATIC_EXCEPTION_BOUNDARY: recover_committed at EFFECT_OBSERVED/SETTLED and EFFECT_INTENT+RESULT_CAPTURE is outside the branch try handlers. Broker/owner/K4 recovery catches WorldlineError into unresolved. Consequence: R4-53 and RT-21/RT-22 correctly preserve that startup exception boundary; new recovery must not reinterpret the original refusal as successful settlement.",
+    "NF4-11": "VERIFIED_STATIC_STATUS_MUTATION: status is registered mutating; a dirty store with a reconciler triggers recapture. WorldlineError is reported as degraded status, with store meta updates. Consequence: V4-L must preserve genuine status semantics and original dependencies, while demonstrating that its added handoff/UNKNOWN/queue waits do not remove responsiveness.",
+    "NF4-12": "VERIFIED_STATIC_SCOPED_LAUNCH_ORDER: RECORD_LAUNCH_INTENT precedes DISPATCH_INTENT and systemd dispatch; RECORD_RUNNING follows accept_held. Consequence: R4-59/R4-61 correctly repair E3/E6 ordering. Helper READY commit and native gates remain separate open integration obligations.",
+    "NF4-13": "VERIFIED_STATIC_DDL_KIND_OMISSION_REPAIR: The carried graph includes FRONT_RECONSTRUCTION -> FRONT_OWNED(g+1), and v3's event-kind CHECK lacked FRONT_OWNED. R4-29 adds it. Consequence: The event-kind omission is repaired; the product transition, owner projection, native encoding and complete DDL-to-Next correspondence still require a precise mapping."
+  },
+  "findings_detail": {
+    "NF4-1": {
+      "status": "VERIFIED_STATIC_CONDITIONAL",
+      "evidence": "D4:165; R/runtime/worldline/protected_root_worker.py:170-171,191-199; R/runtime/worldline/protected_operations.py:749,767-775",
+      "assessment": "After launch returns an owned object, the root exception branch stops/retains and does not itself call original quarantine; with owned None it does quarantine. EFFECT_INTENT lacks the serial DISPATCH_INTENT boundary. This is static control flow, not proof that all dispatched failures take that branch.",
+      "consequence": "V4-B.5 must preserve exception order, durable dispatch boundary and original quarantine. A custody failure must not make those actions impossible while the use remains RESERVED."
+    },
+    "NF4-2": {
+      "status": "VERIFIED_STATIC_ROUTING_CONSEQUENCE_QUALIFIED",
+      "evidence": "D4:166; R/runtime/worldline/protected_operations.py:719-745; R/runtime/worldline/protected_root_worker.py:162-179",
+      "assessment": "Every selected non-owner invocation routes to RootWorkerFront when attached; the listed workload operations are refused/quarantined by the serial path. The root path has no corresponding workload guard. This supports the selected invocation-path observation, not a whole-program proof that no scoped launch exists elsewhere.",
+      "consequence": "Restoring the serial guard corrects DF-3 but would refuse workload operations on the draft's only selected non-owner route. It cannot count as preserving all original required accepted workload cases."
+    },
+    "NF4-3": {
+      "status": "VERIFIED_STATIC_RETAINED_SEED_NOT_RECOVERY_PROOF",
+      "evidence": "D4:167; R/runtime/worldline/root_worker_custody.py:125-133,178-185; R/runtime/worldline/protected_root_observation.py:105-117,157-164; R/protected-root/worker_entry.py:36-45",
+      "assessment": "The retained intent includes root_native and original_native_use; the referenced EXECUTION_NATIVE includes material, observation and provenance. Worker current capture requires that exact root_native event and ROOT_READY_CONJUNCTION. The abbreviated :105-109 reference is protected_root_observation.py, not protected_root_worker.py.",
+      "consequence": "V4-G.3 can reconstruct a seed before HANDLER_TERMINAL, but authentic current physical/closure evidence and legal settlement still require separate evidence."
+    },
+    "NF4-4": {
+      "status": "VERIFIED_STATIC_FULL_PATH_MAPPING_SCOPE",
+      "evidence": "D4:168; R/runtime/worldline/root_worker_process_capture.py:69-88",
+      "assessment": "Every maps line with a pathname beginning '/' is source checked with INTERPRETER/EXECUTABLE/EXTENSION/DATA roles, without an execute-permission filter; exe has INTERPRETER/EXECUTABLE roles.",
+      "consequence": "R4-3/R4-23 correctly restore the original file-backed mapping scope. NC-P3 exclusions must remain explicit; subset coverage is not proof that no unlisted dynamically executed bytes exist."
+    },
+    "NF4-5": {
+      "status": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_SOURCE",
+      "evidence": "D4:169; R/runtime/worldline/root_worker_journal.py:43-45; bounded rg over R/source for initial_event",
+      "assessment": "The only selected-source occurrence of initial_event is the exact genesis key set. No selected producer/consumer was found. Absence is limited to that source tree.",
+      "consequence": "Defining v2 initial_event null is justified, but the empty-chain head must be consistent with the carried DDL foreign key and native origin representation."
+    },
+    "NF4-6": {
+      "status": "VERIFIED_STATIC_RELATIVE_KEY_AND_PREFIX_LIMIT",
+      "evidence": "D4:170; R/runtime/worldline/root_worker_journal.py:50-53,98-113",
+      "assessment": "The issuer key is selected beneath descriptor authority_root, and head MAC covers head plus genesis. A self-consistent retained prefix and its head have no external monotonic comparison in this loader.",
+      "consequence": "V4-C.2 correctly limits self-MAC authenticity and all-history rollback. Boundary cross-reference checks detect only rollback behind references retained elsewhere, not every valid earlier prefix."
+    },
+    "NF4-7": {
+      "status": "VERIFIED_STATIC_TOOL_SELECTION",
+      "evidence": "D4:171; R/runtime/worldline/root_worker_plan.py:18-20; R/runtime/worldline/protected_scoped_resource_runtime.py:73-74,732-735; R/runtime/worldline/protected_resource_runtime.py:171-172",
+      "assessment": "The stated exact native_components keys and tool lookups/value membership are present.",
+      "consequence": "R4-16/R4-37 and V4-J.2 correctly enumerate the selected tools without replacing v1 command-name/which semantics. Provisioning and runtime resolution remain OPEN."
+    },
+    "NF4-8": {
+      "status": "VERIFIED_STATIC_ORIGINAL_JOB_CANCEL",
+      "evidence": "D4:172; R/runtime/worldline/controller.py:423,811-826",
+      "assessment": "job.cancel is mutating; validates a world string, reads world and active_jobs_for_world, raises NO_ACTIVE_JOB for an empty set, and calls runner.cancel once for each recorded job/unit.",
+      "consequence": "The source supports custody-owner store access and original job-unit stopping. It does not itself authorize the new M8(c) generation-root stop without equivalent world/job/unit and current authorization evidence."
+    },
+    "NF4-9": {
+      "status": "VERIFIED_STATIC_EXPLICIT_HELPER_FD_FLOW_RUNTIME_COMPLETENESS_OPEN",
+      "evidence": "D4:173; R/protected-root/native_root_worker_supervisor_v1.c:271-291,323-335; R/protected-resource/native_namespace_supervisor_v3.c:265-275,297-305,337-360",
+      "assessment": "The helpers' created pipes/socketpairs are CLOEXEC; explicit actor stdio is dup2'd, and V1 additionally clears CLOEXEC on its custody sender and appends its descriptor number. V3 sends the measurement receiver to the owner and closes its local receiver without reading that frame. An exhaustive actual inherited-FD roster is not established by these lexical excerpts alone.",
+      "consequence": "A changed relaying sub-helper can enforce COMMIT_CHILD only with its own authenticated material/native decision, cost/source/privilege coverage, and fixed event ordering. The READY-then-ABORT contradiction remains."
+    },
+    "NF4-10": {
+      "status": "VERIFIED_STATIC_EXCEPTION_BOUNDARY",
+      "evidence": "D4:174; R/runtime/worldline/protected_operations.py:355-384",
+      "assessment": "recover_committed at EFFECT_OBSERVED/SETTLED and EFFECT_INTENT+RESULT_CAPTURE is outside the branch try handlers. Broker/owner/K4 recovery catches WorldlineError into unresolved.",
+      "consequence": "R4-53 and RT-21/RT-22 correctly preserve that startup exception boundary; new recovery must not reinterpret the original refusal as successful settlement."
+    },
+    "NF4-11": {
+      "status": "VERIFIED_STATIC_STATUS_MUTATION",
+      "evidence": "D4:175; R/runtime/worldline/daemon.py:84,407-422",
+      "assessment": "status is registered mutating; a dirty store with a reconciler triggers recapture. WorldlineError is reported as degraded status, with store meta updates.",
+      "consequence": "V4-L must preserve genuine status semantics and original dependencies, while demonstrating that its added handoff/UNKNOWN/queue waits do not remove responsiveness."
+    },
+    "NF4-12": {
+      "status": "VERIFIED_STATIC_SCOPED_LAUNCH_ORDER",
+      "evidence": "D4:176; R/runtime/worldline/protected_scoped_resource_runtime.py:739-769; D4:R4-59,R4-61",
+      "assessment": "RECORD_LAUNCH_INTENT precedes DISPATCH_INTENT and systemd dispatch; RECORD_RUNNING follows accept_held.",
+      "consequence": "R4-59/R4-61 correctly repair E3/E6 ordering. Helper READY commit and native gates remain separate open integration obligations."
+    },
+    "NF4-13": {
+      "status": "VERIFIED_STATIC_DDL_KIND_OMISSION_REPAIR",
+      "evidence": "D4:177; D2:1000; D3:1316-1323; D4:R4-29",
+      "assessment": "The carried graph includes FRONT_RECONSTRUCTION -> FRONT_OWNED(g+1), and v3's event-kind CHECK lacked FRONT_OWNED. R4-29 adds it.",
+      "consequence": "The event-kind omission is repaired; the product transition, owner projection, native encoding and complete DDL-to-Next correspondence still require a precise mapping."
+    }
+  },
+  "required_changes": [
+    {
+      "id": "V4-REQ-A",
+      "change": "Complete every consumed typed native/producer/C-wire/export contract and its dependency edge in V4-A, including exact current observation, HMAC, requester, child and mutation operands. Keep V1 fallback additive and retain every original route/fixture/reference.",
+      "reason": "The corrected waves and names improve the graph, but schematic ABI/export/material cells are not complete contracts and cannot establish a faithful caller or full native cost.",
+      "evidence": [
+        "D4:845-948",
+        "D4:883-887",
+        "P1/HANDOFF.md:119,125-131,161"
+      ]
+    },
+    {
+      "id": "V4-REQ-B",
+      "change": "Make the carried witness forms and compaction union include every selected witness span, including N. Complete RQ-1's original-operation W0-W5 accepted/refusal, U/P recovery and exact-cost correspondence. Preserve exact serial guard/exception/dispatch boundaries while supplying the genuine workload dispatcher; treat the current root workload refusal as an OPEN containment gap.",
+      "reason": "Frame-local W2/W8 and split rebasing repair prior contradictions, but the original-packet-only compacted union and carried three-form wording remain ambiguous. Adding root launch/custody checks before a handler does not preserve original acceptance/cost merely because the native refusal point is unchanged. The restored guard rejects the draft's selected workload route.",
+      "evidence": [
+        "D4:960-1009,1013-1039",
+        "D3:825-832,875-879",
+        "R/runtime/worldline/protected_operations.py:723-768",
+        "R/runtime/worldline/protected_root_worker.py:162-199",
+        "P1/HANDOFF.md:91-93,115,125-131"
+      ]
+    },
+    {
+      "id": "V4-REQ-C",
+      "change": "Retain the lexical sign needed for accepted signed zero; specify native Number_Canonical/Repr/rounding/archive extraction and full costs on the matched original domain. Bound the rollback statement and its control to recorded cross-reference coverage, including tolerated append windows. Keep selection/currentness/producer/confinement premises as OPEN obligations without excluding any originally required case.",
+      "reason": "The exact-rational Decimal_Value intermediate has no explicit signed-zero channel, while -0.0 is a required positive. Repr is left as an installed CPython definition. Relative-key MAC consistency and selected boundary references do not establish authentic latest state or detection of every earlier valid prefix.",
+      "evidence": [
+        "D4:1047-1104,1802,1846",
+        "AUTHOR-NOTES.md:70",
+        "R/runtime/worldline/root_worker_journal.py:50-53,98-113",
+        "complete-phase1-prompt.txt:32-34"
+      ]
+    },
+    {
+      "id": "V4-REQ-D",
+      "change": "Supply a faithful accounting alternative and complete the original kind/grant/owner/amount/plan/cost/epoch/physical/native-cost comparison against AO-1 through AO-11. Keep G unselected until its handler enforcement gap is solved. Preserve immutable outer bounds, independent request grants, no double count and original response progress; D-4a cannot waive them.",
+      "reason": "The matrix explicitly contains no option meeting every obligation. G separates workload units while coordinator handler work still shares the first root's limits. Qualitative decision/process cost labels and ledger checkmarks do not close full native or enforcement correspondence.",
+      "evidence": [
+        "D4:1144-1176",
+        "AUTHOR-NOTES.md:74",
+        "P1/HANDOFF.md:125-131",
+        "D4:1764-1792"
+      ]
+    },
+    {
+      "id": "V4-REQ-E",
+      "change": "Provide one consistent CHILD_READY/CHILD_ABORT commit protocol with native sub-helper agreement before an authorizing exclusive decision and before actor exec. Permit collector/current-owner terminal commits in their legal phases. Complete helper command material, exact ABI/source/native-cost and process FD/argv/env/cwd/privilege surfaces, preserving every original used handler facility under RC-6.",
+      "reason": "CHILD_READY is durable before the sub-helper can disagree, and disagreement requires CHILD_ABORT although exactly one may commit. The blanket WORKER_OWNED requirement also excludes the collector named for terminal settlement. Native self-decision improves enforcement but adds unproved native ABI/cost surface.",
+      "evidence": [
+        "D4:1186-1227,1231-1259",
+        "D4:743-748 (R4-64)",
+        "AUTHOR-NOTES.md:76",
+        "R/protected-resource/native_namespace_supervisor_v3.c:265-275,358-360"
+      ]
+    },
+    {
+      "id": "V4-REQ-F",
+      "change": "Define the complete orthogonal root/request/descriptor Legal/Next/owner relation, reconcile r1/r3' and express r6 as the closure barrier. Reconcile R4-48's capture-failure ABANDON requirement with M8(a)'s handoff-window qualifier; preserve the original pre-handoff failure stop and define a legal pre-transfer handoff abort. Supply replay recovery for committed intents whose effects or responses are pending. For M8(c), establish the original current request/world/active-job/unit authorization, error and cancellation correspondence before permitting a front generation-root stop.",
+      "reason": "The carried root graph mixes subject transitions, the no-launch release has no product return path, and r6 contradicts a live Intake. ABANDON only originates in transfer phases, while R4-48 and M8(a) give different capture-failure scopes. A ROOT_STOP_INTENT is not authorization; original job.cancel cancels recorded active job units after store checks.",
+      "evidence": [
+        "D4:1324-1401,1383",
+        "D2:974-1002",
+        "D3:326-342",
+        "D4:R4-48,R4-49",
+        "R/runtime/worldline/controller.py:811-826",
+        "D4:1767-1774",
+        "R/runtime/worldline/protected_root_resource.py:108-114,142-147",
+        "R/runtime/worldline/protected_root_supervisor.py:346-362"
+      ]
+    },
+    {
+      "id": "V4-REQ-G",
+      "change": "Complete the legal Never_Dispatched/Never_Launched release and original-use quarantine/recovery/return route without requiring CLOSED_WITNESS. Retain the corrected original outer barrier and seed reconstruction without HANDLER_TERMINAL. Specify all RT-21 through RT-27 recovery actions with authentic closure/current material, immutable first committed result and original fatal-versus-unresolved exception mapping.",
+      "reason": "r3' permits a valid no-launch release but r1 and the carried graph do not admit the resulting state or return. The retained seed and new recovery rows are useful inputs, not a complete reconstruction path, especially after descriptor or serving-owner loss.",
+      "evidence": [
+        "D4:1359-1364,1409-1453",
+        "D2:976-1000",
+        "R/runtime/worldline/protected_operations.py:355-384",
+        "R/runtime/worldline/root_worker_custody.py:125-133",
+        "R/runtime/worldline/protected_root_observation.py:105-117,157-164"
+      ]
+    },
+    {
+      "id": "V4-REQ-H",
+      "change": "Make each front/worker/host crash row consistent with actual surviving descriptor custody. Specify any surviving custodian and its complete authority/source/FD/cost/reaper coverage, or mark unavailable pipe recovery irrecoverably UNKNOWN while retaining the original successful controls. Arm durably before enabling reads, fold open intervals across chunk records, and specify real kcmp operands. Preserve last-writer EOF and measure the added read copy's writer/backpressure effects.",
+      "reason": "ClosedFrontEscrow is process-local and cannot retain the front's pipe after that front dies; durable P/W cannot recreate it. Reattach starts a reader before ARMED, and last-record-ARMED detection misses an open interval ending in a chunk. An identity record cannot substitute for a live kernel fd in an OFD comparison.",
+      "evidence": [
+        "D4:1463-1512",
+        "D4:1489-1495",
+        "D2:1043-1047",
+        "R/runtime/worldline/root_worker_closed.py:19-37",
+        "D3:1468-1474,1487-1493",
+        "AUTHOR-NOTES.md:75"
+      ]
+    },
+    {
+      "id": "V4-REQ-I",
+      "change": "Separate pre-ACK root admission from already-worker-owned request Transfer_Join/Relay_Join and Serving_Join. Complete every own/transferred/retained/historical per-gate operand/head/presence contract, preserving optional providers. Specify the authenticated RELAY frame and per-gate freshness, request/generation/operation/gate/head/response binding, native ABI/cost, legal fallback state and propagation of original re-read errors.",
+      "reason": "The root ACK ordering uses a request join whose root-phase precondition is already WORKER_OWNED. Optional corroboration conflicts with unconditional-looking presence fields, and retained/historical coverage is incomplete. RELAY's exact frame/cost is explicitly unspecified; its no-refusal queue does not supply those contracts.",
+      "evidence": [
+        "D4:1524-1634",
+        "D4:1338-1343",
+        "AUTHOR-NOTES.md:73",
+        "R/runtime/worldline/client_peer.py:131-137"
+      ]
+    },
+    {
+      "id": "V4-REQ-J",
+      "change": "Make empty-chain genesis/head foreign-key and native-origin encoding coherent without disabling integrity checks. Compare canonical JSON to its decoded typed archive relation. Specify full lossless native quantity/state storage and fold/order/replay, including root generation keys and every new state field. Define the new plan path/digest and retained old loader context for closed-v1 migration, preserving exclusive create and all history.",
+      "reason": "The provisioner inserts an origin head with no events despite head.event_id REFERENCES events. Startup byte-compares JSON and archive. root_state.generation and events.seq INTEGER PRIMARY KEY cannot by themselves represent the arbitrary native domain; non-primary INTEGER affinity needs an explicit exact mapping. A new database cannot be exclusively created over a retained v1 database at the unchanged plan path.",
+      "evidence": [
+        "D4:1285-1304,1368,1646-1698",
+        "D3:1307-1368",
+        "R/runtime/worldline/root_worker_journal.py:78-113",
+        "R/runtime/worldline/root_worker_codec.py:19-27",
+        "AUTHOR-NOTES.md:78",
+        "P1/HANDOFF.md:125,129-131"
+      ]
+    },
+    {
+      "id": "V4-REQ-K",
+      "change": "Define the effective joined owning-On-unit, qualifier scope/layout/tile and gate checkviews separately from byte-immutable CAPI base tables, using the reviewed enrolled RW roster. Make MQ-RW2 target a newly added census member or a concrete changed old-scope call/path, and add an unchanged-old-context positive with an already-listed selector. Keep every sealed CAPI6 invariant, old row, fixed protocol and no-RW-wfx/no-RW-exclusive-key rule.",
+      "reason": "The inherited qualifier check validates each routine's unit against CAPI_SPARK_UNITS, while the design adds effective RW routines without an explicit corresponding owning-unit checkview. Adding a selector already in the effective set, such as Decide, does not by itself change the old qualified census, so MQ-RW2's unconditional expected U-2 problem is not established.",
+      "evidence": [
+        "D4:1719-1743",
+        "D3:1757-1768,1803-1812",
+        "CAPI5/APPENDIX-BINDINGS.md:185-199,347-381",
+        "CAPI6/APPENDIX-BINDINGS.md:97-103,391-425",
+        "CAPI6/DESIGN.md:319-324"
+      ]
+    },
+    {
+      "id": "V4-REQ-L",
+      "change": "Complete original status/cancel/owner/quarantine/non-mutating response progress for unreachable workers, missing closure and UNKNOWN, with the full RELAY/collection/executor/storage model. Show authentic events that make each added wait end and legal service/recovery actions without the circular need for an unavailable owner. Preserve original thread placement, short router locks and response semantics; qualify optional QUEUED event compatibility.",
+      "reason": "The design withdraws single-thread serialization and router lock waits, but its table lists additional waits rather than demonstrating original accepted service progress. An original workload limit or authorized stop does not itself supply CLOSED/ECHILD/current custody evidence; QUEUED events are explicitly not responses and client tolerance is unverified.",
+      "evidence": [
+        "D4:1753-1792,1383,1624-1626",
+        "R/runtime/worldline/daemon.py:84,407-422",
+        "AUTHOR-NOTES.md:79",
+        "P1/HANDOFF.md:115,127,162-164"
+      ]
+    }
+  ],
+  "rulings": [
+    {
+      "evidence_required": "Concrete typed Reference/Decide/Post and embedding/witness definitions, all original clause and case mapping, later full body/reference/termination/native-cost proof and matching controls.",
+      "id": "D-1a",
+      "owner": "Lead source designer; independent GPT-6.1 source/spec reviewer",
+      "ruling": "C2 is a plausible lifted model, not an established faithful equivalence as written. Exact divisible projection replaces the draft's rounding description; require RC-01 with full-domain coverage and no changes to original references.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "V4-A/B improve specification but typed interfaces, compaction witnesses and full original domain remain unfinished.",
+      "required_changes": [
+        "V2-REQ-A",
+        "V2-REQ-B"
+      ],
+      "review_evidence": [
+        "D4:845-948,960-1009"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2318",
+        "D:445-450,467,518-611,818-859"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-A",
+        "V4-REQ-B"
+      ]
+    },
+    {
+      "evidence_required": "Explicit fresh/replay/historical domains, faithful scope/epoch spans, rollover accepted/refusal controls and full caller/kernel proof.",
+      "id": "D-1b",
+      "owner": "Lead scoped model/caller designer; independent GPT-6.1 reviewer",
+      "ruling": "Epoch equality alone is insufficient. Fresh new reservations obey native current-context equality; retained replay/rollover needs a complete proved origin/current/authority join and must preserve original lifecycle cases. Use Same_Context, not record equality.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "The W0-W5 table preserves the three scoped Context_Changed sites and Retained_Join, but W2/W3/W5 equivalence is overclaimed. The root route inserts launch/currentness/physical waits before handlers that may not launch on the serial route, and restoring an unintegrated lane guard adds a root workload refusal. Exact per-operation original durable outcomes, recovery, accepted cases and costs are still required.",
+      "required_changes": [
+        "V2-REQ-B"
+      ],
+      "review_evidence": [
+        "D4:1013-1039",
+        "R/core/resource_scoped_run_ledger.ads:426-441"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2324",
+        "D:487-505,667; R/core/resource_scoped_run_ledger.ads:436-441"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-B"
+      ]
+    },
+    {
+      "evidence_required": "Complete version union over every constructor/loader/schema/creation slot, one-shot full DDL/head/provisioning evidence, v1 parity and v2 genuine startup plus absence/crash controls.",
+      "id": "D-2a",
+      "owner": "Lead authors schema/callers; operator provisions or installs authoritative state",
+      "ruling": "Prefer an additive exact v2 descriptor, selected by schema, with v1 behavior and controls retained. No implicit migration, defaults, bypass or missing-history genesis.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Initial genesis FK/encoding, exact native-state storage and migration/reconstruction remain unfinished; provisioning/install stay operator-owned.",
+      "required_changes": [
+        "V2-REQ-J"
+      ],
+      "review_evidence": [
+        "D4:1646-1698",
+        "D3:1307-1368"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2330",
+        "D:1509-1578,1926"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-F",
+        "V4-REQ-J"
+      ]
+    },
+    {
+      "evidence_required": "Original bytes/roster retained, exact version/domain mapping, all original negative cases and genuine positives, no replacement or passing-history credit.",
+      "id": "D-2b",
+      "owner": "Lead prepares concrete equivalence/adoption package; applicable operator authority; independent GPT-6.1 review",
+      "ruling": "No lead-only retirement of the mandatory frontier control. Keep exact v1/domain behavior and additive v2 controls; any proposed re-enrollment must be explicitly adjudicated while the original obligation remains OPEN.",
+      "closure": "CLOSED_AT_DESIGN_LEVEL",
+      "remaining_gap": "Exact frontier bytes/version/domain and reserved re-enrollment adjudication preserved; runtime/proof/phase obligations OPEN.",
+      "required_changes": [],
+      "review_evidence": [
+        "D4:131,1698",
+        "D2:1580-1598",
+        "R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2336",
+        "D:1580-1598,1927; R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+      ],
+      "required_review_repairs": []
+    },
+    {
+      "evidence_required": "Full LIVE/UNKNOWN rosters, true descriptor/lock/wait custody, buffered/raw drain continuity, failure/restart controls and authentic terminal collection.",
+      "id": "D-3a",
+      "owner": "Lead protocol designer; operator for lab execution",
+      "ruling": "Transfer complete V3 slot custody; do not require prior terminal state as a domain restriction. The transfer protocol still needs RC-08.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Crash/restart pipe custody, reader-before-ARMED ordering and complete role-state reconstruction unresolved; physical lab evidence OPEN.",
+      "required_changes": [
+        "V2-REQ-H"
+      ],
+      "review_evidence": [
+        "D4:1461-1512"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2342",
+        "D:1130-1189"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-H"
+      ]
+    },
+    {
+      "evidence_required": "Kind/grant/owner/amount/cost/rollover domain matrix, faithful host/ledger cost proof, no first-root grant borrowing or new caps, concurrency/status/cancel/recovery controls.",
+      "id": "D-4a",
+      "owner": "Lead prepares native accounting comparison; independent GPT-6.1 review; operator selects any authoritative resource-policy change",
+      "ruling": "No accounting option is selected for acceptance. A may be explored only if it preserves all original independent-request accepted cases and real cost/parent/availability guarantees; otherwise choose or design a faithful alternative.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "No admissible accounting option selected; fixed costs/enforcement and accepted response progress unresolved. Operator cannot waive original guarantees.",
+      "required_changes": [
+        "V2-REQ-D",
+        "V2-REQ-L"
+      ],
+      "review_evidence": [
+        "D4:1144-1176,1764-1792",
+        "P1/HANDOFF.md:125-131"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2348",
+        "D:765-778,1325-1408,1928"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-D",
+        "V4-REQ-L"
+      ]
+    },
+    {
+      "evidence_required": "Native classifier/root/child compatibility, actual cgroup/namespace lineage, immutable outer ceilings/capacity, coordinator privilege/FD custody, actor separation and matching controls.",
+      "id": "D-5a",
+      "owner": "Lead prepares native/OS design; independent GPT-6.1 review; operator for delegation and privileged lab action",
+      "ruling": "Delegate=yes is not endorsed as a complete native design. Require an additive native custody/delegation successor, unchanged original predicates/cases and a concrete coordinator enforcement argument before operator deployment choice.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Exhaustive inventory remains contingent on RC-6; retained capabilities/views/helper commands and original handler compatibility unestablished.",
+      "required_changes": [
+        "V2-REQ-A",
+        "V2-REQ-D",
+        "V2-REQ-E"
+      ],
+      "review_evidence": [
+        "D4:874-887,1231-1259"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2354",
+        "D:818-877,1929; R/core/resource_observation_classification.ads:95"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-A",
+        "V4-REQ-D",
+        "V4-REQ-E"
+      ]
+    },
+    {
+      "evidence_required": "Explicit input/native/source union, exact ABI/protocol/argv/env/stdin/EOF, FD inheritance audit, authentic ACK/ECHILD/waits/drains and retained native-body/cost obligations.",
+      "id": "D-5b",
+      "owner": "Lead helper designer; independent GPT-6.1 review; operator for privileged execution/installation",
+      "ruling": "Prefer a separately versioned helper successor, preserving the exact V3/helper-stdin lineage and old controls. Extending V3 in place is not needed to obtain source design credit.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Child decision alternatives, collector completion and native C-helper ABI/payload/cost remain unfinished; no privileged execution or installation authority granted.",
+      "required_changes": [
+        "V2-REQ-E"
+      ],
+      "review_evidence": [
+        "D4:1186-1227",
+        "AUTHOR-NOTES.md:76"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2360",
+        "D:881-925,1930"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-E"
+      ]
+    },
+    {
+      "evidence_required": "Original QUARANTINE_USE and K4 transitions/callers, authentic historical result/receipt/cause, current-denial/lost-ACK/never-launched/serial positives, no EOF/return settlement.",
+      "id": "D-6a",
+      "owner": "Lead historical/canonical model designer; independent GPT-6.1 review",
+      "ruling": "Keep canonical COMMITTED immutable; permit the original native use-quarantine/K4 domain when needed for uncertainty. Define orthogonal outcome/use/resource/custody states rather than selecting a blanket ban on quarantine.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Seed/outer semantics repaired, but no-launch product and crash-safe automatic/historical recovery remain incomplete.",
+      "required_changes": [
+        "V2-REQ-A",
+        "V2-REQ-F",
+        "V2-REQ-G"
+      ],
+      "review_evidence": [
+        "D4:1359-1364,1409-1453"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2366",
+        "D:367-423,1447-1478,1561-1578; R/runtime/worldline/protected_operations.py:812-816"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-F",
+        "V4-REQ-G"
+      ]
+    },
+    {
+      "evidence_required": "Per-pair producer/canonical encoding/custody mapping, copied-tag and one-side corruption refusals, positive distinct-source equality, exact wire/layout and full original case preservation.",
+      "id": "D-7a",
+      "owner": "Lead native/provenance designer; child-authority and GPT-6.1 re-review; operator for any original API/owner-policy alteration",
+      "ruling": "Independent sourcing alone does not close OB-030. Native Decide/Well_Formed must consume/enforce the distinct source-record domains or tags and canonical payload relation; use an additive grammar/version and preserve original references/ABI.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "P3 repaired and C-API integration specified, but signed-zero canonicality and authenticity/currentness/producer/native-cost remain unfinished.",
+      "required_changes": [
+        "V2-REQ-C",
+        "V2-REQ-D",
+        "V2-REQ-K"
+      ],
+      "review_evidence": [
+        "D4:1047-1134,1719-1743"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2372",
+        "D:692-763,1931"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-C",
+        "V4-REQ-K"
+      ]
+    },
+    {
+      "evidence_required": "Raw relative/host credentials, namespace/socket/custody and transaction/request joins, native decode/decision semantics, current-object and exact-type caller coverage.",
+      "id": "D-8a",
+      "owner": "Lead OS/native requester designer; independent GPT-6.1 review",
+      "ruling": "Choose explicit native semantic correspondence inputs, carried by authentic producers. A producer-only label or digest in opaque current_source is insufficient.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Request transfer join repaired, but root ACK phases, full gate modes/operands and RELAY protocol remain incomplete.",
+      "required_changes": [
+        "V2-REQ-I"
+      ],
+      "review_evidence": [
+        "D4:1524-1634"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2378",
+        "D:1220-1272,2023"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-I"
+      ]
+    },
+    {
+      "evidence_required": "Original accepted exited/delegated/same-UID-new-process cases, real SO_PEERPIDFD/fdinfo namespace behavior, no PID-label substitution, historical settlement with no live client.",
+      "id": "D-8b",
+      "owner": "Lead prepares domain-preserving protocol; operator for kernel measurement; independent GPT-6.1 review",
+      "ruling": "Do not add a blanket fresh-pidfd or still-live-client precondition. Retain original kernel socket/credential evidence under authenticated custody and define the exited-peer path; absent evidence remains explicit and unresolved where correspondence cannot be established.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Providers optional in intent; optional-field contracts, queue progress and all kernel measurements remain unresolved.",
+      "required_changes": [
+        "V2-REQ-I"
+      ],
+      "review_evidence": [
+        "D4:1534-1548,1765-1792,1814-1821"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2384",
+        "D:1238-1241,1274-1285,1932"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-H",
+        "V4-REQ-I",
+        "V4-REQ-L"
+      ]
+    },
+    {
+      "evidence_required": "Complete native relation/body and caller correspondence, durable generations/crash-point table, lost-ACK/half-transfer/death/reconstruction controls, retained holds and independent physical/canonical outcomes.",
+      "id": "D-9a",
+      "owner": "Lead additive SPARK relation and caller designer; independent GPT-6.1 review; operator for fault campaign",
+      "ruling": "Yes: native custody-phase legality is mandatory because it determines who may mutate. Preserve exclusive ACK/ABANDON branches and authentic durable redecision under the actual CAS.",
+      "closure": "PARTIALLY_CLOSED",
+      "remaining_gap": "Complete legal product, serialization, crash custody and mutation/cancellation correspondence remain incomplete.",
+      "required_changes": [
+        "V2-REQ-F",
+        "V2-REQ-G"
+      ],
+      "review_evidence": [
+        "D4:1324-1401,1487-1495,1662-1692"
+      ],
+      "predecessor_evidence": [
+        "V1/review/gpt61-v1/review.json:2390",
+        "D:965-1100,1933"
+      ],
+      "required_review_repairs": [
+        "V4-REQ-F",
+        "V4-REQ-G",
+        "V4-REQ-H",
+        "V4-REQ-J"
+      ]
+    }
+  ],
+  "predecessor_v2_clause_assessments": [
+    {
+      "id": "RC-01",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "01.1",
+          "PARTIALLY_CLOSED",
+          "Typed Reference/Decide/Post and decision subtype supplied; §3 still uses original Facts/Native_Valid, not the delegated V2 classifier.",
+          "D:431-485; D:820-845; R/core/resource_scoped_run_ledger.ads:232-268"
+        ],
+        [
+          "01.2",
+          "PARTIALLY_CLOSED",
+          "Shared production arena and identity decision mapping supplied; Rebase/Emb is not total while G3 remains uncovered.",
+          "D:518-556; D:601"
+        ],
+        [
+          "01.3",
+          "PARTIALLY_CLOSED",
+          "Field-level embedding supplied; multi-frame construction and saturated arenas are deferred.",
+          "D:529-556; D:599-601"
+        ],
+        [
+          "01.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Coherent W1-W10 does not presuppose equal decisions; producer coverage remains an independent obligation.",
+          "D:558-611"
+        ],
+        [
+          "01.5",
+          "PARTIALLY_CLOSED",
+          "Coverage lemmas supplied, but raw-domain-only exclusions cannot discharge the original full-domain target; blanket multi-frame/multi-bucket refusal controls contradict the unrestricted scoped domain.",
+          "D:589-604; D:642-654; P1/HANDOFF.md:27-29,125-131"
+        ],
+        [
+          "01.6",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Rounding withdrawn; exact divisible projection and raw Amount versus L.Amount distinguished.",
+          "D:507-516; R/core/resource_scoped_run_ledger.ads:149-152,210-211"
+        ],
+        [
+          "01.7",
+          "PARTIALLY_CLOSED",
+          "Fresh/retained/historical separated; blanket pre-effect FRESH placement and RQ-1 are not established by the launch guard.",
+          "D:487-505,629-640,667; R/core/resource_scoped_run_ledger.ads:436-438"
+        ]
+      ]
+    },
+    {
+      "id": "RC-02",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "02.1",
+          "PARTIALLY_CLOSED",
+          "CCE and per-pair producers supplied; P3 remains undefined, and framed Raw-as-subspan of unchanged JSON containers is not specified coherently.",
+          "D:686-710,718-724,802"
+        ],
+        [
+          "02.2",
+          "PARTIALLY_CLOSED",
+          "Native distinct domains proposed; expected anchors must join the authenticated roster and each claimed raw grammar. Distinct labels/hash-valid containers alone do not establish distinct authentic sources.",
+          "D:692-710,737-741"
+        ],
+        [
+          "02.3",
+          "PARTIALLY_CLOSED",
+          "Crosswalk covers operation/owner/follow-up dimensions in prose; exact schema, native decode, selected-plan joins and complete costs are pending.",
+          "D:743-763,2001-2004"
+        ],
+        [
+          "02.4",
+          "PARTIALLY_CLOSED",
+          "E1-E4 cover original fields/floors. E3's sampled admission/ledger subtraction does not demonstrate reserved future capacity; memory_high is not a minimum/low guarantee.",
+          "D:765-778; R/runtime/worldline/protected_scoped_resource_runtime.py:673-696; P1/HANDOFF.md:125-131"
+        ]
+      ]
+    },
+    {
+      "id": "RC-03",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "03.1",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Separately reviewed additive classifier/scoped/child successor and no-delegation branch replace the Python Delegate-only change.",
+          "D:818-859"
+        ],
+        [
+          "03.2",
+          "PARTIALLY_CLOSED",
+          "Concrete P-CE1-P-CE4 mechanisms/observations supplied; helper ordering requires Child_Ready before creation of its measured child. Exact protocol and OS/runtime evidence remain open.",
+          "D:866-896,913-919; R/core/worldline-resource_child_execution.ads:203-208"
+        ],
+        [
+          "03.3",
+          "PARTIALLY_CLOSED",
+          "Original predicates/cases retained by rule; compatibility only covers distinct-pair inputs and S1/B2 consumers still use the old classifier. End-to-end original-domain preservation is not yet designed completely.",
+          "D:845-859; D:445-450,467,640"
+        ]
+      ]
+    },
+    {
+      "id": "RC-04",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "04.1",
+          "PARTIALLY_CLOSED",
+          "Native append legality mandatory, but complete Legal table and correspondence at each actual state mutation are pending.",
+          "D:962-967,1004-1009,2011-2015"
+        ],
+        [
+          "04.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "ACK/ABANDON branches explicitly exclusive and ABANDON cannot reach WORKER_OWNED.",
+          "D:972-988,1004-1008"
+        ],
+        [
+          "04.3",
+          "PARTIALLY_CLOSED",
+          "Head/phase/generation CAS transaction supplied; operation phase and parallel request/drain sub-state need separate retained native state. UNIQUE(operation,generation,kind) does not itself enforce exclusive alternatives or represent repeated sub-generations.",
+          "D:965-967,990-992,1015-1021,1092-1097"
+        ],
+        [
+          "04.4",
+          "PARTIALLY_CLOSED",
+          "Seed/read-only capture, lost-ACK handling and escrow reuse supplied; selected crash table contradicts RT-2 for dispatch without HELD and omits complete crash/replay state.",
+          "D:1032-1053,1078,1090-1100; D:1562"
+        ],
+        [
+          "04.5",
+          "PARTIALLY_CLOSED",
+          "Physical independence intended; §6.7 ambiguously says three awaits while enumerating handler, combined closure/wait, drains, then says physical three. Missing-terminal barrier needs an exact field/future definition.",
+          "D:1055-1059,995-998,1466-1468"
+        ],
+        [
+          "04.6",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Defined snapshot exclusion and raw-only content addressing remove recursive retention; size/OOM/native costs explicitly unclaimed.",
+          "D:1061-1067"
+        ]
+      ]
+    },
+    {
+      "id": "RC-05",
+      "status": "CLOSED_AT_DESIGN_LEVEL",
+      "clauses": [
+        [
+          "05.1",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "All ordered ordinary/lifetime/protected/lane rosters retained on matching candidate.",
+          "D:1965-1988; P1/HANDOFF.md:162"
+        ],
+        [
+          "05.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Exact v1 frontier bytes/version/domain and refusal retained.",
+          "D:1580-1587; R/protected-startup/controls/test_protected_startup_v1.py:97-105"
+        ],
+        [
+          "05.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Separate additive v2 roster proposed; no replacement.",
+          "D:1977-1988"
+        ],
+        [
+          "05.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Lead-only retirement expressly withdrawn.",
+          "D:1588"
+        ],
+        [
+          "05.5",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "No re-enrollment proposed; any future package retains originals and reserved adjudication/review.",
+          "D:1589-1598"
+        ]
+      ]
+    },
+    {
+      "id": "RC-06",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "06.1",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Option A and all other options remain unselected.",
+          "D:1348-1363"
+        ],
+        [
+          "06.2",
+          "PARTIALLY_CLOSED",
+          "AM-1-AM-9 and concrete A/B/C/E failures supplied; no accounting option meets the full target.",
+          "D:1325-1363,2026-2028"
+        ],
+        [
+          "06.3",
+          "PARTIALLY_CLOSED",
+          "Phase/owner/recovery table supplied with exact quarantine.resolve exception; UNKNOWN and collecting progress still depend on incomplete custody/reconciliation design.",
+          "D:1365-1385; D:1555-1578"
+        ],
+        [
+          "06.4",
+          "PARTIALLY_CLOSED",
+          "to_thread and fair queue preserve loop responsiveness in intent, but shared gate/operation lock and bounded executor saturation can still block response progress; no full liveness argument supplied.",
+          "D:1396-1408,1433; R/runtime/worldline/protected_operations.py:717,728-768"
+        ]
+      ]
+    },
+    {
+      "id": "RC-07",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "07.1",
+          "PARTIALLY_CLOSED",
+          "O/U/C/P and couplings supplied; exact broker-state mapping/legal product table deferred.",
+          "D:367-423,2011-2014"
+        ],
+        [
+          "07.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "COMMITTED absorbing, genuine native quarantine and original K4 exits retained.",
+          "D:384-390,1457-1462"
+        ],
+        [
+          "07.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Original Never_Launched held-capacity release included.",
+          "D:393-398,1453; R/core/resource_run_ledger.ads:317-320"
+        ],
+        [
+          "07.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Serial order and SETTLED replay explicitly retained; later matching-source demonstration required.",
+          "D:1447-1455,1494"
+        ],
+        [
+          "07.5",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "First RESULT_CAPTURE immutable, later report captures additive, collector uses first.",
+          "D:405,1450,1464-1468"
+        ]
+      ]
+    },
+    {
+      "id": "RC-08",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "08.1",
+          "PARTIALLY_CLOSED",
+          "T1-T5 supplied, but stopping before durable FREEZE conflicts with failure table's claim that reader never stopped.",
+          "D:1157-1169"
+        ],
+        [
+          "08.2",
+          "PARTIALLY_CLOSED",
+          "Buffers/in-flight bytes intended to spool; interrupted write/cancellation and already buffered stdin output need exact quiescence rules.",
+          "D:1157-1160"
+        ],
+        [
+          "08.3",
+          "PARTIALLY_CLOSED",
+          "Durable P/W and spool head supplied; FREEZE/SPOOL crash and write-progress linearization incomplete.",
+          "D:1157-1158,1167-1169"
+        ],
+        [
+          "08.4",
+          "PARTIALLY_CLOSED",
+          "Durable intake/abandon acknowledgement supplied; new owner starts I/O before OFD evidence is recorded.",
+          "D:1160-1161"
+        ],
+        [
+          "08.5",
+          "PARTIALLY_CLOSED",
+          "Ownership table excludes pre-commit stop/spool failure and post-intake failed validation.",
+          "D:1165-1176"
+        ],
+        [
+          "08.6",
+          "PARTIALLY_CLOSED",
+          "kcmp and lock evidence correctly replace fstat-only proof, but validate before role use and record full-root lock roster evidence, not only descriptor release.",
+          "D:1160-1176; D:1041"
+        ],
+        [
+          "08.7",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Helper/init/systemd retained as reapers; only observation/reader/writer roles transfer.",
+          "D:1143-1151"
+        ]
+      ]
+    },
+    {
+      "id": "RC-09",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "09.1",
+          "PARTIALLY_CLOSED",
+          "Native raw credential/socket/ns inputs supplied; request/operation/transaction/container joins and mode-specific presence need complete predicates.",
+          "D:1220-1247,1389-1393"
+        ],
+        [
+          "09.2",
+          "PARTIALLY_CLOSED",
+          "Journaled host records/full roster first supplied; cookie unavailable yields non-ready intake despite original domain, and validation/ownership ordering remains incomplete.",
+          "D:1238,1246,1251-1259"
+        ],
+        [
+          "09.3",
+          "PARTIALLY_CLOSED",
+          "Retained exact type supplied; per-gate list deferred and J1/J3/J4 unconditional fields conflict with socket-free J8 modes.",
+          "D:1233-1243,1260-1272,2023"
+        ],
+        [
+          "09.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Full UID/GID and exited/delegated/same-UID process/preparer cases explicitly retained.",
+          "D:1274-1285"
+        ],
+        [
+          "09.5",
+          "PARTIALLY_CLOSED",
+          "No pidfd/live-client condition, but FRESH introduces mandatory cookies. No new accepted-case refusal may be approved on provider absence.",
+          "D:1238-1240,1282-1285; P1/HANDOFF.md:137"
+        ]
+      ]
+    },
+    {
+      "id": "RC-10",
+      "status": "CLOSED_AT_DESIGN_LEVEL",
+      "clauses": [
+        [
+          "10.1",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Append-only reviewed final-source effective overrides.",
+          "D:1629-1636"
+        ],
+        [
+          "10.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "External exact inventory includes manifest/control/project/header/helper/dependencies and binds to independent freeze.",
+          "D:1638-1650"
+        ],
+        [
+          "10.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "New semantic/wire units enrolled; impossible draft Off-body names explicitly transferred to reviewed On carriers, not given proof credit.",
+          "D:1652-1668"
+        ],
+        [
+          "10.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "S5 original prefix, strict command/floor/boundary and zero unproved/justified/Assume retained.",
+          "D:334-342,1670-1679,1693-1697; P1/HANDOFF.md:158-161"
+        ]
+      ]
+    },
+    {
+      "id": "RC-11",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "11.1",
+          "PARTIALLY_CLOSED",
+          "Spec/body graph is acyclic as declared; B1 omits consumed crosswalk/V2 inputs, B2b/B2c and B6 integration edges need explicit reconciliation, and gate precedence is not encoded in body Needs.",
+          "D:629-640,1499,1855-1896"
+        ],
+        [
+          "11.2",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "L-CAPI/L-A1 separately bound; L-CAPI-P newly identified and explicitly open.",
+          "D:1836-1849,1890-1894"
+        ],
+        [
+          "11.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "Pure-value work/draft publication separated from reserved privileged decisions.",
+          "D:1926-1940"
+        ],
+        [
+          "11.4",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "No Optional_Marker alteration or infrastructure-resume authority from this lane; approval reconciliation remains outside acceptance.",
+          "D:357-363,1799-1801,1939-1940"
+        ]
+      ]
+    },
+    {
+      "id": "RC-12",
+      "status": "PARTIALLY_CLOSED",
+      "clauses": [
+        [
+          "12.1",
+          "PARTIALLY_CLOSED",
+          "U-1-U-12 union supplied; exact descriptor/schema keysets, provisioner DDL and every early selection remain future spec deliverables.",
+          "D:1509-1547,2033-2034"
+        ],
+        [
+          "12.2",
+          "PARTIALLY_CLOSED",
+          "RT table automatic known-outcome direction supplied; RT-7 requires HANDLER_TERMINAL, leaving authentic retained result without that frame unclassified; pre-launch table contradicts RT-2.",
+          "D:1078,1555-1578; R/runtime/worldline/protected_operations.py:812-827"
+        ],
+        [
+          "12.3",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "UNKNOWN retains holds and native uncertainty; no EOF/deadline settlement.",
+          "D:1562-1568,1573"
+        ],
+        [
+          "12.4",
+          "PARTIALLY_CLOSED",
+          "Original K4/quarantine.resolve retained; exact recovery progress through UNKNOWN/locks depends on complete product/native relation.",
+          "D:1383,1576-1578"
+        ],
+        [
+          "12.5",
+          "CLOSED_AT_DESIGN_LEVEL",
+          "No missing-state initialization; one-shot offline operator provisioning.",
+          "D:1538-1553,1574-1575"
+        ]
+      ]
+    }
+  ],
+  "carried_assessments": {
+    "NF": {
+      "NF-1": "VERIFIED_STATIC_OPEN_FLAG_KERNEL_CONSEQUENCE_UNMEASURED",
+      "NF-2": "VERIFIED_STATIC_CONTROL_FLOW_NOT_RUNTIME_COMMIT",
+      "NF-3": "VERIFIED_STATIC_LOCK_PATH",
+      "NF-4": "VERIFIED_STATIC_AUTOMATIC_RECOVERY_BRANCH",
+      "NF-5": "VERIFIED_TEXT_AND_LEXICAL_SCOPE",
+      "NF-6": "VERIFIED_STATIC_MANAGER_CALLS_REACHABILITY_UNMEASURED",
+      "NF-7": "VERIFIED_STATIC_ROUTER_WAIT_AND_FRONT_GATE",
+      "NF-8": "VERIFIED_STATIC_ENCODING_FORMS",
+      "NF-9": "VERIFIED_BYTE_IDENTITY_AND_STATIC_RELAY_JOIN_KERNEL_VIEW_UNMEASURED",
+      "NF-10": "VERIFIED_STATIC_PLAN_SELECTION_GAP",
+      "NF-11": "VERIFIED_STATIC_GENESIS_AND_HMAC_BOUNDARY"
+    },
+    "N": {
+      "N-1": "VERIFIED_STATIC",
+      "N-2": "SUPPORTED_STATIC_TOOL_BEHAVIOR_OPEN",
+      "N-3": "VERIFIED_STATIC",
+      "N-4": "VERIFIED_BYTE_DIFF_AND_LAYOUT",
+      "N-5": "VERIFIED_LEXICAL_SCOPE",
+      "N-6": "SUPPORTED_STATIC_CONDITIONAL_RECEIVER_RESOLVED",
+      "N-7": "VERIFIED_STATIC",
+      "N-8": "VERIFIED_STATIC_ORDER",
+      "N-9": "VERIFIED_TEXT_SCOPE_RESOLUTION_OPEN",
+      "N-10": "VERIFIED_STATIC_PAIR_FILLING"
+    },
+    "DF": {
+      "DF-1": "VERIFIED_STATIC_RECOMPUTATION",
+      "DF-2": "VERIFIED_STATIC",
+      "DF-3": "VERIFIED_STATIC",
+      "DF-4": "VERIFIED_STATIC",
+      "DF-5": "VERIFIED_STATIC_ABSENCE_IN_SELECTED_TREES",
+      "DF-6": "SUPPORTED_STATIC_CONDITIONAL"
+    },
+    "frontier_sha256": "a0d2d529aff1322ce11e66d955f5af4161cbdfff59e0c032d770c51e734cdbeb"
+  },
+  "operator_items": {
+    "OP-1": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-2a: authoritative state provisioning or installation, including descriptor/custody/operation head/crosswalk/plan/configuration and any privileged lab installation",
+      "evidence": "D2:1926; D4:118,1665-1692"
+    },
+    "OP-2": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-2b: frontier re-enrollment adjudication; none proposed",
+      "evidence": "D2:1927; D4:131,1696-1698"
+    },
+    "OP-3": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-4a: authoritative resource-policy selection; none selected. Choice cannot weaken the original fixed obligations.",
+      "evidence": "D2:1928; D4:120,1155-1176"
+    },
+    "OP-4": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-5a: delegation/profile installation and privileged lab action; Luna high is only the actor in the existing adapter",
+      "evidence": "D2:1929; D4:121,1259,1821"
+    },
+    "OP-5": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-5b: privileged successor-helper installation/execution",
+      "evidence": "D2:1930; D4:122,1212,1259"
+    },
+    "OP-6": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-7a: original API or owner-policy alteration. No concrete change is approved by the brief or this review.",
+      "evidence": "D2:1931; D4:124; D4:1383; item-4 M8(c) finding"
+    },
+    "OP-7": {
+      "ruling": "WITHIN_RESERVED_SCOPE_RANGE_REPAIR_COMPLETED",
+      "reservation": "D-8b: original and additive kernel measurements, now K-1 through K-23, in an authorized lab",
+      "evidence": "D2:1932; D4:222-227,254-259,137,1814-1819"
+    },
+    "OP-8": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "D-9a: original applicable fault campaigns within the existing specialized-validation boundary",
+      "evidence": "D2:1933; D4:127,1839; P1/HANDOFF.md:163"
+    },
+    "OP-9": {
+      "ruling": "WITHIN_RESERVED_SCOPE",
+      "reservation": "Merge/tag/release/install/sudo/production/real PRIME; draft engineering publication remains separately governed by existing authorization",
+      "evidence": "D2:1934-1939; P1/HANDOFF.md:165-166"
+    }
+  },
+  "original_obligation_registry": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+    "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec",
+    "bytes": 410484,
+    "mode": "0600"
+  },
+  "open_obligations": [
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-209",
+        "the operator's yes and password (or the install-authority actuator, G2/C7)"
+      ],
+      "id": "OB-001",
+      "needs_operator": "yes and sudo password for the install (or the install-authority actuator)",
+      "owner": "COSMOGONY",
+      "release": "Production install",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-002",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-003",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-004",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-005",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-006",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-007",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-008",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-009",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-010",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-011",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-012",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-013",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-014",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-015",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-002"
+      ],
+      "id": "OB-016",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-017",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-018",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-019",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.5",
+      "release": "WORLDLINE 1.9.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-020",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-021",
+      "needs_operator": "approve the production policy change (a PRIME change through collapse)",
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-002"
+      ],
+      "id": "OB-022",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-023",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "item 6b adopt capability"
+      ],
+      "id": "OB-024",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-025",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-026",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-027",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-028",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-029",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-030",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-031",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-032",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-033",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-034",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-035",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-036",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-037",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-038",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-039",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-040",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-041",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-042",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-043",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-044",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-045",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "G2",
+        "OB-039",
+        "OB-040",
+        "OB-043",
+        "OB-045"
+      ],
+      "id": "OB-046",
+      "needs_operator": "yes and password for the production topology change",
+      "owner": "Phase 2",
+      "release": "Production authority integration",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-047",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-048",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-049",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-050",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-051",
+      "needs_operator": null,
+      "owner": "Phase 1 item 4",
+      "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-052",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-053",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-054",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-055",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-056",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-057",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-058",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-059",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "ATTEST",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-060",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-061",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-062",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-063",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-064",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-065",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-066",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-067",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-068",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-069",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-070",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-071",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-072",
+      "needs_operator": "run passwd privately; log out fully or reboot",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-073",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-074",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.5",
+      "release": "WORLDLINE 1.9.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-075",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-076",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-077",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-078",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.5",
+      "release": "WORLDLINE 1.9.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-079",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-080",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-081",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-082",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-083",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-084",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-085",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-086",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-087",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-088",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-089",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-090",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6a",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-091",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-092",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-093",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-094",
+      "needs_operator": null,
+      "owner": "M3c / 1.12.0",
+      "release": "WORLDLINE 1.12.0 (M3c)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-095",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-096",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-097",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "K1 codes"
+      ],
+      "id": "OB-098",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-099",
+      "needs_operator": "root-owned attest under /opt and an operator-side copy of the export",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-100",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-101",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-102",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.7",
+      "release": "WORLDLINE 1.9.7",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-103",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.7",
+      "release": "WORLDLINE 1.9.7",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-104",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-105",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-106",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-107",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.8",
+      "release": "WORLDLINE 1.9.8",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-108",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.9",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-109",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-110",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-111",
+      "needs_operator": "hold the recovery secret on a separate device",
+      "owner": "COSMOGONY",
+      "release": "project-vault V1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-112",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-113",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-114",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.9",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-115",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-116",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-117",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-118",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-119",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-120",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-121",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-122",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-123",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-124",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-125",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-126",
+      "needs_operator": "approve with every rehearsal run bound",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-127",
+      "needs_operator": "sudo password for the census as the worldline account",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-128",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-129",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-130",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.0.0 (Phase 2a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-131",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-132",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-133",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-134",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-135",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-136",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-137",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-138",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-139",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-140",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-141",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-142",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-143",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-144",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-145",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-146",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-147",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-148",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-149",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-150",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-151",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-152",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-153",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-154",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-155",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.8",
+      "release": "WORLDLINE 1.9.8",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-156",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-157",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-158",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-159",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-160",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-161",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-162",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-163",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-164",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-165",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-166",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-167",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-168",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.6",
+      "release": "WORLDLINE 1.9.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-169",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-170",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-171",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-172",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.10",
+      "release": "WORLDLINE 1.9.10",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-173",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.6",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-174",
+      "needs_operator": null,
+      "owner": "M3 / 1.10.0",
+      "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-175",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-176",
+      "needs_operator": null,
+      "owner": "Phase 1 item 4",
+      "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-177",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.7",
+      "release": "WORLDLINE 1.9.7",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-178",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.5",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-179",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.4",
+      "release": "WORLDLINE 1.9.4",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-180",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.11",
+      "release": "WORLDLINE 1.9.11",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-181",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-182",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-183",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-184",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-185",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-186",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-187",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-188",
+      "needs_operator": "root for the privileged capture",
+      "owner": "COSMOGONY",
+      "release": "project-vault V1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-189",
+      "needs_operator": "decide the git read path for production roots",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-190",
+      "needs_operator": "sudo password to carry or vault the install-backups",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-191",
+      "needs_operator": "root edit of the kit timer",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-192",
+      "needs_operator": "submit the marketplace update request",
+      "owner": "COSMOGONY",
+      "release": "Marketplace update",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-193",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.5",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-194",
+      "needs_operator": null,
+      "owner": "worldline-omarchy 1.3.5",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-195",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-196",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "K1 ABI 6"
+      ],
+      "id": "OB-197",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6a",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-198",
+      "needs_operator": null,
+      "owner": "Phase 1 item 4",
+      "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-199",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.3",
+      "release": "WORLDLINE 1.9.3",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-200",
+      "needs_operator": null,
+      "owner": "Phase 1 item 6b",
+      "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-201",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.9",
+      "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-202",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.12",
+      "release": "WORLDLINE 1.9.12",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-203",
+      "needs_operator": null,
+      "owner": "Phase 2",
+      "release": "WORLDLINE 2.1.0 (Phase 2b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-072 (rotation and re-login)"
+      ],
+      "id": "OB-204",
+      "needs_operator": "re-login or reboot first",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-205",
+      "needs_operator": null,
+      "owner": "WORLDLINE 1.9.2",
+      "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-205",
+        "the operator closing the production migration"
+      ],
+      "id": "OB-206",
+      "needs_operator": "close the migration; approve the production key rotation",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-168"
+      ],
+      "id": "OB-207",
+      "needs_operator": "sudo password to read the production store as the account",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-208",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "project-vault V1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-209",
+      "needs_operator": "sudo password for the production-scale drill",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-035 (execution identity names /opt toolchains)"
+      ],
+      "id": "OB-210",
+      "needs_operator": "root install of toolchains under /opt",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C2",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-211",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-212",
+      "needs_operator": null,
+      "owner": "Phase 1 item 7",
+      "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-213",
+      "needs_operator": "root cleanup of accounts, subordinate ranges, units and directories",
+      "owner": "COSMOGONY",
+      "release": "COSMOGONY C1",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [
+        "OB-008",
+        "OB-009",
+        "OB-010"
+      ],
+      "id": "OB-214",
+      "needs_operator": null,
+      "owner": "M3b / 1.11.0",
+      "release": "WORLDLINE 1.11.0 (M3b)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-215",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-216",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-217",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-218",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (a)",
+      "status": "OPEN"
+    },
+    {
+      "closure_credited": false,
+      "depends_on": [],
+      "id": "OB-219",
+      "needs_operator": null,
+      "owner": "COSMOGONY",
+      "release": "Authority v1.1 lab (b)",
+      "status": "OPEN"
+    }
+  ],
+  "open_design_dependencies": [
+    "All matching-source implementation/producer/body/reference/caller/flow/RTE/termination/native semantic and cost evidence",
+    "RQ-2 through RQ-5 where carried",
+    "All CAPI6R open obligations and implementation/stage reviews",
+    "ROOT_WORKER_INTEGRATION; L-CAPI-P; G-PROT; IC-10",
+    "All original ordinary/lifetime/genuine root/task/child/owner/provider/fault controls",
+    "All lemmas; full-domain embedding/residual/cost/representability obligations",
+    "Schemas/provisioners and migration",
+    "D-4a accounting choice and every existing operator reservation",
+    "All kernel measurements and installed-runtime checks; confinement; truthful producer currentness",
+    "Hosted assurance; publication/deployment/final Phase One acceptance"
+  ],
+  "closure_amendment": {
+    "supersedes": "checkpoint-1.json item-1 preliminary V3-REQ-K assessment, after the detailed numbered item-5 check",
+    "rc_closure": {
+      "V3-REQ-K": "PARTIALLY_CLOSED"
+    },
+    "reason": "The effective owning-unit/scope view and MQ-RW2 stimulus were not completed by the sealed-review carry alone."
+  },
+  "rq1": {
+    "closure": "PARTIALLY_CLOSED",
+    "remaining_gap": "The W0-W5 table preserves the three scoped Context_Changed sites and Retained_Join, but W2/W3/W5 equivalence is overclaimed. The root route inserts launch/currentness/physical waits before handlers that may not launch on the serial route, and restoring an unintegrated lane guard adds a root workload refusal. Exact per-operation original durable outcomes, recovery, accepted cases and costs are still required.",
+    "evidence": [
+      "D4:1013-1039",
+      "rw/protected_operations.py:742-768",
+      "rw/protected_root_worker.py:162-199",
+      "P1/HANDOFF.md:91-93,115,125-131"
+    ]
+  },
+  "rq1_window_assessment": {
+    "assessment": "PARTIALLY_CLOSED",
+    "evidence": "D4:1026-1039; R/core/resource_scoped_run_ledger.ads:426-441; R/runtime/worldline/protected_operations.py:742-768",
+    "windows": {
+      "W0": "Correct native stale-context refusal at Reserve; original no-row/no-hold mapping needs per-command producer correspondence.",
+      "W1": "Retained_Join, unchanged C1 and frame-local history are retained; current original gates and actual-cost proofs remain required.",
+      "W2": "Same native Launch_Intent refusal site, but adding launch to a previously in-process handler does not establish the same accepted operation, new quarantine/K4 cost or legal no-launch return.",
+      "W3": "Correct native Running refusal and no-GO uncertainty consequence. R4-48 requires ABANDON for a capture failure, whereas M8(a) limits that requirement to the handoff window; the carried ABANDON edge starts only at TRANSFER_SENT/ROSTER_EVIDENCE. Preserve the original pre-handoff failure stop and specify a legal pre-transfer handoff failure route. The inserted launch/currentness dependency still needs operation-specific original correspondence.",
+      "W4": "The three Context_Changed guards cease after Running; this is not a claim that every subsequent original/current gate disappears or that added custody/costs are absent.",
+      "W5": "A head-only change is not Context_Changed for those guards. Native Current_Valid, operation/canonical and physical gates still apply. 'normal/none' and all-window durable/cost equality overstate what the table proves."
+    },
+    "remaining_gap": "Maintain the original Retained_Join and original scoped commands. Complete original accepted/refusal, U/P recovery and exact-cost mapping for each operation and window without removing the workload positives."
+  },
+  "no_new_operator_gate": true,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "source_acceptance": false,
+  "report_sha256": "340a62191e9f0c4135dc94a0282c033a64c3a55ac1884778fd0f8836c3fc95d4",
+  "checks": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/designs/claude-root-worker-seam-design-v4/review/gpt61-v1/checks.json",
+    "sha256": "58e3312e3ff655f438b32524a8a0034d0fac1b55815af20fd7207cb3e754529f",
+    "bytes": 154173,
+    "mode": "0600"
+  }
+}
