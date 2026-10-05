@@ -1,0 +1,3 @@
+Cmnd_Alias WLSCRATCH_RL = /usr/bin/python3 -I -B /opt/wlscratch/frame-v6w1/sandbox_launch.py *
+Defaults!WLSCRATCH_RL !log_allowed, !pam_session, !pam_setcred, !use_pty
+wlscratch ALL=(root) NOPASSWD: WLSCRATCH_RL

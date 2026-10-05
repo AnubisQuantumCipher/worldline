@@ -1,0 +1,3 @@
+Cmnd_Alias WLSCRATCH_W = /usr/bin/python3 -I -B /opt/wlscratch/frame-v6w1/writer.py *
+Defaults!WLSCRATCH_W !log_allowed, !pam_session, !pam_setcred, !use_pty
+sicarii ALL=(wlscratch) NOPASSWD: WLSCRATCH_W

@@ -363,8 +363,15 @@ the review gates, reproducing the blocked exploit procedures, faking provenance)
   task-output sha256 + reviewer_kind + different_from_author; neither form refuses; never a bare label; never a GPT claim.
   One flagged tightening (requires a sealed `completed_at`). **Under its own §23.6 independent review** (Opus 4.8); brief
   `briefs/frame-review-provenance-v1.md` (`2fa36747…`). Adoption stays BLOCKED.
-- `lanes/frame-v6-w1-setup-v1/` — the §16/§16.1 installer package (accounts/sudo/polkit/unit bytes, install order,
-  rollback) + an exact exists-vs-needed gap record.
+- `lanes/frame-v6-w1-setup-v1/` — DRAFTED (25 files): the non-enforcement setup assets (accounts/sudoers/sshd/lease/ACL
+  bytes, install order S-A..S-E, rollback template) + the exists-vs-needed GAP record (EXISTS 6 / PARTIAL 7 / MISSING 30).
+  Lead-verified: accounts absent, no sudoers installed, live frame v6 untouched, all .py parse. NOT review-ready: the
+  enforcement core is MISSING.
+- `lanes/frame-v6-w1-enforcement-v1/` (in progress) — the ENFORCEMENT CORE: the four frame members (front/writer/
+  sandbox_launch=RL/launch_target) and the §12.2 view construction (the step-13b seccomp io→ENOSYS filter, Landlock,
+  N+idmap U8, nosuid mount skeleton, step-12 verification, the {0,1,2}/O_CLOEXEC discipline). Defensive containment
+  implementation, source-only; the blocked boundary-refutation procedures stay obligation-level/OPEN. Then the §16 step-2
+  code review.
 - `evidence/E0-S1-pksrc-20261005/` — the first E0 premise observation (honest: PARTIAL, P-KSRC stays OPEN).
 
 Each gets its own independent Claude review. Nothing is installed; adoption stays BLOCKED until the frozen package and
