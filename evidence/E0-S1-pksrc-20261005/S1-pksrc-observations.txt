@@ -1,0 +1,31 @@
+=== time ===
+2026-10-05T21:38:04Z
+=== uname -r (running kernel) ===
+7.2.6-1-aarch64-ARCH
+=== uname -v ===
+#1 SMP PREEMPT_DYNAMIC Mon Sep 14 19:31:34 UTC 2026
+=== /proc/version ===
+Linux version 7.2.6-1-aarch64-ARCH (builduser@arch-nspawn-1464231) (aarch64-unknown-linux-gnu-gcc (GCC) 16.1.1 20260430, GNU ld (GNU Binutils) 2.46.0) #1 SMP PREEMPT_DYNAMIC Mon Sep 14 19:31:34 UTC 2026
+=== running kernel build-id (from /sys or vmlinuz) ===
+/sys/kernel/notes exists
+=== pacman -Qi linux-aarch64 (installed package) ===
+Name            : linux-aarch64
+Version         : 7.2.6-1
+Architecture    : aarch64
+Packager        : Arch Linux ARM Build System <builder+seattle@archlinuxarm.org>
+Build Date      : Mon 14 Sep 2026 02:43:46 PM EDT
+Validated By    : Signature
+=== pacman -Qkk linux-aarch64 (installed-file integrity) ===
+warning: linux-aarch64: /usr/lib/modules/7.2.6-1-aarch64-ARCH/kernel/sound/usb/line6/snd-usb-variax.ko (Modification time mismatch)
+warning: linux-aarch64: /usr/lib/modules/7.2.6-1-aarch64-ARCH/kernel/sound/usb/misc/snd-ua101.ko (Modification time mismatch)
+linux-aarch64: 5975 total files, 5194 altered files
+=== modules build dir present ===
+/usr/lib/modules/7.2.6-1-aarch64-ARCH/build
+present
+=== .config CONFIG pins relevant to the frame premises (read-only) ===
+CONFIG_SECCOMP_FILTER=y
+CONFIG_USER_NS=y
+CONFIG_IO_URING=y
+CONFIG_AIO=y
+# CONFIG_USERFAULTFD is not set
+# CONFIG_BPF_LSM is not set

@@ -347,6 +347,21 @@ JACKAL call, WebFetch or edit. Nothing was interrupted.
 ## PK-0 C-API characterization packet: SOURCE ENDORSED (v4, 2026-10-05 ~22:10Z)
 ## Root-worker seam: design ENDORSED (v8, 2026-10-05 ~22:30Z)
 ## PHASE ONE CONVERGENCE — the operator-reserved gate (2026-10-05 ~23:00Z)
+## Lead frontier work after convergence (2026-10-05 ~21:40Z)
+
+Using best judgment under "I want phase 1 complete", the lead is pushing the two remaining lead-executable advances so
+the operator residue is minimal. Neither reaches the exit (which is operator-gated), and neither weakens any guarantee.
+
+- **E0 S-1 (P-KSRC), done — honestly PARTIAL.** `evidence/E0-S1-pksrc-20261005/` (RECORD.md `22f93a80…`). Running kernel
+  7.2.6-1-aarch64-ARCH == signed package version; the `.config` premise pins match the design. BUT `pacman -Qkk` shows
+  5194/5975 files "altered" (mtime class; `-Qkk` checks no content), so P-KSRC is NOT discharged — a content-level
+  verification against the signed package file, the running-image build-id binding, and the independent E0-discharge
+  review all remain. P-KSRC stays NAMED_UNESTABLISHED. Recorded as the first E0 observation, not a discharge.
+- **§23 join change, in progress.** An Opus 4.8 agent is implementing D-LEAD-REVIEW-PROVENANCE in the frame SOURCE as an
+  uninstalled reviewable delta lane (`lanes/frame-review-provenance-v1/`): the adoption join accepts either gpt-6.1-sol
+  rollout provenance OR a sealed Claude-review provenance, selected by reviewer_kind; neither form refuses; never a label
+  alone; never a GPT claim. It will get its own independent review. Adoption stays BLOCKED until then.
+
 
 **Four work-products ENDORSED at design/source level** (F32, D1, PK-0, seam), each with zero required changes on its
 final round. **W-1 confinement has reached design completeness at v11** (all 9 W1-V9 changes spec-closed, form clean and
