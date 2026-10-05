@@ -1,0 +1,62 @@
+{
+  "schema": "w1-v3-jackal-calls-v1",
+  "document": "wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v3.md",
+  "recorded_by": "drafting author (Claude Code subagent, claude-opus-5-5) for the Claude Code lead, 2026-10-04/05 UTC",
+  "tool": "actual MCP jackal_exact",
+  "common_response": {
+    "status": "exact",
+    "formal": false,
+    "lane": "rat",
+    "assurance": "exact rational arithmetic (not yet checker-covered)",
+    "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "exact rational arithmetic (not yet checker-covered)"
+    ],
+    "consequence_ceiling": "none returned; used as informational arithmetic only"
+  },
+  "truth_boundary": "Exact rational arithmetic outside the Lean certificate chain; not formal-bounded. Allowances are labelled judgments, not bounds. Historical margins use a retained 23:32:06Z reading and establish no current capacity. Nothing here is executed evidence of the design. The JACKAL convenience ledger was not used as a source; every value below is the tool response received in this session.",
+  "calls": [
+    {"id": "S_FRAME", "use": "v5 frame member byte total (17 members of frame-inventory.json)", "submitted": "13976+19614+922860+4986+5773785+3198141+26383551+4153+1974792+1467+5300+7869+4763+749+755+745+116891", "parsed": "13976+19614+922860+4986+5773785+3198141+26383551+4153+1974792+1467+5300+7869+4763+749+755+745+116891", "exact": "38434397", "approx": "38434397"},
+    {"id": "REVIEW_ROSTER", "use": "v5 frame review roster bytes (REVIEW.md, review.json, checks.json, bound-inputs.json, tool-topology.json)", "submitted": "49133+602614+68556+250916+8543", "parsed": "49133+602614+68556+250916+8543", "exact": "979762", "approx": "979762"},
+    {"id": "BASE_DESCRIPTORS", "use": "commonV4 binding + inventory + directory-mode descriptor bytes", "submitted": "1735+105491+1542", "parsed": "1735+105491+1542", "exact": "108768", "approx": "108768"},
+    {"id": "RECIPE_ROWS", "use": "pinned base file rows by mode (0644 and 0755)", "submitted": "617+18", "parsed": "617+18", "exact": "635", "approx": "635"},
+    {"id": "A_IDF", "use": "front-context runtime-closure full sets, 3 stages x 2", "submitted": "2*3*25492333", "parsed": "2*3*25492333", "exact": "152953998", "approx": "152953998"},
+    {"id": "MIB128", "use": "A_in and A_jrnl judgment (128 MiB)", "submitted": "128*2^20", "parsed": "128*2^20", "exact": "134217728", "approx": "134217728"},
+    {"id": "MIB16", "use": "A_fb (fallback journal) and A_setuprec (16 MiB)", "submitted": "16*2^20", "parsed": "16*2^20", "exact": "16777216", "approx": "16777216"},
+    {"id": "MIB256", "use": "A_tmp judgment (256 MiB)", "submitted": "256*2^20", "parsed": "256*2^20", "exact": "268435456", "approx": "268435456"},
+    {"id": "MIB64", "use": "A_selftest judgment and MAX_FRAME (64 MiB)", "submitted": "64*2^20", "parsed": "64*2^20", "exact": "67108864", "approx": "67108864"},
+    {"id": "MIB1", "use": "A_homes judgment (1 MiB)", "submitted": "1*2^20", "parsed": "1*2^20", "exact": "1048576", "approx": "1048576"},
+    {"id": "A_INSTALL", "use": "installed frame allowance, 3 x v5 frame total", "submitted": "3*38434397", "parsed": "3*38434397", "exact": "115303191", "approx": "115303191"},
+    {"id": "A_EXP", "use": "A_exp = A_retry = A_rec + A_idf + A_in", "submitted": "545393048+152953998+134217728", "parsed": "545393048+152953998+134217728", "exact": "832564774", "approx": "832564774"},
+    {"id": "X", "use": "W-1 retained additions X = 2*A_rec + 3*A_idf + 3*A_in + A_fb", "submitted": "2*545393048+3*152953998+3*134217728+16777216", "parsed": "2*545393048+3*152953998+3*134217728+16777216", "exact": "1969078490", "approx": "1969078490"},
+    {"id": "X_CHECK", "use": "X equals A_idf + A_in + A_exp + A_retry + A_fb", "submitted": "152953998+134217728+(545393048+152953998+134217728)+(545393048+152953998+134217728)+16777216-1969078490", "parsed": "152953998+134217728+545393048+152953998+134217728+545393048+152953998+134217728+16777216-1969078490", "exact": "0", "approx": "0", "note": "the tool echoed the expression with the grouping parentheses flattened"},
+    {"id": "W1_DELTA", "use": "dispatch-stage W-1 addition: 2X + A_tmp + A_jrnl", "submitted": "2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728", "parsed": "2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728", "exact": "4340810164", "approx": "4340810164"},
+    {"id": "REQ_DISPATCH", "use": "Required before every materialize and dispatch", "submitted": "2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728", "parsed": "2*(16777216+2242440646+545393048)+1468268019712/1397+2*(2*545393048+3*152953998+3*134217728+16777216)+268435456+134217728", "exact": "15368462701360/1397", "approx": "11001047030.322119"},
+    {"id": "CHECK_DELTA", "use": "Required(dispatch) - Required(v4.3) - W-1 addition", "submitted": "15368462701360/1397-9304350902252/1397-4340810164", "parsed": "15368462701360/1397-9304350902252/1397-4340810164", "exact": "0", "approx": "0"},
+    {"id": "REQ_SETUP", "use": "Required before setup", "submitted": "2*(115303191+1048576+16777216)+134217728+1468268019712/1397", "parsed": "2*(115303191+1048576+16777216)+134217728+1468268019712/1397", "exact": "2027732564230/1397", "approx": "1451490740.3221188"},
+    {"id": "REQ_SELFTEST", "use": "Required before selftests", "submitted": "2*67108864+134217728+1468268019712/1397", "parsed": "2*67108864+134217728+1468268019712/1397", "exact": "1843272351744/1397", "approx": "1319450502.3221188"},
+    {"id": "HIST_DISPATCH", "use": "historical margin at the retained 23:32:06Z reading, dispatch stage (not capacity, not current)", "submitted": "10460753920-10000000000-15368462701360/1397", "parsed": "10460753920-10000000000-15368462701360/1397", "exact": "-14724789475120/1397", "approx": "-10540293110.322119"},
+    {"id": "HIST_SETUP", "use": "historical margin, setup stage (not capacity, not current)", "submitted": "10460753920-10000000000-2027732564230/1397", "parsed": "10460753920-10000000000-2027732564230/1397", "exact": "-1384059337990/1397", "approx": "-990736820.3221189"},
+    {"id": "HIST_SELFTEST", "use": "historical margin, selftest stage (not capacity, not current)", "submitted": "10460753920-10000000000-1843272351744/1397", "parsed": "10460753920-10000000000-1843272351744/1397", "exact": "-1199599125504/1397", "approx": "-858696582.3221189"},
+    {"id": "RECORDS_PAYLOAD", "use": "records-image payload allowance with v3 record classes, A_rec + X (payload only, not an image size)", "submitted": "545393048+1969078490", "parsed": "545393048+1969078490", "exact": "2514471538", "approx": "2514471538"},
+    {"id": "IDEAL_IDENTITY", "use": "v3 ideal payload identity (work + records + restore + ambient + A_tmp + A_jrnl - Required); not physical allocation equality or capacity", "submitted": "(16777216+2242440646)+(545393048+1969078490)+(16777216+2242440646+545393048+1969078490)+1468268019712/1397+268435456+134217728-15368462701360/1397", "parsed": "16777216+2242440646+545393048+1969078490+16777216+2242440646+545393048+1969078490+1468268019712/1397+268435456+134217728-15368462701360/1397", "exact": "0", "approx": "0", "note": "the tool echoed the expression with the grouping parentheses flattened"},
+    {"id": "CHUNK", "use": "channel CHUNK raw bytes (4 MiB)", "submitted": "4*2^20", "parsed": "4*2^20", "exact": "4194304", "approx": "4194304"},
+    {"id": "FRAME_HEADROOM", "use": "MAX_FRAME minus the base64 bound of one full chunk", "submitted": "67108864-4*(4194304+2)/3", "parsed": "67108864-4*(4194304+2)/3", "exact": "61516456", "approx": "61516456"},
+    {"id": "SLOTS", "use": "fallback journal slot count", "submitted": "16*2^20/(64*2^10)", "parsed": "16*2^20/(64*2^10)", "exact": "256", "approx": "256"},
+    {"id": "SLOT_SIZE", "use": "fallback journal slot size", "submitted": "64*2^10", "parsed": "64*2^10", "exact": "65536", "approx": "65536"},
+    {"id": "GROUPS", "use": "new groups: two user-private groups and wlscratch-gate", "submitted": "1+1+1", "parsed": "1+1+1", "exact": "3", "approx": "3"},
+    {"id": "USERS", "use": "new users: wlscratch and wlscratch-run", "submitted": "1+1", "parsed": "1+1", "exact": "2", "approx": "2"},
+    {"id": "SUBUID_LAST", "use": "last id of sicarii's subordinate range (start 100000, count 65536, observed in /etc/subuid)", "submitted": "100000+65536-1", "parsed": "100000+65536-1", "exact": "165535", "approx": "165535"}
+  ],
+  "values_used_as_given": {
+    "Required_v4_3": {"value": "9304350902252/1397", "source": "runbook v4.3/v4.2 Gate 0, reproduced by the sealed re-review (G-REQUIRED)"},
+    "A_mat": "16777216", "A_obj": "2242440646", "A_rec": "545393048", "A_ambient": "1468268019712/1397",
+    "O2_runtime_closure": {"value": "25492333", "source": "runbook O2 observation"},
+    "free_at_23_32_06Z": {"value": "10460753920", "source": "retained reading, reproduced by the re-review (S-MARGIN)"},
+    "reserve": "10000000000",
+    "file_sizes": "read from frame-inventory.json, wc -c and the commonV4 source-inventory.json (observations)"
+  },
+  "refusals": []
+}

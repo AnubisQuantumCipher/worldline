@@ -61,6 +61,8 @@ For each of the 15 unit transports `T` (B4; the 16th designed package, `Diagnost
 
 - **Scopes.** Each designed package specification span, package body span and tiled subprogram span is a scope. Nested subprograms (`Read_Ready`, `Context_Joined`, the three `Diagnostic_Transport` procedures) belong to their enclosing scope. Text before `package body Worldline.C_API` is the scope CONTEXT. All remaining text of the body is RESIDUAL.
 - **Clauses.** On N2, a clause is any match of `package <id> renames <name>;`, `use all type <names>;`, `use type <names>;` or `use <names>;`. Each clause is assigned to the innermost scope that contains it.
+  - The `use <names>;` pattern would also match the tail of a representation clause such as `for T'Size use 32;`. There is none in the S5 C_API pair (read-only check: the pattern finds exactly the 36 B9.1 clauses) and none in the designed text.
+  - So a representation clause added later would be refused as an unlisted clause. That is conservative, and it is intended.
 - **Requirements:**
   - (i) For each designed scope, the ordered tuple of its clause texts (N1) equals `INVENTORY[scope]` (B9.2) exactly.
   - (ii) The RESIDUAL tuple equals the observed S5 tuple of B9.1, with deletion R-DEL-1 applied from PK-6b.
@@ -84,7 +86,8 @@ For each of the 15 unit transports `T` (B4; the 16th designed package, `Diagnost
 
 ### B0.6 Write forms (R-W; replaces v3 O4 and R-W)
 
-- Every foreign-memory write in a designed scope is an occurrence of `.all :=` or of a call `Write_Data (`, on N2. Each must be matched by exactly one row of `CAPI_WRITES` (B10), and each row's target text occurs exactly once in its scope.
+- Every foreign-memory write in a designed scope is an occurrence of `.all :=` or of a call `Write_Data (`, on N2. The helper's own declaration `procedure Write_Data (` is not a call. Each must be matched by exactly one row of `CAPI_WRITES` (B10), and each row's target text occurs exactly once in its scope.
+- The check runs over **every** designed scope (each transport specification and body, and each tiled subprogram), so a scope without rows must contain no foreign write.
 - Each row names a form, its spans and its closed identifiers:
   - Each **span** is an exact N1 substring that occurs exactly once in the scope.
   - Every case-insensitive occurrence of a **closed identifier** in the scope lies inside one of the row's span occurrences.
@@ -107,6 +110,8 @@ For every acceptance object `N` listed in `CAPI_GATES` (B10.3):
 - `N` is never an assignment target.
 
 For `case N.Verdict is` gates, the gate string ends at `case N.Verdict is`, and the tile fixes the alternatives.
+
+**Completeness.** Every `X.Ok` selection and every `case X.Verdict is` in a designed scope (attributed to its innermost scope) must belong to an object with a gate row in that scope. So an acceptance object cannot be added without its gate.
 
 ### B0.8 Residual identity, layout and glue edits (R-RES, S-RES, R-LAYOUT, R-GLUE; new)
 
@@ -905,7 +910,7 @@ In every stage, every file outside the touched list has the same raw sha256 as i
 ## B8. The `export_problems` override (PK-1 tail; PROPOSAL sketch, REVISED in v4)
 
 **Status of this sketch.**
-- The text is not executed and not reviewed. Its syntax was parsed once, read-only, with Python's `ast` module from this file (AUTHOR-NOTES).
+- The text is not executed and not reviewed. After its last edit its syntax was parsed, read-only, with Python's `ast` module from this file (AUTHOR-NOTES). Parsing is a syntax check only.
 - It imports nothing beyond what the manifest already imports (`hashlib`, `json`, `Path`, `re`, `typing`).
 - It is appended after the last S5 line (`:1029`). Later stages only append `.update(...)` lines to the tables.
 - **Every rule of B0 has its own check function.** The table at the end of this section maps each function to its rules.
@@ -930,6 +935,7 @@ CAPI_INVENTORY = {...}            # scope key ('spec:T', 'body:T', tile key) -> 
 CAPI_RESIDUAL_CLAUSES = (...)     # B9.1: the 36 S5 residual clause texts, in order
 CAPI_RESIDUAL_DELETED = ()        # indices into CAPI_RESIDUAL_CLAUSES; PK-6b appends 22 (R-DEL-1)
 CAPI_ALIAS_FORBIDDEN = (...)      # B9.4: (alias, routine) pairs
+CAPI_SPARK_UNITS = (...)          # B9.4: the units that own Appendix C names (17, observed by script) (R-INV vii)
 CAPI_WRITES = {...}               # scope key -> ((id, target, form, (span, ...), (closed, ...), {name: assignments}), ...); B10.2
 CAPI_GATES = {...}                # scope key -> ((id, object, gate text), ...); B10.3
 CAPI_GATE_ASSIGNED = ('G21c',)    # the one gated object that is assigned (its assignments are bound by W21)
@@ -1137,7 +1143,7 @@ def _capi_profile_problems(root: Path) -> list[str]:                            
     problems += [f'C_API subtype differs: {line}' for line in CAPI_C_API_SUBTYPES if spec.count(line) != 1]
     for name in ('U8', 'U32', 'I64', 'Size'):
         declared = len(re.findall(rf'\b(?:sub)?type {name} is\b', spec + ' ' + body))
-        objects = len(re.findall(rf"(?<![\w.']){name}\s*:", spec + ' ' + body))
+        objects = len(re.findall(rf"(?<![\w.']){name}\s*:(?!=)", spec + ' ' + body))   # not ': T :='
         if declared != 1 or objects:
             problems.append(f'C_API declares {name} more than once')
     return problems
@@ -1232,6 +1238,13 @@ def _capi_clause_problems(root: Path) -> list[str]:                             
         found[_capi_owner(scopes, match.start())].append(' '.join(body[match.start():match.end()].split()))
     for match in re.finditer(r'\brenames\b', code[head:], re.IGNORECASE):
         renames[_capi_owner(scopes, head + match.start())] += 1
+    spark = {name.lower() for name in CAPI_SPARK_UNITS} | {alias.lower() for alias, _ in CAPI_ALIAS_FORBIDDEN}
+    for key, clauses in found.items():                                                     # R-INV (vii)
+        for clause in clauses:
+            words = clause.rstrip(';').split()
+            if (words[0].lower() == 'use' and words[1].lower() not in ('type', 'all')
+                    and any(name.strip().lower() in spark for name in ' '.join(words[1:]).split(','))):
+                problems.append(f'{key}: a use clause names a SPARK unit or a renaming of one')
     residual = [clause for index, clause in enumerate(CAPI_RESIDUAL_CLAUSES) if index not in CAPI_RESIDUAL_DELETED]
     for key, clauses in found.items():
         expected = tuple(residual) if key == 'RESIDUAL' else tuple(CAPI_INVENTORY.get(key, ()))
@@ -1253,14 +1266,14 @@ def _capi_alias_problems(root: Path) -> list[str]:                              
 def _capi_write_problems(root: Path) -> list[str]:                                         # R-W
     body = _capi_text(root, 'core/worldline-c_api.adb')
     problems = []
-    for key, rows in CAPI_WRITES.items():
-        span = _capi_scope_span(body, key)
-        if span is None:
-            problems.append(f'{key}: scope cannot be isolated')
-            continue
-        unit = body[span[0]:span[1]]
+    scopes = {key: (low, high) for key, low, high in _capi_scopes(body)}
+    problems += [f'{key}: scope cannot be isolated' for key in CAPI_WRITES if key not in scopes]
+    for key, (low, high) in scopes.items():               # every designed scope, with or without rows
+        rows = CAPI_WRITES.get(key, ())
+        unit = body[low:high]
         code = _capi_code(unit)
-        writes = [match.start() for match in re.finditer(r'\.all\s*:=|(?<![\w.])Write_Data\s*\(', code)]
+        writes = [match.start() for match in                 # the helper's own declaration is not a call
+                  re.finditer(r'\.all\s*:=|(?<![\w.])(?<!procedure )Write_Data\s*\(', code)]
         claimed = set()
         for row_id, target, form, spans, closed, assignments in rows:
             if unit.count(target) != 1:
@@ -1312,6 +1325,13 @@ def _capi_gate_problems(root: Path) -> list[str]:                               
                 problems.append(f'{row_id}: a payload of {name} is selected before its discriminant test')
             if _capi_assigned(code, name) and row_id not in CAPI_GATE_ASSIGNED:
                 problems.append(f'{row_id}: {name} is assigned')
+    scope_list = _capi_scopes(body)                           # completeness: every tested object has a row
+    for match in re.finditer(r'(?<![\w.])(\w+)\s*\.\s*Ok\b|\bcase\s+(\w+)\s*\.\s*Verdict\s+is\b',
+                             _capi_code(body), re.IGNORECASE):
+        key = _capi_owner(scope_list, match.start())
+        name = (match.group(1) or match.group(2)).lower()
+        if key != 'RESIDUAL' and name not in {row[1].lower() for row in CAPI_GATES.get(key, ())}:
+            problems.append(f'{key}: {name} has a discriminant test but no gate row')
     return problems
 
 
@@ -1424,8 +1444,8 @@ def export_problems(root: Path) -> list[str]:
 | `_capi_transport_problems` | **R-TRANS** (exact transport contents, verbatim helper hashes) | none (v3 promised verbatim helpers without a check) |
 | `_capi_clause_problems` | **R-INV** (i)–(vii), **G10** | O6 (b)/(c), deferred in v3 |
 | `_capi_alias_problems` | **R-ALIAS**, which with R-INV makes O6 (a) enforceable | O6 (a) by tokens only |
-| `_capi_write_problems` | **R-W** per form (B10) | O4 / R-W blanket rule |
-| `_capi_gate_problems` | **R-GATE** (A1: discriminant tested once, inside the gate, before any payload) | O5 / R-G by order only |
+| `_capi_write_problems` | **R-W** per form (B10), over every designed scope | O4 / R-W blanket rule |
+| `_capi_gate_problems` | **R-GATE** (A1: discriminant tested once, inside the gate, before any payload; every tested object has a gate row) | O5 / R-G by order only |
 | `_capi_residual_problems` | **R-RES**, **S-RES**, **R-LAYOUT**, **R-GLUE** | O7 tokens; P3 by reading |
 | `_capi_diagnostic_problems` | D1–D5, G8 | same |
 
@@ -1677,7 +1697,7 @@ Short names: resources = `core/worldline-resources_c_api.adb`; recovery = `core/
 
 ### B9.4 SPARK units and alias exclusion (`CAPI_ALIAS_FORBIDDEN`)
 
-**`CAPI_SPARK_UNITS`** are the units that own Appendix C names: `Worldline.Resources_C_API`, `Worldline.Recovery_C_API`, `Worldline.Recovery_Authorization_C_API`, `Worldline.Recovery_Authorization_V3_C_API`, `Worldline.Reservation_Lifecycle_C_API`, `Worldline.Resource_Ledger_C_API`, `Worldline.Resource_Policy_C_API`, `Worldline.Evaluation_History_C_API`, `Resource_Run_Ledger_C_API`, `Worldline.Chain_Authority_C_API`, `Evaluation_Completion_C`, `Evaluation_Completion_Roster`, `Evaluation_Finalization_C`, `Evaluation_Pending_C`, `Evaluation_Pending`, `Evaluation_Pending_V2_C` and `Evaluation_Pending_V2`.
+**`CAPI_SPARK_UNITS`** are the units that own Appendix C names (a read-only script confirmed that this set equals the set of unit prefixes of the Appendix C names): `Worldline.Resources_C_API`, `Worldline.Recovery_C_API`, `Worldline.Recovery_Authorization_C_API`, `Worldline.Recovery_Authorization_V3_C_API`, `Worldline.Reservation_Lifecycle_C_API`, `Worldline.Resource_Ledger_C_API`, `Worldline.Resource_Policy_C_API`, `Worldline.Evaluation_History_C_API`, `Resource_Run_Ledger_C_API`, `Worldline.Chain_Authority_C_API`, `Evaluation_Completion_C`, `Evaluation_Completion_Roster`, `Evaluation_Finalization_C`, `Evaluation_Pending_C`, `Evaluation_Pending`, `Evaluation_Pending_V2_C` and `Evaluation_Pending_V2`.
 
 **Renamings in designed or residual scopes whose target is such a unit,** directly or through the renaming they are defined by:
 - `E` → `Evaluation_Pending` (both pending transports);
@@ -1862,8 +1882,8 @@ Each mutation runs in a temporary copy of the stage tree and must produce at lea
 | R-TRANS | Change one character in a copied helper. Add an elaboration `begin … end` part to a transport body. Add an extra declaration to a transport specification. Move a helper to another transport. Share one helper between two transports. |
 | R-INV | Add `use Evaluation_Completion_C;` to an export body. Add `use all type Request;`. Move a use clause from a transport specification into a transport body. Drop `use System.Storage_Elements;` from an export body. Add `function Present (…) return Boolean renames Worldline.Recovery_C_API.Present;` to a transport. Add a clause to the context clause or to the C_API specification. Keep residual index 22 after PK-6b. |
 | R-ALIAS | Add `package S renames Worldline.Recovery_C_API;` and call `S.Present` (also refused by R-INV). Call `K.Diagnostic_Start` from `Final_Context_Matches`. Call `E.Decide` from a pending export. |
-| R-W | Write `O.Value` before the gate. Add a third assignment to finalization `O`. Assign `Response` directly. Pass `Detail_Arena` to a second procedure. Store `Encode_Decision` of a value other than the `P.Admit` result. Add an unlisted `.all :=` anywhere in a designed scope. |
-| R-GATE | Select `D.Item` before `if not D.Ok`. Test `D.Ok` twice. Replace the discriminant test with a `case` on another object. |
+| R-W | Write `O.Value` before the gate. Add a third assignment to finalization `O`. Assign `Response` directly. Pass `Detail_Arena` to a second procedure. Store `Encode_Decision` of a value other than the `P.Admit` result. Add an unlisted `.all :=` anywhere in a designed scope, including a scope that has no rows, such as a transport body. Add a `Write_Data (` call to `Resources_Can_Reserve`. |
+| R-GATE | Select `D.Item` before `if not D.Ok`. Test `D.Ok` twice. Replace the discriminant test with a `case` on another object. Add a new acceptance object with an `.Ok` test but no gate row (completeness). |
 | R-RES, R-GLUE, R-LAYOUT | Edit a value decision in `Authority_Glue`. Apply GE5 but keep the old `K.Metadata_Base` call. Keep `package K renames …` at `:836` after PK-6b. Place a transport inside `Authority_Glue`. Place an export before the owner code. Reorder the spec additions. Edit any owner export. |
 | K3, K5, G9 | Remove `"evaluation_pending"` from `Library_Interface` while keeping `Library_Name "evaluation_pending"`; this was v3's false pass. Add `for Interfaces use (…)`. Duplicate a unit. Reorder the list. Add `& Extra` or an `external` reference. Change `Library_Standalone`. Remove a core interface unit. |
 | K6 | Change one character of the component transport relative to the core transport. |
