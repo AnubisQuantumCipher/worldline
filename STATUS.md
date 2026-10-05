@@ -348,7 +348,10 @@ independent review.
 ## Claude review verdicts (sealed by `tools/seal_claude_review.py`; verbatim transcription)
 
 **Authors resumed ~18:00Z.** Each was given its own transcript path:
-- PK-0 v3 → `packets/capi-pk0-v3/`
+- PK-0 v3 → `packets/capi-pk0-v3/`. Drafted: packet.json `06e87658…`.
+  - **Contents.** 693 cases and 75 diagnostic cases; readiness is probed in every U15y case.
+  - **Open.** RC-v2-1 has one OPEN overlap.
+  - **Review.** Its Claude review is running: brief `briefs/capi-pk0-packet-v3.md` (`4732d70e…`).
 - W-1 v9 → drafted: `proposal/ISOLATION-STORAGE-PROPOSAL-v9.md` (`4bc0272c…`, self-contained, 134 units).
   - **Changes.** A seccomp ENOSYS on io_setup/io_uring_setup (V14), a namespace-owner account N, the §11.4 enumeration, the
     §13.2 probe plan and the §16.1 operator package.
