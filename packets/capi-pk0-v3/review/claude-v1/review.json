@@ -1,0 +1,79 @@
+{
+ "schema": "claude-packet-source-review-v1",
+ "packet": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0-v3/packet.json",
+ "packet_sha256": "06e87658058f4f453f575da06a82112fefdf605ce6657549652b74b869dccc0c",
+ "files_sha256": {
+  "packet.json": "06e87658058f4f453f575da06a82112fefdf605ce6657549652b74b869dccc0c",
+  "AUTHOR-NOTES.md": "adcd62c686428b3bb66122a2bf7caf4489386e470b89fb80ad82c0b30af56aef",
+  "jackal.json": "069dccf89a50355b3ea1393697d7230831cbe651ea34daae0ba22e53d5d349dd",
+  "files/tests/capi_characterization.json": "50ecbf029ffdb65b467bed9c125b24a0ed00f26ae025e79da42ee8535227a336",
+  "files/tests/capi_guard_pages.py": "bfac3aa398c490d3de20cc420ba0fea2c01b211e4e20c2a249f69529f6d3727c",
+  "files/tests/capi_layout_baseline.json": "4df25239c3fd173b4076fe34e9f250948f8c92f7068c701c364723ba18294bf0",
+  "files/tests/test_capi_characterization.py": "2f8adccb4fa573a3445219d5bd48680e0b365074c6cf12ba33fd4bec2ef343c2",
+  "files/tests/test_capi_diagnostics.py": "1cbf5b2481a57b7cd486c7c9a5c1a9ee536e3e6788ec819ac35288061eda4236",
+  "files/tests/test_capi_layout_identity.py": "e19113c3554a0094dc6a0c06919a0e6bbcf367c720cdd98dc374349f8d4b3b3f"
+ },
+ "brief_sha256": "4732d70ea1aef59794a77feb5a9a1e37888783f33a7b4a3576ebdfbc32752d60",
+ "different_from_author": true,
+ "actual_model_selection": "claude-opus-5-5 (independent Claude Code review subagent, fresh context)",
+ "reviewer_kind": "claude-subagent",
+ "author": "Claude Code lead claude-opus-5-5 (drafting subagent)",
+ "verdict": "ENDORSED_WITH_REQUIRED_CHANGES",
+ "rc_closure": {
+  "RC-v2-1": "PARTIALLY_CLOSED: C-03 per-conjunct text restored; 18 nested cases and D56-D73 correct against the bodies; unexercisable entries correctly reasoned (Start.Required length/First stated as conditional on Seal's postcondition). Gaps: (a) the Kind 1 R.Captured_Results/R.Required overlap with the descriptor (CC:777-778) is constructible by placing the accepted rows in the descriptor's Expected/Observed region, which CC:765-776 never read; the OPEN reason misreads the conjunct order (CC:780 follows) (RC-v3-1); (b) nested_conjuncts omits reachable Extent_Valid/Array_Valid/Cursor sub-conjuncts covered elsewhere at the packet's own granularity, yet claims completeness (RC-v3-2)",
+  "RC-v2-2": "CLOSED_IN_SOURCE: probe_readiness equals Read_Ready's checks (FC:370-398) plus Confined_Admit_Wire with the source byte (FC:453-470); assert_ready runs before the guarded early return; every U15y case declares exactly its needed sides plus the agent; oracle, route, mix and three-check claims corrected; D74 and D75 added",
+  "RC-v2-3": "CLOSED_IN_SOURCE: characterization --record refused at CHAR:68-70 before any non-stdlib import; --measure-headers gated first (LAY:292-294) with stdlib-only top-level imports; header-test claim qualified under launch obligation 1; 'writes no file' everywhere",
+  "RC-v2-4": "CLOSED_IN_SOURCE: one JSON line to fd 1 before any assertion on every path on which run_forked returns, passing included (CHAR:1612-1621)",
+  "PK0-RC4": "CLOSED_IN_SOURCE (unchanged; DIAG docstring only; D06 RECORD_ON_L0)",
+  "PK0-RC5": "CLOSED_IN_SOURCE (unchanged; boundary statements now include the probe)"
+ },
+ "item_findings": {
+  "1_integrity": "All nine hashes match; 100 bound inputs match S5 and equal v2's list; host headers, base identities and v6 review hashes match; 6 payload paths absent in S5; v1 and v2 packets and their sealed reviews unchanged; change list against v2 exact; 609 v1 cases, 46 v2 U15y cases (apart from readiness) and 55 diagnostic cases identical in content and order; invariants hold (REQUIRED_PROVED 535 JACKAL exact, MINIMUM_CHECKS 251, UNANALYZED_BOUNDARY {worldline-c_api}, 0 movers, External_Name 31)",
+  "2_rc_closure": "See rc_closure. All 18 new refusals, 18 twins and D56-D75 checked against CC/FC: codes, frontiers, twin placement and exact streams match; no_twin reasons correct",
+  "3_mechanics": "--record and --measure-headers refusals precede every non-stdlib import; the probe runs under the fault policy before the snapshot and reads no guarded object; the HarnessFaultControl line precedes its assertions",
+  "4_faithfulness": "New cases follow original S5 behaviour; no class-H code accepted as a refusal; no expectation weakened; F32 not decided (no case asserts a code for the S5 absent-Resulting request)",
+  "5_placeholders": "RECORD_ON_L0 counts per file equal to v2; none added; fail paths unchanged",
+  "6_other": "C-03 admits not_exercised only with a valid reason, and the K1 item's reason is invalid (RC-v3-1); REC:388 class-X stride argument relies on a VA width of at most 52 bits, not stated (recommendation); test_record_shape does not check readiness sides against shape (recommendation); model-identity conflict (HANDOFF.md:173) recorded, not decided"
+ },
+ "required_changes": [
+  {
+   "id": "RC-v3-1",
+   "change": "Author Kind 1 primary cases for the refused overlap of R.Captured_Results (CC:777) and R.Required (CC:778) with the Context_Input descriptor: place the Input's accepted row bytes unchanged inside the descriptor's Expected/Observed region (offset 208, 672 bytes) and point the request field there, with C-05 twins and exact C-06 streams; map them in nested_conjuncts; remove the OPEN not_exercised item and deviation 2; correct the reasoning",
+   "reason": "Reachable without changing any accepted row byte: CC:765-776 never read Expected/Observed/Projection, and X.Agent/X.Agent_Confinement (CC:780) are evaluated after CC:777-778; Raw_Decide's address checks are only against its own Output; the harness already resolves interior offsets",
+   "evidence": "S5/core/evaluation_completion_c.adb:538-556,765-780,796,857; S5/core/evaluation_completion_c.ads:160-183; S5/core/worldline-evaluation_authority.ads:102-106; CHAR:189-190; GP:294; REC:351-352,393; AUTHOR-NOTES.md:106; packet.json:218; v4 DESIGN.md:623-624"
+  },
+  {
+   "id": "RC-v3-2",
+   "change": "Add cases for the reachable sub-conjuncts: Metadata argument misaligned and overflow (CC:896-898), X.Base misaligned and overflow (CC:901-903), X.Data null with nonzero length (CC:766), X.Rows and X.Required misaligned (CC:776,779), and Expected_Current/Prepared_Current present with an invalid span (CC:773-774); for any other sub-conjunct either add a case or record an explicit representative-operand entry with its reason; correct the 'every other conjunct is listed' claims",
+   "reason": "The restored C-03 and the packet's own accepted granularity rule (fixed records in full; U14m and U14d precedent) cover these; the completeness claim is inaccurate",
+   "evidence": "REC:56,327-353; CC:258-278,282-284,766-779,893-907; P1 AUTHOR-NOTES.md:150-153; P1 REVIEW.md:110; REC U14m_R0_context_misaligned, U14m_R0_context_address_overflow, U14m_R1_context_data_null, U14m_R1_meta_rows_misaligned, U14d_R1_current_run"
+  }
+ ],
+ "open_obligations": [
+  "Independent re-review of a revised packet with new identities before baseline execution",
+  "Baseline run on L0 in an admitted frame and reviewed recording of every placeholder (179 layout values, three written results, D06)",
+  "Six launch obligations, including bytecode suppression for the unittest parent and the header test, supervision with deadlines, and HarnessFaultControl line retention",
+  "V5-B01, V5-B02 and the capacity gate",
+  "F32-CONFLICT, owned outside PK-0",
+  "Class H 9.6.4 a-d, native write construction, ABI/layout measurement, full proof of the Collapse.Decide, Decide_Wire and Seal contracts (the Start.Required unexercisability is conditional on Seal's postcondition)",
+  "HANDOFF.md:173 model-identity requirement versus this Claude review"
+ ],
+ "run_evidence": false,
+ "control_evidence": false,
+ "proof_acceptance": false,
+ "phase_acceptance": false,
+ "source_acceptance": false,
+ "report_sha256": "302a3dddefddae09d1619c940c7c328efb71a1dbd0efb7f1b2a7422fc91d855f",
+ "checks": {
+  "path": "packets/capi-pk0-v3/review/claude-v1/checks.json",
+  "sha256": "6bffe9ee8a8c9d3448ca68d8bc7dae9b9a05c46ed188a66650d276f978b170b1",
+  "bytes": 9749,
+  "mode": "0600"
+ },
+ "sealed_by": {
+  "role": "lead (claude-opus-5-5); verbatim transcription of the reviewer final message",
+  "reviewer_agent_id": "a490535808251d6f1",
+  "source_task_output": "/home/sicarii/.cache/workflow-tmp/claude-1000/-home-sicarii/0e157c30-4700-4604-ab0e-cc6c3b9c6c37/tasks/a490535808251d6f1.output",
+  "source_task_output_sha256": "3c890767c8616944c537f7d52991e2a5abe5fc392d11d9647d0c74ed2d89f9d6"
+ }
+}

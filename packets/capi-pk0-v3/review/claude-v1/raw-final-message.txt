@@ -1,0 +1,293 @@
+=== REVIEW.md ===
+# WORLDLINE Phase One C-API PK-0 v3: independent source review
+
+**Verdict: ENDORSED_WITH_REQUIRED_CHANGES.**
+
+This is a passive source review of PK-0 revision 3. It grants nothing: no source acceptance, run evidence, control evidence, proof acceptance, stage qualification or Phase One acceptance.
+
+The PK-0 stage gate is a baseline run on L0 in an admitted frame. That run, its recorded values, the six launch obligations and any stage qualification remain **OPEN**. Frame v5 is UNQUALIFIED. V5-B01, V5-B02 and the capacity gate block execution (`packet.json:6`).
+
+**Reviewer.** An independent Claude Code review subagent (claude-opus-5-5) with a fresh context. It authored nothing under review.
+- The lead's override file (sha256 `bdb0815d…0b00`) replaces the brief's "actual gpt-6.1-sol" with this reviewer.
+- The original requirement texts say every required independent review uses actual gpt-6.1-sol, and that a Claude review cannot count as that gate (`W/outputs/claude-phase1-handoff-20261004/HANDOFF.md:173`; `/home/sicarii/Documents/complete-phase1-prompt.txt:60`).
+- This review records that conflict and does not decide it.
+
+**Brief:** sha256 `4732d70ea1aef59794a77feb5a9a1e37888783f33a7b4a3576ebdfbc32752d60`.
+
+**What was and was not done.**
+- No packet module, helper, S5 test or fixture, WORLDLINE library, compiler or prover was imported or run.
+- Python was read as text. The only processing was `ast.parse` and `json.load`.
+- No review directory of v3, review-records path or session transcript was read.
+- All eight Ada skills were loaded before the Ada bodies were read.
+
+**Citation roots.**
+- P = `WT/packets/capi-pk0-v3`; P2 = `WT/packets/capi-pk0-v2`; P1 = `WT/packets/capi-pk0`.
+- S5 = `W/work/claude-composition-v5-beta/source`; W = `/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow`; WT = `W/work/claude-lead-isolation-v1/wt-1`.
+- CHAR, GP, DIAG, LAY and REC are P's `files/tests/` files: test_capi_characterization.py, capi_guard_pages.py, test_capi_diagnostics.py, test_capi_layout_identity.py and capi_characterization.json.
+- CC = `S5/core/evaluation_completion_c.adb`; FC = `S5/core/evaluation_finalization_c.adb`.
+
+## 1. Packet integrity and invariants
+
+**Finding: the identities hold; the payload is additive; v1 and v2 are unchanged; the change list against v2 is exact.**
+
+- **Packet files.** All nine sha256 values equal the brief. The six payload hashes and byte counts equal `packet.json:43-48`.
+- **Change list against v2.** Every v2 and v3 sha256/byte pair in `packet.json:52-60` matches the files.
+  - capi_layout_baseline.json is byte-identical to v2.
+- **v1 and v2 unchanged.**
+  - The P1 files equal `P2/packet.json` change_list_against_v1.
+  - P2's six payload and two packet files equal P2's own manifest.
+  - P2's packet.json is `c5ce00cd…2032d`.
+  - The sealed v2 review files equal its review-freeze.json: REVIEW.md `0246243a…`, review.json `d42e962d…`, checks.json `432c3a40…`. These also equal `packet.json:12-15`.
+  - The v1 review equals its freeze: REVIEW.md `7d86d533…`, review.json `fc615b5b…`.
+- **Bound inputs.**
+  - All 100 entries (`packet.json:98-199`) have distinct paths and match S5 in sha256 and size.
+  - The list equals v2's, in order.
+  - The two host headers match (`packet.json:202-203`).
+  - The base identities match (`packet.json:37-39`). The v6 review.json `bcfa259f…` and REVIEW.md `12cfde3c…` match `packet.json:28-29`.
+- **No existing file touched.** None of the six payload paths exists in S5 (`packet.json:62`).
+- **Cases carried, by JSON comparison.**
+  - REC's first 609 cases equal P1's. REC's first 655 cases equal P2's once `expect.readiness` is removed.
+  - Exactly the 46 v2 U15y cases differ, and only by the added key `readiness`.
+  - The first 55 diagnostic cases equal P2's, and the first 28 equal P1's, in order.
+  - In text, D55's line differs only by an added trailing comma.
+  - The changed keys are `design.revision`, controls C-03, C-05, C-06 and C-11, and four keys of the mixed export: `nested_conjuncts` and `no_twin` (new), and `unexercisable` and `not_exercised`. Every v2 `unexercisable` entry is retained.
+  - The other 19 exports and the mixed entry's `classes` are equal.
+  - The 38 new U15y cases and D56–D75 are appended. Case ids are unique.
+- **jackal.json.** J01–J33 and common_result are equal to v2 apart from the `also_used_in_v3` notes on J04, J32 and J33. J34–J42 are new.
+
+| Invariant | Observation | Evidence |
+|---|---|---|
+| REQUIRED_PROVED | AST segments 280, 11, 4, 5, 8, 31, 34, 46, 1, 115; 535 unique of 535; nothing appended | `S5/runtime/worldline/proof_manifest.py:25,312,314,924,940,953,967,972,1003,1012` |
+| MINIMUM_CHECKS | 251 | `proof_manifest.py:22` |
+| UNANALYZED_BOUNDARY | `{"worldline-c_api"}` | `proof_manifest.py:316` |
+| Movers | 0 | `packet.json:68` |
+| External_Name lines in worldline-c_api.ads | 31 (grep -c) | `S5/core/worldline-c_api.ads` |
+
+**JACKAL results** (all lane rat, formal=false, assurance "exact rational arithmetic (not yet checker-covered)"):
+- `parsed=280+11+4+5+8+31+34+46+1+115` gives **status=exact**, exact=535.
+- The cross-checks are also **exact**: `609+46+38`=693 cases; `28+27+20`=75 diagnostic cases; `27+18+2`=47 unguarded U15y cases; `58+19+18`=95 guarded cases.
+- Non_claims on every call: "NOT formal-bounded: this lane carries no Lean-checked certificate"; "The epistemic class above is the STRONGEST claim this result supports"; "exact rational arithmetic (not yet checker-covered)".
+- This arithmetic is informational only.
+
+## 2. Closure of RC-v2-1 to RC-v2-4 (PK0-RC4 and PK0-RC5)
+
+| RC | Ruling | Remaining gap |
+|---|---|---|
+| RC-v2-1 | **PARTIALLY_CLOSED** | (a) The Kind 1 refused overlap of the request arrays with the descriptor is constructible, and the OPEN reason is factually wrong (RC-v3-1). (b) `nested_conjuncts` is incomplete at the packet's own C-03 granularity, yet claims to list every other conjunct (RC-v3-2). |
+| RC-v2-2 | CLOSED_IN_SOURCE | None in source. |
+| RC-v2-3 | CLOSED_IN_SOURCE | None in source. The normal header test is ungated by design and qualified under launch obligation 1. |
+| RC-v2-4 | CLOSED_IN_SOURCE | None in source. "Every path" means every path on which `run_forked` returns. |
+| PK0-RC4 | CLOSED_IN_SOURCE (unchanged) | DIAG changed only in its docstring (DIAG:4, :33). D06 stays RECORD_ON_L0. |
+| PK0-RC5 | CLOSED_IN_SOURCE (unchanged) | The boundary statements now include the probe (GP:13-18; CHAR:34-40). |
+
+### 2.1 RC-v2-1: what is correct
+
+**C-03 text restored.** REC:56 again says "One case per exercisable guard conjunct", as in v1 (`P1` REC C-03). The "nested guard group" relaxation is gone. Context/descriptor overlaps are added for U15y.
+
+**Every new case checked against the bodies (all 18 refusals, 18 twins, D56–D75).**
+
+| Case / D | Body evidence | Code, frontier, twin, stream |
+|---|---|---|
+| metadata_version / D56 | `X.Version /= 1` returns Null (CC:901-903). Context_Matches(Null) fails `Extent_Valid (Context)` (CC:752) and gives input-extents-rejected (CC:756), then primary-context-rejected (FC:474-477). | 255. The twin's PROT_NONE `p_meta_base` is never read; Metadata_Base only extent-checks Base. Stream matches. |
+| metadata_base_null / D57 | Base Null fails Extent_Valid (CC:901-903). | Same as D56. Matches. |
+| context_version / D58 | `X.Version` is the first conjunct (CC:765). | 255 at transport-guard-rejected (CC:782). The twin's arenas, rows and required arrays are unread before CC:787. Matches. |
+| context_data_extent / D59 | Data_Length -1 fails `Length >= 0` (CC:260, :766). The earlier conjuncts hold. | Matches. |
+| context_row_count / D60 | The fixture has two captured rows (`S5/tests/test_raw_evaluation_default.py:79-80`). Row_Count 0 differs (CC:767). | Matches. |
+| context_required_count / D61 | One required row on each side (`test_raw_evaluation_default.py:33,66`). Required_Count 0 (CC:768). | Matches. |
+| context_policy / D62 | U32_MAX > Declaration'Last (CC:769). J04 is carried. | Matches. |
+| expected_binding, expected_current, prepared_current / D63–D65 | Store_Id.First 0 fails `Valid (Span)` (CC:279, :285-287). Present 2 fails `Valid (Cursor)` (CC:282-284). Checked at CC:773-774. | Matches. |
+| rows_extent, rows_overlap / D66–D67 | Null with count 2 fails Extent_Valid. Rows at offset 0 of the descriptor fails Disjoint against (Context, CS) (CC:266-278, :776). | Matches. |
+| required_extent, required_overlap / D68–D69 | As above at CC:779. CC:777-778 hold because the fixture's request arrays are separate objects. | Matches. |
+| context_agent / D70 | The context's agent comes from `agent.native()` (`S5/runtime/worldline/evaluation_context.py:184-186`). Observation 0 is Source_Field (`S5/core/worldline-evaluation_wire.ads:20`). Setting it to 0 makes `X.Agent /= Raw_Agent` (CC:780). The admitted argument is unchanged. | Matches. |
+| field_observed / D71 | The fixture's observed fields are a copy of the expected fields, all Present 1 (`test_raw_evaluation_default.py:51-56`). The K=0 Observed value First 0 is invalid (CC:796). | field-rejected value 0 (CC:798-799). The twin keeps the data arena readable (copied at CC:788). Matches. |
+| row_field_expected / D72 | The row pairs are all None, so Present is 0 (`:57-58`). Present 2 at row 1, K=0 (CC:821). | row-field-row=1, row-field-rejected=0 (CC:822-824). Twin prefix 1. Matches. |
+| required_declared / D73 | Original valid and Owned.Check_Id valid; Owned.Declared.First 0 (CC:839-840). | required-rejected=1. Matches. |
+| both_k1_primary_authorized / D74 | Read_Ready: Kind 1 emits nothing, Kind 2 Decide emits four lines (FC:127,158,247-248). Agent readiness. Primary Kind 1 context join; staged Final_Context_Matches with its context and metadata joins (FC:272-346). Decision 0. Primary Kind-1 metadata join (FC:491-496). No staged metadata join for Kind 2. | Code 0; every line and its order match. |
+| both_k1k1_staged_metadata_payload / D75 | Two context joins, decision 0, primary metadata 1, staged metadata 0, then staged-metadata-rejected (FC:497-501). | Matches. |
+
+- No new expectation is a placeholder, a class-H code or a weakened value.
+- Every R1 case expects 255 = Invalid_Request, the defined R1 code (REC:320-321).
+
+**Twins and records, checked by script.**
+- 47 unguarded U15y cases each have a D-case.
+- 39 unguarded refusals each have a twin or a `no_twin` entry.
+- No `no_twin` case has a twin.
+- Each twin's build, mut and expect equal its base case.
+- Every case id and D-number cited by `nested_conjuncts`, `unexercisable`, `not_exercised` and `no_twin` exists, and each cited D-case calls its case.
+- The seven `no_twin` reasons are correct against CC:929-978 and FC:339-346 and :491-502.
+
+**Unexercisable entries: correct as reasoned.**
+- **Context_Matches extents.**
+  - Input: Raw_Decide uses the same Request size and alignment (CC:538 vs :751).
+  - Collapse: FC:412-414 vs CC:753.
+  - Agent: FC:453-458 and :473 vs CC:754.
+- **Non-null bad Context.** Metadata_Base returns Null or an address checked with CS and Context_Input'Alignment (CC:901-904).
+- **R-side transport, Kind 1.** Raw_Decide refuses the same bytes (CC:545-546, :558, :560).
+- **R-side transport, Kind 2.** The projection is built from constants and Decide-validated fields (FC:319-331, :138-153). Captured.State has subtype `E.Terminal_State` (`S5/core/evaluation_raw_roster.ads:31-35`; `S5/core/worldline-evaluation.ads:5-12`).
+- **Request-side row validity.** Kind 1: CC:602, :641. Kind 2: FC:67-72, :170-198, :307-311.
+- **Kind 2 descriptor overlap with Ada locals.** Class X, outside the premises (FC:292-293).
+- **Final_Context_Matches.**
+  - Seal refusal: FC:273-278 vs :385-396.
+  - Operation: FC:281 vs :389-392.
+  - `Valid (X.Start.Required)`: FC:282 vs :145 and :59-64.
+- **Start.Required length and First conjuncts (FC:283-286).** Correctly stated as CONDITIONAL on Seal's postcondition (REC:380). I re-traced the chain:
+  - FC:231-232;
+  - `S5/core/evaluation_finalization.ads:394-398` and :377-386;
+  - Seal_Equation :353-374;
+  - Capture_Valid :194-200;
+  - Input_Valid → Same_Start → Start_Valid → Plan_Valid :95-125;
+  - Valid_Checks (`evaluation_raw_roster.ads:153-155`): `S.First in 1..RC` and `S.Length-1 <= RC-First` exclude CC-side conjuncts FC:283-286.
+
+### 2.2 RC-v2-1 gap (a): the Kind 1 request-array overlap is constructible
+
+The packet records the refused overlap of R.Captured_Results (CC:777) and R.Required (CC:778) with the Context_Input descriptor as OPEN (REC:351-352, :393; AUTHOR-NOTES.md:106; `packet.json:218`).
+
+The reason given is that any overlap puts accepted-row bytes in a descriptor word that "the descriptor's earlier transport conjuncts (X.Version = 1 first, … and X.Agent and X.Agent_Confinement at its end) would then have to hold". **That is incorrect, for two reasons.**
+
+1. **The conjunct order is misread.** `X.Agent /= Raw_Agent` and `X.Agent_Confinement` are at CC:780, after CC:777-778 in the `or else` chain, so they need not hold for a refusal at CC:777 or CC:778.
+2. **Not every descriptor word is read by an earlier conjunct.** Conjuncts CC:765-776 read only Version, Data/Data_Length, Expected_Binding, Expected_Current, Prepared_Current, Row_Count, Required_Count, Policy and Rows. They never read the `Expected` and `Observed` Context_Fields arrays, nor `Projection`. Those are first read at CC:796 and CC:857 (layout: `S5/core/evaluation_completion_c.ads:160-183`; `S5/runtime/worldline/evaluation_context.py:30-36`).
+
+**Construction (source-derived; layouts unmeasured, C-13 placeholders).** Under C convention on LP64 the layout is as follows; every value is JACKAL exact:
+- Binding is `5*16+24`=104 bytes.
+- `Expected` begins at descriptor offset `8+8+8+104+40+40`=208, which is `208/8`=26 words, so 8-aligned.
+- `Expected` and `Observed` together are `2*14*24`=672 contiguous bytes, ending at `208+672`=880. Context_Field has 14 values: `S5/core/worldline-evaluation_authority.ads:102-106`.
+- Check_Row fields sum to 284 bytes and pad to 288 (`36*8-284`=4). The row size is `288+16`=304, and two rows are `2*304`=608, leaving `672-608`=64 bytes to spare.
+- A Required_Row is `2*16`=32 bytes.
+
+So:
+- **For CC:778.** Place the Input's one Required_Row, with the fixture's accepted bytes unchanged, at descriptor offset 208, and point `R.Required` there.
+  - Raw_Decide, and so Read_Ready, sees identical row bytes. Its only address-dependent checks are against its own Output (CC:538-556).
+  - Readiness and classification are therefore unchanged.
+  - CC:765-776 hold, because no field they read changed.
+  - CC:777 holds, because Captured_Results is elsewhere.
+  - CC:778 fails on Disjoint.
+- **For CC:777.** Place the two captured Check_Rows (608 bytes) at the same offset.
+- **Discrimination.** CC:779-780 also hold. If the conjunct were absent, the call would reach CC:796, where `Expected (K)` holds row bytes, and refuse at field-rejected, not transport-guard-rejected. The C-06 stream therefore distinguishes it.
+- **Harness support.** The harness already supports interior pointers: `to(name, offset)` (CHAR:189-190) is resolved as `base + placement + offset` (GP:294), as used by `U15f_R0_output_overlaps_input` with offset 8. What is missing is a builder delta that copies the row bytes into the descriptor region before `_adopt` (CHAR:1069-1088, :1107-1151). That is engineering, not unexercisability.
+
+**Ruling.**
+- OPEN is honest only in that no case exists.
+- A reasoned exemption is not acceptable, because its reason is false.
+- C-03 and v4 §9.6.6 require this refused overlap (`WT/designs/claude-capi-boundary-design-v4/DESIGN.md:623-624`), and RC-v2-1 named it. → **RC-v3-1.**
+
+### 2.3 RC-v2-1 gap (b): nested_conjuncts is incomplete at the packet's own granularity
+
+The packet claims more coverage than it has:
+- REC:327: "every other conjunct is listed under unexercisable".
+- REC:56: "every other conjunct of those guards is listed under unexercisable … or under not_exercised".
+
+**The packet's own C-03 granularity rule** (P1 AUTHOR-NOTES.md:150-153, accepted by the v1 review as a stated finite limit, P1 REVIEW.md:110):
+- the Extent_Valid and Array_Valid sub-conjuncts (null, misalignment, overflow, count, overlap) are "covered fully for representative operands: Data, Journal, the fixed records";
+- other arrays get null and overlap.
+
+**The analogous Metadata_Matches operands** have separate cases: `U14m_R1_context_data_null`, `_context_data_length_negative`, `_meta_rows_misaligned` and `_captured_misaligned`, and `U14m_R0_context_misaligned` and `_address_overflow`. The v2 review accepted U14m as per-conjunct coverage.
+
+**Reachable through the mixed entry, covered by no case and absent from `unexercisable`:**
+- the Metadata argument's misalignment and address overflow at Metadata_Base `Extent_Valid (Context)` (CC:896-898). This is a fixed record of alignment 8, and only Null is covered (REC:329);
+- `X.Base` misalignment and overflow (CC:901-903). Only Null is covered (D57);
+- `X.Data` null with a nonzero length, and overflow (CC:766). Only Length -1 is covered (D59);
+- `X.Rows` and `X.Required` misalignment (CC:776, :779). Context_Row and Required_Row have alignment 8; only null and overlap are covered;
+- Expected_Current and Prepared_Current present with an invalid Sequence or Run (CC:282-284, :773-774). Only Present 2 is covered, whereas the record splits cursors as `U14d_R1_current_presence` and `U14d_R1_current_run`.
+
+→ **RC-v3-2.**
+
+### 2.4 RC-v2-2: closed in source
+
+**probe_readiness makes exactly Read_Ready's checks** (CHAR:1336-1391 vs FC:370-398):
+- **Kind 1.** `wl_completion_raw_decide_v1` must return 0, with Promotion ≤ 1 and Reason ∈ {Retain_Terminal, Already_Retained}. The probe maps the reason through `CK.REASONS`, which equals the order of T.Decision (`S5/runtime/worldline/completion_kernel.py:59-63`; `S5/core/evaluation_completion.ads:218-223`).
+- **Kind 2.** `wl_finalization_decide_v1` must return 0, with Reason 0, Promotion ≤ 1 and a re-read Operation of 3.
+- **Ready value.** Ready = Promotion only when the side is valid.
+- **Agent.** The probe uses `wl_evaluation_wire_admit`, whose body is Fits followed by Confined_Admit_Wire (`S5/core/worldline-c_api.adb:730-736`), and then forces readiness to 0 for a non-Agent source. This matches FC:463-469.
+- **Needs_Agent.** Needs_Agent = Needs_Primary or Needs_Staged (`S5/core/worldline-evaluation_authority.ads:35-36`), so it holds on every U15y shape.
+- **Needed sides.** `ready_flags` follows the shape (CHAR:1206-1207), and a script confirmed that every U15y case declares exactly its needed sides plus the agent.
+
+**assert_ready makes a not-ready fixture fail.**
+- It runs before the guarded early return (CHAR:1521-1522 vs :1540-1541), so twins are covered too.
+- It fails on an invalid side, a non-admitted agent (255) or a readiness mismatch (CHAR:1495-1505).
+- The probe runs under the fatal-fault policy, before the snapshot, and reads no PROT_NONE object (GP:271-277, :324-325, :350).
+
+**Claim corrections.**
+- Oracle docstring: CHAR:1314-1317. C-11: REC:61.
+- Route table, the decide_mixed mix and the seven twinless refusals: AUTHOR-NOTES.md:126-149.
+- The recommended cases are D74 and D75.
+
+### 2.5 RC-v2-3 and RC-v2-4, read statically
+
+- **Characterization `--record`.** `require_output_only_launch()` runs at CHAR:68-70, after stdlib-only imports (CHAR:48-57) and before `HERE`, `capi_guard_pages` and every `worldline` import (CHAR:72-93; checked with the AST). `record_main` keeps its own check (CHAR:1650).
+- **`--measure-headers`.** The gate is the first statement of `measure_main` (LAY:292-294). All top-level imports are stdlib (LAY:52-65), and `worldline` is imported only inside functions.
+- **Normal header test.** Qualified under launch obligation 1 (LAY:21-24).
+- **"Opens no file".** No occurrence remains in the modules, `packet.json` or AUTHOR-NOTES.md.
+- **HarnessFaultControl.**
+  - After `run_forked` returns, it builds `{"harness_fault_control": {wait_status, signaled, signal, describe, report_bytes}}`.
+  - It writes the line with `os.write(1, …)` in a loop before any assertion (CHAR:1612-1621). `G.describe` exists (GP:433-438).
+  - Every passing path therefore leaves the line on captured fd 1, and this does not depend on unittest buffering.
+  - A hang inside `run_forked` writes no line. That is a failed run under launch obligation 4, never a pass.
+
+## 3. Faithfulness and F32
+
+- **The new cases follow original S5 behaviour (§2.1).** No class-H code is treated as a refusal. `test_record_shape` still forbids classes H and X (CHAR:1569-1570). No expectation is weakened. No S5 file changed (all 100 hashes match).
+- **F32.** The comment (CHAR:957-967) and AUTHOR-NOTES §6 cite S5's positive control, `test_collapse_recomputes_carried_roster`, which has current = resulting = h(8) and asserts AUTHORIZED (`test_raw_evaluation_default.py:471-490`).
+  - I re-read `S5/core/worldline-collapse.ads:139-156` and :211-217. Candidate mode requires `Resulting_Requirement.Present`, and Authorized holds exactly when All_Hold holds.
+  - No case asserts a code for the S5 request with Resulting_Requirement absent.
+  - F32 is not decided by the packet. It remains owned by F32-CONFLICT.
+
+## 4. Placeholders
+
+**Finding: unchanged, none added, none can pass.**
+- The RECORD_ON_L0 count per file is equal in v2 and v3: REC 7, baseline 181, and 1 in each test module.
+- The placeholder cases are the v1 ones: three written results and D06.
+- The fail paths are unchanged: `check_case` fails on any placeholder (CHAR:1532-1533, :1556-1558).
+- No U15y case or D56–D75 holds a placeholder.
+
+## 5. Other weakening, assumptions or gates
+
+- **C-03 and `not_exercised`.** REC:56 now admits "not_exercised with its own reason". That is acceptable only where the reason is valid. The Kind 1 item's reason is not (RC-v3-1).
+  - REC:56's refused-overlap list for U15y names only the context arrays. It must name the request arrays once their cases exist.
+- **Stride-bound entry (REC:388).** It says a stride-failing count "would need a row array larger than the address space".
+  - Context_Row is `304+2*8*24`=688 bytes, so the stride bound for X.Rows is tighter than Raw_Decide's 304-byte bound.
+  - At that bound, the Kind 1 captured array of N·304 bytes is below 2^64: `2^64-(2^63-1)*304/688` = 617965926469269979155/43 > 0. It is above 2^52: `(2^63-1)*304/688-2^52` = 175050413916263809005/43 > 0. Both are JACKAL exact.
+  - The class-X ruling therefore rests on a virtual-address width of at most 52 bits and on the live-readable premise, not on the 64-bit Integer_Address range. State that premise (recommendation).
+- **Readiness declarations.** `test_record_shape` does not check that the declared readiness sides equal the shape's needed sides. A script found that they do. Adding the check is recommended.
+- **Nothing else found.** No contract, floor, accepted case, fixture or control is lowered or edited. No C-14 condition is encoded. No approval gate is added.
+
+## Required changes
+
+### RC-v3-1 (RC-v2-1 a)
+- **Change:**
+  - Author `U15y_R1_k1_primary_context_captured_overlap` (CC:777) and `U15y_R1_k1_primary_context_request_required_overlap` (CC:778), each with its C-05 twin and its exact C-06 stream (transport-guard-rejected, then primary-context-rejected).
+  - Place the Input's accepted Check_Rows or Required_Row, byte-identical, inside the descriptor's Expected/Observed region (offset 208), and point the request field there.
+  - Map these in `nested_conjuncts`.
+  - Remove the OPEN `not_exercised` item and deviation 2.
+  - Correct the reasoning in REC:393 and AUTHOR-NOTES.md:106.
+- **Reason:** The conjuncts are reachable without changing any accepted row byte. The OPEN reason misreads the conjunct order (CC:780 follows CC:777-778) and overlooks descriptor regions that CC:765-776 do not read.
+- **Evidence:** CC:765-780, :796, :857, :538-556; `S5/core/evaluation_completion_c.ads:160-183`; `S5/core/worldline-evaluation_authority.ads:102-106`; CHAR:189-190; GP:294; REC:351-352, :393; AUTHOR-NOTES.md:106; `packet.json:218`; v4 DESIGN.md:623-624.
+
+### RC-v3-2 (RC-v2-1 b)
+- **Change:** Add cases (code 255, with twin and stream) at least for:
+  - the Metadata argument misaligned and address-overflow (CC:896-898);
+  - X.Base misaligned and overflow (CC:901-903);
+  - X.Data null with a nonzero length (CC:766);
+  - X.Rows and X.Required misaligned (CC:776, :779);
+  - Expected_Current and Prepared_Current present with an invalid span (CC:773-774).
+
+  For each remaining sub-conjunct (for example X.Data, X.Rows and X.Required overflow), either add a case or record an explicit representative-operand entry with its reason. Correct the "every other conjunct is listed" claims.
+- **Reason:** The restored C-03 and the packet's own accepted granularity rule cover these sub-conjuncts for fixed records and for the analogous U14m operands. As written, the completeness claim is inaccurate.
+- **Evidence:** REC:56, :327-353; CC:258-278, :282-284, :766-779, :893-907; P1 AUTHOR-NOTES.md:150-153; P1 REVIEW.md:110; REC cases U14m_R0_context_misaligned/_address_overflow, U14m_R1_context_data_null, U14m_R1_meta_rows_misaligned, U14d_R1_current_run.
+
+## OPEN obligations
+
+- An independent re-review of a revised packet, with new identities, before baseline execution.
+- The baseline run on L0 in an admitted frame, and reviewed recording of every placeholder: 179 layout values, three written results and the D06 bytes.
+- The six launch obligations: bytecode suppression for every interpreter, including the unittest parent and the header test; owned scratch and TMPDIR; WORLDLINE_CORE_LIB and PYTHONPATH; reviewed supervision with deadlines; byte-exact capture; HarnessFaultControl with its stdout line retained.
+- V5-B01, V5-B02 and the capacity gate.
+- F32-CONFLICT, owned outside PK-0.
+- Class H §9.6.4 a–d, native write construction, ABI and layout measurement, and full proof of the Collapse.Decide, Decide_Wire and Seal contracts. The Start.Required unexercisability rests on Seal's postcondition.
+- The model-identity requirement of HANDOFF.md:173 against this Claude review.
+
+=== review.json ===
+{"schema":"claude-packet-source-review-v1","packet":"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/packets/capi-pk0-v3/packet.json","packet_sha256":"06e87658058f4f453f575da06a82112fefdf605ce6657549652b74b869dccc0c","files_sha256":{"packet.json":"06e87658058f4f453f575da06a82112fefdf605ce6657549652b74b869dccc0c","AUTHOR-NOTES.md":"adcd62c686428b3bb66122a2bf7caf4489386e470b89fb80ad82c0b30af56aef","jackal.json":"069dccf89a50355b3ea1393697d7230831cbe651ea34daae0ba22e53d5d349dd","files/tests/capi_characterization.json":"50ecbf029ffdb65b467bed9c125b24a0ed00f26ae025e79da42ee8535227a336","files/tests/capi_guard_pages.py":"bfac3aa398c490d3de20cc420ba0fea2c01b211e4e20c2a249f69529f6d3727c","files/tests/capi_layout_baseline.json":"4df25239c3fd173b4076fe34e9f250948f8c92f7068c701c364723ba18294bf0","files/tests/test_capi_characterization.py":"2f8adccb4fa573a3445219d5bd48680e0b365074c6cf12ba33fd4bec2ef343c2","files/tests/test_capi_diagnostics.py":"1cbf5b2481a57b7cd486c7c9a5c1a9ee536e3e6788ec819ac35288061eda4236","files/tests/test_capi_layout_identity.py":"e19113c3554a0094dc6a0c06919a0e6bbcf367c720cdd98dc374349f8d4b3b3f"},"brief_sha256":"4732d70ea1aef59794a77feb5a9a1e37888783f33a7b4a3576ebdfbc32752d60","different_from_author":true,"actual_model_selection":"claude-opus-5-5 (independent Claude Code review subagent, fresh context)","reviewer_kind":"claude-subagent","author":"Claude Code lead claude-opus-5-5 (drafting subagent)","verdict":"ENDORSED_WITH_REQUIRED_CHANGES","rc_closure":{"RC-v2-1":"PARTIALLY_CLOSED: C-03 per-conjunct text restored; 18 nested cases and D56-D73 correct against the bodies; unexercisable entries correctly reasoned (Start.Required length/First stated as conditional on Seal's postcondition). Gaps: (a) the Kind 1 R.Captured_Results/R.Required overlap with the descriptor (CC:777-778) is constructible by placing the accepted rows in the descriptor's Expected/Observed region, which CC:765-776 never read; the OPEN reason misreads the conjunct order (CC:780 follows) (RC-v3-1); (b) nested_conjuncts omits reachable Extent_Valid/Array_Valid/Cursor sub-conjuncts covered elsewhere at the packet's own granularity, yet claims completeness (RC-v3-2)","RC-v2-2":"CLOSED_IN_SOURCE: probe_readiness equals Read_Ready's checks (FC:370-398) plus Confined_Admit_Wire with the source byte (FC:453-470); assert_ready runs before the guarded early return; every U15y case declares exactly its needed sides plus the agent; oracle, route, mix and three-check claims corrected; D74 and D75 added","RC-v2-3":"CLOSED_IN_SOURCE: characterization --record refused at CHAR:68-70 before any non-stdlib import; --measure-headers gated first (LAY:292-294) with stdlib-only top-level imports; header-test claim qualified under launch obligation 1; 'writes no file' everywhere","RC-v2-4":"CLOSED_IN_SOURCE: one JSON line to fd 1 before any assertion on every path on which run_forked returns, passing included (CHAR:1612-1621)","PK0-RC4":"CLOSED_IN_SOURCE (unchanged; DIAG docstring only; D06 RECORD_ON_L0)","PK0-RC5":"CLOSED_IN_SOURCE (unchanged; boundary statements now include the probe)"},"item_findings":{"1_integrity":"All nine hashes match; 100 bound inputs match S5 and equal v2's list; host headers, base identities and v6 review hashes match; 6 payload paths absent in S5; v1 and v2 packets and their sealed reviews unchanged; change list against v2 exact; 609 v1 cases, 46 v2 U15y cases (apart from readiness) and 55 diagnostic cases identical in content and order; invariants hold (REQUIRED_PROVED 535 JACKAL exact, MINIMUM_CHECKS 251, UNANALYZED_BOUNDARY {worldline-c_api}, 0 movers, External_Name 31)","2_rc_closure":"See rc_closure. All 18 new refusals, 18 twins and D56-D75 checked against CC/FC: codes, frontiers, twin placement and exact streams match; no_twin reasons correct","3_mechanics":"--record and --measure-headers refusals precede every non-stdlib import; the probe runs under the fault policy before the snapshot and reads no guarded object; the HarnessFaultControl line precedes its assertions","4_faithfulness":"New cases follow original S5 behaviour; no class-H code accepted as a refusal; no expectation weakened; F32 not decided (no case asserts a code for the S5 absent-Resulting request)","5_placeholders":"RECORD_ON_L0 counts per file equal to v2; none added; fail paths unchanged","6_other":"C-03 admits not_exercised only with a valid reason, and the K1 item's reason is invalid (RC-v3-1); REC:388 class-X stride argument relies on a VA width of at most 52 bits, not stated (recommendation); test_record_shape does not check readiness sides against shape (recommendation); model-identity conflict (HANDOFF.md:173) recorded, not decided"},"required_changes":[{"id":"RC-v3-1","change":"Author Kind 1 primary cases for the refused overlap of R.Captured_Results (CC:777) and R.Required (CC:778) with the Context_Input descriptor: place the Input's accepted row bytes unchanged inside the descriptor's Expected/Observed region (offset 208, 672 bytes) and point the request field there, with C-05 twins and exact C-06 streams; map them in nested_conjuncts; remove the OPEN not_exercised item and deviation 2; correct the reasoning","reason":"Reachable without changing any accepted row byte: CC:765-776 never read Expected/Observed/Projection, and X.Agent/X.Agent_Confinement (CC:780) are evaluated after CC:777-778; Raw_Decide's address checks are only against its own Output; the harness already resolves interior offsets","evidence":"S5/core/evaluation_completion_c.adb:538-556,765-780,796,857; S5/core/evaluation_completion_c.ads:160-183; S5/core/worldline-evaluation_authority.ads:102-106; CHAR:189-190; GP:294; REC:351-352,393; AUTHOR-NOTES.md:106; packet.json:218; v4 DESIGN.md:623-624"},{"id":"RC-v3-2","change":"Add cases for the reachable sub-conjuncts: Metadata argument misaligned and overflow (CC:896-898), X.Base misaligned and overflow (CC:901-903), X.Data null with nonzero length (CC:766), X.Rows and X.Required misaligned (CC:776,779), and Expected_Current/Prepared_Current present with an invalid span (CC:773-774); for any other sub-conjunct either add a case or record an explicit representative-operand entry with its reason; correct the 'every other conjunct is listed' claims","reason":"The restored C-03 and the packet's own accepted granularity rule (fixed records in full; U14m and U14d precedent) cover these; the completeness claim is inaccurate","evidence":"REC:56,327-353; CC:258-278,282-284,766-779,893-907; P1 AUTHOR-NOTES.md:150-153; P1 REVIEW.md:110; REC U14m_R0_context_misaligned, U14m_R0_context_address_overflow, U14m_R1_context_data_null, U14m_R1_meta_rows_misaligned, U14d_R1_current_run"}],"open_obligations":["Independent re-review of a revised packet with new identities before baseline execution","Baseline run on L0 in an admitted frame and reviewed recording of every placeholder (179 layout values, three written results, D06)","Six launch obligations, including bytecode suppression for the unittest parent and the header test, supervision with deadlines, and HarnessFaultControl line retention","V5-B01, V5-B02 and the capacity gate","F32-CONFLICT, owned outside PK-0","Class H 9.6.4 a-d, native write construction, ABI/layout measurement, full proof of the Collapse.Decide, Decide_Wire and Seal contracts (the Start.Required unexercisability is conditional on Seal's postcondition)","HANDOFF.md:173 model-identity requirement versus this Claude review"],"run_evidence":false,"control_evidence":false,"proof_acceptance":false,"phase_acceptance":false,"source_acceptance":false}
+
+=== checks.json ===
+{"schema":"claude-packet-source-review-checks-v1","reviewer_kind":"claude-subagent","hashes_computed":{"brief":["/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/briefs/capi-pk0-packet-v3.md","4732d70ea1aef59794a77feb5a9a1e37888783f33a7b4a3576ebdfbc32752d60"],"override":["scratchpad/review-override.txt","bdb0815da741d72468c05087cb7a4136445cba26c533e69e24dee03935530b00"],"v3_packet":{"packet.json":"06e87658058f4f453f575da06a82112fefdf605ce6657549652b74b869dccc0c","AUTHOR-NOTES.md":"adcd62c686428b3bb66122a2bf7caf4489386e470b89fb80ad82c0b30af56aef","jackal.json":"069dccf89a50355b3ea1393697d7230831cbe651ea34daae0ba22e53d5d349dd","files/tests/capi_characterization.json":"50ecbf029ffdb65b467bed9c125b24a0ed00f26ae025e79da42ee8535227a336","files/tests/capi_guard_pages.py":"bfac3aa398c490d3de20cc420ba0fea2c01b211e4e20c2a249f69529f6d3727c","files/tests/capi_layout_baseline.json":"4df25239c3fd173b4076fe34e9f250948f8c92f7068c701c364723ba18294bf0","files/tests/test_capi_characterization.py":"2f8adccb4fa573a3445219d5bd48680e0b365074c6cf12ba33fd4bec2ef343c2","files/tests/test_capi_diagnostics.py":"1cbf5b2481a57b7cd486c7c9a5c1a9ee536e3e6788ec819ac35288061eda4236","files/tests/test_capi_layout_identity.py":"e19113c3554a0094dc6a0c06919a0e6bbcf367c720cdd98dc374349f8d4b3b3f"},"v2_packet_json":"c5ce00cd7d0dbeaff29a35f87e257abe165a8c116acf3b02760d732ef12e032d","v2_review":{"REVIEW.md":"0246243a9c4e0bf83b77bd9482b2a864dc7d8862e6be326895ce6d12cc85ebcf","review.json":"d42e962d1d9271f06311898990a39b08c46c53c287fe2eefb7785b73eb8eb689","checks.json":"432c3a40025940261bc87ae545216733434ce15b7fb813316f02233ad7306ee7","review-freeze.json":"8d799c0faa1b05bd7552982a06b37f201bc763d82a104ba44323bf75db29d988"},"v1_packet_json":"9808145e43e8e130bc7d8f73ad0757d838ad05dc209e64ebbccda33270eb69f9","v1_review":{"REVIEW.md":"7d86d533a9705a606d663d426c491dde94238d4cf688decf26ec85940bfcd769","review.json":"fc615b5be33f0caf4e2964e06b2d001d2568c12088c9ca306bb8500bd70dbdf5","review-freeze.json":"fa987ae0989efbd4edd0b93d4dc91b7caf7fbae15701a4d51e0e48f78ac372c3"},"v6_review":{"review.json":"bcfa259f8690c492b9284ef1ed9549efa7a5d3899edc1fbd5a0ae2ab7234d128","REVIEW.md":"12cfde3c3eed993b6056dc75d901710bdee1273e67cfe150a9648f99627da161"},"bound_inputs":"100 of 100 match S5 in sha256 and size; distinct; identical list to v2","host_headers":"2 of 2 match","base_identities":"composition.json, source-inventory.json, review/gpt61-v1/review.json match packet.json:37-39","change_list_against_v2":"all v2 and v3 sha256/size pairs match","v1_files_against_v2_change_list":"all match","lead_note":["deviations/capi-pk0-v2-author-process/NOTE.md","70b015c96e03b4f748ae16330aafe04ec1f26a7eb11dba65f95280443a2b248f"],"handoff":["outputs/claude-phase1-handoff-20261004/HANDOFF.md","2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237"],"phase1_prompt":["/home/sicarii/Documents/complete-phase1-prompt.txt","1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327"]},"static_checks":{"json_case_comparison":"v1 609 cases prefix-equal; 655 v2 cases equal after removing expect.readiness (46 U15y differ only by it); 55 v2 diagnostic cases prefix-equal; changed keys: design.revision, controls C-03/C-05/C-06/C-11, mixed export nested_conjuncts/no_twin/unexercisable/not_exercised","readiness_sides":"84 U15y cases declare exactly needed sides + agent; agent 0 exactly for the engine-agent cases","d_cases":"47 unguarded U15y each have a D-case; cited D numbers match their calls","twins":"39 unguarded refusals each twinned or in no_twin; no no_twin case has a twin; each twin's build/mut/expect equals its base","placeholders":"RECORD_ON_L0 counts per file equal v2 (REC 7, baseline 181, modules 1 each)","ast_imports":"CHAR top-level non-stdlib imports start at line 76, after the gate at 68-70; LAY top-level imports stdlib only; GP stdlib only","required_proved_ast":"segments 280,11,4,5,8,31,34,46,1,115; 535 unique","jackal_json":"J01-J33 equal v2 apart from also_used_in_v3 on J04,J32,J33"},"files_read":[{"path":"scratchpad/review-override.txt","lines":"1-12"},{"path":"WT/briefs/capi-pk0-packet-v3.md","lines":"1-81"},{"path":"P/packet.json","lines":"1-223"},{"path":"P/AUTHOR-NOTES.md","lines":"1-236"},{"path":"P/jackal.json","lines":"1-65"},{"path":"P2/review/claude-v1/REVIEW.md","lines":"1-287"},{"path":"P2/review/claude-v1/review.json","lines":"1-91"},{"path":"P2/review/claude-v1/review-freeze.json","lines":"all"},{"path":"P1/review/gpt61-v1/REVIEW.md","lines":"1-180"},{"path":"P1/review/gpt61-v1/review-freeze.json","lines":"all"},{"path":"P1/AUTHOR-NOTES.md","lines":"145-160"},{"path":"REC","lines":"54-66, 316-408, 439-442, 449, 453, 465-484, 1106-1111, 1142-1181 (plus whole-file json.load)"},{"path":"CHAR","lines":"1-100, 189-192, 955-1330, 1446-1674 (plus v2/v3 diff)"},{"path":"GP","lines":"271-365, 400-442 (plus v2/v3 diff)"},{"path":"LAY","lines":"40-100, 260-332 (plus v2/v3 diff)"},{"path":"DIAG","lines":"v2/v3 diff only"},{"path":"WT/deviations/capi-pk0-v2-author-process/NOTE.md","lines":"1-36"},{"path":"S5/core/evaluation_completion_c.adb","lines":"1-399, 529-988"},{"path":"S5/core/evaluation_completion_c.ads","lines":"1-200"},{"path":"S5/core/evaluation_finalization_c.adb","lines":"1-569"},{"path":"S5/core/evaluation_finalization.ads","lines":"70-126, 194-200, 353-400"},{"path":"S5/core/evaluation_raw_roster.ads","lines":"25-40, 150-156"},{"path":"S5/core/worldline-evaluation.ads","lines":"1-14"},{"path":"S5/core/worldline-evaluation_authority.ads","lines":"23-40, 100-120"},{"path":"S5/core/worldline-evaluation_wire.ads","lines":"20, 29-60, 162-171"},{"path":"S5/core/worldline-collapse_wire.ads","lines":"21-63"},{"path":"S5/core/worldline-collapse.ads","lines":"139-156, 211-218"},{"path":"S5/core/worldline-c_api.adb","lines":"725-740"},{"path":"S5/core/worldline-c_api.ads","lines":"190-196"},{"path":"S5/core/evaluation_completion.ads","lines":"218-224"},{"path":"S5/runtime/worldline/evaluation_context.py","lines":"27-53, 118-215"},{"path":"S5/runtime/worldline/completion_kernel.py","lines":"46-64"},{"path":"S5/runtime/worldline/finalization_kernel.py","lines":"41-58"},{"path":"S5/runtime/worldline/core.py","lines":"60-80"},{"path":"S5/runtime/worldline/proof_manifest.py","lines":"22, 316 (plus AST)"},{"path":"S5/tests/test_raw_evaluation_default.py","lines":"1-160, 468-492"},{"path":"WT/designs/claude-capi-boundary-design-v4/DESIGN.md","lines":"615-630"},{"path":"WT/designs/claude-capi-boundary-design-v3/DESIGN.md","lines":"2225-2232"},{"path":"W/outputs/claude-phase1-handoff-20261004/HANDOFF.md","lines":"171-175"},{"path":"/home/sicarii/Documents/complete-phase1-prompt.txt","lines":"58-62"}],"jackal_calls":{"common":{"tool":"mcp jackal_exact","status":"exact","formal":false,"lane":"rat","assurance":"exact rational arithmetic (not yet checker-covered)","evaluator_sha256":"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872","non_claims":["NOT formal-bounded: this lane carries no Lean-checked certificate","The epistemic class above is the STRONGEST claim this result supports","exact rational arithmetic (not yet checker-covered)"],"consequence":"informational only; layout figures are source-derived C-convention LP64 predictions, unmeasured (C-13 placeholders)"},"calls":[{"id":"K01","expression":"280+11+4+5+8+31+34+46+1+115","parsed":"280+11+4+5+8+31+34+46+1+115","exact":"535","status":"exact"},{"id":"K02","expression":"5*16+24","parsed":"5*16+24","exact":"104","status":"exact","use":"Binding size"},{"id":"K03","expression":"8+8+8+104+40+40","parsed":"8+8+8+104+40+40","exact":"208","status":"exact","use":"offset of Context_Input.Expected"},{"id":"K04","expression":"2*14*24","parsed":"2*14*24","exact":"672","status":"exact","use":"Expected+Observed bytes"},{"id":"K05","expression":"104+16+16+24+24+4+4+16+52+4+20","parsed":"104+16+16+24+24+4+4+16+52+4+20","exact":"284","status":"exact","use":"Check_Row bytes before Declared"},{"id":"K06","expression":"288+16","parsed":"288+16","exact":"304","status":"exact","use":"Check_Row size"},{"id":"K07","expression":"2*304","parsed":"2*304","exact":"608","status":"exact","use":"two captured rows"},{"id":"K08","expression":"672-608","parsed":"672-608","exact":"64","status":"exact","use":"slack in the region"},{"id":"K09","expression":"2*16","parsed":"2*16","exact":"32","status":"exact","use":"Required_Row size"},{"id":"K10","expression":"609+46+38","parsed":"609+46+38","exact":"693","status":"exact"},{"id":"K11","expression":"28+27+20","parsed":"28+27+20","exact":"75","status":"exact"},{"id":"K12","expression":"27+18+2","parsed":"27+18+2","exact":"47","status":"exact"},{"id":"K13","expression":"58+19+18","parsed":"58+19+18","exact":"95","status":"exact"},{"id":"K14","expression":"304+2*8*24","parsed":"304+2*8*24","exact":"688","status":"exact","use":"Context_Row size"},{"id":"K15","expression":"2^64-(2^63-1)*304/688","parsed":"2^64-(2^63-1)*304/688","exact":"617965926469269979155/43","status":"exact","use":"stride-failing captured array is below 2^64"},{"id":"K16","expression":"(2^63-1)*304/688-2^52","parsed":"(2^63-1)*304/688-2^52","exact":"175050413916263809005/43","status":"exact","use":"and above 2^52"},{"id":"K17","expression":"36*8-284","parsed":"36*8-284","exact":"4","status":"exact","use":"padding of Declared to 288"},{"id":"K18","expression":"208/8","parsed":"208/8","exact":"26","status":"exact","use":"8-alignment of offset 208"},{"id":"K19","expression":"208+672","parsed":"208+672","exact":"880","status":"exact","use":"end of the unread region"}]},"executed":"nothing from the packet, S5 or WORLDLINE; only sha256sum, sed, grep, diff and python3 -B json.load/ast.parse scripts that print","files_written":"none"}
+
+=== END ===
