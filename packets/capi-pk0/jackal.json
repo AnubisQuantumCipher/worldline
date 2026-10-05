@@ -1,0 +1,49 @@
+{
+ "schema": "worldline/jackal-call-record/1",
+ "packet": "PK-0",
+ "tool": "mcp jackal / jackal_exact",
+ "calling_rule": "Every derived numeral in the packet went through jackal_exact, called sequentially or in groups of at most four. Numerals read from S5, the designs or a tool's output are observed and are not listed here.",
+ "common_result": {
+  "status": "exact",
+  "formal": false,
+  "lane": "rat",
+  "assurance": "exact rational arithmetic (not yet checker-covered)",
+  "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872",
+  "non_claims": [
+   "NOT formal-bounded: this lane carries no Lean-checked certificate",
+   "The epistemic class above is the STRONGEST claim this result supports",
+   "exact rational arithmetic (not yet checker-covered)"
+  ],
+  "consequence": "Arithmetic facts about values used by the packet. Informational only about code correctness; they prove no source, ABI, proof or native property."
+ },
+ "calls": [
+  {"id": "J01", "group": 1, "expression": "2^63-1", "parsed": "2^63-1", "exact": "9223372036854775807", "status": "exact", "used_for": "I64_MAX = Byte_Count'Last = Storage_Offset'Last = I64'Last; the I64'Last sentinel (C-07); the epoch length case U4_R1_epoch_length_max"},
+  {"id": "J02", "group": 1, "expression": "2^63", "parsed": "2^63", "exact": "9223372036854775808", "status": "exact", "used_for": "I64_MAX+1: the first size_t length or index beyond Byte_Count'Last (R0 and R2 length cases)"},
+  {"id": "J03", "group": 1, "expression": "2^64-1", "parsed": "2^64-1", "exact": "18446744073709551615", "status": "exact", "used_for": "SIZE_MAX = size_t'Last: the SIZE_MAX sentinel (C-07) and the chain stride bound (U13_R0_rows_count_over_size_stride)"},
+  {"id": "J04", "group": 1, "expression": "2^32-1", "parsed": "2^32-1", "exact": "4294967295", "status": "exact", "used_for": "U32_MAX = Unsigned_32'Last: diagnostic control probe D03"},
+  {"id": "J05", "group": 2, "expression": "3+2+5", "parsed": "3+2+5", "exact": "10", "status": "exact", "used_for": "U1_S_fits_at_equality and U8_S_ready: 10 >= 3+2+5 holds with equality"},
+  {"id": "J06", "group": 2, "expression": "3+2+6", "parsed": "3+2+6", "exact": "11", "status": "exact", "used_for": "U1_S_insufficient and U8_S_capacity_insufficient: 10 < 11"},
+  {"id": "J07", "group": 2, "expression": "0+1*256", "parsed": "0+1*256", "exact": "256", "status": "exact", "used_for": "little-endian magnitude of the bytes [00 01] (U1_S_little_endian_*)"},
+  {"id": "J08", "group": 2, "expression": "255+0+1", "parsed": "255+0+1", "exact": "256", "status": "exact", "used_for": "U1_S_little_endian_fits: 256 >= 256"},
+  {"id": "J09", "group": 3, "expression": "255+0+2", "parsed": "255+0+2", "exact": "257", "status": "exact", "used_for": "U1_S_little_endian_insufficient: 256 < 257"},
+  {"id": "J10", "group": 3, "expression": "10-3-2", "parsed": "10-3-2", "exact": "5", "status": "exact", "used_for": "U7h_S_computed: headroom 5, output bytes 05 00"},
+  {"id": "J11", "group": 3, "expression": "10-3", "parsed": "10-3", "exact": "7", "status": "exact", "used_for": "U7h_S_computed and U7h_R3_insufficient_storage: the intermediate difference that the output must hold"},
+  {"id": "J12", "group": 3, "expression": "2-3-2", "parsed": "2-3-2", "exact": "-3", "status": "exact", "used_for": "U7h_S_negative: headroom -3"},
+  {"id": "J13", "group": 4, "expression": "2-3", "parsed": "2-3", "exact": "-1", "status": "exact", "used_for": "U7h_S_negative: intermediate difference -1 fits a 2-byte output"},
+  {"id": "J14", "group": 4, "expression": "5+1", "parsed": "5+1", "exact": "6", "status": "exact", "used_for": "U5_R3_before_boundary: State'Pos (State'Last) + 1 (State'Last observed at position 5)"},
+  {"id": "J15", "group": 4, "expression": "7+1", "parsed": "7+1", "exact": "8", "status": "exact", "used_for": "U5_R3_cause_boundary: Event'Pos (Event'Last) + 1 (Event'Last observed at position 7)"},
+  {"id": "J16", "group": 4, "expression": "0+1", "parsed": "0+1", "exact": "1", "status": "exact", "used_for": "the successor of the empty epoch (1,0) is 1: proposed epoch byte 01 (U10, U11), the journal's first sequence (U14); history indexes are Python index + 1 (U9_S_fail_terminal)"},
+  {"id": "J17", "group": 5, "expression": "0+3", "parsed": "0+3", "exact": "3", "status": "exact", "used_for": "U7c_S_computed: the total of one withheld amount 3 is 3"},
+  {"id": "J18", "group": 5, "expression": "15+25", "parsed": "15+25", "exact": "40", "status": "exact", "used_for": "capi_layout_baseline.json: 15 version exports and 25 layout exports are the 40 staying exports (v3 DESIGN.md section 6)"},
+  {"id": "J19", "group": 5, "expression": "40+20", "parsed": "40+20", "exact": "60", "status": "exact", "used_for": "the 40 staying and the 20 moving exports are the 60 inventory exports (v3 DESIGN.md section 6)"},
+  {"id": "J20", "group": 5, "expression": "1+1", "parsed": "1+1", "exact": "2", "status": "exact", "used_for": "U8_S_later_filesystem: one-based raw disk index of Python index 1; U10_S_write_pending: second epoch value 2 (S5 retains the same receipt parsed=1+1)"},
+  {"id": "J21", "group": 6, "expression": "2^64", "parsed": "2^64", "exact": "18446744073709551616", "status": "exact", "used_for": "U4 cases with epoch 2^64 (the S5 v3 tests use the same value with their own receipt parsed=2^64)"},
+  {"id": "J22", "group": 6, "expression": "5-2", "parsed": "5-2", "exact": "3", "status": "exact", "used_for": "U7c_S_used_present: withheld = reserved 5 - used 2"},
+  {"id": "J23", "group": 6, "expression": "0-(2-3-2)", "parsed": "0-(2-3-2)", "exact": "3", "status": "exact", "used_for": "U7h_S_negative: magnitude 3 of the headroom -3 (output byte 03)"},
+  {"id": "J24", "group": 6, "expression": "2+1", "parsed": "2+1", "exact": "3", "status": "exact", "used_for": "first invalid value after a last position of 2: Declaration (policy 3), Outcome (3), Report_Integrity (3), Verdict (3), lifecycle Observed (3)"},
+  {"id": "J25", "group": 7, "expression": "8+1", "parsed": "8+1", "exact": "9", "status": "exact", "used_for": "Execution_State'Pos (Execution_State'Last) + 1 (Completed observed at position 8)"},
+  {"id": "J26", "group": 7, "expression": "3+1", "parsed": "3+1", "exact": "4", "status": "exact", "used_for": "Lifecycle'Pos (Lifecycle'Last) + 1 (Completed observed at position 3); history Row_Valid State <= 3"},
+  {"id": "J27", "group": 8, "expression": "25-1", "parsed": "25-1", "exact": "24", "status": "exact", "used_for": "AUTHOR-NOTES C-07 row: 25 layout exports, of which the argument-less row-size export has no sentinel"}
+ ],
+ "not_routed": "Case and file counts in AUTHOR-NOTES.md and packet.json are observed from read-only script output (json.load, sha256sum, wc), not derived. Line numbers are read from S5 text."
+}

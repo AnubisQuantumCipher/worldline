@@ -247,7 +247,20 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 08:41Z)
+## In progress (updated 08:56Z)
+
+- **C-API packet PK-0, source only** (`packets/capi-pk0/`, packet.json `9808145e…`).
+  - **Content.** Six new test files: characterization JSON `51ba5ca2…`, guard pages, layout baseline with RECORD_ON_L0
+    placeholders, and three test modules. Plus AUTHOR-NOTES and jackal.json (27 calls).
+  - **Lead checks.**
+    - All nine hashes match the report.
+    - All 95 bound S5 inputs match by sha256 and size.
+    - No existing file is touched.
+    - Sampled JACKAL calls reproduce `exact`.
+  - **Executed.** Nothing: no tests, no WORLDLINE code.
+  - **What stays open.** The PK-0 gate, a baseline run on L0 in an admitted frame, is blocked by F-1 and S-1.
+  - **Review.** Its actual gpt-6.1-sol source review is queued for a runner slot: brief `briefs/capi-pk0-packet-v1.md`
+    (`6aca6062…`), output to `packets/capi-pk0/review/gpt61-v1`.
 
 - **Operator package DRAFT-v9: frozen and under review.**
   - **Freeze.** `package-drafts/DRAFT-v9.md` `e3e0e5c4…` (96186 bytes) was frozen at 08:40Z.
