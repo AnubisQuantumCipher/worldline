@@ -1,0 +1,50 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "approval_granted": false,
+  "blockers": {
+    "V5-B01": "OPEN",
+    "V5-B02": "OPEN"
+  },
+  "completed": true,
+  "copy": {
+    "assessment": "On PTRACE-GID, EXCH, COPY, complete SCAN-GATE/SCAN-W, credential closure and the stated trusted root/kernel, the descriptor-confined creates, explicit writes and root exchanges protect the fresh destination inodes at each explicit mutation. Generic ptrace documentation supports the UID/GID prerequisite but is not installed-host evidence. K5's universal every-frame-mutation claim is false for source read side effects; exact attribute reproduction and source-read compatibility are also conditional. Root exchange changes admitted recipe-parent metadata, contradicting the immutable-after-M8 assertion.",
+    "evidence": [
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:2056",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:2092",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:2117",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:2125",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:2150",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:4124"
+    ],
+    "primary_documentation": "https://man7.org/linux/man-pages/man2/ptrace.2.html"
+  },
+  "design_sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d",
+  "in_place": {
+    "assessment": "K1 is an explicit conjunction, not an original acceptance predicate. The parent walk makes the route decision and the child rechecks entry ownership, effective write bits and device, tests leases on walk-matched file descriptors, compares all admitted leaf keys, and repeats credential scans after SPAWN_OK and before spawn. This is the right stated final-pass placement. Sufficiency remains conditional: L1, K-PERM, credential closure and a genuinely joint M-QUIESCENT state are unestablished. st_dev equality establishes device equality, not absence of every mount boundary; whole-population scan completeness and correspondence to a common quiescent instant are not specified by S1-S6.",
+    "evidence": [
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:844",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:871",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:1597",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:1676",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:1700",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:1988"
+    ]
+  },
+  "item": 3,
+  "k8": {
+    "assessment": "An access-time inode update caused by the frame's read is a frame-caused filesystem mutation; exclusion from stat_key is not a custody exception. A foreign-owned single-link source may have its sole current name outside T when the retained source descriptor is read. K8 expressly allows foreign-owned source reads without O_NOATIME and admits possible outside names. Directory enumeration also needs an explicit read-side-effect treatment. The 'one place only' statement omits the inherited proof-report read.",
+    "counts_as_frame_mutation_under_v5_b02": true,
+    "evidence": [
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:2175",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:2070",
+      "ISOLATION-STORAGE-PROPOSAL-v6.md:223",
+      "scratch-frame-v5/scratch.py:104",
+      "scratch-frame-v5/scratch.py:138",
+      "scratch-frame-v5/scratch.py:517",
+      "scratch-frame-v5/scratch.py:538",
+      "scratch-frame-v5/scratch.py:1702"
+    ],
+    "primary_documentation": "https://man7.org/linux/man-pages/man2/open.2.html"
+  },
+  "schema": "w1-v6-design-review-checkpoint-v1"
+}

@@ -1,0 +1,131 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "approval_granted": false,
+  "assessment": "Literal early-refusal and STOP corrections are closed at specification level only. All formerly closed W-1 scopes remain closed at that scope. Other corrections have substantive remaining gaps, rather than merely missing execution.",
+  "completed": true,
+  "design_sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d",
+  "different_from_author": true,
+  "findings": [
+    {
+      "evidence": [
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:153",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:4086",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:4143"
+      ],
+      "id": "W1-V6-PRESERVE",
+      "reason": "The candidate explicitly retains observable changes and original accepted-case refusals. Keeping the obligation OPEN is truthful, but is not closure."
+    },
+    {
+      "evidence": [
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2088",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2174"
+      ],
+      "id": "W1-V6-READ-MUTATION",
+      "reason": "K8 expressly permits a frame-caused atime update on a foreign-owned source inode that may also have a name outside T. This defeats the unqualified no-mutation statement and the all-mutations K5 claim."
+    },
+    {
+      "evidence": [
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2239",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2256",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2278",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2297"
+      ],
+      "id": "W1-V6-COMMIT-AMBIGUITY",
+      "reason": "A valid complete close file can exist after its fsync or post-validation failed. If the skipping continuation is absent or fails before leaving a valid file, the structural chain confirms the primary despite the stated any-failed-write guarantee."
+    },
+    {
+      "evidence": [
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2449",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2551",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:2581",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:3098"
+      ],
+      "id": "W1-V6-COMPOSED-STATE",
+      "reason": "Single-object atom composition still omits parent-directory entry-set/link/metadata effects and cross-script shared-state projection. Normal child creates, installation and rollback alter earlier captured directory identities."
+    },
+    {
+      "evidence": [
+        "package-review/gpt61-v5/REVIEW.md:275",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:3152",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:3161"
+      ],
+      "id": "W1-V6-IMAGE-PIN",
+      "reason": "The image-directory exact entry-set check was removed from per-use pins. Setup and rollback captures do not satisfy the sealed correction's requirement to preserve every-use comparison."
+    },
+    {
+      "evidence": [
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:1548",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:1557",
+        "ISOLATION-STORAGE-PROPOSAL-v6.md:4520"
+      ],
+      "id": "W1-V6-C1-DATA",
+      "reason": "C1 requires launch environment/template and launcher-intent stream identities before C2 delivers those records. C cannot search the records tree; data-dependent checks must follow authenticated delivery."
+    }
+  ],
+  "item": 1,
+  "phase_acceptance": false,
+  "prior_closure": {
+    "W1-COMMIT-JOURNAL-EXPORT": "PARTIALLY_CLOSED",
+    "W1-CUSTODY": "PARTIALLY_CLOSED",
+    "W1-CUSTODY-CLOSURE": "PARTIALLY_CLOSED",
+    "W1-DURABILITY-RELEASE": "CLOSED_AT_SPEC_LEVEL",
+    "W1-GENERATION-PROTOCOL": "PARTIALLY_CLOSED",
+    "W1-IMAGE-OBSERVATION": "PARTIALLY_CLOSED",
+    "W1-IMAGE-TREE": "PARTIALLY_CLOSED",
+    "W1-JOURNAL-CONTINUATION": "PARTIALLY_CLOSED",
+    "W1-LIFETIME-ROLLBACK": "PARTIALLY_CLOSED",
+    "W1-PROTOCOL-FAILURE-STATES": "PARTIALLY_CLOSED",
+    "W1-RESOURCES": "CLOSED_AT_SPEC_LEVEL",
+    "W1-SETUP": "PARTIALLY_CLOSED",
+    "W1-SETUP-IDENTITY": "CLOSED_AT_SPEC_LEVEL",
+    "W1-SETUP-PROBES-ROLLBACK": "PARTIALLY_CLOSED",
+    "W1-SETUP-RECONCILIATION": "PARTIALLY_CLOSED",
+    "W1-TERMINAL-CUSTODY": "PARTIALLY_CLOSED",
+    "W1-V5-IMAGE-PINS": "NOT_CLOSED",
+    "W1-V5-JOURNAL-FAILED-CLOSE": "PARTIALLY_CLOSED",
+    "W1-V5-PRESERVATION": "NOT_CLOSED",
+    "W1-V5-PROTOCOL-REFUSALS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-V5-RECONCILIATION-STATES": "PARTIALLY_CLOSED",
+    "W1-V5-REVOCATION-CONFINEMENT": "PARTIALLY_CLOSED"
+  },
+  "proof_acceptance": false,
+  "schema": "w1-v6-design-review-checkpoint-v1",
+  "source_acceptance": false,
+  "support_sha256": "10c30d8ea534269d90b83c56da2dffe38c3e96dff4ff21f426fb9b1378eb23f3",
+  "w1_gap_closure": {
+    "channel-and-dumpability": "PARTIALLY_CLOSED",
+    "commits-and-durable-channel": "PARTIALLY_CLOSED",
+    "denial-probes": "CLOSED_AT_SPEC_LEVEL",
+    "exposure-options": "CLOSED_AT_SPEC_LEVEL",
+    "fresh-identities-and-vault": "CLOSED_AT_SPEC_LEVEL",
+    "generation-order": "PARTIALLY_CLOSED",
+    "lease-and-writer-authority": "CLOSED_AT_SPEC_LEVEL",
+    "participants-and-recovery": "PARTIALLY_CLOSED",
+    "per-entry-modes-acls": "CLOSED_AT_SPEC_LEVEL",
+    "prestate-and-installation": "PARTIALLY_CLOSED",
+    "resources-and-images": "CLOSED_AT_SPEC_LEVEL",
+    "rollback-and-evidence": "PARTIALLY_CLOSED"
+  },
+  "w1_subgap_closure": {
+    "W1-CHANNEL": "PARTIALLY_CLOSED",
+    "W1-CLOSURE": "PARTIALLY_CLOSED",
+    "W1-CUSTODY": "PARTIALLY_CLOSED",
+    "W1-EVIDENCE": "PARTIALLY_CLOSED",
+    "W1-FAILURE-LEASE": "PARTIALLY_CLOSED",
+    "W1-FAILURE-RECORDS": "PARTIALLY_CLOSED",
+    "W1-FINAL-PASS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-IMAGE-COMPATIBILITY": "CLOSED_AT_SPEC_LEVEL",
+    "W1-IMAGE-GEOMETRY": "CLOSED_AT_SPEC_LEVEL",
+    "W1-NONCLAIMS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-PREFLIGHT-IDENTITY": "CLOSED_AT_SPEC_LEVEL",
+    "W1-READ-ACCESS": "CLOSED_AT_SPEC_LEVEL",
+    "W1-READ-EXPOSURE": "CLOSED_AT_SPEC_LEVEL",
+    "W1-REBOOT-RECOVERY": "PARTIALLY_CLOSED",
+    "W1-ROLLBACK": "PARTIALLY_CLOSED",
+    "W1-SETUP-EXACTNESS": "PARTIALLY_CLOSED",
+    "W1-SETUP-ORDER": "CLOSED_AT_SPEC_LEVEL",
+    "W1-SETUP-PRESTATE": "CLOSED_AT_SPEC_LEVEL",
+    "W1-VERIFICATION-PROBES": "CLOSED_AT_SPEC_LEVEL",
+    "W1-WRITE-AUTHORITY": "CLOSED_AT_SPEC_LEVEL"
+  }
+}

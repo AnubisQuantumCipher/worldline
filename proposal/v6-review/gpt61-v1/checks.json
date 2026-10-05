@@ -1,0 +1,3984 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "author_process_record": {
+    "assessment": "Model-origin disclosure only: the author reports transcript pre-reading and cannot confirm its initial sia.ask. No transcript was inspected by this reviewer; no compliance or acceptance weight is assigned.",
+    "source": {
+      "bytes": 3001,
+      "lines": 48,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/w1-v6-author-process/NOTE.md",
+      "sha256": "4ab6fa13440bfb2aeb5b6898a784f4dc216e624e8156112740c0e8eeee99f541"
+    }
+  },
+  "authority_boundary": {
+    "approval_granted": false,
+    "dispatch_authority": false,
+    "exception_granted": false,
+    "frame_qualification": "UNQUALIFIED / OPEN",
+    "phase_acceptance": false,
+    "proof_acceptance": false,
+    "source_acceptance": false
+  },
+  "checkpoint_boundary": "Create-only progress; final REVIEW.md and review.json determine the completed review. Provisional anchor shorthand carries no separate authority.",
+  "checkpoints": {
+    "checkpoint-1.json": {
+      "bytes": 6091,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/checkpoint-1.json",
+      "sha256": "e74a3653305a1cbe95323a1208f93daac4648dfc43fe5fd0ceddfb097d3a1a1a"
+    },
+    "checkpoint-2.json": {
+      "bytes": 1437,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/checkpoint-2.json",
+      "sha256": "4b841b672ea764a4ba72f5368a565aa5e0fb2ba04334ff5f0fb65e443524c125"
+    },
+    "checkpoint-3.json": {
+      "bytes": 3423,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/checkpoint-3.json",
+      "sha256": "db2d4784291b18b3cf2be9b85ad34e7ac5498e6e0658afecab1772f1145284b1"
+    },
+    "checkpoint-4.json": {
+      "bytes": 12142,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/checkpoint-4.json",
+      "sha256": "87d00b2fe7a0918604351773cda61abdea1f69006badbbd3a00cc239b038ac68"
+    },
+    "checkpoint-5.json": {
+      "bytes": 7564,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/checkpoint-5.json",
+      "sha256": "22d38f59e9fb4542fec0363f576beaaae7a4517a3f5816569c7859c7f416cdf9"
+    },
+    "checkpoint-6.json": {
+      "bytes": 10657,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-review/gpt61-v1/checkpoint-6.json",
+      "sha256": "72ee16d4e907c1266899e7d861b3121a34a428f9d0daec0f85576b658682818c"
+    }
+  },
+  "composed_v5_unit_map": {
+    "map_issues": [],
+    "map_rows": [
+      {
+        "byte_identical": false,
+        "map_line": 3879,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "title",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3880,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "0",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3881,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "0.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3882,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "0.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3883,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "0.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3884,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "0.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3885,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "0.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3886,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "0.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3887,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3888,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3889,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "2.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3890,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "2.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3891,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "2.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3892,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "2.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3893,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3894,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "3.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3895,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "3.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3896,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "3.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3897,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "3.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3898,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3899,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "4.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3900,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "4.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3901,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "4.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3902,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "4.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3903,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "4.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3904,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "4.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3905,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3906,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "5.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3907,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "5.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3908,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "5.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3909,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "5.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3910,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3911,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "6.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3912,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "6.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3913,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "6.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3914,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "6.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3915,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "6.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3916,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "7",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3917,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "7.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3918,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "7.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3919,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "7.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3920,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "7.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3921,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "7.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3922,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "7.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3923,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "7.7",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3924,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "8",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3925,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "8.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3926,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "8.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3927,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "8.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3928,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "8.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3929,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "8.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3930,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "8.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3931,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "9",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3932,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "9.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3933,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "9.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3934,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "9.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3935,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "9.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3936,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "9.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3937,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "9.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3938,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "9.7",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3939,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "9.8",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3940,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "10",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3941,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "10.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3942,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "10.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3943,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "10.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3944,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "10.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3945,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "10.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3946,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "10.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3947,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "10.7",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3948,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "11",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3949,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "11.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3950,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "11.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3951,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "11.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3952,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "11.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3953,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "11.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3954,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "11.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3955,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "11.7",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3956,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "12",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3957,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "12.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3958,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "12.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3959,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "12.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3960,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "13",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3961,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "13.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3962,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "14",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3963,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "14.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3964,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "14.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3965,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "14.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3966,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "14.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3967,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "14.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3968,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "14.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3969,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "15",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3970,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "15.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3971,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "15.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3972,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "15.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3973,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "15.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3974,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "16",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3975,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "17",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3976,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "18",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3977,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "18.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3978,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "18.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3979,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "18.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3980,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "18.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3981,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "18.5",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3982,
+        "old_identity_matches": true,
+        "status": "REPLACED",
+        "unit": "18.6",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3983,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "19",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3984,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "20",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3985,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "Appendix A",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3986,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "Appendix B",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3987,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "B.1",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3988,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "B.2",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3989,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "B.3",
+        "v6_present": true
+      },
+      {
+        "byte_identical": false,
+        "map_line": 3990,
+        "old_identity_matches": true,
+        "status": "AMENDED",
+        "unit": "B.4",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3991,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "Appendix C",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3992,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "Appendix D",
+        "v6_present": true
+      },
+      {
+        "byte_identical": true,
+        "map_line": 3993,
+        "old_identity_matches": true,
+        "status": "CARRIED",
+        "unit": "Appendix E",
+        "v6_present": true
+      }
+    ],
+    "new_units": [
+      "21",
+      "Appendix F",
+      "14.7"
+    ],
+    "unmapped_old_units": []
+  },
+  "criteria_verbatim": {
+    "V5-B01": true,
+    "V5-B02": true
+  },
+  "different_from_author": true,
+  "evidence_anchor_issues": [],
+  "final_input_identity_recheck": true,
+  "frame_v5_to_v6_source_delta": "Only observe_tree's final file metadata retention/revalidation changed. The returned files/directories/identities shape remains. No W1 confinement implementation is present in this delta.",
+  "input_expectations_match": {
+    "composed_v5": true,
+    "design": true,
+    "frame_v5": true,
+    "frame_v6": true,
+    "package_v5_report": true,
+    "package_v5_review_json": true,
+    "support": true
+  },
+  "inputs": {
+    "B": {
+      "bytes": 466105,
+      "lines": 4780,
+      "mode": "0444",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-frozen/ISOLATION-STORAGE-PROPOSAL-v5-COMPOSED.md",
+      "sha256": "6cbc9c07994c2798910b84a02c5e445f67f24b9f51ed0efc95142df9b6113490"
+    },
+    "Criterion": {
+      "bytes": 49133,
+      "lines": 190,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/review/gpt61-v1/REVIEW.md",
+      "sha256": "2c414c694ed75d72cffae2172bef967bdcf63d73cc0a3764f96762a59d49ec71"
+    },
+    "D": {
+      "bytes": 501735,
+      "lines": 4792,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/ISOLATION-STORAGE-PROPOSAL-v6.md",
+      "sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d"
+    },
+    "F5": {
+      "bytes": 116891,
+      "lines": 2007,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v5/scratch.py",
+      "sha256": "f9f6596defa933e1edf3c37af59f7173ff252b7b4add40542dda7c8642b2be86"
+    },
+    "F6": {
+      "bytes": 117698,
+      "lines": 2016,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-scratch-frame-v6/scratch.py",
+      "sha256": "2255d6e14967d62aa9ce4c2b93b986340dd6840df9b659f9252e522546884c84"
+    },
+    "H": {
+      "bytes": 30462,
+      "lines": 187,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/HANDOFF.md",
+      "sha256": "2f3a0b4b3bb2a0996824859c2d9f8a59e7c58f624b2d81cb00e40e76bf588237"
+    },
+    "Note": {
+      "bytes": 3001,
+      "lines": 48,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/deviations/w1-v6-author-process/NOTE.md",
+      "sha256": "4ab6fa13440bfb2aeb5b6898a784f4dc216e624e8156112740c0e8eeee99f541"
+    },
+    "O": {
+      "bytes": 410484,
+      "lines": 7105,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec"
+    },
+    "Op": {
+      "bytes": 9048,
+      "lines": 78,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/complete-phase1-prompt.txt",
+      "sha256": "1b228f4b07209c91c8f8770851906a8ebbf90db12f0af605954aff392946b327"
+    },
+    "Plan": {
+      "bytes": 10066,
+      "lines": 146,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/frame-v6-PLAN.md",
+      "sha256": "9a07534bdb0d2ca8413b2433f13def7c2629b0c615e48c7aba0572913ddfe1d9"
+    },
+    "R5": {
+      "bytes": 105578,
+      "lines": 411,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/REVIEW.md",
+      "sha256": "8810306338aaf0601906914bbaa7ccba76cd3afe3ae214c87fdcabb284055bdf"
+    },
+    "R6": {
+      "bytes": 53121,
+      "lines": 353,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/REVIEW.md",
+      "sha256": "d3e0387ef4639a3f539bd2db96d73d2dc471256c62c5c7cd85eb8ce9aa6b3299"
+    },
+    "Start": {
+      "bytes": 2699,
+      "lines": 12,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/START-CLAUDE.txt",
+      "sha256": "004c71a8da3cb4e917812af427a1701bde226a18da615bcdbf483414d75f187e"
+    },
+    "Support": {
+      "bytes": 5637,
+      "lines": 98,
+      "mode": "0644",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/proposal/v6-support/jackal.json",
+      "sha256": "10c30d8ea534269d90b83c56da2dffe38c3e96dff4ff21f426fb9b1378eb23f3"
+    }
+  },
+  "jackal_consequence_ceiling_returned": null,
+  "jackal_reproduction": [
+    {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=1+1+1+1+1+1 exact=6 approx=6",
+      "expression": "1+1+1+1+1+1",
+      "fields": {
+        "approx": "6",
+        "exact": "6",
+        "parsed": "1+1+1+1+1+1",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    },
+    {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=70+29+16-115 exact=0 approx=0",
+      "expression": "70+29+16-115",
+      "fields": {
+        "approx": "0",
+        "exact": "0",
+        "parsed": "70+29+16-115",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    },
+    {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=115+3 exact=118 approx=118",
+      "expression": "115+3",
+      "fields": {
+        "approx": "118",
+        "exact": "118",
+        "parsed": "115+3",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    },
+    {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=1+1+1+1 exact=4 approx=4",
+      "expression": "1+1+1+1",
+      "fields": {
+        "approx": "4",
+        "exact": "4",
+        "parsed": "1+1+1+1",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    },
+    {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=1+1+1 exact=3 approx=3",
+      "expression": "1+1+1",
+      "fields": {
+        "approx": "3",
+        "exact": "3",
+        "parsed": "1+1+1",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    },
+    {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=1+1 exact=2 approx=2",
+      "expression": "1+1",
+      "fields": {
+        "approx": "2",
+        "exact": "2",
+        "parsed": "1+1",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    }
+  ],
+  "jackal_review_use": "informational arithmetic only; exact is outside the Lean certificate chain and is not formal-bounded",
+  "memory_use": "Historical obligation-preservation routing only. No unverified historical live-state fact is relied on.",
+  "method": "Passive text/AST source reading, source comparison, hashes and declared artifact metadata; actual sequential MCP JACKAL for derived arithmetic. No candidate import/evaluation/execution.",
+  "model_truth_boundary": "Actual review model selection is gpt-6.1-sol in the current review context; it is not inferred from a role label. No cryptographic model attestation is claimed. No subagents or alternate-model reviewers were used.",
+  "operations_not_performed": [
+    "WORLDLINE/frame code import or execution",
+    "compiler/prover/build/test",
+    "sudo/account/ACL/permission change",
+    "mount/service/window/reservation/probe action",
+    "project-vault/restic",
+    "process stop/kill/interrupt",
+    "SIA note",
+    "read/list of SIA .gbrain",
+    "home-directory listing/stat",
+    "iPad/iPadBackup listing/stat",
+    "session transcript read",
+    "write outside current review directory"
+  ],
+  "original_obligation_authority_unchanged": true,
+  "original_obligations": {
+    "all_open": true,
+    "identity_issues": [],
+    "observed_rows": 219,
+    "prior_ids_match": true,
+    "rows": [
+      {
+        "dependsOn": [
+          "OB-209",
+          "the operator's yes and password (or the install-authority actuator, G2/C7)"
+        ],
+        "id": "OB-001",
+        "needsOperator": "yes and sudo password for the install (or the install-authority actuator)",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Production install",
+        "releaseKey": "C8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "3a7c0eb14ac4b85233c169323c56be0b589542d5038355b0c9770e56851f94bc"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-002",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d56f7fc909a823abd8a1ee9990b8948c0ee27092f3588dd8b690fa8b02988e94"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-003",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b1f0fa9f01059c3366c42c8efc534b955da94131d7bcd313aa767f24c71676f0"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-004",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "306e1aa0a386b9fcd662afa957d0838a0205d8a3f5c2f5bdc5e60597bdaab556"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-005",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "41a93eafea0ca1e0ab7909872ff59c8c14fda9868764d574596f4148ce75bf85"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-006",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "428b30f3ae416c93c20143e55c4ca1279a4486e1a4b098fad8289e0662e7edb8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-007",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "be37337dbfdc94d50d74c6e233312340c7d5c0b79cce13291a034874a42fd83f"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-008",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "dfb309023dc0de34c49caee9acc7528262a22dc44d512d5626367042e0cf26d6"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-009",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "923a1e637b99d688519d13912a075d8a9b32474903d9952ff9e8537d80b6c3c9"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-010",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ecbdc88414fdb5b17f728aca5a4be47f5afee5eae7c3386d176d558729875851"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-011",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e4e068a1b2063c914c19fe73a341561fe77587648869677bc1533053319c8f75"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-012",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b4bd9076d233f469d5ba16c1e24ec653c81aa4c2dfdc1240c46cc4f7d2460f3a"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-013",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "2f7395ea00b0f1a79fc8b54531f1b53204171447e3833dfa1652b0c6c33f2f0e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-014",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a42c246c205be29a796111113e3528f30026ac91f0c5d98b41249ac66a376990"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-015",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e9f32352640a5cbd8b9fa20c0033663ec1b11a35849b078def1b8b1b6ff024f5"
+      },
+      {
+        "dependsOn": [
+          "OB-002"
+        ],
+        "id": "OB-016",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "3d650f96e68404f68eac7f31478d8f44f6fbb45d78d0606ff764571ea8decc92"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-017",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "162d4cd6b6c240dd3c7da321abe7ac09154410aca3fdcc6b4a8a15bdf2e8d771"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-018",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b53ae523d251c682a9b8def69af111d546f70124df6b7d60056d837f321cc80e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-019",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.5",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.9.5",
+        "releaseKey": "R4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "388b0c7aba04cb2dd74f187cafd5f4f9752563ecd64d1ced6e2e125fd6015ccf"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-020",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "f44e482c8675d28910e46d0d4a947e819a0dfbf5cff01aa84acfa8816458b5a7"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-021",
+        "needsOperator": "approve the production policy change (a PRIME change through collapse)",
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "89266dbf812dfe07b3b827a2799e1a1a2019050e0474fba49128fc05d2b0d111"
+      },
+      {
+        "dependsOn": [
+          "OB-002"
+        ],
+        "id": "OB-022",
+        "needsOperator": null,
+        "owner": "Phase 1 item 6b",
+        "ownerV1": "Phase 1 item 6b",
+        "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+        "releaseKey": "K4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d2a2c3848982df4fdb87f334c7b77eb62b4a43f4e852d0cd29b68b0a237c3a43"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-023",
+        "needsOperator": null,
+        "owner": "Phase 1 item 6b",
+        "ownerV1": "Phase 1 item 6b",
+        "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+        "releaseKey": "K4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "9e1c8f919074c2cf7641a03e7b4d50fab6ce96ef687ececafb07c91c8b67e894"
+      },
+      {
+        "dependsOn": [
+          "item 6b adopt capability"
+        ],
+        "id": "OB-024",
+        "needsOperator": null,
+        "owner": "Phase 1 item 6b",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+        "releaseKey": "K4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "0cec12aff8a0e94c3b8aebbfac522e5b6d019989e418ce8247c03c9bdf2d8823"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-025",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "bc9f2b6a2ba85ce723822187c362d921323429d2a3c367abc96642b7b7d9a765"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-026",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "092a516998864245c4efe6f1acb8b2b22281862428ac0d13254230668115ce2f"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-027",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "05f95e0c22ba377fa65d49cbb7270b75c852aee0fe835c7638a472ca864d4f0c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-028",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "76d21edacb9b2fa48363b9a2380cf1fb4f1198fd2e8b128dbf1b60b04a46ad01"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-029",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "15e3a3996db282001218a964b4788f40d6ecfe2327e3ab060ca360a1d71c5b6a"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-030",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c8bb4a934deeb4e2e7ca726a7b40f5484f1a9f39c1a5c45b771c51bad7230a7b"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-031",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "96363bf751f663dce4fac0de3040c68d1396d157e6fb5bc2daee64c779d36182"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-032",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "bb444ce099804097cc0137dac0c5097a1cb508973ce251d81c6704ebb9306417"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-033",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "42b9ba2bd25dc25d4b59f0f8e2341e852ce8658df29b06da12f123aca3c2da48"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-034",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "041997a0baf068f0e2353faaa5cc50f4443df746dc54ad76c6e73d4562128849"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-035",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "bb8d6cd0e030a1afa5977240ec94d8764033bcc34d03286543eaa52332e10edc"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-036",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b83bde82fe310f758665628e1eb805cd1b9a62ad8fd98915aac237fd5379afee"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-037",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "419059b0d03300929baafb03b0c18b411011677e95a737347f0c678a7e17c941"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-038",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c3e88a754684d6fb7c92de7462d27c45420d4b3db18363c95bde0ea62321c411"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-039",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.0.0 (Phase 2a)",
+        "releaseKey": "K7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "80b29de4e786585a01d2b3dfa62b859325492c33392564b4f89afa0734101a73"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-040",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.0.0 (Phase 2a)",
+        "releaseKey": "K7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "cdc1bc2f6bb21d6bca0aca8c8e7b9577afa7c22cea6d10a18b3c71c264607b31"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-041",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.0.0 (Phase 2a)",
+        "releaseKey": "K7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e3491e7723304bca5a5d9795cd2a3a73c3c708a0384c94a12f33b1b71e146722"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-042",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.0.0 (Phase 2a)",
+        "releaseKey": "K7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "494f62b4e1095615f288c3dd76fd4741861a6ce4910341dd5bd9b4310c270a5d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-043",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.1.0 (Phase 2b)",
+        "releaseKey": "K8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "231582b7bb63bfbd7a185f53044bcb003c556bebeebb79f3fec2294a9d0947bf"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-044",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.1.0 (Phase 2b)",
+        "releaseKey": "K8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "1ade91e8ac568e0801f4673193ff45c5595690496d1f3f20faafb67e7b3a3b6d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-045",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.1.0 (Phase 2b)",
+        "releaseKey": "K8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "0eae8238ceb18521fa48fd77c7c70ffb984b5a4e4253eef610c0087ca2987343"
+      },
+      {
+        "dependsOn": [
+          "G2",
+          "OB-039",
+          "OB-040",
+          "OB-043",
+          "OB-045"
+        ],
+        "id": "OB-046",
+        "needsOperator": "yes and password for the production topology change",
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "Production authority integration",
+        "releaseKey": "C7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d63f1f38a71087329cbac7f8638b520ccd0a609911003b4200b61db8de25481e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-047",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b4c3216f2d345cd151254735efe389c7c43bf6da8ab898c89fd49597e2b25e2b"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-048",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.0.0 (Phase 2a)",
+        "releaseKey": "K7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "db38264c384ea8a30cbff42fab5ecca435f8c4eb29dbf109959804f94124f330"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-049",
+        "needsOperator": null,
+        "owner": "Phase 1 item 7",
+        "ownerV1": "Phase 1 item 7",
+        "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+        "releaseKey": "K5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "8895a2c2afd6a08061405358ab27f6fa293567907524c5eb6de53230708e6055"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-050",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d9ad521b949022333e71a9f3ff42796d6773230ed0dd76c57797aab22fa3d7da"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-051",
+        "needsOperator": null,
+        "owner": "Phase 1 item 4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+        "releaseKey": "K6",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "516ce5c637c02f156505dc4fbcfbe37a880696f1c206de30cb2d88425326f2b3"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-052",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d9ea53a48a9ef17b629d9f2ce165833a934e80acbc6b18dbe987587009efbce7"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-053",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "f08ffc78acacd81b6adf1c93eea6a1c54ed843cdbf96347dae65bae5537aac7e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-054",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "f26e4536a877392502573d0c6f1e9eefafab4595b69e1b6fc4953b8709fbe0a0"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-055",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "54102eb2202b456d2a824bf2b68ee01b6e9d664c3e3e9556ff9811c64bcc4f4d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-056",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "90935ae578237db837e364e011c52d65769f221de08131a40ab57454178f1f30"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-057",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e06e47c2c7fcad3cfbecd8261697ec4ad42ac2d55767d92d6cb6bb4d560703f8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-058",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "6f78df61fad70b3efe1f96408cb3d7e9734a7f3fd278b6618552db62b332031b"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-059",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "ATTEST",
+        "releaseKey": "C6",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "99a210368b9ac2e7be1cdff9bd169d84d5888da3b101f8b452a4435fffd48b85"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-060",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "5c23dbb687d37cb0d09db2b83c92205d3850f30c46ceaadeeb08404a47aa4ff2"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-061",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d745e92405a55ebe8079d261ec769b2e2eaacfdf4e6fb8c87f39de99a56d9528"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-062",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "4b372e0e651b033bcfb2c91ca334955381edffb101b097dd14566f1669aeb162"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-063",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d03ff02f824f5e6e227265f37a6b20af1a60582c755b515956891cf5b333b9b7"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-064",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "f643e255d25fbaa3c3885d10a1f6e18a1d8241eba46f7b05855a2b264f62d5b1"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-065",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "2d6555d919bd999561dce5dddcc4d115adc10f5b80fe1e82fe632145b2489fe8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-066",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "807464e13c9fadfc06677de111815a0ec4d4ed71993809270e8ea08b87979cc6"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-067",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "49a5daceed69376375c54b2cc72e65cbb40617b5837827af26f81cf353d0652c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-068",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "2ae1813e82d8b78d3d99d7507992e9f896adb8e382c3110f157efd7888ac4008"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-069",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "eab53a2e9822402431416103229ec483d94adfbcf20024f6491fc19f9a1c6331"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-070",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "cd13472844aea696ad1a4db757fbcfcf336bdd3c96a6faedcfefc52777f51d2d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-071",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "bc4095e396268024398b145cd1de69f1696232e1d14bd0260d0d8e105fe7357c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-072",
+        "needsOperator": "run passwd privately; log out fully or reboot",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "COSMOGONY C1",
+        "releaseKey": "C1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "393d776db4036be07333b034b4e0e05b1b4810b9c0ad28fc1ad25741185086c2"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-073",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "WORLDLINE 1.9.11",
+        "releaseKey": "R10",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a681de121003cd71b8bb9f3808ec97522d34f72c5c52941fd44f7809d4c5ec89"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-074",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.5",
+        "ownerV1": "Phase 1 item 7",
+        "release": "WORLDLINE 1.9.5",
+        "releaseKey": "R4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "302cad5d5a62bfd4164022299dfd4b552027ab31cf1c5d650cb49c84efd067c9"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-075",
+        "needsOperator": null,
+        "owner": "Phase 1 item 6b",
+        "ownerV1": "Phase 1 item 6b",
+        "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+        "releaseKey": "K4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d18e824cda55d86c0fecb548c40d15361a0f4999ffab5675d62a27d324536798"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-076",
+        "needsOperator": null,
+        "owner": "Phase 1 item 7",
+        "ownerV1": "Phase 1 item 7",
+        "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+        "releaseKey": "K5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d27b66290761b63ad64f6a7ec0a3e19af6012def7fb51253e38d94e1752f7122"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-077",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "Phase 1 item 7",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b0683548fe62f4955093c26d0290e55e7e940a5dc11cafdee4e6ae0c0eb9ca6e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-078",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.5",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.5",
+        "releaseKey": "R4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "32589bb9d6849fbec0b2efdbe01abb8a2058c0e18a4f73ab7448b4e9f9a114fa"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-079",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "df348f1df74712a42df608e8bfca9c8aae9217f1ec40f6ee9c5fabdfdff9a006"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-080",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c12229abbd57a81ecd007a02466b3af1aa34911a25c81dd43563e486d97948a9"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-081",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.10",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.10",
+        "releaseKey": "R9",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c159e785b2b4e19852c71ab38d62d271df433721cc918a43ad83779a2dc00b2e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-082",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.10",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.10",
+        "releaseKey": "R9",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "123a74f44f3f7fe9f444ca0382de93ccb61b83bd3c5ddb6636c02e4891d4db09"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-083",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "cf1ef3c3e93297bb50efe18655beb39499dc178d532adef102661fa2f4a7599a"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-084",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d634b236d3d750108c02e4f40a218fd1aa05b906349d0916ded0af0459752cdd"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-085",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c4860b003713a47a8b5e789a10eb75ec2dbaf655131de35f04c4904413eeb403"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-086",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.0.0 (Phase 2a)",
+        "releaseKey": "K7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ba486236d0ebc025fbfd7adaec4c492fe5178d545c277917168de4d482459c14"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-087",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e2b83454f3f6d4f1cdfb5f23fd56be1e1e6b8aaeba0c9c3d5ef85f0a1fa2f330"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-088",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "139c277679e2858bf265682d035f973f48f32054c2e38546399bf2c65a749af5"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-089",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "1529d348f44cb3284f28cc59df9725524b196300af447655ef53bdc86202d1b0"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-090",
+        "needsOperator": null,
+        "owner": "Phase 1 item 6a",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+        "releaseKey": "K4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c42dbe9f1204f02e941f4f7861d4079bb013360360f8d9d6b02fcf32865dcca3"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-091",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ba502d3a6c9d9873a053ecdc607bc23c9fd7c2b29e704b79427c16f42d8caf24"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-092",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "292199da8bae465e48e68f4c13570c4747183e048fe25efb6e6e3b38413376e0"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-093",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e465476ff578729a7c9fd5dbadeaabd32cb1f37e3ce80721c39ec40b1c5bb6fd"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-094",
+        "needsOperator": null,
+        "owner": "M3c / 1.12.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.12.0 (M3c)",
+        "releaseKey": "K3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "fd52cbbe452e16836da600117e3e5071861400e82d5229a84bbb5a7fc8e597da"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-095",
+        "needsOperator": null,
+        "owner": "Phase 1 item 7",
+        "ownerV1": "Phase 1 item 7",
+        "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+        "releaseKey": "K5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "7fe4d2637d35d306544d048909e467266e6a3957322aebdc4dc3b945860b3f72"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-096",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a433fbbaa56764ab69ac67ff15eafe36c7f6a07556f067ccedb032835b083043"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-097",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "f6b9241ace07b7e9a2568e8f10e7f3c14b923a9d1adde853fd865a1ab3df8aa8"
+      },
+      {
+        "dependsOn": [
+          "K1 codes"
+        ],
+        "id": "OB-098",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "756510edd8cc289ab60d0c4347c08ece9cef4270cbd6dc4a09752fc81122cca9"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-099",
+        "needsOperator": "root-owned attest under /opt and an operator-side copy of the export",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "221a372ae1ffbddc3f6dffd523d28f2327b91dd4e244099e79f3a310deb00541"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-100",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e35d3f1e8612063fbbf00e336820b93ae0550158ae3e31dedf782d4d8ad9ee24"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-101",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "227ece329b6df395d533d3f09826862c0f724fc927a64604d4985e5b41dfc2a1"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-102",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.7",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.7",
+        "releaseKey": "R6",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "51b9c5d1987709e34f6687318c0a3c163897eeddc047cd6ca93721303bc9e657"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-103",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.7",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.7",
+        "releaseKey": "R6",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "3bd46a43dff9bfc106b3c62838c959e6a8481ad0ac8d902b7a6588c61798a811"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-104",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ae54738ca364bf25191f01afa57e28f9ccf632712be80e89a1817939630f0c74"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-105",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c7b7f32aa46b013710ecbf87e3aa576b9a991c0e26ef0caadf5942592629ac35"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-106",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "8902ca024a8a5ad77845038d3e30ee40dc48a393f7c0a890b78b73f729dfbe12"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-107",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.8",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.8",
+        "releaseKey": "R7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "80790a1aa55d8e413f96a71bb401416dfa2be89edf21f89f870eedf34b27bcd7"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-108",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.9",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "f4e565df5a25c04acf466ac03c0942fbd8afb266111b5de3ba606a75e7fa2eb8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-109",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "8f791a6f12c18105c1bc14f73702ab2c97f4532bb67d9f6005aa3625f28b98e9"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-110",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "f630bb084854923e527540edc8ef74efae86fde4f379572cbb3c395ea849ec5c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-111",
+        "needsOperator": "hold the recovery secret on a separate device",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "project-vault V1",
+        "releaseKey": "C3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "5145b30ad7a45d867531820fb414090c4dc64e997127a9145252cb9f2d8bd9a0"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-112",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "bd3e4f1ea317c03d8edf15aad2180091825829e8574ccb3410bd9b071fa73d7e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-113",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a3647d588c57c61e9fb5df276c6465f841bc379dc9a04082aa42c94bbd33d8f8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-114",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.9",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "0b5b552c3fd8bc1b97a1a166eb8c339ae94576c9776038103e8967ec08680215"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-115",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.11",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.11",
+        "releaseKey": "R10",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "8e73fa8d5f9c2deb30d441ecac18ae5c53f56a7da94524a1513991419b63052a"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-116",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.11",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.11",
+        "releaseKey": "R10",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "14e8a82af0df898bff0390d2d0a520daa73d4b42971de8bf1776746c4ebbec5c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-117",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.10",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.10",
+        "releaseKey": "R9",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "4c356b4b3d6afb0f47b705691be41722e88c0f9593ed8ed1c86b7bed88c68cf2"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-118",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ff42571a7b3be0890e1ba430152a33b5457181dce0aa50fce8c1a37a17b546b1"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-119",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "67cdd3cf49e1cee3e56ca75aa501e9b6340f04cc6ed5b20ec97d4394c9f4c6c8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-120",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "Phase 1 item 7",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "10b668c8ab2f2736773af2d3113bfd4ba772fbd283e563715829058cf1d20a2d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-121",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.11",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.11",
+        "releaseKey": "R10",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "57e4888fcad66b3248ab3fb2a1b044f42108e1b6f4306d40a0a02ec159bb4360"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-122",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "6d73044b35193330c752d590e6b8aa5822cce419968533aed58896cb07a9086c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-123",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "2b482e78bb5c7ebd77fe73e2ac6408b21efbb3f624b41511b6fdea431cc08ec2"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-124",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b808da14c1ff4d1bf53dd7ec8784434bc46ab5350cf4a601ef07665b67abcd03"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-125",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a6189f3351d56a2907411f8621a5dfc9ee973181703b3a478d7d47f5e76fa3cb"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-126",
+        "needsOperator": "approve with every rehearsal run bound",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e8d50a562d24cedfd20aad70512f44fc71c1de66d51bd72ed61d5c8bc6eebe8c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-127",
+        "needsOperator": "sudo password for the census as the worldline account",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "3503a45502577f67499050e6f0ac9da04d13c520d9d8e0cd81840c1ac80033dc"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-128",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ae3f6f32a709bde07321da55053f4110f7f2fb392826b21765b9eecc690ca9e4"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-129",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "1b1da05b0e7e95a3198f9de754e70f4f1d976045f98a451691043866142f0d6a"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-130",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.0.0 (Phase 2a)",
+        "releaseKey": "K7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e33fd8c3d1b889c27ac6ed169e00f57a6e3950875b2164fae47357a68dfa8fae"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-131",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "69759f64bd908c4d8671d826a48bc05169927dfe9662118561f47f1006070bb8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-132",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "0bc4ff67c21cbc6b105d2a0369367e8608de68e70a331fff57c17f1cc7c1c961"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-133",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a2fecf1df21e75e0609b99cda0dfa7c63e227481807fd39ab3e7f77c5ec8ec57"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-134",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "36b04e3f5cfe06b07380e85eb8c6a42edbbba1fe6cc639c584bb1d895dc31083"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-135",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "15d3a5fc579ba9cc82892a4645b46b283d5b0a5759fe3b14bfc9676e21461478"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-136",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "00a3e742eff8ba39acd198d0e346a97f36534d8e31a1de2c29eb6a1e963f845e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-137",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a80be8423a604407c0e6460a0766977b6f59f83be569ed1990d3890baa203310"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-138",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "8b410d5132bbd66ed9d9e163237aed6a53e55733daaacafbae9772da3612854c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-139",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c9fddceccaca25ac3f6a774d94af20c70613d6582b416e482e5de54744d8161c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-140",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "406272df8ef9cdfccefcbb163a719e8850c681b43b29d2ca9ba4e0ff5f83a03f"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-141",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "38238e236b10f0b230eec9f41ee7de4450d39b432e0a7920364386653e257e9c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-142",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "20fa9496821b9f1dd43078331b4d1fce3760bb1fe37bb8a6869440f462c4be92"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-143",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "49020ac4cff73eb9909b7e0e5c99f109c4d9a2ec6d1c9bb974411bfcd4493d18"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-144",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "M3 / 1.10.0",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "734b70eb8c88099daf9ba60fcf869e1f09025385a9903aedd6a363f3b9bfd90b"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-145",
+        "needsOperator": null,
+        "owner": "Phase 1 item 7",
+        "ownerV1": "Phase 1 item 7",
+        "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+        "releaseKey": "K5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "8445d51515ff8e63e5e3d2856abcb2ed8577b79cdb9be43a07c5ed76c36cf7b1"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-146",
+        "needsOperator": null,
+        "owner": "Phase 1 item 7",
+        "ownerV1": "Phase 1 item 7",
+        "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+        "releaseKey": "K5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "aa1ba43a85905dee4443e2f320a18f20281b77160051285a5bd898757522bbf7"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-147",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": "Phase 2",
+        "release": "WORLDLINE 2.1.0 (Phase 2b)",
+        "releaseKey": "K8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a055f7d48a5d3bbd2504574b0a806c99434b186ca05249c04c236afb8e80035c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-148",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a3ed2f83575121d3ba0fe7d1723c085a2481e51118039d1968435fb062d04d18"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-149",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "1118ddba452e5c1657efddf29390249ddd8f4ce7668ec181e4b3ccd65a59c111"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-150",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b95d5a565b3ebaa39282ead7a7ca5ff33c9b76f2bd6435d7f76e26e967e14607"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-151",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.12",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.12",
+        "releaseKey": "R11",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "55700993bd1de8bacc8c8b03a46be915983a57b3d88952c132d6d8c48d968a86"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-152",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.12",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.12",
+        "releaseKey": "R11",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "208d46ffde76c68bc4c50196acee31468c27d717a95f1134f09dda34052b43f3"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-153",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.12",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.12",
+        "releaseKey": "R11",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "4babd659ff9535ebccfb9222d2816ac1ad2563eee933a6ded230ed477ab6548d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-154",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.12",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.12",
+        "releaseKey": "R11",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ac08d21fcd7ec10e15a3855a0ad93b6da7000712cace14f5b040b1c986346a1d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-155",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.8",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.8",
+        "releaseKey": "R7",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "d5193cda05d3779c7060d4f4ca8db97dabfad7294644dbc40bdf2ee78b83a28d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-156",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "de4ca3a1c18d85ab07c42777b14694e9f416a4e311dc5e678c8acf1a84266a01"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-157",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.12",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.12",
+        "releaseKey": "R11",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "1ba876dfd33a7925d4f969cc509855c64c9c793a45936f3335aa511ef1184c4a"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-158",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "de57ce66b49780092183550500663cdb1584af8251639068fa2f920815a6fb63"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-159",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "4fd23d3c4389e9088580ec666bcae227f3cc916729e1c050c5e3f985203e4ed6"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-160",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e68a37f80fbf09f327639503e5661781365fd081778a7a64803ca4b82ce1ae88"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-161",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "1535f791dd9fe50077819b6996e3e545c87317d9fe46e31c15f375d1ca4b13e8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-162",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "04b9e4097a2d25adf0a46611dfb2f00af0f05a2995443c243687aa39bc1868db"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-163",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "6fb13876b303f6a579e34773ddc5f49934de97515e1bc0f68cfd7c87b73185c4"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-164",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "0564f993dfbe40a49413691fcbd7e9b08528f2b7a9fff596b7ad563ad9db19cc"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-165",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "9d730f04743b4539909f46a8313deea9cf20d68d3d5adf10b5d76d393a0dd753"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-166",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "5e7f94b29c0d14ca7d87180bd235485b6efc27d1e0ee3b92c41309dbb7eda9ca"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-167",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "473592609df647a03545156637250f8f2ec43b3cb4d78e2ac65ed4b6ad35be68"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-168",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.6",
+        "releaseKey": "R5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "eabf8caac9e87eb863bb2e5c009321ee6839f2cde350c6f8322c0525026c8785"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-169",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.10",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.10",
+        "releaseKey": "R9",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e138cd13e363ae146b8c986fa84cc68a30f3a548db977eba6c3e8e217a791a87"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-170",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.10",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.10",
+        "releaseKey": "R9",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c37b9e6c2a41b1a524fbc76ed21ead2acac9b06a1452fe8ea30c2300debd34a9"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-171",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.10",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.10",
+        "releaseKey": "R9",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "9845db6ff6fee72483ea46cfc9ce3e2403f590282e1c8a9c72711c042f3e3e01"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-172",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.10",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.10",
+        "releaseKey": "R9",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "69b7d567f9d30f52123d5544b2dc48201b4cc6a6d6c1a9627d4273f458eedb7c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-173",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.6",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "0f8abda69f28eb044fb12d126212950ff156402e293694e875ba1ff44c868659"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-174",
+        "needsOperator": null,
+        "owner": "M3 / 1.10.0",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.10.0 (M3) + plugin 1.4.0",
+        "releaseKey": "K1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "1c2b3b4ab006ce741cc041b539d09f5687632edd4273869ca1bf3006f351f27e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-175",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.11",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.11",
+        "releaseKey": "R10",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "9d95cd129522c32eaeadc713e84f410355245d355b8993f4885745441d5dbb31"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-176",
+        "needsOperator": null,
+        "owner": "Phase 1 item 4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+        "releaseKey": "K6",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "1dbfe502581ef02592d40d23dea6c15f308ab5ca93f415aa6553aa60c630872e"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-177",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.7",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.7",
+        "releaseKey": "R6",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c82076257105e1b4f4b24d504d3e79a85a5e3efaf2a390f43d798f3a00f980a9"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-178",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.5",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "81c3f5469d8ca12e08281d43dc2aa2f3f6a6fa4b8fb8f72fa99bb2efaabde831"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-179",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.4",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.4",
+        "releaseKey": "R3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "2a7f7fdcb48f2ccf628870eba0845b9ec634298a224f102268c3290c8fef6943"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-180",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.11",
+        "ownerV1": "WORLDLINE 1.9.2",
+        "release": "WORLDLINE 1.9.11",
+        "releaseKey": "R10",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "3ea3bbc46ca8b0cdd818af8cd6ec667840ed5664c673c024558406a925f010bf"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-181",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "70d43af01355cbada6eb17dda154da7e48bd74744c65c1a14637630c9924cba3"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-182",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "218a884268ae58c60732ad6272dcf8972625bf219262266c0102824990c2e147"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-183",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "e14e5782e2a75024d9f307b7d1c4c3f7052aaf51fdf26db536c3707cce720872"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-184",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "87f3c8d8dd77bfd55b77be3bb0dfe9756a9c0e2635c3869ef312a2c7ab9fc2c8"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-185",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "f09d379ccafdffaa3dcf2c0bebfdbdc61c5b23d94494533b79b805d02be9f409"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-186",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "cdc23795b607e34f721cae91f3926f987e2013331f26cce5073a845bebe9541f"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-187",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "dc3be21ee1a7c0a9f977bade33f58d874549d7190239269db71acec040bf3d96"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-188",
+        "needsOperator": "root for the privileged capture",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "project-vault V1",
+        "releaseKey": "C3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "be50a0dd60d18c9d79d67c28fa675c2a0dbdcb819049200413d5efc877d424fa"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-189",
+        "needsOperator": "decide the git read path for production roots",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "be44c079566a32aed76416ebb20c2de03f76a3f2e54648f3666f1e9bc4aa0d7c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-190",
+        "needsOperator": "sudo password to carry or vault the install-backups",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c4b69a2eb83bf1b92f7e6b6692f1a6838b7ccc7e53ce800d75dfa9e39b537e50"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-191",
+        "needsOperator": "root edit of the kit timer",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "COSMOGONY C1",
+        "releaseKey": "C1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ffc651ac891c25a483c3ad876783ff47348ebf00e2c34e325090172f663ac1bc"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-192",
+        "needsOperator": "submit the marketplace update request",
+        "owner": "COSMOGONY",
+        "ownerV1": "COSMOGONY",
+        "release": "Marketplace update",
+        "releaseKey": "C9",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b514613b4b87a7879138d2a573f748556d57de146da3db68b12692562cdcf630"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-193",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.5",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "dc15229b1db670ab4e7d77077e092892df9af99d71c408b10dac709685999f13"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-194",
+        "needsOperator": null,
+        "owner": "worldline-omarchy 1.3.5",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "c290799e1690b4047091b0aa06a2282dea1aa5993416c68cc36f75176521b27c"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-195",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "8626c1b2f299bb7ff872d2fd15e79d36a51cd8666eb8c54700398c05b88b0f62"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-196",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "2257b09ccc18a88279a9b97f26d144bcb2c6d7bb8d832077aaf9035b5a4c61d2"
+      },
+      {
+        "dependsOn": [
+          "K1 ABI 6"
+        ],
+        "id": "OB-197",
+        "needsOperator": null,
+        "owner": "Phase 1 item 6a",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+        "releaseKey": "K4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "5bcc6a926f8079e68c204e891d53259be24a7dd703744649cf2c3e79b8834487"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-198",
+        "needsOperator": null,
+        "owner": "Phase 1 item 4",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.15.0 (Phase 1 item 4)",
+        "releaseKey": "K6",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "ce4d30c0d2b8a1c6bd08623887a49fbd2c535f76fee9a856c953bda862642d86"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-199",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.3",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.9.3",
+        "releaseKey": "R2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "b875cb36b90d4fcdd7b243a4fa9b2396184c8e04b38290cae4aadd4e175ea7fa"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-200",
+        "needsOperator": null,
+        "owner": "Phase 1 item 6b",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.13.0 (Phase 1 items 6a + 6b)",
+        "releaseKey": "K4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "a069dde5535e87feee3ee680c3c362fa3ca07c2854632f36ee2912cbb2bf75e7"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-201",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.9",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.9.9 + plugin 1.3.6",
+        "releaseKey": "R8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "2403b75d99a4cfe77435fd81b2c2f10f67f79d3f1b27b5b98ba3db1fb679d387"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-202",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.12",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.9.12",
+        "releaseKey": "R11",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "921784cfcb697b40373afce3017c90b1f6a12e9cc59a684e544a61578c4ee35d"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-203",
+        "needsOperator": null,
+        "owner": "Phase 2",
+        "ownerV1": null,
+        "release": "WORLDLINE 2.1.0 (Phase 2b)",
+        "releaseKey": "K8",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "5dd4e55af511da8527be687ef9ba52145c832bd49f6cd6327f550f6ffab9a5a5"
+      },
+      {
+        "dependsOn": [
+          "OB-072 (rotation and re-login)"
+        ],
+        "id": "OB-204",
+        "needsOperator": "re-login or reboot first",
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "COSMOGONY C1",
+        "releaseKey": "C1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "55293b921394ae6fc06f38a7c9ef61d2f88a62e1508dec93c92e0649b651b014"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-205",
+        "needsOperator": null,
+        "owner": "WORLDLINE 1.9.2",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.9.2 + plugin 1.3.5",
+        "releaseKey": "R1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "6f349be965c7633395060db5003594d441f870142992bd76f74ceeb167cbf43f"
+      },
+      {
+        "dependsOn": [
+          "OB-205",
+          "the operator closing the production migration"
+        ],
+        "id": "OB-206",
+        "needsOperator": "close the migration; approve the production key rotation",
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "3e24d2c7f4e013515e72f9149fc18cd39c0068ec6b353ed6b064e4de6c630618"
+      },
+      {
+        "dependsOn": [
+          "OB-168"
+        ],
+        "id": "OB-207",
+        "needsOperator": "sudo password to read the production store as the account",
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "0a3ca00270ca5d330341c3581184a692a2ec745a05e39b45566bab93b92e35a3"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-208",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "project-vault V1",
+        "releaseKey": "C3",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "021655fd67e735b1e479639ccae88f1bc270e7f82a60993cc9865e240d344308"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-209",
+        "needsOperator": "sudo password for the production-scale drill",
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "6e74226863e43ab9eb6b68e66e935dac304eea8c4f6c82f7c151893c0ad7e7a9"
+      },
+      {
+        "dependsOn": [
+          "OB-035 (execution identity names /opt toolchains)"
+        ],
+        "id": "OB-210",
+        "needsOperator": "root install of toolchains under /opt",
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "COSMOGONY C2",
+        "releaseKey": "C2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "13bb33afa2cd6170d6934a182387cabc276f6b850d990880391157c7ac91f9ec"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-211",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "5080a45f8fd723bd45448d4eaa376ec574a69d4b795934875c6877aa6153b27a"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-212",
+        "needsOperator": null,
+        "owner": "Phase 1 item 7",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.14.0 (Phase 1 item 7)",
+        "releaseKey": "K5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "cefac787830e25ccf198edf463dbbc4e5be83129b533ab926c1ff0375f4f2e7f"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-213",
+        "needsOperator": "root cleanup of accounts, subordinate ranges, units and directories",
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "COSMOGONY C1",
+        "releaseKey": "C1",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "7f43dc91b5b72b2cfb4a4f7cdb2dc5e1e2a831e3b76b99ef46325b08e3f47b64"
+      },
+      {
+        "dependsOn": [
+          "OB-008",
+          "OB-009",
+          "OB-010"
+        ],
+        "id": "OB-214",
+        "needsOperator": null,
+        "owner": "M3b / 1.11.0",
+        "ownerV1": null,
+        "release": "WORLDLINE 1.11.0 (M3b)",
+        "releaseKey": "K2",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "3dfc3b3ffbddf40205e9042d6a8351af9525f2ff94ab57f45a802bceb85d9a33"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-215",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "edf33383e7a0be7f76c88085ba963cbef18e9b2783f8c00cfcede8cfa8850a9f"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-216",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "8ee222e7c344c9923174283eb00f7f9fde2deb49734f6cfc7206f496348c6d83"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-217",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "003fa64edade5768e77f57557b2d5580c3f795ab59c97798d509a8817867f4a7"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-218",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "Authority v1.1 lab (a)",
+        "releaseKey": "C4",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "3ab1d929f4cfa620fdcdcfa4ee269a5d14eeca3c778802df26714bd8cf6a19ae"
+      },
+      {
+        "dependsOn": [],
+        "id": "OB-219",
+        "needsOperator": null,
+        "owner": "COSMOGONY",
+        "ownerV1": null,
+        "release": "Authority v1.1 lab (b)",
+        "releaseKey": "C5",
+        "source_status": "OPEN",
+        "status": "OPEN",
+        "target_sha256": "32afa22121e3edad1e2c1f5396fea0afec0c004565c96e928f866fc811d384cf"
+      }
+    ],
+    "source": {
+      "bytes": 410484,
+      "lines": 7105,
+      "mode": "0600",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/outputs/claude-phase1-handoff-20261004/OBLIGATIONS-v2.json",
+      "sha256": "1587e068fc2c31a562e38b459728a75dbf7e8d7d9f8afb8efa1474e2a702aeec"
+    }
+  },
+  "prior_package_freeze_verifications": [
+    {
+      "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v1/review-freeze.json",
+      "mismatches": [],
+      "model": "gpt-6.1-sol",
+      "sha256": "f3d405b083a728b4d594acdd422fd742de5977f3e88ed683ffbed0607d6178d8"
+    },
+    {
+      "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v2/review-freeze.json",
+      "mismatches": [],
+      "model": "gpt-6.1-sol",
+      "sha256": "79b7ac1d417b1a0098336dbbf6612515fe882b6aec65287601da0dc546539ab6"
+    },
+    {
+      "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v3/review-freeze.json",
+      "mismatches": [],
+      "model": "gpt-6.1-sol",
+      "sha256": "e329512a580d889440d004c89917a7ec306718b57809fbdd8de22f4ab85c7177"
+    },
+    {
+      "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v4/review-freeze.json",
+      "mismatches": [],
+      "model": "gpt-6.1-sol",
+      "sha256": "314cfa294a03247e70d9c8026bdc28b73fd0e07f42ec25100d26dd8357d7376a"
+    },
+    {
+      "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v5/review-freeze.json",
+      "mismatches": [],
+      "model": "gpt-6.1-sol",
+      "sha256": "55abff8baf67631ced785ff7b6822d78bc6bfbf20f929b86c1e65fcf20d70172"
+    },
+    {
+      "freeze": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/package-review/gpt61-v6/review-freeze.json",
+      "mismatches": [],
+      "model": "gpt-6.1-sol",
+      "sha256": "7cc8433172126631b46413d20d02bd297232c1d01118b42a6af34fbd52fbd16b"
+    }
+  ],
+  "report_anchor_validation": {
+    "issues": [],
+    "observed_unique_anchors": 293,
+    "valid": true
+  },
+  "schema": "w1-v6-passive-design-review-checks-v1",
+  "skills_boundary": "Required Ada/SPARK and WORLDLINE design guidance used passively, with user hard limits controlling all actions. Discernment-nudge review carve-out applied; no follow-up questions added.",
+  "source_identity_boundary": "Hash equality and read-only comparison establish byte identity only, not source authenticity, semantic preservation, installed custody, current capacity or formal correctness."
+}

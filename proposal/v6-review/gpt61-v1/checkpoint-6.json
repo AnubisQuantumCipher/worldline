@@ -1,0 +1,199 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "approval_granted": false,
+  "assessment": "The original Phase One requirements, proof floor, deterministic controls, accepted cases and reserved operator decisions remain unchanged and OPEN. No new approval authority is created. Required corrections are substantive design/consistency repairs; they do not authorize implementation or probes. Historical author-process claims are model-origin disclosure, not evidence of compliance. The disclosed transcript pre-read and unconfirmed initial sia.ask grant no authority and were not reproduced by this reviewer.",
+  "completed": true,
+  "design_sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d",
+  "exception_granted": false,
+  "item": 6,
+  "original_obligations": "Every row in the pinned OBLIGATIONS-v2.json remains OPEN with its original target, owner, release, releaseKey, dependencies and operator fields.",
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "required_changes": [
+    {
+      "change": "Keep the original success domain fixed. Replace accepted-case restrictions and observable substitutions with a preserving design; where none exists, retain V5-B01, V5-B02 and W1-V5-PRESERVATION OPEN. Remove the claims that no original output state is refused and that the copy-data ceiling is not a narrowed case.",
+      "evidence": [
+        "D:155",
+        "D:164",
+        "D:1964",
+        "D:1970",
+        "D:2073",
+        "D:3531",
+        "D:4120",
+        "D:4135",
+        "D:4147",
+        "D:4164",
+        "F5:495",
+        "F5:538",
+        "R5:270",
+        "Op:32"
+      ],
+      "id": "W1-V6-PRESERVE",
+      "reason": "The catalogue admits restrictions, C1 changes and D1-D8 new outcomes. K4 refuses growth beyond a parent-derived data ceiling and can fail on stable originals. A finite compatibility run cannot establish preservation of every accepted case."
+    },
+    {
+      "change": "Provide enforced confinement for every frame-caused filesystem mutation, including file/directory read-side atime updates and proof-report reads. Prevent the foreign-source side effect with a preserving mechanism or retain V5-B02 OPEN for that route; correct K5/K8's universal no-mutation and only-copy-read statements.",
+      "evidence": [
+        "D:2117",
+        "D:2175",
+        "D:1147",
+        "D:4136",
+        "F5:104",
+        "F5:138",
+        "F5:517",
+        "F5:1702",
+        "Criterion:82"
+      ],
+      "id": "W1-V6-READ-MUTATION",
+      "reason": "A read's inode update is still caused by the frame. Foreign-owned sources can be read without O_NOATIME while their name or alias is outside T; post-read restat or non-success does not undo it."
+    },
+    {
+      "change": "Make failed-close truth observable and consistent for every writer, reader, export and reboot interpretation, including a complete valid close whose fsync, directory fsync, post-validation or join failed and whose continuation is absent or fails before producing a valid file. Preserve failure/downgrade/raw evidence; add these declarative cases to P-CHAIN.",
+      "evidence": [
+        "D:2243",
+        "D:2249",
+        "D:2258",
+        "D:2280",
+        "D:2290",
+        "D:2294",
+        "D:2301",
+        "D:2374",
+        "D:3377",
+        "R5:273"
+      ],
+      "id": "W1-V6-COMMIT-AMBIGUITY",
+      "reason": "The structural chain commits a valid primary-plus-close pair even though the write procedure declares any failed close uncommitted. J4 fixes this only after a valid skipping continuation exists."
+    },
+    {
+      "change": "Define global phase-aware setup and rollback vectors over all effects of each atom, including parent-directory entry sets/link counts and cross-script shared objects. Project earlier and later script expectations through the current global phase. Name all ordinary partial creates, installs, removals and reversals without classifying them as other or rerunning completed creates.",
+      "evidence": [
+        "D:2451",
+        "D:2558",
+        "D:2567",
+        "D:2590",
+        "D:2596",
+        "D:2860",
+        "D:2893",
+        "D:3073",
+        "D:3106",
+        "D:3544",
+        "R5:274"
+      ],
+      "id": "W1-V6-COMPOSED-STATE",
+      "reason": "Every-atom-one-object is false for filesystem creates/removals. Captured parent identities change when later children are added, and earlier final vectors cannot remain equal during a later script that changes the same object."
+    },
+    {
+      "change": "Restore complete per-use exact images-directory entry-set verification while preserving protected exposure and role authority, or redesign the branch. Do not replace it with setup/rollback-only operator captures or add a new operator gate.",
+      "evidence": [
+        "D:3149",
+        "D:3157",
+        "D:3381",
+        "R5:203",
+        "R5:275"
+      ],
+      "id": "W1-V6-IMAGE-PIN",
+      "reason": "The sealed correction explicitly requires preserving every pin check. Known-name lookup and root-only modification do not verify equality of the full entry set."
+    },
+    {
+      "change": "Limit C's first hello checks to facts available from compiled expectations, argv and kernel observations. Perform launch-environment/template and launcher-intent descriptor-pin checks only after authenticated RECORDS delivery in C2, before any spawn request. Preserve legal early refusal and STOP branches and truthful no-start/unknown outcomes.",
+      "evidence": [
+        "D:1547",
+        "D:1555",
+        "D:1144",
+        "D:1235",
+        "D:4520"
+      ],
+      "id": "W1-V6-C1-DATA",
+      "reason": "C1 presently needs record contents before C2 supplies them, and C cannot search the protected record tree."
+    },
+    {
+      "change": "Supply an enforced or source-grounded argument connecting complete process/credential/manager/descriptor scans to one common quiescent state under fork, exit, credential and queued-input churn. State any missing premise explicitly as unestablished with its evidence obligation. Replace 'same st_dev means no mount boundary' with the exact required predicate.",
+      "evidence": [
+        "D:1639",
+        "D:1659",
+        "D:1700",
+        "D:1729",
+        "D:1737",
+        "D:1749",
+        "D:1988",
+        "D:2150"
+      ],
+      "id": "W1-V6-SCAN-STATE",
+      "reason": "The absorption lemma requires Q1-Q8 to hold at one moment. Sequential scans and equal repetitions alone do not establish that antecedent; S1-S6 govern manager behavior rather than atomic whole-population observation."
+    },
+    {
+      "change": "Specify the group-setting operation and readback, source/destination attribute order and compatibility for all original accepted filesystems/owners. Complete L1's registered-description coverage and P-PTRACE's process_vm_writev and access-mode/positive controls. Preserve redesign/no-exception consequences; do not promote finite probes or a first run into universal premises.",
+      "evidence": [
+        "D:2065",
+        "D:2131",
+        "D:2156",
+        "D:2160",
+        "D:3351",
+        "D:3372",
+        "D:3373",
+        "D:4046"
+      ],
+      "id": "W1-V6-COPY-PROBES",
+      "reason": "COPY and compatibility hypotheses span a broader original domain than the fixtures establish. The named L1 and ptrace interfaces are not all represented in their probe rows."
+    },
+    {
+      "change": "Reconcile the P_adm/P_out model with root-exchange mutations of admitted parent directories and place final admission after every actual admitted-tree mutation without deleting checks. Scope 'no ACL/default ACL/no mode changes' to the intended immutable recipe/bookkeeping objects while explicitly accounting for fresh-copy attributes. Make adopt's seal timing exception to pre-mutation wording exact.",
+      "evidence": [
+        "D:537",
+        "D:567",
+        "D:643",
+        "D:863",
+        "D:1068",
+        "D:1086",
+        "D:1119",
+        "D:2065",
+        "D:3177",
+        "D:3181",
+        "D:4138"
+      ],
+      "id": "W1-V6-INVARIANTS",
+      "reason": "Section 4 declares P_adm immutable after M8, while C4 acknowledges parent changes during dispatch. Sections 6.1/6.2 forbid default ACLs anywhere while K4 and the partition table reproduce them. Section 11.7's universal pre-mutation seal assertion conflicts with its explicit AD3 bookkeeping order."
+    },
+    {
+      "change": "Account for all retained originals, partial/fresh/retired copies and required temporary full-restore space under the unchanged storage obligation. Specify which protected payload dependencies let each promised channel/export reader reconstruct and verify its evidence, and how those dependencies remain available through backup/restore. Retain authentic-context vault gates and existing operator authority.",
+      "evidence": [
+        "Plan:33",
+        "Plan:36",
+        "D:627",
+        "D:645",
+        "D:1255",
+        "D:1424",
+        "D:1431",
+        "D:3512",
+        "D:3529",
+        "D:3617",
+        "D:3651"
+      ],
+      "id": "W1-V6-EVIDENCE-RESTORE",
+      "reason": "New retained roots are explicitly not backed up and have no restore term; exports omit recipe/snapshot payloads while channel verification references them. Neither an export hash nor exact budget arithmetic establishes complete original restore/evidence coverage."
+    },
+    {
+      "change": "Correct section 21 and its cross-references: separate the original S5 baseline from the criterion-required S6 final-pass repair; correct A4's recorded-mode claim and K8/report-read baseline; enumerate copy byte-read/SEEK/attribute failures and new deadline effects; remove D3/D8 causal absolutes; distinguish legitimate capacity deferral from new caps, release gates and accepted-case refusals.",
+      "evidence": [
+        "D:4088",
+        "D:4111",
+        "D:4135",
+        "D:4148",
+        "D:4149",
+        "D:4150",
+        "D:4151",
+        "D:4154",
+        "D:4156",
+        "F5:538",
+        "F5:1375",
+        "F5:1702"
+      ],
+      "id": "W1-V6-CATALOGUE",
+      "reason": "The inventory is candid but several baseline and causal claims are false or incomplete. Listing an OPEN incompatibility is truthful; it is not proof that the requirements are met."
+    }
+  ],
+  "schema": "w1-v6-design-review-checkpoint-v1",
+  "source_acceptance": false,
+  "unchanged_floor": "The prescribed -U --mode=all --level=3 --report=all strict campaign, protected proof floors, original native/control roster and actor-only Luna role remain unchanged. No build, proof, test, installed probe, window or reservation action was performed.",
+  "verdict": "NOT_ENDORSED"
+}

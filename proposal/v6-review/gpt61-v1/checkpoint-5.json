@@ -1,0 +1,192 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "approval_granted": false,
+  "assessment": "K7 names the principal kernel/systemd/compatibility premises and explicitly requires redesign, no exception and no finite-probe substitution. None is installed evidence. L1 and PTRACE-GID probe coverage is incomplete; COPY/BUS/ROOTS cannot be assumed over the full original domain from a finite fixture; EXCH effects must be composed; and a common-instant/completeness bridge for SCAN-R/GATE/W and Q1-Q8 is missing. No premise is accepted by this review. Generic manual support is distinguished from installed-host proof.",
+  "completed": true,
+  "design_sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d",
+  "item": 5,
+  "premises": [
+    {
+      "evidence": [
+        "D:2156",
+        "D:1676",
+        "D:3351"
+      ],
+      "id": "L1",
+      "probe": "P-QUIESCE(d)-(f)",
+      "remaining": "The K7 statement includes io_uring-registered writable descriptions, but the specified probe rows test live descriptors, SCM_RIGHTS queues and mappings without an explicit registered-description case. Installed-version kernel/filesystem evidence remains required.",
+      "status": "NAMED_UNESTABLISHED_INCOMPLETE_PROBE_COVERAGE"
+    },
+    {
+      "evidence": [
+        "D:2157",
+        "D:1992",
+        "D:3371"
+      ],
+      "id": "K-PERM",
+      "probe": "P-ROUTE",
+      "remaining": "The permission/ACL/hardlink argument is conditional on installed kernel and all accepted source filesystems. Device equality is not an exact no-mount predicate.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "evidence": [
+        "D:2158",
+        "D:2108",
+        "D:3373"
+      ],
+      "id": "PTRACE-GID",
+      "probe": "P-PTRACE",
+      "remaining": "Add process_vm_writev and distinguish REALCREDS/FSCREDS and allowed versus denied control access under Yama and dumpability. Generic documentation supports an external-caller prerequisite, not a host proof or unqualified statement about all accesses.",
+      "status": "NAMED_UNESTABLISHED_INCOMPLETE_PROBE_COVERAGE"
+    },
+    {
+      "evidence": [
+        "D:2159",
+        "D:2077",
+        "D:4138"
+      ],
+      "id": "EXCH",
+      "probe": "P-COPY",
+      "remaining": "The explicit exchange primitive is conditionally suitable. Include parent entry-set/timestamp and moved-root metadata effects, and every partial exchange state, not only destination references.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "evidence": [
+        "D:2160",
+        "D:2065",
+        "D:2131",
+        "D:2175",
+        "D:3372"
+      ],
+      "id": "COPY",
+      "probe": "P-COPY",
+      "remaining": "No blanket compatibility assumption may exclude accepted foreign owners or mounted filesystems. Specify the group-setting/readback operation, exact attribute sequencing, successful data-read and SEEK behavior, directory atime, and failure preservation. O_NOATIME does not cover foreign-owned sources.",
+      "status": "NAMED_UNESTABLISHED_DOMAIN_AND_SPECIFICATION_GAPS"
+    },
+    {
+      "evidence": [
+        "D:2161",
+        "D:1589",
+        "D:3374"
+      ],
+      "id": "H1",
+      "probe": "P-SETID A2",
+      "remaining": "Exact installed filter/kernel architecture and exhaustive interface coverage require source-matched evidence; legitimate original target calls cannot be excluded by assumption.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "evidence": [
+        "D:2162",
+        "D:3000",
+        "D:3375"
+      ],
+      "id": "H2",
+      "probe": "P-MGR and P-SETID A3",
+      "remaining": "Manager/delegation/inheritance/compatibility are hypotheses; no current host setup or successful tests were used in this review.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "evidence": [
+        "D:2163",
+        "D:2045",
+        "D:3374"
+      ],
+      "id": "H3",
+      "probe": "installed syscall/filter review and P-SETID",
+      "remaining": "A finite probe cannot establish that no other interface confers initial-namespace identities/capabilities. Require exhaustive source-grounded coverage of the installed interface and implementation.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "evidence": [
+        "D:2164",
+        "D:1700",
+        "D:1729",
+        "D:1737",
+        "D:3376"
+      ],
+      "id": "S1-S6",
+      "probe": "installed-version source review and P-QUIESCE(a)-(c),(g)-(k)",
+      "remaining": "The absorption argument is conditional on all Q predicates holding at a common moment. Sequential whole-population/manager/descriptor scans and equal snapshots do not specify how they establish that common state under churn. Source evidence for S4/S5 is especially material.",
+      "status": "NAMED_UNESTABLISHED_WITH_MISSING_SCAN_TO_STATE_BRIDGE"
+    },
+    {
+      "evidence": [
+        "D:2165",
+        "D:3010",
+        "D:3350"
+      ],
+      "id": "M-PAM",
+      "probe": "P-MGR",
+      "remaining": "PAM-less runtime-directory/delegation and manager compatibility stay open; failure requires redesign.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "evidence": [
+        "D:2166",
+        "D:4046",
+        "D:4164"
+      ],
+      "id": "BUS",
+      "probe": "first engineering run",
+      "remaining": "A successful fixed run cannot establish that every original accepted allowlisted action never needs the bus. Preserve the accepted case or keep the obligation open.",
+      "status": "NAMED_COMPATIBILITY_HYPOTHESIS_NOT_ACCEPTABLE_AS_DOMAIN_ASSUMPTION"
+    },
+    {
+      "evidence": [
+        "D:2167",
+        "D:4127",
+        "D:4046"
+      ],
+      "id": "ROOTS",
+      "probe": "first engineering run",
+      "remaining": "The proposed non-replaceable roots must not turn possible root lifecycle behavior into a new restriction or change deterministic fixtures.",
+      "status": "NAMED_COMPATIBILITY_HYPOTHESIS_NOT_ACCEPTABLE_AS_DOMAIN_ASSUMPTION"
+    },
+    {
+      "evidence": [
+        "D:2168",
+        "D:3209",
+        "D:3233"
+      ],
+      "id": "OPT-B",
+      "probe": "concrete namespace/exposure/root-launcher probes",
+      "remaining": "May redesign or omit this optional branch while preserving the original task. Root code/rule/source review and existing operator authorization remain mandatory.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "evidence": [
+        "D:2169",
+        "D:3357",
+        "D:4082"
+      ],
+      "id": "ENOSPC",
+      "probe": "P-ENOSPC",
+      "remaining": "If it fails, no allocation-failure durability claim; this is not permission to delete the original durability requirement.",
+      "status": "NAMED_UNESTABLISHED_WITH_ORIGINAL_DURABILITY_OBLIGATION_OPEN"
+    },
+    {
+      "evidence": [
+        "D:2170",
+        "D:3457",
+        "D:4129"
+      ],
+      "id": "IMG",
+      "probe": "sacrificial measured geometry and compatible execution controls",
+      "remaining": "Noexec or finite image geometry must not stand in for the native execution/capacity controls or add an accepted size cap.",
+      "status": "NAMED_UNESTABLISHED"
+    },
+    {
+      "evidence": [
+        "D:2171",
+        "D:3149",
+        "D:3157",
+        "D:3381"
+      ],
+      "id": "LOOKUP",
+      "probe": "P-IMAGE",
+      "remaining": "Search-only known-name lookup can check named files but not the exact complete entry set. Restore the sealed per-use requirement without adding a new operator gate.",
+      "status": "NAMED_UNESTABLISHED_AND_IMAGE_PIN_STILL_NOT_CLOSED"
+    }
+  ],
+  "schema": "w1-v6-design-review-checkpoint-v1"
+}

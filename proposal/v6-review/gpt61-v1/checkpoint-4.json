@@ -1,0 +1,253 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "approval_granted": false,
+  "assessment": "Section 21 is a substantial and candid inventory, not a complete preservation argument. It correctly leaves OPEN the main restrictions and changes. Correct its original-v5 versus repaired-v6 baseline, excluded-output mode reporting, read/report history, new byte-read/attribute/SEEK compatibility failures, D3 causation, D8 causation/deadlines and copy/growth-cap claims. Every incompatible accepted case remains an engineering obligation; review grants no exception.",
+  "catalogue": [
+    {
+      "classification": "PERMISSIBLE_CORRECTION",
+      "design_line": 4108,
+      "frame_line": 495,
+      "group": "A1",
+      "reason": "Remove pre-custody chmod. Correct the residual claim that no uncreated source object is mutated: reads can update atime."
+    },
+    {
+      "classification": "PERMISSIBLE_CORRECTION",
+      "design_line": 4109,
+      "frame_line": 530,
+      "group": "A2",
+      "reason": "Withdraw foreign-owner admission refusal; selecting a non-preserving copy route does not discharge preservation."
+    },
+    {
+      "classification": "PERMISSIBLE_CORRECTION",
+      "design_line": 4110,
+      "frame_line": 534,
+      "group": "A3",
+      "reason": "Withdraw effective-write-bit admission refusal; copied metadata and subsequent behavior still need the original guarantee."
+    },
+    {
+      "classification": "PERMISSIBLE_CORRECTION_WITH_INACCURATE_BASELINE",
+      "design_line": 4111,
+      "frame_line": 538,
+      "group": "A4",
+      "reason": "Withdraw set-ID output refusal. Excluded output file modes are checked transiently, not recorded in the original files map."
+    },
+    {
+      "classification": "PERMISSIBLE_CORRECTION",
+      "design_line": 4112,
+      "frame_line": 523,
+      "group": "A5",
+      "reason": "Withdraw cross-device directory refusal. Any copy must preserve the accepted filesystem cases rather than assume all support COPY."
+    },
+    {
+      "classification": "PERMISSIBLE_CORRECTION",
+      "design_line": 4113,
+      "frame_line": 1557,
+      "group": "A6",
+      "reason": "Withdraw parent-stage refusal for these scans in favor of route selection. The copy-route non-success cases remain new."
+    },
+    {
+      "classification": "PERMISSIBLE_CORRECTION",
+      "design_line": 4114,
+      "frame_line": 1508,
+      "group": "A7",
+      "reason": "Retracting the false no-changes claim is correct; no acceptance follows."
+    },
+    {
+      "classification": "INCOMPATIBLE_WITH_UNPROVED_PRESERVATION",
+      "design_line": 4120,
+      "frame_line": 1516,
+      "group": "B1",
+      "reason": "Different credentials can remove previously accepted access and signaling behavior. An engineering run cannot establish universal equivalence."
+    },
+    {
+      "classification": "INCOMPATIBLE_WITH_UNPROVED_PRESERVATION",
+      "design_line": 4121,
+      "frame_line": 1077,
+      "group": "B2",
+      "reason": "Relocated environment and non-writable HOME alter previously available paths and writes."
+    },
+    {
+      "classification": "IMPERMISSIBLE_ORIGINAL_CASE_RESTRICTION_IF_USED_FOR_CLOSURE",
+      "design_line": 4122,
+      "frame_line": 1508,
+      "group": "B3",
+      "reason": "NNP and seccomp refuse previously permitted modes, io_uring and openat2 behavior; retaining the command allowlist does not preserve accepted actions."
+    },
+    {
+      "classification": "IMPERMISSIBLE_ORIGINAL_CASE_RESTRICTION_IF_USED_FOR_CLOSURE",
+      "design_line": 4123,
+      "frame_line": 1559,
+      "group": "B4",
+      "reason": "Manager filters, unit masking, no PAM and no bus restrict previously available behavior; H2/BUS are compatibility obligations, not exceptions."
+    },
+    {
+      "classification": "INCOMPATIBLE_WITH_UNPROVED_PRESERVATION",
+      "design_line": 4124,
+      "frame_line": 1570,
+      "group": "B5",
+      "reason": "Different manager, slice and delegated-controller context changes scope and unit observations."
+    },
+    {
+      "classification": "INCOMPATIBLE_WITH_UNPROVED_PRESERVATION",
+      "design_line": 4125,
+      "frame_line": 1508,
+      "group": "B6",
+      "reason": "Reduced home visibility changes accepted path access in either exposure option."
+    },
+    {
+      "classification": "REQUIRED_PROTECTED_BOUNDARY_BUT_PRESERVATION_NOT_ESTABLISHED",
+      "design_line": 4126,
+      "frame_line": 1684,
+      "group": "B7",
+      "reason": "Enforced frame-writer custody is required. Blanket target write denial also rejects temporary changes that the original could accept after restoration; do not infer preservation from the boundary."
+    },
+    {
+      "classification": "IMPERMISSIBLE_ORIGINAL_CASE_RESTRICTION_IF_USED_FOR_CLOSURE",
+      "design_line": 4127,
+      "frame_line": 959,
+      "group": "B8",
+      "reason": "Pre-created non-replaceable roots change target root lifecycle. ROOTS must not become a new input/fixture restriction."
+    },
+    {
+      "classification": "INCOMPATIBLE_WITH_UNPROVED_PRESERVATION",
+      "design_line": 4128,
+      "frame_line": 1508,
+      "group": "B9",
+      "reason": "Different credentials remove original writes; the target-write residual is an inventory, not confinement or permission to change accepted cases."
+    },
+    {
+      "classification": "IMPERMISSIBLE_CAP_OR_EXECUTION_RESTRICTION_IF_USED_FOR_CLOSURE",
+      "design_line": 4129,
+      "frame_line": 1570,
+      "group": "B10",
+      "reason": "Fixed-size/noexec/cross-filesystem images cannot replace original successful capacity or native execution controls; a genuinely compatible frame remains required."
+    },
+    {
+      "classification": "INCOMPATIBLE_OBSERVABLE_CHANGE",
+      "design_line": 4135,
+      "frame_line": 1813,
+      "group": "C1",
+      "reason": "New inodes, owners, metadata omissions, mounts and disconnected late writes are real observable behavior changes. Bytes/name equivalence and finite compatibility runs cannot discharge exact preservation."
+    },
+    {
+      "classification": "PROHIBITED_UNCONFINED_FRAME_MUTATION",
+      "design_line": 4136,
+      "frame_line": 138,
+      "group": "C2",
+      "reason": "The frame causes an inode atime update on a source that may be outside T. A read label and stat_key exclusion provide no V5-B02 exception."
+    },
+    {
+      "classification": "PERMISSIBLE_PROTECTED_BOOKKEEPING_ONLY_WITH_CAPACITY_AND_RESTORE_ACCOUNTING",
+      "design_line": 4137,
+      "frame_line": 1163,
+      "group": "C3",
+      "reason": "Retained evidence can be a design cost within T; it must be fully budgeted and cannot silently remove required backup/restore scope."
+    },
+    {
+      "classification": "CONDITIONAL_CONFINED_MUTATION_WITH_INVARIANT_REPAIR_REQUIRED",
+      "design_line": 4138,
+      "frame_line": 1684,
+      "group": "C4",
+      "reason": "W-owned parent/root exchange is conditionally confined, but changes P_adm parent metadata after M8. Reconcile admission timing and partition invariants without deleting checks."
+    },
+    {
+      "classification": "PERMISSIBLE_WORK_COST_WITHOUT_NEW_ACCEPTED_CASE_DEADLINE",
+      "design_line": 4139,
+      "frame_line": 1508,
+      "group": "C5",
+      "reason": "Extra work is a custody cost; new timeout refusals of previously successful valid operations are not preservation."
+    },
+    {
+      "classification": "CONDITIONAL_BOUNDARY_CONSEQUENCE_WITH_PRESERVATION_OPEN",
+      "design_line": 4140,
+      "frame_line": 1699,
+      "group": "C6",
+      "reason": "Protecting record and tree access is a custody design choice; relocated access/export cannot silently replace any required producer or source custody."
+    },
+    {
+      "classification": "RESERVED_OPERATOR_SETUP_ONLY",
+      "design_line": 4141,
+      "frame_line": 1508,
+      "group": "C7",
+      "reason": "These are operator-owned setup choices with exact prestate/rollback, not authority granted by this review and not a new approval gate."
+    },
+    {
+      "classification": "FAIL_CLOSED_REQUIRED_BUT_ORIGINAL_CASE_REFUSAL_NOT_PRESERVED",
+      "design_line": 4147,
+      "frame_line": 1375,
+      "group": "D1",
+      "reason": "Refusal on failed/unknown enforced custody is appropriate; rejecting an originally accepted leftover or benign prior frame participant is a new gate and cannot close preservation."
+    },
+    {
+      "classification": "IMPERMISSIBLE_READABILITY_DOMAIN_NARROWING_IF_USED_FOR_CLOSURE",
+      "design_line": 4148,
+      "frame_line": 538,
+      "group": "D2",
+      "reason": "R/GATE readability differs from sicarii. Also copying needs successful byte reads whereas the original excluded-file walk only opens and stats."
+    },
+    {
+      "classification": "IMPERMISSIBLE_NEW_CAP_AND_ORIGINAL_CASE_REFUSAL_IF_USED_FOR_CLOSURE",
+      "design_line": 4149,
+      "frame_line": 538,
+      "group": "D3",
+      "reason": "The observed-size data ceiling and longer copy stability window add refusals. Stable originals may also hit new source-read, SEEK_DATA/HOLE, metadata, allocation or exchange failures; not all require continuing writers."
+    },
+    {
+      "classification": "PERMISSIBLE_CAPACITY_DEFERRAL_UNDER_ORIGINAL_STORAGE_RULING",
+      "design_line": 4150,
+      "frame_line": 1163,
+      "group": "D4",
+      "reason": "Additional real copy/evidence cost must enter Gate 0 and cannot lower reserve. Establishing capacity may defer work. This does not authorize D3's new accepted-output growth cap."
+    },
+    {
+      "classification": "IMPERMISSIBLE_EXPANDED_RELEASE_GATE_IF_USED_FOR_CLOSURE",
+      "design_line": 4151,
+      "frame_line": 1375,
+      "group": "D5",
+      "reason": "Global uid/manager/lease conditions exceed original terminal ownership. Even ended participants and a closed foreign-owned file yield UNKNOWN. Preserve the original release obligation without durability gates."
+    },
+    {
+      "classification": "CONDITIONAL_EVIDENCE_SAFETY_RULE_WITH_PRESERVATION_OPEN",
+      "design_line": 4152,
+      "frame_line": 1420,
+      "group": "D6",
+      "reason": "No success credit for an unfinal stream is sound, but an externally retained writable stream is a new success restriction. No archival/durability hold may block known-terminal release."
+    },
+    {
+      "classification": "PERMISSIBLE_CRITERION_REQUIRED_REVALIDATION_CONDITIONAL_ON_CUSTODY",
+      "design_line": 4153,
+      "frame_line": 1813,
+      "group": "D7",
+      "reason": "Final leaf and custody revalidation follows V5-B01. It is still additional to original parent-child directory joins; the claim that any failure proves a K7 premise failed depends on the missing common-state proof."
+    },
+    {
+      "classification": "FAIL_CLOSED_MACHINERY_WITH_UNPROVED_SUCCESS_DOMAIN",
+      "design_line": 4154,
+      "frame_line": 1508,
+      "group": "D8",
+      "reason": "Malformed messages and unavailable custody fail closed. New deadlines, record/transport failures and forced non-success after recovery are real new outcomes for valid original cases; target-driven copy/observation volume can contribute."
+    },
+    {
+      "classification": "RETAINED_LOCAL_RULES_NOT_UNIVERSAL_EQUIVALENCE",
+      "design_line": 4156,
+      "frame_line": 1054,
+      "group": "E",
+      "reason": "Umask, core limit, scope memory/swap values, allowlist and original window rules are retained at specification level. Isolate frame-v6's required final-pass repair from the original S5 baseline and do not call extended D5 an unchanged gate."
+    }
+  ],
+  "completed": true,
+  "design_sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d",
+  "item": 4,
+  "must_change_claims": [
+    "v6 refuses no original output state (0.4 and K0/K1)",
+    "K5 no mutation of uncreated objects (K8 atime)",
+    "immutable P_adm after M8 despite root exchange",
+    "copy data ceiling as never a narrowed accepted case",
+    "D3 failure requires a continuing output writer",
+    "D8 no target-state causation",
+    "A4 excluded-output mode recorded",
+    "K8 only copy reads target-created files",
+    "per-use image exact entry-set check removed"
+  ],
+  "schema": "w1-v6-design-review-checkpoint-v1"
+}

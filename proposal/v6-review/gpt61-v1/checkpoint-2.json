@@ -1,0 +1,24 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "approval_granted": false,
+  "assessment": "K0 is a sound obstruction for the stated unprivileged userspace/DAC design and an already-shared writable open file description. A successful admission observation cannot revoke that description or bind later use to unchanged original inodes. No preserving mechanism was identified. It is not a proved impossibility theorem over every Linux enforcement architecture; narrower K0 wording must retain that boundary. Keeping both V5-B01 and V5-B02 OPEN without changing their text is correct. The claims that v6 refuses no original output state are inaccurate because copy acquisition, source changes, metadata reproduction and the copy-data budget introduce non-success outcomes.",
+  "blockers": {
+    "V5-B01": "OPEN",
+    "V5-B02": "OPEN"
+  },
+  "completed": true,
+  "design_sha256": "5a0e861b042d11f0d9932b6b0f83020d61e944b09e730d2f7279867f24ec8f6d",
+  "evidence": [
+    "ISOLATION-STORAGE-PROPOSAL-v6.md:153",
+    "ISOLATION-STORAGE-PROPOSAL-v6.md:223",
+    "ISOLATION-STORAGE-PROPOSAL-v6.md:1970",
+    "ISOLATION-STORAGE-PROPOSAL-v6.md:2087",
+    "ISOLATION-STORAGE-PROPOSAL-v6.md:3512",
+    "ISOLATION-STORAGE-PROPOSAL-v6.md:4147",
+    "scratch-frame-v5/scratch.py:538"
+  ],
+  "formal_impossibility_claim": false,
+  "item": 2,
+  "mechanism_meeting_original_without_new_outcome_found": false,
+  "schema": "w1-v6-design-review-checkpoint-v1"
+}
