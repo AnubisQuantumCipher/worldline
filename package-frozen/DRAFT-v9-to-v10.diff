@@ -1,0 +1,105 @@
+--- DRAFT-v9.md
++++ DRAFT-v10.md
+@@ -1,6 +1,6 @@
+-# Operator decision package — WORLDLINE Phase One (DRAFT v9; not yet reviewed)
+-
+-Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~08:40Z, from frozen DRAFT-v8 `ce4bb35e…`).
+-
+-**Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v9.md`. At ~04:19Z the edit
++# Operator decision package — WORLDLINE Phase One (DRAFT v10; corrections awaiting confirmation)
++
++Prepared by the Claude Code lead (claude-opus-5-5) on 2026-10-05 (~09:40Z, from frozen DRAFT-v9 `e3e0e5c4…`).
++
++**Where this draft lives.** Working drafts live in `WT/package-drafts/`; this one is `DRAFT-v10.md`. At ~04:19Z the edit
+ guard refused Edit-tool changes to `W/work/claude-operator-decision-package-v1/DRAFT-v7.md`, which is outside any git
+@@ -18,3 +18,3 @@
+   - nothing counts as proof, review, admission or acceptance.
+-- **This draft replaces DRAFT-v8** (`ce4bb35e…`, preserved). The line of review:
++- **This draft replaces DRAFT-v9** (`e3e0e5c4…`, preserved). The line of review:
+   - v4 (`e36f517c…`) was NOT_READY with nine corrections (`WT/package-review/gpt61-v1`).
+@@ -28,3 +28,17 @@
+     and consequences "SUBSTANTIALLY_COMPLETE".
+-- **v9.** It makes the v8 review's package-text correction, PKG-V8-CURRENT-STATUS ("corrected, awaiting review").
++  - v9 (`e3e0e5c4…`) was **READY_WITH_REQUIRED_CORRECTIONS** (`gpt61-v6`, sealed, freeze verified; rollout
++    `gpt-6.1-sol` / `max`). Its scope-change assessment, verbatim: "The separation of W-1 design closure from package
++    review does not weaken the original requirements." It required three text corrections: PKG-V8-CURRENT-STATUS
++    (completion), PKG-V9-W1-SEALED-STATUS and PKG-V9-LANE-SNAPSHOT.
++- **v10.** It makes exactly those three corrections and nothing else of substance:
++  - the W-CLOSED summary in the W-1 v5 block (one link applies to regular files only; directories need the partition
++    root's `st_dev`);
++  - the C-API v5 note's `2>/dev/null` redirection, named as a disclosed rule deviation, in both places it appears;
++  - the v8 review's W-1 closures stated correctly (W1-SETUP-IDENTITY and the older W1-DURABILITY-RELEASE closed; the
++    other five v7 W-1 corrections carried and open; six W1-V5 added), in both places;
++  - the seam v4 and PK-0 lane snapshot timed and qualified.
++  This header and the correction-status table record them. Each is "corrected, awaiting confirmation" until an actual
++  gpt-6.1-sol confirmation review rules.
++- **v9.** It made the v8 review's package-text correction, PKG-V8-CURRENT-STATUS, and moved W-1 to its own review
++  track (below).
+ - **Process change in v9: W-1 has its own review track.**
+@@ -447,4 +461,7 @@
+ - **Status.** The same author-role drafting agent wrote it. It is design text only: nothing is installed or executed.
+-- **The author's assessment** was that all six v7-review corrections are "CLOSED-AT-SPEC-LEVEL". The v8 review closed
+-  none of them, and replaced them with the six W1-V5 corrections above.
++- **The author's assessment** was that all six v7-review corrections are "CLOSED-AT-SPEC-LEVEL". The v8 review ruled
++  otherwise.
++  - It closed one of those six, W1-SETUP-IDENTITY. The other five stay NOT_CLOSED and carried; all remain open.
++  - It also closed the older W1-DURABILITY-RELEASE.
++  - It added the six W1-V5 corrections above, all open.
+ - **What v5 changes** (the author's statements, unreviewed):
+@@ -453,4 +470,6 @@
+       contents, recording every change. This is a new frame mutation inside the protected tree.
+-    - The walks then require every entry to be "W-CLOSED": owner R, a regular file or directory, no group or other
+-      write bit, no set-ID bit, one link.
++    - The walks then require every entry to be "W-CLOSED". Every entry needs owner R, to be a regular file or
++      directory, no group or other write bit, and no set-ID bit. A regular file must also have exactly one link. A
++      directory must instead have its partition root's `st_dev`; no link-count rule applies to directories. The exact
++      table is under "W-CLOSED in v5, exactly" above.
+     - The target's filter also denies `io_uring`. The user-manager drop-in adds `NoNewPrivileges`, `RestrictSUIDSGID`,
+@@ -633,3 +652,5 @@
+     invalidated, and required six new corrections.
+-  - W-1 v5 was the author's answer to those six. The v8 review closed none of them, and required six more (above).
++  - W-1 v5 was the author's answer to those six. The v8 review closed one of them, W1-SETUP-IDENTITY; the other five
++    stay open, carried. It also closed the older W1-DURABILITY-RELEASE and added six W1-V5 corrections (above), all
++    open.
+   - W-1 v6 is in drafting on W-1's own review track. Its sealed review, not this package, will rule on them.
+@@ -889,4 +910,9 @@
+   acceptance.
+-  - `WT/deviations/capi-v5-author-process/NOTE.md`: a `mkdir -p /dev/null` slip that created nothing; read-only commands
+-    outside the literal list; a late `sia.ask`; and an in-memory execution of the design's own check sketch.
++  - `WT/deviations/capi-v5-author-process/NOTE.md`:
++    - a command prefixed by `mkdir -p /dev/null 2>/dev/null`, which is a disclosed rule deviation on two counts: a
++      `mkdir` invocation and a `2>/dev/null` redirection, both outside the read-only rule. By the author's account it
++      created and changed nothing;
++    - read-only commands outside the literal list;
++    - a late `sia.ask`;
++    - an in-memory execution of the design's own check sketch.
+   - `WT/deviations/capi-v6-author-process/NOTE.md`: after a compaction the author read the lead's transcript, an
+@@ -1159,4 +1185,7 @@
+ **Lead next work.** Routine engineering, each item with independent actual gpt-6.1-sol review:
+-- seam design v4 (in drafting);
+-- C-API packet PK-0 (source only; its gated baseline run waits for F-1 and S-1);
++- seam design v4: the draft is complete (`f65629cb…`). Its actual gpt-6.1-sol review has been running since 08:26Z,
++  and every v4 finding and closure claim stays unreviewed until that review seals. v3's ENDORSED_WITH_REQUIRED_CHANGES
++  is unchanged;
++- C-API packet PK-0: authored as source only (`WT/packets/capi-pk0/`, packet.json `9808145e…`, nothing executed). Its
++  actual gpt-6.1-sol source review is queued for a runner slot, and its gated baseline run waits for F-1 and S-1;
+ - D1 DESIGN v4 (its review is INCOMPLETE and untouched; see the Isolation record);
+@@ -1232,3 +1261,3 @@
+ | `WT/deviations/d1v4-drafter-tmp-file/` | The D1 v4 author's read-only command redirected into `/tmp/claude-jk-table.txt`, with content derived from its own `jackal.json`. No refusal preceded it. The lead preserved a byte-identical copy and removed the `/tmp` original |
+-| `WT/deviations/capi-v5-author-process/NOTE.md` | A `mkdir -p /dev/null` slip that created nothing; commands outside the literal list; a late `sia.ask`; an in-memory run of the design's own sketch (author self-check, not evidence) |
++| `WT/deviations/capi-v5-author-process/NOTE.md` | A command prefixed by `mkdir -p /dev/null 2>/dev/null`: a disclosed rule deviation (a `mkdir` invocation and a `2>/dev/null` redirection) that, by the author's account, created nothing; commands outside the literal list; a late `sia.ask`; an in-memory run of the design's own sketch (author self-check, not evidence) |
+ | `WT/deviations/capi-v6-author-process/NOTE.md` | A read of the lead's transcript after a compaction (an indirect path to other lanes' summaries); the in-memory sketch again |
+@@ -1354,2 +1383,13 @@
+ 
++**B5. The v9 review** (`WT/package-review/gpt61-v6`, sealed, freeze verified; rollout `gpt-6.1-sol` / `max`). Verdict
++**READY_WITH_REQUIRED_CORRECTIONS**. Its W-1 status reporting was "INACCURATE (with gaps)", and the scope change "does
++not weaken the original requirements".
++
++| Correction | Status |
++|---|---|
++| PKG-FACTS, PKG-CRITERIA, D2-CORRECTIONS, OD1-CONSEQUENCES, OD2-CONSEQUENCES, PKG-V5-FACTS, PKG-CLOSURE-STATUS, PKG-V6-OPERATOR-TEXT, PKG-SUPERVISION-RECORD, PKG-V7-AUTHOR-RECORDS | **CLOSED** |
++| PKG-V8-CURRENT-STATUS | NOT_CLOSED in v9. Completed in v10, awaiting confirmation: the W-CLOSED summary, and the C-API v5 `2>/dev/null` deviation |
++| PKG-V9-W1-SEALED-STATUS | Corrected in v10, awaiting confirmation: the v8 review's W-1 closures, stated correctly in both places |
++| PKG-V9-LANE-SNAPSHOT | Corrected in v10, awaiting confirmation: the seam v4 and PK-0 entries, timed and qualified |
++
+ **C. The 20 W-1 sub-gaps**, as ruled by the v8 review (`gpt61-v5`), unchanged from `gpt61-v4`. 11 are CLOSED and 9

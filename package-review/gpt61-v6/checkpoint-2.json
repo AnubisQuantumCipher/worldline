@@ -1,0 +1,26 @@
+{
+  "item": 2,
+  "status": "complete",
+  "w1_status_reporting": "INACCURATE (with gaps)",
+  "scope_change_assessment": "The separation of W-1 design closure from package review does not weaken the original requirements. Optional in-principle preference supplies no privilege, design endorsement, installation, admission or proof credit. F-1 option 1 retains an endorsed W-1, reviewed successor-frame code, reviewed concrete setup/prestate inventory, established Gate 0, operator authorization, installed-identity verification/review and adoption before dispatch.",
+  "findings": [
+    "The current v5 status, exact sealed review.json assessment, six W1-V5 correction IDs, remaining earlier NOT_CLOSED corrections, subgap table and v6 drafting track are carried; original V5-B01/V5-B02 and Phase One obligations remain OPEN.",
+    "DRAFT-v9.md:448-449 and :634 falsely say the v8 review closed none of the six v7 W-1 corrections. Its sealed review closed W1-SETUP-IDENTITY; the other five remain NOT_CLOSED and the six new W1-V5 corrections remain open. DRAFT-v9.md:367 and :1345 already give the correct fact.",
+    "The residual one-link summary at :454-455 conflicts with its exact table and v5 K2. This is the remaining PKG-V8-CURRENT-STATUS gap, not a new W-1 design-closure demand."
+  ],
+  "evidence": [
+    "WT/package-drafts/DRAFT-v9.md:30-40",
+    "WT/package-drafts/DRAFT-v9.md:355-386",
+    "WT/package-drafts/DRAFT-v9.md:448-455",
+    "WT/package-drafts/DRAFT-v9.md:630-649",
+    "WT/package-drafts/DRAFT-v9.md:1340-1366",
+    "WT/package-review/gpt61-v5/review.json:34-37",
+    "WT/package-review/gpt61-v5/REVIEW.md:37",
+    "WT/proposal/ISOLATION-STORAGE-PROPOSAL-v5.md:1088-1095"
+  ],
+  "required_correction_ids": [
+    "PKG-V8-CURRENT-STATUS",
+    "PKG-V9-W1-SEALED-STATUS"
+  ],
+  "boundary": "W-1 design closure remains on its independent actual gpt-6.1-sol track. No W-1 v6 artifact or in-progress review was inspected."
+}

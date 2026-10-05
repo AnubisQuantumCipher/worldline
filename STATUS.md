@@ -52,6 +52,7 @@ written. Future scans exclude that path.
 | Scratch frame v1–v5 | All UNQUALIFIED. v5: V5-B01, V5-B02; the compact identity records and four residuals were ruled acceptable. | W-1 v2 and the frame v6-W1 design continue as routine engineering. Privileged setup needs operator approval later |
 | Operator package DRAFT-v4 | NOT_READY (9 required corrections; W-1 "potentially capable … not sufficient as described"; P-1: no operator approval solely for pinning) | DRAFT-v5 and W-1 v2 |
 | Operator package DRAFT-v5, DRAFT-v6 | Both NOT_READY (`package-review/gpt61-v2`, `gpt61-v3`). v6: W-1 v3 8 sub-gaps CLOSED, 12 NOT_CLOSED; eight new corrections | DRAFT-v7 with W-1 v4, then re-review |
+| **Operator package DRAFT-v9** | **READY_WITH_REQUIRED_CORRECTIONS** (`package-review/gpt61-v6`, sealed ~09:33Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `6d1c4c47…`, REVIEW.md `d3e0387e…`, checks.json `c472e00e…`, freeze `7cc84331…`).<br>- **Scope change:** "The separation of W-1 design closure from package review does not weaken the original requirements."<br>- **Closed:** every earlier package-text and non-W-1 correction.<br>- **Three text corrections required:** PKG-V8-CURRENT-STATUS (completion), PKG-V9-W1-SEALED-STATUS, PKG-V9-LANE-SNAPSHOT | DRAFT-v10 makes exactly these (diff recorded). Its actual gpt-6.1-sol confirmation review is queued |
 | Operator package DRAFT-v8 + W-1 v5 | NOT_READY (`package-review/gpt61-v5`, sealed ~08:34Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `2307f10e…`, REVIEW.md `88103063…`, checks.json `1d284b1b…`, freeze `55abff8b…`).<br>- **Closed:** W1-DURABILITY-RELEASE, W1-SETUP-IDENTITY, PKG-SUPERVISION-RECORD and PKG-V7-AUTHOR-RECORDS. Gaps stay 6/6 and sub-gaps 11/9.<br>- **W-1 assessment:** v5's revocation is "not proven confined at mutation time or preserving of the original accepted behavior". It also found v5's claim that the set-ID and directory-device rules were existing walk rules false.<br>- **Seven new corrections:** W1-V5-PRESERVATION, W1-V5-REVOCATION-CONFINEMENT, W1-V5-PROTOCOL-REFUSALS, W1-V5-JOURNAL-FAILED-CLOSE, W1-V5-RECONCILIATION-STATES, W1-V5-IMAGE-PINS, and the lead's PKG-V8-CURRENT-STATUS.<br>- **Rest of the package:** decision timing and consequences were "SUBSTANTIALLY_COMPLETE" | **Process change (lead):** W-1 moves to its own design-review track (v6). DRAFT-v9 presents W-1's reviewed status without making W-1 closure a package criterion. Nothing is lowered: privileged setup still needs a reviewed W-1 |
 | Operator package DRAFT-v7 + W-1 v4 | NOT_READY (`package-review/gpt61-v4`, sealed ~05:55Z; freeze verified; rollout `gpt-6.1-sol` / `max`; review.json `70b341d6…`, REVIEW.md `75f297ce…`, checks.json `e8404e77…`, freeze `314cfa29…`).<br>- **Closed:** PKG-V6-OPERATOR-TEXT. Newly closed gaps: lease-and-writer-authority, per-entry-modes-acls, denial-probes. Newly closed sub-gaps: WRITE-AUTHORITY, SETUP-PRESTATE, VERIFICATION-PROBES.<br>- **Still NOT_CLOSED:** all six v6 W-1 corrections and PKG-SUPERVISION-RECORD.<br>- **W-1 assessment:** "target-owned permissions and non-writable retained references invalidate its absorbing custody argument". Single-tree routing is "a plausible V5-B02 design direction".<br>- **Seven new corrections:** W1-CUSTODY-CLOSURE, W1-PROTOCOL-FAILURE-STATES, W1-JOURNAL-CONTINUATION, W1-SETUP-IDENTITY, W1-SETUP-RECONCILIATION, W1-IMAGE-OBSERVATION, and the lead's own PKG-V7-AUTHOR-RECORDS. v7 wrongly said the lead had used no interruption since the ruling: the ~03:38Z `timeout 60` termination came after it | W-1 v5 (author resumed) and DRAFT-v8 (lead) |
 | Composition commonV5-alpha (packets 01, 02, 04) | QUALIFIED_SOURCE_COMPOSITION | — |
@@ -247,7 +248,20 @@ V5-B02 and every original obligation stay OPEN.
   - six for W-1, being drafted as W-1 v4 by the resumed W-1 author;
   - two package-text corrections, made in DRAFT-v7 (being prepared; not frozen).
 
-## In progress (updated 08:56Z)
+## In progress (updated 09:37Z)
+
+- **Operator package DRAFT-v10: frozen; confirmation review queued.**
+  - **Freeze.** `package-drafts/DRAFT-v10.md` `c54095b9…` (99564 bytes) was frozen at 09:36Z.
+  - **Content.** It makes exactly the three corrections of the v9 review:
+    - the W-CLOSED summary (one link for regular files only);
+    - the C-API v5 `2>/dev/null` deviation named;
+    - the v8 review's W-1 closures stated correctly;
+    - the seam v4 and PK-0 snapshot timed.
+  - **Diff.** The v9-to-v10 diff is `package-frozen/DRAFT-v9-to-v10.diff` (`bc632476…`).
+  - **Review.** The actual gpt-6.1-sol confirmation review is queued for a runner slot: brief
+    `briefs/operator-package-confirm-v10.md` (`c7a59974…`), output to `package-review/gpt61-v7`.
+  - **Next.** If it confirms READY_FOR_OPERATOR, the package goes to the human.
+- **C-API PK-0 source review.** It took a runner slot after the package v9 review finished.
 
 - **C-API packet PK-0, source only** (`packets/capi-pk0/`, packet.json `9808145e…`).
   - **Content.** Six new test files: characterization JSON `51ba5ca2…`, guard pages, layout baseline with RECORD_ON_L0
