@@ -1,0 +1,88 @@
+aggregate library project Worldline_Core is
+
+   for Project_Files use
+     ("worldline_core_sources.gpr", "attest_sha256.gpr");
+   for Object_Dir use "../obj/core-library";
+   for Library_Dir use "../lib";
+   for Library_Name use "worldline_core";
+   for Library_Kind use "dynamic";
+   for Library_Interface use
+     ("Attest",
+      "Attest.SHA256",
+      "Worldline",
+      "Worldline.World",
+      "Worldline.Ancestry",
+      "Worldline.Transitions",
+      "Worldline.Identities",
+      "Worldline.Collapse",
+      "Worldline.Collapse_Wire",
+      "Worldline.Evaluation",
+      "Worldline.Evaluation_V2",
+      "Worldline.Evaluation_Wire",
+      "Worldline.Evaluation_Report_Facts",
+      "Worldline.Evaluation_Report_Wire",
+      "Evaluation_Raw_Roster",
+      "Worldline.Evaluation_Authority",
+      "Worldline.Resources",
+      "Worldline.Resource_Wire",
+      "Worldline.Resources_C_API",
+      "Worldline.Recovery",
+      "Worldline.Recovery_C_API",
+      "Worldline.Recovery_Authorization",
+      "Worldline.Recovery_Authorization_Wire",
+      "Worldline.Recovery_Authorization_C_API",
+      "Worldline.Recovery_Authorization_V3",
+      "Worldline.Recovery_Authorization_V3_Wire",
+      "Worldline.Recovery_Authorization_V3_C_API",
+      "Resource_Reservation_Transition",
+      "Resource_Quantities",
+      "Resource_Admission",
+      "Resource_Ledger",
+      "Evaluation_History",
+      "Evaluation_Epoch",
+      "Evaluation_Pending",
+      "Evaluation_Pending_C",
+      "Evaluation_Pending_V2",
+      "Evaluation_Pending_V2_C",
+      "Evaluation_Completion",
+      "Evaluation_Completion_C",
+      "Evaluation_Completion_Roster",
+      "Canonical_Artifacts",
+      "Evaluation_Finalization",
+      "Evaluation_Finalization_C",
+      "Worldline.Evaluation_History_C_API",
+      "Resource_Reservation_Lifecycle",
+      "Worldline.Reservation_Lifecycle_C_API",
+      "Worldline.Resource_Ledger_C_API",
+      "SPARK",
+      "SPARK.Big_Integers",
+      "Worldline.Resource_Policy_C_API",
+      "Worldline.Causal_Graph",
+      "Worldline.Receipts",
+      "Worldline.C_API",
+      "Worldline.Recovery_Protocol",
+      "Worldline.Recovery_Protocol_Wire",
+      "Worldline.Recovery_Protocol_C_API",
+      "Worldline.Chain_Authority",
+      "Worldline.Chain_Authority_Wire",
+      "Worldline.Chain_Authority_C_API",
+      "Resource_Run_Ledger",
+      "Resource_Run_Ledger_Wire",
+      "Resource_Run_Ledger_C_API",
+      "Worldline.Owner_Transitions",
+      "Worldline.Owner_Transitions_Wire",
+      "Worldline.Owner_Retry_Audit",
+      "Worldline.Owner_Retry_Audit_Wire",
+      "Worldline.Owner_Conjunction",
+      "Worldline.Owner_Conjunction_Wire",
+      "Worldline.Owner_Subject_Projection",
+      "Worldline.Recovery_Protocol_ABI",
+      "Evaluation_Finalization.Values");
+   for Library_Standalone use "encapsulated";
+   for Library_Auto_Init use "true";
+
+   package Builder is
+      for Global_Compilation_Switches ("Ada") use ("-fPIC");
+   end Builder;
+
+end Worldline_Core;

@@ -1,0 +1,115 @@
+{
+  "actual_model_selection": "gpt-6.1-sol",
+  "artifacts": {
+    "base_source_review": {
+      "bytes": 6454,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v17-review/independent-review.json",
+      "sha256": "afacc214a748477330f3b8ae56f69196820a75e628c97cf5c611c08fb0369694"
+    },
+    "base_source_selection": {
+      "bytes": 151758,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v17/source-selection.json",
+      "sha256": "da5cf4ea2a02f6e73103295ba4d771e07711d5532acf0ec9c12fb93511f36df1"
+    },
+    "d7_terminal_diagnostic": {
+      "bytes": 481335,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v7/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+      "sha256": "35a9fef02830db230ec17cb29f4b68b1b0e26f2487e797c3db25d80acb8e7145"
+    },
+    "repair_rationale": {
+      "bytes": 1339,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v18/REPAIR.md",
+      "sha256": "90d22508fda07795efe67a64436c7ce7a8d74ad6706a86398c2d805be7341978"
+    }
+  },
+  "author": "/root",
+  "blocking_findings": [],
+  "checks": [
+    "Complete source keyset/modes/hashes/bytes verified; only declared three files differ from v17. Exact inverse aspect/handler transformations recover predecessor bytes. Fixtures/authority specs/domain/ABI/check policy unchanged.",
+    "Installed E0005 explicitly treats volatile effective reads as side effects, prescribes Side_Effects and sole assignment RHS. Repair retains Volatile_Function and applies supported assignment syntax at every actual caller found.",
+    "Diagnostic_Enabled body unchanged: one snapshot read of same Atomic Diagnostic_Active, then returns captured local. Each original handler still observes once immediately before same conditional; new False initialization causes no extra observation.",
+    "Original exception information intrinsic remains lexically inside original handler. Information output/capture failure inner handler/failure returns and diagnostic emitters untouched. No new Off, Global null fiction, assumption or termination waiver."
+  ],
+  "disposition": "QUALIFIED_FINITE_DIAGNOSTIC_EFFECT_INTERFACE_REPAIR_SOURCE_ONLY",
+  "exact_source_delta": [
+    {
+      "after": {
+        "bytes": 100633,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v18/source/core/evaluation_completion_c.adb",
+        "sha256": "33e8536cb25f62a5843cd846df22d6ce9e0286818342cd6b792c53f70a46e46c"
+      },
+      "before": {
+        "bytes": 100473,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v17/source/core/evaluation_completion_c.adb",
+        "sha256": "dba4ba8ba60318b8cf521ac9466045cdb5cec09332444480ac36b6d67d5736e3"
+      },
+      "path": "core/evaluation_completion_c.adb"
+    },
+    {
+      "after": {
+        "bytes": 9697,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v18/source/core/evaluation_completion_c.ads",
+        "sha256": "ea5269344a580cb0894f9c72ea38e5dd1a7e28d77f568ba0c29c1db497adb62b"
+      },
+      "before": {
+        "bytes": 9683,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v17/source/core/evaluation_completion_c.ads",
+        "sha256": "9b4f26db2893dfd544bbd9906c9cd54fa87d4347e437f0cfa43394e2adb7d03b"
+      },
+      "path": "core/evaluation_completion_c.ads"
+    },
+    {
+      "after": {
+        "bytes": 47004,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v18/source/core/evaluation_finalization_c.adb",
+        "sha256": "1d8a79c6b7021f24c880d93f81ab57da7d38ae43dbd0f4cae219ff51b477d9c2"
+      },
+      "before": {
+        "bytes": 46884,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v17/source/core/evaluation_finalization_c.adb",
+        "sha256": "596bd56add9bed22560acd43b56d09326411a86d1a932b278a3efe7eec3df16a"
+      },
+      "path": "core/evaluation_finalization_c.adb"
+    }
+  ],
+  "formal_source_inventory": {
+    "bytes": 112985,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v18-review/final-source-inventory.json",
+    "sha256": "f591edd54993730179a9f288a9cb1c8cbb454c0697aaef2a826d5d95640e139e"
+  },
+  "installed_E0005": {
+    "bytes": 1709,
+    "mode": 420,
+    "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/spark/explain_codes/E0005.md",
+    "sha256": "e44a739556b9718cb9b8913d94d5d14dbc1e5a810c38c109e9ae5f0d88ba7f80"
+  },
+  "nonclaims": [
+    "Source-only finite diagnostic eligibility, not launch admission, successful compilation, proved behavior or full acceptance.",
+    "No target/compiler/prover/native/test execution."
+  ],
+  "open_obligations": [
+    "Actual installed compiler/SPARK analysis of combined aspects, effect inference/propagation through exported enclosing functions and all callers remains OPEN. E0005 repair rationale is supported, not a demonstrated cure of all diagnostics.",
+    "Lexical intrinsic admissibility/physical diagnostic I/O effects, blocked/broken output termination/retention, concurrent enable/failed-state behavior and original primary failure preservation require actual framed checks/proof. Original failures remain, not erased by empty finite source blockers.",
+    "Original authority/full accepted domain/strict mathematical proof/runtime/ABI/foreign pointer/ordinary roster/protected producer/startup/Phase One obligations remain OPEN. No v17 result transfer."
+  ],
+  "reviewer": "/root/frame_review",
+  "source_inventory_sha256": "329d91b39c5341e744b8ca935374447c19814ef82023489686232ff7013c4496",
+  "source_selection": {
+    "bytes": 152696,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/integration-source-v18/source-selection.json",
+    "sha256": "21c94652019fad85e57d1af335b895342aac59ab34276fdbb85a44cded3e531e"
+  },
+  "target_execution": false
+}

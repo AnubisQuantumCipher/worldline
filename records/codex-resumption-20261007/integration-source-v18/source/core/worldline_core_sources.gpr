@@ -1,0 +1,32 @@
+with "attest_sha256.gpr";
+
+project Worldline_Core_Sources is
+
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/core";
+
+   type Build_Kind is ("checks", "release");
+   Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");
+
+   Common :=
+     ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-fPIC");
+
+   package Compiler is
+      case Build is
+         when "checks" =>
+            for Default_Switches ("Ada") use Common & ("-gnata");
+         when "release" =>
+            for Default_Switches ("Ada") use Common;
+      end case;
+   end Compiler;
+
+   package Builder is
+      for Switches ("Ada") use ("-j0");
+   end Builder;
+
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=3", "--report=all", "-j0");
+   end Prove;
+
+end Worldline_Core_Sources;

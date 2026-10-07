@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actuator_transactions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "bootstrap_ledger": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "endpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "requester_gid": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "requester_uid": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "requester_uid",
+        "requester_gid"
+      ],
+      "type": "object"
+    },
+    "files": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "mode": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "type": "object"
+    },
+    "genesis": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "installation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "paths": {
+      "additionalProperties": false,
+      "properties": {
+        "authority_root": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "config": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "data": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "home": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "runtime": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "state": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "home",
+        "data",
+        "state",
+        "runtime",
+        "config",
+        "authority_root"
+      ],
+      "type": "object"
+    },
+    "provisioned_state": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "runtime": {
+      "additionalProperties": false,
+      "properties": {
+        "gate_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "interpreter": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "native_library": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "principal_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "proof_manifest": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "proof_summary": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "shared_objects": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "tools": {
+          "additionalProperties": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minProperties": 1,
+          "type": "object"
+        },
+        "worldline_source": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "interpreter",
+        "worldline_source",
+        "gate_source",
+        "principal_source",
+        "native_library",
+        "proof_manifest",
+        "proof_summary",
+        "tools",
+        "shared_objects"
+      ],
+      "type": "object"
+    },
+    "schema": {
+      "const": "worldline.protected-startup-v1"
+    },
+    "trees": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "additionalProperties": false,
+          "properties": {
+            "mode": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "type": "object"
+      },
+      "minProperties": 1,
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "installation_id",
+    "trees",
+    "files",
+    "runtime",
+    "paths",
+    "genesis",
+    "bootstrap_ledger",
+    "provisioned_state",
+    "actuator_transactions",
+    "endpoint"
+  ],
+  "type": "object"
+}
