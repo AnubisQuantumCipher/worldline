@@ -1,0 +1,8 @@
+ error: error in inlined body at line 64
+--> worldline-scoped_capture_history_projection.adb:547:37
+  547 |          Original : constant E.Span := Original_Source (Data, Source);
+      |                                        ^
+      + cannot untangle node N_IF_EXPRESSION
+
+compilation abandoned due to previous error
+gnatprove: error during generation of Global contracts

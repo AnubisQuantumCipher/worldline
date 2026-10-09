@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-phase1-v59-native-inner-cost-diagnostic-v1-e29c01fdd3134cea8889c58f8e68782e",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/validate.py",
+    "child",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e"
+  ],
+  "at": "2026-10-09T09:40:07.028740+00:00",
+  "errors_before_retention": [],
+  "meaning": "actual Popen.wait only when returncode exists; no acceptance",
+  "pid": 883163,
+  "returncode": 1,
+  "timed_out": false
+}

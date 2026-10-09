@@ -1,0 +1,298 @@
+{
+  "schema": "Main-original-native-diagnostic-actual-terminal-collection-v1",
+  "at": "2026-10-09T09:46:23.038Z",
+  "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1",
+  "attempt": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e",
+  "holder_task": "01a1149d-db62-74b0-a5f7-b0239f285c44",
+  "actual_goal_controller": "159d1403cb15a005",
+  "separately_fresh_actual_collection_observation": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/native-collect-df82a531-8326-470d-b25e-bd92a28da3d4-controller-stage-observation.json",
+    "sha256": "979efb79b35035287c2ab3488f892f7ae421333c8c89dbec736c661ccac5af0b",
+    "bytes": 1483,
+    "mode": 420
+  },
+  "actual_consumed_collect_guard_returncode": 0,
+  "actual_consumed_collect_guard_wall_seconds": 0.12355633002519607,
+  "actual_outer_wait": {
+    "observer": "Main",
+    "source_tool": "functions.bash",
+    "job": "bg_358",
+    "actual_tool_terminal_observed": true,
+    "returncode": 1,
+    "wall_seconds": 725.9,
+    "attempt": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e",
+    "no_phase_acceptance": true
+  },
+  "actual_build_wait": {
+    "argv": [
+      "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "-p",
+      "-j2",
+      "-k",
+      "-P",
+      "core/worldline_core.gpr"
+    ],
+    "at": "2026-10-09T09:36:27.265773+00:00",
+    "errors_before_retention": [],
+    "meaning": "actual Popen.wait only when returncode exists; no acceptance",
+    "pid": 883739,
+    "returncode": 0,
+    "timed_out": false
+  },
+  "actual_test_wait": {
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/run_controls.py"
+    ],
+    "at": "2026-10-09T09:39:38.750050+00:00",
+    "errors_before_retention": [],
+    "meaning": "actual Popen.wait only when returncode exists; no acceptance",
+    "pid": 899177,
+    "returncode": -15,
+    "timed_out": true
+  },
+  "actual_scope_wait": 1,
+  "actual_identity_error": null,
+  "actual_scope_property_error": null,
+  "actual_owned_unit_terminal_empty": true,
+  "actual_scope_properties_stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+  "actual_scope_members": "",
+  "actual_retention_errors": [],
+  "actual_compiled_outputs_unchanged": true,
+  "actual_operation_transport_smoke": {
+    "arbitrary_hostile_address_guarantee": false,
+    "completed_cases": 32,
+    "count_and_storage_limits_coincide": true,
+    "expected_cases": 32,
+    "failures": 0,
+    "independent_second_storage_guard_coverage": false,
+    "kind": "operation_transport_smoke_outcome",
+    "native_abi_acceptance": false,
+    "passed": true,
+    "phase_acceptance": false,
+    "positive_authority_cases": 0,
+    "provisioning_authority": false,
+    "startup_acceptance": false
+  },
+  "original_raw_core_tests": 47,
+  "actual_raw_core_tests_completed_ok": 22,
+  "actual_last_incomplete_test_line": "test_post_stage_error_head_is_not_replaced_by_old_pass (test_raw_evaluation_default.RawRequiredFailureControls.test_post_stage_error_head_is_not_replaced_by_old_pass) ... ",
+  "actual_failing_original_total_control_timeout_seconds": 180,
+  "complete_terminal_streams_and_input_output_retention": true,
+  "evidence": {
+    "root-outer-wait.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/root-outer-wait.json",
+      "sha256": "4594289bcfb436b0c74d3ed3c816c40159c1967bfe76b57ce4679bdc78eeb0f1",
+      "bytes": 436,
+      "mode": 420
+    },
+    "scope-terminal.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/scope-terminal.json",
+      "sha256": "665a97aec9fc39707eb1f38a8d4494bbdeb3865233bb986608faf3990bb58f31",
+      "bytes": 2461,
+      "mode": 384
+    },
+    "scope-wait.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/scope-wait.json",
+      "sha256": "7703ce96b827f40d1f81d3786bd3ab8ce65f5d39ead9ecd4e05556419185c813",
+      "bytes": 938,
+      "mode": 384
+    },
+    "scope-retention.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/scope-retention.json",
+      "sha256": "05eb9c4aaf10b41467db78043ecc2f84e9ee863d8aa13031eae1b4bf310ca889",
+      "bytes": 257,
+      "mode": 384
+    },
+    "scope.stdout": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/scope.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 384
+    },
+    "scope.stderr": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/scope.stderr",
+      "sha256": "8327f6a92a3789e141f6b7e9848a901c1f2c07d8f483b9803aadfcf03d6ba27e",
+      "bytes": 900,
+      "mode": 384
+    },
+    "build-wait.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/build-wait.json",
+      "sha256": "6da811bb8215835dbb4aefb4235eb40936912d7491be8acd76b151313f8ea85a",
+      "bytes": 378,
+      "mode": 384
+    },
+    "build-retention.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/build-retention.json",
+      "sha256": "73679b8e390cb4d12081bf7d52cc162391726307c3bafa2f80162518ec09a7a5",
+      "bytes": 257,
+      "mode": 384
+    },
+    "build.stdout": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/build.stdout",
+      "sha256": "e7746a635f1eeb1a6d62aad7b7df18a02bbf37478b34bb18d95d88299ce61086",
+      "bytes": 19450,
+      "mode": 384
+    },
+    "build.stderr": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/build.stderr",
+      "sha256": "62128d291c2fe47366ec965b04a09b7e662e39ffdea04869710da15de319befa",
+      "bytes": 171427,
+      "mode": 384
+    },
+    "tests-wait.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/tests-wait.json",
+      "sha256": "b7f8001e2dc25bdc7ab1769c24da32156edbc20a47643f16a8d866308726ae57",
+      "bytes": 472,
+      "mode": 384
+    },
+    "tests-retention.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/tests-retention.json",
+      "sha256": "8dc14d5f78a2b94eeac5228a6cb2e14e4a7e03f1eaee6f074e9629415c5a419f",
+      "bytes": 257,
+      "mode": 384
+    },
+    "tests.stdout": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/tests.stdout",
+      "sha256": "85a902836b25cb24782ca4d8f6f636ca50985472cd7b060f578959a59ce0dd82",
+      "bytes": 155132,
+      "mode": 384
+    },
+    "tests.stderr": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/tests.stderr",
+      "sha256": "d461f0d219194100592a4e9685fb6df2a3e05b15e81d80c2bac4cd970c54a1b1",
+      "bytes": 3939,
+      "mode": 384
+    },
+    "child-outcome.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/child-outcome.json",
+      "sha256": "d0bc78fae433bf058097a1d5dc27c57ee86636fadf8b715ecc60d0fcdd703986",
+      "bytes": 1004,
+      "mode": 384
+    },
+    "effective-child-limits.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/effective-child-limits.json",
+      "sha256": "d220dd2351508a78477d8380d39d7b38cfaa5247c8b6f86e2ee7695d6845bfc7",
+      "bytes": 326,
+      "mode": 384
+    },
+    "before-closure.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/before-closure.json",
+      "sha256": "6e95914dce35192c3046cf42eed4aad0b09045ef7e301f15359296a42810871c",
+      "bytes": 13081200,
+      "mode": 384
+    },
+    "after-closure.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/after-closure.json",
+      "sha256": "37558d54fad010a42df339b7cd151a1991e11cf2b36984085234ecc50e97fc96",
+      "bytes": 13081200,
+      "mode": 384
+    },
+    "build-outputs-after-build.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/build-outputs-after-build.json",
+      "sha256": "a02bae2b523ce419542452aefb65544d8ea3f7cf5ebd242e138ac7abee9e926a",
+      "bytes": 276746,
+      "mode": 384
+    },
+    "build-outputs-after-tests.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/build-outputs-after-tests.json",
+      "sha256": "a02bae2b523ce419542452aefb65544d8ea3f7cf5ebd242e138ac7abee9e926a",
+      "bytes": 276746,
+      "mode": 384
+    },
+    "built-libworldline_core.so": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/built-libworldline_core.so",
+      "sha256": "676dd89ed28361209f1d18b5788ef650a55dcd3c3223bf2c67cce5832f192823",
+      "bytes": 76893040,
+      "mode": 384
+    },
+    "launch-claim.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/launch-claim.json",
+      "sha256": "befcd106d8749f425d3680842416da091b61dbb68f3ea8d0d047ee9dab1433a2",
+      "bytes": 5805,
+      "mode": 384
+    },
+    "challenge.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/challenge.json",
+      "sha256": "640d3e1589626c80d2d5c28055b4b2bbafaeedfc11cdb53e649de7dec5070b65",
+      "bytes": 593,
+      "mode": 384
+    },
+    "receipt-binding.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/receipt-binding.json",
+      "sha256": "c8e58b7aeb780dd121d31f60f96e5e266312fd65ad5bb0805f76600f3aa9f1e9",
+      "bytes": 430,
+      "mode": 384
+    },
+    "memory-receipt.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/attempts/e29c01fdd3134cea8889c58f8e68782e/memory-receipt.json",
+      "sha256": "a4bcf6ae7d43d951041251d665be832df96afcb74ac70de9eb9a275665f5b087",
+      "bytes": 1574,
+      "mode": 420
+    }
+  },
+  "actual_known_pids_nonlive": [
+    {
+      "pid": 883163,
+      "proc_directory_present": false
+    },
+    {
+      "pid": 883739,
+      "proc_directory_present": false
+    },
+    {
+      "pid": 899177,
+      "proc_directory_present": false
+    }
+  ],
+  "full_before_after_source_tool_private_closure_comparisons": {
+    "complete_tools": true,
+    "manager_environment": true,
+    "matches_inherited_baseline": true,
+    "native_inputs": true,
+    "relocated_protected_environment": true,
+    "vendor_inputs": true
+  },
+  "full_before_after_closure_only_real_at_different": true,
+  "fresh_own_scope_terminal_empty_witness": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/native-owned-scope-terminal-empty-after-actual-wait.json",
+    "sha256": "b0852f7e82f37bcbafe7d86d8dc9b913a2b7e4d5189ec570951fed404333d302",
+    "bytes": 1139,
+    "mode": 420
+  },
+  "actual_observed_per_test_cost": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/actual-native-original-per-test-and-inner-boundary-observations.json",
+    "sha256": "ca8cc1486db00bb121ff079f61252f94f9f619ae69a6b0c54ddf4a00bd2dcef2",
+    "bytes": 125964,
+    "mode": 420
+  },
+  "actual_23rd_started_not_stopped": {
+    "kind": "original_test_start",
+    "monotonic_ns": 227832344654280,
+    "no_acceptance": true,
+    "test_id": "test_raw_evaluation_default.RawRequiredFailureControls.test_post_stage_error_head_is_not_replaced_by_old_pass"
+  },
+  "actual_last_inner_boundary": {
+    "event": "line",
+    "function": "_decide",
+    "invocation": 1,
+    "kind": "inner_boundary_timing",
+    "line": 41,
+    "location": "runtime/worldline/transaction_relation.py",
+    "monotonic_ns": 227832401995937,
+    "no_acceptance": true,
+    "sequence": 259,
+    "test_id": "test_raw_evaluation_default.RawRequiredFailureControls.test_post_stage_error_head_is_not_replaced_by_old_pass"
+  },
+  "original_47_controls_not_complete": true,
+  "exact_native_internal_root_cause_unproven": true,
+  "bounded_diagnostic_pass": false,
+  "proof_acceptance": false,
+  "whole_runtime_acceptance": false,
+  "native_abi_acceptance": false,
+  "fixture_authority": false,
+  "provisioning_authority": false,
+  "startup_acceptance": false,
+  "phase_acceptance": false
+}

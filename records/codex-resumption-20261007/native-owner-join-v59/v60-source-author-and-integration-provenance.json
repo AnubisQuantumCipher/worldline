@@ -1,0 +1,145 @@
+{
+  "actual_Main_core_edit_model_events": [
+    {
+      "id": "dc2d8c20",
+      "model": "openai-codex/gpt-6.1-sol",
+      "parentId": "d4207780",
+      "resolvedModelIsFallback": false,
+      "role": "temporary",
+      "timestamp": "2026-10-08T12:45:37.050Z",
+      "type": "model_change"
+    },
+    {
+      "configured": "max",
+      "id": "aef37b1c",
+      "parentId": "d9dd122e",
+      "thinkingLevel": "max",
+      "timestamp": "2026-10-08T11:17:27.162Z",
+      "type": "thinking_level_change"
+    }
+  ],
+  "actual_Main_mutation_events": [
+    {
+      "actual_model": "gpt-6.1-sol",
+      "actual_provider": "openai-codex",
+      "event_id": "9019a118",
+      "event_line": 13670,
+      "scope": "Main edits the two demonstrated Ticket_Raw sites and exact reviewed private JSON_Matches donor body under actual Sol/max.",
+      "timestamp": "2026-10-09T08:21:50.778Z",
+      "tool_calls": [
+        {
+          "arguments_sha256": "dbf1d5f668a8535260288463a656322f873c5978cd7c39f40f27643ebbebd069",
+          "id": "call_f1cd477d52544a8cbddbb2fd6e3188e4|ctc_0813e2e21b2576d5016ac8a41049688194a9dbcbe7d4056609",
+          "name": "edit"
+        }
+      ]
+    },
+    {
+      "actual_model": "gpt-6-astra",
+      "actual_provider": "openai-codex",
+      "event_id": "ab1025d7",
+      "event_line": 13685,
+      "scope": "Main runs original pre-refresh two-body pin derivation under actual temporary Astra.",
+      "timestamp": "2026-10-09T08:22:55.785Z",
+      "tool_calls": [
+        {
+          "arguments_sha256": "f91084c85901e444f1f7aed0028b5769cc04d80a3605b7e178d25b5a9ea50fcf",
+          "id": "call_0b4d8c0346d04d0a9a6f88d5dde54b06|fc_02b4b836463701f6016ac8a44ec2b88194a2aeebd6a28dc142",
+          "name": "read"
+        },
+        {
+          "arguments_sha256": "619e22e62cc2a3e7981c76696a2e10dbef008dec33d94620e1562f3b378385b3",
+          "id": "call_bd9cd7d9278b4b239609e9523e1e889f|fc_02b4b836463701f6016ac8a45fa3c88194aac14ce4217538ba",
+          "name": "read"
+        },
+        {
+          "arguments_sha256": "8e12c761f64898d3c01ba98b697ade58531e599612d98106d0d75873a0ccd77b",
+          "id": "call_d79cbe01714045a1b368bb57a3686fa8|fc_02b4b836463701f6016ac8a45fa3cc8194b91d380621694fc7",
+          "name": "read"
+        },
+        {
+          "arguments_sha256": "b34e62b8d5006c49fe6a7c87efa8cef9ec8172068868e7d5471d9f5306950f19",
+          "id": "call_133e7f6ee5e74a8faef5fbe469e7c7d6|fc_02b4b836463701f6016ac8a45fa3cc8194b5386765f303d1b4",
+          "name": "eval"
+        },
+        {
+          "arguments_sha256": "c1a8ed5d3257564bb4a296a12dc0bee8b5fa99376fcbf7b9be727c4e8689168e",
+          "id": "call_2bda2e70eaa242689b7d8f940da40804|fc_02b4b836463701f6016ac8a45fa3cc81949f5b0cfc13c730da",
+          "name": "bash"
+        }
+      ]
+    },
+    {
+      "actual_model": "gpt-6-astra",
+      "actual_provider": "openai-codex",
+      "event_id": "e7500e5e",
+      "event_line": 13697,
+      "scope": "Main changes the two derived proof-manifest literal pins under actual temporary Astra.",
+      "timestamp": "2026-10-09T08:23:06.218Z",
+      "tool_calls": [
+        {
+          "arguments_sha256": "814ae2f8ddd414a5371ea33fa680875d32dd94fccb741f9a46d9841c52a3e60b",
+          "id": "call_3de0137cfd16444bb8c216fe48dfde99|ctc_02b4b836463701f6016ac8a462a36081949032958e0035015e",
+          "name": "edit"
+        }
+      ]
+    },
+    {
+      "actual_model": "gpt-6-astra",
+      "actual_provider": "openai-codex",
+      "event_id": "d482c481",
+      "event_line": 13701,
+      "scope": "Main copies the exact two additive files, freezes complete F60 and performs the already retained original source pin check and enrollment under actual temporary Astra.",
+      "timestamp": "2026-10-09T08:23:34.837Z",
+      "tool_calls": [
+        {
+          "arguments_sha256": "f4a743e5164ad0fcf4fe175c375c3cdd2b5d913d3fd2142af3142e5c9584960b",
+          "id": "call_b8af1391afcc45c190d285dd08e2c0d4|fc_02b4b836463701f6016ac8a47e8280819491050c8eb341d4c9",
+          "name": "eval"
+        }
+      ]
+    }
+  ],
+  "actual_integration_fallback": false,
+  "actual_integration_thinking": "max",
+  "actual_root_transition": {
+    "id": "6f767ec4",
+    "model": "openai-codex/gpt-6-astra",
+    "parentId": "bb16f4b2",
+    "resolvedModelIsFallback": false,
+    "role": "temporary",
+    "timestamp": "2026-10-09T08:22:01.879Z",
+    "type": "model_change"
+  },
+  "current_integration_event_source": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/SolPhaseOneIntegration.jsonl",
+  "current_integration_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "current_integration_observed_events": [
+    {
+      "id": "5e4d6f24",
+      "model": "openai-codex/gpt-6.1-sol",
+      "parentId": null,
+      "resolvedModelIsFallback": false,
+      "timestamp": "2026-10-09T08:28:58.589Z",
+      "type": "model_change"
+    },
+    {
+      "configured": null,
+      "id": "218dd473",
+      "parentId": "5e4d6f24",
+      "thinkingLevel": "max",
+      "timestamp": "2026-10-09T08:28:58.590Z",
+      "type": "thinking_level_change"
+    }
+  ],
+  "current_integration_owner": "SolPhaseOneIntegration",
+  "independent_review": false,
+  "integration_scope": "Complete source inventory, selection and explicit additive future-command enrollment metadata only; no source byte edits, source pin/enrollment reruns or target execution by SolPhaseOneIntegration.",
+  "phase_acceptance": false,
+  "required_service_tier": "standard",
+  "reviewer_authored": false,
+  "root_event_source": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f.jsonl",
+  "root_temporary_Astra_not_relabelled_as_Sol": true,
+  "schema": "worldline.source-integration-author-provenance.v1",
+  "source_byte_mutation_author": "Main",
+  "target_execution": false
+}

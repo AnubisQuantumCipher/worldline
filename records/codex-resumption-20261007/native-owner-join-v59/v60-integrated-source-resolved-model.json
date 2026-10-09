@@ -1,0 +1,41 @@
+{
+  "schema": "worldline.resolved-review-model-provenance.v1",
+  "reviewer": "F60CoherentSourceReview",
+  "observed_at": "2026-10-09T09:16:32.696Z",
+  "event_source": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/F60CoherentSourceReview.jsonl",
+  "session_pin_at_observation": {
+    "sha256": "d25c4baa726eff0647adfa00ceda7686e7b61997f58c8aaa4be4f31f6017ce0f",
+    "bytes": 2370504,
+    "mode": 420
+  },
+  "observed_events": [
+    {
+      "type": "model_change",
+      "id": "c63e349d",
+      "parentId": null,
+      "timestamp": "2026-10-09T08:48:03.243Z",
+      "model": "openai-codex/gpt-6.1-sol",
+      "resolvedModelIsFallback": false
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "82d37509",
+      "parentId": "c63e349d",
+      "timestamp": "2026-10-09T08:48:03.243Z",
+      "thinkingLevel": "max",
+      "configured": null
+    }
+  ],
+  "expected_selection": "openai-codex/gpt-6.1-sol:max",
+  "actual_fallback": false,
+  "actual_thinking": "max",
+  "verdict_not_authored_by_main": true,
+  "review_records": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft-review/independent-review.json",
+      "sha256": "4740e5bd57eb1c76bc201598c9c1c9aa89e222d4bcb70eabac1a2e3129961003",
+      "bytes": 75142,
+      "mode": 420
+    }
+  ]
+}

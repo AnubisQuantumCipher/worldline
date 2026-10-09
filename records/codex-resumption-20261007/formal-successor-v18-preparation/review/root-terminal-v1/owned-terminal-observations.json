@@ -1,0 +1,67 @@
+{
+  "at": "2026-10-09T12:08:10.795350+00:00",
+  "known_children": [
+    {
+      "original_exit_evidence": {
+        "argv": [
+          "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+          "-P",
+          "core/worldline_core_sources.gpr",
+          "-U",
+          "--mode=all",
+          "--level=3",
+          "--report=all",
+          "--checks-as-errors=on",
+          "--proof-warnings=on",
+          "-j2"
+        ],
+        "at": "2026-10-09T12:05:53.258854+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1292276,
+        "returncode": 1
+      },
+      "pid": 1292276,
+      "proc_currently_exists": false
+    }
+  ],
+  "scopes": [
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-full-formal-diagnostic-v8-full-strict-formal-diagnostic-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-full-formal-diagnostic-v8-full-strict-formal-diagnostic-v1.scope"
+    }
+  ]
+}

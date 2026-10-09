@@ -2,7 +2,22 @@
 
 **Work in progress. Phase One is not complete or accepted.**
 
-This branch publishes the isolated engineering work through local source commit
+## Latest preserved source: F60 — 2026-10-09
+
+The [October 9 checkpoint](PHASE1-SOURCE-CHECKPOINT-20261009.md) preserves the
+complete frozen F60 source, actual GPT-6.1 Sol max source reviews, the failed
+C18/F60 full strict invocation and separately labeled earlier N59/F59 runtime
+evidence. See its [file manifest](PHASE1-SOURCE-CHECKPOINT-20261009.json) for exact
+identity and exclusions. Source changes remain unfinished engineering; the full
+proof, matching-source runtime and final acceptance requirements remain open.
+
+The [October 7 v18 checkpoint](PHASE1-SOURCE-CHECKPOINT-20261007.md) and the
+earlier records below remain historical evidence. The active working session
+continues separately; this archive is not an installable release.
+
+## Earlier engineering history
+
+The initial publication preserved isolated engineering work through local source commit
 `8c5ad29d2dff4db2d91631fe5d3d808fa3c5e4ac`. It preserves the design drafts, source packets,
 frame implementation drafts, recorded reviews, outstanding findings and obligation ledger.
 

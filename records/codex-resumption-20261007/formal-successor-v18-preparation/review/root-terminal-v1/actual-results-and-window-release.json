@@ -1,0 +1,167 @@
+{
+  "all_original_guarantees": "OPEN_UNCHANGED",
+  "all_required_actual_pass": false,
+  "at": "2026-10-09T12:08:15.114211+00:00",
+  "fresh_terminal_live_sample": {
+    "at": "2026-10-09T12:08:13.946830+00:00",
+    "boundary": "Current observations only; unrelated activity does not prevent giving back an ended owned window and is never stopped.",
+    "codex_scopes": {
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "list-units",
+        "--all",
+        "--state=active,activating,deactivating",
+        "--no-legend",
+        "--plain",
+        "codex-*.scope"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    "process_sample": {
+      "command": [
+        "/usr/bin/ps",
+        "-eo",
+        "pid,comm"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "    PID COMMAND\n      1 systemd\n      2 kthreadd\n      3 pool_workqueue_release\n      4 kworker/R-rcu_gp\n      5 kworker/R-sync_wq\n      6 kworker/R-kvfree_rcu_reclaim\n      7 kworker/R-slub_flushwq\n      8 kworker/R-netns\n     11 kworker/0:0H-kblockd\n     13 kworker/R-mm_percpu_wq\n     14 ksoftirqd/0\n     15 rcu_preempt\n     16 rcu_exp_par_gp_kthread_worker/0\n     17 rcu_exp_gp_kthread_worker\n     18 migration/0\n     19 cpuhp/0\n     20 cpuhp/1\n     21 migration/1\n     22 ksoftirqd/1\n     24 kworker/1:0H-kblockd\n     25 cpuhp/2\n     26 migration/2\n     27 ksoftirqd/2\n     29 kworker/2:0H-kblockd\n     30 cpuhp/3\n     31 migration/3\n     32 ksoftirqd/3\n     34 kworker/3:0H-kblockd\n     35 cpuhp/4\n     36 migration/4\n     37 ksoftirqd/4\n     39 kworker/4:0H-kblockd\n     40 cpuhp/5\n     41 migration/5\n     42 ksoftirqd/5\n     44 kworker/5:0H-kblockd\n     45 cpuhp/6\n     46 migration/6\n     47 ksoftirqd/6\n     49 kworker/6:0H-kblockd\n     50 cpuhp/7\n     51 migration/7\n     52 ksoftirqd/7\n     54 kworker/7:0H-kblockd\n     55 cpuhp/8\n     56 migration/8\n     57 ksoftirqd/8\n     59 kworker/8:0H-kblockd\n     60 cpuhp/9\n     61 migration/9\n     62 ksoftirqd/9\n     64 kworker/9:0H-kblockd\n     65 cpuhp/10\n     66 migration/10\n     67 ksoftirqd/10\n     69 kworker/10:0H-kblockd\n     70 cpuhp/11\n     71 migration/11\n     72 ksoftirqd/11\n     74 kworker/11:0H-kblockd\n     77 kdevtmpfs\n     78 kworker/R-inet_frag_wq\n     79 rcu_tasks_kthread\n     80 kauditd\n     83 khungtaskd\n     84 oom_reaper\n     85 kworker/R-writeback\n     86 kcompactd0\n     87 ksmd\n     88 kworker/R-kblockd\n     89 kworker/R-blkcg_punt_bio\n     90 kworker/R-kintegrityd\n     91 kworker/R-tpm_dev_wq\n     92 kworker/R-tifm\n     93 kworker/R-ata_sff\n     94 kworker/R-md_bitmap\n     95 kworker/R-edac-poller\n     96 kworker/R-devfreq_wq\n     97 watchdogd\n     98 kworker/R-quota_events_unbound\n    100 kworker/R-rpciod\n    101 kworker/R-xprtiod\n    103 kswapd0\n    104 kworker/R-nfsiod\n    105 kworker/R-xfsalloc\n    106 kworker/R-xfs_mru_cache\n    107 kworker/R-cryptd\n    108 kworker/R-kthrotld\n    109 kworker/u51:0\n    110 kworker/R-acpi_thermal_pm\n    112 khvcd\n    114 kworker/R-nvme-wq\n    115 kworker/R-nvme-reset-wq\n    116 kworker/R-nvme-delete-wq\n    117 kworker/R-uas\n    118 kworker/R-dm_bufio_cache\n    119 kworker/R-mld\n    120 kworker/R-ipv6_addrconf\n    121 kworker/u48:1-ipv6_addrconf\n    122 kworker/R-kstrp\n    123 kworker/u52:0\n    124 kworker/u53:0\n    155 card0-crtc0\n    161 hwrng\n    255 kworker/0:1H-kblockd\n    272 kworker/1:1H-kblockd\n    278 jbd2/vda-8\n    279 kworker/R-ext4-rsv-conversion\n    280 kworker/7:1H-kblockd\n    296 kworker/2:1H-kblockd\n    300 kworker/5:1H-kblockd\n    331 psimon\n    339 systemd-journal\n    351 kworker/6:1H-kblockd\n    353 systemd-userdbd\n    369 kworker/10:1H-kblockd\n    373 psimon\n    386 kworker/9:1H-kblockd\n    398 kworker/3:1H-kblockd\n    404 systemd-resolve\n    405 systemd-timesyn\n    418 systemd-udevd\n    455 psimon\n    553 dbus-broker-lau\n    554 dbus-broker\n    555 NetworkManager\n    557 avahi-daemon\n    559 systemd-logind\n    579 avahi-daemon\n    597 cupsd\n    598 sshd\n    609 containerd\n    611 sddm\n    612 agetty\n    613 systemd\n    614 systemd\n    615 systemd\n    629 (sd-pam)\n    630 (sd-pam)\n    631 (sd-pam)\n    639 Xorg\n    668 dbus-broker-lau\n    670 dbus-broker-lau\n    671 dbus-broker-lau\n    672 dbus-broker\n    673 dbus-broker\n    674 dbus-broker\n    679 python3\n    681 pipewire\n    683 wireplumber\n    684 pipewire\n    685 pipewire\n    686 wireplumber\n    689 pipewire-pulse\n    691 wireplumber\n    692 pipewire-pulse\n    715 pipewire-pulse\n    728 cups-browsed\n    734 dockerd\n    743 rtkit-daemon\n    750 kworker/4:1H-kblockd\n    756 polkitd\n    837 kworker/8:1H-kblockd\n   1011 sddm-helper\n   1020 kworker/11:1H-kblockd\n   1027 systemd\n   1031 (sd-pam)\n   1065 dbus-broker-lau\n   1067 dbus-broker\n   1068 ipad-storage-su\n   1069 maestral\n   1070 omarchy-native-\n   1073 pipewire\n   1074 wireplumber\n   1075 pipewire-pulse\n   1076 omarchy-native-\n   1077 ollama\n   1078 python3\n   1079 python3\n   1088 gnome-keyring-d\n   1119 sh\n   1162 power-profiles-\n   1281 waitpid\n   1284 systemctl\n   1364 start-hyprland\n   1376 Hyprland\n   1411 dconf-service\n   1419 omarchy-launch-\n   1425 omarchy-hyprlan\n   1426 udiskie\n   1428 quickshell\n   1429 omarchy-native-\n   1432 wayvnc\n   1450 upowerd\n   1497 sshd-session\n   1499 Xwayland\n   1500 udevadm\n   1501 omarchy-native-\n   1512 sshd-session\n   1513 at-spi-bus-laun\n   1519 dbus-broker-lau\n   1520 dbus-broker\n   1521 gvfsd\n   1527 gvfsd-fuse\n   1537 systemd-inhibit\n   1541 keepassxc\n   1545 omarchy-crash-w\n   1547 fcitx5\n   1550 omarchy-native-\n   1551 uwsm\n   1552 xdg-desktop-por\n   1553 journalctl\n   1554 omarchy-crash-w\n   1560 sekhmet\n   1561 omarchy-system-\n   1564 dbus-monitor\n   1615 xdg-permission-\n   1621 wl-paste\n   1655 xdg-document-po\n   1699 fusermount3\n   1714 xdg-desktop-por\n   1771 at-spi2-registr\n   1784 xdg-desktop-por\n   1837 inotifywait\n   2261 socat\n   2311 udisksd\n   2815 black-bag\n   2893 ipad-backup-mou\n 115795 MainThread\n 115796 MainThread\n 115802 python3\n 115811 MainThread\n 115817 node_repl\n 115824 MainThread\n 115838 node-MainThread\n 115869 node_repl\n 541042 kworker/0:2-events\n 633228 node_repl\n 633229 MainThread\n 633258 MainThread\n 633289 MainThread\n 633291 python3\n 633309 MainThread\n 633310 node-MainThread\n 633325 node_repl\n 689105 omp\n 801386 ChatGPT\n 801393 browser_crashpa\n 801395 browser_crashpa\n 801402 ChatGPT\n 801403 ChatGPT\n 801406 ChatGPT\n 801441 ChatGPT\n 801443 ChatGPT\n 801601 ChatGPT\n 801967 ChatGPT\n 801979 ChatGPT\n 802118 codex\n 802682 ChatGPT\n 803557 ChatGPT\n 803888 ChatGPT\n 804066 ChatGPT\n 804599 codex-code-mode\n 804614 ChatGPT\n 998983 kworker/9:2-events\n1029668 python3\n1029686 node-MainThread\n1029706 MainThread\n1029707 MainThread\n1029727 MainThread\n1029728 node_repl\n1029741 node_repl\n1029789 MainThread\n1029896 MainThread\n1029950 node_repl\n1029958 MainThread\n1030004 python3\n1030036 node_repl\n1030049 node-MainThread\n1030077 MainThread\n1030089 MainThread\n1030142 MainThread\n1030162 node_repl\n1030184 python3\n1030246 MainThread\n1030248 node-MainThread\n1030287 MainThread\n1030296 MainThread\n1030310 node_repl\n1041624 kworker/u48:0\n1112995 kworker/11:1-events\n1143325 kworker/6:1-mm_percpu_wq\n1166621 kworker/3:1-events\n1174450 kworker/10:0-events\n1177262 kworker/1:2-events\n1193970 MainThread\n1193994 node_repl\n1194029 jackal-mcp-ledg\n1194066 node-MainThread\n1194107 MainThread\n1194134 unshare\n1194158 MainThread\n1194190 MainThread\n1194200 python3\n1194211 node_repl\n1194257 python3.14\n1197558 kworker/8:0-mm_percpu_wq\n1197988 kworker/5:0-events\n1209630 kworker/u49:1+events_unbound\n1212063 kworker/u50:1-events_unbound\n1220475 kworker/4:0-mm_percpu_wq\n1231613 kworker/u50:7-ext4-rsv-conversion\n1264190 kworker/10:2-events\n1266255 kworker/3:2-events\n1270385 kworker/4:1-events_power_efficient\n1270517 kworker/9:1\n1271142 kworker/5:1-events\n1274435 MainThread\n1274440 python3\n1274442 MainThread\n1274462 MainThread\n1274470 node-MainThread\n1274493 node_repl\n1274514 node_repl\n1278281 kworker/8:1\n1283466 kworker/7:2-events\n1284484 kworker/2:1-mm_percpu_wq\n1285705 omp\n1287267 kworker/6:2-mm_percpu_wq\n1290411 kworker/11:0-cgroup_free\n1292356 kworker/u49:4-flush-253:0\n1292357 kworker/u49:5-writeback\n1292958 kworker/u49:8-iou_exit\n1293581 kworker/3:0-events_power_efficient\n1295758 kworker/0:0-events\n1299249 kworker/1:1-events\n1301213 kworker/u50:0-flush-253:0\n1302582 kworker/2:0\n1304780 kworker/u50:2-events_unbound\n1305757 kworker/7:1\n1311746 kworker/11:2\n1312343 kworker/10:1\n1312389 kworker/9:0-events\n1312991 systemd-userwor\n1312992 systemd-userwor\n1313819 kworker/0:1-events\n1315697 systemd-userwor\n1325967 python3\n1327335 kworker/1:0-events\n1327957 omarchy-agent-u\n1327965 omarchy-agent-u\n1327967 omarchy-agent-u\n1327968 omarchy-agent-u\n1327970 omarchy-agent-u\n1328010 python3\n1328041 kworker/u50:3-events_unbound\n1328155 ps\n1401497 MainThread\n1401505 MainThread\n1401507 node-MainThread\n1401527 node_repl\n1401528 MainThread\n1401544 python3\n1401576 node_repl\n1401839 MainThread\n1401840 MainThread\n1401848 MainThread\n1401875 MainThread\n1532109 node_repl\n1532111 python3\n1532124 node-MainThread\n1532141 MainThread\n1532156 MainThread\n1532166 MainThread\n1532184 node_repl\n1648010 llama-server\n1668816 MainThread\n1668817 node_repl\n1668818 python3\n1668852 node_repl\n1707223 MainThread\n1707224 MainThread\n1707230 node-MainThread\n1882318 jackal-mcp-ledg\n1882346 node_repl\n1882352 MainThread\n1882367 MainThread\n1882396 unshare\n1882419 MainThread\n1882442 python3\n1882459 node-MainThread\n1882461 MainThread\n1882467 node_repl\n1882542 python3.14\n2104948 MainThread\n2104949 MainThread\n2104952 node_repl\n2104953 MainThread\n2104977 python3\n2104985 node-MainThread\n2104991 MainThread\n2104992 node_repl\n2711760 codex\n3134701 wl-copy\n3298002 ChatGPT\n3509113 foot\n3509133 bash\n3509608 grok\n3509875 jackal-mcp-ledg\n3509879 python3\n3509882 unshare\n3509892 python3.14\n3543923 wl-paste\n3543925 wl-paste\n3575261 node_repl\n3575280 python3\n3575297 MainThread\n3575313 MainThread\n3575334 MainThread\n3575339 node-MainThread\n3575349 MainThread\n3575355 node_repl\n3624005 foot\n3624025 bash\n3624520 omp\n3656611 foot\n3656631 bash\n3657101 omp\n3662875 brave\n3662878 chrome_crashpad\n3662880 chrome_crashpad\n3662889 brave\n3662890 brave\n3662893 brave\n3662923 brave\n3662939 brave\n3662957 brave\n3662958 brave\n3663149 brave\n3663160 brave\n3663176 brave\n3663414 brave\n3663471 keepassxc-proxy\n3663528 brave\n3663851 brave\n3663883 brave\n3663948 brave\n3665076 brave\n3666608 omp daemon brok\n3702650 python\n3718488 omp daemon brok\n4037224 python3\n4037226 MainThread\n4037230 MainThread\n4037242 node_repl\n4037258 MainThread\n4037274 node-MainThread\n4037295 MainThread\n4037303 node_repl\n4068105 ifuse\n4068136 ifuse\n"
+    },
+    "proof_lanes": {
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "list-units",
+        "--all",
+        "--state=active,activating,deactivating",
+        "--no-legend",
+        "--plain",
+        "codex-*proof*"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  },
+  "known_child_exit_evidence_and_current_pid_absence": [
+    {
+      "original_exit_evidence": {
+        "argv": [
+          "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+          "-P",
+          "core/worldline_core_sources.gpr",
+          "-U",
+          "--mode=all",
+          "--level=3",
+          "--report=all",
+          "--checks-as-errors=on",
+          "--proof-warnings=on",
+          "-j2"
+        ],
+        "at": "2026-10-09T12:05:53.258854+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1292276,
+        "returncode": 1
+      },
+      "pid": 1292276,
+      "proc_currently_exists": false
+    }
+  ],
+  "next_action": "Retain every diagnostic failure/unknown and engineer against fixed original scope. This standalone diagnostic authorizes no dependent action or ordinary restart.",
+  "owned_scope_terminal_observations": [
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-full-formal-diagnostic-v8-full-strict-formal-diagnostic-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-full-formal-diagnostic-v8-full-strict-formal-diagnostic-v1.scope"
+    }
+  ],
+  "records": [
+    {
+      "actual_result": {
+        "at": "2026-10-09T12:06:22.853963+00:00",
+        "child_wait": {
+          "argv": [
+            "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+            "-P",
+            "core/worldline_core_sources.gpr",
+            "-U",
+            "--mode=all",
+            "--level=3",
+            "--report=all",
+            "--checks-as-errors=on",
+            "--proof-warnings=on",
+            "-j2"
+          ],
+          "at": "2026-10-09T12:05:53.258854+00:00",
+          "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+          "pid": 1292276,
+          "returncode": 1
+        },
+        "inputs_unchanged": true,
+        "native_artifacts_after": {},
+        "native_artifacts_before": {},
+        "native_inputs_unchanged": true,
+        "no_proof_claim": true,
+        "original_targets": "OPEN_UNCHANGED",
+        "scope_wait": 1
+      },
+      "mode": "full-strict-formal-diagnostic",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/evidence/full-strict-formal-diagnostic-v1/result.json",
+      "sha256": "e1562d2e305d039c5a8127e4b20da1cf7fe5590a0efcda660aa5025c973270f0"
+    }
+  ],
+  "required_actions": 1,
+  "retained_complete_artifacts": {
+    "bytes": 2354337,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-terminal-v1/retained-artifacts.json",
+    "sha256": "ca5699d179173d8a9edd8dfe04b79cfa621f8782e24aa0a49b1bdf222c51a865"
+  },
+  "schema": "worldline-root-full-strict-formal-diagnostic-terminal-v1",
+  "source_exact_keyset_bytes_modes_match": true,
+  "source_manifest": {
+    "bytes": 448746,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/inputs.json",
+    "sha256": "c7881c7d3442a0019a700b4e0609c736e8a06eb52395c9953954d13f4b8145ca"
+  },
+  "status": "BATCH_TERMINAL_WITH_RETAINED_GAPS_NO_ACCEPTANCE",
+  "unknown": [],
+  "unrun": []
+}

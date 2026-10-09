@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-09T12:05:53.258854+00:00",
+  "pid": 1292276,
+  "argv": [
+    "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+    "-P",
+    "core/worldline_core_sources.gpr",
+    "-U",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "-j2"
+  ],
+  "returncode": 1,
+  "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+}

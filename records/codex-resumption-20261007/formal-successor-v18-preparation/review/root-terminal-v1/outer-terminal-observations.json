@@ -1,0 +1,69 @@
+[
+  {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-outer-capture-v1/23504d9054bc4bc18b0f325ee52631f9",
+    "pid_observed_nonlive": true,
+    "refusal": null,
+    "start": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-live-lane-v1/handshake.py",
+        "full-strict-formal-diagnostic",
+        "2dc18ab0c6ee8fd4dfec6f119aea8f81f39c067e8243d10efe47e951ec17c5e2"
+      ],
+      "at": "2026-10-09T11:54:02.703989+00:00",
+      "challenge_discovery": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic",
+      "inputs": {
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-live-lane-v1/handshake.py": {
+          "bytes": 14083,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-live-lane-v1/handshake.py",
+          "sha256": "05e1f4ad0ef8b391ca67e64bcf986a3b188c1f44b744d3e7beca698b066bfd08"
+        },
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-live-lane-v1/inputs.json": {
+          "bytes": 413375,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-live-lane-v1/inputs.json",
+          "sha256": "2dc18ab0c6ee8fd4dfec6f119aea8f81f39c067e8243d10efe47e951ec17c5e2"
+        }
+      },
+      "pid": 1280566,
+      "raw_stderr": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-outer-capture-v1/23504d9054bc4bc18b0f325ee52631f9/handshake.stderr",
+      "raw_stdout": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-outer-capture-v1/23504d9054bc4bc18b0f325ee52631f9/handshake.stdout",
+      "target_wait_or_acceptance": false,
+      "wrapper_pid": 1280467
+    },
+    "wait": {
+      "actual_handshake_Popen_wait_returncode": 1,
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-live-lane-v1/handshake.py",
+        "full-strict-formal-diagnostic",
+        "2dc18ab0c6ee8fd4dfec6f119aea8f81f39c067e8243d10efe47e951ec17c5e2"
+      ],
+      "at": "2026-10-09T12:06:23.247421+00:00",
+      "inputs_unchanged": true,
+      "pid": 1280566,
+      "raw_files": [
+        {
+          "bytes": 2711,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-outer-capture-v1/23504d9054bc4bc18b0f325ee52631f9/handshake.stdout",
+          "sha256": "80f2e0a4bf4590135fd72d0edcd81fffc298719987b5559deb09695d1198f1c3"
+        },
+        {
+          "bytes": 0,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v18-preparation/review/root-outer-capture-v1/23504d9054bc4bc18b0f325ee52631f9/handshake.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "retention_errors": [],
+      "retention_success": true,
+      "truth_boundary": "Actual outer handshake-child wait only when observed. Raw retention success requires every flush/fsync/close/hash. Unknown waits and retention failures require Root ownership collection. No target/scope wait, admission, recovered child outcome, exhaustive custody or acceptance.",
+      "wrapper_pid": 1280467
+    },
+    "wrapper_pid_observed_nonlive": true
+  }
+]

@@ -1,0 +1,89 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/run_controls.py"
+  ],
+  "at": "2026-10-09T09:36:38.655320+00:00",
+  "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/source",
+  "exact_library": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/source/lib/libworldline_core.so",
+  "library_sha256": "676dd89ed28361209f1d18b5788ef650a55dcd3c3223bf2c67cce5832f192823",
+  "operation_transport_smoke": {
+    "Library_Auto_Init": true,
+    "accepted_grant_head_or_readiness_claim": false,
+    "arbitrary_hostile_address_guarantee": false,
+    "cases_per_symbol": [
+      "malformed_unaligned",
+      "empty_owned_unaligned",
+      "input_status_overlap",
+      "input_position_overlap",
+      "outputs_exact_overlap",
+      "outputs_partial_overlap",
+      "count_and_storage_excess",
+      "uint64_max_excess"
+    ],
+    "child_timeout_seconds": 15,
+    "domain_basis": {
+      "Count": "L.E -> Custody_V2_Values.S.E -> Scoped_Archive.A.E -> Operation_Archive.E -> Archive_Envelope.Q.Byte_Count -> Resource_Quantities.Byte_Count, range 0 .. Long_Long_Integer Last; runtime c_longlong width must be 8.",
+      "Storage_Offset": "Installed System.Storage_Elements range -Memory_Size/2 .. Memory_Size/2-1; System Memory_Size=2**Word_Size; selected aarch64 word/address width 64, checked by runtime pointer width.",
+      "independent_second_storage_guard_coverage": false,
+      "reason": "The actual Count and Storage_Offset limits coincide; the first native length guard rejects the shared excessive case, not a separately demonstrated second guard."
+    },
+    "error_code_basis": {
+      "lines": [
+        414,
+        417
+      ],
+      "pin": {
+        "bytes": 481831,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v59-draft/source/core/worldline-c_api.adb",
+        "sha256": "083148b05e8d4c792a62bf93ea6fc003627d5e5c3664c49115c1c29904171d87"
+      }
+    },
+    "error_codes": {
+      "Error_Invalid_Argument": 1,
+      "Error_OK": 0,
+      "Error_Too_Large": 3
+    },
+    "excessive_length_rejected_before_dereference_and_buffer_mutation": true,
+    "execution_lane": "Own synchronous subprocess before both complete original suites, inheriting their retained stdout/stderr; every observed smoke failure contributes to nonzero combined controls result.",
+    "expected_actual_native_calls": 32,
+    "failure_diagnostics_stream": "attempts/<prepare-emitted-attempt>/tests.stderr",
+    "fixture_creation": false,
+    "library_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v59-native-inner-cost-diagnostic-v1/source/lib/libworldline_core.so",
+    "manual_adainit": false,
+    "mapped_library_and_each_symbol_verified_at_runtime": true,
+    "native_abi_acceptance": false,
+    "native_domain_bounds": {
+      "Count_Last": 9223372036854775807,
+      "Storage_Offset_Last": 9223372036854775807,
+      "uint64_max": 18446744073709551615
+    },
+    "output_alignment_required": false,
+    "output_bytes": 8,
+    "overlap_refusal_entire_owned_buffers_unchanged": true,
+    "phase_acceptance": false,
+    "positive_authority_cases": 0,
+    "raw_evidence_stream": "attempts/<prepare-emitted-attempt>/tests.stdout",
+    "root_or_actor_action": false,
+    "scope": "NONPRIVILEGED_REAL_CTYPES_FOUR_OPERATION_EXPORT_REFUSAL_AND_TRANSPORT_GEOMETRY_ONLY_NOT_PROVISIONING",
+    "shared_outer_controls_timeout_seconds": 180,
+    "smoke_failure_signal_or_timeout_does_not_suppress_original_suites": true,
+    "stable_owned_accessible_buffers_only": true,
+    "startup_acceptance": false,
+    "surrounding_sentinels_checked": true,
+    "symbols": [
+      "wl_custody_operation_startup_decide_v2",
+      "wl_custody_operation_append_decide_v2",
+      "wl_custody_operation_recovery_decide_v2",
+      "wl_custody_operation_bootstrap_decide_v2"
+    ]
+  },
+  "original_whole_suites": [
+    "test_raw_evaluation_default",
+    "test_core_abi"
+  ],
+  "positive_provisioning_authority": false,
+  "test_timeout_seconds": 180
+}

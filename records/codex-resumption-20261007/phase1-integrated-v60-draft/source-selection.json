@@ -1,0 +1,881 @@
+{
+  "actor_argv_override": [
+    "-m",
+    "gpt-6-luna",
+    "-c",
+    "model_reasoning_effort=high"
+  ],
+  "actual_C17_failure_collection_release_and_external_unknown": {
+    "Main_outer_wrapper_wait_observed": false,
+    "Main_outer_wrapper_wait_returncode": null,
+    "Main_wrapper_unknown_is_not_replaced_by_target_handshake_or_collector": true,
+    "Main_wrapper_wait_unknown": {
+      "bytes": 3030,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/formal-c17-human-authorized-recovery-main-wrapper-wait-unknown.json",
+      "sha256": "572931596ad351926dce2057ddb6cbd175fece4f37da0414e3ebecacb68a8fa2"
+    },
+    "actual_scope_wait": 1,
+    "actual_target_child_returncode": 1,
+    "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation",
+    "collection": {
+      "bytes": 16031,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/review/root-terminal-v1/actual-results-and-window-release.json",
+      "sha256": "e1c989ae769267ed3b695cd4b7d7c018696b1e9569a0462759d861904e1a6356"
+    },
+    "compiler_frontier": "child1/scope1 fourTicket_Rawundefinedattribute references original332/751 duringGlobals; noproof. Collector0/3.15s exactsource/private/knownchildnonlive/ownedterminalempty onlyownrelease.",
+    "original_admitted_collector_returncode_reported_by_Main": 0,
+    "original_admitted_collector_wall_seconds_reported_by_Main": 3.15,
+    "owned_window_released": true,
+    "phase_acceptance": false,
+    "release": {
+      "bytes": 1326,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/review/root-terminal-v1/coordination-release.json",
+      "sha256": "37344161d4e24a93e90be14cddc535f922df8dddfe6f2b7b9d84b969a0abe606"
+    },
+    "result": {
+      "bytes": 747,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/evidence/full-strict-formal-diagnostic-v1/result.json",
+      "sha256": "bc0b0ef1308a428f91956a3a9e1f03fc3dec776d4e44fad19cde0af228572895"
+    },
+    "stderr": {
+      "bytes": 1256,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+      "sha256": "6880c9ba64c06102e73f0ed1a4f9e2a6fbc61ecb9bcedc1fb46a3f1137a9b093"
+    },
+    "strict_proof": false
+  },
+  "actual_predecessor_build": {
+    "bytes": 27597,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/v57-compiler-and-runtime-cost-terminal.json",
+    "sha256": "9bbf189cc47997453e8ef3ee7e908e44e317b97beda4ac5013fb877cc31f6248"
+  },
+  "actual_strict_predecessor": {
+    "bytes": 747,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/evidence/full-strict-formal-diagnostic-v1/result.json",
+    "sha256": "bc0b0ef1308a428f91956a3a9e1f03fc3dec776d4e44fad19cde0af228572895"
+  },
+  "added_paths": [
+    "tests/freshness_json_order_controls.py",
+    "tests/run_freshness_json_order_controls.py"
+  ],
+  "added_regular_files": 2,
+  "additional_commands": [
+    {
+      "PYTHONOPTIMIZE_must_be_unset": true,
+      "additional_environment": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source/runtime:/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source/tests",
+        "WORLDLINE_CORE_LIB": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source/lib/libworldline_core.so"
+      },
+      "assertions_required": true,
+      "child_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "tests/run_freshness_json_order_controls.py"
+      ],
+      "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source",
+      "depends_on": "Genuine current F60 auxiliary/coherent/distinct full-strict SOURCE reviews, exact future emitted frame review and Main adoption, original current-controller fresh resource/admission/owned-window gates, and actual successful matching-source build/artifact readback. This metadata grants no execution or reservation.",
+      "expected_result_prefix": "FRESHNESS_JSON_ORDER_RESULT ",
+      "forbidden_python_argv": [
+        "-O",
+        "-OO"
+      ],
+      "frame_source_binding": "If the original admitted frame copies this complete selected source, resolve these source-relative argv/library/runtime/tests paths against that exact copied source and preserve the complete selected inventory and both additive hashes; no alternate or installed library/runtime/tests substitution.",
+      "future_environment_only_not_an_existing_library_claim": true,
+      "input_provenance": "Unchanged test_raw_evaluation_default.RawRequiredFailureControls.producer_case via explicitly selected FreshnessJSONObjectOrderProbe.runTest; original TEST_ONLY fixture, not authentic protected production custody or original Luna-high actor evidence.",
+      "limits": {
+        "core_soft_hard": [
+          0,
+          0
+        ],
+        "memory_max": "8G",
+        "memory_swap_max": "0",
+        "switches": "Original evaluation core and driver GPR/ADC checks preserved. Retained pending.gpr original -gnat2022/-gnata/-gnatVa/-gnatwa/-g/-O0, isolated PENDING_OBJECT_DIR and PENDING_LIBRARY_DIR. Aggregate original checked O2 profile preserved; no compiler/proof floor/check change.",
+        "workers": "-j2"
+      },
+      "mode": "freshness-json-object-order-additional-controls",
+      "native_library_relative": "lib/libworldline_core.so",
+      "native_library_status": "UNBUILT_UNRUN; exact actual retained artifact descriptor and complete matching-source/native/runtime/private dependency readback required in the future independently reviewed/adopted frame before launch.",
+      "original_target_timeouts_changed": false,
+      "result_capture_required": [
+        "actual child wait",
+        "actual owned scope wait",
+        "complete stdout/stderr",
+        "matching actual library/runtime/tests/source/private inputs",
+        "original TEST_ONLY input provenance"
+      ],
+      "source_relative_runner": "tests/run_freshness_json_order_controls.py",
+      "target_execution": false,
+      "test_timeout_seconds": 180,
+      "unchanged_original_fixture": {
+        "bytes": 37594,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source/tests/test_raw_evaluation_default.py",
+        "sha256": "21067fd8d8db9fee5472fadcda532abfcb5da35fe6a93fa3e4efdc116c20121f"
+      }
+    }
+  ],
+  "base_inventory": {
+    "bytes": 198544,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v59-draft/source-inventory.json",
+    "sha256": "4a523dcbb21ec7c2b1767de087e4f70eb2461649c48ef8817d7bd31f2eaaf6d3"
+  },
+  "base_selection": {
+    "bytes": 26503,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v59-draft/source-selection.json",
+    "sha256": "9589cd3eca03889e5a9e1cba7bede7a25b1fa4fe894ad69293d99c6d1e35db12"
+  },
+  "base_source_review": {
+    "bytes": 50018,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v59-draft-review/independent-review.json",
+    "sha256": "b70a8ebf95c64d50fbe6d7cbc9d71d1aa0bb048ac34fd1d822e5cbec16063dda"
+  },
+  "changed_regular_files": 5,
+  "compiler_ground_truth": {
+    "bytes": 747,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/evidence/full-strict-formal-diagnostic-v1/result.json",
+    "sha256": "bc0b0ef1308a428f91956a3a9e1f03fc3dec776d4e44fad19cde0af228572895"
+  },
+  "compiler_source_handoffs": [
+    {
+      "bytes": 18123,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/foreign-view-compiler-repair-v51/repair-evidence.json",
+      "sha256": "ae9a4c8e1e4e1452a5de0f8eca9779dbe61d95787a220eb2a5a1fe5eb0a946c5"
+    },
+    {
+      "bytes": 14579,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/replay-type-compiler-repair-v51/manifest.json",
+      "sha256": "5f6b08517af76fb054fb87bf49e6f68709136dfa5088436b6f393fdccb33ec75"
+    },
+    {
+      "bytes": 14042,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-pure-compiler-repair-v51-review-input/handoff.json",
+      "sha256": "590c1f17635f010f335c1d2ceb402a80d57939ee9ed3da15cb2ca1fe63c7589d"
+    }
+  ],
+  "complete_preimages": {
+    "bytes": 419409,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/actual-C17-ticket-and-reviewed-json-order-successor-source/complete-changed-file-preimages.json",
+    "sha256": "67dbc7fe2cf9031c7298b52602f50ee1a6e856e44ad62631774968034e7a2faf"
+  },
+  "complete_source_matches_mutable_Main_at_metadata_capture": true,
+  "current_candidate_version": 60,
+  "deep_proof_model_donors_integrated": false,
+  "exact_changed_paths": [
+    "core/worldline-scoped_capture_history_projection.adb",
+    "core/worldline-transaction_relations.adb",
+    "runtime/worldline/proof_manifest.py",
+    "tests/freshness_json_order_controls.py",
+    "tests/run_freshness_json_order_controls.py"
+  ],
+  "explicit_additional_command_enrollment": {
+    "bytes": 14936,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v60-explicit-additional-command-enrollment.json",
+    "sha256": "22cad15cecba8c8ff55169b7ada6a48b3b13b6a5c62fc7cd679ee18c43c77adf"
+  },
+  "external_original_lock_observer_candidate_selected": false,
+  "f52_source_only_reviews": {
+    "integrated": {
+      "bytes": 26862,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v52-draft-review/independent-review.json",
+      "sha256": "0f745bf3e13dc455bff1335ef56b22581efc7d29b7d8c21e48224d7f01dfe41c"
+    },
+    "runtime_proof": {
+      "bytes": 20527,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v52/runtime-proof-independent-review.json",
+      "sha256": "d3b2b4dc16ef32be72ba107bbef20fac28a8e14e7aa97f6c5ef7966513775def"
+    }
+  },
+  "f53_compiler_repair": {
+    "historical_unchanged": {
+      "bytes": 3729,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v53/foreign-geometry-repair.json",
+      "sha256": "ee319905de15a397149b112b04203e1665dc4e2a20d06a8d7a7b750936f0d63e"
+    }
+  },
+  "f54_native_linkage_repair": {
+    "assertions_or_domains_changed": false,
+    "changes": [
+      "core/worldline_core.gpr imports a required abstract path-only project and adds its actual upstream static archive to existing -pthread Library_Options",
+      "core/worldline_sparklib_link.gpr resolves upstream Project_Dir/Library_Dir/Library_Name through unchanged private-first SPARKlib project lookup; no hardcoded install or prior-frame path",
+      "runtime/worldline/proof_manifest.py refreshes nine existing GPR literal pins and adds one normalized new dependency project pin; all original policy/required names/floor and automatic *.gpr source inventory retained"
+    ],
+    "complete_pin_derivation": {
+      "bytes": 54278,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v53/v54-source-only-pin-derivation-complete.json",
+      "sha256": "171299e76a7d415fc5c90133001a30a09c4915b6381d10c8a5c6d6febe3d8252"
+    },
+    "effective_pins": 455,
+    "first_pin_derivation": {
+      "bytes": 58268,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v53/v54-source-only-pin-derivation.json",
+      "sha256": "9073311fb0606438f868e594172695e716e4f7876d832faa5c0b9edb24146656"
+    },
+    "historical_carried_source_unchanged": true,
+    "installed_vendor_modified": false,
+    "library_interfaces_changed": false,
+    "literal_pins": 995,
+    "noncompiling_inspection": {
+      "actual_resolved_archive": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-v53-native-diagnostic-v1/private-sparklib/lib/gnat/sparklib_lib/libsparklib.a",
+      "configuration_message_preserved": "cannot find Ada toolchain for aarch64-linux default runtime in metadata inspection; no compilation or runtime qualification inferred",
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v53/v54-project-final-inspection.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 36148,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v53/v54-project-final-inspection.stdout.json",
+        "sha256": "52e37f097fd2e9076586ba93e9714f9e70c005b422094a7052c194c24fd79540"
+      },
+      "wait": {
+        "bytes": 1818,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v53/v54-project-final-inspection.wait.json",
+        "sha256": "d8c57b31555de475a5ff9b6ca7fd14db8fe6f424b4f0002d911e8103ef8b1515"
+      }
+    },
+    "original_ordered_prefix": 535,
+    "real_archive_symbols_present_in_private_predecessor": true,
+    "required_names": 1550,
+    "stub_or_synthetic_counter": false,
+    "summary_floor": 251,
+    "target_execution": false,
+    "undefined_four_counters": [
+      "spark__containers__functional__base_E",
+      "spark__containers__functional__holder_E",
+      "spark__containers__functional__infinite_sequences_E",
+      "spark__containers__parameter_checks_E"
+    ],
+    "whole_archive_or_preload_workaround": false
+  },
+  "f55_global_generation_repair": {
+    "actual_call_line": 53,
+    "actual_error_file": "core/worldline-scoped_capture_namespace_projection.adb",
+    "actual_inlined_body_line": 50,
+    "actual_original_full_strict_child": 1,
+    "actual_original_full_strict_scope": 1,
+    "actual_phase": "Global-contract generation",
+    "ada_count": 413,
+    "assertions_exemptions_suppression_unmodified": true,
+    "condition_unchanged": true,
+    "contracts_roster_domains_resources_models_unmodified": true,
+    "effective_pins": 455,
+    "literal_pins": 995,
+    "original_prefix": 535,
+    "original_tests_fixtures_unmodified": true,
+    "proof_or_compiler_confirmed": false,
+    "required_names": 1550,
+    "return_values_unchanged": true,
+    "stale_literal_pins": 0,
+    "summary_floor": 251
+  },
+  "f56_native_full_record_acquisition_domain_repair": {
+    "ABI_changes": [],
+    "actual_author_handoff": {
+      "bytes": 10853,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v55/v56-native-producer-final-author-handoff.json",
+      "sha256": "5ec2cb27d922c85631c41aef8414ded1c192535c2d56839992077344735d3b3d"
+    },
+    "actual_separate_history_peer_handoff": {
+      "bytes": 3915,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v55/v56-native-history-correspondence-handoff.json",
+      "sha256": "ae274b961f6a5d7deba709d2497bf89669e25e4a8a1124ed41894c56d0e013df"
+    },
+    "caller_changes": [],
+    "cause": "Original no-acquisition operand domain was classified only through acquired producer; exact full-data original projection is selected before acquisition-only parsing/elaboration/classification, not after a refusal.",
+    "compiler_result": "UNRUN",
+    "native_fix": "Four operands parsed once; exact original malformed guard retained; no-source JSON-null domain requires absent independent invocation/acquisition/rawRunner/provider bytes and engine origin for object native engine controls. Existing original facts, confinement-unmeasured and existing acquired joins/order remain; shared native redecision preserves original engine inputs and acquired-agent overrides.",
+    "new_Off_boundaries": false,
+    "new_suppressions": false,
+    "noPython_authority": true,
+    "no_previous_summary_shortcut": true,
+    "no_status_or_check_ID_domain_dispatch": true,
+    "no_validation_failure_fallback": true,
+    "original_adb_preimage": {
+      "bytes": 34255,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v55-draft/source/core/worldline-evaluation_producer.adb",
+      "sha256": "814bf63a30f6f1e2c8dfb3afbf4569d7dbd837bb3046e4a1c84d0905a5c48006"
+    },
+    "original_ads_preimage": {
+      "bytes": 2002,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v55-draft/source/core/worldline-evaluation_producer.ads",
+      "sha256": "cf2a25dbc178b155e3983b6a9e81f09a178e0e877a47077f57ceaaadbe2bd13b"
+    },
+    "phase_acceptance": false,
+    "producer_adb": {
+      "bytes": 37184,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v56-draft/source/core/worldline-evaluation_producer.adb",
+      "sha256": "ac4ef95601516eb033435a3a8e701317cb5d8234bb82d6d13c9e25d35d2fb7c1"
+    },
+    "producer_ads": {
+      "bytes": 2320,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v56-draft/source/core/worldline-evaluation_producer.ads",
+      "sha256": "ea59374cb75a7c2a18993c0263ac93111c1fa9bea8790a6dfd45a0b70e835acc"
+    },
+    "proof_result": "UNRUN",
+    "runtime_result": "UNRUN",
+    "source_eligibility": "INDEPENDENT_CURRENT_REVIEWS_REQUIRED",
+    "test_changes": []
+  },
+  "f57_global_generation_repair": {
+    "actual_child_exit": 1,
+    "actual_error": "cannot untangle node N_IF_EXPRESSION worldline-recovery_material_replay.adb:627:25",
+    "actual_original_strict_terminal": {
+      "bytes": 7263,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v55/formal-c15-original-strict-terminal.json",
+      "sha256": "c8e6f62153679ccbc8975fbc1e65c9a8672c3bcfdced4b40b6be09244320f358"
+    },
+    "actual_scope_exit": 1,
+    "changed_source": {
+      "bytes": 188613,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v57-draft/source/core/worldline-recovery_material_replay.adb",
+      "sha256": "46c57b35d4b9088888d9c60893fc6e84e11f73178445a1c3c839a1ff2ec936ae"
+    },
+    "compiler_proof_or_runtime_credit": false,
+    "one_existing_canonical_body_pin": {
+      "after": "7755e7bbc4217c8529bdadddb5314c1aa942c82e80126c94ee125ee103fc43e2",
+      "before": "b98fc20793a4de2e43fd3827c0f85ecc278964282d643a115d25e1a22d6953f4"
+    },
+    "repair": "Same Req.Present predicate and H.Requirement_Id span constructor become explicit if/else assigning fixed-size native optional local; unchanged enclosing aggregate uses that value. Req.Value remains read only in present branch. No allocation, new helper/API, Off/pragma suppression, assertion repin, narrowed input/domain, validation fallback, source exclusion or altered floor.",
+    "same_original_domain_all_cases_required": true
+  },
+  "f58_global_generation_repair": {
+    "actual_C16_strict_result": {
+      "bytes": 17313,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v56/formal-c16-original-strict-terminal.json",
+      "sha256": "85258cb7b28169040c446abb80814bfebdd95a30ef2f139ac5b279791f94924f"
+    },
+    "actual_new_raw_body": {
+      "bytes": 46748,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v58-draft/source/core/worldline-source_audit_native.adb",
+      "sha256": "116badeb5605eee6b3b77e4e9a2cf994f4da4a8221f5326b36839c4416d6428d"
+    },
+    "actual_original_complete_collector": {
+      "bytes": 15075,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v16-preparation/review/root-terminal-v1/actual-results-and-window-release.json",
+      "sha256": "688f4c1db425f3950e74d0762185075f345c96bdfaf442c10266257714f59bbf"
+    },
+    "actual_original_failure": "source_audit_native.adb:489:47 Ref inlinebody466 cannot untangle N_IF_EXPRESSION during Global-contract generation after completeddataRepresentation",
+    "actual_original_normalized_contract_pin": "edf17cbbba7930f2deb04f81e0f7b709964b6c538ea8510c5c9075b514aa85e0",
+    "actual_original_owned_release": {
+      "bytes": 1326,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v16-preparation/review/root-terminal-v1/coordination-release.json",
+      "sha256": "2aee5a1a18fd29092217e24bbc85eff7c695d6b06cad39dec9adf8d19e3611c6"
+    },
+    "actual_original_pin_check_returncode": 0,
+    "actual_original_source_enrollment_returncode": 0,
+    "build_unrun": true,
+    "exact_changed_private_helper": "Examine.Ref body only",
+    "full_strict_proof_unrun": true,
+    "no_domain_case_or_field_change": true,
+    "no_source_audit_predicate_change": true,
+    "no_spec_or_export_or_caller_change": true,
+    "old_condition_and_branch_results_unchanged": true,
+    "phase_acceptance": false,
+    "unchanged_other_composite_helpers": true
+  },
+  "f59_focused_frontend_sibling_repair": {
+    "actual_new_raw_body": {
+      "bytes": 46911,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v59-draft/source/core/worldline-source_audit_native.adb",
+      "sha256": "f735a1392a5df4ddf94084b984e2905131b315ed459800999ac271dd55bae7ad"
+    },
+    "actual_original_demonstrated_failure": {
+      "bytes": 17313,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v56/formal-c16-original-strict-terminal.json",
+      "sha256": "85258cb7b28169040c446abb80814bfebdd95a30ef2f139ac5b279791f94924f"
+    },
+    "actual_original_normalized_contract_pin": "7c51e918fc9e9939a4ce93fe86b81f39ec1acc25713fd2881d41824dbbcee631",
+    "actual_original_pin_check_returncode": 0,
+    "actual_original_source_enrollment_returncode": 0,
+    "canonical_pin_derivation_before_literal_refresh": {
+      "bytes": 112707,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/source-audit-sibling-batch-actual-original-pin-derivation-before-refresh.json",
+      "sha256": "11f94e1fe4043633a2a5348805e6a423467d14ef25d1a20178a5191557ca6e3e"
+    },
+    "no_other_source_or_test_changes": true,
+    "phase_acceptance": false,
+    "private_helpers": [
+      "Wildcard.Node_At",
+      "Examine.Scope"
+    ],
+    "same_condition_index_lookup_fallback_and_lazy_branch_evaluation": true,
+    "source_only": true,
+    "unchanged_Examine_Ref_F58_repair": true,
+    "unchanged_pure_AST_constant_conditional": true
+  },
+  "f60_demonstrated_frontend_and_reviewed_JSON_order_integration": {
+    "C17_ground_truth": {
+      "Main_outer_wrapper_wait_observed": false,
+      "Main_outer_wrapper_wait_returncode": null,
+      "Main_wrapper_unknown_is_not_replaced_by_target_handshake_or_collector": true,
+      "Main_wrapper_wait_unknown": {
+        "bytes": 3030,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/formal-c17-human-authorized-recovery-main-wrapper-wait-unknown.json",
+        "sha256": "572931596ad351926dce2057ddb6cbd175fece4f37da0414e3ebecacb68a8fa2"
+      },
+      "actual_scope_wait": 1,
+      "actual_target_child_returncode": 1,
+      "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation",
+      "collection": {
+        "bytes": 16031,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/review/root-terminal-v1/actual-results-and-window-release.json",
+        "sha256": "e1c989ae769267ed3b695cd4b7d7c018696b1e9569a0462759d861904e1a6356"
+      },
+      "compiler_frontier": "child1/scope1 fourTicket_Rawundefinedattribute references original332/751 duringGlobals; noproof. Collector0/3.15s exactsource/private/knownchildnonlive/ownedterminalempty onlyownrelease.",
+      "original_admitted_collector_returncode_reported_by_Main": 0,
+      "original_admitted_collector_wall_seconds_reported_by_Main": 3.15,
+      "owned_window_released": true,
+      "phase_acceptance": false,
+      "release": {
+        "bytes": 1326,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/review/root-terminal-v1/coordination-release.json",
+        "sha256": "37344161d4e24a93e90be14cddc535f922df8dddfe6f2b7b9d84b969a0abe606"
+      },
+      "result": {
+        "bytes": 747,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/evidence/full-strict-formal-diagnostic-v1/result.json",
+        "sha256": "bc0b0ef1308a428f91956a3a9e1f03fc3dec776d4e44fad19cde0af228572895"
+      },
+      "stderr": {
+        "bytes": 1256,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v17-preparation/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+        "sha256": "6880c9ba64c06102e73f0ed1a4f9e2a6fbc61ecb9bcedc1fb46a3f1137a9b093"
+      },
+      "strict_proof": false
+    },
+    "actual_original_final_pin_check": {
+      "bytes": 54264,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source-only-pin-check.json",
+      "sha256": "310bf9aeadbcd03c3f6537d776fffb002dd8069a4b29fc22c628be06a3443178"
+    },
+    "actual_original_pin_check_returncode_reported_by_Main": 0,
+    "actual_original_pin_check_wall_seconds_reported_by_Main": 0.535,
+    "actual_original_source_enrollment_returncode_reported_by_Main": 0,
+    "actual_original_source_enrollment_wall_seconds_reported_by_Main": 0.51,
+    "checks_not_rerun": true,
+    "compiler_full_strict_and_matching_runtime_unrun": true,
+    "complete_preserved_preimages": {
+      "bytes": 419409,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/actual-C17-ticket-and-reviewed-json-order-successor-source/complete-changed-file-preimages.json",
+      "sha256": "67dbc7fe2cf9031c7298b52602f50ee1a6e856e44ad62631774968034e7a2faf"
+    },
+    "exact_donor_read_and_preimage_receipt": {
+      "bytes": 9926,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/human-transaction-order-donor-actual-reading-and-exact-preimage-receipt.json",
+      "sha256": "6c27971d83ca68261186466d9bb06fcabee8bdae52e85627dc5e1f0a22e38efd"
+    },
+    "exact_donor_review": {
+      "bytes": 13787,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/codex-transaction-json-order-repair-v1/review.json",
+      "sha256": "24bcaa7d9eaf359f16d8120eda3d09cae61a2a86fc1791e26ccebff5bf84b015"
+    },
+    "explicit_additive_enrollment": {
+      "bytes": 14936,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v60-explicit-additional-command-enrollment.json",
+      "sha256": "22cad15cecba8c8ff55169b7ada6a48b3b13b6a5c62fc7cd679ee18c43c77adf"
+    },
+    "original_two_body_pin_derivation": {
+      "bytes": 55297,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/actual-C17-ticket-and-reviewed-json-order-successor-source/original-normalizer-derived-two-body-pins.json",
+      "sha256": "ea78d5a7e97eea79d90006a9c5996440e3d051fc9e13033bd3fc6695686e1027"
+    },
+    "phase_acceptance": false,
+    "two_original_literal_pin_changes": [
+      {
+        "derived": "4f5b7c36199af263b0919867ffe7ec864166c4942f5b194346be73c190cc0722",
+        "effectiveStored": "9478dab1d3bdfac9983e97f13d36abab93c7dae3288fc59f84f33858693e1536",
+        "literalLine": 1784,
+        "path": "core/worldline-scoped_capture_history_projection.adb",
+        "sourceSha256": "9465325b5e0f239c3f48e68a1e6738a4d9fe1f307e52d605ddb790ad5df681c2",
+        "stored": "9478dab1d3bdfac9983e97f13d36abab93c7dae3288fc59f84f33858693e1536",
+        "tableLine": 1666
+      },
+      {
+        "derived": "5de7c0bf1a74f26d2bab640d2c2be7be7ec1f71d6ed6559db58a3f46c405c998",
+        "effectiveStored": "595a74aae693ff7dcbe0ddefe78a09c50ac74a86722b28f164f345dc1297b8a2",
+        "literalLine": 1954,
+        "path": "core/worldline-transaction_relations.adb",
+        "sourceSha256": "c581002a64b1a3c14e8c1510507b19e4eb915f190e7d799ef394659a5b7bd1e6",
+        "stored": "595a74aae693ff7dcbe0ddefe78a09c50ac74a86722b28f164f345dc1297b8a2",
+        "tableLine": 1801
+      }
+    ]
+  },
+  "fixture_control_handoff": {
+    "bytes": 11845,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/fixture-control-integration-v49/integration/runtime-handoff.json",
+    "sha256": "282acad752609cc29ace04752a3fdf68a4d8d873ab581c04100624707629098a"
+  },
+  "genuine_unchanged_F59_baseline_source_reviews": {
+    "auxiliary": {
+      "author": "Main",
+      "disposition": "QUALIFIED_EXACT_F53_RUNTIME_PROOF_SOURCE_FOR_NONPRIVILEGED_DIAGNOSTIC_PREPARATION_ONLY",
+      "model": {
+        "bytes": 1603,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/v59-runtime-proof-resolved-model.json",
+        "sha256": "128efd02ec52e91e883a132c7d84e1b90e2685abceedb46d6098765d1597866b"
+      },
+      "review": {
+        "bytes": 47058,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/v59-runtime-proof-independent-review.json",
+        "sha256": "6cd2c33c5e6034aeb085c3fa5d2e98b090a42f2470025f5fd4f470389d8b7011"
+      },
+      "reviewer": "V52ExactFrameReview",
+      "schema": "worldline-v53-runtime-proof-independent-review-v1",
+      "scope": "Genuine unchanged F59 baseline only; not a qualification of F60 changed source or metadata."
+    },
+    "coherent": {
+      "author": "Main",
+      "disposition": "QUALIFIED_COHERENT_ALL_SOURCE_FOR_NONPRIVILEGED_DIAGNOSTIC_PREPARATION_ONLY",
+      "model": {
+        "bytes": 1604,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/v59-integrated-source-resolved-model.json",
+        "sha256": "0a4d86a834a0756a70ba8263620fb57dfd7090eb1fde1344abf6dda6d7dad9fd"
+      },
+      "review": {
+        "bytes": 50018,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v59-draft-review/independent-review.json",
+        "sha256": "b70a8ebf95c64d50fbe6d7cbc9d71d1aa0bb048ac34fd1d822e5cbec16063dda"
+      },
+      "reviewer": "V52IntegratedAdmission",
+      "schema": "worldline-v53-integrated-source-independent-review-v1",
+      "scope": "Genuine unchanged F59 baseline only; not a qualification of F60 changed source or metadata."
+    },
+    "strict": {
+      "author": "Main",
+      "disposition": "QUALIFIED_EXACT_COMPLETE_SELECTED_SOURCE_FOR_FULL_STRICT_FORMAL_DIAGNOSTIC_ONLY",
+      "model": {
+        "bytes": 1636,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/v59-full-strict-current-aux-bound-source-resolved-model.json",
+        "sha256": "4646e339f28e5f81b9d52570773a3acfb010816d1978d6c344263f90bd0a2070"
+      },
+      "review": {
+        "bytes": 38309,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v57/v59-full-strict-current-aux-bound-source-independent-review.json",
+        "sha256": "5faa081b8be2b846115d849a94a5f49fdc0515a1cc141f499e39afaf41b0ed3a"
+      },
+      "reviewer": "V52RuntimeProofAdmission",
+      "schema": "worldline-original-full-strict-selected-source-independent-review-v1",
+      "scope": "Genuine unchanged F59 baseline only; not a qualification of F60 changed source or metadata."
+    }
+  },
+  "implementation_obligation_guards": {
+    "current_required_names": 1550,
+    "declared_core_sources": 413,
+    "effective_contract_pins": 455,
+    "full_strict_command_unchanged": true,
+    "imported_off_body_and_alias_closure": "OPEN_UNCHANGED",
+    "literal_contract_pins": 995,
+    "original_floor": 251,
+    "original_ordered_prefix": 535,
+    "original_ordered_runtime_and_all_additions": "REQUIRED_UNRUN",
+    "sole_original_boundary": "worldline-c_api",
+    "stale_literal_pins": 0
+  },
+  "independently_reviewed_admission_ordering": {
+    "bytes": 15175,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v50/admission-ordering-v51-independent-review.json",
+    "sha256": "32b6c4d1a2557bfb2d02051590daaa0a0cddd8f7d87def4deac93ebf17aba9e6"
+  },
+  "metadata_schema_correction": {
+    "F54_source_inventory_no_bytes_and_stable_inventory_actual_bytes": true,
+    "F60_inherited_454_guard_header_corrected_to_retained_current_455_enrollment_without_policy_change": true,
+    "inherited_F53_schema_correction_retained_without_validator_change": true,
+    "source_only_collector_actual_frozen_root": true
+  },
+  "modified_regular_files": 3,
+  "operator_only_provisioning_installation_deployment": true,
+  "original_actor_fixture_authored": false,
+  "original_ordered_runtime_enrollment": {
+    "action_count": 116,
+    "ordered_modes": [
+      "native-build",
+      "native-component-tests",
+      "pending-build",
+      "build",
+      "entry-component-tests",
+      "serializer-controls",
+      "acquisition-regression-tests",
+      "completion-build",
+      "completion-tests",
+      "pending-v2-tests",
+      "transition-direct-build",
+      "transition-direct-tests",
+      "tests",
+      "admission-tests",
+      "evaluation-tests",
+      "pending-tests",
+      "direct-build",
+      "direct-tests",
+      "legacy-direct-build",
+      "legacy-direct-tests",
+      "resource-direct-build",
+      "resource-direct-tests",
+      "terminal-tests",
+      "roster-d2-python-tests",
+      "roster-d2-build",
+      "roster-d2-tests",
+      "raw-observation-tests",
+      "report-facts-build",
+      "report-facts-tests",
+      "core-all-source-build",
+      "proof-source-tests",
+      "wire-build",
+      "wire-tests",
+      "authority-build",
+      "authority-tests",
+      "default-tests",
+      "metadata-tests",
+      "staged-tests",
+      "core-abi-tests",
+      "store-tests",
+      "revalidation-tests",
+      "transaction-tests",
+      "finalization-tests",
+      "finalization-kernel-tests",
+      "finalization-producer-tests",
+      "artifact-build",
+      "artifact-tests",
+      "recovery-integration-tests",
+      "resource-runtime-controls",
+      "recovery-domain-controls",
+      "recovery-epoch-build",
+      "recovery-epoch-tests",
+      "root-custody-context-build",
+      "root-custody-context-controls",
+      "capability-native-binding-simulation-controls",
+      "archive-leaf-build",
+      "archive-leaf-controls",
+      "root-custody-replay-build",
+      "root-custody-replay-controls",
+      "root-custody-abandon-build",
+      "root-custody-abandon-controls",
+      "chain-bounds-tests-test-bounds-build",
+      "chain-bounds-tests-test-bounds",
+      "decision-correspondence-tests-test-completion-correspondence-build",
+      "decision-correspondence-tests-test-completion-correspondence",
+      "decision-correspondence-tests-test-transition-correspondence-build",
+      "decision-correspondence-tests-test-transition-correspondence",
+      "decision-correspondence-tests-test-history-correspondence-build",
+      "decision-correspondence-tests-test-history-correspondence",
+      "decision-correspondence-tests-test-raw-roster-correspondence-build",
+      "decision-correspondence-tests-test-raw-roster-correspondence",
+      "decision-correspondence-tests-test-run-metadata-correspondence-build",
+      "decision-correspondence-tests-test-run-metadata-correspondence",
+      "epoch-correspondence-core-test-epoch-correspondence-build",
+      "epoch-correspondence-core-test-epoch-correspondence",
+      "epoch-correspondence-pending-test-epoch-correspondence-build",
+      "epoch-correspondence-pending-test-epoch-correspondence",
+      "explicit-recovery-marker-tests-test-explicit-recovery-markers-build",
+      "explicit-recovery-marker-tests-test-explicit-recovery-markers",
+      "finalization-value-controls-test-finalization-values-build",
+      "finalization-value-controls-test-finalization-values",
+      "finalization-value-controls-test-finalization-parent-values-build",
+      "finalization-value-controls-test-finalization-parent-values",
+      "finalization-value-controls-test-finalization-projection-build",
+      "finalization-value-controls-test-finalization-projection",
+      "protocol-adapter-tests-test-protocol-adapter-build",
+      "protocol-adapter-tests-test-protocol-adapter",
+      "recovery-protocol-tests-test-protocol-build",
+      "recovery-protocol-tests-test-protocol",
+      "request-abandon-controls-request-abandon-controls-build",
+      "request-abandon-controls-request-abandon-controls",
+      "resource-ledger-correspondence-tests-test-resource-ledger-correspondence-build",
+      "resource-ledger-correspondence-tests-test-resource-ledger-correspondence",
+      "resources-prefix-correspondence-tests-test-resources-prefix-correspondence-build",
+      "resources-prefix-correspondence-tests-test-resources-prefix-correspondence",
+      "tests-resource-policy-smoke-build",
+      "tests-resource-policy-smoke",
+      "tests-worldline-core-tests-build",
+      "tests-worldline-core-tests",
+      "tests-worldline-core-fuzz-build",
+      "tests-worldline-core-fuzz",
+      "use-reservation-tests-use-reservation-tests-build",
+      "use-reservation-tests-use-reservation-tests",
+      "wire-initialization-tests-test-wire-initialization-build",
+      "wire-initialization-tests-test-wire-initialization",
+      "test-context-cast-lifetime-controls",
+      "test-finalization-cast-lifetime-controls",
+      "test-finalization-agent-binding-controls",
+      "test-finalization-agent-binding-additional-controls",
+      "test-finalization-agent-binding-producer-controls",
+      "test-custody-foreign-key-capture-controls",
+      "test-custody-provision-kernel-controls",
+      "test-custody-subject-primitives-controls",
+      "test-custody-v2-explicit-provision-controls",
+      "test-custody-v2-sql-capture-controls",
+      "test-root-worker-codec-lossless-controls"
+    ],
+    "original_order_discovery_and_tests_unchanged": true,
+    "planned_actions": {
+      "bytes": 506821,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v50-draft/planned-actions.json",
+      "sha256": "66fe3f37cb9e794f43c904a3ced409b40e17c45e6afd80b0098a60564935ee84"
+    },
+    "registration_or_execution_in_original_frozen_frame_claimed": false,
+    "required_separately_on_final_matching_source": true,
+    "tail_enrollment": {
+      "bytes": 17195,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v50-draft/tail-enrollment.json",
+      "sha256": "dd87a65ab38bd358d3516af51e25cf84f36acb837db1261a89182456fea7ca4c"
+    }
+  },
+  "original_raw_and_core_abi_suites_unchanged": true,
+  "original_tests_unchanged": true,
+  "owner_review_blockers": {
+    "bytes": 19580,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/pure-owner-borrow-compiler-repair-v51/independent-review.json",
+    "sha256": "02808c535ebfaa653a6c1c79160105c69622d38abe1808bb95562666bd5b50c5"
+  },
+  "owner_review_repairs": {
+    "bytes": 1164,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v52/v51-owner-review-repair-changes.json",
+    "sha256": "1d43ecfba7bb0ecbfc769ecafca7498a74baf7c005c0010313f72f19e8eac3ad"
+  },
+  "phase_acceptance": false,
+  "pin_refresh": {
+    "bytes": 54264,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source-only-pin-check.json",
+    "sha256": "310bf9aeadbcd03c3f6537d776fffb002dd8069a4b29fc22c628be06a3443178"
+  },
+  "predecessor": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v59-draft/source",
+  "protected_startup_changed": true,
+  "protected_startup_invariant_basis": "Protected/native acquisition boundary, provisioning controls, original fixture DATA/authentic five descriptor/actor requirements and refusal predicates remain unchanged. Recovery history requirement-construction implementation changes explicitly, with same present/absent spans; no claim of tested startup or byte-identical complete projection implementation. All original controls/authority are retained.",
+  "protected_startup_refusal_unchanged": false,
+  "protected_startup_unchanged_from_immediate_predecessor": false,
+  "provisional_v51_state": "SOURCE_ONLY_BLOCKED_NEVER_ADMITTED",
+  "removed_paths": [],
+  "required_review_model": "openai-codex/gpt-6.1-sol:max",
+  "routing_directive": {
+    "bytes": 3496,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/phase1-assist-20261007/sol-astra-routing-20261008/DIRECTIVE.md",
+    "sha256": "a7186a321014a446dfd4b0415ce22cae025dcf0303297314ab3a980de345c4cd"
+  },
+  "runtime_acceptance": false,
+  "schema": "worldline-integrated-source-selection-v59",
+  "selected_fixture_DATA_authored": false,
+  "selected_mutable_donor": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v38-draft/source",
+  "selection_method": "Select the already complete Main cp -a F60 copy unchanged. Original ordinary-successor-v50-draft/integrity.py snapshot pattern with no exclusions observes exactly1213 entries/1144 regular files/69 real directories, exact equality to current mutable Main source and complete full F59 preimage continuity; exactly3 modified regular files and2 new byte-identical reviewed additive test files, no removed path or original test alteration.",
+  "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source",
+  "source_author": "SolPhaseOneIntegration",
+  "source_author_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "source_author_provenance": {
+    "bytes": 5820,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v60-source-author-and-integration-provenance.json",
+    "sha256": "2bc772e5a26b4381f7268f68017648b41475e6579afb6603e81af3caff6d0959"
+  },
+  "source_author_scope": "Actual current F60 integration/eligibility metadata author, not source-byte editor. Main performed every selected F60 implementation/test byte mutation; exact Sol body-edit and temporary-Astra manifest/additive/freeze events are separately retained without relabelling.",
+  "source_authors": [
+    "Main",
+    "V51ForeignViewLegality",
+    "V51ReplayTypeLegality",
+    "RawContextRepair",
+    "RetainedHistoryRepair",
+    "SolPhaseOneIntegration"
+  ],
+  "source_byte_mutation_author": "Main",
+  "source_changes": {
+    "bytes": 1737,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source-changes.json",
+    "sha256": "9f14bb4b5ebc09bb6d814d3f6331cb8dcfe7d4de9f5c4816481628d028b3c0fd"
+  },
+  "source_directory_count": 69,
+  "source_eligibility": "GENUINE_CURRENT_AFFECTED_AUXILIARY_COHERENT_AND_DISTINCT_FULL_STRICT_SOURCE_REVIEWS_REQUIRED",
+  "source_entry_count": 1213,
+  "source_file_count": 1144,
+  "source_inventory": {
+    "bytes": 198886,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/source-inventory.json",
+    "sha256": "6bd4f724cbd73395a67967a032fe86277eda6010acf6e01a051cf3e82046c750"
+  },
+  "source_inventory_pattern": {
+    "bytes": 3777,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v50-draft/integrity.py",
+    "sha256": "8627cb00c5ff96b03fb4439af240445ef0b32028db56323921ea05a34b0add91"
+  },
+  "source_only_enrollment": {
+    "bytes": 574651,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/enrollment-report.json",
+    "sha256": "327a0231424bc4f82a308b4ef50829193067d40c7ab806ab274029bc7aea598c"
+  },
+  "source_only_scope": "Complete unchanged-byte F60 candidate from Main handoff. Only demonstrated C17 Ticket_Raw expression-to-statement repairs, exact human-reviewed JSON-order matching donor, their two original normalized body pin updates and two explicit additive files differ from full F59. Existing original tests, ordinary runtime roster/order/discovery, public contracts/specs/callers, accepted JSON domains/types/array order/ordinary last-key-wins codec, proof policy/1550names/535orderedprefix/251floor/413Ada/455effective995literal pins, sole boundary, resources, target timeouts, operator-only limits and original actor requirements remain mandatory. Source inventory/enrollment and reviewed donor are not compiler, full-strict proof, runtime, frame admission or Phase One acceptance; the JSON order finding is not an observed N59 stall cause.",
+  "stable_source_inventory": {
+    "bytes": 220906,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v60-draft/stable-source-inventory.json",
+    "sha256": "8e38dbf3387f47df719f6d5d194d5962cb329e0816a983aeb2c98eed8f88b9f6"
+  },
+  "status": "SOURCE_ONLY_UNBUILT_UNPROVED_UNACCEPTED",
+  "strict_proof": false
+}
