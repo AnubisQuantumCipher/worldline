@@ -41,6 +41,16 @@ identities, capability attenuation and receipt-chain rules.
 
 ## Open requirements
 
+The subsequent [affected C24 review](records/codex-resumption-20261007/native-owner-join-v59/c24-current-controller-rejected-own-review-v1.json)
+returned **NOT_QUALIFIED** for this exact archived frame packet. Its controller
+profile groups provenance records where the binder and stage guard require flat
+`path`/`sha256`/`bytes`/`mode` descriptors. That separate metadata defect must be
+repaired and the affected scope reviewed before admission. The reviewer retained
+the bounded collector-refusal repair finding; it did not qualify frame execution.
+The [review update manifest](PHASE1-C24-REVIEW-UPDATE-20261010.json) binds the genuine
+negative review and actual Sol/max model companion. Historical C24 bytes remain
+unchanged so this failure is reproducible; the existing owner holds the successor.
+
 At capture, F66 had no verified full strict proof or original-runtime pass.
 Required matching-source runtime controls and additions, full-value literal
 `Old` ownership/reclamation, authentic required fixtures, independent final

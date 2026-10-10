@@ -12,6 +12,10 @@ The original full strict proof, matching-source runtime, ownership/reclamation,
 authentic fixtures and final acceptance remain open. Development continues in a
 separate checkout; this archive is not an installable release.
 
+The [subsequent C24 affected review](PHASE1-C24-REVIEW-UPDATE-20261010.json)
+is **NOT_QUALIFIED** because of a controller-provenance metadata mismatch. The
+collector regression remains bounded evidence; this archived frame is not admitted.
+
 ## Earlier preserved source: F60 — 2026-10-09
 
 The [October 9 checkpoint](PHASE1-SOURCE-CHECKPOINT-20261009.md) preserves the

@@ -1,0 +1,59 @@
+{
+  "schema": "worldline.resolved-review-model-provenance.v1",
+  "reviewer": "C19AffectedGuardReview",
+  "observed_at": "2026-10-10T00:08:42.228Z",
+  "event_source": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/C19AffectedGuardReview.jsonl",
+  "session_pin_at_observation": {
+    "sha256": "3aa8f6d2aee45347a1a538edf5585ade75076f25c5ad8c3175515c5add9672ab",
+    "bytes": 6089575,
+    "mode": 420
+  },
+  "observed_events": [
+    {
+      "type": "model_change",
+      "id": "0e580e25",
+      "parentId": null,
+      "timestamp": "2026-10-09T14:38:58.940Z",
+      "model": "openai-codex/gpt-6.1-sol",
+      "resolvedModelIsFallback": false,
+      "thinkingLevel": null,
+      "configured": null,
+      "serviceTier": null
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "de939f70",
+      "parentId": "0e580e25",
+      "timestamp": "2026-10-09T14:38:58.940Z",
+      "model": null,
+      "resolvedModelIsFallback": null,
+      "thinkingLevel": "max",
+      "configured": null,
+      "serviceTier": null
+    }
+  ],
+  "actual_original_model_tool_response": {
+    "text": "{\"type\":\"model_change\",\"id\":\"0e580e25\",\"parentId\":null,\"timestamp\":\"2026-10-09T14:38:58.940Z\",\"model\":\"openai-codex/gpt-6.1-sol\",\"resolvedModelIsFallback\":false,\"thinkingLevel\":null,\"configured\":null,\"serviceTier\":null}\n{\"type\":\"thinking_level_change\",\"id\":\"de939f70\",\"parentId\":\"0e580e25\",\"timestamp\":\"2026-10-09T14:38:58.940Z\",\"model\":null,\"resolvedModelIsFallback\":null,\"thinkingLevel\":\"max\",\"configured\":null,\"serviceTier\":null}",
+    "details": {
+      "resolvedPath": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/C19AffectedGuardReview.jsonl",
+      "meta": {
+        "source": {
+          "type": "path",
+          "value": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/C19AffectedGuardReview.jsonl"
+        }
+      }
+    }
+  },
+  "expected_selection": "openai-codex/gpt-6.1-sol:max",
+  "actual_fallback": false,
+  "actual_thinking": "max",
+  "verdict_not_authored_by_main": true,
+  "review_records": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/c24-current-controller-rejected-own-review-v1.json",
+      "sha256": "91eb3fe7ece4d431fd319c93c626a6e09bc13c17430979f7b7aee33e518c0bd4",
+      "bytes": 12523,
+      "mode": 420
+    }
+  ]
+}

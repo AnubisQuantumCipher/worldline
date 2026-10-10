@@ -1,0 +1,156 @@
+{
+  "schema": "worldline-current-controller-v16-independent-affected-guard-review-v1",
+  "disposition": "NOT_QUALIFIED",
+  "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation",
+  "author": "SolPhaseOneIntegration",
+  "reviewer": "C19AffectedGuardReview",
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "record_destination": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/current-controller-independent-review.json",
+  "record_destination_is_expected_locator_not_observed_write": true,
+  "normative_input": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/source-only-author-review-needed-pins.json",
+    "sha256": "73fbc2f6148b0a9cc0cc0dedec108c2fafcc464e22a45aeba9293961af5e6776",
+    "bytes": 66647,
+    "mode": 420
+  },
+  "artifacts": {
+    "authorization.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/source-data-author-inputs/authorization.py",
+      "sha256": "45b805b6843264b410d9648a9009387577c42f406b74ee58d109a7039385aeca",
+      "bytes": 3937,
+      "mode": 420
+    },
+    "prepare_successor.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/source-data-author-inputs/prepare_successor.py",
+      "sha256": "5c4f5f7d2ac11c06b2d36e32df3317fa7508a33f04c949c0b358c49565f50e50",
+      "bytes": 19613,
+      "mode": 420
+    },
+    "bind_selected_source.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/bind_selected_source.py",
+      "sha256": "03b3179ee05e7d4f08a9ece2170b246fbe9970fe01bd3805c6626a3e2e9b9a3a",
+      "bytes": 21140,
+      "mode": 420
+    },
+    "capture_closure_inputs.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/capture_closure_inputs.py",
+      "sha256": "97aeeb9ef80cafa850fbde50c250607879f1557f9af0be09ae2c1c6c9bfa889d",
+      "bytes": 6767,
+      "mode": 420
+    },
+    "successor_support.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/successor_support.py",
+      "sha256": "c6228fbc2285697eabc36162c9940b60226f81e972857e5cbad0defb6653b6ff",
+      "bytes": 57383,
+      "mode": 420
+    },
+    "portable_goal.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/portable_goal.py",
+      "sha256": "2aa63f0d9c544f4a98642adf5b9682edafed63afe6c95347a05bc157cfa1bb2e",
+      "bytes": 7380,
+      "mode": 420
+    },
+    "current-controller-binding.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/current-controller-binding.json",
+      "sha256": "54a9cf38f0345959099b8e67dac4e4bd5f51646bdf09f76b57d7cdadcf4ded32",
+      "bytes": 37159,
+      "mode": 420
+    }
+  },
+  "controller_authority_profile": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/current-controller-binding.json",
+    "sha256": "54a9cf38f0345959099b8e67dac4e4bd5f51646bdf09f76b57d7cdadcf4ded32",
+    "bytes": 37159,
+    "mode": 420
+  },
+  "blocking_findings": [
+    {
+      "title": "Keep controller provenance entries as flat artifact descriptors",
+      "body": "[INFERENCE: static consumer trace; binder and stage guards were not executed.] C24 inserts grouped dictionaries under provenance for actual_C23_rejected_original_control_opinion, actual_Main_consumer_before_and_after, and actual_final_F66_SOURCE3. bind_selected_source.py:113–114 passes every provenance value directly to successor_support.matched(), which asserts exactly the four keys path/sha256/bytes/mode at successor_support.py:67–70. The first new value instead has actual_model/review keys, so even with a genuine positive seven-file review the normal binder fails before emitting the postbound six. portable_goal.check_profile() repeats the same flat-descriptor check at lines 84–85; preparation and authorization reach it through check_observation(), so the mismatch also blocks fresh controller stage validation. Flatten the leaf receipts into individually named four-field provenance entries, or move grouped descriptive metadata outside provenance, preserving the existing goal-observation keys and descriptor validation.",
+      "priority": 1,
+      "confidence": 1,
+      "file_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/current-controller-binding.json",
+      "line_start": 40,
+      "line_end": 46
+    }
+  ],
+  "actual_model_provenance": {
+    "event_source": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/C19AffectedGuardReview.jsonl",
+    "session_id": "01a1211a-5ec9-7091-8a3d-41c60fce0339",
+    "model_change": {
+      "id": "0e580e25",
+      "parentId": null,
+      "timestamp": "2026-10-09T14:38:58.940Z",
+      "model": "openai-codex/gpt-6.1-sol",
+      "resolvedModelIsFallback": false
+    },
+    "thinking_level_change": {
+      "id": "de939f70",
+      "parentId": "0e580e25",
+      "timestamp": "2026-10-09T14:38:58.940Z",
+      "thinkingLevel": "max",
+      "configured": null
+    },
+    "current_review_provider_event": {
+      "id": "cfd7fe9b",
+      "parentId": "67dea046",
+      "timestamp": "2026-10-09T23:59:11.533Z",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "api": "openai-codex-responses",
+      "serviceTier": "default",
+      "responseId": "resp_0469e83736771488016ac97fa8cee0819483df855814534b84",
+      "providerPayloadType": "openaiResponsesHistory"
+    },
+    "required_routing": "standard",
+    "literal_Standard_wire_proof_claimed": false,
+    "routing_boundary": "Observed serviceTier=default is not literal Standard wire proof.",
+    "actual_fallback": false,
+    "actual_thinking": "max",
+    "mutable_session_or_future_output_pin_authored": false
+  },
+  "independence": {
+    "reviewer_is_author": false,
+    "reviewer_is_Main": false,
+    "verdict_authored_by_reviewer": true,
+    "author_qualification_or_Main_authority_granted": false,
+    "retention_custody": "Main independently retains the genuine returned pair unchanged and separately records the actual model companion; this reviewer has not written either output."
+  },
+  "affected_scope": "Exact seven C24 authored code/profile bytes and their receiving source contracts only. Reused valid unchanged controller/privacy/raw-tool/freshness/source-private semantics and owner functions, and reviewed the C23-to-C24 pure classifier, corrected collector dispatch/hardpin, namespace and actual F66 SOURCE bindings. No current closure, bound-six preparation, materialization, emitted SOURCE/FRAME, adoption, execution or Phase acceptance is qualified.",
+  "prior_finding_and_reuse": {
+    "C23_collector_refusal_finding": "Repaired in the reviewed static consumer: strict_terminal_classification requires known-normal matching child/scope receipts, launcher and outer zero waits, and no refusal/retention/signal/timeout/ownership failure. Collector forwards FAILED_TERMINAL, EXECUTED_WITH_UNKNOWN_RESULT, NEVER_LAUNCHED and normal classifications; its pass predicate requires every action to qualify.",
+    "historical_C23_negative": "The genuine C23 NOT_QUALIFIED opinion and its actual model remain historical at the J locators supplied in the normative input; the candidate-root destination was not observed written.",
+    "unchanged_mechanism_boundary": "C23 owner/deadline function code is unchanged in C24, and the run_checks/outer_capture/handshake templates retain fb346eb7/2def33f0/a53bb432 bytes. Reused nine-case e79dcb8b evidence is evidence for the previously measured mechanism, not a claim that the entire current c6228fbc file or a GNAT execution frame ran.",
+    "no_old_guard_transfer": true,
+    "withdrawn_C22_deadline_enforcement_claim_reused": false
+  },
+  "actual_Main_consumer_evidence": {
+    "before": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-smoke-results.json",
+      "sha256": "c1669df190af00b4b0f6a0396dae554ff701c4e7b7c331cb951c0ad1073cc4b8",
+      "bytes": 8559,
+      "mode": 420
+    },
+    "after": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/actual-smoke-results.json",
+      "sha256": "a19d70d870fbf333de7a208ba424d6874b99fc061b8624f5415006cb7b09b033",
+      "bytes": 28168,
+      "mode": 420
+    },
+    "observed_receiving_results": "The actual after record binds current support c6228fbc and collector 593327de. Four normal harmless zero waits yield NORMAL_TERMINAL_ACTUAL_WAIT_ZERO/true. A real scope-receipt refusal preserves child/scope raw zero, launcher/outer one and yields FAILED_TERMINAL/false. Replaying unchanged before receipts also yields FAILED_TERMINAL/false; missing ancestors yield EXECUTED_WITH_UNKNOWN_RESULT/false and genuine empty evidence yields NEVER_LAUNCHED/false. These results do not exercise the malformed controller-provenance binder/guard path or qualify target execution."
+  },
+  "source_consumption_checks": "Measured current F66 five artifacts and all three SOURCE review/model pairs against the normative descriptors; all matched. Read actual prebinding-six source/proof/inherited receiving slots and genuine original-format SOURCE top-level fields. Coherent and strict auxiliary/model references equal the actual F66 auxiliary/model four-field descriptors. Inherited map has 1896 rows; source and proof slots retain F66 selection/inventory/enrollment/current strict review, floor251, 1550 names, 535 prefix, 413 Ada and 455 effective pins. This is scoped correspondence, not a repeated semantic SOURCE review or admission.",
+  "unchanged_original_contracts": "Native controller159d1403cb15a005/createdAt1791388991276/objective tuple and distinct historical paused holder01a1149d-db62-74b0-a5f7-b0239f285c44 remain unchanged. Original full strict -U/all/level3/reportall/checks-as-errors/proof-warnings/-j2, domain/assertions/cases, 8GiB swap0 core0, 600/840/1000, eight closure documents, 47 whole180/32 smokes/116 runtime and required additions remain mandatory. Historical failures/unknowns and pending authentic fixture remain unaccepted; no operator permission or actor substitution is inferred.",
+  "verification": {
+    "performed": "Source-only reads, exact affected diffs and consuming-side dispatch tracing; actual read-only SHA256/size/mode measurements of the supplied input, author/code/data/handoff/preimage/delta files, four owner templates, F66 five, SOURCE review/model pairs and actual Main before/after evidence. All measured descriptors matched.",
+    "worker_imports_or_executable_checks": false,
+    "worker_capture_bind_render_materialize_or_adoption": false,
+    "worker_goal_clock_MCP_window_vault_service_OS_mutation": false,
+    "Main_jobs_polled_or_failed_checks_rerun": false,
+    "target_build_proof_runtime_verification": false
+  },
+  "target_execution": false,
+  "strict_proof": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false
+}

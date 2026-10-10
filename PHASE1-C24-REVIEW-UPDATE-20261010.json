@@ -1,0 +1,26 @@
+{
+  "schema": "worldline-checkpoint-review-followup-v1",
+  "captured_at": "2026-10-10T00:10:40.970098+00:00",
+  "source_checkpoint_commit": "4f45a1bdcb050d22d2482549324884b6f05c5fba",
+  "files": [
+    {
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/c24-current-controller-rejected-own-review-v1.json",
+      "sha256": "91eb3fe7ece4d431fd319c93c626a6e09bc13c17430979f7b7aee33e518c0bd4",
+      "bytes": 12523,
+      "git_blob": "5209c8452381c308e02e055972398eee385b06cc",
+      "git_mode": "100644"
+    },
+    {
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/c24-current-controller-rejected-actual-model-v1.json",
+      "sha256": "a0e1f1030069c3f8caf1b94f91c34e87abb1fd442473e94be9697aee44fd93db",
+      "bytes": 2597,
+      "git_blob": "80b9406128c8f98721e547597cd11b4013dc3e60",
+      "git_mode": "100644"
+    }
+  ],
+  "verdict": "NOT_QUALIFIED",
+  "scope": "Exact C24 seven source/profile artifacts; static consumer trace, no admission or target execution.",
+  "finding": "Grouped provenance dictionaries violate the existing flat path/sha256/bytes/mode contract.",
+  "prior_collector_refusal_defect": "Repaired within the source/harmless-consumer scope of the original evidence; the separate metadata blocker remains open.",
+  "phase_acceptance": false
+}
