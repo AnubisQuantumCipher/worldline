@@ -1,0 +1,638 @@
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,6 +1,33 @@
+ # Changelog
+ 
+ ## Unreleased — Phase 1 authority kernel checkpoint
++
++**Fixed source-owner remaining primitive and generated-output joins (source-only).**
++
++The native receipt decision now rejects matching negative received FD/SCM
++rights values and joins each actual recvmsg carrier FD to the held root channel,
++without restricting the generic signed-32 or original unsigned identity domains.
++Root-channel fstat must be a successful source-bound operation; real pidfd-open
++and duplicate receipts retain their at-call source and failures. Every target
++and output-writer close, including its EBADF readback, rejoins the qualified
++at-call source. Final archive/directory close receipts remain separate outer
++custody, not falsely attributed to inner native completion.
++
++The Main-input consumer reconstructs the full original generated-output
++snapshots with the exact root keyset, missing-root nulls, file/directory/symlink
++shapes, modes, lengths and hashes, and joins each generated file to the original
++collector's complete retained artifacts and candidate lineage. Real-input-derived
++controls reject a substituted genuine release pin, omitted/partial roots or files
++and mismatched metadata/retained pins. They never construct a positive fixture
++or require unrelated batch successes.
++
++Original ROOT0700, the endpoint, public request invocation, all source checks,
++full original rosters and strict proof remain unchanged. The technical
++first-construction proposal keeps numeric principals/topology authorization
++unselected; original complete private mutable DATA/proc/credential exclusion
++and actual Main wrapper/complete-retention enrollment remain prerequisites.
++All old donors/reviews stay retained. No target execution, self-qualification,
++installation, actor spend or Phase acceptance is claimed.
+ 
+ **Fixed source-owner custody correction (source-only, not qualified).**
+ 
+--- a/core/worldline-excluded_source_owner.adb
++++ b/core/worldline-excluded_source_owner.adb
+@@ -439,6 +439,10 @@
+       end loop;
+       return True;
+    end Owner_Reference;
++   function Receipt_Source (D : E.Bytes; Frame, Source : E.Span) return Boolean
++     with Global => null, Depends => (Receipt_Source'Result => (D, Frame, Source)) is
++     (C.Corresponds (D, Source, F (D, Frame, "installation")) and then C.Readbacks_Correspond (D, Source) and then
++      Same (D, F (D, Source, "envelope_bytes_hex"), F (D, F (D, Frame, "owner_source"), "envelope_bytes_hex")));
+    function Creator_Reference (D : E.Bytes; Frame : E.Span) return Boolean
+      with Global => null, Depends => (Creator_Reference'Result => (D, Frame)) is
+       Capture : constant E.Span := F (D, Frame, "owner_channel_capture");
+@@ -446,8 +450,15 @@
+       FD : constant E.Span := F (D, Capture, "fd");
+       Owner : constant E.Span := F (D, Frame, "owner");
+       Peer : constant E.Span := F (D, F (D, Capture, "peercred"), "raw");
++      Held : constant E.Span := F (D, Capture, "fstat");
+    begin
+       if not FD_Number (D, FD) or else
++         not S.Text_Is (D, F (D, Held, "call"), "fstat") or else
++         not Same (D, F (D, Held, "fd"), FD) or else
++         not Same (D, F (D, F (D, Held, "args"), "fd"), FD) or else
++         not Num (D, F (D, Held, "result"), 0) or else not Num (D, F (D, Held, "errno"), 0) or else
++         not Same (D, F (D, Held, "source"), Source) or else
++         not Receipt_Source (D, Frame, Source) or else
+          not Same (D, Peer, F (D, F (D, Frame, "owner_channel"), "peer")) or else
+          not J.SCM_Credentials_Match (D, Peer, F (D, Owner, "pid"), F (D, Owner, "real_uid"), F (D, Owner, "real_gid")) or else
+          not Identity (D, F (D, F (D, Capture, "fstat"), "identity"), F (D, F (D, Frame, "owner_channel"), "identity")) or else
+@@ -480,6 +491,10 @@
+       Rights_Count, Credential_Count : E.Count := 0;
+    begin
+       if not S.Text_Is (D, F (D, Receipt, "call"), "recvmsg") or else
++         not Descriptor_Reference (D, Descriptor) or else
++         not FD_Number (D, F (D, Receipt, "fd")) or else
++         not Same (D, F (D, Receipt, "fd"), F (D, F (D, Frame, "owner_channel_capture"), "fd")) or else
++         not Receipt_Source (D, Frame, Source) or else
+          not Num (D, F (D, Receipt, "result"), 1) or else not Num (D, F (D, Receipt, "errno"), 0) or else
+          not Num (D, F (D, Receipt, "input_flags"), 1_073_741_824) or else
+          not Num (D, F (D, Args, "flags"), 1_073_741_824) or else
+@@ -516,17 +531,19 @@
+       end loop;
+       return Rights_Count = 1 and then Credential_Count = 1;
+    end Receive_Reference;
+-   function Close_Reference (D : E.Bytes; Close, Descriptor : E.Span) return Boolean
+-     with Global => null, Depends => (Close_Reference'Result => (D, Close, Descriptor)) is
++   function Close_Reference (D : E.Bytes; Frame, Close, Descriptor, Source : E.Span) return Boolean
++     with Global => null, Depends => (Close_Reference'Result => (D, Frame, Close, Descriptor, Source)) is
+       Readback : constant E.Span := F (D, Close, "readback");
+    begin
+       return S.Text_Is (D, F (D, Close, "call"), "close") and then
+         Descriptor_Reference (D, Descriptor) and then
++        Receipt_Source (D, Frame, Source) and then Same (D, F (D, Close, "source"), Source) and then
+         Same (D, F (D, Close, "fd"), F (D, Descriptor, "fd")) and then
+         Same (D, F (D, F (D, Close, "args"), "fd"), F (D, Descriptor, "fd")) and then
+         Num (D, F (D, Close, "result"), 0) and then Num (D, F (D, Close, "errno"), 0) and then
+         S.Text_Is (D, F (D, Readback, "call"), "fstat") and then
+         Same (D, F (D, Readback, "fd"), F (D, Descriptor, "fd")) and then
++        Same (D, F (D, Readback, "source"), Source) and then
+         Num (D, F (D, Readback, "result"), -1) and then Num (D, F (D, Readback, "errno"), 9);
+    end Close_Reference;
+    function Wrapped_Text (D : E.Bytes; Value, Middle : E.Span; Prefix, Suffix : String) return Boolean
+@@ -619,7 +636,7 @@
+          not Same (D, F (D, Kcmp, "source"), Owner_Source) or else
+          not C.Corresponds (D, Owner_Source, F (D, Frame, "installation")) or else
+          not C.Readbacks_Correspond (D, Owner_Source) or else
+-         (Closed and then not Close_Reference (D, F (D, Target, "close"), Descriptor)) then return False; end if;
++         (Closed and then not Close_Reference (D, Frame, F (D, Target, "close"), Descriptor, Owner_Source)) then return False; end if;
+       declare Index : constant E.Count := Sequence_Index - 1;
+               Row : constant E.Span := V.Element (D, Rows, Index);
+               Own : constant E.Span := F (D, Row, "message");
+@@ -655,10 +672,6 @@
+       end loop;
+       return True;
+    end Target_Reference;
+-   function Receipt_Source (D : E.Bytes; Frame, Source : E.Span) return Boolean
+-     with Global => null, Depends => (Receipt_Source'Result => (D, Frame, Source)) is
+-     (C.Corresponds (D, Source, F (D, Frame, "installation")) and then C.Readbacks_Correspond (D, Source) and then
+-      Same (D, F (D, Source, "envelope_bytes_hex"), F (D, F (D, Frame, "owner_source"), "envelope_bytes_hex")));
+    function Pidfd_OFD_Reference (D : E.Bytes; Frame, OFD : E.Span) return Boolean
+      with Global => null, Depends => (Pidfd_OFD_Reference'Result => (D, Frame, OFD)) is
+       Origin : constant E.Span := F (D, Frame, "pidfd");
+@@ -861,7 +874,8 @@
+          not Num (D, F (D, F (D, Origin, "origin"), "uid"), 0) or else
+          not Num (D, F (D, F (D, Origin, "origin"), "mode"), 33_152) or else
+          not Identity (D, F (D, Stream, "identity"), F (D, Origin, "origin")) or else
+-         not Close_Reference (D, F (D, Origin, "writer_close"), F (D, Origin, "origin")) then return False; end if;
++         not Close_Reference (D, Frame, F (D, Origin, "writer_close"), F (D, Origin, "origin"),
++           F (D, Origin, "writer_close_source")) then return False; end if;
+       declare B : constant E.Bytes := V.Bytes_Value (D, Raw); begin
+          if V.Count (D, F (D, Stream, "reads")) /= 2 then return False; end if;
+          for I in E.Count range 0 .. 1 loop
+@@ -1157,7 +1171,8 @@
+          not Same (Data, F (Data, F (Data, F (Data, Frame, "pidfd_open"), "args"), "pid"), Child) or else
+          not Num (Data, F (Data, F (Data, F (Data, Frame, "pidfd_open"), "args"), "flags"), 0) or else
+          not Same (Data, F (Data, F (Data, Frame, "pidfd_open"), "result"), F (Data, Pidfd, "fd")) or else
+-         not Num (Data, F (Data, F (Data, Frame, "pidfd_open"), "errno"), 0) then return False; end if;
++         not Num (Data, F (Data, F (Data, Frame, "pidfd_open"), "errno"), 0) or else
++         not Receipt_Source (Data, Frame, F (Data, F (Data, Frame, "pidfd_open"), "source")) then return False; end if;
+       for I in E.Count range 1 .. V.Count (Data, Rows) loop
+          declare Row : constant E.Span := V.Element (Data, Rows, I - 1);
+                  Message : constant E.Span := F (Data, Row, "message");
+@@ -1271,7 +1286,8 @@
+                      not Num (Data, F (Data, Origin, "actor_fd"), Long_Long_Integer (Name)) or else
+                      not Num (Data, F (Data, F (Data, Origin, "origin"), "uid"), 0) or else
+                      not Num (Data, F (Data, F (Data, Origin, "origin"), "mode"), 33_152) or else
+-                     not Close_Reference (Data, F (Data, Origin, "writer_close"), F (Data, Origin, "origin")) then return False; end if;
++                     not Close_Reference (Data, Frame, F (Data, Origin, "writer_close"), F (Data, Origin, "origin"),
++                       F (Data, Origin, "writer_close_source")) then return False; end if;
+                end;
+             end loop;
+             if not V.Is_Null (Data, F (Data, Message, "target")) then
+--- a/core/worldline-excluded_source_owner.ads
++++ b/core/worldline-excluded_source_owner.ads
+@@ -9,6 +9,10 @@
+    -- LAUNCH binds private selected plan/request/installation, complete fixed
+    -- projection and original source. ACQUIRE additionally rejoins all genuine
+    -- per-message SCM credentials, proc/PIDFD/channel/directory observations.
++   -- Received rights must name a valid actual FD and the receipt's carrier FD
++   -- must be the held owner channel. Generic signed-32/UID domains stay intact.
++   -- Creator fstat and pidfd-open need successful source-bound real primitives;
++   -- target/writer close and EBADF readback bind the same at-call owner source.
+    -- COMPLETE needs actual actor finally, owner finally, waitid/wait/pidfd and
+    -- complete retained stdout/stderr; missing/unknown/error remains Refused.
+    function Launch_Reference (Data : E.Bytes; Frame : E.Span) return Boolean
+--- a/protected-root/controls/source_registration.json
++++ b/protected-root/controls/source_registration.json
+@@ -145,25 +145,27 @@
+     "source-input-full-parent-image-descent"
+   ],
+   "fixed_excluded_source_owner": {
+-    "schema": "worldline.fixed-excluded-client-source-owner-operation-binding-v2",
++    "schema": "worldline.fixed-excluded-client-source-owner-operation-binding-v3",
+     "source_only": true,
+     "implemented_source": true,
+     "author_model": "openai-codex/gpt-6.1-sol:max",
+-    "author_provenance": "records/codex-resumption-20261007/excluded-client-source-owner-v2/AUTHOR-PROVENANCE.json",
+-    "interface": "records/codex-resumption-20261007/excluded-client-source-owner-v2/INTERFACE.json",
+-    "contract_pins": "records/codex-resumption-20261007/excluded-client-source-owner-v2/CONTRACT-PINS.json",
+-    "complete_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v2/source",
++    "author_provenance": "records/codex-resumption-20261007/excluded-client-source-owner-v3/AUTHOR-PROVENANCE.json",
++    "interface": "records/codex-resumption-20261007/excluded-client-source-owner-v3/INTERFACE.json",
++    "contract_pins": "records/codex-resumption-20261007/excluded-client-source-owner-v3/CONTRACT-PINS.json",
++    "complete_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v3/source",
+     "baseline": "records/codex-resumption-20261007/phase1-integrated-v67-draft/source",
+-    "superseded_unqualified_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v1/source",
+-    "reversible_delta": "records/codex-resumption-20261007/excluded-client-source-owner-v2/DELTA-MANIFEST.json",
+-    "verification_commands": "records/codex-resumption-20261007/excluded-client-source-owner-v2/MAIN-VERIFICATION.json",
++    "superseded_unqualified_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v2/source",
++    "reversible_delta": "records/codex-resumption-20261007/excluded-client-source-owner-v3/DELTA-MANIFEST.json",
++    "verification_commands": "records/codex-resumption-20261007/excluded-client-source-owner-v3/MAIN-VERIFICATION.json",
++    "technical_topology_proposal": "records/codex-resumption-20261007/excluded-client-source-owner-v3/TOPOLOGY-PROPOSAL.json",
++    "coherent_packet_handoff": "records/codex-resumption-20261007/excluded-client-source-owner-v3/PACKET-HANDOFF.json",
+     "affected_source_sha256": {
+       "core/worldline-c_api.adb": "a95ad85b33a076dd563e61166a08c24070c709d36870c71bbaa5c6cdaf5f83a0",
+       "core/worldline-c_api.ads": "ae108a0aa9d736a4eafc15d2c51d1121915aee75d773d964b20d7221cc8defdc",
+       "core/worldline-custody_v2_requester_join.adb": "a39bf23831443b56eb09e0c493a07beeb5adc233282c736a0448be2d74935bd6",
+       "core/worldline-custody_v2_requester_join.ads": "f4b9afa8e13a1ab81fa51683f55e5d44e2095baf7e1dd2582732367537cbf451",
+-      "core/worldline-excluded_source_owner.adb": "422ff53331d1b97787d516f3e182518aeeffcfac4bc1e1184d37e509ab898cfd",
+-      "core/worldline-excluded_source_owner.ads": "9e27ea37bb0053b6a2ef34dce360506e763f5aa2eccc3ef5ade3675b3bf11837",
++      "core/worldline-excluded_source_owner.adb": "ab0440aa596ab619171cffcf46146a27fb2557d364959b45062a64aa7605f350",
++      "core/worldline-excluded_source_owner.ads": "7985d579a04d219d261e6b253b96a0d89f147a5e00ba6d84907d18519f9b1c01",
+       "core/worldline-startup_installation.adb": "bef8ce43b7138c7a0fbea2db0db320b40a7decb9a38ee0b81d2698dcd0e51131",
+       "core/worldline-startup_source_custody.adb": "318def3da41cc417702ce7212520224810cf3e25c498d41f72ad6443345ad4d9",
+       "core/worldline-startup_source_custody.ads": "1070dd6d45e2cc6b4e9a14d4c7def2f6a53a9462b3f94c27fc36f680fb943613",
+@@ -174,13 +176,13 @@
+       "protected-root/controls/run_campaign.py": "a1a805f9b47b296bbdeaeef318e1567302997d863ddfc3e8aeb018de7f363611",
+       "protected-runtime/approved_source_loader.py": "ce78eea99036e32ee05e34c6ef7fe45f73e4ccfb8c90258083d2f6aad6b9d5f2",
+       "runtime/worldline/custody_startup_capture.py": "b7c1efe7a749e3108870528b81adb6ccd15621fda1973db272c69a99ddf51f37",
+-      "runtime/worldline/excluded_source_owner.py": "ab2013a33d23ba7f4d02c6094b8a9d6d86c9f5dac28a4fb6ffc73c4543e7dcc1",
+-      "runtime/worldline/proof_manifest.py": "e2b79e0fd592d76f646dc99970fdb548044bbcd9c7f961d7914c77c69ce8cc49",
++      "runtime/worldline/excluded_source_owner.py": "58f08e393a37d326605f7cd8b057f547c503d315437c3ff831891f1c0a58b1b3",
++      "runtime/worldline/proof_manifest.py": "09256377203db9f50d11018a2441800891c31bed5de1ac7f17f1174260cbcf35",
+       "runtime/worldline/protected_root_worker.py": "44aaed616bb4a005ffcdd25de4f18d68109c79b3b9dce053c819a43ebe7e7a91",
+       "runtime/worldline/protected_scoped_resource_runtime.py": "75febf6a1e9b8a5e01610bbbe788387f950c3ac03130c3a265b5b0dd53db1577",
+       "runtime/worldline/protected_startup.py": "68133f83b55f65675486d91b3b6892a3ee5b2d6f74f2352316de9762df2317ab",
+       "runtime/worldline/root_worker_plan.py": "7cfa2b66b726083390b0b5b1e55d835eaa914bac8392de7018bfacbce8a4b96a",
+-      "tests/excluded_source_owner_controls.py": "67158c1baa319324e2af5244bd34f5c92308368adb9cdf5fc15f04ef9d9d7a4a",
++      "tests/excluded_source_owner_controls.py": "52aa25be23f95e9a8e6bc6d4792fe08c406b6b5637852edd92e45de413076c4d",
+       "tests/test_custody_startup_native_v35.py": "4a90de3b11b147881d6346425484498a5474fddd293c027379f337a7543070cd"
+     },
+     "actual_operators_selected": false,
+@@ -205,13 +207,18 @@
+       "actual pidfd duplicate/OFD, pre-reap waitid WNOWAIT and post-reap descriptor custody",
+       "native inotify loss/overflow/error decision and real full read/pread/fsync/EOF receipts",
+       "exception-safe owned-child stop/wait/unknown and retained partial outputs with actual FD close/readback",
+-      "post-native owner finally/source/mapping/cleanup then actual owner final closes and original Main raw producer/collector/release correspondence"
++      "post-native owner finally/source/mapping/cleanup then actual owner final closes and original Main raw producer/collector/release correspondence",
++      "valid actual received descriptor and message/target carrier FD joins without narrowing generic signed32 or uint32 domains",
++      "successful creator fstat and actual at-call pidfd-open/dup source, target/writer close plus EBADF readback source correspondence",
++      "complete original generated root keys/nulls/file-directory-symlink snapshots/full pins and original collector candidate/retained-artifact lineage"
+     ],
+     "original_control_rosters_retained": true,
+-    "new_consumer_control": "tests/excluded_source_owner_controls.py requires actual owner+actor+campaign+outer/scope/collector/release custody via --main-input-custody, qualified matching library and full retained actor stdout/stderr; no mock, skip, Boolean-only approval or fabricated positive fixture. Existing test_custody_startup_native_v35 frontier method additionally consumes actual complete scoped owner admission and refuses changed EXECUTABLE installed-content/mode/membership and producer raw/path/helper/shape inputs through the existing native C ABI, retaining full operands.",
++    "new_consumer_control": "tests/excluded_source_owner_controls.py requires actual owner+actor+campaign+outer/scope/collector/release custody via --main-input-custody, qualified matching library and full retained actor stdout/stderr; no mock, skip, Boolean-only approval or fabricated positive fixture. All original and added native counterexamples stream complete input_hex/transport/action records into Main framed raw stdout. Genuine generated-custody baseline plus substituted release-pin, omitted/partial root/file and mismatched full metadata/retained-pin counterexamples emit complete altered operands and refusal, not authentic producer receipts. Existing test_custody_startup_native_v35 original frontier control retains its full actual scoped native admission/EXECUTABLE and producer counterexamples.",
+     "retained_negative_reviews": [
+       "records/codex-resumption-20261007/native-owner-join-v59/fixture-native-source-independent-interim.json",
+-      "records/codex-resumption-20261007/native-owner-join-v59/fixture-custody-setup-independent-interim.json"
++      "records/codex-resumption-20261007/native-owner-join-v59/fixture-custody-setup-independent-interim.json",
++      "records/codex-resumption-20261007/native-owner-join-v59/fixture-v2-complete-native-source-negative-independent-review.json",
++      "records/codex-resumption-20261007/native-owner-join-v59/fixture-v2-complete-custody-setup-independent-review.json"
+     ],
+     "main_producer_prerequisite": {
+       "actual_input_selected": false,
+--- a/runtime/worldline/excluded_source_owner.py
++++ b/runtime/worldline/excluded_source_owner.py
+@@ -427,21 +427,38 @@
+             self.frame['output_watch_origin'] = self.watch_origin
+             self.frame['output_origins'] = {name: {'origin': stream['origin'], 'actor_fd': stream['actor_fd'],
+                 'watch': stream['watch'], 'reader_origin': stream['reader_origin'],
+-                'writer_close': None} for name, stream in self.streams.items()}
++                'writer_close': None, 'writer_close_source': None} for name, stream in self.streams.items()}
+             require(self.decide('LAUNCH') == 1, 'SOURCE_OWNER_NATIVE_LAUNCH_REFUSED')
+             self.child = subprocess.Popen(argv, close_fds=True, pass_fds=(actor_channel.fileno(), projection, parent),
+                                           stdin=subprocess.DEVNULL, stdout=self.streams['stdout']['writer'],
+                                           stderr=self.streams['stderr']['writer'],
+                                           env=dict(os.environ))
+             self.frame['child_pid'] = self.child.pid
+-            self.pidfd = os.pidfd_open(self.child.pid, 0); self.fds.append(self.pidfd)
++            opened = {'call': 'pidfd_open', 'args': {'pid': self.child.pid, 'flags': 0},
++                      'source': self.lease.check()}
++            self.frame['pidfd_open'] = opened
++            try:
++                self.pidfd = os.pidfd_open(self.child.pid, 0)
++            except OSError as error:
++                opened.update(result=-1, errno=error.errno, message=str(error))
++                self.retain('ACTUAL_PIDFD_OPEN', opened)
++                raise
++            self.fds.append(self.pidfd)
++            opened.update(result=self.pidfd, errno=0)
++            self.retain('ACTUAL_PIDFD_OPEN', opened)
+             self.frame['pidfd'] = {**fd_identity(self.pidfd), 'fd': self.pidfd}
+-            self.frame['pidfd_open'] = {'call': 'pidfd_open', 'args': {'pid': self.child.pid, 'flags': 0},
+-                                        'result': self.pidfd, 'errno': 0}
+-            self.pidfd_duplicate = os.dup(self.pidfd); self.fds.append(self.pidfd_duplicate)
++            duplicated = {'call': 'dup', 'args': {'fd': self.pidfd}, 'source': self.lease.check()}
++            self.frame['pidfd_dup'] = duplicated
++            try:
++                self.pidfd_duplicate = os.dup(self.pidfd)
++            except OSError as error:
++                duplicated.update(result=-1, errno=error.errno, message=str(error))
++                self.retain('ACTUAL_PIDFD_DUP', duplicated)
++                raise
++            self.fds.append(self.pidfd_duplicate)
++            duplicated.update(result=self.pidfd_duplicate, errno=0)
++            self.retain('ACTUAL_PIDFD_DUP', duplicated)
+             self.frame['pidfd_duplicate'] = {**fd_identity(self.pidfd_duplicate), 'fd': self.pidfd_duplicate}
+-            self.frame['pidfd_dup'] = {'call': 'dup', 'args': {'fd': self.pidfd},
+-                                      'result': self.pidfd_duplicate, 'errno': 0, 'source': self.lease.check()}
+             actor_fd = actor_channel.detach(); self.actor_channel = None; self.fds.append(actor_fd)
+             try:
+                 actor_close = close_descriptor(actor_fd, self.lease.check())
+@@ -450,7 +467,9 @@
+                         'SOURCE_OWNER_ACTOR_CARRIER_CLOSE_UNKNOWN')
+             finally: self.fds.remove(actor_fd)
+             for name, stream in self.streams.items():
+-                stream['writer_close'] = close_descriptor(stream['writer'], self.lease.check())
++                source = self.lease.check()
++                self.frame['output_origins'][name]['writer_close_source'] = source
++                stream['writer_close'] = close_descriptor(stream['writer'], source)
+                 self.frame['output_origins'][name]['writer_close'] = stream['writer_close']
+                 self.fds.remove(stream['writer'])
+             self.run(deadline, projection, parent)
+--- a/runtime/worldline/proof_manifest.py
++++ b/runtime/worldline/proof_manifest.py
+@@ -1993,7 +1993,7 @@
+     'core/worldline-c_api.ads': 'f324d26b1fb9e965f8feb4be4dc4190b08a0cf05aa1def223efa317cf23ebde9',
+     'core/worldline-custody_v2_requester_join.adb': 'c04cc5de8c3a81b3e59b8b825fa4a8beace7ad6c35217591cb0b3982516cd7eb',
+     'core/worldline-custody_v2_requester_join.ads': 'f287886125cb12a0488466decbfcae8379462b1ebac7ef595c04e0c50a441c5f',
+-    'core/worldline-excluded_source_owner.adb': 'a8a4cfdd1d0b452b6bf91e7f7fe88bf8b1f2ad8c304c4fa82273465b9d39f438',
++    'core/worldline-excluded_source_owner.adb': 'eea52295e82c733ce18d838046c144630e0da9de69b9ddf7bffbef209eeb34a0',
+     'core/worldline-excluded_source_owner.ads': 'cbb2f8d0ec88dfc08e2726213e5bf1269909385a6ef27aabc611fc099539e82f',
+     'core/worldline-startup_source_custody.adb': 'b79deb5ff0145dfe0bc04b6b6e37ae14db22262c940e6a9c15ab2235f3c597b2',
+     'core/worldline-startup_source_custody.ads': 'a3a9a5899a6967fac09e5901b5a462bb9f929fd43b613a77106a84ca18837bee',
+--- a/tests/excluded_source_owner_controls.py
++++ b/tests/excluded_source_owner_controls.py
+@@ -10,6 +10,7 @@
+ import ctypes
+ import hashlib
+ import json
++import os
+ from pathlib import Path
+ import struct
+ import stat
+@@ -119,6 +120,196 @@
+     return raw
+ 
+ 
++GENERATED_SOURCE_ROOTS = (
++    'bin', 'explicit-recovery-marker-tests/bin', 'explicit-recovery-marker-tests/obj',
++    'lib', 'obj', 'protocol-adapter-tests/bin', 'protocol-adapter-tests/obj',
++    'recovery-protocol-tests/bin', 'recovery-protocol-tests/obj',
++    'resource-tests/bin', 'resource-tests/obj', 'use-reservation-tests/bin',
++    'use-reservation-tests/obj', 'wire-initialization-tests/bin',
++    'wire-initialization-tests/obj',
++)
++GENERATED_PRIVATE_ROOTS = (
++    'lib/gnat/sparklib_obj', 'lib/gnat/sparklib_lib', 'lib/gnat/proof',
++)
++
++
++def generated_fields(metadata):
++    return (metadata.st_dev, metadata.st_ino, metadata.st_mode, metadata.st_nlink,
++            metadata.st_size, metadata.st_mtime_ns, metadata.st_ctime_ns)
++
++
++def generated_file_pin(path, *, follow_link=False, target=None):
++    named_before = path.lstat()
++    if follow_link:
++        require(stat.S_ISLNK(named_before.st_mode) and os.readlink(path) == target,
++                'generated symlink target changed')
++    else:
++        require(stat.S_ISREG(named_before.st_mode), 'generated regular file required')
++    before = path.stat() if follow_link else named_before
++    require(stat.S_ISREG(before.st_mode), 'generated retained file target required')
++    flags = os.O_RDONLY | os.O_CLOEXEC
++    if not follow_link:
++        flags |= os.O_NOFOLLOW
++    with os.fdopen(os.open(path, flags), 'rb') as stream:
++        require(generated_fields(os.fstat(stream.fileno())) == generated_fields(before),
++                'generated file descriptor differs from named file')
++        digest = hashlib.file_digest(stream, 'sha256').hexdigest()
++        require(generated_fields(os.fstat(stream.fileno())) == generated_fields(before),
++                'generated held file changed')
++    require(generated_fields(path.stat()) == generated_fields(before)
++            and generated_fields(path.lstat()) == generated_fields(named_before),
++            'generated retained file or name changed')
++    if follow_link:
++        require(os.readlink(path) == target, 'generated symlink target changed')
++    return {'path': str(path), 'sha256': digest, 'bytes': before.st_size,
++            'mode': stat.S_IMODE(before.st_mode)}
++
++
++def generated_snapshot(root):
++    # Preserve the original generated_outputs/snapshot(allow_links=True) format,
++    # including None for a missing root and a file/symlink root snapshot.
++    if not root.exists():
++        return None
++    rows = {}
++
++    def visit(path):
++        name = path.relative_to(root).as_posix()
++        before = path.lstat()
++        mode = stat.S_IMODE(before.st_mode)
++        if stat.S_ISDIR(before.st_mode):
++            rows[name] = {'kind': 'directory', 'mode': mode}
++            for child in sorted(path.iterdir()):
++                visit(child)
++        elif stat.S_ISREG(before.st_mode):
++            pin = generated_file_pin(path)
++            rows[name] = {'kind': 'file', **{key: pin[key] for key in ('sha256', 'bytes', 'mode')}}
++        elif stat.S_ISLNK(before.st_mode):
++            rows[name] = {'kind': 'symlink', 'mode': mode, 'target': os.readlink(path)}
++        else:
++            raise ValueError('original generated snapshot rejects special files')
++        require(generated_fields(before) == generated_fields(path.lstat()),
++                'generated snapshot member changed')
++
++    visit(root)
++    return rows
++
++
++def generated_inventory_custody(selected, terminal, inventory, by_path):
++    terminal_folder = Path(selected['terminal']['path']).parent
++    require(Path(selected['generated_inventory']['path'])
++            == terminal_folder / 'owned-generated-output-inventory.json',
++            'selector must name the original collector generated-inventory output')
++    source_manifest = terminal['source_manifest']
++    pin_bytes(source_manifest)
++    candidate = Path(source_manifest['path']).parent
++    require(Path(selected['proposal']['path']) == candidate / 'reviewed-launch-proposal.json',
++            'generated outputs must belong to the actual original selected candidate')
++    names = tuple('source/' + name for name in GENERATED_SOURCE_ROOTS) + tuple(
++        'private-sparklib/' + name for name in GENERATED_PRIVATE_ROOTS)
++    require(type(inventory) is dict and set(inventory) == set(names),
++            'complete original generated-output root keyset required')
++    expected_retained = set()
++    actual_retained = {path for path in by_path if any(
++        path == str(candidate / name) or path.startswith(str(candidate / name) + '/')
++        for name in names)}
++    for name in names:
++        root = candidate / name
++        actual = generated_snapshot(root)
++        # Typed JSON equality excludes bool/float substitutions for genuine
++        # integer metadata while preserving arbitrary original lengths/modes.
++        require(json.dumps(actual, sort_keys=True, allow_nan=False)
++                == json.dumps(inventory[name], sort_keys=True, allow_nan=False),
++                'full original generated snapshot differs: ' + name)
++        if actual is None:
++            continue
++        for relative, row in actual.items():
++            path = root if relative == '.' else root / relative
++            if row['kind'] == 'file':
++                pin = {'path': str(path), **{key: row[key] for key in ('sha256', 'bytes', 'mode')}}
++            elif row['kind'] == 'symlink' and path.is_file():
++                # The original collector retains file symlink targets by their
++                # named paths; preserve that behavior without traversing dirs.
++                pin = generated_file_pin(path, follow_link=True, target=row['target'])
++            else:
++                continue
++            require(by_path.get(str(path)) == pin,
++                    'generated file is absent or mismatched in retained artifacts: ' + str(path))
++            expected_retained.add(str(path))
++    require(actual_retained == expected_retained,
++            'retained generated file keyset differs from the complete snapshots')
++
++
++def generated_custody_controls(selection_path):
++    # Every positive and counterexample derives from the qualified genuine Main
++    # collector input. No artifact, receipt, generated file or selector is made.
++    selected = exact_json(selection_path.read_bytes())
++    terminal = exact_json(pin_bytes(selected['terminal']))
++    inventory = exact_json(pin_bytes(selected['generated_inventory']))
++    retained = exact_json(pin_bytes(terminal['retained_complete_artifacts']))
++    by_path = {pin['path']: pin for pin in retained.values()}
++    generated_inventory_custody(selected, terminal, inventory, by_path)
++    negative = []
++
++    def refused(name, change):
++        operands = copy.deepcopy((selected, terminal, inventory, by_path))
++        change(*operands)
++        try:
++            generated_inventory_custody(*operands)
++        except (ValueError, KeyError, TypeError, OSError) as error:
++            print(json.dumps({'schema': 'worldline.generated-custody-counterexample-v3',
++                              'control': name, 'operands': operands,
++                              'refusal': {'type': type(error).__name__, 'reason': str(error)},
++                              'authentic_producer_receipt': False}, sort_keys=True), flush=True)
++            negative.append(name)
++        else:
++            raise AssertionError((name, 'incomplete generated custody admitted'))
++
++    first = next(iter(inventory))
++    refused('real-release-pin-substituted-for-generated-output',
++            lambda selection, terminal, inventory, retained: selection.__setitem__(
++                'generated_inventory', selection['release']))
++    refused('generated-root-key-omitted',
++            lambda selection, terminal, inventory, retained: inventory.pop(first))
++    refused('generated-root-key-added',
++            lambda selection, terminal, inventory, retained: inventory.__setitem__(
++                first + '/not-an-original-output-root', None))
++    refused('generated-root-snapshot-partial-or-substituted',
++            lambda selection, terminal, inventory, retained: inventory.__setitem__(
++                first, {} if inventory[first] is None else None))
++    refused('wrong-original-generated-candidate-lineage',
++            lambda selection, terminal, inventory, retained: selection.__setitem__(
++                'proposal', selection['release']))
++    candidate = Path(terminal['source_manifest']['path']).parent
++    files = [(root, name, row) for root, snapshot in inventory.items() if snapshot is not None
++             for name, row in snapshot.items() if row['kind'] == 'file']
++    # The complete original matching native library/build output supplies a real
++    # file witness. Missing it is a missing control input, never a skipped pass.
++    require(files, 'genuine complete original generated file witness required')
++    root, name, row = files[0]
++    path = str(candidate / root) if name == '.' else str(candidate / root / name)
++    refused('generated-file-row-omitted',
++            lambda selection, terminal, inventory, retained: inventory[root].pop(name))
++    for key in ('sha256', 'bytes', 'mode'):
++        def mismatch(selection, terminal, inventory, retained, key=key):
++            original = inventory[root][name][key]
++            inventory[root][name][key] = (
++                ('0' if original[0] != '0' else '1') + original[1:]
++                if key == 'sha256' else original + 1)
++        refused('generated-file-' + key + '-mismatch', mismatch)
++    refused('generated-file-integer-metadata-replaced-by-float',
++            lambda selection, terminal, inventory, retained: inventory[root][name].__setitem__(
++                'bytes', float(row['bytes'])))
++    refused('generated-retained-file-omitted',
++            lambda selection, terminal, inventory, retained: retained.pop(path))
++    refused('generated-retained-pin-content-mismatch',
++            lambda selection, terminal, inventory, retained: retained[path].__setitem__(
++                'bytes', retained[path]['bytes'] + 1))
++    return {'positive': {'generated_inventory': selected['generated_inventory'],
++                         'original_root_keys': list(inventory),
++                         'generated_file_witness': by_path[path]},
++            'negative_refused': negative, 'artifact_writes': False}
++
++
+ def completed_input(records):
+     finals = [(index, record['value']) for index, record in enumerate(records)
+               if record['kind'] == 'OWNER_ACTOR_COMPLETED']
+@@ -181,8 +372,8 @@
+     require(value['source_readback']['exact_keyset_bytes_modes_match'] is True
+             and value['private_readback']['matches'] is True,
+             'original complete source/private dependency readbacks required')
+-    require(value['generated_inventory'] is not None and value['source_readback']['actual_files'],
+-            'actual original generated/source inventories required')
++    generated_inventory_custody(selected, terminal, value['generated_inventory'], by_path)
++    require(value['source_readback']['actual_files'], 'actual original source inventory required')
+     actual_source = value['private_readback']['actual']['complete_source_entries']
+     actual_hashes = {name: row['sha256'] for name, row in actual_source.items() if row['kind'] == 'file'}
+     require(actual_hashes == value['source_readback']['actual_files'],
+@@ -329,24 +520,32 @@
+     records = list(retained_records(capture))
+     baseline, raw, completed = completed_input(records)
+     custody = main_custody(main_input_custody, baseline, capture, library, stdout, stderr)
++    generated_controls = generated_custody_controls(main_input_custody)
+     public = public_output(baseline, stdout.read_bytes(), stderr.read_bytes())
+     selected = ctypes.CDLL(str(library.resolve(strict=True)), use_errno=True)
+     native = selected.wl_excluded_source_owner_decide_v1
+     native.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_uint64)]
+     native.restype = ctypes.c_int
+ 
+-    def decide(value):
++    def decide(value, control):
+         encoded = archive(value)
+         if ctypes.c_size_t(len(encoded)).value != len(encoded):
+             raise ValueError('owned source extent is not representable')
+         owned = (ctypes.c_ubyte * len(encoded)).from_buffer_copy(encoded)
+         status = ctypes.c_uint64()
+         transport = native(owned, len(encoded), ctypes.byref(status))
++        digest = hashlib.sha256(encoded).hexdigest()
++        # Emit each full owned input directly into Main's original framed raw
++        # stdout; do not accumulate duplicate full source images in the summary.
++        print(json.dumps({'schema': 'worldline.fixed-source-owner-native-control-input-v3',
++                          'control': control, 'input_hex': encoded.hex(), 'input_bytes': len(encoded),
++                          'input_sha256': digest, 'transport': transport, 'action': status.value},
++                         sort_keys=True), flush=True)
+         if transport != 0:
+             raise AssertionError(('native transport failure', transport))
+-        return status.value, hashlib.sha256(encoded).hexdigest()
+-
+-    action, digest = decide(baseline)
++        return status.value, digest
++
++    action, digest = decide(baseline, 'genuine-complete-owner-actor-main-baseline')
+     if action != 3:
+         raise AssertionError(('actual complete capture refused', action))
+     rows = baseline['messages']
+@@ -356,7 +555,7 @@
+     def refused(name, change):
+         altered = copy.deepcopy(baseline)
+         change(altered)
+-        action, digest = decide(altered)
++        action, digest = decide(altered, name)
+         if action != 0:
+             raise AssertionError((name, 'counterexample accepted', action))
+         negative.append({'control': name, 'action': action, 'input_sha256': digest})
+@@ -423,6 +622,49 @@
+     refused('creator-peer-does-not-replace-actual-scm-sender', lambda value: message_changed(value, actor_index,
+             lambda message: message.__setitem__('carrier_peer_hex',
+                 struct.pack('@iII', value['child_pid'], value['request']['uid'], value['request']['gid']).hex())))
++    def invalid_message_descriptor(value):
++        row = value['messages'][actor_index]
++        row['message_descriptor']['fd'] = -1
++        row['receive']['args']['rights'] = [-1]
++        raw = struct.pack('@i', -1)
++        row['receive']['rights'] = raw
++        row['receive']['controls'] = [
++            (level, kind, raw if level == 1 and kind == 1 else body)
++            for level, kind, body in row['receive']['controls']]
++    refused('matching-negative-received-message-descriptor-and-scm-rights', invalid_message_descriptor)
++    for name, receipt in (('message', lambda value: value['messages'][actor_index]['receive']),
++                          ('target', lambda value: value['target']['receive'])):
++        refused(name + '-receive-negative-carrier-fd',
++                lambda value, receipt=receipt: receipt(value).__setitem__('fd', -1))
++        refused(name + '-receive-not-held-owner-carrier-fd',
++                lambda value, receipt=receipt: receipt(value).__setitem__(
++                    'fd', value['owner_channel_capture']['fd'] + 1))
++        refused(name + '-receive-source-missing',
++                lambda value, receipt=receipt: receipt(value).__setitem__('source', None))
++    refused('creator-fstat-call-failed-with-unchanged-identity',
++            lambda value: value['owner_channel_capture']['fstat'].update(result=-1, errno=9))
++    refused('creator-fstat-not-held-carrier-fd',
++            lambda value: value['owner_channel_capture']['fstat'].__setitem__('fd', -1))
++    refused('creator-fstat-args-not-held-carrier-fd',
++            lambda value: value['owner_channel_capture']['fstat']['args'].__setitem__('fd', -1))
++    refused('creator-fstat-source-missing',
++            lambda value: value['owner_channel_capture']['fstat'].__setitem__('source', None))
++    refused('pidfd-open-source-missing',
++            lambda value: value['pidfd_open'].__setitem__('source', None))
++    refused('pidfd-open-source-envelope-mismatch',
++            lambda value: value['pidfd_open']['source'].__setitem__('envelope_bytes_hex', ''))
++    for name, close in (('target', lambda value: value['target']['close']),
++                        ('stdout-writer', lambda value: value['output_origins']['stdout']['writer_close']),
++                        ('stderr-writer', lambda value: value['output_origins']['stderr']['writer_close'])):
++        refused(name + '-close-source-missing',
++                lambda value, close=close: close(value).__setitem__('source', None))
++        refused(name + '-close-ebadf-readback-source-missing',
++                lambda value, close=close: close(value)['readback'].__setitem__('source', None))
++        refused(name + '-close-ebadf-readback-source-envelope-mismatch',
++                lambda value, close=close: close(value)['readback']['source'].__setitem__('envelope_bytes_hex', ''))
++    for name in ('stdout', 'stderr'):
++        refused(name + '-writer-at-call-source-missing',
++                lambda value, name=name: value['output_origins'][name].__setitem__('writer_close_source', None))
+     refused('projection-initial-full-readback-mismatch', lambda value: value['projection_readback'].__setitem__('readback_hex', ''))
+     refused('projection-current-full-readback-mismatch', lambda value: value['projection_current_readback'].__setitem__('raw_hex', ''))
+     refused('projection-current-nonregular-descriptor', lambda value: value['projection_current_readback']['before'].__setitem__(
+@@ -480,11 +722,12 @@
+     incomplete('unknown-owned-child-after-stop', lambda value: value[-1]['value'].__setitem__('stop_wait', [{'unknown_owned_child': baseline['child_pid']}]))
+     incomplete('actual-actor-terminal-wait-unknown', lambda value: value[-1]['value']['frame']['terminal'].__setitem__('wait', None))
+     incomplete('reopened-archive-after-owner-completion', lambda value: value.append({'kind': 'FAILURE', 'value': {'error': 'retained'}}))
+-    return {'schema': 'worldline.fixed-source-owner-native-consumer-controls-v2',
++    return {'schema': 'worldline.fixed-source-owner-native-consumer-controls-v3',
+             'capture_sha256': hashlib.sha256(capture.read_bytes()).hexdigest(),
+             'library_sha256': hashlib.sha256(library.read_bytes()).hexdigest(),
+             'positive': {'action': 3, 'input_sha256': digest}, 'negative': negative,
+             'actual_main_input_custody': custody,
++            'actual_generated_custody_controls': generated_controls,
+             'partial_owner_custody_refused': custody_negative,
+             'actual_owner_completion_and_cleanup': completed['cleanup'],
+             'public_original_client': public,

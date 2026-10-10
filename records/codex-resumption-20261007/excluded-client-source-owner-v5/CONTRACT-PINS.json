@@ -1,0 +1,51 @@
+{
+  "effective_runtime_enrollment": {
+    "bytes": 243074,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/proof_manifest.py",
+    "sha256": "b5f474022475f83fd6d1abb1d00983e8091a06d8a7819098b97fff520a1f0dc0"
+  },
+  "full_strict_command": [
+    "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+    "-P",
+    "core/worldline_core_sources.gpr",
+    "-U",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "-j2"
+  ],
+  "full_strict_origin": {
+    "bytes": 28311,
+    "mode": 420,
+    "path": "records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-original-full-strict-source-independent-review.json",
+    "sha256": "dc57ec882cf5f7540bbc555bf6097c11938452e850f33b30eaff63c8372fb249"
+  },
+  "normalizer": "All normalized Ada/C ABI/project pin values inherited byte-for-byte from V4, with hash-identical source and proof_manifest. No normalizer, project helper or validator executed for V5.",
+  "pins": {
+    "core/worldline-c_api.adb": "d1031e36722c0419cc03a4828448e777a9a77c0063e350a39663ce66f77fc173",
+    "core/worldline-c_api.adb#Excluded_Source_Owner_Decide_V1": "c94165601c4ca87b91b25c18ff458ea8f87997f42ff0aefa306f7b619e405d88",
+    "core/worldline-c_api.ads": "f324d26b1fb9e965f8feb4be4dc4190b08a0cf05aa1def223efa317cf23ebde9",
+    "core/worldline-custody_v2_requester_join.adb": "c04cc5de8c3a81b3e59b8b825fa4a8beace7ad6c35217591cb0b3982516cd7eb",
+    "core/worldline-custody_v2_requester_join.ads": "f287886125cb12a0488466decbfcae8379462b1ebac7ef595c04e0c50a441c5f",
+    "core/worldline-excluded_source_owner.adb": "b79e063226c27065739428afa433e29480f512627ed5d169e0a6cad204b2c64e",
+    "core/worldline-excluded_source_owner.ads": "cbb2f8d0ec88dfc08e2726213e5bf1269909385a6ef27aabc611fc099539e82f",
+    "core/worldline-startup_installation.adb": "a289538e2196bff6a5a786ca7b040c5f3cc71b42c45bbcf31ecaebdf76ec8679",
+    "core/worldline-startup_source_custody.adb": "b79deb5ff0145dfe0bc04b6b6e37ae14db22262c940e6a9c15ab2235f3c597b2",
+    "core/worldline-startup_source_custody.ads": "a3a9a5899a6967fac09e5901b5a462bb9f929fd43b613a77106a84ca18837bee",
+    "core/worldline_core.gpr": "2b09eafd05bdc319590f64ba0ce88551301b35173a8adbed97092b630c280c5b"
+  },
+  "proof_performed": false,
+  "schema": "worldline.fixed-source-owner-contract-pins-v5",
+  "scope": "Entire affected native specs/bodies, original unproved C boundary entire body plus exact new exported function, and project. These pins are source identities, not proof credit.",
+  "target_fstat_contract": "Target_Reference binds target.capture.fstat.call=fstat, fd and args.fd to the actual received target descriptor, result0/errno0 and full fstat.source to the qualified at-call Capture.source. Existing identity, actual FD validity, SCM sender/carrier, endpoint, post-drop actor, OFD and close joins stay mandatory. The same predicate is consumed by acquisition and completion. No producer or ABI schema changes are needed: the real socket_capture already records these fields.",
+  "unchanged_V4_contract_identity": {
+    "bytes": 3380,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v4/CONTRACT-PINS.json",
+    "sha256": "b3fc1b0beeb4eed7bba8931ae9e1fd6405988f158ab51638777be878481b39bc"
+  },
+  "unchanged_required_helper": "Worldline.Excluded_Source_Owner.Target_Reference remains in the entire original -U proof enrollment; no weaker subset or changed public ABI/postcondition."
+}

@@ -1,0 +1,266 @@
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,6 +1,26 @@
+ # Changelog
+ 
+ ## Unreleased — Phase 1 authority kernel checkpoint
++
++**Original scope property omission correspondence (source-only).**
++
++The original Main collector records only manager properties actually returned.
++The fixture consumer now permits omitted `MainPID`/`ControlPID` without inserting
++synthetic zeroes; every supplied PID must still be exactly the string `0`.
++Loaded/not-found, inactive/failed and dead/failed observations remain terminal
++only with original successful Result semantics and exact absent or readable
++empty cgroup custody. Full original child/scope/outer waits, known-child absence,
++owner/actor completion, source/private/generated inventories and collector/release
++joins remain mandatory. Unknown or failed relevant producers are not eligible.
++
++Controls start only after a genuine complete Main baseline, retain full original
++scope operands and pins, exercise the omission boundary and independently refuse
++malformed/nonzero PIDs, loading/active/substate/result failures and partial,
++unreadable/nonempty or substituted cgroups. They are guard operands, not invented
++manager observations or producer receipts. The earlier actual two successful
++actions and third failed return4 do not become a completed fixture baseline.
++All native bodies, ABI/proof pins, original helper/client behavior and fourteen
++target fstat controls are unchanged; no execution or acceptance is claimed.
+ 
+ **Fixed actual target fstat receipt correspondence (source-only).**
+ 
+--- a/protected-root/controls/source_registration.json
++++ b/protected-root/controls/source_registration.json
+@@ -145,20 +145,20 @@
+     "source-input-full-parent-image-descent"
+   ],
+   "fixed_excluded_source_owner": {
+-    "schema": "worldline.fixed-excluded-client-source-owner-operation-binding-v4",
++    "schema": "worldline.fixed-excluded-client-source-owner-operation-binding-v5",
+     "source_only": true,
+     "implemented_source": true,
+     "author_model": "openai-codex/gpt-6.1-sol:max",
+-    "author_provenance": "records/codex-resumption-20261007/excluded-client-source-owner-v4/AUTHOR-PROVENANCE.json",
+-    "interface": "records/codex-resumption-20261007/excluded-client-source-owner-v4/INTERFACE.json",
+-    "contract_pins": "records/codex-resumption-20261007/excluded-client-source-owner-v4/CONTRACT-PINS.json",
+-    "complete_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v4/source",
++    "author_provenance": "records/codex-resumption-20261007/excluded-client-source-owner-v5/AUTHOR-PROVENANCE.json",
++    "interface": "records/codex-resumption-20261007/excluded-client-source-owner-v5/INTERFACE.json",
++    "contract_pins": "records/codex-resumption-20261007/excluded-client-source-owner-v5/CONTRACT-PINS.json",
++    "complete_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v5/source",
+     "baseline": "records/codex-resumption-20261007/phase1-integrated-v67-draft/source",
+-    "superseded_unqualified_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v3/source",
+-    "reversible_delta": "records/codex-resumption-20261007/excluded-client-source-owner-v4/DELTA-MANIFEST.json",
+-    "verification_commands": "records/codex-resumption-20261007/excluded-client-source-owner-v4/MAIN-VERIFICATION.json",
+-    "technical_topology_proposal": "records/codex-resumption-20261007/excluded-client-source-owner-v4/TOPOLOGY-PROPOSAL.json",
+-    "coherent_packet_handoff": "records/codex-resumption-20261007/excluded-client-source-owner-v4/PACKET-HANDOFF.json",
++    "superseded_unqualified_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v4/source",
++    "reversible_delta": "records/codex-resumption-20261007/excluded-client-source-owner-v5/DELTA-MANIFEST.json",
++    "verification_commands": "records/codex-resumption-20261007/excluded-client-source-owner-v5/MAIN-VERIFICATION.json",
++    "technical_topology_proposal": "records/codex-resumption-20261007/excluded-client-source-owner-v5/TOPOLOGY-PROPOSAL.json",
++    "coherent_packet_handoff": "records/codex-resumption-20261007/excluded-client-source-owner-v5/PACKET-HANDOFF.json",
+     "affected_source_sha256": {
+       "core/worldline-c_api.adb": "a95ad85b33a076dd563e61166a08c24070c709d36870c71bbaa5c6cdaf5f83a0",
+       "core/worldline-c_api.ads": "ae108a0aa9d736a4eafc15d2c51d1121915aee75d773d964b20d7221cc8defdc",
+@@ -182,7 +182,7 @@
+       "runtime/worldline/protected_scoped_resource_runtime.py": "75febf6a1e9b8a5e01610bbbe788387f950c3ac03130c3a265b5b0dd53db1577",
+       "runtime/worldline/protected_startup.py": "68133f83b55f65675486d91b3b6892a3ee5b2d6f74f2352316de9762df2317ab",
+       "runtime/worldline/root_worker_plan.py": "7cfa2b66b726083390b0b5b1e55d835eaa914bac8392de7018bfacbce8a4b96a",
+-      "tests/excluded_source_owner_controls.py": "cc7ebe9513051d24a4abfbd0e592c5034113832290a0bac571126f2042370f20",
++      "tests/excluded_source_owner_controls.py": "8fbb2e09c7f3e7aae3ac33f39b90f9c26249d3f7abeb2c92e63febfefc4166c6",
+       "tests/test_custody_startup_native_v35.py": "4a90de3b11b147881d6346425484498a5474fddd293c027379f337a7543070cd"
+     },
+     "actual_operators_selected": false,
+@@ -211,7 +211,8 @@
+       "valid actual received descriptor and message/target carrier FD joins without narrowing generic signed32 or uint32 domains",
+       "successful creator fstat and actual at-call pidfd-open/dup source, target/writer close plus EBADF readback source correspondence",
+       "target fstat call/receipt FD/argument FD/success/full source joins actual held target descriptor and qualified at-call capture in BOTH acquisition and completion",
+-      "complete original generated root keys/nulls/file-directory-symlink snapshots/full pins and original collector candidate/retained-artifact lineage"
++      "complete original generated root keys/nulls/file-directory-symlink snapshots/full pins and original collector candidate/retained-artifact lineage",
++      "original supplied scope properties without synthetic PID defaults; exact terminal state, supplied PID string0, original Result, absent or readable empty owned group; all actual relevant producer/owner/actor/outer/collector-release guards retained"
+     ],
+     "original_control_rosters_retained": true,
+     "new_consumer_control": "tests/excluded_source_owner_controls.py requires actual owner+actor+campaign+outer/scope/collector/release custody via --main-input-custody, qualified matching library and full retained actor stdout/stderr; no mock, skip, Boolean-only approval or fabricated positive fixture. All original and added native counterexamples stream complete input_hex/transport/action records into Main framed raw stdout. Genuine generated-custody baseline plus substituted release-pin, omitted/partial root/file and mismatched full metadata/retained-pin counterexamples emit complete altered operands and refusal, not authentic producer receipts. Existing test_custody_startup_native_v35 original frontier control retains its full actual scoped native admission/EXECUTABLE and producer counterexamples.",
+@@ -223,6 +224,10 @@
+       "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-native-source-negative-independent-review.json"
+     ],
+     "unchanged_bounded_custody_review": "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-custody-setup-independent-review.json",
++    "unchanged_v4_native_and_custody_source_opinions": [
++      "records/codex-resumption-20261007/native-owner-join-v59/fixture-v4-complete-native-source-independent-review.json",
++      "records/codex-resumption-20261007/native-owner-join-v59/fixture-v4-complete-custody-setup-independent-review.json"
++    ],
+     "main_producer_prerequisite": {
+       "actual_input_selected": false,
+       "selector": null,
+@@ -236,7 +241,7 @@
+       "Authentic operator principal/topology/deadline/closure and actual original Main producer wrapper/retention input are unselected"
+     ],
+     "executed_verification": [],
+-    "independent_review": "REQUIRED_NEW_AFFECTED_TARGET_FSTAT_REVIEW_V3_UNCHANGED_BOUNDED_CUSTODY_OPINION_RETAINED_NOT_FULL_QUALIFICATION",
++    "independent_review": "REQUIRED_NARROW_V5_SCOPE_CONSUMER_REVIEW_V4_HASH_IDENTICAL_NATIVE_HELPER_FSTAT_CONTROLS_OPINIONS_RETAINED_NOT_PROOF_RUNTIME_QUALIFICATION",
+     "installation_authorized": false,
+     "actor_execution_authorized": false,
+     "phase_acceptance": false
+--- a/tests/excluded_source_owner_controls.py
++++ b/tests/excluded_source_owner_controls.py
+@@ -345,6 +345,116 @@
+     require(frame['phase'] == 'COMPLETE' and frame['error'] is None and frame['terminal']['wait'] == 0,
+             'actual successful actor terminal custody required')
+     return frame, raw, completed
++
++
++def scope_custody(scope):
++    # The original collector preserves only returned manager properties. A
++    # missing optional PID property stays absent; it is never normalized to 0.
++    require(type(scope) is dict and type(scope.get('returncode')) is int
++            and scope['returncode'] == 0, 'successful actual scope observation required')
++    props = scope.get('properties'); group = scope.get('cgroup')
++    require(type(props) is dict
++            and all(type(key) is str and type(value) is str for key, value in props.items()),
++            'original unnormalized scope property strings required')
++    require(props.get('LoadState') in ('loaded', 'not-found')
++            and props.get('ActiveState') in ('inactive', 'failed')
++            and props.get('SubState') in ('dead', 'failed'),
++            'actual owned scope must be terminal, not loading or unknown')
++    require(all(name not in props or props[name] == '0' for name in ('MainPID', 'ControlPID')),
++            'every actually supplied scope PID must be exactly string zero')
++    require(props.get('Result') == 'success'
++            or (props['LoadState'] == 'not-found' and props.get('Result') == ''),
++            'relevant failed/unknown scope result is not a successful producer baseline')
++    require(type(group) is dict and set(group) == {'path', 'exists', 'processes'}
++            and type(group['exists']) is bool
++            and (group['processes'] == [] or (group['processes'] is None and group['exists'] is False)),
++            'actual owned descendant group must be readable and empty or genuinely absent')
++    require(type(props.get('ControlGroup')) is str, 'actual original ControlGroup property required')
++    if props['ControlGroup']:
++        require(group['path'] == '/sys/fs/cgroup/' + props['ControlGroup'].lstrip('/'),
++                'exact owned kernel cgroup path correspondence required')
++    else:
++        require(group == {'path': None, 'exists': False, 'processes': None},
++                'absent original manager group shape required')
++
++
++def scope_custody_controls(custody):
++    # Called only AFTER full main_custody eligibility. These altered guard
++    # operands are controls, never new manager observations or producer receipts.
++    original = custody['actual_scope_observation']
++    source = {key: custody[key] for key in ('selection_sha256', 'producer_mode', 'terminal', 'release')}
++    positive = []; negative = []
++
++    def observed(name, scope):
++        scope_custody(scope)
++        print(json.dumps({'schema': 'worldline.scope-custody-guard-control-v5',
++                          'control': name, 'source': source, 'operand': scope,
++                          'guard_passed': True, 'authentic_producer_receipt': False},
++                         sort_keys=True), flush=True)
++        positive.append(name)
++
++    observed('genuine-complete-main-original-scope', original)
++    omitted = copy.deepcopy(original)
++    for name in ('MainPID', 'ControlPID'):
++        omitted['properties'].pop(name, None)
++    observed('scope-optional-pid-properties-omitted-without-defaults', omitted)
++
++    def refused(name, change):
++        altered = copy.deepcopy(omitted)
++        change(altered)
++        try:
++            scope_custody(altered)
++        except (ValueError, KeyError, TypeError) as error:
++            print(json.dumps({'schema': 'worldline.scope-custody-guard-control-v5',
++                              'control': name, 'source': source, 'operand': altered,
++                              'refusal': {'type': type(error).__name__, 'reason': str(error)},
++                              'authentic_producer_receipt': False}, sort_keys=True), flush=True)
++            negative.append(name)
++        else:
++            raise AssertionError((name, 'ineligible scope custody admitted'))
++
++    for name in ('MainPID', 'ControlPID'):
++        for label, value in (('nonzero', str(custody['owner_pid'])), ('empty', ''),
++                             ('padded-zero', '00'), ('negative', '-1'), ('nondecimal', 'unknown'),
++                             ('integer-zero', 0), ('float-zero', 0.0), ('null', None), ('boolean', False)):
++            refused('scope-' + name + '-' + label,
++                    lambda scope, name=name, value=value: scope['properties'].__setitem__(name, value))
++    for field, values in (
++            ('LoadState', ('loading', 'error', 'unknown')),
++            ('ActiveState', ('active', 'activating', 'deactivating')),
++            ('SubState', ('running', 'start', 'unknown')),
++            ('Result', ('unknown', 'exit-code', 'timeout'))):
++        for value in values:
++            refused('scope-' + field + '-' + value,
++                    lambda scope, field=field, value=value: scope['properties'].__setitem__(field, value))
++        refused('scope-' + field + '-missing',
++                lambda scope, field=field: scope['properties'].pop(field))
++        refused('scope-' + field + '-null',
++                lambda scope, field=field: scope['properties'].__setitem__(field, None))
++    def loaded_blank_result(scope):
++        scope['properties']['LoadState'] = 'loaded'
++        scope['properties']['Result'] = ''
++    refused('scope-loaded-blank-result', loaded_blank_result)
++    refused('scope-ControlGroup-missing', lambda scope: scope['properties'].pop('ControlGroup'))
++    refused('scope-ControlGroup-null', lambda scope: scope['properties'].__setitem__('ControlGroup', None))
++    refused('scope-observation-nonzero', lambda scope: scope.__setitem__('returncode', 1))
++    refused('scope-observation-null', lambda scope: scope.__setitem__('returncode', None))
++    refused('scope-observation-boolean-zero', lambda scope: scope.__setitem__('returncode', False))
++    refused('scope-properties-null', lambda scope: scope.__setitem__('properties', None))
++    refused('scope-cgroup-null', lambda scope: scope.__setitem__('cgroup', None))
++    refused('scope-cgroup-processes-missing', lambda scope: scope['cgroup'].pop('processes'))
++    refused('scope-cgroup-exists-not-boolean', lambda scope: scope['cgroup'].__setitem__('exists', 0))
++    refused('scope-cgroup-path-substituted-with-real-terminal-path',
++            lambda scope: scope['cgroup'].__setitem__('path', custody['terminal']['path']))
++    refused('scope-cgroup-nonempty',
++            lambda scope: scope['cgroup'].__setitem__('processes', [str(custody['actor_pid'])]))
++    def unreadable(scope):
++        scope['cgroup']['exists'] = True
++        scope['cgroup']['processes'] = None
++    refused('scope-cgroup-existing-but-unreadable', unreadable)
++    return {'source': source, 'positive_guard_boundaries': positive,
++            'negative_refused': negative, 'artifact_writes': False,
++            'new_manager_observation_or_producer_receipt': False}
+ 
+ 
+ def main_custody(selection_path, frame, capture, library, stdout, stderr):
+@@ -415,19 +525,8 @@
+     # Never require all_required_actual_pass or success of unrelated batch modes.
+     scopes = [row for row in terminal['owned_scope_terminal_observations'] if row['unit'] == action['scope_unit']]
+     require(len(scopes) == 1, 'exact relevant original owned scope observation required')
+-    scope = scopes[0]; props = scope['properties']; group = scope['cgroup']
+-    require(scope['returncode'] == 0 and props['ActiveState'] in ('inactive', 'failed')
+-            and props['MainPID'] == '0' and props['ControlPID'] == '0'
+-            and (group['processes'] == [] or (group['processes'] is None and group['exists'] is False)),
+-            'actual owned descendant group must be empty, not inferred from owner exit')
+-    require(props['Result'] == 'success' or (props['LoadState'] == 'not-found' and props['Result'] == ''),
+-            'relevant failed/unknown scope result is not a successful producer baseline')
+-    if props['ControlGroup']:
+-        require(group['path'] == '/sys/fs/cgroup/' + props['ControlGroup'].lstrip('/'),
+-                'exact owned kernel cgroup path correspondence required')
+-    else:
+-        require(group == {'path': None, 'exists': False, 'processes': None},
+-                'absent original manager group shape required')
++    scope = scopes[0]
++    scope_custody(scope)
+     children = [row for row in terminal['known_child_exit_evidence_and_current_pid_absence']
+                 if row['pid'] == child['pid']]
+     require(len(children) == 1 and children[0]['original_exit_evidence'] == child
+@@ -513,6 +612,7 @@
+             'producer_mode': selected['producer_mode'], 'terminal': selected['terminal'],
+             'release': selected['release'], 'owner_pid': frame['owner']['pid'], 'actor_pid': frame['child_pid'],
+             'complete_raw_artifact_pins': selected,
++            'actual_scope_observation': scope,
+             'no_all_required_actual_pass_shortcut': True, 'phase_acceptance': False}
+ 
+ 
+@@ -521,6 +621,7 @@
+     baseline, raw, completed = completed_input(records)
+     custody = main_custody(main_input_custody, baseline, capture, library, stdout, stderr)
+     generated_controls = generated_custody_controls(main_input_custody)
++    scope_controls = scope_custody_controls(custody)
+     public = public_output(baseline, stdout.read_bytes(), stderr.read_bytes())
+     selected = ctypes.CDLL(str(library.resolve(strict=True)), use_errno=True)
+     native = selected.wl_excluded_source_owner_decide_v1
+@@ -770,6 +871,7 @@
+             'positive': {'action': 3, 'input_sha256': digest}, 'negative': negative,
+             'actual_main_input_custody': custody,
+             'actual_generated_custody_controls': generated_controls,
++            'actual_scope_custody_controls': scope_controls,
+             'partial_owner_custody_refused': custody_negative,
+             'actual_owner_completion_and_cleanup': completed['cleanup'],
+             'public_original_client': public,

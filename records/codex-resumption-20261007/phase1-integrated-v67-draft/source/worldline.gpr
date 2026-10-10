@@ -1,0 +1,4 @@
+aggregate project Worldline is
+   for Project_Files use
+     ("core/worldline_core.gpr", "tests/worldline_tests.gpr");
+end Worldline;

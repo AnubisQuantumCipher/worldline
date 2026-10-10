@@ -1,0 +1,33 @@
+with "../core/worldline_core.gpr";
+
+project Worldline_Tests is
+
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/tests";
+   for Exec_Dir use "../bin";
+   for Main use ("worldline_core_tests.adb", "worldline_core_fuzz.adb");
+
+   type Build_Kind is ("checks", "release");
+   Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");
+
+   Common := ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g");
+
+   package Compiler is
+      case Build is
+         when "checks" =>
+            for Default_Switches ("Ada") use Common & ("-gnata");
+         when "release" =>
+            for Default_Switches ("Ada") use Common;
+      end case;
+   end Compiler;
+
+   package Builder is
+      for Switches ("Ada") use ("-j0");
+   end Builder;
+
+   package Linker is
+      for Default_Switches ("Ada") use
+        ("-Wl,-rpath,$ORIGIN/../lib");
+   end Linker;
+
+end Worldline_Tests;

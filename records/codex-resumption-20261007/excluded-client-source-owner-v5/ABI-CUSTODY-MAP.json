@@ -1,0 +1,4723 @@
+{
+  "affected_callsites": {
+    "C_ABI": "Unchanged wl_excluded_source_owner_decide_v1 owned synchronous boundary and all original full domain/caller contracts.",
+    "acquisition_caller": "Acquisition_Reference calls shared Target_Reference at1297-1300",
+    "actual_owner": {
+      "artifact": {
+        "bytes": 44791,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/excluded_source_owner.py",
+        "sha256": "58f08e393a37d326605f7cd8b057f547c503d315437c3ff831891f1c0a58b1b3"
+      },
+      "changed": false
+    },
+    "actual_producer": {
+      "artifact": {
+        "bytes": 10688,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/custody_subject_capture.py",
+        "sha256": "40db045a582a685ce54e5e3b18b75437ae8a879bccbc4f4bb0a6e02306be01a1"
+      },
+      "changed": false,
+      "lines": "66-79"
+    },
+    "completion_caller": "Completion_Reference calls shared Target_Reference at1328-1331",
+    "consumer": {
+      "artifact": {
+        "bytes": 59166,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/tests/excluded_source_owner_controls.py",
+        "sha256": "8fbb2e09c7f3e7aae3ac33f39b90f9c26249d3f7abeb2c92e63febfefc4166c6"
+      },
+      "control_contract": {
+        "baseline": "The actual complete owner+actor+Main input must first return native Completed/action3 through the original consumer.",
+        "controls": [
+          "target-fstat-call-missing",
+          "target-fstat-call-not-fstat",
+          "target-fstat-fd-missing",
+          "target-fstat-negative-fd-with-unchanged-identity",
+          "target-fstat-not-held-target-fd",
+          "target-fstat-args-missing",
+          "target-fstat-args-fd-missing",
+          "target-fstat-args-negative-fd-with-unchanged-identity",
+          "target-fstat-args-not-held-target-fd",
+          "target-fstat-source-field-missing",
+          "target-fstat-source-null",
+          "target-fstat-source-not-at-call-qualified-owner",
+          "target-fstat-failed-with-unchanged-identity",
+          "target-fstat-errno-mismatch-with-unchanged-identity"
+        ],
+        "distinct_source_witness": "Use only an actually captured distinct owner_source, owner_final_source, creator capture source or pidfd_open source already qualified by the successful baseline. No invented qualified alternative and no silent skip; if all are byte-identical the selected control input lacks that authentic witness and the consumer refuses to claim a completed control suite.",
+        "executed": false,
+        "expected_result": {
+          "action": 0,
+          "transport": 0
+        },
+        "fd_substitution_witness": "Use the genuine still-held owner acquisition carrier FD, a different live descriptor from the transferred target; never invent a peer or FD.",
+        "mutation_scope": "Each independent counterexample mutates only target.capture.fstat; its identity and all other genuine valid facts remain unchanged.",
+        "output": "Existing per-call complete owned archive input_hex/bytes/SHA/transport/action streamed immediately to original Main framed raw stdout. Existing v3 control wire schema and native ABI v1 remain unchanged."
+      }
+    },
+    "native_predicate": {
+      "artifact": {
+        "bytes": 97115,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-excluded_source_owner.adb",
+        "sha256": "ed2fb42d9bb8b0cb62ebc0fbcb10919981cdc4a329d38190c0465bd198a159e6"
+      },
+      "lines": "590-678;626-632"
+    },
+    "proof_enrollment": {
+      "artifact": {
+        "bytes": 243074,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/proof_manifest.py",
+        "sha256": "b5f474022475f83fd6d1abb1d00983e8091a06d8a7819098b97fff520a1f0dc0"
+      },
+      "command": [
+        "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+        "-P",
+        "core/worldline_core_sources.gpr",
+        "-U",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "-j2"
+      ],
+      "required": "Worldline.Excluded_Source_Owner.Target_Reference"
+    }
+  },
+  "caller_cutover": {
+    "native_header_project_export_proof": "C header/new symbol/Ada export project closure and every new full native helper requirement/normalized pin, unchanged original 535 prefix/floor251/1550 original required scope; no proof credit",
+    "original_campaign_exporter": "Actual owner birth/argv/wait/retained archive/stdio/final close and all partial ownership evidence; fresh original export inventory includes all actor/owner artifacts; no Main outer receipt invented",
+    "protected_root_worker": "Actual Python entry ENTRY, approved loader HELPER, native coordinator EXECUTABLE, early envelope/handoff genesis DATA, original source/executable dependencies preserved; no aliases/skips",
+    "protected_startup_and_scoped": "Exact original ordinary9/scoped10, qualified selected producer DATA/full inventory/native correspondence and actual v3 helper/first original attach; obsolete scoped override removed, no ordinary or creator case lost",
+    "root_worker_plan": "Genuine EXECUTABLE qualification, existing data/source and whole domain contracts remain",
+    "source_registration": "Effective V5 current source/consumer metadata binding; native runtime/helper/kernel/C ABI/proof sources unchanged from V4."
+  },
+  "fact_to_native_policy": {
+    "actor_own_initial_hook_module_interpreter_executed_code_and_final_checks": "Bootstrap_Corresponds, Acquisition_Reference, Prefix_Events, Completion_Reference; source events are actual clean-exec child events, not parent labels",
+    "actual_terminal_pidfd_waitid_reap_and_whole_stream": "Pidfd_OFD_Reference/Terminal_Reference/Dead_Pidfd_Info/Watch_Reference/Stream_Reference/Completion_Reference consume full raw live-before-reap and post-reap identities, actual WNOWAIT/reap, full raw watcher/read/pread/fsync/EOF bytes/receipts",
+    "complete_original_generated_custody": "Exact original collector owned-generated-output-inventory.json and source_manifest/proposal candidate lineage; all original15 source +3 private roots, missing None, file/directory/symlink root/member shapes, sorted complete snapshots, integer modes/lengths/full hashes and actual retained generated file pin/keyset; real file-symlink targets follow original collector retention, directory symlinks are not traversed.",
+    "creator_channel_and_post_drop_messages": "Creator_Reference actual SO_PEERCRED creator raw, Receive_Reference SCM raw dropped sender/truncation/rights/sealed message source; creator is never post-drop identity",
+    "creator_open_close_source_at_actual_call": "Creator fstat call/fd/args/result0/errno0/source match the held root socket. pidfd_open/dup source is acquired at the actual call and errors retained. Close_Reference receives Frame/expected Source; target and BOTH writer close plus EBADF readback must match that source and original installation/full envelope/readbacks.",
+    "kernel_PID_start_raw_birth_namespaces_resuids_resgids_fsids_groups_caps": "Process_Reference/Owner_Reference/Acquisition_Reference/Status_Columns/Group_Multiset/Capabilities_Dropped plus real pidfd creation/duplicate/OFD and actual PPID",
+    "native_loaded_full_source_identity": "Mapped_Reference/Map_Line/File_Identity_Corresponds with real full named/mapfile/raw bytes and nine identity fields/raw maps tokens/symbol; fresh pre/post source checks",
+    "original_invocation_raw_argv_entry_request_timeout_deadline": "Invocation_Reference, Launch_Reference, Projection_Corresponds; original raw request DATA and complete ordered one-line request bytes preserved",
+    "original_scope_omitted_property_custody": "scope_custody consumes only actual unnormalized original scope properties. Missing MainPID/ControlPID remains missing; each supplied value must be exactly the string0. Actual observation returncode is integer0; LoadState loaded/not-found, ActiveState inactive/failed, SubState dead/failed. Original Resultsuccess or not-found/empty Result exception is preserved. Exact ControlGroup/kernel path and typed absent or readable empty group required. Artifact-consumer correspondence only; Python does not become a competing native privilege policy.",
+    "owner_private_source_and_final_checks": "Owner_Reference, Receipt_Source, Startup_Source_Custody.Corresponds/Readbacks_Correspond, Completion_Reference; original Root run_entry finally/check genuinely precedes owner completion",
+    "post_drop_target_peer_original_endpoint_native_rights_and_close": "Target_Reference real post-drop descriptor/socket source/kernel credentials/path/OFD kcmp and actual root duplicate close/EBADF before reply; Root never creates/connects target",
+    "projection_actual_held_readback_kind_size_seals_source": "Projection_Reference for initial/current/actor captures plus Projection_Corresponds full original selected content/role and private DATA exclusion",
+    "root_owner_postnative_final_cleanup_and_Main_outer": "completed_input and main_custody consume later genuine OWNER_ACTOR_COMPLETED plus exact native/post-source/mapping/cleanup, original owner final close footer/wait0, original campaign/selected Main action and complete original outer/scope/empty group/collector/release/raw inventories. Python validates artifact correspondence for this consumer, never competes with native runtime privilege decision.",
+    "root_private_known_DATA_topology_and_heap": "Private_Source_Reference/Private_Topology_Reference plus Memory_Reference real prctl receipts; original O_PATH common-ancestor bypass is accounted for; complete all-original OS layout exclusion remains OPEN-PRIVACY",
+    "target_fstat_at_actual_call": "Target_Reference binds target.capture.fstat.call=fstat, fd and args.fd to the actual received target descriptor, result0/errno0 and full fstat.source to the qualified at-call Capture.source. Existing identity, actual FD validity, SCM sender/carrier, endpoint, post-drop actor, OFD and close joins stay mandatory. The same predicate is consumed by acquisition and completion. No producer or ABI schema changes are needed: the real socket_capture already records these fields.",
+    "valid_received_descriptor_and_actual_carrier_fd": "Receive_Reference requires actual Descriptor_Reference/FD_Number and exact recvmsg.fd = owner_channel_capture.fd for BOTH sealed message and actual target; generic signed32 and uint32 domains unchanged."
+  },
+  "native_C_ABI": {
+    "Ada_entry": "Worldline.C_API.Excluded_Source_Owner_Decide_V1",
+    "actions": {
+      "0": "Refused",
+      "1": "Bootstrap_Acquired",
+      "2": "Actor_Acquired",
+      "3": "Completed"
+    },
+    "input_ownership": "Original Startup_Fits/U64 guard/alignment/disjoint extents; one owned input copy for synchronous call. No retained borrowed foreign pointer/lifetime. Python full buffer and status remain alive through call; exception/transport errors refuse.",
+    "native_policy": "Worldline.Excluded_Source_Owner.Decide",
+    "original_Off_boundary": "Only unchanged historical worldline-c_api unanalysed/off-body boundary; no new Off/Assume/no-cap/suppression/fallback. Genuine original ABI/alias/lifetime audit and full strict remain OPEN.",
+    "signature": "int (const unsigned char *Input, size_t Length, uint64_t *Status)",
+    "symbol": "wl_excluded_source_owner_decide_v1"
+  },
+  "operator_and_Main_prerequisites": "records/codex-resumption-20261007/excluded-client-source-owner-v5/PREREQUISITES.json",
+  "phase_acceptance": false,
+  "schema": "worldline.fixed-source-owner-source-native-custody-map-v5",
+  "scope_consumer": {
+    "artifact": {
+      "bytes": 59166,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/tests/excluded_source_owner_controls.py",
+      "sha256": "8fbb2e09c7f3e7aae3ac33f39b90f9c26249d3f7abeb2c92e63febfefc4166c6"
+    },
+    "genuine_callers": [
+      "main_custody",
+      "scope_custody_controls after full main_custody"
+    ],
+    "native_policy_and_ABI_changed": false,
+    "scope_contract": {
+      "bytes": 5022,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/SCOPE-CORRESPONDENCE.json",
+      "sha256": "5e7747877d921a555b76b84ba0d0bb7f1cff03e6ce03fc988585bc4470780e39"
+    },
+    "shared_function": "scope_custody"
+  },
+  "source_only": true,
+  "source_references": [
+    {
+      "artifact": {
+        "bytes": 172095,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/CHANGELOG.md",
+        "sha256": "7f2c30589403e0fa959379e11a1645359d013db59bb042f00539399a6cf9778a"
+      },
+      "definitions": []
+    },
+    {
+      "artifact": {
+        "bytes": 484763,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-c_api.adb",
+        "sha256": "a95ad85b33a076dd563e61166a08c24070c709d36870c71bbaa5c6cdaf5f83a0"
+      },
+      "definitions": [
+        {
+          "declaration_line": 99,
+          "symbol": "Native_Enter"
+        },
+        {
+          "declaration_line": 101,
+          "symbol": "Native_Leave"
+        },
+        {
+          "declaration_line": 103,
+          "symbol": "Native_Depth"
+        },
+        {
+          "declaration_line": 105,
+          "symbol": "Native_Errors"
+        },
+        {
+          "declaration_line": 107,
+          "symbol": "Native_Reset_Errors"
+        },
+        {
+          "declaration_line": 109,
+          "symbol": "Native_Emit"
+        },
+        {
+          "declaration_line": 112,
+          "symbol": "Observe_Transaction_Boundary"
+        },
+        {
+          "declaration_line": 133,
+          "symbol": "Flush_Native_Diagnostic_Trace"
+        },
+        {
+          "declaration_line": 183,
+          "symbol": "Capture_Native_Exception"
+        },
+        {
+          "declaration_line": 194,
+          "symbol": "Emit_Native_Diagnostic"
+        },
+        {
+          "declaration_line": 204,
+          "symbol": "Flush_Native_Diagnostic_Trace"
+        },
+        {
+          "declaration_line": 246,
+          "symbol": "Diagnostic_Control"
+        },
+        {
+          "declaration_line": 330,
+          "symbol": "Observe_Foreign_Array"
+        },
+        {
+          "declaration_line": 334,
+          "symbol": "Observe_Foreign_Array"
+        },
+        {
+          "declaration_line": 338,
+          "symbol": "Map"
+        },
+        {
+          "declaration_line": 366,
+          "symbol": "Disjoint"
+        },
+        {
+          "declaration_line": 377,
+          "symbol": "Observe_Resource_Bytes"
+        },
+        {
+          "declaration_line": 381,
+          "symbol": "Observe_Resources_Bytes"
+        },
+        {
+          "declaration_line": 385,
+          "symbol": "Observe_Recovery_Bytes"
+        },
+        {
+          "declaration_line": 390,
+          "symbol": "Observe_Native_History"
+        },
+        {
+          "declaration_line": 393,
+          "symbol": "Observe_Native_Projection"
+        },
+        {
+          "declaration_line": 396,
+          "symbol": "Observe_Native_Buckets"
+        },
+        {
+          "declaration_line": 399,
+          "symbol": "Observe_Native_Facts"
+        },
+        {
+          "declaration_line": 402,
+          "symbol": "Observe_Native_Rows"
+        },
+        {
+          "declaration_line": 405,
+          "symbol": "Observe_Native_Observed"
+        },
+        {
+          "declaration_line": 408,
+          "symbol": "Observe_Native_Capabilities"
+        },
+        {
+          "declaration_line": 411,
+          "symbol": "Observe_Native_Groups"
+        },
+        {
+          "declaration_line": 414,
+          "symbol": "Observe_Native_Grants"
+        },
+        {
+          "declaration_line": 417,
+          "symbol": "Observe_Native_Uses"
+        },
+        {
+          "declaration_line": 420,
+          "symbol": "Observe_Native_Chain"
+        },
+        {
+          "declaration_line": 423,
+          "symbol": "Observe_Native_Tasks"
+        },
+        {
+          "declaration_line": 426,
+          "symbol": "Observe_Native_Processes"
+        },
+        {
+          "declaration_line": 429,
+          "symbol": "Observe_Native_Namespaces"
+        },
+        {
+          "declaration_line": 444,
+          "symbol": "Get_Byte"
+        },
+        {
+          "declaration_line": 454,
+          "symbol": "Put_Byte"
+        },
+        {
+          "declaration_line": 464,
+          "symbol": "Read_Hash"
+        },
+        {
+          "declaration_line": 476,
+          "symbol": "Write_Hash"
+        },
+        {
+          "declaration_line": 486,
+          "symbol": "Hash_File"
+        },
+        {
+          "declaration_line": 569,
+          "symbol": "Hash_Bytes"
+        },
+        {
+          "declaration_line": 622,
+          "symbol": "World_ID"
+        },
+        {
+          "declaration_line": 665,
+          "symbol": "Causal_Link"
+        },
+        {
+          "declaration_line": 694,
+          "symbol": "Receipt_Link"
+        },
+        {
+          "declaration_line": 723,
+          "symbol": "Transition_Allowed"
+        },
+        {
+          "declaration_line": 750,
+          "symbol": "Transaction_Transition_Allowed"
+        },
+        {
+          "declaration_line": 778,
+          "symbol": "Collapse_Decide"
+        },
+        {
+          "declaration_line": 798,
+          "symbol": "Evaluation_Classify"
+        },
+        {
+          "declaration_line": 864,
+          "symbol": "Evaluation_Admissible"
+        },
+        {
+          "declaration_line": 927,
+          "symbol": "Evaluation_Transition_Allowed"
+        },
+        {
+          "declaration_line": 952,
+          "symbol": "Evaluation_Advance"
+        },
+        {
+          "declaration_line": 985,
+          "symbol": "Evaluation_Roster_Complete"
+        },
+        {
+          "declaration_line": 1029,
+          "symbol": "ABI_Generation"
+        },
+        {
+          "declaration_line": 1041,
+          "symbol": "Layout_Size"
+        },
+        {
+          "declaration_line": 1063,
+          "symbol": "Layout_Offset"
+        },
+        {
+          "declaration_line": 1198,
+          "symbol": "Completion_Flush_Diagnostics"
+        },
+        {
+          "declaration_line": 1204,
+          "symbol": "Completion_Bytes_View"
+        },
+        {
+          "declaration_line": 1208,
+          "symbol": "Completion_Journal_View"
+        },
+        {
+          "declaration_line": 1212,
+          "symbol": "Completion_Check_View"
+        },
+        {
+          "declaration_line": 1216,
+          "symbol": "Completion_History_View"
+        },
+        {
+          "declaration_line": 1220,
+          "symbol": "Completion_Required_View"
+        },
+        {
+          "declaration_line": 1224,
+          "symbol": "Completion_Raw_Rows_View"
+        },
+        {
+          "declaration_line": 1228,
+          "symbol": "Completion_Context_Rows_View"
+        },
+        {
+          "declaration_line": 1232,
+          "symbol": "Completion_Metadata_Rows_View"
+        },
+        {
+          "declaration_line": 1236,
+          "symbol": "Completion_Request_View"
+        },
+        {
+          "declaration_line": 1240,
+          "symbol": "Completion_Raw_View"
+        },
+        {
+          "declaration_line": 1244,
+          "symbol": "Completion_Context_View"
+        },
+        {
+          "declaration_line": 1247,
+          "symbol": "Completion_Metadata_View"
+        },
+        {
+          "declaration_line": 1251,
+          "symbol": "Completion_Metadata_Base"
+        },
+        {
+          "declaration_line": 1252,
+          "symbol": "Completion_Evidence_View"
+        },
+        {
+          "declaration_line": 1255,
+          "symbol": "Completion_Bytes_View"
+        },
+        {
+          "declaration_line": 1259,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1269,
+          "symbol": "Completion_Journal_View"
+        },
+        {
+          "declaration_line": 1273,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1283,
+          "symbol": "Completion_Check_View"
+        },
+        {
+          "declaration_line": 1287,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1297,
+          "symbol": "Completion_History_View"
+        },
+        {
+          "declaration_line": 1301,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1311,
+          "symbol": "Completion_Required_View"
+        },
+        {
+          "declaration_line": 1315,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1325,
+          "symbol": "Completion_Raw_Rows_View"
+        },
+        {
+          "declaration_line": 1329,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1339,
+          "symbol": "Completion_Context_Rows_View"
+        },
+        {
+          "declaration_line": 1343,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1353,
+          "symbol": "Completion_Metadata_Rows_View"
+        },
+        {
+          "declaration_line": 1357,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1367,
+          "symbol": "Completion_Request_View"
+        },
+        {
+          "declaration_line": 1393,
+          "symbol": "Completion_Raw_View"
+        },
+        {
+          "declaration_line": 1402,
+          "symbol": "Completion_Context_View"
+        },
+        {
+          "declaration_line": 1419,
+          "symbol": "Completion_Metadata_View"
+        },
+        {
+          "declaration_line": 1439,
+          "symbol": "Completion_Metadata_Base"
+        },
+        {
+          "declaration_line": 1451,
+          "symbol": "Completion_Evidence_View"
+        },
+        {
+          "declaration_line": 1467,
+          "symbol": "Completion_ABI_Version"
+        },
+        {
+          "declaration_line": 1478,
+          "symbol": "Completion_Layout_Size"
+        },
+        {
+          "declaration_line": 1489,
+          "symbol": "Completion_Layout_Alignment"
+        },
+        {
+          "declaration_line": 1500,
+          "symbol": "Completion_Layout_Offset"
+        },
+        {
+          "declaration_line": 1511,
+          "symbol": "Completion_Context_Layout"
+        },
+        {
+          "declaration_line": 1522,
+          "symbol": "Completion_Metadata_Layout"
+        },
+        {
+          "declaration_line": 1533,
+          "symbol": "Completion_Decide"
+        },
+        {
+          "declaration_line": 1541,
+          "symbol": "Separated"
+        },
+        {
+          "declaration_line": 1579,
+          "symbol": "Completion_Raw_Decide"
+        },
+        {
+          "declaration_line": 1587,
+          "symbol": "Separated"
+        },
+        {
+          "declaration_line": 1627,
+          "symbol": "Completion_Metadata_Matches"
+        },
+        {
+          "declaration_line": 1653,
+          "symbol": "Finalization_Flush"
+        },
+        {
+          "declaration_line": 1659,
+          "symbol": "Finalization_Mixed_Return"
+        },
+        {
+          "declaration_line": 1672,
+          "symbol": "Finalization_Rows_View"
+        },
+        {
+          "declaration_line": 1678,
+          "symbol": "Observe"
+        },
+        {
+          "declaration_line": 1687,
+          "symbol": "Finalization_Request_View"
+        },
+        {
+          "declaration_line": 1712,
+          "symbol": "Finalization_Version"
+        },
+        {
+          "declaration_line": 1723,
+          "symbol": "Finalization_Layout"
+        },
+        {
+          "declaration_line": 1735,
+          "symbol": "Finalization_Decide"
+        },
+        {
+          "declaration_line": 1760,
+          "symbol": "Finalization_Decide_Mixed"
+        },
+        {
+          "declaration_line": 1793,
+          "symbol": "Map_Checkpoint"
+        },
+        {
+          "declaration_line": 1811,
+          "symbol": "Map_Metadata"
+        },
+        {
+          "declaration_line": 1892,
+          "symbol": "Owned_recovery_authorization"
+        },
+        {
+          "declaration_line": 1929,
+          "symbol": "Owned_recovery_authorization_v3"
+        },
+        {
+          "declaration_line": 1970,
+          "symbol": "Owned_recovery_protocol"
+        },
+        {
+          "declaration_line": 2007,
+          "symbol": "Owned_Chain_Replay"
+        },
+        {
+          "declaration_line": 2029,
+          "symbol": "Observe_Rows"
+        },
+        {
+          "declaration_line": 2049,
+          "symbol": "Owned_Recovery_Select"
+        },
+        {
+          "declaration_line": 2092,
+          "symbol": "Owned_History_Select"
+        },
+        {
+          "declaration_line": 2114,
+          "symbol": "Observe_Rows"
+        },
+        {
+          "declaration_line": 2139,
+          "symbol": "Startup_Fits"
+        },
+        {
+          "declaration_line": 2147,
+          "symbol": "Startup_U64_Fits"
+        },
+        {
+          "declaration_line": 2150,
+          "symbol": "Startup_Disjoint"
+        },
+        {
+          "declaration_line": 2158,
+          "symbol": "Excluded_Source_Owner_Decide_V1"
+        },
+        {
+          "declaration_line": 2193,
+          "symbol": "Startup_Admission_Decide_V1"
+        },
+        {
+          "declaration_line": 2232,
+          "symbol": "Startup_Owner_Admission_Decide_V1"
+        },
+        {
+          "declaration_line": 2271,
+          "symbol": "Startup_Admission_Transition_V1"
+        },
+        {
+          "declaration_line": 2316,
+          "symbol": "Startup_Owner_Admission_Transition_V1"
+        },
+        {
+          "declaration_line": 2369,
+          "symbol": "Valid"
+        },
+        {
+          "declaration_line": 2375,
+          "symbol": "ABI_Version"
+        },
+        {
+          "declaration_line": 2386,
+          "symbol": "Can_Reserve"
+        },
+        {
+          "declaration_line": 2452,
+          "symbol": "Extent_Valid"
+        },
+        {
+          "declaration_line": 2462,
+          "symbol": "Write_Result"
+        },
+        {
+          "declaration_line": 2472,
+          "symbol": "ABI_Version"
+        },
+        {
+          "declaration_line": 2483,
+          "symbol": "Layout_Size"
+        },
+        {
+          "declaration_line": 2494,
+          "symbol": "Layout_Offset"
+        },
+        {
+          "declaration_line": 2505,
+          "symbol": "Admit"
+        },
+        {
+          "declaration_line": 2533,
+          "symbol": "Observe_Disks"
+        },
+        {
+          "declaration_line": 2574,
+          "symbol": "Extent_Valid"
+        },
+        {
+          "declaration_line": 2584,
+          "symbol": "Write_Byte"
+        },
+        {
+          "declaration_line": 2594,
+          "symbol": "Write_Quantity"
+        },
+        {
+          "declaration_line": 2604,
+          "symbol": "Write_Result"
+        },
+        {
+          "declaration_line": 2614,
+          "symbol": "Write_Data"
+        },
+        {
+          "declaration_line": 2623,
+          "symbol": "Encode"
+        },
+        {
+          "declaration_line": 2624,
+          "symbol": "Overlaps"
+        },
+        {
+          "declaration_line": 2630,
+          "symbol": "ABI_Version"
+        },
+        {
+          "declaration_line": 2641,
+          "symbol": "Layout_Size"
+        },
+        {
+          "declaration_line": 2652,
+          "symbol": "Layout_Offset"
+        },
+        {
+          "declaration_line": 2663,
+          "symbol": "Compute"
+        },
+        {
+          "declaration_line": 2715,
+          "symbol": "Observe_Rows"
+        },
+        {
+          "declaration_line": 2747,
+          "symbol": "Headroom"
+        },
+        {
+          "declaration_line": 2820,
+          "symbol": "Shape"
+        },
+        {
+          "declaration_line": 2824,
+          "symbol": "Array_Shape"
+        },
+        {
+          "declaration_line": 2830,
+          "symbol": "Write_Result"
+        },
+        {
+          "declaration_line": 2840,
+          "symbol": "Version"
+        },
+        {
+          "declaration_line": 2851,
+          "symbol": "Layout"
+        },
+        {
+          "declaration_line": 2862,
+          "symbol": "Check"
+        },
+        {
+          "declaration_line": 2897,
+          "symbol": "Observe_Rows"
+        },
+        {
+          "declaration_line": 2900,
+          "symbol": "Observe_Native"
+        },
+        {
+          "declaration_line": 2934,
+          "symbol": "Extent_Valid"
+        },
+        {
+          "declaration_line": 2944,
+          "symbol": "Write_Byte"
+        },
+        {
+          "declaration_line": 2955,
+          "symbol": "Overlaps"
+        },
+        {
+          "declaration_line": 2961,
+          "symbol": "ABI_Version"
+        },
+        {
+          "declaration_line": 2972,
+          "symbol": "Layout_Size"
+        },
+        {
+          "declaration_line": 2983,
+          "symbol": "Layout_Offset"
+        },
+        {
+          "declaration_line": 2994,
+          "symbol": "Plan"
+        },
+        {
+          "declaration_line": 3029,
+          "symbol": "Observe_Rows"
+        },
+        {
+          "declaration_line": 3055,
+          "symbol": "Pending_Decide_V1"
+        },
+        {
+          "declaration_line": 3071,
+          "symbol": "Observe_Rows"
+        },
+        {
+          "declaration_line": 3105,
+          "symbol": "Pending_Decide_V2"
+        },
+        {
+          "declaration_line": 3121,
+          "symbol": "Observe_Rows"
+        },
+        {
+          "declaration_line": 3166,
+          "symbol": "Fits"
+        },
+        {
+          "declaration_line": 3173,
+          "symbol": "Version"
+        },
+        {
+          "declaration_line": 3184,
+          "symbol": "Layout"
+        },
+        {
+          "declaration_line": 3214,
+          "symbol": "Classify"
+        },
+        {
+          "declaration_line": 3233,
+          "symbol": "Admit"
+        },
+        {
+          "declaration_line": 3247,
+          "symbol": "Report"
+        },
+        {
+          "declaration_line": 3261,
+          "symbol": "Dependencies"
+        },
+        {
+          "declaration_line": 3282,
+          "symbol": "Decide_Raw_Context"
+        },
+        {
+          "declaration_line": 3298,
+          "symbol": "Retained"
+        },
+        {
+          "declaration_line": 3360,
+          "symbol": "Decide_Raw"
+        },
+        {
+          "declaration_line": 3376,
+          "symbol": "Decide_Raw_Metadata"
+        },
+        {
+          "declaration_line": 3439,
+          "symbol": "Owner_ABI_Version"
+        },
+        {
+          "declaration_line": 3450,
+          "symbol": "Owner_Layout"
+        },
+        {
+          "declaration_line": 3539,
+          "symbol": "Owner_Extent"
+        },
+        {
+          "declaration_line": 3549,
+          "symbol": "Owner_Authorize"
+        },
+        {
+          "declaration_line": 3611,
+          "symbol": "Owner_Audit_ABI"
+        },
+        {
+          "declaration_line": 3622,
+          "symbol": "Owner_Audit_Layout"
+        },
+        {
+          "declaration_line": 3658,
+          "symbol": "Owner_Audit_Decide"
+        },
+        {
+          "declaration_line": 3775,
+          "symbol": "Retained_Chain_Version"
+        },
+        {
+          "declaration_line": 3786,
+          "symbol": "Retained_Chain_Layout"
+        },
+        {
+          "declaration_line": 3820,
+          "symbol": "Retained_Chain_Verify"
+        },
+        {
+          "declaration_line": 3859,
+          "symbol": "Take"
+        },
+        {
+          "declaration_line": 3945,
+          "symbol": "Prepared_Step_Version"
+        },
+        {
+          "declaration_line": 3956,
+          "symbol": "Prepared_Step_Layout"
+        },
+        {
+          "declaration_line": 4233,
+          "symbol": "Prepared_Quantity_Valid"
+        },
+        {
+          "declaration_line": 4237,
+          "symbol": "Prepared_Root_Valid"
+        },
+        {
+          "declaration_line": 4250,
+          "symbol": "Prepared_Decode_Root"
+        },
+        {
+          "declaration_line": 4265,
+          "symbol": "Prepared_Encode_Quantity"
+        },
+        {
+          "declaration_line": 4268,
+          "symbol": "Prepared_Encode_Root"
+        },
+        {
+          "declaration_line": 4284,
+          "symbol": "Prepared_Step_Decide"
+        },
+        {
+          "declaration_line": 4374,
+          "symbol": "Valid_Span"
+        },
+        {
+          "declaration_line": 4456,
+          "symbol": "Operation_Authority_Version"
+        },
+        {
+          "declaration_line": 4467,
+          "symbol": "Operation_Authority_Layout"
+        },
+        {
+          "declaration_line": 4566,
+          "symbol": "Native_Execution_Shape"
+        },
+        {
+          "declaration_line": 4571,
+          "symbol": "Native_Execution_Array_Shape"
+        },
+        {
+          "declaration_line": 4579,
+          "symbol": "Resource_Scoped_Version"
+        },
+        {
+          "declaration_line": 4590,
+          "symbol": "Resource_Scoped_Layout"
+        },
+        {
+          "declaration_line": 4749,
+          "symbol": "Resource_Scoped_Check"
+        },
+        {
+          "declaration_line": 4882,
+          "symbol": "Resource_Scoped_Validate"
+        },
+        {
+          "declaration_line": 5015,
+          "symbol": "Resource_Scoped_Classify"
+        },
+        {
+          "declaration_line": 5148,
+          "symbol": "Resource_Observation_Version"
+        },
+        {
+          "declaration_line": 5159,
+          "symbol": "Resource_Observation_Layout"
+        },
+        {
+          "declaration_line": 5230,
+          "symbol": "Resource_Observation_Classify"
+        },
+        {
+          "declaration_line": 5286,
+          "symbol": "Resource_Observation_Current"
+        },
+        {
+          "declaration_line": 5342,
+          "symbol": "Resource_Observation_Genesis_Current"
+        },
+        {
+          "declaration_line": 5398,
+          "symbol": "Resource_Actor_Version"
+        },
+        {
+          "declaration_line": 5409,
+          "symbol": "Resource_Actor_Layout"
+        },
+        {
+          "declaration_line": 5532,
+          "symbol": "Resource_Actor_Check"
+        },
+        {
+          "declaration_line": 5686,
+          "symbol": "Resource_Actor_Execution_Version"
+        },
+        {
+          "declaration_line": 5697,
+          "symbol": "Resource_Actor_Execution_Layout"
+        },
+        {
+          "declaration_line": 5842,
+          "symbol": "Resource_Actor_Execution_Decide"
+        },
+        {
+          "declaration_line": 6043,
+          "symbol": "Child_Version"
+        },
+        {
+          "declaration_line": 6054,
+          "symbol": "Child_Layout"
+        },
+        {
+          "declaration_line": 6827,
+          "symbol": "Child_Decide"
+        },
+        {
+          "declaration_line": 7056,
+          "symbol": "Operation_Authority_Decide"
+        },
+        {
+          "declaration_line": 7148,
+          "symbol": "Canonical_Operation_Version"
+        },
+        {
+          "declaration_line": 7159,
+          "symbol": "Canonical_Operation_Layout"
+        },
+        {
+          "declaration_line": 7190,
+          "symbol": "Canonical_Operation_Decide"
+        },
+        {
+          "declaration_line": 7206,
+          "symbol": "Shape"
+        },
+        {
+          "declaration_line": 7217,
+          "symbol": "In_At"
+        },
+        {
+          "declaration_line": 7218,
+          "symbol": "Out_At"
+        },
+        {
+          "declaration_line": 7219,
+          "symbol": "B_At"
+        },
+        {
+          "declaration_line": 7220,
+          "symbol": "G_At"
+        },
+        {
+          "declaration_line": 7221,
+          "symbol": "H_At"
+        },
+        {
+          "declaration_line": 7222,
+          "symbol": "R_At"
+        },
+        {
+          "declaration_line": 7223,
+          "symbol": "N_At"
+        },
+        {
+          "declaration_line": 7264,
+          "symbol": "Operation_Result_Relation"
+        },
+        {
+          "declaration_line": 7349,
+          "symbol": "Ordinary_Receipt_Policy_Version_V35"
+        },
+        {
+          "declaration_line": 7360,
+          "symbol": "Ordinary_Receipt_Policy_Decide_V35"
+        },
+        {
+          "declaration_line": 7392,
+          "symbol": "Ordinary_Receipt_Verify_History_V35"
+        },
+        {
+          "declaration_line": 7429,
+          "symbol": "Transaction_Relation_V1"
+        },
+        {
+          "declaration_line": 7464,
+          "symbol": "Genesis_Archive_Matches_V1"
+        },
+        {
+          "declaration_line": 7487,
+          "symbol": "Input_View"
+        },
+        {
+          "declaration_line": 7509,
+          "symbol": "Decimal_Binary64_V1"
+        },
+        {
+          "declaration_line": 7535,
+          "symbol": "Input_View"
+        },
+        {
+          "declaration_line": 7564,
+          "symbol": "Operation_Archive_JSON_Matches_V1"
+        },
+        {
+          "declaration_line": 7587,
+          "symbol": "JSON_View"
+        },
+        {
+          "declaration_line": 7588,
+          "symbol": "Archive_View"
+        },
+        {
+          "declaration_line": 7601,
+          "symbol": "Scoped_Archive_JSON_Matches_V1"
+        },
+        {
+          "declaration_line": 7620,
+          "symbol": "JSON_View"
+        },
+        {
+          "declaration_line": 7635,
+          "symbol": "Archive_View"
+        },
+        {
+          "declaration_line": 7650,
+          "symbol": "Journal_Witness_Decide_V1"
+        },
+        {
+          "declaration_line": 7712,
+          "symbol": "Borrowed_Input_Address"
+        },
+        {
+          "declaration_line": 7717,
+          "symbol": "Evaluation_Policy_Project_V1"
+        },
+        {
+          "declaration_line": 7760,
+          "symbol": "Evaluation_Capture_Plan_V1"
+        },
+        {
+          "declaration_line": 7823,
+          "symbol": "Report_Parser_ABI"
+        },
+        {
+          "declaration_line": 7836,
+          "symbol": "Parse_Report"
+        },
+        {
+          "declaration_line": 7856,
+          "symbol": "Shape"
+        },
+        {
+          "declaration_line": 7861,
+          "symbol": "Scalar"
+        },
+        {
+          "declaration_line": 7864,
+          "symbol": "Disjoint"
+        },
+        {
+          "declaration_line": 7924,
+          "symbol": "Protected_Paths_Touched_V1"
+        },
+        {
+          "declaration_line": 7954,
+          "symbol": "Evaluation_Acquisitions_Closed_V1"
+        },
+        {
+          "declaration_line": 7993,
+          "symbol": "Evaluation_Producer_Derive_V1"
+        },
+        {
+          "declaration_line": 8015,
+          "symbol": "Extent"
+        },
+        {
+          "declaration_line": 8017,
+          "symbol": "Disjoint"
+        },
+        {
+          "declaration_line": 8023,
+          "symbol": "Safe_Input"
+        },
+        {
+          "declaration_line": 8027,
+          "symbol": "Safe_Arena"
+        },
+        {
+          "declaration_line": 8072,
+          "symbol": "Manager_Resource_Lifecycle_V1"
+        },
+        {
+          "declaration_line": 8084,
+          "symbol": "Shape"
+        },
+        {
+          "declaration_line": 8089,
+          "symbol": "Disjoint"
+        },
+        {
+          "declaration_line": 8130,
+          "symbol": "Ordinary_Reservation_ABI"
+        },
+        {
+          "declaration_line": 8143,
+          "symbol": "Ordinary_Reservation_Plan"
+        },
+        {
+          "declaration_line": 8156,
+          "symbol": "Shape"
+        },
+        {
+          "declaration_line": 8161,
+          "symbol": "Disjoint"
+        },
+        {
+          "declaration_line": 8205,
+          "symbol": "Runner_Lifecycle_Allowed_V1"
+        },
+        {
+          "declaration_line": 8237,
+          "symbol": "Runner_Outcome_Decide_V1"
+        },
+        {
+          "declaration_line": 8277,
+          "symbol": "Recovery_Packet_Decide"
+        },
+        {
+          "declaration_line": 8318,
+          "symbol": "Recovery_Packet_Projection_Matches"
+        },
+        {
+          "declaration_line": 8352,
+          "symbol": "Recovery_Packet_Decide_With_Facts"
+        },
+        {
+          "declaration_line": 8398,
+          "symbol": "Recovery_Syntax_Inputs"
+        },
+        {
+          "declaration_line": 8454,
+          "symbol": "Custody_Bytes_Fit"
+        },
+        {
+          "declaration_line": 8465,
+          "symbol": "Custody_U64_Fits"
+        },
+        {
+          "declaration_line": 8469,
+          "symbol": "Custody_Disjoint"
+        },
+        {
+          "declaration_line": 8481,
+          "symbol": "Custody_Load_Decide_V2"
+        },
+        {
+          "declaration_line": 8516,
+          "symbol": "Custody_Mutation_Decide_V2"
+        },
+        {
+          "declaration_line": 8540,
+          "symbol": "Publish"
+        },
+        {
+          "declaration_line": 8566,
+          "symbol": "Custody_Cleanup_Decide_V2"
+        },
+        {
+          "declaration_line": 8595,
+          "symbol": "Custody_Closed_Decide_V2"
+        },
+        {
+          "declaration_line": 8623,
+          "symbol": "Custody_Context_View_V2"
+        },
+        {
+          "declaration_line": 8647,
+          "symbol": "Publish"
+        },
+        {
+          "declaration_line": 8673,
+          "symbol": "Custody_Retry_Decide_V2"
+        },
+        {
+          "declaration_line": 8717,
+          "symbol": "Custody_Serving_Decide_V2"
+        },
+        {
+          "declaration_line": 8747,
+          "symbol": "Custody_Successor_LE_V2"
+        },
+        {
+          "declaration_line": 8787,
+          "symbol": "Custody_Operation_Decide_V2"
+        },
+        {
+          "declaration_line": 8797,
+          "symbol": "Actual_Process_ID"
+        },
+        {
+          "declaration_line": 8799,
+          "symbol": "Actual_Effective_User_ID"
+        },
+        {
+          "declaration_line": 8801,
+          "symbol": "Store"
+        },
+        {
+          "declaration_line": 8929,
+          "symbol": "Custody_Operation_Startup_Decide_V2"
+        },
+        {
+          "declaration_line": 8938,
+          "symbol": "Custody_Operation_Append_Decide_V2"
+        },
+        {
+          "declaration_line": 8947,
+          "symbol": "Custody_Operation_Recovery_Decide_V2"
+        },
+        {
+          "declaration_line": 8956,
+          "symbol": "Custody_Operation_Bootstrap_Decide_V2"
+        },
+        {
+          "declaration_line": 8971,
+          "symbol": "Custody_Provision_Version"
+        },
+        {
+          "declaration_line": 8972,
+          "symbol": "Custody_Provision_Layout"
+        },
+        {
+          "declaration_line": 8997,
+          "symbol": "Custody_Provision_Verify"
+        },
+        {
+          "declaration_line": 9035,
+          "symbol": "Take"
+        },
+        {
+          "declaration_line": 9099,
+          "symbol": "Emitter_Size_Fits"
+        },
+        {
+          "declaration_line": 9105,
+          "symbol": "Root_Worker_Output_Next_V1"
+        },
+        {
+          "declaration_line": 9163,
+          "symbol": "Root_Worker_Output_Replay_V1"
+        },
+        {
+          "declaration_line": 9220,
+          "symbol": "Root_Worker_Output_Written_V1"
+        },
+        {
+          "declaration_line": 9278,
+          "symbol": "Root_Worker_Output_Prefix_V1"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 57179,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-c_api.ads",
+        "sha256": "ae108a0aa9d736a4eafc15d2c51d1121915aee75d773d964b20d7221cc8defdc"
+      },
+      "definitions": [
+        {
+          "declaration_line": 8,
+          "symbol": "Diagnostic_Control"
+        },
+        {
+          "declaration_line": 73,
+          "symbol": "Hash_File"
+        },
+        {
+          "declaration_line": 79,
+          "symbol": "Hash_Bytes"
+        },
+        {
+          "declaration_line": 85,
+          "symbol": "World_ID"
+        },
+        {
+          "declaration_line": 95,
+          "symbol": "Causal_Link"
+        },
+        {
+          "declaration_line": 101,
+          "symbol": "Receipt_Link"
+        },
+        {
+          "declaration_line": 107,
+          "symbol": "Transition_Allowed"
+        },
+        {
+          "declaration_line": 115,
+          "symbol": "Transaction_Transition_Allowed"
+        },
+        {
+          "declaration_line": 121,
+          "symbol": "Collapse_Decide"
+        },
+        {
+          "declaration_line": 126,
+          "symbol": "Evaluation_Classify"
+        },
+        {
+          "declaration_line": 135,
+          "symbol": "Evaluation_Admissible"
+        },
+        {
+          "declaration_line": 144,
+          "symbol": "Evaluation_Transition_Allowed"
+        },
+        {
+          "declaration_line": 152,
+          "symbol": "Evaluation_Advance"
+        },
+        {
+          "declaration_line": 161,
+          "symbol": "Evaluation_Roster_Complete"
+        },
+        {
+          "declaration_line": 168,
+          "symbol": "ABI_Generation"
+        },
+        {
+          "declaration_line": 175,
+          "symbol": "Layout_Size"
+        },
+        {
+          "declaration_line": 183,
+          "symbol": "Layout_Offset"
+        },
+        {
+          "declaration_line": 191,
+          "symbol": "Version"
+        },
+        {
+          "declaration_line": 193,
+          "symbol": "Layout"
+        },
+        {
+          "declaration_line": 195,
+          "symbol": "Classify"
+        },
+        {
+          "declaration_line": 197,
+          "symbol": "Admit"
+        },
+        {
+          "declaration_line": 199,
+          "symbol": "Report"
+        },
+        {
+          "declaration_line": 201,
+          "symbol": "Dependencies"
+        },
+        {
+          "declaration_line": 204,
+          "symbol": "Decide_Raw"
+        },
+        {
+          "declaration_line": 209,
+          "symbol": "Decide_Raw_Context"
+        },
+        {
+          "declaration_line": 215,
+          "symbol": "Decide_Raw_Metadata"
+        },
+        {
+          "declaration_line": 225,
+          "symbol": "Owner_ABI_Version"
+        },
+        {
+          "declaration_line": 227,
+          "symbol": "Owner_Layout"
+        },
+        {
+          "declaration_line": 230,
+          "symbol": "Owner_Authorize"
+        },
+        {
+          "declaration_line": 236,
+          "symbol": "Owner_Audit_ABI"
+        },
+        {
+          "declaration_line": 238,
+          "symbol": "Owner_Audit_Layout"
+        },
+        {
+          "declaration_line": 240,
+          "symbol": "Owner_Audit_Decide"
+        },
+        {
+          "declaration_line": 250,
+          "symbol": "Retained_Chain_Version"
+        },
+        {
+          "declaration_line": 252,
+          "symbol": "Retained_Chain_Layout"
+        },
+        {
+          "declaration_line": 255,
+          "symbol": "Retained_Chain_Verify"
+        },
+        {
+          "declaration_line": 261,
+          "symbol": "Prepared_Step_Version"
+        },
+        {
+          "declaration_line": 263,
+          "symbol": "Prepared_Step_Layout"
+        },
+        {
+          "declaration_line": 265,
+          "symbol": "Prepared_Step_Decide"
+        },
+        {
+          "declaration_line": 279,
+          "symbol": "Operation_Authority_Version"
+        },
+        {
+          "declaration_line": 281,
+          "symbol": "Operation_Authority_Layout"
+        },
+        {
+          "declaration_line": 283,
+          "symbol": "Operation_Authority_Decide"
+        },
+        {
+          "declaration_line": 291,
+          "symbol": "Canonical_Operation_Version"
+        },
+        {
+          "declaration_line": 292,
+          "symbol": "Canonical_Operation_Layout"
+        },
+        {
+          "declaration_line": 293,
+          "symbol": "Canonical_Operation_Decide"
+        },
+        {
+          "declaration_line": 300,
+          "symbol": "Completion_ABI_Version"
+        },
+        {
+          "declaration_line": 302,
+          "symbol": "Completion_Layout_Size"
+        },
+        {
+          "declaration_line": 304,
+          "symbol": "Completion_Layout_Alignment"
+        },
+        {
+          "declaration_line": 306,
+          "symbol": "Completion_Layout_Offset"
+        },
+        {
+          "declaration_line": 308,
+          "symbol": "Completion_Context_Layout"
+        },
+        {
+          "declaration_line": 310,
+          "symbol": "Completion_Metadata_Layout"
+        },
+        {
+          "declaration_line": 312,
+          "symbol": "Completion_Decide"
+        },
+        {
+          "declaration_line": 314,
+          "symbol": "Completion_Raw_Decide"
+        },
+        {
+          "declaration_line": 317,
+          "symbol": "Completion_Metadata_Matches"
+        },
+        {
+          "declaration_line": 319,
+          "symbol": "Finalization_Version"
+        },
+        {
+          "declaration_line": 321,
+          "symbol": "Finalization_Layout"
+        },
+        {
+          "declaration_line": 324,
+          "symbol": "Finalization_Decide"
+        },
+        {
+          "declaration_line": 326,
+          "symbol": "Finalization_Decide_Mixed"
+        },
+        {
+          "declaration_line": 334,
+          "symbol": "Owned_recovery_authorization"
+        },
+        {
+          "declaration_line": 340,
+          "symbol": "Owned_recovery_authorization_v3"
+        },
+        {
+          "declaration_line": 347,
+          "symbol": "Owned_recovery_protocol"
+        },
+        {
+          "declaration_line": 353,
+          "symbol": "Owned_Chain_Replay"
+        },
+        {
+          "declaration_line": 360,
+          "symbol": "Owned_Recovery_Select"
+        },
+        {
+          "declaration_line": 369,
+          "symbol": "Owned_History_Select"
+        },
+        {
+          "declaration_line": 377,
+          "symbol": "ABI_Version"
+        },
+        {
+          "declaration_line": 379,
+          "symbol": "Can_Reserve"
+        },
+        {
+          "declaration_line": 392,
+          "symbol": "ABI_Version"
+        },
+        {
+          "declaration_line": 394,
+          "symbol": "Layout_Size"
+        },
+        {
+          "declaration_line": 396,
+          "symbol": "Layout_Offset"
+        },
+        {
+          "declaration_line": 398,
+          "symbol": "Admit"
+        },
+        {
+          "declaration_line": 408,
+          "symbol": "ABI_Version"
+        },
+        {
+          "declaration_line": 410,
+          "symbol": "Layout_Size"
+        },
+        {
+          "declaration_line": 412,
+          "symbol": "Layout_Offset"
+        },
+        {
+          "declaration_line": 414,
+          "symbol": "Compute"
+        },
+        {
+          "declaration_line": 421,
+          "symbol": "Headroom"
+        },
+        {
+          "declaration_line": 433,
+          "symbol": "Version"
+        },
+        {
+          "declaration_line": 435,
+          "symbol": "Layout"
+        },
+        {
+          "declaration_line": 437,
+          "symbol": "Check"
+        },
+        {
+          "declaration_line": 450,
+          "symbol": "ABI_Version"
+        },
+        {
+          "declaration_line": 453,
+          "symbol": "Layout_Size"
+        },
+        {
+          "declaration_line": 456,
+          "symbol": "Layout_Offset"
+        },
+        {
+          "declaration_line": 459,
+          "symbol": "Plan"
+        },
+        {
+          "declaration_line": 468,
+          "symbol": "Pending_Decide_V1"
+        },
+        {
+          "declaration_line": 471,
+          "symbol": "Pending_Decide_V2"
+        },
+        {
+          "declaration_line": 476,
+          "symbol": "Excluded_Source_Owner_Decide_V1"
+        },
+        {
+          "declaration_line": 481,
+          "symbol": "Startup_Admission_Decide_V1"
+        },
+        {
+          "declaration_line": 487,
+          "symbol": "Startup_Owner_Admission_Decide_V1"
+        },
+        {
+          "declaration_line": 493,
+          "symbol": "Startup_Admission_Transition_V1"
+        },
+        {
+          "declaration_line": 501,
+          "symbol": "Startup_Owner_Admission_Transition_V1"
+        },
+        {
+          "declaration_line": 511,
+          "symbol": "Resource_Scoped_Version"
+        },
+        {
+          "declaration_line": 513,
+          "symbol": "Resource_Scoped_Layout"
+        },
+        {
+          "declaration_line": 515,
+          "symbol": "Resource_Scoped_Check"
+        },
+        {
+          "declaration_line": 545,
+          "symbol": "Resource_Scoped_Validate"
+        },
+        {
+          "declaration_line": 575,
+          "symbol": "Resource_Scoped_Classify"
+        },
+        {
+          "declaration_line": 605,
+          "symbol": "Resource_Observation_Version"
+        },
+        {
+          "declaration_line": 607,
+          "symbol": "Resource_Observation_Layout"
+        },
+        {
+          "declaration_line": 609,
+          "symbol": "Resource_Observation_Classify"
+        },
+        {
+          "declaration_line": 617,
+          "symbol": "Resource_Observation_Current"
+        },
+        {
+          "declaration_line": 625,
+          "symbol": "Resource_Observation_Genesis_Current"
+        },
+        {
+          "declaration_line": 633,
+          "symbol": "Resource_Actor_Version"
+        },
+        {
+          "declaration_line": 635,
+          "symbol": "Resource_Actor_Layout"
+        },
+        {
+          "declaration_line": 637,
+          "symbol": "Resource_Actor_Check"
+        },
+        {
+          "declaration_line": 673,
+          "symbol": "Resource_Actor_Execution_Version"
+        },
+        {
+          "declaration_line": 675,
+          "symbol": "Resource_Actor_Execution_Layout"
+        },
+        {
+          "declaration_line": 677,
+          "symbol": "Resource_Actor_Execution_Decide"
+        },
+        {
+          "declaration_line": 727,
+          "symbol": "Child_Version"
+        },
+        {
+          "declaration_line": 729,
+          "symbol": "Child_Layout"
+        },
+        {
+          "declaration_line": 731,
+          "symbol": "Child_Decide"
+        },
+        {
+          "declaration_line": 790,
+          "symbol": "Operation_Result_Relation"
+        },
+        {
+          "declaration_line": 811,
+          "symbol": "Ordinary_Receipt_Policy_Version_V35"
+        },
+        {
+          "declaration_line": 814,
+          "symbol": "Ordinary_Receipt_Policy_Decide_V35"
+        },
+        {
+          "declaration_line": 819,
+          "symbol": "Ordinary_Receipt_Verify_History_V35"
+        },
+        {
+          "declaration_line": 825,
+          "symbol": "Transaction_Relation_V1"
+        },
+        {
+          "declaration_line": 828,
+          "symbol": "Genesis_Archive_Matches_V1"
+        },
+        {
+          "declaration_line": 839,
+          "symbol": "Decimal_Binary64_V1"
+        },
+        {
+          "declaration_line": 849,
+          "symbol": "Operation_Archive_JSON_Matches_V1"
+        },
+        {
+          "declaration_line": 857,
+          "symbol": "Scoped_Archive_JSON_Matches_V1"
+        },
+        {
+          "declaration_line": 864,
+          "symbol": "Journal_Witness_Decide_V1"
+        },
+        {
+          "declaration_line": 873,
+          "symbol": "Evaluation_Policy_Project_V1"
+        },
+        {
+          "declaration_line": 884,
+          "symbol": "Evaluation_Capture_Plan_V1"
+        },
+        {
+          "declaration_line": 900,
+          "symbol": "Report_Parser_ABI"
+        },
+        {
+          "declaration_line": 902,
+          "symbol": "Parse_Report"
+        },
+        {
+          "declaration_line": 915,
+          "symbol": "Protected_Paths_Touched_V1"
+        },
+        {
+          "declaration_line": 921,
+          "symbol": "Evaluation_Acquisitions_Closed_V1"
+        },
+        {
+          "declaration_line": 931,
+          "symbol": "Evaluation_Producer_Derive_V1"
+        },
+        {
+          "declaration_line": 940,
+          "symbol": "Manager_Resource_Lifecycle_V1"
+        },
+        {
+          "declaration_line": 946,
+          "symbol": "Ordinary_Reservation_ABI"
+        },
+        {
+          "declaration_line": 948,
+          "symbol": "Ordinary_Reservation_Plan"
+        },
+        {
+          "declaration_line": 954,
+          "symbol": "Runner_Lifecycle_Allowed_V1"
+        },
+        {
+          "declaration_line": 961,
+          "symbol": "Runner_Outcome_Decide_V1"
+        },
+        {
+          "declaration_line": 969,
+          "symbol": "Recovery_Packet_Decide"
+        },
+        {
+          "declaration_line": 973,
+          "symbol": "Recovery_Packet_Projection_Matches"
+        },
+        {
+          "declaration_line": 979,
+          "symbol": "Recovery_Packet_Decide_With_Facts"
+        },
+        {
+          "declaration_line": 985,
+          "symbol": "Recovery_Syntax_Inputs"
+        },
+        {
+          "declaration_line": 992,
+          "symbol": "Custody_Load_Decide_V2"
+        },
+        {
+          "declaration_line": 996,
+          "symbol": "Custody_Mutation_Decide_V2"
+        },
+        {
+          "declaration_line": 1001,
+          "symbol": "Custody_Cleanup_Decide_V2"
+        },
+        {
+          "declaration_line": 1005,
+          "symbol": "Custody_Closed_Decide_V2"
+        },
+        {
+          "declaration_line": 1009,
+          "symbol": "Custody_Context_View_V2"
+        },
+        {
+          "declaration_line": 1014,
+          "symbol": "Custody_Retry_Decide_V2"
+        },
+        {
+          "declaration_line": 1019,
+          "symbol": "Custody_Serving_Decide_V2"
+        },
+        {
+          "declaration_line": 1023,
+          "symbol": "Custody_Successor_LE_V2"
+        },
+        {
+          "declaration_line": 1028,
+          "symbol": "Custody_Operation_Startup_Decide_V2"
+        },
+        {
+          "declaration_line": 1033,
+          "symbol": "Custody_Operation_Append_Decide_V2"
+        },
+        {
+          "declaration_line": 1038,
+          "symbol": "Custody_Operation_Recovery_Decide_V2"
+        },
+        {
+          "declaration_line": 1043,
+          "symbol": "Custody_Operation_Bootstrap_Decide_V2"
+        },
+        {
+          "declaration_line": 1049,
+          "symbol": "Custody_Provision_Version"
+        },
+        {
+          "declaration_line": 1051,
+          "symbol": "Custody_Provision_Layout"
+        },
+        {
+          "declaration_line": 1054,
+          "symbol": "Custody_Provision_Verify"
+        },
+        {
+          "declaration_line": 1059,
+          "symbol": "Root_Worker_Output_Next_V1"
+        },
+        {
+          "declaration_line": 1067,
+          "symbol": "Root_Worker_Output_Replay_V1"
+        },
+        {
+          "declaration_line": 1074,
+          "symbol": "Root_Worker_Output_Written_V1"
+        },
+        {
+          "declaration_line": 1082,
+          "symbol": "Root_Worker_Output_Prefix_V1"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 15699,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-custody_v2_requester_join.adb",
+        "sha256": "a39bf23831443b56eb09e0c493a07beeb5adc233282c736a0448be2d74935bd6"
+      },
+      "definitions": [
+        {
+          "declaration_line": 7,
+          "symbol": "F"
+        },
+        {
+          "declaration_line": 9,
+          "symbol": "Same"
+        },
+        {
+          "declaration_line": 12,
+          "symbol": "Integer_Is"
+        },
+        {
+          "declaration_line": 32,
+          "symbol": "Unsigned_Is"
+        },
+        {
+          "declaration_line": 35,
+          "symbol": "Same_Bytes"
+        },
+        {
+          "declaration_line": 38,
+          "symbol": "Digest_Matches"
+        },
+        {
+          "declaration_line": 52,
+          "symbol": "Frame_Mac_Matches"
+        },
+        {
+          "declaration_line": 96,
+          "symbol": "Raw_Integer"
+        },
+        {
+          "declaration_line": 131,
+          "symbol": "Ucred_Matches"
+        },
+        {
+          "declaration_line": 149,
+          "symbol": "SCM_Credentials_Match"
+        },
+        {
+          "declaration_line": 158,
+          "symbol": "Signed_32_Matches"
+        },
+        {
+          "declaration_line": 166,
+          "symbol": "Request_Archive_Matches"
+        },
+        {
+          "declaration_line": 170,
+          "symbol": "Scalar"
+        },
+        {
+          "declaration_line": 185,
+          "symbol": "Member"
+        },
+        {
+          "declaration_line": 192,
+          "symbol": "Object_Count"
+        },
+        {
+          "declaration_line": 214,
+          "symbol": "Successful"
+        },
+        {
+          "declaration_line": 218,
+          "symbol": "Getopt"
+        },
+        {
+          "declaration_line": 227,
+          "symbol": "Socket_Matches"
+        },
+        {
+          "declaration_line": 236,
+          "symbol": "ID"
+        },
+        {
+          "declaration_line": 265,
+          "symbol": "Optional_Equal"
+        },
+        {
+          "declaration_line": 268,
+          "symbol": "Fresh_Matches"
+        },
+        {
+          "declaration_line": 275,
+          "symbol": "Optional"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 3197,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-custody_v2_requester_join.ads",
+        "sha256": "f4b9afa8e13a1ab81fa51683f55e5d44e2095baf7e1dd2582732367537cbf451"
+      },
+      "definitions": [
+        {
+          "declaration_line": 11,
+          "symbol": "Integer_Is"
+        },
+        {
+          "declaration_line": 13,
+          "symbol": "Unsigned_Is"
+        },
+        {
+          "declaration_line": 15,
+          "symbol": "Same"
+        },
+        {
+          "declaration_line": 17,
+          "symbol": "Same_Bytes"
+        },
+        {
+          "declaration_line": 19,
+          "symbol": "Digest_Matches"
+        },
+        {
+          "declaration_line": 23,
+          "symbol": "Frame_Mac_Matches"
+        },
+        {
+          "declaration_line": 26,
+          "symbol": "Ucred_Matches"
+        },
+        {
+          "declaration_line": 30,
+          "symbol": "SCM_Credentials_Match"
+        },
+        {
+          "declaration_line": 33,
+          "symbol": "Signed_32_Matches"
+        },
+        {
+          "declaration_line": 38,
+          "symbol": "Request_Archive_Matches"
+        },
+        {
+          "declaration_line": 47,
+          "symbol": "Socket_Matches"
+        },
+        {
+          "declaration_line": 49,
+          "symbol": "Fresh_Matches"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 97115,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-excluded_source_owner.adb",
+        "sha256": "ed2fb42d9bb8b0cb62ebc0fbcb10919981cdc4a329d38190c0465bd198a159e6"
+      },
+      "definitions": [
+        {
+          "declaration_line": 20,
+          "symbol": "F"
+        },
+        {
+          "declaration_line": 21,
+          "symbol": "Same"
+        },
+        {
+          "declaration_line": 22,
+          "symbol": "Num"
+        },
+        {
+          "declaration_line": 23,
+          "symbol": "JSON_Matches"
+        },
+        {
+          "declaration_line": 32,
+          "symbol": "Hex_Matches"
+        },
+        {
+          "declaration_line": 36,
+          "symbol": "Bit"
+        },
+        {
+          "declaration_line": 39,
+          "symbol": "Sealed"
+        },
+        {
+          "declaration_line": 43,
+          "symbol": "Identity"
+        },
+        {
+          "declaration_line": 56,
+          "symbol": "FD_Number"
+        },
+        {
+          "declaration_line": 59,
+          "symbol": "Descriptor_Reference"
+        },
+        {
+          "declaration_line": 64,
+          "symbol": "Process_Reference"
+        },
+        {
+          "declaration_line": 71,
+          "symbol": "Projection_Reference"
+        },
+        {
+          "declaration_line": 94,
+          "symbol": "Root_Directory"
+        },
+        {
+          "declaration_line": 102,
+          "symbol": "Boolean_Is"
+        },
+        {
+          "declaration_line": 107,
+          "symbol": "Prefix_Events"
+        },
+        {
+          "declaration_line": 117,
+          "symbol": "Decimal"
+        },
+        {
+          "declaration_line": 130,
+          "symbol": "Status_Columns"
+        },
+        {
+          "declaration_line": 174,
+          "symbol": "Group_Multiset"
+        },
+        {
+          "declaration_line": 192,
+          "symbol": "Poll_Matches"
+        },
+        {
+          "declaration_line": 204,
+          "symbol": "Text_Number"
+        },
+        {
+          "declaration_line": 213,
+          "symbol": "Argv_Raw"
+        },
+        {
+          "declaration_line": 237,
+          "symbol": "Invocation_Reference"
+        },
+        {
+          "declaration_line": 246,
+          "symbol": "At"
+        },
+        {
+          "declaration_line": 278,
+          "symbol": "Hex_Number"
+        },
+        {
+          "declaration_line": 294,
+          "symbol": "Map_Line"
+        },
+        {
+          "declaration_line": 366,
+          "symbol": "Mapped_Reference"
+        },
+        {
+          "declaration_line": 407,
+          "symbol": "Owner_Reference"
+        },
+        {
+          "declaration_line": 442,
+          "symbol": "Receipt_Source"
+        },
+        {
+          "declaration_line": 446,
+          "symbol": "Creator_Reference"
+        },
+        {
+          "declaration_line": 485,
+          "symbol": "Receive_Reference"
+        },
+        {
+          "declaration_line": 534,
+          "symbol": "Close_Reference"
+        },
+        {
+          "declaration_line": 549,
+          "symbol": "Wrapped_Text"
+        },
+        {
+          "declaration_line": 556,
+          "symbol": "Match"
+        },
+        {
+          "declaration_line": 573,
+          "symbol": "Peer_Name"
+        },
+        {
+          "declaration_line": 590,
+          "symbol": "Target_Reference"
+        },
+        {
+          "declaration_line": 679,
+          "symbol": "Pidfd_OFD_Reference"
+        },
+        {
+          "declaration_line": 708,
+          "symbol": "Dead_Pidfd_Info"
+        },
+        {
+          "declaration_line": 730,
+          "symbol": "Terminal_Reference"
+        },
+        {
+          "declaration_line": 771,
+          "symbol": "FD_Path"
+        },
+        {
+          "declaration_line": 782,
+          "symbol": "Word_32"
+        },
+        {
+          "declaration_line": 792,
+          "symbol": "Watch_Reference"
+        },
+        {
+          "declaration_line": 860,
+          "symbol": "Stream_Reference"
+        },
+        {
+          "declaration_line": 922,
+          "symbol": "Capabilities_Dropped"
+        },
+        {
+          "declaration_line": 932,
+          "symbol": "Traversal_Reference"
+        },
+        {
+          "declaration_line": 946,
+          "symbol": "Read_Allowed"
+        },
+        {
+          "declaration_line": 960,
+          "symbol": "Ancestor_Path"
+        },
+        {
+          "declaration_line": 971,
+          "symbol": "Private_Topology_Reference"
+        },
+        {
+          "declaration_line": 1020,
+          "symbol": "Private_Source_Reference"
+        },
+        {
+          "declaration_line": 1055,
+          "symbol": "Memory_Reference"
+        },
+        {
+          "declaration_line": 1079,
+          "symbol": "Launch_Reference"
+        },
+        {
+          "declaration_line": 1159,
+          "symbol": "Acquisition_Reference"
+        },
+        {
+          "declaration_line": 1323,
+          "symbol": "Completion_Reference"
+        },
+        {
+          "declaration_line": 1356,
+          "symbol": "Result_Reference"
+        },
+        {
+          "declaration_line": 1373,
+          "symbol": "Decide"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 2748,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-excluded_source_owner.ads",
+        "sha256": "c6477e7fb2217e1b9c834413a88a6920e63a9fc483217a5a950344af3969124c"
+      },
+      "definitions": [
+        {
+          "declaration_line": 20,
+          "symbol": "Launch_Reference"
+        },
+        {
+          "declaration_line": 23,
+          "symbol": "Acquisition_Reference"
+        },
+        {
+          "declaration_line": 28,
+          "symbol": "Completion_Reference"
+        },
+        {
+          "declaration_line": 33,
+          "symbol": "Result_Reference"
+        },
+        {
+          "declaration_line": 35,
+          "symbol": "Decide"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 52678,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-startup_installation.adb",
+        "sha256": "bef8ce43b7138c7a0fbea2db0db320b40a7decb9a38ee0b81d2698dcd0e51131"
+      },
+      "definitions": [
+        {
+          "declaration_line": 17,
+          "symbol": "F"
+        },
+        {
+          "declaration_line": 21,
+          "symbol": "Length"
+        },
+        {
+          "declaration_line": 22,
+          "symbol": "Byte_At"
+        },
+        {
+          "declaration_line": 23,
+          "symbol": "Length"
+        },
+        {
+          "declaration_line": 36,
+          "symbol": "Byte_At"
+        },
+        {
+          "declaration_line": 52,
+          "symbol": "Payload"
+        },
+        {
+          "declaration_line": 54,
+          "symbol": "Equal"
+        },
+        {
+          "declaration_line": 58,
+          "symbol": "Same_Text"
+        },
+        {
+          "declaration_line": 61,
+          "symbol": "Raw_Key_Matches"
+        },
+        {
+          "declaration_line": 67,
+          "symbol": "Pair_Part"
+        },
+        {
+          "declaration_line": 80,
+          "symbol": "Join_Separator"
+        },
+        {
+          "declaration_line": 83,
+          "symbol": "Suffix_Skip"
+        },
+        {
+          "declaration_line": 85,
+          "symbol": "Raw_Length"
+        },
+        {
+          "declaration_line": 87,
+          "symbol": "Raw_Byte"
+        },
+        {
+          "declaration_line": 95,
+          "symbol": "Initialize"
+        },
+        {
+          "declaration_line": 107,
+          "symbol": "Next_Path"
+        },
+        {
+          "declaration_line": 148,
+          "symbol": "Paths_Match"
+        },
+        {
+          "declaration_line": 162,
+          "symbol": "Path_Bytes_Equivalent"
+        },
+        {
+          "declaration_line": 177,
+          "symbol": "Path_Equivalent"
+        },
+        {
+          "declaration_line": 180,
+          "symbol": "Joined_Path"
+        },
+        {
+          "declaration_line": 184,
+          "symbol": "Number"
+        },
+        {
+          "declaration_line": 185,
+          "symbol": "Same_Number"
+        },
+        {
+          "declaration_line": 187,
+          "symbol": "Identity_Valid"
+        },
+        {
+          "declaration_line": 200,
+          "symbol": "Identity_Field"
+        },
+        {
+          "declaration_line": 202,
+          "symbol": "Protected_Identity"
+        },
+        {
+          "declaration_line": 211,
+          "symbol": "Canonical_Absolute"
+        },
+        {
+          "declaration_line": 236,
+          "symbol": "Ancestors"
+        },
+        {
+          "declaration_line": 269,
+          "symbol": "Read_Intact"
+        },
+        {
+          "declaration_line": 292,
+          "symbol": "Entry_Protected"
+        },
+        {
+          "declaration_line": 301,
+          "symbol": "Hex_Digit"
+        },
+        {
+          "declaration_line": 304,
+          "symbol": "Mode_Matches"
+        },
+        {
+          "declaration_line": 321,
+          "symbol": "Digest_Matches"
+        },
+        {
+          "declaration_line": 348,
+          "symbol": "Manifest_File"
+        },
+        {
+          "declaration_line": 357,
+          "symbol": "Bytecode_Name"
+        },
+        {
+          "declaration_line": 372,
+          "symbol": "Tree_Matches"
+        },
+        {
+          "declaration_line": 447,
+          "symbol": "Installed_Entry"
+        },
+        {
+          "declaration_line": 473,
+          "symbol": "Envelope_Byte"
+        },
+        {
+          "declaration_line": 476,
+          "symbol": "Next_Line"
+        },
+        {
+          "declaration_line": 493,
+          "symbol": "Envelope_Text"
+        },
+        {
+          "declaration_line": 496,
+          "symbol": "Envelope_Hex_Path"
+        },
+        {
+          "declaration_line": 507,
+          "symbol": "Executable_Files"
+        },
+        {
+          "declaration_line": 534,
+          "symbol": "Check"
+        },
+        {
+          "declaration_line": 586,
+          "symbol": "Corresponds"
+        },
+        {
+          "declaration_line": 697,
+          "symbol": "Prefix"
+        },
+        {
+          "declaration_line": 728,
+          "symbol": "Cross_View"
+        },
+        {
+          "declaration_line": 732,
+          "symbol": "Cross_Encoding"
+        },
+        {
+          "declaration_line": 737,
+          "symbol": "Semantic_Same"
+        },
+        {
+          "declaration_line": 773,
+          "symbol": "Directory_Stable"
+        },
+        {
+          "declaration_line": 784,
+          "symbol": "Entries_Stable"
+        },
+        {
+          "declaration_line": 787,
+          "symbol": "Entry_Stable"
+        },
+        {
+          "declaration_line": 818,
+          "symbol": "Entries_Stable"
+        },
+        {
+          "declaration_line": 841,
+          "symbol": "Environment_Stable"
+        },
+        {
+          "declaration_line": 855,
+          "symbol": "Stable"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 36518,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-startup_source_custody.adb",
+        "sha256": "318def3da41cc417702ce7212520224810cf3e25c498d41f72ad6443345ad4d9"
+      },
+      "definitions": [
+        {
+          "declaration_line": 13,
+          "symbol": "F"
+        },
+        {
+          "declaration_line": 20,
+          "symbol": "Next_Line"
+        },
+        {
+          "declaration_line": 38,
+          "symbol": "Plain"
+        },
+        {
+          "declaration_line": 41,
+          "symbol": "Same_Raw"
+        },
+        {
+          "declaration_line": 44,
+          "symbol": "Lower_Hex"
+        },
+        {
+          "declaration_line": 48,
+          "symbol": "Hex_Matches"
+        },
+        {
+          "declaration_line": 56,
+          "symbol": "Text_Hex_Matches"
+        },
+        {
+          "declaration_line": 58,
+          "symbol": "Path_Hex_Matches"
+        },
+        {
+          "declaration_line": 59,
+          "symbol": "Digit"
+        },
+        {
+          "declaration_line": 71,
+          "symbol": "Hex_Text"
+        },
+        {
+          "declaration_line": 74,
+          "symbol": "Role"
+        },
+        {
+          "declaration_line": 76,
+          "symbol": "File_Matches"
+        },
+        {
+          "declaration_line": 96,
+          "symbol": "Image_Matches"
+        },
+        {
+          "declaration_line": 111,
+          "symbol": "Interpreter_Selected"
+        },
+        {
+          "declaration_line": 126,
+          "symbol": "Cache_Matches"
+        },
+        {
+          "declaration_line": 146,
+          "symbol": "Flags_Match"
+        },
+        {
+          "declaration_line": 168,
+          "symbol": "Cache_Paths_Match"
+        },
+        {
+          "declaration_line": 184,
+          "symbol": "Match_Source"
+        },
+        {
+          "declaration_line": 193,
+          "symbol": "Match_Text"
+        },
+        {
+          "declaration_line": 201,
+          "symbol": "Match_Bytes"
+        },
+        {
+          "declaration_line": 231,
+          "symbol": "Envelope_Valid"
+        },
+        {
+          "declaration_line": 235,
+          "symbol": "Equal"
+        },
+        {
+          "declaration_line": 238,
+          "symbol": "Octal"
+        },
+        {
+          "declaration_line": 241,
+          "symbol": "Key"
+        },
+        {
+          "declaration_line": 306,
+          "symbol": "Closure_Corresponds"
+        },
+        {
+          "declaration_line": 369,
+          "symbol": "Corresponds"
+        },
+        {
+          "declaration_line": 371,
+          "symbol": "Bootstrap_Corresponds"
+        },
+        {
+          "declaration_line": 373,
+          "symbol": "Projection_Corresponds"
+        },
+        {
+          "declaration_line": 379,
+          "symbol": "Listed"
+        },
+        {
+          "declaration_line": 452,
+          "symbol": "File_Corresponds"
+        },
+        {
+          "declaration_line": 473,
+          "symbol": "Image_Corresponds"
+        },
+        {
+          "declaration_line": 492,
+          "symbol": "Role_Selected"
+        },
+        {
+          "declaration_line": 511,
+          "symbol": "Readbacks_Correspond"
+        },
+        {
+          "declaration_line": 515,
+          "symbol": "Mode_Matches"
+        },
+        {
+          "declaration_line": 525,
+          "symbol": "Stable"
+        },
+        {
+          "declaration_line": 582,
+          "symbol": "File_Identity_Corresponds"
+        },
+        {
+          "declaration_line": 607,
+          "symbol": "Unselected_Path"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 2224,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline-startup_source_custody.ads",
+        "sha256": "1070dd6d45e2cc6b4e9a14d4c7def2f6a53a9462b3f94c27fc36f680fb943613"
+      },
+      "definitions": [
+        {
+          "declaration_line": 4,
+          "symbol": "Corresponds"
+        },
+        {
+          "declaration_line": 9,
+          "symbol": "Bootstrap_Corresponds"
+        },
+        {
+          "declaration_line": 15,
+          "symbol": "Projection_Corresponds"
+        },
+        {
+          "declaration_line": 18,
+          "symbol": "File_Corresponds"
+        },
+        {
+          "declaration_line": 21,
+          "symbol": "Image_Corresponds"
+        },
+        {
+          "declaration_line": 24,
+          "symbol": "Role_Selected"
+        },
+        {
+          "declaration_line": 29,
+          "symbol": "Readbacks_Correspond"
+        },
+        {
+          "declaration_line": 32,
+          "symbol": "File_Identity_Corresponds"
+        },
+        {
+          "declaration_line": 38,
+          "symbol": "Unselected_Path"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 6011,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline_core.gpr",
+        "sha256": "324176c4321c030c197fba3d3245afea33b9d66ffe30d2a127e1925976859752"
+      },
+      "definitions": []
+    },
+    {
+      "artifact": {
+        "bytes": 42559,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/core/worldline_core.h",
+        "sha256": "e4ba5f88774909301f845ed355cff3edf96fdd2ebf37ef44ae48f819327f5deb"
+      },
+      "definitions": []
+    },
+    {
+      "artifact": {
+        "bytes": 40226,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/protected-root/controls/fixture_builder.py",
+        "sha256": "72e75c3d695f42d757465dcbf17f767df64af083dae6de6037c095f12cab3eaa"
+      },
+      "definitions": [
+        {
+          "declaration_line": 30,
+          "symbol": "require"
+        },
+        {
+          "declaration_line": 35,
+          "symbol": "canonical"
+        },
+        {
+          "declaration_line": 40,
+          "symbol": "sha"
+        },
+        {
+          "declaration_line": 44,
+          "symbol": "exact"
+        },
+        {
+          "declaration_line": 45,
+          "symbol": "pairs"
+        },
+        {
+          "declaration_line": 57,
+          "symbol": "selected"
+        },
+        {
+          "declaration_line": 61,
+          "symbol": "protected"
+        },
+        {
+          "declaration_line": 75,
+          "symbol": "sync"
+        },
+        {
+          "declaration_line": 83,
+          "symbol": "create"
+        },
+        {
+          "declaration_line": 97,
+          "symbol": "inventory"
+        },
+        {
+          "declaration_line": 119,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 154,
+          "symbol": "target"
+        },
+        {
+          "declaration_line": 160,
+          "symbol": "data"
+        },
+        {
+          "declaration_line": 163,
+          "symbol": "module"
+        },
+        {
+          "declaration_line": 173,
+          "symbol": "materialize"
+        },
+        {
+          "declaration_line": 198,
+          "symbol": "initialize"
+        },
+        {
+          "declaration_line": 226,
+          "symbol": "provision"
+        },
+        {
+          "declaration_line": 248,
+          "symbol": "owner_action"
+        },
+        {
+          "declaration_line": 574,
+          "symbol": "envelope"
+        },
+        {
+          "declaration_line": 613,
+          "symbol": "close"
+        },
+        {
+          "declaration_line": 668,
+          "symbol": "publish"
+        },
+        {
+          "declaration_line": 678,
+          "symbol": "main"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 29997,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/protected-root/controls/live_campaign.py",
+        "sha256": "94013d31371f21f3ad36f501de9215a788dffdd8ecb5e0fb8b40e98b71f1700a"
+      },
+      "definitions": [
+        {
+          "declaration_line": 25,
+          "symbol": "require"
+        },
+        {
+          "declaration_line": 30,
+          "symbol": "sha"
+        },
+        {
+          "declaration_line": 34,
+          "symbol": "canonical"
+        },
+        {
+          "declaration_line": 39,
+          "symbol": "selected_json"
+        },
+        {
+          "declaration_line": 41,
+          "symbol": "pairs"
+        },
+        {
+          "declaration_line": 52,
+          "symbol": "output"
+        },
+        {
+          "declaration_line": 57,
+          "symbol": "private_directory"
+        },
+        {
+          "declaration_line": 68,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 105,
+          "symbol": "journal"
+        },
+        {
+          "declaration_line": 267,
+          "symbol": "retry"
+        },
+        {
+          "declaration_line": 285,
+          "symbol": "stale"
+        },
+        {
+          "declaration_line": 495,
+          "symbol": "main"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 4543,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/protected-root/controls/original_client.py",
+        "sha256": "76fa3f2df34177a96a895ae12545c169fc1f12ba01cd9c73dc6796d1b5b308e7"
+      },
+      "definitions": [
+        {
+          "declaration_line": 21,
+          "symbol": "main"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 12222,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/protected-root/controls/run_campaign.py",
+        "sha256": "a1a805f9b47b296bbdeaeef318e1567302997d863ddfc3e8aeb018de7f363611"
+      },
+      "definitions": [
+        {
+          "declaration_line": 23,
+          "symbol": "require"
+        },
+        {
+          "declaration_line": 28,
+          "symbol": "modules"
+        },
+        {
+          "declaration_line": 34,
+          "symbol": "produce"
+        },
+        {
+          "declaration_line": 177,
+          "symbol": "export"
+        },
+        {
+          "declaration_line": 201,
+          "symbol": "main"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 28862,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/protected-root/controls/source_registration.json",
+        "sha256": "fb9f2f1fff7454f3160495ea5251d2026cfba719ca4995888c7baa8ee846afc0"
+      },
+      "definitions": []
+    },
+    {
+      "artifact": {
+        "bytes": 38139,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/protected-runtime/approved_source_loader.py",
+        "sha256": "ce78eea99036e32ee05e34c6ef7fe45f73e4ccfb8c90258083d2f6aad6b9d5f2"
+      },
+      "definitions": [
+        {
+          "declaration_line": 29,
+          "symbol": "require"
+        },
+        {
+          "declaration_line": 31,
+          "symbol": "_path"
+        },
+        {
+          "declaration_line": 35,
+          "symbol": "_parents"
+        },
+        {
+          "declaration_line": 40,
+          "symbol": "_protected"
+        },
+        {
+          "declaration_line": 50,
+          "symbol": "_file_identity"
+        },
+        {
+          "declaration_line": 54,
+          "symbol": "_read"
+        },
+        {
+          "declaration_line": 73,
+          "symbol": "_unhex"
+        },
+        {
+          "declaration_line": 76,
+          "symbol": "_text"
+        },
+        {
+          "declaration_line": 78,
+          "symbol": "_mode"
+        },
+        {
+          "declaration_line": 80,
+          "symbol": "_same_constant"
+        },
+        {
+          "declaration_line": 95,
+          "symbol": "_same_code"
+        },
+        {
+          "declaration_line": 102,
+          "symbol": "_held_bytes"
+        },
+        {
+          "declaration_line": 111,
+          "symbol": "_proc_bytes"
+        },
+        {
+          "declaration_line": 114,
+          "symbol": "descriptor_facts"
+        },
+        {
+          "declaration_line": 120,
+          "symbol": "held_projection_facts"
+        },
+        {
+          "declaration_line": 128,
+          "symbol": "process_facts"
+        },
+        {
+          "declaration_line": 158,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 177,
+          "symbol": "_timeout"
+        },
+        {
+          "declaration_line": 181,
+          "symbol": "_send"
+        },
+        {
+          "declaration_line": 196,
+          "symbol": "_receive"
+        },
+        {
+          "declaration_line": 235,
+          "symbol": "acquire"
+        },
+        {
+          "declaration_line": 257,
+          "symbol": "ready"
+        },
+        {
+          "declaration_line": 259,
+          "symbol": "finish"
+        },
+        {
+          "declaration_line": 271,
+          "symbol": "endpoint"
+        },
+        {
+          "declaration_line": 276,
+          "symbol": "observe_target"
+        },
+        {
+          "declaration_line": 291,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 340,
+          "symbol": "source_code"
+        },
+        {
+          "declaration_line": 346,
+          "symbol": "extension_create"
+        },
+        {
+          "declaration_line": 351,
+          "symbol": "extension_exec"
+        },
+        {
+          "declaration_line": 354,
+          "symbol": "find_spec"
+        },
+        {
+          "declaration_line": 379,
+          "symbol": "guarded_import"
+        },
+        {
+          "declaration_line": 383,
+          "symbol": "file"
+        },
+        {
+          "declaration_line": 390,
+          "symbol": "directory_or_absent"
+        },
+        {
+          "declaration_line": 398,
+          "symbol": "_absence"
+        },
+        {
+          "declaration_line": 406,
+          "symbol": "check_files"
+        },
+        {
+          "declaration_line": 414,
+          "symbol": "_cache_faithful"
+        },
+        {
+          "declaration_line": 425,
+          "symbol": "_initial_roster"
+        },
+        {
+          "declaration_line": 444,
+          "symbol": "check_hooks"
+        },
+        {
+          "declaration_line": 453,
+          "symbol": "check"
+        },
+        {
+          "declaration_line": 471,
+          "symbol": "compile_source"
+        },
+        {
+          "declaration_line": 476,
+          "symbol": "snapshot"
+        },
+        {
+          "declaration_line": 479,
+          "symbol": "excluded_actor_ready"
+        },
+        {
+          "declaration_line": 482,
+          "symbol": "excluded_endpoint"
+        },
+        {
+          "declaration_line": 485,
+          "symbol": "excluded_target"
+        },
+        {
+          "declaration_line": 488,
+          "symbol": "excluded_actor"
+        },
+        {
+          "declaration_line": 490,
+          "symbol": "owner_completion"
+        },
+        {
+          "declaration_line": 494,
+          "symbol": "run_entry"
+        },
+        {
+          "declaration_line": 519,
+          "symbol": "install"
+        },
+        {
+          "declaration_line": 523,
+          "symbol": "current"
+        },
+        {
+          "declaration_line": 525,
+          "symbol": "main"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 20387,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/custody_startup_capture.py",
+        "sha256": "b7c1efe7a749e3108870528b81adb6ccd15621fda1973db272c69a99ddf51f37"
+      },
+      "definitions": [
+        {
+          "declaration_line": 9,
+          "symbol": "capture"
+        },
+        {
+          "declaration_line": 75,
+          "symbol": "capture_envelope"
+        },
+        {
+          "declaration_line": 87,
+          "symbol": "admission_identity"
+        },
+        {
+          "declaration_line": 94,
+          "symbol": "_capture_named_source"
+        },
+        {
+          "declaration_line": 133,
+          "symbol": "capture_named_source"
+        },
+        {
+          "declaration_line": 137,
+          "symbol": "installation_identity"
+        },
+        {
+          "declaration_line": 143,
+          "symbol": "capture_installation_inventory"
+        },
+        {
+          "declaration_line": 155,
+          "symbol": "named"
+        },
+        {
+          "declaration_line": 203,
+          "symbol": "capture_named_admission_source"
+        },
+        {
+          "declaration_line": 211,
+          "symbol": "capture_admission_profiles_from_sources"
+        },
+        {
+          "declaration_line": 233,
+          "symbol": "json_projection"
+        },
+        {
+          "declaration_line": 306,
+          "symbol": "capture_original_admission_roster"
+        },
+        {
+          "declaration_line": 319,
+          "symbol": "scan"
+        },
+        {
+          "declaration_line": 373,
+          "symbol": "capture_original_startup_sources"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 10688,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/custody_subject_capture.py",
+        "sha256": "40db045a582a685ce54e5e3b18b75437ae8a879bccbc4f4bb0a6e02306be01a1"
+      },
+      "definitions": [
+        {
+          "declaration_line": 23,
+          "symbol": "fd_identity"
+        },
+        {
+          "declaration_line": 29,
+          "symbol": "actor_identity"
+        },
+        {
+          "declaration_line": 45,
+          "symbol": "syscall"
+        },
+        {
+          "declaration_line": 57,
+          "symbol": "_getopt"
+        },
+        {
+          "declaration_line": 66,
+          "symbol": "socket_capture"
+        },
+        {
+          "declaration_line": 81,
+          "symbol": "socket_document"
+        },
+        {
+          "declaration_line": 87,
+          "symbol": "kcmp"
+        },
+        {
+          "declaration_line": 97,
+          "symbol": "close_descriptor"
+        },
+        {
+          "declaration_line": 108,
+          "symbol": "original_roles"
+        },
+        {
+          "declaration_line": 121,
+          "symbol": "role_roster"
+        },
+        {
+          "declaration_line": 142,
+          "symbol": "stream_send"
+        },
+        {
+          "declaration_line": 159,
+          "symbol": "stream_receive"
+        },
+        {
+          "declaration_line": 189,
+          "symbol": "socket_cookie"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 44791,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/excluded_source_owner.py",
+        "sha256": "58f08e393a37d326605f7cd8b057f547c503d315437c3ff831891f1c0a58b1b3"
+      },
+      "definitions": [
+        {
+          "declaration_line": 32,
+          "symbol": "_exact"
+        },
+        {
+          "declaration_line": 33,
+          "symbol": "pairs"
+        },
+        {
+          "declaration_line": 42,
+          "symbol": "_identity"
+        },
+        {
+          "declaration_line": 48,
+          "symbol": "_write"
+        },
+        {
+          "declaration_line": 56,
+          "symbol": "_poll"
+        },
+        {
+          "declaration_line": 63,
+          "symbol": "_error"
+        },
+        {
+          "declaration_line": 69,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 114,
+          "symbol": "memory_receipt"
+        },
+        {
+          "declaration_line": 122,
+          "symbol": "prepare_outputs"
+        },
+        {
+          "declaration_line": 156,
+          "symbol": "emit_outputs"
+        },
+        {
+          "declaration_line": 171,
+          "symbol": "drain_watch"
+        },
+        {
+          "declaration_line": 192,
+          "symbol": "pidfd_ofd"
+        },
+        {
+          "declaration_line": 199,
+          "symbol": "retain_stream"
+        },
+        {
+          "declaration_line": 221,
+          "symbol": "stop_owned_actor"
+        },
+        {
+          "declaration_line": 279,
+          "symbol": "retain"
+        },
+        {
+          "declaration_line": 284,
+          "symbol": "mapped"
+        },
+        {
+          "declaration_line": 312,
+          "symbol": "private_source_topology"
+        },
+        {
+          "declaration_line": 320,
+          "symbol": "decide"
+        },
+        {
+          "declaration_line": 351,
+          "symbol": "project"
+        },
+        {
+          "declaration_line": 376,
+          "symbol": "launch"
+        },
+        {
+          "declaration_line": 484,
+          "symbol": "receive"
+        },
+        {
+          "declaration_line": 551,
+          "symbol": "run"
+        },
+        {
+          "declaration_line": 611,
+          "symbol": "complete"
+        },
+        {
+          "declaration_line": 705,
+          "symbol": "run_original_client_owner"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 243074,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/proof_manifest.py",
+        "sha256": "b5f474022475f83fd6d1abb1d00983e8091a06d8a7819098b97fff520a1f0dc0"
+      },
+      "definitions": [
+        {
+          "declaration_line": 421,
+          "symbol": "normalized_ada"
+        },
+        {
+          "declaration_line": 438,
+          "symbol": "contract_text"
+        },
+        {
+          "declaration_line": 450,
+          "symbol": "contract_pin"
+        },
+        {
+          "declaration_line": 454,
+          "symbol": "export_problems"
+        },
+        {
+          "declaration_line": 617,
+          "symbol": "stray_sources"
+        },
+        {
+          "declaration_line": 623,
+          "symbol": "missing_sources"
+        },
+        {
+          "declaration_line": 628,
+          "symbol": "contract_problems"
+        },
+        {
+          "declaration_line": 670,
+          "symbol": "expected_units"
+        },
+        {
+          "declaration_line": 682,
+          "symbol": "source_paths"
+        },
+        {
+          "declaration_line": 697,
+          "symbol": "proof_source_files"
+        },
+        {
+          "declaration_line": 705,
+          "symbol": "digest"
+        },
+        {
+          "declaration_line": 736,
+          "symbol": "_count"
+        },
+        {
+          "declaration_line": 740,
+          "symbol": "parse_summary"
+        },
+        {
+          "declaration_line": 855,
+          "symbol": "manifest_findings"
+        },
+        {
+          "declaration_line": 929,
+          "symbol": "manifest_problems"
+        },
+        {
+          "declaration_line": 933,
+          "symbol": "summary_problems"
+        },
+        {
+          "declaration_line": 955,
+          "symbol": "load_manifest"
+        },
+        {
+          "declaration_line": 964,
+          "symbol": "export_problems"
+        },
+        {
+          "declaration_line": 979,
+          "symbol": "export_problems"
+        },
+        {
+          "declaration_line": 992,
+          "symbol": "export_problems"
+        },
+        {
+          "declaration_line": 1011,
+          "symbol": "export_problems"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 51962,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/protected_root_worker.py",
+        "sha256": "44aaed616bb4a005ffcdd25de4f18d68109c79b3b9dce053c819a43ebe7e7a91"
+      },
+      "definitions": [
+        {
+          "declaration_line": 17,
+          "symbol": "require_root_kernel"
+        },
+        {
+          "declaration_line": 22,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 32,
+          "symbol": "intact"
+        },
+        {
+          "declaration_line": 34,
+          "symbol": "verify_retained_chain"
+        },
+        {
+          "declaration_line": 40,
+          "symbol": "observe"
+        },
+        {
+          "declaration_line": 45,
+          "symbol": "decide"
+        },
+        {
+          "declaration_line": 58,
+          "symbol": "replay_root_custody"
+        },
+        {
+          "declaration_line": 67,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 81,
+          "symbol": "intact"
+        },
+        {
+          "declaration_line": 84,
+          "symbol": "capture"
+        },
+        {
+          "declaration_line": 86,
+          "symbol": "authorize_root"
+        },
+        {
+          "declaration_line": 91,
+          "symbol": "retain"
+        },
+        {
+          "declaration_line": 101,
+          "symbol": "verify_ack"
+        },
+        {
+          "declaration_line": 107,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 161,
+          "symbol": "intact"
+        },
+        {
+          "declaration_line": 164,
+          "symbol": "capture_root_material"
+        },
+        {
+          "declaration_line": 170,
+          "symbol": "retain_native"
+        },
+        {
+          "declaration_line": 173,
+          "symbol": "close_front_owners"
+        },
+        {
+          "declaration_line": 215,
+          "symbol": "register_subject_reader"
+        },
+        {
+          "declaration_line": 284,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 321,
+          "symbol": "intact"
+        },
+        {
+          "declaration_line": 323,
+          "symbol": "capture_root_material"
+        },
+        {
+          "declaration_line": 326,
+          "symbol": "retain_native"
+        },
+        {
+          "declaration_line": 329,
+          "symbol": "close_stdin"
+        },
+        {
+          "declaration_line": 393,
+          "symbol": "own_task"
+        },
+        {
+          "declaration_line": 403,
+          "symbol": "_handler_boundary"
+        },
+        {
+          "declaration_line": 461,
+          "symbol": "_result_capture"
+        },
+        {
+          "declaration_line": 466,
+          "symbol": "_finish_live"
+        },
+        {
+          "declaration_line": 624,
+          "symbol": "recover_root_append"
+        },
+        {
+          "declaration_line": 661,
+          "symbol": "root_retry_evidence"
+        },
+        {
+          "declaration_line": 717,
+          "symbol": "relinquish_owners"
+        },
+        {
+          "declaration_line": 749,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 771,
+          "symbol": "intact"
+        },
+        {
+          "declaration_line": 773,
+          "symbol": "bind_received_custody"
+        },
+        {
+          "declaration_line": 789,
+          "symbol": "capture_root_material"
+        },
+        {
+          "declaration_line": 796,
+          "symbol": "retain_native"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 77962,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/protected_scoped_resource_runtime.py",
+        "sha256": "75febf6a1e9b8a5e01610bbbe788387f950c3ac03130c3a265b5b0dd53db1577"
+      },
+      "definitions": [
+        {
+          "declaration_line": 26,
+          "symbol": "_id"
+        },
+        {
+          "declaration_line": 31,
+          "symbol": "_decimal"
+        },
+        {
+          "declaration_line": 39,
+          "symbol": "_hex"
+        },
+        {
+          "declaration_line": 52,
+          "symbol": "attach_scoped_resource"
+        },
+        {
+          "declaration_line": 62,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 77,
+          "symbol": "intact"
+        },
+        {
+          "declaration_line": 84,
+          "symbol": "sync_launch_journal"
+        },
+        {
+          "declaration_line": 105,
+          "symbol": "current_snapshot"
+        },
+        {
+          "declaration_line": 108,
+          "symbol": "bind_operation_principal"
+        },
+        {
+          "declaration_line": 114,
+          "symbol": "_context"
+        },
+        {
+          "declaration_line": 180,
+          "symbol": "current_context"
+        },
+        {
+          "declaration_line": 184,
+          "symbol": "_request"
+        },
+        {
+          "declaration_line": 191,
+          "symbol": "_inspect"
+        },
+        {
+          "declaration_line": 200,
+          "symbol": "_retained_closed"
+        },
+        {
+          "declaration_line": 227,
+          "symbol": "_capture"
+        },
+        {
+          "declaration_line": 252,
+          "symbol": "_retain_owned_closed"
+        },
+        {
+          "declaration_line": 282,
+          "symbol": "_projection"
+        },
+        {
+          "declaration_line": 301,
+          "symbol": "_buckets"
+        },
+        {
+          "declaration_line": 320,
+          "symbol": "_propose_packet"
+        },
+        {
+          "declaration_line": 345,
+          "symbol": "capture_commit"
+        },
+        {
+          "declaration_line": 356,
+          "symbol": "reconcile_context"
+        },
+        {
+          "declaration_line": 374,
+          "symbol": "_selected_cost"
+        },
+        {
+          "declaration_line": 382,
+          "symbol": "intent_for_operation"
+        },
+        {
+          "declaration_line": 405,
+          "symbol": "reserve_packet"
+        },
+        {
+          "declaration_line": 411,
+          "symbol": "submit_bound"
+        },
+        {
+          "declaration_line": 441,
+          "symbol": "_restore_prepared"
+        },
+        {
+          "declaration_line": 461,
+          "symbol": "_lifecycle_packet_record"
+        },
+        {
+          "declaration_line": 476,
+          "symbol": "_committed_material"
+        },
+        {
+          "declaration_line": 493,
+          "symbol": "_committed_terminal_material"
+        },
+        {
+          "declaration_line": 500,
+          "symbol": "_committed_terminal"
+        },
+        {
+          "declaration_line": 506,
+          "symbol": "settle_bound"
+        },
+        {
+          "declaration_line": 514,
+          "symbol": "commit"
+        },
+        {
+          "declaration_line": 525,
+          "symbol": "settle_historical"
+        },
+        {
+          "declaration_line": 545,
+          "symbol": "commit"
+        },
+        {
+          "declaration_line": 566,
+          "symbol": "resolve_historical"
+        },
+        {
+          "declaration_line": 593,
+          "symbol": "commit"
+        },
+        {
+          "declaration_line": 606,
+          "symbol": "committed_resource_history"
+        },
+        {
+          "declaration_line": 611,
+          "symbol": "reconcile"
+        },
+        {
+          "declaration_line": 623,
+          "symbol": "lifecycle_packet"
+        },
+        {
+          "declaration_line": 627,
+          "symbol": "machine_admission"
+        },
+        {
+          "declaration_line": 698,
+          "symbol": "launch_reserved"
+        },
+        {
+          "declaration_line": 777,
+          "symbol": "_actor_process"
+        },
+        {
+          "declaration_line": 816,
+          "symbol": "_execution_crosswalk"
+        },
+        {
+          "declaration_line": 840,
+          "symbol": "complete"
+        },
+        {
+          "declaration_line": 851,
+          "symbol": "go_scoped"
+        },
+        {
+          "declaration_line": 955,
+          "symbol": "close"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 69333,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/protected_startup.py",
+        "sha256": "68133f83b55f65675486d91b3b6892a3ee5b2d6f74f2352316de9762df2317ab"
+      },
+      "definitions": [
+        {
+          "declaration_line": 31,
+          "symbol": "require"
+        },
+        {
+          "declaration_line": 36,
+          "symbol": "canonical"
+        },
+        {
+          "declaration_line": 41,
+          "symbol": "exact_json"
+        },
+        {
+          "declaration_line": 42,
+          "symbol": "pairs"
+        },
+        {
+          "declaration_line": 55,
+          "symbol": "protected"
+        },
+        {
+          "declaration_line": 71,
+          "symbol": "private_bytes"
+        },
+        {
+          "declaration_line": 91,
+          "symbol": "digest"
+        },
+        {
+          "declaration_line": 95,
+          "symbol": "kernel_identity"
+        },
+        {
+          "declaration_line": 105,
+          "symbol": "inventory"
+        },
+        {
+          "declaration_line": 117,
+          "symbol": "_sql_value"
+        },
+        {
+          "declaration_line": 124,
+          "symbol": "store_snapshot"
+        },
+        {
+          "declaration_line": 153,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 254,
+          "symbol": "_validate_genesis"
+        },
+        {
+          "declaration_line": 275,
+          "symbol": "_installation"
+        },
+        {
+          "declaration_line": 334,
+          "symbol": "_existing_state"
+        },
+        {
+          "declaration_line": 373,
+          "symbol": "_offline_operation_slot"
+        },
+        {
+          "declaration_line": 396,
+          "symbol": "operation_head_provisioning"
+        },
+        {
+          "declaration_line": 401,
+          "symbol": "require_runtime"
+        },
+        {
+          "declaration_line": 404,
+          "symbol": "_lock_paths"
+        },
+        {
+          "declaration_line": 427,
+          "symbol": "_lock"
+        },
+        {
+          "declaration_line": 452,
+          "symbol": "_routes_absent"
+        },
+        {
+          "declaration_line": 458,
+          "symbol": "_open_ledger"
+        },
+        {
+          "declaration_line": 491,
+          "symbol": "validate_store_path"
+        },
+        {
+          "declaration_line": 498,
+          "symbol": "payload"
+        },
+        {
+          "declaration_line": 509,
+          "symbol": "validate_store"
+        },
+        {
+          "declaration_line": 514,
+          "symbol": "validate_controller"
+        },
+        {
+          "declaration_line": 520,
+          "symbol": "validate_capability_layout"
+        },
+        {
+          "declaration_line": 534,
+          "symbol": "reconcile_admission"
+        },
+        {
+          "declaration_line": 565,
+          "symbol": "loaded"
+        },
+        {
+          "declaration_line": 600,
+          "symbol": "intact"
+        },
+        {
+          "declaration_line": 622,
+          "symbol": "_owner_admission_core"
+        },
+        {
+          "declaration_line": 637,
+          "symbol": "_owner_admission_roster"
+        },
+        {
+          "declaration_line": 659,
+          "symbol": "_decide_owner_journal_admission"
+        },
+        {
+          "declaration_line": 668,
+          "symbol": "open_journal"
+        },
+        {
+          "declaration_line": 732,
+          "symbol": "_startup_effect_call"
+        },
+        {
+          "declaration_line": 757,
+          "symbol": "_startup_file_stream"
+        },
+        {
+          "declaration_line": 766,
+          "symbol": "_sync_genesis"
+        },
+        {
+          "declaration_line": 814,
+          "symbol": "_transition"
+        },
+        {
+          "declaration_line": 836,
+          "symbol": "construct"
+        },
+        {
+          "declaration_line": 905,
+          "symbol": "recovery_startup_action"
+        },
+        {
+          "declaration_line": 926,
+          "symbol": "redecide_recovery_operation"
+        },
+        {
+          "declaration_line": 933,
+          "symbol": "require_front_startup"
+        },
+        {
+          "declaration_line": 939,
+          "symbol": "capture_startup_native"
+        },
+        {
+          "declaration_line": 964,
+          "symbol": "_capture_admission_sources"
+        },
+        {
+          "declaration_line": 973,
+          "symbol": "_admission_profile"
+        },
+        {
+          "declaration_line": 977,
+          "symbol": "capture_admission_profiles"
+        },
+        {
+          "declaration_line": 986,
+          "symbol": "_decide_journal_admission"
+        },
+        {
+          "declaration_line": 997,
+          "symbol": "capture_journal_admission"
+        },
+        {
+          "declaration_line": 1014,
+          "symbol": "_verify_journal_admission_transition"
+        },
+        {
+          "declaration_line": 1024,
+          "symbol": "complete_journal_admissions"
+        },
+        {
+          "declaration_line": 1054,
+          "symbol": "_owner_lock_observer"
+        },
+        {
+          "declaration_line": 1060,
+          "symbol": "_construct_gate"
+        },
+        {
+          "declaration_line": 1085,
+          "symbol": "close"
+        },
+        {
+          "declaration_line": 1113,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 1118,
+          "symbol": "handle"
+        },
+        {
+          "declaration_line": 1143,
+          "symbol": "handle"
+        },
+        {
+          "declaration_line": 1161,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 1174,
+          "symbol": "serve"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 29600,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/root_worker_custody.py",
+        "sha256": "dfdd2061775d0b787e8e0df98c09cba546523292cf1ed586bc14e9c24f313261"
+      },
+      "definitions": [
+        {
+          "declaration_line": 19,
+          "symbol": "identity"
+        },
+        {
+          "declaration_line": 24,
+          "symbol": "named_identity"
+        },
+        {
+          "declaration_line": 35,
+          "symbol": "_memfd"
+        },
+        {
+          "declaration_line": 46,
+          "symbol": "_read_memfd"
+        },
+        {
+          "declaration_line": 57,
+          "symbol": "_send_fd"
+        },
+        {
+          "declaration_line": 79,
+          "symbol": "_receive_fd"
+        },
+        {
+          "declaration_line": 118,
+          "symbol": "channel_source"
+        },
+        {
+          "declaration_line": 128,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 186,
+          "symbol": "duplicate_lock"
+        },
+        {
+          "declaration_line": 191,
+          "symbol": "close_received_copies"
+        },
+        {
+          "declaration_line": 207,
+          "symbol": "close_subject_escrow"
+        },
+        {
+          "declaration_line": 213,
+          "symbol": "transfer"
+        },
+        {
+          "declaration_line": 270,
+          "symbol": "committed_ack"
+        },
+        {
+          "declaration_line": 283,
+          "symbol": "receive"
+        },
+        {
+          "declaration_line": 370,
+          "symbol": "intact"
+        },
+        {
+          "declaration_line": 377,
+          "symbol": "bind_live_owner"
+        },
+        {
+          "declaration_line": 400,
+          "symbol": "activate_initial_request"
+        },
+        {
+          "declaration_line": 421,
+          "symbol": "native_capture"
+        },
+        {
+          "declaration_line": 429,
+          "symbol": "start_live_subject_service"
+        },
+        {
+          "declaration_line": 438,
+          "symbol": "roster"
+        },
+        {
+          "declaration_line": 442,
+          "symbol": "claim"
+        },
+        {
+          "declaration_line": 446,
+          "symbol": "close"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 2307,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/root_worker_plan.py",
+        "sha256": "7cfa2b66b726083390b0b5b1e55d835eaa914bac8392de7018bfacbce8a4b96a"
+      },
+      "definitions": [
+        {
+          "declaration_line": 13,
+          "symbol": "handler_plan"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 67238,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/runtime/worldline/runner.py",
+        "sha256": "7e609ecd3cc180a11c61b73bfacd4053ad11643a91d21266bc66657fec67fbe9"
+      },
+      "definitions": [
+        {
+          "declaration_line": 38,
+          "symbol": "_wait_capture"
+        },
+        {
+          "declaration_line": 47,
+          "symbol": "_timer_capture"
+        },
+        {
+          "declaration_line": 68,
+          "symbol": "_controller_stop_capture"
+        },
+        {
+          "declaration_line": 78,
+          "symbol": "materialize_private_copies"
+        },
+        {
+          "declaration_line": 114,
+          "symbol": "_is_sqlite"
+        },
+        {
+          "declaration_line": 126,
+          "symbol": "build_agent_event"
+        },
+        {
+          "declaration_line": 154,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 190,
+          "symbol": "_observe_stream_eof"
+        },
+        {
+          "declaration_line": 195,
+          "symbol": "_drain_stream_tail"
+        },
+        {
+          "declaration_line": 234,
+          "symbol": "systemd_call"
+        },
+        {
+          "declaration_line": 236,
+          "symbol": "owned"
+        },
+        {
+          "declaration_line": 241,
+          "symbol": "observed"
+        },
+        {
+          "declaration_line": 254,
+          "symbol": "controller_call"
+        },
+        {
+          "declaration_line": 275,
+          "symbol": "retain"
+        },
+        {
+          "declaration_line": 292,
+          "symbol": "quiescence_observation"
+        },
+        {
+          "declaration_line": 340,
+          "symbol": "_lifecycle"
+        },
+        {
+          "declaration_line": 345,
+          "symbol": "quiescent"
+        },
+        {
+          "declaration_line": 348,
+          "symbol": "wait"
+        },
+        {
+          "declaration_line": 363,
+          "symbol": "cancel_timer"
+        },
+        {
+          "declaration_line": 370,
+          "symbol": "finish"
+        },
+        {
+          "declaration_line": 372,
+          "symbol": "record_failure"
+        },
+        {
+          "declaration_line": 378,
+          "symbol": "attempt"
+        },
+        {
+          "declaration_line": 384,
+          "symbol": "decide"
+        },
+        {
+          "declaration_line": 475,
+          "symbol": "close_proxy"
+        },
+        {
+          "declaration_line": 502,
+          "symbol": "release_guard"
+        },
+        {
+          "declaration_line": 523,
+          "symbol": "__init__"
+        },
+        {
+          "declaration_line": 553,
+          "symbol": "cancel"
+        },
+        {
+          "declaration_line": 573,
+          "symbol": "_was_cancelled"
+        },
+        {
+          "declaration_line": 583,
+          "symbol": "_forget_cancel"
+        },
+        {
+          "declaration_line": 587,
+          "symbol": "run"
+        },
+        {
+          "declaration_line": 630,
+          "symbol": "_run"
+        },
+        {
+          "declaration_line": 685,
+          "symbol": "_run_owned"
+        },
+        {
+          "declaration_line": 837,
+          "symbol": "guarded"
+        },
+        {
+          "declaration_line": 838,
+          "symbol": "run_guarded"
+        },
+        {
+          "declaration_line": 859,
+          "symbol": "sample_resources"
+        },
+        {
+          "declaration_line": 861,
+          "symbol": "reading_from"
+        },
+        {
+          "declaration_line": 863,
+          "symbol": "cancelled"
+        },
+        {
+          "declaration_line": 932,
+          "symbol": "expire"
+        },
+        {
+          "declaration_line": 954,
+          "symbol": "read_stdout"
+        },
+        {
+          "declaration_line": 999,
+          "symbol": "read_stderr"
+        },
+        {
+          "declaration_line": 1064,
+          "symbol": "prepare_agent_prefix"
+        },
+        {
+          "declaration_line": 1068,
+          "symbol": "prepare_agent_result"
+        },
+        {
+          "declaration_line": 1258,
+          "symbol": "_evaluation_phases"
+        },
+        {
+          "declaration_line": 1275,
+          "symbol": "_normalize_path"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 59166,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/tests/excluded_source_owner_controls.py",
+        "sha256": "8fbb2e09c7f3e7aae3ac33f39b90f9c26249d3f7abeb2c92e63febfefc4166c6"
+      },
+      "definitions": [
+        {
+          "declaration_line": 20,
+          "symbol": "retained_records"
+        },
+        {
+          "declaration_line": 40,
+          "symbol": "message_changed"
+        },
+        {
+          "declaration_line": 48,
+          "symbol": "public_output"
+        },
+        {
+          "declaration_line": 97,
+          "symbol": "require"
+        },
+        {
+          "declaration_line": 102,
+          "symbol": "exact_json"
+        },
+        {
+          "declaration_line": 103,
+          "symbol": "pairs"
+        },
+        {
+          "declaration_line": 112,
+          "symbol": "pin_bytes"
+        },
+        {
+          "declaration_line": 136,
+          "symbol": "generated_fields"
+        },
+        {
+          "declaration_line": 141,
+          "symbol": "generated_file_pin"
+        },
+        {
+          "declaration_line": 168,
+          "symbol": "generated_snapshot"
+        },
+        {
+          "declaration_line": 175,
+          "symbol": "visit"
+        },
+        {
+          "declaration_line": 197,
+          "symbol": "generated_inventory_custody"
+        },
+        {
+          "declaration_line": 242,
+          "symbol": "generated_custody_controls"
+        },
+        {
+          "declaration_line": 253,
+          "symbol": "refused"
+        },
+        {
+          "declaration_line": 293,
+          "symbol": "mismatch"
+        },
+        {
+          "declaration_line": 313,
+          "symbol": "completed_input"
+        },
+        {
+          "declaration_line": 350,
+          "symbol": "scope_custody"
+        },
+        {
+          "declaration_line": 381,
+          "symbol": "scope_custody_controls"
+        },
+        {
+          "declaration_line": 388,
+          "symbol": "observed"
+        },
+        {
+          "declaration_line": 402,
+          "symbol": "refused"
+        },
+        {
+          "declaration_line": 434,
+          "symbol": "loaded_blank_result"
+        },
+        {
+          "declaration_line": 451,
+          "symbol": "unreadable"
+        },
+        {
+          "declaration_line": 460,
+          "symbol": "main_custody"
+        },
+        {
+          "declaration_line": 619,
+          "symbol": "run"
+        },
+        {
+          "declaration_line": 631,
+          "symbol": "decide"
+        },
+        {
+          "declaration_line": 656,
+          "symbol": "refused"
+        },
+        {
+          "declaration_line": 717,
+          "symbol": "sentinel_actor"
+        },
+        {
+          "declaration_line": 726,
+          "symbol": "invalid_message_descriptor"
+        },
+        {
+          "declaration_line": 834,
+          "symbol": "watch_event"
+        },
+        {
+          "declaration_line": 855,
+          "symbol": "incomplete"
+        },
+        {
+          "declaration_line": 881,
+          "symbol": "main"
+        }
+      ]
+    },
+    {
+      "artifact": {
+        "bytes": 17066,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source/tests/test_custody_startup_native_v35.py",
+        "sha256": "4a90de3b11b147881d6346425484498a5474fddd293c027379f337a7543070cd"
+      },
+      "definitions": [
+        {
+          "declaration_line": 27,
+          "symbol": "assert_complete_no_write_capture"
+        },
+        {
+          "declaration_line": 83,
+          "symbol": "assert_native_installation_correspondence"
+        },
+        {
+          "declaration_line": 105,
+          "symbol": "refused"
+        },
+        {
+          "declaration_line": 113,
+          "symbol": "executable_record"
+        },
+        {
+          "declaration_line": 131,
+          "symbol": "remove_installed_helper"
+        },
+        {
+          "declaration_line": 151,
+          "symbol": "descriptor"
+        },
+        {
+          "declaration_line": 162,
+          "symbol": "construct"
+        },
+        {
+          "declaration_line": 174,
+          "symbol": "test_native_complete_startup_replaces_frontier"
+        },
+        {
+          "declaration_line": 212,
+          "symbol": "test_no_write_capture_preserves_complete_scoped_history"
+        },
+        {
+          "declaration_line": 219,
+          "symbol": "test_stable_full_operation_redecision_has_no_write_effect"
+        },
+        {
+          "declaration_line": 232,
+          "symbol": "test_surviving_next_intent_has_native_redecision_and_readback"
+        },
+        {
+          "declaration_line": 263,
+          "symbol": "test_unknown_retains_accounting_without_fresh_front"
+        }
+      ]
+    }
+  ],
+  "transport": "Complete original root_worker_codec scoped_archive/restore_archive; exact full input is retained before every actual synchronous native C call, native output before postchecks, owner completion only after actual source/mapping/final/cleanup."
+}

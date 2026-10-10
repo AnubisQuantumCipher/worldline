@@ -1,0 +1,64 @@
+{
+  "actual_human_observation": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+    "unit": "codex-worldline-ordinary-source-v67-v2-pending-build-v1.scope"
+  },
+  "actual_human_predicate_only_checks": {
+    "active_refused": true,
+    "actual_scope_observation_permits_custody_predicate": true,
+    "nonempty_cgroup_refused": true,
+    "present_nonzero_pid_refused": true,
+    "unknown_loadstate_refused": true,
+    "unreadable_refused": true
+  },
+  "after_source_predicate_utf8": "        terminal = (observation['returncode'] == 0 and not observation['stderr'].strip() and\n                    properties.get('LoadState') in ('loaded', 'not-found') and\n                    properties.get('ActiveState') in ('inactive', 'failed') and\n                    properties.get('SubState') in ('dead', 'failed') and\n                    all(properties[key] == '0' for key in ('MainPID', 'ControlPID') if key in properties) and\n                    readable and not processes)\n",
+  "all118_frozen_inputs_original_source_private_goal_review_and_unknown_gates_preserved": true,
+  "author": "F67OrdinaryFrameOwner",
+  "author_reran_human_observation_or_checks": false,
+  "before_source_predicate_utf8": "        terminal = (observation['returncode'] == 0 and not observation['stderr'].strip() and\n                    properties.get('ActiveState') in ('inactive', 'failed') and\n                    properties.get('MainPID') == '0' and properties.get('ControlPID') == '0' and\n                    readable and not processes)\n",
+  "boundary": "Missing optional service PID properties on a genuine scope remain absent. Any supplied PID must be exact zero; malformed/nonzero or unknown load/substate refuses. Original known owned process liveness remains independently required; no PID0 or original wait receipt is inferred.",
+  "exact_corrected_author_postimage": {
+    "bytes": 42842,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-partial-ownership-recovery-v67-v1-preparation/recover_partial_ownership.py",
+    "sha256": "c9f0edaa355a27830266a27cb423c9f3f1d3833167c95e5929fae9cceb9303a4"
+  },
+  "exact_unfrozen_author_preimage": {
+    "bytes": 42677,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-partial-ownership-recovery-v67-v1-preparation/recover_partial_ownership.py",
+    "sha256": "b4707416d81f05e8953b14a5040b9f90a7fe9b47c8622914d9b5cdf8c66decca"
+  },
+  "forward": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-partial-ownership-recovery-v67-v1-preparation/recover_partial_ownership.py",
+    "replace_exact_once": "        terminal = (observation['returncode'] == 0 and not observation['stderr'].strip() and\n                    properties.get('ActiveState') in ('inactive', 'failed') and\n                    properties.get('MainPID') == '0' and properties.get('ControlPID') == '0' and\n                    readable and not processes)\n",
+    "with": "        terminal = (observation['returncode'] == 0 and not observation['stderr'].strip() and\n                    properties.get('LoadState') in ('loaded', 'not-found') and\n                    properties.get('ActiveState') in ('inactive', 'failed') and\n                    properties.get('SubState') in ('dead', 'failed') and\n                    all(properties[key] == '0' for key in ('MainPID', 'ControlPID') if key in properties) and\n                    readable and not processes)\n"
+  },
+  "historical_lost_handshake_parent_Popen_wait": null,
+  "human_donor_patch": {
+    "bytes": 956,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/scope-property-assistance-20261010T133500Z/scope-property.patch",
+    "sha256": "1febfcdb9af639f43e9ab491d4ab8d4f3821b7e0fe1b2eddb79b6e1e1ef21bd9"
+  },
+  "human_genuine_readback": {
+    "bytes": 1282,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/scope-property-assistance-20261010T133500Z/READBACK.json",
+    "sha256": "c94b982aaba65423bd91ad66fa7b4aa8f74105475e7ff3253b2df3feb7aa7cff"
+  },
+  "inverse": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-partial-ownership-recovery-v67-v1-preparation/recover_partial_ownership.py",
+    "replace_exact_once": "        terminal = (observation['returncode'] == 0 and not observation['stderr'].strip() and\n                    properties.get('LoadState') in ('loaded', 'not-found') and\n                    properties.get('ActiveState') in ('inactive', 'failed') and\n                    properties.get('SubState') in ('dead', 'failed') and\n                    all(properties[key] == '0' for key in ('MainPID', 'ControlPID') if key in properties) and\n                    readable and not processes)\n",
+    "with": "        terminal = (observation['returncode'] == 0 and not observation['stderr'].strip() and\n                    properties.get('ActiveState') in ('inactive', 'failed') and\n                    properties.get('MainPID') == '0' and properties.get('ControlPID') == '0' and\n                    readable and not processes)\n"
+  },
+  "phase_acceptance": false,
+  "root_outcome_eligibility": false,
+  "schema": "worldline-human-scope-property-source-correction-custody-v1",
+  "source_only_narrow_adoption": true,
+  "source_receiver_review_started_before_correction": false,
+  "target_execution": false,
+  "window_released": false
+}

@@ -1,0 +1,285 @@
+{
+  "abi_version": 1,
+  "authority": "raw packet data never issues/reserves/consumes protected authority",
+  "epoch": "arbitrary original nonnegative integer, complete unsigned LE magnitude; zero empty magnitude accepted; complete padding numeric equality retained by Evaluation_History.Same_Epoch",
+  "histories": "complete ordered before/after histories and independent finalizations; no tail truncation",
+  "identities": "complete UTF8 surrogatepass bytes; byte-distinct Unicode forms and embedded NUL preserved",
+  "layout_order": [
+    "identity",
+    "cursor",
+    "row",
+    "grant",
+    "request",
+    "audit",
+    "scope"
+  ],
+  "layout_selectors": {
+    "alignment": 1,
+    "first_field": 2,
+    "size": 0
+  },
+  "modes": {
+    "adopt_consumed_receipt": 3,
+    "checkpoint_result": 2,
+    "retry_audit": 0,
+    "retry_collapse": 1
+  },
+  "native_boundary": "OPEN actual native mappings, cost, allocation, termination, alias/memory ownership proof; existing C_API unanalyzed boundary retained",
+  "original_collapse": "ABI6 unchanged complete historical Raw_Request, hash_fields=expected_parent,candidate_parent,expected_subject,evidence_subject,expected_base,candidate_base,expected_delta,candidate_delta,expected_root_set,candidate_root_set,expected_staged_root,actual_staged_root,staged_content_root,tested_root,current_requirement,resulting_requirement,evaluated_requirement,declared_verifiers,executed_verifiers,staged_evaluated_requirement,staged_executed_verifiers,staged_examined_root,expected_checkpoint,witnessed_checkpoint,registered_watch_set,watched_set",
+  "schema": "worldline.owner-audit-owned-arena-v1",
+  "span": {
+    "absent": "typed absence; never genesis sentinel",
+    "first": "one-based size_t",
+    "length": "size_t full length",
+    "presence": "uint8_t 0 or 1 independent of zero/empty"
+  },
+  "status": "int transport error separate from native decision enum",
+  "structs": {
+    "audit": [
+      {
+        "name": "before_request",
+        "type": "request"
+      },
+      {
+        "name": "consumed",
+        "type": "grant"
+      },
+      {
+        "name": "issued_event",
+        "type": "identity"
+      },
+      {
+        "name": "reserved_event",
+        "type": "identity"
+      },
+      {
+        "name": "consumed_event",
+        "type": "identity"
+      },
+      {
+        "name": "consumed_issue",
+        "type": "identity"
+      },
+      {
+        "name": "consumed_reservation",
+        "type": "identity"
+      },
+      {
+        "name": "current_head",
+        "type": "cursor"
+      },
+      {
+        "name": "prepared_evidence",
+        "type": "cursor"
+      },
+      {
+        "name": "current_epoch",
+        "type": "identity"
+      }
+    ],
+    "cursor": [
+      {
+        "name": "present",
+        "type": "uint8_t"
+      },
+      {
+        "name": "sequence",
+        "type": "identity"
+      },
+      {
+        "name": "run",
+        "type": "identity"
+      }
+    ],
+    "grant": [
+      {
+        "name": "action",
+        "type": "uint8_t"
+      },
+      {
+        "name": "state",
+        "type": "uint8_t"
+      },
+      {
+        "name": "grant",
+        "type": "identity"
+      },
+      {
+        "name": "use_id",
+        "type": "identity"
+      },
+      {
+        "name": "issuer",
+        "type": "identity"
+      },
+      {
+        "name": "principal",
+        "type": "identity"
+      },
+      {
+        "name": "subject",
+        "type": "identity"
+      },
+      {
+        "name": "content",
+        "type": "identity"
+      },
+      {
+        "name": "transaction",
+        "type": "identity"
+      },
+      {
+        "name": "current_requirement",
+        "type": "identity"
+      },
+      {
+        "name": "expected_requirement",
+        "type": "identity"
+      },
+      {
+        "name": "reason",
+        "type": "identity"
+      },
+      {
+        "name": "issued_grant",
+        "type": "identity"
+      },
+      {
+        "name": "reserved_grant",
+        "type": "identity"
+      },
+      {
+        "name": "reserved_use",
+        "type": "identity"
+      },
+      {
+        "name": "failed_run",
+        "type": "cursor"
+      },
+      {
+        "name": "prior_head",
+        "type": "cursor"
+      },
+      {
+        "name": "next_run",
+        "type": "cursor"
+      },
+      {
+        "name": "epoch",
+        "type": "identity"
+      }
+    ],
+    "identity": [
+      {
+        "name": "present",
+        "type": "uint8_t"
+      },
+      {
+        "name": "first",
+        "type": "size_t"
+      },
+      {
+        "name": "length",
+        "type": "size_t"
+      }
+    ],
+    "request": [
+      {
+        "name": "action",
+        "type": "uint8_t"
+      },
+      {
+        "name": "peer",
+        "type": "identity"
+      },
+      {
+        "name": "owner",
+        "type": "identity"
+      },
+      {
+        "name": "trusted_issuer",
+        "type": "identity"
+      },
+      {
+        "name": "subject",
+        "type": "identity"
+      },
+      {
+        "name": "content",
+        "type": "identity"
+      },
+      {
+        "name": "transaction",
+        "type": "identity"
+      },
+      {
+        "name": "current_requirement",
+        "type": "identity"
+      },
+      {
+        "name": "resulting_requirement",
+        "type": "identity"
+      },
+      {
+        "name": "current_head",
+        "type": "cursor"
+      },
+      {
+        "name": "attempt",
+        "type": "cursor"
+      },
+      {
+        "name": "current_epoch",
+        "type": "identity"
+      },
+      {
+        "name": "grant",
+        "type": "grant"
+      }
+    ],
+    "row": [
+      {
+        "name": "subject",
+        "type": "identity"
+      },
+      {
+        "name": "content",
+        "type": "identity"
+      },
+      {
+        "name": "requirement",
+        "type": "identity"
+      },
+      {
+        "name": "run",
+        "type": "identity"
+      },
+      {
+        "name": "sequence",
+        "type": "identity"
+      },
+      {
+        "name": "state",
+        "type": "uint8_t"
+      },
+      {
+        "name": "outcome",
+        "type": "uint8_t"
+      }
+    ],
+    "scope": [
+      {
+        "name": "subject",
+        "type": "identity"
+      },
+      {
+        "name": "content",
+        "type": "identity"
+      },
+      {
+        "name": "transaction",
+        "type": "identity"
+      }
+    ]
+  }
+}

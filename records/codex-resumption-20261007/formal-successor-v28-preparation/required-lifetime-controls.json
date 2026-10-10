@@ -1,0 +1,25 @@
+{
+  "authority": "none; separately reviewed root-controlled action frame and original gates required",
+  "controls": {
+    "tests/test_context_cast_lifetime.py": [
+      "test_original_whole_projection_context_metadata_and_native_conjunction",
+      "test_original_conjunct_mutations_refuse_with_unchanged_results",
+      "test_context_copy_audit_count_order_size_and_offsets_match_original",
+      "test_descriptors_alone_keep_complete_original_transport_owners",
+      "test_discarded_full_prepared_graph_releases_without_cyclic_collection"
+    ],
+    "tests/test_finalization_cast_lifetime.py": [
+      "test_whole_original_arena_spans_rows_plans_all_operations",
+      "test_actual_native_outputs_and_full_input_snapshots",
+      "test_request_alone_retains_complete_owners_through_native_call",
+      "test_completed_temporary_owners_release_without_cyclic_collection",
+      "test_equal_fields_remain_distinct_mutable_spans_and_packs",
+      "test_original_malformed_span_preserves_output_bytes",
+      "test_invalid_original_domains_keep_exact_named_refusals",
+      "test_required_audit_counts_copy_sizes_and_explicit_cast_transport",
+      "test_audit_primary_refusal_and_finite_reentry_are_retained"
+    ]
+  },
+  "original_controls": "ALL remain required matching source; these additions replace none",
+  "status": "UNRUN"
+}

@@ -1,0 +1,147 @@
+--- a/tests/excluded_source_owner_controls.py
++++ b/tests/excluded_source_owner_controls.py
+@@ -10,6 +10,7 @@
+ import ctypes
+ import hashlib
+ import json
++import os
+ from pathlib import Path
+ import struct
+ import stat
+@@ -119,6 +120,125 @@
+     return raw
+ 
+ 
++GENERATED_SOURCE_ROOTS = (
++    'bin', 'explicit-recovery-marker-tests/bin', 'explicit-recovery-marker-tests/obj',
++    'lib', 'obj', 'protocol-adapter-tests/bin', 'protocol-adapter-tests/obj',
++    'recovery-protocol-tests/bin', 'recovery-protocol-tests/obj',
++    'resource-tests/bin', 'resource-tests/obj', 'use-reservation-tests/bin',
++    'use-reservation-tests/obj', 'wire-initialization-tests/bin',
++    'wire-initialization-tests/obj',
++)
++GENERATED_PRIVATE_ROOTS = (
++    'lib/gnat/sparklib_obj', 'lib/gnat/sparklib_lib', 'lib/gnat/proof',
++)
++
++
++def generated_fields(metadata):
++    return (metadata.st_dev, metadata.st_ino, metadata.st_mode, metadata.st_nlink,
++            metadata.st_size, metadata.st_mtime_ns, metadata.st_ctime_ns)
++
++
++def generated_file_pin(path, *, follow_link=False, target=None):
++    named_before = path.lstat()
++    if follow_link:
++        require(stat.S_ISLNK(named_before.st_mode) and os.readlink(path) == target,
++                'generated symlink target changed')
++    else:
++        require(stat.S_ISREG(named_before.st_mode), 'generated regular file required')
++    before = path.stat() if follow_link else named_before
++    require(stat.S_ISREG(before.st_mode), 'generated retained file target required')
++    flags = os.O_RDONLY | os.O_CLOEXEC
++    if not follow_link:
++        flags |= os.O_NOFOLLOW
++    with os.fdopen(os.open(path, flags), 'rb') as stream:
++        require(generated_fields(os.fstat(stream.fileno())) == generated_fields(before),
++                'generated file descriptor differs from named file')
++        digest = hashlib.file_digest(stream, 'sha256').hexdigest()
++        require(generated_fields(os.fstat(stream.fileno())) == generated_fields(before),
++                'generated held file changed')
++    require(generated_fields(path.stat()) == generated_fields(before)
++            and generated_fields(path.lstat()) == generated_fields(named_before),
++            'generated retained file or name changed')
++    if follow_link:
++        require(os.readlink(path) == target, 'generated symlink target changed')
++    return {'path': str(path), 'sha256': digest, 'bytes': before.st_size,
++            'mode': stat.S_IMODE(before.st_mode)}
++
++
++def generated_snapshot(root):
++    # Preserve the original generated_outputs/snapshot(allow_links=True) format,
++    # including None for a missing root and a file/symlink root snapshot.
++    if not root.exists():
++        return None
++    rows = {}
++
++    def visit(path):
++        name = path.relative_to(root).as_posix()
++        before = path.lstat()
++        mode = stat.S_IMODE(before.st_mode)
++        if stat.S_ISDIR(before.st_mode):
++            rows[name] = {'kind': 'directory', 'mode': mode}
++            for child in sorted(path.iterdir()):
++                visit(child)
++        elif stat.S_ISREG(before.st_mode):
++            pin = generated_file_pin(path)
++            rows[name] = {'kind': 'file', **{key: pin[key] for key in ('sha256', 'bytes', 'mode')}}
++        elif stat.S_ISLNK(before.st_mode):
++            rows[name] = {'kind': 'symlink', 'mode': mode, 'target': os.readlink(path)}
++        else:
++            raise ValueError('original generated snapshot rejects special files')
++        require(generated_fields(before) == generated_fields(path.lstat()),
++                'generated snapshot member changed')
++
++    visit(root)
++    return rows
++
++
++def generated_inventory_custody(selected, terminal, inventory, by_path):
++    terminal_folder = Path(selected['terminal']['path']).parent
++    require(Path(selected['generated_inventory']['path'])
++            == terminal_folder / 'owned-generated-output-inventory.json',
++            'selector must name the original collector generated-inventory output')
++    source_manifest = terminal['source_manifest']
++    pin_bytes(source_manifest)
++    candidate = Path(source_manifest['path']).parent
++    require(Path(selected['proposal']['path']) == candidate / 'reviewed-launch-proposal.json',
++            'generated outputs must belong to the actual original selected candidate')
++    names = tuple('source/' + name for name in GENERATED_SOURCE_ROOTS) + tuple(
++        'private-sparklib/' + name for name in GENERATED_PRIVATE_ROOTS)
++    require(type(inventory) is dict and set(inventory) == set(names),
++            'complete original generated-output root keyset required')
++    expected_retained = set()
++    actual_retained = {path for path in by_path if any(
++        path == str(candidate / name) or path.startswith(str(candidate / name) + '/')
++        for name in names)}
++    for name in names:
++        root = candidate / name
++        actual = generated_snapshot(root)
++        # Typed JSON equality excludes bool/float substitutions for genuine
++        # integer metadata while preserving arbitrary original lengths/modes.
++        require(json.dumps(actual, sort_keys=True, allow_nan=False)
++                == json.dumps(inventory[name], sort_keys=True, allow_nan=False),
++                'full original generated snapshot differs: ' + name)
++        if actual is None:
++            continue
++        for relative, row in actual.items():
++            path = root if relative == '.' else root / relative
++            if row['kind'] == 'file':
++                pin = {'path': str(path), **{key: row[key] for key in ('sha256', 'bytes', 'mode')}}
++            elif row['kind'] == 'symlink' and path.is_file():
++                # The original collector retains file symlink targets by their
++                # named paths; preserve that behavior without traversing dirs.
++                pin = generated_file_pin(path, follow_link=True, target=row['target'])
++            else:
++                continue
++            require(by_path.get(str(path)) == pin,
++                    'generated file is absent or mismatched in retained artifacts: ' + str(path))
++            expected_retained.add(str(path))
++    require(actual_retained == expected_retained,
++            'retained generated file keyset differs from the complete snapshots')
++
++
+ def completed_input(records):
+     finals = [(index, record['value']) for index, record in enumerate(records)
+               if record['kind'] == 'OWNER_ACTOR_COMPLETED']
+@@ -181,8 +301,8 @@
+     require(value['source_readback']['exact_keyset_bytes_modes_match'] is True
+             and value['private_readback']['matches'] is True,
+             'original complete source/private dependency readbacks required')
+-    require(value['generated_inventory'] is not None and value['source_readback']['actual_files'],
+-            'actual original generated/source inventories required')
++    generated_inventory_custody(selected, terminal, value['generated_inventory'], by_path)
++    require(value['source_readback']['actual_files'], 'actual original source inventory required')
+     actual_source = value['private_readback']['actual']['complete_source_entries']
+     actual_hashes = {name: row['sha256'] for name, row in actual_source.items() if row['kind'] == 'file'}
+     require(actual_hashes == value['source_readback']['actual_files'],

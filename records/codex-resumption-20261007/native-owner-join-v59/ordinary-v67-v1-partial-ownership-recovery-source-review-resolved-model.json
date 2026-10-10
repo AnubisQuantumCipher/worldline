@@ -1,0 +1,91 @@
+{
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "actual_observed_provider_serviceTier": "default",
+  "actual_response_metadata_observed": [
+    {
+      "api": "openai-codex-responses",
+      "errorMessage": null,
+      "id": "c12601e2",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "serviceTier": "default",
+      "timestamp": "2026-10-10T13:51:18.329Z"
+    },
+    {
+      "api": "openai-codex-responses",
+      "errorMessage": null,
+      "id": "0d594690",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "serviceTier": "default",
+      "timestamp": "2026-10-10T13:51:40.648Z"
+    },
+    {
+      "api": "openai-codex-responses",
+      "errorMessage": null,
+      "id": "e24252aa",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "serviceTier": "default",
+      "timestamp": "2026-10-10T13:51:46.892Z"
+    },
+    {
+      "api": "openai-codex-responses",
+      "errorMessage": null,
+      "id": "1aea3699",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "serviceTier": "default",
+      "timestamp": "2026-10-10T13:51:58.143Z"
+    }
+  ],
+  "advisor_invoked_in_this_review": false,
+  "advisor_state_truth_boundary": "Main's same-session continuation explicitly requires own advisor off. The observed provider metadata contains no advisor-state field; no advisor use is claimed or used as independent evidence.",
+  "default_to_Standard_equivalence_inferred": false,
+  "event_source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05/F67OrdinarySourceReview.jsonl",
+  "fallback_used": false,
+  "historical_model_epochs_relabelled": false,
+  "literal_Standard_wire_observation": false,
+  "model_identity_inferred_from_lead_directive": false,
+  "model_identity_inferred_from_reviewer_label": false,
+  "observed_model_event": {
+    "id": "cdb49dba",
+    "model": "openai-codex/gpt-6.1-sol",
+    "parentId": null,
+    "resolvedModelIsFallback": false,
+    "timestamp": "2026-10-10T04:34:10.269Z",
+    "type": "model_change"
+  },
+  "observed_thinking_event": {
+    "configured": null,
+    "id": "7ef3220f",
+    "parentId": "cdb49dba",
+    "thinkingLevel": "max",
+    "timestamp": "2026-10-10T04:34:10.270Z",
+    "type": "thinking_level_change"
+  },
+  "own_advisor_off_required": true,
+  "phase_acceptance": false,
+  "purpose": "Genuine own-model companion for the new exact original partial-ownership-recovery helper source opinion; not the historical F67 SOURCE4, complete39 preparation, emitted-prefix, or M4 model companion.",
+  "record_author": "F67OrdinarySourceReview",
+  "record_role": "model_record",
+  "resolvedModelIdentity": "openai-codex/gpt-6.1-sol",
+  "resolvedThinkingLevel": "max",
+  "reviewer": "F67OrdinarySourceReview",
+  "reviewer_authored": true,
+  "runtime_acceptance": false,
+  "same_continuing_actual_session": true,
+  "schema": "worldline.resolved-review-model-provenance.v1",
+  "session": {
+    "id": "01a12417-0202-73eb-ae3d-b9603c85cca3",
+    "parentSession": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05.jsonl",
+    "timestamp": "2026-10-10T04:34:10.050Z",
+    "type": "session",
+    "version": 3
+  },
+  "source_or_receiver_authorship_claimed": false,
+  "speed_priority": "none",
+  "speed_priority_field_scope": "Required Standard/non-Fast/no-priority routing contract; provider replies report default, not literal Standard. No wire equivalence is inferred.",
+  "strict_proof": false,
+  "target_execution": false
+}

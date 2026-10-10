@@ -1,0 +1,72 @@
+{
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "actual_reply_observation": {
+    "id": "0513eb3d",
+    "message": {
+      "api": "openai-codex-responses",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "serviceTier": "default",
+      "stopReason": "toolUse"
+    },
+    "parentId": "e4952d1f",
+    "timestamp": "2026-10-10T09:04:31.779Z"
+  },
+  "actual_session_observation": {
+    "additional_current_reply_ids": [
+      "3af857eb",
+      "0db8e651",
+      "17534b87",
+      "6ec5303c",
+      "bc0a0e33"
+    ],
+    "advisor": "Main-retained advisor-off harness setting; no reviewer model/advisor action",
+    "current_actual_reply": {
+      "api": "openai-codex-responses",
+      "errorMessage": null,
+      "id": "9625b888",
+      "model": "gpt-6.1-sol",
+      "parentId": "84a1f2f7",
+      "provider": "openai-codex",
+      "serviceTier": "default",
+      "stopReason": "toolUse",
+      "timestamp": "2026-10-10T08:12:02.850Z"
+    },
+    "event_source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05/N67V4PreparerReview.jsonl",
+    "historical_8ba_companion_is_not_current_capture_epoch_receipt": true,
+    "literal_Standard_wire_observed": false,
+    "model_change_event": {
+      "id": "aad1a3bc",
+      "model": "openai-codex/gpt-6.1-sol",
+      "resolvedModelIsFallback": false,
+      "timestamp": "2026-10-10T04:20:35.380Z"
+    },
+    "observed_service_tier": "default",
+    "required_Main_retention": "Retain a new genuine current-epoch companion from these actual same-session observations and this actual terminal response. Send its measured four-field descriptor for the full recipe; do not overwrite/relabel historical8ba or invent future terminal evidence.",
+    "resolved_model_is_fallback": false,
+    "session_id": "01a1240a-9331-747a-9e3f-2bdfa8acf9b3",
+    "thinking_level": "max",
+    "thinking_level_event": {
+      "id": "85cf0d3f",
+      "thinkingLevel": "max",
+      "timestamp": "2026-10-10T04:20:35.380Z"
+    }
+  },
+  "advisor_enabled": false,
+  "agent": "N67V4PreparerReview",
+  "literal_Standard_wire_observed": false,
+  "no_target_or_phase_acceptance": true,
+  "observer": "Main",
+  "prior_session_provenance": {
+    "bytes": 2950,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/N67V4PreparerReview-full-recipe-current-model-v2.json",
+    "sha256": "527b57b7e84ad83240b73ecf05677830d4f6f0206bd4f8f1233b8b2aaed9d0ad"
+  },
+  "required_configured_speed": "Standard",
+  "resolved_model_is_fallback": false,
+  "schema": "worldline-N67-inner-review-actual-model-companion-v1",
+  "service_tier": "default",
+  "session_id": "01a1240a-9331-747a-9e3f-2bdfa8acf9b3",
+  "thinking_level": "max"
+}

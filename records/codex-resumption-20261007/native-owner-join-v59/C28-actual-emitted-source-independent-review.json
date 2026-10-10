@@ -1,0 +1,773 @@
+{
+  "actual_Main_materialization": {
+    "actual_invocation_event": {
+      "command": "/usr/bin/python3 -B /home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/prepare_successor.py --prepare-source-data-only",
+      "id": "ab60492f",
+      "timeout": 300,
+      "timestamp": "2026-10-10T12:38:48.970Z",
+      "toolCallId": "call_25b3e57b743d4a5fbe05be9a71137c1c|fc_02fd32c07342e749016aca31d5118081918e07cca294200b20",
+      "toolName": "bash"
+    },
+    "actual_result_event": {
+      "id": "c5ffd8c8",
+      "isError": false,
+      "numeric_exit_status": null,
+      "phase_acceptance": false,
+      "proof_acceptance": false,
+      "returned_status": "PREPARED_SOURCE_DATA_ONLY_ACTUAL_EMITTED_REVIEW_ADOPTION_FRESH_GATES_REQUIRED",
+      "target_execution": false,
+      "timeoutSeconds": 300,
+      "timestamp": "2026-10-10T12:39:34.465Z",
+      "toolCallId": "call_25b3e57b743d4a5fbe05be9a71137c1c|fc_02fd32c07342e749016aca31d5118081918e07cca294200b20",
+      "toolName": "bash",
+      "wallTimeMs": 45483.420717999805
+    },
+    "event_source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05.jsonl",
+    "separate_materialization_terminal_file_pin_invented": false,
+    "truth_boundary": "The actual original Main invocation and corresponding complete small returned event were read, not rerun. Its metadata does not report a numeric exit status, so zero is not inferred from JSON or isError=false. The normal final preparer status is source/private/compiler-data materialization evidence only; it is not compiler/prover execution or acceptance."
+  },
+  "actual_emitted_artifacts": {
+    "compiler-output-seed-copy-receipt.json": {
+      "bytes": 322140,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/compiler-output-seed-copy-receipt.json",
+      "sha256": "dbcf30dbe1b161499187637ab29150af587d1a4b159b746459d8c5787ec59802"
+    },
+    "compiler-output-seed-selection.json": {
+      "bytes": 1345191,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/compiler-output-seed-selection.json",
+      "sha256": "966720c5a0a34490b74aa7877605d7e92df5556d07162b0afbd58cd3217e0e5f"
+    },
+    "final-source-inventory.json": {
+      "bytes": 193036,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/final-source-inventory.json",
+      "sha256": "2b8307514b3f8914229ba3686a625aa3a7c14267292eb1c1ac1f7fb7c718487a"
+    },
+    "generated-preservation-exclusions.json": {
+      "bytes": 808,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/generated-preservation-exclusions.json",
+      "sha256": "176bc4f0270874af5b881956585dd8795a41fd0d46e632bf4d8916df1639ae72"
+    },
+    "inputs.json": {
+      "bytes": 450860,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/inputs.json",
+      "sha256": "6fb3b0b83491302084fd54673e2889042f704400962e0a4d5fb400f4de9cffdb"
+    },
+    "proof-obligations.json": {
+      "bytes": 926354,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/proof-obligations.json",
+      "sha256": "902d7226896574964d6e520a5d6013e16ecd9ca424d2934983af356881caac8b"
+    },
+    "proof-plan.json": {
+      "bytes": 236804,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/proof-plan.json",
+      "sha256": "b267afed4801292c477232c0789a8b3c324342e37ba0ba4b3f1aca5bc242d83a"
+    },
+    "review/root-live-lane-v1/inputs.json": {
+      "bytes": 413375,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/inputs.json",
+      "sha256": "5b55c86893752df719a67434a08a525362b434234a0926ff56be5f7b481c76e2"
+    },
+    "reviewed-launch-proposal.json": {
+      "bytes": 9006,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/reviewed-launch-proposal.json",
+      "sha256": "5cbcb8d0c73dfa776ac22d4e94fee0491a405b84d2f53f74b5d9f24feeb71ac5"
+    },
+    "source-bindings.json": {
+      "bytes": 1414044,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/source-bindings.json",
+      "sha256": "c84c19bc270ae92b1583ae10f965e5be2fb54ccffff27d465aa504afe2e4bc09"
+    },
+    "source-composition.json": {
+      "bytes": 195147,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/source-composition.json",
+      "sha256": "9c1ea80a41ffd3c217c62474db5b39bdb53b13f3884dd4d30ad252f1d9487f72"
+    }
+  },
+  "actual_emitted_copy_correspondence": {
+    "ada_specs_and_bodies": 521,
+    "author_freeze_observation": {
+      "acceptance": false,
+      "author": "F67FormalFrameOwner",
+      "author_model": "openai-codex/gpt-6.1-sol:max",
+      "contained_source_private_and_data_pins_reviewed": true,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/author-freeze.json",
+      "target_execution": false,
+      "whole_freeze_self_pin_not_inferred_from_contained_pins": true
+    },
+    "bound_complete_current_entries": 1213,
+    "complete_correspondence_basis": "The C28 complete-entry descriptor equals the genuine selected F67 stable inventory by SHA256/bytes/mode. The bound map retains all1213 entries. The actual original preparer validates the complete selection and predecessor delta, copies every selected entry, rechecks the origin, restores directory modes, requires destination snapshots and final file rows to equal the complete bound maps, and checks the private dependency before its observed final status. Actual emitted inventory/composition/input/freeze witnesses and complete JSON projections corroborate this correspondence. This is not a common-prefix or count-only finding and is not a second reviewer-executed filesystem hash/stat/tree comparison.",
+    "complete_predecessor_to_current_delta_rows": 570,
+    "composition_hash_mode_keysets_equal": true,
+    "composition_hash_rows": 1144,
+    "composition_mode_rows": 1144,
+    "directories": 69,
+    "entries": 1213,
+    "files": 1144,
+    "final_inventory_file_rows": 1144,
+    "formal_manifest": {
+      "bytes": 237644,
+      "mode": 420,
+      "relative_path": "runtime/worldline/proof_manifest.py",
+      "sha256": "24c494717a2731e540ea4c57eaf0f67b83d09df68199e1982eb4f34abb3c5a54"
+    },
+    "formal_project": {
+      "bytes": 1057,
+      "mode": 420,
+      "relative_path": "core/worldline_core_sources.gpr",
+      "sha256": "4c2289d5a62e8420a3448ea4f3bd7e317e3ddf038dda1ddec790e36795514942"
+    },
+    "frozen_metadata_counts": {
+      "author_freeze_files": 1369,
+      "frozen_private_immutable_files": 134,
+      "frozen_source_files": 1144,
+      "input_files": 1367,
+      "input_source_hashes": 1144,
+      "input_source_modes": 1144
+    },
+    "gpr_projects": 43,
+    "input_source_hashes_equal_corresponding_frozen_file_hashes": true,
+    "input_source_keyset_equals_all_frozen_source_files": true,
+    "input_source_modes_equal_corresponding_frozen_file_modes": true,
+    "invalid_relative_paths": [],
+    "malformed_directory_rows": 0,
+    "malformed_file_rows": 0,
+    "missing_or_nondirectory_parents": [],
+    "producer_body": {
+      "bytes": 6678,
+      "mode": 420,
+      "relative_path": "core/worldline-producer_bytes.adb",
+      "sha256": "e8ddb79c2a6d153ee65a543fc2da926324597816038b8bfd95c6ed68a1b9dbef"
+    },
+    "producer_spec": {
+      "bytes": 661,
+      "mode": 420,
+      "relative_path": "core/worldline-producer_bytes.ads",
+      "sha256": "6b64c3643869d09d876166c8ddc0a08f7473859d6e069586aa2770badf638988"
+    },
+    "proof_plan_ada_and_gpr_members": 564,
+    "selected_exclusions": [],
+    "selected_generated_output_entries": [],
+    "source_modes": {
+      "directories_0755": 69,
+      "files_0644": 1125,
+      "files_0755": 19
+    },
+    "symlinks": 0,
+    "transaction_body": {
+      "bytes": 97997,
+      "mode": 420,
+      "relative_path": "core/worldline-transaction_relations.adb",
+      "sha256": "e1671a7fab45a090726d0461cf924082761556463ca4c1699a03e32865ed42df"
+    },
+    "unchanged_semantic_scope": "The exact unchanged Transaction_Relations, Producer_Bytes, strict project and manifest witnesses retain the genuinely qualified selected-source scope. No broad Projected/public-contract/domain/caller semantic re-audit or new proof result is supplied."
+  },
+  "actual_model_provenance": {
+    "advisor_enabled": false,
+    "advisor_invocations": [],
+    "advisor_scope": "Original independent child requested/harness-default off and retained same-session companion; no live configuration action was performed. Main's distinct routing/advisor policy is not substituted for this child's identity or independence.",
+    "companion_scope": "The existing genuinely measured SAME-session companion was read completely. Its earlier samples remain earlier samples; the separately read actual C28 replies above are not relabelled C27 evidence. No new companion write or future descriptor is asserted.",
+    "configured_speed": "Standard",
+    "current_C28_provider_samples": [
+      {
+        "api": "openai-codex-responses",
+        "errorMessage": null,
+        "id": "88046f61",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "serviceTier": "default",
+        "stopReason": "toolUse",
+        "timestamp": "2026-10-10T12:42:46.608Z"
+      },
+      {
+        "api": "openai-codex-responses",
+        "errorMessage": null,
+        "id": "40ca6dd0",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "serviceTier": "default",
+        "stopReason": "toolUse",
+        "timestamp": "2026-10-10T12:44:12.429Z"
+      },
+      {
+        "api": "openai-codex-responses",
+        "errorMessage": null,
+        "id": "e067027e",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "serviceTier": "default",
+        "stopReason": "toolUse",
+        "timestamp": "2026-10-10T12:48:27.926Z"
+      }
+    ],
+    "event_source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05/C27EmittedSourceReview.jsonl",
+    "existing_same_session_companion": {
+      "bytes": 3186,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/C27EmittedSourceReview-actual-resolved-model.json",
+      "sha256": "28f30d520c93661dae403b8681aff4f4dfcc1a3af4ea038ecef32af7c0f3a9b4"
+    },
+    "fallback_used": false,
+    "identity_basis": "Actual session/model/thinking/init records, genuine measured same-session companion and actual resumed provider replies establish Sol/max with observed default service tier, not the reviewer label.",
+    "later_model_or_thinking_changes_observed": [],
+    "literal_Standard_wire_observed": false,
+    "model_change": {
+      "id": "497724f0",
+      "model": "openai-codex/gpt-6.1-sol",
+      "resolvedModelIsFallback": false,
+      "timestamp": "2026-10-10T08:37:21.997Z"
+    },
+    "model_identity_established_by_label": false,
+    "observed_service_tier": "default",
+    "parent_session": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05.jsonl",
+    "required_Main_retention": "Retain this genuine unmodified opinion, existing measured companion, actual current provider samples and the task's real launch/transport/terminal provenance separately. No future terminal id, self/opinion hash or mutable whole-transcript hash is supplied.",
+    "session_id": "01a124f5-a93d-7074-abb2-42c7a78b4428",
+    "session_init": {
+      "agent": "worldline-reviewer",
+      "id": "dde144b0",
+      "readOnly": true,
+      "resolvedModel": "openai-codex/gpt-6.1-sol:max",
+      "spawns": "",
+      "timestamp": "2026-10-10T08:37:22.012Z"
+    },
+    "thinking_level_change": {
+      "configured": null,
+      "id": "c002d25f",
+      "thinkingLevel": "max",
+      "timestamp": "2026-10-10T08:37:21.998Z"
+    }
+  },
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "actual_private_dependency_and_seed_boundaries": {
+    "GPR_TOOL_override": false,
+    "actual_origin_directory_chain_components": 23,
+    "actual_private_projects": {
+      "lib/gnat/sparklib.gpr": {
+        "bytes": 1534,
+        "mode": 420,
+        "sha256": "6b5cf2175948db1894c234b0eca00be567220c0f881bf2de2b9a670e1b9a455f"
+      },
+      "lib/gnat/sparklib_common.gpr": {
+        "bytes": 1410,
+        "mode": 420,
+        "sha256": "78873f695fa193ef0587051044d2cc3511dc637ec455a249b6696b842a1806ba"
+      }
+    },
+    "compiler_acceptance_established": false,
+    "compiler_mode": "Production",
+    "coverage_credit_transferred": false,
+    "cross_root_efficacy_established": false,
+    "default_compiler_acceptance_and_rebuild_unchanged": true,
+    "forced_reuse": false,
+    "generation_pins": 33,
+    "immutable_directories": 7,
+    "immutable_entries": 141,
+    "immutable_files": 134,
+    "immutable_output_partition_members": [],
+    "immutable_source_replaced": false,
+    "immutable_symlinks_or_other_kinds": [],
+    "installed_root": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1",
+    "invalid_compiler_member_paths_by_partition": [
+      0,
+      0,
+      0
+    ],
+    "library_kind": "static",
+    "malformed_immutable_file_rows": 0,
+    "malformed_seed_file_rows_by_partition": [
+      0,
+      0,
+      0
+    ],
+    "mtime_or_embedded_paths_rewritten": false,
+    "nonfile_nondirectory_seed_members_by_partition": [
+      0,
+      0,
+      0
+    ],
+    "origin_components_all_directory": true,
+    "origin_components_canonical_paths_match": true,
+    "origin_reads_and_copy_use_same_authenticated_no_follow_descriptors": true,
+    "private_initial_project_relative_proof_entries": 0,
+    "private_project_resolution": "Private lib/gnat is first in the original protected child routing. Actual vendor projects and all vendor sources remain byte-identical, using full SPARKlib, its real implementations and normal compiler behavior.",
+    "private_root": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/private-sparklib",
+    "proof_containment": "Vendor Prove package remains renamed and byte-identical with literal Proof_Dir proof; both project-relative lib/gnat/proof and object-relative sparklib_obj/proof are private owned outputs. These are not shared-install output roots or source exemptions.",
+    "proof_only_substitution": false,
+    "proof_reports_transferred": false,
+    "proof_sessions_transferred": false,
+    "scope_boundary": "The actual emitted receipt and original normal materializer status support a compiler-output-only copy into absent owned roots with original no-follow/same-FD authentication and readback. They do not show compiler acceptance, a shorter proof, runtime benefit or horizon fit. Real imported implementation, Big_Integers/Containers aliases, native ownership/allocation/lifetime and all declaration/body obligations remain open.",
+    "seed_directories": 6,
+    "seed_origin": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v25-preparation",
+    "seed_partitions": [
+      {
+        "directories": 4,
+        "entries": 1034,
+        "extensions": {
+          "ali": 208,
+          "cswi": 208,
+          "json": 406,
+          "s": 208
+        },
+        "file_location_constraint": "Only core/gnatprove/data_representation compiler .ali/.cswi/.s and .adb.json/.ads.json members.",
+        "files": 1030,
+        "partition": "source/obj"
+      },
+      {
+        "directories": 1,
+        "entries": 142,
+        "extensions": {
+          "ali": 70,
+          "lexch": 1,
+          "o": 70
+        },
+        "file_location_constraint": "Immediate partition members only.",
+        "files": 141,
+        "partition": "private-sparklib/lib/gnat/sparklib_obj"
+      },
+      {
+        "directories": 1,
+        "entries": 72,
+        "extensions": {
+          "a": 1,
+          "ali": 70
+        },
+        "file_location_constraint": "Immediate partition members only.",
+        "files": 71,
+        "partition": "private-sparklib/lib/gnat/sparklib_lib"
+      }
+    ],
+    "seed_regular_files": 1242,
+    "shared_install_writes_allowed": false,
+    "source_mode": "full",
+    "source_output_directory_modes": "The four selected source/obj directories retain mode448 (0700); private compiler partition directories retain mode493 (0755). Actual origin readback retains those selected modes."
+  },
+  "affected_C28_emission_correspondence": {
+    "actual_correspondence": "The emitted C28 proposal outer_capture descriptor now corresponds to the current frozen/input outer tuple and unchanged correct template. The display, full_failure_tails and root_interface policy fields remain present and unchanged. The statement follows actual helper emission and precedes saving the proposal and downstream gate/input/freeze bindings.",
+    "actual_current_outer": {
+      "bytes": 6174,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/outer_capture.py",
+      "sha256": "2def33f0caef731d1de53328f2a6c9cad87b71f19ae11a07042130aec793d11c"
+    },
+    "qualified_preparer_sha256": "c265ab94fd1f883ce46d13ecf0196b29b104524674d826e1b4ddeee817e0ff97",
+    "sole_functional_recipe_statement": "proposal['outer_capture'].update(support.pinned(D / 'outer_capture.py'))",
+    "source_location": "formal-successor-v28-preparation/prepare_successor.py:262",
+    "source_only_conclusion": "No selected source/private/body/domain/contract change is introduced by that descriptor refresh. This observation does not supply the disjoint complete emitted FRAME qualification or live enforcement result.",
+    "source_review_authorizes_execution": false
+  },
+  "author": "F67FormalFrameOwner",
+  "blocking_findings": [],
+  "blocks": [],
+  "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation",
+  "compiler_acceptance": false,
+  "complete_source_entries": {
+    "bytes": 220906,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/selected-source-entries.json",
+    "sha256": "55caa48073671bcbfdf7c1beddbb8babf240f26393398f9f297a971a1a5bd358"
+  },
+  "cross_root_efficacy": false,
+  "disposition": "QUALIFIED_EXACT_EMITTED_CURRENT_SOURCE_FOR_FULL_STRICT_FORMAL_DIAGNOSTIC_ONLY",
+  "fixture_acceptance": false,
+  "frame_qualification": false,
+  "full_eight_generation_correspondence": {
+    "acknowledgement_expanded": false,
+    "additional_drift_permission": false,
+    "compiler_or_proof_acceptance_transferred": false,
+    "complete_delta_cardinality": {
+      "action-baseline.json": 0,
+      "launch-environment.json": 1,
+      "native-input-baseline.json": 0,
+      "proof-data-closure.json": 2,
+      "proof-elf-baseline.json": 0,
+      "runtime-closure.json": 0,
+      "tool-inventory-template.json": 1,
+      "vendor-template.json": 0
+    },
+    "complete_original_roster": [
+      "action-baseline.json",
+      "launch-environment.json",
+      "native-input-baseline.json",
+      "proof-data-closure.json",
+      "proof-elf-baseline.json",
+      "runtime-closure.json",
+      "tool-inventory-template.json",
+      "vendor-template.json"
+    ],
+    "correspondence": "The actual C28 bound closure and emitted review-binding retain the genuine complete-eight opinion and unchanged historical acknowledgement. That opinion binds all eight current hash/bytes/mode descriptors to authentic C25 generation and complete forward/inverse deltas. The previously genuine complete parsed-string/key finding makes the permitted literal C25-to-C28 candidate rehome identity for these eight values; no truncated search, normalized PATH, count approximation or new rebaseline substitutes for it.",
+    "current_closure_binding": {
+      "bytes": 22127,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/current-closure-inputs/current-closure-bindings.json",
+      "sha256": "b4208681bf09d1fa107e97c0e54ddb3f08191ad50d4c19b5339ab52d36f958b0"
+    },
+    "current_document_sha256": {
+      "action-baseline.json": "81ab58c9c669506f93b86e2632d6d872761c42521bea0001581a2c4575c165ab",
+      "launch-environment.json": "0f5454db48da3bcbd78cabc5a1e9af75b442a6efc5cfd0c3b626e6ebcec0ad0a",
+      "native-input-baseline.json": "b57ae8a7ee0850096107d1b184af55c80878f6f958b72aaaf89d6eaaf2b6925b",
+      "proof-data-closure.json": "27b6564d2c4e940f08b49614ea1b88721b9528a0bff175c6e698a3736b01ebca",
+      "proof-elf-baseline.json": "5fab08bd8e2f5b2db6badf54cf49b20530af30731948594d886801eac88d611f",
+      "runtime-closure.json": "b2597da7b74b78fed8768301c664af042b131fb9ff64d8112dcbe7be4e6b69a6",
+      "tool-inventory-template.json": "8401d878bba2c402e49b178bca30034559ac46ab57cae529e3a6a536b265329a",
+      "vendor-template.json": "050c9ae507e75df1e417d571b667de07fd76a781b09e66da0d9db7158213a60a"
+    },
+    "document_count": 8,
+    "historical_drift_acknowledgement": {
+      "bytes": 887,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v12/historical-drift-acknowledged-rows.json",
+      "sha256": "fb99be720e2cf6ec58cb95141d2eb7861a6c092176fa465bf0a5c6f611533f69"
+    },
+    "source_guard": "compiler_seed.authenticate retains complete source/review/model/private/shared-output and all-eight generation matching; compiler_seed.check_pristine_before_compiler retains complete first-use owned-output readback. Neither helper was executed by this reviewer."
+  },
+  "full_horizon_fit": false,
+  "genuine_current_source_reviews_reused": {
+    "auxiliary_runtime_proof_source": {
+      "model": {
+        "bytes": 2031,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-runtime-proof-source-independent-review-resolved-model.json",
+        "sha256": "ea8f7ce64fbc7c93244718553d974778bcb526a8a3a397aa774c7070e19b17f4"
+      },
+      "review": {
+        "bytes": 15469,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-runtime-proof-source-independent-review.json",
+        "sha256": "6c5716bfa9d7cdd61594ab66541e3cfb0426bd2d93b28e94e4b362bdefddbc3d"
+      }
+    },
+    "coherent": {
+      "model": {
+        "bytes": 3086,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-coherent-source-independent-review-resolved-model.json",
+        "sha256": "80b7f3b5963bb122128aebc82f2f6dee8fde09d0f877479331be52754d8e53e0"
+      },
+      "review": {
+        "bytes": 25697,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-coherent-source-independent-review.json",
+        "sha256": "1546b0920f3f996eeb66369c9d37bacca13941a6c7fe9c31f96759be6d01241c"
+      }
+    },
+    "original_full_strict_selected_source": {
+      "model": {
+        "bytes": 39183,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-original-full-strict-source-independent-review-resolved-model.json",
+        "sha256": "c42bdaf16fb7b9e919ac3741a8b860b37daa335b8939284f83b9034adc92fea0"
+      },
+      "review": {
+        "bytes": 28311,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-original-full-strict-source-independent-review.json",
+        "sha256": "dc57ec882cf5f7540bbc555bf6097c11938452e850f33b30eaff63c8372fb249"
+      }
+    },
+    "scope": "Genuine current DATA2 source qualifications only; no proof/runtime/fixture or operational freshness transfer."
+  },
+  "genuine_preparation_and_closure_reviews_reused": {
+    "current_controller": {
+      "disposition": "QUALIFIED_EXACT_CURRENT_CONTROLLER_OBSERVATION_SURFACE_FOR_ORIGINAL_FORMAL_GOAL",
+      "model": {
+        "bytes": 2842,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/current-controller-independent-review-resolved-model.json",
+        "sha256": "c411da2de51c52f2b29bf4a4ad2cffd6c35ab7c725914616dd925554c513aaf8"
+      },
+      "review": {
+        "bytes": 46115,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/current-controller-independent-review.json",
+        "sha256": "6ba2ebd129869a5458ad016338cb85def9d3595836809b12e134bd1d3c1d50f7"
+      }
+    },
+    "current_full_eight_closure": {
+      "companion_scope": "The current genuine closure opinion expressly reuses its measured SAME-session companion and separately retains actual C28 provider replies. No newly written C28 companion or hash is invented.",
+      "disposition": "QUALIFIED_EXACT_CURRENT_CLOSURE_BINDING_FOR_FORMAL_SUCCESSOR",
+      "review": {
+        "bytes": 76048,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/current-closure-independent-review.json",
+        "sha256": "7f24c1eb48c964861fa6b7bc01eb9a4f0b9109b30a55799295909c12247bcab8"
+      },
+      "same_session_companion": {
+        "bytes": 7945,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v27-preparation/current-closure-independent-review-resolved-model.json",
+        "sha256": "45178fce9ee525472a366176a55c5c43887a664e5e40696f90e238b491bd29f3"
+      }
+    },
+    "postbound_six_preparation": {
+      "disposition": "QUALIFIED_SOURCE_DATA_ONLY_SUCCESSOR_PREPARATION",
+      "receiving_contract": "independent_post_bind_six_file_preparation",
+      "review": {
+        "bytes": 51597,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/preparation-review.json",
+        "sha256": "f8b89875f31aeead1d4e3fb3213f8df2fe79c5164bd18262dd2c1a486075eed0"
+      },
+      "scope": "Actual original C28 bound root-six source/data reception; the complete record was read. Its pre-materialization nonclaims remain its original epoch, not evidence that the subsequently observed Main materialization did not occur."
+    },
+    "retained_metadata_errata": "The genuine C28 recipe/postbound chain expressly preserves nonblocking copied-reference errata and excludes those incorrect references from evidence credit. The actual current recipe disposition, C28 namespace, original worldline-c_api boundary and actual completed-controls result digest d9c83c8bc5da7d18242ca25897062a537bc0e9471c3411a8b56fa4de3ea87e3f are retained. No correction capsule, changed historical review, added gate or control rerun is invented.",
+    "source_preparer_recipe": {
+      "disposition": "QUALIFIED_EXACT_SOURCE_ONLY_PREPARER_AUTHOR_RECIPE",
+      "model": {
+        "bytes": 3536,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/source-preparer-independent-review-resolved-model.json",
+        "sha256": "dd688a6ddfe42607d048b53b6c6294b0f5ffb56636598a3a497623c5e5b59ac2"
+      },
+      "review": {
+        "bytes": 45480,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/source-preparer-independent-review.json",
+        "sha256": "e6f0a883481227f0d4c2e051b27e6301611ba99477f64e05b8851a6e99f8c131"
+      }
+    }
+  },
+  "historical_failure_preservation": {
+    "C25": "Immutable genuine original full-strict failure remains failed/historical. Consolidated child_wait and inputs_unchanged remain null; separately observed original prover returncode-15/deadline timeouttrue and later scope OwnerStop/partial closure evidence are not backfilled with zero, acceptance or completed proof. Reaching Phase3 and owned release do not establish termination, Producer_Bytes proof, runtime benefit or Phase One acceptance.",
+    "C25_emitted_opinion_usage": "Original C25 emitted-source opinion remains schema precedent only, not new C28 qualification.",
+    "C26": "Immutable original source-only metadata/bind-evidence rejection remains unchanged; it was before source output/manifest/identity and was not a target run, compiler/proof result or cured historical failure.",
+    "C27_boundary": "Keep the genuine positive C27 source scope and negative stale-outer FRAME opinion immutable. This record binds actual C28 artifacts; it does not rewrite those records, repeat the rejected run or grant C28 operational credit from C27.",
+    "C27_frame_rejection": {
+      "bytes": 24458,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/formal-c27-actual-emitted-frame-independent-review.json",
+      "sha256": "bce35ea6a7811ff28b5b0f952a55c743fdda7b7f800f2a249562d333dae106b6"
+    },
+    "C27_source": {
+      "bytes": 45633,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/formal-c27-actual-emitted-source-independent-review.json",
+      "sha256": "f4d180fe5e70498f468abd84f45aff7aaadeeda8d21066d40df4bebe66b777c1"
+    }
+  },
+  "independence": {
+    "Main_is_sole_integrator_executor_and_window_owner": true,
+    "new_reviewer_identity_or_replacement_fixture_created": false,
+    "reviewer_authored_product_changes": false,
+    "reviewer_distinct_from_frame_author": true,
+    "reviewer_distinct_from_physical_source_author": true,
+    "reviewer_is_original_Luna_high_world_child_actor": false,
+    "reviewer_replaces_original_Luna_high_world_child_actor": false,
+    "same_original_reviewer_continued": true
+  },
+  "next_authorized_verification": {
+    "condition": "Only after both genuine current C28 emitted SOURCE/private and complete FRAME opinions are qualified and retained with real provenance, original concrete adoption is bound, and the unchanged fresh original gates are satisfied. This record grants no execution authority.",
+    "first_existing_receiving_command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-adoption-v1/root_ready.py",
+      "ready"
+    ],
+    "owner": "Main only",
+    "remaining_original_path": "Continue the original separate fresh reserve/dispatch/challenge/root-MCP-receipt path through the sole reviewed C28 outer_capture.py MODE EXPECTED_GATE_SHA stdin interface. Use the actual fixed gate digest5b55c86893752df719a67434a08a525362b434234a0926ff56be5f7b481c76e2, not a future or historical gate. Main1000 begins before FORMAL challenge/dispatch and is never reset. The child retains original complete pristine source/private/compiler-seed and before/after evidence, exact strict command, genuine waits/signals/raw output; original collector releases only the exact owned candidate/holder lease after its required terminal ownership checks.",
+    "required_original_holder": "01a1149d-db62-74b0-a5f7-b0239f285c44",
+    "reviewer_performed_next_action": false,
+    "unchanged_checks_not_to_repeat": "Do not repeat broad unchanged source semantics, frozen C25/C26/C27 failures/rejections, source materialization or genuinely completed unchanged39 classifier/14 isolated-seed controls merely to obtain another pass. No extra wire-effort/advisor/companion gate, weaker proof path, shortened roster or fixture replacement is introduced."
+  },
+  "open_obligations": [
+    {
+      "obligation": "The separate original reviewer must supply its genuine complete current C28 emitted FRAME opinion. Main must retain the actual complete frozen-frame/inputs/proposal/gate/private descriptors, materializer invocation/result/environment and real opinion/model provenance, then perform the original concrete adoption. This source opinion is not that frame/adoption or a fresh-stage observation.",
+      "scope": "Actual emitted execution FRAME and original adoption"
+    },
+    {
+      "obligation": "Main alone obtains unchanged fresh native-get/original UTC-clock observations for each original ready/reserve/dispatch/collect stage and satisfies original objective/createdAt/holder, source/tool/vendor/private, resources/storage/DUAT/JACKAL, no-sibling, owned-window/challenge and actual-receipt gates. No old stage, seed, source review or routing capsule substitutes for freshness.",
+      "scope": "Original live admission and sole execution ownership"
+    },
+    {
+      "obligation": "The original owned strict child must retain complete pristine compiler-output readback immediately before first compiler use. Actual compiler acceptance/rebuild behavior, cross-root efficacy, runtime benefit, timeout cure and child600/scope840/Main1000 horizon fit remain unestablished; compiler-data copying and unchanged synthetic controls are not evidence of these outcomes.",
+      "scope": "Compiler output seed first use and efficacy"
+    },
+    {
+      "obligation": "Retain genuine execution of the unchanged full command on all current required bodies/helpers/callers/imported aliases and complete accepted domains, all1550 required identities, ordered535 and floor251, with zero unproved/justified/assumptions and resolved strict warnings. Producer_Bytes, imported/native/ABI/lifetime/termination/full-value/literal Old obligations remain open.",
+      "scope": "Complete original strict proof"
+    },
+    {
+      "obligation": "Complete the original same-source checked build and actual library/runtime/tests/private artifact readbacks, all32+47 native controls under their original whole180 sequence deadline, all116 ordered actions and both mandatory additions with original cases/assertions/fixtures/per-action limits, genuine owned waits and complete raw records. Source reviews, negative/unknown waits, helper controls and partial diagnostics are nonpassing substitutes.",
+      "scope": "Matching-source original runtime and native controls"
+    },
+    {
+      "obligation": "Original authentic Luna-high world/child actors, custody/startup/recovery/operator/privilege boundaries, producer correspondence, alias/automatic immutable full-value reclamation/literal Old, all seven original authority areas, independent actual Sol/max final acceptance and authorized publication remain required. Every missing or stale item stays open; this reviewer is not the original actor or a fixture replacement.",
+      "scope": "Authentic fixtures, ownership and complete Phase One acceptance"
+    }
+  ],
+  "original_receiving_interface": {
+    "author_namespace_clarification": "F67FormalFrameOwner is support.AUTHOR, the frame/preparation author namespace represented by this record's author field. SolPhaseOneIntegration remains the distinct physical Ada/Python source author in physical_source_author and source_author. The upstream selected-source source_opinion contract is not rewritten or conflated with the emitted-current-source independent contract.",
+    "consumer": "C28 authorization.check: adoption.current_source_review through successor_support.independent; subsequent selected-source consumption remains successor_support.source_review/source_opinion.",
+    "current_source_receiver_correspondence": "Top-level actual_model_selection is the required exact string; author/reviewer are nonempty and distinct, reviewer is not support.AUTHOR, blockers are empty, target_execution=false and disposition is exact. source_inventory_sha256 names the actual final inventory digest. complete_source_entries and private_dependency_inventory are exact existing C28 four-field descriptors, with strict_proof=false and phase_acceptance=false.",
+    "receiver_executed_by_reviewer": false,
+    "selected_source_receiver_preserved": "The original subsequent source_review binds the genuine full-strict selected-source opinion to its exact selection/inventory and every reviewed artifact, including stable inventory, changes and enrollment. A coherent-only, recipe-only, historical C25 or old C27 emitted opinion does not replace that branch.",
+    "source_locations": [
+      "formal-successor-v28-preparation/authorization.py:44-58",
+      "formal-successor-v28-preparation/successor_support.py:250-272",
+      "formal-successor-v28-preparation/successor_support.py:275-309"
+    ]
+  },
+  "original_scope_preserved": {
+    "all_declared_local_specs_and_bodies_pinned": true,
+    "all_original_targets_accepted_domains_cases_fixtures_assertions_and_controls_preserved": true,
+    "authentic_original_Luna_high_world_child_actor_fixture_preserved": true,
+    "body_contract_domain_obligations": "Every original/new public/private specification, full body, local Projected loop/function, Producer_Bytes/helper/reference/caller, Post/Old/full-value/frame contract, assertion, Original/Reduced guard, omission/policy/raw-value/absent-policy/cardinality domain, flow/AoRTE, termination, producer, ABI/native semantic and finite cost obligation remains required. Imported/off-body implementations, Big_Integers/Containers alias targets, foreign ownership, allocation/refcount/Free/Count_Type/lifetime/reclamation remain open. SPARK_Mode Off bodies remain required OPEN, not new exemptions.",
+    "caps": {
+      "Main_execution_cutoff_reserves_seconds": 45,
+      "Main_seconds": 1000,
+      "Main_starts_before_FORMAL_inprocess_challenge_dispatch_and_is_not_reset": true,
+      "MemoryMax": "8G",
+      "MemorySwapMax": "0",
+      "RLIMIT_CORE": [
+        0,
+        0
+      ],
+      "child_seconds": 600,
+      "jobs": 2,
+      "minimum_MemAvailable_kB": 16777217,
+      "scope_seconds": 840,
+      "whole_original_native_controls_seconds": 180
+    },
+    "complete_selected_entries": 1213,
+    "declared_core_ada_sources": 413,
+    "effective_contract_pins": 455,
+    "literal_contract_pin_count_is_not_an_Old_expression_count": true,
+    "literal_contract_pins": 995,
+    "no_permission_by_discovery": true,
+    "only_original_unanalyzed_boundary": "worldline-c_api",
+    "operator_privilege_principal_or_installation_authority_inferred": false,
+    "ordered_inherited_prefix": 535,
+    "original_TERM_KILL_reap_birth_scope_owned_wait_raw_retention_and_release_policy_preserved": true,
+    "original_actor_argv_override": [
+      "-m",
+      "gpt-6-luna",
+      "-c",
+      "model_reasoning_effort=high"
+    ],
+    "original_floor": 251,
+    "principle": "Complete original WORLDLINE Phase One: Python orchestrates; SPARK decides. All seven original authority areas and acceptance/publication obligations remain required.",
+    "required_command": [
+      "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "-P",
+      "core/worldline_core_sources.gpr",
+      "-U",
+      "--mode=all",
+      "--level=3",
+      "--report=all",
+      "--checks-as-errors=on",
+      "--proof-warnings=on",
+      "-j2"
+    ],
+    "required_proved_names": 1550,
+    "reviewer_TEST_ONLY_fixture_or_guidance_is_actor_custody_or_acceptance_credit": false,
+    "runtime": {
+      "actual_runtime_tests_private_input_and_before_after_readbacks_required": true,
+      "all_original_accepted_cases_deterministic_fixtures_assertions_and_negative_controls_required": true,
+      "matching_final_source_checked_build_and_actual_library_required": true,
+      "native_smokes": 32,
+      "optimized_Python_assertion_bypass_allowed": false,
+      "ordinary_additions_remain_in_original_required_first_five": true,
+      "original_native_controls": 47,
+      "original_ordered_actions": 116,
+      "original_per_action_and_addition_timeouts_preserved": true,
+      "per_case_native_clock_reset_or_shortened_roster_allowed": false,
+      "separately_mandatory_additions": [
+        "freshness-json-object-order-additional-controls",
+        "execution-evidence-boundary-additional-controls"
+      ],
+      "whole116_action_roster_is_not_replaced_by_a_whole180_ceiling": true
+    },
+    "source_enrollment_or_private_copy_is_body_implementation_proof": false,
+    "stale_literal_contract_pins": 0,
+    "undeclared_protected_fixture_creation_added_as_diagnostic_dependency": false,
+    "waivers_warning_suppression_impossible_domain_narrowing_or_subset_credit_added": false,
+    "zero_unproved_justified_assumptions_and_unresolved_strict_warnings_required": true
+  },
+  "phase_acceptance": false,
+  "physical_source_author": "SolPhaseOneIntegration",
+  "private_dependency_inventory": {
+    "bytes": 345405,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/dependency-inventory.json",
+    "sha256": "4d8ecd542a5d8e31722858f56eaee78c7587a621915e383387635f7d4a33ccef"
+  },
+  "proof_acceptance": false,
+  "qualification_boundary": "QUALIFIED only the exact actual C28 emitted complete source/private correspondence and compiler-output-only materialization evidence for the original full-strict formal diagnostic preparation scope. No blocking source-correspondence finding was found in the inspected evidence. The original receiver-required fields bind current C28 artifacts, not historical or future outputs. This genuine read-only opinion does not qualify the separate execution FRAME, authorize Main or itself, establish compiler acceptance/seed efficacy/horizon fit, discharge full strict proof, satisfy matching-source runtime/authentic fixtures/literal Old or establish complete original Phase One acceptance.",
+  "record_author": "C27EmittedSourceReview",
+  "required_changes": [],
+  "review_scope": {
+    "disjoint_execution_frame": "No independent emitted FRAME opinion, operational admission, resource/window observation, prover wait or actual runtime result is supplied here. The original separate emitted-frame reviewer and Main retain those obligations.",
+    "new_current_opinion": "Actual C28 emitted complete-source/private/selected-source-entries/final-source-inventory/source-composition/source-bindings/compiler-output-seed-copy-receipt correspondence, its genuine current SOURCE3/full-eight generation/controller/recipe/postbound receiving chain, and the original emitted-current-source consumer.",
+    "qualification_limit": "Exact emitted-current-source correspondence for the original full-strict formal diagnostic preparation scope only; not compiler acceptance, proof discharge, runtime/fixture success, timeout cure or Phase One acceptance.",
+    "unchanged_findings_reused": "Preserve the genuine unchanged selected-source, complete C27 source correspondence, private vendor implementation and compiler-only seed findings within their original source-review scopes. This is a fresh C28 artifact correspondence opinion, not transplantation of the frozen C27 opinion into C28 or a repeated broad semantic review."
+  },
+  "reviewer": "C27EmittedSourceReview",
+  "reviewer_authored": true,
+  "runtime_acceptance": false,
+  "schema": "worldline-formal-materialized-source-independent-review-v1",
+  "selected_source_artifacts": {
+    "enrollment-report.json": {
+      "bytes": 574696,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/enrollment-report.json",
+      "sha256": "d850fa897cf2c4b929a72cfe069394d850cb406351d5fc64e3f4ae7446bd4885"
+    },
+    "source-changes.json": {
+      "bytes": 15813,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source-changes.json",
+      "sha256": "3a3e1c07b1d05e2a44abe0282350052aae8b19c2d37fb7e6478a7aadb1cc7d09"
+    },
+    "source-inventory.json": {
+      "bytes": 198886,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source-inventory.json",
+      "sha256": "ffd78550c1d3ddf37bd6f70755c93b3e407497f699901991b3d8d5b81e0aac47"
+    },
+    "source-selection.json": {
+      "bytes": 145044,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-source-data-v2/source-selection.json",
+      "sha256": "2095c6b35f623f5d5795c1e2dd5e469bcaea00e51db2e3649c7e399ce4fc87bb"
+    },
+    "stable-source-inventory.json": {
+      "bytes": 220906,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/stable-source-inventory.json",
+      "sha256": "55caa48073671bcbfdf7c1beddbb8babf240f26393398f9f297a971a1a5bd358"
+    }
+  },
+  "selected_source_root": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source",
+  "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/source",
+  "source_author": "SolPhaseOneIntegration",
+  "source_inventory_sha256": "2b8307514b3f8914229ba3686a625aa3a7c14267292eb1c1ac1f7fb7c718487a",
+  "strict_proof": false,
+  "target_execution": false,
+  "verification": {
+    "agents_spawned": false,
+    "applicable_skills_and_complete_original_shared_contract_read": true,
+    "artifact_identity_basis": "Exact actual emitted four-field witnesses from C28 freeze/input/source binding and genuine upstream receiving records, complete structured inventory projections, original source guards and actual corresponding Main invocation/result events. No new reviewer filesystem hash measurement or executed receiver comparison is claimed.",
+    "capturer_binder_materializer_or_seed_copy_executed_by_reviewer": false,
+    "commands_executed": false,
+    "compiler_prover_target_tests_build_lint_formatter_or_smoke_run_by_reviewer": false,
+    "complete_Phase_One_acceptance_established": false,
+    "execution_verification": false,
+    "files_edited": false,
+    "full_strict_proof_completed_by_reviewer": false,
+    "future_record_pin_or_terminal_metadata_invented": false,
+    "goal_window_model_config_actor_privilege_or_publication_action": false,
+    "helpers_imported_or_executed": false,
+    "matching_source_runtime_controls_completed_by_reviewer": false,
+    "original_consumer_schema_preserved": true,
+    "source_and_artifact_review": true
+  }
+}

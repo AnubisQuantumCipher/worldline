@@ -1,0 +1,773 @@
+{
+  "artifact_pins": {
+    "ABI-CUSTODY-MAP.json": {
+      "bytes": 125749,
+      "sha256": "a26e580303d4d4975de6db1151b53c47d2176832246d78e566d61650da62c174"
+    },
+    "ASSISTANCE-CONTINUITY.json": {
+      "bytes": 2909,
+      "sha256": "8cb9cbc9bc4f0854ecdd7d234f3f4209781ee9db42138718325e46a99b15238f"
+    },
+    "AUTHOR-PROVENANCE.json": {
+      "bytes": 2868,
+      "sha256": "37f653fd58c3fcfb75cee7687cc592eea25499de19dac737f196ece5854b3f2a"
+    },
+    "BASELINE-INVENTORY.json": {
+      "bytes": 235330,
+      "sha256": "6fbea2737c254485d36d5ff05d621633abe0bf0aa2a6e68b81d02ec24de73493"
+    },
+    "CONTRACT-PINS.json": {
+      "bytes": 3380,
+      "sha256": "b3fc1b0beeb4eed7bba8931ae9e1fd6405988f158ab51638777be878481b39bc"
+    },
+    "DELTA-MANIFEST.json": {
+      "bytes": 20442,
+      "sha256": "a993a0ff9d338ba389de4e8fccaac42f3db895ed75193794064868d0676c526c"
+    },
+    "HANDOFF.txt": {
+      "bytes": 3635,
+      "sha256": "a5f22e22ba5b159f4bef24000df99b6be3849dcec59ae6443c2e09feb8fc9a94"
+    },
+    "IMMEDIATE-BASELINE-INVENTORY.json": {
+      "bytes": 236147,
+      "sha256": "588db32e113ecb29e1ac2db5be5dc2cd0fd707c2f2ca67fd2c8d578e4e1b8172"
+    },
+    "INHERITED-ADDITIONS.json": {
+      "bytes": 10410,
+      "sha256": "896c20e88276f260e10b3527d62addc4a216520332dac958ff24ca464a4b5cb1"
+    },
+    "INTERFACE.json": {
+      "bytes": 26626,
+      "sha256": "13b9a17a5d88caa266656c40fbc325fb25c7f87b9c2052d22270f33d23ac666e"
+    },
+    "MAIN-VERIFICATION.json": {
+      "bytes": 553817,
+      "sha256": "8c0679d5e6e830363e83301177fa6afb492462671fccd3ba57a8910aea081ff3"
+    },
+    "MANIFEST.json": {
+      "bytes": 32689,
+      "sha256": "0e895883f2e4c405929b63b6b2ff633492b89e86ffbad5cc2ccbbba4a1d9dded"
+    },
+    "PACKET-HANDOFF.json": {
+      "bytes": 157144,
+      "sha256": "7189aaabd3726061e44cbf614264b73523341d7ad5d83e33c6d693560300fe55"
+    },
+    "PREREQUISITES.json": {
+      "bytes": 8340,
+      "sha256": "58d24e6d96d1435d1562e5efeddf7de96f2dbb499a0fa7d2b3302fb44effa47b"
+    },
+    "REVIEW-REUSE.json": {
+      "bytes": 983375,
+      "sha256": "b1f66bdf0d9bb84b5b95458b43aaf57e0b680e01aae8d9b4f6619308624e66c2"
+    },
+    "SOURCE-INVENTORY.json": {
+      "bytes": 236147,
+      "sha256": "089775e9ed3020fb2f5967edd61287cbc7b9ecda5082fc0a4c998479f1c6c400"
+    },
+    "TOPOLOGY-PROPOSAL.json": {
+      "bytes": 9675,
+      "sha256": "05e6c243db2cb0cb69f4ecc6c6a94f0f046a504e2c2392b614aa74a34de07c82"
+    },
+    "metadata_mode": 420,
+    "path_base": "records/codex-resumption-20261007/excluded-client-source-owner-v4",
+    "pin_limit": "Inventory/reversibility identities are consumed metadata, not a claim that patches, inverse restoration, inventory validators or normalization code were executed.",
+    "v3-forward.patch": {
+      "bytes": 15186,
+      "sha256": "fd3aa906bdac681d44a236a5108474bdc641363767e6d4033e06f305bee4b9cf"
+    },
+    "v3-inverse.patch": {
+      "bytes": 15186,
+      "sha256": "5e151753b1e2fb9a08d20e6d5f5807ebcb62a5822a6eef6020bdd251e4ff19dc"
+    }
+  },
+  "authors": {
+    "packet": {
+      "actual_model": "openai-codex/gpt-6.1-sol:max",
+      "agent": "FixturePacketOwner",
+      "earlier_actual_companion": {
+        "bytes": 3597,
+        "mode": 420,
+        "path": "records/codex-resumption-20261007/native-owner-join-v59/FixturePacketOwner-fixture-source-actual-resolved-model.json",
+        "sha256": "23c64c6d44587160bbc2ce4587c8ae94cf21f44503333189758a03fae3860ed7"
+      },
+      "provenance_basis": "Genuine packet-author companion and original immutable packet provenance retained in the previously completed custody/setup review; no new packet authorship or current provider claim.",
+      "same_registered_session_id": "01a12432-fb66-744b-a5a5-124196dd5825"
+    },
+    "reviewer_authored_changes": false,
+    "source": {
+      "actual_completed_V3_publication": {
+        "bytes": 7453832,
+        "mode": 384,
+        "path": "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-same-original-owner-handback-actual-publication.json",
+        "sha256": "285412da5c43bc14e455f9afab80e43b00d353e2222578067c226bab31c077cc"
+      },
+      "actual_completed_V3_reply": {
+        "api": "openai-codex-responses",
+        "id": "157c751c",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "resolvedModel": "openai-codex/gpt-6.1-sol:max",
+        "resolvedModelIsFallback": false,
+        "serviceTier": "default",
+        "thinkingLevel": "max",
+        "timestamp": "2026-10-10T12:21:30.924Z"
+      },
+      "actual_model": "openai-codex/gpt-6.1-sol:max",
+      "agent": "FixtureSourceJoinOwner",
+      "current_provenance_pin_ref": "artifact_pins.AUTHOR-PROVENANCE.json",
+      "limit": "AUTHOR-PROVENANCE preserves an actual earlier same-owner publication and honestly leaves new V4 receipt metadata absent. It is not relabeled as a future V4 provider observation.",
+      "new_V4_provider_receipt": null,
+      "same_registered_session_id": "01a1242c-2717-779e-a611-52acc4458e5a"
+    }
+  },
+  "blocking_findings": [
+    {
+      "category": "AUTHENTIC_MAIN_PRODUCER_WRAPPER_AND_COMPLETE_RETENTION",
+      "finding": "The actual protected-producer wrapper, complete external proposal/case/produce/export/owner archive and stdio retention enrollment, completed producer receipt and authentic selected --main-input-custody input are still absent. This does not prevent completing the reachable affected static review, and the consumer does not fabricate them.",
+      "id": "CUSTODY-SETUP-V2-B2",
+      "observed_execution_failure": false,
+      "required_change": "Main must engineer and genuinely bind the original protected run_campaign producer wrapper and complete external artifact/stdio retention in the original collector/outer family, then obtain affected independent wrapper and original frame qualification. Actual selector eligibility requires authorized matching-source producer completion and real collector/release custody. No approval Boolean, copied receipt, unrelated success, invented selected input or modification of the immutable116+two roster can substitute.",
+      "scope_limit": "This remains a fixture integration/runtime-input prerequisite, not a new dependency for unchanged ordinary/native/formal/C27/C28 lanes.",
+      "severity": "HIGH",
+      "source_refs": [
+        {
+          "json_pointer": "/main_input_custody",
+          "path": "INTERFACE.json",
+          "pin_ref": "artifact_pins.INTERFACE.json"
+        },
+        {
+          "json_pointer": "/main_only_actual_producer_input",
+          "path": "PREREQUISITES.json",
+          "pin_ref": "artifact_pins.PREREQUISITES.json"
+        },
+        {
+          "json_pointers": [
+            "/actual_Main_producer_input",
+            "/actual_Main_protected_wrapper_and_retention",
+            "/handoff_meaning"
+          ],
+          "path": "PACKET-HANDOFF.json",
+          "pin_ref": "artifact_pins.PACKET-HANDOFF.json"
+        },
+        {
+          "json_pointer": "/genuine_original_Main_input_contract",
+          "path": "MAIN-VERIFICATION.json",
+          "pin_ref": "artifact_pins.MAIN-VERIFICATION.json"
+        },
+        {
+          "json_pointer": "/fixed_excluded_source_owner/main_producer_prerequisite",
+          "path": "source/protected-root/controls/source_registration.json",
+          "pin_ref": "six_affected_source_tuples"
+        },
+        {
+          "lines": "354-517; unchanged prefix retained from actual V3 review",
+          "path": "source/tests/excluded_source_owner_controls.py",
+          "pin_ref": "six_affected_source_tuples"
+        }
+      ],
+      "status": "OPEN_UNCHANGED_MAIN_OWNED_INTEGRATION_AND_RUNTIME_INPUT_BLOCKER"
+    }
+  ],
+  "current_binding_assessment": {
+    "Main_packet_adoption": false,
+    "disposition": "CURRENT_TECHNICAL_BINDING_INSPECTED_NOT_MAIN_ADOPTION_OR_AUTHORITY",
+    "matching_normalization_validator_executed": false,
+    "observations": [
+      "Source registration points to the actual V4 donor/interface/contract/verification/topology/handoff paths and current body/spec/consumer/proof-source pins, while retaining rejected V3 and the bounded earlier custody opinion.",
+      "CONTRACT-PINS and runtime proof enrollment agree on the changed normalized body identity. Target_Reference remains in complete -U body/nested-helper proof enrollment; public contracts, original required prefix/floor and off-body/alias obligations are not replaced by a source pin.",
+      "INTERFACE, ABI map, PACKET-HANDOFF and MAIN-VERIFICATION identify the same native predicate, producer schema, fourteen controls, exact input/output retention and unchanged ABI/wire schemas.",
+      "PACKET-HANDOFF binds the current source inventory, current operation registration, current interface and verification recipe and preserves the complete24-file original packet inventory, role/argv references, original actor and original case/startup obligations.",
+      "Immutable SOURCE-OWNER-INTERFACE remains the historical V1-bound artifact, explicitly not rewritten or relabeled as current qualification.",
+      "All actual protected-wrapper/input/operator selections remain null and all installation/actor/Phase flags false. Preparation supplies no historical marker, selected principal or Main adoption."
+    ]
+  },
+  "fourteen_control_assessment": {
+    "FD_witness": "The mismatching FD/args controls use the genuinely captured owner_channel_capture.fd, not an invented descriptor. In the actual producer the owner carrier is still held when recvmsg acquires the distinct target descriptor.",
+    "actual_control_runs": [],
+    "actual_positive_input": null,
+    "baseline_flow": "The existing genuine completed_input, main_custody, generated custody and public-output consumers precede loading the selected actual native library. The completed baseline is passed to the real symbol and must return transport0/action3 before native refusal mutations are credited. This implemented ordering is not an observed baseline result.",
+    "control_names": [
+      "target-fstat-call-missing",
+      "target-fstat-call-not-fstat",
+      "target-fstat-fd-missing",
+      "target-fstat-negative-fd-with-unchanged-identity",
+      "target-fstat-not-held-target-fd",
+      "target-fstat-args-missing",
+      "target-fstat-args-fd-missing",
+      "target-fstat-args-negative-fd-with-unchanged-identity",
+      "target-fstat-args-not-held-target-fd",
+      "target-fstat-source-field-missing",
+      "target-fstat-source-null",
+      "target-fstat-source-not-at-call-qualified-owner",
+      "target-fstat-failed-with-unchanged-identity",
+      "target-fstat-errno-mismatch-with-unchanged-identity"
+    ],
+    "fixed_cap_skip_mock_or_new_ABI_identified": false,
+    "missing_witness_behavior": "If all genuine candidates encode identically, the consumer raises ValueError instead of fabricating an alternative, silently skipping the control or returning a completed suite. Any earlier emitted control records remain partial evidence; no fourteen-control completion is claimed.",
+    "mutation_flow": "Each refused call deep-copies the same actual baseline, changes only the designated target.capture.fstat operand, passes the complete owned encoded archive to the actual native symbol, requires transport0/action0 and emits full input_hex/input_bytes/SHA/transport/action to Main's original framed raw stdout.",
+    "preserved_other_facts": "The mutations retain target identity, actual carrier, actor/post-drop state, peer, endpoint, OFD and all other baseline facts. Existing original/v2/v3 controls and seven partial-owner eligibility negatives remain; the new controls are additive, not replacements.",
+    "source_pin_ref": "six_affected_source_tuples.entries.tests/excluded_source_owner_controls.py",
+    "source_witness": "The source-substitution control selects only a distinct complete captured owner_source, owner_final_source, owner_channel_capture.source or pidfd_open.source from the action3-qualified baseline. Launch/creator/open/completion source checks already qualify these candidates; the actual encoded bytes must differ from target Capture.source."
+  },
+  "handoff": "Complete genuine affected V4 custody/setup source opinion delivered by the same original reviewer after Main's explicit unpark. All reachable assigned static review work is complete. Authentic operational selections and Main engineering/input/proof/runtime/fixture/Phase obligations remain explicitly open rather than fabricated or silently reduced.",
+  "independent_of_source_and_packet_authorship": true,
+  "new_blocking_source_findings": [],
+  "open_operator_engineering_and_evidence_obligations": {
+    "E1": "Coherent Main integration, separate native qualification and genuine affected protected-wrapper/enrollment engineering/review.",
+    "E2": "Complete genuine original external definitions and selected configuration/source bodies.",
+    "E3": "Actual original producer-derived positive/refusal/INTENT/unknown/replay state formation.",
+    "E4": "All unchanged same-source strict/runtime/fixture/startup/resource/custody/Luna/archive/frame/collector obligations.",
+    "E5": "Fresh construction-stage source closure and authentic markers/results preserving identical original plan bytes.",
+    "O1": "All51 legitimate disposable roots/layouts and complete private output/retention locations.",
+    "O2": "Actual requester/workload/original owner/root-owner UID/GID/groups/credentials; no invented account or UID0-as-excluded requester.",
+    "O3": "Actual protected interpreter/HELPER/ENTRY/native/EXECUTABLE/cache/builtin/frozen/ELF/full original external source and configuration closure.",
+    "O4": "Complete original typed owner/genesis/policy/resource/grant/catalogue/broker/mission/transaction DATA; later producer-generated keys/UUIDs/heads/HMACs remain genuinely producer-owned.",
+    "O5": "Exact original raw requests/NDJSON/request/disconnect/drain/retry/duplex/Luna mission/stdin/world/launcher literals.",
+    "O6": "Real selected original aarch64 fault injector/syscall/path/occurrence/effect/wait operands.",
+    "O7": "Exact original stage/action/client/socket/owner/actor/assertion/producer/export deadlines, no substituted defaults.",
+    "O8": "Fresh actual source/cgroup/controller/resource/window/custody/admission/storage/memory/no-sibling observations under Main ownership.",
+    "O9": "Authentic point-of-risk installation/provision/source-owner and original actor-spend authorization; preparation grants none.",
+    "OPEN_CONTRACTS": "Complete functional/RTE/termination/producer/lifetime/alias/primitive/raw-source/public/private and original C ABI off-body closure through full matching-source strict proof.",
+    "OPEN_PRIVACY": "Complete mutable private DATA/layout/proc/fd/root-memory/ACL/capability/credential exclusion under the authentic principal and held-parent topology, not just known-source modes.",
+    "actual_completed_Main_input": null,
+    "actual_completed_native_control_baseline": null,
+    "actual_kernel_prerequisites": "Actual map_files/kcmp/proc/inotify/memfd/seal/SCM/pidfd/poll/waitid/reap/close/prctl permissions/support remain unobserved here and cannot be assumed, bypassed or suppressed.",
+    "all_O1_to_O9_values_unselected": true
+  },
+  "original_packet_and_acceptance_conservation": {
+    "actor": {
+      "all_original_world_child_archive_controls_retained": true,
+      "original_model_tuple": "gpt-6-luna/high",
+      "replaced_by_reviewer": false,
+      "status": "UNRUN",
+      "unchanged": true
+    },
+    "assertions": {
+      "method": "Actual full source/method/body/setup scope reused from completed prior review, not count-only or reduced test discovery. No skip/subset/xfail/unexpected-success substitute.",
+      "new_target_controls_are_additive": true,
+      "separate_original_native_startup_tests": 5,
+      "whole_methods": 148,
+      "whole_suites": 10
+    },
+    "campaigns": {
+      "client_invocations": 30,
+      "count": 22,
+      "duplex": 3,
+      "edge": 8,
+      "native": 43,
+      "preservation": "All exact original cases, ordered raw requests including duplicate paths, request IDs versus observation IDs, responses, timeout/disconnect/drain/EOF and expected refusal branches retained. Existing EOF/shutdown expected failures are not relabeled positive baselines.",
+      "root_success": 24,
+      "subject": 13
+    },
+    "creators": {
+      "initialize": 27,
+      "order_and_dependencies": "Complete actual original creator branches/order/dependencies and three distinct genuine provision owners retained from the completed V2/V3 review; no historical initialization or producer UUID/key/head/HMAC fabrication.",
+      "provision": 3,
+      "total": 30
+    },
+    "immutable_packet": {
+      "files_including_manifest": 24,
+      "historical_SOURCE_OWNER_INTERFACE_bytes": 181746,
+      "historical_SOURCE_OWNER_INTERFACE_sha256": "c8d0068ea3420d302921e8de68a8bb24f51b10fce61070e57d2191f8a13d8dbb",
+      "manifest_bytes": 52887,
+      "manifest_sha256": "74769298d769942b92bcf148d8c5934c3ea0351b26a9f20e4d3ecf06ce97c24d",
+      "mode": 420,
+      "original_STAGE_ARGV_RESOURCE_HANDOFF_bytes": 109772,
+      "original_STAGE_ARGV_RESOURCE_HANDOFF_sha256": "2514c9966e4892604799d1f21beefc146d8b6b4129ffdf5893f6b1ba98d3bf9f",
+      "path": "records/codex-resumption-20261007/original-fixture-setup-v2",
+      "payloads": 23
+    },
+    "retained_original_targets": "All original116+two and32+47, accepted domains/cases, fixtures, public/full-byte/type contracts, controls, proof scope/floors and94 original todos remain. Counts identify conserved obligations, not passed results.",
+    "startup_and_replay": {
+      "distinct_native_descriptors": [
+        "FRONTIER",
+        "FULL_ROSTER",
+        "STABLE",
+        "SURVIVING_NEXT_INTENT",
+        "RETAIN_UNKNOWN"
+      ],
+      "distinct_replay_states": 8,
+      "frontier_boundary": "Actual separate native-positive FRONTIER descriptor/lease remains distinct from immutable missing-full-ledger diagnostics; no fabricated owner/Ready copy.",
+      "ordered_startup_states": 16,
+      "proposed_distinct_roots": 51
+    },
+    "topology_and_roles": {
+      "distinct_roles": "Native EXECUTABLE; Python HELPER and ENTRY; private DATA; original SOURCE/INTERPRETER/FLAG roles preserved.",
+      "original_actor_own_cleanexec_drop_and_final_checks_retained": true,
+      "original_endpoint": "ROOT/authority/protected-runtime/intent.sock unchanged",
+      "original_root": "0700 unchanged",
+      "original_runtime_shapes": "ordinary9/scoped10 and genuine resource_supervisor_v3/selected scoped producer checks retained without restoring the obsolete duplicate override.",
+      "proposal": "Exact parent711 or constrained authentic existing-group710 remains unselected proposal only. Actual umask/actor execute rights and all-private-DATA exclusion remain required; no chown/chmod/endpoint move/current-user/group0 fiction.",
+      "root_never_creates_or_connects_target_peer": true
+    }
+  },
+  "positive_source_disposition": {
+    "meaning": "Complete bounded independent static source opinion; not blanket full-product/native legality qualification, installed topology qualification, actual Main packet adoption, proof, a control result or Phase One acceptance.",
+    "native_peer_endorsement_borrowed": false,
+    "scope": "Only the exact V4 six-file affected target-fstat/control/current-binding correction and its inspected custody fact consumers, together with explicitly reused unchanged actual V3/V2 custody/setup scope.",
+    "value": true,
+    "whole_product_or_operational_qualification": false
+  },
+  "prior_finding_dispositions": [
+    {
+      "id": "NATIVE-V3-01",
+      "limit": "V3 rejection is retained. This bounded source assessment is not complete native legality, an executed counterexample, proof or fixture qualification; original native peer remains independent.",
+      "status": "PRECISE_SOURCE_CORRESPONDENCE_REPAIR_INSPECTED_IN_V4"
+    },
+    {
+      "id": "CUSTODY-SETUP-I1",
+      "runtime_or_proof_discharge": false,
+      "scope": "Original exact ordinary9/scoped10 shape, selected scoped producer DATA/path/full-byte/helper/native correspondence.",
+      "status": "PRECISE_SOURCE_REPAIR_REUSED_UNCHANGED"
+    },
+    {
+      "id": "CUSTODY-SETUP-I2",
+      "runtime_or_proof_discharge": false,
+      "scope": "Genuine EXECUTABLE full installation bytes/mode/membership/execute eligibility, distinct HELPER/ENTRY and original frontier controls.",
+      "status": "PRECISE_SOURCE_REPAIR_REUSED_UNCHANGED"
+    },
+    {
+      "id": "CUSTODY-SETUP-I3",
+      "runtime_fault_cleanup_discharge": false,
+      "scope": "Registered-before-acquisition ownership, available partial streams, original-deadline stop/wait/cleanup, explicit unknown custody, final root checks and genuine owner close footer; no pidfd admission fallback.",
+      "status": "PRECISE_FINALIZATION_REPAIR_REUSED_UNCHANGED"
+    },
+    {
+      "id": "CUSTODY-SETUP-I4",
+      "runtime_or_outer_discharge": false,
+      "scope": "Unique actual last OWNER_ACTOR_COMPLETED, exact native/post-source/mapping/cleanup plus owner/actor/campaign/Main child/scope/outer/group/collector/release remain required. B2 and authentic input remain missing.",
+      "status": "INNER_ELIGIBILITY_AND_GENERATED_JOIN_REUSED_OUTER_OBLIGATION_OPEN"
+    },
+    {
+      "full_strict_proof_discharge": false,
+      "id": "CUSTODY-SETUP-I5",
+      "scope": "All-source report=all/-j2 and original coverage/floors retained; historical weaker proof entry excluded.",
+      "status": "EXACT_ORIGINAL_STRICT_METADATA_REPAIR_RETAINED"
+    },
+    {
+      "full_native_legality_runtime_or_proof_discharge": false,
+      "id": "NATIVE-V2-01",
+      "status": "V3_VALID_RECEIVED_FD_AND_ACTUAL_CARRIER_SOURCE_CORRECTION_REUSED"
+    },
+    {
+      "full_native_legality_runtime_or_proof_discharge": false,
+      "id": "NATIVE-V2-02",
+      "scope": "Actual successful creator fstat, pidfd-open/dup source/error receipts, target/both writer close and EBADF source joins; separate final archive/directory Source=None outer closes retained.",
+      "status": "V3_CREATOR_OPEN_DUP_CLOSE_SOURCE_CORRECTION_REUSED"
+    },
+    {
+      "id": "NATIVE-V2-03",
+      "runtime_discharge": false,
+      "scope": "All15+3 snapshots, None/file/directory/symlink shapes, full typed pins, original candidate lineage and exact retained generated keyset; genuine-input-derived controls remain unrun.",
+      "status": "V3_COMPLETE_ORIGINAL_GENERATED_INVENTORY_CONSUMER_CORRECTION_REUSED"
+    },
+    {
+      "Main_adoption": false,
+      "id": "CUSTODY-SETUP-V2-B1",
+      "status": "CURRENT_TECHNICAL_PACKET_BINDING_REPAIR_RETAINED_AND_V4_BINDING_INSPECTED"
+    },
+    {
+      "details_ref": "blocking_findings",
+      "id": "CUSTODY-SETUP-V2-B2",
+      "status": "OPEN_UNCHANGED"
+    }
+  ],
+  "required_changes_and_next_authorized_verification": {
+    "Main_wrapper": "Finish genuine protected-producer wrapper and complete external retention/enrollment engineering and obtain independent affected-wrapper/original-frame qualification before using an authentic fixture selector. A selector is not authority or a receipt.",
+    "fixture_acceptance": "Every original116+two/32+47, all30 creators/all22 campaigns/all5 native descriptors/all16 ordered startup/all8 replay/all10 whole suites/all148 methods/separate5 startup tests and original Luna-high world/child/archive controls remain required. Missing/failed/unknown evidence stays open; do not reconstruct missing waits or treat a negative collector release as a successful relevant producer.",
+    "full_strict": {
+      "exact_argv": [
+        "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+        "-P",
+        "core/worldline_core_sources.gpr",
+        "-U",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "-j2"
+      ],
+      "fresh_resource_admission_or_deadline_proof_claimed": false,
+      "manifest_verification_after_genuine_matching_manifest_binding": [
+        "/usr/bin/python3",
+        "-B",
+        "verify_proof_manifest.py",
+        "--require-summary",
+        "obj/core/gnatprove/gnatprove.out"
+      ],
+      "no_weaker_substitute": "No reportfail/j0/prove.sh/subset/Off/Assume/suppression/waiver, original floor reduction or historical proof transfer.",
+      "required_scope": {
+        "all_new_private_and_nested_helpers": true,
+        "check_floor": 251,
+        "functional_RTE_termination_producer_alias_lifetime_C_ABI_obligations": true,
+        "ordered_inherited_prefix": 535,
+        "original_source_identities": 1550
+      },
+      "summary": "obj/core/gnatprove/gnatprove.out",
+      "unchanged_policy": {
+        "Main_seconds": 1000,
+        "child_seconds": 600,
+        "clock_before_challenge": true,
+        "core_bytes": 0,
+        "memory_bytes": 8589934592,
+        "minimum_MemAvailable_KB": 16777217,
+        "parallel_jobs": 2,
+        "scope_seconds": 840,
+        "swap_bytes": 0
+      }
+    },
+    "integration": "Main alone integrates the complete coherent donor with independently owned changes into one exact matching successor, refreshes all actual source/native/ABI/proof/helper/DATA/runtime/frame bindings, and retains rejected sources/history. This bounded source opinion is not permission to install or execute.",
+    "matching_source_runtime": "After actual independent source/frame/admission and appropriate authentic authorizations, Main alone obtains the real completed original producer/owner/actor/Main baseline and executes every preserved original plus all fourteen added target negatives and genuine generated-custody controls. Preserve full raw native inputs/status/transport/public/private streams, real actor/owner/campaign/Main child/scope/outer waits, terminal owned group, complete source/private/generated/retained inventories and collector/exact release custody.",
+    "new_affected_source_fix_required_by_this_review": false,
+    "publication": "Main retains this actual terminal result and current real provider/session/thinking/tier/fallback/advisor provenance. No future result-file or publication pin is asserted."
+  },
+  "retained_opinions": {
+    "history_boundary": "All rejected D1/D2/D3 donors, reviews, original packet, beforeimages/inventories/forward/inverse pairs, source assistance and historical proof artifacts remain unchanged. No historical pass or weaker proof is transferred.",
+    "native_actual_V3_publication": {
+      "bytes": 4369446,
+      "mode": 384,
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-native-source-negative-independent-review-actual-publication.json",
+      "sha256": "efe622e47874a59214c8dd89ecd383b2b9d18ab2187e789880ddfbb44e3c497e"
+    },
+    "native_complete_V3_negative": {
+      "bytes": 45035,
+      "mode": 384,
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-native-source-negative-independent-review.json",
+      "sha256": "22a334761e723b6904a3e9fd5d4194ae1c5064396582dfdfaaa59b0ecf95a152"
+    },
+    "own_actual_V3_publication": {
+      "bytes": 4179389,
+      "mode": 384,
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-custody-setup-independent-review-actual-publication.json",
+      "sha256": "4c2822deb4706a96718916e23a42dd311f365801522fc8e184577d2497a39945"
+    },
+    "own_complete_V2": {
+      "bytes": 63618,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/fixture-v2-complete-custody-setup-independent-review.json",
+      "sha256": "392936fb33a6551fce53afbdd8185aace81368aa71783f49fabd5b39d300f5e4"
+    },
+    "own_complete_V3": {
+      "bytes": 52932,
+      "mode": 384,
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-custody-setup-independent-review.json",
+      "sha256": "cb4df3dcd4bfc3cc904dd36d1bb515a6ce61a2a13d08917b48ff75d7df5b6740"
+    },
+    "own_original_interim": {
+      "bytes": 40700,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/fixture-custody-setup-independent-interim.json",
+      "sha256": "7b008cff8e185a9a36a69dbc90fb8aeda428fe63689790fbdaeb7e4e8c838a31"
+    }
+  },
+  "review_complete_for_declared_scope": true,
+  "reviewer": {
+    "actual_completed_V3_publication_observation": {
+      "api": "openai-codex-responses",
+      "model": "gpt-6.1-sol",
+      "parent_id": "c0fa186e",
+      "provider": "openai-codex",
+      "publication_pin_ref": "retained_opinions.own_actual_V3_publication",
+      "serviceTier": "default",
+      "stopReason": "toolUse",
+      "timestamp": "2026-10-10T12:46:57.300Z",
+      "yield_id": "c0ef6238"
+    },
+    "actual_model": "openai-codex/gpt-6.1-sol:max",
+    "actual_model_basis": "Current system project context, original same-owner session and retained real provider/model/thinking observations; not a reviewer label.",
+    "agent": "FixtureCustodySetupReview",
+    "current_V4_terminal_provider_receipt": null,
+    "literal_Standard_wire_observed": false,
+    "provenance_limit": "The 732deb companion and actual c0ef6238 publication retain their real epochs. Direct provider metadata for this new terminal reply is not visible before publication. Main must retain the actual current session/model/thinking/provider tier/fallback/advisor routing and publication with this result; no future companion pin is fabricated.",
+    "required_advisor": false,
+    "required_fallback": false,
+    "required_service_routing": "Standard/default",
+    "required_thinking_level": "max",
+    "retained_actual_model_companion": {
+      "bytes": 13231,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/native-owner-join-v59/FixtureCustodySetupReview-fixture-source-actual-resolved-model.json",
+      "sha256": "732deb7668d75c323c393ac13286ee9ffebd7cfc454a6b516ba9b68e1dadad9d"
+    },
+    "retained_actual_session_events": {
+      "earlier_advisor_enabled": false,
+      "model": "openai-codex/gpt-6.1-sol",
+      "model_change_id": "3e7d514e",
+      "resolvedModelIsFallback": false,
+      "thinkingLevel": "max",
+      "thinking_change_id": "6f701119"
+    },
+    "same_registered_session_id": "01a124c0-8c27-7570-83b4-da852bf3bfd4"
+  },
+  "scheduling_and_history": {
+    "C27_C28_dependency": "Neither historical C27 materialization nor actual protected-fixture construction is a prerequisite for completing this affected static review. Main's reported completed/qualified C28 SOURCE and FRAME work is not rerun, independently verified here or treated as V4 runtime/proof evidence.",
+    "current_capacity_blocker": false,
+    "earlier_BLOCKED_INTERIM": "Preserved as the truthful checkpoint issued under Main's earlier scheduling directive. It did not claim a positive V4 review. This result completes the subsequently resumed affected static review, not an execution qualification.",
+    "earlier_checkpoint_retention": "Main reports retaining the actual 31.8K checkpoint and provider publication; no locally unobserved checkpoint-file hash or future pin is invented.",
+    "other_lanes": "No new gate is imposed on unchanged ordinary/native/formal/C27/C28 execution lanes. Main remains sole integration/execution/window owner. Separate ownership recovery, timeout engineering and N67 source-observer work are not authored or qualified here.",
+    "same_original_owner_resumed": true
+  },
+  "schema": "worldline.independent-fixture-v4-complete-custody-setup-source-review",
+  "scope": {
+    "baseline_regular_files": 1144,
+    "cumulative_delta": {
+      "added": 4,
+      "modified": 22,
+      "removed": 0
+    },
+    "current_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v4",
+    "current_source": "records/codex-resumption-20261007/excluded-client-source-owner-v4/source",
+    "donor_regular_files": 1148,
+    "explicit_unchanged_reuse": "Reuse this same reviewer's genuine complete bounded V3 custody/setup opinion and its explicitly incorporated complete V2 creator/campaign/descriptor/assertion/source-body/setup review. The generated inventory/Main-input consumer prefix, original source-owner/loader/client/campaign/setup helpers and technical topology are unchanged at the reviewed pins. No broad unchanged-source rereview or new gate is claimed.",
+    "fresh_substantive_review": [
+      "Complete immediate six-file forward delta and exact before/after tuples; corresponding current implementation, specification comment, changelog, operation registration and normalized enrollment sections.",
+      "Full shared Target_Reference, its actual acquisition/completion callers, original valid encoded comparison and receipt/source qualification, and actual unchanged Python target capture producer/caller sufficient to establish fact-to-policy correspondence.",
+      "Actual baseline/native-call/refusal/emission flow and all fourteen new target-fstat mutations, including authentic carrier-FD and distinct qualified-source witnesses and missing-witness failure.",
+      "Complete current INTERFACE and PREREQUISITES, affected ABI map, CONTRACT-PINS, current PACKET-HANDOFF interface projection/full immutable24-file inventory/current operation/source/control bindings, and affected MAIN-VERIFICATION full strict/control/coverage/resource sections.",
+      "Actual prior V3 review/publication provenance, bounded reuse/assistance-continuity metadata and relevant unchanged source identity pairs."
+    ],
+    "frozen_baseline": "records/codex-resumption-20261007/phase1-integrated-v67-draft/source",
+    "immediate_delta": {
+      "added": 0,
+      "modified": 6,
+      "removed": 0
+    },
+    "immediate_preimage": "records/codex-resumption-20261007/excluded-client-source-owner-v3/source",
+    "method": "Read-only bounded static source/artifact inspection. Pins are delivered artifact identities, not newly computed executable-validator results. No imports, commands, native evaluations, target runs, broad archive search or reported-failure confirmation runs.",
+    "native_separation": "This review independently assesses the changed factual target receipt and controls for custody/setup correspondence. The separate original FixtureNativeSourceReview owns its full affected Ada/SPARK/native legality, C ABI, lifetime/alias and proof-scope assessment. Its current or future V4 verdict is not borrowed or inferred.",
+    "out_of_scope": [
+      "New Main protected-producer wrapper/enrollment implementation, which is not delivered.",
+      "Unintegrated human protected-proposal/selector-discovery assistance and separate Main ABI/controller/observer/ownership-recovery changes.",
+      "Compiler acceptance, bounded executable diagnostics, full strict proof, actual kernel permissions, matching-source runtime controls, protected construction, installation and actor execution."
+    ],
+    "skills_read": [
+      "cosmogony",
+      "worldline",
+      "ada",
+      "spark-users-guide",
+      "spark-users-guide/chapters/ch19-team-workflows.md",
+      "spark-users-guide/chapters/ch26-applying-spark.md",
+      "gnat-toolchain",
+      "sia",
+      "discernment-nudge"
+    ],
+    "workspace": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1"
+  },
+  "six_affected_source_tuples": {
+    "all_modes": 420,
+    "entries": [
+      {
+        "after_bytes": 170759,
+        "after_sha256": "9b195199bb18c8611228f11732938134717c5d4acabc268ec234ae32acb63b35",
+        "before_bytes": 169869,
+        "before_sha256": "495d324dfff20f0cac90867ce8f6b9875877e9da889953093f7d1cd07c61f254",
+        "path": "CHANGELOG.md",
+        "reviewed_current_lines": "1-36"
+      },
+      {
+        "affected_callers": [
+          "Acquisition_Reference:1297-1300",
+          "Completion_Reference:1328-1331"
+        ],
+        "affected_helper": "Target_Reference:590-678; added joins:626-629",
+        "after_bytes": 97115,
+        "after_sha256": "ed2fb42d9bb8b0cb62ebc0fbcb10919981cdc4a329d38190c0465bd198a159e6",
+        "before_bytes": 96744,
+        "before_sha256": "ab0440aa596ab619171cffcf46146a27fb2557d364959b45062a64aa7605f350",
+        "path": "core/worldline-excluded_source_owner.adb",
+        "reviewed_current_ranges": [
+          "1-100",
+          "400-549",
+          "570-710",
+          "1080-1158",
+          "1150-1390"
+        ]
+      },
+      {
+        "after_bytes": 2748,
+        "after_sha256": "c6477e7fb2217e1b9c834413a88a6920e63a9fc483217a5a950344af3969124c",
+        "before_bytes": 2587,
+        "before_sha256": "7985d579a04d219d261e6b253b96a0d89f147a5e00ba6d84907d18519f9b1c01",
+        "path": "core/worldline-excluded_source_owner.ads",
+        "reviewed_current_extent": "Complete specification; only target correspondence documentation added, public types/signatures/contracts preserved."
+      },
+      {
+        "after_bytes": 28270,
+        "after_sha256": "f820fd8ef3c615223e4ddf3d5e668e2c7f0d366007fd997325d5d8c6618ff54b",
+        "before_bytes": 27755,
+        "before_sha256": "04cbbb7a66feeaf93fea3660acce9f6052d428ef87386a54b4d88bda63f41247",
+        "path": "protected-root/controls/source_registration.json",
+        "reviewed_current_lines": "145-248; fixed_excluded_source_owner"
+      },
+      {
+        "after_bytes": 243074,
+        "after_sha256": "b5f474022475f83fd6d1abb1d00983e8091a06d8a7819098b97fff520a1f0dc0",
+        "before_bytes": 243074,
+        "before_sha256": "09256377203db9f50d11018a2441800891c31bed5de1ac7f17f1174260cbcf35",
+        "normalized_target_body_pin": "b79e063226c27065739428afa433e29480f512627ed5d169e0a6cad204b2c64e",
+        "path": "runtime/worldline/proof_manifest.py",
+        "reviewed_current_lines": "1978-2054"
+      },
+      {
+        "after_bytes": 53225,
+        "after_sha256": "cc7ebe9513051d24a4abfbd0e592c5034113832290a0bac571126f2042370f20",
+        "before_bytes": 50373,
+        "before_sha256": "52aa25be23f95e9a8e6bc6d4792fe08c406b6b5637852edd92e45de413076c4d",
+        "path": "tests/excluded_source_owner_controls.py",
+        "reviewed_current_lines": "519-792",
+        "unchanged_consumer_before_run": {
+          "bytes": 32239,
+          "meaning": "Exact retained prefix includes all generated15+3 snapshot/control semantics, completed_input and main_custody; it is reused from the genuine V3 review.",
+          "v3_sha256": "40bbe7c5092091e2b45462ee05fa4372766754981c0667574e06c98c31373288",
+          "v4_sha256": "40bbe7c5092091e2b45462ee05fa4372766754981c0667574e06c98c31373288"
+        }
+      }
+    ],
+    "preimage_path_base": "records/codex-resumption-20261007/excluded-client-source-owner-v4/preimages/v3",
+    "source_path_base": "records/codex-resumption-20261007/excluded-client-source-owner-v4/source"
+  },
+  "status": "COMPLETE_AFFECTED_V4_SOURCE_OPINION_WITH_OPEN_ORIGINAL_INTEGRATION_AND_ACCEPTANCE_GATES",
+  "summary": "The exact V3-to-V4 target-fstat correction, all fourteen added genuine-input-derived controls, and their current source/contract/interface/packet/verification bindings have been independently inspected. The implementation addresses the precise NATIVE-V3-01 descriptor/call/source correspondence defect within this custody/setup review scope. No additional blocking source defect was identified in that affected scope. The genuine earlier bounded V3 opinion is reused only for unchanged source and algorithms. Authentic Main protected-producer wrapper/retention engineering and a completed selected input remain missing; operator selections, full native qualification, full strict proof, runtime controls, original fixtures and Phase One acceptance remain open.",
+  "target_fstat_source_assessment": {
+    "compilation_proof_or_runtime_discharge": false,
+    "disposition": "PRECISE_NATIVE_V3_01_CORRESPONDENCE_DEFECT_ADDRESSED_WITHIN_DECLARED_CUSTODY_SETUP_SOURCE_SCOPE",
+    "domain_and_control_preservation": "No general signed32/uint32/UID/GID parsing, zero-identity contract, action type, public C ABI, original endpoint, source byte contract, post-drop actor, SCM carrier, OFD or close predicate was weakened by the immediate delta. Successful genuine fstat receipts already carry the newly consumed fields. UID0 parsing remains separate from excluded-actor eligibility; no new nonzero-GID restriction is introduced.",
+    "native_peer_verdict_borrowed": false,
+    "observed_implementation": [
+      "Owner_Source is the full target Capture.source. The target descriptor and actor descriptor remain actual valid FD references before the fstat comparisons.",
+      "The added predicate requires fstat.call exactly fstat, fstat.fd and fstat.args.fd equal the actual held target descriptor FD, and full fstat.source equal Owner_Source. Existing identity/result0/errno0 checks remain.",
+      "Same renames the original Requester_Join.Same, which first requires both spans valid and then compares their complete encodings. A missing field cannot pass by equating two absent placeholders; comparison is not digest-only or an approval Boolean.",
+      "Owner_Source remains qualified by the real receive/source reference, complete installation correspondence and held/named readbacks; other target getsockopt/kcmp/close receipts must still join that same capture source.",
+      "Both acquisition and completion call this shared predicate. There is no corrected completion-only or acquisition-only copy and no Python substitute authority policy.",
+      "Actual socket_capture already emits call,args.fd,fd,result,errno,identity,source. The actual owner receives the actor target SCM descriptor, calls socket_capture(target_fd, source), records its actual held/kernel descriptor and kcmp, decides acquisition, closes its duplicate and rejoins close custody before replying."
+    ],
+    "unchanged_actual_producer_refs": [
+      {
+        "bytes": 10688,
+        "lines": "66-79",
+        "mode": 420,
+        "path": "runtime/worldline/custody_subject_capture.py",
+        "sha256": "40db045a582a685ce54e5e3b18b75437ae8a879bccbc4f4bb0a6e02306be01a1"
+      },
+      {
+        "bytes": 44791,
+        "lines": "485-535",
+        "mode": 420,
+        "path": "runtime/worldline/excluded_source_owner.py",
+        "sha256": "58f08e393a37d326605f7cd8b057f547c503d315437c3ff831891f1c0a58b1b3"
+      },
+      {
+        "bytes": 15699,
+        "lines": "1-42",
+        "mode": 420,
+        "path": "core/worldline-custody_v2_requester_join.adb",
+        "sha256": "a39bf23831443b56eb09e0c493a07beeb5adc233282c736a0448be2d74935bd6"
+      }
+    ]
+  },
+  "unchanged_reused_source_pins": {
+    "all_modes": 420,
+    "basis": "Relevant V3/V4 identity pairs read from REVIEW-REUSE; prior actual bounded source opinions retained. Not a fresh full1148-file audit.",
+    "entries": {
+      "core/worldline-c_api.adb": {
+        "bytes": 484763,
+        "sha256": "a95ad85b33a076dd563e61166a08c24070c709d36870c71bbaa5c6cdaf5f83a0"
+      },
+      "core/worldline-c_api.ads": {
+        "bytes": 57179,
+        "sha256": "ae108a0aa9d736a4eafc15d2c51d1121915aee75d773d964b20d7221cc8defdc"
+      },
+      "core/worldline-startup_installation.adb": {
+        "bytes": 52678,
+        "sha256": "bef8ce43b7138c7a0fbea2db0db320b40a7decb9a38ee0b81d2698dcd0e51131"
+      },
+      "core/worldline-startup_source_custody.adb": {
+        "bytes": 36518,
+        "sha256": "318def3da41cc417702ce7212520224810cf3e25c498d41f72ad6443345ad4d9"
+      },
+      "core/worldline_core_sources.gpr": {
+        "bytes": 1057,
+        "sha256": "4c2289d5a62e8420a3448ea4f3bd7e317e3ddf038dda1ddec790e36795514942"
+      },
+      "protected-root/controls/fixture_builder.py": {
+        "bytes": 40226,
+        "sha256": "72e75c3d695f42d757465dcbf17f767df64af083dae6de6037c095f12cab3eaa"
+      },
+      "protected-root/controls/live_campaign.py": {
+        "bytes": 29997,
+        "sha256": "94013d31371f21f3ad36f501de9215a788dffdd8ecb5e0fb8b40e98b71f1700a"
+      },
+      "protected-root/controls/original_client.py": {
+        "bytes": 4543,
+        "sha256": "76fa3f2df34177a96a895ae12545c169fc1f12ba01cd9c73dc6796d1b5b308e7"
+      },
+      "protected-root/controls/run_campaign.py": {
+        "bytes": 12222,
+        "sha256": "a1a805f9b47b296bbdeaeef318e1567302997d863ddfc3e8aeb018de7f363611"
+      },
+      "protected-runtime/approved_source_loader.py": {
+        "bytes": 38139,
+        "sha256": "ce78eea99036e32ee05e34c6ef7fe45f73e4ccfb8c90258083d2f6aad6b9d5f2"
+      },
+      "runtime/worldline/custody_subject_capture.py": {
+        "bytes": 10688,
+        "sha256": "40db045a582a685ce54e5e3b18b75437ae8a879bccbc4f4bb0a6e02306be01a1"
+      },
+      "runtime/worldline/excluded_source_owner.py": {
+        "bytes": 44791,
+        "sha256": "58f08e393a37d326605f7cd8b057f547c503d315437c3ff831891f1c0a58b1b3"
+      },
+      "runtime/worldline/protected_root_worker.py": {
+        "bytes": 51962,
+        "sha256": "44aaed616bb4a005ffcdd25de4f18d68109c79b3b9dce053c819a43ebe7e7a91"
+      },
+      "runtime/worldline/protected_scoped_resource_runtime.py": {
+        "bytes": 77962,
+        "sha256": "75febf6a1e9b8a5e01610bbbe788387f950c3ac03130c3a265b5b0dd53db1577"
+      },
+      "runtime/worldline/protected_startup.py": {
+        "bytes": 69333,
+        "sha256": "68133f83b55f65675486d91b3b6892a3ee5b2d6f74f2352316de9762df2317ab"
+      },
+      "tests/test_custody_startup_native_v35.py": {
+        "bytes": 17066,
+        "sha256": "4a90de3b11b147881d6346425484498a5474fddd293c027379f337a7543070cd"
+      }
+    },
+    "source_path_base": "records/codex-resumption-20261007/excluded-client-source-owner-v4/source"
+  },
+  "verification_and_authority": {
+    "Main_packet_adoption": false,
+    "acceptance_authority": false,
+    "actor_execution": false,
+    "bounded_diagnostics": false,
+    "build": false,
+    "commands": false,
+    "complete_Phase_One_acceptance": false,
+    "fixture_authority": false,
+    "formatter": false,
+    "full_strict_proof": false,
+    "goal_controller_policy_config_or_window_change": false,
+    "helper_import_or_validator_execution": false,
+    "installation_or_provisioning": false,
+    "lint": false,
+    "matching_source_runtime_controls": false,
+    "native_eval_or_bulk_native_json": false,
+    "new_executable_verification_runs": [],
+    "operator_authority": false,
+    "phase_acceptance": false,
+    "predecessor_contact_or_resume": false,
+    "principal_permission_or_topology_change": false,
+    "private_copy_or_materialization": false,
+    "producer_execution": false,
+    "product_or_evidence_writes": false,
+    "proof_acceptance": false,
+    "prover": false,
+    "runtime_acceptance": false,
+    "source_edits": false,
+    "static_source_artifact_inspection": true,
+    "target_launch": false,
+    "test": false
+  }
+}

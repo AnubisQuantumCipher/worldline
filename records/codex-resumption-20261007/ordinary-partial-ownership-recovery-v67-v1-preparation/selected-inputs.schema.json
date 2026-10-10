@@ -1,0 +1,94 @@
+{
+  "$comment": "Template NULL values are deliberately not execution-ready. Main supplies genuine source opinion and fresh dedicated stage after qualification. Runtime independently enforces exact pins, identities, original 30min get/clock, full frozen scope and clobber guards without importing a target or validator.",
+  "$defs": {
+    "pin": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mode": {
+          "maximum": 4095,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "path": {
+          "pattern": "^/",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "mode"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "worldline-original-partial-ownership-recovery-Main-inputs-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actual_runtime_and_routing_binding": {
+      "$ref": "#/$defs/pin"
+    },
+    "candidate": {
+      "const": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate"
+    },
+    "expected_window": {
+      "$ref": "#/$defs/pin"
+    },
+    "independent_review": {
+      "$ref": "#/$defs/pin"
+    },
+    "observer": {
+      "const": "Main"
+    },
+    "operation": {
+      "const": "collect-partial-ownership-and-release-custody"
+    },
+    "operator_preferences": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/pin"
+        }
+      ]
+    },
+    "phase_acceptance": {
+      "const": false
+    },
+    "schema": {
+      "const": "worldline-original-partial-ownership-recovery-Main-inputs-v1"
+    },
+    "source_manifest": {
+      "$ref": "#/$defs/pin"
+    },
+    "stage_goal_observation": {
+      "$ref": "#/$defs/pin"
+    }
+  },
+  "required": [
+    "schema",
+    "observer",
+    "operation",
+    "candidate",
+    "source_manifest",
+    "independent_review",
+    "stage_goal_observation",
+    "actual_runtime_and_routing_binding",
+    "expected_window",
+    "operator_preferences",
+    "phase_acceptance"
+  ],
+  "title": "Existing Main custody-only recovery receiving inputs; not execution or acceptance authority",
+  "type": "object"
+}

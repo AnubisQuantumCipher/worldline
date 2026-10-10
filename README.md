@@ -1,3 +1,5 @@
+> Latest non-final engineering checkpoint: [F67 source, preparation and retained failures](PHASE1-SOURCE-CHECKPOINT-20261010-F67.md). Phase One remains incomplete.
+
 # WORLDLINE Phase One engineering checkpoint
 
 **Work in progress. Phase One is not complete or accepted.**

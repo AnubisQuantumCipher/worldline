@@ -1,0 +1,195 @@
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,6 +1,20 @@
+ # Changelog
+ 
+ ## Unreleased — Phase 1 authority kernel checkpoint
++
++**Fixed actual target fstat receipt correspondence (source-only).**
++
++Both acquisition and completion now require the target capture's genuine
++`fstat` call, receipt FD and argument FD to name the actual received target
++descriptor, and its complete source to equal the qualified at-call owner
++capture. Identity, result/errno, actual post-drop peer, endpoint, OFD and close
++checks remain mandatory. Independent controls mutate only each target fstat
++field while retaining the genuine completed input and unchanged identity.
++No producer facts or ABI contracts are invented; the original socket capture
++already records these complete fields. Unchanged bounded custody/helper
++review is retained by exact source pins, not transferred as full qualification.
++Original full strict proof, framed runtime and authentic operator/Main inputs
++remain required; no execution or acceptance is claimed here.
+ 
+ **Fixed source-owner remaining primitive and generated-output joins (source-only).**
+ 
+--- a/core/worldline-excluded_source_owner.adb
++++ b/core/worldline-excluded_source_owner.adb
+@@ -623,6 +623,10 @@
+          not Receive_Reference (D, Frame, F (D, Target, "receive"), Descriptor, F (D, Frame, "child_pid"),
+            F (D, Request, "uid"), F (D, Request, "gid"), Owner_Source) or else
+          not Same (D, F (D, Capture, "fd"), F (D, Descriptor, "fd")) or else
++         not S.Text_Is (D, F (D, F (D, Capture, "fstat"), "call"), "fstat") or else
++         not Same (D, F (D, F (D, Capture, "fstat"), "fd"), F (D, Descriptor, "fd")) or else
++         not Same (D, F (D, F (D, F (D, Capture, "fstat"), "args"), "fd"), F (D, Descriptor, "fd")) or else
++         not Same (D, F (D, F (D, Capture, "fstat"), "source"), Owner_Source) or else
+          not Identity (D, F (D, F (D, Capture, "fstat"), "identity"), Descriptor) or else
+          not Num (D, F (D, F (D, Capture, "fstat"), "result"), 0) or else
+          not Num (D, F (D, F (D, Capture, "fstat"), "errno"), 0) or else
+--- a/core/worldline-excluded_source_owner.ads
++++ b/core/worldline-excluded_source_owner.ads
+@@ -13,6 +13,8 @@
+    -- must be the held owner channel. Generic signed-32/UID domains stay intact.
+    -- Creator fstat and pidfd-open need successful source-bound real primitives;
+    -- target/writer close and EBADF readback bind the same at-call owner source.
++   -- Target fstat also binds call/FD/args/result/errno/full source to the actual
++   -- received target descriptor and qualified at-call capture, in both paths.
+    -- COMPLETE needs actual actor finally, owner finally, waitid/wait/pidfd and
+    -- complete retained stdout/stderr; missing/unknown/error remains Refused.
+    function Launch_Reference (Data : E.Bytes; Frame : E.Span) return Boolean
+--- a/protected-root/controls/source_registration.json
++++ b/protected-root/controls/source_registration.json
+@@ -145,27 +145,27 @@
+     "source-input-full-parent-image-descent"
+   ],
+   "fixed_excluded_source_owner": {
+-    "schema": "worldline.fixed-excluded-client-source-owner-operation-binding-v3",
++    "schema": "worldline.fixed-excluded-client-source-owner-operation-binding-v4",
+     "source_only": true,
+     "implemented_source": true,
+     "author_model": "openai-codex/gpt-6.1-sol:max",
+-    "author_provenance": "records/codex-resumption-20261007/excluded-client-source-owner-v3/AUTHOR-PROVENANCE.json",
+-    "interface": "records/codex-resumption-20261007/excluded-client-source-owner-v3/INTERFACE.json",
+-    "contract_pins": "records/codex-resumption-20261007/excluded-client-source-owner-v3/CONTRACT-PINS.json",
+-    "complete_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v3/source",
++    "author_provenance": "records/codex-resumption-20261007/excluded-client-source-owner-v4/AUTHOR-PROVENANCE.json",
++    "interface": "records/codex-resumption-20261007/excluded-client-source-owner-v4/INTERFACE.json",
++    "contract_pins": "records/codex-resumption-20261007/excluded-client-source-owner-v4/CONTRACT-PINS.json",
++    "complete_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v4/source",
+     "baseline": "records/codex-resumption-20261007/phase1-integrated-v67-draft/source",
+-    "superseded_unqualified_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v2/source",
+-    "reversible_delta": "records/codex-resumption-20261007/excluded-client-source-owner-v3/DELTA-MANIFEST.json",
+-    "verification_commands": "records/codex-resumption-20261007/excluded-client-source-owner-v3/MAIN-VERIFICATION.json",
+-    "technical_topology_proposal": "records/codex-resumption-20261007/excluded-client-source-owner-v3/TOPOLOGY-PROPOSAL.json",
+-    "coherent_packet_handoff": "records/codex-resumption-20261007/excluded-client-source-owner-v3/PACKET-HANDOFF.json",
++    "superseded_unqualified_donor": "records/codex-resumption-20261007/excluded-client-source-owner-v3/source",
++    "reversible_delta": "records/codex-resumption-20261007/excluded-client-source-owner-v4/DELTA-MANIFEST.json",
++    "verification_commands": "records/codex-resumption-20261007/excluded-client-source-owner-v4/MAIN-VERIFICATION.json",
++    "technical_topology_proposal": "records/codex-resumption-20261007/excluded-client-source-owner-v4/TOPOLOGY-PROPOSAL.json",
++    "coherent_packet_handoff": "records/codex-resumption-20261007/excluded-client-source-owner-v4/PACKET-HANDOFF.json",
+     "affected_source_sha256": {
+       "core/worldline-c_api.adb": "a95ad85b33a076dd563e61166a08c24070c709d36870c71bbaa5c6cdaf5f83a0",
+       "core/worldline-c_api.ads": "ae108a0aa9d736a4eafc15d2c51d1121915aee75d773d964b20d7221cc8defdc",
+       "core/worldline-custody_v2_requester_join.adb": "a39bf23831443b56eb09e0c493a07beeb5adc233282c736a0448be2d74935bd6",
+       "core/worldline-custody_v2_requester_join.ads": "f4b9afa8e13a1ab81fa51683f55e5d44e2095baf7e1dd2582732367537cbf451",
+-      "core/worldline-excluded_source_owner.adb": "ab0440aa596ab619171cffcf46146a27fb2557d364959b45062a64aa7605f350",
+-      "core/worldline-excluded_source_owner.ads": "7985d579a04d219d261e6b253b96a0d89f147a5e00ba6d84907d18519f9b1c01",
++      "core/worldline-excluded_source_owner.adb": "ed2fb42d9bb8b0cb62ebc0fbcb10919981cdc4a329d38190c0465bd198a159e6",
++      "core/worldline-excluded_source_owner.ads": "c6477e7fb2217e1b9c834413a88a6920e63a9fc483217a5a950344af3969124c",
+       "core/worldline-startup_installation.adb": "bef8ce43b7138c7a0fbea2db0db320b40a7decb9a38ee0b81d2698dcd0e51131",
+       "core/worldline-startup_source_custody.adb": "318def3da41cc417702ce7212520224810cf3e25c498d41f72ad6443345ad4d9",
+       "core/worldline-startup_source_custody.ads": "1070dd6d45e2cc6b4e9a14d4c7def2f6a53a9462b3f94c27fc36f680fb943613",
+@@ -177,12 +177,12 @@
+       "protected-runtime/approved_source_loader.py": "ce78eea99036e32ee05e34c6ef7fe45f73e4ccfb8c90258083d2f6aad6b9d5f2",
+       "runtime/worldline/custody_startup_capture.py": "b7c1efe7a749e3108870528b81adb6ccd15621fda1973db272c69a99ddf51f37",
+       "runtime/worldline/excluded_source_owner.py": "58f08e393a37d326605f7cd8b057f547c503d315437c3ff831891f1c0a58b1b3",
+-      "runtime/worldline/proof_manifest.py": "09256377203db9f50d11018a2441800891c31bed5de1ac7f17f1174260cbcf35",
++      "runtime/worldline/proof_manifest.py": "b5f474022475f83fd6d1abb1d00983e8091a06d8a7819098b97fff520a1f0dc0",
+       "runtime/worldline/protected_root_worker.py": "44aaed616bb4a005ffcdd25de4f18d68109c79b3b9dce053c819a43ebe7e7a91",
+       "runtime/worldline/protected_scoped_resource_runtime.py": "75febf6a1e9b8a5e01610bbbe788387f950c3ac03130c3a265b5b0dd53db1577",
+       "runtime/worldline/protected_startup.py": "68133f83b55f65675486d91b3b6892a3ee5b2d6f74f2352316de9762df2317ab",
+       "runtime/worldline/root_worker_plan.py": "7cfa2b66b726083390b0b5b1e55d835eaa914bac8392de7018bfacbce8a4b96a",
+-      "tests/excluded_source_owner_controls.py": "52aa25be23f95e9a8e6bc6d4792fe08c406b6b5637852edd92e45de413076c4d",
++      "tests/excluded_source_owner_controls.py": "cc7ebe9513051d24a4abfbd0e592c5034113832290a0bac571126f2042370f20",
+       "tests/test_custody_startup_native_v35.py": "4a90de3b11b147881d6346425484498a5474fddd293c027379f337a7543070cd"
+     },
+     "actual_operators_selected": false,
+@@ -210,6 +210,7 @@
+       "post-native owner finally/source/mapping/cleanup then actual owner final closes and original Main raw producer/collector/release correspondence",
+       "valid actual received descriptor and message/target carrier FD joins without narrowing generic signed32 or uint32 domains",
+       "successful creator fstat and actual at-call pidfd-open/dup source, target/writer close plus EBADF readback source correspondence",
++      "target fstat call/receipt FD/argument FD/success/full source joins actual held target descriptor and qualified at-call capture in BOTH acquisition and completion",
+       "complete original generated root keys/nulls/file-directory-symlink snapshots/full pins and original collector candidate/retained-artifact lineage"
+     ],
+     "original_control_rosters_retained": true,
+@@ -218,8 +219,10 @@
+       "records/codex-resumption-20261007/native-owner-join-v59/fixture-native-source-independent-interim.json",
+       "records/codex-resumption-20261007/native-owner-join-v59/fixture-custody-setup-independent-interim.json",
+       "records/codex-resumption-20261007/native-owner-join-v59/fixture-v2-complete-native-source-negative-independent-review.json",
+-      "records/codex-resumption-20261007/native-owner-join-v59/fixture-v2-complete-custody-setup-independent-review.json"
++      "records/codex-resumption-20261007/native-owner-join-v59/fixture-v2-complete-custody-setup-independent-review.json",
++      "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-native-source-negative-independent-review.json"
+     ],
++    "unchanged_bounded_custody_review": "records/codex-resumption-20261007/native-owner-join-v59/fixture-v3-complete-custody-setup-independent-review.json",
+     "main_producer_prerequisite": {
+       "actual_input_selected": false,
+       "selector": null,
+@@ -233,7 +236,7 @@
+       "Authentic operator principal/topology/deadline/closure and actual original Main producer wrapper/retention input are unselected"
+     ],
+     "executed_verification": [],
+-    "independent_review": "REQUIRED_NEW_EXACT_COMPLETE_SOURCE_REVIEW_NOT_PERFORMED",
++    "independent_review": "REQUIRED_NEW_AFFECTED_TARGET_FSTAT_REVIEW_V3_UNCHANGED_BOUNDED_CUSTODY_OPINION_RETAINED_NOT_FULL_QUALIFICATION",
+     "installation_authorized": false,
+     "actor_execution_authorized": false,
+     "phase_acceptance": false
+--- a/runtime/worldline/proof_manifest.py
++++ b/runtime/worldline/proof_manifest.py
+@@ -1993,7 +1993,7 @@
+     'core/worldline-c_api.ads': 'f324d26b1fb9e965f8feb4be4dc4190b08a0cf05aa1def223efa317cf23ebde9',
+     'core/worldline-custody_v2_requester_join.adb': 'c04cc5de8c3a81b3e59b8b825fa4a8beace7ad6c35217591cb0b3982516cd7eb',
+     'core/worldline-custody_v2_requester_join.ads': 'f287886125cb12a0488466decbfcae8379462b1ebac7ef595c04e0c50a441c5f',
+-    'core/worldline-excluded_source_owner.adb': 'eea52295e82c733ce18d838046c144630e0da9de69b9ddf7bffbef209eeb34a0',
++    'core/worldline-excluded_source_owner.adb': 'b79e063226c27065739428afa433e29480f512627ed5d169e0a6cad204b2c64e',
+     'core/worldline-excluded_source_owner.ads': 'cbb2f8d0ec88dfc08e2726213e5bf1269909385a6ef27aabc611fc099539e82f',
+     'core/worldline-startup_source_custody.adb': 'b79deb5ff0145dfe0bc04b6b6e37ae14db22262c940e6a9c15ab2235f3c597b2',
+     'core/worldline-startup_source_custody.ads': 'a3a9a5899a6967fac09e5901b5a462bb9f929fd43b613a77106a84ca18837bee',
+--- a/tests/excluded_source_owner_controls.py
++++ b/tests/excluded_source_owner_controls.py
+@@ -649,6 +649,48 @@
+             lambda value: value['owner_channel_capture']['fstat']['args'].__setitem__('fd', -1))
+     refused('creator-fstat-source-missing',
+             lambda value: value['owner_channel_capture']['fstat'].__setitem__('source', None))
++    # Mutate only the target fstat receipt: retain its genuine identity, carrier,
++    # post-drop actor, peer, endpoint, OFD and every other completed-input fact.
++    refused('target-fstat-call-missing',
++            lambda value: value['target']['capture']['fstat'].pop('call'))
++    refused('target-fstat-call-not-fstat',
++            lambda value: value['target']['capture']['fstat'].__setitem__('call', 'getpeername'))
++    refused('target-fstat-fd-missing',
++            lambda value: value['target']['capture']['fstat'].pop('fd'))
++    refused('target-fstat-negative-fd-with-unchanged-identity',
++            lambda value: value['target']['capture']['fstat'].__setitem__('fd', -1))
++    refused('target-fstat-not-held-target-fd',
++            lambda value: value['target']['capture']['fstat'].__setitem__(
++                'fd', value['owner_channel_capture']['fd']))
++    refused('target-fstat-args-missing',
++            lambda value: value['target']['capture']['fstat'].pop('args'))
++    refused('target-fstat-args-fd-missing',
++            lambda value: value['target']['capture']['fstat']['args'].pop('fd'))
++    refused('target-fstat-args-negative-fd-with-unchanged-identity',
++            lambda value: value['target']['capture']['fstat']['args'].__setitem__('fd', -1))
++    refused('target-fstat-args-not-held-target-fd',
++            lambda value: value['target']['capture']['fstat']['args'].__setitem__(
++                'fd', value['owner_channel_capture']['fd']))
++    refused('target-fstat-source-field-missing',
++            lambda value: value['target']['capture']['fstat'].pop('source'))
++    refused('target-fstat-source-null',
++            lambda value: value['target']['capture']['fstat'].__setitem__('source', None))
++    target_source = archive(baseline['target']['capture']['source'])
++    other_owner_source = next((source for source in (
++        baseline['owner_source'], baseline['owner_final_source'],
++        baseline['owner_channel_capture']['source'], baseline['pidfd_open']['source'])
++        if archive(source) != target_source), None)
++    if other_owner_source is None:
++        raise ValueError('target fstat source substitution needs a distinct genuine qualified owner snapshot')
++    # The successful native baseline already qualifies these original owner
++    # snapshots; never fabricate an alternative or silently skip this witness.
++    refused('target-fstat-source-not-at-call-qualified-owner',
++            lambda value: value['target']['capture']['fstat'].__setitem__(
++                'source', copy.deepcopy(other_owner_source)))
++    refused('target-fstat-failed-with-unchanged-identity',
++            lambda value: value['target']['capture']['fstat'].update(result=-1, errno=9))
++    refused('target-fstat-errno-mismatch-with-unchanged-identity',
++            lambda value: value['target']['capture']['fstat'].__setitem__('errno', 9))
+     refused('pidfd-open-source-missing',
+             lambda value: value['pidfd_open'].__setitem__('source', None))
+     refused('pidfd-open-source-envelope-mismatch',

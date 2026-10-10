@@ -1,0 +1,2 @@
+package body Worldline.Resource_Actor_Execution_Wire with SPARK_Mode is
+end Worldline.Resource_Actor_Execution_Wire;

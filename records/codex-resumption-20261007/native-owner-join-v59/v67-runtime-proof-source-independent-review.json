@@ -1,0 +1,335 @@
+{
+  "schema": "worldline-v53-runtime-proof-independent-review-v1",
+  "disposition": "QUALIFIED_EXACT_F53_RUNTIME_PROOF_SOURCE_FOR_NONPRIVILEGED_DIAGNOSTIC_PREPARATION_ONLY",
+  "source_version": 67,
+  "author": "SolPhaseOneIntegration",
+  "record_author": "F61RuntimeProofReview",
+  "reviewer": "F61RuntimeProofReview",
+  "reviewer_authored": true,
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "required_no_fallback": true,
+  "no_fallback": true,
+  "target_execution": false,
+  "phase_acceptance": false,
+  "strict_proof": false,
+  "runtime_acceptance": false,
+  "blocking_findings": [],
+  "scope": "Original affected F67 runtime/proof SOURCE-only qualification of the exact complete five-artifact set. Reuse valid unchanged F66 qualifications and the accepted external isolated donor assessment; independently examine the actual private Projected integration, consuming-side routing, sole existing normalized pin, current metadata/enrollment and original correspondence. This is not a new standalone donor review or proof/runtime/frame acceptance.",
+  "artifacts": {
+    "source-selection.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source-selection.json",
+      "sha256": "37a948080c814aac323f6dedfe1ec9b6a400959fed8525224958b8cec1f38ded",
+      "bytes": 145044,
+      "mode": 420
+    },
+    "source-inventory.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source-inventory.json",
+      "sha256": "ffd78550c1d3ddf37bd6f70755c93b3e407497f699901991b3d8d5b81e0aac47",
+      "bytes": 198886,
+      "mode": 420
+    },
+    "stable-source-inventory.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/stable-source-inventory.json",
+      "sha256": "55caa48073671bcbfdf7c1beddbb8babf240f26393398f9f297a971a1a5bd358",
+      "bytes": 220906,
+      "mode": 420
+    },
+    "source-changes.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source-changes.json",
+      "sha256": "3a3e1c07b1d05e2a44abe0282350052aae8b19c2d37fb7e6478a7aadb1cc7d09",
+      "bytes": 15813,
+      "mode": 420
+    },
+    "enrollment-report.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/enrollment-report.json",
+      "sha256": "d850fa897cf2c4b929a72cfe069394d850cb406351d5fc64e3f4ae7446bd4885",
+      "bytes": 574696,
+      "mode": 420
+    }
+  },
+  "review_input": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-exact-complete-source-review-input.json",
+    "sha256": "c999b8ca7b5301c73d861fa6c1857065c40125733b2b874d7bc9384d48b8fd7f",
+    "bytes": 85332,
+    "mode": 420
+  },
+  "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source",
+  "independence": {
+    "distinct_from_Main": true,
+    "distinct_from_SolPhaseOneIntegration": true,
+    "distinct_from_all_source_and_metadata_authors": true,
+    "distinct_from_external_donor_reviewer": true,
+    "external_donor_reviewer_identity": "/root/projected_cost_review",
+    "source_or_shared_metadata_edits_by_reviewer": false,
+    "exclusions_read": [
+      "Main",
+      "V51ForeignViewLegality",
+      "V51ReplayTypeLegality",
+      "RawContextRepair",
+      "RetainedHistoryRepair",
+      "SolPhaseOneIntegration",
+      "OriginalIdentityCallerRepair",
+      "NativeTransactionCostRepair",
+      "EvaluationProducerNative",
+      "Codex main agent under direct human authorization, not the human writing Ada"
+    ]
+  },
+  "actual_own_model_observations": {
+    "session_id": "01a120d5-7f06-726f-a4eb-efa89da4e880",
+    "session_path": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/F61RuntimeProofReview.jsonl",
+    "model_change": {
+      "id": "5ed80666",
+      "timestamp": "2026-10-09T13:23:45.217Z",
+      "model": "openai-codex/gpt-6.1-sol",
+      "resolvedModelIsFallback": false
+    },
+    "thinking_level_change": {
+      "id": "c94efa20",
+      "parentId": "5ed80666",
+      "timestamp": "2026-10-09T13:23:45.217Z",
+      "thinkingLevel": "max",
+      "configured": null
+    },
+    "current_F67_response_metadata": [
+      {
+        "id": "730c163d",
+        "timestamp": "2026-10-10T01:39:46.361Z",
+        "api": "openai-codex-responses",
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "serviceTier": "default"
+      },
+      {
+        "id": "1d749965",
+        "timestamp": "2026-10-10T01:40:19.760Z",
+        "api": "openai-codex-responses",
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "serviceTier": "default"
+      }
+    ],
+    "required_service_tier": "standard",
+    "literal_standard_wire_observed": false,
+    "serviceTier_default_is_not_literal_Standard_evidence": true,
+    "invented_session_self_or_future_companion_pins": false
+  },
+  "honest_authorship_and_external_provenance": {
+    "integration_author": "SolPhaseOneIntegration",
+    "integration_model": "openai-codex/gpt-6.1-sol:max",
+    "isolated_donor_author": "Codex main agent under direct human authorization, not the human writing Ada",
+    "human_wrote_Ada": false,
+    "provenance": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-actual-source-author-and-integration-provenance.json",
+      "sha256": "2fc7f6db35ea654dc13094c9fbdf99823b2fd7a5a870812b257d2b132fe76224",
+      "bytes": 10183,
+      "mode": 420
+    },
+    "accepted_external_source_only_review": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/native-timeout-repair-20261010T002145Z/review-v1/review.json",
+      "sha256": "d468e560491648bf08a54e99b569b3a8c430dfbfb228d71c7c70bc8af43a2451",
+      "bytes": 9492,
+      "mode": 420
+    },
+    "actual_external_launch_metadata": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/native-timeout-repair-20261010T002145Z/review-launch-receipt.json",
+      "sha256": "379f2e8330a548b03003a92179f9fb97abc3d76cbf99c687fbdfcd50e08bb7f8",
+      "bytes": 836,
+      "mode": 420
+    },
+    "external_launch_observed": {
+      "tool": "collaboration.spawn_agent",
+      "requested_model": "gpt-6.1-sol",
+      "requested_reasoning_effort": "max",
+      "returned_task_identity": "/root/projected_cost_review",
+      "independently_exported_OMP_provider_event": false
+    },
+    "external_review_limitations_retained": "The real collaboration request/result and accepted source-only review are not an OMP provider export, independently attested source-author model event, compiled equivalence proof, measured hotspot, speedup or timeout cure."
+  },
+  "historical_baseline_reuse": {
+    "F66_auxiliary": {
+      "review": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-runtime-proof-source-independent-review.json",
+        "sha256": "64eac192351d70f1dbdb3fa81f4a95f521d87c167a40b81751439b85fdab5aa3",
+        "bytes": 21959,
+        "mode": 420
+      },
+      "model": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-runtime-proof-source-independent-review-resolved-model.json",
+        "sha256": "5d8364eb7dda8c1c8a50b5178d825556ed7fdab0e584cdb4239e8c16193113a7",
+        "bytes": 2591,
+        "mode": 420
+      }
+    },
+    "valid_unchanged_F66_coherent_strict_caller_observer_Producer_and_Freshness_findings_reused": true,
+    "historical_F66_opinion_is_current_F67_qualification": false,
+    "unrelated_owned_model_theory_vault_or_review_of_reviews_reaudit": false,
+    "historical_116_timeout_claim_correction": "My F66 record repeated the then-input's incorrect whole-116/180 text. That assertion is withdrawn as a current obligation and is not reused. Frozen F66 evidence remains unchanged: whole 180 applies to the original native controls suite; the complete ordered 116 actions retain their exact original individual deadlines from planned-actions.json."
+  },
+  "affected_integration": {
+    "immediate_modified_paths": [
+      "CHANGELOG.md",
+      "core/worldline-transaction_relations.adb",
+      "runtime/worldline/proof_manifest.py"
+    ],
+    "immediate_added_removed_files": 0,
+    "body_before_sha256": "a88749d15db48551f820014d531f42a0c250392565032556d6eccd71367badeb",
+    "body_before_bytes": 95544,
+    "body_after_sha256": "e1671a7fab45a090726d0461cf924082761556463ca4c1699a03e32865ed42df",
+    "body_after_bytes": 97997,
+    "body_matches_exact_accepted_external_postimage": true,
+    "actual_code_diff_scope": "Only the private Projected implementation and its nested Reduced_Field selection are changed; the read code delta is 60 inserted and 14 deleted lines. No public specification, inherited Freshness request-reader code, Producer_Bytes implementation, native/Python ABI or runtime caller is changed.",
+    "unchanged_transaction_specification_sha256": "9793ecc464f139e0483480aa1b4a879cbe6eef08f7f0a3bbf1ef8c70142b90cd",
+    "unchanged_transaction_specification_bytes": 2355,
+    "unchanged_Producer_body_sha256": "e8ddb79c2a6d153ee65a543fc2da926324597816038b8bfd95c6ed68a1b9dbef",
+    "unchanged_Producer_body_bytes": 6678,
+    "manifest_before_sha256": "62bf6fc25c301750f1499e00a69000fa8c967081c5d99a169f8dc4ee1e9ebb31",
+    "manifest_after_sha256": "24c494717a2731e540ea4c57eaf0f67b83d09df68199e1982eb4f34abb3c5a54",
+    "manifest_bytes": 237644,
+    "sole_existing_literal_update": {
+      "source_key": "core/worldline-transaction_relations.adb",
+      "line": 1954,
+      "before": "aaebb37f1c00b33024fb6affdb07a83803bc98c782fa6806ecedc3326959027f",
+      "after": "ebcdd3d99cb425c0988591e73a7ffedd93340dd2edc99139d164fb50670b94b5"
+    },
+    "manifest_consumption": "Read the existing CONTRACT_PINS update entry and unchanged contract_problems consumer iterating CONTRACT_PINS.items(). The new normalized value is consumed by the original comparison path; there is no second convention, extra row or unused parallel pin table.",
+    "changelog_after_sha256": "c2b1f946f8ecbc51c2e024844aa59db76fb247481521495ce2eab2aa481ddb75",
+    "changelog_after_bytes": 164614,
+    "documentation_delta": "Exactly 14 new lines after the unreleased heading blank line; the complete F66 Producer and all earlier entries are preserved. The new entry expressly withholds hotspot, performance, timeout-cure, build, proof, runtime and Phase claims."
+  },
+  "affected_source_and_routing_assessment": {
+    "complete_guard_preserved": "Both original Object guards remain before local selection. Read Object and Operation_Archive.Valid: the latter validates the complete child array, every pair, accepted key kinds, earlier-key equality, every recursive value and complete bounds before returning true. Removing repeated A.Field whole-object validation therefore does not intentionally skip unrequested field/key validation.",
+    "local_span_selector": "[INFERENCE: static affected-context comparison, not an executed equivalence test] Reduced_Field uses the same Prefix/Part, pair/key decoding layers, Text_Is test and first matching raw value-span return as the read existing Operation_Archive.Field implementation. Missing or invalid selection yields the original empty span. Byte keys remain distinct from text keys.",
+    "original_cursor_and_policy": "[INFERENCE: static source comparison] Original children use the existing Array_Element traversal pattern monotonically instead of rescanning preceding ordinals. Read Prefix's existing valid-result postcondition establishes strict progress and bounds. Omitted-field decisions, Same_Encoding checks, Policy_Coercion, absent-policy empty-object insertion, Kept accounting and final Reduced cardinality comparison remain.",
+    "consuming_side_dispatch": "Read both Projected consumers and the local span consumers. Requirement_Valid conjunctively consumes Projected before JSON/hash validation; Freshness rejects a false Context projection as Context_Invalid. Reduced_Field's spans flow directly into the existing encoding/policy predicates. Invalid Prefix nodes return rejection/missing spans explicitly; no patch-produced value or Boolean is silently discarded.",
+    "proof_and_cost_boundary": "The new loops reuse existing bounded cursor invariants and scalar decrease variants; no assumption, proof-warning suppression, public precondition, domain cap, checker flag or timeout relaxation appears. Full strict helper/caller flow, RTE and termination obligations remain. Actual proof, compiled legality, functional equivalence, generated-code cost and runtime speedup are unobserved and uncredited."
+  },
+  "inventory_and_preservation": {
+    "entries": 1213,
+    "files": 1144,
+    "directories": 69,
+    "full_F59_modified_files": 38,
+    "full_F59_added_files": 2,
+    "full_F59_removed_files": 0,
+    "current_inventory_kinds_observed": [
+      "directory",
+      "file"
+    ],
+    "original_tests_unchanged": true,
+    "only_test_change_map_entries_are_the_two_existing_additions": true,
+    "complete_preimages_and_inverses": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-complete-source-and-distinct-donor-preimages.json",
+      "sha256": "69d56a965b266638ff677aca12e6601059a058be099a5bdae0ad66f0f9008b4e",
+      "bytes": 529496,
+      "mode": 420
+    },
+    "preservation_observation": "Read the retained complete beforetext descriptors and literal sizes: changelog 163786, transaction body 95544, manifest 237644 UTF-8 bytes, each matching its stated complete before length. Forward/inverse diffs are retained for all three. Read manifest/documentation inverses and the genuine external body inverse restoring only the original private Projected implementation. The receipt retains the immutable F66 inventory/selection and complete inherited preimage chain.",
+    "hashes_independently_recomputed": false,
+    "descriptor_evidence": "Exact sealed descriptors were cross-read in the receiver, handoff, selection, inventories, change maps, source derivation, original retained reports and preservation metadata; no hash/normalizer/check/enrollment rerun was performed by this reviewer."
+  },
+  "actual_Main_original_source_only_results": {
+    "Main_reported_ordered_pin_check_and_enrollment_exit": 0,
+    "Main_reported_elapsed_seconds": 0.97,
+    "source_pin_check": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source-only-pin-check.json",
+      "sha256": "a3fbe041e830eed88c7c3fc204a5b23d4dd97f6355eaab429fd9a5ae23cb3587",
+      "bytes": 54264,
+      "mode": 420
+    },
+    "pin_check_status": "pins-current",
+    "pin_check_changed": [],
+    "state": "SOURCE_ONLY_UNBUILT_UNPROVED_UNACCEPTED",
+    "requiredProvedCount": 1550,
+    "inheritedPrefixCount": 535,
+    "floor": 251,
+    "declaredCoreAdaSourceCount": 413,
+    "effectiveContractPinCount": 455,
+    "literalContractPinCount": 995,
+    "staleLiteralContractPins": [],
+    "inheritedOrderedRosterPreserved": true,
+    "allDeclaredLocalSpecsAndBodiesPinned": true,
+    "new_actual_body_identity_and_effective_pin_correspond": true,
+    "buildRun": false,
+    "proofRun": false,
+    "testsRun": false,
+    "targetImports": false,
+    "reviewer_executed_or_reran_original_commands": false
+  },
+  "current_additional_and_observer_correspondence": {
+    "additional_command_enrollment": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-explicit-additional-command-enrollment.json",
+      "sha256": "13b4ffb9e785ffe6962656e767fbed29908616caade92be186125ad6ac1b155c",
+      "bytes": 35060,
+      "mode": 420
+    },
+    "native_observer_final_source_binding": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-qualified-native-observer-final-source-consumption-binding.json",
+      "sha256": "68f03b35bb672f73d78408689afd8cac065cbf8293ddabfdb3f4c5d0ffcdea87",
+      "bytes": 19495,
+      "mode": 420
+    },
+    "additional_scope": "The same two explicit additions remain separate and unrun, each 180 seconds with assertions enabled and PYTHONOPTIMIZE unset. Their F67 cwd/runtime/tests/library bindings and exact external boundary-runner descriptor remain mandatory; no alternate library or original-test-discovery substitution is authorized.",
+    "observer_scope": "Current binding names e1671a7f transaction body and the unchanged e8ddb79c producer body. Existing Python native call line 46, original trace semantics and caller/passive-observer bytes are unchanged. Historical a88749d1/F66 descriptors are baselines only. Missing/partial/unarmed/ambiguous attribution remains UNOBSERVED; native entry is not a Projected hotspot measurement.",
+    "new_auxiliary_dependency": "Main must retain this genuine new F67 record unchanged and separately retain the actual current observation-time model companion. Both dependent coherent and distinct strict opinions must bind that same actual new pair exactly. No self, pending/future, external-launch-as-OMP, donor or historical F66 descriptor is substituted."
+  },
+  "unchanged_original_obligations": {
+    "full_strict_argv": [
+      "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "-P",
+      "core/worldline_core_sources.gpr",
+      "-U",
+      "--mode=all",
+      "--level=3",
+      "--report=all",
+      "--checks-as-errors=on",
+      "--proof-warnings=on",
+      "-j2"
+    ],
+    "formal_and_native_limits": {
+      "child_compile_or_proof_seconds": 600,
+      "scope_seconds": 840,
+      "Main_outer_seconds": 1000,
+      "whole_original_native_suite_seconds": 180,
+      "MemoryMax": "8G",
+      "MemorySwapMax": "0",
+      "core": 0,
+      "workers": "-j2",
+      "minimum_MemAvailable_kB": 16777217
+    },
+    "full_runtime": "Original 32 smokes plus complete 47-test native controls suite remain required under the original whole-suite 180 boundary. The complete original ordered 116 actions retain all individual deadlines from ordinary-successor-v50-draft/planned-actions.json, not a blanket whole-116/180 limit; both explicit additions remain separately required.",
+    "original_planned_actions": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v50-draft/planned-actions.json",
+      "sha256": "66fe3f37cb9e794f43c904a3ced409b40e17c45e6afd80b0098a60564935ee84",
+      "bytes": 506821,
+      "mode": 420
+    },
+    "goal": "Continue all original seven Phase One areas on one final matching source; Python orchestrates and SPARK remains consequential authority. Source qualification does not complete or narrow full proof/runtime, original actor/fixture/operator, lifetime/Old, independent final acceptance or authorized publication obligations."
+  },
+  "separate_and_retained_evidence_boundaries": {
+    "C25_collector_consumer_correction": "Separate owned scope. Frozen successor_support d9f39513 and collector 957aa4cb are not this source body correction; no C25 harmless-after result, current emitted frame, collection/release control, admission or target qualification is awarded here.",
+    "prior_failed_terminals": "Frozen F60/C18/N59 and subsequent actual failures, C22 124 with raw unproved/UNKNOWN evidence, and unsuccessful N64/N66 native observations remain unchanged. The donor is not a timeout cure or proof/runtime success; no unchanged failure was rerun.",
+    "authentic_original_fixture_and_Luna_high_tuple_pending": true,
+    "M4_no_compatible_full_value_candidate_is_not_impossibility": true,
+    "Old_retirement_or_alias_lifetime_closed": false,
+    "human_publication_or_staging_touched": false
+  },
+  "false_credit_fields": {
+    "build_credit": false,
+    "compiler_legality_verified": false,
+    "full_strict_proof_pass": false,
+    "functional_equivalence_proved": false,
+    "runtime_pass": false,
+    "performance_or_hotspot_verified": false,
+    "native_timeout_cured": false,
+    "native_internal_cause_closed": false,
+    "alias_lifetime_closed": false,
+    "private_frame_emitted_or_reviewed": false,
+    "adoption_resource_window_or_gate_admission": false,
+    "C25_control_qualification": false,
+    "fixture_or_actor_acceptance": false,
+    "ordinary_or_final_acceptance_authored_for_other_worker": false,
+    "Phase_acceptance": false,
+    "publication": false
+  },
+  "review_actions": "Read-only source/metadata/session-event reads and git diff --no-index for the three affected integrated files; the diff exit statuses of 1 report differences, not target verification failures. Read the full affected Projected context, original field/cursor/guard contracts and its real Boolean consumers. No edits, helper/target imports, tests, builds, proof, lint, formatting, capture/bind/render, enrollment/check reruns, resources/windows/clocks/MCP/private/provision or acceptance actions were performed.",
+  "confidence": 0.97
+}

@@ -1,0 +1,538 @@
+{
+  "V4_forward": {
+    "bytes": 18661,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/v4-forward.patch",
+    "sha256": "9b896d95afc7bfcb7255839906a646bdc188fc48ccc888b2ee225494ba897a52"
+  },
+  "V4_inverse": {
+    "bytes": 18661,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/v4-inverse.patch",
+    "sha256": "ce929b378d06c87057c33b2de0ee120c9951620adf04357a8dcd3e33985c754e"
+  },
+  "after": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/source",
+  "after_inventory": {
+    "bytes": 236147,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/SOURCE-INVENTORY.json",
+    "sha256": "50d286f3c78491d60e4dcf509b6da1ab6e6efa78b6516d036c96a329204b7bf7"
+  },
+  "applied_or_inverse_executed": false,
+  "baseline": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v67-draft/source",
+  "baseline_inventory": {
+    "bytes": 235330,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/BASELINE-INVENTORY.json",
+    "sha256": "6fbea2737c254485d36d5ff05d621633abe0bf0aa2a6e68b81d02ec24de73493"
+  },
+  "cumulative_f67_changes": [
+    {
+      "after": {
+        "bytes": 172095,
+        "mode": 420,
+        "sha256": "7f2c30589403e0fa959379e11a1645359d013db59bb042f00539399a6cf9778a",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 164614,
+        "mode": 420,
+        "sha256": "c2b1f946f8ecbc51c2e024844aa59db76fb247481521495ce2eab2aa481ddb75",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/CHANGELOG.md",
+      "path": "CHANGELOG.md"
+    },
+    {
+      "after": {
+        "bytes": 484763,
+        "mode": 420,
+        "sha256": "a95ad85b33a076dd563e61166a08c24070c709d36870c71bbaa5c6cdaf5f83a0",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 483232,
+        "mode": 420,
+        "sha256": "493a11ff6f6a09961da3599169d48dd064fa612328fc067d428b9ade237fa02b",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline-c_api.adb",
+      "path": "core/worldline-c_api.adb"
+    },
+    {
+      "after": {
+        "bytes": 57179,
+        "mode": 420,
+        "sha256": "ae108a0aa9d736a4eafc15d2c51d1121915aee75d773d964b20d7221cc8defdc",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 56777,
+        "mode": 420,
+        "sha256": "be6c86b707cdd0fc05cbbb3ded5a20fbf608715094d8e8c62d3b2c03e66f427b",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline-c_api.ads",
+      "path": "core/worldline-c_api.ads"
+    },
+    {
+      "after": {
+        "bytes": 15699,
+        "mode": 420,
+        "sha256": "a39bf23831443b56eb09e0c493a07beeb5adc233282c736a0448be2d74935bd6",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 14847,
+        "mode": 420,
+        "sha256": "9500bc24e08bdf987e47ce4e7476d6c3ffefbb71572ec948b04f280d8a1f5feb",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline-custody_v2_requester_join.adb",
+      "path": "core/worldline-custody_v2_requester_join.adb"
+    },
+    {
+      "after": {
+        "bytes": 3197,
+        "mode": 420,
+        "sha256": "f4b9afa8e13a1ab81fa51683f55e5d44e2095baf7e1dd2582732367537cbf451",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 2808,
+        "mode": 420,
+        "sha256": "9fd948c4bacbfe34b310798540c7c1a6ea953146d7c96e5480b77c7581290da6",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline-custody_v2_requester_join.ads",
+      "path": "core/worldline-custody_v2_requester_join.ads"
+    },
+    {
+      "after": {
+        "bytes": 97115,
+        "mode": 420,
+        "sha256": "ed2fb42d9bb8b0cb62ebc0fbcb10919981cdc4a329d38190c0465bd198a159e6",
+        "type": "file"
+      },
+      "before": {
+        "type": "ABSENT"
+      },
+      "complete_preimage": null,
+      "path": "core/worldline-excluded_source_owner.adb"
+    },
+    {
+      "after": {
+        "bytes": 2748,
+        "mode": 420,
+        "sha256": "c6477e7fb2217e1b9c834413a88a6920e63a9fc483217a5a950344af3969124c",
+        "type": "file"
+      },
+      "before": {
+        "type": "ABSENT"
+      },
+      "complete_preimage": null,
+      "path": "core/worldline-excluded_source_owner.ads"
+    },
+    {
+      "after": {
+        "bytes": 52678,
+        "mode": 420,
+        "sha256": "bef8ce43b7138c7a0fbea2db0db320b40a7decb9a38ee0b81d2698dcd0e51131",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 50202,
+        "mode": 420,
+        "sha256": "e9f82dae6f2e9b12c5bfcc14f891b7cad9dbe2f8acf4b25afce9bad9f6dd4e13",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline-startup_installation.adb",
+      "path": "core/worldline-startup_installation.adb"
+    },
+    {
+      "after": {
+        "bytes": 36518,
+        "mode": 420,
+        "sha256": "318def3da41cc417702ce7212520224810cf3e25c498d41f72ad6443345ad4d9",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 23000,
+        "mode": 420,
+        "sha256": "1d41cda125993a02c1d242817b7d922f9c2513f50eccbe7e0735cbe613384d53",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline-startup_source_custody.adb",
+      "path": "core/worldline-startup_source_custody.adb"
+    },
+    {
+      "after": {
+        "bytes": 2224,
+        "mode": 420,
+        "sha256": "1070dd6d45e2cc6b4e9a14d4c7def2f6a53a9462b3f94c27fc36f680fb943613",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 716,
+        "mode": 420,
+        "sha256": "5cdf6a249c4ee2661026a79d660585a67c01b024a5cdf308382ed02a3b00eb39",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline-startup_source_custody.ads",
+      "path": "core/worldline-startup_source_custody.ads"
+    },
+    {
+      "after": {
+        "bytes": 6011,
+        "mode": 420,
+        "sha256": "324176c4321c030c197fba3d3245afea33b9d66ffe30d2a127e1925976859752",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 5970,
+        "mode": 420,
+        "sha256": "50dbe80e15e093c7ca9f665c208b6f7a92abddaa0f4694ffd845de5838e92352",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline_core.gpr",
+      "path": "core/worldline_core.gpr"
+    },
+    {
+      "after": {
+        "bytes": 42559,
+        "mode": 420,
+        "sha256": "e4ba5f88774909301f845ed355cff3edf96fdd2ebf37ef44ae48f819327f5deb",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 42145,
+        "mode": 420,
+        "sha256": "fe573133a1566ea70a8c6718846b60c4673825389db0845a64129ca74a814f72",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/core/worldline_core.h",
+      "path": "core/worldline_core.h"
+    },
+    {
+      "after": {
+        "bytes": 29997,
+        "mode": 420,
+        "sha256": "94013d31371f21f3ad36f501de9215a788dffdd8ecb5e0fb8b40e98b71f1700a",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 27352,
+        "mode": 420,
+        "sha256": "4677126c28111a683c9058710d9aeaad3507835bd9656f4f628586d6f24493bc",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/protected-root/controls/live_campaign.py",
+      "path": "protected-root/controls/live_campaign.py"
+    },
+    {
+      "after": {
+        "bytes": 4543,
+        "mode": 420,
+        "sha256": "76fa3f2df34177a96a895ae12545c169fc1f12ba01cd9c73dc6796d1b5b308e7",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 3956,
+        "mode": 420,
+        "sha256": "e4064b720b6af5fc25428689d15316cd8869c53a7d7641985c618625696bb7ee",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/protected-root/controls/original_client.py",
+      "path": "protected-root/controls/original_client.py"
+    },
+    {
+      "after": {
+        "bytes": 12222,
+        "mode": 420,
+        "sha256": "a1a805f9b47b296bbdeaeef318e1567302997d863ddfc3e8aeb018de7f363611",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 11933,
+        "mode": 420,
+        "sha256": "48effbaa6f6e27b361bfad274797cc8a7fb47ab7ea34f6dbbb6269b26ddbd3f3",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/protected-root/controls/run_campaign.py",
+      "path": "protected-root/controls/run_campaign.py"
+    },
+    {
+      "after": {
+        "bytes": 28862,
+        "mode": 420,
+        "sha256": "fb9f2f1fff7454f3160495ea5251d2026cfba719ca4995888c7baa8ee846afc0",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 18057,
+        "mode": 420,
+        "sha256": "4781ae5d57f656302a5c1ca6df30c76a0e00a333d92d78dc170ebb4f37fa589c",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/protected-root/controls/source_registration.json",
+      "path": "protected-root/controls/source_registration.json"
+    },
+    {
+      "after": {
+        "bytes": 38139,
+        "mode": 420,
+        "sha256": "ce78eea99036e32ee05e34c6ef7fe45f73e4ccfb8c90258083d2f6aad6b9d5f2",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 21566,
+        "mode": 420,
+        "sha256": "18f17cb713b779270d9130943346020f09fa5519c97b2e6bbb644875faf49835",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/protected-runtime/approved_source_loader.py",
+      "path": "protected-runtime/approved_source_loader.py"
+    },
+    {
+      "after": {
+        "bytes": 20387,
+        "mode": 420,
+        "sha256": "b7c1efe7a749e3108870528b81adb6ccd15621fda1973db272c69a99ddf51f37",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 20076,
+        "mode": 420,
+        "sha256": "319dfbbe5b8afe0f6467da2ce4b71b80042274a683a54aec49b8a3667aefd184",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/runtime/worldline/custody_startup_capture.py",
+      "path": "runtime/worldline/custody_startup_capture.py"
+    },
+    {
+      "after": {
+        "bytes": 44791,
+        "mode": 420,
+        "sha256": "58f08e393a37d326605f7cd8b057f547c503d315437c3ff831891f1c0a58b1b3",
+        "type": "file"
+      },
+      "before": {
+        "type": "ABSENT"
+      },
+      "complete_preimage": null,
+      "path": "runtime/worldline/excluded_source_owner.py"
+    },
+    {
+      "after": {
+        "bytes": 243074,
+        "mode": 420,
+        "sha256": "b5f474022475f83fd6d1abb1d00983e8091a06d8a7819098b97fff520a1f0dc0",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 237644,
+        "mode": 420,
+        "sha256": "24c494717a2731e540ea4c57eaf0f67b83d09df68199e1982eb4f34abb3c5a54",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/runtime/worldline/proof_manifest.py",
+      "path": "runtime/worldline/proof_manifest.py"
+    },
+    {
+      "after": {
+        "bytes": 51962,
+        "mode": 420,
+        "sha256": "44aaed616bb4a005ffcdd25de4f18d68109c79b3b9dce053c819a43ebe7e7a91",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 51435,
+        "mode": 420,
+        "sha256": "91f9fd8748f8efa12bb77b10e6874c4eebb3e17ed453b31139e6daeeff42d362",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/runtime/worldline/protected_root_worker.py",
+      "path": "runtime/worldline/protected_root_worker.py"
+    },
+    {
+      "after": {
+        "bytes": 77962,
+        "mode": 420,
+        "sha256": "75febf6a1e9b8a5e01610bbbe788387f950c3ac03130c3a265b5b0dd53db1577",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 78235,
+        "mode": 420,
+        "sha256": "acf5ac0fb4035d53c3e053e7a3a10b4f29fd29d5bc0aefbdb0d9de181665080f",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/runtime/worldline/protected_scoped_resource_runtime.py",
+      "path": "runtime/worldline/protected_scoped_resource_runtime.py"
+    },
+    {
+      "after": {
+        "bytes": 69333,
+        "mode": 420,
+        "sha256": "68133f83b55f65675486d91b3b6892a3ee5b2d6f74f2352316de9762df2317ab",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 68852,
+        "mode": 420,
+        "sha256": "354dcd5f3c0905cfeb43698d4c237a937536d8ae853b6835e0796aec36f54190",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/runtime/worldline/protected_startup.py",
+      "path": "runtime/worldline/protected_startup.py"
+    },
+    {
+      "after": {
+        "bytes": 2307,
+        "mode": 420,
+        "sha256": "7cfa2b66b726083390b0b5b1e55d835eaa914bac8392de7018bfacbce8a4b96a",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 2308,
+        "mode": 420,
+        "sha256": "25b590b09ebcf81f46726bdc276093a6e9861b6ab60859924eb151525f4adfe3",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/runtime/worldline/root_worker_plan.py",
+      "path": "runtime/worldline/root_worker_plan.py"
+    },
+    {
+      "after": {
+        "bytes": 59166,
+        "mode": 420,
+        "sha256": "8fbb2e09c7f3e7aae3ac33f39b90f9c26249d3f7abeb2c92e63febfefc4166c6",
+        "type": "file"
+      },
+      "before": {
+        "type": "ABSENT"
+      },
+      "complete_preimage": null,
+      "path": "tests/excluded_source_owner_controls.py"
+    },
+    {
+      "after": {
+        "bytes": 17066,
+        "mode": 420,
+        "sha256": "4a90de3b11b147881d6346425484498a5474fddd293c027379f337a7543070cd",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 12439,
+        "mode": 420,
+        "sha256": "d95a45b5f4cdbe3538935da9fdc76610c0a09ba0cd67e2311cb72fdce5f95def",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/f67/tests/test_custody_startup_native_v35.py",
+      "path": "tests/test_custody_startup_native_v35.py"
+    }
+  ],
+  "forward": {
+    "bytes": 309928,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/forward.patch",
+    "sha256": "8e4b5fc7bbfc131645159da8777bc40a31e7ceab3725ae3d689e9f7def2c8cb4"
+  },
+  "immediate_V4_changes": [
+    {
+      "after": {
+        "bytes": 172095,
+        "mode": 420,
+        "sha256": "7f2c30589403e0fa959379e11a1645359d013db59bb042f00539399a6cf9778a",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 170759,
+        "mode": 420,
+        "sha256": "9b195199bb18c8611228f11732938134717c5d4acabc268ec234ae32acb63b35",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/v4/CHANGELOG.md",
+      "path": "CHANGELOG.md"
+    },
+    {
+      "after": {
+        "bytes": 28862,
+        "mode": 420,
+        "sha256": "fb9f2f1fff7454f3160495ea5251d2026cfba719ca4995888c7baa8ee846afc0",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 28270,
+        "mode": 420,
+        "sha256": "f820fd8ef3c615223e4ddf3d5e668e2c7f0d366007fd997325d5d8c6618ff54b",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/v4/protected-root/controls/source_registration.json",
+      "path": "protected-root/controls/source_registration.json"
+    },
+    {
+      "after": {
+        "bytes": 59166,
+        "mode": 420,
+        "sha256": "8fbb2e09c7f3e7aae3ac33f39b90f9c26249d3f7abeb2c92e63febfefc4166c6",
+        "type": "file"
+      },
+      "before": {
+        "bytes": 53225,
+        "mode": 420,
+        "sha256": "cc7ebe9513051d24a4abfbd0e592c5034113832290a0bac571126f2042370f20",
+        "type": "file"
+      },
+      "complete_preimage": "preimages/v4/tests/excluded_source_owner_controls.py",
+      "path": "tests/excluded_source_owner_controls.py"
+    }
+  ],
+  "immediate_inventory": {
+    "bytes": 236147,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/IMMEDIATE-BASELINE-INVENTORY.json",
+    "sha256": "089775e9ed3020fb2f5967edd61287cbc7b9ecda5082fc0a4c998479f1c6c400"
+  },
+  "immediate_unqualified_baseline": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v4/source",
+  "inverse": {
+    "bytes": 309928,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/inverse.patch",
+    "sha256": "c3b3b82a39bc5e054c0c21b8aab2cff8ae5fcead4ba46968851b37bed1bca028"
+  },
+  "mode_restoration": "Full before/after typed file/directory modes and every exact F67/V4 preimage retained; old V2/V3 preimages/patches retain original epochs. Restore complete preimages and remove precisely ABSENT-before additions. Text patches do not themselves authorize permission/install actions.",
+  "retained_historical_patches": {
+    "v2-forward.patch": {
+      "bytes": 43530,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/v2-forward.patch",
+      "sha256": "6f9756f371edb17335c5db9ebb56b9cd68f0ff1d87bdd941518a22ff9d127d74"
+    },
+    "v2-inverse.patch": {
+      "bytes": 43530,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/v2-inverse.patch",
+      "sha256": "a1026ed8f1c9dd4d7546ad5d900ecbb292af386184eb4d9ae5e040fc05590e3a"
+    },
+    "v3-forward.patch": {
+      "bytes": 15186,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/v3-forward.patch",
+      "sha256": "fd3aa906bdac681d44a236a5108474bdc641363767e6d4033e06f305bee4b9cf"
+    },
+    "v3-inverse.patch": {
+      "bytes": 15186,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v5/v3-inverse.patch",
+      "sha256": "5e151753b1e2fb9a08d20e6d5f5807ebcb62a5822a6eef6020bdd251e4ff19dc"
+    }
+  },
+  "retained_previous_V4_delta": {
+    "bytes": 20442,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/excluded-client-source-owner-v4/DELTA-MANIFEST.json",
+    "sha256": "a993a0ff9d338ba389de4e8fccaac42f3db895ed75193794064868d0676c526c"
+  },
+  "schema": "worldline.fixed-source-owner-exact-reversible-delta-v5"
+}

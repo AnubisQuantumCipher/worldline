@@ -1,0 +1,76 @@
+{
+  "Main_observation_seconds": 1000,
+  "actual_completed_outer_waits": [
+    {
+      "actual_outer_Popen_wait": 0,
+      "actual_outer_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/outer_capture.py",
+        "native-build",
+        "78ad6dbab7b2341e1a217f2d0b5e94f7eb3516503fa7e67e3c8fe4fe6fb54392"
+      ],
+      "actual_outer_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-outer-capture-v1/517890602a0e485cabe70b445fb968ac",
+      "actual_outer_pid": 838138,
+      "at": "2026-10-10T12:52:36.519760+00:00",
+      "elapsed_seconds_since_Main_start": 115.00264233502094,
+      "mode": "native-build",
+      "responded_original_challenges": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-live-lane-v1/attempts/native-build/d7a23e9a28a04e46a3526ab92f25b7e6/challenge-210a6f6028a84781ab6b5a08bc27bc1c/challenge.json"
+      ]
+    },
+    {
+      "actual_outer_Popen_wait": 0,
+      "actual_outer_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/outer_capture.py",
+        "native-component-tests",
+        "78ad6dbab7b2341e1a217f2d0b5e94f7eb3516503fa7e67e3c8fe4fe6fb54392"
+      ],
+      "actual_outer_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-outer-capture-v1/72090d1eb78745f6927ffe0de2781587",
+      "actual_outer_pid": 847744,
+      "at": "2026-10-10T12:54:34.283196+00:00",
+      "elapsed_seconds_since_Main_start": 232.76607902499381,
+      "mode": "native-component-tests",
+      "responded_original_challenges": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-live-lane-v1/attempts/native-component-tests/a145b6932c7848d58c57e36ec32c2ca7/challenge-c5c4060d02ed4759b9e441531a3dfc1e/challenge.json"
+      ]
+    }
+  ],
+  "actual_elapsed_seconds": 341.5218164739781,
+  "at": "2026-10-10T12:56:23.038942+00:00",
+  "errors": [
+    {
+      "at": "2026-10-10T12:56:23.024730+00:00",
+      "message": "Expecting property name enclosed in double quotes: line 2 column 1 (char 2)",
+      "type": "JSONDecodeError"
+    },
+    {
+      "actual_cleanup_Popen_wait": -15,
+      "cleanup_owned_outer_pid": 859266,
+      "unknown_or_failed_target_not_promoted": true
+    }
+  ],
+  "no_domain_limit_or_gate_changed": true,
+  "original_proposal": {
+    "bytes": 477743,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/reviewed-launch-proposal.json",
+    "sha256": "f2b065e270c919d4e315bd2df3a57e8faa694042b19ea297e857a768d1d11b85"
+  },
+  "phase_acceptance": false,
+  "prior_mutable_adoption": {
+    "bytes": 3276,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-source-binding-adoption-v1/adoption.json",
+    "sha256": "cc93991ab5edb66aa67403fc5de609108f71cb855abb2126a340da57ecf34511"
+  },
+  "requested_qualified_original_prefix": [
+    "native-build",
+    "native-component-tests",
+    "pending-build",
+    "build",
+    "entry-component-tests"
+  ]
+}

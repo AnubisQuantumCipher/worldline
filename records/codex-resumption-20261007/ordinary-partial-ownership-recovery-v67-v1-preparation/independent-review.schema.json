@@ -1,0 +1,374 @@
+{
+  "$comment": "Extends the unchanged original successor_support.independent role/model companion checks for this exact helper source only. The source manifest binds every newly authored file and this schema. Rich genuine reviewer findings, scope and actual provenance are retained, not stripped. No opinion is authored by this schema.",
+  "$defs": {
+    "pin": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mode": {
+          "maximum": 4095,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "path": {
+          "pattern": "^/",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "mode"
+      ],
+      "type": "object"
+    },
+    "three_field_pin": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mode": {
+          "maximum": 4095,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sha256",
+        "bytes",
+        "mode"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "worldline-original-data-only-partial-ownership-recovery-independent-review-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "actual_model_selection": {
+      "const": "openai-codex/gpt-6.1-sol:max"
+    },
+    "author": {
+      "const": "F67OrdinaryFrameOwner"
+    },
+    "blocking_findings": {
+      "maxItems": 0,
+      "type": "array"
+    },
+    "candidate": {
+      "const": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate"
+    },
+    "disposition": {
+      "const": "QUALIFIED_DATA_ONLY_DEAD_OWNER_COLLECTION"
+    },
+    "files": {
+      "additionalProperties": {
+        "$ref": "#/$defs/three_field_pin"
+      },
+      "type": "object"
+    },
+    "model_provenance": {
+      "$ref": "#/$defs/pin"
+    },
+    "original_receiver_author": {
+      "const": "Main"
+    },
+    "phase_acceptance": {
+      "const": false
+    },
+    "retained_original_pins": {
+      "const": {
+        "actual_collector_failure_capture": {
+          "bytes": 966769,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/Main-recovery-current-session-complete-events-v5.json",
+          "sha256": "e5868032652bcaac52590d236e19a269791ae77f75a5a0928f7e132a53291cd4"
+        },
+        "actual_prefix_observation": {
+          "bytes": 4103,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-original-qualified-prefix-execution-v1/Main-complete-owned-prefix-observation.json",
+          "sha256": "d459d594e7afe77d9cf4bb1cb2a6bedacda1ab3bd35594f44a1b902420395d6c"
+        },
+        "current_adoption_record": {
+          "bytes": 5567,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-source-binding-adoption-v1/adoption.json",
+          "sha256": "1a11c4549a78cd72828ebf36dfb8ade8e99511b97da1d79d4d98a212e48a539c"
+        },
+        "current_runtime_binding": {
+          "bytes": 44565,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-current-controller-observations-recovery-v3/Main-actual-OMP18.8.7-controller-routing-binding-v3.json",
+          "sha256": "b10f8dc4097385ec456d012a1700d1be6feb17cca764507bf6ded23d131b6e8c"
+        },
+        "frozen:additional-actions.json": {
+          "bytes": 17703,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/additional-actions.json",
+          "sha256": "ce2f84e99d7d49563d9e27bb3a579e5eef3a28a4be2dfc5e0b1a1a09b7841acb"
+        },
+        "frozen:authorization.py": {
+          "bytes": 6576,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/authorization.py",
+          "sha256": "242653134e4b1f64497f12dac37eaf704c2cc1c739cfb580cd0a0a8737bd285d"
+        },
+        "frozen:current-controller-binding.json": {
+          "bytes": 70328,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/current-controller-binding.json",
+          "sha256": "0a8c14c5c8b0b45b69d20dd4db8ddacf5fa2d8280c0b3b496ceff2795689b674"
+        },
+        "frozen:current-source-qualification.json": {
+          "bytes": 133819,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/current-source-qualification.json",
+          "sha256": "92f0c3003fe2f14bdb164845c18e67cf357a1755a5923ff2e6c5e62a155920f4"
+        },
+        "frozen:dependency-inventory.json": {
+          "bytes": 165114,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/dependency-inventory.json",
+          "sha256": "2d83e66341eb3226237225076569418dd0c25da321f51e0db8ef2139faf671a0"
+        },
+        "frozen:inputs.json": {
+          "bytes": 144904,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/inputs.json",
+          "sha256": "4ae97bb9dc5130140314ff79f674dd3b631be995798b4c103cd7e5db6222fd96"
+        },
+        "frozen:planned-actions.json": {
+          "bytes": 427597,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/planned-actions.json",
+          "sha256": "49ca7a284406c150b08c7657328d65686af5dc5048f7fc1f4df8d45bf2da90a3"
+        },
+        "frozen:portable_goal.py": {
+          "bytes": 11793,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/portable_goal.py",
+          "sha256": "e5d213691fef9595df5244ec3ba6f1404b5d41715dbb8088b7d03c9ecfcd6f09"
+        },
+        "frozen:prepare_successor.py": {
+          "bytes": 18991,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/prepare_successor.py",
+          "sha256": "d3e54715d588c44129339e7c84770df1aacd15df056ade9a886a05289e26fc29"
+        },
+        "frozen:review/root-live-lane-v1/inputs.json": {
+          "bytes": 823028,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-live-lane-v1/inputs.json",
+          "sha256": "78ad6dbab7b2341e1a217f2d0b5e94f7eb3516503fa7e67e3c8fe4fe6fb54392"
+        },
+        "frozen:selected-source-entries.json": {
+          "bytes": 220906,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/selected-source-entries.json",
+          "sha256": "55caa48073671bcbfdf7c1beddbb8babf240f26393398f9f297a971a1a5bd358"
+        },
+        "frozen:source-composition.json": {
+          "bytes": 195169,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/source-composition.json",
+          "sha256": "1ff531ea4fdd08f3cf6f1d6ddd9ab28e4cd3233452fafcd8c9ab21fb1b26b764"
+        },
+        "frozen_frame": {
+          "bytes": 65019,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/author-freeze.json",
+          "sha256": "797e74a317855a54f38ee0614bc59f30e5c7992b2eb7f8a38316dedae5df6c51"
+        },
+        "historical_collect_refresh": {
+          "bytes": 1073,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-fresh-dispatch-collect-observations-recovery-v4/actual-mutable-observation-refresh.json",
+          "sha256": "bea91d95c58359b7b71d38ec49913ebc24d89670d10994ab138cc9f102981023"
+        },
+        "historical_current_stage_collect": {
+          "bytes": 1710,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-fresh-dispatch-collect-observations-recovery-v4/actual-stage-collect.json",
+          "sha256": "2f6b7d28f739e3e354328c13ab8c16d9e81676cd391c8272ea02623f8064ee89"
+        },
+        "historical_native_collect": {
+          "bytes": 3162,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-fresh-dispatch-collect-observations-recovery-v4/actual-native-collect.json",
+          "sha256": "1492d36d7808a026470e8de72b6237cf2738f2b7aca23cb8f0ee8e7e9fe532b9"
+        },
+        "main_custody_pattern": {
+          "bytes": 9644,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/main_owned_model_window_v4.py",
+          "sha256": "2c6316ad4e03bf7f28455ee9cc6d60bb99d89ee995e17831272f954b28f07278"
+        },
+        "metadata_aid": {
+          "bytes": 7783,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/omp-crash-recovery-20261010T114220Z/safe_json.py",
+          "sha256": "d55a16651d6474886accdd11b34a9c32f834d44150249e5f2833eaa57fedbc5d"
+        },
+        "mixed_stream_readback": {
+          "bytes": 3454,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/mixed-stream-failure-assistance-20261010T130100Z/READBACK.json",
+          "sha256": "d50fd745ac4d6e221496a2774a615666373f65f321bb43e98143b392030b3200"
+        },
+        "native_build_result": {
+          "bytes": 1738,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/native-build-v1/result.json",
+          "sha256": "f2d39fbb6a098a157865308560c8dc08ecc6261e7bd78a75361c0c15d5a10e9a"
+        },
+        "native_component_result": {
+          "bytes": 2150,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/native-component-tests-v1/result.json",
+          "sha256": "0a8f2bb268e9e0c7862dc4fc40fbacb415a1645cfdef2ffed2935bd3c6402159"
+        },
+        "original_author_model": {
+          "bytes": 1658,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-preparation-v2/author-resolved-model-provenance.json",
+          "sha256": "c349c52186361667f70e617d12acd3c38b6b58a5faebe80b573bb02e5521e802"
+        },
+        "original_author_observations": {
+          "bytes": 4327,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-preparation-v2/author-model-observations.json",
+          "sha256": "5eac3ef6c3537024e393194142ac51c5b90df1fa79ef54cea202f11cef39feca"
+        },
+        "original_collector": {
+          "bytes": 10761,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-batch-terminal-v1/collect_terminal.py",
+          "sha256": "307a06b4cad1908a59eb6ce8244408bab908c557f95dbaf37740d5909d11558b"
+        },
+        "original_common_role_receiver": {
+          "bytes": 22153,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/successor_support.py",
+          "sha256": "82042d0a0c6c189e830bc945fb0ac5ac5c5dd1edb3343d54093c0817172851a5"
+        },
+        "original_dead_owner_authorization": {
+          "bytes": 2865,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/collector-successor/recovery_authorization.py",
+          "sha256": "b7ea032cee6812753a04b88e36d27f4690c72608f4b7733f99b15f636632e871"
+        },
+        "original_dead_owner_collector": {
+          "bytes": 10001,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/collector-successor/collect_terminal.py",
+          "sha256": "498c8608ee70b735c933c96670d366841a0abdb2e280a24b6224adf4b0b7f14a"
+        },
+        "original_integrity": {
+          "bytes": 3777,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/integrity.py",
+          "sha256": "8627cb00c5ff96b03fb4439af240445ef0b32028db56323921ea05a34b0add91"
+        },
+        "original_outer_receiver": {
+          "bytes": 5018,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/outer_collection.py",
+          "sha256": "f8e91674460d8c48a81dc2f0970f619431fd4d42e4a23745a5ba34152f522974"
+        },
+        "original_proposal": {
+          "bytes": 477743,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/reviewed-launch-proposal.json",
+          "sha256": "f2b065e270c919d4e315bd2df3a57e8faa694042b19ea297e857a768d1d11b85"
+        },
+        "original_qualification": {
+          "bytes": 110078,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/ordinary-v67-v2-actual-emitted-original-prefix-independent-review.json",
+          "sha256": "f130c2c9290181258565f277981645a16abbdaf4015f124ed55069584f9d0c59"
+        },
+        "original_retained_support": {
+          "bytes": 22153,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/successor_support.py",
+          "sha256": "82042d0a0c6c189e830bc945fb0ac5ac5c5dd1edb3343d54093c0817172851a5"
+        },
+        "partial_outer_start": {
+          "bytes": 2526,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-outer-capture-v1/85bdb97535c945dd917de27dc9e3c8f4/outer-child-start.json",
+          "sha256": "9fd770b4cfec3a781c4da076c7554cf48316b727e40fdf835930f68e21d425d5"
+        },
+        "pending_build_result": {
+          "bytes": 2146,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/pending-build-v1/result.json",
+          "sha256": "38e70876f7d4c70604b10c51eb83e72e28abdc778426bfdfe3f6ffe0a8ea0bec"
+        },
+        "reservation_record": {
+          "bytes": 112036,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-source-binding-adoption-v1/final-reservation-live-observation/reservation.json",
+          "sha256": "259f90898347bd759b150c6415e3f26b168bfe120f538ce5c7633559aa377d6f"
+        },
+        "retained_original_SOURCE4": {
+          "bytes": 72019,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-original-full116-ordinary-source-independent-review-v2.json",
+          "sha256": "e570a3af0493f90a077a04ef8b852d89df4ff0ae7e91b038a7b6ac9a9b65662d"
+        },
+        "retained_original_SOURCE4_model": {
+          "bytes": 3398,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-original-full116-ordinary-source-resolved-model.json",
+          "sha256": "1bd6dfa9612748e503ea911a14bcacae7fe2b9bd6843a4224909c47c41e2cabe"
+        }
+      }
+    },
+    "reviewer": {
+      "const": "F67OrdinarySourceReview"
+    },
+    "source_manifest": {
+      "$ref": "#/$defs/pin"
+    },
+    "target_execution": {
+      "const": false
+    },
+    "underlying_source_author": {
+      "const": "SolPhaseOneIntegration"
+    }
+  },
+  "required": [
+    "author",
+    "reviewer",
+    "actual_model_selection",
+    "model_provenance",
+    "disposition",
+    "blocking_findings",
+    "target_execution",
+    "phase_acceptance",
+    "source_manifest",
+    "files",
+    "candidate",
+    "original_receiver_author",
+    "underlying_source_author",
+    "retained_original_pins"
+  ],
+  "title": "Exact different-author affected original data-only dead-owner SOURCE/roles opinion; never old emitted-prefix or SOURCE4 substitution",
+  "type": "object"
+}

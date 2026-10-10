@@ -1,0 +1,761 @@
+{
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "actual_own_session_and_model_observations": {
+    "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+    "actual_observed_provider_serviceTier": "default",
+    "actual_reply_metadata_observed": [
+      {
+        "api": "openai-codex-responses",
+        "errorMessage": null,
+        "id": "c12601e2",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "serviceTier": "default",
+        "timestamp": "2026-10-10T13:51:18.329Z"
+      },
+      {
+        "api": "openai-codex-responses",
+        "errorMessage": null,
+        "id": "0d594690",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "serviceTier": "default",
+        "timestamp": "2026-10-10T13:51:40.648Z"
+      },
+      {
+        "api": "openai-codex-responses",
+        "errorMessage": null,
+        "id": "33ddf23d",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "serviceTier": "default",
+        "timestamp": "2026-10-10T14:10:21.353Z"
+      },
+      {
+        "api": "openai-codex-responses",
+        "errorMessage": null,
+        "id": "206e699a",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "serviceTier": "default",
+        "timestamp": "2026-10-10T14:11:16.149Z"
+      },
+      {
+        "api": "openai-codex-responses",
+        "errorMessage": null,
+        "id": "bd4d56e7",
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex",
+        "serviceTier": "default",
+        "timestamp": "2026-10-10T14:17:02.627Z"
+      }
+    ],
+    "advisor_invoked_in_this_review": false,
+    "advisor_state_truth_boundary": "Own advisor-off is the required reviewer routing contract and no advisor was used in this review. Provider response metadata does not independently observe advisor state. Main's authorized built-in Astra-medium guidance remains separate and is not this independent review or a model identity substitute.",
+    "default_to_Standard_equivalence_inferred": false,
+    "event_source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05/F67OrdinarySourceReview.jsonl",
+    "fallback_used": false,
+    "historical_model_epochs_relabelled": false,
+    "literal_Standard_wire_observation": false,
+    "model_identity_inferred_from_lead_directive": false,
+    "model_identity_inferred_from_reviewer_label": false,
+    "normative_companion": {
+      "bytes": 3768,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/ordinary-v67-v1-partial-ownership-recovery-source-review-resolved-model.json",
+      "sha256": "5143bb4f1e659a51b131b7359f90336ea15939eccad8eb47348d432a3ada3eff"
+    },
+    "observed_model_event": {
+      "id": "cdb49dba",
+      "model": "openai-codex/gpt-6.1-sol",
+      "parentId": null,
+      "resolvedModelIsFallback": false,
+      "timestamp": "2026-10-10T04:34:10.269Z",
+      "type": "model_change"
+    },
+    "observed_thinking_event": {
+      "configured": null,
+      "id": "7ef3220f",
+      "parentId": "cdb49dba",
+      "thinkingLevel": "max",
+      "timestamp": "2026-10-10T04:34:10.270Z",
+      "type": "thinking_level_change"
+    },
+    "own_advisor_off_required": true,
+    "required_Standard_nonFast_no_priority_routing_preserved": true,
+    "resolvedModelIdentity": "openai-codex/gpt-6.1-sol",
+    "resolvedThinkingLevel": "max",
+    "same_continuing_actual_session": true,
+    "session": {
+      "id": "01a12417-0202-73eb-ae3d-b9603c85cca3",
+      "parentSession": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05.jsonl",
+      "timestamp": "2026-10-10T04:34:10.050Z",
+      "type": "session",
+      "version": 3
+    },
+    "speed_priority": "none"
+  },
+  "author": "F67OrdinaryFrameOwner",
+  "blocking_findings": [],
+  "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate",
+  "disposition": "QUALIFIED_DATA_ONLY_DEAD_OWNER_COLLECTION",
+  "files": {
+    "CHANGE.json": {
+      "bytes": 2606,
+      "mode": 420,
+      "sha256": "2734875a22e32bdc3784aefbd69292a3cd9c5579a690de4487c0f120e77f41b4"
+    },
+    "Main-inputs.template.json": {
+      "bytes": 1260,
+      "mode": 420,
+      "sha256": "9a162d2071d11afa3c5f5320c29ba1cc21f190ea628a0ffa0f98ead3a9ec5aff"
+    },
+    "arguments.json": {
+      "bytes": 6634,
+      "mode": 420,
+      "sha256": "605a58f3a3790c817206b8b6c183b55cf81f7da4b3fbbe33903b910c7a28cec7"
+    },
+    "author-provenance.json": {
+      "bytes": 4863,
+      "mode": 420,
+      "sha256": "6b5a656f8c87842a914119ab42ac3359c3ba730dc711c2403a404d2c977b9ad5"
+    },
+    "complete-reversible-source-mapping.json": {
+      "bytes": 364676,
+      "mode": 420,
+      "sha256": "8a0be902c9c8b086d2d91ee705846706896c8e93eb86065ad16f0169b5b23cc8"
+    },
+    "final-input-gaps.json": {
+      "bytes": 5693,
+      "mode": 420,
+      "sha256": "53fc163e73a796adc4e3d92bf85cc8840ae314197bf7adfcbded1124d92cadfc"
+    },
+    "handoff.json": {
+      "bytes": 13923,
+      "mode": 420,
+      "sha256": "ec6004c5247c9c68d33b02a90cdf2bcf175a1268e6f12a2315de1d3b4d6ce5b2"
+    },
+    "human-scope-property-correction-provenance.json": {
+      "bytes": 5949,
+      "mode": 420,
+      "sha256": "9aae756c8e94d493497673ca518d19bb243c5391442ad68c88c7288c8d2dcd12"
+    },
+    "independent-review-receiving-contract.json": {
+      "bytes": 20465,
+      "mode": 420,
+      "sha256": "3b6dd1754faece1f6c81494b7726517a8f66bd5223c9f594a15a5b547872337c"
+    },
+    "independent-review.schema.json": {
+      "bytes": 20763,
+      "mode": 420,
+      "sha256": "016fb67409e9e775d82eb2c524f65feaf6de60400b915d7538ed6f83ed443594"
+    },
+    "recover_partial_ownership.py": {
+      "bytes": 42842,
+      "mode": 420,
+      "sha256": "c9f0edaa355a27830266a27cb423c9f3f1d3833167c95e5929fae9cceb9303a4"
+    },
+    "recovery-contract.json": {
+      "bytes": 32502,
+      "mode": 420,
+      "sha256": "9c8d994cca0e329fa01d7c82a927317e20f0b763a72052d2e4eddd2e9357985c"
+    },
+    "selected-inputs.schema.json": {
+      "bytes": 2514,
+      "mode": 420,
+      "sha256": "670b44b941f6235596f5b02a5bdec00ac1d93efac35d8c72dded830fe549bfd4"
+    }
+  },
+  "findings": [
+    {
+      "finding": "The receiver binds the complete thirteen-file source map and exact manifest; requires the original distinct F67OrdinaryFrameOwner/F67OrdinarySourceReview roles, actual Sol:max own companion, exact data-only dead-owner disposition, false target/Phase fields, exact O2 candidate and Main/Sol target-source roles, and every retained-original descriptor. Old SOURCE4, emitted-prefix and M4 opinions cannot substitute for this new helper opinion.",
+      "id": "R1",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:194-238",
+        "independent-review.schema.json:1-375",
+        "independent-review-receiving-contract.json:1-68"
+      ]
+    },
+    {
+      "finding": "The exact84 file descriptors and235 immutable entries are checked before full source1213/private141 readback. The complete installed/private full Production static SPARKLib correspondence and old shared output inventories remain required. Generated outputs remain separate retained observations, not accepted source or a proof-only replacement. Original immutable/mutable partitions remain the original ones.",
+      "id": "R2",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:298-352",
+        "original integrity.py",
+        "author-freeze.json",
+        "selected-source-entries.json",
+        "dependency-inventory.json"
+      ]
+    },
+    {
+      "finding": "Original ordered116 and distinct2 additional actions remain complete and separate. Proposal.launches must equal planned+additional, with118 unique modes and118 unique owned scope names. The original first-five order is unchanged and custody recovery supplies no replay or continuation.",
+      "id": "R3",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:336-389",
+        "planned-actions.json",
+        "additional-actions.json",
+        "reviewed-launch-proposal.json"
+      ]
+    },
+    {
+      "finding": "The narrow adopted human predicate retains genuinely absent MainPID/ControlPID properties as absent. Any supplied malformed/nonzero value refuses. Loaded/not-found plus inactive/failed plus dead/failed, clean actual show and readable empty/absent cgroup remain required; known owned PID nonliveness is checked separately. No PID0 or historical wait receipt is invented.",
+      "id": "R4",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:360-389",
+        "recover_partial_ownership.py:516-537",
+        "human-scope-property-correction-provenance.json",
+        "human scope-property.patch and READBACK.json"
+      ]
+    },
+    {
+      "finding": "The exact c9f0edaa/42842/420 helper has reversible predicate correspondence to unfrozen b4707416/42677/420 and the actual human patch/readback. Newly authored objects retain absent preimages and guarded exact-postimage inverses. No frozen O2 namespace, old opinion/model epoch or original missing-wait guard is changed. Window inverse evidence is not re-reservation authority.",
+      "id": "R5",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "complete-reversible-source-mapping.json",
+        "human-scope-property-correction-provenance.json",
+        "CHANGE.json"
+      ]
+    },
+    {
+      "finding": "The entire original outer directory inventory, original start/argv/handshake/wrapper identities, raw streams, attempt bindings, launcher waits and durable claims are retained. Actual Main outer identities and interrupted cleanup PID are also carried. A currently present or reused known PID is captured for Main resolution and fails closed; it is neither silently equated to a dead owned process nor stopped by this helper.",
+      "id": "R6",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:392-537"
+      ]
+    },
+    {
+      "finding": "Actual original collector event1332c073/exit1/wallTimeMs14705.232360000256 and its missing-end failure remain retained. The frozen original collector still refuses. The helper checks the real retained failure and does not rerun it, manufacture an outer end, or turn the original failure into successful collection.",
+      "id": "R7",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:222-233",
+        "recover_partial_ownership.py:504-513",
+        "Main-recovery-current-session-complete-events-v5.json:889-940",
+        "original outer_collection.py:23"
+      ]
+    },
+    {
+      "finding": "Pending target child4, scope4, launcher4 and Main outer cleanup-15 remain distinct genuine facts. The missing original handshake parent's Popen wait remains UNKNOWN/None. Pretty stdout, process absence, cgroup emptiness and systemd Result cannot restore it. RootOutcome eligibility and all-required-actual-pass remain false.",
+      "id": "R8",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:479-513",
+        "recover_partial_ownership.py:640-655",
+        "pending-build-v1/result.json",
+        "pending-build launcher-wait.json",
+        "Main-complete-owned-prefix-observation.json"
+      ]
+    },
+    {
+      "finding": "Existing artifacts support exactly two successful original prefix modes, native-build and native-component-tests, with real outer/scope/child0 and unchanged-input records. They do not establish all five prefix modes, compiled continuation, complete ordinary runtime, proof or Phase acceptance. The failed pending build remains4 and the original unrun modes remain open.",
+      "id": "R9",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "Main-complete-owned-prefix-observation.json",
+        "native-build-v1/result.json",
+        "native-component-tests-v1/result.json",
+        "recovery-contract.json"
+      ]
+    },
+    {
+      "finding": "Main still needs a dedicated actual collect-stage native goal get and supported direct UTC clock within30min, active exact native id/objective/createdAt and actual18.8.7 runtime/routing binding. The old12:55 collect records and author source-preparation observations remain history, not future stage authority. No legacy threadId, old18.8.0 correspondence or resumed historical holder is fabricated.",
+      "id": "R10",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:240-295",
+        "recover_partial_ownership.py:630-637",
+        "recovery-contract.json:38-108",
+        "arguments.json",
+        "final-input-gaps.json"
+      ]
+    },
+    {
+      "finding": "The helper performs data observation and exclusive0700 Main collection/0600 O_EXCL|O_NOFOLLOW retention, and can perform only custody release under its exact declared conditions. It imports no original target/helper, loads no library and launches/stops no target or unrelated process. Its subprocess commands are read-only systemctl/ps observations.",
+      "id": "R11",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:1-52",
+        "recover_partial_ownership.py:179-191",
+        "recover_partial_ownership.py:355-357",
+        "recover_partial_ownership.py:566-685",
+        "arguments.json"
+      ]
+    },
+    {
+      "finding": "Within the original exclusive flock, the full prior d8cfc875 window pin, reserved state, exact original holder and O2 candidate must match. A fresh second all118 scope/known-PID observation, unchanged complete retained inventory and fresh goal check precede commit. Exact prior bytes and complete before/after/inverse retain old histories and other fields; mode-preserving atomic replacement and fsync produce only actual custody evidence. No release has been performed by this review.",
+      "id": "R12",
+      "result": "SOURCE_ONLY_SATISFIED",
+      "source_sections": [
+        "recover_partial_ownership.py:540-563",
+        "recover_partial_ownership.py:620-685"
+      ]
+    }
+  ],
+  "historical_outcomes_and_unknowns": {
+    "actual_Main_outer_cleanup_Popen_wait": -15,
+    "all_required_actual_pass": false,
+    "complete_ordinary_runtime_success": false,
+    "custody_release_restores_original_batch_acceptance": false,
+    "first_two_actual_outer_scope_child_waits": 0,
+    "first_two_successful_original_modes": [
+      "native-build",
+      "native-component-tests"
+    ],
+    "full_five_prefix_success": false,
+    "lost_original_handshake_parent_Popen_wait": null,
+    "lost_outer_folder": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-outer-capture-v1/85bdb97535c945dd917de27dc9e3c8f4",
+    "lost_wait_status": "UNKNOWN",
+    "original_collector": {
+      "event_id": "1332c073",
+      "exitCode": 1,
+      "failure": "outer_collection.py:23 requires absent outer-child-wait.json",
+      "reclassified_success": false,
+      "rerun_to_confirm": false,
+      "wallTimeMs": 14705.232360000256
+    },
+    "original_missing_end_padded": false,
+    "pending_build_launcher_wait": 4,
+    "pending_build_scope_wait": 4,
+    "pending_build_target_child_wait": 4,
+    "root_outcome_eligibility": false
+  },
+  "matching_source_runtime_acceptance": false,
+  "model_provenance": {
+    "bytes": 3768,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/ordinary-v67-v1-partial-ownership-recovery-source-review-resolved-model.json",
+    "sha256": "5143bb4f1e659a51b131b7359f90336ea15939eccad8eb47348d432a3ada3eff"
+  },
+  "model_retention_correspondence": {
+    "Main_authored_or_patched_independent_opinion": false,
+    "actual_Main_receiving_metadata_artifact": "artifact://787",
+    "actual_retention_output": {
+      "bytes": 3768,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/ordinary-v67-v1-partial-ownership-recovery-source-review-resolved-model.json",
+      "sha256": "5143bb4f1e659a51b131b7359f90336ea15939eccad8eb47348d432a3ada3eff"
+    },
+    "actual_source_JSONL_snapshot_at_retention": {
+      "bytes": 19875385,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/fresh-session-handoff-20261010T034200Z/sessions/2026-10-10T03-51-20-942Z_01a123ef-ce6e-756f-83f8-ce560878ed05/F67OrdinarySourceReview.jsonl",
+      "sha256": "1bcd7f679b46ff278cb8128eb08e330f90345143902bda123870387ee8e7802c"
+    },
+    "complete_record_cursor": 19875385,
+    "earlier_missing_companion_report_preserved": true,
+    "metadata_retention_is_source_qualification": false,
+    "only_completed_findings_companion_binding_continued": true,
+    "pending_trailing_bytes": 0,
+    "reviewer_authored_model_event_id": "7cfdfd83",
+    "reviewer_authored_model_event_timestamp": "2026-10-10T13:54:56.760Z",
+    "selected_original_object": "yield arguments.data.model_record",
+    "source_rereview_or_reexecution_in_this_binding_continuation": false,
+    "status": "GENUINE_OWN_COMPANION_RETAINED_AND_ACTUAL_PIN_OBSERVED"
+  },
+  "next_authorized_Main_verification": [
+    "Retain this genuine complete opinion unmodified and check its exact declared source/role/model receiving fields against the c826 manifest, thirteen-file map, whole retained-original map and genuine5143 companion; freeze the exact source identity. Do not replace the original independent opinion with a Main-authored record.",
+    "Provide a dedicated genuine fresh collect-stage native goal get and supported direct UTC clock for exact current15a049dc45a2af16/objective/createdAt1791604433174, active, within30min, joined to actual18.8.7 b10 binding and original holder. Do not reuse stale historical collection records.",
+    "Retain complete Main selected inputs under the declared closed schema, its actual whole SHA and an exclusive private collection name.",
+    "Main alone invokes the exact data-only recovery once under existing authority after those actual gates. Its full84/235/source1213/private141/installed/shared/generated/full-retained-evidence checks, all118 owned scopes and every known owned PID check must really pass; original failure/UNKNOWN and missing end remain unchanged.",
+    "Allow custody-only window release only through the real locked exact prior d8cfc875/366504/420 holder/candidate/history check and fresh terminal observations. Observe and retain the actual resulting coordination record; this opinion is not release evidence.",
+    "Continue the earliest independently qualified original native/formal work under sole Main window ownership. No protected fixture construction dependency is added to an unchanged lane absent a real original declared dependency; no original runtime/proof/fixture/actor guarantee is reduced."
+  ],
+  "original_batch_acceptance": false,
+  "original_receiver_author": "Main",
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "record_author": "F67OrdinarySourceReview",
+  "record_role": "original-partial-ownership-recovery-complete-independent-source-review",
+  "required_changes": [],
+  "retained_original_pins": {
+    "actual_collector_failure_capture": {
+      "bytes": 966769,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/Main-recovery-current-session-complete-events-v5.json",
+      "sha256": "e5868032652bcaac52590d236e19a269791ae77f75a5a0928f7e132a53291cd4"
+    },
+    "actual_prefix_observation": {
+      "bytes": 4103,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-original-qualified-prefix-execution-v1/Main-complete-owned-prefix-observation.json",
+      "sha256": "d459d594e7afe77d9cf4bb1cb2a6bedacda1ab3bd35594f44a1b902420395d6c"
+    },
+    "current_adoption_record": {
+      "bytes": 5567,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-source-binding-adoption-v1/adoption.json",
+      "sha256": "1a11c4549a78cd72828ebf36dfb8ade8e99511b97da1d79d4d98a212e48a539c"
+    },
+    "current_runtime_binding": {
+      "bytes": 44565,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-current-controller-observations-recovery-v3/Main-actual-OMP18.8.7-controller-routing-binding-v3.json",
+      "sha256": "b10f8dc4097385ec456d012a1700d1be6feb17cca764507bf6ded23d131b6e8c"
+    },
+    "frozen:additional-actions.json": {
+      "bytes": 17703,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/additional-actions.json",
+      "sha256": "ce2f84e99d7d49563d9e27bb3a579e5eef3a28a4be2dfc5e0b1a1a09b7841acb"
+    },
+    "frozen:authorization.py": {
+      "bytes": 6576,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/authorization.py",
+      "sha256": "242653134e4b1f64497f12dac37eaf704c2cc1c739cfb580cd0a0a8737bd285d"
+    },
+    "frozen:current-controller-binding.json": {
+      "bytes": 70328,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/current-controller-binding.json",
+      "sha256": "0a8c14c5c8b0b45b69d20dd4db8ddacf5fa2d8280c0b3b496ceff2795689b674"
+    },
+    "frozen:current-source-qualification.json": {
+      "bytes": 133819,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/current-source-qualification.json",
+      "sha256": "92f0c3003fe2f14bdb164845c18e67cf357a1755a5923ff2e6c5e62a155920f4"
+    },
+    "frozen:dependency-inventory.json": {
+      "bytes": 165114,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/dependency-inventory.json",
+      "sha256": "2d83e66341eb3226237225076569418dd0c25da321f51e0db8ef2139faf671a0"
+    },
+    "frozen:inputs.json": {
+      "bytes": 144904,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/inputs.json",
+      "sha256": "4ae97bb9dc5130140314ff79f674dd3b631be995798b4c103cd7e5db6222fd96"
+    },
+    "frozen:planned-actions.json": {
+      "bytes": 427597,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/planned-actions.json",
+      "sha256": "49ca7a284406c150b08c7657328d65686af5dc5048f7fc1f4df8d45bf2da90a3"
+    },
+    "frozen:portable_goal.py": {
+      "bytes": 11793,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/portable_goal.py",
+      "sha256": "e5d213691fef9595df5244ec3ba6f1404b5d41715dbb8088b7d03c9ecfcd6f09"
+    },
+    "frozen:prepare_successor.py": {
+      "bytes": 18991,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/prepare_successor.py",
+      "sha256": "d3e54715d588c44129339e7c84770df1aacd15df056ade9a886a05289e26fc29"
+    },
+    "frozen:review/root-live-lane-v1/inputs.json": {
+      "bytes": 823028,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-live-lane-v1/inputs.json",
+      "sha256": "78ad6dbab7b2341e1a217f2d0b5e94f7eb3516503fa7e67e3c8fe4fe6fb54392"
+    },
+    "frozen:selected-source-entries.json": {
+      "bytes": 220906,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/selected-source-entries.json",
+      "sha256": "55caa48073671bcbfdf7c1beddbb8babf240f26393398f9f297a971a1a5bd358"
+    },
+    "frozen:source-composition.json": {
+      "bytes": 195169,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/source-composition.json",
+      "sha256": "1ff531ea4fdd08f3cf6f1d6ddd9ab28e4cd3233452fafcd8c9ab21fb1b26b764"
+    },
+    "frozen_frame": {
+      "bytes": 65019,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/author-freeze.json",
+      "sha256": "797e74a317855a54f38ee0614bc59f30e5c7992b2eb7f8a38316dedae5df6c51"
+    },
+    "historical_collect_refresh": {
+      "bytes": 1073,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-fresh-dispatch-collect-observations-recovery-v4/actual-mutable-observation-refresh.json",
+      "sha256": "bea91d95c58359b7b71d38ec49913ebc24d89670d10994ab138cc9f102981023"
+    },
+    "historical_current_stage_collect": {
+      "bytes": 1710,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-fresh-dispatch-collect-observations-recovery-v4/actual-stage-collect.json",
+      "sha256": "2f6b7d28f739e3e354328c13ab8c16d9e81676cd391c8272ea02623f8064ee89"
+    },
+    "historical_native_collect": {
+      "bytes": 3162,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/Main-fresh-dispatch-collect-observations-recovery-v4/actual-native-collect.json",
+      "sha256": "1492d36d7808a026470e8de72b6237cf2738f2b7aca23cb8f0ee8e7e9fe532b9"
+    },
+    "main_custody_pattern": {
+      "bytes": 9644,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/main_owned_model_window_v4.py",
+      "sha256": "2c6316ad4e03bf7f28455ee9cc6d60bb99d89ee995e17831272f954b28f07278"
+    },
+    "metadata_aid": {
+      "bytes": 7783,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/omp-crash-recovery-20261010T114220Z/safe_json.py",
+      "sha256": "d55a16651d6474886accdd11b34a9c32f834d44150249e5f2833eaa57fedbc5d"
+    },
+    "mixed_stream_readback": {
+      "bytes": 3454,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/mixed-stream-failure-assistance-20261010T130100Z/READBACK.json",
+      "sha256": "d50fd745ac4d6e221496a2774a615666373f65f321bb43e98143b392030b3200"
+    },
+    "native_build_result": {
+      "bytes": 1738,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/native-build-v1/result.json",
+      "sha256": "f2d39fbb6a098a157865308560c8dc08ecc6261e7bd78a75361c0c15d5a10e9a"
+    },
+    "native_component_result": {
+      "bytes": 2150,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/native-component-tests-v1/result.json",
+      "sha256": "0a8f2bb268e9e0c7862dc4fc40fbacb415a1645cfdef2ffed2935bd3c6402159"
+    },
+    "original_author_model": {
+      "bytes": 1658,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-preparation-v2/author-resolved-model-provenance.json",
+      "sha256": "c349c52186361667f70e617d12acd3c38b6b58a5faebe80b573bb02e5521e802"
+    },
+    "original_author_observations": {
+      "bytes": 4327,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-preparation-v2/author-model-observations.json",
+      "sha256": "5eac3ef6c3537024e393194142ac51c5b90df1fa79ef54cea202f11cef39feca"
+    },
+    "original_collector": {
+      "bytes": 10761,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-batch-terminal-v1/collect_terminal.py",
+      "sha256": "307a06b4cad1908a59eb6ce8244408bab908c557f95dbaf37740d5909d11558b"
+    },
+    "original_common_role_receiver": {
+      "bytes": 22153,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/successor_support.py",
+      "sha256": "82042d0a0c6c189e830bc945fb0ac5ac5c5dd1edb3343d54093c0817172851a5"
+    },
+    "original_dead_owner_authorization": {
+      "bytes": 2865,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/collector-successor/recovery_authorization.py",
+      "sha256": "b7ea032cee6812753a04b88e36d27f4690c72608f4b7733f99b15f636632e871"
+    },
+    "original_dead_owner_collector": {
+      "bytes": 10001,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/collector-successor/collect_terminal.py",
+      "sha256": "498c8608ee70b735c933c96670d366841a0abdb2e280a24b6224adf4b0b7f14a"
+    },
+    "original_integrity": {
+      "bytes": 3777,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/integrity.py",
+      "sha256": "8627cb00c5ff96b03fb4439af240445ef0b32028db56323921ea05a34b0add91"
+    },
+    "original_outer_receiver": {
+      "bytes": 5018,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/outer_collection.py",
+      "sha256": "f8e91674460d8c48a81dc2f0970f619431fd4d42e4a23745a5ba34152f522974"
+    },
+    "original_proposal": {
+      "bytes": 477743,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/reviewed-launch-proposal.json",
+      "sha256": "f2b065e270c919d4e315bd2df3a57e8faa694042b19ea297e857a768d1d11b85"
+    },
+    "original_qualification": {
+      "bytes": 110078,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/ordinary-v67-v2-actual-emitted-original-prefix-independent-review.json",
+      "sha256": "f130c2c9290181258565f277981645a16abbdaf4015f124ed55069584f9d0c59"
+    },
+    "original_retained_support": {
+      "bytes": 22153,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/successor_support.py",
+      "sha256": "82042d0a0c6c189e830bc945fb0ac5ac5c5dd1edb3343d54093c0817172851a5"
+    },
+    "partial_outer_start": {
+      "bytes": 2526,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-outer-capture-v1/85bdb97535c945dd917de27dc9e3c8f4/outer-child-start.json",
+      "sha256": "9fd770b4cfec3a781c4da076c7554cf48316b727e40fdf835930f68e21d425d5"
+    },
+    "pending_build_result": {
+      "bytes": 2146,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/evidence/pending-build-v1/result.json",
+      "sha256": "38e70876f7d4c70604b10c51eb83e72e28abdc778426bfdfe3f6ffe0a8ea0bec"
+    },
+    "reservation_record": {
+      "bytes": 112036,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-successor-v67-draft-v2/candidate/review/root-source-binding-adoption-v1/final-reservation-live-observation/reservation.json",
+      "sha256": "259f90898347bd759b150c6415e3f26b168bfe120f538ce5c7633559aa377d6f"
+    },
+    "retained_original_SOURCE4": {
+      "bytes": 72019,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-original-full116-ordinary-source-independent-review-v2.json",
+      "sha256": "e570a3af0493f90a077a04ef8b852d89df4ff0ae7e91b038a7b6ac9a9b65662d"
+    },
+    "retained_original_SOURCE4_model": {
+      "bytes": 3398,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v67-data-v2-original-full116-ordinary-source-resolved-model.json",
+      "sha256": "1bd6dfa9612748e503ea911a14bcacae7fe2b9bd6843a4224909c47c41e2cabe"
+    }
+  },
+  "reused_unchanged_original_findings": {
+    "native_or_formal_SOURCE3_is_not_original_ordinary_SOURCE4": true,
+    "old_SOURCE4_f130_M4_dispositions_not_borrowed": true,
+    "old_records_and_historical_model_epochs_retained_not_relabelled": true,
+    "original_SOURCE4_basis": "retained_original_pins.retained_original_SOURCE4 and its unchanged own companion",
+    "original_emitted_prefix_basis": "retained_original_pins.original_qualification with unchanged frozen frame, source/private manifests and original receiver inputs",
+    "reuse_does_not_qualify_new_helper_by_substitution": true,
+    "valid_carried_emitted_scope": [
+      "Original84/235 frame, complete source/private and current closure receiving boundaries.",
+      "Original116 plus six whole appended modules and two separately enrolled additions.",
+      "Original first-five fail-stop, owned target/launcher/handshake/outer wait/retention and compiled-tail qualification requirements."
+    ],
+    "valid_carried_scope": [
+      "Complete unchanged F67 source/source-operation/donor/enrollment/source-to-original116 correspondence.",
+      "Corrected DATA2 historical-before-body locator and unchanged literal all5 selected identities in the original ordinary SOURCE4 scope.",
+      "Complete source1213 keyset/body/hash/byte/mode correspondence retained by the exact original selected-source table.",
+      "Original original94 goals, contracts, accepted domains/cases, fixtures, floors and source-only nonclaims."
+    ]
+  },
+  "reversible_affected_correspondence": {
+    "forward": "Adopt the exact human scope predicate only in the new owner's unfrozen helper; retain optional service-PID omissions and strengthen load/substate checks without changing known-PID or full118 custody obligations.",
+    "frozen_original_namespaces_edited_by_reviewer": false,
+    "human_donor_patch": {
+      "bytes": 956,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/scope-property-assistance-20261010T133500Z/scope-property.patch",
+      "sha256": "1febfcdb9af639f43e9ab491d4ab8d4f3821b7e0fe1b2eddb79b6e1e1ef21bd9"
+    },
+    "human_readback": {
+      "bytes": 1282,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/omp-session-monitor-v1/scope-property-assistance-20261010T133500Z/READBACK.json",
+      "sha256": "c94b982aaba65423bd91ad66fa7b4aa8f74105475e7ff3253b2df3feb7aa7cff"
+    },
+    "inverse": "Guard exact c9f postimage and replace the predicate exactly once with retained b470 predicate; new author objects otherwise have guarded absent preimages. This is source correspondence, never a qualification bypass, old artifact restoration, lost-wait reconstruction or window re-reservation.",
+    "mapping": {
+      "bytes": 364676,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-partial-ownership-recovery-v67-v1-preparation/complete-reversible-source-mapping.json",
+      "sha256": "8a0be902c9c8b086d2d91ee705846706896c8e93eb86065ad16f0169b5b23cc8"
+    },
+    "new_helper_postimage": {
+      "bytes": 42842,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-partial-ownership-recovery-v67-v1-preparation/recover_partial_ownership.py",
+      "sha256": "c9f0edaa355a27830266a27cb423c9f3f1d3833167c95e5929fae9cceb9303a4"
+    },
+    "new_helper_preimage": {
+      "bytes": 42677,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-partial-ownership-recovery-v67-v1-preparation/recover_partial_ownership.py",
+      "sha256": "b4707416d81f05e8953b14a5040b9f90a7fe9b47c8622914d9b5cdf8c66decca"
+    }
+  },
+  "reviewer": "F67OrdinarySourceReview",
+  "reviewer_authored": true,
+  "root_outcome_eligibility": false,
+  "runtime_acceptance": false,
+  "schema": "worldline-original-data-only-partial-ownership-recovery-independent-review-v1",
+  "scope": {
+    "Main_retains_integration_execution_and_sole_window_ownership": true,
+    "all_actual_owned_scope_observations": 118,
+    "author_object_count": 13,
+    "complete_original_receiving_scope_retained": true,
+    "distinct_separately_enrolled_additional_actions": 2,
+    "frame_files": 84,
+    "immutable_directories": 17,
+    "immutable_entries": 235,
+    "immutable_files": 218,
+    "new_reviewed_material": "Exact new recovery helper, schemas/contracts/arguments/author provenance/full reversible mapping/handoff/docs, original affected SOURCE roles and custody lifecycle, and narrow human optional-service-PID source correction.",
+    "not_repeated": "Unchanged broad original F67 source-operation/donor/enrollment/complete original116 semantics. Prior genuine opinions remain valid only for their unchanged exact original source and receiving scopes.",
+    "original_Luna_high_world_child_actor_unchanged": true,
+    "original_first_five": [
+      "native-build",
+      "native-component-tests",
+      "pending-build",
+      "build",
+      "entry-component-tests"
+    ],
+    "original_ordered_actions": 116,
+    "private_input_directories": 7,
+    "private_input_entries": 141,
+    "private_input_files": 134,
+    "qualification_is_not_execution_authority": true,
+    "reviewer_is_not_actor_substitute": true,
+    "selected_source_directories": 69,
+    "selected_source_entries": 1213,
+    "selected_source_files": 1144,
+    "source_manifest_self_excluded": true,
+    "unknown_or_unreviewed_payloads_qualified": false
+  },
+  "separate_open_obligations": [
+    "Original same-final-source complete ordinary116 plus six whole appended modules and the two separately enrolled additions, with every original accepted/refusal domain, fixture, actual wait, artifact and control.",
+    "Actual Main coherent static-expression/C-ABI/nativeTarget_fstat/parser/protected-wrapper affected repairs and exact required source/frame/compiled-tail qualifications; custody recovery does not execute or replay targets.",
+    "Original full strict command /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove -P core/worldline_core_sources.gpr -U --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2,535-prefix/floor251,zero unproved/justified/assumptions/proof warnings, every original body/caller/flow/domain/floor.",
+    "Acceptance build remains -p -j2 -P; diagnostic -k or bounded diagnostics cannot count as acceptance.",
+    "Current closures, full private SPARKLib/compiler/runtime/source inventories, complete enrollment/donor/preparer/emitted-frame/tail/admission/Main-only/resource/limit/wait/signal/unknown gates remain exact and separately required.",
+    "Authentic operator-selected original protected/actor fixture inputs remain HUMAN PENDING for their actual dependent modes; source preparation creates no fixture baseline, provisioning/genesis/mission authority or actor substitution.",
+    "Original Luna-high world/child actor remains unchanged; this independent reviewer is never that actor.",
+    "Independent exact final matching-source runtime/proof/complete Phase One acceptance and authorized publication/deployment remain separate OPEN."
+  ],
+  "source_manifest": {
+    "bytes": 21175,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/ordinary-partial-ownership-recovery-v67-v1-preparation/source-pins.json",
+    "sha256": "c826c1db89c032ddf468739c885f1e61b3de13e572418d7b81cab55fcd6ad6be"
+  },
+  "source_only": true,
+  "strict_proof": false,
+  "target_execution": false,
+  "underlying_source_author": "SolPhaseOneIntegration",
+  "verification_and_nonclaims": {
+    "actor_or_provision_or_genesis_or_operator_action": false,
+    "admission_or_window_action": false,
+    "applicable_Ada_SPARK_and_project_skills_read": true,
+    "bounded_static_metadata_and_artifact_readback_performed": true,
+    "build_tests_lint_formatters_prover_smoke_runs": false,
+    "candidate_or_fixture_or_source_copies": false,
+    "commands_executed_by_reviewer": false,
+    "compiled_functional_flow_RTE_lifetime_cost_or_source_equivalence_proof": false,
+    "complete_Phase_One_acceptance_established": false,
+    "cryptographic_verifier_executed_by_reviewer": false,
+    "custody_collection_performed_by_reviewer": false,
+    "full_current_closure_or_private_approval_newly_claimed": false,
+    "full_strict_proof_acceptance_established": false,
+    "goal_or_config_mutation": false,
+    "matching_source_runtime_acceptance_established": false,
+    "native_load_or_target_execution": false,
+    "new_diagnostic_execution_performed": false,
+    "original_collector_refusal_suppressed": false,
+    "repository_helpers_imported_or_executed_by_reviewer": false,
+    "schema_validator_executed_by_reviewer": false,
+    "source_review_performed": true,
+    "unknown_wait_reconstructed": false,
+    "unreviewed_unknown_payloads_qualified": false,
+    "window_release_performed_by_reviewer": false
+  }
+}
