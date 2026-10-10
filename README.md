@@ -2,7 +2,17 @@
 
 **Work in progress. Phase One is not complete or accepted.**
 
-## Latest preserved source: F60 — 2026-10-09
+## Latest preserved source: F66 — 2026-10-10
+
+The [F66 and C24 checkpoint](PHASE1-SOURCE-CHECKPOINT-20261010-F66.md) preserves
+the complete frozen F66 source, actual GPT-6.1 Sol max source reviews, and the
+collector false-success repair with its before/after stand-in regression evidence.
+Its [manifest](PHASE1-SOURCE-CHECKPOINT-20261010-F66.json) binds the copied bytes.
+The original full strict proof, matching-source runtime, ownership/reclamation,
+authentic fixtures and final acceptance remain open. Development continues in a
+separate checkout; this archive is not an installable release.
+
+## Earlier preserved source: F60 — 2026-10-09
 
 The [October 9 checkpoint](PHASE1-SOURCE-CHECKPOINT-20261009.md) preserves the
 complete frozen F60 source, actual GPT-6.1 Sol max source reviews, the failed

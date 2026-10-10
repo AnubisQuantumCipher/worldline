@@ -1,0 +1,49 @@
+{
+  "actual_handshake_Popen_wait_returncode": 0,
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/run_smoke.py",
+    "--handshake-owner",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/normal-four-level-zero",
+    "codex-worldline-c24-collector-f9d21a73e31f47919e5f4642e9812424.scope"
+  ],
+  "inputs_unchanged": true,
+  "owner_control": {
+    "actual_wait_observed": true,
+    "child_signal": null,
+    "errors": [],
+    "kill_seconds": 1,
+    "owned_process_group": {
+      "pgid": 2762683,
+      "pid": 2762683,
+      "starttime": "27791676"
+    },
+    "owned_scope_signals": [],
+    "owner_signal": null,
+    "ownership_collection_required": false,
+    "pid": 2762683,
+    "returncode": 0,
+    "stop_reason": null,
+    "term_seconds": 1,
+    "timeout": false
+  },
+  "pid": 2762683,
+  "raw_files": [
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/normal-four-level-zero/outer.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/normal-four-level-zero/outer.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "retention_errors": [],
+  "retention_success": true,
+  "wrapper_pid": 2762682
+}

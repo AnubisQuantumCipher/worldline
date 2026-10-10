@@ -1,0 +1,59 @@
+{
+  "schema": "worldline.resolved-review-model-provenance.v1",
+  "reviewer": "F61CoherentSourceReview",
+  "observed_at": "2026-10-09T23:22:01.910Z",
+  "event_source": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/F61CoherentSourceReview.jsonl",
+  "session_pin_at_observation": {
+    "sha256": "a2b6ba61da92626aee405293ec742399ace3c6eb3d93f9ccfb4440e6ca719213",
+    "bytes": 8892028,
+    "mode": 420
+  },
+  "observed_events": [
+    {
+      "type": "model_change",
+      "id": "766cf6d1",
+      "parentId": null,
+      "timestamp": "2026-10-09T13:23:45.231Z",
+      "model": "openai-codex/gpt-6.1-sol",
+      "resolvedModelIsFallback": false,
+      "thinkingLevel": null,
+      "configured": null,
+      "serviceTier": null
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "749b264b",
+      "parentId": "766cf6d1",
+      "timestamp": "2026-10-09T13:23:45.232Z",
+      "model": null,
+      "resolvedModelIsFallback": null,
+      "thinkingLevel": "max",
+      "configured": null,
+      "serviceTier": null
+    }
+  ],
+  "actual_original_model_tool_response": {
+    "text": "{\"type\":\"model_change\",\"id\":\"766cf6d1\",\"parentId\":null,\"timestamp\":\"2026-10-09T13:23:45.231Z\",\"model\":\"openai-codex/gpt-6.1-sol\",\"resolvedModelIsFallback\":false,\"thinkingLevel\":null,\"configured\":null,\"serviceTier\":null}\n{\"type\":\"thinking_level_change\",\"id\":\"749b264b\",\"parentId\":\"766cf6d1\",\"timestamp\":\"2026-10-09T13:23:45.232Z\",\"model\":null,\"resolvedModelIsFallback\":null,\"thinkingLevel\":\"max\",\"configured\":null,\"serviceTier\":null}",
+    "details": {
+      "resolvedPath": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/F61CoherentSourceReview.jsonl",
+      "meta": {
+        "source": {
+          "type": "path",
+          "value": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/F61CoherentSourceReview.jsonl"
+        }
+      }
+    }
+  },
+  "expected_selection": "openai-codex/gpt-6.1-sol:max",
+  "actual_fallback": false,
+  "actual_thinking": "max",
+  "verdict_not_authored_by_main": true,
+  "review_records": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-coherent-source-independent-review.json",
+      "sha256": "71e183e4e17d5bac7e73e12d57cedc9fc3615677e2e2de3bd0f9f612e1cedc72",
+      "bytes": 28739,
+      "mode": 420
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "actual_wait_observed": true,
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--collect",
+    "--unit=codex-worldline-c24-collector-c67c8912a10c4ddebd379c032320f6dc.scope",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "RuntimeMaxSec=4s",
+    "-p",
+    "TimeoutStopSec=1s",
+    "--",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/run_smoke.py",
+    "--prover-owner",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/zero-waits-refused-scope-receipt"
+  ],
+  "child_signal": null,
+  "kill_seconds": 1,
+  "launch_observed": true,
+  "owned_process_group": {
+    "pgid": 2762692,
+    "pid": 2762692,
+    "starttime": "27791705"
+  },
+  "owned_scope_signals": [],
+  "owner_signal": null,
+  "ownership_collection_required": false,
+  "phase_acceptance": false,
+  "pid": 2762692,
+  "raw_files": [
+    {
+      "bytes": 0,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/zero-waits-refused-scope-receipt/scope.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 135,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/zero-waits-refused-scope-receipt/scope.stderr",
+      "sha256": "1577f96d2f643ea9b334cc975d55b901f6e5613c1fe01a4d823e713e90908302"
+    }
+  ],
+  "retention_errors": [
+    {
+      "message": "[Errno 17] File exists: '/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/zero-waits-refused-scope-receipt/scope-wait.json'",
+      "stage": "wait_receipt_retention",
+      "type": "FileExistsError"
+    }
+  ],
+  "retention_success": false,
+  "returncode": 0,
+  "stop_reason": null,
+  "term_seconds": 1,
+  "timeout": false,
+  "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+}

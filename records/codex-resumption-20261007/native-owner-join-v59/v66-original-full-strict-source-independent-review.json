@@ -1,0 +1,359 @@
+{
+  "schema": "worldline-original-full-strict-selected-source-independent-review-v1",
+  "disposition": "QUALIFIED_EXACT_COMPLETE_SELECTED_SOURCE_FOR_FULL_STRICT_FORMAL_DIAGNOSTIC_ONLY",
+  "current_candidate_version": 66,
+  "author": "SolPhaseOneIntegration",
+  "source_author": "SolPhaseOneIntegration",
+  "semantic_body_donor_author": "EvaluationProducerNative",
+  "semantic_body_donor_actual_model": "openai-codex/gpt-6.1-sol:high",
+  "record_author": "F61StrictSourceReview",
+  "reviewer": "F61StrictSourceReview",
+  "reviewer_authored": true,
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "actual_thinking_level": "max",
+  "required_no_fallback": true,
+  "source_only": true,
+  "target_execution": false,
+  "strict_proof": false,
+  "phase_acceptance": false,
+  "blocking_findings": [],
+  "confidence": 0.98,
+  "explanation": "No introduced blocking defect was found in the affected complete F66 source integration. The selected Producer_Bytes body matches the genuinely qualified complete donor; only its existing normalized body literal changes, and the donor changelog block is inserted without overwriting the complete F65 history. Public interfaces, consuming validity branches, Cost2 body, original proof/runtime scope and current inventories/enrollment correspond. This qualifies source composition only, not successful compiler/proof/runtime execution or closure of the retained C22 diagnostics.",
+  "source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v66-draft/source",
+  "input": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-exact-complete-source-review-input.json",
+    "sha256": "66baf607d8e15a732af82a449b0599eec499a06dbb8111dd1c73f752c33913b9",
+    "bytes": 82116,
+    "mode": 420
+  },
+  "dependent_input": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-original-source-dependent-review-input-with-actual-current-auxiliary.json",
+    "sha256": "52e1efaa562b7a932848624f4ab122785a413e828a75fb5af8ec999ba631275d",
+    "bytes": 15829,
+    "mode": 420
+  },
+  "artifacts": {
+    "source-selection.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v66-draft/source-selection.json",
+      "sha256": "29a5577ffe726d6e02f822cca3501170e88e269f377342f48234666a523e2bb6",
+      "bytes": 137645,
+      "mode": 420
+    },
+    "source-inventory.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v66-draft/source-inventory.json",
+      "sha256": "f6962d0d39d16ae5d681e39a96281cfa2071fe6d3c382d3d6d583f865c1e0a25",
+      "bytes": 198886,
+      "mode": 420
+    },
+    "stable-source-inventory.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v66-draft/stable-source-inventory.json",
+      "sha256": "3d77cc12924b7ce485cdca84ceb2e1201c92f63141a9fbdf2dbbc37a22e71da5",
+      "bytes": 220906,
+      "mode": 420
+    },
+    "source-changes.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v66-draft/source-changes.json",
+      "sha256": "3817ebb2410d5f5a005e243fde4e64d93c3cb08f46e9c805da5a4d1c0d0c4e66",
+      "bytes": 15813,
+      "mode": 420
+    },
+    "enrollment-report.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-integrated-v66-draft/enrollment-report.json",
+      "sha256": "6cc0e408f0afe51e60263605a606fa95f3a733d70e2161cbc915846798fa8099",
+      "bytes": 574263,
+      "mode": 420
+    }
+  },
+  "runtime_proof_review": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-runtime-proof-source-independent-review.json",
+    "sha256": "64eac192351d70f1dbdb3fa81f4a95f521d87c167a40b81751439b85fdab5aa3",
+    "bytes": 21959,
+    "mode": 420
+  },
+  "auxiliary_model_provenance": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-runtime-proof-source-independent-review-resolved-model.json",
+    "sha256": "5d8364eb7dda8c1c8a50b5178d825556ed7fdab0e584cdb4239e8c16193113a7",
+    "bytes": 2591,
+    "mode": 420
+  },
+  "normative_binding_evidence": "Read the actual current auxiliary's original schema/disposition, source-author/reviewer distinction, genuine own-model STRING, empty findings, non-execution/non-proof/non-Phase declarations and exact five artifacts. Read the actual companion's Sol/max/no-fallback events and review_records entry naming that exact auxiliary. Both top-level four-field descriptors bind the same actual new F66 pair; no F65 baseline, donor, future pin or nested/prose substitute is used.",
+  "reviewer_independence": {
+    "excluded_source_authors": [
+      "Main",
+      "V51ForeignViewLegality",
+      "V51ReplayTypeLegality",
+      "RawContextRepair",
+      "RetainedHistoryRepair",
+      "SolPhaseOneIntegration",
+      "OriginalIdentityCallerRepair",
+      "NativeTransactionCostRepair",
+      "EvaluationProducerNative"
+    ],
+    "reviewer_distinct_from_Main_all_source_authors_auxiliary_and_coherent_reviewer": true,
+    "selected_source_or_integration_metadata_authored_by_reviewer": false,
+    "source_author_provenance": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-actual-source-author-and-integration-provenance.json",
+      "sha256": "96b01e092224dbd4d0d54564289ea4a9b9e465152d46c21fe0ab30144cde7a3f",
+      "bytes": 16046,
+      "mode": 420
+    },
+    "model_distinction": "EvaluationProducerNative's actual semantic source author used Sol:high, honestly retained without relabelling as max. SolPhaseOneIntegration used Sol:max for composition. This distinct review uses this reviewer's own actual Sol:max observations."
+  },
+  "actual_own_model_observations": {
+    "event_source": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f/F61StrictSourceReview.jsonl",
+    "session_event": {
+      "type": "session",
+      "version": 3,
+      "id": "01a120d5-7f0b-771a-b9b5-881cfd41650a",
+      "timestamp": "2026-10-09T13:23:45.035Z",
+      "cwd": "/tmp",
+      "parentSession": "/home/sicarii/.omp/agent/sessions/--tmp--/2026-10-07T15-52-03-967Z_01a11710-907f-7488-b762-9a2a3af7d65f.jsonl"
+    },
+    "observed_events": [
+      {
+        "type": "model_change",
+        "id": "8c67df77",
+        "parentId": null,
+        "timestamp": "2026-10-09T13:23:45.181Z",
+        "model": "openai-codex/gpt-6.1-sol",
+        "resolvedModelIsFallback": false
+      },
+      {
+        "type": "thinking_level_change",
+        "id": "50ec2006",
+        "parentId": "8c67df77",
+        "timestamp": "2026-10-09T13:23:45.181Z",
+        "thinkingLevel": "max",
+        "configured": null
+      }
+    ],
+    "actual_F66_response_samples": [
+      {
+        "id": "21b36b13",
+        "timestamp": "2026-10-09T23:14:36.225Z",
+        "api": "openai-codex-responses",
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "serviceTier": "default"
+      },
+      {
+        "id": "1fc3a323",
+        "timestamp": "2026-10-09T23:14:48.076Z",
+        "api": "openai-codex-responses",
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "serviceTier": "default"
+      }
+    ],
+    "fallback_observed": false,
+    "required_service_tier": "standard",
+    "literal_Standard_wire_observed": false,
+    "default_equivalence_to_Standard_inferred": false,
+    "retention_boundary": "Actual response metadata says default, not a literal Standard wire observation. Main separately retains actual observation-time own-model provenance. No self/session/future companion descriptor is invented."
+  },
+  "valid_unchanged_source_qualification_reused": {
+    "review": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v65-original-full-strict-source-independent-review.json",
+      "sha256": "dc3aab27ecbf67a5f5f8e5a79dd59dd211c5ff2056416d64e2b73dfc3a633b08",
+      "bytes": 23600,
+      "mode": 420
+    },
+    "actual_model_companion": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v65-original-full-strict-source-independent-review-resolved-model.json",
+      "sha256": "713bb87b7d05e7298941ea2f02d4b7735f91c92446b9ef85979562adc8aa41b1",
+      "bytes": 2502,
+      "mode": 420
+    },
+    "scope": "Valid unchanged complete-source/body/caller/observer/suite findings and original obligations only. Accepted unchanged donor findings are reused, not broadly re-audited or turned into proof/runtime/frame acceptance. The prior withdrawal of old executable-deadline implications remains effective."
+  },
+  "genuine_producer_donor": {
+    "review": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/producer-bytes-full-strict-repair-v1-independent-source-review.json",
+      "sha256": "368bef250f130092ee53a9eac45a09a95572ea3ffe77704bfb42864954b9374b",
+      "bytes": 12907,
+      "mode": 420
+    },
+    "actual_reviewer_model_companion": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/producer-bytes-full-strict-repair-v1-independent-source-review-resolved-model.json",
+      "sha256": "a22d867d99fca7c323280767e2c3d75c9acdc02ab705438e6c8f554a347fcce4",
+      "bytes": 2514,
+      "mode": 420
+    },
+    "accepted_disposition": "QUALIFIED_EXACT_PRODUCER_BYTES_REPAIR_DONOR_SOURCE_ONLY_NOT_EXECUTED",
+    "scope": "Exact isolated donor source qualification only. It is not current complete-source, compiler, proof, runtime, performance or consequential Phase acceptance."
+  },
+  "affected_composition_review": {
+    "complete_source_not_subset": true,
+    "immediate_base": "Frozen complete F65",
+    "changed_paths": [
+      "core/worldline-producer_bytes.adb",
+      "runtime/worldline/proof_manifest.py",
+      "CHANGELOG.md"
+    ],
+    "modified_files": 3,
+    "added_files": 0,
+    "removed_files": 0,
+    "complete_preimages": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/native-owner-join-v59/v66-complete-source-and-distinct-donor-preimages.json",
+      "sha256": "2ccc82ba1784b176c4a61d2bcb51fef6d44805583447122882351288e50537d9",
+      "bytes": 1445748,
+      "mode": 420
+    },
+    "selected_body": {
+      "sha256": "e8ddb79c2a6d153ee65a543fc2da926324597816038b8bfd95c6ed68a1b9dbef",
+      "bytes": 6678,
+      "mode": 420
+    },
+    "body_before_sha256": "af86e27d1aeead78d77fd59832097fa8db26b0bf0c3d949009d2c2f80a626f6e",
+    "exact_selected_body_descriptor_equals_qualified_complete_donor_postimage": true,
+    "public_spec_unchanged": {
+      "sha256": "6b64c3643869d09d876166c8ddc0a08f7473859d6e069586aa2770badf638988",
+      "bytes": 661,
+      "mode": 420
+    },
+    "Cost2_body_unchanged": {
+      "sha256": "a88749d15db48551f820014d531f42a0c250392565032556d6eccd71367badeb",
+      "bytes": 95544,
+      "mode": 420
+    },
+    "delta_and_boundary_reads": "Read the complete immediate three-file unified delta, unchanged public interface, selected scan-result forwarding at46-129 and bounded unchanged evaluation-producer consuming branches. The qualified donor's unchanged semantic findings are reused rather than repeating its whole review.",
+    "new_cross_function_dispatch": "The new bounded Sextet_Value result is received by Raw and explicitly rejects negative values before Natural conversion. Scan_Base64 returns Extent to Base64_Extent, Decode_Base64 and Base64; each forwards or consumes Length/Valid explicitly. The former unchecked renderer has no surviving caller. No new public enum, event, command or result representation requires an unimplemented route.",
+    "module_consumers": "Unchanged evaluation_producer.adb389-415 passes Raw_Payload.Valid into the report parser and requires acquired/raw validity for joins;492-500 retains valid/length/hash fact checks using Digest. No produced validity result is silently discarded or changed into an unconditional success.",
+    "preserved_semantics_and_obligations": "Original alphabet, padding, arbitrary phase-zero padding acceptance, empty input, non-one String bounds, invalid-output zeroing, byte values and lowercase SHA256 rendering remain. Count-only and decode share the recognizer; allocating Base64 retains count-then-decode without a third payload pass, new allocation, cap or source-wide public precondition. Initialized-prefix assertions and live SHA absorbed/fill relations add consequential proof obligations, not a skip-proof or assumption. All public Posts and original full body/caller/flow/RTE/termination obligations remain required.",
+    "changelog": "Only the qualified donor's18-line insertion is added after complete F65 line4; the Cost2 and earlier integrated entries remain. The current full changelog is cf84dab6ad79c9db631cfbd6db90f02f7e4f578cf6cf6f321977978f8a271c9c, not the donor's isolated F64-based whole changelog.",
+    "single_existing_literal": {
+      "key": "core/worldline-producer_bytes.adb",
+      "line": 1885,
+      "before": "8c88547e447f34244dabc124fc2af50ac1d051040a94e390ee00890df6353d5b",
+      "after": "cf334d43bbe911a14a0d55d701cc52b08f9e00cd718488c17372f8b0815c5739",
+      "old_occurrences_before": 1,
+      "new_occurrences_after": 1,
+      "stale_old_occurrences_after": 0,
+      "complete_manifest_equal_except_exact_expected_replacement": true,
+      "manifest_after_raw_sha256": "62bf6fc25c301750f1499e00a69000fa8c967081c5d99a169f8dc4ee1e9ebb31",
+      "policy_or_roster_rows_added_or_removed": false
+    },
+    "normalizer_boundary": "Current retained derivation1e6945b7930d8a92963e22bb30c64c6f5bcc60c8a52b90dcd980d8a07394e34f uses the unchanged original definition and is source-author metadata, not refresh/check execution. The collector's legacy pinRefreshCommandReport label grants no extra execution credit."
+  },
+  "current_inventory_enrollment_correspondence": {
+    "entries": 1213,
+    "regular_files": 1144,
+    "directories": 69,
+    "full_F59_modified_files": 38,
+    "full_F59_added_files": 2,
+    "full_F59_removed_paths": 0,
+    "affected_stable_and_no_length_inventory_entries_correspond": true,
+    "source_selection_current_candidate_version": 66,
+    "source_selection_schema_historical_spelling": "worldline-integrated-source-selection-v59",
+    "state": "SOURCE_ONLY_UNBUILT_UNPROVED_UNACCEPTED",
+    "actual_Main_source_only_collector_returncode": 0,
+    "actual_Main_source_only_collector_wall_seconds": 0.46,
+    "required_names": 1550,
+    "original_ordered_prefix": 535,
+    "floor": 251,
+    "declared_core_sources": 413,
+    "effective_contract_pins": 455,
+    "literal_contract_pins": 995,
+    "stale_literal_pins": 0,
+    "actual_required_first535_equal_original_prefix": true,
+    "all_declared_local_specs_and_bodies_pinned": true,
+    "original_six_policy_functions_unchanged": true,
+    "sole_original_unanalyzed_boundary": [
+      "worldline-c_api"
+    ],
+    "producer_named_roster": [
+      "Worldline.Producer_Bytes.Base64_Extent",
+      "Worldline.Producer_Bytes.Decode_Base64",
+      "Worldline.Producer_Bytes.Base64",
+      "Worldline.Producer_Bytes.Digest"
+    ],
+    "new_private_scan_and_bounded_sextet_remain_in_whole_U_body_proof_scope": true,
+    "identity_basis": "Main's exact delivered descriptors plus source and retained-JSON correspondence reads. No fresh reviewer filesystem snapshot/hash/stat or gate execution is represented as observed."
+  },
+  "observer_and_additional_correspondence": "Read current observer bindingaaa144927df6cbfab54061360abbddd6bda696ff4e9e2fe0dc43e7636dc3dd92 and additive enrollmente3e35b88b9d08e2107570d4788e21189728ac03bd75cfaafd9eee2aab157c0d7. The F66 root, exact Producer body and unchanged Cost2 body are current; inherited F65 descriptors remain history of byte-identical observer/additive material, not permission to select F65 execution. Actual current inventory corroborates unchanged observer1ad71468, runner487a14a5, controlsaf30ea67 and original fixture21067fd8. Both current command cwd/PYTHONPATH/future library locators name F66, preserving original checked assertions and requiring actual matching-source readback in a separately qualified frame. Native-call46/execution100/freshness65 mappings and trace cap1024 remain; markers prove no cause, speedup or successful cleanup.",
+  "unchanged_execution_obligations": {
+    "full_strict_argv": [
+      "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "-P",
+      "core/worldline_core_sources.gpr",
+      "-U",
+      "--mode=all",
+      "--level=3",
+      "--report=all",
+      "--checks-as-errors=on",
+      "--proof-warnings=on",
+      "-j2"
+    ],
+    "required_policy_limits": {
+      "child_compile_or_proof_seconds": 600,
+      "scope_seconds": 840,
+      "Main_outer_seconds": 1000,
+      "memory_max": "8G",
+      "memory_swap_max": "0",
+      "core_soft_hard": [
+        0,
+        0
+      ],
+      "minimum_MemAvailable_kB": 16777217
+    },
+    "policy_constants_are_validated_deadline_enforcement": false,
+    "all_116_original_ordered_runtime_actions_required": true,
+    "whole_original_runtime_seconds": 180,
+    "all_32_smokes_and_47_original_native_controls_required": true,
+    "whole_original_native_suite_seconds": 180,
+    "additional_argv": [
+      [
+        "/usr/bin/python3",
+        "-B",
+        "tests/run_freshness_json_order_controls.py"
+      ],
+      [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/original-identity-caller-v60-donor-v2/boundary-controls/run_execution_evidence_boundary_controls.py"
+      ]
+    ],
+    "each_additional_whole_timeout_seconds": 180,
+    "unwaived": "All original domains, cases, assertions, controls, fixtures, rosters, floor, private/public/helper bodies, callers, refinements, termination, imported/Off-body alias/lifetime/ownership and finite-cost obligations. No focused proof, suppressed check/warning, assumption, narrowed discovery or per-case deadline reset. PYTHONOPTIMIZE unset, -O/-OO forbidden, actual matching source/runtime/tests/library/private readback required.",
+    "complete_PhaseOne": "All original seven areas on one final source require actual successful full-strict proof and complete matching ordered runtime plus additions, real compatible ownership/lifetime implementation, authentic original Luna-high actor/fixture evidence, independent final acceptance and authorized publication. Python orchestrates; SPARK remains consequential authority. Source opinions, prepared controls and harmless stand-ins are not completion."
+  },
+  "retained_failure_and_scope_boundaries": {
+    "C22": "Actual Main wait124, observed all three GNATprove phases and20 unproved Producer_Bytes checks remain retained under custody companion1f91e8b8e7263be8fe21a5e6c1f5004abc5adf3c733590d8b9c653ee5a7b9c89. Prover/scope/handshake waits remain UNKNOWN and are not reconstructed. The new donor targets those diagnostics at source level; their passing-after closure remains UNOBSERVED, not awarded by this opinion.",
+    "deadline_withdrawal": "Genuine correction8735b5e73be637e76ddd8e11433d27640db7dbd07f491c6521370852441fa274 withdrew executable-enforcement implications for the old bare waits48/302/221/85 and uncapped scope. No such implication is carried forward.",
+    "C23": "Main's actual nine harmless control smokes e79dcb8b095ff5f1a33cbcc2b8756671d76c4a70efc3148806d86bd7a1d24dd4 concern separate control source715fc183. They are not an original proof run, fresh F66 frame/admission or this worker's deadline/custody acceptance.",
+    "N64": "Actual build0 and32 smokes passed; only22 of47 controls completed before the whole180 timeout and subsequent unreturned setup/Decide boundary. Main1/733.34s and the20.830275651s accepted-archive interval are not a successful suite or internal-cause attribution. F65/F66 runtime return, cost benefit and stall cure remain unobserved.",
+    "historical_ownership_fixture_publication": "Frozen F60/C18, C17 separate outer UNKNOWN and all failed C19/C21/N59/N61/M4 evidence remain preserved. Literal Old stays selected; M4 is not a compatible production solution or impossibility proof. Authentic fixture locator328dc9f1 and original Luna/high actor remain pending with no permission or selection inferred. Human's unfinished F60 archive commit8f416084630b9094d0820c53319e1244f048cdda is unchanged and not republished or treated as acceptance."
+  },
+  "false_credit_fields": {
+    "compiler_acceptance": false,
+    "Global_or_flow_acceptance": false,
+    "build_acceptance": false,
+    "proof_acceptance": false,
+    "strict_proof": false,
+    "runtime_acceptance": false,
+    "native_cause_stall_cure_or_performance_acceptance": false,
+    "private_input_acceptance": false,
+    "emitted_frame_acceptance": false,
+    "deadline_enforcement_or_terminal_custody_acceptance": false,
+    "execution_admission": false,
+    "owned_window_grant": false,
+    "imported_Off_alias_lifetime_ownership_closure": false,
+    "authentic_fixture_or_actor_acceptance": false,
+    "phase_acceptance": false,
+    "publication_authorization": false,
+    "target_execution": false
+  },
+  "reviewer_actions": {
+    "affected_source_metadata_and_actual_own_session_reads": true,
+    "pure_retained_JSON_correspondence_comparisons": true,
+    "this_record_authorship": true,
+    "commands_hash_stat_helpers_imports": false,
+    "source_shared_metadata_or_destination_edits": false,
+    "build_proof_tests_lint_formatters_gates_normalizer_enrollment": false,
+    "captures_binders_materializers_private_inputs_targets_windows_clocks_services_vault_MCP_permissions": false,
+    "Main_owned_process_or_scope_actions": false,
+    "staging_publication": false,
+    "another_worker_acceptance_or_foreign_opinion_recast": false
+  },
+  "original_receiver_contract": "Genuine DISTINCT original full-strict SOURCE schema/disposition and actual model STRING; source/integration author distinct from actual record author/reviewer; blockers[]; all five exact current artifact objects; top-level target_execution:false/strict_proof:false/phase_acceptance:false; both normative current auxiliary/model fields equal the same actual new F66 four-field pair. No receiver or gate was modified or weakened. Separate ordinary-source/frame/private/admission and final acceptance remain outside this record."
+}

@@ -1,0 +1,105 @@
+{
+  "child_wait": {
+    "actual_wait_observed": true,
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "-c",
+      "print('harmless prover stand-in; no GNAT')"
+    ],
+    "child_signal": null,
+    "kill_seconds": 1,
+    "launch_observed": true,
+    "owned_process_group": {
+      "pgid": 2762686,
+      "pid": 2762686,
+      "starttime": "27791686"
+    },
+    "owned_scope_signals": [],
+    "owner_signal": null,
+    "ownership_collection_required": false,
+    "phase_acceptance": false,
+    "pid": 2762686,
+    "raw_files": [
+      {
+        "bytes": 34,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/normal-four-level-zero/child.stdout",
+        "sha256": "e480ccec4a5a7d58edc06cd3d85445e3972f86022032339daeffbdae86d460c2"
+      },
+      {
+        "bytes": 0,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/normal-four-level-zero/child.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "retention_errors": [],
+    "retention_success": true,
+    "returncode": 0,
+    "stop_reason": null,
+    "term_seconds": 1,
+    "timeout": false,
+    "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+  },
+  "inputs_unchanged": true,
+  "scope_owner_control": {
+    "actual_wait_observed": true,
+    "argv": [
+      "/usr/bin/systemd-run",
+      "--user",
+      "--scope",
+      "--collect",
+      "--unit=codex-worldline-c24-collector-f9d21a73e31f47919e5f4642e9812424.scope",
+      "-p",
+      "MemoryMax=8G",
+      "-p",
+      "MemorySwapMax=0",
+      "-p",
+      "RuntimeMaxSec=4s",
+      "-p",
+      "TimeoutStopSec=1s",
+      "--",
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/run_smoke.py",
+      "--prover-owner",
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/normal-four-level-zero"
+    ],
+    "child_signal": null,
+    "kill_seconds": 1,
+    "launch_observed": true,
+    "owned_process_group": {
+      "pgid": 2762685,
+      "pid": 2762685,
+      "starttime": "27791682"
+    },
+    "owned_scope_signals": [],
+    "owner_signal": null,
+    "ownership_collection_required": false,
+    "phase_acceptance": false,
+    "pid": 2762685,
+    "raw_files": [
+      {
+        "bytes": 0,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/normal-four-level-zero/scope.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 135,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v24-preparation/review/Main-harmless-collector-refusal-after-v1/normal-four-level-zero/scope.stderr",
+        "sha256": "9af949a515cd6c39236e58a8d17ab02e72a52f0461e7c28880e95e44c24603ca"
+      }
+    ],
+    "retention_errors": [],
+    "retention_success": true,
+    "returncode": 0,
+    "stop_reason": null,
+    "term_seconds": 1,
+    "timeout": false,
+    "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+  },
+  "scope_wait": 0
+}

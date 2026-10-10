@@ -1,0 +1,43 @@
+{
+  "actual_wait_observed": true,
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "-c",
+    "print('harmless prover stand-in; not GNAT')"
+  ],
+  "child_signal": null,
+  "kill_seconds": 1,
+  "launch_observed": true,
+  "owned_process_group": {
+    "pgid": 2740961,
+    "pid": 2740961,
+    "starttime": "27743891"
+  },
+  "owned_scope_signals": [],
+  "owner_signal": null,
+  "ownership_collection_required": false,
+  "phase_acceptance": false,
+  "pid": 2740961,
+  "raw_files": [
+    {
+      "bytes": 35,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/child.stdout",
+      "sha256": "4157d4b056aa81efe24c5a47bb22e58941759f4a728c131c6578566b672aaaaf"
+    },
+    {
+      "bytes": 0,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/child.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "retention_errors": [],
+  "retention_success": true,
+  "returncode": 0,
+  "stop_reason": null,
+  "term_seconds": 1,
+  "timeout": false,
+  "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+}

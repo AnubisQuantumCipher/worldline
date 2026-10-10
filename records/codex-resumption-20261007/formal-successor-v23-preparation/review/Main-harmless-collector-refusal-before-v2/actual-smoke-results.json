@@ -1,0 +1,197 @@
+{
+  "actual_child_wait": {
+    "actual_wait_observed": true,
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "-c",
+      "print('harmless prover stand-in; not GNAT')"
+    ],
+    "child_signal": null,
+    "kill_seconds": 1,
+    "launch_observed": true,
+    "owned_process_group": {
+      "pgid": 2740961,
+      "pid": 2740961,
+      "starttime": "27743891"
+    },
+    "owned_scope_signals": [],
+    "owner_signal": null,
+    "ownership_collection_required": false,
+    "phase_acceptance": false,
+    "pid": 2740961,
+    "raw_files": [
+      {
+        "bytes": 35,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/child.stdout",
+        "sha256": "4157d4b056aa81efe24c5a47bb22e58941759f4a728c131c6578566b672aaaaf"
+      },
+      {
+        "bytes": 0,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/child.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "retention_errors": [],
+    "retention_success": true,
+    "returncode": 0,
+    "stop_reason": null,
+    "term_seconds": 1,
+    "timeout": false,
+    "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+  },
+  "actual_handshake_wait": {
+    "actual_wait_observed": true,
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "-c",
+      "import sys; sys.exit(int(sys.argv[1]))",
+      "1"
+    ],
+    "child_signal": null,
+    "kill_seconds": 1,
+    "launch_observed": true,
+    "owned_process_group": {
+      "pgid": 2740963,
+      "pid": 2740963,
+      "starttime": "27743894"
+    },
+    "owned_scope_signals": [],
+    "owner_signal": null,
+    "ownership_collection_required": false,
+    "phase_acceptance": false,
+    "pid": 2740963,
+    "raw_files": [
+      {
+        "bytes": 0,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/handshake.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 0,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/handshake.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "retention_errors": [],
+    "retention_success": true,
+    "returncode": 1,
+    "stop_reason": null,
+    "term_seconds": 1,
+    "timeout": false,
+    "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+  },
+  "actual_owner_exit_code": 1,
+  "actual_scope_owner_control": {
+    "actual_wait_observed": true,
+    "argv": [
+      "/usr/bin/systemd-run",
+      "--user",
+      "--scope",
+      "--collect",
+      "--unit=codex-worldline-c23-collector-zero-refusal-95b0cb265d2648ba8b105e0cea67b484.scope",
+      "-p",
+      "MemoryMax=8G",
+      "-p",
+      "MemorySwapMax=0",
+      "-p",
+      "RuntimeMaxSec=4s",
+      "-p",
+      "TimeoutStopSec=1s",
+      "--",
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/run_smoke.py",
+      "--inner",
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt"
+    ],
+    "child_signal": null,
+    "kill_seconds": 1,
+    "launch_observed": true,
+    "owned_process_group": {
+      "pgid": 2740959,
+      "pid": 2740959,
+      "starttime": "27743887"
+    },
+    "owned_scope_signals": [],
+    "owner_signal": null,
+    "ownership_collection_required": false,
+    "phase_acceptance": false,
+    "pid": 2740959,
+    "raw_files": [
+      {
+        "bytes": 0,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/scope.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 148,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/scope.stderr",
+        "sha256": "a6a0fd10a75746d560c935fc4c7ad1e9560e0afc9d64101af64afa3f1c0f5c65"
+      }
+    ],
+    "retention_errors": [
+      {
+        "message": "[Errno 17] File exists: '/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/review/Main-harmless-collector-refusal-before-v2/actual-zero-scope-with-refused-wait-receipt/scope-wait.json'",
+        "stage": "wait_receipt_retention",
+        "type": "FileExistsError"
+      }
+    ],
+    "retention_success": false,
+    "returncode": 0,
+    "stop_reason": null,
+    "term_seconds": 1,
+    "timeout": false,
+    "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+  },
+  "actual_scope_terminal_observation": {
+    "argv": [
+      "/usr/bin/systemctl",
+      "--user",
+      "show",
+      "codex-worldline-c23-collector-zero-refusal-95b0cb265d2648ba8b105e0cea67b484.scope",
+      "-p",
+      "LoadState",
+      "-p",
+      "ActiveState",
+      "-p",
+      "SubState",
+      "-p",
+      "ControlGroup",
+      "-p",
+      "Result"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n"
+  },
+  "all_required_actual_pass": true,
+  "collector": {
+    "bytes": 11025,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/deadline-machinery-templates/review/root-terminal-v1/collect_terminal.py",
+    "sha256": "cec316b013bb1ba3c51418f170056bfe24f1fb6c9ed319fdc66266589172b040"
+  },
+  "consumer_boundary": "Only the pure original pass expression; source_match means unchanged stand-in source, not Phase One source admission.",
+  "consumer_expression_line": 111,
+  "counterexample_inputs": "Actual harmless nested systemd scope/prover waits and actual failed primary wait-receipt write; no fabricated return code.",
+  "phase_acceptance": false,
+  "required_expected_pass": false,
+  "schema": "Main-real-zero-waits-failed-custody-consumer-counterexample-v1",
+  "status": "FAIL_REPRODUCED_REAL_ZERO_WAITS_RETENTION_REFUSAL",
+  "support": {
+    "bytes": 52852,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v23-preparation/successor_support.py",
+    "sha256": "715fc183339b704ffeeb9a4d2b436d83d50f2698bbe09a54305f5c6c3666d825"
+  },
+  "target_execution": "HARMLESS_STAND_INS_ONLY_NO_GNAT_OR_ACCEPTANCE_TARGET",
+  "window_or_adoption_mutation": false
+}
