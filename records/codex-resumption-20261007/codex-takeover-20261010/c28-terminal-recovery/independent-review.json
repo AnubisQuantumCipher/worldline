@@ -1,0 +1,21 @@
+{
+  "author": "codex-root-01a12665",
+  "reviewer": "/root/recovery_review",
+  "actual_model": "gpt-6.1-sol",
+  "reasoning_effort": "max",
+  "scope": "TERMINAL_CUSTODY_ONLY",
+  "verdict": "QUALIFIED",
+  "blocking_findings": [],
+  "source_pins": {
+    "takeover_authorization.py": "b0d85886235590921fe991bb5e31da7c2356a64cbd562233cc046a1914ce76bf",
+    "collect_terminal.py": "c9aa18ed84a6901e5300b4903cd90acac61a51c702e43ebdbb74e73854c41afd"
+  },
+  "classification": {
+    "state": "FAILED_TERMINAL",
+    "all_required_actual_pass": false,
+    "actual_waits_rewritten": false,
+    "proof_acceptance": false,
+    "phase_acceptance": false
+  },
+  "qualification_boundary": "Independent source review and bounded negative guard fixtures. Real custody inputs and collector execution not performed by reviewer; target execution not authorized."
+}

@@ -1,0 +1,165 @@
+"""Root data-only terminal observation and reserved-window release; no target launch."""
+from pathlib import Path
+import datetime, fcntl, hashlib, json, os, stat, subprocess, tempfile, sys
+
+D = Path('/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation')
+R = Path(__file__).resolve().parent / 'evidence'
+WINDOW = Path('/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json')
+GOAL = '01a1149d-db62-74b0-a5f7-b0239f285c44'
+sys.dont_write_bytecode=True
+sys.path.insert(0,str(D))
+import authorization
+import successor_support
+import takeover_authorization
+adoption=takeover_authorization.check()
+R.mkdir(exist_ok=False)
+independent_review=json.loads(authorization.matched(adoption['independent_review']).read_text())
+env = dict(os.environ, XDG_RUNTIME_DIR='/run/user/1000', DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/1000/bus')
+
+def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sha(p):
+    p = Path(p); before = p.stat()
+    with p.open('rb') as f: value = hashlib.file_digest(f, 'sha256').hexdigest()
+    after = p.stat()
+    assert (before.st_ino,before.st_size,before.st_mtime_ns,before.st_mode)==(after.st_ino,after.st_size,after.st_mtime_ns,after.st_mode), str(p)
+    return value
+def pin(p):
+    p=Path(p)
+    return {'path':str(p),'sha256':sha(p),'bytes':p.stat().st_size,'mode':stat.S_IMODE(p.stat().st_mode)}
+def save(name, value):
+    p=R/name
+    with p.open('x') as f: json.dump(value,f,indent=2,sort_keys=True);f.write('\n');f.flush();os.fsync(f.fileno())
+    return pin(p)
+def invoke(argv):
+    r=subprocess.run(argv,env=env,capture_output=True,text=True,timeout=30)
+    return {'command':argv,'returncode':r.returncode,'stdout':r.stdout,'stderr':r.stderr}
+
+def retained(path):
+    observation = successor_support.retained_receipt_observation(path)
+    receipt_observations.append(observation)
+    return observation['record']
+
+assert not (R/'actual-results-and-window-release.json').exists(), 'terminal observation already retained'
+assert sha(D/'inputs.json')==independent_review['inputs_sha256']
+assert sha(D/'reviewed-launch-proposal.json')==independent_review['proposal_sha256']
+proposal=json.loads((D/'reviewed-launch-proposal.json').read_text())
+records=[];unrun=[];unknown=[];children=[];scopes=[];execution_observations=[];action_results=[];receipt_observations=[]
+for action in proposal['launches']:
+    p=Path(action['receipt'])/'result.json'
+    result=retained(p);execution=None
+    if result is not None:
+        records.append({'mode':action['mode'],'path':str(p),'sha256':sha(p),'actual_result':result})
+        wait=result.get('child_wait')
+        if wait:
+            cp=Path('/proc')/str(wait['pid'])
+            children.append({'pid':wait['pid'],'original_exit_evidence':wait,'proc_currently_exists':cp.exists()})
+    else:
+        execution = successor_support.action_execution_observation(action)
+        execution_observations.append({'mode': action['mode'], **execution})
+        wait = execution['actual_child_wait']
+        if wait and wait.get('pid') is not None:
+            cp = Path('/proc') / str(wait['pid'])
+            children.append({'pid': wait['pid'], 'original_exit_evidence': wait,
+                             'proc_currently_exists': cp.exists()})
+    action_results.append((action,result,execution))
+    row=invoke(['/usr/bin/systemctl','--user','show',action['scope_unit']]+[v for key in ('LoadState','ActiveState','SubState','MainPID','ControlPID','ControlGroup','Result') for v in ('-p',key)])
+    row['unit']=action['scope_unit'];props=dict(line.split('=',1) for line in row['stdout'].splitlines() if '=' in line);row['properties']=props
+    group=props.get('ControlGroup','')
+    cg=Path('/sys/fs/cgroup')/group.lstrip('/') if group else None
+    row['cgroup']={'path':str(cg) if cg else None,'exists':cg.exists() if cg else False,'processes':(cg/'cgroup.procs').read_text().split() if cg and (cg/'cgroup.procs').is_file() else None}
+    scopes.append(row)
+outer_observations=[]
+for folder in sorted((D/'review/root-outer-capture-v1').glob('*')):
+    if not folder.is_dir(): continue
+    started=folder/'outer-child-start.json';ended=folder/'outer-child-wait.json'
+    row={'path':str(folder),'start':retained(started),'wait':retained(ended),'refusal':pin(folder/'outer-retention-refusal.json') if (folder/'outer-retention-refusal.json').is_file() else None}
+    pid=(row['wait'] or row['start'] or {}).get('pid')
+    row['pid_observed_nonlive']=pid is not None and not (Path('/proc')/str(pid)).exists()
+    wrapper_pid=(row['wait'] or row['start'] or {}).get('wrapper_pid')
+    row['wrapper_pid_observed_nonlive']=wrapper_pid is not None and not (Path('/proc')/str(wrapper_pid)).exists()
+    outer_observations.append(row)
+    if pid is None or not row['pid_observed_nonlive'] or not row['wrapper_pid_observed_nonlive']:
+        save('outer-ownership-unresolved.json',{'outer_observations':outer_observations,'receipt_observations':receipt_observations,'execution_observations':execution_observations,'release':False})
+        raise RuntimeError('outer child ownership unresolved; no release')
+save('outer-terminal-observations.json',outer_observations)
+save('owned-terminal-observations.json',{'at':now(),'scopes':scopes,'known_children':children})
+assert all(x['returncode']==0 and x['properties'].get('ActiveState') in ('inactive','failed') and not x['cgroup']['processes'] for x in scopes), 'an owned scope is nonterminal or observation failed; no release inferred'
+assert all(not x['proc_currently_exists'] for x in children), 'known child PID exists; actual identity must be resolved before release'
+
+composition=json.loads((D/'source-composition.json').read_text())
+allowed=('obj/','lib/','resource-tests/obj/','resource-tests/bin/')
+actual={str(p.relative_to(D/'source')):sha(p) for p in sorted((D/'source').rglob('*')) if p.is_file() and not str(p.relative_to(D/'source')).startswith(allowed)}
+source_match=actual==composition['source_files'] and all(oct(stat.S_IMODE((D/'source'/rel).stat().st_mode))==mode for rel,mode in composition['source_modes'].items())
+private_readback = successor_support.retained_readback(D)
+source_match = source_match and private_readback['matches']
+save('private-source-dependency-readback.json', private_readback)
+save('owned-generated-output-inventory.json', successor_support.generated_outputs(D))
+save('complete-source-readback.json',{'actual_files':actual,'declared_source_sha256':sha(D/'source-composition.json'),'exact_keyset_bytes_modes_match':source_match})
+live={name:invoke(argv) for name,argv in {
+    'proof_lanes':['/usr/bin/systemctl','--user','list-units','--all','--state=active,activating,deactivating','--no-legend','--plain','codex-*proof*'],
+    'codex_scopes':['/usr/bin/systemctl','--user','list-units','--all','--state=active,activating,deactivating','--no-legend','--plain','codex-*.scope'],
+    'process_sample':['/usr/bin/ps','-eo','pid,comm'],
+}.items()}
+live['at']=now();live['boundary']='Current observations only; unrelated activity does not prevent giving back an ended owned window and is never stopped.'
+save('fresh-terminal-live-sample.json',live)
+inventory={}
+for base in (D/'source',D/'private-sparklib',D/'evidence',D/'native-artifacts',D/'review/root-live-lane-v1/attempts',D/'review/root-outer-capture-v1'):
+    for p in sorted(base.rglob('*')):
+        if p.is_file(): inventory[str(p.relative_to(D))]=pin(p)
+artifacts=save('retained-artifacts.json',inventory)
+terminal_classifications=[];all_launcher_observations=[]
+for action,result,execution in action_results:
+    receipt=Path(action['receipt'])
+    child_wait=retained(receipt/'child-wait.json')
+    scope_wait=retained(receipt/'scope-wait.json')
+    refusals=[pin(path) for name in ('child-retention-refusal.json','scope-retention-refusal.json','scope-return-child-wait.json.retention-refusal.json','result.json.retention-refusal.json') if (path:=receipt/name).is_file()]
+    launcher_rows=successor_support.launcher_receipt_observations(action)
+    all_launcher_observations.extend(launcher_rows)
+    for row in launcher_rows:
+        refusals.extend(row['retained_refusals'])
+        refusals.extend(row['receipt_failures'])
+    outer_rows=[row for row in outer_observations if (row['wait'] or row['start'] or {}).get('argv',[])[:4]==['/usr/bin/python3','-B',str(D/'review/root-live-lane-v1/handshake.py'),action['mode']]]
+    refusals.extend(row['refusal'] for row in outer_rows if row['refusal'])
+    refusals.extend(row for row in receipt_observations if row['error'] is not None)
+    classification=successor_support.strict_terminal_classification(
+        result,child_wait=child_wait,scope_wait=scope_wait,
+        launcher_wait=launcher_rows[0]['wait'] if len(launcher_rows)==1 else None,
+        outer_wait=outer_rows[0]['wait'] if len(outer_rows)==1 else None,
+        refusals=refusals,execution_observed=result is not None or bool(launcher_rows) or bool(outer_rows) or (execution is not None and execution['state']!='NEVER_LAUNCHED'))
+    terminal_classifications.append({'mode':action['mode'],'classification':classification,
+                                    'launcher_observations':launcher_rows,'outer_observation_paths':[row['path'] for row in outer_rows],'retained_refusals':refusals})
+    if classification['state']=='NEVER_LAUNCHED': unrun.append(action['mode'])
+    elif classification['state']=='EXECUTED_WITH_UNKNOWN_RESULT': unknown.append(action['mode'])
+failed=[row['mode'] for row in terminal_classifications if row['classification']['state']=='FAILED_TERMINAL']
+save('retained-receipt-observations.json',receipt_observations)
+launcher_ownership=successor_support.observed_launcher_ownership(all_launcher_observations)
+save('launcher-terminal-ownership-observations.json',launcher_ownership)
+if not launcher_ownership['all_observed_launchers_nonlive']:
+    save('launcher-ownership-unresolved.json',{'launcher_observations':all_launcher_observations,'launcher_ownership':launcher_ownership,'terminal_classifications':terminal_classifications,'release':False})
+    raise RuntimeError('observed launcher ownership live or unresolved; no release')
+passed=source_match and len(records)==len(proposal['launches']) and bool(terminal_classifications) and all(row['classification']['all_required_actual_pass'] for row in terminal_classifications)
+reason=('Standalone full strict formal diagnostic command has actual successful child/scope waits and unchanged inputs. All observed owned scopes/children ended. Window released; complete diagnostic output still requires full original body/caller/native-cost/floor review. No ordinary, architecture or phase acceptance.' if passed else 'Standalone full strict formal diagnostic ended with retained failures/unknowns/unrun. All observed owned scopes/children ended. Window released for source engineering without ordinary/proof/phase acceptance or weakening.')
+summary={'schema':'worldline-root-full-strict-formal-diagnostic-terminal-v1','at':now(),'status':'STRICT_DIAGNOSTIC_COMMAND_ACTUAL_WAIT_ZERO_NO_PROOF_ACCEPTANCE' if passed else 'BATCH_TERMINAL_WITH_RETAINED_GAPS_NO_ACCEPTANCE','required_actions':len(proposal['launches']),'all_required_actual_pass':passed,'records':records,'unrun':unrun,'unknown':unknown,'execution_observations':execution_observations,'source_manifest':pin(D/'inputs.json'),'source_exact_keyset_bytes_modes_match':source_match,'owned_scope_terminal_observations':scopes,'known_child_exit_evidence_and_current_pid_absence':children,'fresh_terminal_live_sample':live,'retained_complete_artifacts':artifacts,'all_original_guarantees':'OPEN_UNCHANGED','next_action':('Different-author full actual diagnostic and source/body/reference/caller/native-cost assessment; original floor and sole boundary unchanged. All ordinary and COSMO obligations remain required separately.' if passed else 'Retain every diagnostic failure/unknown and engineer against fixed original scope. This standalone diagnostic authorizes no dependent action or ordinary restart.')}
+summary['takeover_custody'] = adoption['_takeover_custody']
+summary.update(failed=failed,terminal_classifications=terminal_classifications,
+               retained_receipt_observations=receipt_observations,
+               observed_launcher_ownership=launcher_ownership,
+               normal_known_owner_controls_and_receipts_required=True,actual_waits_rewritten=False)
+terminal=save('actual-results-and-window-release.json',summary)
+with Path(str(WINDOW)+'.lock').open('a') as lock:
+    fcntl.flock(lock,fcntl.LOCK_EX)
+    fresh_launcher_ownership=successor_support.observed_launcher_ownership(all_launcher_observations)
+    if not fresh_launcher_ownership['all_observed_launchers_nonlive']:
+        save('launcher-release-ownership-unresolved.json',{'launcher_observations':all_launcher_observations,'launcher_ownership':fresh_launcher_ownership,'release':False})
+        raise RuntimeError('launcher ownership changed or unresolved; no release')
+    prior=pin(WINDOW);coord=json.loads(WINDOW.read_text())
+    assert prior['sha256']=='54f164db0f7996533fcf69339332a9cbfb9143bf44f1319dae4da0a6f37dc4cb', 'Reserved preimage changed; refuse release'
+    assert coord['status']=='reserved' and coord['holder_task']==GOAL and coord['candidate']==str(D),'coordination ownership changed; do not overwrite'
+    at=now();coord.setdefault('release_history',[]).append({'at':at,'reason':reason,'evidence':terminal})
+    coord.update(status='released',released_at=at,updated_at=at,reason=reason,pending_request={'state':'WORLDLINE_FULL_STRICT_FORMAL_DIAGNOSTIC_ENDED_WINDOW_RELEASED'})
+    with tempfile.NamedTemporaryFile('w',dir=WINDOW.parent,prefix=WINDOW.name+'.',delete=False) as f:
+        json.dump(coord,f,indent=2,sort_keys=True);f.write('\n');f.flush();os.fsync(f.fileno());tmp=Path(f.name)
+    os.chmod(tmp,stat.S_IMODE(WINDOW.stat().st_mode));os.replace(tmp,WINDOW)
+    fd=os.open(WINDOW.parent,os.O_DIRECTORY);os.fsync(fd);os.close(fd)
+    release=save('coordination-release.json',{'at':at,'status':'released','prior':prior,'current':pin(WINDOW),'terminal':terminal,'reason':reason,'observed_launcher_ownership':fresh_launcher_ownership,'notification':'Task-message tool unavailable; watched coordination record updated. No unrelated job stopped.'})
+print(json.dumps({'terminal':terminal,'release':release,'actual_all_required_pass':passed,'required_actions':len(proposal['launches']),'failed':failed,'unrun':unrun,'unknown':unknown,'formal_or_phase_acceptance':False}))

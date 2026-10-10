@@ -1,0 +1,300 @@
+{
+  "actual_waits_rewritten": false,
+  "all_original_guarantees": "OPEN_UNCHANGED",
+  "all_required_actual_pass": false,
+  "at": "2026-10-10T15:35:24.476712+00:00",
+  "failed": [
+    "full-strict-formal-diagnostic"
+  ],
+  "normal_known_owner_controls_and_receipts_required": true,
+  "observed_launcher_ownership": {
+    "all_observed_launchers_nonlive": true,
+    "observed_launchers": [
+      {
+        "current_starttime": null,
+        "observation_error": null,
+        "pid": 1318210,
+        "proc_currently_exists": false,
+        "receipt": {
+          "bytes": 1312,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-start.json",
+          "sha256": "1d120472265703bf5727d8218b753133b784197f36be879bb5aeb877cb21bfb5"
+        },
+        "recorded_identity_matches": null,
+        "recorded_owned_process_group": null
+      },
+      {
+        "current_starttime": null,
+        "observation_error": null,
+        "pid": 1318210,
+        "proc_currently_exists": false,
+        "receipt": {
+          "bytes": 2772,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-wait.json",
+          "sha256": "0bdb947c93697a512437071f9232931147e6bf6c793ce9eb7f7cd22d909aef8a"
+        },
+        "recorded_identity_matches": null,
+        "recorded_owned_process_group": {
+          "pgid": 1318210,
+          "pid": 1318210,
+          "starttime": "33393908"
+        }
+      }
+    ],
+    "pid_number_grants_authority": false,
+    "signals_sent": [],
+    "unresolved_launcher_receipts": []
+  },
+  "original_terminal_pin": {
+    "bytes": 732083,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/c28-terminal-recovery/evidence/actual-results-and-window-release.json",
+    "sha256": "fab7bfbc520f9570d2e1403058e0e9b6c2d2ab44bf2144a853d0da98ca35e87b"
+  },
+  "publication_is_execution_frame": false,
+  "required_actions": 1,
+  "schema": "worldline-root-full-strict-formal-diagnostic-terminal-v1",
+  "scope": "Selected exact terminal fields; full local process and inventory observations are retained locally.",
+  "source_exact_keyset_bytes_modes_match": true,
+  "status": "BATCH_TERMINAL_WITH_RETAINED_GAPS_NO_ACCEPTANCE",
+  "terminal_classifications": [
+    {
+      "classification": {
+        "actual_waits_rewritten": false,
+        "all_required_actual_pass": false,
+        "failures": [
+          "result.scope_wait",
+          "result.child_wait.returncode",
+          "result.child_wait.timeout",
+          "result.child_wait.child_signal",
+          "result.child_wait.stop_reason",
+          "result.scope_owner_control.returncode",
+          "child_wait_receipt.returncode",
+          "child_wait_receipt.timeout",
+          "child_wait_receipt.child_signal",
+          "child_wait_receipt.stop_reason",
+          "scope_wait_receipt.returncode",
+          "launcher_wait_receipt.returncode",
+          "outer_wait.actual_handshake_Popen_wait_returncode",
+          "outer_wait.owner_control.returncode"
+        ],
+        "phase_acceptance": false,
+        "proof_acceptance": false,
+        "state": "FAILED_TERMINAL",
+        "unknown": []
+      },
+      "launcher_observations": [
+        {
+          "matches_action": true,
+          "observed_pids": [
+            {
+              "pid": 1318210,
+              "receipt": {
+                "bytes": 1312,
+                "mode": 384,
+                "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-start.json",
+                "sha256": "1d120472265703bf5727d8218b753133b784197f36be879bb5aeb877cb21bfb5"
+              },
+              "recorded_owned_process_group": null
+            },
+            {
+              "pid": 1318210,
+              "receipt": {
+                "bytes": 2772,
+                "mode": 384,
+                "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-wait.json",
+                "sha256": "0bdb947c93697a512437071f9232931147e6bf6c793ce9eb7f7cd22d909aef8a"
+              },
+              "recorded_owned_process_group": {
+                "pgid": 1318210,
+                "pid": 1318210,
+                "starttime": "33393908"
+              }
+            }
+          ],
+          "ownership_unresolved": false,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050",
+          "receipt_failures": [],
+          "receipt_observations": {
+            "launcher-display-refusal.json": {
+              "error": null,
+              "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-display-refusal.json",
+              "present": false,
+              "raw_pin": null,
+              "record": null
+            },
+            "launcher-display-refusal.json.retention-refusal.json": {
+              "error": null,
+              "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-display-refusal.json.retention-refusal.json",
+              "present": false,
+              "raw_pin": null,
+              "record": null
+            },
+            "launcher-retention-refusal.json": {
+              "error": null,
+              "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-retention-refusal.json",
+              "present": false,
+              "raw_pin": null,
+              "record": null
+            },
+            "launcher-start.json": {
+              "error": null,
+              "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-start.json",
+              "present": true,
+              "raw_pin": {
+                "bytes": 1312,
+                "mode": 384,
+                "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-start.json",
+                "sha256": "1d120472265703bf5727d8218b753133b784197f36be879bb5aeb877cb21bfb5"
+              },
+              "record": {
+                "actual_launcher_start_observed": true,
+                "argv": [
+                  "/usr/bin/env",
+                  "PATH=/home/sicarii/.grok/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+                  "/usr/bin/python3",
+                  "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/run_checks.py",
+                  "full-strict-formal-diagnostic",
+                  "v1"
+                ],
+                "at": "2026-10-10T15:05:08.359850+00:00",
+                "pid": 1318210
+              }
+            },
+            "launcher-wait.json": {
+              "error": null,
+              "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-wait.json",
+              "present": true,
+              "raw_pin": {
+                "bytes": 2772,
+                "mode": 384,
+                "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher-wait.json",
+                "sha256": "0bdb947c93697a512437071f9232931147e6bf6c793ce9eb7f7cd22d909aef8a"
+              },
+              "record": {
+                "actual_wait_observed": true,
+                "argv": [
+                  "/usr/bin/env",
+                  "PATH=/home/sicarii/.grok/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+                  "/usr/bin/python3",
+                  "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/run_checks.py",
+                  "full-strict-formal-diagnostic",
+                  "v1"
+                ],
+                "child_signal": null,
+                "kill_seconds": 5,
+                "launch_observed": true,
+                "owned_process_group": {
+                  "pgid": 1318210,
+                  "pid": 1318210,
+                  "starttime": "33393908"
+                },
+                "owned_scope_signals": [],
+                "owner_signal": null,
+                "ownership_collection_required": false,
+                "phase_acceptance": false,
+                "pid": 1318210,
+                "raw_files": [
+                  {
+                    "bytes": 395078,
+                    "mode": 384,
+                    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher.stdout",
+                    "sha256": "fa40582d88e9a007d7ce2d8b10b57b37d46c50a46b2b3ae6654c8d5700230248"
+                  },
+                  {
+                    "bytes": 0,
+                    "mode": 384,
+                    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher.stderr",
+                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  }
+                ],
+                "retention_errors": [],
+                "retention_success": true,
+                "returncode": 1,
+                "stop_reason": null,
+                "term_seconds": 25,
+                "timeout": false,
+                "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+              }
+            },
+            "refusal.json": {
+              "error": null,
+              "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/refusal.json",
+              "present": false,
+              "raw_pin": null,
+              "record": null
+            }
+          },
+          "retained_refusals": [],
+          "start": {
+            "actual_launcher_start_observed": true,
+            "argv": [
+              "/usr/bin/env",
+              "PATH=/home/sicarii/.grok/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+              "/usr/bin/python3",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/run_checks.py",
+              "full-strict-formal-diagnostic",
+              "v1"
+            ],
+            "at": "2026-10-10T15:05:08.359850+00:00",
+            "pid": 1318210
+          },
+          "wait": {
+            "actual_wait_observed": true,
+            "argv": [
+              "/usr/bin/env",
+              "PATH=/home/sicarii/.grok/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+              "/usr/bin/python3",
+              "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/run_checks.py",
+              "full-strict-formal-diagnostic",
+              "v1"
+            ],
+            "child_signal": null,
+            "kill_seconds": 5,
+            "launch_observed": true,
+            "owned_process_group": {
+              "pgid": 1318210,
+              "pid": 1318210,
+              "starttime": "33393908"
+            },
+            "owned_scope_signals": [],
+            "owner_signal": null,
+            "ownership_collection_required": false,
+            "phase_acceptance": false,
+            "pid": 1318210,
+            "raw_files": [
+              {
+                "bytes": 395078,
+                "mode": 384,
+                "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher.stdout",
+                "sha256": "fa40582d88e9a007d7ce2d8b10b57b37d46c50a46b2b3ae6654c8d5700230248"
+              },
+              {
+                "bytes": 0,
+                "mode": 384,
+                "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/2d617b842a724f2b89334a0c15404050/launcher.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            ],
+            "retention_errors": [],
+            "retention_success": true,
+            "returncode": 1,
+            "stop_reason": null,
+            "term_seconds": 25,
+            "timeout": false,
+            "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+          }
+        }
+      ],
+      "mode": "full-strict-formal-diagnostic",
+      "outer_observation_paths": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/formal-successor-v28-preparation/review/root-outer-capture-v1/c03cd7f2e26746e2b5a39ffec872fb1a"
+      ],
+      "retained_refusals": []
+    }
+  ],
+  "unknown": [],
+  "unrun": []
+}
