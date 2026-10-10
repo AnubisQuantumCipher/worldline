@@ -1,0 +1,236 @@
+{
+  "actual_outcomes": {
+    "build": {
+      "child_wait": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "-p",
+          "-j2",
+          "-P",
+          "core/worldline_core.gpr"
+        ],
+        "at": "2026-10-10T16:17:15.506231+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1555309,
+        "returncode": 4
+      },
+      "inputs_unchanged": true,
+      "scope_wait": 4
+    },
+    "native-build": {
+      "child_wait": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/native/build_guard.py",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/native-artifacts"
+        ],
+        "at": "2026-10-10T16:07:17.131020+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1536400,
+        "returncode": 0
+      },
+      "inputs_unchanged": true,
+      "scope_wait": 0
+    },
+    "native-component-tests": {
+      "child_wait": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v",
+          "test_examiner_native_guard",
+          "test_examiner_native_generators"
+        ],
+        "at": "2026-10-10T16:09:20.639389+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1542458,
+        "returncode": 0
+      },
+      "inputs_unchanged": true,
+      "scope_wait": 0
+    },
+    "pending-build": {
+      "child_wait": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "-p",
+          "-j2",
+          "-P",
+          "pending-component/pending.gpr"
+        ],
+        "at": "2026-10-10T16:11:05.303164+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1549066,
+        "returncode": 0
+      },
+      "inputs_unchanged": true,
+      "scope_wait": 0
+    }
+  },
+  "complete_original_runtime_acceptance": false,
+  "copied_files": [
+    {
+      "bytes": 1487,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/native-prefix-root-terminal-observations.json",
+      "sha256": "a6304a53642ad209293e29417d519a71ee2815a1068a43448cd0d47cd1012c77"
+    },
+    {
+      "bytes": 683,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/native-core-build-passive-observation.json",
+      "sha256": "9722ac7b9919ce1bd69c8f831b85cd486be0d7f4b7f3eb090ca5a88d8af190ae"
+    },
+    {
+      "bytes": 11527,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/frame-review-draft/native-runtime-controller-independent-review.json",
+      "sha256": "04eb23e35e3caab28e6b710749ae7c62730204adb85403d5abc34ff7790b38b9"
+    },
+    {
+      "bytes": 67513,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/frame-review-draft/native-runtime-frame-independent-review.json",
+      "sha256": "0120709fe49e489ea72b82fb78525124ab95bfcdc424d695ece381a8b6421426"
+    },
+    {
+      "bytes": 11273,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/Main-original-native-prefix-owned-execution.py",
+      "sha256": "d0aadbbe5601a8037bbe191036ae30cef2a69fb7b1ee5340ae1dbcc3c8ec2263"
+    },
+    {
+      "bytes": 5620,
+      "mode": 384,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/Main-original-qualified-prefix-execution-v1/Main-complete-owned-prefix-observation.json",
+      "sha256": "3f6635ee1433d866e0c96607a1aa937c580a17459a0aaedeae5743bbcd223d8c"
+    },
+    {
+      "bytes": 1827,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/native-build-v1/result.json",
+      "sha256": "204840991312dd6b6b3e7e975f16f0403182a13ac4b5a09f1e0eec27816bba5e"
+    },
+    {
+      "bytes": 759,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/native-build-v1/child-wait.json",
+      "sha256": "ffcca71c35394c7214375e17defc551ddf5acfa7839c0bfc770d02b1542aaf52"
+    },
+    {
+      "bytes": 4466,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/native-build-v1/child.stdout",
+      "sha256": "d75cb1cb836b4c0572ce9283990871369a6146241a5b6a4365107015253ca22b"
+    },
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/native-build-v1/child.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2239,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/native-component-tests-v1/result.json",
+      "sha256": "1aa77cc806c04ed544ca5e77a78e2a716e654c2fec55a2b8b50d3564e90551fa"
+    },
+    {
+      "bytes": 400,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/native-component-tests-v1/child-wait.json",
+      "sha256": "ce278b435cb7289f92ab56730414d08dc82be0a0eb2bee378321bd92d5fd8329"
+    },
+    {
+      "bytes": 75578580,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/native-component-tests-v1/child.stdout",
+      "sha256": "8c40fa2a3e554360c2e10330f2cab6c7b9b02a19418d6bb2f249dc4ed8499863"
+    },
+    {
+      "bytes": 25896,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/native-component-tests-v1/child.stderr",
+      "sha256": "4aa9cde98995eb2e971ba489e3297caaa2f6f657b4cfcee40ad7e7468d93b470"
+    },
+    {
+      "bytes": 2235,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/pending-build-v1/result.json",
+      "sha256": "fbbcb30484cb6e3e1a2103b9a103d3b81b5ad7322c3f3cbb2bfb52652cb76981"
+    },
+    {
+      "bytes": 400,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/pending-build-v1/child-wait.json",
+      "sha256": "6292e346fc4d4fd1511f9b2e9484ac1331ecb511b52944dcc3abe96f53785a79"
+    },
+    {
+      "bytes": 632,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/pending-build-v1/child.stdout",
+      "sha256": "269ed98614a413e49b117c19fb62ffa44a16e91cadf0b6c322482815e4ca4a34"
+    },
+    {
+      "bytes": 1521,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/pending-build-v1/child.stderr",
+      "sha256": "327886aa4c974453e0875c89e2243d87a40e633058f5d51d72b431b63429d559"
+    },
+    {
+      "bytes": 2229,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/build-v1/result.json",
+      "sha256": "8690869a9539eb1514d8432ff47ca12a994ad1a76e36311459a3efb97c060102"
+    },
+    {
+      "bytes": 394,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/build-v1/child-wait.json",
+      "sha256": "2285849963deed1c21a02df36bc661690bc8b4e13bb6a510224fa61876db7fe7"
+    },
+    {
+      "bytes": 1545,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/build-v1/child.stdout",
+      "sha256": "8ae5a226fa2152ca42fbee4eded481f0e0d176fee7bf52d5fb661a7c6c70b18b"
+    },
+    {
+      "bytes": 7818,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/build-v1/child.stderr",
+      "sha256": "4ad04e9d69dda2e1689f9ae97c1ee34ffd71ffd23fbcf07b760d3e943fd1b384"
+    }
+  ],
+  "core_build_failure": "Reserved Ada identifier Entry in worldline-startup_source_custody.adb; actual child and scope return 4, no deadline expiration.",
+  "matching_source_candidate": "integrated-candidate-v4",
+  "native_component_output": "Ran 144 tests in 18.946s; OK",
+  "original_collector": "Refused missing outer terminal artifact; no custody release from this checkpoint.",
+  "phase_one_complete": false,
+  "previous_public_commit": "001efa5e5dc55a96176a9f40836d54535c0597d5",
+  "remaining": [
+    "Reviewed custody recovery",
+    "Corrected source with matching original complete build",
+    "Full original strict proof",
+    "Complete original runtime and additions",
+    "Ownership and reclamation",
+    "Authentic protected and actor fixtures",
+    "Final independent acceptance and publication"
+  ],
+  "schema": "worldline-bounded-native-failed-core-checkpoint-v1",
+  "scope": "Selected actual outputs and source-only review evidence. This publication is not a portable executable frame.",
+  "separate_runner_failure": "JSONDecodeError while consuming mixed multiline handshake output; actual owned outer cleanup wait -15, missing terminal waits remain UNKNOWN.",
+  "source_selection_sha256": "7fbda930ec788f96b973ff0d109e7c5ed8d749d4683261a2f80a63edc15f7146",
+  "strict_proof_acceptance": false
+}

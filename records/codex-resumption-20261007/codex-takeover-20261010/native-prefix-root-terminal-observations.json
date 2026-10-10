@@ -1,0 +1,32 @@
+{
+  "schema": "root-native-prefix-actual-terminal-observations-v1",
+  "observer": "Main",
+  "prefix_wrapper": {
+    "actual_exec_session": 4457,
+    "actual_exit_code": 1,
+    "actual_completion_chunk": "2929c2",
+    "retained_complete_observation_sha256": "3f6635ee1433d866e0c96607a1aa937c580a17459a0aaedeae5743bbcd223d8c",
+    "successful_modes": ["native-build", "native-component-tests", "pending-build"],
+    "failed_mode": "build",
+    "core_child_wait": 4,
+    "core_scope_wait": 4,
+    "core_additional_deadline_expired": false,
+    "compiler_error": "worldline-startup_source_custody.adb:375:21: error: reserved word entry cannot be used as identifier",
+    "wrapper_exception": "JSONDecodeError: Expecting property name enclosed in double quotes: line 2 column 1 (char 2)",
+    "actual_owned_outer_cleanup_wait": -15,
+    "entry_component_tests": "UNRUN"
+  },
+  "original_collector": {
+    "actual_exec_session": 45345,
+    "actual_completion_chunk": "74ba31",
+    "actual_exit_code": 1,
+    "exception": "AssertionError",
+    "failing_check": "outer_collection.py:23 assert end.is_file()",
+    "outer_capture_directory": "runtime-frame-successor-draft/candidate/review/root-outer-capture-v1/821f4cdad1dc40be8ff106cbf5abdaf5",
+    "missing_waits": "UNKNOWN; Main cleanup wait does not substitute for missing outer terminal artifacts",
+    "release": "NOT_PERFORMED"
+  },
+  "strict_proof_acceptance": false,
+  "complete_runtime_acceptance": false,
+  "phase_acceptance": false
+}

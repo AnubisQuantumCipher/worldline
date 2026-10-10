@@ -1,0 +1,17 @@
+{
+  "schema": "root-passive-compiler-observation-v1",
+  "observer": "Main",
+  "actual_tool_output_chunks": ["aa5a19", "1612ab"],
+  "ps_columns": "PID PPID ELAPSED %CPU RSS STAT COMMAND",
+  "actual_ps_rows": [
+    "1555309 1554297 106 0.0 14136 Sl gprbuild",
+    "1555345 1555309 106 0.0 2964 S gcc",
+    "1555346 1555345 106 95.5 1156756 R gnat1"
+  ],
+  "compiler_input_observed_from_proc_cmdline": "evaluation_finalization.adb",
+  "compiler_flags_observed": ["-O2", "-gnatA", "-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-gnata"],
+  "process_intervention": false,
+  "hotspot_or_timeout_cause_established": false,
+  "build_outcome_established": false,
+  "phase_acceptance": false
+}

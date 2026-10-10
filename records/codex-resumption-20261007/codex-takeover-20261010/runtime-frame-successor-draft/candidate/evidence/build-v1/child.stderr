@@ -1,0 +1,49 @@
+worldline-producer_bytes.adb:5:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-producer_bytes.adb:5:04: warning: use clause for type "Interfaces.Unsigned_8" has no effect [-gnatwu]
+worldline-producer_bytes.adb:105:20: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-producer_bytes.adb:156:30: warning: "Block" may be referenced before it has a value [enabled by default]
+worldline-recovery_packet.adb:14:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-recovery_packet.adb:14:04: warning: use clause for type "Byte" defined at worldline-collapse_wire.ads:15 has no effect [-gnatwu]
+worldline-recovery_packet.adb:24:07: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-recovery_packet.adb:24:07: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+worldline-recovery_authorization_wire.ads:6:04: warning: use clause for type "Interfaces.Unsigned_8" has no effect [-gnatwu]
+worldline-root_custody_row_views.adb:4:28: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-root_custody_row_views.ads:9:04: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+worldline-retained_v1_migration.ads:8:04: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+worldline-resources_c_api.adb:1:06: warning: redundant with clause in body [-gnatwr]
+worldline-resources_c_api.adb:5:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-resources_c_api.adb:5:04: warning: use clause for type "Interfaces.Unsigned_8" has no effect [-gnatwu]
+resource_run_ledger_c_api.adb:2:06: warning: redundant with clause in body [-gnatwr]
+resource_run_ledger_c_api.adb:3:06: warning: redundant with clause in body [-gnatwr]
+resource_run_ledger_c_api.adb:7:04: warning: use clause for type "Interfaces.C.size_t" has no effect [-gnatwu]
+worldline-raw_json.adb:18:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-raw_json.adb:18:04: warning: use clause for type "Byte" defined at evaluation_pending.ads:8 has no effect [-gnatwu]
+worldline-evaluation_agent_native.adb:21:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-evaluation_agent_native.adb:21:04: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+worldline-evaluation_agent_native.adb:22:04: warning: "Byte_Count" is already use-visible through previous use_type_clause at line 20 [-gnatwr]
+worldline-evaluation_agent_native.adb:22:04: warning: use clause for type "Count" defined at evaluation_pending.ads:9 has no effect [-gnatwu]
+worldline-evaluation_agent_native.adb:24:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-evaluation_agent_native.adb:24:04: warning: use clause for type "Byte" defined at worldline-evaluation_wire.ads:11 has no effect [-gnatwu]
+worldline-evaluation_agent_native.adb:62:41: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-evaluation_agent_native.adb:252:43: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-evaluation_agent_native.adb:903:37: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-confinement_filter.adb:17:06: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+resource_reservation_transition.adb:521:20: warning: actuals for this call may be in wrong order [-gnatw.p]
+resource_reservation_transition.adb:523:20: warning: actuals for this call may be in wrong order [-gnatw.p]
+resource_reservation_transition.adb:527:20: warning: actuals for this call may be in wrong order [-gnatw.p]
+resource_reservation_transition.adb:529:20: warning: actuals for this call may be in wrong order [-gnatw.p]
+worldline-resource_actor_execution.adb:1:06: warning: redundant with clause in body [-gnatwr]
+worldline-resource_actor_execution.ads:15:04: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+worldline-resource_actor_execution.ads:19:04: warning: use clause for type "Phase" defined at resource_run_ledger.ads:37 has no effect [-gnatwu]
+worldline-custody_v2_closed_state.adb:12:04: warning: use clause for type "Encoding_Level" defined at worldline-archive_envelope.ads:19 has no effect [-gnatwu]
+worldline-custody_v2_closed_state.adb:16:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-custody_v2_closed_state.adb:16:04: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+worldline-startup_source_custody.adb:375:21: error: reserved word "entry" cannot be used as identifier
+/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/core/evaluation_finalization.adb: In function 'Evaluation_Finalization.Lemma_Content_Erasure':
+/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/core/evaluation_finalization.adb:201:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without
+/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/core/evaluation_finalization.adb: In function 'Evaluation_Finalization.Seal':
+/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/core/evaluation_finalization.adb:269:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without
+/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/core/evaluation_finalization.ads: In function 'Evaluation_Finalization.Seal_Equation':
+/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/core/evaluation_finalization.ads:353:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without
+/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/core/evaluation_finalization.adb: In function 'Evaluation_Finalization.Seal_Reference':
+/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/source/core/evaluation_finalization.adb:128:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without

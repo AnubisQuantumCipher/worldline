@@ -1,0 +1,33 @@
+Setup
+   [mkdir]        object directory for project SPARKlib
+   [mkdir]        library directory for project SPARKlib
+   [mkdir]        object directory for project Worldline_Attest_SHA256
+   [mkdir]        object directory for project Worldline_Core_Sources
+   [mkdir]        object directory for project Worldline_Core
+Compile
+   [C]            native_diagnostic_periphery.c
+   [Ada]          worldline-producer_bytes.adb
+   [Ada]          evaluation_finalization.adb
+   [Ada]          evaluation_epoch.adb
+   [Ada]          worldline-recovery_packet.adb
+   [Ada]          worldline-recovery_authorization_wire.adb
+   [Ada]          worldline-root_custody_row_views.adb
+   [Ada]          worldline-retained_v1_migration.adb
+   [Ada]          worldline-resources_c_api.adb
+   [Ada]          worldline-canonical_operation_wire.ads
+   [Ada]          worldline.ads
+   [Ada]          resource_run_ledger_c_api.adb
+   [Ada]          worldline-raw_json.adb
+   [Ada]          worldline-evaluation_agent_native.adb
+   [Ada]          worldline-evaluation_report_facts.adb
+   [Ada]          worldline-root_custody_descriptor.adb
+   [Ada]          worldline-producer_render.adb
+   [Ada]          worldline-confinement_filter.adb
+   [Ada]          resource_reservation_transition.adb
+   [Ada]          worldline-resource_actor_execution.adb
+   [Ada]          worldline-custody_v2_closed_state.adb
+   [Ada]          worldline-startup_source_custody.adb
+
+   compilation of worldline-startup_source_custody.adb failed
+
+gprbuild: *** compilation phase failed
