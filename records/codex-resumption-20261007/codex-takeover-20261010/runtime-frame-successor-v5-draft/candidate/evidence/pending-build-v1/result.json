@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-10T17:43:41.541928+00:00",
+  "scope_wait": 0,
+  "inputs_unchanged": true,
+  "native_artifacts_before": {
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+      "sha256": "9e0313a378c4632e91a48d2cc608a6ab7780ee3b18a8dfdfb6f3b7313fe7f522",
+      "bytes": 149864,
+      "mode": 493
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/native-artifacts/build.json": {
+      "sha256": "c243ec1295974ac86cc1d76d4406ebf824f353a3992a9921fef2887378817435",
+      "bytes": 463,
+      "mode": 420
+    }
+  },
+  "native_artifacts_after": {
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+      "sha256": "9e0313a378c4632e91a48d2cc608a6ab7780ee3b18a8dfdfb6f3b7313fe7f522",
+      "bytes": 149864,
+      "mode": 493
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/native-artifacts/build.json": {
+      "sha256": "c243ec1295974ac86cc1d76d4406ebf824f353a3992a9921fef2887378817435",
+      "bytes": 463,
+      "mode": 420
+    }
+  },
+  "native_inputs_unchanged": true,
+  "child_wait": {
+    "at": "2026-10-10T17:43:18.516091+00:00",
+    "pid": 1829286,
+    "argv": [
+      "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "-p",
+      "-j2",
+      "-P",
+      "pending-component/pending.gpr"
+    ],
+    "returncode": 0,
+    "additional_timeout_seconds": null,
+    "additional_deadline_expired": false,
+    "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+  },
+  "original_targets": "OPEN_UNCHANGED",
+  "no_proof_claim": true
+}

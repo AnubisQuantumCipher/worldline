@@ -1,0 +1,95 @@
+Setup
+   [mkdir]        object directory for project SPARKlib
+   [mkdir]        library directory for project SPARKlib
+   [mkdir]        object directory for project Worldline_Attest_SHA256
+   [mkdir]        object directory for project Worldline_Core_Sources
+   [mkdir]        object directory for project Worldline_Core
+Compile
+   [C]            native_diagnostic_periphery.c
+   [Ada]          worldline-producer_bytes.adb
+   [Ada]          evaluation_finalization.adb
+   [Ada]          evaluation_epoch.adb
+   [Ada]          worldline-recovery_packet.adb
+   [Ada]          worldline-recovery_authorization_wire.adb
+   [Ada]          worldline-root_custody_row_views.adb
+   [Ada]          worldline-retained_v1_migration.adb
+   [Ada]          worldline-resources_c_api.adb
+   [Ada]          worldline-canonical_operation_wire.ads
+   [Ada]          worldline.ads
+   [Ada]          resource_run_ledger_c_api.adb
+   [Ada]          worldline-raw_json.adb
+   [Ada]          worldline-evaluation_agent_native.adb
+   [Ada]          worldline-evaluation_report_facts.adb
+   [Ada]          worldline-root_custody_descriptor.adb
+   [Ada]          worldline-producer_render.adb
+   [Ada]          worldline-confinement_filter.adb
+   [Ada]          resource_reservation_transition.adb
+   [Ada]          worldline-resource_actor_execution.adb
+   [Ada]          worldline-custody_v2_closed_state.adb
+   [Ada]          worldline-startup_source_custody.adb
+   [Ada]          exact_decimal.adb
+   [Ada]          decimal_binary64.adb
+   [Ada]          worldline-retained_custody_chain.adb
+   [Ada]          worldline-receipts.adb
+   [Ada]          worldline-canonical_exchange_wire.ads
+   [Ada]          worldline-policy_syntax.adb
+   [Ada]          worldline-root_custody_model.adb
+   [Ada]          worldline-retained_source_layout.adb
+   [Ada]          worldline-scoped_capture_namespace_projection.adb
+   [Ada]          worldline-resource_ledger_c_api.adb
+   [Ada]          worldline-operation_result_view.adb
+   [Ada]          worldline-custody_v2_fold_engine.adb
+   [Ada]          worldline-policy_source.adb
+   [Ada]          evaluation_pending_c.adb
+   [Ada]          worldline-recovery_authorization_v3_wire.adb
+   [Ada]          worldline-chain_authority.adb
+   [Ada]          resource_observation_classification.adb
+   [Ada]          worldline-runner_lifecycle.adb
+   [Ada]          worldline-recovery_syntax.adb
+   [Ada]          worldline-root_custody_request_abandon.adb
+   [Ada]          worldline-owner_transitions.adb
+   [Ada]          worldline-recovery_c_api.adb
+   [Ada]          worldline-archive_base64.adb
+   [Ada]          worldline-custody_v2_mutation_decision.adb
+   [Ada]          worldline-resource_policy_c_api.adb
+   [Ada]          worldline-startup_admission.adb
+   [Ada]          evaluation_completion.adb
+   [Ada]          worldline-recovery_archive.adb
+   [Ada]          resource_run_ledger.adb
+   [Ada]          worldline-startup_issuer_source.adb
+   [Ada]          worldline-custody_hmac.adb
+   [Ada]          worldline-runner_outcome_bytes.adb
+   [Ada]          cosmogony-governed_capabilities.adb
+   [Ada]          worldline-scoped_capture_projection.adb
+   [Ada]          worldline-scoped_capture_evolution_projection.adb
+   [Ada]          worldline-recovery_authorization_v3_c_api.adb
+   [Ada]          evaluation_raw_roster.adb
+   [Ada]          worldline-owner_retry_audit.adb
+   [Ada]          worldline-lifetime_values.adb
+   [Ada]          worldline-emitter_allocation_capture.adb
+   [Ada]          worldline-root_custody_row_schema.adb
+   [Ada]          worldline-custody_v2_requester_join.adb
+   [Ada]          worldline-identities.ads
+   [Ada]          worldline-source_syntax_reference.adb
+   [Ada]          worldline-canonical_exchange.adb
+   [Ada]          worldline-operation_result_relations.adb
+   [Ada]          worldline-ancestry.adb
+   [Ada]          resource_scoped_run_ledger_wire.adb
+   [Ada]          worldline-root_custody_context.adb
+   [Ada]          worldline-chain_authority_wire.adb
+   [Ada]          worldline-native_execution_views.adb
+   [Ada]          worldline-archive_envelope.adb
+   [Ada]          worldline-journal_witness.adb
+   [Ada]          worldline-sqlite_parameter_source.adb
+   [Ada]          worldline-custody_v2_k4_resource_ack.adb
+   [Ada]          worldline-transaction_archive_json.adb
+   [Ada]          worldline-report_custody_native.adb
+   [Ada]          worldline-custody_v2_closed_v1.adb
+   [Ada]          worldline-producer_unicode.ads
+   [Ada]          worldline-resources.adb
+   [Ada]          worldline-recovery_material_replay.adb
+   [Ada]          worldline-excluded_source_owner.adb
+
+   compilation of worldline-excluded_source_owner.adb failed
+
+gprbuild: *** compilation phase failed

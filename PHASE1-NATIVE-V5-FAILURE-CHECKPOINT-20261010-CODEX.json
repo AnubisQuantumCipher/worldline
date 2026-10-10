@@ -1,0 +1,266 @@
+{
+  "actual_outcomes": {
+    "build": {
+      "child_wait": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "-p",
+          "-j2",
+          "-P",
+          "core/worldline_core.gpr"
+        ],
+        "at": "2026-10-10T17:50:14.829859+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1836638,
+        "returncode": 4
+      },
+      "inputs_unchanged": true,
+      "scope_wait": 4
+    },
+    "native-build": {
+      "child_wait": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/source/native/build_guard.py",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/native-artifacts"
+        ],
+        "at": "2026-10-10T17:39:31.647269+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1814487,
+        "returncode": 0
+      },
+      "inputs_unchanged": true,
+      "scope_wait": 0
+    },
+    "native-component-tests": {
+      "child_wait": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v",
+          "test_examiner_native_guard",
+          "test_examiner_native_generators"
+        ],
+        "at": "2026-10-10T17:41:30.610095+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1821815,
+        "returncode": 0
+      },
+      "inputs_unchanged": true,
+      "scope_wait": 0
+    },
+    "pending-build": {
+      "child_wait": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "-p",
+          "-j2",
+          "-P",
+          "pending-component/pending.gpr"
+        ],
+        "at": "2026-10-10T17:43:18.516091+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 1829286,
+        "returncode": 0
+      },
+      "inputs_unchanged": true,
+      "scope_wait": 0
+    }
+  },
+  "complete_original_runtime_acceptance": false,
+  "copied_files": [
+    {
+      "bytes": 10655,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/native-v5-current-ultra-overlay-v1.json",
+      "sha256": "d351f436002dd1249c783857a29c4a7def2b5725cb2520e1e25082474b53ef49"
+    },
+    {
+      "bytes": 48202,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/native-v5-independent-readback-v1.json",
+      "sha256": "44169a0b209a9c2c2431320b24cb66b6528b3225e5358370115e36e4b48b1f12"
+    },
+    {
+      "bytes": 46258,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/formal-v6-current-known-source-compilation-hold-v1.json",
+      "sha256": "ecc5272bbc6521eb0329109f1c1d361207a57766278d6370e4498af49113b5aa"
+    },
+    {
+      "bytes": 12400,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/native-prefix-recovery-draft/Main-original-native-prefix-owned-execution-v2.py",
+      "sha256": "8d718deba546a5cdea8934dcd78e8729bdcedbe0b030fc85b995cd33e427b9c8"
+    },
+    {
+      "bytes": 6813,
+      "mode": 384,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/Main-original-qualified-prefix-execution-v1/Main-complete-owned-prefix-observation.json",
+      "sha256": "2b75b5eb8ea9fc48d631dc99bdcae4b43e14e063d23cfe9c8285335de2dd6147"
+    },
+    {
+      "bytes": 145871,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/review/root-batch-terminal-v1/actual-results-and-window-release.json",
+      "sha256": "ad2c6f8b110c84d02a48b395de0fe409e0186c5f527db71e43f5ca7bcc015fb4"
+    },
+    {
+      "bytes": 1367,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/review/root-batch-terminal-v1/coordination-release.json",
+      "sha256": "28596ecfdec77369fc2096a0d63d70d5de7b26eb3c3397839ddc3261851384d2"
+    },
+    {
+      "bytes": 118970,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/review/root-batch-terminal-v1/owned-terminal-observations.json",
+      "sha256": "5cb1d54a9af4b28f24335fda515da510afe5bb16197f344c9e78d6d07b9c7bc0"
+    },
+    {
+      "bytes": 27771,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/review/root-batch-terminal-v1/outer-capture-observations.json",
+      "sha256": "00c2376825cd253d65c914fc836086167b3c3480fa214280015a24967e1b5c8c"
+    },
+    {
+      "bytes": 3215038,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/review/root-batch-terminal-v1/retained-artifacts.json",
+      "sha256": "5814a2d78002d4f920782dbe693448d079488c9a2f0d6f0a11b6e88e0e9a7f22"
+    },
+    {
+      "bytes": 1839,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/native-build-v1/result.json",
+      "sha256": "306819a272baeb7b9e511603587f866a59379cce2ddedb28c6c0dca0b49c07e6"
+    },
+    {
+      "bytes": 765,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/native-build-v1/child-wait.json",
+      "sha256": "dc8e63a3e17771e4513e7e266bf7f090f49cfe10b5343da31934b7797ddca6fb"
+    },
+    {
+      "bytes": 4475,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/native-build-v1/child.stdout",
+      "sha256": "3d42efaa567951c65927599aff0091d38ba357dd8b7908a9a5a0876ed15391f9"
+    },
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/native-build-v1/child.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2251,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/native-component-tests-v1/result.json",
+      "sha256": "0dab4ff14ead7f1fd47ac71e81f0026a9a8a8580fd6783fb1b3e80a0f6a61b12"
+    },
+    {
+      "bytes": 400,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/native-component-tests-v1/child-wait.json",
+      "sha256": "4a35c35479f9eba921861a051e0b1b0fbc2240df4ab1bb47c890ea1259574099"
+    },
+    {
+      "bytes": 25896,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/native-component-tests-v1/child.stderr",
+      "sha256": "df6a7e8b4772e1d55c7d18ef4fe6c3a86679da558210cf4ec64951874b05d039"
+    },
+    {
+      "bytes": 2247,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/pending-build-v1/result.json",
+      "sha256": "cee65996a4f8b1c723578d0451843a864eab3d13ed2d8b026388ac7f7a5628cd"
+    },
+    {
+      "bytes": 400,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/pending-build-v1/child-wait.json",
+      "sha256": "03eb097c9da579e0d2dbfb484b607c0d4586cf9b63a83211f05632aca3c921ca"
+    },
+    {
+      "bytes": 632,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/pending-build-v1/child.stdout",
+      "sha256": "269ed98614a413e49b117c19fb62ffa44a16e91cadf0b6c322482815e4ca4a34"
+    },
+    {
+      "bytes": 1521,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/pending-build-v1/child.stderr",
+      "sha256": "327886aa4c974453e0875c89e2243d87a40e633058f5d51d72b431b63429d559"
+    },
+    {
+      "bytes": 2241,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/build-v1/result.json",
+      "sha256": "068b12aa20571d6ce011c4b4df2db57dfce4da2f6796b5d7ca8f3112064e9ff5"
+    },
+    {
+      "bytes": 394,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/build-v1/child-wait.json",
+      "sha256": "f70788952b94b3da2e14c111e555ddc848a4e3e037d7573aeb806b7fe35436cb"
+    },
+    {
+      "bytes": 4768,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/build-v1/child.stdout",
+      "sha256": "8d2ac532aa282b55dac207f15857618c2d26714718252c6410637c488a517211"
+    },
+    {
+      "bytes": 39219,
+      "mode": 420,
+      "path": "records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/build-v1/child.stderr",
+      "sha256": "91488ded85564dfa76a85a124c86ef3dca402e6b60ce6d9d826305747d5507f5"
+    }
+  ],
+  "core_build_failure": "Misplaced expression-function aspects and reserved At identifier in worldline-excluded_source_owner.adb; actual child and scope return 4, no deadline expiration.",
+  "matching_source_candidate": "integrated-candidate-v5",
+  "native_component_summary_as_read": "Ran 144 tests in 17.850s; OK",
+  "original_collector": "Actual terminal collector completed and released the owned window, preserving the build failure, build:outer-nonzero classification and unrun actions.",
+  "phase_one_complete": false,
+  "prepared_formal_v6": "Prepared source-only and unrun; current ultra HOLD blocks adoption and launch of the same known failing source.",
+  "previous_public_commit": "cd597a1d676c159c34e9d802da4e3bcaa3ed930c",
+  "previously_published_exact_source_selection": {
+    "bytes": 11065,
+    "mode": 420,
+    "path": "records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v5/source-selection.json",
+    "sha256": "e9872fd0374c734f60c9f32d21ee8c3015b0ae0493eb15465fc8c21011fb4cbf"
+  },
+  "publication_scope": "Selected actual evidence and source-only opinions. This is not a portable executable frame or a complete raw evidence publication.",
+  "raw_evidence_retained_locally_not_published_in_this_checkpoint": [
+    {
+      "bytes": 75578580,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v5-draft/candidate/evidence/native-component-tests-v1/child.stdout",
+      "published_raw_bytes": false,
+      "sha256": "182745fb1f9dd911a8b23b05c34af03850ffaaa22c11ed1fdf0aa947f2d65a58"
+    }
+  ],
+  "remaining": [
+    "Exact source syntax repair and independent review",
+    "Matching complete original native build and runtime roster",
+    "Full original strict proof",
+    "Authentic protected and actor fixtures",
+    "Final independent acceptance and publication"
+  ],
+  "schema": "worldline-native-v5-failed-core-checkpoint-v1",
+  "strict_proof_acceptance": false
+}
