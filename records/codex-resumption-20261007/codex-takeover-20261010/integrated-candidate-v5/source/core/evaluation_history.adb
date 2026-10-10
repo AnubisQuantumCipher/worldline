@@ -1,0 +1,78 @@
+with Evaluation_Epoch;
+
+package body Evaluation_History with SPARK_Mode is
+
+   use SPARK.Big_Integers;
+   use type Resource_Quantities.Ordering;
+   function Same_Epoch (A : Byte_Array; L, R : Epoch_Id) return Boolean is
+     (Epoch_Valid (A, L) and then Epoch_Valid (A, R) and then
+      Resource_Quantities.Compare (A, Epoch_Quantity (L), Epoch_Quantity (R)) =
+        Resource_Quantities.Equal);
+
+   --  Use the complete arbitrary-width successor relation for both history
+   --  epoch predicates. Its body and every caller contract remain required
+   --  full-scope proof obligations; this call imports no assumed theorem.
+   function Epoch_One (A : Byte_Array; E : Epoch_Id) return Boolean is
+     (Epoch_Valid (A, E) and then
+      Evaluation_Epoch.Is_Successor
+        (A, (Negative => False, First => E.First, Length => 0),
+         Epoch_Quantity (E)));
+
+   function Next_Epoch (A : Byte_Array; Before, After : Epoch_Id) return Boolean is
+     (Epoch_Valid (A, Before) and then Epoch_Valid (A, After) and then
+      Evaluation_Epoch.Is_Successor
+        (A, Epoch_Quantity (Before), Epoch_Quantity (After)));
+
+   function Find_Completed_Failure
+     (A : Byte_Array; H : History; F : Optional_Record; Q : Query) return Record_Reference is
+   begin
+      if F.Present and then Is_Current_Failure (A, F.Value, Q) then
+         return (Kind => Finalization);
+      end if;
+      for I in H'Range loop
+         if Is_Current_Failure (A, H (I), Q) then
+            return (Kind => History_Entry, Index => I);
+         end if;
+         pragma Loop_Invariant
+           (for all J in H'First .. I => not Is_Current_Failure (A, H (J), Q));
+      end loop;
+      return No_Record;
+   end Find_Completed_Failure;
+
+   function Select_Evidence
+     (A : Byte_Array; H : History; F : Optional_Record; Q : Query) return Selection is
+      Head : Optional_Record;
+      Answer : Selection :=
+        (Reason => Input_Absent, Head => No_Record,
+         Completed_Failure => No_Record);
+   begin
+      if not Query_Complete (Q) then
+         return Answer;
+      elsif not Query_Valid (A, Q) then
+         Answer.Reason := Input_Invalid;
+         return Answer;
+      elsif not Finalization_Valid (A, F, Q) then
+         Answer.Reason := Finalization_Invalid;
+         return Answer;
+      elsif not History_Valid (A, H, F, Q) then
+         Answer.Reason := History_Invalid;
+         return Answer;
+      end if;
+
+      --  Head selection never compares outcomes or searches for an older
+      --  requirement match.  A retained newer attempt permanently wins this
+      --  selection; it may refuse without making any earlier record speak.
+      if H'Length /= 0 then
+         Head := (Present => True, Value => H (H'Last));
+         Answer.Head := (Kind => History_Entry, Index => H'Last);
+      else
+         Head := F;
+         Answer.Head :=
+           (if F.Present then (Kind => Finalization) else No_Record);
+      end if;
+      Answer.Completed_Failure := Find_Completed_Failure (A, H, F, Q);
+
+      Answer.Reason := Head_Decision (A, Head, Q, Answer.Completed_Failure);
+      return Answer;
+   end Select_Evidence;
+end Evaluation_History;

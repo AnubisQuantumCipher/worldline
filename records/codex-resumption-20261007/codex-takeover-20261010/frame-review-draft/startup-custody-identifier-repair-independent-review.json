@@ -1,0 +1,219 @@
+{
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:max",
+  "affected_caller": {
+    "bytes": 97115,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/source/core/worldline-excluded_source_owner.adb",
+    "sha256": "ed2fb42d9bb8b0cb62ebc0fbcb10919981cdc4a329d38190c0465bd198a159e6"
+  },
+  "affected_source_changes": {
+    "core/worldline-startup_source_custody.adb": {
+      "exact_identifier_substitution_only": true,
+      "patch": "--- a/core/worldline-startup_source_custody.adb\n+++ b/core/worldline-startup_source_custody.adb\n@@ -372,7 +372,7 @@\n      (Closure_Corresponds (Data, Source, Installation, False));\n    function Projection_Corresponds\n      (Data : L.E.Bytes; Owner_Source, Actor_Source, Closure, Request,\n-      Request_Path, Entry : L.E.Span) return Boolean\n+      Request_Path, Entry_Path : L.E.Span) return Boolean\n    is\n       Owner_Hex : constant E.Span := F (Data, Owner_Source, \"envelope_bytes_hex\");\n       Actor_Hex : constant E.Span := F (Data, Actor_Source, \"envelope_bytes_hex\");\n@@ -423,7 +423,7 @@\n                      not Listed (Actor, Item.Parts (3), F (Data, Request, \"requests\"), True) then return False; end if;\n                elsif Plain (Actor, Item.Parts (2), \"ENTRY\") then\n                   Entries := Entries + 1;\n-                  if not Text_Hex_Matches (Data, Actor, Item.Parts (3), Entry) then return False; end if;\n+                  if not Text_Hex_Matches (Data, Actor, Item.Parts (3), Entry_Path) then return False; end if;\n                end if;\n             elsif Plain (Actor, Item.Parts (1), \"DIRECTORY\") then\n                Dirs := Dirs + 1;\n",
+      "postimage": {
+        "bytes": 36528,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/source/core/worldline-startup_source_custody.adb",
+        "sha256": "0697583e227cd630260d83d33daac5bfab45884c18fae18545fee0778cd0a966"
+      },
+      "preimage": {
+        "bytes": 36518,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/preimages/core/worldline-startup_source_custody.adb",
+        "sha256": "318def3da41cc417702ce7212520224810cf3e25c498d41f72ad6443345ad4d9"
+      },
+      "preimage_matches_selected_v4_bytes": true
+    },
+    "core/worldline-startup_source_custody.ads": {
+      "exact_identifier_substitution_only": true,
+      "patch": "--- a/core/worldline-startup_source_custody.ads\n+++ b/core/worldline-startup_source_custody.ads\n@@ -14,7 +14,7 @@\n    -- unchanged original request selection and its complete requests.\n    function Projection_Corresponds\n      (Data : L.E.Bytes; Owner_Source, Actor_Source, Closure, Request,\n-      Request_Path, Entry : L.E.Span) return Boolean with Global => null;\n+      Request_Path, Entry_Path : L.E.Span) return Boolean with Global => null;\n    function File_Corresponds\n      (Data : L.E.Bytes; Source, Path, Raw_Bytes : L.E.Span) return Boolean\n      with Global => null;\n",
+      "postimage": {
+        "bytes": 2229,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/source/core/worldline-startup_source_custody.ads",
+        "sha256": "a2a3d4253620d13883fddd1e4d33501543696ce124df104d32184a4d04537fd2"
+      },
+      "preimage": {
+        "bytes": 2224,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/preimages/core/worldline-startup_source_custody.ads",
+        "sha256": "1070dd6d45e2cc6b4e9a14d4c7def2f6a53a9462b3f94c27fc36f680fb943613"
+      },
+      "preimage_matches_selected_v4_bytes": true
+    }
+  },
+  "artifacts": {
+    "CHANGE.md": {
+      "bytes": 2005,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/CHANGE.md",
+      "sha256": "e78529aab7072069865339db24d260de4927c3a247e7a796451364d710b8715c"
+    },
+    "SOURCE-IDENTITY.json": {
+      "bytes": 9795,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/SOURCE-IDENTITY.json",
+      "sha256": "f8a04da01a3ef9bd0bd8fedeb5ca01ab120b529bc81c0d40d2672910a62ac944"
+    },
+    "preimages/core/worldline-startup_source_custody.adb": {
+      "bytes": 36518,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/preimages/core/worldline-startup_source_custody.adb",
+      "sha256": "318def3da41cc417702ce7212520224810cf3e25c498d41f72ad6443345ad4d9"
+    },
+    "preimages/core/worldline-startup_source_custody.ads": {
+      "bytes": 2224,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/preimages/core/worldline-startup_source_custody.ads",
+      "sha256": "1070dd6d45e2cc6b4e9a14d4c7def2f6a53a9462b3f94c27fc36f680fb943613"
+    },
+    "repair.patch": {
+      "bytes": 1750,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/repair.patch",
+      "sha256": "2710daa00033b0a6a23516599be0c8afdf00307b224c64688bfc49cdf72e2b9f"
+    },
+    "source-only-readback.json": {
+      "bytes": 29999,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/source-only-readback.json",
+      "sha256": "ba410fb757ac88ce0155552b362d696adeaf47b21b6fcd7c1036549a68272458"
+    },
+    "source/core/worldline-startup_source_custody.adb": {
+      "bytes": 36528,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/source/core/worldline-startup_source_custody.adb",
+      "sha256": "0697583e227cd630260d83d33daac5bfab45884c18fae18545fee0778cd0a966"
+    },
+    "source/core/worldline-startup_source_custody.ads": {
+      "bytes": 2229,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/source/core/worldline-startup_source_custody.ads",
+      "sha256": "a2a3d4253620d13883fddd1e4d33501543696ce124df104d32184a4d04537fd2"
+    },
+    "v5-composition-plan.json": {
+      "bytes": 3627,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/v5-composition-plan.json",
+      "sha256": "86b17fade0e8f14615922ac1c37b875615a6f9418b91d6127ad6ca3a3e176d19"
+    }
+  },
+  "author": "CodexStartupCustodyCompileRepairAuthor",
+  "author_agent": "/root/decoder_review",
+  "author_freeze": {
+    "bytes": 4013,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/startup-custody-compile-repair/author-freeze.json",
+    "sha256": "14719423243b51c76910de3ae9cadc94467092ce4f392ae2ffd9fd47383eddb3"
+  },
+  "blocking_findings": [],
+  "blocking_source_findings": [],
+  "compiler_invoked": false,
+  "complete_source_predecessor_inventory": {
+    "bytes": 199571,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/source-inventory.json",
+    "sha256": "fb489fcae81057166e830321bf3aca22cb79082c2387c40b266e08169499021c"
+  },
+  "disposition": "QUALIFIED_EXACT_STARTUP_CUSTODY_IDENTIFIER_REPAIR_SOURCE_ONLY",
+  "independence": {
+    "reviewer_authored_donor_metadata": false,
+    "reviewer_authored_source_changes": false,
+    "source_author_is_distinct_from_reviewer": true
+  },
+  "model_provenance": {
+    "bytes": 4022,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/recovery_review-actual-launch-provenance.json",
+    "sha256": "b5db933f088f539a2f24df9e35bdaf6a481a35fc10481ffdddc69d4672fd8aed"
+  },
+  "observed_failed_build_evidence": {
+    "actual_child_wait_returncode": 4,
+    "actual_scope_wait_returncode": 4,
+    "child_stderr": {
+      "bytes": 7818,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/build-v1/child.stderr",
+      "sha256": "4ad04e9d69dda2e1689f9ae97c1ee34ffd71ffd23fbcf07b760d3e943fd1b384"
+    },
+    "child_wait": {
+      "bytes": 394,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/build-v1/child-wait.json",
+      "sha256": "2285849963deed1c21a02df36bc661690bc8b4e13bb6a510224fa61876db7fe7"
+    },
+    "failure": "reserved word Entry used as ordinary identifier in Projection_Corresponds",
+    "result": {
+      "bytes": 2229,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-draft/candidate/evidence/build-v1/result.json",
+      "sha256": "8690869a9539eb1514d8432ff47ca12a994ad1a76e36311459a3efb97c060102"
+    },
+    "timeout_observed": false
+  },
+  "open_obligations": [
+    "Actual matching-source checked core build has not been rerun. Further compiler errors and all retained warnings remain possible and OPEN until actual evidence resolves them.",
+    "Current complete v5 source/inventory/reversible delta/selector/contract-pin refresh/registration/enrollment must be independently bound. This donor opinion cannot qualify a different donor or complete future candidate by itself.",
+    "Preserve the failed v4 actual child/scope4 and Main parser/cleanup evidence without replacing its actual waits. Separate exact terminal recovery and parser repair opinions remain required.",
+    "Original full strict GNATprove command and all source/body/helper/caller/flow/RTE/termination/native-semantic/cost obligations, complete116+2 runtime roster and accepted cases, authentic actor fixture custody, final independent acceptance/closure/publication remain OPEN."
+  ],
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "proof_invoked": false,
+  "qualified_scope": [
+    "Exact frozen preimages match the selected failed v4 source bytes and modes. Only the source spec/body named in the donor exist under its source tree; every freeze artifact and actual author provenance pin matches.",
+    "Forward and inverse whole-file comparison confirms only ordinary identifier Entry to Entry_Path substitutions in Projection_Corresponds declaration, body profile and matching argument use. The recorded patch is exactly the independent diff.",
+    "Entry is reserved regardless of capitalization; Entry_Path is a legal ordinary identifier for this ASCII spelling. This source change addresses the exact retained compiler diagnostic without claiming the candidate compiles.",
+    "Parameter types, modes, order, Boolean result, SPARK_Mode, Global null and all existing predicates/control flow/return paths/byte comparisons/selection logic are byte-identical modulo that formal-name substitution. String literal ENTRY is unchanged.",
+    "The existing Worldline.Excluded_Source_Owner caller supplies every argument positionally and is fully pinned unchanged. Full current Ada source search found no named Entry association requiring a corresponding update.",
+    "Producer_Bytes body and public specification remain exact unchanged context. Its actual Block initialization warning is retained OPEN; author reasoning and passive lexical scanning are not compiler, proof or runtime evidence.",
+    "V5 composition plan preserves failed v4, decoder source, contracts and complete original domain/control/roster/floor policy. Necessary literal contract and registration byte pins must be refreshed by the unchanged original source-only mechanisms, followed by original full enrollment and an exact affected integrated-source review."
+  ],
+  "reviewed_at": "2026-10-10T16:30:55.422019+00:00",
+  "reviewer": "/root/recovery_review",
+  "reviewer_agent": "/root/recovery_review",
+  "runtime_acceptance": false,
+  "schema": "worldline-independent-startup-custody-compile-repair-source-review-v1",
+  "skills_applied": [
+    {
+      "path": "/home/sicarii/.agents/skills/ada-omarchy/SKILL.md",
+      "scope": "Installed checked Ada/SPARK source/build/proof distinction; no build or proof in this source-only review."
+    },
+    {
+      "path": "/home/sicarii/.agents/skills/ada-programming/SKILL.md",
+      "references": [
+        "chapters/ch34-lexical-elements.md"
+      ],
+      "revision": "Wikibooks Ada Programming March22 2013 lexical chapter; compiler diagnostic supplies the current installed-toolchain observation."
+    },
+    {
+      "path": "/home/sicarii/.agents/skills/spark-users-guide/SKILL.md",
+      "scope": "Preserve SPARK contracts, complete verification scope and OPEN proof obligations."
+    }
+  ],
+  "source_author": "CodexStartupCustodyCompileRepairAuthor",
+  "source_only": true,
+  "source_predecessor": {
+    "bytes": 10241,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/source-selection.json",
+    "sha256": "7fbda930ec788f96b973ff0d109e7c5ed8d749d4683261a2f80a63edc15f7146"
+  },
+  "state": "QUALIFIED_AFFECTED_SOURCE_ONLY_UNBUILT_UNPROVED_UNACCEPTED",
+  "target_execution": false,
+  "tests_run": false,
+  "unchanged_decoder_context": {
+    "core/worldline-producer_bytes.adb": {
+      "bytes": 7018,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/source/core/worldline-producer_bytes.adb",
+      "sha256": "7fd427c70253608a968b3361b114fb36554578fd81e66da1f860f24054069b4f"
+    },
+    "core/worldline-producer_bytes.ads": {
+      "bytes": 661,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/source/core/worldline-producer_bytes.ads",
+      "sha256": "6b64c3643869d09d876166c8ddc0a08f7473859d6e069586aa2770badf638988"
+    }
+  }
+}
