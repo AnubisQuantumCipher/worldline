@@ -1,0 +1,14 @@
+{
+  "schema": "worldline-original-source-only-enrollment-collector-invocation-v1",
+  "command": "python3 -B '/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/proof-enrollment-repair-v49/collect_enrollment_report.py' --root '/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/source' --output '/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/enrollment-report.json' --pin-refresh-report '/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/pin-refresh-source-observation.json'",
+  "chunk_id": "ccbdf2",
+  "wall_time_seconds": 0.25767126,
+  "exit_code": 0,
+  "original_token_count": 121,
+  "output": "{\n  \"report\": \"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v4/enrollment-report.json\",\n  \"sha256\": \"4a540334043640fbda56dc09f4d7f0cd405a72318d26a5ab2a6d281afe9a2a38\",\n  \"state\": \"SOURCE_ONLY_UNBUILT_UNPROVED_UNACCEPTED\",\n  \"requiredNames\": 1607,\n  \"coreSources\": 415,\n  \"effectivePins\": 458,\n  \"literalPins\": 1006,\n  \"staleLiteralPins\": 0\n}\n",
+  "source_mutated": false,
+  "target_execution": false,
+  "proof_acceptance": false,
+  "phase_acceptance": false,
+  "collector_guard_unchanged": true
+}

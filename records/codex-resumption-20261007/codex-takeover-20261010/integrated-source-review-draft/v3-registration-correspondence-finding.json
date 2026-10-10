@@ -1,0 +1,49 @@
+{
+  "actual_launch_provenance": {
+    "bytes": 4022,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/recovery_review-actual-launch-provenance.json",
+    "sha256": "b5db933f088f539a2f24df9e35bdaf6a481a35fc10481ffdddc69d4672fd8aed"
+  },
+  "actual_manifest": {
+    "bytes": 243074,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v3/source/runtime/worldline/proof_manifest.py",
+    "sha256": "221badc58aaa16db84491af17e338e3558d3ae4bf6ee4376ad66cdff073adc17"
+  },
+  "disposition": "SOURCE_BINDING_CORRECTION_REQUIRED",
+  "finding": {
+    "actual": "221badc58aaa16db84491af17e338e3558d3ae4bf6ee4376ad66cdff073adc17",
+    "category": "CURRENT_SOURCE_BINDING",
+    "id": "INTEGRATION-REGISTRATION-PIN-01",
+    "json_pointer": "/fixed_excluded_source_owner/affected_source_sha256/runtime~1worldline~1proof_manifest.py",
+    "meaning": "The current integration changed the manifest while the copied operation registration still named the V5 donor manifest identity. All other affected-source map entries match v3.",
+    "observed_runtime_failure": false,
+    "required_change": "Bind the actual current manifest in a fresh source candidate and distinguish root-authored integration from the immutable V5 donor, preserving the prior registration preimage.",
+    "severity": "MEDIUM",
+    "source_consumer_found": false,
+    "stored": "b5f474022475f83fd6d1abb1d00983e8091a06d8a7819098b97fff520a1f0dc0"
+  },
+  "historical_record": "This records the genuine v3 correspondence finding; a later correction does not rewrite this source epoch.",
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "reasoning_effort": "max",
+  "registration": {
+    "bytes": 28862,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v3/source/protected-root/controls/source_registration.json",
+    "sha256": "fb9f2f1fff7454f3160495ea5251d2026cfba719ca4995888c7baa8ee846afc0"
+  },
+  "review_model": "gpt-6.1-sol",
+  "reviewer": "/root/recovery_review",
+  "runtime_acceptance": false,
+  "schema": "worldline-independent-integration-source-finding-v1",
+  "source_only": true,
+  "source_selection": {
+    "bytes": 9452,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v3/source-selection.json",
+    "sha256": "6ddfa4f6586d7881006f853d2bb1a4142c04ff1294724ddf0c141226daa01995"
+  },
+  "target_execution": false
+}

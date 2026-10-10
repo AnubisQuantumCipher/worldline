@@ -1,0 +1,28 @@
+{
+  "schema": "codex-independent-affected-source-review-v1",
+  "author": "/root",
+  "reviewer": "/root/decoder_review",
+  "actual_model": "gpt-6.1-sol",
+  "reasoning_effort": "max",
+  "selection_provenance": "collaboration.spawn_agent explicit model and effort; independently delivered final result in this native chat",
+  "verdict": "NO_BLOCKING_SOURCE_DEFECT_FOUND",
+  "blocking_findings": [],
+  "preimage_sha256": "e8ddb79c2a6d153ee65a543fc2da926324597816038b8bfd95c6ed68a1b9dbef",
+  "source_sha256": "7fd427c70253608a968b3361b114fb36554578fd81e66da1f860f24054069b4f",
+  "public_specification_sha256": "6b64c3643869d09d876166c8ddc0a08f7473859d6e069586aa2770badf638988",
+  "findings": [
+    "Phase/carry assignments preserve rendering transition behavior; count-only execution keeps zero carry.",
+    "Dead phase-zero byte branch removal is justified by enclosing nonzero branch and unchanged Phase subtype.",
+    "Original invariants retained with additional count-only zero-carry invariant; no precondition or accepted-domain restriction.",
+    "Padding, malformed-input rejection, exact output length and full failure zeroing unchanged; permissive legacy trailing padding and noncanonical tail bits retained.",
+    "Actual array bounds remain used; null-output assertion adds no parser restriction."
+  ],
+  "open": [
+    "Strict proof and warning resolution UNRUN.",
+    "Public contracts do not specify decoded content or count/render agreement; initialization proof alone is not functional equivalence.",
+    "Run direct checked preimage-versus-donor comparisons, canonical external oracle where applicable, all decoder phases, legacy acceptance, malformed/padding cases, exact/short/long/null outputs, shifted/high bounds, sentinel and complete failure-zeroing checks; retain original native controls."
+  ],
+  "proof_acceptance": false,
+  "runtime_acceptance": false,
+  "phase_acceptance": false
+}
