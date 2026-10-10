@@ -1,0 +1,15 @@
+project Retained_Startup_Diagnostic is
+   for Languages use ("Ada");
+   for Source_Dirs use ("core", "core/attest", "archive-envelope-controls",
+     "custody-hmac-controls", "retained-chain-controls");
+   for Object_Dir use "retained-diagnostic-obj";
+   for Exec_Dir use "retained-diagnostic-bin";
+   for Main use ("archive_envelope_controls.adb", "scoped_archive_controls.adb", "archive_hmac_join_controls.adb", "custody_hmac_controls.adb", "retained_chain_controls.adb", "provider_length_controls.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnata", "-gnatVa", "-gnatwa", "-gnatf", "-g", "-O0");
+   end Compiler;
+   package Builder is
+      for Switches ("Ada") use ("-j1");
+   end Builder;
+end Retained_Startup_Diagnostic;

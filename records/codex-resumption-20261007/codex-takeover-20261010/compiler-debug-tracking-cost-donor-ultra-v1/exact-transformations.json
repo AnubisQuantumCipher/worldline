@@ -1,0 +1,149 @@
+{
+  "actual_child_wait": {
+    "actual_wait_observed": true,
+    "argv": [
+      "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "-P",
+      "core/worldline_core_sources.gpr",
+      "-U",
+      "--mode=all",
+      "--level=3",
+      "--report=all",
+      "--checks-as-errors=on",
+      "--proof-warnings=on",
+      "-j2"
+    ],
+    "child_signal": 15,
+    "kill_seconds": 5,
+    "launch_observed": true,
+    "owned_process_group": {
+      "pgid": 2082788,
+      "pid": 2082788,
+      "starttime": "34878106"
+    },
+    "owned_scope_signals": [],
+    "owner_signal": null,
+    "ownership_collection_required": false,
+    "phase_acceptance": false,
+    "pid": 2082788,
+    "raw_files": [
+      {
+        "bytes": 155,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child.stdout",
+        "sha256": "69a3389efb77199c9dd6f5aaf376dbcced2e7ef1d4edbca98643c88cb7d3578d"
+      },
+      {
+        "bytes": 0,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "retention_errors": [],
+    "retention_success": true,
+    "returncode": -15,
+    "stop_reason": "deadline",
+    "term_seconds": 5,
+    "timeout": true,
+    "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+  },
+  "actual_d8_observations": {
+    "child-wait.json": {
+      "original_pin_at_copy": {
+        "bytes": 1772,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child-wait.json",
+        "sha256": "34fd8c15e1b4fe2e2cc40bee724652f65d3430484491d9921212624f4a95ebb3"
+      },
+      "retained_copy": {
+        "bytes": 1772,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/actual-d8-observations/child-wait.json",
+        "sha256": "34fd8c15e1b4fe2e2cc40bee724652f65d3430484491d9921212624f4a95ebb3"
+      }
+    },
+    "child.stderr": {
+      "original_pin_at_copy": {
+        "bytes": 0,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained_copy": {
+        "bytes": 0,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/actual-d8-observations/child.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "child.stdout": {
+      "original_pin_at_copy": {
+        "bytes": 155,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child.stdout",
+        "sha256": "69a3389efb77199c9dd6f5aaf376dbcced2e7ef1d4edbca98643c88cb7d3578d"
+      },
+      "retained_copy": {
+        "bytes": 155,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/actual-d8-observations/child.stdout",
+        "sha256": "69a3389efb77199c9dd6f5aaf376dbcced2e7ef1d4edbca98643c88cb7d3578d"
+      }
+    },
+    "data_representation_generation.log": {
+      "original_pin_at_copy": {
+        "bytes": 6965,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/obj/core/gnatprove/data_representation_generation.log",
+        "sha256": "38fbcc0a4cb57b2c90fd3ac1fb472aad952ffceed814de7e724e23f5c56bc8fa"
+      },
+      "retained_copy": {
+        "bytes": 6965,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/actual-d8-observations/data_representation_generation.log",
+        "sha256": "38fbcc0a4cb57b2c90fd3ac1fb472aad952ffceed814de7e724e23f5c56bc8fa"
+      }
+    },
+    "result.json": {
+      "original_pin_at_copy": {
+        "bytes": 312408,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/result.json",
+        "sha256": "012c6ae3dbe8ad111f67b5eccdfc4151a88ee728a8a0eb56f4b9341cb72fb98d"
+      },
+      "retained_copy": {
+        "bytes": 312408,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/actual-d8-observations/result.json",
+        "sha256": "012c6ae3dbe8ad111f67b5eccdfc4151a88ee728a8a0eb56f4b9341cb72fb98d"
+      }
+    }
+  },
+  "after": "\"-O2\", \"-g\", \"-fPIC\", \"-fno-var-tracking-assignments\");",
+  "before": "\"-O2\", \"-g\", \"-fPIC\");",
+  "forward_inverse_exact": true,
+  "material_limitations": [
+    "Detailed DWARF variable-assignment location history can be reduced; -g continues to request debug symbols/line/type data.",
+    "This cannot establish proof correctness or resolution of the deadline failure; actual full strict proof and complete native/runtime actions remain OPEN.",
+    "No target executed with this postimage; exact compiler/source/full-frame review and real original-bound validation remain required."
+  ],
+  "phase_acceptance": false,
+  "preimage_copy": {
+    "bytes": 1057,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/preimages/core/worldline_core_sources.gpr",
+    "sha256": "4c2289d5a62e8420a3448ea4f3bd7e317e3ddf038dda1ddec790e36795514942"
+  },
+  "retained_guarantees": [
+    "Original -gnat2022/-gnatwa/-gnatVa/-gnatf/-O2/-g/-fPIC switch prefix remains byte-identical and ordered.",
+    "Checks mode still adds -gnata; no assertion, ghost check, runtime check, warning, validity check or optimization level is disabled.",
+    "All Ada source, expressions, accepted domains, contracts, proof enrollment and external ABI declarations are unchanged.",
+    "Original source directories/exclusions, output topology, C switches, proof switches and direct full strict -U command are byte-identical.",
+    "Original child/scope/Main deadlines, memory/swap/core caps, original fixtures/controls/rosters and full same-final-source acceptance obligations remain mandatory."
+  ],
+  "schema": "worldline-compiler-debug-assignment-tracking-delta-v1",
+  "sole_permitted_difference": "Append one nonsemantic compiler debug-assignment-tracking option to the original Common Ada switch list.",
+  "source_only": true,
+  "target_execution": false
+}

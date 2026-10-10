@@ -1,0 +1,112 @@
+{
+  "schema": "worldline.passive.compiler-expansion-observation.v1",
+  "observer": "/root/proof_ultra",
+  "actual_time": "2026-10-10T19:20:05.050681+00:00",
+  "disposition": "OBSERVED_SOURCE_AND_LIVE_COMPILER_DATA_ONLY",
+  "source_pins": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source/core/evaluation_finalization.ads",
+      "sha256": "e20808c44b84e02485e10a3eb1e1e36a2f2f88defd75eb97c536cee6851c287a",
+      "bytes": 21318,
+      "mode": 420
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source/core/evaluation_finalization.adb",
+      "sha256": "6139bb5ca30b650648e73ddcf2ce4761e8c4c1a005915b528c49ba9a2021160b",
+      "bytes": 14584,
+      "mode": 420
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source/core/evaluation_raw_roster.ads",
+      "sha256": "1640ceda9cf05cc16af4609ed986590c85e541a8dd9d76eb1ca70275133b1cd8",
+      "bytes": 10308,
+      "mode": 420
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source/core/worldline-canonical_exchange.ads",
+      "sha256": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600",
+      "bytes": 10891,
+      "mode": 420
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source/core/worldline-canonical_exchange.adb",
+      "sha256": "09c62f1a8d59329c2cc90532f33c5c465504c0fcdd377f34323684fbec5a724f",
+      "bytes": 4404,
+      "mode": 420
+    }
+  ],
+  "logs": [
+    {
+      "pin_at_observation": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child.stdout",
+        "sha256": "627664f3cb492b19909ccdd2ff1a14ccf1176a6e92d2a965ebcfcb83d082105d",
+        "bytes": 64,
+        "mode": 384
+      },
+      "raw": "Phase 1 of 3: generation of data representation information ...\n"
+    },
+    {
+      "pin_at_observation": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "mode": 384
+      },
+      "raw": ""
+    },
+    {
+      "pin_at_observation": {
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/obj/core/gnatprove/data_representation_generation.log",
+        "sha256": "83d2c49c2d3183134ddd1564f55e42dfcb90bb2cd9cda4de5036928394cba3e3",
+        "bytes": 5692,
+        "mode": 384
+      },
+      "raw": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/resource_scoped_run_ledger_wire.adb: In function 'Resource_Scoped_Run_Ledger_Wire.Decide':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/resource_scoped_run_ledger_wire.adb:39:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/evaluation_finalization.adb: In function 'Evaluation_Finalization.Lemma_Content_Erasure':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/evaluation_finalization.adb:201:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/evaluation_finalization.adb: In function 'Evaluation_Finalization.Seal':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/evaluation_finalization.adb:269:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/evaluation_finalization.ads: In function 'Evaluation_Finalization.Seal_Equation':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/evaluation_finalization.ads:353:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/evaluation_finalization.adb: In function 'Evaluation_Finalization.Seal_Reference':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/evaluation_finalization.adb:128:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/worldline-native_execution_views.adb: In function 'Worldline.Native_Execution_Views.Actor_Expected':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/worldline-native_execution_views.adb:82:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/resource_actor_admission.ads: In function 'Resource_Actor_Admission.Reference':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/resource_actor_admission.ads:254:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/resource_actor_admission.adb: In function 'Resource_Actor_Admission.Check':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/resource_actor_admission.adb:19:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/resource_run_ledger_wire.adb: In function 'Resource_Run_Ledger_Wire.Decide':\n/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/core/resource_run_ledger_wire.adb:26:4: note: variable tracking size limit exceeded with '-fvar-tracking-assignments', retrying without\n"
+    }
+  ],
+  "generated_assembly_stat_observations": [
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/obj/core/gnatprove/data_representation/evaluation_finalization.s",
+      "bytes": 91191001,
+      "mtime_ns": 1791659832633123000,
+      "identity_kind": "stat-only mutable generated observation; not immutable byte pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/obj/core/gnatprove/data_representation/evaluation_raw_roster.s",
+      "bytes": 11374736,
+      "mtime_ns": 1791659758142021400,
+      "identity_kind": "stat-only mutable generated observation; not immutable byte pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/obj/core/gnatprove/data_representation/worldline-canonical_exchange.s",
+      "bytes": 1180795,
+      "mtime_ns": 1791659763422100200,
+      "identity_kind": "stat-only mutable generated observation; not immutable byte pin"
+    },
+    {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/source/obj/core/gnatprove/data_representation/resource_run_ledger_wire.s",
+      "bytes": 14270175,
+      "mtime_ns": 1791659993796435000,
+      "identity_kind": "stat-only mutable generated observation; not immutable byte pin"
+    }
+  ],
+  "identity_before": "2082788 (gnatprove) S 2082785 2082788 2082788 0 -1 4194304 4462 1272 2 0 7 2 0 0 20 0 1 0 34878106 36638720 7062 18446744073709551615 187650392522752 187650411984960 281474700776896 0 0 0 0 0 1256 1 0 0 17 2 0 0 0 0 0 187650412049416 187650412695946 187651144957952 281474700779692 281474700779880 281474700779880 281474700783538 0\n",
+  "non_claims": [
+    "No compiler/proof/test target executed by observer",
+    "No signal or intervention",
+    "No source or running frame mutation",
+    "No timeout or pass inference",
+    "No accepted domain, contract, command, scope or deadline change"
+  ],
+  "source_inference": "Seal postcondition calls Seal_Reference, whose full equation invokes Seal_Classification_Equation repeatedly; its Raw_Roster.Reference expands the completed/failure/promotion relations. This is an unverified compiler-cost hypothesis. Actual variable-tracking fallback messages and assembly sizes are observations, not causality or proof.",
+  "cgroup_at_observation": {
+    "memory.current": "1197846528\n",
+    "memory.peak": "2439421952\n",
+    "memory.max": "8589934592\n",
+    "memory.swap.current": "0\n",
+    "memory.swap.max": "0\n",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0\n"
+  },
+  "identity_after": "2082788 (gnatprove) S 2082785 2082788 2082788 0 -1 4194304 4462 1272 2 0 7 2 0 0 20 0 1 0 34878106 36638720 7062 18446744073709551615 187650392522752 187650411984960 281474700776896 0 0 0 0 0 1256 1 0 0 17 2 0 0 0 0 0 187650412049416 187650412695946 187651144957952 281474700779692 281474700779880 281474700779880 281474700783538 0\n"
+}
+

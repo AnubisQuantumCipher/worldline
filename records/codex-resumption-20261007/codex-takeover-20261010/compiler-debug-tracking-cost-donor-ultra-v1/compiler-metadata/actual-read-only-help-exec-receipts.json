@@ -1,0 +1,56 @@
+{
+  "schema": "worldline.actual-read-only-compiler-help-receipts.v1",
+  "observer": "/root/proof_ultra",
+  "commands": [
+    {
+      "command": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/gcc --help=common",
+      "actual_tool": "functions.exec tools.exec_command",
+      "actual_exit_code": 0,
+      "actual_chunk_id": "cb4f7b",
+      "raw_output": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/compiler-metadata/installed-gcc-common-help.txt",
+      "actual_wall_time_seconds": 0.000006208,
+      "tool_output_original_tokens": 20895,
+      "source_input_files": [],
+      "target_execution": false
+    },
+    {
+      "command": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/gcc --version",
+      "actual_tool": "functions.exec tools.exec_command",
+      "actual_exit_code": 0,
+      "actual_chunk_id": "5ec834",
+      "raw_output": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/compiler-metadata/installed-gcc-version.txt",
+      "actual_wall_time_seconds": 0.000007459,
+      "tool_output_original_tokens": 58,
+      "source_input_files": [],
+      "target_execution": false
+    },
+    {
+      "command": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/gcc -Q --help=common -O2 -g",
+      "actual_tool": "functions.exec tools.exec_command",
+      "actual_exit_code": 0,
+      "actual_chunk_id": "77cc11",
+      "raw_output": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/compiler-metadata/installed-gcc-original-debug-options.txt",
+      "actual_wall_time_seconds": 0.000012958,
+      "tool_output_original_tokens": 8001,
+      "source_input_files": [],
+      "target_execution": false
+    },
+    {
+      "command": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/gcc -Q --help=common -O2 -g -fno-var-tracking-assignments",
+      "actual_tool": "functions.exec tools.exec_command",
+      "actual_exit_code": 0,
+      "actual_chunk_id": "b7bf89",
+      "raw_output": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compiler-debug-tracking-cost-donor-ultra-v1/compiler-metadata/installed-gcc-proposed-debug-options.txt",
+      "actual_wall_time_seconds": 0.000007875,
+      "tool_output_original_tokens": 8001,
+      "source_input_files": [],
+      "target_execution": false
+    }
+  ],
+  "source_only": true,
+  "target_execution": false,
+  "non_claims": [
+    "No source input or compilation",
+    "Help metadata accepts the option and displays its state; it does not establish compiler acceptance of project sources, effectiveness or full proof/runtime success"
+  ]
+}

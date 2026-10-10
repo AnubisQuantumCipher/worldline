@@ -1,0 +1,110 @@
+{
+  "schema": "worldline.compiler-cost-repair-source-only-comparison.v1",
+  "author": {
+    "identity": "/root/proof_ultra",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "ultra",
+    "actual_launch": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/proof_ultra-actual-launch-provenance.json",
+      "sha256": "de6ccd4d8663133f7967ae97f75e90ceb23a61226272da1acf584fdf70fe195f",
+      "bytes": 6105,
+      "mode": 420
+    }
+  },
+  "observed_at": "2026-10-10T19:23:07.516297+00:00",
+  "disposition": "SOURCE_ONLY_AUTHOR_ANALYSIS_NO_IMPLEMENTATION_OR_ACCEPTANCE",
+  "current_source_selector": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source-selection.json",
+    "sha256": "2418eab24d87f0ac819a0a592c48fa9ccb24bbaa95938007f3ab368144146be0",
+    "bytes": 11577,
+    "mode": 420
+  },
+  "current_source_review": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/frame-review-draft/integrated-v7-independent-source-review.json",
+    "sha256": "9e99e1a30c1337ae7bf5b95ddf2d62c2b993aa200d481a3a8f0fa6d820c050af",
+    "bytes": 16001,
+    "mode": 420
+  },
+  "current_project": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source/core/worldline_core_sources.gpr",
+    "sha256": "4c2289d5a62e8420a3448ea4f3bd7e317e3ddf038dda1ddec790e36795514942",
+    "bytes": 1057,
+    "mode": 420
+  },
+  "passive_cost_evidence": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-v8-passive-compiler-expansion-observation-v1.json",
+    "sha256": "72345aeb22b2bb9172bca131d0f367a132f867d317074924a2f64863615efc67",
+    "bytes": 12858,
+    "mode": 420
+  },
+  "actual_observations": [
+    "Original strict run reached flow analysis and proof after data-representation and global-contract phases; terminal result was not yet observed when this comparison was authored.",
+    "Generated data-representation log records GCC variable-tracking size-limit retries for Finalization and other contract-heavy functions.",
+    "Generated Finalization assembly size is a stat-only measurement of mutable compiler output, not an immutable artifact or performance theorem."
+  ],
+  "alternatives": [
+    {
+      "route": "Add only -fno-var-tracking-assignments to the existing core GPR Common Ada switches",
+      "recommended_for_first_review": true,
+      "exact_current_common": "(\"-gnat2022\", \"-gnatwa\", \"-gnatVa\", \"-gnatf\", \"-O2\", \"-g\", \"-fPIC\")",
+      "exact_proposed_common": "(\"-gnat2022\", \"-gnatwa\", \"-gnatVa\", \"-gnatf\", \"-O2\", \"-g\", \"-fPIC\", \"-fno-var-tracking-assignments\")",
+      "permitted_name": "core/worldline_core_sources.gpr",
+      "mechanism": "GCC documents assignment annotations carried through optimization to improve variable debug locations. The observed compiler already abandons that pass and retries specific functions without it. Starting without assignment tracking could avoid redundant debug work; effect has not been measured.",
+      "preserved": [
+        "Every existing Ada compiler switch, including optimization, debug output, assertion checks and validity checks",
+        "All Ada source bytes, executable equations, public/private contracts, accepted domains, C/native interfaces and source enrollment",
+        "Original direct GNATprove argv, full -U scope, proof level, checks-as-errors, proof warnings and original deadlines/caps",
+        "Original C switches, proof switches, GPR source directories/exclusions and output topology"
+      ],
+      "material_limitations": [
+        "DWARF variable-assignment location history can become less detailed; debug symbols and line/type debug information remain requested by -g.",
+        "Does not directly address proof complexity or prove that source compilation/proof/native actions fit original deadlines.",
+        "No actual compiler acceptance or postimage exists yet; genuine independent review and complete same-final-source execution remain required."
+      ]
+    },
+    {
+      "route": "Add targeted GNAT pragma No_Inline to selected heavy expression relations",
+      "recommended_for_first_review": false,
+      "candidate_names": [
+        "Evaluation_Raw_Roster.Reference",
+        "Evaluation_Raw_Roster.Promotion_Roster",
+        "Evaluation_Finalization.Seal_Classification_Equation",
+        "Evaluation_Finalization.Seal_Equation"
+      ],
+      "mechanism": "GNAT's documented No_Inline pragma keeps callable boundaries instead of inlining. Nested expression equations are a concrete source expansion path and completed assembly has no calls to the heavy reference symbols searched, consistent with expansion; this remains a hypothesis.",
+      "preserved_if_validated": [
+        "Original expressions, all checked contracts and ghost assertions, accepted domains, results, side effects and external strict command",
+        "Complete original proof/caller/flow/runtime-error/termination obligations; no proof-context hiding or analysis waiver"
+      ],
+      "material_limitations": [
+        "Changes compiled call structure and may change runtime cost, stack use or debug presentation.",
+        "Actual installed-tool pragma handling and preservation of full proof visibility must be checked, including exact original required-name/pin enrollment.",
+        "Narrow selection may be insufficient because lower reference expressions expand before these boundaries; no benefit has been established."
+      ]
+    }
+  ],
+  "primary_references": [
+    {
+      "url": "https://gcc.gnu.org/onlinedocs/gcc-16.1.0/gcc/Debugging-Options.html",
+      "revision": "GCC 16.1.0",
+      "support": "-fvar-tracking-assignments annotates assignments to improve optimized debugging information; enabled with variable tracking by default."
+    },
+    {
+      "url": "https://docs.adacore.com/gnat_rm-docs/html/gnat_rm/gnat_rm/implementation_defined_pragmas.html",
+      "revision": "GNAT RM 28.0w web reference",
+      "support": "No_Inline suppresses callable inlining and is always active; it cannot coexist with Inline_Always for the same entity."
+    },
+    {
+      "url": "https://gcc.gnu.org/onlinedocs/gnat_ugn/Inlining-of-Subprograms.html",
+      "revision": "GNAT web user guide",
+      "support": "Expression functions are eligible for automatic inlining under optimization."
+    }
+  ],
+  "non_claims": [
+    "No change to the running S7/D8 bytes",
+    "No signal, target, build, prover, benchmark or test executed by author",
+    "No timeout diagnosis before actual terminal observation",
+    "No source-only or partial result establishes the original successful whole-build/full-proof/runtime/ownership/fixture/independent-acceptance guarantee"
+  ],
+  "required_next_step": "Root retains the original actual outcome and authorizes a concrete disjoint donor only if evidence justifies it; independent genuine ultra review precedes composition and original same-final-source target validation."
+}

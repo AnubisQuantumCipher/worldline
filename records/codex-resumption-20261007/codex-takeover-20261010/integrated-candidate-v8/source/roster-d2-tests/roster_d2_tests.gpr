@@ -1,0 +1,11 @@
+with "../core/worldline_core_sources.gpr";
+project Roster_D2_Tests is
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/roster-d2-tests";
+   for Exec_Dir use "../obj/roster-d2-tests";
+   for Main use ("test_roster_d2.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");
+   end Compiler;
+end Roster_D2_Tests;

@@ -1,0 +1,100 @@
+{
+  "Main_observation_seconds": 1000,
+  "actual_completed_outer_waits": [
+    {
+      "actual_outer_Popen_wait": 0,
+      "actual_outer_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/outer_capture.py",
+        "native-build",
+        "e7e7a66e33bf2795561d84c2db0f03c2ecc2ca78f8f610de4dd5e66b0f3b4844"
+      ],
+      "actual_outer_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/review/root-outer-capture-v1/cc7a9f249c784820a69f3c93e639b230",
+      "actual_outer_pid": 2117708,
+      "at": "2026-10-10T19:33:10.899466+00:00",
+      "elapsed_seconds_since_Main_start": 135.37910426198505,
+      "mode": "native-build",
+      "responded_original_challenges": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/review/root-live-lane-v1/attempts/native-build/9c68177c107042d1a49193425a2c2a96/challenge-cf1f0f03462e42aa97226fbc0c4ea7fd/challenge.json"
+      ]
+    },
+    {
+      "actual_outer_Popen_wait": 0,
+      "actual_outer_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/outer_capture.py",
+        "native-component-tests",
+        "e7e7a66e33bf2795561d84c2db0f03c2ecc2ca78f8f610de4dd5e66b0f3b4844"
+      ],
+      "actual_outer_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/review/root-outer-capture-v1/c585a6ea069046a08ff876b607ecc380",
+      "actual_outer_pid": 2125297,
+      "at": "2026-10-10T19:35:15.596305+00:00",
+      "elapsed_seconds_since_Main_start": 260.0759169830126,
+      "mode": "native-component-tests",
+      "responded_original_challenges": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/review/root-live-lane-v1/attempts/native-component-tests/f7baf2677f6445a08ca604e0ddf8e0bb/challenge-110cdc752ef1402a9d8759e3f06d01f4/challenge.json"
+      ]
+    },
+    {
+      "actual_outer_Popen_wait": 0,
+      "actual_outer_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/outer_capture.py",
+        "pending-build",
+        "e7e7a66e33bf2795561d84c2db0f03c2ecc2ca78f8f610de4dd5e66b0f3b4844"
+      ],
+      "actual_outer_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/review/root-outer-capture-v1/713d7019ca3b427e8514973aab764726",
+      "actual_outer_pid": 2132024,
+      "at": "2026-10-10T19:37:14.963211+00:00",
+      "elapsed_seconds_since_Main_start": 379.4428562989924,
+      "mode": "pending-build",
+      "responded_original_challenges": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/review/root-live-lane-v1/attempts/pending-build/d12b8a93621b428cb95a06f2d5d53959/challenge-3e5bd792b3ba46ab9a78c568e8e5b724/challenge.json"
+      ]
+    }
+  ],
+  "actual_elapsed_seconds": 1000.1648860099958,
+  "at": "2026-10-10T19:47:35.685268+00:00",
+  "errors": [
+    {
+      "at": "2026-10-10T19:47:35.592684+00:00",
+      "message": "Main finite prefix observation deadline, not a domain limit",
+      "type": "TimeoutError"
+    },
+    {
+      "actual_stderr": "",
+      "actual_stdout": "",
+      "actual_stop_returncode": 0,
+      "cleanup_owned_unit": "codex-worldline-codex-takeover-runtime-v7-build-v1.scope"
+    },
+    {
+      "actual_cleanup_Popen_wait": -15,
+      "cleanup_owned_outer_pid": 2138103,
+      "unknown_or_failed_target_not_promoted": true
+    }
+  ],
+  "no_domain_limit_or_gate_changed": true,
+  "original_proposal": {
+    "bytes": 538782,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/reviewed-launch-proposal.json",
+    "sha256": "fc6c229ab3602993ec5200d5761bb1285c3b47aaea6fefd16b52a3de335a5ba6"
+  },
+  "phase_acceptance": false,
+  "prior_mutable_adoption": {
+    "bytes": 6942,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v7-ultra-v3-draft/candidate/review/root-source-binding-adoption-v1/adoption.json",
+    "sha256": "504e65d83cfca2c6d42e3de8d5b98d3195bee67340f327c49b385fe861a0797d"
+  },
+  "requested_qualified_original_prefix": [
+    "native-build",
+    "native-component-tests",
+    "pending-build",
+    "build",
+    "entry-component-tests"
+  ]
+}

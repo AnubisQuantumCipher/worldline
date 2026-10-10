@@ -1,0 +1,49 @@
+{
+  "actual_wait_observed": true,
+  "argv": [
+    "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+    "-P",
+    "core/worldline_core_sources.gpr",
+    "-U",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "-j2"
+  ],
+  "child_signal": 15,
+  "kill_seconds": 5,
+  "launch_observed": true,
+  "owned_process_group": {
+    "pgid": 2082788,
+    "pid": 2082788,
+    "starttime": "34878106"
+  },
+  "owned_scope_signals": [],
+  "owner_signal": null,
+  "ownership_collection_required": false,
+  "phase_acceptance": false,
+  "pid": 2082788,
+  "raw_files": [
+    {
+      "bytes": 155,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child.stdout",
+      "sha256": "69a3389efb77199c9dd6f5aaf376dbcced2e7ef1d4edbca98643c88cb7d3578d"
+    },
+    {
+      "bytes": 0,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v8-draft/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "retention_errors": [],
+  "retention_success": true,
+  "returncode": -15,
+  "stop_reason": "deadline",
+  "term_seconds": 5,
+  "timeout": true,
+  "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+}

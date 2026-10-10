@@ -1,0 +1,11 @@
+--- a/core/worldline_core_sources.gpr
++++ b/core/worldline_core_sources.gpr
+@@ -12,7 +12,7 @@
+    Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");
+ 
+    Common :=
+-     ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-fPIC", "-fno-var-tracking-assignments");
++     ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-fPIC");
+ 
+    package Compiler is
+       for Default_Switches ("C") use
