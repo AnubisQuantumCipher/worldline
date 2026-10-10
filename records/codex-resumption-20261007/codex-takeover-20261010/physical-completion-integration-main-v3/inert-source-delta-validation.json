@@ -1,0 +1,36 @@
+{
+  "forward_and_inverse_exact": true,
+  "patch_results": [
+    {
+      "argv": [
+        "/usr/bin/patch",
+        "--batch",
+        "--fuzz=0",
+        "-p1",
+        "-i",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/physical-completion-integration-main-v3/source-forward.patch"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "patching file core/worldline-actuation.adb\npatching file core/worldline-actuation.ads\npatching file core/worldline-actuation_full_wire.ads\npatching file core/worldline-c_api.adb\npatching file core/worldline-c_api.ads\npatching file core/worldline_actuation_v1.h\npatching file core/worldline_core.gpr\npatching file core/worldline_full_physical_v1.h\npatching file physical-value-controls/physical_value_controls.adb\npatching file physical-value-controls/physical_value_controls.gpr\npatching file protected-canonical/full_physical_actuator.c\npatching file protected-canonical/full_physical_actuator.h\npatching file protected-canonical/full_physical_sources.gpr\npatching file protected-canonical/vendor-transaction-035545/worldline_actuator.c\npatching file protected-canonical/vendor-transaction-035545/worldline_actuator.h\npatching file runtime/worldline/canonical_full_broker.py\npatching file runtime/worldline/canonical_physical.py\npatching file tests/test_full_physical_exports_native.py\npatching file tests/test_full_physical_syscalls_native.py\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/patch",
+        "--batch",
+        "--fuzz=0",
+        "-p1",
+        "-i",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/physical-completion-integration-main-v3/source-inverse.patch"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "patching file core/worldline-actuation.adb\npatching file core/worldline-actuation.ads\npatching file core/worldline-actuation_full_wire.ads\npatching file core/worldline-c_api.adb\npatching file core/worldline-c_api.ads\npatching file core/worldline_actuation_v1.h\npatching file core/worldline_core.gpr\npatching file core/worldline_full_physical_v1.h\npatching file physical-value-controls/physical_value_controls.adb\npatching file physical-value-controls/physical_value_controls.gpr\npatching file protected-canonical/full_physical_actuator.c\npatching file protected-canonical/full_physical_actuator.h\npatching file protected-canonical/full_physical_sources.gpr\npatching file protected-canonical/vendor-transaction-035545/worldline_actuator.c\npatching file protected-canonical/vendor-transaction-035545/worldline_actuator.h\npatching file runtime/worldline/canonical_full_broker.py\npatching file runtime/worldline/canonical_physical.py\npatching file tests/test_full_physical_exports_native.py\npatching file tests/test_full_physical_syscalls_native.py\n"
+    }
+  ],
+  "phase_acceptance": false,
+  "python_ast_parse": "PASS",
+  "schema": "worldline-inert-reversible-source-data-check-v1",
+  "target_execution": false,
+  "target_imports": false
+}

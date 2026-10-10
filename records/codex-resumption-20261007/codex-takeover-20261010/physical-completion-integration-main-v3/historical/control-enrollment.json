@@ -1,0 +1,52 @@
+{
+  "additive_runtime_command": "WORLDLINE_CORE_LIB=\"$PWD/lib/libworldline_core.so\" PYTHONPATH=\"$PWD/runtime:$PWD/tests\" python -m unittest test_full_physical_exports_native test_canonical_exchange_owner_exports_native test_canonical_owner_mapping_order",
+  "build": "UNRUN",
+  "disposable_namespace_runtime_command": "WORLDLINE_CORE_LIB=\"$PWD/lib/libworldline_core.so\" PYTHONPATH=\"$PWD/runtime:$PWD/tests\" WORLDLINE_TEMP_PHYSICAL_NAMESPACE=1 WORLDLINE_PHYSICAL_SECOND_TMP=/dev/shm unshare --user --map-root-user python -m unittest test_full_physical_syscalls_native",
+  "executed": false,
+  "namespace_premises": [
+    "Unprivileged disposable user namespace supported; never sudo/host root/production",
+    "Two real temporary filesystems with distinct devices for actual EXDEV control",
+    "Native checked library from this same identified integrated source"
+  ],
+  "native_build_command": "gprbuild -p -P core/worldline_core.gpr",
+  "new_syscall_controls": [
+    "actual two-root payload fsync/readback/hardlink/symlink exchange",
+    "actual native historical recognition after revoked current grant, repeated recognition with no rename",
+    "refused grant cannot exchange despite caller durable/clean bytes set",
+    "marker mismatch does not exchange",
+    "unjoined payload inode cannot produce durable fact",
+    "exclusive output alias refusal without input/filesystem mutation",
+    "actual cross-filesystem attempted rename errno EXDEV/no swap"
+  ],
+  "original_controls_retained": [
+    "clean commit/exchange/receipt",
+    "touched PRIME refusal/no mutation",
+    "recovery abort before exchange",
+    "recovery after actual exchange marker",
+    "all original full canonical exchange/owner semantic cases, including checkpoint return, revoked current grant historical completion, split/unknown refusal and same-use replay"
+  ],
+  "original_runtime_command": "WORLDLINE_CORE_LIB=\"$PWD/lib/libworldline_core.so\" PYTHONPATH=\"$PWD/runtime:$PWD/tests\" python -m unittest test_core_abi test_operation_exports_native test_canonical_operation_exports_native test_transaction test_protected",
+  "preserve_required_roster_and_floor": 251,
+  "proof": "UNRUN",
+  "remaining_campaign_boundaries": [
+    "original actor/control roster retained and must be run by parent",
+    "actual post-exchange fsync failure/crash-point fault campaign and authentic installed-principal custody/provider/owner controls required; ordinary temp syscall fixtures are not installed-principal evidence",
+    "complete foreign-body/caller termination and pointer/lifetime/native correspondence scope remains required"
+  ],
+  "required_added_proof_units": [
+    "Worldline.Actuation",
+    "Worldline.Actuation_Full_Wire",
+    "Worldline.Canonical_Exchange",
+    "Worldline.Canonical_Exchange_Wire",
+    "Worldline.Canonical_Owner_Completion",
+    "Worldline.Canonical_Owner_Completion_Wire"
+  ],
+  "review": "UNRUN",
+  "runtime": "UNRUN",
+  "semantic_control_commands": [
+    "gprbuild -p -P physical-value-controls/physical_value_controls.gpr && physical-value-controls/bin/physical_value_controls",
+    "gprbuild -p -P canonical-exchange-tests/canonical_exchange_tests.gpr && canonical-exchange-tests/bin/canonical_exchange_controls",
+    "gprbuild -p -P canonical-owner-completion-tests/canonical_owner_completion_tests.gpr && canonical-owner-completion-tests/bin/canonical_owner_completion_controls"
+  ],
+  "strict_proof_command": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove -P core/worldline_core_sources.gpr -U --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2"
+}

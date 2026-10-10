@@ -1,0 +1,100 @@
+{
+  "actual_original_challenge_record": {
+    "action": {
+      "child_argv": [
+        "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+        "-P",
+        "core/worldline_core_sources.gpr",
+        "-U",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "-j2"
+      ],
+      "cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/source",
+      "depends_on": "New different-author exact frame review, fresh active Root adoption/readiness/reservation, original no-sibling/disk/vault gates, actual fresh MCP memory receipt, own immediate gate. No ordinary results transfer.",
+      "explicit_inbound_environment": {
+        "PATH": "/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0AygMm0:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources"
+      },
+      "launcher_argv": [
+        "/usr/bin/env",
+        "PATH=/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0AygMm0:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+        "/usr/bin/python3",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/run_checks.py",
+        "full-strict-formal-diagnostic",
+        "v1"
+      ],
+      "mode": "full-strict-formal-diagnostic",
+      "owned_deadline_controls": {
+        "Main_execution_cutoff_reserves_seconds": 45,
+        "Main_total_seconds": 1000,
+        "actual_waits_unknown_timeouts_signals_and_retention_failures_separate": true,
+        "affected_actual_smoke_review_emitted_adoption_required": true,
+        "child_TERM_KILL_reap_seconds": [
+          5,
+          5
+        ],
+        "enforcement_qualified_or_executed_here": false,
+        "handshake_TERM_KILL_reap_seconds": [
+          25,
+          5
+        ],
+        "outer_TERM_KILL_reap_seconds": [
+          35,
+          5
+        ],
+        "proof_child_wait_seconds": 600,
+        "scope_TERM_KILL_reap_seconds": [
+          15,
+          5
+        ],
+        "scope_wait_seconds": 840,
+        "systemd_scope_RuntimeMaxSec": "840s",
+        "systemd_scope_TimeoutStopSec": "15s"
+      },
+      "receipt": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1",
+      "scope_unit": "codex-worldline-full-formal-diagnostic-v8-full-strict-formal-diagnostic-v1.scope"
+    },
+    "at": "2026-10-10T18:25:17.701312+00:00",
+    "challenge_number": 1,
+    "immediate_admission": "fresh observed integer kB meets the SAME fixed conservative threshold",
+    "kind": "ORDINARY_FIXED_CONSERVATIVE_MEMORY_CHALLENGE",
+    "live_sample": {
+      "MemAvailable_observed_kB": 24053544,
+      "process": null,
+      "scope": "sampled identity/cgroup observation, not exhaustive lifetime monitoring or future capacity guarantee",
+      "service": {},
+      "units": []
+    },
+    "max_challenges": 3,
+    "memory_expression": "24053544*1024-8589934592-8589934592",
+    "minimum_memavailable_kB": 16777217,
+    "mode": "full-strict-formal-diagnostic",
+    "no_target_launch_executed": true,
+    "original_guarantees": "OPEN_UNCHANGED",
+    "preparation": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/cf7e0b4a77a947ffb843827f41d244b1/preparation",
+    "preparation_live_sample_sha256": "36d4f6b874f2b1cc7716ec5c19896824fb4ff87036f2c22795bc16b560dc63b1",
+    "proof_usage_credit_bytes": 0,
+    "proposal_sha256": "17a120c43672c89c4303944fdfda7b6f7d14cb8a4eae1c65c57064f6aeea2047",
+    "receipt_read_seconds": 30,
+    "receipt_wait_seconds": 300,
+    "threshold_input_manifest_sha256": "0d9c2d907860c5ee784bfcbea882c969373948eb78d592867fcb97ccb84a3681"
+  },
+  "expression_copied_exactly_without_relabeling_original_challenge": true,
+  "formal_proof": false,
+  "original_challenge": {
+    "bytes": 6122,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic/cf7e0b4a77a947ffb843827f41d244b1/challenge-875f76041bc749c088ab38d1dd7ea14a/challenge.json",
+    "sha256": "95dd4e06ddbf221d958aedbace3b1c64468b79a91f78339a014b362f1649ba13"
+  },
+  "phase_acceptance": false,
+  "separate_transport_expression_input": {
+    "bytes": 58,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/Main-owned-formal-observation-v1/memory-expression-1.json",
+    "sha256": "46e8d1cd9c797f8f5f167c69a58002121d8ab743d465ec31667750d9dd8fd9bf"
+  }
+}

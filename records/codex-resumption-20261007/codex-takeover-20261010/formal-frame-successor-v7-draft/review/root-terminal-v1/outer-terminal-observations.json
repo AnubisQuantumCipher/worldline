@@ -1,0 +1,88 @@
+[
+  {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-outer-capture-v1/19fa6339821f4b6e9073fdc6e779664c",
+    "pid_observed_nonlive": true,
+    "refusal": null,
+    "start": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/handshake.py",
+        "full-strict-formal-diagnostic",
+        "0d9c2d907860c5ee784bfcbea882c969373948eb78d592867fcb97ccb84a3681"
+      ],
+      "at": "2026-10-10T18:25:05.497040+00:00",
+      "challenge_discovery": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/attempts/full-strict-formal-diagnostic",
+      "inputs": {
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/handshake.py": {
+          "bytes": 14721,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/handshake.py",
+          "sha256": "a53bb432bd07848561a69fe937fa94bc5f2cd72bdc5ca5516d5dc2ae611ffa35"
+        },
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/inputs.json": {
+          "bytes": 413375,
+          "mode": 420,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/inputs.json",
+          "sha256": "0d9c2d907860c5ee784bfcbea882c969373948eb78d592867fcb97ccb84a3681"
+        }
+      },
+      "pid": 1941441,
+      "raw_stderr": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-outer-capture-v1/19fa6339821f4b6e9073fdc6e779664c/handshake.stderr",
+      "raw_stdout": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-outer-capture-v1/19fa6339821f4b6e9073fdc6e779664c/handshake.stdout",
+      "target_wait_or_acceptance": false,
+      "wrapper_pid": 1941438
+    },
+    "wait": {
+      "actual_handshake_Popen_wait_returncode": 1,
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-live-lane-v1/handshake.py",
+        "full-strict-formal-diagnostic",
+        "0d9c2d907860c5ee784bfcbea882c969373948eb78d592867fcb97ccb84a3681"
+      ],
+      "at": "2026-10-10T18:32:39.367973+00:00",
+      "inputs_unchanged": true,
+      "owner_control": {
+        "actual_wait_observed": true,
+        "child_signal": null,
+        "errors": [],
+        "kill_seconds": 5,
+        "owned_process_group": {
+          "pgid": 1941441,
+          "pid": 1941441,
+          "starttime": "34593622"
+        },
+        "owned_scope_signals": [],
+        "owner_signal": null,
+        "ownership_collection_required": false,
+        "pid": 1941441,
+        "returncode": 1,
+        "stop_reason": null,
+        "term_seconds": 35,
+        "timeout": false
+      },
+      "pid": 1941441,
+      "raw_files": [
+        {
+          "bytes": 547113,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-outer-capture-v1/19fa6339821f4b6e9073fdc6e779664c/handshake.stdout",
+          "sha256": "f6d576e70669d30980f414e4874fb24dc4c985bcba2c997e556a278bfb62a3f3"
+        },
+        {
+          "bytes": 0,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/review/root-outer-capture-v1/19fa6339821f4b6e9073fdc6e779664c/handshake.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "retention_errors": [],
+      "retention_success": true,
+      "truth_boundary": "Actual outer handshake-child wait only when observed. Raw retention success requires every flush/fsync/close/hash. Unknown waits and retention failures require Root ownership collection. No target/scope wait, admission, recovered child outcome, exhaustive custody or acceptance.",
+      "wrapper_pid": 1941438
+    },
+    "wrapper_pid_observed_nonlive": true
+  }
+]

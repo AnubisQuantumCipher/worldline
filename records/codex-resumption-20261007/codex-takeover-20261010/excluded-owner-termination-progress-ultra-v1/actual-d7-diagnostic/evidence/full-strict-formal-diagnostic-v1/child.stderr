@@ -1,0 +1,6 @@
+ error: aspect "Always_Terminates" cannot apply to function [E0016]
+--> worldline-excluded_source_owner.ads:36:42
+   36 |         Depends => (Decide'Result => Data), Always_Terminates,
+      |                                             ^~~~~~~~~~~~~~~~~
+      + launch "gnatprove --explain=E0016" for more information
+gnatprove: error during generation of Global contracts

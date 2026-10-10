@@ -1,0 +1,72 @@
+{
+  "acceptance": false,
+  "additive_python_modules": [
+    "tests/test_canonical_exchange_owner_exports_native.py",
+    "tests/test_canonical_owner_mapping_order.py"
+  ],
+  "current_complete_planned_actions": {
+    "bytes": 439973,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v6-ultra-draft/candidate/planned-actions.json",
+    "sha256": "ccc4966f93fb3f605b124a25773da02510bc602373e5eba140db4fbcbd5b2db7"
+  },
+  "execution": false,
+  "original_controls_byteidentical": {
+    "canonical-exchange-tests/canonical_exchange_controls.adb": {
+      "bytes": 9916,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/source/canonical-exchange-tests/canonical_exchange_controls.adb",
+      "sha256": "6f6b5370a985747ccdce9d85d7c45f5b8baded613e8cd2c7251097db337e33e4"
+    },
+    "canonical-exchange-tests/canonical_exchange_tests.gpr": {
+      "bytes": 508,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/source/canonical-exchange-tests/canonical_exchange_tests.gpr",
+      "sha256": "0c4f06701ca55a4fefcf40dfdfea991872402aeef1c855c9efb1f05e294cdc75"
+    },
+    "canonical-owner-completion-tests/canonical_owner_completion_controls.adb": {
+      "bytes": 10221,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/source/canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "sha256": "08e302f0b6a4c1955b8475abb583cc7eb7df257980a39facb888f45fd413a6a5"
+    },
+    "canonical-owner-completion-tests/canonical_owner_completion_tests.gpr": {
+      "bytes": 532,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/source/canonical-owner-completion-tests/canonical_owner_completion_tests.gpr",
+      "sha256": "6381ee20947d6663c3b6179720d7d07aae7fe89cd927aebd24f6cb1e85047c7e"
+    },
+    "tests/test_canonical_exchange_owner_exports_native.py": {
+      "bytes": 3171,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/source/tests/test_canonical_exchange_owner_exports_native.py",
+      "sha256": "d70d88a1118ec4acd7f9c7043a3486eccd9a853097005491bc0f5ac850a0b26e"
+    },
+    "tests/test_canonical_owner_mapping_order.py": {
+      "bytes": 2879,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/source/tests/test_canonical_owner_mapping_order.py",
+      "sha256": "bcb15c72f5eddf6bbd156891b665969e72c3e8d4930ff60b822fa900e77bc8ad"
+    }
+  },
+  "original_document": {
+    "bytes": 858,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/references/exchange-owner-input/control-enrollment.json",
+    "sha256": "e433a7d9990690fdcd48ffb475e1abb406ff1587c6749990b06397438f1a5011"
+  },
+  "original_semantic_controls": [
+    {
+      "executable": "canonical-exchange-tests/bin/canonical_exchange_controls",
+      "project": "canonical-exchange-tests/canonical_exchange_tests.gpr"
+    },
+    {
+      "executable": "canonical-owner-completion-tests/bin/canonical_owner_completion_controls",
+      "project": "canonical-owner-completion-tests/canonical_owner_completion_tests.gpr"
+    }
+  ],
+  "preserve": "Complete original selected ordinary/native/proof roster, order, first-five ceiling, assertions, caps and fail-stop gates. Add after original complete required prefix; never replace original tests with this donor subset. New source-specific admission/review required.",
+  "preserve_original_all_actions": true,
+  "preserve_original_contracts_domains_proof_floor": true,
+  "schema": "worldline-original-additive-control-enrollment-v1"
+}

@@ -1,0 +1,22 @@
+{
+  "actual_prover_launch_observed": true,
+  "argv": [
+    "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+    "-P",
+    "core/worldline_core_sources.gpr",
+    "-U",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "-j2"
+  ],
+  "at": "2026-10-10T18:26:05.013928+00:00",
+  "owned_process_group": {
+    "pgid": 1943520,
+    "pid": 1943520,
+    "starttime": "34599574"
+  },
+  "pid": 1943520
+}

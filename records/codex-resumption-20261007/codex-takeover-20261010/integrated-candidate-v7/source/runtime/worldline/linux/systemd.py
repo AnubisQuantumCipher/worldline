@@ -1,0 +1,807 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from contextlib import contextmanager
+from contextvars import ContextVar
+import json
+import os
+import re
+import shutil
+from pathlib import Path
+import subprocess
+import time
+from typing import Any, Sequence
+import uuid
+
+from ..errors import WorldlineError
+
+_UNIT_PATTERN = re.compile(r"^worldline-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.service$")
+_PRIVATE_BOOTSTRAP = object()
+_ACQUISITION = ContextVar('worldline_systemd_acquisition', default=None)
+
+
+@dataclass(frozen=True, slots=True)
+class WorkloadIdentity:
+    unit: str
+    invocation_id: str
+    control_group: str
+
+
+@dataclass(frozen=True, slots=True)
+class WorkloadTerminalObservation:
+    """Operational transport/manager facts, not protected descendant authority."""
+    state: str
+    unit: str
+    launcher_returncode: int | None
+    identity: WorkloadIdentity | None = None
+    manager_properties: dict[str, str] | None = None
+    cgroup_events: str | None = None
+    reason: str | None = None
+    raw_capture: dict[str, Any] | None = field(default=None, compare=False, repr=False)
+
+
+@dataclass(slots=True)
+class SystemdProcess:
+    unit: str
+    launcher: subprocess.Popen[bytes]
+    manager: "SystemdAdapter"
+    # Realtime (µs) just before systemd-run was spawned: the journal window opens here.
+    launched_at_us: int = 0
+    workload_identity: WorkloadIdentity | None = None
+
+    @property
+    def pid(self) -> int | None:
+        value = self.manager.metadata(self.unit).get("MainPID")
+        return value if isinstance(value, int) and value > 0 else None
+
+    def stop(self) -> None:
+        self.manager.stop(self.unit)
+
+    def capture_workload_identity(self) -> None:
+        self.workload_identity = self.manager.workload_identity(self)
+
+
+def manager_environment(environment: dict[str, str] | None = None) -> dict[str, str]:
+    """Environment under which `systemctl --user` can reach the session's real manager.
+
+    `systemctl --user` connects to `$XDG_RUNTIME_DIR/systemd/private` and does not fall back to
+    `DBUS_SESSION_BUS_ADDRESS`, while `systemd-run --user` does. WORLDLINE redirects
+    XDG_RUNTIME_DIR whenever it runs isolated (the health check, the e2e tests, any second
+    instance), which made the daemon able to START transient units it could then neither stop,
+    query, nor cancel -- the "supervision is not exercised in the harness" caveat, and a real
+    gap for cancel. Point every systemd call at the manager that actually owns the units.
+    """
+    values = dict(os.environ if environment is None else environment)
+    runtime = values.get("XDG_RUNTIME_DIR")
+    if runtime and os.path.exists(os.path.join(runtime, "systemd", "private")):
+        return values
+    real = f"/run/user/{os.getuid()}"
+    if os.path.exists(os.path.join(real, "systemd", "private")):
+        values["XDG_RUNTIME_DIR"] = real
+        values.setdefault("DBUS_SESSION_BUS_ADDRESS", f"unix:path={real}/bus")
+    return values
+
+
+class SystemdAdapter:
+    def __init__(self) -> None:
+        self.systemd_run = shutil.which("systemd-run")
+        self.systemctl = shutil.which("systemctl")
+        self.journalctl = shutil.which("journalctl")
+        if self.systemd_run is None or self.systemctl is None:
+            raise WorldlineError("SYSTEMD_UNAVAILABLE", "systemd-run or systemctl is not installed")
+        self.environment = manager_environment()
+
+    @contextmanager
+    def acquisition_scope(self, observer, *, cancel_event=None, _ownership_observer=None):
+        """Own built-in query transport without changing provider signatures.
+
+        This context is local to the calling thread. Overrides still receive
+        their original arguments; an arbitrary in-process override is neither
+        moved into a process nor claimed to be cancellable by this boundary.
+        """
+        token = _ACQUISITION.set((self, observer, cancel_event, _ownership_observer))
+        try:
+            yield
+        finally:
+            _ACQUISITION.reset(token)
+
+    def _query(self, argv, *, timeout, site, observer=None, details=None):
+        current = _ACQUISITION.get()
+        scoped = current if current is not None and current[0] is self else None
+        observer = observer if observer is not None else (None if scoped is None else scoped[1])
+        cancel_event = None if scoped is None else scoped[2]
+        if observer is None and cancel_event is None:
+            return subprocess.run(argv, stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+                timeout=timeout, env=self.environment)
+        from ..raw_observation import observed_process_run, ProcessAcquisitionCancelled
+        terminal = None
+        def retained(record):
+            nonlocal terminal
+            terminal = record
+            if scoped is not None and scoped[3] is not None:
+                scoped[3](record)
+            if observer is not None:
+                observer(record)
+        try:
+            return observed_process_run(argv, observer=retained,
+                details={'schemaVersion': 1, 'site': site, 'argv': list(argv), **(details or {})},
+                stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                check=False, timeout=timeout, env=self.environment, cancel_event=cancel_event)
+        except ProcessAcquisitionCancelled as error:
+            # Only cancellation through this actual owned transport can end an
+            # optional sample normally. An override raising the same class is
+            # still an ordinary provider exception, with its old failure path.
+            error._worldline_systemd_cancel_event = cancel_event
+            try:
+                from ..runner_lifecycle import allowed
+                error._worldline_systemd_cancel_complete = allowed('cancellation-complete', terminal)
+            except Exception as native_error:
+                error._worldline_systemd_cancel_complete = False
+                error.add_note(f"native systemd cancellation observation failed: {native_error}")
+            raise
+
+    @staticmethod
+    def unit_name(instance_id: str) -> str:
+        try:
+            parsed = uuid.UUID(instance_id)
+        except ValueError as exc:
+            raise WorldlineError("INVALID_WORLD_INSTANCE", f"world instance is not a UUIDv4: {instance_id}") from exc
+        if parsed.version != 4 or str(parsed) != instance_id:
+            raise WorldlineError("INVALID_WORLD_INSTANCE", f"world instance is not a UUIDv4: {instance_id}")
+        return f"worldline-{instance_id}.service"
+
+    @staticmethod
+    def _validate_unit(unit: str) -> None:
+        if _UNIT_PATTERN.fullmatch(unit) is None:
+            raise WorldlineError("FOREIGN_SYSTEMD_UNIT", f"refusing to manage non-WORLDLINE unit: {unit}")
+
+    def launch(
+        self,
+        instance_id: str,
+        argv: Sequence[str],
+        *,
+        description: str,
+        nice: int | None = None,
+        restart: str = "never",
+        pty: bool = False,
+        resource_properties: Sequence[str] = (),
+        stdin: int | Any = subprocess.PIPE,
+        stdout: int | Any = subprocess.PIPE,
+        stderr: int | Any = subprocess.PIPE,
+        _bootstrap_token: object | None = None,
+    ) -> SystemdProcess:
+        # Empty arguments after argv[0] are valid: bwrap uses an empty value after --setenv
+        # for a declared empty environment variable. Rejecting every empty argument made an
+        # otherwise valid check fail before launch whenever COLORTERM (or another allowlisted
+        # variable) happened to be present with an empty value.
+        if (not argv or not isinstance(argv[0], str) or not argv[0]
+                or any(not isinstance(item, str) for item in argv)):
+            raise WorldlineError("INVALID_AGENT_COMMAND", "transient unit argv requires a nonempty executable and string arguments")
+        unit = self.unit_name(instance_id)
+        command = [
+            self.systemd_run,
+            "--user",
+            f"--unit={unit}",
+            f"--description={description}",
+            "--collect",
+            "--pty" if pty else "--pipe",
+            "--quiet",
+            "--service-type=exec",
+            "--property=KillMode=control-group",
+            "--property=SendSIGKILL=yes",
+            "--property=TimeoutStopSec=10s",
+            "--property=NoNewPrivileges=" + ("no" if _bootstrap_token is _PRIVATE_BOOTSTRAP else "yes"),
+            "--property=PrivateTmp=no",
+            # What a world writes must not depend on the host manager's umask: a manager
+            # started with umask 002 or 000 made every agent file group- or world-writable,
+            # which client mode then refused at collapse.
+            "--property=UMask=0022",
+            "--",
+            *argv,
+        ]
+        # Resource ceilings go on the UNIT, so every descendant inherits them: an agent that
+        # spawns Python that spawns a test suite that launches a prover stays inside one
+        # accounting boundary rather than escaping with the first fork.
+        for item in resource_properties:
+            if not isinstance(item, str) or not item or "=" not in item or "\n" in item:
+                raise WorldlineError("RESOURCE_POLICY_INVALID", f"invalid unit resource property: {item!r}")
+            command.insert(command.index("--"), f"--property={item}")
+        if nice is not None:
+            if not isinstance(nice, int) or nice < -20 or nice > 19:
+                raise WorldlineError("INVALID_PRIORITY", f"systemd Nice value is invalid: {nice}")
+            command.insert(command.index("--"), f"--property=Nice={nice}")
+        if restart not in {"never", "on-failure"}:
+            raise WorldlineError("INVALID_RESTART_POLICY", f"unsupported restart policy: {restart}")
+        if restart == "on-failure":
+            separator = command.index("--")
+            command.insert(separator, "--property=RestartSec=2s")
+            command.insert(separator, "--property=Restart=on-failure")
+        # Supervision is required, not best effort: the manager must answer BEFORE a unit is
+        # asked of it. What happened AFTER is read from the manager's own journal entries once
+        # the launcher exits (`outcome`), never from anything the workload printed.
+        self.verify_manager()
+        launched_at_us = time.time_ns() // 1000
+        try:
+            launcher = subprocess.Popen(
+                command,
+                stdin=stdin,
+                stdout=stdout,
+                stderr=stderr,
+                start_new_session=True,
+                close_fds=True,
+                env=self.environment,
+            )
+        except OSError as exc:
+            raise WorldlineError("SYSTEMD_LAUNCH_FAILED", str(exc), {"unit": unit}) from exc
+        return SystemdProcess(unit=unit, launcher=launcher, manager=self, launched_at_us=launched_at_us)
+
+    def launch_private_evaluator(
+        self, instance_id: str, plan: Path, helper: Path, *,
+        resource_properties: Sequence[str] = (),
+    ) -> SystemdProcess:
+        """Launch only the engine's mapped-UID bootstrap with mapping helpers enabled.
+
+        Ordinary launch keeps NoNewPrivileges=yes. This exception is needed before
+        newuidmap/newgidmap install the subordinate ranges; the fixed bootstrap drops all
+        capabilities and sets NNP before running either role. Callers cannot provide argv.
+        """
+        from .private_evaluator import PROFILE_ID
+        from ..trusted import trusted_script
+        import hashlib
+        import stat
+
+        approved_resources = {
+            "MemoryMax", "MemoryHigh", "MemorySwapMax", "CPUQuota", "CPUWeight",
+            "TasksMax", "MemoryAccounting", "CPUAccounting", "TasksAccounting", "IOAccounting",
+        }
+        for item in resource_properties:
+            if not isinstance(item, str) or item.partition("=")[0] not in approved_resources:
+                raise WorldlineError("RESOURCE_POLICY_INVALID", "private evaluator resource property is not allowed")
+        policy = helper.with_name("trusted.py")
+        for path in (plan, helper, policy):
+            info = path.lstat()
+            if (not path.is_absolute() or not stat.S_ISREG(info.st_mode)
+                    or info.st_uid != os.getuid() or info.st_nlink != 1
+                    or info.st_mode & 0o022):
+                raise WorldlineError("PRIVATE_EVALUATOR_INVALID", "bootstrap plan/helper is not daemon-owned")
+        value = json.loads(plan.read_text(encoding="utf-8"))
+        installed = Path(__file__).with_name("private_evaluator.py")
+        if (value.get("profileId") != PROFILE_ID or value.get("runId") != instance_id
+                or value.get("helper") != str(helper)
+                or value.get("startupPolicy") != str(policy)
+                or hashlib.sha256(helper.read_bytes()).digest() != hashlib.sha256(installed.read_bytes()).digest()
+                or policy.read_bytes() != Path(__file__).parents[1].joinpath("trusted.py").read_bytes()):
+            raise WorldlineError("PRIVATE_EVALUATOR_INVALID", "bootstrap identity does not match the running engine")
+        return self.launch(
+            instance_id,
+            ("/usr/bin/unshare", "--user", "--map-auto", "--map-root-user", "--",
+             *trusted_script(str(helper), "--bootstrap", str(plan))),
+            description="WORLDLINE private evaluator",
+            resource_properties=resource_properties,
+            stdin=subprocess.DEVNULL,
+            _bootstrap_token=_PRIVATE_BOOTSTRAP,
+        )
+
+    # Properties systemd exposes for what it was ASKED for, and what it accounted. They are read
+    # back rather than assumed: a configured ceiling is not evidence that the kernel took it.
+    _LIMIT_PROPERTIES = ("MemoryMax", "MemoryHigh", "MemorySwapMax", "CPUQuotaPerSecUSec",
+                         "CPUWeight", "TasksMax", "MemoryAccounting", "CPUAccounting", "TasksAccounting")
+    _USAGE_PROPERTIES = ("Id", "InvocationID", "MemoryPeak", "MemoryCurrent", "MemorySwapPeak", "CPUUsageNSec",
+                         "TasksCurrent", "Result", "ActiveState", "ExecMainStatus", "ControlGroup")
+
+    def _show(self, unit: str, properties: Sequence[str]) -> dict[str, str] | None:
+        self._validate_unit(unit)
+        result = self._query(
+            [self.systemctl, "--user", "show", unit, *[f"--property={item}" for item in properties]],
+            timeout=10, site='systemd-show', details={'unit': unit})
+        if result.returncode != 0:
+            return None
+        values: dict[str, str] = {}
+        for line in result.stdout.decode("utf-8", "replace").splitlines():
+            name, separator, value = line.partition("=")
+            if separator:
+                values[name] = value
+        return values
+
+    _TERMINAL_PROPERTIES = (
+        "Id", "LoadState", "InvocationID", "ControlGroup", "ActiveState", "SubState", "MainPID",
+    )
+
+    def _manager_decide(self, capture):
+        from ..manager_resource_lifecycle import decide
+        current = _ACQUISITION.get()
+        observer = None if current is None else current[1]
+        return decide(capture, observer=observer)
+
+    def _manager_capture_failure(self, capture, site, error):
+        current = _ACQUISITION.get()
+        observer = None if current is None else current[1]
+        if observer is None:
+            return
+        from ..raw_observation import (exception_observation, optional_bytes,
+                                       retain_during_unwind, retain_observation)
+        from ..manager_resource_lifecycle import capture_json
+        retain_during_unwind(lambda: retain_observation(observer, {
+            'schemaVersion': 1, 'site': 'manager-resource-lifecycle-acquisition',
+            'acquisition': site, 'capture': optional_bytes(capture_json(capture).encode('ascii')),
+            'exception': exception_observation(error)}))
+
+    def _manager_capture_show(self, unit, capture):
+        try:
+            return self._show(unit, self._TERMINAL_PROPERTIES)
+        except BaseException as error:
+            self._manager_capture_failure(capture, 'manager-show', error)
+            raise
+
+    def _pipe_capture(self, process, *, after_failure=False, returncode=None):
+        from ..manager_resource_lifecycle import pipe_capture
+        current = _ACQUISITION.get()
+        observer = None if current is None else current[1]
+        return pipe_capture(self, process, after_failure=after_failure, returncode=returncode,
+                            observer=observer, on_failure=self._manager_capture_failure)
+
+    def _owns_pipe_launcher(self, process: SystemdProcess) -> bool:
+        capture = self._pipe_capture(process)
+        capture['op'] = 'owned'
+        return self._manager_decide(capture)['accepted']
+
+    def workload_identity(self, process: SystemdProcess) -> WorkloadIdentity | None:
+        """Capture actual manager properties; native policy validates the identity."""
+        capture = self._pipe_capture(process)
+        capture['op'] = 'identity'
+        decision = self._manager_decide(capture)
+        if decision['action'] == 'query_manager':
+            capture['shown'] = self._manager_capture_show(process.unit, capture)
+            decision = self._manager_decide(capture)
+        if not decision['accepted']:
+            return None
+        shown = capture['shown']
+        return WorkloadIdentity(process.unit, shown['InvocationID'], shown['ControlGroup'])
+
+    def terminal_observation(self, process: SystemdProcess, *, after_failure: bool = False) -> WorkloadTerminalObservation:
+        """Native policy authorizes normal pipe or matching manager/cgroup completion."""
+        returncode = process.launcher.returncode
+        capture = self._pipe_capture(process, after_failure=after_failure, returncode=returncode)
+        from ..manager_resource_lifecycle import failure_capture
+        identity = None
+        decision = self._manager_decide(capture)
+        while decision['action'] in ('truth_after_failure', 'identity_object', 'identity_unit'):
+            action = decision['action']
+            try:
+                if action == 'truth_after_failure':
+                    capture['afterFailureTruth'] = bool(after_failure)
+                elif action == 'identity_object':
+                    identity = process.workload_identity
+                    capture['identityObject'] = failure_capture(identity)
+                else:
+                    value = identity.unit
+                    capture['identityUnitObserved'] = str.__str__(value) if isinstance(value, str) else failure_capture(value)
+            except BaseException as error:
+                self._manager_capture_failure(capture, action, error)
+                raise
+            decision = self._manager_decide(capture)
+        if decision['action'] == 'query_manager':
+            return self._workload_observation(process.unit, identity, returncode, _capture=capture)
+        return WorkloadTerminalObservation(decision['state'], process.unit, returncode,
+            process.workload_identity, reason=decision['reason'], raw_capture=capture)
+
+    @staticmethod
+    def persisted_workload_identity(unit: str, value: Any) -> WorkloadIdentity | None:
+        from ..manager_resource_lifecycle import decide, persisted_capture
+        capture = persisted_capture(unit, value)
+        if not decide(capture)['accepted']:
+            return None
+        return WorkloadIdentity(unit, value['invocationId'], value['controlGroup'])
+
+    def reservation_observation(self, reservation: Any) -> WorkloadTerminalObservation:
+        unit = getattr(reservation, "unit", None)
+        identity = self.persisted_workload_identity(unit, getattr(reservation, "workload_identity", None))
+        if identity is None:
+            return WorkloadTerminalObservation("UNKNOWN", unit, None,
+                reason="persisted check invocation/cgroup identity is absent or malformed")
+        return self._workload_observation(unit, identity, None)
+
+    def _workload_observation(self, unit: str, identity: WorkloadIdentity,
+                              returncode: int | None, *, _capture=None) -> WorkloadTerminalObservation:
+        from ..manager_resource_lifecycle import failure_capture
+        from ..raw_observation import exception_observation
+        capture = ({'op': 'manager', 'unit': unit, 'returncode': failure_capture(returncode)}
+                   if _capture is None else dict(_capture))
+        capture['identity'] = {}
+        capture['shown'] = self._manager_capture_show(unit, capture)
+        decision = self._manager_decide(capture)
+        while decision['action'] in ('manager_identity_unit', 'manager_identity_invocation', 'manager_identity_group'):
+            action = decision['action']
+            try:
+                name, attribute = {
+                    'manager_identity_unit': ('unit', 'unit'),
+                    'manager_identity_invocation': ('invocationId', 'invocation_id'),
+                    'manager_identity_group': ('controlGroup', 'control_group'),
+                }[action]
+                value = getattr(identity, attribute)
+                capture['identity'][name] = str.__str__(value) if isinstance(value, str) else failure_capture(value)
+            except BaseException as error:
+                self._manager_capture_failure(capture, action, error)
+                raise
+            decision = self._manager_decide(capture)
+        if decision['action'] == 'read_events':
+            group = Path("/sys/fs/cgroup") / identity.control_group.lstrip("/")
+            try:
+                capture['events'] = (group / "cgroup.events").read_text(encoding="ascii")
+            except FileNotFoundError as error:
+                capture['events'] = None
+                capture['eventsException'] = exception_observation(error)
+            except BaseException as error:
+                self._manager_capture_failure(capture, 'cgroup-events', error)
+                raise
+            decision = self._manager_decide(capture)
+            if decision['action'] == 'lstat_directory':
+                try:
+                    directory = group.lstat()
+                except FileNotFoundError as error:
+                    capture['directory'] = 'missing'
+                    capture['directoryException'] = exception_observation(error)
+                except BaseException as error:
+                    self._manager_capture_failure(capture, 'cgroup-directory-lstat', error)
+                    raise
+                else:
+                    capture['directory'] = 'present'
+                    capture['directoryStat'] = {
+                        name: getattr(directory, name, None)
+                        for name in ('st_mode', 'st_ino', 'st_dev', 'st_nlink', 'st_uid', 'st_gid', 'st_size')}
+                decision = self._manager_decide(capture)
+        return WorkloadTerminalObservation(decision['state'], unit, returncode, identity,
+            capture.get('shown'), capture.get('events'), decision['reason'], raw_capture=capture)
+
+    @staticmethod
+    def _cgroup_value(control_group: str | None, name: str) -> str | None:
+        """What the KERNEL holds, read from the unit's own cgroup rather than from systemd's
+        idea of it. This is the difference between a ceiling that was requested and one that is
+        in force."""
+        if not control_group:
+            return None
+        path = Path("/sys/fs/cgroup") / control_group.lstrip("/") / name
+        current = _ACQUISITION.get()
+        observer = None if current is None else current[1]
+        if observer is not None:
+            from ..raw_observation import (exception_observation, optional_bytes,
+                                           retain_during_unwind, retain_observation)
+            details = {'schemaVersion': 1, 'site': 'cgroup-read',
+                       'controlGroup': control_group, 'name': name, 'path': os.fsencode(path)}
+            try:
+                payload = path.read_bytes()
+            except OSError as error:
+                retain_during_unwind(lambda: retain_observation(observer, {
+                    **details, 'readReturned': False, 'bytes': None,
+                    'exception': exception_observation(error)}))
+                return None
+            retain_observation(observer, {**details, 'readReturned': True,
+                'bytes': optional_bytes(payload), 'exception': None})
+            # Match read_text's strict UTF-8 and universal newline projection.
+            # Its exact bytes have already been retained, including on decode failure.
+            return payload.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n').strip()
+        try:
+            return path.read_text(encoding="utf-8").strip()
+        except OSError:
+            return None
+
+    def effective_limits(self, unit: str) -> dict[str, Any]:
+        """The ceilings actually in force, from systemd AND from the kernel's cgroup files.
+
+        Must be called while the unit is running: a collected unit has no cgroup left to read,
+        and `state: UNAVAILABLE` says so rather than reporting zeros.
+        """
+        shown = self._show(unit, (*self._LIMIT_PROPERTIES, "ControlGroup"))
+        if shown is None:
+            return {"state": "UNAVAILABLE", "reason": "the user manager did not answer for this unit"}
+        control_group = shown.get("ControlGroup") or None
+        kernel = {name: self._cgroup_value(control_group, name)
+                  for name in ("memory.max", "memory.high", "memory.swap.max", "cpu.max", "pids.max")}
+        return {
+            "state": "OBSERVED" if control_group else "UNIT_GONE",
+            "controlGroup": control_group,
+            "systemd": {name: shown.get(name) for name in self._LIMIT_PROPERTIES},
+            "kernel": kernel,
+            "cgroupReadable": any(value is not None for value in kernel.values()),
+        }
+
+    def resource_telemetry(self, unit: str) -> dict[str, Any]:
+        """What actually happened. Recorded as measurement and never hashed.
+
+        Absence is reported as absence: a peak we could not read is `None`, not `0`. A unit that
+        has already been collected leaves `state: UNAVAILABLE`, which is honest about the fact
+        that nothing was measured.
+        """
+        shown = self._show(unit, self._USAGE_PROPERTIES)
+        if shown is None:
+            return {"state": "UNAVAILABLE", "reason": "the unit is gone or the manager did not answer"}
+        # `systemctl show` answers for a unit it has never heard of, with Result=success and
+        # ActiveState=inactive. Reporting that as a measured, clean, under-ceiling run is the
+        # worst possible lie, so a unit with neither a control group nor a load state is absent.
+        if not shown.get("ControlGroup") and shown.get("ActiveState") in (None, "", "inactive"):
+            return {"state": "UNAVAILABLE",
+                    "reason": "the manager holds no record of this unit; it was never started or"
+                              " has already been collected, so nothing was measured"}
+
+        def integer(name: str) -> int | None:
+            raw = shown.get(name, "")
+            if raw.isdigit():
+                value = int(raw)
+                # systemd reports an unset counter as 2**64-1 rather than as absent.
+                return None if value >= (1 << 64) - 1 else value
+            return None
+
+        control_group = shown.get("ControlGroup") or None
+        events = self._cgroup_value(control_group, "memory.events") or ""
+        counters = {}
+        for line in events.splitlines():
+            parts = line.split()
+            if len(parts) == 2 and parts[1].isdigit():
+                counters[parts[0]] = int(parts[1])
+        # A ceiling flag with no counter behind it is a claim, not a measurement. When
+        # memory.events cannot be read the honest answer is None, not False.
+        readable = bool(events.strip())
+        hit = (bool(counters.get("max", 0) or counters.get("oom", 0) or counters.get("oom_kill", 0))
+               if readable else None)
+        killed = (bool(counters.get("oom_kill", 0)) or shown.get("Result") == "oom-kill") if readable else (
+            True if shown.get("Result") == "oom-kill" else None)
+        return {
+            "state": "OBSERVED",
+            "workloadIdentity": {"unit": shown.get("Id"), "invocationId": shown.get("InvocationID"),
+                                 "controlGroup": control_group},
+            "peakMemoryBytes": integer("MemoryPeak"),
+            "currentMemoryBytes": integer("MemoryCurrent"),
+            "peakSwapBytes": integer("MemorySwapPeak"),
+            "cpuTimeNanoseconds": integer("CPUUsageNSec"),
+            "tasksCurrent": integer("TasksCurrent"),
+            "result": shown.get("Result"),
+            "activeState": shown.get("ActiveState"),
+            "memoryEvents": counters or None,
+            "hitMemoryCeiling": hit,
+            "oomKilled": killed,
+        }
+
+    def verify_manager(self) -> dict[str, str]:
+        """Ask the user service manager something only it can answer. A manager that is
+        `degraded` (some unit failed somewhere) answers; one that cannot be reached does not."""
+        result = self._query(
+            [self.systemctl, "--user", "show", "--property=Version", "--property=NFailedUnits"],
+            timeout=10, site='systemd-manager-verification',
+        )
+        if result.returncode != 0:
+            reason = result.stderr.decode("utf-8", "replace").strip() or f"systemctl exited {result.returncode}"
+            raise WorldlineError("SUPERVISION_UNAVAILABLE", f"the user service manager cannot be reached: {reason}")
+        values: dict[str, str] = {}
+        for line in result.stdout.decode("utf-8", "replace").splitlines():
+            name, separator, value = line.partition("=")
+            if separator:
+                values[name] = value
+        return values
+
+    # Journal message ids the user manager writes about a unit (systemd catalog; stable across
+    # releases). Entries are matched on these ids and on journald's trusted `_` fields, so a
+    # workload cannot forge them (the sandbox has no journal socket at all).
+    JOURNAL_STARTING = "7d4958e842da4a758f6c1cdc7b36dcc5"
+    JOURNAL_STARTED = "39f53479d3a045ac8e11786248231fbf"
+    JOURNAL_STOPPING = "de5b426a63be47a7b6ac3eaac82e2f6f"
+    JOURNAL_STOPPED = "9d1aaa27d60140bd96365438aad20286"
+    JOURNAL_PROCESS_EXIT = "98e322203f7a4ed290d09fe03c09fe15"
+    JOURNAL_FAILURE_RESULT = "d9b373ed55a64feb8242e02dbe79a49c"
+    JOURNAL_WINDOW_SECONDS = 10.0  # bounded; slow hosts (CI runners) flush the user journal late
+
+    def journal_events(self, unit: str, since_us: int, *, _raw_observer=None) -> list[dict[str, Any]] | None:
+        """The user manager's own journal entries about `unit` since `since_us`, structured.
+        None when the journal cannot be read (then supervision is INDETERMINATE, never assumed)."""
+        self._validate_unit(unit)
+        journalctl = self.journalctl
+        if journalctl is None:
+            if _raw_observer is not None:
+                from ..raw_observation import retain_observation
+                retain_observation(_raw_observer, {
+                    'schemaVersion': 1, 'site': 'journal-tool-unavailable',
+                    'unit': unit, 'sinceUs': since_us, 'journalctl': None})
+            return None
+        journal_argv = [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager",
+                        f"--since=@{max(since_us // 1_000_000 - 2, 0)}"]
+        reader_uid = os.getuid()
+        result = self._query(journal_argv, timeout=15, site='journal-poll',
+            observer=_raw_observer,
+            details={'unit': unit, 'sinceUs': since_us, 'readerUid': reader_uid})
+        if result.returncode != 0:
+            return None
+        manager_unit = f"user@{reader_uid}.service"
+        events: list[dict[str, Any]] = []
+        for line in result.stdout.decode("utf-8", "replace").splitlines():
+            try:
+                entry = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(entry, dict):
+                continue
+            # Trusted fields only: authored by the manager process, about this unit, in window.
+            if entry.get("_SYSTEMD_UNIT") != manager_unit or entry.get("_COMM") != "systemd":
+                continue
+            if entry.get("USER_UNIT") not in (None, unit) and entry.get("UNIT") not in (None, unit):
+                continue
+            try:
+                stamp = int(entry.get("__REALTIME_TIMESTAMP", "0"))
+            except (TypeError, ValueError):
+                continue
+            if stamp < since_us:
+                continue
+            events.append(
+                {
+                    "messageId": entry.get("MESSAGE_ID"),
+                    "message": str(entry.get("MESSAGE", ""))[:200],
+                    "jobType": entry.get("JOB_TYPE"),
+                    "jobResult": entry.get("JOB_RESULT"),
+                    "exitCode": entry.get("EXIT_CODE"),
+                    "exitStatus": entry.get("EXIT_STATUS"),
+                    "managerPid": entry.get("_PID"),
+                    "realtimeUs": stamp,
+                }
+            )
+        return events
+
+    def outcome(self, process: SystemdProcess, launcher_exit: int, *, stopped: bool = False, _raw_observer=None) -> dict[str, Any]:
+        """Structured supervision outcome for a finished launcher. Exactly one of:
+        SUPERVISED (the manager started the unit; the workload's exit is authoritative),
+        LAUNCH_FAILED (the launcher ended without the manager ever starting the unit),
+        INDETERMINATE (the journal could not be read, or no entry appeared inside the window).
+        Bounded: polls the journal for at most JOURNAL_WINDOW_SECONDS after the launcher exit."""
+        deadline = time.monotonic() + self.JOURNAL_WINDOW_SECONDS
+        events: list[dict[str, Any]] | None = None
+        journal_readable = True
+        if _raw_observer is not None:
+            acquisition_ordinal = 0
+            def acquired(record):
+                nonlocal acquisition_ordinal
+                _raw_observer(acquisition_ordinal, record)
+                acquisition_ordinal += 1
+        while True:
+            events = self.journal_events(process.unit, process.launched_at_us,
+                **({} if _raw_observer is None else {'_raw_observer': acquired}))
+            if events is None:
+                journal_readable = False
+                events = []
+            ids = {event["messageId"] for event in events}
+            # The manager's own record that it started the unit, or its own record of the main
+            # process exiting (which it can only write for a process it supervised), is proof
+            # of supervision. A unit whose workload exits before the start job is reported gets
+            # only the latter on some systemd versions.
+            started = self.JOURNAL_STARTED in ids or self.JOURNAL_PROCESS_EXIT in ids
+            ended = bool(ids & {self.JOURNAL_PROCESS_EXIT, self.JOURNAL_FAILURE_RESULT, self.JOURNAL_STOPPED})
+            if started and (ended or launcher_exit == 0 or stopped):
+                break
+            if not journal_readable or time.monotonic() >= deadline:
+                break
+            time.sleep(0.2)
+        exit_entry = next((event for event in events if event["messageId"] == self.JOURNAL_PROCESS_EXIT), None)
+        failure_entry = next((event for event in events if event["messageId"] == self.JOURNAL_FAILURE_RESULT), None)
+        started_entry = any(event["messageId"] == self.JOURNAL_STARTED for event in events)
+        started = started_entry or exit_entry is not None
+        launched = any(event["messageId"] == self.JOURNAL_STARTING for event in events)
+        stopped_by_manager = any(event["messageId"] in {self.JOURNAL_STOPPING, self.JOURNAL_STOPPED} for event in events)
+        if started:
+            kind = "SUPERVISED"
+        elif not journal_readable:
+            kind = "INDETERMINATE"
+        elif launcher_exit != 0 and not launched:
+            kind = "LAUNCH_FAILED"
+        else:
+            kind = "INDETERMINATE"
+        launcher_stderr = ""
+        if kind != "SUPERVISED" and process.launcher.stderr is not None:
+            if _raw_observer is None:
+                try:
+                    launcher_stderr = process.launcher.stderr.read().decode("utf-8", "replace")[:400]
+                except (OSError, ValueError):
+                    launcher_stderr = ""
+            else:
+                from ..raw_observation import (retain_observation, retain_during_unwind, optional_bytes,
+                    exception_observation)
+                try:
+                    reread = process.launcher.stderr.read()
+                except (OSError, ValueError) as error:
+                    retain_during_unwind(lambda: retain_observation(acquired, {'schemaVersion': 1,
+                        'site': 'launcher-stderr-reread', 'unit': process.unit,
+                        'readReturned': False, 'stderr': None,
+                        'exception': exception_observation(error)}))
+                    launcher_stderr = ""
+                else:
+                    retain_observation(acquired, {'schemaVersion': 1,
+                        'site': 'launcher-stderr-reread', 'unit': process.unit,
+                        'readReturned': True, 'stderr': optional_bytes(reread),
+                        'exception': None})
+                    launcher_stderr = reread.decode("utf-8", "replace")[:400]
+        return {
+            "kind": kind,
+            "unit": process.unit,
+            "source": "journal" if journal_readable else "journal-unavailable",
+            "launcherExit": launcher_exit,
+            "started": started,
+            "supervisionEvidence": "started-entry" if started_entry else ("process-exit-entry" if exit_entry is not None else None),
+            "stoppedByManager": stopped_by_manager,
+            "exitCode": None if exit_entry is None else exit_entry.get("exitCode"),
+            "exitStatus": None if exit_entry is None or exit_entry.get("exitStatus") is None else int(exit_entry["exitStatus"]) if str(exit_entry["exitStatus"]).isdigit() else exit_entry.get("exitStatus"),
+            "result": (
+                "stopped" if stopped_by_manager
+                else "failure" if failure_entry is not None or (exit_entry is not None and str(exit_entry.get("exitStatus")) not in ("0", "None"))
+                else "success" if started and launcher_exit == 0
+                else None
+            ),
+            # Canonical JSON carries no floats: the bounded window is reported in milliseconds.
+            "windowMilliseconds": int(self.JOURNAL_WINDOW_SECONDS * 1000),
+            "events": events,
+            # Diagnostic only, never used to classify: what the launcher itself printed.
+            "launcherStderr": launcher_stderr,
+        }
+
+    def stop(self, unit: str) -> None:
+        self._validate_unit(unit)
+        result = self._query(
+            [self.systemctl, "--user", "stop", unit],
+            timeout=20, site='systemd-stop', details={'unit': unit},
+        )
+        if result.returncode not in (0, 5):
+            raise WorldlineError(
+                "SYSTEMD_STOP_FAILED",
+                result.stderr.decode("utf-8", "replace").strip() or f"systemctl exited {result.returncode}",
+                {"unit": unit},
+            )
+
+    def metadata(self, unit: str) -> dict[str, Any]:
+        self._validate_unit(unit)
+        properties = ("MainPID", "ControlGroup", "ActiveState", "SubState", "ExecMainStatus", "Result", "InvocationID", "ExecMainStartTimestampMonotonic")
+        result = self._query(
+            [self.systemctl, "--user", "show", unit, *[f"--property={item}" for item in properties]],
+            timeout=10, site='systemd-metadata', details={'unit': unit},
+        )
+        if result.returncode != 0:
+            return {"unit": unit, "state": "UNAVAILABLE", "reason": result.stderr.decode("utf-8", "replace").strip()}
+        values: dict[str, Any] = {"unit": unit, "state": "CAPTURED"}
+        for line in result.stdout.decode("utf-8", "replace").splitlines():
+            name, separator, value = line.partition("=")
+            if not separator:
+                continue
+            values[name] = int(value) if name in {"MainPID", "ExecMainStatus"} and value.isdigit() else value
+        return values
+
+    @classmethod
+    def capability(cls, adapter: "SystemdAdapter | None" = None) -> dict[str, Any]:
+        try:
+            adapter = adapter or cls()
+        except WorldlineError as exc:
+            return {"state": "UNAVAILABLE", "reason": exc.message}
+        # AVAILABLE means the manager can be QUERIED, which is what launch, cancel, and the
+        # startup sweep need. `is-system-running` is recorded as information only: it answers
+        # "degraded" with exit status 1 whenever any unit anywhere has failed, and the earlier
+        # probe read that exit status as "no supervision" while every world kept running in a
+        # transient unit exactly as before (worldline-lab D8b, 2026-09-21).
+        try:
+            manager = adapter.verify_manager()
+        except WorldlineError as exc:
+            return {"state": "UNAVAILABLE", "reason": exc.message}
+        result = subprocess.run(
+            [adapter.systemctl, "--user", "is-system-running"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+            timeout=10,
+            env=adapter.environment,
+        )
+        state = result.stdout.decode("utf-8", "replace").strip() or "unknown"
+        runtime = adapter.environment.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
+        filesystem = os.statvfs(runtime)
+        if filesystem.f_bavail == 0:
+            return {"state": "UNAVAILABLE", "reason": f"XDG runtime filesystem is full: {runtime}"}
+        failed = manager.get("NFailedUnits", "")
+        return {
+            "state": "AVAILABLE",
+            "managerState": state,
+            "manager": runtime,
+            "managerVersion": manager.get("Version"),
+            "failedUnits": int(failed) if failed.isdigit() else failed,
+        }

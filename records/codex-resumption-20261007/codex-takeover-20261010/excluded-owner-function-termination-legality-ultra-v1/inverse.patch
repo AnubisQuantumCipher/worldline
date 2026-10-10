@@ -1,0 +1,10 @@
+--- b/core/worldline-excluded_source_owner.ads
++++ a/core/worldline-excluded_source_owner.ads
+@@ -33,6 +33,6 @@
+    function Result_Reference (Data : E.Bytes; Result : Action) return Boolean
+      with Ghost, Global => null, Depends => (Result_Reference'Result => (Data, Result));
+    function Decide (Data : E.Bytes) return Action with Global => null,
+-     Depends => (Decide'Result => Data),
++     Depends => (Decide'Result => Data), Always_Terminates,
+      Post => Result_Reference (Data, Decide'Result);
+ end Worldline.Excluded_Source_Owner;

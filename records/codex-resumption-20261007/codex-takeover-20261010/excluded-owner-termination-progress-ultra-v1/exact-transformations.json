@@ -1,0 +1,172 @@
+{
+  "actual_body_control_assignments_conditions_calls_and_returns_unchanged": true,
+  "actual_d7_diagnostic": {
+    "actual_wait": {
+      "actual_wait_observed": true,
+      "argv": [
+        "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+        "-P",
+        "core/worldline_core_sources.gpr",
+        "-U",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "-j2"
+      ],
+      "child_signal": null,
+      "kill_seconds": 5,
+      "launch_observed": true,
+      "owned_process_group": {
+        "pgid": 1943520,
+        "pid": 1943520,
+        "starttime": "34599574"
+      },
+      "owned_scope_signals": [],
+      "owner_signal": null,
+      "ownership_collection_required": false,
+      "phase_acceptance": false,
+      "pid": 1943520,
+      "raw_files": [
+        {
+          "bytes": 290,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1/child.stdout",
+          "sha256": "88736e9637b2601576daf3521635e2e61618a034587e44ae110a4c19708f239b"
+        },
+        {
+          "bytes": 374,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+          "sha256": "452306ef92d1587298e7928597d8c66748c23d553191e5c49df7e3786a43a23d"
+        }
+      ],
+      "retention_errors": [],
+      "retention_success": true,
+      "returncode": 1,
+      "stop_reason": null,
+      "term_seconds": 5,
+      "timeout": false,
+      "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+    },
+    "no_new_target_execution": true,
+    "phase2_aborted_on_illegal_spec_aspect": true,
+    "physical_sources": {
+      "evidence/full-strict-formal-diagnostic-v1/child-wait.json": {
+        "bytes": 1769,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1/child-wait.json",
+        "sha256": "26243d4430074dfc77cd90d345706b076107433579776e4007acb3c7be5f64d6"
+      },
+      "evidence/full-strict-formal-diagnostic-v1/child.stderr": {
+        "bytes": 374,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1/child.stderr",
+        "sha256": "452306ef92d1587298e7928597d8c66748c23d553191e5c49df7e3786a43a23d"
+      },
+      "evidence/full-strict-formal-diagnostic-v1/child.stdout": {
+        "bytes": 290,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1/child.stdout",
+        "sha256": "88736e9637b2601576daf3521635e2e61618a034587e44ae110a4c19708f239b"
+      },
+      "evidence/full-strict-formal-diagnostic-v1/result.json": {
+        "bytes": 306113,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1/result.json",
+        "sha256": "8e777ce286bcf912ee649054ae9d45fef7797a5a75c48097db7432cf0a267ef7"
+      },
+      "source/obj/core/gnatprove/data_representation_generation.log": {
+        "bytes": 4033,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/source/obj/core/gnatprove/data_representation_generation.log",
+        "sha256": "e65bb2be5d3dfe815b24b9600cb46e5443f159ca0894d9d0d673aa1921a9599f"
+      }
+    },
+    "termination_warnings_not_yet_reached": true
+  },
+  "after_removing_added_pragma_and_whitespace_complete_body_equal": true,
+  "all_current_while_loops_receive_variant": true,
+  "installed_primary_documentation": {
+    "examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search.ads": {
+      "bytes": 1012,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search.ads",
+      "sha256": "7e04f04ba435bce71a3cd8af201d48d5229a83812b81a2e1d5592d7775b7419c"
+    },
+    "examples/spark/gnatprove_by_example/ug__linear_search_no_variant/test.out": {
+      "bytes": 272,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/test.out",
+      "sha256": "4687bff5c57bc155387aca6063306c7f057eb88c546f1cb0050bf20131413877"
+    },
+    "examples/spark/gnatprove_by_example/ug__linear_search_prove/linear_search.adb": {
+      "bytes": 553,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_prove/linear_search.adb",
+      "sha256": "7edf0666cd59df18f3123be615e46e33a914d37db0f12864f32602ef397f75d4"
+    },
+    "examples/spark/gnatprove_by_example/ug__terminating_loops/terminating_loops.adb": {
+      "bytes": 335,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__terminating_loops/terminating_loops.adb",
+      "sha256": "3eeff57b7a8125e7d99dea470ac96930f45c69c0a96f5b1cb251d58297dd410f"
+    },
+    "spark/explain_codes/E0016.md": {
+      "bytes": 801,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/spark/explain_codes/E0016.md",
+      "sha256": "4b2bd8e87d24b6e7466164b89ef742c12a370bda2975d6c9272be9a1f90a5cb0"
+    }
+  },
+  "inverse_reconstructs_complete_current_body": true,
+  "open_obligations": [
+    "Prove every invariant initialization/preservation and its own evaluation checks.",
+    "Prove every variant strict progress, safe arithmetic/indexing and callee termination.",
+    "Prove original full functional correspondence and all full runtime/native/physical controls."
+  ],
+  "phase_acceptance": false,
+  "preserved": [
+    "Entire accepted input domain and all existing outcomes.",
+    "Entire full public/ghost contracts, Depends and Global.",
+    "Every original body equation, condition, assignment, call, constant and return.",
+    "Ordinary functions mandatory implicit termination and all callee obligations.",
+    "Complete original strict -U command, report/floor/limits/caps."
+  ],
+  "progress_arguments": {
+    "Map_Line.whitespace_and_token": "Each existing continuing body advances Cursor under the original Cursor < BLast bound.",
+    "Status_Columns.inner": "Every continuing iteration advances Cursor under Cursor < Stop; Cursor remains between saved First and Stop.",
+    "Status_Columns.line_scan_invariant": "Start begins at BFirst, stays when no newline, and advances to the next Stop only on a nonfinal newline. The line scan remains the original finite for loop.",
+    "Status_Columns.outer": "Every continuing digit branch executes the inner digit scan at least once; whitespace advances Cursor; other bytes return refusal. Existing Stop bounds remain.",
+    "Watch_Reference.events": "Every continuing body advances Cursor after the existing complete event length/refusal checks; original zero-name and watch multiplicity semantics unchanged."
+  },
+  "reversible_substitutions": [
+    {
+      "after": "         for Stop in B'Range loop\n            pragma Loop_Invariant (Start in B'First .. Stop);\n            if B (Stop) = 10 then\n               if Stop - Start >= Name'Length and then\n",
+      "before": "         for Stop in B'Range loop\n            if B (Stop) = 10 then\n               if Stop - Start >= Name'Length and then\n"
+    },
+    {
+      "after": "                     while Cursor < Stop loop\n                        pragma Loop_Invariant (Cursor in Start .. Stop);\n                        pragma Loop_Variant (Increases => Cursor);\n",
+      "before": "                     while Cursor < Stop loop\n"
+    },
+    {
+      "after": "                           while Cursor < Stop and then B (Cursor) in Character'Pos ('0') .. Character'Pos ('9') loop\n                              pragma Loop_Invariant (Cursor in First .. Stop);\n                              pragma Loop_Variant (Increases => Cursor);\n",
+      "before": "                           while Cursor < Stop and then B (Cursor) in Character'Pos ('0') .. Character'Pos ('9') loop\n"
+    },
+    {
+      "after": "               while Cursor < B'Last and then B (Cursor) = 32 loop\n                  pragma Loop_Invariant (Cursor in B'Range);\n                  pragma Loop_Variant (Increases => Cursor);\n                  Cursor := Cursor + 1;\n               end loop;\n",
+      "before": "               while Cursor < B'Last and then B (Cursor) = 32 loop Cursor := Cursor + 1; end loop;\n"
+    },
+    {
+      "after": "               while Cursor < B'Last and then B (Cursor) /= 32 loop\n                  pragma Loop_Invariant (Cursor in B'Range);\n                  pragma Loop_Variant (Increases => Cursor);\n                  Cursor := Cursor + 1;\n               end loop;\n",
+      "before": "               while Cursor < B'Last and then B (Cursor) /= 32 loop Cursor := Cursor + 1; end loop;\n"
+    },
+    {
+      "after": "                  while Cursor < B'Length loop\n                     pragma Loop_Invariant (Cursor <= B'Length);\n                     pragma Loop_Variant (Increases => Cursor);\n",
+      "before": "                  while Cursor < B'Length loop\n"
+    }
+  ],
+  "schema": "worldline-function-termination-progress-annotation-delta-v1",
+  "target_execution": false
+}

@@ -1,0 +1,18 @@
+{
+  "additive_python_modules": [
+    "tests/test_canonical_exchange_owner_exports_native.py",
+    "tests/test_canonical_owner_mapping_order.py"
+  ],
+  "execution": false,
+  "original_semantic_controls": [
+    {
+      "executable": "canonical-exchange-tests/bin/canonical_exchange_controls",
+      "project": "canonical-exchange-tests/canonical_exchange_tests.gpr"
+    },
+    {
+      "executable": "canonical-owner-completion-tests/bin/canonical_owner_completion_controls",
+      "project": "canonical-owner-completion-tests/canonical_owner_completion_tests.gpr"
+    }
+  ],
+  "preserve": "Complete original selected ordinary/native/proof roster, order, first-five ceiling, assertions, caps and fail-stop gates. Add after original complete required prefix; never replace original tests with this donor subset. New source-specific admission/review required."
+}

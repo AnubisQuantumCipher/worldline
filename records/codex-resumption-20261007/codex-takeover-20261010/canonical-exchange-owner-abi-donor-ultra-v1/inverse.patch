@@ -1,0 +1,1076 @@
+--- b/canonical-exchange-tests/canonical_exchange_controls.adb
++++ /dev/null
+@@ -1,161 +0,0 @@
+-with Worldline;
+-with Worldline.Canonical_Exchange;
+-with Worldline.Collapse_Wire;
+-with Interfaces;
+-procedure Canonical_Exchange_Controls is
+-   package X renames Worldline.Canonical_Exchange;
+-   package A renames X.A; package R renames X.R; package C renames X.C;
+-   package L renames X.L; package Q renames A.Q;
+-   use type X.Decision; use type A.Decision;
+-   Data:Q.Byte_Array(1..Worldline.Hash'Length):=[others=>1];
+-   Zero:Q.Quantity:=(Negative=>False,First=>1,Length=>0);
+-   One:Q.Quantity:=(Negative=>False,First=>1,Length=>1);
+-   Large:Q.Quantity:=(Negative=>False,First=>1,Length=>Data'Length);
+-   Epoch:R.Optional_Epoch:=(Present=>True,Value=>Zero);
+-   Id:R.Optional_Digest:=(Present=>True,Value=>[others=>1]);
+-   Other_Id:R.Optional_Digest:=(Present=>True,Value=>[others=>2]);
+-   Owner:A.Optional_UID:=(Present=>True,Value=>7);
+-   B:A.Binding:=(Action=>A.Commit_Collapse,Id=>[others=>Id],Peer=>Owner,Preparer=>Owner,
+-      Owner=>Owner,Target_Owner=>Owner,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch);
+-   G:A.Grants(1..1):=[1=>(Id=>Id,Parent=>(Present=>False,Value=>[others=>0]),Issuer=>Id,
+-      Instance=>Id,Root_Set=>Id,Policy=>Id,Subject=>Owner,Owner=>Owner,Allowed=>[others=>True],
+-      State=>A.Active,Epoch=>Epoch,Ceiling=>Large,Issued_At=>Zero,Expires_At=>Large)];
+-   H:A.Uses(1..1):=[1=>(Bound=>B,State=>A.Reserved)];
+-   Owner_H:A.Uses(1..2);
+-   E:A.Evidence:=(Effect_Binding=>B,Actual_Receipt_Root=>Id,Actual_Causal_Root=>Id,
+-      No_Effect_Binding=>B,Owner_Resolution=>B,Quarantine_Head=>Id,
+-      Witnessed_Receipt_Head=>Id,Witnessed_Causal_Head=>Id,
+-      Recovery_Issued=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Recovery_Recovered=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Recovery_Historical=>R.Unestablished,Recovery_Native=>(Live_Mapping=>Id,Live_Root=>Id),Original_Use=>Id);
+-   I:L.Identity:=(Present=>True,Value=>(First=>1,Length=>Data'Length));
+-   None:L.Identity:=(Present=>False,Value=>(First=>1,Length=>0));
+-   Scope:L.Context:=(Policy_Epoch=>Epoch,others=>I);
+-   Bound:L.Binding:=(Resource_Epoch=>Epoch,others=>I);
+-   State:L.Ledger_State:=(Scope=>Scope,Resource_Epoch=>Epoch,Universe_Head=>I,Ledger_Head=>I,
+-      Capacity=>One,Held_Total=>One,Charged_Total=>Zero);
+-   Rows:L.Row_Array(1..1):=[1=>(Scope=>Scope,Bound=>Bound,Parent=>None,Kind=>L.Held_Capacity,
+-      State=>L.Reserved,Amount=>One,Observed_Usage=>(Present=>False,Value=>Zero),
+-      Planned_Unit=>None,Actual_Unit=>None,Cgroup=>None,Invocation=>None)];
+-   Native:L.Native_Array(1..1):=[1=>(Scope=>Scope,Resource_Epoch=>Epoch,Bound=>Bound,
+-      Actual_Unit=>None,Cgroup=>None,Invocation=>None,Observation_Head=>I,Observed=>L.Never_Launched)];
+-   M:X.Material:=(Worker_Issued=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Worker_Recovered=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Canonical_Issued=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Canonical_Recovered=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Worker_Native=>(Live_Mapping=>Id,Live_Root=>Id),Canonical_Native=>(Live_Mapping=>Id,Live_Root=>Id),others=>Id);
+-   Receipts,Events:C.Retained_Rows(1..1);
+-   Owner_B:A.Binding:=B;
+-   procedure Check(Test:Boolean) is
+-   begin pragma Assert(Test); if not Test then raise Program_Error; end if; end Check;
+-   procedure Put (Field : out Worldline.Collapse_Wire.Raw_Optional_Hash;
+-                  V : Interfaces.Unsigned_8) is
+-   begin
+-      Field.Present := 1;
+-      Field.Value := [others => V];
+-   end Put;
+-
+-   function Good_Wire return Worldline.Collapse_Wire.Raw_Request is
+-      use Worldline.Collapse_Wire;
+-      Absent : constant Raw_Optional_Hash := (Present => 0, Value => [others => 0]);
+-      R : Raw_Request :=
+-        (Candidate_State => 2, Phase => 0, Evaluation_Mode => 0, Conflicts => 1,
+-         Foreign_Writes => 1, Roster_Complete => 1, Staged_Roster_Complete => 0,
+-         Generation_Before => (Present => 1, Value_LE => [41, others => 0]),
+-         Generation_After => (Present => 1, Value_LE => [41, others => 0]),
+-         others => Absent);
+-   begin
+-      Put (R.Expected_Parent, 1); Put (R.Candidate_Parent, 1);
+-      Put (R.Expected_Subject, 2); Put (R.Evidence_Subject, 2);
+-      Put (R.Expected_Base, 3); Put (R.Candidate_Base, 3);
+-      Put (R.Expected_Delta, 4); Put (R.Candidate_Delta, 4);
+-      Put (R.Expected_Root_Set, 5); Put (R.Candidate_Root_Set, 5);
+-      Put (R.Expected_Staged_Root, 6); Put (R.Actual_Staged_Root, 6);
+-      Put (R.Staged_Content_Root, 7); Put (R.Tested_Root, 7);
+-      Put (R.Current_Requirement, 8); Put (R.Resulting_Requirement, 8);
+-      Put (R.Evaluated_Requirement, 8);
+-      Put (R.Declared_Verifiers, 9); Put (R.Executed_Verifiers, 9);
+-      Put (R.Registered_Watch_Set, 10); Put (R.Watched_Set, 10);
+-      return R;
+-   end Good_Wire;
+-   Collapse:Worldline.Collapse_Wire.Raw_Request:=Good_Wire;
+-   function Decide(P:X.Phase; Mode:X.Command:=X.Advance) return X.Decision is
+-     (X.Decide(Data,G,H,B,Zero,E,State,Rows,Native,Bound,I,Owner,Collapse,M,P,Mode,
+-         Receipts,Events,Receipts,Events));
+-begin
+-   -- Pure native value fixtures only; they confer no protected custody.
+-   M.Worker_Issued.Subject:=(Present=>True,Value=>Worldline.Collapse_Wire.Digest(Collapse.Expected_Subject.Value));
+-   M.Worker_Issued.Staged_Root:=(Present=>True,Value=>Worldline.Collapse_Wire.Digest(Collapse.Actual_Staged_Root.Value));
+-   M.Worker_Issued.Current_Requirement:=(Present=>True,Value=>Worldline.Collapse_Wire.Digest(Collapse.Current_Requirement.Value));
+-   M.Worker_Issued.Resulting_Requirement:=(Present=>True,Value=>Worldline.Collapse_Wire.Digest(Collapse.Resulting_Requirement.Value));
+-   B.Id(A.Requirement):=M.Worker_Issued.Current_Requirement;
+-   H(1).Bound:=B;E.Effect_Binding:=B;E.No_Effect_Binding:=B;
+-   Owner_B:=B;
+-   M.Worker_Issued.Staged_Mapping:=Other_Id;
+-   M.Canonical_Issued:=M.Worker_Issued;
+-   M.Worker_Recovered:=M.Worker_Issued;
+-   M.Canonical_Issued.Staged_Mapping:=Other_Id;
+-   M.Canonical_Recovered:=M.Canonical_Issued;
+-   M.Worker_Receipt_Head:=(Present=>True,Value=>C.Link(C.Receipt_Chain,Id.Value,Id.Value));
+-   M.Worker_Causal_Head:=(Present=>True,Value=>C.Link(C.Causal_Chain,Id.Value,Id.Value));
+-   Receipts(1):=(Previous=>Id,Actual_Payload_Root=>Id,Stored_Payload_Root=>Id,Stored_Head=>M.Worker_Receipt_Head);
+-   Events(1):=(Previous=>Id,Actual_Payload_Root=>Id,Stored_Payload_Root=>Id,Stored_Head=>M.Worker_Causal_Head);
+-   Check(Decide(X.Issued)=X.Dispatch_Worker);
+-   M.Worker_Native.Live_Mapping:=Other_Id;
+-   M.Worker_Native.Live_Root:=M.Worker_Issued.Staged_Root;
+-   Check(Decide(X.Worker_Intent)=X.Record_Worker);
+-   Check(Decide(X.Worker_Observed)=X.Dispatch_Canonical);
+-   G(1).State:=A.Revoked;
+-   Check(Decide(X.Worker_Observed)=X.Refused);
+-   M.Canonical_Native.Live_Mapping:=Other_Id;
+-   M.Canonical_Native.Live_Root:=M.Canonical_Issued.Staged_Root;
+-   Check(Decide(X.Canonical_Intent)=X.Record_Effect);
+-   H(1).State:=A.Effect_Observed;
+-   E.Witnessed_Receipt_Head:=M.Worker_Receipt_Head;
+-   E.Witnessed_Causal_Head:=M.Worker_Causal_Head;
+-   Check(Decide(X.Effect_Observed,X.Settle_Historical)=X.Settle_Same_Use);
+-   H(1).State:=A.Settled;
+-   Check(Decide(X.Settled,X.Replay_Historical)=X.Replay_Same_Use);
+-   M.Canonical_Native.Live_Mapping.Present:=False;
+-   Check(Decide(X.Settled,X.Replay_Historical)=X.Refused);
+-   M.Canonical_Native.Live_Mapping:=Other_Id;
+-   M.Worker_Recovered.Operation:=Other_Id;
+-   Check(Decide(X.Settled,X.Replay_Historical)=X.Refused);
+-   M.Worker_Recovered:=M.Worker_Issued;
+-   G(1).State:=A.Active;H(1).State:=A.Quarantined;
+-   Owner_B.Action:=A.Resolve_Quarantine;Owner_B.Id(A.Operation_Id):=Other_Id;
+-   E.Owner_Resolution:=Owner_B;
+-   Owner_H:=[1=>H(1),2=>(Bound=>Owner_B,State=>A.Reserved)];
+-   Check(X.Decide(Data,G,Owner_H,B,Zero,E,State,Rows,Native,Bound,I,Owner,Collapse,M,
+-      X.Quarantined,X.Resolve_Owner,Receipts,Events,Receipts,Events)=X.Owner_Record_Effect);
+-   M.Worker_Native.Live_Mapping:=Id;M.Canonical_Native.Live_Mapping:=Id;
+-   M.Worker_Native.Live_Root:=Id;M.Canonical_Native.Live_Root:=Id;
+-   Check(X.Decide(Data,G,Owner_H,B,Zero,E,State,Rows,Native,Bound,I,Owner,Collapse,M,
+-      X.Quarantined,X.Resolve_Owner,Receipts,Events,Receipts,Events)=X.Owner_Record_Abort);
+-   M.Worker_Native.Live_Mapping:=Other_Id;
+-   Check(X.Decide(Data,G,Owner_H,B,Zero,E,State,Rows,Native,Bound,I,Owner,Collapse,M,
+-      X.Quarantined,X.Resolve_Owner,Receipts,Events,Receipts,Events)=X.Refused);
+-   -- Preserve the original genuinely authorized checkpoint-return wire case.
+-   G(1).State:=A.Active;H(1).State:=A.Reserved;
+-   M.Worker_Native:=(Live_Mapping=>Id,Live_Root=>Id);
+-   M.Canonical_Native:=M.Worker_Native;
+-   Collapse.Evaluation_Mode:=1;Collapse.Roster_Complete:=0;
+-   Collapse.Evaluated_Requirement:=(Present=>0,Value=>[others=>0]);
+-   Collapse.Executed_Verifiers:=(Present=>0,Value=>[others=>0]);
+-   Put(Collapse.Expected_Checkpoint,11);Put(Collapse.Witnessed_Checkpoint,11);
+-   Collapse.Resulting_Requirement:=(Present=>0,Value=>[others=>0]);
+-   M.Worker_Issued.Mode:=R.Checkpoint_Return;
+-   M.Worker_Issued.Resulting_Requirement:=(Present=>False,Value=>[others=>0]);
+-   M.Worker_Recovered:=M.Worker_Issued;
+-   M.Canonical_Issued:=M.Worker_Issued;M.Canonical_Recovered:=M.Worker_Issued;
+-   Check(Decide(X.Issued)=X.Dispatch_Worker);
+-   M.Worker_Recovered.Resulting_Requirement:=Id;
+-   Check(Decide(X.Issued)=X.Refused);
+-   M.Worker_Recovered:=M.Worker_Issued;
+-   Put(Collapse.Resulting_Requirement,8);
+-   Check(Decide(X.Issued)=X.Refused);
+-   Collapse.Resulting_Requirement:=(Present=>0,Value=>[others=>0]);
+-   M.Worker_Issued.Mode:=R.Candidate;M.Worker_Recovered:=M.Worker_Issued;
+-   M.Canonical_Issued:=M.Worker_Issued;M.Canonical_Recovered:=M.Worker_Issued;
+-   Check(Decide(X.Issued)=X.Refused);
+-end Canonical_Exchange_Controls;
+--- b/canonical-exchange-tests/canonical_exchange_tests.gpr
++++ /dev/null
+@@ -1,13 +0,0 @@
+-with "../core/attest_sha256.gpr";
+-project Canonical_Exchange_Tests is
+-   for Source_Dirs use (".", "../core");
+-   for Object_Dir use "obj";
+-   for Exec_Dir use "bin";
+-   for Main use ("canonical_exchange_controls.adb");
+-   package Compiler is
+-      for Default_Switches ("Ada") use ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-gnata", "-O2", "-g");
+-   end Compiler;
+-   package Prove is
+-      for Proof_Switches ("Ada") use ("--level=3", "--report=all", "-j2");
+-   end Prove;
+-end Canonical_Exchange_Tests;
+--- b/canonical-owner-completion-tests/canonical_owner_completion_controls.adb
++++ /dev/null
+@@ -1,177 +0,0 @@
+-with Worldline;
+-with Worldline.Canonical_Exchange;
+-with Worldline.Canonical_Owner_Completion;
+-with Worldline.Collapse_Wire;
+-with Interfaces;
+-procedure Canonical_Owner_Completion_Controls is
+-   package Y renames Worldline.Canonical_Owner_Completion;
+-   use type Y.Decision;
+-   package X renames Worldline.Canonical_Exchange;
+-   package A renames X.A; package R renames X.R; package C renames X.C;
+-   package L renames X.L; package Q renames A.Q;
+-   use type X.Decision; use type A.Decision;
+-   Data:Q.Byte_Array(1..Worldline.Hash'Length):=[others=>1];
+-   Zero:Q.Quantity:=(Negative=>False,First=>1,Length=>0);
+-   One:Q.Quantity:=(Negative=>False,First=>1,Length=>1);
+-   Large:Q.Quantity:=(Negative=>False,First=>1,Length=>Data'Length);
+-   Epoch:R.Optional_Epoch:=(Present=>True,Value=>Zero);
+-   Id:R.Optional_Digest:=(Present=>True,Value=>[others=>1]);
+-   Other_Id:R.Optional_Digest:=(Present=>True,Value=>[others=>2]);
+-   Owner:A.Optional_UID:=(Present=>True,Value=>7);
+-   B:A.Binding:=(Action=>A.Commit_Collapse,Id=>[others=>Id],Peer=>Owner,Preparer=>Owner,
+-      Owner=>Owner,Target_Owner=>Owner,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch);
+-   G:A.Grants(1..1):=[1=>(Id=>Id,Parent=>(Present=>False,Value=>[others=>0]),Issuer=>Id,
+-      Instance=>Id,Root_Set=>Id,Policy=>Id,Subject=>Owner,Owner=>Owner,Allowed=>[others=>True],
+-      State=>A.Active,Epoch=>Epoch,Ceiling=>Large,Issued_At=>Zero,Expires_At=>Large)];
+-   H:A.Uses(1..1):=[1=>(Bound=>B,State=>A.Reserved)];
+-   Owner_H:A.Uses(1..2);
+-   E:A.Evidence:=(Effect_Binding=>B,Actual_Receipt_Root=>Id,Actual_Causal_Root=>Id,
+-      No_Effect_Binding=>B,Owner_Resolution=>B,Quarantine_Head=>Id,
+-      Witnessed_Receipt_Head=>Id,Witnessed_Causal_Head=>Id,
+-      Recovery_Issued=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Recovery_Recovered=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Recovery_Historical=>R.Unestablished,Recovery_Native=>(Live_Mapping=>Id,Live_Root=>Id),Original_Use=>Id);
+-   I:L.Identity:=(Present=>True,Value=>(First=>1,Length=>Data'Length));
+-   None:L.Identity:=(Present=>False,Value=>(First=>1,Length=>0));
+-   Scope:L.Context:=(Policy_Epoch=>Epoch,others=>I);
+-   Bound:L.Binding:=(Resource_Epoch=>Epoch,others=>I);
+-   State:L.Ledger_State:=(Scope=>Scope,Resource_Epoch=>Epoch,Universe_Head=>I,Ledger_Head=>I,
+-      Capacity=>One,Held_Total=>One,Charged_Total=>Zero);
+-   Rows:L.Row_Array(1..1):=[1=>(Scope=>Scope,Bound=>Bound,Parent=>None,Kind=>L.Held_Capacity,
+-      State=>L.Reserved,Amount=>One,Observed_Usage=>(Present=>False,Value=>Zero),
+-      Planned_Unit=>None,Actual_Unit=>None,Cgroup=>None,Invocation=>None)];
+-   Native:L.Native_Array(1..1):=[1=>(Scope=>Scope,Resource_Epoch=>Epoch,Bound=>Bound,
+-      Actual_Unit=>None,Cgroup=>None,Invocation=>None,Observation_Head=>I,Observed=>L.Never_Launched)];
+-   M:X.Material:=(Worker_Issued=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Worker_Recovered=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Canonical_Issued=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Canonical_Recovered=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
+-      Worker_Native=>(Live_Mapping=>Id,Live_Root=>Id),Canonical_Native=>(Live_Mapping=>Id,Live_Root=>Id),others=>Id);
+-   Receipts,Events:C.Retained_Rows(1..1);
+-   Owner_B:A.Binding:=B;
+-   procedure Check(Test:Boolean) is
+-   begin pragma Assert(Test); if not Test then raise Program_Error; end if; end Check;
+-   procedure Put (Field : out Worldline.Collapse_Wire.Raw_Optional_Hash;
+-                  V : Interfaces.Unsigned_8) is
+-   begin
+-      Field.Present := 1;
+-      Field.Value := [others => V];
+-   end Put;
+-
+-   function Good_Wire return Worldline.Collapse_Wire.Raw_Request is
+-      use Worldline.Collapse_Wire;
+-      Absent : constant Raw_Optional_Hash := (Present => 0, Value => [others => 0]);
+-      R : Raw_Request :=
+-        (Candidate_State => 2, Phase => 0, Evaluation_Mode => 0, Conflicts => 1,
+-         Foreign_Writes => 1, Roster_Complete => 1, Staged_Roster_Complete => 0,
+-         Generation_Before => (Present => 1, Value_LE => [41, others => 0]),
+-         Generation_After => (Present => 1, Value_LE => [41, others => 0]),
+-         others => Absent);
+-   begin
+-      Put (R.Expected_Parent, 1); Put (R.Candidate_Parent, 1);
+-      Put (R.Expected_Subject, 2); Put (R.Evidence_Subject, 2);
+-      Put (R.Expected_Base, 3); Put (R.Candidate_Base, 3);
+-      Put (R.Expected_Delta, 4); Put (R.Candidate_Delta, 4);
+-      Put (R.Expected_Root_Set, 5); Put (R.Candidate_Root_Set, 5);
+-      Put (R.Expected_Staged_Root, 6); Put (R.Actual_Staged_Root, 6);
+-      Put (R.Staged_Content_Root, 7); Put (R.Tested_Root, 7);
+-      Put (R.Current_Requirement, 8); Put (R.Resulting_Requirement, 8);
+-      Put (R.Evaluated_Requirement, 8);
+-      Put (R.Declared_Verifiers, 9); Put (R.Executed_Verifiers, 9);
+-      Put (R.Registered_Watch_Set, 10); Put (R.Watched_Set, 10);
+-      return R;
+-   end Good_Wire;
+-   Collapse:Worldline.Collapse_Wire.Raw_Request:=Good_Wire;
+-   Historical_G : A.Grants(1..1);
+-   Historical_H,Current_H : A.Uses(1..2);
+-   Historical_E,Current_E : A.Evidence;
+-   Historical_M : X.Material;
+-   function Complete return Y.Decision is
+-     (Y.Decide(Data,Historical_G,Historical_H,B,Zero,Historical_E,State,Rows,
+-       Native,Bound,I,Owner,Collapse,Historical_M,Receipts,Events,Receipts,Events,
+-       G,Current_H,B,Current_E,Receipts,Events));
+-begin
+-   -- These genuine complete pure value controls confer no protected custody.
+-   M.Worker_Issued.Subject:=(Present=>True,Value=>Worldline.Collapse_Wire.Digest(Collapse.Expected_Subject.Value));
+-   M.Worker_Issued.Staged_Root:=(Present=>True,Value=>Worldline.Collapse_Wire.Digest(Collapse.Actual_Staged_Root.Value));
+-   M.Worker_Issued.Current_Requirement:=(Present=>True,Value=>Worldline.Collapse_Wire.Digest(Collapse.Current_Requirement.Value));
+-   M.Worker_Issued.Resulting_Requirement:=(Present=>True,Value=>Worldline.Collapse_Wire.Digest(Collapse.Resulting_Requirement.Value));
+-   B.Id(A.Requirement):=M.Worker_Issued.Current_Requirement;
+-   H(1).Bound:=B;E.Effect_Binding:=B;E.No_Effect_Binding:=B;
+-   Owner_B:=B;
+-   M.Worker_Issued.Staged_Mapping:=Other_Id;
+-   M.Canonical_Issued:=M.Worker_Issued;
+-   M.Worker_Recovered:=M.Worker_Issued;
+-   M.Canonical_Issued.Staged_Mapping:=Other_Id;
+-   M.Canonical_Recovered:=M.Canonical_Issued;
+-   M.Worker_Receipt_Head:=(Present=>True,Value=>C.Link(C.Receipt_Chain,Id.Value,Id.Value));
+-   M.Worker_Causal_Head:=(Present=>True,Value=>C.Link(C.Causal_Chain,Id.Value,Id.Value));
+-   Receipts(1):=(Previous=>Id,Actual_Payload_Root=>Id,Stored_Payload_Root=>Id,Stored_Head=>M.Worker_Receipt_Head);
+-   Events(1):=(Previous=>Id,Actual_Payload_Root=>Id,Stored_Payload_Root=>Id,Stored_Head=>M.Worker_Causal_Head);
+-   Owner_B:=B;Owner_B.Action:=A.Resolve_Quarantine;
+-   Owner_B.Id(A.Operation_Id):=Other_Id;Owner_B.Id(A.Use_Id):=Other_Id;
+-   Owner_B.Id(A.Original_Operation):=B.Id(A.Operation_Id);
+-   H(1).State:=A.Quarantined;
+-   Owner_H:=[1=>H(1),2=>(Bound=>Owner_B,State=>A.Reserved)];
+-   E.Owner_Resolution:=Owner_B;
+-   E.Witnessed_Receipt_Head:=M.Worker_Receipt_Head;
+-   E.Witnessed_Causal_Head:=M.Worker_Causal_Head;
+-   M.Worker_Native.Live_Mapping:=Other_Id;
+-   M.Worker_Native.Live_Root:=M.Worker_Issued.Staged_Root;
+-   M.Canonical_Native.Live_Mapping:=Other_Id;
+-   M.Canonical_Native.Live_Root:=M.Canonical_Issued.Staged_Root;
+-   Historical_G:=G;Historical_H:=Owner_H;Current_H:=Owner_H;
+-   Historical_E:=E;Current_E:=E;Historical_M:=M;
+-   Check(Complete=Y.Resolve_Effect);
+-   -- Original owner effect capture remains usable after fresh revocation and
+-   -- expiry. It cannot supply a fresh pre-exec capability authorization.
+-   G(1).State:=A.Revoked;
+-   Check(Complete=Y.Resolve_Effect);
+-   Check(A.Decide(Data,G,H,B,Large,A.Authorize_Execution,E,Receipts,Events)=A.Refused);
+-   Current_H(1).State:=A.Effect_Observed;
+-   Check(Complete=Y.Effect_Already);
+-   Current_H(1).State:=A.Settled;
+-   Check(Complete=Y.Effect_Already);
+-   Current_H(1).State:=A.Quarantined;
+-   Historical_M.Worker_Recovered.Operation:=Other_Id;
+-   Check(Complete=Y.Refused);
+-   Historical_M:=M;
+-   Current_E.Owner_Resolution.Peer:=(Present=>True,Value=>8);
+-   Check(Complete=Y.Refused);
+-   Current_E:=E;
+-   Current_H(2).Bound.Id(A.Transaction):=Other_Id;
+-   Check(Complete=Y.Refused);
+-   Current_H:=Owner_H;
+-   G(1).Ceiling:=One;
+-   Check(Complete=Y.Refused);
+-   G:=Historical_G;
+-   Current_E.Witnessed_Receipt_Head:=Other_Id;
+-   Check(Complete=Y.Refused);
+-   Current_E:=E;
+-   -- Genuine complete Before/Before permits no-effect completion; split or
+-   -- unknown observations refuse. Duplicate terminal returns no new use.
+-   Historical_M.Worker_Native:=(Live_Mapping=>Id,Live_Root=>Id);
+-   Historical_M.Canonical_Native:=Historical_M.Worker_Native;
+-   Check(Complete=Y.Resolve_No_Effect);
+-   Current_H(1).State:=A.Released;
+-   Check(Complete=Y.No_Effect_Already);
+-   Historical_M.Canonical_Native.Live_Mapping:=Other_Id;
+-   Check(Complete=Y.Refused);
+-   Historical_M.Canonical_Native:=(Live_Mapping=>Id,Live_Root=>Id);
+-   Historical_M.Worker_Native.Live_Mapping.Present:=False;
+-   Check(Complete=Y.Refused);
+-   -- Before execution uses the complete reserved history and original peer,
+-   -- consumes no second use, and checks every fresh ancestor's attenuation.
+-   H(1).State:=A.Reserved;E.Owner_Resolution:=B;
+-   Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Execution_Ready);
+-   Check(A.Decide(Data,G,H,B,Large,A.Authorize_Execution,E,Receipts,Events)=A.Refused);
+-   G(1).State:=A.Revoked;
+-   Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Refused);
+-   G:=Historical_G;
+-   E.Owner_Resolution.Peer:=(Present=>True,Value=>8);
+-   Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Refused);
+-   E.Owner_Resolution:=B;H(1).State:=A.Settled;
+-   Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Execution_Ready);
+-   E.Witnessed_Receipt_Head:=Other_Id;
+-   Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Refused);
+-end Canonical_Owner_Completion_Controls;
+--- b/canonical-owner-completion-tests/canonical_owner_completion_tests.gpr
++++ /dev/null
+@@ -1,13 +0,0 @@
+-with "../core/attest_sha256.gpr";
+-project Canonical_Owner_Completion_Tests is
+-   for Source_Dirs use (".", "../core");
+-   for Object_Dir use "obj";
+-   for Exec_Dir use "bin";
+-   for Main use ("canonical_owner_completion_controls.adb");
+-   package Compiler is
+-      for Default_Switches ("Ada") use ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-gnata", "-O2", "-g");
+-   end Compiler;
+-   package Prove is
+-      for Proof_Switches ("Ada") use ("--level=3", "--report=all", "-j2");
+-   end Prove;
+-end Canonical_Owner_Completion_Tests;
+--- b/core/worldline-c_api.adb
++++ a/core/worldline-c_api.adb
+@@ -1,5 +1,3 @@
+-with Worldline.Canonical_Owner_Completion_Wire;
+-with Worldline.Canonical_Exchange_Wire;
+ with Worldline.Evaluation_Policy;
+ with Worldline.Report_Parser;
+ with Worldline.Protected_Paths;
+@@ -7263,339 +7261,6 @@
+    exception
+       when others => return -1;
+    end Canonical_Operation_Decide;
+-   function Canonical_Exchange_Version return Interfaces.Unsigned_32 is
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-      begin
+-         return (1);
+-      end;
+-   exception
+-      when others => return 0;
+-   end Canonical_Exchange_Version;
+-   function Canonical_Exchange_Layout(Kind,Field:Interfaces.Unsigned_32) return Interfaces.C.long is
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-   package V renames Worldline.Canonical_Exchange_Wire;
+-   package X renames V.X; package W renames V.W;
+-   use System.Storage_Elements; use type System.Address;
+-   use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
+-   use type X.A.Q.Byte_Count;
+-   begin case Kind is
+-when 1 => declare T:V.Raw_Material; begin case Field is
+-when 0=>return V.Raw_Material'Size/System.Storage_Unit;
+-when 1=>return V.Raw_Material'Alignment;
+-when 2=>return T.Worker_Issued'Position;
+-when 3=>return T.Worker_Recovered'Position;
+-when 4=>return T.Canonical_Issued'Position;
+-when 5=>return T.Canonical_Recovered'Position;
+-when 6=>return T.Worker_Native'Position;
+-when 7=>return T.Canonical_Native'Position;
+-when 8=>return T.Worker_Receipt_Genesis'Position;
+-when 9=>return T.Owner_Receipt_Genesis'Position;
+-when 10=>return T.Worker_Receipt_Head'Position;
+-when 11=>return T.Worker_Causal_Genesis'Position;
+-when 12=>return T.Owner_Causal_Genesis'Position;
+-when 13=>return T.Worker_Causal_Head'Position;
+-when 14=>return T.Quarantine_Head'Position;
+-when others=>return -1; end case; end;
+-when 2 => declare T:V.Raw_Input; begin case Field is
+-when 0=>return V.Raw_Input'Size/System.Storage_Unit;
+-when 1=>return V.Raw_Input'Alignment;
+-when 2=>return T.Operation_Input'Position;
+-when 3=>return T.Material'Position;
+-when 4=>return T.Before'Position;
+-when 5=>return T.Mode'Position;
+-when others=>return -1; end case; end;
+-when 3 => declare T:V.Raw_Result; begin case Field is
+-when 0=>return V.Raw_Result'Size/System.Storage_Unit;
+-when 1=>return V.Raw_Result'Alignment;
+-when 2=>return T.Disposition'Position;
+-when others=>return -1; end case; end;
+-when others=>return -1; end case; 
+-   exception when others=>return -1;
+-      end;
+-   exception
+-      when others => return -1;
+-   end Canonical_Exchange_Layout;
+-   function Canonical_Exchange_Decide(Input:System.Address; Input_Length:Interfaces.C.size_t;
+-      Arena:System.Address; Arena_Length:Interfaces.C.size_t;
+-      Grants:System.Address; Grants_Count,Grants_Length:Interfaces.C.size_t;
+-      Uses:System.Address; Uses_Count,Uses_Length:Interfaces.C.size_t;
+-      Rows:System.Address; Rows_Count,Rows_Length:Interfaces.C.size_t;
+-      Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+-      Worker_Receipts:System.Address; Worker_Receipts_Count,Worker_Receipts_Length:Interfaces.C.size_t;
+-      Worker_Events:System.Address; Worker_Events_Count,Worker_Events_Length:Interfaces.C.size_t;
+-      Effect_Receipts:System.Address; Effect_Receipts_Count,Effect_Receipts_Length:Interfaces.C.size_t;
+-      Effect_Events:System.Address; Effect_Events_Count,Effect_Events_Length:Interfaces.C.size_t;
+-      Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int is
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-   package V renames Worldline.Canonical_Exchange_Wire;
+-   package X renames V.X; package W renames V.W;
+-   use System.Storage_Elements; use type System.Address;
+-   use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
+-   use type X.A.Q.Byte_Count;
+-   function Shape(P:System.Address; Count,Length,Stride:Interfaces.C.size_t; Alignment:Integer_Address) return Boolean is
+-     (Stride>0 and then Count<=Interfaces.C.size_t(X.A.Q.Byte_Count'Last)
+-      and then Count<=Interfaces.C.size_t'Last/Stride and then Length=Count*Stride
+-      and then (Length=0 or else (P/=System.Null_Address
+-        and then Length<=Interfaces.C.size_t(Storage_Offset'Last)
+-        and then Integer_Address(Length-1)<=Integer_Address'Last-To_Integer(P)
+-        and then To_Integer(P) mod Alignment=0)));
+-   type Input_Access is access all V.Raw_Input; type Output_Access is access all V.Raw_Result;
+-   type Byte_Access is access all X.A.Q.Byte;
+-   function In_At is new Ada.Unchecked_Conversion(System.Address,Input_Access);
+-   function Out_At is new Ada.Unchecked_Conversion(System.Address,Output_Access);
+-   function Byte_At is new Ada.Unchecked_Conversion(System.Address,Byte_Access);
+-   type Grant_Access is access all W.W.Raw_Grant;
+-   function Grant_At is new Ada.Unchecked_Conversion(System.Address,Grant_Access);
+-   type Use_Access is access all W.W.Raw_Use;
+-   function Use_At is new Ada.Unchecked_Conversion(System.Address,Use_Access);
+-   type Row_Access is access all W.L.Raw_Row;
+-   function Row_At is new Ada.Unchecked_Conversion(System.Address,Row_Access);
+-   type Native_Access is access all W.L.Raw_Native;
+-   function Native_At is new Ada.Unchecked_Conversion(System.Address,Native_Access);
+-   type Chain_Access is access all W.W.C.Raw_Row;
+-   function Chain_At is new Ada.Unchecked_Conversion(System.Address,Chain_Access);
+-   begin
+-      if not Shape(Input,1,Input_Length,V.Raw_Input'Size/System.Storage_Unit,V.Raw_Input'Alignment)
+-        or else not Shape(Output,1,Output_Length,V.Raw_Result'Size/System.Storage_Unit,V.Raw_Result'Alignment)
+-        or else not Shape(Arena,Arena_Length,Arena_Length,1,1)
+-        or else not Shape(Grants,Grants_Count,Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+-        or else not Shape(Uses,Uses_Count,Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+-        or else not Shape(Rows,Rows_Count,Rows_Length,W.L.Raw_Row'Size/System.Storage_Unit,W.L.Raw_Row'Alignment)
+-        or else not Shape(Observed,Observed_Count,Observed_Length,W.L.Raw_Native'Size/System.Storage_Unit,W.L.Raw_Native'Alignment)
+-        or else not Shape(Worker_Receipts,Worker_Receipts_Count,Worker_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-        or else not Shape(Worker_Events,Worker_Events_Count,Worker_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-        or else not Shape(Effect_Receipts,Effect_Receipts_Count,Effect_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-        or else not Shape(Effect_Events,Effect_Events_Count,Effect_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-      then return -1; end if;
+-      declare
+-         Raw:constant V.Raw_Input:=In_At(Input).all;
+-         Data:X.A.Q.Byte_Array(1..X.A.Q.Byte_Count(Arena_Length));
+-         G:X.A.Grants(1..X.A.Q.Byte_Count(Grants_Count));
+-         H:X.A.Uses(1..X.A.Q.Byte_Count(Uses_Count));
+-         R:X.L.Row_Array(1..X.A.Q.Byte_Count(Rows_Count));
+-         N:X.L.Native_Array(1..X.A.Q.Byte_Count(Observed_Count));
+-         WR:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Worker_Receipts_Count));
+-         WE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Worker_Events_Count));
+-         ER:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Effect_Receipts_Count));
+-         EE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Effect_Events_Count));
+-      begin
+-         for I in Data'Range loop Data(I):=Byte_At(Arena+Storage_Offset(I-1)).all; end loop;
+-         if not V.Well_Formed(Data,Raw) then return -1; end if;
+-         for I in G'Range loop declare T:constant W.W.Raw_Grant:=Grant_At(Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+-         begin if not W.W.Well_Formed(T) then return -1; end if; G(I):=W.W.Decode(T); end; end loop;
+-         for I in H'Range loop declare T:constant W.W.Raw_Use:=Use_At(Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+-         begin if not W.W.Well_Formed(T) then return -1; end if; H(I):=W.W.Decode(T); end; end loop;
+-         for I in R'Range loop declare T:constant W.L.Raw_Row:=Row_At(Rows+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Row'Size/System.Storage_Unit))).all;
+-         begin if not W.L.Well_Formed(Data,T) then return -1; end if; R(I):=W.L.Decode(Data,T); end; end loop;
+-         for I in N'Range loop declare T:constant W.L.Raw_Native:=Native_At(Observed+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Native'Size/System.Storage_Unit))).all;
+-         begin if not W.L.Well_Formed(Data,T) then return -1; end if; N(I):=W.L.Decode(Data,T); end; end loop;
+-         for I in WR'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Worker_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-         begin if not W.W.C.Well_Formed(T) then return -1; end if; WR(I):=W.W.C.Decode(T); end; end loop;
+-         for I in WE'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Worker_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-         begin if not W.W.C.Well_Formed(T) then return -1; end if; WE(I):=W.W.C.Decode(T); end; end loop;
+-         for I in ER'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Effect_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-         begin if not W.W.C.Well_Formed(T) then return -1; end if; ER(I):=W.W.C.Decode(T); end; end loop;
+-         for I in EE'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Effect_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-         begin if not W.W.C.Well_Formed(T) then return -1; end if; EE(I):=W.W.C.Decode(T); end; end loop;
+-         -- Every selected input/arena/complete roster has been copied before
+-         -- any aliased output is touched. Raw address validity remains OPEN.
+-         declare O:constant W.Raw_Input:=Raw.Operation_Input;
+-                 Answer : constant X.Decision := X.Decide(Data,G,H,W.W.Decode(O.Authority.Bound),
+-               W.W.Decode(O.Authority.Now).Value,W.W.Decode(Data,O.Authority.Facts),
+-               W.L.Decode(Data,O.State),R,N,W.L.Decode(Data,O.Bound),W.L.Decode(Data,O.Requester),
+-               W.W.Decode(O.Peer),O.Collapse,V.Decode(Data,Raw.Material),X.Phase'Val(Raw.Before),
+-               X.Command'Val(Raw.Mode),WR,WE,ER,EE);
+-         begin
+-            Flush_Native_Diagnostic_Trace;
+-            Out_At(Output).Disposition:=X.Decision'Pos(Answer);
+-         end;
+-      end;
+-      return 0;
+-   exception when others=>
+-      Flush_Native_Diagnostic_Trace;
+-      return -1;
+-         end;
+-   exception
+-      when others => return -1;
+-   end Canonical_Exchange_Decide;
+-   function Canonical_Owner_Completion_Version return Interfaces.Unsigned_32 is
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-      begin
+-         return (1);
+-      end;
+-   exception
+-      when others => return 0;
+-   end Canonical_Owner_Completion_Version;
+-   function Canonical_Owner_Completion_Layout(Kind,Field:Interfaces.Unsigned_32) return Interfaces.C.long is
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-   package V renames Worldline.Canonical_Owner_Completion_Wire;
+-   package Y renames V.Y; package X renames Y.X; package W renames V.W;
+-   use System.Storage_Elements; use type System.Address;
+-   use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
+-   use type X.A.Q.Byte_Count;
+-   begin case Kind is
+-      when 1=>declare T:V.Raw_Input; begin case Field is
+-         when 0=>return V.Raw_Input'Size/System.Storage_Unit;
+-         when 1=>return V.Raw_Input'Alignment;
+-         when 2=>return T.Historical'Position;
+-         when 3=>return T.Current'Position;
+-         when others=>return -1; end case; end;
+-      when 2=>declare T:V.Raw_Result; begin case Field is
+-         when 0=>return V.Raw_Result'Size/System.Storage_Unit;
+-         when 1=>return V.Raw_Result'Alignment;
+-         when 2=>return T.Disposition'Position;
+-         when others=>return -1; end case; end;
+-      when others=>return -1; end case;
+-   
+-   exception when others=>return -1;
+-      end;
+-   exception
+-      when others => return -1;
+-   end Canonical_Owner_Completion_Layout;
+-   function Canonical_Owner_Completion_Decide(Input:System.Address; Input_Length:Interfaces.C.size_t;
+-      Arena:System.Address; Arena_Length:Interfaces.C.size_t;
+-      Grants:System.Address; Grants_Count,Grants_Length:Interfaces.C.size_t;
+-      Uses:System.Address; Uses_Count,Uses_Length:Interfaces.C.size_t;
+-      Rows:System.Address; Rows_Count,Rows_Length:Interfaces.C.size_t;
+-      Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+-      Worker_Receipts:System.Address; Worker_Receipts_Count,Worker_Receipts_Length:Interfaces.C.size_t;
+-      Worker_Events:System.Address; Worker_Events_Count,Worker_Events_Length:Interfaces.C.size_t;
+-      Effect_Receipts:System.Address; Effect_Receipts_Count,Effect_Receipts_Length:Interfaces.C.size_t;
+-      Effect_Events:System.Address; Effect_Events_Count,Effect_Events_Length:Interfaces.C.size_t;
+-      Current_Grants:System.Address; Current_Grants_Count,Current_Grants_Length:Interfaces.C.size_t;
+-      Current_Uses:System.Address; Current_Uses_Count,Current_Uses_Length:Interfaces.C.size_t;
+-      Current_Receipts:System.Address; Current_Receipts_Count,Current_Receipts_Length:Interfaces.C.size_t;
+-      Current_Events:System.Address; Current_Events_Count,Current_Events_Length:Interfaces.C.size_t;
+-      Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int is
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-   package V renames Worldline.Canonical_Owner_Completion_Wire;
+-   package Y renames V.Y; package X renames Y.X; package W renames V.W;
+-   use System.Storage_Elements; use type System.Address;
+-   use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
+-   use type X.A.Q.Byte_Count;
+-   function Shape(P:System.Address; Count,Length,Stride:Interfaces.C.size_t; Alignment:Integer_Address) return Boolean is
+-     (Stride>0 and then Count<=Interfaces.C.size_t(X.A.Q.Byte_Count'Last)
+-      and then Count<=Interfaces.C.size_t'Last/Stride and then Length=Count*Stride
+-      and then (Length=0 or else (P/=System.Null_Address
+-        and then Length<=Interfaces.C.size_t(Storage_Offset'Last)
+-        and then Integer_Address(Length-1)<=Integer_Address'Last-To_Integer(P)
+-        and then To_Integer(P) mod Alignment=0)));
+-
+-   type Input_Access is access all V.Raw_Input;
+-   type Output_Access is access all V.Raw_Result;
+-   type Byte_Access is access all X.A.Q.Byte;
+-   function In_At is new Ada.Unchecked_Conversion(System.Address,Input_Access);
+-   function Out_At is new Ada.Unchecked_Conversion(System.Address,Output_Access);
+-   function Byte_At is new Ada.Unchecked_Conversion(System.Address,Byte_Access);
+-   type W_W_Raw_Grant_Access is access all W.W.Raw_Grant;
+-   function W_W_Raw_Grant_At is new Ada.Unchecked_Conversion(System.Address,W_W_Raw_Grant_Access);
+-   type W_W_Raw_Use_Access is access all W.W.Raw_Use;
+-   function W_W_Raw_Use_At is new Ada.Unchecked_Conversion(System.Address,W_W_Raw_Use_Access);
+-   type W_L_Raw_Row_Access is access all W.L.Raw_Row;
+-   function W_L_Raw_Row_At is new Ada.Unchecked_Conversion(System.Address,W_L_Raw_Row_Access);
+-   type W_L_Raw_Native_Access is access all W.L.Raw_Native;
+-   function W_L_Raw_Native_At is new Ada.Unchecked_Conversion(System.Address,W_L_Raw_Native_Access);
+-   type W_W_C_Raw_Row_Access is access all W.W.C.Raw_Row;
+-   function W_W_C_Raw_Row_At is new Ada.Unchecked_Conversion(System.Address,W_W_C_Raw_Row_Access);
+-   begin
+-      if not Shape(Input,1,Input_Length,V.Raw_Input'Size/System.Storage_Unit,V.Raw_Input'Alignment)
+-        or else not Shape(Output,1,Output_Length,V.Raw_Result'Size/System.Storage_Unit,V.Raw_Result'Alignment)
+-        or else not Shape(Arena,Arena_Length,Arena_Length,1,1)
+-        or else not Shape(Grants,Grants_Count,Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+-        or else not Shape(Uses,Uses_Count,Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+-        or else not Shape(Rows,Rows_Count,Rows_Length,W.L.Raw_Row'Size/System.Storage_Unit,W.L.Raw_Row'Alignment)
+-        or else not Shape(Observed,Observed_Count,Observed_Length,W.L.Raw_Native'Size/System.Storage_Unit,W.L.Raw_Native'Alignment)
+-        or else not Shape(Worker_Receipts,Worker_Receipts_Count,Worker_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-        or else not Shape(Worker_Events,Worker_Events_Count,Worker_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-        or else not Shape(Effect_Receipts,Effect_Receipts_Count,Effect_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-        or else not Shape(Effect_Events,Effect_Events_Count,Effect_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-        or else not Shape(Current_Grants,Current_Grants_Count,Current_Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+-        or else not Shape(Current_Uses,Current_Uses_Count,Current_Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+-        or else not Shape(Current_Receipts,Current_Receipts_Count,Current_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-        or else not Shape(Current_Events,Current_Events_Count,Current_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+-      then return -1; end if;
+-      declare
+-         Raw:constant V.Raw_Input:=In_At(Input).all;
+-         Data:X.A.Q.Byte_Array(1..X.A.Q.Byte_Count(Arena_Length));
+-         G:X.A.Grants(1..X.A.Q.Byte_Count(Grants_Count));
+-         H:X.A.Uses(1..X.A.Q.Byte_Count(Uses_Count));
+-         R:X.L.Row_Array(1..X.A.Q.Byte_Count(Rows_Count));
+-         N:X.L.Native_Array(1..X.A.Q.Byte_Count(Observed_Count));
+-         WR:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Worker_Receipts_Count));
+-         WE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Worker_Events_Count));
+-         ER:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Effect_Receipts_Count));
+-         EE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Effect_Events_Count));
+-         CG:X.A.Grants(1..X.A.Q.Byte_Count(Current_Grants_Count));
+-         CH:X.A.Uses(1..X.A.Q.Byte_Count(Current_Uses_Count));
+-         CR:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Current_Receipts_Count));
+-         CE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Current_Events_Count));
+-      begin
+-         for I in Data'Range loop Data(I):=Byte_At(Arena+Storage_Offset(I-1)).all; end loop;
+-         if not V.Well_Formed(Data,Raw) then return -1; end if;
+-         for I in G'Range loop declare T:constant W.W.Raw_Grant:=W_W_Raw_Grant_At(Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+-            begin if not W.W.Well_Formed(T) then return -1; end if; G(I):=W.W.Decode(T); end; end loop;
+-         for I in H'Range loop declare T:constant W.W.Raw_Use:=W_W_Raw_Use_At(Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+-            begin if not W.W.Well_Formed(T) then return -1; end if; H(I):=W.W.Decode(T); end; end loop;
+-         for I in R'Range loop declare T:constant W.L.Raw_Row:=W_L_Raw_Row_At(Rows+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Row'Size/System.Storage_Unit))).all;
+-            begin if not W.L.Well_Formed(Data,T) then return -1; end if; R(I):=W.L.Decode(Data,T); end; end loop;
+-         for I in N'Range loop declare T:constant W.L.Raw_Native:=W_L_Raw_Native_At(Observed+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Native'Size/System.Storage_Unit))).all;
+-            begin if not W.L.Well_Formed(Data,T) then return -1; end if; N(I):=W.L.Decode(Data,T); end; end loop;
+-         for I in WR'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Worker_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-            begin if not W.W.C.Well_Formed(T) then return -1; end if; WR(I):=W.W.C.Decode(T); end; end loop;
+-         for I in WE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Worker_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-            begin if not W.W.C.Well_Formed(T) then return -1; end if; WE(I):=W.W.C.Decode(T); end; end loop;
+-         for I in ER'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Effect_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-            begin if not W.W.C.Well_Formed(T) then return -1; end if; ER(I):=W.W.C.Decode(T); end; end loop;
+-         for I in EE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Effect_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-            begin if not W.W.C.Well_Formed(T) then return -1; end if; EE(I):=W.W.C.Decode(T); end; end loop;
+-         for I in CG'Range loop declare T:constant W.W.Raw_Grant:=W_W_Raw_Grant_At(Current_Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+-            begin if not W.W.Well_Formed(T) then return -1; end if; CG(I):=W.W.Decode(T); end; end loop;
+-         for I in CH'Range loop declare T:constant W.W.Raw_Use:=W_W_Raw_Use_At(Current_Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+-            begin if not W.W.Well_Formed(T) then return -1; end if; CH(I):=W.W.Decode(T); end; end loop;
+-         for I in CR'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Current_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-            begin if not W.W.C.Well_Formed(T) then return -1; end if; CR(I):=W.W.C.Decode(T); end; end loop;
+-         for I in CE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Current_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+-            begin if not W.W.C.Well_Formed(T) then return -1; end if; CE(I):=W.W.C.Decode(T); end; end loop;
+-         -- Every input/arena/complete roster is detached before output alias.
+-         declare P:constant W.Raw_Input:=Raw.Historical.Operation_Input;
+-                 C:constant W.W.Raw_Input:=Raw.Current;
+-                 Answer : constant Y.Decision := Y.Decide(Data,G,H,
+-               W.W.Decode(P.Authority.Bound),W.W.Decode(P.Authority.Now).Value,
+-               W.W.Decode(Data,P.Authority.Facts),W.L.Decode(Data,P.State),R,N,
+-               W.L.Decode(Data,P.Bound),W.L.Decode(Data,P.Requester),W.W.Decode(P.Peer),
+-               P.Collapse,V.V.Decode(Data,Raw.Historical.Material),WR,WE,ER,EE,
+-               CG,CH,W.W.Decode(C.Bound),W.W.Decode(Data,C.Facts),CR,CE);
+-         begin
+-            Flush_Native_Diagnostic_Trace;
+-            Out_At(Output).Disposition:=Y.Decision'Pos(Answer);
+-         end;
+-      end;
+-      return 0;
+-   exception when others=>
+-      Flush_Native_Diagnostic_Trace;
+-      return -1;
+-         end;
+-   exception
+-      when others => return -1;
+-   end Canonical_Owner_Completion_Decide;
+    function Operation_Result_Relation
+      (Input : System.Address;
+       Input_Length : Interfaces.C.size_t;
+--- b/core/worldline-c_api.ads
++++ a/core/worldline-c_api.ads
+@@ -297,38 +297,6 @@
+       Rows:System.Address; Row_Count,Row_Length:Interfaces.C.size_t;
+       Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+       Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int with Export,Convention=>C,External_Name=>"wl_canonical_operation_decide_v1";
+-   function Canonical_Exchange_Version return Interfaces.Unsigned_32 with Export,Convention=>C,External_Name=>"wl_canonical_exchange_version_v1";
+-   function Canonical_Exchange_Layout(Kind,Field:Interfaces.Unsigned_32) return Interfaces.C.long with Export,Convention=>C,External_Name=>"wl_canonical_exchange_layout_v1";
+-   function Canonical_Exchange_Decide(Input:System.Address; Input_Length:Interfaces.C.size_t;
+-      Arena:System.Address; Arena_Length:Interfaces.C.size_t;
+-      Grants:System.Address; Grants_Count,Grants_Length:Interfaces.C.size_t;
+-      Uses:System.Address; Uses_Count,Uses_Length:Interfaces.C.size_t;
+-      Rows:System.Address; Rows_Count,Rows_Length:Interfaces.C.size_t;
+-      Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+-      Worker_Receipts:System.Address; Worker_Receipts_Count,Worker_Receipts_Length:Interfaces.C.size_t;
+-      Worker_Events:System.Address; Worker_Events_Count,Worker_Events_Length:Interfaces.C.size_t;
+-      Effect_Receipts:System.Address; Effect_Receipts_Count,Effect_Receipts_Length:Interfaces.C.size_t;
+-      Effect_Events:System.Address; Effect_Events_Count,Effect_Events_Length:Interfaces.C.size_t;
+-      Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int
+-     with Export,Convention=>C,External_Name=>"wl_canonical_exchange_decide_v1";
+-   function Canonical_Owner_Completion_Version return Interfaces.Unsigned_32 with Export,Convention=>C,External_Name=>"wl_canonical_owner_completion_version_v1";
+-   function Canonical_Owner_Completion_Layout(Kind,Field:Interfaces.Unsigned_32) return Interfaces.C.long with Export,Convention=>C,External_Name=>"wl_canonical_owner_completion_layout_v1";
+-   function Canonical_Owner_Completion_Decide(Input:System.Address; Input_Length:Interfaces.C.size_t;
+-      Arena:System.Address; Arena_Length:Interfaces.C.size_t;
+-      Grants:System.Address; Grants_Count,Grants_Length:Interfaces.C.size_t;
+-      Uses:System.Address; Uses_Count,Uses_Length:Interfaces.C.size_t;
+-      Rows:System.Address; Rows_Count,Rows_Length:Interfaces.C.size_t;
+-      Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+-      Worker_Receipts:System.Address; Worker_Receipts_Count,Worker_Receipts_Length:Interfaces.C.size_t;
+-      Worker_Events:System.Address; Worker_Events_Count,Worker_Events_Length:Interfaces.C.size_t;
+-      Effect_Receipts:System.Address; Effect_Receipts_Count,Effect_Receipts_Length:Interfaces.C.size_t;
+-      Effect_Events:System.Address; Effect_Events_Count,Effect_Events_Length:Interfaces.C.size_t;
+-      Current_Grants:System.Address; Current_Grants_Count,Current_Grants_Length:Interfaces.C.size_t;
+-      Current_Uses:System.Address; Current_Uses_Count,Current_Uses_Length:Interfaces.C.size_t;
+-      Current_Receipts:System.Address; Current_Receipts_Count,Current_Receipts_Length:Interfaces.C.size_t;
+-      Current_Events:System.Address; Current_Events_Count,Current_Events_Length:Interfaces.C.size_t;
+-      Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int
+-      with Export,Convention=>C,External_Name=>"wl_canonical_owner_completion_decide_v1";
+    function Completion_ABI_Version return Interfaces.Unsigned_32
+      with Export, Convention => C, External_Name => "wl_completion_abi_version_v1";
+    function Completion_Layout_Size (Kind : Interfaces.Unsigned_32) return Interfaces.Integer_64
+--- b/core/worldline_canonical_exchange_v1.h
++++ /dev/null
+@@ -1,33 +0,0 @@
+-#ifndef WORLDLINE_CANONICAL_EXCHANGE_V1_H
+-#define WORLDLINE_CANONICAL_EXCHANGE_V1_H
+-#include "worldline_canonical_operation_v1.h"
+-typedef struct {
+- wl_recovery_binding_v3 worker_issued;
+- wl_recovery_binding_v3 worker_recovered;
+- wl_recovery_binding_v3 canonical_issued;
+- wl_recovery_binding_v3 canonical_recovered;
+- wl_recovery_native_v3 worker_native;
+- wl_recovery_native_v3 canonical_native;
+- wl_recovery_digest_v3 worker_receipt_genesis;
+- wl_recovery_digest_v3 owner_receipt_genesis;
+- wl_recovery_digest_v3 worker_receipt_head;
+- wl_recovery_digest_v3 worker_causal_genesis;
+- wl_recovery_digest_v3 owner_causal_genesis;
+- wl_recovery_digest_v3 worker_causal_head;
+- wl_recovery_digest_v3 quarantine_head;
+-} wl_canonical_exchange_material_v1;
+-typedef struct { wl_canonical_operation_input_v1 operation_input; wl_canonical_exchange_material_v1 material; uint8_t before,mode; } wl_canonical_exchange_input_v1;
+-typedef struct { uint8_t disposition; } wl_canonical_exchange_result_v1;
+-uint32_t wl_canonical_exchange_version_v1(void);
+-long wl_canonical_exchange_layout_v1(uint32_t,uint32_t);
+-int wl_canonical_exchange_decide_v1(const void *input,size_t input_length,const void *arena,size_t arena_length,
+- const void *grants,size_t grants_count,size_t grants_length,
+- const void *uses,size_t uses_count,size_t uses_length,
+- const void *rows,size_t rows_count,size_t rows_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipts_count,size_t worker_receipts_length,
+- const void *worker_events,size_t worker_events_count,size_t worker_events_length,
+- const void *effect_receipts,size_t effect_receipts_count,size_t effect_receipts_length,
+- const void *effect_events,size_t effect_events_count,size_t effect_events_length,
+- void *output,size_t output_length);
+-#endif
+--- b/core/worldline_canonical_operation_v1.h
++++ /dev/null
+@@ -1,21 +0,0 @@
+-#ifndef WORLDLINE_CANONICAL_OPERATION_V1_H
+-#define WORLDLINE_CANONICAL_OPERATION_V1_H
+-#include "worldline_operation_authority_v1.h"
+-#include "resource_run_ledger_v1.h"
+-#include "worldline_core.h"
+-typedef struct {
+- wl_operation_input_v1 authority;
+- wl_run_state state; wl_run_binding bound; wl_run_id requester;
+- wl_operation_uid_v1 peer; struct wl_collapse_request collapse;
+-} wl_canonical_operation_input_v1;
+-typedef struct { uint8_t disposition; } wl_canonical_operation_result_v1;
+-uint32_t wl_canonical_operation_version_v1(void);
+-long wl_canonical_operation_layout_v1(uint32_t kind,uint32_t field);
+-int wl_canonical_operation_decide_v1(const void *input,size_t input_length,
+- const void *arena,size_t arena_length,
+- const void *grants,size_t grant_count,size_t grant_length,
+- const void *uses,size_t use_count,size_t use_length,
+- const void *rows,size_t row_count,size_t row_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- void *output,size_t output_length);
+-#endif
+--- b/core/worldline_canonical_owner_completion_v1.h
++++ /dev/null
+@@ -1,36 +0,0 @@
+-#ifndef WORLDLINE_CANONICAL_OWNER_COMPLETION_V1_H
+-#define WORLDLINE_CANONICAL_OWNER_COMPLETION_V1_H
+-#include "worldline_canonical_exchange_v1.h"
+-/* Complete historical and current frames share the same owned arena. The
+- * historical rosters precede the current rosters. Neither DTOs nor an earlier
+- * native verdict establish protected historical custody. */
+-typedef struct {
+- wl_canonical_exchange_input_v1 historical;
+- wl_operation_input_v1 current;
+-} wl_canonical_owner_completion_input_v1;
+-typedef struct { uint8_t disposition; } wl_canonical_owner_completion_result_v1;
+-enum wl_canonical_owner_completion_decisions {
+- WL_CANONICAL_OWNER_COMPLETION_REFUSED,
+- WL_CANONICAL_OWNER_COMPLETION_RESOLVE_EFFECT,
+- WL_CANONICAL_OWNER_COMPLETION_RESOLVE_NO_EFFECT,
+- WL_CANONICAL_OWNER_COMPLETION_EFFECT_ALREADY,
+- WL_CANONICAL_OWNER_COMPLETION_NO_EFFECT_ALREADY
+-};
+-uint32_t wl_canonical_owner_completion_version_v1(void);
+-long wl_canonical_owner_completion_layout_v1(uint32_t,uint32_t);
+-int wl_canonical_owner_completion_decide_v1(const void *input,size_t input_length,
+- const void *arena,size_t arena_length,
+- const void *grants,size_t grants_count,size_t grants_length,
+- const void *uses,size_t uses_count,size_t uses_length,
+- const void *rows,size_t rows_count,size_t rows_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipts_count,size_t worker_receipts_length,
+- const void *worker_events,size_t worker_events_count,size_t worker_events_length,
+- const void *effect_receipts,size_t effect_receipts_count,size_t effect_receipts_length,
+- const void *effect_events,size_t effect_events_count,size_t effect_events_length,
+- const void *current_grants,size_t current_grants_count,size_t current_grants_length,
+- const void *current_uses,size_t current_uses_count,size_t current_uses_length,
+- const void *current_receipts,size_t current_receipts_count,size_t current_receipts_length,
+- const void *current_events,size_t current_events_count,size_t current_events_length,
+- void *output,size_t output_length);
+-#endif
+--- b/runtime/worldline/operation_owner_kernel.py
++++ a/runtime/worldline/operation_owner_kernel.py
+@@ -74,53 +74,3 @@
+     result = kernel.observe(snapshot, state, rows, observed, request, peer_uid, collapse_values)
+     _owner_mapping(principal, RESOURCE_SYMBOLS)
+     return result
+-
+-
+-EXCHANGE_SYMBOLS = ('wl_canonical_exchange_version_v1',
+-                    'wl_canonical_exchange_layout_v1', 'wl_canonical_exchange_decide_v1')
+-OWNER_COMPLETION_SYMBOLS = ('wl_canonical_owner_completion_version_v1',
+-                            'wl_canonical_owner_completion_layout_v1',
+-                            'wl_canonical_owner_completion_decide_v1')
+-
+-
+-def initialize_exchange_kernel(principal):
+-    from .canonical_exchange_kernel import CanonicalExchangeKernel
+-    _owner_mapping(principal, RESOURCE_SYMBOLS + EXCHANGE_SYMBOLS)
+-    kernel = CanonicalExchangeKernel(principal.core)
+-    _owner_mapping(principal, RESOURCE_SYMBOLS + EXCHANGE_SYMBOLS)
+-    return kernel
+-
+-
+-def _exchange_kernel(principal, kernel):
+-    from .canonical_exchange_kernel import CanonicalExchangeKernel
+-    _owner_mapping(principal, RESOURCE_SYMBOLS + EXCHANGE_SYMBOLS)
+-    if kernel is None:
+-        kernel = initialize_exchange_kernel(principal)
+-    require(type(kernel) is CanonicalExchangeKernel and kernel.core is principal.core,
+-            'EXCHANGE_NATIVE_KERNEL_SPLIT')
+-    return kernel
+-
+-
+-def observe_exchange(principal, *arguments, kernel=None):
+-    kernel = _exchange_kernel(principal, kernel)
+-    result = kernel.observe(*arguments)
+-    _owner_mapping(principal, RESOURCE_SYMBOLS + EXCHANGE_SYMBOLS)
+-    return result
+-
+-
+-def prepare_exchange(principal, *arguments, kernel=None):
+-    kernel = _exchange_kernel(principal, kernel)
+-    result = kernel.prepare(*arguments)
+-    _owner_mapping(principal, RESOURCE_SYMBOLS + EXCHANGE_SYMBOLS)
+-    return result
+-
+-
+-def observe_owner_completion(principal, historical_arguments, current_snapshot):
+-    from .canonical_owner_completion_kernel import CanonicalOwnerCompletionKernel
+-    symbols = RESOURCE_SYMBOLS + EXCHANGE_SYMBOLS + OWNER_COMPLETION_SYMBOLS
+-    _owner_mapping(principal, symbols)
+-    kernel = CanonicalOwnerCompletionKernel(principal.core)
+-    _owner_mapping(principal, symbols)
+-    result = kernel.observe(historical_arguments, current_snapshot)
+-    _owner_mapping(principal, symbols)
+-    return result
+--- b/runtime/worldline/protected_operations.py
++++ a/runtime/worldline/protected_operations.py
+@@ -612,12 +612,12 @@
+         # no copied decision, fresh-policy substitution or second use enters.
+         keys(snapshot,('binding','grants','uses','now','evidence','receipts','events','owner_completion'))
+         proof=snapshot['owner_completion'];keys(proof,('owner','arguments','native'))
+-        from .operation_owner_kernel import observe_owner_completion
+-        from .operation_owner_kernel import observe_exchange, initialize_exchange_kernel, prepare_exchange
+-        require(observe_exchange(self, *proof['arguments'])==proof['native'],
++        from .canonical_owner_completion_kernel import CanonicalOwnerCompletionKernel
++        from .canonical_exchange_kernel import CanonicalExchangeKernel
++        require(CanonicalExchangeKernel(self.core).observe(*proof['arguments'])==proof['native'],
+             'OPERATION_K4_COMPLETE_ORIGINAL_DUAL_FRAME_CHANGED')
+         current={name:clone(value) for name,value in snapshot.items() if name!='owner_completion'}
+-        native=observe_owner_completion(self, proof['arguments'],current)
++        native=CanonicalOwnerCompletionKernel(self.core).observe(proof['arguments'],current)
+         expected='RESOLVED_EFFECT' if command=='RESOLVE_EFFECT_HISTORICAL' else 'RESOLVED_NO_EFFECT'
+         require(native['decision']==expected,'OPERATION_K4_HISTORICAL_NATIVE_COMPLETION_REFUSED')
+         return native
+@@ -861,8 +861,8 @@
+         proof=self.broker().retained_owner_disposition(operation,complete_owner_native_proof)
+         require(archive(proof)==archive(complete_owner_native_proof),
+             'FULL_BROKER_K4_PROOF_NOT_RETAINED_EVENT')
+-        from .operation_owner_kernel import observe_exchange, initialize_exchange_kernel, prepare_exchange
+-        native=observe_exchange(self, *proof['arguments'])
++        from .canonical_exchange_kernel import CanonicalExchangeKernel
++        native=CanonicalExchangeKernel(self.core).observe(*proof['arguments'])
+         require(native==proof['native'] and native['decision'] in
+             ('OWNER_RECORD_ABORT','OWNER_RECORD_EFFECT'),
+             'FULL_BROKER_K4_COMPLETE_NATIVE_REPLAY_REFUSED')
+--- b/tests/test_canonical_exchange_owner_exports_native.py
++++ /dev/null
+@@ -1,63 +0,0 @@
+-"""Additive actual-native ABI controls; synthetic owned bytes, no custody claim.
+-Original full positive/refusal semantic controls are separately retained unchanged.
+-"""
+-import ctypes as C
+-import os
+-from pathlib import Path
+-import unittest
+-from worldline.core import Core
+-from worldline.canonical_exchange_kernel import CanonicalExchangeKernel, Input as ExchangeInput, Result as ExchangeResult, PHASES
+-from worldline.canonical_owner_completion_kernel import CanonicalOwnerCompletionKernel, Input as OwnerInput, Result as OwnerResult
+-
+-
+-class CanonicalExchangeOwnerExportTests(unittest.TestCase):
+-    @classmethod
+-    def setUpClass(cls):
+-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+-
+-    def families(self):
+-        # Constructor checks every version, size, alignment and field position,
+-        # including all underlying original operation/resource/recovery layouts.
+-        yield CanonicalExchangeKernel(self.core), ExchangeInput, ExchangeResult
+-        yield CanonicalOwnerCompletionKernel(self.core), OwnerInput, OwnerResult
+-
+-    def test_complete_layouts(self):
+-        for kernel, input_type, result_type in self.families():
+-            self.assertIsNotNone(kernel.call)
+-
+-    def test_null_nonempty_input_refuses_before_dereference(self):
+-        for kernel, input_type, result_type in self.families():
+-            output = result_type(7)
+-            arguments = [None if typ is C.c_void_p else 0 for typ in kernel.call.argtypes]
+-            arguments[1] = C.sizeof(input_type)
+-            arguments[-2:] = [C.byref(output), C.sizeof(output)]
+-            self.assertEqual(kernel.call(*arguments), -1)
+-            self.assertEqual(output.disposition, 7)
+-
+-    def test_owned_invalid_phase_and_output_alias_refuse(self):
+-        for kernel, input_type, result_type in self.families():
+-            raw = input_type()
+-            if input_type is ExchangeInput:
+-                raw.before = len(PHASES)
+-            else:
+-                raw.historical.before = len(PHASES)
+-            original = C.string_at(C.byref(raw), C.sizeof(raw))
+-            arguments = [None if typ is C.c_void_p else 0 for typ in kernel.call.argtypes]
+-            arguments[:2] = [C.byref(raw), C.sizeof(raw)]
+-            # Input storage is aligned and large enough for the result. All
+-            # raw decoding must refuse before touching this aliased output.
+-            arguments[-2:] = [C.byref(raw), C.sizeof(result_type)]
+-            self.assertEqual(kernel.call(*arguments), -1)
+-            self.assertEqual(C.string_at(C.byref(raw), C.sizeof(raw)), original)
+-
+-    def test_nonempty_null_roster_refuses(self):
+-        for kernel, input_type, result_type in self.families():
+-            raw = input_type()
+-            output = result_type(7)
+-            arguments = [None if typ is C.c_void_p else 0 for typ in kernel.call.argtypes]
+-            arguments[:2] = [C.byref(raw), C.sizeof(raw)]
+-            arguments[-2:] = [C.byref(output), C.sizeof(output)]
+-            # First complete roster: a claimed element with absent bytes.
+-            arguments[5] = 1
+-            self.assertEqual(kernel.call(*arguments), -1)
+-            self.assertEqual(output.disposition, 7)
+--- b/tests/test_canonical_owner_mapping_order.py
++++ /dev/null
+@@ -1,57 +0,0 @@
+-"""Simulation of ordering only: fake symbols/kernel, no owner-custody claim."""
+-from types import SimpleNamespace
+-from unittest.mock import patch
+-import unittest
+-from worldline import operation_owner_kernel as owner
+-from worldline.errors import CoreUnavailable
+-
+-
+-class CanonicalOwnerMappingOrderTests(unittest.TestCase):
+-    def test_exchange_maps_before_constructor_and_observation(self):
+-        events = []
+-        principal = SimpleNamespace(core=object())
+-        argument = object()
+-        class Kernel:
+-            def __init__(self, core):
+-                self.core = core
+-                events.append('constructor')
+-            def observe(self, *args):
+-                events.append(('observe', args))
+-                return argument
+-        def mapped(p, symbols):
+-            self.assertIs(p, principal)
+-            self.assertEqual(symbols, owner.RESOURCE_SYMBOLS + owner.EXCHANGE_SYMBOLS)
+-            events.append('mapped')
+-        with patch.object(owner, '_owner_mapping', mapped), patch(
+-                'worldline.canonical_exchange_kernel.CanonicalExchangeKernel', Kernel):
+-            self.assertIs(owner.observe_exchange(principal, argument), argument)
+-        self.assertEqual(events, ['mapped', 'mapped', 'constructor', 'mapped',
+-                                  ('observe', (argument,)), 'mapped'])
+-
+-    def test_owner_mapping_refusal_prevents_any_constructor_query(self):
+-        failure = CoreUnavailable('simulated owner mapping failure')
+-        with patch.object(owner, '_owner_mapping', side_effect=failure), patch(
+-                'worldline.canonical_owner_completion_kernel.CanonicalOwnerCompletionKernel') as constructor:
+-            with self.assertRaises(CoreUnavailable) as raised:
+-                owner.observe_owner_completion(object(), object(), object())
+-            self.assertIs(raised.exception, failure)
+-            constructor.assert_not_called()
+-
+-    def test_owner_complete_argument_objects_and_result_are_retained(self):
+-        events = []
+-        principal = SimpleNamespace(core=object())
+-        historical, current, result = object(), object(), object()
+-        class Kernel:
+-            def __init__(self, core):
+-                self.core = core
+-                events.append('constructor')
+-            def observe(self, h, c):
+-                self_test.assertIs(h, historical)
+-                self_test.assertIs(c, current)
+-                events.append('observe')
+-                return result
+-        self_test = self
+-        with patch.object(owner, '_owner_mapping', side_effect=lambda *a: events.append('mapped')), patch(
+-                'worldline.canonical_owner_completion_kernel.CanonicalOwnerCompletionKernel', Kernel):
+-            self.assertIs(owner.observe_owner_completion(principal, historical, current), result)
+-        self.assertEqual(events, ['mapped', 'constructor', 'mapped', 'observe', 'mapped'])

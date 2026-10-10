@@ -1,0 +1,55 @@
+{
+  "actual_wait_observed": true,
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-full-formal-diagnostic-v8-full-strict-formal-diagnostic-v1",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "RuntimeMaxSec=840s",
+    "-p",
+    "TimeoutStopSec=15s",
+    "/usr/bin/python3",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/run_checks.py",
+    "child",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1"
+  ],
+  "child_signal": null,
+  "kill_seconds": 5,
+  "launch_observed": true,
+  "owned_process_group": {
+    "pgid": 1943515,
+    "pid": 1943515,
+    "starttime": "34599543"
+  },
+  "owned_scope_signals": [],
+  "owner_signal": null,
+  "ownership_collection_required": false,
+  "phase_acceptance": false,
+  "pid": 1943515,
+  "raw_files": [
+    {
+      "bytes": 0,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1/scope.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 147,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1/scope.stderr",
+      "sha256": "81d841eb263fb7b13677ade231aeb0486173001e90999529d8a85a340e0b9deb"
+    }
+  ],
+  "retention_errors": [],
+  "retention_success": true,
+  "returncode": 1,
+  "stop_reason": null,
+  "term_seconds": 15,
+  "timeout": false,
+  "truth_boundary": "Actual owned wait only when observed; timeouts, signals, unknown waits and retention failures never substitute return codes or grant proof/phase acceptance."
+}

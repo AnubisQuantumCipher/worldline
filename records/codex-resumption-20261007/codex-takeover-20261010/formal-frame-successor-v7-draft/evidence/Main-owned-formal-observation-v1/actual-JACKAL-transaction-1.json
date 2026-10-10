@@ -1,0 +1,104 @@
+{
+  "schema": "Main-actual-own-native-resource-MCP-transaction-v1",
+  "transport": "actual installed jackal-mcp-ledger process JSON-RPC stdio",
+  "process_argv": [
+    "/home/sicarii/.local/bin/jackal-mcp-ledger"
+  ],
+  "actual_process_pid": 1941838,
+  "actual_Popen_equivalent_process_wait": 0,
+  "actual_stderr": "",
+  "challenge": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/Main-owned-formal-observation-v1/memory-expression-1.json",
+    "sha256": "46e8d1cd9c797f8f5f167c69a58002121d8ab743d465ec31667750d9dd8fd9bf",
+    "bytes": 58,
+    "mode": 384
+  },
+  "actual_initialize_request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+      "protocolVersion": "2024-11-05",
+      "capabilities": {},
+      "clientInfo": {
+        "name": "Main-original-native-N59-own-challenge",
+        "version": "1"
+      }
+    }
+  },
+  "actual_initialize_response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "protocolVersion": "2024-11-05",
+      "capabilities": {
+        "tools": {
+          "listChanged": false
+        },
+        "resources": {
+          "subscribe": false,
+          "listChanged": false
+        }
+      },
+      "serverInfo": {
+        "name": "jackel-codex",
+        "version": "0.1.0"
+      },
+      "instructions": "Preserve JACKAL status and evidence class exactly. Unsupported strong claims refuse; never silently downgrade. THOTH is JACKAL's identity-pinned measurement/provenance subsystem, not a separate service; exact-given remains conditional on its given datum. CAS routing preserves delegated assurance. Graph pixels are visualization, never evidence. The HELLGATE lane returns bounded, not formal-bounded. Matrices, regression, probability, sensors, aerospace models, and linked views are additive identity-pinned workflows; field status, assumptions, non-claims, and consequence ceilings remain controlling."
+    }
+  },
+  "actual_initialized_notification": {
+    "jsonrpc": "2.0",
+    "method": "notifications/initialized",
+    "params": {}
+  },
+  "actual_call_request": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "jackal_exact",
+      "arguments": {
+        "expression": "24053544*1024-8589934592-8589934592"
+      }
+    }
+  },
+  "actual_call_response": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=24053544*1024-8589934592-8589934592 exact=7450959872 approx=7450959872\",\"fields\":{\"approx\":\"7450959872\",\"exact\":\"7450959872\",\"parsed\":\"24053544*1024-8589934592-8589934592\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+        }
+      ],
+      "structuredContent": {
+        "assurance": "exact rational arithmetic (not yet checker-covered)",
+        "engine_output": "status=exact parsed=24053544*1024-8589934592-8589934592 exact=7450959872 approx=7450959872",
+        "fields": {
+          "approx": "7450959872",
+          "exact": "7450959872",
+          "parsed": "24053544*1024-8589934592-8589934592",
+          "status": "exact"
+        },
+        "formal": false,
+        "identities": {
+          "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+        },
+        "lane": "rat",
+        "non_claims": [
+          "NOT formal-bounded: this lane carries no Lean-checked certificate",
+          "The epistemic class above is the STRONGEST claim this result supports",
+          "exact rational arithmetic (not yet checker-covered)"
+        ],
+        "status": "exact"
+      }
+    }
+  },
+  "actual_stdout_transcript": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{\"tools\":{\"listChanged\":false},\"resources\":{\"subscribe\":false,\"listChanged\":false}},\"serverInfo\":{\"name\":\"jackel-codex\",\"version\":\"0.1.0\"},\"instructions\":\"Preserve JACKAL status and evidence class exactly. Unsupported strong claims refuse; never silently downgrade. THOTH is JACKAL's identity-pinned measurement/provenance subsystem, not a separate service; exact-given remains conditional on its given datum. CAS routing preserves delegated assurance. Graph pixels are visualization, never evidence. The HELLGATE lane returns bounded, not formal-bounded. Matrices, regression, probability, sensors, aerospace models, and linked views are additive identity-pinned workflows; field status, assumptions, non-claims, and consequence ceilings remain controlling.\"}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"{\\\"assurance\\\":\\\"exact rational arithmetic (not yet checker-covered)\\\",\\\"engine_output\\\":\\\"status=exact parsed=24053544*1024-8589934592-8589934592 exact=7450959872 approx=7450959872\\\",\\\"fields\\\":{\\\"approx\\\":\\\"7450959872\\\",\\\"exact\\\":\\\"7450959872\\\",\\\"parsed\\\":\\\"24053544*1024-8589934592-8589934592\\\",\\\"status\\\":\\\"exact\\\"},\\\"formal\\\":false,\\\"identities\\\":{\\\"evaluator_sha256\\\":\\\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\\\"},\\\"lane\\\":\\\"rat\\\",\\\"non_claims\\\":[\\\"NOT formal-bounded: this lane carries no Lean-checked certificate\\\",\\\"The epistemic class above is the STRONGEST claim this result supports\\\",\\\"exact rational arithmetic (not yet checker-covered)\\\"],\\\"status\\\":\\\"exact\\\"}\"}],\"structuredContent\":{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=24053544*1024-8589934592-8589934592 exact=7450959872 approx=7450959872\",\"fields\":{\"approx\":\"7450959872\",\"exact\":\"7450959872\",\"parsed\":\"24053544*1024-8589934592-8589934592\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}}}\n",
+  "transport_error": null,
+  "formal_proof": false,
+  "capacity_or_phase_guarantee": false,
+  "phase_acceptance": false
+}

@@ -1,0 +1,154 @@
+{
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:ultra",
+  "authoritative_primary_references": [
+    {
+      "paraphrase": "The aspect is allowed on an initial side-effecting subprogram declaration or package specification. Ordinary side-effect-free functions acquire termination conditions for their loops and calls independently of this aspect.",
+      "reported_web_revision": "27.0w search result; link may advance",
+      "section": "6.1.12 Always_Terminates Aspects",
+      "title": "SPARK Reference Manual",
+      "url": "https://docs.adacore.com/spark2014-docs/html/lrm/subprograms.html#always-terminates-aspects"
+    },
+    {
+      "paraphrase": "GNATprove checks regular-function termination without requesting an explicit aspect. Progress measures discharge loop or recursive-call obligations; an excluded callee remains a separate termination gap.",
+      "reported_web_revision": "28.0w",
+      "section": "7.4.9 Subprogram Termination",
+      "title": "SPARK User Guide",
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/how_to_write_subprogram_contracts.html#subprogram-termination"
+    },
+    {
+      "paraphrase": "Regular functions have termination checks by default. Procedures and entries need a requested termination contract to extend partial correctness.",
+      "reported_web_revision": "28.0w",
+      "section": "5.2.10 Contracts for Termination",
+      "title": "SPARK User Guide",
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/subprogram_contracts.html#contracts-for-termination"
+    }
+  ],
+  "current_body": {
+    "bytes": 97335,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline-excluded_source_owner.adb",
+    "sha256": "4335bede972d04adca139d2191dc2485fde17e5f096fe142c4f15216fc26eb82"
+  },
+  "current_explicit_loop_variant_occurrences": [],
+  "current_spec": {
+    "bytes": 2748,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline-excluded_source_owner.ads",
+    "sha256": "c6477e7fb2217e1b9c834413a88a6920e63a9fc483217a5a950344af3969124c"
+  },
+  "current_while_loops_source_observation": [
+    {
+      "line": 147,
+      "source": "while Cursor < Stop loop"
+    },
+    {
+      "line": 150,
+      "source": "while Cursor < Stop and then B (Cursor) in Character'Pos ('0') .. Character'Pos ('9') loop"
+    },
+    {
+      "line": 331,
+      "source": "while Cursor < B'Last and then B (Cursor) = 32 loop Cursor := Cursor + 1; end loop;"
+    },
+    {
+      "line": 333,
+      "source": "while Cursor < B'Last and then B (Cursor) /= 32 loop Cursor := Cursor + 1; end loop;"
+    },
+    {
+      "line": 836,
+      "source": "while Cursor < B'Length loop"
+    }
+  ],
+  "equivalent_valid_encoding_review_boundary": "Delete only the illegal explicit function aspect; retain ordinary side-effect-free function status, Global/Depends/Post/full domain/full body and every mandatory implicit function termination condition. Add progress annotations only if necessary to prove existing behavior, through separate exact affected review. Never add Side_Effects, Off, Assume, trusted termination promises or weaker contracts to avoid obligations.",
+  "implementation_authored_by_reviewer": false,
+  "installed_ordinary_function_default_observation": {
+    "body": {
+      "bytes": 653,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search.adb",
+      "sha256": "ed51f6f24bc81b3a681ba141af3091c7e3ce850808a56959bd49019423f2326c"
+    },
+    "declaration": {
+      "bytes": 1012,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search.ads",
+      "sha256": "7e04f04ba435bce71a3cd8af201d48d5229a83812b81a2e1d5592d7775b7419c"
+    },
+    "distributed_expected_output": {
+      "bytes": 272,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/test.out",
+      "sha256": "4687bff5c57bc155387aca6063306c7f057eb88c546f1cb0050bf20131413877"
+    },
+    "function_without_explicit_aspect": "Linear_Search.Search",
+    "observation": "Packaged expected output reports implicit Always_Terminates failure for Search due to its while-loop and requests a loop variant. This is distributed example material, not a fresh target execution."
+  },
+  "installed_primary_distributed_examples": {
+    "ug__linear_search_no_variant/linear_search.adb": {
+      "bytes": 653,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search.adb",
+      "sha256": "ed51f6f24bc81b3a681ba141af3091c7e3ce850808a56959bd49019423f2326c"
+    },
+    "ug__linear_search_no_variant/linear_search.ads": {
+      "bytes": 1012,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search.ads",
+      "sha256": "7e04f04ba435bce71a3cd8af201d48d5229a83812b81a2e1d5592d7775b7419c"
+    },
+    "ug__linear_search_no_variant/linear_search_no_variant.gpr": {
+      "bytes": 164,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search_no_variant.gpr",
+      "sha256": "e6432a96840e1ce86801ac12589a5db7bb1daa16504756af12e4bda8a2310d55"
+    },
+    "ug__linear_search_no_variant/test.out": {
+      "bytes": 272,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/test.out",
+      "sha256": "4687bff5c57bc155387aca6063306c7f057eb88c546f1cb0050bf20131413877"
+    },
+    "ug__terminating_annotations/terminating_annotations.ads": {
+      "bytes": 488,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__terminating_annotations/terminating_annotations.ads",
+      "sha256": "7e4dee53d993bfcc089711434cb4089c751c7a5dd2befc8c4d0f94d57f9b4a65"
+    },
+    "ug__terminating_annotations/test.out": {
+      "bytes": 809,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__terminating_annotations/test.out",
+      "sha256": "1c450aaa84b61aea8740c7dffb3da86ed4a54f9a924b2c5827e07ebc2466700d"
+    },
+    "ug__terminating_loops/terminating_loops.adb": {
+      "bytes": 335,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__terminating_loops/terminating_loops.adb",
+      "sha256": "3eeff57b7a8125e7d99dea470ac96930f45c69c0a96f5b1cb251d58297dd410f"
+    },
+    "ug__terminating_loops/test.out": {
+      "bytes": 494,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__terminating_loops/test.out",
+      "sha256": "6282af4cf4722fbaa36bb86be01a4d32860ecd6d67d97fce23f6d4fff2187d28"
+    }
+  },
+  "model_provenance": {
+    "bytes": 6780,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance_ultra-actual-launch-provenance.json",
+    "sha256": "e3e26497b1aa84d8d4483b75b847977094b522ed93a0c525633041c0f2434057"
+  },
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "reported_actual_strict_diagnostic": {
+    "diagnostic": "E0016: Always_Terminates cannot apply to function",
+    "location": "core/worldline-excluded_source_owner.ads:36",
+    "origin": "Root reports live D7 representation diagnostic; terminal outcome not independently observed by this reference task"
+  },
+  "required_actual_evidence": "Fresh full strict proof on final matching source must retain and establish all loop progress/callee/recursion/flow/RTE/termination conditions. Reference semantics and aspect deletion do not establish proved termination.",
+  "reviewed_at": "2026-10-10T18:35:43.764538+00:00",
+  "reviewer_agent": "/root/acceptance_ultra",
+  "runtime_acceptance": false,
+  "schema": "worldline-excluded-owner-function-termination-valid-encoding-reference-v1",
+  "target_execution": false
+}

@@ -1,0 +1,173 @@
+{
+  "c_api_composition": "Canonical reviewed postimage plus exact reviewed physical insertion and its single import, preserving all current preimage bytes outside separately reviewed insertions.",
+  "complete_direct_delta": {
+    "bytes": 10863,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source6-to-source7-delta.json",
+    "sha256": "f1035d77a162f2bae32f168e98dc4886ef363e53facd9f767c9626a1bbedcd55"
+  },
+  "current_registration_changes": {
+    "core/worldline-c_api.adb": {
+      "after": "3f6905704f5740f45456f30fa097c23a3e8485ccbd22833044cfe4e60bbd1d9a",
+      "before": "a95ad85b33a076dd563e61166a08c24070c709d36870c71bbaa5c6cdaf5f83a0"
+    },
+    "core/worldline-c_api.ads": {
+      "after": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+      "before": "ae108a0aa9d736a4eafc15d2c51d1121915aee75d773d964b20d7221cc8defdc"
+    },
+    "core/worldline-excluded_source_owner.adb": {
+      "after": "ec3b468efac74b6d45fcc976957720c9fc97ff6c9fd9ad4d264dd4b5cf1fcd44",
+      "before": "4335bede972d04adca139d2191dc2485fde17e5f096fe142c4f15216fc26eb82"
+    },
+    "core/worldline-excluded_source_owner.ads": {
+      "after": "0fc28d9882d771b6868eea3325b929683b02e2afd556677c81c9caab5315309f",
+      "before": "c6477e7fb2217e1b9c834413a88a6920e63a9fc483217a5a950344af3969124c"
+    },
+    "core/worldline_core.gpr": {
+      "after": "0e4e076f23d0f6747f73488d3dda68be322fd89b07640b5ddac28e64470a68df",
+      "before": "324176c4321c030c197fba3d3245afea33b9d66ffe30d2a127e1925976859752"
+    },
+    "runtime/worldline/proof_manifest.py": {
+      "after": "51f51f5a82a6a9d1035da2e53074602eae4f77db47198d827f6eb41d88afaba6",
+      "before": "5029831342157fd761ef9585e0fcec13b95f79d4dc33cdad635f89c1a002daea"
+    }
+  },
+  "phase_acceptance": false,
+  "postimage_registration": {
+    "bytes": 41641,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v7/source/protected-root/controls/source_registration.json",
+    "sha256": "5253a3499ce4a638bb7e22288f7e1af7ac1c8c0116dfedd0ce8abcf5159eaf5e"
+  },
+  "predecessor_selection": {
+    "bytes": 11065,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source-selection.json",
+    "sha256": "0b12a61fa8b373b37a299cd41708c8f05264c24ffb7956ec7095ce22bf7c3691"
+  },
+  "preimage_registration": {
+    "bytes": 32291,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/protected-root/controls/source_registration.json",
+    "sha256": "96e38c18fd8e422d5e2991fea7803ed02b9ea6698b1a0f324fb727b19c8dfd51"
+  },
+  "reviewed_donors": [
+    {
+      "files": [
+        "core/worldline-actuation.adb",
+        "core/worldline-actuation.ads",
+        "core/worldline-actuation_full_wire.ads",
+        "core/worldline-c_api.adb",
+        "core/worldline-c_api.ads",
+        "core/worldline_actuation_v1.h",
+        "core/worldline_core.gpr",
+        "core/worldline_full_physical_v1.h",
+        "physical-value-controls/physical_value_controls.adb",
+        "physical-value-controls/physical_value_controls.gpr",
+        "protected-canonical/full_physical_actuator.c",
+        "protected-canonical/full_physical_actuator.h",
+        "protected-canonical/full_physical_sources.gpr",
+        "protected-canonical/vendor-transaction-035545/worldline_actuator.c",
+        "protected-canonical/vendor-transaction-035545/worldline_actuator.h",
+        "runtime/worldline/canonical_full_broker.py",
+        "runtime/worldline/canonical_physical.py",
+        "tests/test_full_physical_exports_native.py",
+        "tests/test_full_physical_syscalls_native.py"
+      ],
+      "packet": {
+        "bytes": 5665,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/physical-completion-integration-main-v3/source-author-packet-v1.json",
+        "sha256": "11dba54f6c638419f49f96a97b3a9bce367c82b458ca6902e3a46ca6a7ab08ec"
+      },
+      "review": {
+        "bytes": 25775,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/physical-completion-integration-main-v3/independent-source-review.json",
+        "sha256": "b3bc1310121638e0ac935281876045bebf6a33d64936bd93770911be26a19587"
+      }
+    },
+    {
+      "files": [
+        "canonical-exchange-tests/canonical_exchange_controls.adb",
+        "canonical-exchange-tests/canonical_exchange_tests.gpr",
+        "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+        "canonical-owner-completion-tests/canonical_owner_completion_tests.gpr",
+        "core/worldline-c_api.adb",
+        "core/worldline-c_api.ads",
+        "core/worldline_canonical_exchange_v1.h",
+        "core/worldline_canonical_operation_v1.h",
+        "core/worldline_canonical_owner_completion_v1.h",
+        "runtime/worldline/operation_owner_kernel.py",
+        "runtime/worldline/protected_operations.py",
+        "tests/test_canonical_exchange_owner_exports_native.py",
+        "tests/test_canonical_owner_mapping_order.py"
+      ],
+      "packet": {
+        "bytes": 4815,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/source-author-packet-v1.json",
+        "sha256": "885cd5c95cc1ca851dad6d1a5e1bfd0e59e7b87296af5f3cb23f8998ade6af71"
+      },
+      "review": {
+        "bytes": 21900,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/independent-source-review.json",
+        "sha256": "ff0dc8d77504f39840b5f3e5c32b6710ffca75760ab0c0c9a02b34850e6c95e4"
+      }
+    },
+    {
+      "files": [
+        "core/worldline-excluded_source_owner.ads"
+      ],
+      "packet": {
+        "bytes": 3032,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/excluded-owner-function-termination-legality-ultra-v1/source-author-packet-v2.json",
+        "sha256": "ab0acb46478432aa02c0803981c6ecd403d7059f761adad18589b36041d396d0"
+      },
+      "review": {
+        "bytes": 13336,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/excluded-owner-function-termination-legality-ultra-v1/independent-source-review-v2.json",
+        "sha256": "1a5be233197cec320ba1f24ce0ab82fb4b17fe4afbb2518a365514886af23520"
+      }
+    },
+    {
+      "files": [
+        "core/worldline-excluded_source_owner.adb"
+      ],
+      "packet": {
+        "bytes": 2966,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/excluded-owner-termination-progress-ultra-v1/source-author-packet-v2.json",
+        "sha256": "c716c4ed3ee6936504e841cb8b83c8bbf3896f4ef833265fe4a0ace2e89bf33c"
+      },
+      "review": {
+        "bytes": 15125,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/excluded-owner-termination-progress-ultra-v1/independent-source-review-v2.json",
+        "sha256": "b5a46c293935686b448e41bc3579f7d629d9d09cd23bf74bd6bddcb7e6b0bbfe"
+      }
+    },
+    {
+      "files": [
+        "runtime/worldline/proof_manifest.py"
+      ],
+      "packet": {
+        "bytes": 2606,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/original-physical-additive-proof-enrollment-ultra-v1/source-author-packet-v1.json",
+        "sha256": "387314c43bad1e8e88c9df8ddbc71dc2162a184d9862928440a71f8816a63dbd"
+      },
+      "review": {
+        "bytes": 11159,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/original-physical-additive-proof-enrollment-ultra-v1/independent-source-review.json",
+        "sha256": "dac8b071c0fe1c1f8a2316846c9c3f5cf06e27eef3910d4a9c6da27c05b652b2"
+      }
+    }
+  ],
+  "schema": "worldline-original-physical-canonical-termination-coherent-source-composition-v1",
+  "target_execution": false
+}

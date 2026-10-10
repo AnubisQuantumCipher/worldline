@@ -1,0 +1,1721 @@
+--- source/core/worldline-actuation.adb
++++ /dev/null
+@@ -1,26 +0,0 @@
+-package body Worldline.Actuation with SPARK_Mode is
+-
+-   function Decide (Facts : Request) return Decision is
+-   begin
+-      if Collapse.Decide (Facts.Collapse_Facts) /= Collapse.Authorized then
+-         return Collapse_Denied;
+-      elsif not Same_Entry (Facts.Expected_Live, Facts.Observed_Live) then
+-         return Live_Changed;
+-      elsif not Same_Entry (Facts.Expected_Stage, Facts.Observed_Stage) then
+-         return Stage_Changed;
+-      elsif Same_Entry (Facts.Observed_Live, Facts.Observed_Stage) then
+-         return Same_Entry_Refused;
+-      elsif Facts.Expected_Marker_Digest = Zero_Hash
+-        or else Facts.Expected_Marker_Digest /= Facts.Observed_Marker_Digest
+-      then
+-         return Marker_Mismatch;
+-      elsif not Facts.Payload_Durable then
+-         return Payload_Not_Durable;
+-      elsif not Facts.Recovery_Clean then
+-         return Recovery_Unclean;
+-      else
+-         return Authorized;
+-      end if;
+-   end Decide;
+-
+-end Worldline.Actuation;
+--- source/core/worldline-actuation.ads
++++ /dev/null
+@@ -1,54 +0,0 @@
+-with Interfaces;
+-with Worldline.Collapse;
+-
+-package Worldline.Actuation with SPARK_Mode is
+-   use type Hash;
+-   use type Interfaces.Unsigned_64;
+-   use type Collapse.Decision;
+-
+-   type Entry_Identity is record
+-      Present : Boolean;
+-      Device  : Interfaces.Unsigned_64;
+-      Inode   : Interfaces.Unsigned_64;
+-   end record;
+-
+-   function Same_Entry (Left, Right : Entry_Identity) return Boolean is
+-     (Left.Present and Right.Present
+-      and Left.Device = Right.Device
+-      and Left.Inode = Right.Inode);
+-
+-   type Request is record
+-      Collapse_Facts        : Collapse.Collapse_Request;
+-      Expected_Live         : Entry_Identity;
+-      Observed_Live         : Entry_Identity;
+-      Expected_Stage        : Entry_Identity;
+-      Observed_Stage        : Entry_Identity;
+-      Expected_Marker_Digest : Hash;
+-      Observed_Marker_Digest : Hash;
+-      Payload_Durable       : Boolean;
+-      Recovery_Clean        : Boolean;
+-   end record;
+-
+-   type Decision is
+-     (Authorized,
+-      Collapse_Denied,
+-      Live_Changed,
+-      Stage_Changed,
+-      Same_Entry_Refused,
+-      Marker_Mismatch,
+-      Payload_Not_Durable,
+-      Recovery_Unclean);
+-
+-   function Decide (Facts : Request) return Decision
+-     with Global => null,
+-          Post =>
+-            (Decide'Result = Authorized) =
+-              (Collapse.Decide (Facts.Collapse_Facts) = Collapse.Authorized
+-               and Same_Entry (Facts.Expected_Live, Facts.Observed_Live)
+-               and Same_Entry (Facts.Expected_Stage, Facts.Observed_Stage)
+-               and not Same_Entry (Facts.Observed_Live, Facts.Observed_Stage)
+-               and Facts.Expected_Marker_Digest /= Zero_Hash
+-               and Facts.Expected_Marker_Digest = Facts.Observed_Marker_Digest
+-               and Facts.Payload_Durable
+-               and Facts.Recovery_Clean);
+-end Worldline.Actuation;
+--- source/core/worldline-actuation_full_wire.ads
++++ /dev/null
+@@ -1,32 +0,0 @@
+-with Interfaces;
+-with Worldline.Actuation;
+-with Worldline.Collapse_Wire;
+-package Worldline.Actuation_Full_Wire with SPARK_Mode is
+-   package A renames Worldline.Actuation;
+-   package C renames Worldline.Collapse_Wire;
+-   use type C.Byte; use type Interfaces.Unsigned_64;
+-   type Raw_Entry is record
+-      Present:C.Byte; Device,Inode:Interfaces.Unsigned_64;
+-   end record with Convention=>C;
+-   type Raw_Request is record
+-      Collapse_Facts:C.Raw_Request;
+-      Expected_Live,Observed_Live,Expected_Stage,Observed_Stage:Raw_Entry;
+-      Expected_Marker_Digest,Observed_Marker_Digest:Hash;
+-      Payload_Durable,Recovery_Clean:C.Byte;
+-   end record with Convention=>C;
+-   function Well_Formed(E:Raw_Entry) return Boolean is
+-     (E.Present<=1 and then (E.Present=1 or else (E.Device=0 and E.Inode=0))) with Global=>null;
+-   function Well_Formed(R:Raw_Request) return Boolean is
+-     (C.Well_Formed(R.Collapse_Facts) and then Well_Formed(R.Expected_Live)
+-      and then Well_Formed(R.Observed_Live) and then Well_Formed(R.Expected_Stage)
+-      and then Well_Formed(R.Observed_Stage) and then R.Payload_Durable<=1 and then R.Recovery_Clean<=1)
+-      with Global=>null;
+-   function Decode(E:Raw_Entry) return A.Entry_Identity is
+-     (Present=>E.Present=1,Device=>E.Device,Inode=>E.Inode) with Global=>null,Pre=>Well_Formed(E);
+-   function Decode(R:Raw_Request) return A.Request is
+-     (Collapse_Facts=>C.Decode(R.Collapse_Facts),Expected_Live=>Decode(R.Expected_Live),
+-      Observed_Live=>Decode(R.Observed_Live),Expected_Stage=>Decode(R.Expected_Stage),
+-      Observed_Stage=>Decode(R.Observed_Stage),Expected_Marker_Digest=>R.Expected_Marker_Digest,
+-      Observed_Marker_Digest=>R.Observed_Marker_Digest,Payload_Durable=>R.Payload_Durable=1,
+-      Recovery_Clean=>R.Recovery_Clean=1) with Global=>null,Pre=>Well_Formed(R);
+-end Worldline.Actuation_Full_Wire;
+--- source/core/worldline-c_api.adb
++++ preimage/core/worldline-c_api.adb
+@@ -1,4 +1,3 @@
+-with Worldline.Actuation_Full_Wire;
+ with Worldline.Evaluation_Policy;
+ with Worldline.Report_Parser;
+ with Worldline.Protected_Paths;
+@@ -9333,157 +9332,4 @@
+          Flush_Native_Diagnostic_Trace;
+          return Error_Internal;
+    end Root_Worker_Output_Prefix_V1;
+-   function Full_Physical_Version return Interfaces.Unsigned_32 is
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-      function Native return Interfaces.Unsigned_32
+-        with Import, Convention => C, External_Name => "wl_internal_full_physical_version_v1";
+-   begin
+-      return Native;
+-      end;
+-   exception
+-      when others => return 0;
+-   end Full_Physical_Version;
+-   function Full_Physical_Layout (Kind, Field : Interfaces.Unsigned_32) return Interfaces.C.long is
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-      function Native (Kind, Field : Interfaces.Unsigned_32) return Interfaces.C.long
+-        with Import, Convention => C, External_Name => "wl_internal_full_physical_layout_v1";
+-   begin
+-      return Native (Kind, Field);
+-      end;
+-   exception
+-      when others => return -1;
+-   end Full_Physical_Layout;
+-   function Full_Physical_Exchange (Original_Peer_Fd, Data_Fd, Transaction_Fd, Payload_Fd : Interfaces.C.int;
+-      Input : System.Address; Input_Length : Interfaces.C.size_t;
+-      Arena : System.Address; Arena_Length : Interfaces.C.size_t;
+-      Grants : System.Address; Grant_Count, Grant_Length : Interfaces.C.size_t;
+-      Uses : System.Address; Use_Count, Use_Length : Interfaces.C.size_t;
+-      Rows : System.Address; Row_Count, Row_Length : Interfaces.C.size_t;
+-      Observed : System.Address; Observed_Count, Observed_Length : Interfaces.C.size_t;
+-      Worker_Receipts : System.Address; Worker_Receipt_Count, Worker_Receipt_Length : Interfaces.C.size_t;
+-      Worker_Events : System.Address; Worker_Event_Count, Worker_Event_Length : Interfaces.C.size_t;
+-      Effect_Receipts : System.Address; Effect_Receipt_Count, Effect_Receipt_Length : Interfaces.C.size_t;
+-      Effect_Events : System.Address; Effect_Event_Count, Effect_Event_Length : Interfaces.C.size_t;
+-      Actuation : System.Address; Actuation_Length : Interfaces.C.size_t;
+-      Witness : System.Address; Witness_Length : Interfaces.C.size_t) return Interfaces.C.int is
+-      Native_Attempted, Native_Returned : Boolean := False;
+-      Native_Status : Interfaces.C.int := 1;
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-      function Native (Original_Peer_Fd, Data_Fd, Transaction_Fd, Payload_Fd : Interfaces.C.int;
+-      Input : System.Address; Input_Length : Interfaces.C.size_t;
+-      Arena : System.Address; Arena_Length : Interfaces.C.size_t;
+-      Grants : System.Address; Grant_Count, Grant_Length : Interfaces.C.size_t;
+-      Uses : System.Address; Use_Count, Use_Length : Interfaces.C.size_t;
+-      Rows : System.Address; Row_Count, Row_Length : Interfaces.C.size_t;
+-      Observed : System.Address; Observed_Count, Observed_Length : Interfaces.C.size_t;
+-      Worker_Receipts : System.Address; Worker_Receipt_Count, Worker_Receipt_Length : Interfaces.C.size_t;
+-      Worker_Events : System.Address; Worker_Event_Count, Worker_Event_Length : Interfaces.C.size_t;
+-      Effect_Receipts : System.Address; Effect_Receipt_Count, Effect_Receipt_Length : Interfaces.C.size_t;
+-      Effect_Events : System.Address; Effect_Event_Count, Effect_Event_Length : Interfaces.C.size_t;
+-      Actuation : System.Address; Actuation_Length : Interfaces.C.size_t;
+-      Witness : System.Address; Witness_Length : Interfaces.C.size_t) return Interfaces.C.int
+-        with Import, Convention => C, External_Name => "wl_internal_full_physical_exchange_v1";
+-   begin
+-      Native_Attempted := True;
+-      Native_Status := Native (Original_Peer_Fd, Data_Fd, Transaction_Fd, Payload_Fd, Input, Input_Length, Arena, Arena_Length, Grants, Grant_Count, Grant_Length, Uses, Use_Count, Use_Length, Rows, Row_Count, Row_Length, Observed, Observed_Count, Observed_Length, Worker_Receipts, Worker_Receipt_Count, Worker_Receipt_Length, Worker_Events, Worker_Event_Count, Worker_Event_Length, Effect_Receipts, Effect_Receipt_Count, Effect_Receipt_Length, Effect_Events, Effect_Event_Count, Effect_Event_Length, Actuation, Actuation_Length, Witness, Witness_Length);
+-      Native_Returned := True;
+-      Flush_Native_Diagnostic_Trace;
+-      return Native_Status;
+-      end;
+-   exception
+-      when others =>
+-         if Native_Returned then return Native_Status;
+-         elsif Native_Attempted then return 3;
+-         else return 1; end if;
+-   end Full_Physical_Exchange;
+-   function Full_Physical_Recover (Original_Peer_Fd, Data_Fd, Transaction_Fd, Payload_Fd : Interfaces.C.int;
+-      Input : System.Address; Input_Length : Interfaces.C.size_t;
+-      Arena : System.Address; Arena_Length : Interfaces.C.size_t;
+-      Grants : System.Address; Grant_Count, Grant_Length : Interfaces.C.size_t;
+-      Uses : System.Address; Use_Count, Use_Length : Interfaces.C.size_t;
+-      Rows : System.Address; Row_Count, Row_Length : Interfaces.C.size_t;
+-      Observed : System.Address; Observed_Count, Observed_Length : Interfaces.C.size_t;
+-      Worker_Receipts : System.Address; Worker_Receipt_Count, Worker_Receipt_Length : Interfaces.C.size_t;
+-      Worker_Events : System.Address; Worker_Event_Count, Worker_Event_Length : Interfaces.C.size_t;
+-      Effect_Receipts : System.Address; Effect_Receipt_Count, Effect_Receipt_Length : Interfaces.C.size_t;
+-      Effect_Events : System.Address; Effect_Event_Count, Effect_Event_Length : Interfaces.C.size_t;
+-      Actuation : System.Address; Actuation_Length : Interfaces.C.size_t;
+-      Witness : System.Address; Witness_Length : Interfaces.C.size_t) return Interfaces.C.int is
+-      Native_Attempted, Native_Returned : Boolean := False;
+-      Native_Status : Interfaces.C.int := 1;
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-      function Native (Original_Peer_Fd, Data_Fd, Transaction_Fd, Payload_Fd : Interfaces.C.int;
+-      Input : System.Address; Input_Length : Interfaces.C.size_t;
+-      Arena : System.Address; Arena_Length : Interfaces.C.size_t;
+-      Grants : System.Address; Grant_Count, Grant_Length : Interfaces.C.size_t;
+-      Uses : System.Address; Use_Count, Use_Length : Interfaces.C.size_t;
+-      Rows : System.Address; Row_Count, Row_Length : Interfaces.C.size_t;
+-      Observed : System.Address; Observed_Count, Observed_Length : Interfaces.C.size_t;
+-      Worker_Receipts : System.Address; Worker_Receipt_Count, Worker_Receipt_Length : Interfaces.C.size_t;
+-      Worker_Events : System.Address; Worker_Event_Count, Worker_Event_Length : Interfaces.C.size_t;
+-      Effect_Receipts : System.Address; Effect_Receipt_Count, Effect_Receipt_Length : Interfaces.C.size_t;
+-      Effect_Events : System.Address; Effect_Event_Count, Effect_Event_Length : Interfaces.C.size_t;
+-      Actuation : System.Address; Actuation_Length : Interfaces.C.size_t;
+-      Witness : System.Address; Witness_Length : Interfaces.C.size_t) return Interfaces.C.int
+-        with Import, Convention => C, External_Name => "wl_internal_full_physical_recover_v1";
+-   begin
+-      Native_Attempted := True;
+-      Native_Status := Native (Original_Peer_Fd, Data_Fd, Transaction_Fd, Payload_Fd, Input, Input_Length, Arena, Arena_Length, Grants, Grant_Count, Grant_Length, Uses, Use_Count, Use_Length, Rows, Row_Count, Row_Length, Observed, Observed_Count, Observed_Length, Worker_Receipts, Worker_Receipt_Count, Worker_Receipt_Length, Worker_Events, Worker_Event_Count, Worker_Event_Length, Effect_Receipts, Effect_Receipt_Count, Effect_Receipt_Length, Effect_Events, Effect_Event_Count, Effect_Event_Length, Actuation, Actuation_Length, Witness, Witness_Length);
+-      Native_Returned := True;
+-      Flush_Native_Diagnostic_Trace;
+-      return Native_Status;
+-      end;
+-   exception
+-      when others =>
+-         if Native_Returned then return Native_Status;
+-         elsif Native_Attempted then return 3;
+-         else return 1; end if;
+-   end Full_Physical_Recover;
+-   function Actuation_Decide(P:System.Address) return Interfaces.C.unsigned_char is
+-      Decision_Returned : Boolean := False;
+-      Decision_Status : Interfaces.C.unsigned_char := 255;
+-   begin
+-      declare
+-         Native_Call : Native_Call_Guard;
+-         pragma Unreferenced (Native_Call);
+-   package W renames Worldline.Actuation_Full_Wire;
+-   use type System.Address; use System.Storage_Elements;
+-   type Pointer is access all W.Raw_Request;
+-   function Convert is new Ada.Unchecked_Conversion(System.Address,Pointer);
+-   begin
+-      if P=System.Null_Address or else To_Integer(P) mod W.Raw_Request'Alignment/=0
+-        or else To_Integer(P)>Integer_Address'Last-W.Raw_Request'Size/System.Storage_Unit
+-      then return 255; end if;
+-      declare Value:constant W.Raw_Request:=Convert(P).all;
+-      begin
+-         if not W.Well_Formed(Value) then return 255; end if;
+-         Decision_Status :=
+-           Interfaces.C.unsigned_char(W.A.Decision'Pos(W.A.Decide(W.Decode(Value))));
+-         Decision_Returned := True;
+-         Flush_Native_Diagnostic_Trace;
+-         return Decision_Status;
+-      end;
+-   exception
+-         when others =>
+-            if Decision_Returned then return Decision_Status;
+-            else return 255; end if;
+-      end;
+-   exception
+-      when others =>
+-         if Decision_Returned then return Decision_Status;
+-         else return 255; end if;
+-   end Actuation_Decide;
+-
+ end Worldline.C_API;
+--- source/core/worldline-c_api.ads
++++ preimage/core/worldline-c_api.ads
+@@ -1086,39 +1086,4 @@
+       return Interfaces.C.int
+      with Export, Convention => C,
+        External_Name => "wl_root_worker_output_prefix_v1";
+-   function Full_Physical_Version return Interfaces.Unsigned_32
+-     with Export, Convention => C, External_Name => "wl_full_physical_version_v1";
+-   function Full_Physical_Layout (Kind, Field : Interfaces.Unsigned_32) return Interfaces.C.long
+-     with Export, Convention => C, External_Name => "wl_full_physical_layout_v1";
+-   function Full_Physical_Exchange (Original_Peer_Fd, Data_Fd, Transaction_Fd, Payload_Fd : Interfaces.C.int;
+-      Input : System.Address; Input_Length : Interfaces.C.size_t;
+-      Arena : System.Address; Arena_Length : Interfaces.C.size_t;
+-      Grants : System.Address; Grant_Count, Grant_Length : Interfaces.C.size_t;
+-      Uses : System.Address; Use_Count, Use_Length : Interfaces.C.size_t;
+-      Rows : System.Address; Row_Count, Row_Length : Interfaces.C.size_t;
+-      Observed : System.Address; Observed_Count, Observed_Length : Interfaces.C.size_t;
+-      Worker_Receipts : System.Address; Worker_Receipt_Count, Worker_Receipt_Length : Interfaces.C.size_t;
+-      Worker_Events : System.Address; Worker_Event_Count, Worker_Event_Length : Interfaces.C.size_t;
+-      Effect_Receipts : System.Address; Effect_Receipt_Count, Effect_Receipt_Length : Interfaces.C.size_t;
+-      Effect_Events : System.Address; Effect_Event_Count, Effect_Event_Length : Interfaces.C.size_t;
+-      Actuation : System.Address; Actuation_Length : Interfaces.C.size_t;
+-      Witness : System.Address; Witness_Length : Interfaces.C.size_t) return Interfaces.C.int
+-     with Export, Convention => C, External_Name => "wl_full_physical_exchange_v1";
+-   function Full_Physical_Recover (Original_Peer_Fd, Data_Fd, Transaction_Fd, Payload_Fd : Interfaces.C.int;
+-      Input : System.Address; Input_Length : Interfaces.C.size_t;
+-      Arena : System.Address; Arena_Length : Interfaces.C.size_t;
+-      Grants : System.Address; Grant_Count, Grant_Length : Interfaces.C.size_t;
+-      Uses : System.Address; Use_Count, Use_Length : Interfaces.C.size_t;
+-      Rows : System.Address; Row_Count, Row_Length : Interfaces.C.size_t;
+-      Observed : System.Address; Observed_Count, Observed_Length : Interfaces.C.size_t;
+-      Worker_Receipts : System.Address; Worker_Receipt_Count, Worker_Receipt_Length : Interfaces.C.size_t;
+-      Worker_Events : System.Address; Worker_Event_Count, Worker_Event_Length : Interfaces.C.size_t;
+-      Effect_Receipts : System.Address; Effect_Receipt_Count, Effect_Receipt_Length : Interfaces.C.size_t;
+-      Effect_Events : System.Address; Effect_Event_Count, Effect_Event_Length : Interfaces.C.size_t;
+-      Actuation : System.Address; Actuation_Length : Interfaces.C.size_t;
+-      Witness : System.Address; Witness_Length : Interfaces.C.size_t) return Interfaces.C.int
+-     with Export, Convention => C, External_Name => "wl_full_physical_recover_v1";
+-   function Actuation_Decide(P : System.Address) return Interfaces.C.unsigned_char
+-     with Export, Convention => C, External_Name => "wl_actuation_decide";
+-
+ end Worldline.C_API;
+--- source/core/worldline_actuation_v1.h
++++ /dev/null
+@@ -1,16 +0,0 @@
+-#ifndef WORLDLINE_FULL_ACTUATION_V1_H
+-#define WORLDLINE_FULL_ACTUATION_V1_H
+-#include "worldline_core.h"
+-#define WL_ACTUATION_AUTHORIZED 0u
+-#define WL_ACTUATION_INVALID_REQUEST 255u
+-/* Exact physical value representation from declared public 035545 source.
+- * No fixed evaluation/service authority representation is imported. */
+-struct wl_entry_identity { uint8_t present; uint64_t device,inode; };
+-struct wl_actuation_request {
+- struct wl_collapse_request collapse_facts;
+- struct wl_entry_identity expected_live,observed_live,expected_stage,observed_stage;
+- uint8_t expected_marker_digest[WL_HASH_BYTES],observed_marker_digest[WL_HASH_BYTES];
+- uint8_t payload_durable,recovery_clean;
+-};
+-uint8_t wl_actuation_decide(const struct wl_actuation_request *request);
+-#endif
+--- source/core/worldline_core.gpr
++++ preimage/core/worldline_core.gpr
+@@ -3,8 +3,7 @@
+ aggregate library project Worldline_Core is
+ 
+    for Project_Files use
+-     ("worldline_core_sources.gpr", "attest_sha256.gpr",
+-      "../protected-canonical/full_physical_sources.gpr");
++     ("worldline_core_sources.gpr", "attest_sha256.gpr");
+    for Object_Dir use "../obj/core-library";
+    for Library_Dir use "../lib";
+    for Library_Name use "worldline_core";
+@@ -154,13 +153,7 @@
+       "Worldline.Source_Audit_Native",
+       "Worldline.Source_Syntax",
+       "Worldline.Source_Syntax_Provider",
+-      "Worldline.Source_Syntax_Reference",
+-      "Worldline.Actuation",
+-      "Worldline.Actuation_Full_Wire",
+-      "Worldline.Canonical_Exchange",
+-      "Worldline.Canonical_Exchange_Wire",
+-      "Worldline.Canonical_Owner_Completion",
+-      "Worldline.Canonical_Owner_Completion_Wire");
++      "Worldline.Source_Syntax_Reference");
+    for Library_Standalone use "encapsulated";
+    for Library_Auto_Init use "true";
+    for Library_Options use ("-pthread", Worldline_Sparklib_Link.Archive);
+--- source/core/worldline_full_physical_v1.h
++++ /dev/null
+@@ -1,47 +0,0 @@
+-#ifndef WORLDLINE_FULL_PHYSICAL_V1_H
+-#define WORLDLINE_FULL_PHYSICAL_V1_H
+-#include "worldline_canonical_exchange_v1.h"
+-#include "worldline_actuation_v1.h"
+-enum wl_actuator_result {
+- WL_ACTUATOR_VERIFIED=0, WL_ACTUATOR_REFUSED=1, WL_ACTUATOR_IO_REFUSED=2,
+- WL_ACTUATOR_POST_EXCHANGE_UNCERTAIN=3
+-};
+-struct wl_actuator_witness {
+- struct wl_entry_identity live_before,stage_before,live_after,stage_after;
+- uint8_t marker_digest[WL_HASH_BYTES];
+- uint8_t decision,exchange_attempted;
+- int syscall_errno;
+- uint8_t payload_durable,recovery_clean,parents_durable;
+-};
+-/* All buffers remain immutable/live through this synchronous borrowed call;
+- * witness is exclusively owned and disjoint from every complete input extent.
+- * Descriptors belong to the selected protected principal. Recover ignores the
+- * peer descriptor and recognizes only a genuine historical RECORD_EFFECT.
+- * No transport flag is an authorization or a substitute for native facts. */
+-uint32_t wl_full_physical_version_v1(void);
+-long wl_full_physical_layout_v1(uint32_t kind,uint32_t field);
+-int wl_full_physical_exchange_v1(int original_peer_fd,int data_fd,int transaction_fd,int payload_fd,
+- const void *input,size_t input_length,const void *arena,size_t arena_length,
+- const void *grants,size_t grant_count,size_t grant_length,
+- const void *uses,size_t use_count,size_t use_length,
+- const void *rows,size_t row_count,size_t row_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipt_count,size_t worker_receipt_length,
+- const void *worker_events,size_t worker_event_count,size_t worker_event_length,
+- const void *effect_receipts,size_t effect_receipt_count,size_t effect_receipt_length,
+- const void *effect_events,size_t effect_event_count,size_t effect_event_length,
+- const struct wl_actuation_request *actuation,size_t actuation_length,
+- struct wl_actuator_witness *witness,size_t witness_length);
+-int wl_full_physical_recover_v1(int original_peer_fd,int data_fd,int transaction_fd,int payload_fd,
+- const void *input,size_t input_length,const void *arena,size_t arena_length,
+- const void *grants,size_t grant_count,size_t grant_length,
+- const void *uses,size_t use_count,size_t use_length,
+- const void *rows,size_t row_count,size_t row_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipt_count,size_t worker_receipt_length,
+- const void *worker_events,size_t worker_event_count,size_t worker_event_length,
+- const void *effect_receipts,size_t effect_receipt_count,size_t effect_receipt_length,
+- const void *effect_events,size_t effect_event_count,size_t effect_event_length,
+- const struct wl_actuation_request *actuation,size_t actuation_length,
+- struct wl_actuator_witness *witness,size_t witness_length);
+-#endif
+--- source/physical-value-controls/physical_value_controls.adb
++++ /dev/null
+@@ -1,74 +0,0 @@
+-with Worldline;
+-with Worldline.Actuation;
+-with Worldline.Actuation_Full_Wire;
+-with Worldline.Collapse_Wire;
+-with Interfaces;
+-procedure Physical_Value_Controls is
+-   package W renames Worldline.Actuation_Full_Wire;
+-   package A renames Worldline.Actuation;
+-   use type A.Decision;
+-   procedure Check (Value : Boolean) is
+-   begin
+-      pragma Assert (Value);
+-      if not Value then raise Program_Error; end if;
+-   end Check;
+-   procedure Put (Field : out Worldline.Collapse_Wire.Raw_Optional_Hash;
+-                  V : Interfaces.Unsigned_8) is
+-   begin
+-      Field.Present := 1;
+-      Field.Value := [others => V];
+-   end Put;
+-
+-   function Good_Wire return Worldline.Collapse_Wire.Raw_Request is
+-      use Worldline.Collapse_Wire;
+-      Absent : constant Raw_Optional_Hash := (Present => 0, Value => [others => 0]);
+-      R : Raw_Request :=
+-        (Candidate_State => 2, Phase => 0, Evaluation_Mode => 0, Conflicts => 1,
+-         Foreign_Writes => 1, Roster_Complete => 1, Staged_Roster_Complete => 0,
+-         Generation_Before => (Present => 1, Value_LE => [41, others => 0]),
+-         Generation_After => (Present => 1, Value_LE => [41, others => 0]),
+-         others => Absent);
+-   begin
+-      Put (R.Expected_Parent, 1); Put (R.Candidate_Parent, 1);
+-      Put (R.Expected_Subject, 2); Put (R.Evidence_Subject, 2);
+-      Put (R.Expected_Base, 3); Put (R.Candidate_Base, 3);
+-      Put (R.Expected_Delta, 4); Put (R.Candidate_Delta, 4);
+-      Put (R.Expected_Root_Set, 5); Put (R.Candidate_Root_Set, 5);
+-      Put (R.Expected_Staged_Root, 6); Put (R.Actual_Staged_Root, 6);
+-      Put (R.Staged_Content_Root, 7); Put (R.Tested_Root, 7);
+-      Put (R.Current_Requirement, 8); Put (R.Resulting_Requirement, 8);
+-      Put (R.Evaluated_Requirement, 8);
+-      Put (R.Declared_Verifiers, 9); Put (R.Executed_Verifiers, 9);
+-      Put (R.Registered_Watch_Set, 10); Put (R.Watched_Set, 10);
+-      return R;
+-   end Good_Wire;
+-   Facts : W.Raw_Request :=
+-     (Collapse_Facts => Good_Wire,
+-      Expected_Live => (Present => 1, Device => 1, Inode => 1),
+-      Observed_Live => (Present => 1, Device => 1, Inode => 1),
+-      Expected_Stage => (Present => 1, Device => 1, Inode => 2),
+-      Observed_Stage => (Present => 1, Device => 1, Inode => 2),
+-      Expected_Marker_Digest => [others => 1],
+-      Observed_Marker_Digest => [others => 1],
+-      Payload_Durable => 1, Recovery_Clean => 1);
+-   Original : constant W.Raw_Request := Facts;
+-begin
+-   -- Synthetic value fixtures: no OS directories or protected authority.
+-   Check (W.Well_Formed (Facts));
+-   Check (A.Decide (W.Decode (Facts)) = A.Authorized);
+-   Facts.Payload_Durable := 0;
+-   Check (A.Decide (W.Decode (Facts)) = A.Payload_Not_Durable);
+-   Facts := Original; Facts.Recovery_Clean := 0;
+-   Check (A.Decide (W.Decode (Facts)) = A.Recovery_Unclean);
+-   Facts := Original; Facts.Observed_Live := Facts.Observed_Stage;
+-   Check (A.Decide (W.Decode (Facts)) = A.Live_Changed);
+-   Facts := Original; Facts.Observed_Stage := Facts.Observed_Live;
+-   Check (A.Decide (W.Decode (Facts)) = A.Stage_Changed);
+-   Facts := Original; Facts.Expected_Stage := Facts.Expected_Live;
+-   Facts.Observed_Stage := Facts.Observed_Live;
+-   Check (A.Decide (W.Decode (Facts)) = A.Same_Entry_Refused);
+-   Facts := Original; Facts.Observed_Marker_Digest := Worldline.Zero_Hash;
+-   Check (A.Decide (W.Decode (Facts)) = A.Marker_Mismatch);
+-   Facts := Original; Facts.Collapse_Facts.Expected_Subject.Present := 0;
+-   Check (not W.Well_Formed (Facts));
+-end Physical_Value_Controls;
+--- source/physical-value-controls/physical_value_controls.gpr
++++ /dev/null
+@@ -1,13 +0,0 @@
+-with "../core/attest_sha256.gpr";
+-project Physical_Value_Controls is
+-   for Source_Dirs use (".", "../core");
+-   for Object_Dir use "obj";
+-   for Exec_Dir use "bin";
+-   for Main use ("physical_value_controls.adb");
+-   package Compiler is
+-      for Default_Switches ("Ada") use ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-gnata", "-O2", "-g");
+-   end Compiler;
+-   package Prove is
+-      for Proof_Switches ("Ada") use ("--level=3", "--report=all", "-j2");
+-   end Prove;
+-end Physical_Value_Controls;
+--- source/protected-canonical/full_physical_actuator.c
++++ /dev/null
+@@ -1,281 +0,0 @@
+-#define _GNU_SOURCE
+-#include "full_physical_actuator.h"
+-#include <sys/socket.h>
+-#include <sys/stat.h>
+-#include <unistd.h>
+-#include <string.h>
+-#include <stddef.h>
+-uint32_t wl_internal_full_physical_version_v1(void) { return 1; }
+-long wl_internal_full_physical_layout_v1(uint32_t kind,uint32_t field) {
+-#define HEAD(T) if (field==0) return sizeof(T); if (field==1) return _Alignof(T)
+-#define FIELD(T,N,F) if (field==N) return offsetof(T,F)
+- if (kind==1) { HEAD(struct wl_entry_identity); FIELD(struct wl_entry_identity,2,present);
+-  FIELD(struct wl_entry_identity,3,device); FIELD(struct wl_entry_identity,4,inode); }
+- if (kind==2) { HEAD(struct wl_actuation_request); FIELD(struct wl_actuation_request,2,collapse_facts);
+-  FIELD(struct wl_actuation_request,3,expected_live); FIELD(struct wl_actuation_request,4,observed_live);
+-  FIELD(struct wl_actuation_request,5,expected_stage); FIELD(struct wl_actuation_request,6,observed_stage);
+-  FIELD(struct wl_actuation_request,7,expected_marker_digest); FIELD(struct wl_actuation_request,8,observed_marker_digest);
+-  FIELD(struct wl_actuation_request,9,payload_durable); FIELD(struct wl_actuation_request,10,recovery_clean); }
+- if (kind==3) { HEAD(struct wl_actuator_witness); FIELD(struct wl_actuator_witness,2,live_before);
+-  FIELD(struct wl_actuator_witness,3,stage_before); FIELD(struct wl_actuator_witness,4,live_after);
+-  FIELD(struct wl_actuator_witness,5,stage_after); FIELD(struct wl_actuator_witness,6,marker_digest);
+-  FIELD(struct wl_actuator_witness,7,decision); FIELD(struct wl_actuator_witness,8,exchange_attempted);
+-  FIELD(struct wl_actuator_witness,9,syscall_errno);
+-  FIELD(struct wl_actuator_witness,10,payload_durable); FIELD(struct wl_actuator_witness,11,recovery_clean);
+-  FIELD(struct wl_actuator_witness,12,parents_durable); }
+- return -1;
+-#undef HEAD
+-#undef FIELD
+-}
+-#include <stdbool.h>
+-#include <errno.h>
+-#include <dirent.h>
+-#include <fcntl.h>
+-
+-/* No depth, root, byte or file-count cap. The fixed buffer is an I/O chunk,
+- * not a domain limit. Protected parent custody and writer quiescence remain
+- * installed-principal obligations; fsync is an observed kernel durability
+- * result, not a claim about untrusted storage hardware. */
+-static bool stable(const struct stat *a,const struct stat *b) {
+- return a->st_dev==b->st_dev && a->st_ino==b->st_ino && a->st_mode==b->st_mode &&
+-  a->st_size==b->st_size && a->st_mtim.tv_sec==b->st_mtim.tv_sec &&
+-  a->st_mtim.tv_nsec==b->st_mtim.tv_nsec && a->st_ctim.tv_sec==b->st_ctim.tv_sec &&
+-  a->st_ctim.tv_nsec==b->st_ctim.tv_nsec;
+-}
+-static bool dot(const char *s) { return strcmp(s,".")==0 || strcmp(s,"..")==0; }
+-static bool durable_file(int fd) {
+- struct stat before,after; unsigned char buffer[65536]; off_t used=0;
+- if (fstat(fd,&before)!=0 || !S_ISREG(before.st_mode) || before.st_size<0 || fsync(fd)!=0) return false;
+- for (;;) {
+-  ssize_t n=read(fd,buffer,sizeof(buffer));
+-  if (n<0) return false;
+-  if (n==0) break;
+-  if ((off_t)n>before.st_size-used) return false;
+-  used+=(off_t)n;
+- }
+- return used==before.st_size && fstat(fd,&after)==0 && stable(&before,&after);
+-}
+-static bool durable_tree(int fd) {
+- struct stat before,after;
+- if (fstat(fd,&before)!=0 || !S_ISDIR(before.st_mode)) return false;
+- int scan=openat(fd,".",O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);
+- if (scan<0) return false;
+- DIR *directory=fdopendir(scan);
+- if (directory==NULL) { close(scan); return false; }
+- bool ok=true;
+- for (;;) {
+-  errno=0; struct dirent *entry=readdir(directory);
+-  if (entry==NULL) { if (errno!=0) ok=false; break; }
+-  if (dot(entry->d_name)) continue;
+-  struct stat value,readback;
+-  if (fstatat(fd,entry->d_name,&value,AT_SYMLINK_NOFOLLOW)!=0) { ok=false; break; }
+-  if (S_ISDIR(value.st_mode) || S_ISREG(value.st_mode)) {
+-   int child=openat(fd,entry->d_name,O_RDONLY|O_NOFOLLOW|O_CLOEXEC|O_NONBLOCK|
+-       (S_ISDIR(value.st_mode)?O_DIRECTORY:0));
+-   if (child<0) { ok=false; break; }
+-   struct stat opened;
+-   ok=fstat(child,&opened)==0 && stable(&value,&opened) &&
+-      (S_ISDIR(value.st_mode)?durable_tree(child):durable_file(child));
+-   int saved=errno; close(child); errno=saved;
+-   if (!ok) break;
+-  } else if (!S_ISLNK(value.st_mode)) { ok=false; break; }
+-  /* Nested symlinks are payload bytes, never traversed. The parent fsync
+-   * commits their directory entries, preserving original Manifest semantics. */
+-  if (fstatat(fd,entry->d_name,&readback,AT_SYMLINK_NOFOLLOW)!=0 || !stable(&value,&readback)) {
+-   ok=false; break;
+-  }
+- }
+- int saved=errno; closedir(directory); errno=saved;
+- return ok && fsync(fd)==0 && fstat(fd,&after)==0 && stable(&before,&after);
+-}
+-static bool durable_mapping(int parent,const char *name,int payload_fd) {
+- int fd=openat(parent,name,O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);
+- if (fd<0) return false;
+- int scan=openat(fd,".",O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);
+- DIR *directory=scan<0?NULL:fdopendir(scan);
+- if (directory==NULL) { if (scan>=0) close(scan); close(fd); return false; }
+- bool ok=true;
+- for (;;) {
+-  errno=0; struct dirent *entry=readdir(directory);
+-  if (entry==NULL) { if (errno!=0) ok=false; break; }
+-  if (dot(entry->d_name)) continue;
+-  struct stat slot,target,payload;
+-  if (fstatat(fd,entry->d_name,&slot,AT_SYMLINK_NOFOLLOW)!=0) { ok=false; break; }
+-  if (strcmp(entry->d_name,".worldline-generation.json")==0) {
+-   int marker=openat(fd,entry->d_name,O_RDONLY|O_NOFOLLOW|O_CLOEXEC|O_NONBLOCK);
+-   if (marker<0) { ok=false; break; }
+-   ok=durable_file(marker); int saved=errno; close(marker); errno=saved;
+-   if (!ok) break;
+-  } else if (!S_ISLNK(slot.st_mode) ||
+-     fstatat(fd,entry->d_name,&target,0)!=0 || !S_ISDIR(target.st_mode) ||
+-     fstatat(payload_fd,entry->d_name,&payload,AT_SYMLINK_NOFOLLOW)!=0 ||
+-     !S_ISDIR(payload.st_mode) || target.st_dev!=payload.st_dev || target.st_ino!=payload.st_ino) {
+-   ok=false; break;
+-  }
+- }
+- int saved=errno; closedir(directory); errno=saved;
+- /* Reverse membership prevents an omitted payload root. Empty rosters stay
+-  * legal; their admissibility is decided by the full native frame. */
+- if (ok) {
+-  scan=openat(payload_fd,".",O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);
+-  directory=scan<0?NULL:fdopendir(scan);
+-  if (directory==NULL) { if (scan>=0) close(scan); ok=false; }
+-  else {
+-   for (;;) {
+-    errno=0; struct dirent *entry=readdir(directory);
+-    if (entry==NULL) { if (errno!=0) ok=false; break; }
+-    if (dot(entry->d_name)) continue;
+-    struct stat slot;
+-    if (strcmp(entry->d_name,".worldline-generation.json")==0 ||
+-        fstatat(fd,entry->d_name,&slot,AT_SYMLINK_NOFOLLOW)!=0 || !S_ISLNK(slot.st_mode)) {
+-     ok=false; break;
+-    }
+-   }
+-   saved=errno; closedir(directory); errno=saved;
+-  }
+- }
+- ok=ok && durable_tree(payload_fd) && fsync(fd)==0;
+- saved=errno; close(fd); errno=saved;
+- return ok;
+-}
+-static bool durable_parent(int fd) {
+- int parent=openat(fd,"..",O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);
+- if (parent<0) return false;
+- struct stat before,after;
+- bool ok=fstat(parent,&before)==0 && S_ISDIR(before.st_mode) &&
+-  before.st_uid==0 && (before.st_mode&0077)==0 && fsync(parent)==0 &&
+-  fstat(parent,&after)==0 && stable(&before,&after);
+- int saved=errno; close(parent); errno=saved;
+- return ok;
+-}
+-struct frame {
+- const wl_canonical_exchange_input_v1 *input;
+- const void *arena; size_t arena_length;
+- const void *grants; size_t grant_count,grant_length;
+- const void *uses; size_t use_count,use_length;
+- const void *rows; size_t row_count,row_length;
+- const void *observed; size_t observed_count,observed_length;
+- const void *worker_receipts; size_t worker_receipt_count,worker_receipt_length;
+- const void *worker_events; size_t worker_event_count,worker_event_length;
+- const void *effect_receipts; size_t effect_receipt_count,effect_receipt_length;
+- const void *effect_events; size_t effect_event_count,effect_event_length;
+- uint8_t required;
+-};
+-static bool redecide(void *context) {
+- const struct frame *f=context; wl_canonical_exchange_result_v1 result;
+- return wl_canonical_exchange_decide_v1(f->input,sizeof(*f->input),f->arena,f->arena_length,
+-  f->grants,f->grant_count,f->grant_length,f->uses,f->use_count,f->use_length,
+-  f->rows,f->row_count,f->row_length,f->observed,f->observed_count,f->observed_length,
+-  f->worker_receipts,f->worker_receipt_count,f->worker_receipt_length,
+-  f->worker_events,f->worker_event_count,f->worker_event_length,
+-  f->effect_receipts,f->effect_receipt_count,f->effect_receipt_length,
+-  f->effect_events,f->effect_event_count,f->effect_event_length,&result,sizeof(result))==0 &&
+-  result.disposition==f->required;
+-}
+-/* Numeric extents/disjointness only. Readability and lifetime are supplied
+- * by the actual owned caller, not established by this predicate. */
+-static bool disjoint_output(const void *output,size_t output_length,
+-                            const void *input,size_t input_length) {
+- uintptr_t a=(uintptr_t)output,b=(uintptr_t)input;
+- if (output==NULL || output_length>UINTPTR_MAX-a) return false;
+- if (input_length==0) return true;
+- if (input==NULL || input_length>UINTPTR_MAX-b) return false;
+- return a>=b?input_length<=a-b:output_length<=b-a;
+-}
+-static int full_physical(bool recovering,int original_peer_fd,int data_fd,int transaction_fd,int payload_fd,
+- const void *input,size_t input_length,const void *arena,size_t arena_length,
+- const void *grants,size_t grant_count,size_t grant_length,
+- const void *uses,size_t use_count,size_t use_length,
+- const void *rows,size_t row_count,size_t row_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipt_count,size_t worker_receipt_length,
+- const void *worker_events,size_t worker_event_count,size_t worker_event_length,
+- const void *effect_receipts,size_t effect_receipt_count,size_t effect_receipt_length,
+- const void *effect_events,size_t effect_event_count,size_t effect_event_length,
+- const struct wl_actuation_request *actuation,size_t actuation_length,
+- struct wl_actuator_witness *witness,size_t witness_length) {
+- struct stat data,transaction,payload;
+- if (geteuid()!=0 || input==NULL || actuation==NULL || witness==NULL ||
+-     input_length!=sizeof(wl_canonical_exchange_input_v1) ||
+-     actuation_length!=sizeof(*actuation) || witness_length!=sizeof(*witness) ||
+-     fstat(data_fd,&data)!=0 || fstat(transaction_fd,&transaction)!=0 || fstat(payload_fd,&payload)!=0 ||
+-     !S_ISDIR(data.st_mode) || !S_ISDIR(transaction.st_mode) || !S_ISDIR(payload.st_mode) ||
+-     data.st_uid!=0 || transaction.st_uid!=0 || payload.st_uid!=0 ||
+-     (data.st_mode&0077)!=0 || (transaction.st_mode&0077)!=0 || (payload.st_mode&0077)!=0 ||
+-     (data.st_dev==transaction.st_dev && data.st_ino==transaction.st_ino)) return WL_ACTUATOR_REFUSED;
+- if (!disjoint_output(witness,witness_length,input,input_length) ||
+-     !disjoint_output(witness,witness_length,arena,arena_length) ||
+-     !disjoint_output(witness,witness_length,grants,grant_length) ||
+-     !disjoint_output(witness,witness_length,uses,use_length) ||
+-     !disjoint_output(witness,witness_length,rows,row_length) ||
+-     !disjoint_output(witness,witness_length,observed,observed_length) ||
+-     !disjoint_output(witness,witness_length,worker_receipts,worker_receipt_length) ||
+-     !disjoint_output(witness,witness_length,worker_events,worker_event_length) ||
+-     !disjoint_output(witness,witness_length,effect_receipts,effect_receipt_length) ||
+-     !disjoint_output(witness,witness_length,effect_events,effect_event_length) ||
+-     !disjoint_output(witness,witness_length,actuation,actuation_length)) return WL_ACTUATOR_REFUSED;
+- wl_canonical_exchange_input_v1 selected; struct wl_actuation_request physical;
+- memcpy(&selected,input,sizeof(selected)); memcpy(&physical,actuation,sizeof(physical));
+- if (!recovering) {
+-  struct ucred peer; socklen_t length=sizeof(peer);
+-  if (getsockopt(original_peer_fd,SOL_SOCKET,SO_PEERCRED,&peer,&length)!=0 || length!=sizeof(peer) ||
+-      selected.operation_input.peer.present!=1 || selected.operation_input.peer.value!=peer.uid ||
+-      selected.operation_input.authority.bound.peer.present!=1 ||
+-      selected.operation_input.authority.bound.peer.value!=peer.uid) return WL_ACTUATOR_REFUSED;
+- }
+- if (physical.payload_durable>1 || physical.recovery_clean>1 ||
+-     memcmp(&physical.collapse_facts,&selected.operation_input.collapse,sizeof(physical.collapse_facts))!=0)
+-  return WL_ACTUATOR_REFUSED;
+- struct frame f={&selected,arena,arena_length,grants,grant_count,grant_length,uses,use_count,use_length,
+-  rows,row_count,row_length,observed,observed_count,observed_length,
+-  worker_receipts,worker_receipt_count,worker_receipt_length,worker_events,worker_event_count,worker_event_length,
+-  effect_receipts,effect_receipt_count,effect_receipt_length,effect_events,effect_event_count,effect_event_length,
+-  recovering?WL_FULL_RECORD_EFFECT:WL_FULL_DISPATCH_CANONICAL};
+- /* Native authorization precedes even the durability syscalls. Recovery uses
+-  * historical RECORD_EFFECT; it neither substitutes fresh policy nor dispatches. */
+- if (!redecide(&f)) return WL_ACTUATOR_REFUSED;
+- physical.payload_durable=0; physical.recovery_clean=0;
+- struct wl_actuator_witness result; memset(&result,0,sizeof(result));
+- result.decision=WL_ACTUATION_INVALID_REQUEST;
+- if (!durable_mapping(recovering?data_fd:transaction_fd,recovering?"live":"mapping",payload_fd) ||
+-     fsync(payload_fd)!=0 || !durable_parent(payload_fd) ||
+-     !durable_parent(transaction_fd)) {
+-  result.syscall_errno=errno; memcpy(witness,&result,sizeof(result));
+-  return recovering?WL_ACTUATOR_POST_EXCHANGE_UNCERTAIN:WL_ACTUATOR_IO_REFUSED;
+- }
+- physical.payload_durable=1;
+- physical.recovery_clean=redecide(&f)?1:0;
+- int status=recovering?wl_actuator_recover(data_fd,transaction_fd,&physical,redecide,&f,&result):
+-                       wl_actuator_exchange(data_fd,transaction_fd,&physical,redecide,&f,&result);
+- memcpy(witness,&result,sizeof(result));
+- return status;
+-}
+-int wl_internal_full_physical_exchange_v1(int original_peer_fd,int data_fd,int transaction_fd,int payload_fd,
+- const void *input,size_t input_length,const void *arena,size_t arena_length,
+- const void *grants,size_t grant_count,size_t grant_length,
+- const void *uses,size_t use_count,size_t use_length,
+- const void *rows,size_t row_count,size_t row_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipt_count,size_t worker_receipt_length,
+- const void *worker_events,size_t worker_event_count,size_t worker_event_length,
+- const void *effect_receipts,size_t effect_receipt_count,size_t effect_receipt_length,
+- const void *effect_events,size_t effect_event_count,size_t effect_event_length,
+- const struct wl_actuation_request *actuation,size_t actuation_length,
+- struct wl_actuator_witness *witness,size_t witness_length) {
+- return full_physical(false,original_peer_fd,data_fd,transaction_fd,payload_fd,input,input_length,arena,arena_length,grants,grant_count,grant_length,uses,use_count,use_length,rows,row_count,row_length,observed,observed_count,observed_length,worker_receipts,worker_receipt_count,worker_receipt_length,worker_events,worker_event_count,worker_event_length,effect_receipts,effect_receipt_count,effect_receipt_length,effect_events,effect_event_count,effect_event_length,actuation,actuation_length,witness,witness_length);
+-}
+-
+-int wl_internal_full_physical_recover_v1(int original_peer_fd,int data_fd,int transaction_fd,int payload_fd,
+- const void *input,size_t input_length,const void *arena,size_t arena_length,
+- const void *grants,size_t grant_count,size_t grant_length,
+- const void *uses,size_t use_count,size_t use_length,
+- const void *rows,size_t row_count,size_t row_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipt_count,size_t worker_receipt_length,
+- const void *worker_events,size_t worker_event_count,size_t worker_event_length,
+- const void *effect_receipts,size_t effect_receipt_count,size_t effect_receipt_length,
+- const void *effect_events,size_t effect_event_count,size_t effect_event_length,
+- const struct wl_actuation_request *actuation,size_t actuation_length,
+- struct wl_actuator_witness *witness,size_t witness_length) {
+- return full_physical(true,original_peer_fd,data_fd,transaction_fd,payload_fd,input,input_length,arena,arena_length,grants,grant_count,grant_length,uses,use_count,use_length,rows,row_count,row_length,observed,observed_count,observed_length,worker_receipts,worker_receipt_count,worker_receipt_length,worker_events,worker_event_count,worker_event_length,effect_receipts,effect_receipt_count,effect_receipt_length,effect_events,effect_event_count,effect_event_length,actuation,actuation_length,witness,witness_length);
+-}
+--- source/protected-canonical/full_physical_actuator.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-#ifndef WORLDLINE_FULL_PHYSICAL_ACTUATOR_H
+-#define WORLDLINE_FULL_PHYSICAL_ACTUATOR_H
+-#include "worldline_canonical_exchange_v1.h"
+-#include "worldline_actuation_v1.h"
+-#include "vendor-transaction-035545/worldline_actuator.h"
+-enum wl_full_exchange_decision { WL_FULL_REFUSED, WL_FULL_DISPATCH_WORKER,
+- WL_FULL_RECORD_WORKER, WL_FULL_DISPATCH_CANONICAL, WL_FULL_RECORD_EFFECT,
+- WL_FULL_SETTLE_SAME_USE, WL_FULL_REPLAY_SAME_USE, WL_FULL_OWNER_RECORD_ABORT,
+- WL_FULL_OWNER_RECORD_EFFECT };
+-uint32_t wl_internal_full_physical_version_v1(void);
+-long wl_internal_full_physical_layout_v1(uint32_t kind,uint32_t field);
+-/* Borrowed owned buffers/descriptors stay live through the call under the
+- * selected protected-principal lock. Only WORLDLINE C_API exports these entry
+- * points. Pointer readability, ownership, termination and syscall/durability
+- * correspondence remain acceptance obligations; lengths do not prove them. */
+-int wl_internal_full_physical_exchange_v1(int original_peer_fd,int data_fd,int transaction_fd,int payload_fd,
+- const void *input,size_t input_length,const void *arena,size_t arena_length,
+- const void *grants,size_t grant_count,size_t grant_length,
+- const void *uses,size_t use_count,size_t use_length,
+- const void *rows,size_t row_count,size_t row_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipt_count,size_t worker_receipt_length,
+- const void *worker_events,size_t worker_event_count,size_t worker_event_length,
+- const void *effect_receipts,size_t effect_receipt_count,size_t effect_receipt_length,
+- const void *effect_events,size_t effect_event_count,size_t effect_event_length,
+- const struct wl_actuation_request *actuation,size_t actuation_length,
+- struct wl_actuator_witness *witness,size_t witness_length);
+-int wl_internal_full_physical_recover_v1(int original_peer_fd,int data_fd,int transaction_fd,int payload_fd,
+- const void *input,size_t input_length,const void *arena,size_t arena_length,
+- const void *grants,size_t grant_count,size_t grant_length,
+- const void *uses,size_t use_count,size_t use_length,
+- const void *rows,size_t row_count,size_t row_length,
+- const void *observed,size_t observed_count,size_t observed_length,
+- const void *worker_receipts,size_t worker_receipt_count,size_t worker_receipt_length,
+- const void *worker_events,size_t worker_event_count,size_t worker_event_length,
+- const void *effect_receipts,size_t effect_receipt_count,size_t effect_receipt_length,
+- const void *effect_events,size_t effect_event_count,size_t effect_event_length,
+- const struct wl_actuation_request *actuation,size_t actuation_length,
+- struct wl_actuator_witness *witness,size_t witness_length);
+-#endif
+--- source/protected-canonical/full_physical_sources.gpr
++++ /dev/null
+@@ -1,12 +0,0 @@
+-project Full_Physical_Sources is
+-   for Languages use ("C");
+-   for Source_Dirs use (".", "vendor-transaction-035545");
+-   for Source_Files use ("full_physical_actuator.c", "worldline_actuator.c");
+-   for Object_Dir use "../obj/full-physical";
+-   package Compiler is
+-      for Default_Switches ("C") use
+-        ("-std=c11", "-D_GNU_SOURCE=", "-fPIC", "-fvisibility=hidden", "-O2", "-g", "-Wall", "-Wextra", "-Werror",
+-         "-I" & Full_Physical_Sources'Project_Dir & "../core",
+-         "-include", Full_Physical_Sources'Project_Dir & "../core/worldline_actuation_v1.h");
+-   end Compiler;
+-end Full_Physical_Sources;
+--- source/protected-canonical/vendor-transaction-035545/worldline_actuator.c
++++ /dev/null
+@@ -1,219 +0,0 @@
+-#define _GNU_SOURCE
+-#include "worldline_actuator.h"
+-
+-#include <errno.h>
+-#include <fcntl.h>
+-#include <linux/fs.h>
+-#include <stdbool.h>
+-#include <stdint.h>
+-#include <stdio.h>
+-#include <string.h>
+-#include <sys/stat.h>
+-#include <unistd.h>
+-
+-#define MARKER_NAME ".worldline-generation.json"
+-#define MARKER_LIMIT 4096u
+-
+-static bool parent_identity(int fd, struct stat *result) {
+-    return fstat(fd, result) == 0 && S_ISDIR(result->st_mode);
+-}
+-
+-static bool entry_identity(int parent_fd, const char *name,
+-                           struct wl_entry_identity *result) {
+-    struct stat value;
+-    memset(result, 0, sizeof(*result));
+-    if (fstatat(parent_fd, name, &value, AT_SYMLINK_NOFOLLOW) != 0 ||
+-        !S_ISDIR(value.st_mode)) {
+-        return false;
+-    }
+-    result->present = 1;
+-    result->device = (uint64_t)value.st_dev;
+-    result->inode = (uint64_t)value.st_ino;
+-    return true;
+-}
+-
+-static bool same_entry(const struct wl_entry_identity *left,
+-                       const struct wl_entry_identity *right) {
+-    return left->present == 1 && right->present == 1 &&
+-           left->device == right->device && left->inode == right->inode;
+-}
+-
+-static bool marker_digest(int parent_fd, const char *name,
+-                          uint8_t digest[WL_HASH_BYTES]) {
+-    int mapping_fd = openat(parent_fd, name,
+-                            O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+-    if (mapping_fd < 0) {
+-        return false;
+-    }
+-    int marker_fd = openat(mapping_fd, MARKER_NAME,
+-                           O_RDONLY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK);
+-    close(mapping_fd);
+-    if (marker_fd < 0) {
+-        return false;
+-    }
+-    struct stat before;
+-    if (fstat(marker_fd, &before) != 0 || !S_ISREG(before.st_mode) ||
+-        before.st_size <= 0 || (uint64_t)before.st_size > MARKER_LIMIT) {
+-        close(marker_fd);
+-        return false;
+-    }
+-    uint8_t content[MARKER_LIMIT];
+-    size_t used = 0;
+-    while (used < (size_t)before.st_size) {
+-        ssize_t amount = read(marker_fd, content + used, (size_t)before.st_size - used);
+-        if (amount <= 0) {
+-            close(marker_fd);
+-            return false;
+-        }
+-        used += (size_t)amount;
+-    }
+-    struct stat after;
+-    bool stable = fstat(marker_fd, &after) == 0 &&
+-                  before.st_dev == after.st_dev && before.st_ino == after.st_ino &&
+-                  before.st_size == after.st_size &&
+-                  before.st_mtim.tv_sec == after.st_mtim.tv_sec &&
+-                  before.st_mtim.tv_nsec == after.st_mtim.tv_nsec &&
+-                  before.st_ctim.tv_sec == after.st_ctim.tv_sec &&
+-                  before.st_ctim.tv_nsec == after.st_ctim.tv_nsec;
+-    close(marker_fd);
+-    return stable && wl_hash_bytes(content, used, digest) == WL_OK;
+-}
+-
+-static bool observe_before(int data_fd, int transaction_fd,
+-                           struct wl_actuation_request *facts,
+-                           struct wl_actuator_witness *witness) {
+-    if (!entry_identity(data_fd, "live", &facts->observed_live) ||
+-        !entry_identity(transaction_fd, "mapping", &facts->observed_stage) ||
+-        !marker_digest(transaction_fd, "mapping", facts->observed_marker_digest)) {
+-        return false;
+-    }
+-    witness->live_before = facts->observed_live;
+-    witness->stage_before = facts->observed_stage;
+-    memcpy(witness->marker_digest, facts->observed_marker_digest, WL_HASH_BYTES);
+-    return true;
+-}
+-
+-enum wl_actuator_result wl_actuator_exchange(
+-    int data_fd,
+-    int transaction_fd,
+-    const struct wl_actuation_request *requested,
+-    wl_actuator_redecide redecide,
+-    void *context,
+-    struct wl_actuator_witness *witness) {
+-    if (requested == NULL || witness == NULL || redecide == NULL) {
+-        return WL_ACTUATOR_REFUSED;
+-    }
+-    memset(witness, 0, sizeof(*witness));
+-    witness->decision = WL_ACTUATION_INVALID_REQUEST;
+-    struct stat data_dir, transaction_dir;
+-    if (!parent_identity(data_fd, &data_dir) ||
+-        !parent_identity(transaction_fd, &transaction_dir) ||
+-        (data_dir.st_dev == transaction_dir.st_dev &&
+-         data_dir.st_ino == transaction_dir.st_ino)) {
+-        return WL_ACTUATOR_REFUSED;
+-    }
+-
+-    struct wl_actuation_request facts = *requested;
+-    witness->payload_durable = facts.payload_durable;
+-    witness->recovery_clean = facts.recovery_clean;
+-    if (!observe_before(data_fd, transaction_fd, &facts, witness)) {
+-        return WL_ACTUATOR_REFUSED;
+-    }
+-    witness->decision = wl_actuation_decide(&facts);
+-    if (witness->decision != WL_ACTUATION_AUTHORIZED) {
+-        return WL_ACTUATOR_REFUSED;
+-    }
+-    if (fsync(data_fd) != 0 || fsync(transaction_fd) != 0) {
+-        witness->syscall_errno = errno;
+-        return WL_ACTUATOR_IO_REFUSED;
+-    }
+-
+-    /* The protected service must own both parent directories. Recheck the
+-     * entries and marker just before the syscall; renameat2 has no compare-
+-     * and-swap condition for directory inodes. */
+-    struct wl_actuation_request last = facts;
+-    if (!observe_before(data_fd, transaction_fd, &last, witness) ||
+-        !same_entry(&last.observed_live, &facts.observed_live) ||
+-        !same_entry(&last.observed_stage, &facts.observed_stage) ||
+-        memcmp(last.observed_marker_digest, facts.observed_marker_digest,
+-               WL_HASH_BYTES) != 0) {
+-        return WL_ACTUATOR_REFUSED;
+-    }
+-    last.recovery_clean = redecide(context) ? 1 : 0;
+-    witness->recovery_clean = last.recovery_clean;
+-    witness->decision = wl_actuation_decide(&last);
+-    if (witness->decision != WL_ACTUATION_AUTHORIZED) {
+-        return WL_ACTUATOR_REFUSED;
+-    }
+-    witness->parents_durable = 0;
+-
+-    witness->exchange_attempted = 1;
+-    if (renameat2(data_fd, "live", transaction_fd, "mapping", RENAME_EXCHANGE) != 0) {
+-        witness->syscall_errno = errno;
+-        return WL_ACTUATOR_IO_REFUSED;
+-    }
+-
+-    bool observed = entry_identity(data_fd, "live", &witness->live_after) &&
+-                    entry_identity(transaction_fd, "mapping", &witness->stage_after);
+-    bool swapped = observed &&
+-                   same_entry(&witness->live_after, &facts.observed_stage) &&
+-                   same_entry(&witness->stage_after, &facts.observed_live);
+-    bool durable = fsync(data_fd) == 0 && fsync(transaction_fd) == 0;
+-    int sync_errno = durable ? 0 : errno;
+-    witness->parents_durable = durable ? 1 : 0;
+-    /* Durable success is tied to a readback after the actual fsyncs. */
+-    observed = entry_identity(data_fd, "live", &witness->live_after) &&
+-               entry_identity(transaction_fd, "mapping", &witness->stage_after);
+-    swapped = swapped && observed &&
+-              same_entry(&witness->live_after, &facts.observed_stage) &&
+-              same_entry(&witness->stage_after, &facts.observed_live);
+-    if (!swapped || !durable) {
+-        witness->syscall_errno = sync_errno;
+-        return WL_ACTUATOR_POST_EXCHANGE_UNCERTAIN;
+-    }
+-    return WL_ACTUATOR_VERIFIED;
+-}
+-
+-static bool observe_after(int data_fd, int transaction_fd,
+-                          const struct wl_actuation_request *requested,
+-                          struct wl_actuator_witness *witness) {
+-    return entry_identity(data_fd, "live", &witness->live_after) &&
+-           entry_identity(transaction_fd, "mapping", &witness->stage_after) &&
+-           same_entry(&witness->live_after, &requested->expected_stage) &&
+-           same_entry(&witness->stage_after, &requested->expected_live) &&
+-           marker_digest(data_fd, "live", witness->marker_digest) &&
+-           memcmp(witness->marker_digest, requested->expected_marker_digest,
+-                  WL_HASH_BYTES) == 0;
+-}
+-
+-enum wl_actuator_result wl_actuator_recover(
+-    int data_fd, int transaction_fd,
+-    const struct wl_actuation_request *requested,
+-    wl_actuator_redecide redecide, void *context,
+-    struct wl_actuator_witness *witness) {
+-    if (requested == NULL || witness == NULL || redecide == NULL) {
+-        return WL_ACTUATOR_REFUSED;
+-    }
+-    memset(witness, 0, sizeof(*witness));
+-    witness->decision = WL_ACTUATION_INVALID_REQUEST;
+-    witness->payload_durable = requested->payload_durable;
+-    witness->live_before = requested->expected_live;
+-    witness->stage_before = requested->expected_stage;
+-    if (same_entry(&requested->expected_live, &requested->expected_stage) ||
+-        !observe_after(data_fd, transaction_fd, requested, witness) ||
+-        requested->payload_durable != 1 || !redecide(context)) {
+-        return WL_ACTUATOR_REFUSED;
+-    }
+-    if (fsync(data_fd) != 0 || fsync(transaction_fd) != 0) {
+-        witness->syscall_errno = errno;
+-        return WL_ACTUATOR_POST_EXCHANGE_UNCERTAIN;
+-    }
+-    witness->parents_durable = 1;
+-    if (!observe_after(data_fd, transaction_fd, requested, witness) ||
+-        !redecide(context)) {
+-        return WL_ACTUATOR_POST_EXCHANGE_UNCERTAIN;
+-    }
+-    witness->recovery_clean = 1;
+-    /* No current collapse/peer policy is substituted for original history. */
+-    return WL_ACTUATOR_VERIFIED;
+-}
+--- source/protected-canonical/vendor-transaction-035545/worldline_actuator.h
++++ /dev/null
+@@ -1,35 +0,0 @@
+-#ifndef WORLDLINE_ACTUATOR_H
+-#define WORLDLINE_ACTUATOR_H
+-
+-#include "worldline_full_physical_v1.h"
+-#include <stdbool.h>
+-
+-/* Directory descriptors must be opened by the protected actuator service.
+- * data_fd contains an entry named live; transaction_fd contains mapping.
+- * These descriptors and the expected facts are not safe to take from an
+- * untrusted same-UID client. This API is the narrow syscall boundary, not an
+- * authorization service or a deployed OS isolation policy. */
+-
+-
+-/* Rechecks the complete SPARK exchange frame at the last syscall boundary.
+- * It supplies observed recovery cleanliness, never an endpoint success flag. */
+-typedef bool (*wl_actuator_redecide)(void *context);
+-
+-enum wl_actuator_result wl_actuator_exchange(
+-    int data_fd,
+-    int transaction_fd,
+-    const struct wl_actuation_request *requested,
+-    wl_actuator_redecide redecide,
+-    void *context,
+-    struct wl_actuator_witness *witness);
+-
+-/* Historical recognition only: never invokes renameat2 or a fresh peer. */
+-enum wl_actuator_result wl_actuator_recover(
+-    int data_fd,
+-    int transaction_fd,
+-    const struct wl_actuation_request *requested,
+-    wl_actuator_redecide redecide,
+-    void *context,
+-    struct wl_actuator_witness *witness);
+-
+-#endif
+--- source/runtime/worldline/canonical_full_broker.py
++++ preimage/runtime/worldline/canonical_full_broker.py
+@@ -17,7 +17,7 @@
+ from .manifest import Manifest
+ from .canonical_full_store import FullCanonicalStore
+ from .canonical_physical import FullPhysicalActuator,entry,raw
+-from .operation_owner_kernel import observe_exchange, initialize_exchange_kernel, prepare_exchange
++from .canonical_exchange_kernel import CanonicalExchangeKernel
+ from .errors import WorldlineError
+ 
+ def chain_dto(rows):
+@@ -27,14 +27,14 @@
+ class FullCanonicalBroker:
+     def __init__(self,principal):
+         self.p=principal;self.store=FullCanonicalStore(principal)
+-        self.kernel=initialize_exchange_kernel(principal);self.physical=FullPhysicalActuator(principal)
++        self.kernel=CanonicalExchangeKernel(principal.core);self.physical=FullPhysicalActuator(principal)
+         policy=principal.policy['broker']
+         require(set(policy)=={'schema','policy_path','state_path','physical_symbols','followup_plans'}
+             and policy['schema']=='worldline.full-canonical-broker-v1'
+             and policy['policy_path']==str(self.store.policy_path)
+             and policy['state_path']==str(self.store.state_path), 'FULL_BROKER_SELECTED_OWNER_POLICY_REQUIRED')
+         require(policy['physical_symbols']==['wl_full_physical_version_v1','wl_full_physical_layout_v1',
+-            'wl_full_physical_exchange_v1','wl_full_physical_recover_v1'],'FULL_BROKER_PHYSICAL_SYMBOL_ROSTER_CHANGED')
++            'wl_full_physical_exchange_v1'],'FULL_BROKER_PHYSICAL_SYMBOL_ROSTER_CHANGED')
+         principal.mapped_symbols([*policy['physical_symbols'],'wl_canonical_exchange_version_v1',
+             'wl_canonical_exchange_layout_v1','wl_canonical_exchange_decide_v1'])
+         for path in (self.store.policy_path,self.store.state_path):
+@@ -140,7 +140,7 @@
+         return args,{'worker':wfacts,'canonical':cfacts,'worldline_chains':worldline}
+     def decide(self,operation,captured,phase,mode,expected,*,owner_binding=None):
+         args,facts=self.arguments(operation,captured,phase,mode,owner_binding=owner_binding)
+-        native=observe_exchange(self.p,*args,kernel=self.kernel)
++        native=self.kernel.observe(*args)
+         self.ack(operation,'FULL_BROKER_NATIVE',{'phase':phase,'mode':mode,'arguments':args,'facts':facts,'native':native})
+         require(native['decision'] in expected,'FULL_BROKER_NATIVE_'+native['decision'])
+         return args,native
+@@ -165,9 +165,8 @@
+         self.ack(operation,'FULL_BROKER_CANONICAL_INTENT',{'arguments':args,'native':native,'prepared':captured})
+         from .canonical_physical import Entry
+         actual=self.physical.exchange(p.active_peers[operation],self.store.data,self.store.transactions/transaction_id,
+-            prepare_exchange(self.p,*args,kernel=self.kernel),Entry.from_buffer_copy(captured['live_entry']),
+-            Entry.from_buffer_copy(captured['stage_entry']),captured['marker_digest'],
+-            payload=self.store.staging/transaction_id)
++            self.kernel.prepare(*args),Entry.from_buffer_copy(captured['live_entry']),
++            Entry.from_buffer_copy(captured['stage_entry']),captured['marker_digest'])
+         self.ack(operation,'FULL_BROKER_PHYSICAL_RESULT',actual)
+         require(actual['status']==0,'FULL_BROKER_PHYSICAL_UNKNOWN_OR_REFUSED')
+         self.decide(operation,captured,'CANONICAL_INTENT','ADVANCE',('RECORD_EFFECT',))
+@@ -182,20 +181,12 @@
+         captured=self.retained(operation,'FULL_BROKER_PREPARED')
+         self.retained(operation,'FULL_BROKER_CANONICAL_INTENT')
+         worker_result=self.retained(operation,'FULL_BROKER_WORKER_RESULT')
+-        args,native=self.decide(operation,captured,'CANONICAL_INTENT','ADVANCE',('RECORD_EFFECT',))
++        self.decide(operation,captured,'CANONICAL_INTENT','ADVANCE',('RECORD_EFFECT',))
+         row=self.p.journal.rows[operation]
+-        transaction_id=row['capture']['transaction']['transactionId']
+-        from .canonical_physical import Entry
+-        actual=self.physical.recover(self.store.data,self.store.transactions/transaction_id,
+-            prepare_exchange(self.p,*args,kernel=self.kernel),Entry.from_buffer_copy(captured['live_entry']),
+-            Entry.from_buffer_copy(captured['stage_entry']),captured['marker_digest'],
+-            payload=self.store.staging/transaction_id)
+-        self.ack(operation,'FULL_BROKER_RECOVERY_PHYSICAL_RESULT',actual)
+-        require(actual['status']==0,'FULL_BROKER_RECOVERY_PHYSICAL_UNKNOWN_OR_REFUSED')
+         existing=[value for value in row['boundaries'] if value['name']=='FULL_BROKER_COMMITTED']
+         if existing:return self.retained(operation,'FULL_BROKER_COMMITTED')['result']
+         self.ack(operation,'FULL_BROKER_COMMITTED',{'result':worker_result['result'],'prepared':captured,
+-            'actual_physical':actual,'actual_worker':self.p.controller.transactions._load_record(transaction_id),
++            'actual_physical':None,'actual_worker':self.p.controller.transactions._load_record(row['capture']['transaction']['transactionId']),
+             'actual_chains':self.p.capture.chain_material(),'actual_canonical':self.store.capture(self.store.data/'live')})
+         return worker_result['result']
+     def resolve(self,original,owner_capture):
+@@ -227,5 +218,5 @@
+ 
+ def replay_boundary(principal,boundary):
+     value=restore_archive(bytes.fromhex(boundary['value']))
+-    require(observe_exchange(principal, *value['arguments'])==value['native'],
++    require(CanonicalExchangeKernel(principal.core).observe(*value['arguments'])==value['native'],
+         'FULL_BROKER_RETAINED_NATIVE_REPLAY_CHANGED')
+--- source/runtime/worldline/canonical_physical.py
++++ preimage/runtime/worldline/canonical_physical.py
+@@ -1,118 +1,62 @@
+-"""Owned full native exchange and historical durable-recognition transport.
++"""Owned full native exchange caller, selected mapped library only.
+ 
+-The selected C_API recaptures real syscall facts and redecides the complete
+-SPARK exchange frame. Python never supplies a durable/clean success assertion.
+-All input owners and disjoint output buffers stay live until the call returns.
+-Foreign readability, confinement, termination and native correspondence remain
+-original acceptance obligations, not conclusions from matching ABI lengths.
++There is no executable selector, subprocess service, fixed evaluation array,
++caller authority flag or fallback library. Foreign pointer/readability, syscall
++correspondence and native/body/cost proofs remain full original obligations.
+ """
+ import ctypes as C
+ import os
+-from .core import CCollapseRequest, HASH_BYTES
+-from .protected_startup import require, protected
++from .core import CCollapseRequest,HASH_BYTES
++from .protected_startup import require,protected
+ from .errors import CoreUnavailable
+-from .operation_owner_kernel import _owner_mapping, RESOURCE_SYMBOLS, EXCHANGE_SYMBOLS
+-
+-PHYSICAL_SYMBOLS = ("wl_full_physical_version_v1", "wl_full_physical_layout_v1",
+-                    "wl_full_physical_exchange_v1", "wl_full_physical_recover_v1",
+-                    "wl_actuation_decide", "wl_hash_bytes")
+-
+-
+-def _physical_mapping(principal):
+-    _owner_mapping(principal, RESOURCE_SYMBOLS + EXCHANGE_SYMBOLS + PHYSICAL_SYMBOLS)
+-
+-
+ class Entry(C.Structure):
+-    _fields_ = [('present', C.c_uint8), ('device', C.c_uint64), ('inode', C.c_uint64)]
+-
+-
++    _fields_=[('present',C.c_uint8),('device',C.c_uint64),('inode',C.c_uint64)]
+ class Request(C.Structure):
+-    _fields_ = [('collapse_facts', CCollapseRequest), ('expected_live', Entry), ('observed_live', Entry),
+-                ('expected_stage', Entry), ('observed_stage', Entry),
+-                ('expected_marker_digest', C.c_uint8 * HASH_BYTES),
+-                ('observed_marker_digest', C.c_uint8 * HASH_BYTES),
+-                ('payload_durable', C.c_uint8), ('recovery_clean', C.c_uint8)]
+-
+-
++    _fields_=[('collapse_facts',CCollapseRequest),('expected_live',Entry),('observed_live',Entry),
++        ('expected_stage',Entry),('observed_stage',Entry),('expected_marker_digest',C.c_uint8*HASH_BYTES),
++        ('observed_marker_digest',C.c_uint8*HASH_BYTES),('payload_durable',C.c_uint8),('recovery_clean',C.c_uint8)]
+ class Witness(C.Structure):
+-    _fields_ = [('live_before', Entry), ('stage_before', Entry), ('live_after', Entry), ('stage_after', Entry),
+-                ('marker_digest', C.c_uint8 * HASH_BYTES), ('decision', C.c_uint8),
+-                ('exchange_attempted', C.c_uint8), ('syscall_errno', C.c_int),
+-                ('payload_durable', C.c_uint8), ('recovery_clean', C.c_uint8), ('parents_durable', C.c_uint8)]
+-
+-
+-def raw(value):
+-    return C.string_at(C.byref(value), C.sizeof(value))
+-
+-
++    _fields_=[('live_before',Entry),('stage_before',Entry),('live_after',Entry),('stage_after',Entry),
++        ('marker_digest',C.c_uint8*HASH_BYTES),('decision',C.c_uint8),('exchange_attempted',C.c_uint8),('syscall_errno',C.c_int)]
++def raw(value):return C.string_at(C.byref(value),C.sizeof(value))
+ def entry(path):
+-    protected(path, directory=True)
+-    info = path.stat()
+-    return Entry(1, info.st_dev, info.st_ino)
+-
+-
++    protected(path,directory=True);info=path.stat()
++    return Entry(1,info.st_dev,info.st_ino)
+ class FullPhysicalActuator:
+-    def __init__(self, principal):
+-        self.p = principal
+-        _physical_mapping(principal)
++    def __init__(self,principal):
++        self.p=principal
+         try:
+-            version = principal.core._lib.wl_full_physical_version_v1
+-            layout = principal.core._lib.wl_full_physical_layout_v1
+-            self.call = principal.core._lib.wl_full_physical_exchange_v1
+-            self.recover_call = principal.core._lib.wl_full_physical_recover_v1
+-        except AttributeError as exc:
+-            raise CoreUnavailable('selected full physical native boundary unavailable') from exc
+-        version.argtypes, version.restype = [], C.c_uint32
+-        layout.argtypes, layout.restype = [C.c_uint32, C.c_uint32], C.c_long
+-        require(version() == 1, 'FULL_PHYSICAL_VERSION_CHANGED')
+-        for kind, typ in enumerate((Entry, Request, Witness), 1):
+-            require(layout(kind, 0) == C.sizeof(typ) and layout(kind, 1) == C.alignment(typ),
+-                    'FULL_PHYSICAL_LAYOUT_CHANGED')
+-            for field, (name, _type) in enumerate(typ._fields_, 2):
+-                require(layout(kind, field) == getattr(typ, name).offset, 'FULL_PHYSICAL_FIELD_CHANGED')
+-        arguments = ([C.c_int] * 4 + [C.c_void_p, C.c_size_t, C.c_void_p, C.c_size_t]
+-                     + [C.c_void_p, C.c_size_t, C.c_size_t] * 8
+-                     + [C.c_void_p, C.c_size_t, C.c_void_p, C.c_size_t])
+-        for call in (self.call, self.recover_call):
+-            call.argtypes, call.restype = arguments, C.c_int
+-        _physical_mapping(principal)
+-
+-    def _invoke(self, call, peer, data, transaction, payload, prepared, expected_live, expected_stage, marker):
+-        _physical_mapping(self.p)
+-        if peer is not None:
+-            peer.observation()
+-        raw_input, arena, storage, rosters = prepared
+-        marker_parent = transaction / 'mapping' if peer is not None else data / 'live'
+-        request = Request(raw_input.operation_input.collapse, expected_live, entry(data / 'live'), expected_stage,
+-                          entry(transaction / 'mapping'), (C.c_uint8 * HASH_BYTES).from_buffer_copy(marker),
+-                          (C.c_uint8 * HASH_BYTES).from_buffer_copy(self.p.core.hash_bytes(
+-                              (marker_parent / '.worldline-generation.json').read_bytes())), 0, 0)
+-        # The native helper disregards these two caller bytes and derives both
+-        # facts from real fsync/readback and the full original native decision.
+-        witness = Witness()
+-        fds = []
++            version=principal.core._lib.wl_full_physical_version_v1
++            layout=principal.core._lib.wl_full_physical_layout_v1
++            self.call=principal.core._lib.wl_full_physical_exchange_v1
++        except AttributeError as exc:raise CoreUnavailable('selected full physical native boundary unavailable') from exc
++        version.argtypes,version.restype=[],C.c_uint32
++        layout.argtypes,layout.restype=[C.c_uint32,C.c_uint32],C.c_long
++        require(version()==1,'FULL_PHYSICAL_VERSION_CHANGED')
++        for kind,typ in enumerate((Entry,Request,Witness),1):
++            require(layout(kind,0)==C.sizeof(typ) and layout(kind,1)==C.alignment(typ),'FULL_PHYSICAL_LAYOUT_CHANGED')
++            for field,(name,_type) in enumerate(typ._fields_,2):
++                require(layout(kind,field)==getattr(typ,name).offset,'FULL_PHYSICAL_FIELD_CHANGED')
++        self.call.argtypes=[C.c_int]*3+[C.c_void_p,C.c_size_t,C.c_void_p,C.c_size_t]+[C.c_void_p,C.c_size_t,C.c_size_t]*8+[C.c_void_p,C.c_size_t,C.c_void_p,C.c_size_t]
++        self.call.restype=C.c_int
++    def exchange(self,peer,data,transaction,prepared,expected_live,expected_stage,marker):
++        self.p.intact();peer.observation()
++        request=Request(prepared[0].operation_input.collapse,expected_live,entry(data/'live'),expected_stage,
++            entry(transaction/'mapping'),(C.c_uint8*HASH_BYTES).from_buffer_copy(marker),
++            (C.c_uint8*HASH_BYTES).from_buffer_copy(self.p.core.hash_bytes((transaction/'mapping'/'.worldline-generation.json').read_bytes())),1,1)
++        # payload_durable/recovery_clean are established by the selected producer
++        # before this caller, retained in the complete native intent. They are not
++        # endpoint fields or authorization decisions. The C boundary recaptures.
++        raw_input,arena,storage,rosters=prepared;witness=Witness()
++        fds=[]
+         try:
+-            for path in (data, transaction, payload):
+-                protected(path, directory=True)
+-                fds.append(os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC))
+-            args = [peer.peer.descriptor() if peer is not None else -1, *fds,
+-                    C.byref(raw_input), C.sizeof(raw_input), storage, len(arena.raw)]
+-            for roster in rosters:
+-                args.extend((roster, len(roster), C.sizeof(roster)))
+-            args.extend((C.byref(request), C.sizeof(request), C.byref(witness), C.sizeof(witness)))
+-            _physical_mapping(self.p)
+-            status = call(*args)
+-            # Preserve actual attempted/errno/uncertain evidence before owner
+-            # revalidation. Refusal is not retried and uncertainty is not success.
+-            return {'status': status, 'request': raw(request).hex(), 'witness': raw(witness).hex()}
++            for path in (data,transaction):
++                protected(path,directory=True)
++                fds.append(os.open(path,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_CLOEXEC))
++            args=[peer.peer.descriptor(),*fds,C.byref(raw_input),C.sizeof(raw_input),storage,len(arena.raw)]
++            for roster in rosters:args.extend((roster,len(roster),C.sizeof(roster)))
++            args.extend((C.byref(request),C.sizeof(request),C.byref(witness),C.sizeof(witness)))
++            status=self.call(*args)
++            return {'status':status,'request':raw(request).hex(),'witness':raw(witness).hex()}
+         finally:
+-            for fd in fds:
+-                os.close(fd)
+-
+-    def exchange(self, peer, data, transaction, prepared, expected_live, expected_stage, marker, *, payload):
+-        return self._invoke(self.call, peer, data, transaction, payload, prepared, expected_live, expected_stage, marker)
+-
+-    def recover(self, data, transaction, prepared, expected_live, expected_stage, marker, *, payload):
+-        # Historical recognition cannot dispatch a syscall or mint a new peer.
+-        return self._invoke(self.recover_call, None, data, transaction, payload, prepared,
+-                            expected_live, expected_stage, marker)
++            for fd in fds:os.close(fd)
+--- source/tests/test_full_physical_exports_native.py
++++ /dev/null
+@@ -1,51 +0,0 @@
+-"""Owned ABI refusal controls only; this module must never exchange directories."""
+-import ctypes as C
+-import os
+-from pathlib import Path
+-import unittest
+-from worldline.core import Core
+-from worldline.canonical_physical import Entry, Request, Witness
+-from worldline.canonical_exchange_kernel import CanonicalExchangeKernel, Input
+-
+-class FullPhysicalExportTests(unittest.TestCase):
+-    @classmethod
+-    def setUpClass(cls):
+-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+-
+-    def test_physical_layout_and_hidden_helpers(self):
+-        version = self.core._lib.wl_full_physical_version_v1
+-        version.argtypes, version.restype = [], C.c_uint32
+-        self.assertEqual(version(), 1)
+-        layout = self.core._lib.wl_full_physical_layout_v1
+-        layout.argtypes, layout.restype = [C.c_uint32, C.c_uint32], C.c_long
+-        for kind, typ in enumerate((Entry, Request, Witness), 1):
+-            self.assertEqual(layout(kind, 0), C.sizeof(typ))
+-            self.assertEqual(layout(kind, 1), C.alignment(typ))
+-            for field, (name, _) in enumerate(typ._fields_, 2):
+-                self.assertEqual(layout(kind, field), getattr(typ, name).offset)
+-        for symbol in ('wl_internal_full_physical_version_v1',
+-                       'wl_internal_full_physical_layout_v1',
+-                       'wl_internal_full_physical_exchange_v1', 'wl_internal_full_physical_recover_v1',
+-                       'wl_actuator_exchange', 'wl_actuator_recover'):
+-            with self.assertRaises(AttributeError):
+-                getattr(self.core._lib, symbol)
+-
+-    def test_invalid_descriptor_cannot_exchange_or_modify_witness(self):
+-        kernel = CanonicalExchangeKernel(self.core)
+-        for symbol in ('wl_full_physical_exchange_v1', 'wl_full_physical_recover_v1'):
+-            call = getattr(self.core._lib, symbol)
+-            call.argtypes = [C.c_int] * 4 + kernel.call.argtypes[:-2] + [C.c_void_p, C.c_size_t, C.c_void_p, C.c_size_t]
+-            call.restype = C.c_int
+-            raw, physical, witness = Input(), Request(), Witness()
+-            witness.exchange_attempted = 1
+-            original = C.string_at(C.byref(witness), C.sizeof(witness))
+-            args = [-1] * 4 + [None if typ is C.c_void_p else 0 for typ in kernel.call.argtypes[:-2]]
+-            args[4:6] = [C.byref(raw), C.sizeof(raw)]
+-            args.extend((C.byref(physical), C.sizeof(physical), C.byref(witness), C.sizeof(witness)))
+-            self.assertEqual(call(*args), 1)
+-            self.assertEqual(C.string_at(C.byref(witness), C.sizeof(witness)), original)
+-
+-    def test_null_actuation_request_is_invalid(self):
+-        call = self.core._lib.wl_actuation_decide
+-        call.argtypes, call.restype = [C.c_void_p], C.c_ubyte
+-        self.assertEqual(call(None), 255)
+--- source/tests/test_full_physical_syscalls_native.py
++++ /dev/null
+@@ -1,296 +0,0 @@
+-"""Actual native policy/syscall controls in temporary namespace-owned trees.
+-
+-Run only in a disposable root user namespace, never on authoritative state.
+-This mirrors canonical_exchange_controls.adb's accepted pure value fixture;
+-it establishes no installed-principal/provider/custody claim. No mocked native
+-verdict or fsync is used. Missing namespace/second-filesystem premises fail.
+-"""
+-import ctypes as C
+-import errno
+-import os
+-from pathlib import Path
+-import socket
+-import tempfile
+-import unittest
+-from worldline.core import Core, CCollapseRequest, COptionalHash, C_HASH
+-from worldline import operation_authority_kernel as A
+-from worldline import recovery_authority_kernel_v3 as R
+-from worldline import resource_run_ledger as L
+-from worldline.canonical_exchange_kernel import CanonicalExchangeKernel, Input, Result, Material
+-from worldline.canonical_physical import Request, Witness, entry
+-from worldline.chain_authority import _digest, _Row
+-
+-
+-def accepted_frame(core):
+-    # Literal fixture values are retained from original native semantic controls.
+-    one = bytes([1]) * 32
+-    other = bytes([2]) * 32
+-    zero = A.Quantity(1, 0, 1, 0)
+-    number_one = L.RawQuantity(0, 1, 1)
+-    epoch = L.RawEpoch(1, L.RawQuantity(0, 1, 0))
+-    identifier = L.RawId(1, 1, 32)
+-    absent = L.RawId(0, 1, 0)
+-    collapse = CCollapseRequest()
+-    collapse.candidate_state = 2
+-    collapse.phase = collapse.evaluation_mode = 0
+-    collapse.conflicts = collapse.foreign_writes = collapse.roster_complete = 1
+-    collapse.generation_before.present = collapse.generation_after.present = 1
+-    collapse.generation_before.value_le[0] = collapse.generation_after.value_le[0] = 41
+-    for names, value in ((('expected_parent', 'candidate_parent'), 1),
+-                         (('expected_subject', 'evidence_subject'), 2),
+-                         (('expected_base', 'candidate_base'), 3),
+-                         (('expected_delta', 'candidate_delta'), 4),
+-                         (('expected_root_set', 'candidate_root_set'), 5),
+-                         (('expected_staged_root', 'actual_staged_root'), 6),
+-                         (('staged_content_root', 'tested_root'), 7),
+-                         (('current_requirement', 'resulting_requirement', 'evaluated_requirement'), 8),
+-                         (('declared_verifiers', 'executed_verifiers'), 9),
+-                         (('registered_watch_set', 'watched_set'), 10)):
+-        for name in names:
+-            setattr(collapse, name, COptionalHash(1, C_HASH.from_buffer_copy(bytes([value]) * 32)))
+-    bound = A.Binding()
+-    bound.action = A.OPS.index('collapse.commit')
+-    for index in range(len(A.FIELDS)):
+-        bound.id[index] = _digest(one)
+-    bound.id[A.FIELDS.index('requirement')] = _digest(bytes([8]) * 32)
+-    for name in ('peer', 'preparer', 'owner', 'target_owner'):
+-        setattr(bound, name, A.UID(1, os.geteuid()))
+-    bound.policy_epoch = bound.resource_epoch = zero
+-    grant = A.Grant()
+-    for name in ('id', 'issuer', 'instance', 'root_set', 'policy'):
+-        setattr(grant, name, _digest(one))
+-    grant.subject = grant.owner = A.UID(1, os.geteuid())
+-    grant.allowed = (C.c_uint8 * len(A.OPS))(*([1] * len(A.OPS)))
+-    grant.epoch = grant.issued_at = zero
+-    grant.ceiling = grant.expires_at = A.Quantity(1, 0, 1, 32)
+-    use = A.Use(bound, A.STATES.index('RESERVED'))
+-    recovery = R.Binding()
+-    for name in R.HASH_FIELDS:
+-        setattr(recovery, name, R.OptionalDigest(1, R.Digest.from_buffer_copy(one)))
+-    recovery.policy_epoch = recovery.resource_epoch = R.OptionalEpoch(1, 0, 1, 0)
+-    for name, value in (('subject', 2), ('staged_root', 6), ('current_requirement', 8),
+-                        ('resulting_requirement', 8), ('staged_mapping', 2)):
+-        setattr(recovery, name, R.OptionalDigest(1, R.Digest.from_buffer_copy(bytes([value]) * 32)))
+-    material = Material()
+-    for name in ('worker_issued', 'worker_recovered', 'canonical_issued', 'canonical_recovered'):
+-        setattr(material, name, recovery)
+-    material.worker_native = R.Native(R.OptionalDigest(1, R.Digest.from_buffer_copy(other)),
+-                                     recovery.staged_root)
+-    material.canonical_native = R.Native(R.OptionalDigest(1, R.Digest.from_buffer_copy(one)),
+-                                        R.OptionalDigest(1, R.Digest.from_buffer_copy(one)))
+-    for name in ('worker_receipt_genesis', 'owner_receipt_genesis', 'worker_causal_genesis',
+-                 'owner_causal_genesis', 'quarantine_head'):
+-        setattr(material, name, R.OptionalDigest(1, R.Digest.from_buffer_copy(one)))
+-    receipt_head = core.receipt_link(one, one)
+-    causal_head = core.causal_link(one, one)
+-    material.worker_receipt_head = R.OptionalDigest(1, R.Digest.from_buffer_copy(receipt_head))
+-    material.worker_causal_head = R.OptionalDigest(1, R.Digest.from_buffer_copy(causal_head))
+-    evidence = A.Evidence()
+-    evidence.effect_binding = evidence.no_effect_binding = evidence.owner_resolution = bound
+-    for name in ('actual_receipt_root', 'actual_causal_root', 'quarantine_head',
+-                 'witnessed_receipt_head', 'witnessed_causal_head', 'original_use'):
+-        setattr(evidence, name, _digest(one))
+-    historical = R.Binding()
+-    for name in R.HASH_FIELDS:
+-        setattr(historical, name, R.OptionalDigest(1, R.Digest.from_buffer_copy(one)))
+-    historical.policy_epoch = historical.resource_epoch = R.OptionalEpoch(1, 0, 1, 0)
+-    evidence.recovery = R.Request(3, 1, 1, 0, 0, historical, historical,
+-                                 R.Native(R.OptionalDigest(1, R.Digest.from_buffer_copy(one)),
+-                                          R.OptionalDigest(1, R.Digest.from_buffer_copy(one))))
+-    context = L.RawContext(*(identifier for _ in range(8)), epoch)
+-    resource_binding = L.RawBinding(*(identifier for _ in range(9)), epoch)
+-    state = L.RawState(context, epoch, identifier, identifier, number_one, number_one, L.RawQuantity(0, 1, 0))
+-    row = L.RawRow(context, resource_binding, absent, 0, 0, number_one,
+-                   L.RawEpoch(0, L.RawQuantity(0, 1, 0)), absent, absent, absent, absent)
+-    observed = L.RawNative(context, epoch, resource_binding, absent, absent, absent, identifier,
+-                           L.LIVENESS.index('NEVER_LAUNCHED'))
+-    raw = Input()
+-    raw.operation_input.authority = A.Input(1, 0, bound, zero, evidence)
+-    raw.operation_input.state = state
+-    raw.operation_input.bound = resource_binding
+-    raw.operation_input.requester = identifier
+-    raw.operation_input.peer = A.UID(1, os.geteuid())
+-    raw.operation_input.collapse = collapse
+-    raw.material = material
+-    raw.before = 2  # original Worker_Observed
+-    raw.mode = 0
+-    receipts = (_Row * 1)(_Row(_digest(one), _digest(one), _digest(one), _digest(receipt_head)))
+-    events = (_Row * 1)(_Row(_digest(one), _digest(one), _digest(one), _digest(causal_head)))
+-    rosters = ((A.Grant * 1)(grant), (A.Use * 1)(use), (L.RawRow * 1)(row),
+-               (L.RawNative * 1)(observed), receipts, events, receipts, events)
+-    storage = (C.c_uint8 * len(one)).from_buffer_copy(one)
+-    return raw, storage, rosters
+-
+-
+-class FullPhysicalSyscallTests(unittest.TestCase):
+-    @classmethod
+-    def setUpClass(cls):
+-        if os.geteuid() != 0 or os.environ.get('WORLDLINE_TEMP_PHYSICAL_NAMESPACE') != '1':
+-            raise RuntimeError('run in explicitly selected disposable root user namespace')
+-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+-        cls.kernel = CanonicalExchangeKernel(cls.core)
+-        cls.arguments = [C.c_int] * 4 + cls.kernel.call.argtypes[:-2] + [C.c_void_p, C.c_size_t] * 2
+-        cls.exchange = cls.core._lib.wl_full_physical_exchange_v1
+-        cls.recover = cls.core._lib.wl_full_physical_recover_v1
+-        for call in (cls.exchange, cls.recover):
+-            call.argtypes, call.restype = cls.arguments, C.c_int
+-
+-    def native(self, frame):
+-        raw, storage, rosters = frame
+-        args = [C.byref(raw), C.sizeof(raw), storage, C.sizeof(storage)]
+-        for roster in rosters:
+-            args.extend((roster, len(roster), C.sizeof(roster)))
+-        output = Result()
+-        self.assertEqual(self.kernel.call(*args, C.byref(output), C.sizeof(output)), 0)
+-        return output.disposition
+-
+-    def tree(self, base, *, data_parent=None):
+-        data = (base if data_parent is None else data_parent) / 'data'
+-        transaction, payload = base / 'transaction', base / 'payload'
+-        for path in (data, transaction, payload, data / 'live', transaction / 'mapping'):
+-            path.mkdir(mode=0o700)
+-        for root in ('first-root', 'second-root'):
+-            slot = payload / root
+-            slot.mkdir(mode=0o700)
+-            (slot / 'bytes').write_bytes(b'actual native durability readback\x00\xff')
+-            os.link(slot / 'bytes', slot / 'hardlink')
+-            os.symlink('bytes', slot / 'symlink')
+-            os.symlink(str(slot), transaction / 'mapping' / root)
+-        marker = b'{"schemaVersion":1,"transactionId":"temporary-original"}'
+-        (transaction / 'mapping' / '.worldline-generation.json').write_bytes(marker)
+-        (data / 'live' / '.worldline-generation.json').write_bytes(b'original-before')
+-        return data, transaction, payload, marker
+-
+-    def invoke(self, call, frame, paths, request, peer, *, output=None):
+-        raw, storage, rosters = frame
+-        data, transaction, payload, _marker = paths
+-        fds = []
+-        output = Witness() if output is None else output
+-        try:
+-            for path in (data, transaction, payload):
+-                fds.append(os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC))
+-            args = [peer, *fds, C.byref(raw), C.sizeof(raw), storage, C.sizeof(storage)]
+-            for roster in rosters:
+-                args.extend((roster, len(roster), C.sizeof(roster)))
+-            return call(*args, C.byref(request), C.sizeof(request), C.byref(output), C.sizeof(Witness)), output
+-        finally:
+-            for fd in fds:
+-                os.close(fd)
+-
+-    def request(self, frame, paths):
+-        data, transaction, _payload, marker = paths
+-        live, stage = entry(data / 'live'), entry(transaction / 'mapping')
+-        digest = C_HASH.from_buffer_copy(self.core.hash_bytes(marker))
+-        return Request(frame[0].operation_input.collapse, live, live, stage, stage, digest, digest, 0, 0)
+-
+-    def test_genuine_exchange_and_historical_durable_recovery(self):
+-        with tempfile.TemporaryDirectory() as temporary:
+-            left, right = socket.socketpair()
+-            with left, right:
+-                paths = self.tree(Path(temporary))
+-                frame = accepted_frame(self.core)
+-                self.assertEqual(self.native(frame), 3)
+-                request = self.request(frame, paths)
+-                status, witness = self.invoke(self.exchange, frame, paths, request, left.fileno())
+-                self.assertEqual(status, 0)
+-                self.assertEqual((witness.exchange_attempted, witness.syscall_errno), (1, 0))
+-                self.assertEqual((witness.payload_durable, witness.recovery_clean, witness.parents_durable), (1, 1, 1))
+-                self.assertEqual((request.payload_durable, request.recovery_clean), (0, 0))
+-                self.assertEqual(entry(paths[0] / 'live').inode, request.expected_stage.inode)
+-                self.assertEqual(entry(paths[1] / 'mapping').inode, request.expected_live.inode)
+-                frame[0].before = 3  # original Canonical_Intent
+-                frame[0].material.canonical_native = frame[0].material.worker_native
+-                frame[2][0][0].state = 1  # revoked current grant cannot erase genuine prior effect
+-                self.assertEqual(self.native(frame), 4)
+-                for _ in range(2):
+-                    status, recovery = self.invoke(self.recover, frame, paths, request, -1)
+-                    self.assertEqual(status, 0)
+-                    self.assertEqual(recovery.exchange_attempted, 0)
+-                    self.assertEqual((recovery.payload_durable, recovery.recovery_clean, recovery.parents_durable), (1, 1, 1))
+-                    self.assertEqual(entry(paths[0] / 'live').inode, request.expected_stage.inode)
+-                    self.assertEqual(entry(paths[1] / 'mapping').inode, request.expected_live.inode)
+-
+-    def test_refused_grant_and_asserted_success_cannot_exchange(self):
+-        with tempfile.TemporaryDirectory() as temporary:
+-            left, right = socket.socketpair()
+-            with left, right:
+-                paths = self.tree(Path(temporary))
+-                frame = accepted_frame(self.core)
+-                request = self.request(frame, paths)
+-                request.payload_durable = request.recovery_clean = 1
+-                frame[2][0][0].state = 1
+-                self.assertEqual(self.native(frame), 0)
+-                status, witness = self.invoke(self.exchange, frame, paths, request, left.fileno())
+-                self.assertEqual(status, 1)
+-                self.assertEqual((witness.exchange_attempted, witness.payload_durable, witness.recovery_clean), (0, 0, 0))
+-                self.assertEqual(entry(paths[0] / 'live').inode, request.expected_live.inode)
+-                self.assertEqual(entry(paths[1] / 'mapping').inode, request.expected_stage.inode)
+-
+-    def test_marker_mismatch_is_not_repaired_or_exchanged(self):
+-        with tempfile.TemporaryDirectory() as temporary:
+-            left, right = socket.socketpair()
+-            with left, right:
+-                paths = self.tree(Path(temporary))
+-                frame = accepted_frame(self.core)
+-                request = self.request(frame, paths)
+-                request.expected_marker_digest[0] ^= 1
+-                self.assertEqual(self.native(frame), 3)
+-                status, witness = self.invoke(self.exchange, frame, paths, request, left.fileno())
+-                self.assertEqual(status, 1)
+-                self.assertEqual(witness.exchange_attempted, 0)
+-                self.assertEqual(entry(paths[0] / 'live').inode, request.expected_live.inode)
+-                self.assertEqual(entry(paths[1] / 'mapping').inode, request.expected_stage.inode)
+-
+-    def test_output_alias_refuses_without_input_or_filesystem_mutation(self):
+-        with tempfile.TemporaryDirectory() as temporary:
+-            left, right = socket.socketpair()
+-            with left, right:
+-                paths = self.tree(Path(temporary))
+-                frame = accepted_frame(self.core)
+-                request = self.request(frame, paths)
+-                self.assertEqual(self.native(frame), 3)
+-                original = C.string_at(C.byref(frame[0]), C.sizeof(frame[0]))
+-                status, _ = self.invoke(self.exchange, frame, paths, request, left.fileno(), output=frame[0])
+-                self.assertEqual(status, 1)
+-                self.assertEqual(C.string_at(C.byref(frame[0]), C.sizeof(frame[0])), original)
+-                self.assertEqual(entry(paths[0] / 'live').inode, request.expected_live.inode)
+-                self.assertEqual(entry(paths[1] / 'mapping').inode, request.expected_stage.inode)
+-
+-    def test_wrong_payload_inode_cannot_supply_durable_fact(self):
+-        with tempfile.TemporaryDirectory() as temporary:
+-            left, right = socket.socketpair()
+-            with left, right:
+-                base = Path(temporary)
+-                paths = self.tree(base)
+-                outside = base / 'unjoined-root'
+-                outside.mkdir(mode=0o700)
+-                link = paths[1] / 'mapping' / 'first-root'
+-                link.unlink()
+-                os.symlink(str(outside), link)
+-                frame = accepted_frame(self.core)
+-                request = self.request(frame, paths)
+-                request.payload_durable = request.recovery_clean = 1
+-                self.assertEqual(self.native(frame), 3)
+-                status, witness = self.invoke(self.exchange, frame, paths, request, left.fileno())
+-                self.assertEqual(status, 2)
+-                self.assertEqual((witness.exchange_attempted, witness.payload_durable), (0, 0))
+-                self.assertEqual(entry(paths[0] / 'live').inode, request.expected_live.inode)
+-                self.assertEqual(entry(paths[1] / 'mapping').inode, request.expected_stage.inode)
+-
+-    def test_actual_cross_device_syscall_error_preserves_both_mappings(self):
+-        second = os.environ.get('WORLDLINE_PHYSICAL_SECOND_TMP', '/dev/shm')
+-        with tempfile.TemporaryDirectory() as first, tempfile.TemporaryDirectory(dir=second) as other:
+-            left, right = socket.socketpair()
+-            with left, right:
+-                paths = self.tree(Path(other), data_parent=Path(first))
+-                self.assertNotEqual(paths[0].stat().st_dev, paths[1].stat().st_dev,
+-                                    'control needs actual distinct temporary filesystems')
+-                frame = accepted_frame(self.core)
+-                request = self.request(frame, paths)
+-                self.assertEqual(self.native(frame), 3)
+-                status, witness = self.invoke(self.exchange, frame, paths, request, left.fileno())
+-                self.assertEqual(status, 2)
+-                self.assertEqual((witness.exchange_attempted, witness.syscall_errno), (1, errno.EXDEV))
+-                self.assertEqual((witness.payload_durable, witness.recovery_clean, witness.parents_durable), (1, 1, 0))
+-                self.assertEqual(entry(paths[0] / 'live').inode, request.expected_live.inode)
+-                self.assertEqual(entry(paths[1] / 'mapping').inode, request.expected_stage.inode)

@@ -1,0 +1,333 @@
+   function Canonical_Exchange_Version return Interfaces.Unsigned_32 is
+   begin
+      declare
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
+      begin
+         return (1);
+      end;
+   exception
+      when others => return 0;
+   end Canonical_Exchange_Version;
+   function Canonical_Exchange_Layout(Kind,Field:Interfaces.Unsigned_32) return Interfaces.C.long is
+   begin
+      declare
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
+   package V renames Worldline.Canonical_Exchange_Wire;
+   package X renames V.X; package W renames V.W;
+   use System.Storage_Elements; use type System.Address;
+   use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
+   use type X.A.Q.Byte_Count;
+   begin case Kind is
+when 1 => declare T:V.Raw_Material; begin case Field is
+when 0=>return V.Raw_Material'Size/System.Storage_Unit;
+when 1=>return V.Raw_Material'Alignment;
+when 2=>return T.Worker_Issued'Position;
+when 3=>return T.Worker_Recovered'Position;
+when 4=>return T.Canonical_Issued'Position;
+when 5=>return T.Canonical_Recovered'Position;
+when 6=>return T.Worker_Native'Position;
+when 7=>return T.Canonical_Native'Position;
+when 8=>return T.Worker_Receipt_Genesis'Position;
+when 9=>return T.Owner_Receipt_Genesis'Position;
+when 10=>return T.Worker_Receipt_Head'Position;
+when 11=>return T.Worker_Causal_Genesis'Position;
+when 12=>return T.Owner_Causal_Genesis'Position;
+when 13=>return T.Worker_Causal_Head'Position;
+when 14=>return T.Quarantine_Head'Position;
+when others=>return -1; end case; end;
+when 2 => declare T:V.Raw_Input; begin case Field is
+when 0=>return V.Raw_Input'Size/System.Storage_Unit;
+when 1=>return V.Raw_Input'Alignment;
+when 2=>return T.Operation_Input'Position;
+when 3=>return T.Material'Position;
+when 4=>return T.Before'Position;
+when 5=>return T.Mode'Position;
+when others=>return -1; end case; end;
+when 3 => declare T:V.Raw_Result; begin case Field is
+when 0=>return V.Raw_Result'Size/System.Storage_Unit;
+when 1=>return V.Raw_Result'Alignment;
+when 2=>return T.Disposition'Position;
+when others=>return -1; end case; end;
+when others=>return -1; end case; 
+   exception when others=>return -1;
+      end;
+   exception
+      when others => return -1;
+   end Canonical_Exchange_Layout;
+   function Canonical_Exchange_Decide(Input:System.Address; Input_Length:Interfaces.C.size_t;
+      Arena:System.Address; Arena_Length:Interfaces.C.size_t;
+      Grants:System.Address; Grants_Count,Grants_Length:Interfaces.C.size_t;
+      Uses:System.Address; Uses_Count,Uses_Length:Interfaces.C.size_t;
+      Rows:System.Address; Rows_Count,Rows_Length:Interfaces.C.size_t;
+      Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+      Worker_Receipts:System.Address; Worker_Receipts_Count,Worker_Receipts_Length:Interfaces.C.size_t;
+      Worker_Events:System.Address; Worker_Events_Count,Worker_Events_Length:Interfaces.C.size_t;
+      Effect_Receipts:System.Address; Effect_Receipts_Count,Effect_Receipts_Length:Interfaces.C.size_t;
+      Effect_Events:System.Address; Effect_Events_Count,Effect_Events_Length:Interfaces.C.size_t;
+      Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int is
+   begin
+      declare
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
+   package V renames Worldline.Canonical_Exchange_Wire;
+   package X renames V.X; package W renames V.W;
+   use System.Storage_Elements; use type System.Address;
+   use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
+   use type X.A.Q.Byte_Count;
+   function Shape(P:System.Address; Count,Length,Stride:Interfaces.C.size_t; Alignment:Integer_Address) return Boolean is
+     (Stride>0 and then Count<=Interfaces.C.size_t(X.A.Q.Byte_Count'Last)
+      and then Count<=Interfaces.C.size_t'Last/Stride and then Length=Count*Stride
+      and then (Length=0 or else (P/=System.Null_Address
+        and then Length<=Interfaces.C.size_t(Storage_Offset'Last)
+        and then Integer_Address(Length-1)<=Integer_Address'Last-To_Integer(P)
+        and then To_Integer(P) mod Alignment=0)));
+   type Input_Access is access all V.Raw_Input; type Output_Access is access all V.Raw_Result;
+   type Byte_Access is access all X.A.Q.Byte;
+   function In_At is new Ada.Unchecked_Conversion(System.Address,Input_Access);
+   function Out_At is new Ada.Unchecked_Conversion(System.Address,Output_Access);
+   function Byte_At is new Ada.Unchecked_Conversion(System.Address,Byte_Access);
+   type Grant_Access is access all W.W.Raw_Grant;
+   function Grant_At is new Ada.Unchecked_Conversion(System.Address,Grant_Access);
+   type Use_Access is access all W.W.Raw_Use;
+   function Use_At is new Ada.Unchecked_Conversion(System.Address,Use_Access);
+   type Row_Access is access all W.L.Raw_Row;
+   function Row_At is new Ada.Unchecked_Conversion(System.Address,Row_Access);
+   type Native_Access is access all W.L.Raw_Native;
+   function Native_At is new Ada.Unchecked_Conversion(System.Address,Native_Access);
+   type Chain_Access is access all W.W.C.Raw_Row;
+   function Chain_At is new Ada.Unchecked_Conversion(System.Address,Chain_Access);
+   begin
+      if not Shape(Input,1,Input_Length,V.Raw_Input'Size/System.Storage_Unit,V.Raw_Input'Alignment)
+        or else not Shape(Output,1,Output_Length,V.Raw_Result'Size/System.Storage_Unit,V.Raw_Result'Alignment)
+        or else not Shape(Arena,Arena_Length,Arena_Length,1,1)
+        or else not Shape(Grants,Grants_Count,Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+        or else not Shape(Uses,Uses_Count,Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+        or else not Shape(Rows,Rows_Count,Rows_Length,W.L.Raw_Row'Size/System.Storage_Unit,W.L.Raw_Row'Alignment)
+        or else not Shape(Observed,Observed_Count,Observed_Length,W.L.Raw_Native'Size/System.Storage_Unit,W.L.Raw_Native'Alignment)
+        or else not Shape(Worker_Receipts,Worker_Receipts_Count,Worker_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Worker_Events,Worker_Events_Count,Worker_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Effect_Receipts,Effect_Receipts_Count,Effect_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Effect_Events,Effect_Events_Count,Effect_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+      then return -1; end if;
+      declare
+         Raw:constant V.Raw_Input:=In_At(Input).all;
+         Data:X.A.Q.Byte_Array(1..X.A.Q.Byte_Count(Arena_Length));
+         G:X.A.Grants(1..X.A.Q.Byte_Count(Grants_Count));
+         H:X.A.Uses(1..X.A.Q.Byte_Count(Uses_Count));
+         R:X.L.Row_Array(1..X.A.Q.Byte_Count(Rows_Count));
+         N:X.L.Native_Array(1..X.A.Q.Byte_Count(Observed_Count));
+         WR:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Worker_Receipts_Count));
+         WE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Worker_Events_Count));
+         ER:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Effect_Receipts_Count));
+         EE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Effect_Events_Count));
+      begin
+         for I in Data'Range loop Data(I):=Byte_At(Arena+Storage_Offset(I-1)).all; end loop;
+         if not V.Well_Formed(Data,Raw) then return -1; end if;
+         for I in G'Range loop declare T:constant W.W.Raw_Grant:=Grant_At(Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+         begin if not W.W.Well_Formed(T) then return -1; end if; G(I):=W.W.Decode(T); end; end loop;
+         for I in H'Range loop declare T:constant W.W.Raw_Use:=Use_At(Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+         begin if not W.W.Well_Formed(T) then return -1; end if; H(I):=W.W.Decode(T); end; end loop;
+         for I in R'Range loop declare T:constant W.L.Raw_Row:=Row_At(Rows+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Row'Size/System.Storage_Unit))).all;
+         begin if not W.L.Well_Formed(Data,T) then return -1; end if; R(I):=W.L.Decode(Data,T); end; end loop;
+         for I in N'Range loop declare T:constant W.L.Raw_Native:=Native_At(Observed+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Native'Size/System.Storage_Unit))).all;
+         begin if not W.L.Well_Formed(Data,T) then return -1; end if; N(I):=W.L.Decode(Data,T); end; end loop;
+         for I in WR'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Worker_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         begin if not W.W.C.Well_Formed(T) then return -1; end if; WR(I):=W.W.C.Decode(T); end; end loop;
+         for I in WE'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Worker_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         begin if not W.W.C.Well_Formed(T) then return -1; end if; WE(I):=W.W.C.Decode(T); end; end loop;
+         for I in ER'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Effect_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         begin if not W.W.C.Well_Formed(T) then return -1; end if; ER(I):=W.W.C.Decode(T); end; end loop;
+         for I in EE'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Effect_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         begin if not W.W.C.Well_Formed(T) then return -1; end if; EE(I):=W.W.C.Decode(T); end; end loop;
+         -- Every selected input/arena/complete roster has been copied before
+         -- any aliased output is touched. Raw address validity remains OPEN.
+         declare O:constant W.Raw_Input:=Raw.Operation_Input;
+                 Answer : constant X.Decision := X.Decide(Data,G,H,W.W.Decode(O.Authority.Bound),
+               W.W.Decode(O.Authority.Now).Value,W.W.Decode(Data,O.Authority.Facts),
+               W.L.Decode(Data,O.State),R,N,W.L.Decode(Data,O.Bound),W.L.Decode(Data,O.Requester),
+               W.W.Decode(O.Peer),O.Collapse,V.Decode(Data,Raw.Material),X.Phase'Val(Raw.Before),
+               X.Command'Val(Raw.Mode),WR,WE,ER,EE);
+         begin
+            Flush_Native_Diagnostic_Trace;
+            Out_At(Output).Disposition:=X.Decision'Pos(Answer);
+         end;
+      end;
+      return 0;
+   exception when others=>
+      Flush_Native_Diagnostic_Trace;
+      return -1;
+         end;
+   exception
+      when others => return -1;
+   end Canonical_Exchange_Decide;
+   function Canonical_Owner_Completion_Version return Interfaces.Unsigned_32 is
+   begin
+      declare
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
+      begin
+         return (1);
+      end;
+   exception
+      when others => return 0;
+   end Canonical_Owner_Completion_Version;
+   function Canonical_Owner_Completion_Layout(Kind,Field:Interfaces.Unsigned_32) return Interfaces.C.long is
+   begin
+      declare
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
+   package V renames Worldline.Canonical_Owner_Completion_Wire;
+   package Y renames V.Y; package X renames Y.X; package W renames V.W;
+   use System.Storage_Elements; use type System.Address;
+   use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
+   use type X.A.Q.Byte_Count;
+   begin case Kind is
+      when 1=>declare T:V.Raw_Input; begin case Field is
+         when 0=>return V.Raw_Input'Size/System.Storage_Unit;
+         when 1=>return V.Raw_Input'Alignment;
+         when 2=>return T.Historical'Position;
+         when 3=>return T.Current'Position;
+         when others=>return -1; end case; end;
+      when 2=>declare T:V.Raw_Result; begin case Field is
+         when 0=>return V.Raw_Result'Size/System.Storage_Unit;
+         when 1=>return V.Raw_Result'Alignment;
+         when 2=>return T.Disposition'Position;
+         when others=>return -1; end case; end;
+      when others=>return -1; end case;
+   
+   exception when others=>return -1;
+      end;
+   exception
+      when others => return -1;
+   end Canonical_Owner_Completion_Layout;
+   function Canonical_Owner_Completion_Decide(Input:System.Address; Input_Length:Interfaces.C.size_t;
+      Arena:System.Address; Arena_Length:Interfaces.C.size_t;
+      Grants:System.Address; Grants_Count,Grants_Length:Interfaces.C.size_t;
+      Uses:System.Address; Uses_Count,Uses_Length:Interfaces.C.size_t;
+      Rows:System.Address; Rows_Count,Rows_Length:Interfaces.C.size_t;
+      Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+      Worker_Receipts:System.Address; Worker_Receipts_Count,Worker_Receipts_Length:Interfaces.C.size_t;
+      Worker_Events:System.Address; Worker_Events_Count,Worker_Events_Length:Interfaces.C.size_t;
+      Effect_Receipts:System.Address; Effect_Receipts_Count,Effect_Receipts_Length:Interfaces.C.size_t;
+      Effect_Events:System.Address; Effect_Events_Count,Effect_Events_Length:Interfaces.C.size_t;
+      Current_Grants:System.Address; Current_Grants_Count,Current_Grants_Length:Interfaces.C.size_t;
+      Current_Uses:System.Address; Current_Uses_Count,Current_Uses_Length:Interfaces.C.size_t;
+      Current_Receipts:System.Address; Current_Receipts_Count,Current_Receipts_Length:Interfaces.C.size_t;
+      Current_Events:System.Address; Current_Events_Count,Current_Events_Length:Interfaces.C.size_t;
+      Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int is
+   begin
+      declare
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
+   package V renames Worldline.Canonical_Owner_Completion_Wire;
+   package Y renames V.Y; package X renames Y.X; package W renames V.W;
+   use System.Storage_Elements; use type System.Address;
+   use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
+   use type X.A.Q.Byte_Count;
+   function Shape(P:System.Address; Count,Length,Stride:Interfaces.C.size_t; Alignment:Integer_Address) return Boolean is
+     (Stride>0 and then Count<=Interfaces.C.size_t(X.A.Q.Byte_Count'Last)
+      and then Count<=Interfaces.C.size_t'Last/Stride and then Length=Count*Stride
+      and then (Length=0 or else (P/=System.Null_Address
+        and then Length<=Interfaces.C.size_t(Storage_Offset'Last)
+        and then Integer_Address(Length-1)<=Integer_Address'Last-To_Integer(P)
+        and then To_Integer(P) mod Alignment=0)));
+
+   type Input_Access is access all V.Raw_Input;
+   type Output_Access is access all V.Raw_Result;
+   type Byte_Access is access all X.A.Q.Byte;
+   function In_At is new Ada.Unchecked_Conversion(System.Address,Input_Access);
+   function Out_At is new Ada.Unchecked_Conversion(System.Address,Output_Access);
+   function Byte_At is new Ada.Unchecked_Conversion(System.Address,Byte_Access);
+   type W_W_Raw_Grant_Access is access all W.W.Raw_Grant;
+   function W_W_Raw_Grant_At is new Ada.Unchecked_Conversion(System.Address,W_W_Raw_Grant_Access);
+   type W_W_Raw_Use_Access is access all W.W.Raw_Use;
+   function W_W_Raw_Use_At is new Ada.Unchecked_Conversion(System.Address,W_W_Raw_Use_Access);
+   type W_L_Raw_Row_Access is access all W.L.Raw_Row;
+   function W_L_Raw_Row_At is new Ada.Unchecked_Conversion(System.Address,W_L_Raw_Row_Access);
+   type W_L_Raw_Native_Access is access all W.L.Raw_Native;
+   function W_L_Raw_Native_At is new Ada.Unchecked_Conversion(System.Address,W_L_Raw_Native_Access);
+   type W_W_C_Raw_Row_Access is access all W.W.C.Raw_Row;
+   function W_W_C_Raw_Row_At is new Ada.Unchecked_Conversion(System.Address,W_W_C_Raw_Row_Access);
+   begin
+      if not Shape(Input,1,Input_Length,V.Raw_Input'Size/System.Storage_Unit,V.Raw_Input'Alignment)
+        or else not Shape(Output,1,Output_Length,V.Raw_Result'Size/System.Storage_Unit,V.Raw_Result'Alignment)
+        or else not Shape(Arena,Arena_Length,Arena_Length,1,1)
+        or else not Shape(Grants,Grants_Count,Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+        or else not Shape(Uses,Uses_Count,Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+        or else not Shape(Rows,Rows_Count,Rows_Length,W.L.Raw_Row'Size/System.Storage_Unit,W.L.Raw_Row'Alignment)
+        or else not Shape(Observed,Observed_Count,Observed_Length,W.L.Raw_Native'Size/System.Storage_Unit,W.L.Raw_Native'Alignment)
+        or else not Shape(Worker_Receipts,Worker_Receipts_Count,Worker_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Worker_Events,Worker_Events_Count,Worker_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Effect_Receipts,Effect_Receipts_Count,Effect_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Effect_Events,Effect_Events_Count,Effect_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Current_Grants,Current_Grants_Count,Current_Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+        or else not Shape(Current_Uses,Current_Uses_Count,Current_Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+        or else not Shape(Current_Receipts,Current_Receipts_Count,Current_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Current_Events,Current_Events_Count,Current_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+      then return -1; end if;
+      declare
+         Raw:constant V.Raw_Input:=In_At(Input).all;
+         Data:X.A.Q.Byte_Array(1..X.A.Q.Byte_Count(Arena_Length));
+         G:X.A.Grants(1..X.A.Q.Byte_Count(Grants_Count));
+         H:X.A.Uses(1..X.A.Q.Byte_Count(Uses_Count));
+         R:X.L.Row_Array(1..X.A.Q.Byte_Count(Rows_Count));
+         N:X.L.Native_Array(1..X.A.Q.Byte_Count(Observed_Count));
+         WR:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Worker_Receipts_Count));
+         WE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Worker_Events_Count));
+         ER:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Effect_Receipts_Count));
+         EE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Effect_Events_Count));
+         CG:X.A.Grants(1..X.A.Q.Byte_Count(Current_Grants_Count));
+         CH:X.A.Uses(1..X.A.Q.Byte_Count(Current_Uses_Count));
+         CR:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Current_Receipts_Count));
+         CE:X.C.Retained_Rows(1..X.A.Q.Byte_Count(Current_Events_Count));
+      begin
+         for I in Data'Range loop Data(I):=Byte_At(Arena+Storage_Offset(I-1)).all; end loop;
+         if not V.Well_Formed(Data,Raw) then return -1; end if;
+         for I in G'Range loop declare T:constant W.W.Raw_Grant:=W_W_Raw_Grant_At(Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+            begin if not W.W.Well_Formed(T) then return -1; end if; G(I):=W.W.Decode(T); end; end loop;
+         for I in H'Range loop declare T:constant W.W.Raw_Use:=W_W_Raw_Use_At(Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+            begin if not W.W.Well_Formed(T) then return -1; end if; H(I):=W.W.Decode(T); end; end loop;
+         for I in R'Range loop declare T:constant W.L.Raw_Row:=W_L_Raw_Row_At(Rows+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Row'Size/System.Storage_Unit))).all;
+            begin if not W.L.Well_Formed(Data,T) then return -1; end if; R(I):=W.L.Decode(Data,T); end; end loop;
+         for I in N'Range loop declare T:constant W.L.Raw_Native:=W_L_Raw_Native_At(Observed+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Native'Size/System.Storage_Unit))).all;
+            begin if not W.L.Well_Formed(Data,T) then return -1; end if; N(I):=W.L.Decode(Data,T); end; end loop;
+         for I in WR'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Worker_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+            begin if not W.W.C.Well_Formed(T) then return -1; end if; WR(I):=W.W.C.Decode(T); end; end loop;
+         for I in WE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Worker_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+            begin if not W.W.C.Well_Formed(T) then return -1; end if; WE(I):=W.W.C.Decode(T); end; end loop;
+         for I in ER'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Effect_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+            begin if not W.W.C.Well_Formed(T) then return -1; end if; ER(I):=W.W.C.Decode(T); end; end loop;
+         for I in EE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Effect_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+            begin if not W.W.C.Well_Formed(T) then return -1; end if; EE(I):=W.W.C.Decode(T); end; end loop;
+         for I in CG'Range loop declare T:constant W.W.Raw_Grant:=W_W_Raw_Grant_At(Current_Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+            begin if not W.W.Well_Formed(T) then return -1; end if; CG(I):=W.W.Decode(T); end; end loop;
+         for I in CH'Range loop declare T:constant W.W.Raw_Use:=W_W_Raw_Use_At(Current_Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+            begin if not W.W.Well_Formed(T) then return -1; end if; CH(I):=W.W.Decode(T); end; end loop;
+         for I in CR'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Current_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+            begin if not W.W.C.Well_Formed(T) then return -1; end if; CR(I):=W.W.C.Decode(T); end; end loop;
+         for I in CE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Current_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+            begin if not W.W.C.Well_Formed(T) then return -1; end if; CE(I):=W.W.C.Decode(T); end; end loop;
+         -- Every input/arena/complete roster is detached before output alias.
+         declare P:constant W.Raw_Input:=Raw.Historical.Operation_Input;
+                 C:constant W.W.Raw_Input:=Raw.Current;
+                 Answer : constant Y.Decision := Y.Decide(Data,G,H,
+               W.W.Decode(P.Authority.Bound),W.W.Decode(P.Authority.Now).Value,
+               W.W.Decode(Data,P.Authority.Facts),W.L.Decode(Data,P.State),R,N,
+               W.L.Decode(Data,P.Bound),W.L.Decode(Data,P.Requester),W.W.Decode(P.Peer),
+               P.Collapse,V.V.Decode(Data,Raw.Historical.Material),WR,WE,ER,EE,
+               CG,CH,W.W.Decode(C.Bound),W.W.Decode(Data,C.Facts),CR,CE);
+         begin
+            Flush_Native_Diagnostic_Trace;
+            Out_At(Output).Disposition:=Y.Decision'Pos(Answer);
+         end;
+      end;
+      return 0;
+   exception when others=>
+      Flush_Native_Diagnostic_Trace;
+      return -1;
+         end;
+   exception
+      when others => return -1;
+   end Canonical_Owner_Completion_Decide;

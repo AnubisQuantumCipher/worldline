@@ -1,0 +1,53 @@
+--- b/core/worldline-excluded_source_owner.adb
++++ a/core/worldline-excluded_source_owner.adb
+@@ -137,7 +137,6 @@
+       declare B : constant E.Bytes := V.Bytes_Value (D, Raw);
+               Start : E.Count := B'First; begin
+          for Stop in B'Range loop
+-            pragma Loop_Invariant (Start in B'First .. Stop);
+             if B (Stop) = 10 then
+                if Stop - Start >= Name'Length and then
+                  (for all I in Name'Range => B (Start + E.Count (I - Name'First)) = Character'Pos (Name (I))) then
+@@ -146,13 +145,9 @@
+                   declare Cursor : E.Count := Start + Name'Length;
+                           First : E.Count := 0; begin
+                      while Cursor < Stop loop
+-                        pragma Loop_Invariant (Cursor in Start .. Stop);
+-                        pragma Loop_Variant (Increases => Cursor);
+                         if B (Cursor) in Character'Pos ('0') .. Character'Pos ('9') then
+                            First := Cursor;
+                            while Cursor < Stop and then B (Cursor) in Character'Pos ('0') .. Character'Pos ('9') loop
+-                              pragma Loop_Invariant (Cursor in First .. Stop);
+-                              pragma Loop_Variant (Increases => Cursor);
+                               Cursor := Cursor + 1;
+                            end loop;
+                            if Repeat then
+@@ -333,17 +328,9 @@
+             Offset, Major, Minor, Inode : Valid_Big_Integer;
+          begin
+             for T in Tokens'Range loop
+-               while Cursor < B'Last and then B (Cursor) = 32 loop
+-                  pragma Loop_Invariant (Cursor in B'Range);
+-                  pragma Loop_Variant (Increases => Cursor);
+-                  Cursor := Cursor + 1;
+-               end loop;
++               while Cursor < B'Last and then B (Cursor) = 32 loop Cursor := Cursor + 1; end loop;
+                Tokens (T).First := Cursor;
+-               while Cursor < B'Last and then B (Cursor) /= 32 loop
+-                  pragma Loop_Invariant (Cursor in B'Range);
+-                  pragma Loop_Variant (Increases => Cursor);
+-                  Cursor := Cursor + 1;
+-               end loop;
++               while Cursor < B'Last and then B (Cursor) /= 32 loop Cursor := Cursor + 1; end loop;
+                Tokens (T).Length := Cursor - Tokens (T).First;
+                if Tokens (T).Length = 0 or else Cursor = B'Last then return False; end if;
+             end loop;
+@@ -847,8 +834,6 @@
+                   if B'Length = 0 or else not J.Unsigned_Is (D, F (D, Part, "result"), B'Length) or else
+                     not Num (D, F (D, Part, "errno"), 0) then return False; end if;
+                   while Cursor < B'Length loop
+-                     pragma Loop_Invariant (Cursor <= B'Length);
+-                     pragma Loop_Variant (Increases => Cursor);
+                      if B'Length - Cursor < 16 then return False; end if;
+                      declare WD : constant Valid_Big_Integer := Word_32 (B, B'First + Cursor);
+                              Mask : constant Valid_Big_Integer := Word_32 (B, B'First + Cursor + 4);

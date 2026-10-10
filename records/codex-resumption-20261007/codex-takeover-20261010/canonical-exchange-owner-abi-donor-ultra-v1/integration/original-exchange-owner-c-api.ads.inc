@@ -1,0 +1,32 @@
+   function Canonical_Exchange_Version return Interfaces.Unsigned_32 with Export,Convention=>C,External_Name=>"wl_canonical_exchange_version_v1";
+   function Canonical_Exchange_Layout(Kind,Field:Interfaces.Unsigned_32) return Interfaces.C.long with Export,Convention=>C,External_Name=>"wl_canonical_exchange_layout_v1";
+   function Canonical_Exchange_Decide(Input:System.Address; Input_Length:Interfaces.C.size_t;
+      Arena:System.Address; Arena_Length:Interfaces.C.size_t;
+      Grants:System.Address; Grants_Count,Grants_Length:Interfaces.C.size_t;
+      Uses:System.Address; Uses_Count,Uses_Length:Interfaces.C.size_t;
+      Rows:System.Address; Rows_Count,Rows_Length:Interfaces.C.size_t;
+      Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+      Worker_Receipts:System.Address; Worker_Receipts_Count,Worker_Receipts_Length:Interfaces.C.size_t;
+      Worker_Events:System.Address; Worker_Events_Count,Worker_Events_Length:Interfaces.C.size_t;
+      Effect_Receipts:System.Address; Effect_Receipts_Count,Effect_Receipts_Length:Interfaces.C.size_t;
+      Effect_Events:System.Address; Effect_Events_Count,Effect_Events_Length:Interfaces.C.size_t;
+      Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int
+     with Export,Convention=>C,External_Name=>"wl_canonical_exchange_decide_v1";
+   function Canonical_Owner_Completion_Version return Interfaces.Unsigned_32 with Export,Convention=>C,External_Name=>"wl_canonical_owner_completion_version_v1";
+   function Canonical_Owner_Completion_Layout(Kind,Field:Interfaces.Unsigned_32) return Interfaces.C.long with Export,Convention=>C,External_Name=>"wl_canonical_owner_completion_layout_v1";
+   function Canonical_Owner_Completion_Decide(Input:System.Address; Input_Length:Interfaces.C.size_t;
+      Arena:System.Address; Arena_Length:Interfaces.C.size_t;
+      Grants:System.Address; Grants_Count,Grants_Length:Interfaces.C.size_t;
+      Uses:System.Address; Uses_Count,Uses_Length:Interfaces.C.size_t;
+      Rows:System.Address; Rows_Count,Rows_Length:Interfaces.C.size_t;
+      Observed:System.Address; Observed_Count,Observed_Length:Interfaces.C.size_t;
+      Worker_Receipts:System.Address; Worker_Receipts_Count,Worker_Receipts_Length:Interfaces.C.size_t;
+      Worker_Events:System.Address; Worker_Events_Count,Worker_Events_Length:Interfaces.C.size_t;
+      Effect_Receipts:System.Address; Effect_Receipts_Count,Effect_Receipts_Length:Interfaces.C.size_t;
+      Effect_Events:System.Address; Effect_Events_Count,Effect_Events_Length:Interfaces.C.size_t;
+      Current_Grants:System.Address; Current_Grants_Count,Current_Grants_Length:Interfaces.C.size_t;
+      Current_Uses:System.Address; Current_Uses_Count,Current_Uses_Length:Interfaces.C.size_t;
+      Current_Receipts:System.Address; Current_Receipts_Count,Current_Receipts_Length:Interfaces.C.size_t;
+      Current_Events:System.Address; Current_Events_Count,Current_Events_Length:Interfaces.C.size_t;
+      Output:System.Address; Output_Length:Interfaces.C.size_t) return Interfaces.C.int
+      with Export,Convention=>C,External_Name=>"wl_canonical_owner_completion_decide_v1";

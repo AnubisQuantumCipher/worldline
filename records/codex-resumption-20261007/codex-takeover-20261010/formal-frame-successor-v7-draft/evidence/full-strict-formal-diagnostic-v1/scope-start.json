@@ -1,0 +1,24 @@
+{
+  "actual_scope_launch_observed": true,
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-full-formal-diagnostic-v8-full-strict-formal-diagnostic-v1",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "RuntimeMaxSec=840s",
+    "-p",
+    "TimeoutStopSec=15s",
+    "/usr/bin/python3",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/run_checks.py",
+    "child",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/formal-frame-successor-v7-draft/evidence/full-strict-formal-diagnostic-v1"
+  ],
+  "at": "2026-10-10T18:26:04.710763+00:00",
+  "pid": 1943515,
+  "scope_unit": "codex-worldline-full-formal-diagnostic-v8-full-strict-formal-diagnostic-v1.scope"
+}

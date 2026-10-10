@@ -1,0 +1,20 @@
+
+
+# Original physical Actuation domain restored additively; no historical proof credit.
+# Preserve the entire inherited ordered roster, exact floor and C_API boundary.
+REQUIRED_PROVED += [
+    'Worldline.Actuation.Same_Entry',
+    'Worldline.Actuation.Decide',
+    'Worldline.Actuation_Full_Wire.Well_Formed',
+    'Worldline.Actuation_Full_Wire.Decode',
+]
+DECLARED_CORE_ADA_SOURCES = DECLARED_CORE_ADA_SOURCES | frozenset({
+    'core/worldline-actuation.ads',
+    'core/worldline-actuation.adb',
+    'core/worldline-actuation_full_wire.ads',
+})
+CONTRACT_PINS.update({
+    'core/worldline-actuation.ads': '5e7b3d6e8a8b899ef66fa51c6367f673f8db7be999331410866d77438714a365',
+    'core/worldline-actuation.adb': 'ffb195061d07aa9520a8becfe1a69ccae38a757efb2a1f1ad7728c1d0ca1eabb',
+    'core/worldline-actuation_full_wire.ads': 'ac1626dfbf05276ffedb10d629c7b80ca48dd132661ee2357b971e1e1432255f',
+})

@@ -1,0 +1,602 @@
+{
+  "c_api_adaptation": {
+    "body_insertion_needle": "   function Operation_Result_Relation\n",
+    "current_body_segment": {
+      "bytes": 23364,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/integration/exchange-owner-c-api.adb.inc",
+      "sha256": "444c54aa6811ca74ea460964f2ea4a01b9f31980a87e7e7be8f5d7384c58ed41"
+    },
+    "decide_actual_answer_flush_before_output_and_raw_exception_flush": true,
+    "each_export_existing_native_guard_and_outer_raw_refusal": true,
+    "functions": [
+      "Canonical_Exchange_Version",
+      "Canonical_Exchange_Layout",
+      "Canonical_Exchange_Decide",
+      "Canonical_Owner_Completion_Version",
+      "Canonical_Owner_Completion_Layout",
+      "Canonical_Owner_Completion_Decide"
+    ],
+    "imports": {
+      "bytes": 88,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/integration/exchange-owner-context.ads.inc",
+      "sha256": "5be7cff2cad0a1554cd5a76801f0d501bffde5bf8e10b7bae6e9fb680ab80340"
+    },
+    "original_all_shape_checks_input_copies_decode_full_rosters_decide_arguments_retained": true,
+    "original_body_segment": {
+      "bytes": 21848,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/integration/original-exchange-owner-c-api.adb.inc",
+      "sha256": "07d159f7283e1fd6e52cf14c781b2282ca7b227ea53c1881f5349189a2a75e86"
+    },
+    "original_spec_segment": {
+      "bytes": 3155,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/canonical-exchange-owner-abi-donor-ultra-v1/integration/original-exchange-owner-c-api.ads.inc",
+      "sha256": "ab0114b44a98ad4cdf437a273dc0138b2b01a2cd479f2af06132d4463f719e90"
+    },
+    "raw_pointer_readability": "OPEN; extent/alignment guards do not establish mapped readability",
+    "sole_existing_off_boundary_retained": true,
+    "spec_insertion_needle": "   function Completion_ABI_Version return Interfaces.Unsigned_32"
+  },
+  "current_public_authority_header_retained": {
+    "current": {
+      "bytes": 6010,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline_operation_authority_v1.h",
+      "sha256": "b7297b6c4fffdaa655b1070c1058344e43680ac922aa67592b9b734016983947"
+    },
+    "original": {
+      "bytes": 5955,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline_operation_authority_v1.h",
+      "sha256": "713b7fff31eec4f9936eeb235ec5ab23fd345d49b7b1ca3ee398f976d390bf7c"
+    },
+    "reason": "Current strong Raw_Evidence and ctypes caller already include effect_material slice; never overwrite with historical narrower header.",
+    "sole_divergence_preserved": " int64_t effect_material_first,effect_material_length;\n"
+  },
+  "no_other_current_source_change": true,
+  "original_contract": {
+    "bytes": 2251,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/integration-contract.json",
+    "sha256": "f5181c8d6c7a198b605db55def0768d9305fd1a43810ffa55106c1d7d4eccacd"
+  },
+  "original_identity": {
+    "bytes": 12944,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/identity.json",
+    "sha256": "d098a69587063e948008aa7df951ac417ba6f1eb84b4bf80f198d8729ee34b6d"
+  },
+  "original_identity_physical_checks": {
+    "baseline-inventory.json": {
+      "bytes": 137321,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/baseline-inventory.json",
+      "sha256": "e7588d2ef5142ec284b779f973508ab397efcce23e63d5d855fd2de0d6ba3bd9"
+    },
+    "completion-notes.json": {
+      "bytes": 4880,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/completion-notes.json",
+      "sha256": "f329fcf985bf0a1e043392de543f7f490bfc9ca922bb9e3c052dfd9462ad0468"
+    },
+    "control-enrollment.json": {
+      "bytes": 3621,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/control-enrollment.json",
+      "sha256": "f846095ce04493b1322aaebd2e77334f0543d8bfef824c282ab0da2e3f0bb140"
+    },
+    "expected-source-inventory.json": {
+      "bytes": 143036,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/expected-source-inventory.json",
+      "sha256": "fe4a4270b7d8c16e3d11e6b67c7067d783fa5fa8d0189c8e8ff4aff41001020a"
+    },
+    "input-pins.json": {
+      "bytes": 16209,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/input-pins.json",
+      "sha256": "1875e391ac4a7060d58d8efcaf24047b569bfbdb6282b61971c7945f0d2c71c7"
+    },
+    "integration-contract.json": {
+      "bytes": 2251,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/integration-contract.json",
+      "sha256": "f5181c8d6c7a198b605db55def0768d9305fd1a43810ffa55106c1d7d4eccacd"
+    },
+    "integration/exchange-owner-c-api.patch": {
+      "bytes": 26160,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/integration/exchange-owner-c-api.patch",
+      "sha256": "feb953f7c59ad5c6e0cb02fc2fcb481791f3a5597b3eec4ce088c17d71821c66"
+    },
+    "integration/physical-c-api.adb.inc": {
+      "bytes": 7362,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/integration/physical-c-api.adb.inc",
+      "sha256": "d96e0e3519fac01bbe7632a4327270e7162210bad2cbd68338325d42776a4a4c"
+    },
+    "integration/physical-c-api.ads.inc": {
+      "bytes": 2934,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/integration/physical-c-api.ads.inc",
+      "sha256": "86b0e1c2bf301bc73f1d6678b8f7bc7e386b7d759bccb35ddcb9730512b0ebf7"
+    },
+    "integration/shared-c-api.patch": {
+      "bytes": 36615,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/integration/shared-c-api.patch",
+      "sha256": "c4622100928d5e239073896982e5379cc55168848164993a5d219c418165866d"
+    },
+    "preimage/core/worldline-c_api.adb": {
+      "bytes": 109701,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/preimage/core/worldline-c_api.adb",
+      "sha256": "6781bdf0c5a55c70fef265657a61498e3cb97fde8c6565d7a54a327b99b0f954"
+    },
+    "preimage/core/worldline-c_api.ads": {
+      "bytes": 16339,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/preimage/core/worldline-c_api.ads",
+      "sha256": "6c0b22ad2f17f99c28bd869aaae9b47293ba7fb098ec5a210a5aa610bea0485e"
+    },
+    "preimage/core/worldline_core.gpr": {
+      "bytes": 2983,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/preimage/core/worldline_core.gpr",
+      "sha256": "5497fabb698d53efc2bfb39104bdcd48b1c0f46e0c706c2643c8ce1af72fd5b0"
+    },
+    "preimage/runtime/worldline/canonical_full_broker.py": {
+      "bytes": 16934,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/preimage/runtime/worldline/canonical_full_broker.py",
+      "sha256": "5ec258a2cbb06a8dbcc5ab02e214d111ff2845b26c19a456c5ba360cf7ea231d"
+    },
+    "preimage/runtime/worldline/canonical_k4_recovery.py": {
+      "bytes": 5305,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/preimage/runtime/worldline/canonical_k4_recovery.py",
+      "sha256": "68ac7a608a84a024925ef4fbfc9546053e0ff129d468f9b957695f930291aa45"
+    },
+    "preimage/runtime/worldline/canonical_physical.py": {
+      "bytes": 4015,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/preimage/runtime/worldline/canonical_physical.py",
+      "sha256": "74ddd54e5741b3e75d7cdca1e349f690c2415e32cd5cfaba9358a1a07d89af5a"
+    },
+    "preimage/runtime/worldline/operation_owner_kernel.py": {
+      "bytes": 3541,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/preimage/runtime/worldline/operation_owner_kernel.py",
+      "sha256": "60d7b9f6389050854e644bdb364b84fcd8e5005cf909542a84cb55179f703c9f"
+    },
+    "preimage/runtime/worldline/protected_operations.py": {
+      "bytes": 80367,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/preimage/runtime/worldline/protected_operations.py",
+      "sha256": "30cef662d8a9231cfaa43f19dd32c1ebd9125806696176ee9ac24a2df2813f3f"
+    },
+    "references/exchange-owner-input/control-enrollment.json": {
+      "bytes": 858,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/references/exchange-owner-input/control-enrollment.json",
+      "sha256": "e433a7d9990690fdcd48ffb475e1abb406ff1587c6749990b06397438f1a5011"
+    },
+    "references/exchange-owner-input/identity.json": {
+      "bytes": 7378,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/references/exchange-owner-input/identity.json",
+      "sha256": "de705d4046c5e402bbe319e76d959b020c0e4691a708dc7499d8f7178f5655e3"
+    },
+    "references/exchange-owner-input/input-pins.json": {
+      "bytes": 7499,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/references/exchange-owner-input/input-pins.json",
+      "sha256": "5f37214d88c0a41fd6d781a9bc82de4849fa4f9f663ddddf203a9d793cf1d9b1"
+    },
+    "references/exchange-owner-input/source-delta.json": {
+      "bytes": 5467,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/references/exchange-owner-input/source-delta.json",
+      "sha256": "0a3aa48416abb507e43828b1234cb002f6ffb55af38a2d32d651dfe255355740"
+    },
+    "references/physical-input/control-enrollment.json": {
+      "bytes": 897,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/references/physical-input/control-enrollment.json",
+      "sha256": "48033f9a477bf2abae4c8a79dc7b99ba1af613aac7870520408d137149991338"
+    },
+    "references/physical-input/input-pins.json": {
+      "bytes": 6312,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/references/physical-input/input-pins.json",
+      "sha256": "58b91750af9faf0dcd03f2bb451fcd430a0b4be4fab2158464778bd09334ddc8"
+    },
+    "references/physical-input/source-delta.json": {
+      "bytes": 4651,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/references/physical-input/source-delta.json",
+      "sha256": "de5a9f3163057f42b83c9ca0ee9513f51d51eaddda39b441e965fa7451c822bf"
+    },
+    "source-delta.json": {
+      "bytes": 9889,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source-delta.json",
+      "sha256": "73b5e44cad9e73dd2a05c43cc55af36fda3472b7e839288e2e9541e7bf6ee02d"
+    },
+    "source.patch": {
+      "bytes": 192273,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source.patch",
+      "sha256": "0e21f4148a667f7664ff4baf99d1a936a7500f2c6f16e02e25ca048223d01c77"
+    },
+    "source/canonical-exchange-tests/canonical_exchange_controls.adb": {
+      "bytes": 9916,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/canonical-exchange-tests/canonical_exchange_controls.adb",
+      "sha256": "6f6b5370a985747ccdce9d85d7c45f5b8baded613e8cd2c7251097db337e33e4"
+    },
+    "source/canonical-exchange-tests/canonical_exchange_tests.gpr": {
+      "bytes": 508,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/canonical-exchange-tests/canonical_exchange_tests.gpr",
+      "sha256": "0c4f06701ca55a4fefcf40dfdfea991872402aeef1c855c9efb1f05e294cdc75"
+    },
+    "source/canonical-owner-completion-tests/canonical_owner_completion_controls.adb": {
+      "bytes": 10221,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "sha256": "08e302f0b6a4c1955b8475abb583cc7eb7df257980a39facb888f45fd413a6a5"
+    },
+    "source/canonical-owner-completion-tests/canonical_owner_completion_tests.gpr": {
+      "bytes": 532,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/canonical-owner-completion-tests/canonical_owner_completion_tests.gpr",
+      "sha256": "6381ee20947d6663c3b6179720d7d07aae7fe89cd927aebd24f6cb1e85047c7e"
+    },
+    "source/core/worldline-actuation.adb": {
+      "bytes": 972,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-actuation.adb",
+      "sha256": "14df556064c0083b37a506e1f107a5b30eee4bad17a0dc54d24babf83ff0482c"
+    },
+    "source/core/worldline-actuation.ads": {
+      "bytes": 1843,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-actuation.ads",
+      "sha256": "e029bab4a2baa8e0d5f50f1109a08b5456070110c37ff0da170a6c5c4c83b999"
+    },
+    "source/core/worldline-actuation_full_wire.ads": {
+      "bytes": 1862,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-actuation_full_wire.ads",
+      "sha256": "9df97edf7d655a4818c2b2ef57b2b8de481f0084cf2559d9984de8c74adf2800"
+    },
+    "source/core/worldline-c_api.adb": {
+      "bytes": 139035,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-c_api.adb",
+      "sha256": "5bda658ecf73f10405998082bd3bf038f97b8b6f154d50ad6d77d10c008cb6a7"
+    },
+    "source/core/worldline-c_api.ads": {
+      "bytes": 22428,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-c_api.ads",
+      "sha256": "4075b7ded15c38f2730669534c807a3248f300e5b2ed483bb4dcc27833db6d07"
+    },
+    "source/core/worldline-canonical_exchange.adb": {
+      "bytes": 4404,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_exchange.adb",
+      "sha256": "09c62f1a8d59329c2cc90532f33c5c465504c0fcdd377f34323684fbec5a724f"
+    },
+    "source/core/worldline-canonical_exchange.ads": {
+      "bytes": 10891,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_exchange.ads",
+      "sha256": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600"
+    },
+    "source/core/worldline-canonical_exchange_wire.ads": {
+      "bytes": 3363,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_exchange_wire.ads",
+      "sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0"
+    },
+    "source/core/worldline-canonical_owner_completion.adb": {
+      "bytes": 3073,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_owner_completion.adb",
+      "sha256": "9bc4605f6218365828bbf0e9092b5d58a611bd647b2c652d0fb815a080a522b1"
+    },
+    "source/core/worldline-canonical_owner_completion.ads": {
+      "bytes": 4291,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_owner_completion.ads",
+      "sha256": "f3300f5408493b100157dd286d80dd818cf2abd2479f26bad5b26e903a635b79"
+    },
+    "source/core/worldline-canonical_owner_completion_wire.ads": {
+      "bytes": 1078,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_owner_completion_wire.ads",
+      "sha256": "b71eefefbfc60925db272c99f0e7d9e5593bc4213ed85ff70e81eac8a39c3745"
+    },
+    "source/core/worldline_actuation_v1.h": {
+      "bytes": 767,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline_actuation_v1.h",
+      "sha256": "54e66ece8c9176fa35628f4833633dbb345b3ec2ae2786a6c98f1195bb62f236"
+    },
+    "source/core/worldline_canonical_exchange_v1.h": {
+      "bytes": 1829,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline_canonical_exchange_v1.h",
+      "sha256": "63236726b0d233d04468c52e61d39df2f92dcd27e5299fefc233dc2de8d4c31b"
+    },
+    "source/core/worldline_canonical_operation_v1.h": {
+      "bytes": 999,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline_canonical_operation_v1.h",
+      "sha256": "fa9e8b32ec0a1bc1a3c7857b7a9e3bd8ab47c08196cd37de8698b14f29537254"
+    },
+    "source/core/worldline_canonical_owner_completion_v1.h": {
+      "bytes": 2077,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline_canonical_owner_completion_v1.h",
+      "sha256": "4ca0ac62b79cae083db2e0798de9300e76830a79c71f6349d33dc89dca331376"
+    },
+    "source/core/worldline_core.gpr": {
+      "bytes": 3287,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline_core.gpr",
+      "sha256": "1bd20656f50517daa4da17800a0a071c78be1146b5b2c16a7a29e9438e19d2cb"
+    },
+    "source/core/worldline_full_physical_v1.h": {
+      "bytes": 2825,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline_full_physical_v1.h",
+      "sha256": "dc507efd1c7a6826076a93414cd799b06867a72ccef633ed70661d5349ab6045"
+    },
+    "source/core/worldline_operation_authority_v1.h": {
+      "bytes": 5955,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline_operation_authority_v1.h",
+      "sha256": "713b7fff31eec4f9936eeb235ec5ab23fd345d49b7b1ca3ee398f976d390bf7c"
+    },
+    "source/physical-value-controls/physical_value_controls.adb": {
+      "bytes": 3509,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/physical-value-controls/physical_value_controls.adb",
+      "sha256": "f0d49aa4b84cf4514bd551a7688a8a825f4d187e2a873cecb5979aed38a7498c"
+    },
+    "source/physical-value-controls/physical_value_controls.gpr": {
+      "bytes": 502,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/physical-value-controls/physical_value_controls.gpr",
+      "sha256": "663463e51535314b7ae73999349be0b7928c0a9147f099ad8eca45826991a75a"
+    },
+    "source/protected-canonical/full_physical_actuator.c": {
+      "bytes": 16701,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/protected-canonical/full_physical_actuator.c",
+      "sha256": "ac457946e7d19bf57b5bb9946ba311108389f632ec7e000de49d6a7eb3fcb7a5"
+    },
+    "source/protected-canonical/full_physical_actuator.h": {
+      "bytes": 2712,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/protected-canonical/full_physical_actuator.h",
+      "sha256": "dace1b4f53a746e2eb5e1d333004e4d2b6c4052085378d56aa54b81fb4172377"
+    },
+    "source/protected-canonical/full_physical_sources.gpr": {
+      "bytes": 620,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/protected-canonical/full_physical_sources.gpr",
+      "sha256": "e177d4d4b7664f0e2a0c76fd20a7dbb26b36a40941873934c4bcaa8123a3c6a0"
+    },
+    "source/protected-canonical/vendor-transaction-035545/worldline_actuator.c": {
+      "bytes": 8946,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/protected-canonical/vendor-transaction-035545/worldline_actuator.c",
+      "sha256": "65541763b748b330fb929462144b4452746f52b9c698af6568652d97a8568797"
+    },
+    "source/protected-canonical/vendor-transaction-035545/worldline_actuator.h": {
+      "bytes": 1247,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/protected-canonical/vendor-transaction-035545/worldline_actuator.h",
+      "sha256": "efc6b71248ecc82e7a4292ab818a3ca08bdb84f7d7436090a1912b8db2c0cf9a"
+    },
+    "source/runtime/worldline/canonical_full_broker.py": {
+      "bytes": 17684,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/runtime/worldline/canonical_full_broker.py",
+      "sha256": "d2c22befca06fe696681f74fe7e5d935108fbba467ddcca624be73ab5568c3c4"
+    },
+    "source/runtime/worldline/canonical_k4_recovery.py": {
+      "bytes": 5321,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/runtime/worldline/canonical_k4_recovery.py",
+      "sha256": "cbe9e40e467aa5f62550c259baf918089bdf8f5f725bba9ba22dc1e86db84905"
+    },
+    "source/runtime/worldline/canonical_physical.py": {
+      "bytes": 6275,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/runtime/worldline/canonical_physical.py",
+      "sha256": "ccedc92e8d1ac08a5617f84d196cfbf8ac0cc25360a7c50aa86a07824b7efe3d"
+    },
+    "source/runtime/worldline/operation_owner_kernel.py": {
+      "bytes": 5597,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/runtime/worldline/operation_owner_kernel.py",
+      "sha256": "f9142feb43e3d6fcf1a480d345008a9735d5413f2372e2ae11eb4d89d4d4e213"
+    },
+    "source/runtime/worldline/protected_operations.py": {
+      "bytes": 80363,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/runtime/worldline/protected_operations.py",
+      "sha256": "2a544370a7f4ec5acbdbc8f98d39371a84f46299edbe788a4b69b765d33fceea"
+    },
+    "source/tests/test_canonical_exchange_owner_exports_native.py": {
+      "bytes": 3171,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/tests/test_canonical_exchange_owner_exports_native.py",
+      "sha256": "d70d88a1118ec4acd7f9c7043a3486eccd9a853097005491bc0f5ac850a0b26e"
+    },
+    "source/tests/test_canonical_owner_mapping_order.py": {
+      "bytes": 2879,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/tests/test_canonical_owner_mapping_order.py",
+      "sha256": "bcb15c72f5eddf6bbd156891b665969e72c3e8d4930ff60b822fa900e77bc8ad"
+    },
+    "source/tests/test_full_physical_exports_native.py": {
+      "bytes": 2777,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/tests/test_full_physical_exports_native.py",
+      "sha256": "82cfec7bb05809270bdc4699f0ae415eb55ca72ea0abf7c75f0dd004c52d36e2"
+    },
+    "source/tests/test_full_physical_syscalls_native.py": {
+      "bytes": 17559,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/tests/test_full_physical_syscalls_native.py",
+      "sha256": "a4272078b9c96d49d7108fc82cf44468bb869c1965f307d18edf1d5708198b68"
+    },
+    "verification.json": {
+      "bytes": 588,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/verification.json",
+      "sha256": "3ad21b2330a47a8bf787798987dd9983eaac05440678dfb3f5bd11be84cdc41b"
+    }
+  },
+  "original_input_pins": {
+    "bytes": 16209,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/input-pins.json",
+    "sha256": "1875e391ac4a7060d58d8efcaf24047b569bfbdb6282b61971c7945f0d2c71c7"
+  },
+  "original_verification": {
+    "bytes": 588,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/verification.json",
+    "sha256": "3ad21b2330a47a8bf787798987dd9983eaac05440678dfb3f5bd11be84cdc41b"
+  },
+  "original_verification_is_historical_source_only": true,
+  "owner_helper_original_prefix_preserved_modulo_terminal_newlines": true,
+  "phase_acceptance": false,
+  "protected_mapping_exact_reversible_substitutions": [
+    {
+      "after": "        from .operation_owner_kernel import observe_owner_completion\n        from .operation_owner_kernel import observe_exchange, initialize_exchange_kernel, prepare_exchange\n        require(observe_exchange(self, *proof['arguments'])==proof['native'],",
+      "before": "        from .canonical_owner_completion_kernel import CanonicalOwnerCompletionKernel\n        from .canonical_exchange_kernel import CanonicalExchangeKernel\n        require(CanonicalExchangeKernel(self.core).observe(*proof['arguments'])==proof['native'],"
+    },
+    {
+      "after": "        native=observe_owner_completion(self, proof['arguments'],current)",
+      "before": "        native=CanonicalOwnerCompletionKernel(self.core).observe(proof['arguments'],current)"
+    },
+    {
+      "after": "        from .operation_owner_kernel import observe_exchange, initialize_exchange_kernel, prepare_exchange\n        native=observe_exchange(self, *proof['arguments'])",
+      "before": "        from .canonical_exchange_kernel import CanonicalExchangeKernel\n        native=CanonicalExchangeKernel(self.core).observe(*proof['arguments'])"
+    }
+  ],
+  "root_owned_composition_files_not_modified": [
+    "runtime/worldline/canonical_full_broker.py",
+    "runtime/worldline/canonical_physical.py",
+    "runtime/worldline/canonical_k4_recovery.py",
+    "core/worldline_core.gpr"
+  ],
+  "schema": "worldline-original-exchange-owner-restoration-v1",
+  "source_only": true,
+  "target_execution": false,
+  "unchanged_strong_spark_units": {
+    "core/worldline-canonical_exchange.adb": {
+      "current": {
+        "bytes": 4404,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline-canonical_exchange.adb",
+        "sha256": "09c62f1a8d59329c2cc90532f33c5c465504c0fcdd377f34323684fbec5a724f"
+      },
+      "original": {
+        "bytes": 4404,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_exchange.adb",
+        "sha256": "09c62f1a8d59329c2cc90532f33c5c465504c0fcdd377f34323684fbec5a724f"
+      }
+    },
+    "core/worldline-canonical_exchange.ads": {
+      "current": {
+        "bytes": 10891,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline-canonical_exchange.ads",
+        "sha256": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600"
+      },
+      "original": {
+        "bytes": 10891,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_exchange.ads",
+        "sha256": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600"
+      }
+    },
+    "core/worldline-canonical_exchange_wire.ads": {
+      "current": {
+        "bytes": 3363,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline-canonical_exchange_wire.ads",
+        "sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0"
+      },
+      "original": {
+        "bytes": 3363,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_exchange_wire.ads",
+        "sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0"
+      }
+    },
+    "core/worldline-canonical_owner_completion.adb": {
+      "current": {
+        "bytes": 3073,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline-canonical_owner_completion.adb",
+        "sha256": "9bc4605f6218365828bbf0e9092b5d58a611bd647b2c652d0fb815a080a522b1"
+      },
+      "original": {
+        "bytes": 3073,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_owner_completion.adb",
+        "sha256": "9bc4605f6218365828bbf0e9092b5d58a611bd647b2c652d0fb815a080a522b1"
+      }
+    },
+    "core/worldline-canonical_owner_completion.ads": {
+      "current": {
+        "bytes": 4291,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline-canonical_owner_completion.ads",
+        "sha256": "f3300f5408493b100157dd286d80dd818cf2abd2479f26bad5b26e903a635b79"
+      },
+      "original": {
+        "bytes": 4291,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_owner_completion.ads",
+        "sha256": "f3300f5408493b100157dd286d80dd818cf2abd2479f26bad5b26e903a635b79"
+      }
+    },
+    "core/worldline-canonical_owner_completion_wire.ads": {
+      "current": {
+        "bytes": 1078,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/core/worldline-canonical_owner_completion_wire.ads",
+        "sha256": "b71eefefbfc60925db272c99f0e7d9e5593bc4213ed85ff70e81eac8a39c3745"
+      },
+      "original": {
+        "bytes": 1078,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/phase1-physical-completion-v34-donor/source/core/worldline-canonical_owner_completion_wire.ads",
+        "sha256": "b71eefefbfc60925db272c99f0e7d9e5593bc4213ed85ff70e81eac8a39c3745"
+      }
+    }
+  },
+  "verification": {
+    "build": "UNRUN",
+    "mapping_controls": "UNRUN",
+    "native_ABI_controls": "UNRUN",
+    "proof": "UNRUN",
+    "semantic_controls": "UNRUN",
+    "source_python_ast_parse": "PASS"
+  }
+}

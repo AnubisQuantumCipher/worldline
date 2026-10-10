@@ -1,0 +1,50 @@
+{
+  "actual_current_failure_observation": {
+    "message": "worldline-excluded_source_owner.ads:36:42 E0016: aspect Always_Terminates cannot apply to function",
+    "observation_only": "Root owns retained actual execution. No invented local compiler run.",
+    "reporter": "/root",
+    "stage": "Actual D7 strict phase1 data_representation_generation.log"
+  },
+  "after": "     Depends => (Decide'Result => Data),\n",
+  "before": "     Depends => (Decide'Result => Data), Always_Terminates,\n",
+  "declared_termination_guarantee": "Ordinary side-effect-free SPARK functions must terminate on every precondition-satisfying input; implicit Always_Terminates and all strict termination checks remain. Decide has no precondition and Global null.",
+  "evidence_boundary": "Installed packaged example output demonstrates implicit checks; historical example is not current donor proof.",
+  "forward_inverse_exact": true,
+  "installed_primary_documentation": {
+    "examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search.ads": {
+      "bytes": 1012,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/linear_search.ads",
+      "sha256": "7e04f04ba435bce71a3cd8af201d48d5229a83812b81a2e1d5592d7775b7419c"
+    },
+    "examples/spark/gnatprove_by_example/ug__linear_search_no_variant/test.out": {
+      "bytes": 272,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/examples/spark/gnatprove_by_example/ug__linear_search_no_variant/test.out",
+      "sha256": "4687bff5c57bc155387aca6063306c7f057eb88c546f1cb0050bf20131413877"
+    },
+    "spark/explain_codes/E0016.md": {
+      "bytes": 801,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/share/spark/explain_codes/E0016.md",
+      "sha256": "4b2bd8e87d24b6e7466164b89ef742c12a370bda2975d6c9272be9a1f90a5cb0"
+    }
+  },
+  "open_obligations": [
+    "Actual compiler acceptance under original full strict command.",
+    "Actual termination and callee proof over entire domain, including existing while loops.",
+    "All original independent review/runtime/native/physical controls."
+  ],
+  "phase_acceptance": false,
+  "retained_guarantees": [
+    "Same full accepted domain, no Pre added.",
+    "Same Global null, Depends and complete Result_Reference Post.",
+    "Same body, helper equations, purity and ghost semantics.",
+    "Same full original -U strict command, warnings-as-errors and floor.",
+    "Termination proof remains mandatory for all ordinary functions, loops and callees.",
+    "No Side_Effects, Off, assumption, imported promise, suppressed check or waiver."
+  ],
+  "schema": "worldline-termination-aspect-legality-delta-v1",
+  "sole_permitted_difference": "Delete illegal ordinary-function explicit aspect; retain every other byte.",
+  "target_execution": false
+}
