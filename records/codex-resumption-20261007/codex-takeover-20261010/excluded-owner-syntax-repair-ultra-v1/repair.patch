@@ -1,0 +1,243 @@
+--- preimages/core/worldline-excluded_source_owner.adb
++++ source/core/worldline-excluded_source_owner.adb
+@@ -29,17 +29,17 @@
+            (B, D, (B'First, B'Length), Value) = Canonical_Artifacts.Typed_Tree_Matches_Source_Custody_Open;
+       end;
+    end JSON_Matches;
+-   function Hex_Matches (D : E.Bytes; Hex, Raw : E.Span) return Boolean
+-     with Global => null, Depends => (Hex_Matches'Result => (D, Hex, Raw)) is
++   function Hex_Matches (D : E.Bytes; Hex, Raw : E.Span) return Boolean is
+      (V.Valid_Hex_Field (D, Hex, "value") and then V.Valid_Bytes (D, Raw) and then
+-      V.Hex_Value (D, Hex, "value") = V.Bytes_Value (D, Raw));
+-   function Bit (N : Valid_Big_Integer; Position : Natural) return Boolean
+-     with Global => null, Depends => (Bit'Result => (N, Position)) is
+-     ((N / (To_Big_Integer (2) ** Position)) mod 2 = 1);
+-   function Sealed (D : E.Bytes; Value : E.Span) return Boolean
+-     with Global => null, Depends => (Sealed'Result => (D, Value)) is
++      V.Hex_Value (D, Hex, "value") = V.Bytes_Value (D, Raw))
++     with Global => null, Depends => (Hex_Matches'Result => (D, Hex, Raw));
++   function Bit (N : Valid_Big_Integer; Position : Natural) return Boolean is
++     ((N / (To_Big_Integer (2) ** Position)) mod 2 = 1)
++     with Global => null, Depends => (Bit'Result => (N, Position));
++   function Sealed (D : E.Bytes; Value : E.Span) return Boolean is
+      (V.Is_Integer (D, Value) and then R.Number (D, Value) >= 0 and then
+-      (for all I in Natural range 0 .. 3 => Bit (R.Number (D, Value), I)));
++      (for all I in Natural range 0 .. 3 => Bit (R.Number (D, Value), I)))
++     with Global => null, Depends => (Sealed'Result => (D, Value));
+    function Identity (D : E.Bytes; A, B : E.Span) return Boolean
+      with Global => null, Depends => (Identity'Result => (D, A, B)) is
+    begin
+@@ -53,21 +53,21 @@
+       end loop;
+       return True;
+    end Identity;
+-   function FD_Number (D : E.Bytes; X : E.Span) return Boolean
+-     with Global => null, Depends => (FD_Number'Result => (D, X)) is
+-     (V.Is_Integer (D, X) and then R.Number (D, X) >= 0 and then R.Number (D, X) <= 2_147_483_647);
+-   function Descriptor_Reference (D : E.Bytes; X : E.Span) return Boolean
+-     with Global => null, Depends => (Descriptor_Reference'Result => (D, X)) is
++   function FD_Number (D : E.Bytes; X : E.Span) return Boolean is
++     (V.Is_Integer (D, X) and then R.Number (D, X) >= 0 and then R.Number (D, X) <= 2_147_483_647)
++     with Global => null, Depends => (FD_Number'Result => (D, X));
++   function Descriptor_Reference (D : E.Bytes; X : E.Span) return Boolean is
+      (FD_Number (D, F (D, X, "fd")) and then V.Is_Integer (D, F (D, X, "mode")) and then
+       R.Number (D, F (D, X, "mode")) >= 0 and then
+-      (V.Valid_Bytes (D, F (D, X, "fdinfo")) or else V.Valid_Hex_Field (D, F (D, X, "fdinfo_hex"), "value")));
+-   function Process_Reference (D : E.Bytes; Process, Raw : E.Span) return Boolean
+-     with Global => null, Depends => (Process_Reference'Result => (D, Process, Raw)) is
++      (V.Valid_Bytes (D, F (D, X, "fdinfo")) or else V.Valid_Hex_Field (D, F (D, X, "fdinfo_hex"), "value")))
++     with Global => null, Depends => (Descriptor_Reference'Result => (D, X));
++   function Process_Reference (D : E.Bytes; Process, Raw : E.Span) return Boolean is
+      (V.Is_Integer (D, F (D, Process, "pid")) and then R.Number (D, F (D, Process, "pid")) > 0 and then
+       V.Is_Integer (D, F (D, Process, "start_tick")) and then R.Number (D, F (D, Process, "start_tick")) >= 0 and then
+       Hex_Matches (D, F (D, Process, "stat_hex"), Raw) and then
+       R.Stat_Field (D, Raw, 1) = R.Number (D, F (D, Process, "pid")) and then
+-      R.Stat_Field (D, Raw, 22) = R.Number (D, F (D, Process, "start_tick")));
++      R.Stat_Field (D, Raw, 22) = R.Number (D, F (D, Process, "start_tick")))
++     with Global => null, Depends => (Process_Reference'Result => (D, Process, Raw));
+    function Projection_Reference (D : E.Bytes; Capture, Descriptor, Projected : E.Span) return Boolean
+      with Global => null, Depends => (Projection_Reference'Result => (D, Capture, Descriptor, Projected)) is
+       Before : constant E.Span := F (D, Capture, "before");
+@@ -99,11 +99,11 @@
+         R.Number (D, Mode) / 4096 = 4 and then not Bit (R.Number (D, Mode), 1) and then
+         not Bit (R.Number (D, Mode), 4);
+    end Root_Directory;
+-   function Boolean_Is (D : E.Bytes; X : E.Span; B : Boolean) return Boolean
+-     with Global => null, Depends => (Boolean_Is'Result => (D, X, B)) is
++   function Boolean_Is (D : E.Bytes; X : E.Span; B : Boolean) return Boolean is
+      (V.Type_Is (D, X, "bool") and then
+       E.Decode (D, S.A.Field (D, X, "value"), E.Operation).Form = E.Boolean_Value and then
+-      E.Decode (D, S.A.Field (D, X, "value"), E.Operation).Boolean_Bit = B);
++      E.Decode (D, S.A.Field (D, X, "value"), E.Operation).Boolean_Bit = B)
++     with Global => null, Depends => (Boolean_Is'Result => (D, X, B));
+    function Prefix_Events (D : E.Bytes; Before, After : E.Span) return Boolean
+      with Global => null, Depends => (Prefix_Events'Result => (D, Before, After)) is
+    begin
+@@ -142,24 +142,24 @@
+                  (for all I in Name'Range => B (Start + E.Count (I - Name'First)) = Character'Pos (Name (I))) then
+                   if Found then return False; end if;
+                   Found := True;
+-                  declare At : E.Count := Start + Name'Length;
++                  declare Cursor : E.Count := Start + Name'Length;
+                           First : E.Count := 0; begin
+-                     while At < Stop loop
+-                        if B (At) in Character'Pos ('0') .. Character'Pos ('9') then
+-                           First := At;
+-                           while At < Stop and then B (At) in Character'Pos ('0') .. Character'Pos ('9') loop
+-                              At := At + 1;
++                     while Cursor < Stop loop
++                        if B (Cursor) in Character'Pos ('0') .. Character'Pos ('9') then
++                           First := Cursor;
++                           while Cursor < Stop and then B (Cursor) in Character'Pos ('0') .. Character'Pos ('9') loop
++                              Cursor := Cursor + 1;
+                            end loop;
+                            if Repeat then
+-                              if not V.Is_Integer (D, Expected) or else Decimal (B, First, At - 1) /= R.Number (D, Expected) then
++                              if not V.Is_Integer (D, Expected) or else Decimal (B, First, Cursor - 1) /= R.Number (D, Expected) then
+                                  return False;
+                               end if;
+                            else
+                               if Seen >= V.Count (D, Expected) or else not V.Is_Integer (D, V.Element (D, Expected, Seen)) or else
+-                                 Decimal (B, First, At - 1) /= R.Number (D, V.Element (D, Expected, Seen)) then return False; end if;
++                                 Decimal (B, First, Cursor - 1) /= R.Number (D, V.Element (D, Expected, Seen)) then return False; end if;
+                            end if;
+                            Seen := Seen + 1;
+-                        elsif B (At) = 9 or else B (At) = 32 then At := At + 1;
++                        elsif B (Cursor) = 9 or else B (Cursor) = 32 then Cursor := Cursor + 1;
+                         else return False;
+                         end if;
+                      end loop;
+@@ -243,7 +243,7 @@
+       Optimize : constant E.Span := F (D, F (D, Source, "interpreter_flags"), "optimize");
+       Offset : E.Count := 0;
+       Tail : E.Count;
+-      function At (Args : E.Span; Index : E.Count) return E.Span is
++      function Cursor (Args : E.Span; Index : E.Count) return E.Span is
+         (V.Element (D, Args, Index));
+    begin
+       if S.Text_Is (D, Optimize, "1") or else S.Text_Is (D, Optimize, "2") then Offset := 1;
+@@ -251,28 +251,28 @@
+       if V.Count (D, O) < 7 then return False; end if;
+       Tail := V.Count (D, O) - 7;
+       return V.Count (D, A) = 15 + Offset and then
+-        (if Offset = 1 then S.Text_Is (D, At (A, 4), (if S.Text_Is (D, Optimize, "1") then "-O" else "-OO"))) and then
++        (if Offset = 1 then S.Text_Is (D, Cursor (A, 4), (if S.Text_Is (D, Optimize, "1") then "-O" else "-OO"))) and then
+         Argv_Raw (D, A, F (D, Frame, "actor_argv_raw")) and then
+         Argv_Raw (D, O, F (D, Frame, "original_argv_raw")) and then
+         Hex_Matches (D, F (D, F (D, Frame, "owner"), "cmdline_hex"), F (D, Frame, "original_argv_raw")) and then
+-        Same (D, At (A, 0), F (D, Source, "interpreter")) and then
+-        Same (D, At (A, 4 + Offset), F (D, Source, "helper")) and then
+-        Same (D, At (O, Tail), F (D, Source, "helper")) and then
+-        S.Text_Is (D, At (A, 1), "-I") and then S.Text_Is (D, At (A, 2), "-S") and then S.Text_Is (D, At (A, 3), "-B") and then
++        Same (D, Cursor (A, 0), F (D, Source, "interpreter")) and then
++        Same (D, Cursor (A, 4 + Offset), F (D, Source, "helper")) and then
++        Same (D, Cursor (O, Tail), F (D, Source, "helper")) and then
++        S.Text_Is (D, Cursor (A, 1), "-I") and then S.Text_Is (D, Cursor (A, 2), "-S") and then S.Text_Is (D, Cursor (A, 3), "-B") and then
+         Boolean_Is (D, F (D, F (D, Source, "bootstrap_flags"), "isolated"), True) and then
+         Boolean_Is (D, F (D, F (D, Source, "bootstrap_flags"), "no_site"), True) and then
+         Boolean_Is (D, F (D, F (D, Source, "bootstrap_flags"), "dont_write_bytecode"), True) and then
+-        S.Text_Is (D, At (A, 5 + Offset), "--actor-source-owner") and then
+-        Text_Number (D, At (A, 6 + Offset), F (D, F (D, Frame, "actor_channel_origin"), "fd")) and then
+-        Text_Number (D, At (A, 7 + Offset), F (D, F (D, Frame, "projection"), "fd")) and then
+-        Text_Number (D, At (A, 8 + Offset), F (D, F (D, Frame, "endpoint_parent"), "fd")) and then
+-        S.Text_Is (D, At (A, 9 + Offset), "--deadline") and then Same (D, At (A, 10 + Offset), F (D, Frame, "deadline_word")) and then
+-        S.Text_Is (D, At (A, 11 + Offset), "--entry") and then Same (D, At (A, 12 + Offset), F (D, Plan, "entry")) and then
+-        S.Text_Is (D, At (A, 13 + Offset), "--request") and then Same (D, At (A, 14 + Offset), F (D, Plan, "request")) and then
+-        S.Text_Is (D, At (O, Tail + 1), "--bootstrap-envelope") and then
+-        Same (D, At (O, Tail + 2), F (D, Source, "envelope_path")) and then
+-        S.Text_Is (D, At (O, Tail + 3), "--entry") and then Same (D, At (O, Tail + 4), F (D, Plan, "entry")) and then
+-        S.Text_Is (D, At (O, Tail + 5), "--request") and then Same (D, At (O, Tail + 6), F (D, Plan, "request")) and then
++        S.Text_Is (D, Cursor (A, 5 + Offset), "--actor-source-owner") and then
++        Text_Number (D, Cursor (A, 6 + Offset), F (D, F (D, Frame, "actor_channel_origin"), "fd")) and then
++        Text_Number (D, Cursor (A, 7 + Offset), F (D, F (D, Frame, "projection"), "fd")) and then
++        Text_Number (D, Cursor (A, 8 + Offset), F (D, F (D, Frame, "endpoint_parent"), "fd")) and then
++        S.Text_Is (D, Cursor (A, 9 + Offset), "--deadline") and then Same (D, Cursor (A, 10 + Offset), F (D, Frame, "deadline_word")) and then
++        S.Text_Is (D, Cursor (A, 11 + Offset), "--entry") and then Same (D, Cursor (A, 12 + Offset), F (D, Plan, "entry")) and then
++        S.Text_Is (D, Cursor (A, 13 + Offset), "--request") and then Same (D, Cursor (A, 14 + Offset), F (D, Plan, "request")) and then
++        S.Text_Is (D, Cursor (O, Tail + 1), "--bootstrap-envelope") and then
++        Same (D, Cursor (O, Tail + 2), F (D, Source, "envelope_path")) and then
++        S.Text_Is (D, Cursor (O, Tail + 3), "--entry") and then Same (D, Cursor (O, Tail + 4), F (D, Plan, "entry")) and then
++        S.Text_Is (D, Cursor (O, Tail + 5), "--request") and then Same (D, Cursor (O, Tail + 6), F (D, Plan, "request")) and then
+         P.Joined_Path (D, F (D, Frame, "plan_path"), F (D, Plan, "request"), ".source-owner.json");
+    end Invocation_Reference;
+    function Hex_Number (B : E.Bytes; Start, Length : E.Count) return Valid_Big_Integer
+@@ -439,10 +439,10 @@
+       end loop;
+       return True;
+    end Owner_Reference;
+-   function Receipt_Source (D : E.Bytes; Frame, Source : E.Span) return Boolean
+-     with Global => null, Depends => (Receipt_Source'Result => (D, Frame, Source)) is
++   function Receipt_Source (D : E.Bytes; Frame, Source : E.Span) return Boolean is
+      (C.Corresponds (D, Source, F (D, Frame, "installation")) and then C.Readbacks_Correspond (D, Source) and then
+-      Same (D, F (D, Source, "envelope_bytes_hex"), F (D, F (D, Frame, "owner_source"), "envelope_bytes_hex")));
++      Same (D, F (D, Source, "envelope_bytes_hex"), F (D, F (D, Frame, "owner_source"), "envelope_bytes_hex")))
++     with Global => null, Depends => (Receipt_Source'Result => (D, Frame, Source));
+    function Creator_Reference (D : E.Bytes; Frame : E.Span) return Boolean
+      with Global => null, Depends => (Creator_Reference'Result => (D, Frame)) is
+       Capture : constant E.Span := F (D, Frame, "owner_channel_capture");
+@@ -779,13 +779,13 @@
+            Decimal (B, B'First + Prefix'Length, B'Last) = R.Number (D, FD);
+       end;
+    end FD_Path;
+-   function Word_32 (B : E.Bytes; At : E.Count) return Valid_Big_Integer
+-     with Global => null, Depends => (Word_32'Result => (B, At)) is
++   function Word_32 (B : E.Bytes; Cursor : E.Count) return Valid_Big_Integer
++     with Global => null, Depends => (Word_32'Result => (B, Cursor)) is
+       N : Valid_Big_Integer := 0;
+    begin
+-      if At not in B'Range or else B'Last - At < 3 then return -1; end if;
++      if Cursor not in B'Range or else B'Last - Cursor < 3 then return -1; end if;
+       for I in reverse Natural range 0 .. 3 loop
+-         N := N * 256 + To_Big_Integer (Integer (B (At + E.Count (I))));
++         N := N * 256 + To_Big_Integer (Integer (B (Cursor + E.Count (I))));
+       end loop;
+       return N;
+    end Word_32;
+@@ -827,17 +827,17 @@
+                not Identity (D, F (D, Part, "descriptor"), Descriptor) or else
+                not Receipt_Source (D, Frame, F (D, Part, "source")) or else not V.Valid_Bytes (D, Raw)
+             then return False; end if;
+-            declare B : constant E.Bytes := V.Bytes_Value (D, Raw); At : E.Count := 0; begin
++            declare B : constant E.Bytes := V.Bytes_Value (D, Raw); Cursor : E.Count := 0; begin
+                if Num (D, F (D, Part, "result"), -1) then
+                   if not Num (D, F (D, Part, "errno"), 11) or else B'Length /= 0 then return False; end if;
+                else
+                   if B'Length = 0 or else not J.Unsigned_Is (D, F (D, Part, "result"), B'Length) or else
+                     not Num (D, F (D, Part, "errno"), 0) then return False; end if;
+-                  while At < B'Length loop
+-                     if B'Length - At < 16 then return False; end if;
+-                     declare WD : constant Valid_Big_Integer := Word_32 (B, B'First + At);
+-                             Mask : constant Valid_Big_Integer := Word_32 (B, B'First + At + 4);
+-                             Name_Length : constant Valid_Big_Integer := Word_32 (B, B'First + At + 12);
++                  while Cursor < B'Length loop
++                     if B'Length - Cursor < 16 then return False; end if;
++                     declare WD : constant Valid_Big_Integer := Word_32 (B, B'First + Cursor);
++                             Mask : constant Valid_Big_Integer := Word_32 (B, B'First + Cursor + 4);
++                             Name_Length : constant Valid_Big_Integer := Word_32 (B, B'First + Cursor + 12);
+                              Found : Natural := 0; begin
+                         if (Mask /= 2 and then Mask /= 8 and then Mask /= 10) or else Name_Length /= 0 then return False; end if;
+                         for K in 1 .. 2 loop
+@@ -847,7 +847,7 @@
+                            end;
+                         end loop;
+                         if Found /= 1 then return False; end if;
+-                        Seen := True; At := At + 16;
++                        Seen := True; Cursor := Cursor + 16;
+                      end;
+                   end loop;
+                end if;
+@@ -988,11 +988,11 @@
+       end loop;
+       declare B : constant E.Bytes := V.Text_Value (D, Path); begin
+          if B'Length = 0 or else B (B'First) /= 47 then return False; end if;
+-         for At in B'Range loop
+-            if B (At) = 47 then
++         for Cursor in B'Range loop
++            if B (Cursor) = 47 then
+                if Count >= V.Count (D, Components) then return False; end if;
+                declare Component : constant E.Span := V.Element (D, Components, Count);
+-                       Expected_Length : constant E.Count := (if At = B'First then 1 else At - B'First);
++                       Expected_Length : constant E.Count := (if Cursor = B'First then 1 else Cursor - B'First);
+                        Name : constant E.Span := F (D, Component, "path"); begin
+                   if not V.Valid_Text (D, Name) or else not Root_Directory (D, F (D, Component, "identity"))
+                   then return False; end if;

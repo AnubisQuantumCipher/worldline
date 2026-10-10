@@ -1,0 +1,452 @@
+{
+  "aspect_relocations": [
+    {
+      "aspect_bytes_preserved": true,
+      "expression_bytes_preserved": true,
+      "function": "Hex_Matches",
+      "original_fragment": "   function Hex_Matches (D : E.Bytes; Hex, Raw : E.Span) return Boolean\n     with Global => null, Depends => (Hex_Matches'Result => (D, Hex, Raw)) is\n     (V.Valid_Hex_Field (D, Hex, \"value\") and then V.Valid_Bytes (D, Raw) and then\n      V.Hex_Value (D, Hex, \"value\") = V.Bytes_Value (D, Raw));\n",
+      "replacement_fragment": "   function Hex_Matches (D : E.Bytes; Hex, Raw : E.Span) return Boolean is\n     (V.Valid_Hex_Field (D, Hex, \"value\") and then V.Valid_Bytes (D, Raw) and then\n      V.Hex_Value (D, Hex, \"value\") = V.Bytes_Value (D, Raw))\n     with Global => null, Depends => (Hex_Matches'Result => (D, Hex, Raw));\n"
+    },
+    {
+      "aspect_bytes_preserved": true,
+      "expression_bytes_preserved": true,
+      "function": "Bit",
+      "original_fragment": "   function Bit (N : Valid_Big_Integer; Position : Natural) return Boolean\n     with Global => null, Depends => (Bit'Result => (N, Position)) is\n     ((N / (To_Big_Integer (2) ** Position)) mod 2 = 1);\n",
+      "replacement_fragment": "   function Bit (N : Valid_Big_Integer; Position : Natural) return Boolean is\n     ((N / (To_Big_Integer (2) ** Position)) mod 2 = 1)\n     with Global => null, Depends => (Bit'Result => (N, Position));\n"
+    },
+    {
+      "aspect_bytes_preserved": true,
+      "expression_bytes_preserved": true,
+      "function": "Sealed",
+      "original_fragment": "   function Sealed (D : E.Bytes; Value : E.Span) return Boolean\n     with Global => null, Depends => (Sealed'Result => (D, Value)) is\n     (V.Is_Integer (D, Value) and then R.Number (D, Value) >= 0 and then\n      (for all I in Natural range 0 .. 3 => Bit (R.Number (D, Value), I)));\n",
+      "replacement_fragment": "   function Sealed (D : E.Bytes; Value : E.Span) return Boolean is\n     (V.Is_Integer (D, Value) and then R.Number (D, Value) >= 0 and then\n      (for all I in Natural range 0 .. 3 => Bit (R.Number (D, Value), I)))\n     with Global => null, Depends => (Sealed'Result => (D, Value));\n"
+    },
+    {
+      "aspect_bytes_preserved": true,
+      "expression_bytes_preserved": true,
+      "function": "FD_Number",
+      "original_fragment": "   function FD_Number (D : E.Bytes; X : E.Span) return Boolean\n     with Global => null, Depends => (FD_Number'Result => (D, X)) is\n     (V.Is_Integer (D, X) and then R.Number (D, X) >= 0 and then R.Number (D, X) <= 2_147_483_647);\n",
+      "replacement_fragment": "   function FD_Number (D : E.Bytes; X : E.Span) return Boolean is\n     (V.Is_Integer (D, X) and then R.Number (D, X) >= 0 and then R.Number (D, X) <= 2_147_483_647)\n     with Global => null, Depends => (FD_Number'Result => (D, X));\n"
+    },
+    {
+      "aspect_bytes_preserved": true,
+      "expression_bytes_preserved": true,
+      "function": "Descriptor_Reference",
+      "original_fragment": "   function Descriptor_Reference (D : E.Bytes; X : E.Span) return Boolean\n     with Global => null, Depends => (Descriptor_Reference'Result => (D, X)) is\n     (FD_Number (D, F (D, X, \"fd\")) and then V.Is_Integer (D, F (D, X, \"mode\")) and then\n      R.Number (D, F (D, X, \"mode\")) >= 0 and then\n      (V.Valid_Bytes (D, F (D, X, \"fdinfo\")) or else V.Valid_Hex_Field (D, F (D, X, \"fdinfo_hex\"), \"value\")));\n",
+      "replacement_fragment": "   function Descriptor_Reference (D : E.Bytes; X : E.Span) return Boolean is\n     (FD_Number (D, F (D, X, \"fd\")) and then V.Is_Integer (D, F (D, X, \"mode\")) and then\n      R.Number (D, F (D, X, \"mode\")) >= 0 and then\n      (V.Valid_Bytes (D, F (D, X, \"fdinfo\")) or else V.Valid_Hex_Field (D, F (D, X, \"fdinfo_hex\"), \"value\")))\n     with Global => null, Depends => (Descriptor_Reference'Result => (D, X));\n"
+    },
+    {
+      "aspect_bytes_preserved": true,
+      "expression_bytes_preserved": true,
+      "function": "Process_Reference",
+      "original_fragment": "   function Process_Reference (D : E.Bytes; Process, Raw : E.Span) return Boolean\n     with Global => null, Depends => (Process_Reference'Result => (D, Process, Raw)) is\n     (V.Is_Integer (D, F (D, Process, \"pid\")) and then R.Number (D, F (D, Process, \"pid\")) > 0 and then\n      V.Is_Integer (D, F (D, Process, \"start_tick\")) and then R.Number (D, F (D, Process, \"start_tick\")) >= 0 and then\n      Hex_Matches (D, F (D, Process, \"stat_hex\"), Raw) and then\n      R.Stat_Field (D, Raw, 1) = R.Number (D, F (D, Process, \"pid\")) and then\n      R.Stat_Field (D, Raw, 22) = R.Number (D, F (D, Process, \"start_tick\")));\n",
+      "replacement_fragment": "   function Process_Reference (D : E.Bytes; Process, Raw : E.Span) return Boolean is\n     (V.Is_Integer (D, F (D, Process, \"pid\")) and then R.Number (D, F (D, Process, \"pid\")) > 0 and then\n      V.Is_Integer (D, F (D, Process, \"start_tick\")) and then R.Number (D, F (D, Process, \"start_tick\")) >= 0 and then\n      Hex_Matches (D, F (D, Process, \"stat_hex\"), Raw) and then\n      R.Stat_Field (D, Raw, 1) = R.Number (D, F (D, Process, \"pid\")) and then\n      R.Stat_Field (D, Raw, 22) = R.Number (D, F (D, Process, \"start_tick\")))\n     with Global => null, Depends => (Process_Reference'Result => (D, Process, Raw));\n"
+    },
+    {
+      "aspect_bytes_preserved": true,
+      "expression_bytes_preserved": true,
+      "function": "Boolean_Is",
+      "original_fragment": "   function Boolean_Is (D : E.Bytes; X : E.Span; B : Boolean) return Boolean\n     with Global => null, Depends => (Boolean_Is'Result => (D, X, B)) is\n     (V.Type_Is (D, X, \"bool\") and then\n      E.Decode (D, S.A.Field (D, X, \"value\"), E.Operation).Form = E.Boolean_Value and then\n      E.Decode (D, S.A.Field (D, X, \"value\"), E.Operation).Boolean_Bit = B);\n",
+      "replacement_fragment": "   function Boolean_Is (D : E.Bytes; X : E.Span; B : Boolean) return Boolean is\n     (V.Type_Is (D, X, \"bool\") and then\n      E.Decode (D, S.A.Field (D, X, \"value\"), E.Operation).Form = E.Boolean_Value and then\n      E.Decode (D, S.A.Field (D, X, \"value\"), E.Operation).Boolean_Bit = B)\n     with Global => null, Depends => (Boolean_Is'Result => (D, X, B));\n"
+    },
+    {
+      "aspect_bytes_preserved": true,
+      "expression_bytes_preserved": true,
+      "function": "Receipt_Source",
+      "original_fragment": "   function Receipt_Source (D : E.Bytes; Frame, Source : E.Span) return Boolean\n     with Global => null, Depends => (Receipt_Source'Result => (D, Frame, Source)) is\n     (C.Corresponds (D, Source, F (D, Frame, \"installation\")) and then C.Readbacks_Correspond (D, Source) and then\n      Same (D, F (D, Source, \"envelope_bytes_hex\"), F (D, F (D, Frame, \"owner_source\"), \"envelope_bytes_hex\")));\n",
+      "replacement_fragment": "   function Receipt_Source (D : E.Bytes; Frame, Source : E.Span) return Boolean is\n     (C.Corresponds (D, Source, F (D, Frame, \"installation\")) and then C.Readbacks_Correspond (D, Source) and then\n      Same (D, F (D, Source, \"envelope_bytes_hex\"), F (D, F (D, Frame, \"owner_source\"), \"envelope_bytes_hex\")))\n     with Global => null, Depends => (Receipt_Source'Result => (D, Frame, Source));\n"
+    }
+  ],
+  "identifier_alpha_conversions": [
+    {
+      "original_line": 145,
+      "original_offset": 8695,
+      "original_token": "At",
+      "postimage_offset": 8695,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 147,
+      "original_offset": 8813,
+      "original_token": "At",
+      "postimage_offset": 8817,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 148,
+      "original_offset": 8858,
+      "original_token": "At",
+      "postimage_offset": 8866,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 149,
+      "original_offset": 8949,
+      "original_token": "At",
+      "postimage_offset": 8961,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 150,
+      "original_offset": 8986,
+      "original_token": "At",
+      "postimage_offset": 9002,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 150,
+      "original_offset": 9008,
+      "original_token": "At",
+      "postimage_offset": 9028,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 151,
+      "original_offset": 9093,
+      "original_token": "At",
+      "postimage_offset": 9117,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 151,
+      "original_offset": 9099,
+      "original_token": "At",
+      "postimage_offset": 9127,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 154,
+      "original_offset": 9277,
+      "original_token": "At",
+      "postimage_offset": 9309,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 159,
+      "original_offset": 9616,
+      "original_token": "At",
+      "postimage_offset": 9652,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 162,
+      "original_offset": 9811,
+      "original_token": "At",
+      "postimage_offset": 9851,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 162,
+      "original_offset": 9830,
+      "original_token": "At",
+      "postimage_offset": 9874,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 162,
+      "original_offset": 9844,
+      "original_token": "At",
+      "postimage_offset": 9892,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 162,
+      "original_offset": 9850,
+      "original_token": "At",
+      "postimage_offset": 9902,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 246,
+      "original_offset": 14458,
+      "original_token": "At",
+      "postimage_offset": 14514,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 254,
+      "original_offset": 14905,
+      "original_token": "At",
+      "postimage_offset": 14965,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 258,
+      "original_offset": 15245,
+      "original_token": "At",
+      "postimage_offset": 15309,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 259,
+      "original_offset": 15312,
+      "original_token": "At",
+      "postimage_offset": 15380,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 260,
+      "original_offset": 15383,
+      "original_token": "At",
+      "postimage_offset": 15455,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 261,
+      "original_offset": 15453,
+      "original_token": "At",
+      "postimage_offset": 15529,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 261,
+      "original_offset": 15493,
+      "original_token": "At",
+      "postimage_offset": 15573,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 261,
+      "original_offset": 15533,
+      "original_token": "At",
+      "postimage_offset": 15617,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 265,
+      "original_offset": 15864,
+      "original_token": "At",
+      "postimage_offset": 15952,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 266,
+      "original_offset": 15941,
+      "original_token": "At",
+      "postimage_offset": 16033,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 267,
+      "original_offset": 16045,
+      "original_token": "At",
+      "postimage_offset": 16141,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 268,
+      "original_offset": 16139,
+      "original_token": "At",
+      "postimage_offset": 16239,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 269,
+      "original_offset": 16236,
+      "original_token": "At",
+      "postimage_offset": 16340,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 269,
+      "original_offset": 16288,
+      "original_token": "At",
+      "postimage_offset": 16396,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 270,
+      "original_offset": 16371,
+      "original_token": "At",
+      "postimage_offset": 16483,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 270,
+      "original_offset": 16421,
+      "original_token": "At",
+      "postimage_offset": 16537,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 271,
+      "original_offset": 16495,
+      "original_token": "At",
+      "postimage_offset": 16615,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 271,
+      "original_offset": 16547,
+      "original_token": "At",
+      "postimage_offset": 16671,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 272,
+      "original_offset": 16623,
+      "original_token": "At",
+      "postimage_offset": 16751,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 273,
+      "original_offset": 16691,
+      "original_token": "At",
+      "postimage_offset": 16823,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 274,
+      "original_offset": 16772,
+      "original_token": "At",
+      "postimage_offset": 16908,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 274,
+      "original_offset": 16819,
+      "original_token": "At",
+      "postimage_offset": 16959,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 275,
+      "original_offset": 16890,
+      "original_token": "At",
+      "postimage_offset": 17034,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 275,
+      "original_offset": 16939,
+      "original_token": "At",
+      "postimage_offset": 17087,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 782,
+      "original_offset": 52167,
+      "original_token": "At",
+      "postimage_offset": 52319,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 783,
+      "original_offset": 52266,
+      "original_token": "At",
+      "postimage_offset": 52422,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 786,
+      "original_offset": 52326,
+      "original_token": "At",
+      "postimage_offset": 52486,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 786,
+      "original_offset": 52361,
+      "original_token": "At",
+      "postimage_offset": 52525,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 788,
+      "original_offset": 52493,
+      "original_token": "At",
+      "postimage_offset": 52661,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 830,
+      "original_offset": 55354,
+      "original_token": "At",
+      "postimage_offset": 55526,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 836,
+      "original_offset": 55778,
+      "original_token": "At",
+      "postimage_offset": 55954,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 837,
+      "original_offset": 55832,
+      "original_token": "At",
+      "postimage_offset": 56012,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 838,
+      "original_offset": 55953,
+      "original_token": "At",
+      "postimage_offset": 56137,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 839,
+      "original_offset": 56046,
+      "original_token": "At",
+      "postimage_offset": 56234,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 840,
+      "original_offset": 56150,
+      "original_token": "At",
+      "postimage_offset": 56342,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 850,
+      "original_offset": 56861,
+      "original_token": "At",
+      "postimage_offset": 57057,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 850,
+      "original_offset": 56867,
+      "original_token": "At",
+      "postimage_offset": 57067,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 991,
+      "original_offset": 66173,
+      "original_token": "At",
+      "postimage_offset": 66377,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 992,
+      "original_offset": 66210,
+      "original_token": "At",
+      "postimage_offset": 66418,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 995,
+      "original_offset": 66455,
+      "original_token": "At",
+      "postimage_offset": 66667,
+      "replacement_token": "Cursor"
+    },
+    {
+      "original_line": 995,
+      "original_offset": 66480,
+      "original_token": "At",
+      "postimage_offset": 66696,
+      "replacement_token": "Cursor"
+    }
+  ],
+  "inverse_transform_reconstructs_preimage_byte_exact": true,
+  "phase_acceptance": false,
+  "schema": "worldline-excluded-owner-exact-syntax-transformations-v1",
+  "strings_and_comments_byte_identical": true,
+  "target_execution": false
+}

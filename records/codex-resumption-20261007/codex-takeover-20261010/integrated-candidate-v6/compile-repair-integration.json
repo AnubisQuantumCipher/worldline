@@ -1,0 +1,59 @@
+{
+  "affected_donor_review": {
+    "bytes": 11169,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/excluded-owner-syntax-repair-ultra-v1/independent-source-review.json",
+    "sha256": "bcef02628f17421cefecfce62da91d394eb51e30a4e689a24ede8c7cb31b3738"
+  },
+  "changed_paths": [
+    "core/worldline-excluded_source_owner.adb",
+    "protected-root/controls/source_registration.json",
+    "runtime/worldline/proof_manifest.py"
+  ],
+  "current_registration_changes": {
+    "core/worldline-excluded_source_owner.adb": {
+      "after": "4335bede972d04adca139d2191dc2485fde17e5f096fe142c4f15216fc26eb82",
+      "before": "ed2fb42d9bb8b0cb62ebc0fbcb10919981cdc4a329d38190c0465bd198a159e6"
+    },
+    "runtime/worldline/proof_manifest.py": {
+      "after": "5029831342157fd761ef9585e0fcec13b95f79d4dc33cdad635f89c1a002daea",
+      "before": "dce67609ba645cb752fa969161557e9442e704cea41e147f7c71a99968df4762"
+    }
+  },
+  "donors": {
+    "core/worldline-excluded_source_owner.adb": {
+      "postimage": {
+        "bytes": 97335,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/excluded-owner-syntax-repair-ultra-v1/source/core/worldline-excluded_source_owner.adb",
+        "sha256": "4335bede972d04adca139d2191dc2485fde17e5f096fe142c4f15216fc26eb82"
+      },
+      "preimage": {
+        "bytes": 97115,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/excluded-owner-syntax-repair-ultra-v1/preimages/core/worldline-excluded_source_owner.adb",
+        "sha256": "ed2fb42d9bb8b0cb62ebc0fbcb10919981cdc4a329d38190c0465bd198a159e6"
+      }
+    }
+  },
+  "phase_acceptance": false,
+  "postimage_registration": {
+    "bytes": 32291,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v6/source/protected-root/controls/source_registration.json",
+    "sha256": "96e38c18fd8e422d5e2991fea7803ed02b9ea6698b1a0f324fb727b19c8dfd51"
+  },
+  "predecessor_selection": {
+    "bytes": 11065,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v5/source-selection.json",
+    "sha256": "e9872fd0374c734f60c9f32d21ee8c3015b0ae0493eb15465fc8c21011fb4cbf"
+  },
+  "preimage_registration": {
+    "bytes": 31260,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v5/source/protected-root/controls/source_registration.json",
+    "sha256": "bb7e23424a5050e86bfae9a2c504e462802b7dda0671e7c72696b203beecca15"
+  },
+  "target_execution": false
+}
