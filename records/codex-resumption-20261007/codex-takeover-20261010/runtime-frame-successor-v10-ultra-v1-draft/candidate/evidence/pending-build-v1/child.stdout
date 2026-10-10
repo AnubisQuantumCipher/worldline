@@ -1,0 +1,17 @@
+Setup
+   [mkdir]        object directory for project Pending
+   [mkdir]        library directory for project Pending
+Compile
+   [Ada]          evaluation_epoch.adb
+   [Ada]          evaluation_pending_c.adb
+   [Ada]          resource_quantities.adb
+   [Ada]          evaluation_pending_v2.adb
+   [Ada]          evaluation_pending_v2_c.adb
+   [Ada]          evaluation_pending.adb
+   [Ada]          spark-big_integers.ads
+   [Ada]          spark.ads
+Build Libraries
+   [gprlib]       evaluation_pending.lexch
+   [bind SAL]     evaluation_pending
+   [Ada]          b__evaluation_pending.adb
+   [link library] libevaluation_pending.so

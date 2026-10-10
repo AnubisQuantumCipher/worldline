@@ -1,0 +1,918 @@
+ info: implicit aspect Always_Terminates on "Ch" has been proved, subprogram will terminate
+--> attest-sha256.adb:27:13
+
+ info: implicit aspect Always_Terminates on "Maj" has been proved, subprogram will terminate
+--> attest-sha256.adb:30:13
+
+ info: implicit aspect Always_Terminates on "Sigma0" has been proved, subprogram will terminate
+--> attest-sha256.adb:33:13
+
+ info: implicit aspect Always_Terminates on "Sigma1" has been proved, subprogram will terminate
+--> attest-sha256.adb:36:13
+
+ info: implicit aspect Always_Terminates on "Theta0" has been proved, subprogram will terminate
+--> attest-sha256.adb:39:13
+
+ info: implicit aspect Always_Terminates on "Theta1" has been proved, subprogram will terminate
+--> attest-sha256.adb:42:13
+
+ info: implicit aspect Always_Terminates on "Low_Byte" has been proved, subprogram will terminate
+--> attest-sha256.adb:45:13
+
+ info: range check proved
+--> attest-sha256.adb:46:36
+
+ info: aspect Always_Terminates on "Compress" has been proved, subprogram will terminate
+--> attest-sha256.adb:53:14
+
+ info: data dependencies proved
+--> attest-sha256.adb:54:11
+
+ info: flow dependencies proved
+--> attest-sha256.adb:55:11
+
+ info: initialization of "A" proved
+--> attest-sha256.adb:59:07
+
+ info: initialization of "Bb" proved
+--> attest-sha256.adb:59:10
+
+ info: initialization of "Cc" proved
+--> attest-sha256.adb:59:14
+
+ info: initialization of "D" proved
+--> attest-sha256.adb:59:18
+
+ info: initialization of "E" proved
+--> attest-sha256.adb:59:21
+
+ info: initialization of "F" proved
+--> attest-sha256.adb:59:24
+
+ info: initialization of "G" proved
+--> attest-sha256.adb:59:27
+
+ info: initialization of "Hh" proved
+--> attest-sha256.adb:59:30
+
+ info: initialization of "T1" proved
+--> attest-sha256.adb:59:34
+
+ info: initialization of "T2" proved
+--> attest-sha256.adb:59:38
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:65:36
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:65:36
+
+ info: loop variant proved
+--> attest-sha256.adb:66:34
+
+ info: index check proved
+--> attest-sha256.adb:67:16
+
+ info: overflow check proved
+--> attest-sha256.adb:67:52
+
+ info: index check proved
+--> attest-sha256.adb:67:52
+
+ info: overflow check proved
+--> attest-sha256.adb:68:52
+
+ info: overflow check proved
+--> attest-sha256.adb:68:56
+
+ info: index check proved
+--> attest-sha256.adb:68:56
+
+ info: overflow check proved
+--> attest-sha256.adb:69:52
+
+ info: overflow check proved
+--> attest-sha256.adb:69:56
+
+ info: index check proved
+--> attest-sha256.adb:69:56
+
+ info: overflow check proved
+--> attest-sha256.adb:70:52
+
+ info: overflow check proved
+--> attest-sha256.adb:70:56
+
+ info: index check proved
+--> attest-sha256.adb:70:56
+
+ info: overflow check proved
+--> attest-sha256.adb:71:20
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:79:36
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:79:36
+
+ info: loop variant proved
+--> attest-sha256.adb:80:34
+
+ info: index check proved
+--> attest-sha256.adb:81:16
+
+ info: index check proved
+--> attest-sha256.adb:81:37
+
+ info: index check proved
+--> attest-sha256.adb:81:50
+
+ info: index check proved
+--> attest-sha256.adb:82:36
+
+ info: index check proved
+--> attest-sha256.adb:82:51
+
+ info: overflow check proved
+--> attest-sha256.adb:83:20
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> attest-sha256.adb:90:31
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:117:33
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:117:33
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-sha256.adb:123:24
+
+ info: range check proved
+--> attest-sha256.adb:127:30
+
+ info: range check proved
+--> attest-sha256.adb:131:46
+
+ info: index check proved
+--> attest-sha256.adb:145:14
+
+ info: overflow check proved
+--> attest-sha256.adb:146:14
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:150:36
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:150:36
+
+ info: loop variant proved
+--> attest-sha256.adb:151:34
+
+ info: index check proved
+--> attest-sha256.adb:152:20
+
+ info: overflow check proved
+--> attest-sha256.adb:153:20
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-sha256.adb:155:21
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:160:33
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:160:33
+
+ info: loop variant proved
+--> attest-sha256.adb:161:31
+
+ info: index check proved
+--> attest-sha256.adb:162:17
+
+ info: overflow check proved
+--> attest-sha256.adb:163:17
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:170:36
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:170:36
+
+ info: loop variant proved
+--> attest-sha256.adb:171:34
+
+ info: overflow check proved
+--> attest-sha256.adb:172:36
+
+ info: index check proved
+--> attest-sha256.adb:172:36
+
+ info: overflow check proved
+--> attest-sha256.adb:173:42
+
+ info: range check proved
+--> attest-sha256.adb:173:42
+
+ info: range check proved
+--> attest-sha256.adb:173:53
+
+ info: overflow check proved
+--> attest-sha256.adb:174:20
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-sha256.adb:178:18
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:185:16
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:185:16
+
+ info: loop variant proved
+--> attest-sha256.adb:186:34
+
+ info: overflow check proved
+--> attest-sha256.adb:187:18
+
+ info: index check proved
+--> attest-sha256.adb:187:18
+
+ info: precondition proved
+--> attest-sha256.adb:187:30
+
+ info: index check proved
+--> attest-sha256.adb:187:45
+
+ info: overflow check proved
+--> attest-sha256.adb:188:18
+
+ info: overflow check proved
+--> attest-sha256.adb:188:22
+
+ info: index check proved
+--> attest-sha256.adb:188:22
+
+ info: precondition proved
+--> attest-sha256.adb:188:30
+
+ info: index check proved
+--> attest-sha256.adb:188:45
+
+ info: overflow check proved
+--> attest-sha256.adb:189:18
+
+ info: overflow check proved
+--> attest-sha256.adb:189:22
+
+ info: index check proved
+--> attest-sha256.adb:189:22
+
+ info: precondition proved
+--> attest-sha256.adb:189:30
+
+ info: index check proved
+--> attest-sha256.adb:189:45
+
+ info: overflow check proved
+--> attest-sha256.adb:190:18
+
+ info: overflow check proved
+--> attest-sha256.adb:190:22
+
+ info: index check proved
+--> attest-sha256.adb:190:22
+
+ info: precondition proved
+--> attest-sha256.adb:190:30
+
+ info: index check proved
+--> attest-sha256.adb:190:45
+
+ info: overflow check proved
+--> attest-sha256.adb:191:20
+
+ info: precondition proved
+--> attest-sha256.adb:205:07
+
+ info: implicit aspect Always_Terminates on "Absorbed" has been proved, subprogram will terminate
+--> attest-sha256.ads:26:13
+
+ info: implicit aspect Always_Terminates on "Initial" has been proved, subprogram will terminate
+--> attest-sha256.ads:29:13
+
+ info: postcondition proved
+--> attest-sha256.ads:30:19
+
+ info: range check proved
+--> attest-sha256.ads:33:73
+
+ info: postcondition proved
+--> attest-sha256.ads:34:19
+
+ info: range check proved
+--> attest-sha256.ads:34:71
+
+ info: implicit aspect Always_Terminates on "Final" has been proved, subprogram will terminate
+--> attest-sha256.ads:36:13
+
+ info: implicit aspect Always_Terminates on "Hash" has been proved, subprogram will terminate
+--> attest-sha256.ads:40:13
+
+ info: range check proved
+--> attest-sha256.ads:41:36
+ info: implicit aspect Always_Terminates on "Ch" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:28:13
+
+ info: implicit aspect Always_Terminates on "Maj" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:31:13
+
+ info: implicit aspect Always_Terminates on "Sigma0" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:34:13
+
+ info: implicit aspect Always_Terminates on "Sigma1" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:37:13
+
+ info: implicit aspect Always_Terminates on "Theta0" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:40:13
+
+ info: implicit aspect Always_Terminates on "Theta1" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:43:13
+
+ info: implicit aspect Always_Terminates on "Low_Byte" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:46:13
+
+ info: range check proved
+--> attest-custody_sha256.adb:47:36
+
+ info: aspect Always_Terminates on "Compress" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:54:14
+
+ info: data dependencies proved
+--> attest-custody_sha256.adb:55:11
+
+ info: flow dependencies proved
+--> attest-custody_sha256.adb:56:11
+
+ info: initialization of "A" proved
+--> attest-custody_sha256.adb:60:07
+
+ info: initialization of "Bb" proved
+--> attest-custody_sha256.adb:60:10
+
+ info: initialization of "Cc" proved
+--> attest-custody_sha256.adb:60:14
+
+ info: initialization of "D" proved
+--> attest-custody_sha256.adb:60:18
+
+ info: initialization of "E" proved
+--> attest-custody_sha256.adb:60:21
+
+ info: initialization of "F" proved
+--> attest-custody_sha256.adb:60:24
+
+ info: initialization of "G" proved
+--> attest-custody_sha256.adb:60:27
+
+ info: initialization of "Hh" proved
+--> attest-custody_sha256.adb:60:30
+
+ info: initialization of "T1" proved
+--> attest-custody_sha256.adb:60:34
+
+ info: initialization of "T2" proved
+--> attest-custody_sha256.adb:60:38
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:66:36
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:66:36
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:67:34
+
+ info: index check proved
+--> attest-custody_sha256.adb:68:16
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:68:52
+
+ info: index check proved
+--> attest-custody_sha256.adb:68:52
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:69:52
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:69:56
+
+ info: index check proved
+--> attest-custody_sha256.adb:69:56
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:70:52
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:70:56
+
+ info: index check proved
+--> attest-custody_sha256.adb:70:56
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:71:52
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:71:56
+
+ info: index check proved
+--> attest-custody_sha256.adb:71:56
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:72:20
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:80:36
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:80:36
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:81:34
+
+ info: index check proved
+--> attest-custody_sha256.adb:82:16
+
+ info: index check proved
+--> attest-custody_sha256.adb:82:37
+
+ info: index check proved
+--> attest-custody_sha256.adb:82:50
+
+ info: index check proved
+--> attest-custody_sha256.adb:83:36
+
+ info: index check proved
+--> attest-custody_sha256.adb:83:51
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:84:20
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> attest-custody_sha256.adb:91:31
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:118:33
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:118:33
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-custody_sha256.adb:124:24
+
+ info: range check proved
+--> attest-custody_sha256.adb:128:30
+
+ info: range check proved
+--> attest-custody_sha256.adb:132:46
+
+ info: index check proved
+--> attest-custody_sha256.adb:146:14
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:147:14
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:151:36
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:151:36
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:152:34
+
+ info: index check proved
+--> attest-custody_sha256.adb:153:20
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:154:20
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-custody_sha256.adb:156:21
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:161:33
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:161:33
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:162:31
+
+ info: index check proved
+--> attest-custody_sha256.adb:163:17
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:164:17
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:171:36
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:171:36
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:172:34
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:173:36
+
+ info: index check proved
+--> attest-custody_sha256.adb:173:36
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:174:42
+
+ info: range check proved
+--> attest-custody_sha256.adb:174:42
+
+ info: range check proved
+--> attest-custody_sha256.adb:174:53
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:175:20
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-custody_sha256.adb:179:18
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:186:16
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:186:16
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:187:34
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:188:18
+
+ info: index check proved
+--> attest-custody_sha256.adb:188:18
+
+ info: precondition proved
+--> attest-custody_sha256.adb:188:30
+
+ info: index check proved
+--> attest-custody_sha256.adb:188:45
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:189:18
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:189:22
+
+ info: index check proved
+--> attest-custody_sha256.adb:189:22
+
+ info: precondition proved
+--> attest-custody_sha256.adb:189:30
+
+ info: index check proved
+--> attest-custody_sha256.adb:189:45
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:190:18
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:190:22
+
+ info: index check proved
+--> attest-custody_sha256.adb:190:22
+
+ info: precondition proved
+--> attest-custody_sha256.adb:190:30
+
+ info: index check proved
+--> attest-custody_sha256.adb:190:45
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:191:18
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:191:22
+
+ info: index check proved
+--> attest-custody_sha256.adb:191:22
+
+ info: precondition proved
+--> attest-custody_sha256.adb:191:30
+
+ info: index check proved
+--> attest-custody_sha256.adb:191:45
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:192:20
+
+ info: implicit aspect Always_Terminates on "Bit_Length" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:24:13
+
+ info: implicit aspect Always_Terminates on "Absorbed" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:29:13
+
+ info: implicit aspect Always_Terminates on "Initial" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:32:13
+
+ info: postcondition proved
+--> attest-custody_sha256.ads:33:19
+
+ info: postcondition proved
+--> attest-custody_sha256.ads:36:19
+
+ info: range check proved
+--> attest-custody_sha256.ads:36:71
+
+ info: implicit aspect Always_Terminates on "Final" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:38:13
+
+ info: implicit aspect Always_Terminates on "Hash" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:42:13
+ info: implicit aspect Always_Terminates on "Sextet" has been proved, subprogram will terminate
+--> worldline-producer_bytes.adb:9:13
+
+ info: range check proved
+--> worldline-producer_bytes.adb:10:49
+
+ info: range check proved
+--> worldline-producer_bytes.adb:11:74
+
+ info: range check proved
+--> worldline-producer_bytes.adb:12:74
+
+ info: initialization of "Size" proved
+--> worldline-producer_bytes.adb:18:64
+
+ info: data dependencies proved
+--> worldline-producer_bytes.adb:20:06
+
+ info: postcondition proved
+--> worldline-producer_bytes.adb:23:14
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:32:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:32:33
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:32:43
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:33:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:33:33
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:33:46
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:34:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:34:33
+
+ info: range check proved
+--> worldline-producer_bytes.adb:34:62
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:35:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:35:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:36:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:36:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:37:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:37:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:39:13
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:39:13
+
+ info: range check proved
+--> worldline-producer_bytes.adb:40:15
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:40:52
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:47:32
+
+ info: range check proved
+--> worldline-producer_bytes.adb:57:61
+
+ info: range check proved
+--> worldline-producer_bytes.adb:57:70
+
+ info: range check proved
+--> worldline-producer_bytes.adb:65:41
+
+ info: division check proved
+--> worldline-producer_bytes.adb:71:67
+
+ info: division check proved
+--> worldline-producer_bytes.adb:72:71
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:75:41
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:76:49
+
+ info: index check proved
+--> worldline-producer_bytes.adb:76:49
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:80:38
+
+ info: division check proved
+--> worldline-producer_bytes.adb:85:55
+
+ info: division check proved
+--> worldline-producer_bytes.adb:88:55
+
+ info: range check proved
+--> worldline-producer_bytes.adb:103:40
+
+ info: length check proved
+--> worldline-producer_bytes.adb:105:17
+
+ info: assertion proved
+--> worldline-producer_bytes.adb:108:25
+
+ info: initialization of "Empty" proved
+--> worldline-producer_bytes.adb:114:07
+
+ info: initialization of "Size" proved
+--> worldline-producer_bytes.adb:115:07
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:117:07
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:117:36
+      + in value of subprogram parameter after the call at worldline-producer_bytes.adb:117
+
+ info: assertion proved
+--> worldline-producer_bytes.adb:118:22
+
+ info: initialization of "Size" proved
+--> worldline-producer_bytes.adb:125:07
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:127:07
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:127:35
+      + in value of subprogram parameter after the call at worldline-producer_bytes.adb:127
+
+ info: initialization of "Output" proved
+--> worldline-producer_bytes.adb:133:07
+
+ info: range check proved
+--> worldline-producer_bytes.adb:133:07
+
+ info: initialization of "Rendered" proved
+--> worldline-producer_bytes.adb:134:07
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:137:07
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:137:35
+      + in value of subprogram parameter after the call at worldline-producer_bytes.adb:137
+
+ info: length check proved
+--> worldline-producer_bytes.adb:138:44
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:150:13
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:150:13
+
+ info: range check proved
+--> worldline-producer_bytes.adb:151:43
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:153:13
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:153:13
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:154:41
+
+ info: range check proved
+--> worldline-producer_bytes.adb:154:41
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:156:13
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:156:13
+
+ info: range check proved
+--> worldline-producer_bytes.adb:156:30
+
+ info: assertion proved
+--> worldline-producer_bytes.adb:159:28
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:160:26
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:160:42
+
+ info: range check proved
+--> worldline-producer_bytes.adb:160:42
+
+ info: range check proved
+--> worldline-producer_bytes.adb:163:26
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:167:23
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:167:39
+
+ info: range check proved
+--> worldline-producer_bytes.adb:167:39
+
+ info: division check proved
+--> worldline-producer_bytes.adb:173:63
+
+ info: division check proved
+--> worldline-producer_bytes.adb:174:63
+
+ info: range check proved
+--> worldline-producer_bytes.adb:176:16
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:176:16
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:176:16
+
+ info: assertion proved
+--> worldline-producer_bytes.adb:179:22
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:180:14
+
+ info: range check proved
+--> worldline-producer_bytes.adb:180:14
+
+ info: range check proved
+--> worldline-producer_bytes.ads:4:07
+
+ info: implicit aspect Always_Terminates on "Base64_Extent" has been proved, subprogram will terminate
+--> worldline-producer_bytes.ads:10:13
+
+ info: data dependencies proved
+--> worldline-producer_bytes.ads:10:65
+
+ info: initialization of "Output" proved
+--> worldline-producer_bytes.ads:11:47
+
+ info: initialization of "Valid" proved
+--> worldline-producer_bytes.ads:11:68
+
+ info: data dependencies proved
+--> worldline-producer_bytes.ads:11:94
+
+ info: implicit aspect Always_Terminates on "Base64" has been proved, subprogram will terminate
+--> worldline-producer_bytes.ads:12:13
+
+ info: data dependencies proved
+--> worldline-producer_bytes.ads:12:59
+
+ info: implicit aspect Always_Terminates on "Digest" has been proved, subprogram will terminate
+--> worldline-producer_bytes.ads:13:13
+
+ info: data dependencies proved
+--> worldline-producer_bytes.ads:13:55
+
+ info: postcondition proved
+--> worldline-producer_bytes.ads:14:15

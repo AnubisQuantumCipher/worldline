@@ -1,0 +1,12 @@
+with "../core/worldline_core_sources.gpr";
+project Custody_Hmac_Controls is
+   for Languages use ("Ada");
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/custody-hmac-controls";
+   for Exec_Dir use "../obj/custody-hmac-controls";
+   for Main use ("custody_hmac_controls.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnata", "-gnatVa", "-gnatwa", "-g", "-O0");
+   end Compiler;
+end Custody_Hmac_Controls;

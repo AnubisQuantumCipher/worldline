@@ -1,0 +1,510 @@
+from __future__ import annotations
+
+import asyncio
+import sqlite3
+import errno
+from collections.abc import Awaitable, Callable
+from dataclasses import dataclass
+import fcntl
+import inspect
+import json
+import logging
+import os
+from pathlib import Path
+import socket
+import stat
+import struct
+from typing import Any
+
+from . import __version__
+from .canonical import canonical_bytes
+from .client_peer import UCRED, RequestPeer, current_peer, decode_credentials, request_scope
+from .errors import InvalidRequest, WorldlineError, storage_error  # noqa: F401 - storage_error is part of this module's API
+from .manifest import repository_facts
+from .paths import WorldlinePaths
+from .status import StatusPublisher
+from .store import StateStore
+from .ordinary_receipt_policy import owner_request, mutating_request
+
+_LOG = logging.getLogger("worldline.daemon")
+_MAX_REQUEST_BYTES = 16 * 1024 * 1024
+
+Progress = Callable[[str, dict[str, Any]], Awaitable[None]]
+Handler = Callable[[dict[str, Any], "RequestContext"], Any]
+
+
+@dataclass(slots=True)
+class RequestContext:
+    daemon: "WorldlineDaemon"
+    request_id: str | int
+    progress: Progress
+    # SO_PEERCRED uid of the requester: the daemon's own, or a listed client's in client mode.
+    peer_uid: int | None = None
+    # Only real dispatch supplies the retained original transport. Legacy fixture
+    # construction has typed absence, not synthetic client authority.
+    peer: RequestPeer | None = None
+    # Selected protected principal for this dispatch. Absence is ordinary
+    # non-root dispatch, not a readiness flag.
+    operation_principal: Any | None = None
+
+    def retain_peer(self) -> RequestPeer:
+        original = current_peer() or self.peer
+        if original is None:
+            raise WorldlineError("PEER_CREDENTIALS_UNAVAILABLE", "original request transport is unavailable")
+        return original.duplicate()
+
+
+@dataclass(slots=True)
+class Operation:
+    handler: Handler
+    mutating: bool
+    # Refused to listed client uids: the daemon's own account only (client mode).
+    owner_only: bool = False
+
+
+class WorldlineDaemon:
+    def __init__(
+        self,
+        paths: WorldlinePaths,
+        store: StateStore,
+        publisher: StatusPublisher,
+        *,
+        recover: Callable[[], Any] | None = None,
+        reconcile_status: Callable[[], Any] | None = None,
+    ) -> None:
+        self.paths = paths
+        self.store = store
+        self.publisher = publisher
+        self._recover = recover
+        self._reconcile_status = reconcile_status
+        self._operations: dict[str, Operation] = {}
+        self._operation_registrations: list[tuple[str, Operation]] = []
+        self._mutation_lock = asyncio.Lock()
+        self._server: asyncio.AbstractServer | None = None
+        self._background: dict[str, asyncio.Task[Any]] = {}
+        self._heartbeat_task: asyncio.Task[None] | None = None
+        self._lock_fd: int | None = None
+        self._stopping = False
+        self.register("ping", self._ping)
+        self.register("status", self._status, mutating=True)
+        self.register("list", self._list)
+        self.register("show", self._show)
+        self.register("log.verify", self._verify_log)
+
+    def register(self, name: str, handler: Handler, *, mutating: bool = False, owner_only: bool = False) -> None:
+        if not name or name in self._operations:
+            raise ValueError(f"duplicate or empty operation: {name}")
+        original = Operation(handler=handler, mutating=mutating, owner_only=owner_only)
+        self._operations[name] = original
+        # Retain the actual original registration object, not copied policy bits.
+        self._operation_registrations.append((name, original))
+
+    def spawn_background(self, key: str, awaitable: Awaitable[Any]) -> asyncio.Task[Any]:
+        if key in self._background and not self._background[key].done():
+            raise WorldlineError("JOB_ALREADY_RUNNING", f"background job is already running: {key}")
+        original = current_peer()
+        retained = None if original is None else original.duplicate()
+
+        async def run_with_original_peer():
+            try:
+                with request_scope(retained):
+                    return await awaitable
+            finally:
+                if retained is not None:
+                    retained.close()
+
+        try:
+            task = asyncio.create_task(run_with_original_peer(), name=f"worldline:{key}")
+        except BaseException:
+            if retained is not None:
+                retained.close()
+            raise
+        self._background[key] = task
+
+        def finished(done: asyncio.Task[Any]) -> None:
+            if retained is not None:
+                retained.close()  # also covers cancellation before the wrapper first runs
+            self._background.pop(key, None)
+            if not done.cancelled() and done.exception() is not None:
+                _LOG.error("background job %s failed", key, exc_info=done.exception())
+            try:
+                self.publisher.publish()
+            except Exception:
+                _LOG.exception("status publication failed after job %s", key)
+
+        task.add_done_callback(finished)
+        root_owner=getattr(self,'_root_worker_task_owner',None)
+        if root_owner is not None:
+            try:root_owner.own_task(key,task)
+            except BaseException:
+                task.cancel()
+                # The installed callback closes the retained peer even when the
+                # wrapper is cancelled before its first instruction.
+                raise
+        return task
+
+    def _selected_operation_principal(self):
+        principal = getattr(self.store, 'canonical_operation_principal', None)
+        if principal is None:
+            return None
+        from .protected_operations import CanonicalOperationPrincipal
+        if (type(principal) is not CanonicalOperationPrincipal
+                or getattr(principal, 'store', None) is not self.store
+                or getattr(getattr(principal, 'lease', None), 'store', None) is not self.store):
+            raise WorldlineError('OPERATION_PRINCIPAL_UNAUTHENTICATED',
+                                 'actual selected protected operation principal required')
+        principal.intact()
+        return principal
+
+    async def start(self) -> None:
+        if self._server is not None:
+            raise RuntimeError("daemon is already started")
+        os.umask(0o077)
+        self.paths.ensure()
+        self._acquire_singleton_lock()
+        # Closed once this start is the store's only daemon (a second start closed a running
+        # daemon's gate before it was refused: review of 796cb02), and before anything that
+        # checks what clients would reach. worldlined closes it too if the start refuses.
+        self.paths.close_client_gate()
+        if self._recover is not None:
+            result = self._recover()
+            if inspect.isawaitable(result):
+                await result
+        # After the lock and recovery: only this daemon touches the store, and an interrupted
+        # exchange has been resolved, so `live` is the mapping that will be served.
+        self.paths.share_live_chain()
+        swept = self.store.sweep_unsupervised()
+        if swept["jobs"] or swept["worlds"]:
+            _LOG.warning("startup sweep: %d orphaned job(s), %d unsupervised world(s) marked DEAD", swept["jobs"], swept["worlds"])
+        self._remove_stale_socket()
+        self._server = await asyncio.start_unix_server(
+            self._handle_client,
+            path=self.paths.socket,
+            limit=_MAX_REQUEST_BYTES,
+        )
+        if self.paths.client_gid is None:
+            os.chmod(self.paths.socket, 0o600)
+        else:
+            try:
+                os.chown(self.paths.socket, -1, self.paths.client_gid)
+            except PermissionError as exc:
+                raise WorldlineError(
+                    "INVALID_CLIENT_MODE",
+                    f"the daemon account is not a member of client group {self.paths.client_gid}") from exc
+            os.chmod(self.paths.socket, 0o660)
+        self._verify_socket()
+        self.publisher.publish(daemon_state="RUNNING")
+        self._heartbeat_task = asyncio.create_task(self._heartbeat(), name="worldline:status-heartbeat")
+
+    async def _heartbeat(self) -> None:
+        while True:
+            await asyncio.sleep(5)
+            try:
+                self.publisher.publish(daemon_state="RUNNING")
+            except Exception:
+                _LOG.exception("status heartbeat publication failed")
+
+    async def serve_forever(self) -> None:
+        if self._server is None:
+            await self.start()
+        assert self._server is not None
+        async with self._server:
+            await self._server.serve_forever()
+
+    async def stop(self) -> None:
+        if self._stopping:
+            return
+        self._stopping = True
+        if self._server is not None:
+            self._server.close()
+            await self._server.wait_closed()
+            self._server = None
+        if self._heartbeat_task is not None:
+            self._heartbeat_task.cancel()
+            await asyncio.gather(self._heartbeat_task, return_exceptions=True)
+            self._heartbeat_task = None
+        tasks = tuple(self._background.values())
+        for task in tasks:
+            task.cancel()
+        if tasks:
+            await asyncio.gather(*tasks, return_exceptions=True)
+        try:
+            self.publisher.publish(daemon_state="STOPPED")
+        finally:
+            self.paths.socket.unlink(missing_ok=True)
+            if self._lock_fd is not None:
+                os.close(self._lock_fd)
+                self._lock_fd = None
+
+    def _acquire_singleton_lock(self) -> None:
+        # A single mutation lock inside one process is not enough: a second worldlined would
+        # unlink this daemon's socket, bind its own, and run collapses concurrently against the
+        # same store (SQLite WAL serves both), so two self-consistent exchanges could race and
+        # violate "exactly one world commits." An advisory flock held for the daemon's lifetime
+        # makes a second daemon fail fast instead.
+        lock_path = self.paths.socket.parent / "worldlined.lock"
+        fd = os.open(lock_path, os.O_RDWR | os.O_CREAT | os.O_CLOEXEC, 0o600)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            os.close(fd)
+            raise WorldlineError(
+                "DAEMON_ALREADY_RUNNING",
+                f"another worldlined already holds {lock_path}",
+            ) from exc
+        os.ftruncate(fd, 0)
+        os.write(fd, f"{os.getpid()}\n".encode("ascii"))
+        self._lock_fd = fd
+
+    def _remove_stale_socket(self) -> None:
+        try:
+            info = self.paths.socket.lstat()
+        except FileNotFoundError:
+            return
+        if info.st_uid != os.getuid() or not stat.S_ISSOCK(info.st_mode):
+            raise WorldlineError("UNSAFE_SOCKET", f"refusing to replace unsafe socket path: {self.paths.socket}")
+        self.paths.socket.unlink()
+
+    def _verify_socket(self) -> None:
+        info = self.paths.socket.lstat()
+        if info.st_uid != os.getuid() or not stat.S_ISSOCK(info.st_mode):
+            raise WorldlineError("UNSAFE_SOCKET", f"daemon socket failed ownership validation: {self.paths.socket}")
+        if self.paths.client_gid is None:
+            if stat.S_IMODE(info.st_mode) != 0o600:
+                raise WorldlineError("UNSAFE_SOCKET", f"daemon socket mode is not 0600: {self.paths.socket}")
+        elif stat.S_IMODE(info.st_mode) != 0o660 or info.st_gid != self.paths.client_gid:
+            raise WorldlineError("UNSAFE_SOCKET",
+                                 f"daemon socket is not 0660 for its client group: {self.paths.socket}")
+
+    @staticmethod
+    def _peer_uid(writer: asyncio.StreamWriter) -> int:
+        transport_socket = writer.get_extra_info("socket")
+        if transport_socket is None:
+            raise WorldlineError("PEER_CREDENTIALS_UNAVAILABLE", "Unix peer socket is unavailable")
+        credentials = transport_socket.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, UCRED.size)
+        _pid, uid, _gid = decode_credentials(credentials)
+        return uid
+
+    async def _handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
+        try:
+            # The daemon's own uid, plus the client uids its root-owned environment lists.
+            principal = self._selected_operation_principal()
+            if principal is None and self._peer_uid(writer) not in (os.getuid(), *self.paths.client_uids):
+                await self._send(writer, {"id": None, "ok": False, "result": None, "error": {
+                    "code": "PEER_UID_MISMATCH", "message": "peer uid does not own this daemon", "details": {}
+                }})
+                return
+            while not reader.at_eof():
+                try:
+                    line = await reader.readline()
+                except (ValueError, asyncio.LimitOverrunError) as exc:
+                    raise InvalidRequest("request exceeds maximum NDJSON line size") from exc
+                if not line:
+                    break
+                if len(line) > _MAX_REQUEST_BYTES:
+                    raise InvalidRequest("request exceeds maximum NDJSON line size")
+                await self._dispatch_line(line, writer)
+        except WorldlineError as exc:
+            await self._send(
+                writer,
+                {"id": None, "ok": False, "result": None, "error": exc.as_dict()},
+            )
+        except (ConnectionError, BrokenPipeError):
+            pass
+        except Exception:
+            _LOG.exception("client handler failed")
+            try:
+                await self._send(writer, {"id": None, "ok": False, "result": None, "error": {
+                    "code": "INTERNAL_ERROR", "message": "daemon request handler failed", "details": {}
+                }})
+            except ConnectionError:
+                pass
+        finally:
+            writer.close()
+            try:
+                await writer.wait_closed()
+            except ConnectionError:
+                pass
+
+    async def _dispatch_line(self, line: bytes, writer: asyncio.StreamWriter) -> None:
+        root_router=getattr(self,'_protected_root_router',None)
+        if root_router is not None:
+            from .root_worker_endpoint_router import RootEndpointRouter
+            if type(root_router) is not RootEndpointRouter:
+                raise WorldlineError('ROOT_ROUTER_UNAUTHENTICATED','actual selected endpoint router required')
+            if await root_router.dispatch_redirect(self,line,writer):return
+        request_id: str | int | None = None
+        retained_peer: RequestPeer | None = None
+        context: RequestContext | None = None
+        try:
+            try:
+                request = json.loads(line.decode("utf-8", "strict"))
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise InvalidRequest("request is not UTF-8 JSON") from exc
+            if not isinstance(request, dict) or set(request) != {"id", "op", "args"}:
+                raise InvalidRequest("request must have exactly id, op, and args fields")
+            request_id = request["id"]
+            if isinstance(request_id, bool) or not isinstance(request_id, (str, int)):
+                raise InvalidRequest("request id must be a string or integer")
+            operation_name = request["op"]
+            args = request["args"]
+            if not isinstance(operation_name, str) or not isinstance(args, dict):
+                raise InvalidRequest("op must be a string and args must be an object")
+            operation = self._operations.get(operation_name)
+            if operation is None:
+                raise WorldlineError("UNKNOWN_OPERATION", f"unknown daemon operation: {operation_name}")
+            if self._selected_operation_principal() is None:
+                owner_request(self.store.core, self, operation_name, operation,
+                              lambda: (self._peer_uid(writer), os.getuid()))
+
+            async def progress(event: str, data: dict[str, Any]) -> None:
+                await self._send(writer, {"id": request_id, "event": event, "data": data})
+
+            retained_peer = RequestPeer.capture(writer, line=line, operation=operation_name,
+                                                request_id=request_id)
+            observation = retained_peer.observation()
+            peer_uid = observation["peer"]["uid"]
+            # Complete durable observation precedes every handler and its effects.
+            # This ordinary store row is not protected capability authority.
+            self.store.retain_client_request(observation)
+            context = RequestContext(self, request_id, progress, peer_uid, retained_peer,
+                                     self._selected_operation_principal())
+            if mutating_request(self.store.core, self, operation_name, operation):
+                # Retained complete request observations bind original connection evidence.
+                # Existing receipt/causal schemas and their bytes are preserved.
+                _LOG.info("%s requested by uid %d", operation_name, peer_uid)
+                async with self._mutation_lock:
+                    result = await self._invoke(operation.handler, args, context)
+                    if root_router is None:self.publisher.publish()
+                    else:await root_router.publish_after_invoke(self)
+            else:
+                result = await self._invoke(operation.handler, args, context)
+            if not self._protected_initial_already_written(context):
+                await self._send(writer, {"id": request_id, "ok": True, "result": result, "error": None})
+        except WorldlineError as exc:
+            if not self._protected_initial_already_written(context):
+                await self._send(writer, {"id": request_id, "ok": False, "result": None, "error": exc.as_dict()})
+        except (OSError, sqlite3.Error) as exc:
+            # Storage failed underneath a handler (disk full is the one that happens): name it,
+            # so the operator sees DISK_FULL with the errno and path instead of INTERNAL_ERROR.
+            _LOG.exception("operation failed on storage")
+            if not self._protected_initial_already_written(context):
+                await self._send(writer, {"id": request_id, "ok": False, "result": None, "error": storage_error(exc).as_dict()})
+        except Exception:
+            _LOG.exception("operation failed")
+            if not self._protected_initial_already_written(context):
+                await self._send(writer, {"id": request_id, "ok": False, "result": None, "error": {
+                    "code": "INTERNAL_ERROR", "message": "daemon operation failed", "details": {}
+                }})
+
+        finally:
+            if retained_peer is not None:
+                retained_peer.close()
+
+    @staticmethod
+    def _protected_initial_already_written(context: RequestContext | None) -> bool:
+        """True only when this request's selected worker already wrote the public bytes."""
+        if context is None:
+            return False
+        principal = context.operation_principal
+        front = getattr(principal, 'root_worker', None) if principal is not None else None
+        if front is None or context.peer is None:
+            return False
+        queued = getattr(front, 'front_queued_requests', None) or {}
+        for operation, item in queued.items():
+            if item.get('request') is not context.peer:
+                continue
+            if item.get('error_output') is not None:
+                return True
+            slot = getattr(front, 'slots', {}).get(operation)
+            owned = getattr(slot, 'owned', None)
+            for name in ('original_response_transport', 'original_failure_transport'):
+                transport = getattr(owned, name, None)
+                output = transport.get('output') if type(transport) is dict else None
+                if type(output) is dict and output.get('written') is not None:
+                    return True
+        return False
+
+    @staticmethod
+    async def _invoke(handler: Handler, args: dict[str, Any], context: RequestContext) -> Any:
+        # ContextVar propagation includes asyncio.to_thread and direct sync handlers.
+        with request_scope(context.peer):
+            principal = context.operation_principal
+            if principal is None:
+                principal = context.daemon._selected_operation_principal()
+            if principal is not None:
+                return await principal.invoke(context.peer, context, handler)
+            result = handler(args, context)
+            return await result if inspect.isawaitable(result) else result
+
+    @staticmethod
+    async def _send(writer: asyncio.StreamWriter, value: dict[str, Any]) -> None:
+        # A detached fork/race returns immediately while its background job keeps reporting
+        # progress to the request that started it; once that client has gone, the events have
+        # nowhere to go. Dropping them is correct (the durable record is the causal chain) and
+        # keeps asyncio from logging "socket.send() raised exception" every few seconds.
+        if writer.is_closing():
+            return
+        try:
+            writer.write(canonical_bytes(value) + b"\n")
+            await writer.drain()
+        except (ConnectionError, BrokenPipeError, RuntimeError):
+            return
+
+    def _ping(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("ping takes no arguments")
+        return {"version": __version__, "pid": os.getpid()}
+
+    def _status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("status takes no arguments")
+        if self._reconcile_status is not None and self.store.get_meta("dirty", False):
+            try:
+                self._reconcile_status()
+            except WorldlineError as exc:
+                # The re-capture refused (EXTERNAL_HARDLINK, UNSUPPORTED_SPECIAL_FILE, ...).
+                # PRIME stays at its last checkpoint, `dirty` stays set so every mutation keeps
+                # refusing by the same name, and status REPORTS the refusal instead of failing:
+                # the operator must be able to see what is wrong (worldline-lab D7, 2026-09-21).
+                self.store.set_meta("watchState", "DEGRADED")
+                self.store.set_meta("watchError", exc.as_dict())
+                _LOG.warning("PRIME re-capture refused; status degraded: %s: %s", exc.code, exc.message)
+            except (OSError, sqlite3.Error) as exc:
+                # Storage keeps its own name and errno (DISK_FULL, STORAGE_ERROR: review of f50bbb1)
+                # and status stays readable (review of 0fa069c: an unreadable file in a root failed
+                # every status request while the store stayed dirty).
+                _LOG.warning("PRIME re-capture failed on storage; status degraded: %s", exc)
+                self.store.set_meta("watchState", "DEGRADED")
+                self.store.set_meta("watchError", storage_error(exc).as_dict())
+            except Exception as exc:  # noqa: BLE001
+                # Anything else the re-capture raised is reported the same way: status that failed
+                # with INTERNAL_ERROR on every request left the operator nothing to read while the
+                # store stayed dirty (review of 8ff1903).
+                _LOG.exception("PRIME re-capture failed; status degraded")
+                self.store.set_meta("watchState", "DEGRADED")
+                self.store.set_meta("watchError", {"code": "RECAPTURE_FAILED",
+                                                   "message": f"{type(exc).__name__}: {exc}"[:2000], "details": {}})
+            else:
+                if self.store.get_meta("watchError") is not None:
+                    self.store.set_meta("watchError", None)
+                    self.store.set_meta("watchState", "HEALTHY")
+        return self.publisher.publish()
+
+    def _list(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:
+        if args:
+            raise InvalidRequest("list takes no arguments")
+        return [world.summary() for world in self.store.worlds()]
+
+    def _show(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("show requires one string world argument")
+        world = self.store.world(args["world"])
+        record = world.record()
+        record["repository"] = None if world.payload_pruned else repository_facts(world.payload_path, self.store.roots())
+        return record
+
+    def _verify_log(self, args: dict[str, Any], _context: RequestContext) -> dict[str, int]:
+        if args:
+            raise InvalidRequest("log.verify takes no arguments")
+        return self.store.verify_chains()
