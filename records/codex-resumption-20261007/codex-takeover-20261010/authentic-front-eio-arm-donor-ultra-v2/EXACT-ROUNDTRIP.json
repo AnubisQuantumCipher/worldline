@@ -1,0 +1,33 @@
+{
+  "exact_forward_and_inverse": true,
+  "operations": [
+    {
+      "actual_returncode": 0,
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "-p1",
+        "-i",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/forward.patch"
+      ],
+      "stderr": "",
+      "stdout": "patching file protected-root/controls/live_campaign.py\npatching file protected-root/controls/syscall_fault.c\n"
+    },
+    {
+      "actual_returncode": 0,
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "-p1",
+        "-i",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/inverse.patch"
+      ],
+      "stderr": "",
+      "stdout": "patching file protected-root/controls/live_campaign.py\npatching file protected-root/controls/syscall_fault.c\n"
+    }
+  ],
+  "schema": "worldline.native-fault-arm-source-roundtrip-v1",
+  "target_execution": false
+}

@@ -1,0 +1,259 @@
+--- a/protected-root/controls/live_campaign.py
++++ b/protected-root/controls/live_campaign.py
+@@ -18,6 +18,7 @@
+ import os
+ from pathlib import Path
+ import socket
++import signal
+ import stat
+ import subprocess
+ 
+@@ -62,6 +63,22 @@
+                 'CAMPAIGN_PROTECTED_ANCESTRY_REQUIRED')
+     require(not info.st_mode & 0o077, 'CAMPAIGN_PRECREATED_PRIVATE_OUTPUT_REQUIRED')
+     return path
++
++
++def fault_arm(raw, command):
++    # This decodes only the native tracer's raw acknowledgment, never a ready flag.
++    prefix = b'ACTUAL_SYSCALL_FAULT_ARMED '
++    lines = [line for line in raw.splitlines(keepends=True) if line.startswith(prefix)]
++    require(len(lines) <= 1, 'CAMPAIGN_DUPLICATE_NATIVE_FAULT_ARM')
++    if not lines or not lines[0].endswith(b'\n'):
++        return None
++    expected = ('ACTUAL_SYSCALL_FAULT_ARMED pid=' + command[1]
++        + ' pidfd=' + command[2] + ' syscall=' + command[3]
++        + ' occurrence=' + command[5] + ' effect=' + command[6]
++        + ' path_hex=' + os.fsencode(command[4]).hex() + '\n').encode('ascii')
++    require(lines[0] == expected, 'CAMPAIGN_NATIVE_FAULT_ARM_COMMAND_SPLIT')
++    return {'raw_line': lines[0].decode('ascii'), 'sha256': sha(lines[0]),
++            'selected_command': command}
+ 
+ 
+ class Campaign:
+@@ -97,6 +114,7 @@
+         self.coverage = None
+         self.children = []
+         self.tasks = []
++        self.fault_tasks = []
+         self.leases = []
+         self.server = None
+         self.router = None
+@@ -232,37 +250,137 @@
+                 raise RuntimeError('CAMPAIGN_ACTUAL_DRAIN_TRANSFER_WINDOW_ALREADY_CLOSED')
+             await asyncio.sleep(0)
+         raise RuntimeError('CAMPAIGN_ACTUAL_DRAIN_TRANSFER_WINDOW_NOT_OBSERVED')
+-    async def fault(self, action):
+-        target = action['target']
+-        require(target in ('front', 'worker'), 'CAMPAIGN_ORIGINAL_PROCESS_ROLE_REQUIRED')
+-        slot = None if target == 'front' else await self.live_slot(action['timeout'])
+-        pid = os.getpid() if slot is None else slot.owned.worker_host_pid
+-        injector = action['injector']
+-        raw = _lease.file(injector, ('DATA',))
+-        require(sha(raw) == action['injector_sha256'], 'CAMPAIGN_REAL_SYSCALL_INJECTOR_CHANGED')
+-        path = Path(action['path'])
+-        root = Path(self.original_descriptor['paths']['authority_root'])
+-        require(path.is_relative_to(root), 'CAMPAIGN_FAULT_MUST_TARGET_DISPOSABLE_ARTIFACT')
+-        pidfd = os.pidfd_open(pid) if slot is None else os.dup(slot.owned.worker_pidfd)
++    async def fault(self, action, armed=None):
++        loop = asyncio.get_running_loop()
++        deadline = None
++        launch_deadline = None
++        terminal = None
++        child = None
++        child_pidfd = None
++        target_pidfd = None
++        row = None
++        out = None
++        err = None
++        primary = None
+         try:
+-            command = [injector, str(pid), str(pidfd), action['syscall'],
++            target = action['target']
++            require(target in ('front', 'worker'), 'CAMPAIGN_REAL_FAULT_TARGET_REQUIRED')
++            slot = None if target == 'front' else await self.live_slot(action['timeout'])
++            pid = os.getpid() if slot is None else slot.owned.worker_host_pid
++            injector = action['injector']
++            raw = _lease.file(injector, ('DATA',))
++            require(sha(raw) == action['injector_sha256'], 'CAMPAIGN_REAL_SYSCALL_INJECTOR_CHANGED')
++            path = Path(action['path'])
++            root = Path(self.original_descriptor['paths']['authority_root'])
++            require(path.is_relative_to(root), 'CAMPAIGN_FAULT_MUST_TARGET_DISPOSABLE_ARTIFACT')
++            target_pidfd = os.pidfd_open(pid) if slot is None else os.dup(slot.owned.worker_pidfd)
++            command = [injector, str(pid), str(target_pidfd), action['syscall'],
+                        str(path), str(action['occurrence']), action['effect']]
+             index = len(self.children)
+             stdout = self.out / ('fault-' + str(index) + '.stdout')
+             stderr = self.out / ('fault-' + str(index) + '.stderr')
+-            with stdout.open('xb') as out, stderr.open('xb') as err:
+-                child = subprocess.Popen(command, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'},
+-                                         pass_fds=(pidfd,), stdout=out, stderr=err)
+-                self.children.append(child)
++            row = {'action': action, 'original_operation': None if slot is None else slot.operation,
++                   'argv': command, 'pid': None, 'owner_birth': None, 'owned_pidfd_info': None,
++                   'actual_wait': None, 'native_arm': None, 'failure': None,
++                   'stdout': str(stdout), 'stderr': str(stderr), 'cleanup': None}
++            self.records.append(row)
++            out = stdout.open('xb')
++            err = stderr.open('xb')
++            child = subprocess.Popen(command, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'},
++                                     pass_fds=(target_pidfd,), stdout=out, stderr=err)
++            self.children.append(child)
++            launch_deadline = loop.time() + action['timeout']
++            row['pid'] = child.pid
++            child_pidfd = os.pidfd_open(child.pid)
++            row['owned_pidfd_info'] = Path('/proc/self/fdinfo/' + str(child_pidfd)).read_text()
++            require(('\nPid:\t' + str(child.pid) + '\n') in ('\n' + row['owned_pidfd_info']),
++                    'CAMPAIGN_INJECTOR_HELD_PIDFD_PID_CHANGED')
++            row['owner_birth'] = _approved.process_facts(child.pid)
++            # Original full slot selection precedes this original full child window.
++            # No ARM delay renews the terminal timeout or narrows the prior slot timeout.
++            deadline = loop.time() + action['timeout']
++            if armed is None:
++                # Preserve wait:true's direct complete original terminal wait.
+                 wait = await asyncio.to_thread(child.wait, timeout=action['timeout'])
+-                out.flush(); err.flush(); os.fsync(out.fileno()); os.fsync(err.fileno())
+-            self.records.append({'action': action, 'original_operation': None if slot is None else slot.operation,
+-                'argv': command, 'pid': child.pid, 'actual_wait': wait,
+-                'stdout_sha256': sha(stdout.read_bytes()), 'stderr_sha256': sha(stderr.read_bytes())})
+-            require(wait == 0 and b'ACTUAL_SYSCALL_FAULT_APPLIED' in stderr.read_bytes(),
++            else:
++                terminal = asyncio.create_task(asyncio.to_thread(child.wait,
++                    timeout=action['timeout']))
++                while True:
++                    native_arm = fault_arm(stderr.read_bytes(), command)
++                    if native_arm is not None:
++                        row['native_arm'] = native_arm
++                        if not armed.done(): armed.set_result(native_arm)
++                        break
++                    if terminal.done():
++                        row['actual_wait'] = await terminal
++                        raise RuntimeError('CAMPAIGN_NATIVE_FAULT_ARM_MISSING')
++                    require(loop.time() < deadline, 'CAMPAIGN_NATIVE_FAULT_ARM_DEADLINE')
++                    await asyncio.sleep(0.001)
++                wait = await terminal
++            row['actual_wait'] = wait
++            actual_stderr = stderr.read_bytes()
++            observed_arm = fault_arm(actual_stderr, command)
++            require(observed_arm is not None, 'CAMPAIGN_NATIVE_FAULT_ARM_MISSING')
++            if row['native_arm'] is None: row['native_arm'] = observed_arm
++            require(observed_arm == row['native_arm'],
++                    'CAMPAIGN_NATIVE_FAULT_ARM_TERMINAL_SPLIT')
++            require(wait == 0 and b'ACTUAL_SYSCALL_FAULT_APPLIED' in actual_stderr,
+                     'CAMPAIGN_GENUINE_FILE_IO_OR_CRASH_INJECTION_NOT_EXERCISED')
++            return row
++        except BaseException as error:
++            primary = error
++            if row is not None:
++                row['failure'] = {'type': type(error).__name__, 'reason': str(error)}
++            if armed is not None and not armed.done():
++                armed.set_exception(error)
++            raise
+         finally:
+-            os.close(pidfd)
++            errors = []
++            if child is not None and child.returncode is None:
++                cleanup = {'signal': None, 'actual_wait': None, 'failure': None}
++                row['cleanup'] = cleanup
++                try:
++                    # Signal only the actually held injector; never its target/front/worker.
++                    require(child_pidfd is not None, 'CAMPAIGN_INJECTOR_CLEANUP_HELD_PIDFD_REQUIRED')
++                    actual_return = signal.pidfd_send_signal(child_pidfd, signal.SIGKILL)
++                    cleanup['signal'] = {'call': 'pidfd_send_signal', 'pidfd': child_pidfd,
++                                         'signal': signal.SIGKILL, 'return': actual_return}
++                except ProcessLookupError:
++                    cleanup['signal'] = {'call': 'pidfd_send_signal', 'pidfd': child_pidfd,
++                                         'signal': signal.SIGKILL, 'error': 'ProcessLookupError'}
++                except BaseException as error:
++                    errors.append(error)
++                try:
++                    # Cleanup cannot borrow a fresh timeout or extend the selected action deadline.
++                    cleanup['actual_wait'] = await asyncio.to_thread(child.wait,
++                        timeout=max(0, (deadline if deadline is not None else launch_deadline) - loop.time()))
++                except BaseException as error:
++                    cleanup['failure'] = {'type': type(error).__name__, 'reason': str(error)}
++                    errors.append(error)
++            if terminal is not None:
++                if not terminal.done(): terminal.cancel()
++                retained_terminal = (await asyncio.gather(terminal, return_exceptions=True))[0]
++                row['terminal_task_cleanup'] = (
++                    {'type': type(retained_terminal).__name__, 'reason': str(retained_terminal)}
++                    if isinstance(retained_terminal, BaseException) else {'actual_wait': retained_terminal})
++            for stream, name in ((out, 'stdout'), (err, 'stderr')):
++                if stream is not None:
++                    try:
++                        stream.flush(); os.fsync(stream.fileno()); stream.close()
++                        row[name + '_sha256'] = sha(Path(row[name]).read_bytes())
++                    except BaseException as error:
++                        errors.append(error)
++            for fd in (child_pidfd, target_pidfd):
++                if fd is not None:
++                    try:
++                        os.close(fd)
++                    except BaseException as error:
++                        errors.append(error)
++            if errors:
++                if primary is None:
++                    raise errors[0]
++                for error in errors:
++                    primary.add_note('Actual injector cleanup/retention failed: ' + repr(error))
+ 
+     def retry(self, action):
+         journal = self.journal()
+@@ -386,9 +504,15 @@
+             for action in self.spec['actions']:
+                 kind = action['kind']
+                 if kind in ('client', 'fault'):
+-                    task = asyncio.create_task(getattr(self, kind)(action))
++                    armed = (asyncio.get_running_loop().create_future()
++                             if kind == 'fault' and not action['wait'] else None)
++                    operation = (self.fault(action, armed) if kind == 'fault'
++                                 else self.client(action))
++                    task = asyncio.create_task(operation)
+                     self.tasks.append(task)
++                    if kind == 'fault': self.fault_tasks.append(task)
+                     if action['wait']: await task
++                    elif armed is not None: await armed
+                 elif kind == 'wait-clients':
+                     await asyncio.gather(*self.tasks)
+                 elif kind == 'wait-custody-ack':
+@@ -444,6 +568,10 @@
+             # owners are retained; endpoint EOF never fabricates settlement.
+             primary = sys.exc_info()[1]
+             errors = []
++            pending_faults = [task for task in self.fault_tasks if not task.done()]
++            for task in pending_faults: task.cancel()
++            if pending_faults:
++                await asyncio.gather(*pending_faults, return_exceptions=True)
+             try:
+                 if self.spec['duplex_control'] is not None:
+                     from duplex_original_control import failure, publish, validate_front_observations
+--- a/protected-root/controls/syscall_fault.c
++++ b/protected-root/controls/syscall_fault.c
+@@ -105,6 +105,14 @@
+     const char *suffix = strchr(actual + prefix, '/');
+     return suffix && suffix != actual + prefix && !strcmp(suffix, star + 1);
+ }
++static void armed(pid_t pid, int pidfd, char **argv, unsigned long occurrence) {
++    fprintf(stderr, "ACTUAL_SYSCALL_FAULT_ARMED pid=%ld pidfd=%d syscall=%s occurrence=%lu effect=%s path_hex=",
++            (long)pid, pidfd, argv[3], occurrence, argv[6]);
++    const unsigned char *path = (const unsigned char *)argv[4];
++    for (; *path; ++path) fprintf(stderr, "%02x", (unsigned int)*path);
++    fputc('\n', stderr);
++    if (fflush(stderr) < 0 || ferror(stderr)) fail("actual arm acknowledgment");
++}
+ int main(int argc, char **argv) {
+     if (argc != 7 || geteuid() != 0) {
+         fputs("usage: syscall_fault PID PIDFD SYSCALL ABSOLUTE_PATH OCCURRENCE eio|kill-entry|kill-exit|corrupt-readback-exit\n", stderr);
+@@ -148,9 +156,11 @@
+     unsigned long matches = 0;
+     int selected = 0;
+     int pending_signal = 0;
++    int arm_emitted = 0;
+     for (;;) {
+         if (ptrace(PTRACE_SYSCALL, pid, NULL, (void *)(uintptr_t)pending_signal) < 0) fail("PTRACE_SYSCALL");
+         pending_signal = 0;
++        if (!arm_emitted) { armed(pid, pidfd, argv, wanted); arm_emitted = 1; }
+         if (waitpid(pid, &status, __WALL) != pid) fail("actual traced wait");
+         if (WIFEXITED(status) || WIFSIGNALED(status)) {
+             fputs("FAULT_TARGET_TERMINATED_BEFORE_INJECTION\n", stderr); return 1;

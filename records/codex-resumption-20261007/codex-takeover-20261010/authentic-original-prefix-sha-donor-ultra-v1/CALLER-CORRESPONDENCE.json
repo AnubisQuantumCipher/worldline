@@ -1,0 +1,27 @@
+{
+  "binding": {
+    "action": "historical-ledger",
+    "field": [
+      "observation_genesis",
+      "original_prefix_sha256"
+    ],
+    "kind": "result",
+    "select": [
+      "original_prefix_sha256"
+    ]
+  },
+  "existing_binding_kind": "result",
+  "existing_result_fields_unchanged": [
+    "config_sha256",
+    "genesis_hex",
+    "original_prefix"
+  ],
+  "name": "scoped-config",
+  "new_result_field": "original_prefix_sha256",
+  "no_future_hash_authored": true,
+  "no_new_plan_or_binding_schema": true,
+  "producer": "historical-ledger result after actual original complete SQLite snapshot/checkpoint/lock and sync",
+  "receiving_contract": "fixture_builder scoped-ledgers unchanged exact observation_genesis.original_prefix_sha256 == sha(scoped.canonical(prefix))",
+  "scope": "source-only producer DATA, never grant/native decision/receipt or successful stage marker",
+  "whole_original_prefix": "genesis/state/all full typed rows/all event bytes in original ordered SQL capture; same object returned unchanged"
+}

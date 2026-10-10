@@ -1,0 +1,28 @@
+project Cosmogony_Core is
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj/library";
+   for Library_Dir use "lib";
+   for Library_Name use "cosmogony_core";
+   for Library_Kind use "dynamic";
+   for Library_Interface use
+     ("Cosmogony.Use_Reservations", "Cosmogony.Use_Reservations_C_API",
+      "Cosmogony", "Cosmogony.Genesis", "Cosmogony.Capabilities",
+      "Cosmogony.C_API", "Cosmogony.Capability_C_API",
+      "Cosmogony.Universes", "Cosmogony.Universe_C_API",
+      "Cosmogony.Governed_Capabilities", "Cosmogony.Hierarchy",
+      "Cosmogony.Hierarchy_C_API", "Cosmogony.Capsules",
+      "Cosmogony.Capsule_C_API",
+      "Cosmogony.Evidence_Court", "Cosmogony.Evidence_Court_C_API",
+      "Cosmogony.Host_Profiles",
+      "Cosmogony.Revocable_Capabilities",
+      "Cosmogony.Revocation_C_API", "Cosmogony.Resource_C_API");
+   for Library_Standalone use "encapsulated";
+   for Library_Auto_Init use "true";
+   package Builder is
+      for Global_Compilation_Switches ("Ada") use ("-fPIC");
+   end Builder;
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnata", "-gnatVa", "-gnatf", "-g", "-O2");
+   end Compiler;
+end Cosmogony_Core;

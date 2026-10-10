@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-10T20:52:03.622710+00:00",
+  "scope_wait": 0,
+  "inputs_unchanged": true,
+  "native_artifacts_before": {
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+      "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590",
+      "bytes": 149864,
+      "mode": 493
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+      "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1",
+      "bytes": 472,
+      "mode": 420
+    }
+  },
+  "native_artifacts_after": {
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+      "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590",
+      "bytes": 149864,
+      "mode": 493
+    },
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+      "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1",
+      "bytes": 472,
+      "mode": 420
+    }
+  },
+  "native_inputs_unchanged": true,
+  "child_wait": {
+    "at": "2026-10-10T20:51:42.114747+00:00",
+    "pid": 2311247,
+    "argv": [
+      "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "-p",
+      "-j2",
+      "-P",
+      "pending-component/pending.gpr"
+    ],
+    "returncode": 0,
+    "additional_timeout_seconds": null,
+    "additional_deadline_expired": false,
+    "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+  },
+  "original_targets": "OPEN_UNCHANGED",
+  "no_proof_claim": true
+}

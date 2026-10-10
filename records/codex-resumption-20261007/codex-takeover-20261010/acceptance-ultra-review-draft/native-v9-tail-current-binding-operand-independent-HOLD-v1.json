@@ -1,0 +1,90 @@
+{
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:ultra",
+  "all_original_guarantees": "OPEN_UNCHANGED",
+  "blocking_findings": [
+    {
+      "current_emitted_review_binding": {
+        "bytes": 24121,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/native-tail-Main-owned-execution-v3-source9-draft/tail-source-bindings-bound-v2.json",
+        "sha256": "23766a855a535aa755f66ba0dc8033c6ef3aa64f8cd155895df134cf3551cd3c"
+      },
+      "effect": "The emitted Main consumes the permanent unbound pending file rather than the actual current bound-v2 file. Its current-source dereference or exact reviewed-binding assertion refuses before first Popen; no target execution or wait is inferred from this passive source observation.",
+      "id": "NT9_CURRENT_BOUND_FILE_NOT_SELECTED_BY_RUNTIME",
+      "pending_fields": {
+        "current_source_review": null,
+        "pinned_candidate_files": {},
+        "source_selection": null
+      },
+      "pending_runtime_binding": {
+        "bytes": 12839,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/native-tail-Main-owned-execution-v3-source9-draft/tail-source-bindings.json",
+        "sha256": "514bdb34297484da2b9bf8310f958081156e0a5850496cc533bb6643f22e1eab"
+      },
+      "required_repair": "A disjoint frozen successor must change the runtime binding filename operand to its genuine complete current binding and preserve all original runtime/authorization/MCP/parser/waits/cleanup/caps. Full forward/inverse current binding/caller closure and new source-preparer/emitted opinions are required. No edits to the frozen opinions or pending history can cure an executable operand mismatch.",
+      "runtime_load_literal": [
+        {
+          "line": 41,
+          "value": "tail-source-bindings.json"
+        }
+      ]
+    }
+  ],
+  "candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate",
+  "disposition": "HOLD_EXACT_CURRENT_TAIL_EXECUTABLE_BINDING_OPERAND_MISMATCH_NO_TARGET_RESULT",
+  "emitted_request": {
+    "bytes": 16399,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/native-tail-Main-owned-execution-v3-source9-draft/emitted-wrapper-review-needed.json",
+    "sha256": "6a019bab1a4b200f6f905338559d9cd78925ed5caa83ac9544f87ab7d4dfd05a"
+  },
+  "exact_current_emitted_wrapper": {
+    "bytes": 15568,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/native-tail-Main-owned-execution-v3-source9-draft/Main-original-native-single-tail-owned-execution-v1.py",
+    "sha256": "a9020589dd65b82a8d10d8f87d1a07dc52e25cbaf596b3edfcb362a550c94c32"
+  },
+  "exact_template": {
+    "bytes": 15568,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/native-tail-Main-owned-execution-v3-source9-draft/Main-original-native-single-tail-owned-execution-v1.template.py",
+    "sha256": "a9020589dd65b82a8d10d8f87d1a07dc52e25cbaf596b3edfcb362a550c94c32"
+  },
+  "historical_opinions_preserved": {
+    "emitted": {
+      "bytes": 21379,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/native-tail-Main-owned-execution-v3-source9-draft/emitted-wrapper-independent-source-review.json",
+      "sha256": "d0675c35b2e79ac2350be375da19cae65c1cdd96aec34569db57834197482d09"
+    },
+    "preparer": {
+      "bytes": 23243,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/native-tail-Main-owned-execution-v3-source9-draft/independent-preparer-source-review.json",
+      "sha256": "304d530c783794afc37fa0b88a620a438a31ffbf8cd565ff8f35c0b8a36739c8"
+    }
+  },
+  "independent_readback_program": {
+    "bytes": 4279,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/review_native9_tail_binding_operand_hold_v1.py",
+    "sha256": "209e685f9233013f03c2846032b783f6afd03c6f5ff0543a7b82e17cd06c1fd7"
+  },
+  "model_provenance": {
+    "bytes": 6780,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance_ultra-actual-launch-provenance.json",
+    "sha256": "e3e26497b1aa84d8d4483b75b847977094b522ed93a0c525633041c0f2434057"
+  },
+  "native_prefix_and_source_identity_unchanged": true,
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "review_error_acknowledgement": "The earlier reviewer verified exact emitted-template bytes and complete bound packet data but failed to join the actual runtime binding-file load operand to that packet. Earlier opinions remain immutable historical source observations and cannot support current executable use. This independently observed HOLD supersedes any current executable-readiness reliance on that missed join.",
+  "reviewed_at": "2026-10-10T20:53:20.624577+00:00",
+  "reviewer_agent": "/root/acceptance_ultra",
+  "runtime_acceptance": false,
+  "schema": "worldline-independent-native9-tail-binding-operand-hold-v1",
+  "scope": "External tail source only. Active original N9 prefix and current source9 frozen frame are unaffected. No compiled continuation exists or is supplied.",
+  "target_execution": false
+}

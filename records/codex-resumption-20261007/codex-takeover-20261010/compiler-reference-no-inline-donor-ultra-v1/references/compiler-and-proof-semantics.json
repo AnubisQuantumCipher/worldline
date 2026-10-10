@@ -1,0 +1,24 @@
+{
+  "SPARK_RM_reference_release": "28.0w; separate from installed compiler16.1 revision",
+  "actual_acceptance_boundary": "Primary manuals and unchanged source equations establish intended semantics, not installed compiler acceptance, cost efficacy or proof completion; complete actual original build/full strict proof/matching runtime still required.",
+  "compiler_semantics": "Suppresses compiler inlining of the named callable, including pragma Inline inlining; active independently of -gnatn/-gnatN. Inline_Always conflict is illegal and absent from affected units.",
+  "installed_No_Inline_node": "GNAT RM 2.117: Pragma No_Inline",
+  "installed_primary_manuals": {
+    "gnat_rm.info": {
+      "bytes": 1489918,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/share/info/gnat_rm.info",
+      "sha256": "246bc8ac93f9e25c37e7835c8ff45e6e74e9ab564e3809cdf60dd11b48d8df64"
+    },
+    "gnat_ugn.info": {
+      "bytes": 1093008,
+      "mode": 420,
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/share/info/gnat_ugn.info",
+      "sha256": "07f6d253c1a536946cdd0d5a26ddc4338d23c7c560a0f35bf918be51f576f17c"
+    }
+  },
+  "installed_revision": "GCC version16.1.0; GNAT manual Jan09,2026",
+  "primary_GNAT_url": "https://docs.adacore.com/gnat_rm-docs/html/gnat_rm/gnat_rm/implementation_defined_pragmas.html#pragma-no-inline",
+  "primary_SPARK_RM_url": "https://docs.adacore.com/live/wave/spark2014/html/spark2014_rm/language-defined-pragmas.html#gnat-implementation-defined-pragmas",
+  "proof_semantics": "SPARK RM lists GNAT No_Inline as permitted with no effect on contextual analysis of subprograms. The compiler pragma is not a GNATprove proof annotation. Original expression equations, helper bodies, existing contracts, contextual analysis and all caller/body obligations remain required."
+}

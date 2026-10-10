@@ -1,0 +1,16 @@
+Setup
+   [mkdir]        object directory for project SPARKlib
+   [mkdir]        library directory for project SPARKlib
+   [mkdir]        object directory for project Worldline_Attest_SHA256
+   [mkdir]        object directory for project Worldline_Core_Sources
+   [mkdir]        object directory for project Full_Physical_Sources
+   [mkdir]        object directory for project Worldline_Core
+Compile
+   [C]            native_diagnostic_periphery.c
+   [Ada]          worldline-producer_bytes.adb
+   [Ada]          evaluation_finalization.adb
+   [Ada]          evaluation_epoch.adb
+
+   compilation of evaluation_finalization.adb failed
+
+gprbuild: *** compilation phase failed

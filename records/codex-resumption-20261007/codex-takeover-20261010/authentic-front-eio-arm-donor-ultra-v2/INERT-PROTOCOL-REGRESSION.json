@@ -1,0 +1,33 @@
+{
+  "C_original_selection_and_effect_body_byte_identical_after_protocol_addition_removed": true,
+  "absent_frame_does_not_arm": true,
+  "complete_source_selected_frame_accepted_by_decoder": true,
+  "native_armed_or_applied_outcomes_created": false,
+  "original_full_slot_timeout_call_AST_identical": true,
+  "original_full_terminal_timeout_expression_AST_identical_for_direct_and_deferred_waits": true,
+  "refusals": {
+    "duplicate": "CAMPAIGN_DUPLICATE_NATIVE_FAULT_ARM",
+    "truncated_duplicate": "CAMPAIGN_DUPLICATE_NATIVE_FAULT_ARM",
+    "wrong_effect": "CAMPAIGN_NATIVE_FAULT_ARM_COMMAND_SPLIT",
+    "wrong_occurrence": "CAMPAIGN_NATIVE_FAULT_ARM_COMMAND_SPLIT",
+    "wrong_path": "CAMPAIGN_NATIVE_FAULT_ARM_COMMAND_SPLIT",
+    "wrong_pidfd": "CAMPAIGN_NATIVE_FAULT_ARM_COMMAND_SPLIT",
+    "wrong_syscall": "CAMPAIGN_NATIVE_FAULT_ARM_COMMAND_SPLIT",
+    "wrong_target": "CAMPAIGN_NATIVE_FAULT_ARM_COMMAND_SPLIT"
+  },
+  "schema": "worldline.native-fault-arm-inert-source-protocol-regression-v1",
+  "synthetic_decoder_inputs_only": true,
+  "target_execution": false,
+  "truncated_frame_does_not_arm": true,
+  "unchanged_campaign_methods": [
+    "journal",
+    "live_slot",
+    "subject_service",
+    "client",
+    "abandon_request",
+    "abandon_reader",
+    "retry",
+    "stale",
+    "original_assertions"
+  ]
+}

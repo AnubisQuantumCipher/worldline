@@ -1,0 +1,105 @@
+--- a/protected-root/controls/live_campaign.py
++++ b/protected-root/controls/live_campaign.py
+@@ -252,7 +252,9 @@
+         raise RuntimeError('CAMPAIGN_ACTUAL_DRAIN_TRANSFER_WINDOW_NOT_OBSERVED')
+     async def fault(self, action, armed=None):
+         loop = asyncio.get_running_loop()
+-        deadline = loop.time() + action['timeout']
++        deadline = None
++        launch_deadline = None
++        terminal = None
+         child = None
+         child_pidfd = None
+         target_pidfd = None
+@@ -284,35 +286,43 @@
+             self.records.append(row)
+             out = stdout.open('xb')
+             err = stderr.open('xb')
+-            require(loop.time() < deadline, 'CAMPAIGN_FAULT_DEADLINE_BEFORE_LAUNCH')
+             child = subprocess.Popen(command, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'},
+                                      pass_fds=(target_pidfd,), stdout=out, stderr=err)
+             self.children.append(child)
++            launch_deadline = loop.time() + action['timeout']
+             row['pid'] = child.pid
+             child_pidfd = os.pidfd_open(child.pid)
+             row['owned_pidfd_info'] = Path('/proc/self/fdinfo/' + str(child_pidfd)).read_text()
+             require(('\nPid:\t' + str(child.pid) + '\n') in ('\n' + row['owned_pidfd_info']),
+                     'CAMPAIGN_INJECTOR_HELD_PIDFD_PID_CHANGED')
+             row['owner_birth'] = _approved.process_facts(child.pid)
+-            while True:
+-                native_arm = fault_arm(stderr.read_bytes(), command)
+-                if native_arm is not None:
+-                    row['native_arm'] = native_arm
+-                    if armed is not None and not armed.done():
+-                        armed.set_result(native_arm)
+-                    break
+-                ended = child.poll()
+-                if ended is not None:
+-                    row['actual_wait'] = child.wait(timeout=0)
+-                    raise RuntimeError('CAMPAIGN_NATIVE_FAULT_ARM_MISSING')
+-                require(loop.time() < deadline, 'CAMPAIGN_NATIVE_FAULT_ARM_DEADLINE')
+-                await asyncio.sleep(0.001)
+-            remaining = deadline - loop.time()
+-            require(remaining > 0, 'CAMPAIGN_FAULT_TERMINAL_DEADLINE')
+-            wait = await asyncio.to_thread(child.wait, timeout=remaining)
++            # Original full slot selection precedes this original full child window.
++            # No ARM delay renews the terminal timeout or narrows the prior slot timeout.
++            deadline = loop.time() + action['timeout']
++            if armed is None:
++                # Preserve wait:true's direct complete original terminal wait.
++                wait = await asyncio.to_thread(child.wait, timeout=action['timeout'])
++            else:
++                terminal = asyncio.create_task(asyncio.to_thread(child.wait,
++                    timeout=action['timeout']))
++                while True:
++                    native_arm = fault_arm(stderr.read_bytes(), command)
++                    if native_arm is not None:
++                        row['native_arm'] = native_arm
++                        if not armed.done(): armed.set_result(native_arm)
++                        break
++                    if terminal.done():
++                        row['actual_wait'] = await terminal
++                        raise RuntimeError('CAMPAIGN_NATIVE_FAULT_ARM_MISSING')
++                    require(loop.time() < deadline, 'CAMPAIGN_NATIVE_FAULT_ARM_DEADLINE')
++                    await asyncio.sleep(0.001)
++                wait = await terminal
+             row['actual_wait'] = wait
+             actual_stderr = stderr.read_bytes()
+-            require(fault_arm(actual_stderr, command) == row['native_arm'],
++            observed_arm = fault_arm(actual_stderr, command)
++            require(observed_arm is not None, 'CAMPAIGN_NATIVE_FAULT_ARM_MISSING')
++            if row['native_arm'] is None: row['native_arm'] = observed_arm
++            require(observed_arm == row['native_arm'],
+                     'CAMPAIGN_NATIVE_FAULT_ARM_TERMINAL_SPLIT')
+             require(wait == 0 and b'ACTUAL_SYSCALL_FAULT_APPLIED' in actual_stderr,
+                     'CAMPAIGN_GENUINE_FILE_IO_OR_CRASH_INJECTION_NOT_EXERCISED')
+@@ -332,9 +342,9 @@
+                 try:
+                     # Signal only the actually held injector; never its target/front/worker.
+                     require(child_pidfd is not None, 'CAMPAIGN_INJECTOR_CLEANUP_HELD_PIDFD_REQUIRED')
+-                    signal.pidfd_send_signal(child_pidfd, signal.SIGKILL)
++                    actual_return = signal.pidfd_send_signal(child_pidfd, signal.SIGKILL)
+                     cleanup['signal'] = {'call': 'pidfd_send_signal', 'pidfd': child_pidfd,
+-                                         'signal': signal.SIGKILL, 'return': None}
++                                         'signal': signal.SIGKILL, 'return': actual_return}
+                 except ProcessLookupError:
+                     cleanup['signal'] = {'call': 'pidfd_send_signal', 'pidfd': child_pidfd,
+                                          'signal': signal.SIGKILL, 'error': 'ProcessLookupError'}
+@@ -343,10 +353,16 @@
+                 try:
+                     # Cleanup cannot borrow a fresh timeout or extend the selected action deadline.
+                     cleanup['actual_wait'] = await asyncio.to_thread(child.wait,
+-                        timeout=max(0, deadline - loop.time()))
++                        timeout=max(0, (deadline if deadline is not None else launch_deadline) - loop.time()))
+                 except BaseException as error:
+                     cleanup['failure'] = {'type': type(error).__name__, 'reason': str(error)}
+                     errors.append(error)
++            if terminal is not None:
++                if not terminal.done(): terminal.cancel()
++                retained_terminal = (await asyncio.gather(terminal, return_exceptions=True))[0]
++                row['terminal_task_cleanup'] = (
++                    {'type': type(retained_terminal).__name__, 'reason': str(retained_terminal)}
++                    if isinstance(retained_terminal, BaseException) else {'actual_wait': retained_terminal})
+             for stream, name in ((out, 'stdout'), (err, 'stderr')):
+                 if stream is not None:
+                     try:

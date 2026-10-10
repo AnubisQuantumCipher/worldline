@@ -1,0 +1,12 @@
+--- a/protected-root/controls/fixture_builder.py
++++ b/protected-root/controls/fixture_builder.py
+@@ -326,8 +326,7 @@
+             create(ledger.state_dir / 'instance.lock', b'')
+             sync(path.parent)
+             self.objects[action['name']] = ledger
+-            return {'config_sha256': ledger.config_sha, 'genesis_hex': raw.hex(), 'original_prefix': prefix,
+-                    'original_prefix_sha256': sha(module.canonical(prefix))}
++            return {'config_sha256': ledger.config_sha, 'genesis_hex': raw.hex(), 'original_prefix': prefix}
+         if kind == 'scoped-ledgers':
+             scoped = self.module('worldline.protected_scoped_resource_service', action['source'])
+             observed = self.module('worldline.protected_scoped_observation_journal', action['observation_source'])

@@ -1,0 +1,1422 @@
+from __future__ import annotations
+
+import logging
+
+import asyncio
+import base64
+from dataclasses import asdict
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import stat
+import subprocess
+from typing import Any, Callable
+import uuid
+
+from .agents import adapter_names, adapter as resolve_adapter
+from .agents.base import AgentContext
+from .capabilities import CapabilityRegistry
+from .checkpoint import CheckpointManager
+from .config import GlobalConfig
+from .core import Core
+from .daemon import RequestContext, WorldlineDaemon
+from .errors import InvalidRequest, WorldlineError
+from .fork import ForkManager
+from .ghosts import GhostManager
+from .anchor import AnchorLedger
+from .prune import Pruner, require_payload
+from .linux.git import GitAdapter
+from .linux.hyprland import HyprlandAdapter
+from .linux.inotify import InotifyWatcher
+from .model import WorldState, utc_now
+from .linux.namespaces import BubblewrapSandbox
+from .admission import AdmissionAuthority, Gate, Ledger
+from .linux.systemd import SystemdAdapter
+from .paths import WorldlinePaths, deployment_facts, xattr_risks
+from .reconcile import PrimeChangeTracker
+from .returning import ReturnManager
+from .revalidate import Revalidator
+from .validation import current_requirements, differences, effective_context, verify_context
+from .roots import RootManager
+from .runner import AgentRunner
+from .simulation import SystemSimulation
+from .store import StateStore
+from .transaction import CollapseTransaction
+from .causal import CausalIndexer
+from .project import ProjectConfig
+
+# A managed root is keyed by a 64-hex digest; other entries under a generation payload
+# (notably `manifests/`) are structure, not captured roots.
+_ROOT_KEY = re.compile(r"[0-9a-f]{64}")
+
+
+_LOG = logging.getLogger("worldline.controller")
+
+
+def _post_commit_warning(step: str, exc: BaseException, **extra: Any) -> dict[str, Any]:
+    """A failure after a committed exchange, as the commit reports it: a warning, never the
+    result (1.9.2, OB-128)."""
+    return {"step": step, "code": getattr(exc, "code", type(exc).__name__),
+            "message": getattr(exc, "message", str(exc)), **extra}
+
+def _require_alternates_inside(source: bytes) -> None:
+    """Objects borrowed from outside the root (`objects/info/alternates`) are invisible to the
+    repository sandbox, so every capture of such a root refuses; say so before a capture does.
+    Judged lexically: an entry that only leaves the root through a link inside it passes here and
+    is refused by the capture itself."""
+    # Opened one component at a time without following links, like the index (review of 796cb02):
+    # the path is the candidate's to shape, and a linked `alternates` had the host read any file.
+    descriptors: list[int] = []
+    try:
+        current = os.open(source, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        descriptors.append(current)
+        for part in (b".git", b"objects", b"info"):
+            current = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=current)
+            descriptors.append(current)
+        handle = os.open(b"alternates", os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK, dir_fd=current)
+        descriptors.append(handle)
+        if not stat.S_ISREG(os.fstat(handle).st_mode):
+            return
+        entries = [line.strip() for line in os.read(handle, 65536).splitlines() if line.strip()]
+    except OSError:
+        return
+    finally:
+        for descriptor in descriptors:
+            os.close(descriptor)
+    # Judged lexically: an entry names paths the repository chose, so nothing is looked up on the
+    # host (a path on a mount that stopped answering would block the daemon) and no resolved path
+    # is echoed back (review of 09f5c0b). The sandbox binds only the root, so an entry that only
+    # reaches outside through a link inside the root is refused by the capture itself.
+    objects = os.path.join(source, b".git", b"objects")
+    root = source.rstrip(b"/")
+    for entry in entries:
+        named = os.path.normpath(entry if os.path.isabs(entry) else os.path.join(objects, entry))
+        if not (named == root or named.startswith(root + b"/")):
+            raise WorldlineError(
+                "GIT_ALTERNATES_OUTSIDE_ROOT",
+                f"{os.fsdecode(source)} borrows objects from outside itself ({os.fsdecode(entry)}), which the "
+                "repository sandbox cannot see; repack the repository (git repack -a -d) and remove the "
+                "alternates file")
+
+
+def assert_store_location(paths: WorldlinePaths, store: StateStore) -> None:
+    """Refuse a store whose records name another location. PRIME's payload and the live
+    mapping's links are paths relocation always rewrites, and a store copied without it still
+    points them at the original. Compared resolved, so a store reached through a symlink is
+    its own."""
+    data = os.path.realpath(paths.data)
+
+    def inside(path: str | os.PathLike[str] | bytes) -> bool:
+        resolved = os.path.realpath(os.fsdecode(path))
+        return resolved == data or resolved.startswith(data + os.sep)
+
+    foreign: list[str] = []
+    prime = store.prime()
+    if prime is not None and prime.payload_path and not inside(prime.payload_path):
+        foreign.append(str(prime.payload_path))
+    live = paths.live
+    if live.is_dir():
+        for entry in sorted(live.iterdir()):
+            if entry.is_symlink() and not inside(entry):
+                foreign.append(f"{entry} -> {os.readlink(entry)}")
+    if foreign:
+        raise WorldlineError(
+            "STORE_NOT_RELOCATED",
+            "this store's records name another store's files; it was copied without worldline-relocate, "
+            "and starting on it would act on the original",
+            {"store": data, "foreign": foreign[:10]},
+        )
+
+
+class RuntimeController:
+    def __init__(
+        self,
+        paths: WorldlinePaths,
+        store: StateStore,
+        config: GlobalConfig,
+        capabilities: CapabilityRegistry,
+        *,
+        core: Core | None = None,
+        startup_lease=None,
+    ) -> None:
+        self.startup_lease = startup_lease
+        if startup_lease is not None:
+            from .protected_startup import StartupLease
+            if type(startup_lease) is not StartupLease:
+                raise WorldlineError('PROTECTED_STARTUP_REQUIRED', 'an actual retained startup lease is required')
+            startup_lease.validate_controller(paths, store, core)
+        self.paths = paths
+        self.store = store
+        # First, before anything that acts outside the store (releasing admission reservations,
+        # stopping orphaned units, exporting the anchor ledger, recovery): a copy of a store that
+        # was not relocated names the ORIGINAL store's files, and every one of those actions
+        # would reach the original (review of 0ee1112).
+        assert_store_location(paths, store)
+        self.config = config
+        self.capabilities = capabilities
+        self.core = core or Core.shared()
+        self.systemd = SystemdAdapter()
+        self.sandbox = BubblewrapSandbox(paths)
+        # One admission authority for the daemon. Everything expensive asks it before executing,
+        # and a reservation exists before a workload is spawned rather than after.
+        self.admission = AdmissionAuthority(
+            Ledger(paths.runtime),
+            config.admission_floors,
+            paths={"state": paths.state, "share": paths.data},
+            usage=self._reservation_usage,
+            is_live=self._reservation_is_live,
+        )
+        # A daemon that died between reserving and releasing must not hold capacity forever.
+        # The service manager is the authority on what is still running, so anything it no
+        # longer has is released here, at start, before any admission is answered.
+        try:
+            self._reconciled_at_start = (self.admission.reconcile() if startup_lease is None
+                                        else startup_lease.reconcile_admission(self))
+        except WorldlineError as exc:
+            # A ledger that cannot be read must not stop the daemon from starting. It is
+            # reported by doctor and refuses admissions until it is dealt with.
+            self._reconciled_at_start = []
+            self._reconcile_error = str(exc.args[1] if len(exc.args) > 1 else exc)
+        else:
+            self._reconcile_error = None
+        self.watcher: InotifyWatcher | None = None
+        self.tracker: PrimeChangeTracker | None = None
+        if startup_lease is None or startup_lease.operation_head_creation is None:
+            self._refresh_watcher()
+        else:
+            startup_lease.operation_head_provisioning()
+        self.roots = RootManager(paths, store, core=self.core, watcher=self.watcher)
+        self.checkpoint = CheckpointManager(
+            paths,
+            store,
+            core=self.core,
+            watcher=self.watcher,
+            reconcile=self.roots.reconcile,
+        )
+        self.gate = Gate(self.admission, config.resource_policy)
+        self.runner = AgentRunner(paths, store, config, self.sandbox, self.systemd, self.gate, core=self.core)
+        self.forks = ForkManager(paths, store, config, self.checkpoint, self.runner, core=self.core)
+        # 1.9.2: the witness and the key pin are named by the configuration; whether each is out
+        # of this account's reach is measured at every check. A start's alarm (store meta) is
+        # what the promotion guard consults between starts.
+        self.anchors = AnchorLedger(paths, config.anchor_export_path, pin_path=config.anchor_pin_path,
+                                    alarm=lambda: self.store.get_meta("anchorAlarm"))
+        self.revalidator = Revalidator(paths, store, config, self.sandbox, self.runner.checks, core=self.core)
+        self.transactions = CollapseTransaction(
+            paths,
+            store,
+            core=self.core,
+            watcher=self.watcher,
+            reconcile=self.roots.reconcile,
+            stop_writers=self._stop_writers,
+            anchor=self.anchors,
+            config=config,
+            validator=self.revalidator.validate_staged,
+            staged_subject_validator=self.revalidator.validate_staged_for_subject,
+        )
+        # A quarantined transaction stops everything that freezes or publishes PRIME, not only
+        # prepare and commit (review of 56a7146).
+        self.checkpoint.recovery_gate = self.transactions._assert_recovery_complete
+        self.roots.recovery_gate = self.transactions._assert_recovery_complete
+        self.pruner = Pruner(paths, store)
+        restrictive = config.network_policy != "shared"
+        self.runner.checks.network = "none" if restrictive else "shared"
+        self.runner.services.network = "none" if restrictive else "shared"
+        self.returns = ReturnManager(paths, store, self.checkpoint, self.transactions, core=self.core)
+        self.simulation = SystemSimulation(paths, store, self.sandbox, self.systemd, self.gate, core=self.core)
+        self.ghosts = GhostManager(config, store)
+        self._last_ghost_generation = self.store.get_meta("primeGeneration")
+        self._daemon: WorldlineDaemon | None = None
+        # The anchor at start (1.9.2): the store's chains are verified (confined) and the witness
+        # compared BEFORE anything is signed or exported; receipts and events that predate the
+        # anchor are then signed, and the witness brought up to date by appending. A rollback, a
+        # rewrite or a coverage mismatch signs nothing, leaves the witness as it was and raises an
+        # alarm that doctor reports and the promotion guard refuses on (OB-083, OB-089).
+        if startup_lease is not None and startup_lease.operation_head_creation is not None:
+            # Owner provisioning builds the actual existing-store controller but
+            # emits no anchor, metadata, recovery, watcher or endpoint effect.
+            startup_lease.operation_head_provisioning()
+            self._anchor_start = {"state": "OFFLINE_OWNER_CONSTRUCTION"}
+            return
+        try:
+            started = self.anchors.startup(verify_chains=self.store.verify_chains, items=self.store.anchor_items,
+                                           canonical=self.store.canonical_for)
+        except (WorldlineError, OSError) as exc:
+            started = {"alarm": {"code": getattr(exc, "code", "ANCHOR_START_FAILED"), "message": str(exc), "stage": "start"}}
+        self._anchor_start = started
+        self.store.set_meta("anchorAlarm", started.get("alarm"))
+        if started.get("alarm"):
+            _LOG.error("anchor alarm at start: %s", started["alarm"])
+        elif (started.get("export") or {}).get("state") in ("FAILED", "REFUSED"):
+            _LOG.warning("anchor export at start: %s", started["export"])
+        # From here every causal event is anchored as it is chained (OB-088).
+        self.store.on_causal_append = self.anchors.anchor_event
+
+    def _refresh_watcher(self) -> None:
+        # Detach every component before closing the old watcher: if building the new one fails,
+        # they are left with none, which refuses (PRIME_WATCH_UNAVAILABLE, MEASUREMENT_ABSENT),
+        # never with a closed watcher whose frozen generation and root list still claim full
+        # coverage (review of fcbf132).
+        old, self.watcher, self.tracker = self.watcher, None, None
+        if hasattr(self, "roots"):
+            self.roots.watcher = self.checkpoint.watcher = self.transactions.watcher = None
+        if old is not None:
+            old.close()
+        roots = []
+        for root in self.store.roots():
+            try:
+                roots.append((root["root_key"], self.paths.root_source(root)))
+            except WorldlineError as exc:
+                # The doctor reports a broken mapping; the watcher only skips it.
+                _LOG.warning("not watching %s: %s", root["display_path"], exc)
+        if roots:
+            self.watcher = InotifyWatcher(roots, self._external_event)
+            self.tracker = PrimeChangeTracker(self.store, self.watcher)
+        else:
+            self.tracker = None
+        if hasattr(self, "roots"):
+            self.roots.watcher = self.watcher
+            self.checkpoint.watcher = self.watcher
+            self.transactions.watcher = self.watcher
+
+    def _external_event(self, event: dict[str, Any]) -> None:
+        if self.tracker is not None:
+            self.tracker.external_event(event)
+
+    def close(self) -> None:
+        if self.watcher is not None:
+            self.watcher.close()
+
+    def recover(self) -> dict[str, Any]:
+        stopped = self.runner.services.stop_orphans()
+        transactions = self.transactions.recover_all()
+        try:
+            ghosts = self._retry_pending_ghosts(self._daemon)
+        except Exception as exc:  # a start must not fail on ghosts; the record stays pending
+            _LOG.exception("pending automatic ghosts could not start at daemon start")
+            ghosts = {"state": "PENDING", "error": getattr(exc, "code", type(exc).__name__)}
+        error = self.store.get_meta("watchError")
+        if not self.transactions.unrecoverable and isinstance(error, dict) and error.get("code") == "RECOVERY_INCOMPLETE":
+            # The quarantine a status re-capture reported is settled; recovery may have cleared
+            # `dirty`, so status would not re-capture and clear it (review of fcbf132).
+            self.store.set_meta("watchError", None)
+            self.store.set_meta("watchState", "HEALTHY")
+        swept = self.revalidator.sweep_inputs()
+        return {"stoppedOrphanJobs": stopped, "transactions": transactions, "sweptRevalidationInputs": swept,
+                "pendingGhosts": ghosts}
+
+    def _stop_writers(self, world) -> None:
+        active = [
+            job
+            for job in self.store.jobs()
+            if job["world_instance"] == world.instance_id
+            and job["state"] in {"STARTING", "RUNNING", "FINALIZING"}
+        ]
+        for job in active:
+            unit = job.get("systemd_unit")
+            if unit:
+                self.systemd.stop(unit)
+            self.store.update_job(
+                job["job_id"],
+                state="CANCELLED",
+                error={"code": "COLLAPSE_STOPPED_WRITER", "message": "writer stopped before collapse"},
+                ended=True,
+            )
+
+    def _schedule_automatic_ghosts(self, daemon: WorldlineDaemon) -> None:
+        generation = self.store.get_meta("primeGeneration")
+        if generation == self._last_ghost_generation:
+            return
+        status = self.ghosts.status()
+        if not status["enabled"] or generation is None:
+            self._last_ghost_generation = generation
+            return
+        self._create_generation_ghosts(generation, status, daemon)
+
+    def _create_generation_ghosts(self, generation: Any, status: dict[str, Any], daemon: WorldlineDaemon) -> None:
+        """Freeze PRIME and start this generation's automatic ghosts. A generation counts as
+        served only once its ghosts exist (1.9.2, OB-128): a failed freeze leaves a pending
+        record, retried when a watcher is rebuilt, at start, and at the next scheduling."""
+        try:
+            frozen = self.checkpoint.freeze()
+        except Exception as exc:
+            self.store.set_meta("pendingGhosts", {"generation": generation, "since": utc_now(),
+                                                  "error": getattr(exc, "code", type(exc).__name__)})
+            raise
+        self._last_ghost_generation = generation
+        self.store.set_meta("pendingGhosts", None)
+        for objective, mission in self.ghosts.missions.items():
+            alias = f"ghost-{objective}-{str(uuid.uuid4())[:8]}"
+            world = self.forks.create_world(alias, mission, status["agent"], frozen=frozen)
+            world.evidence["ghostObjective"] = objective
+            self.store.save_world(world)
+            daemon.spawn_background(
+                f"ghost:{world.instance_id}",
+                asyncio.to_thread(self._run_ghost, world, mission, objective, None),
+            )
+
+    def _retry_pending_ghosts(self, daemon: WorldlineDaemon | None) -> dict[str, Any] | None:
+        """A generation whose automatic ghosts could not start (1.9.2, OB-128). Ghosts must still
+        be enabled, and the pending generation must still be PRIME's: a PRIME that has moved on
+        records the old generation as superseded and never freezes a different generation under
+        its name; the current generation is then scheduled the ordinary way."""
+        pending = self.store.get_meta("pendingGhosts")
+        if not isinstance(pending, dict) or daemon is None:
+            return None
+        current = self.store.get_meta("primeGeneration")
+        status = self.ghosts.status()
+        if not status["enabled"]:
+            self.store.set_meta("pendingGhosts", None)
+            return {"state": "DROPPED", "generation": pending.get("generation"), "reason": "ghosts are disabled"}
+        if pending.get("generation") != current:
+            prime = self.store.prime()
+            if prime is not None:
+                self.store.append_causal_event({
+                    "schemaVersion": 1, "worldInstance": prime.instance_id, "kind": "ghost-generation-superseded",
+                    "actor": "worldline", "generation": pending.get("generation"), "currentGeneration": current,
+                    "reason": "the generation's automatic ghosts could not start before PRIME moved on",
+                }, worldline_authored=True)
+            self.store.set_meta("pendingGhosts", None)
+            self._schedule_automatic_ghosts(daemon)
+            return {"state": "SUPERSEDED", "generation": pending.get("generation"), "current": current}
+        self._create_generation_ghosts(current, status, daemon)
+        return {"state": "CREATED", "generation": current}
+
+    def _rebuild_watcher_and_retry(self, daemon: WorldlineDaemon | None) -> list[dict[str, Any]]:
+        """Rebuild the PRIME watcher; after a successful rebuild, retry pending ghosts. Returns
+        the post-commit warnings, never raises."""
+        warnings: list[dict[str, Any]] = []
+        try:
+            self._refresh_watcher()
+        except Exception as exc:
+            _LOG.exception("PRIME watcher could not be rebuilt after a commit; PRIME is unwatched")
+            return [_post_commit_warning("watcher-rebuild", exc)]
+        try:
+            self._retry_pending_ghosts(daemon)
+        except Exception as exc:
+            _LOG.exception("pending automatic ghosts could not start")
+            warnings.append(_post_commit_warning("pending-ghosts", exc))
+        return warnings
+
+    def register(self, daemon: WorldlineDaemon) -> None:
+        self._daemon = daemon
+        daemon.register("init", self._register_roots, mutating=True, owner_only=True)
+        daemon.register("root.add", self._register_roots, mutating=True, owner_only=True)
+        daemon.register("root.remove", self._remove_root, mutating=True, owner_only=True)
+        daemon.register("root.list", self._root_list)
+        daemon.register("fork", self._fork, mutating=True)
+        daemon.register("race", self._race, mutating=True)
+        daemon.register("graph", self._graph)
+        daemon.register("log", self._log)
+        daemon.register("why", self._why)
+        daemon.register("inspect", self._inspect, mutating=True)
+        daemon.register("switch", self._switch, mutating=True, owner_only=True)
+        daemon.register("collapse.prepare", self._collapse_prepare, mutating=True)
+        daemon.register("collapse.commit", self._collapse_commit, mutating=True)
+        daemon.register("transaction.commit", self._collapse_commit, mutating=True)
+        daemon.register("transaction.abort", self._transaction_abort, mutating=True)
+        daemon.register("transaction.list", self._transaction_list)
+        daemon.register("transaction.show", self._transaction_show)
+        daemon.register("return.prepare", self._return_prepare, mutating=True)
+        daemon.register("job.cancel", self._job_cancel, mutating=True)
+        daemon.register("simulate", self._simulate, mutating=True)
+        daemon.register("doctor", self._doctor)
+        daemon.register("adapters", self._adapters)
+        daemon.register("ghost.enable", self._ghost_enable, mutating=True)
+        daemon.register("ghost.disable", self._ghost_disable, mutating=True)
+        daemon.register("ghost.status", self._ghost_status)
+        daemon.register("ghost.run", self._ghost_run, mutating=True)
+        daemon.register("shell.info", self._shell_info)
+        daemon.register("prune", self._prune, mutating=True)
+        daemon.register("anchor.status", self._anchor_status)
+        daemon.register("revalidate", self._revalidate, mutating=True)
+        daemon.register("validation.status", self._validation_status)
+        daemon.register("owner.retry", self._owner_retry, mutating=True, owner_only=True)
+        daemon.register("owner.adopt", self._owner_adopt, mutating=True, owner_only=True)
+        daemon.register("owner.recover", self._owner_recover, mutating=True, owner_only=True)
+
+    def _register_roots(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        allowed = {"roots", "kind", "primary", "confirmed"}
+        if not set(args) <= allowed or not isinstance(args.get("roots"), list):
+            raise InvalidRequest("init/root.add requires roots and optional kind, primary, confirmed")
+        result = self.roots.register(
+            args["roots"],
+            kind=args.get("kind"),
+            primary=args.get("primary"),
+            confirmed=bool(args.get("confirmed", False)),
+        )
+        self._refresh_watcher()
+        self._retry_pending_ghosts(context.daemon)
+        self._schedule_automatic_ghosts(context.daemon)
+        return result
+
+    def _remove_root(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) - {"root", "confirmed"} or not isinstance(args.get("root"), str):
+            raise InvalidRequest("root.remove requires root and optional confirmed")
+        result = self.roots.remove(args["root"], confirmed=bool(args.get("confirmed", False)))
+        self._refresh_watcher()
+        self._retry_pending_ghosts(context.daemon)
+        self._schedule_automatic_ghosts(context.daemon)
+        return result
+
+    def _root_list(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:
+        if args:
+            raise InvalidRequest("root.list takes no arguments")
+        return [
+            {
+                "rootKey": root["root_key"],
+                "path": root["display_path"],
+                "kind": root["kind"],
+                "primary": bool(root["primary_root"]),
+                "manifestRoot": root["manifest_root"],
+            }
+            for root in self.store.roots()
+        ]
+
+    @staticmethod
+    def _thread_progress(context: RequestContext) -> Callable[[str, dict[str, Any]], None]:
+        loop = asyncio.get_running_loop()
+
+        def report(event: str, data: dict[str, Any]) -> None:
+            asyncio.run_coroutine_threadsafe(context.progress(event, data), loop)
+
+        return report
+
+    @staticmethod
+    def _timeout_argument(args: dict[str, Any]) -> float | None:
+        timeout = args.get("timeoutSeconds")
+        if timeout is None:
+            return None
+        if isinstance(timeout, bool) or not isinstance(timeout, int) or timeout <= 0:
+            raise InvalidRequest("timeoutSeconds must be a positive integer")
+        return float(timeout)
+
+    async def _fork(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        required = {"name", "mission", "agent", "wait"}
+        if not required <= set(args) <= required | {"timeoutSeconds"} or not isinstance(args["wait"], bool):
+            raise InvalidRequest("fork requires name, mission, agent, wait, and optional timeoutSeconds")
+        timeout = self._timeout_argument(args)
+        progress = self._thread_progress(context)
+        if args["wait"]:
+            world = await asyncio.to_thread(
+                self.forks.fork,
+                args["name"],
+                args["mission"],
+                args["agent"],
+                wait=True,
+                progress=progress,
+                timeout=timeout,
+            )
+            self._schedule_automatic_ghosts(context.daemon)
+            return world.summary()
+        world = await asyncio.to_thread(self.forks.create_world, args["name"], args["mission"], args["agent"])
+        self._schedule_automatic_ghosts(context.daemon)
+        context.daemon.spawn_background(
+            f"world:{world.instance_id}",
+            asyncio.to_thread(self.forks.run_world, world, args["mission"], progress=progress, timeout=timeout),
+        )
+        return world.summary()
+
+    async def _race(self, args: dict[str, Any], context: RequestContext) -> list[dict[str, Any]]:
+        required = {"agents", "mission", "detach"}
+        if not required <= set(args) <= required | {"name", "timeoutSeconds"} or not isinstance(args["agents"], list) or not isinstance(args["detach"], bool):
+            raise InvalidRequest("race requires agents, mission, detach, and optional name and timeoutSeconds")
+        name = args.get("name")
+        if name is not None and not isinstance(name, str):
+            raise InvalidRequest("race name must be a string")
+        timeout = self._timeout_argument(args)
+        progress = self._thread_progress(context)
+        worlds = await asyncio.to_thread(
+            self.forks.race,
+            args["agents"],
+            args["mission"],
+            wait=not args["detach"],
+            progress=progress,
+            name=name,
+            timeout=timeout,
+        )
+        self._schedule_automatic_ghosts(context.daemon)
+        if args["detach"]:
+            for world in worlds:
+                context.daemon.spawn_background(
+                    f"world:{world.instance_id}",
+                    asyncio.to_thread(self.forks.run_world, world, args["mission"], progress=progress, timeout=timeout),
+                )
+        return [world.summary() for world in worlds]
+
+    def _graph(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("graph takes no arguments")
+        worlds = self.store.worlds()
+        return {
+            "nodes": [world.summary() for world in worlds],
+            "edges": [
+                {"parent": world.parent_instance, "child": world.instance_id}
+                for world in worlds
+                if world.parent_instance is not None
+            ],
+        }
+
+    def _log(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) - {"verify"}:
+            raise InvalidRequest("log accepts only verify")
+        events: list[dict[str, Any]] = []
+        unreadable: list[dict[str, Any]] = []
+        for world in self.store.worlds():
+            try:
+                events.extend(self.store.causal_events_for_world(world.instance_id))
+            except (OSError, ValueError, WorldlineError) as exc:  # listed, never a reason to skip verification
+                unreadable.append({"world": world.alias, "error": str(exc)})
+        receipts: list[dict[str, Any]] = []
+        for row in self.store.receipts():
+            try:
+                item = self.store.receipt_for_transaction(row["transaction_id"])
+            except (OSError, ValueError, WorldlineError) as exc:
+                unreadable.append({"receiptId": row["receipt_id"], "error": str(exc)})
+                continue
+            if item:
+                receipts.append(item["receipt"])
+        result: dict[str, Any] = {
+            "events": [item["event"] for item in sorted(events, key=lambda value: value["ordinal"])],
+            "receipts": receipts,
+            "verification": None,
+            "anchor": None,
+        }
+        if unreadable:
+            result["unreadable"] = unreadable
+        if args.get("verify"):
+            # Both verdicts, always (1.9.2, OB-196): a chain break no longer hides the anchor's
+            # verdict, and neither is returned as mere data. The CLI exits with the distinct
+            # verification status unless `verdict.state` is OK.
+            try:
+                chains: dict[str, Any] = {"state": "OK", **self.store.verify_chains()}
+            except WorldlineError as exc:
+                chains = {"state": exc.code, "message": exc.message, "details": exc.details}
+            anchor = self._anchor_verdict()
+            problems = [state for state in (chains["state"], anchor["state"]) if state != "OK"]
+            if unreadable:
+                problems.append("LOG_RECORD_UNREADABLE")
+            result["verification"] = chains
+            result["anchor"] = anchor
+            result["verdict"] = {"state": "OK" if not problems else "FAILED", "problems": problems}
+        return result
+
+    def _anchor_verdict(self) -> dict[str, Any]:
+        """The anchor's verdict, with coverage compared entry by entry against the store's
+        receipts and causal events read beneath the store (1.9.2)."""
+        return self.anchors.verify(items=self.store.anchor_items())
+
+    def _why(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"path", "line"} or not isinstance(args["path"], str) or not isinstance(args["line"], int):
+            raise InvalidRequest("why requires path and line")
+        return CausalIndexer(self.store).why(args["path"], args["line"])
+
+    def _inspect(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("inspect requires world")
+        if args["world"] == "PRIME":
+            world = self.store.prime()
+            alias = "PRIME"
+        else:
+            world = self.store.world(args["world"])
+            alias = world.alias
+        if world is None:
+            raise WorldlineError("NO_PRIME", "no PRIME is initialized")
+        require_payload(world)
+        self.store.set_meta("activeWorld", alias)
+        return world.summary()
+
+    def _switch(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"target"} or not isinstance(args["target"], str):
+            raise InvalidRequest("switch requires target")
+        worlds = [world for world in self.store.worlds() if not world.alias.startswith("prime-")]
+        if not worlds:
+            raise WorldlineError("NO_INSPECTABLE_WORLDS", "no alternate worlds exist")
+        active = self.store.get_meta("activeWorld", "PRIME")
+        aliases = [world.alias for world in worlds]
+        if args["target"] in {"next", "previous"}:
+            index = aliases.index(active) if active in aliases else (-1 if args["target"] == "next" else 0)
+            offset = 1 if args["target"] == "next" else -1
+            selected = worlds[(index + offset) % len(worlds)]
+        else:
+            selected = self.store.world(args["target"])
+        hyprland = HyprlandAdapter()
+        hyprland.focus_workspace(selected.instance_id)
+        clients = hyprland.query("clients")
+        app_id = f"worldline-{selected.instance_id}"
+        exists = any(item.get("class") == app_id or item.get("initialClass") == app_id for item in clients)
+        if not exists:
+            terminal = shutil.which("xdg-terminal-exec")
+            if terminal is None:
+                raise WorldlineError("TERMINAL_UNAVAILABLE", "xdg-terminal-exec is not installed")
+            subprocess.Popen(
+                [
+                    terminal,
+                    f"--app-id={app_id}",
+                    f"--title={selected.alias}/{selected.actor}",
+                    "--",
+                    "worldline",
+                    "shell",
+                    selected.alias,
+                ],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                close_fds=True,
+            )
+        self.store.set_meta("activeWorld", selected.alias)
+        return selected.summary()
+
+    def _collapse_prepare(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("collapse.prepare requires world")
+        prepared = self.transactions.prepare(args["world"])
+        return {
+            **asdict(prepared),
+            "managedRoots": self._root_list({}, context),
+        }
+
+    def _collapse_commit(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
+            raise InvalidRequest("collapse.commit requires transactionId")
+        transaction = self.store.transaction_record(args["transactionId"])
+        principal=getattr(self,'canonical_operation_principal',None)
+        if principal is not None:
+            from .protected_operations import current_scope,OperationScope
+            from .protected_startup import require
+            from .canonical_followup import after_committed
+            scope=current_scope()
+            require(type(scope) is OperationScope and scope.principal is principal,
+                'FULL_BROKER_ORIGINAL_OPERATION_SCOPE_REQUIRED')
+            try:
+                result=principal.broker().commit(scope.operation,args['transactionId'])
+            finally:
+                protected_warnings=self._rebuild_watcher_and_retry(context.daemon)
+            previous=result.get('postCommit') or {}
+            result={**result,'postCommit':{**previous,'warnings':[*(previous.get('warnings') or []),*protected_warnings]}}
+            return after_committed(principal,transaction,context,result)
+        warnings: list[dict[str, Any]] = []
+        try:
+            try:
+                result = self.transactions.commit(args["transactionId"])
+            finally:
+                # The atomic exchange swapped the `live` mapping, so every inotify watch is now
+                # pinned to the pre-collapse payload inodes. Rebuild the watcher against the new
+                # PRIME -- also when the commit raised after the exchange (review of 56a7146). A
+                # failed rebuild leaves PRIME unwatched, which refuses (review of fcbf132); it is
+                # a warning on the commit's report, never the report (1.9.2, OB-128).
+                warnings.extend(self._rebuild_watcher_and_retry(context.daemon))
+        except WorldlineError as exc:
+            if (exc.details or {}).get("state") == "COMMITTED":
+                # Committed and recorded: what follows any commit follows this one too (a return's
+                # services, ghosts), and its failures are warnings beside the commit's own.
+                warnings.extend(self._after_commit(transaction, context))
+                previous = (exc.details or {}).get("postCommit") or {}
+                exc.details = {**(exc.details or {}), "postCommit": {
+                    **previous, "warnings": [*(previous.get("warnings") or []), *warnings]}}
+            raise
+        warnings.extend(self._after_commit(transaction, context))
+        anchor = result.get("anchor") if isinstance(result.get("anchor"), dict) else {}
+        warnings.extend(anchor.get("warnings") or [])
+        # PRIME moved and the receipt stands: the result is COMMITTED whatever followed it.
+        previous = result.get("postCommit") or {}
+        return {**result, "postCommit": {
+            **previous, "warnings": [*(previous.get("warnings") or []), *warnings]}}
+
+    def _after_commit(self, transaction: dict[str, Any], context: RequestContext) -> list[dict[str, Any]]:
+        """The steps that follow a committed exchange. Each failure is returned as a warning;
+        none can replace the commit's result (1.9.2, OB-128)."""
+        warnings: list[dict[str, Any]] = []
+        if transaction["kind"] == "return":
+            try:
+                self._restart_return_context()
+            except Exception as exc:
+                _LOG.exception("the return's context could not be restarted after a commit")
+                warnings.append(_post_commit_warning("return-context", exc))
+        try:
+            self._schedule_automatic_ghosts(context.daemon)
+        except Exception as exc:
+            _LOG.exception("automatic ghosts could not start after a commit")
+            warning = _post_commit_warning("automatic-ghosts", exc)
+            warnings.append(warning)
+            try:
+                warning["pending"] = self.store.get_meta("pendingGhosts")
+            except Exception as pending_exc:
+                # Reporting a scheduling failure must still retain the committed outcome when
+                # storage cannot supply the pending state. Do not guess a value for it.
+                warnings.append(_post_commit_warning("automatic-ghosts-status", pending_exc))
+        return warnings
+
+    def _restart_return_context(self) -> None:
+        prime = self.store.prime()
+        if prime is None:
+            return
+        roots = self.store.roots()
+        primary = next((root for root in roots if root["primary_root"]), None)
+        if primary is None:
+            return
+        project = ProjectConfig.load(Path(os.fsdecode(self.paths.root_source(primary))), self.store)
+        self.runner.services.start_declared(prime, project)
+        terminal = shutil.which("xdg-terminal-exec")
+        for item in prime.workspace.get("ownedTerminals", []):
+            if terminal is None or not isinstance(item, dict):
+                break
+            subprocess.Popen(
+                [
+                    terminal,
+                    f"--app-id=worldline-{prime.instance_id}",
+                    f"--title={item.get('title', 'PRIME')}",
+                    "--",
+                    "worldline",
+                    "shell",
+                    "PRIME",
+                ],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                close_fds=True,
+            )
+        clients = prime.workspace.get("clients")
+        if isinstance(clients, dict):
+            clients = clients.get("value")
+        if isinstance(clients, list):
+            try:
+                HyprlandAdapter().restore_live_clients(
+                    HyprlandAdapter.workspace_name(prime.instance_id),
+                    clients,
+                )
+            except WorldlineError:
+                pass
+
+    def _transaction_abort(self, args: dict[str, Any], _context: RequestContext) -> dict[str, str]:
+        if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
+            raise InvalidRequest("transaction.abort requires transactionId")
+        return self.transactions.abort(args["transactionId"])
+
+    def _transaction_list(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:
+        if args:
+            raise InvalidRequest("transaction.list takes no arguments")
+        return self.transactions.listing()
+
+    def _transaction_show(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
+            raise InvalidRequest("transaction.show requires transactionId")
+        return {
+            **self.transactions.describe(args["transactionId"]),
+            "managedRoots": self._root_list({}, context),
+        }
+
+    def _job_cancel(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("job.cancel requires world")
+        world = self.store.world(args["world"])
+        active = self.store.active_jobs_for_world(world.instance_id)
+        if not active:
+            raise WorldlineError(
+                "NO_ACTIVE_JOB",
+                f"world {world.alias} has no running agent job to cancel",
+                {"world": world.alias, "state": world.state.value},
+            )
+        cancelled: list[dict[str, Any]] = []
+        for job in active:
+            self.runner.cancel(job["job_id"], job.get("systemd_unit"))
+            cancelled.append({"jobId": job["job_id"], "unit": job.get("systemd_unit"), "state": job["state"]})
+        return {"world": world.alias, "cancelled": cancelled}
+
+    def _return_prepare(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not (args["world"] is None or isinstance(args["world"], str)):
+            raise InvalidRequest("return.prepare requires nullable world")
+        selected = self.returns.select(args["world"])
+        candidate = self.returns.prepare_candidate(selected)
+        prepared = self.transactions.prepare(candidate.instance_id, kind="return", return_of=selected.instance_id)
+        return {
+            **asdict(prepared),
+            "returnWorld": selected.alias,
+            "managedRoots": self._root_list({}, context),
+        }
+
+    async def _simulate(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"argv"} or not isinstance(args["argv"], list):
+            raise InvalidRequest("simulate requires argv")
+        roots = self.store.roots()
+        primary = next((root for root in roots if root["primary_root"]), None)
+        project = ProjectConfig(generated=(), checks=(), services=()) if primary is None else ProjectConfig.load(Path(os.fsdecode(self.paths.root_source(primary))), self.store)
+        health = [
+            {"id": check.id, "kind": check.kind, "argv": list(check.argv), "required": check.required}
+            for check in project.checks
+            if check.kind == "health"
+        ]
+        world = await asyncio.to_thread(self.simulation.run, args["argv"], health_checks=health)
+        return world.summary()
+
+    def _revalidate(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("revalidate requires world")
+        return self.revalidator.revalidate(args["world"])
+
+    def _validation_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("validation requires world")
+        world = self.store.world(args["world"])
+        context, source = None, None
+        current: dict[str, Any] | None
+        try:
+            current = current_requirements(self.store, self.config, self.core)
+        except WorldlineError as exc:
+            current = None
+            current_error = exc.as_dict()
+        else:
+            current_error = None
+        problems: list[str] = []
+        try:
+            context, source = effective_context(self.store, world,
+                requirement_hash=None if current is None else current['requirementHash'])
+            verify_context(context, candidate_instance=world.instance_id, core=self.core)
+        except WorldlineError as exc:
+            problems.append(exc.code)
+        fresh = bool(context and current and not problems and context.get("requirementHash") == current["requirementHash"] and not context.get("verifiersModifiedByCandidate"))
+        history = self.store.get_meta(f"validation:{world.instance_id}", []) or []
+        return {
+            "world": world.alias,
+            "instanceId": world.instance_id,
+            "state": world.state.value,
+            "fresh": fresh,
+            "effective": None if context is None else {
+                "source": source,
+                "requirementHash": context.get("requirementHash"),
+                "contextHash": context.get("contextHash"),
+                "evaluatedAt": context.get("evaluatedAt"),
+                "verifiersModifiedByCandidate": context.get("verifiersModifiedByCandidate", []),
+                "results": context.get("results", []),
+            },
+            "problems": problems,
+            "current": None if current is None else {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("canonical", {}).get("checks", [])], "protected": current["policy"].get("canonical", {}).get("protected", []), "verifiers": [f"{v['rootKey'][:12]}:{v['path']} ({v.get('source')})" for v in current.get("verifiers", [])], "warnings": current["policy"].get("warnings", [])},
+            "currentError": current_error,
+            "differences": [] if not (context and current and isinstance(context.get("requirement"), dict)) else differences(context["requirement"], current),
+            "revalidations": [{"validationId": e.get("validationId"), "outcome": e.get("outcome"), "evaluatedAt": e.get("evaluatedAt"), "requirementHash": e.get("requirementHash"), "boundToCurrentContent": e.get("worldContentId") == world.content_id} for e in history],
+        }
+
+    def _reservation_usage(self, reservation: Any) -> int | None:
+        """How much of a reservation the workload has already taken, so it is not withheld twice.
+        Unreadable means None, which withholds the whole reservation — the safe direction."""
+        if not getattr(reservation, "unit", None):
+            return None
+        reading = self.systemd.resource_telemetry(reservation.unit)
+        if getattr(reservation, "workload", "").startswith("check:"):
+            from .linux.systemd import SystemdAdapter
+            identity = SystemdAdapter.persisted_workload_identity(
+                reservation.unit, getattr(reservation, "workload_identity", None))
+            observed = reading.get("workloadIdentity")
+            if identity is None or observed != {"unit": identity.unit,
+                    "invocationId": identity.invocation_id, "controlGroup": identity.control_group}:
+                return None
+        return reading.get("currentMemoryBytes") if reading.get("state") == "OBSERVED" else None
+
+    def _reservation_is_live(self, reservation: Any) -> bool | None:
+        """True, False, or None when the service manager could not tell us.
+
+        The three-way answer is the whole point. Reading "cannot answer" as "not running" is
+        fail-open: during a manager outage an ordinary admission deleted the accounting for
+        every workload that was still running and promised their memory to someone else. A
+        reservation we cannot ask about is held, not freed.
+
+        A reservation with no unit yet is live by definition — it was taken microseconds ago and
+        the unit is about to exist.
+        """
+        unit = getattr(reservation, "unit", None)
+        if not unit:
+            return True
+        if getattr(reservation, "workload", "").startswith("check:"):
+            from .linux.systemd import WorkloadTerminalObservation
+            try:
+                observed = self.systemd.reservation_observation(reservation)
+            except Exception:
+                return None
+            if not isinstance(observed, WorkloadTerminalObservation) or observed.unit != unit:
+                return None
+            if observed.state == "MANAGER_WORKLOAD_LIVE":
+                return True
+            if observed.state in {"MANAGER_CGROUP_EMPTY", "MANAGER_CGROUP_REMOVED"}:
+                return False
+            return None
+        try:
+            metadata = self.systemd.metadata(unit)
+        except WorldlineError:
+            return None
+        if metadata.get("state") != "CAPTURED":
+            return None
+        state = metadata.get("ActiveState")
+        if not state:
+            return None
+        return state in ("active", "activating", "reloading", "deactivating")
+
+    def _doctor(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) - {"refresh"}:
+            raise InvalidRequest("doctor accepts only refresh")
+        snapshot = self.capabilities.snapshot(refresh=bool(args.get("refresh", False)))
+        snapshot["rootIntegrity"] = self._root_integrity()
+        snapshot["clientMode"] = self._client_mode_report()
+        snapshot["storeIntegrity"] = self._store_integrity()
+        snapshot["receiptCoverage"] = self._receipt_coverage()
+        snapshot["recovery"] = self._recovery_report()
+        snapshot["openTransactions"] = self._open_transactions()
+        snapshot["promotionReadiness"] = self._promotion_readiness(measure_foreign=bool(args.get("refresh", False)))
+        snapshot["unsupervisedWorlds"] = self._unsupervised_worlds()
+        snapshot["storeUsage"] = self.pruner.usage()
+        snapshot["networkPolicy"] = {"policy": self.config.network_policy, "allow": list(self.config.network_allow)}
+        snapshot["limits"] = {"defaultTimeoutSeconds": self.config.default_timeout_seconds}
+        try:
+            snapshot["admission"] = self.admission.report(self.config.resource_policy)
+            snapshot["admission"]["reconciledAtDaemonStart"] = [r.as_dict() for r in self._reconciled_at_start]
+            snapshot["admission"]["reconcileErrorAtDaemonStart"] = self._reconcile_error
+        except WorldlineError as exc:
+            snapshot["admission"] = {"state": {"state": "UNKNOWN", "reason": str(exc.args[1] if len(exc.args) > 1 else exc)}}
+        try:
+            current = current_requirements(self.store, self.config, self.core)
+            snapshot["policy"] = {"requirementHash": current["requirementHash"], "policySourceSha256": current["policy"].get("sourceSha256"), "checks": [c["id"] for c in current["policy"].get("canonical", {}).get("checks", [])], "protected": current["policy"].get("canonical", {}).get("protected", []), "verifiers": [f"{v['rootKey'][:12]}:{v['path']} ({v.get('source')})" for v in current.get("verifiers", [])], "warnings": current["policy"].get("warnings", [])}
+        except WorldlineError as exc:
+            snapshot["policy"] = {"requirementHash": None, "error": exc.code}
+        anchor = self._anchor_verdict()
+        coverage = anchor.get("coverage") or {}
+        snapshot["anchor"] = {
+            "state": anchor["state"],
+            "entries": anchor["entries"],
+            "head": anchor["head"],
+            "unanchoredReceipts": anchor.get("unanchoredReceipts", 0),
+            "attest": anchor["attest"]["state"],
+            "external": anchor["witness"]["state"],
+            "exportPath": None if self.anchors.export_path is None else str(self.anchors.export_path),
+            # 1.9.2: what is wrong, what the operator must provision, and the start's alarm.
+            "pinPath": None if self.anchors.pin_path is None else str(self.anchors.pin_path),
+            "key": anchor["key"]["state"],
+            "witnessProtection": (anchor["witness"].get("protection") or {}).get("state"),
+            "pinProtection": (anchor["key"].get("protection") or {}).get("state"),
+            "epochs": len(anchor["epochs"]),
+            "problems": anchor["problems"],
+            "missing": self._anchor_missing(anchor),
+            "alarm": anchor.get("alarm"),
+        }
+        snapshot["receiptCoverage"]["anchor"] = {
+            "truncatedReceipts": coverage.get("truncatedReceipts", []),
+            "truncatedEvents": coverage.get("truncatedEvents", []),
+            "mismatched": coverage.get("mismatched", []),
+            "unanchoredReceipts": coverage.get("unanchoredReceiptIds", []),
+            "unanchoredEvents": len(coverage.get("unanchoredEventIds", [])),
+        }
+        if anchor["state"] != "OK" and snapshot["receiptCoverage"]["state"] == "OK" and any(
+                snapshot["receiptCoverage"]["anchor"][key] for key in ("truncatedReceipts", "truncatedEvents", "mismatched")):
+            snapshot["receiptCoverage"]["state"] = "DEGRADED"
+        pending = self.store.get_meta("pendingGhosts")
+        if isinstance(pending, dict):
+            snapshot["pendingGhosts"] = pending
+        return snapshot
+
+    def _anchor_missing(self, anchor: dict[str, Any]) -> list[str]:
+        """What the operator still has to provision before promotion is allowed (OB-087)."""
+        missing: list[str] = []
+        if self.anchors.export_path is None:
+            missing.append("set anchor.exportPath to a directory outside this account's write access")
+        else:
+            protection = anchor["witness"].get("protection") or {}
+            if protection.get("state") != "PROTECTED":
+                missing.append(f"make {self.anchors.witness_path} append-only as root (chattr +a), or owned and appended by another account")
+        if anchor["key"]["state"] in ("UNPINNED", "UNPROTECTED"):
+            missing.append(f"write the output of `worldline anchor pin` to {self.anchors.pin_path or 'anchor.pinPath'} and make it "
+                           "immutable as root (chattr +i), or owned by another account")
+        elif anchor["key"]["state"] == "MISMATCH":
+            missing.append("the pin does not name the key sequence in use; after a rotation, install the pin it printed")
+        return missing
+
+    def _prune(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        allowed = {"olderThanDays", "keep", "logs", "dryRun", "confirmed"}
+        if not set(args) <= allowed:
+            raise InvalidRequest("prune accepts olderThanDays, keep, logs, dryRun, and confirmed")
+        for key in ("olderThanDays", "keep"):
+            value = args.get(key)
+            if value is not None and (isinstance(value, bool) or not isinstance(value, int) or value < 0):
+                raise InvalidRequest(f"{key} must be null or a non-negative integer")
+        plan = self.pruner.plan(
+            older_than_days=args.get("olderThanDays"),
+            keep=args.get("keep"),
+            logs=bool(args.get("logs", False)),
+        )
+        if args.get("dryRun", False) or not args.get("confirmed", False):
+            return {"state": "DRY_RUN", **plan}
+        result = self.pruner.apply(plan)
+        return {"state": "PRUNED", **result, "plan": plan}
+
+    def _client_mode_report(self) -> dict[str, Any]:
+        """Whether clients are served, whether the gate into the store is open, and the host
+        facts a client-mode deployment needs that the daemon can observe (SECURITY.md limit 7)."""
+        if self.paths.client_gid is None:
+            return {"enabled": False}
+        gate: dict[str, Any]
+        try:
+            info = os.lstat(self.paths.data)
+            mode = stat.S_IMODE(info.st_mode)
+            acl, _capability = xattr_risks(self.paths.data)
+            if mode == 0o710 and info.st_gid == self.paths.client_gid and not acl:
+                gate = {"state": "OPEN"}
+            elif mode == 0o700 and not acl:
+                gate = {"state": "CLOSED"}
+            else:
+                # Neither: something opened it another way (review of 796cb02 found 0711, 0755 and
+                # a foreign group all reported CLOSED). The next ensure() resets it to 0700.
+                gate = {"state": "UNSAFE", "mode": f"{mode:04o}", "gid": info.st_gid, "acl": acl}
+        except OSError as exc:
+            gate = {"state": "UNKNOWN", "reason": str(exc)}
+        return {
+            "enabled": True,
+            "clientGid": self.paths.client_gid,
+            "clientUids": list(self.paths.client_uids),
+            "gate": gate,
+            "deployment": deployment_facts(self.paths.data),
+        }
+
+    def _anchor_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("anchor.status takes no arguments")
+        return self._anchor_verdict()
+
+    def _recovery_report(self) -> dict[str, Any]:
+        # A quarantined transaction blocks every mutation (prepare/commit refuse with
+        # RECOVERY_INCOMPLETE) but used to be invisible to doctor; the operator only learned of it
+        # from the refusal. Report it where the rest of the integrity picture lives.
+        quarantined = dict(getattr(self.transactions, "unrecoverable", {}) or {})
+        return {
+            "state": "OK" if not quarantined else "INCOMPLETE",
+            "quarantined": [
+                {"transactionId": transaction_id, "error": error}
+                for transaction_id, error in sorted(quarantined.items())
+            ],
+        }
+
+    def _open_transactions(self) -> list[dict[str, Any]]:
+        # A PREPARED transaction holds a staged PRIME-sized payload and blocks root-set changes
+        # (ROOT_SET_BUSY) until it is committed or aborted. A review screen that was closed
+        # without either leaves one behind; list them so the operator can abort deliberately.
+        return [
+            item
+            for item in self.transactions.listing()
+            if item["state"] in {"PREPARED", "AUTHORIZED"}
+        ]
+
+    def _promotion_readiness(self, *, measure_foreign: bool) -> dict[str, Any]:
+        """Read-only census of what 1.9.0 promotion will refuse and why (plan step 10): pending
+        transactions (recovery aborts them at the next start), watch coverage, the foreign-write
+        measurement (with --refresh), and every VALID world's standing -- fresh, needing
+        revalidation, or not revalidatable for a missing payload, base or declared manifest."""
+        report: dict[str, Any] = {"pendingTransactions": [item["transactionId"] for item in self._open_transactions()]}
+        report.update(self.transactions.readiness(measure_foreign=measure_foreign))
+        try:
+            current = current_requirements(self.store, self.config, self.core)["requirementHash"]
+        except WorldlineError as exc:
+            current, report["requirementError"] = None, exc.code
+        roots = self.store.roots()
+        worlds: dict[str, list[dict[str, Any]]] = {"fresh": [], "needsRevalidation": [], "notRevalidatable": []}
+        prime = self.store.prime()
+        for world in self.store.worlds():
+            # Candidates only: PRIME and the generations WORLDLINE itself made are return
+            # points, not worlds anyone revalidates or collapses (review of a23c265).
+            if (world.state is not WorldState.VALID or world.world_kind == "system" or world.actor == "worldline"
+                    or (prime is not None and world.instance_id == prime.instance_id)):
+                continue
+            row = {"instanceId": world.instance_id, "alias": world.alias}
+            payload = Path(world.payload_path) if world.payload_path else None
+            base = Path(world.base_payload_path) if world.base_payload_path else None
+            missing = []
+            if payload is None or not payload.is_dir():
+                missing.append("payload")
+            if base is None or not base.is_dir():
+                missing.append("base")
+            if payload is not None and payload.is_dir() and any(
+                    not (payload / "manifests" / f"{root['root_key']}.json").is_file() for root in roots):
+                missing.append("manifest")
+            try:
+                context, source = effective_context(self.store, world, requirement_hash=current)
+            except WorldlineError as exc:
+                context, source = None, None
+                row['evaluationAuthorityError'] = exc.code
+            evaluated = context.get("requirementHash") if isinstance(context, dict) else None
+            if missing:
+                worlds["notRevalidatable"].append({**row, "missing": missing})
+            elif evaluated is not None and evaluated == current:
+                worlds["fresh"].append({**row, "evidence": source})
+            else:
+                worlds["needsRevalidation"].append({**row, "evidence": source if context else None})
+        report["validWorlds"] = worlds
+        return report
+
+    def _unsupervised_worlds(self) -> list[dict[str, Any]]:
+        # After the startup sweep this should be empty; if it is not, something created a
+        # nonterminal world during this daemon's life and never gave it a job.
+        result: list[dict[str, Any]] = []
+        for world in self.store.nonterminal_worlds():
+            if self.store.active_jobs_for_world(world.instance_id):
+                continue
+            result.append({"alias": world.alias, "instanceId": world.instance_id, "state": world.state.value, "born": world.born})
+        return result
+
+    def _store_integrity(self) -> dict[str, Any]:
+        # Registration moves the operator's real directory into the store before any row records
+        # where it came from, and the rollbacks are exception-only, so a SIGKILL or power loss
+        # can leave the data present but unreferenced. Nothing else scans for that, which made
+        # the worst outcome — "my project directory is gone" — completely silent. Report it.
+        findings: list[dict[str, Any]] = []
+        try:
+            # A world references two payloads: the one it produced (payload_path) and the frozen
+            # checkpoint it was forked from (base_payload_path). Scanning only the first made every
+            # fork checkpoint look orphaned the moment its root was removed -- the health check's
+            # final doctor reported DEGRADED over its own perfectly retained history.
+            referenced_payloads: set[str] = set()
+            for world in self.store.worlds():
+                for reference in (world.payload_path, world.base_payload_path):
+                    if reference:
+                        referenced_payloads.add(os.path.realpath(str(Path(reference))))
+        except Exception:  # pragma: no cover - diagnosis must never raise
+            referenced_payloads = set()
+        root_keys = {root["root_key"] for root in self.store.roots()}
+
+        for generation in sorted(self.paths.generations.glob("*/payload/*")):
+            if not generation.is_dir():
+                continue
+            # Only root-key directories are captured roots; `manifests/` is a legitimate sibling
+            # holding each root's manifest JSON, and reporting it would be a false alarm.
+            if not _ROOT_KEY.fullmatch(generation.name):
+                continue
+            if generation.name in root_keys:
+                continue
+            if os.path.realpath(str(generation)) in referenced_payloads:
+                continue
+            if os.path.realpath(str(generation.parent)) in referenced_payloads:
+                continue
+            entry: dict[str, Any] = {
+                "kind": "ORPHANED_GENERATION",
+                "path": str(generation),
+                "reason": "captured payload is referenced by no managed root and no world",
+            }
+            # register() writes manifests/<root_key>.json before the rename, so the operator's
+            # original path is recoverable from disk even when no database row survived.
+            manifest = generation.parent / "manifests" / f"{generation.name}.json"
+            origin = self._manifest_origin(manifest)
+            if origin is not None:
+                entry["originalPath"] = origin
+            findings.append(entry)
+
+        for mapping in sorted(self.paths.live.glob("*")):
+            if mapping.name not in root_keys and mapping.name != ".worldline-generation.json":
+                findings.append({
+                    "kind": "ORPHANED_LIVE_MAPPING",
+                    "path": str(mapping),
+                    "reason": "live mapping entry matches no managed root",
+                })
+
+        known = {row["transaction_id"] for row in self.store.transactions_in_state(
+            ("PREPARED", "AUTHORIZED", "COMMITTED", "DENIED", "ABORTED")
+        )}
+        for record in sorted(self.paths.transactions.glob("*.json")):
+            if record.stem not in known:
+                findings.append({
+                    "kind": "ORPHANED_PREPARED_RECORD",
+                    "path": str(record),
+                    "reason": "prepared transaction record has no database row; its staged payload is unreclaimed",
+                })
+
+        return {"state": "OK" if not findings else "DEGRADED", "findings": findings}
+
+    @staticmethod
+    def _manifest_origin(manifest: Path) -> str | None:
+        try:
+            value = json.loads(manifest.read_text(encoding="utf-8"))
+            encoded = value.get("rootPathB64")
+            if isinstance(encoded, str):
+                return os.fsdecode(base64.b64decode(encoded.encode("ascii"), validate=True))
+        except Exception:  # pragma: no cover - best effort only
+            return None
+        return None
+
+    def _receipt_coverage(self) -> dict[str, Any]:
+        # "Every committed collapse has a receipt in a tamper-evident chain" is the system's
+        # central evidence claim, and log --verify cannot detect a receipt that was never
+        # written (the chain stays self-consistent, just shorter). Check it directly.
+        missing = [
+            row["transaction_id"]
+            for row in self.store.transactions_in_state(("COMMITTED",))
+            if self.store.receipt_for_transaction(row["transaction_id"]) is None
+        ]
+        return {
+            "state": "OK" if not missing else "DEGRADED",
+            "committedWithoutReceipt": missing,
+        }
+
+    def _root_integrity(self) -> dict[str, Any]:
+        # A registered root is healthy only as a symlink chaining through paths.live:
+        #   raw_path -> live/<root_key> -> generations/<gen>/payload/<root_key>
+        # A crash during `root remove` can leave raw_path as a real directory that no longer
+        # routes through live, after which collapses "commit" without touching the user's files.
+        # That divergence is otherwise silent, so surface it here.
+        roots: list[dict[str, Any]] = []
+        healthy = True
+        for root in self.store.roots():
+            raw = os.fsdecode(bytes(root["path"]))
+            state = "OK"
+            detail: str | None = None
+            if not os.path.islink(raw):
+                state = "BROKEN"
+                detail = (
+                    "registered root is a real path, not a WORLDLINE symlink; collapses would "
+                    "not reach the user's files (likely an interrupted `root remove`)"
+                ) if os.path.exists(raw) else "registered root path is missing"
+                healthy = False
+            else:
+                # Exactly what every capture enforces (review of ff201cd: the doctor said OK for a
+                # root whose live mapping resolved outside the store, which every capture refuses).
+                try:
+                    source = self.paths.root_source(root)
+                    if root["kind"] == "repo":
+                        GitAdapter._require_top_level_repository(source)
+                        _require_alternates_inside(source)
+                except WorldlineError as exc:
+                    state = "BROKEN"
+                    detail = f"{exc.code}: {exc.message}"
+                    healthy = False
+            roots.append({
+                "path": root["display_path"],
+                "rootKey": root["root_key"],
+                "state": state,
+                **({"reason": detail} if detail else {}),
+            })
+        return {"state": "OK" if healthy else "DEGRADED", "roots": roots}
+
+    def _adapters(self, args: dict[str, Any], _context: RequestContext) -> list[dict[str, Any]]:
+        if args:
+            raise InvalidRequest("adapters takes no arguments")
+        roots = self.store.roots()
+        if roots:
+            primary = next(root for root in roots if root["primary_root"])
+            primary_path = Path(os.fsdecode(bytes(primary["path"])))
+            is_git = primary["kind"] == "repo"
+        else:
+            primary_path = self.paths.home
+            is_git = False
+        context = AgentContext(
+            primary_root=primary_path,
+            workspace=primary_path,
+            mission_file=Path("/run/worldline-runtime/mission.txt"),
+            world_state=Path("/run/worldline-runtime/world.json"),
+            home=self.paths.home,
+            is_git_root=is_git,
+        )
+        result: list[dict[str, Any]] = []
+        for name in adapter_names(self.config):
+            try:
+                selected = resolve_adapter(name, self.config)
+                item = selected.capability(context)
+                item["argvPreview"] = list(selected.build_argv(context, "<mission>"))
+            except WorldlineError as exc:
+                item = {"name": name, "state": "UNAVAILABLE", "reason": exc.message}
+            result.append(item)
+        return result
+
+    def _ghost_enable(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"agent"} or not isinstance(args["agent"], str):
+            raise InvalidRequest("ghost.enable requires agent")
+        resolve_adapter(args["agent"], self.config)
+        return self.ghosts.enable(args["agent"])
+
+    def _ghost_disable(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("ghost.disable takes no arguments")
+        return self.ghosts.disable()
+
+    def _ghost_status(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if args:
+            raise InvalidRequest("ghost.status takes no arguments")
+        return self.ghosts.status()
+
+    async def _ghost_run(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"objective", "wait"} or not isinstance(args["objective"], str) or not isinstance(args["wait"], bool):
+            raise InvalidRequest("ghost.run requires objective and wait")
+        status = self.ghosts.status()
+        if not status["enabled"]:
+            raise WorldlineError("GHOSTS_DISABLED", "ghosts require explicit ghost enable --agent AGENT")
+        try:
+            mission = self.ghosts.missions[args["objective"]]
+        except KeyError as exc:
+            raise WorldlineError("UNKNOWN_GHOST", f"unknown ghost objective: {args['objective']}") from exc
+        alias = f"ghost-{args['objective']}-{str(uuid.uuid4())[:8]}"
+        world = await asyncio.to_thread(self.forks.create_world, alias, mission, status["agent"])
+        world.evidence["ghostObjective"] = args["objective"]
+        self.store.save_world(world)
+        progress = self._thread_progress(context)
+        if args["wait"]:
+            completed = await asyncio.to_thread(
+                self.forks.run_world,
+                world,
+                mission,
+                progress=progress,
+                low_priority=True,
+            )
+            parent = self.store.world(completed.parent_instance)
+            self.ghosts.recommendation(args["objective"], completed, parent)
+            return completed.summary()
+        context.daemon.spawn_background(
+            f"ghost:{world.instance_id}",
+            asyncio.to_thread(self._run_ghost, world, mission, args["objective"], progress),
+        )
+        return world.summary()
+
+    def _run_ghost(self, world, mission: str, objective: str, progress) -> None:
+        completed = self.forks.run_world(world, mission, progress=progress, low_priority=True)
+        parent = self.store.world(completed.parent_instance)
+        self.ghosts.recommendation(objective, completed, parent)
+
+    def _shell_info(self, args: dict[str, Any], _context: RequestContext) -> dict[str, Any]:
+        if set(args) != {"world"} or not isinstance(args["world"], str):
+            raise InvalidRequest("shell.info requires world")
+        world = self.store.prime() if args["world"] == "PRIME" else self.store.world(args["world"])
+        if world is None:
+            raise WorldlineError("NO_PRIME", "no PRIME is initialized")
+        require_payload(world)
+        roots = self.store.roots()
+        primary = next(root for root in roots if root["primary_root"])
+        cwd = world.workspace.get("ownedTerminalCwd")
+        if not isinstance(cwd, str) or not Path(cwd).is_dir():
+            cwd = primary["display_path"]
+        return {
+            "world": world.summary(),
+            "payload": world.payload_path,
+            "cwd": cwd,
+            "roots": [
+                {"rootKey": root["root_key"], "target": root["display_path"]}
+                for root in roots
+            ],
+        }
+
+    def _owner_retry(self,args,context):
+        if set(args)!={'world','reason'} or type(args['world']) is not str or type(args['reason']) is not str:
+            raise InvalidRequest('owner.retry requires exact world and reason')
+        from .protected_owner import installed_owner
+        request=context.retain_peer()
+        if request is None:raise WorldlineError('OWNER_ORIGINAL_REQUESTER_UNAVAILABLE','original connected client required')
+        try:return installed_owner(self).retry(request,args['world'],args['reason'])
+        finally:request.close()
+
+    def _owner_adopt(self,args,context):
+        if set(args)!={'world','reason','expectedRequirement'} or any(type(args[k]) is not str for k in args):
+            raise InvalidRequest('owner.adopt requires exact world, reason and expectedRequirement')
+        from .protected_owner import installed_owner
+        request=context.retain_peer()
+        if request is None:raise WorldlineError('OWNER_ORIGINAL_REQUESTER_UNAVAILABLE','original connected client required')
+        try:return installed_owner(self).prepare_adopt(request,args['world'],args['reason'],args['expectedRequirement'])
+        finally:request.close()
+
+    def _owner_recover(self,args,context):
+        if set(args)!={'intent'} or type(args['intent']) is not str:raise InvalidRequest('owner.recover requires exact intent')
+        from .protected_owner import installed_owner
+        request=context.retain_peer()
+        if request is None:raise WorldlineError('OWNER_ORIGINAL_REQUESTER_UNAVAILABLE','original connected client required')
+        try:return installed_owner(self).recover(request,args['intent'])
+        finally:request.close()

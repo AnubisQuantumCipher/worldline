@@ -1,0 +1,58 @@
+{
+  "changes": [
+    {
+      "after": {
+        "bytes": 6962,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compress-explicit-contract-cost-donor-ultra-v1/source/core/attest/attest-sha256.adb",
+        "sha256": "40fc9f7901ed90e6bddc8820feb225b9a5cb2aaf6c4d170187751fa6a80c8863"
+      },
+      "before": {
+        "bytes": 6869,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/core/attest/attest-sha256.adb",
+        "sha256": "db0fc9736ed92c274993452f02a3484680d815cfdaeb7a9ce8d1a49b94da417b"
+      },
+      "name": "core/attest/attest-sha256.adb",
+      "sole_added_contract": "   procedure Compress (H : in out State; B : Block)\n     with Global => null,\n          Depends => (H => (H, B)),\n          Always_Terminates\n   is\n",
+      "whole_executable_body_preimage_reconstructed": true
+    },
+    {
+      "after": {
+        "bytes": 7058,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compress-explicit-contract-cost-donor-ultra-v1/source/core/attest/attest-custody_sha256.adb",
+        "sha256": "1f186c6777620b82b96445044a6e236977db2c65ef3859cb08158b83fa6026f6"
+      },
+      "before": {
+        "bytes": 6965,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/core/attest/attest-custody_sha256.adb",
+        "sha256": "fb0de1e711d180b4d931ed5a652e01d1ae816366a607a709e8d7a90da57a0d6b"
+      },
+      "name": "core/attest/attest-custody_sha256.adb",
+      "sole_added_contract": "   procedure Compress (H : in out State; B : Block)\n     with Global => null,\n          Depends => (H => (H, B)),\n          Always_Terminates\n   is\n",
+      "whole_executable_body_preimage_reconstructed": true
+    },
+    {
+      "after": {
+        "bytes": 244228,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/compress-explicit-contract-cost-donor-ultra-v1/source/runtime/worldline/proof_manifest.py",
+        "sha256": "3162b702a7e99a28b00acc0743fc3384514f382cd2ebaef2c9a444cd446e5856"
+      },
+      "before": {
+        "bytes": 243967,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/runtime/worldline/proof_manifest.py",
+        "sha256": "8015a537095697389067bfcacc0875f7e203469991af4ab309c62de0bda09f4d"
+      },
+      "name": "runtime/worldline/proof_manifest.py",
+      "sole_policy_delta": "Append exact private Compress names; refresh only every affected existing body digest literal using unchanged original normalizer."
+    }
+  ],
+  "phase_acceptance": false,
+  "schema": "worldline-exact-source-delta-v1",
+  "source_only": true,
+  "target_execution": false
+}

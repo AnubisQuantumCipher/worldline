@@ -1,0 +1,5301 @@
+{
+  "all_original_guarantees": "OPEN_UNCHANGED",
+  "all_required_actual_pass": false,
+  "at": "2026-10-10T20:54:51.087510+00:00",
+  "fresh_terminal_live_sample": {
+    "at": "2026-10-10T20:54:49.933770+00:00",
+    "boundary": "Current observations only; unrelated activity does not prevent giving back an ended owned window and is never stopped.",
+    "codex_scopes": {
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "list-units",
+        "--all",
+        "--state=active,activating,deactivating",
+        "--no-legend",
+        "--plain",
+        "codex-*.scope"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    "process_sample": {
+      "command": [
+        "/usr/bin/ps",
+        "-eo",
+        "pid,comm"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "    PID COMMAND\n      1 systemd\n      2 kthreadd\n      3 pool_workqueue_release\n      4 kworker/R-rcu_gp\n      5 kworker/R-sync_wq\n      6 kworker/R-kvfree_rcu_reclaim\n      7 kworker/R-slub_flushwq\n      8 kworker/R-netns\n     11 kworker/0:0H-kblockd\n     13 kworker/R-mm_percpu_wq\n     14 ksoftirqd/0\n     15 rcu_preempt\n     16 rcu_exp_par_gp_kthread_worker/0\n     17 rcu_exp_gp_kthread_worker\n     18 migration/0\n     19 cpuhp/0\n     20 cpuhp/1\n     21 migration/1\n     22 ksoftirqd/1\n     24 kworker/1:0H-kblockd\n     25 cpuhp/2\n     26 migration/2\n     27 ksoftirqd/2\n     29 kworker/2:0H-kblockd\n     30 cpuhp/3\n     31 migration/3\n     32 ksoftirqd/3\n     34 kworker/3:0H-kblockd\n     35 cpuhp/4\n     36 migration/4\n     37 ksoftirqd/4\n     39 kworker/4:0H-kblockd\n     40 cpuhp/5\n     41 migration/5\n     42 ksoftirqd/5\n     44 kworker/5:0H-kblockd\n     45 cpuhp/6\n     46 migration/6\n     47 ksoftirqd/6\n     49 kworker/6:0H-kblockd\n     50 cpuhp/7\n     51 migration/7\n     52 ksoftirqd/7\n     54 kworker/7:0H-kblockd\n     55 cpuhp/8\n     56 migration/8\n     57 ksoftirqd/8\n     59 kworker/8:0H-kblockd\n     60 cpuhp/9\n     61 migration/9\n     62 ksoftirqd/9\n     64 kworker/9:0H-kblockd\n     65 cpuhp/10\n     66 migration/10\n     67 ksoftirqd/10\n     69 kworker/10:0H-kblockd\n     70 cpuhp/11\n     71 migration/11\n     72 ksoftirqd/11\n     74 kworker/11:0H-kblockd\n     77 kdevtmpfs\n     78 kworker/R-inet_frag_wq\n     79 rcu_tasks_kthread\n     80 kauditd\n     83 khungtaskd\n     84 oom_reaper\n     85 kworker/R-writeback\n     86 kcompactd0\n     87 ksmd\n     88 kworker/R-kblockd\n     89 kworker/R-blkcg_punt_bio\n     90 kworker/R-kintegrityd\n     91 kworker/R-tpm_dev_wq\n     92 kworker/R-tifm\n     93 kworker/R-ata_sff\n     94 kworker/R-md_bitmap\n     95 kworker/R-edac-poller\n     96 kworker/R-devfreq_wq\n     97 watchdogd\n     98 kworker/R-quota_events_unbound\n    100 kworker/R-rpciod\n    101 kworker/R-xprtiod\n    103 kswapd0\n    104 kworker/R-nfsiod\n    105 kworker/R-xfsalloc\n    106 kworker/R-xfs_mru_cache\n    107 kworker/R-cryptd\n    108 kworker/R-kthrotld\n    109 kworker/u51:0\n    110 kworker/R-acpi_thermal_pm\n    112 khvcd\n    114 kworker/R-nvme-wq\n    115 kworker/R-nvme-reset-wq\n    116 kworker/R-nvme-delete-wq\n    117 kworker/R-uas\n    118 kworker/R-dm_bufio_cache\n    119 kworker/R-mld\n    120 kworker/R-ipv6_addrconf\n    121 kworker/u48:1-ipv6_addrconf\n    122 kworker/R-kstrp\n    123 kworker/u52:0\n    124 kworker/u53:0\n    155 card0-crtc0\n    161 hwrng\n    255 kworker/0:1H-kblockd\n    272 kworker/1:1H-kblockd\n    278 jbd2/vda-8\n    279 kworker/R-ext4-rsv-conversion\n    280 kworker/7:1H-kblockd\n    296 kworker/2:1H-kblockd\n    300 kworker/5:1H-kblockd\n    331 psimon\n    339 systemd-journal\n    351 kworker/6:1H-kblockd\n    353 systemd-userdbd\n    369 kworker/10:1H-kblockd\n    373 psimon\n    386 kworker/9:1H-kblockd\n    398 kworker/3:1H-kblockd\n    404 systemd-resolve\n    405 systemd-timesyn\n    418 systemd-udevd\n    455 psimon\n    553 dbus-broker-lau\n    554 dbus-broker\n    555 NetworkManager\n    557 avahi-daemon\n    559 systemd-logind\n    579 avahi-daemon\n    597 cupsd\n    598 sshd\n    609 containerd\n    611 sddm\n    612 agetty\n    613 systemd\n    614 systemd\n    615 systemd\n    629 (sd-pam)\n    630 (sd-pam)\n    631 (sd-pam)\n    639 Xorg\n    668 dbus-broker-lau\n    670 dbus-broker-lau\n    671 dbus-broker-lau\n    672 dbus-broker\n    673 dbus-broker\n    674 dbus-broker\n    679 python3\n    681 pipewire\n    683 wireplumber\n    684 pipewire\n    685 pipewire\n    686 wireplumber\n    689 pipewire-pulse\n    691 wireplumber\n    692 pipewire-pulse\n    715 pipewire-pulse\n    728 cups-browsed\n    734 dockerd\n    743 rtkit-daemon\n    750 kworker/4:1H-kblockd\n    756 polkitd\n    837 kworker/8:1H-kblockd\n   1011 sddm-helper\n   1020 kworker/11:1H-kblockd\n   1027 systemd\n   1031 (sd-pam)\n   1065 dbus-broker-lau\n   1067 dbus-broker\n   1068 ipad-storage-su\n   1069 maestral\n   1070 omarchy-native-\n   1073 pipewire\n   1074 wireplumber\n   1075 pipewire-pulse\n   1076 omarchy-native-\n   1077 ollama\n   1078 python3\n   1079 python3\n   1088 gnome-keyring-d\n   1119 sh\n   1162 power-profiles-\n   1281 waitpid\n   1284 systemctl\n   1364 start-hyprland\n   1376 Hyprland\n   1411 dconf-service\n   1425 omarchy-hyprlan\n   1426 udiskie\n   1429 omarchy-native-\n   1432 wayvnc\n   1450 upowerd\n   1497 sshd-session\n   1499 Xwayland\n   1500 udevadm\n   1501 omarchy-native-\n   1512 sshd-session\n   1513 at-spi-bus-laun\n   1519 dbus-broker-lau\n   1520 dbus-broker\n   1521 gvfsd\n   1527 gvfsd-fuse\n   1537 systemd-inhibit\n   1541 keepassxc\n   1545 omarchy-crash-w\n   1547 fcitx5\n   1550 omarchy-native-\n   1551 uwsm\n   1552 xdg-desktop-por\n   1553 journalctl\n   1554 omarchy-crash-w\n   1560 sekhmet\n   1561 omarchy-system-\n   1564 dbus-monitor\n   1615 xdg-permission-\n   1621 wl-paste\n   1655 xdg-document-po\n   1699 fusermount3\n   1714 xdg-desktop-por\n   1771 at-spi2-registr\n   1784 xdg-desktop-por\n   2261 socat\n   2311 udisksd\n   2893 ipad-backup-mou\n 159583 localsearch-3\n 159584 gvfsd-recent\n 465196 ChatGPT\n 465202 browser_crashpa\n 465204 browser_crashpa\n 465209 ChatGPT\n 465210 ChatGPT\n 465219 ChatGPT\n 465248 ChatGPT\n 465250 ChatGPT\n 465284 ChatGPT\n 465755 ChatGPT\n 465756 ChatGPT\n 465778 codex\n 466027 ChatGPT\n 466165 ChatGPT\n 466369 ChatGPT\n 466382 ChatGPT\n 466830 MainThread\n 466835 python3\n 466838 node-MainThread\n 466844 node_repl\n 466863 MainThread\n 466877 MainThread\n 466888 jackal-mcp-ledg\n 466904 MainThread\n 466937 node_repl\n 466986 unshare\n 467081 python3.14\n 467661 codex\n 468433 ChatGPT\n 468535 ChatGPT\n 468743 ChatGPT\n 468770 codex-code-mode\n 501540 ChatGPT\n 721130 omarchy-launch-\n 721134 quickshell\n 721261 inotifywait\n 721850 wl-paste\n 721851 wl-paste\n1086488 kworker/u48:0\n1273076 kworker/11:0-events\n1360850 MainThread\n1360855 node_repl\n1360873 MainThread\n1360889 MainThread\n1360913 python3\n1360927 MainThread\n1360947 jackal-mcp-ledg\n1360960 node-MainThread\n1360982 node_repl\n1361003 unshare\n1361084 python3.14\n1372411 kworker/2:0-events\n1476105 kworker/1:0-events\n1476182 kworker/6:2-events\n1507155 foot\n1507175 bash\n1507594 grok\n1508584 jackal-mcp-ledg\n1508588 python3\n1508591 unshare\n1508599 python3.14\n1550455 kworker/5:2-events\n1573604 kworker/9:2-memcg\n1648010 llama-server\n1786578 jackal-mcp-ledg\n1786580 MainThread\n1786583 node-MainThread\n1786585 node_repl\n1786590 unshare\n1786596 MainThread\n1786637 python3\n1786639 MainThread\n1786640 node_repl\n1786698 MainThread\n1786723 python3.14\n1833111 kworker/3:0-events\n1858450 brave\n1858474 chrome_crashpad\n1858476 chrome_crashpad\n1858483 brave\n1858484 brave\n1858487 brave\n1858519 brave\n1858537 brave\n1858554 brave\n1858614 brave\n1858685 brave\n1858850 brave\n1858870 keepassxc-proxy\n1858952 brave\n1858975 brave\n1859313 brave\n1862125 brave\n1875393 black-bag\n1879656 MainThread\n1879657 node-MainThread\n1879660 MainThread\n1879661 MainThread\n1879675 python3\n1879691 MainThread\n1879694 node_repl\n1879700 node_repl\n1881220 jackal-mcp-ledg\n1881221 unshare\n1881228 python3.14\n1915095 brave\n1915275 kworker/4:1-events\n1958049 MainThread\n1958054 MainThread\n1958056 node-MainThread\n1958057 MainThread\n1958068 python3\n1958076 node_repl\n1958083 node_repl\n1958084 MainThread\n1958185 kworker/0:0-events\n1961317 jackal-mcp-ledg\n1961321 unshare\n1961329 python3.14\n1964976 kworker/8:2-events\n2064989 kworker/10:2-events\n2161028 kworker/9:0-events\n2172697 kworker/0:2-events\n2180332 kworker/11:1-inode_switch_wbs\n2183538 kworker/5:1-cgroup_release\n2191227 kworker/1:2\n2207755 kworker/2:1-cgroup_release\n2207852 kworker/u49:6-flush-253:0\n2227998 kworker/7:0-rcu_gp\n2238091 kworker/6:1\n2251432 kworker/8:0\n2253531 kworker/u50:2-ext4-rsv-conversion\n2255968 kworker/u49:5-flush-253:0\n2257152 kworker/u50:4-flush-253:0\n2257153 kworker/u50:5-events_unbound\n2265837 kworker/10:0\n2278903 kworker/u50:1-ext4-rsv-conversion\n2287664 kworker/3:1\n2289866 kworker/7:2-events\n2293917 kworker/u49:3-ext4-rsv-conversion\n2293918 kworker/u49:4-flush-253:0\n2299747 kworker/4:2\n2310520 kworker/u49:0-events_unbound\n2311397 kworker/9:1-events\n2311398 kworker/2:2\n2311678 kworker/u49:1-ext4-rsv-conversion\n2311679 kworker/u49:2\n2311774 kworker/u50:0+events_unbound\n2315375 kworker/11:2-cgroup_free\n2317611 systemd-userwor\n2317612 systemd-userwor\n2317859 systemd-userwor\n2318093 kworker/u50:3-flush-253:0\n2318094 kworker/u50:6\n2318095 kworker/u50:7-ext4-rsv-conversion\n2320315 python3\n2321726 ps\n2913529 gpg-agent\n4025201 dirmngr\n4128945 black-bag\n4144934 gvfs-udisks2-vo\n4144940 gvfs-mtp-volume\n4144945 gvfsd-trash\n4144983 gvfsd-metadata\n4145879 gvfsd-network\n"
+    },
+    "proof_lanes": {
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "list-units",
+        "--all",
+        "--state=active,activating,deactivating",
+        "--no-legend",
+        "--plain",
+        "codex-*proof*"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  },
+  "known_child_exit_evidence_and_current_pid_absence": [
+    {
+      "original_exit_evidence": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/source/native/build_guard.py",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts"
+        ],
+        "at": "2026-10-10T20:47:28.603205+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 2297644,
+        "returncode": 0
+      },
+      "pid": 2297644,
+      "proc_currently_exists": false
+    },
+    {
+      "original_exit_evidence": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v",
+          "test_examiner_native_guard",
+          "test_examiner_native_generators"
+        ],
+        "at": "2026-10-10T20:49:53.348289+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 2304566,
+        "returncode": 0
+      },
+      "pid": 2304566,
+      "proc_currently_exists": false
+    },
+    {
+      "original_exit_evidence": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "-p",
+          "-j2",
+          "-P",
+          "pending-component/pending.gpr"
+        ],
+        "at": "2026-10-10T20:51:42.114747+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 2311247,
+        "returncode": 0
+      },
+      "pid": 2311247,
+      "proc_currently_exists": false
+    },
+    {
+      "original_exit_evidence": {
+        "additional_deadline_expired": false,
+        "additional_timeout_seconds": null,
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "-p",
+          "-j2",
+          "-P",
+          "core/worldline_core.gpr"
+        ],
+        "at": "2026-10-10T20:53:29.875324+00:00",
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+        "pid": 2317543,
+        "returncode": 4
+      },
+      "pid": 2317543,
+      "proc_currently_exists": false
+    }
+  ],
+  "next_action": "Fix the actual retained failure or unknown before dependent runtime targets. Independent full strict proof keeps its original separate admission gates. Original ordinary actions and full proof remain required; no acceptance from partial execution.",
+  "owned_scope_terminal_observations": [
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-native-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-native-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-native-component-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-native-component-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-pending-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-pending-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-entry-component-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-entry-component-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-serializer-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-serializer-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-acquisition-regression-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-acquisition-regression-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-completion-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-completion-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-completion-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-completion-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-pending-v2-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-pending-v2-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-transition-direct-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-transition-direct-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-transition-direct-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-transition-direct-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-admission-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-admission-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-evaluation-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-evaluation-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-pending-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-pending-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-direct-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-direct-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-direct-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-direct-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-legacy-direct-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-legacy-direct-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-legacy-direct-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-legacy-direct-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-resource-direct-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-resource-direct-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-resource-direct-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-resource-direct-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-terminal-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-terminal-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-roster-d2-python-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-roster-d2-python-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-roster-d2-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-roster-d2-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-roster-d2-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-roster-d2-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-raw-observation-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-raw-observation-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-report-facts-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-report-facts-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-report-facts-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-report-facts-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-core-all-source-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-core-all-source-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-proof-source-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-proof-source-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-wire-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-wire-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-wire-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-wire-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-authority-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-authority-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-authority-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-authority-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-default-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-default-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-metadata-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-metadata-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-staged-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-staged-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-core-abi-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-core-abi-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-store-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-store-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-revalidation-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-revalidation-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-transaction-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-transaction-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-kernel-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-kernel-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-producer-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-producer-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-artifact-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-artifact-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-artifact-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-artifact-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-recovery-integration-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-recovery-integration-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-resource-runtime-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-resource-runtime-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-recovery-domain-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-recovery-domain-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-recovery-epoch-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-recovery-epoch-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-recovery-epoch-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-recovery-epoch-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-root-custody-context-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-root-custody-context-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-root-custody-context-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-root-custody-context-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-capability-native-binding-simulation-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-capability-native-binding-simulation-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-archive-leaf-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-archive-leaf-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-archive-leaf-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-archive-leaf-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-root-custody-replay-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-root-custody-replay-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-root-custody-replay-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-root-custody-replay-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-root-custody-abandon-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-root-custody-abandon-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-root-custody-abandon-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-root-custody-abandon-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-chain-bounds-tests-test-bounds-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-chain-bounds-tests-test-bounds-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-chain-bounds-tests-test-bounds-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-chain-bounds-tests-test-bounds-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-completion-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-completion-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-completion-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-completion-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-transition-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-transition-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-transition-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-transition-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-history-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-history-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-history-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-history-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-raw-roster-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-raw-roster-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-raw-roster-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-raw-roster-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-run-metadata-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-run-metadata-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-run-metadata-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-decision-correspondence-tests-test-run-metadata-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-epoch-correspondence-core-test-epoch-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-epoch-correspondence-core-test-epoch-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-epoch-correspondence-core-test-epoch-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-epoch-correspondence-core-test-epoch-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-epoch-correspondence-pending-test-epoch-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-epoch-correspondence-pending-test-epoch-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-epoch-correspondence-pending-test-epoch-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-epoch-correspondence-pending-test-epoch-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-explicit-recovery-marker-tests-test-explicit-recovery-markers-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-explicit-recovery-marker-tests-test-explicit-recovery-markers-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-explicit-recovery-marker-tests-test-explicit-recovery-markers-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-explicit-recovery-marker-tests-test-explicit-recovery-markers-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-values-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-values-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-values-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-values-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-parent-values-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-parent-values-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-parent-values-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-parent-values-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-projection-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-projection-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-projection-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-finalization-value-controls-test-finalization-projection-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-protocol-adapter-tests-test-protocol-adapter-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-protocol-adapter-tests-test-protocol-adapter-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-protocol-adapter-tests-test-protocol-adapter-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-protocol-adapter-tests-test-protocol-adapter-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-recovery-protocol-tests-test-protocol-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-recovery-protocol-tests-test-protocol-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-recovery-protocol-tests-test-protocol-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-recovery-protocol-tests-test-protocol-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-request-abandon-controls-request-abandon-controls-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-request-abandon-controls-request-abandon-controls-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-request-abandon-controls-request-abandon-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-request-abandon-controls-request-abandon-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-resource-ledger-correspondence-tests-test-resource-ledger-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-resource-ledger-correspondence-tests-test-resource-ledger-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-resource-ledger-correspondence-tests-test-resource-ledger-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-resource-ledger-correspondence-tests-test-resource-ledger-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-resources-prefix-correspondence-tests-test-resources-prefix-correspondence-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-resources-prefix-correspondence-tests-test-resources-prefix-correspondence-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-resources-prefix-correspondence-tests-test-resources-prefix-correspondence-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-resources-prefix-correspondence-tests-test-resources-prefix-correspondence-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-tests-resource-policy-smoke-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-tests-resource-policy-smoke-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-tests-resource-policy-smoke-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-tests-resource-policy-smoke-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-tests-worldline-core-tests-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-tests-worldline-core-tests-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-tests-worldline-core-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-tests-worldline-core-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-tests-worldline-core-fuzz-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-tests-worldline-core-fuzz-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-tests-worldline-core-fuzz-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-tests-worldline-core-fuzz-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-use-reservation-tests-use-reservation-tests-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-use-reservation-tests-use-reservation-tests-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-use-reservation-tests-use-reservation-tests-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-use-reservation-tests-use-reservation-tests-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-wire-initialization-tests-test-wire-initialization-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-wire-initialization-tests-test-wire-initialization-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-wire-initialization-tests-test-wire-initialization-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-wire-initialization-tests-test-wire-initialization-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-context-cast-lifetime-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-context-cast-lifetime-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-finalization-cast-lifetime-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-finalization-cast-lifetime-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-finalization-agent-binding-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-finalization-agent-binding-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-finalization-agent-binding-additional-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-finalization-agent-binding-additional-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-finalization-agent-binding-producer-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-finalization-agent-binding-producer-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-custody-foreign-key-capture-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-custody-foreign-key-capture-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-custody-provision-kernel-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-custody-provision-kernel-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-custody-subject-primitives-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-custody-subject-primitives-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-custody-v2-explicit-provision-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-custody-v2-explicit-provision-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-custody-v2-sql-capture-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-custody-v2-sql-capture-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-test-root-worker-codec-lossless-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-test-root-worker-codec-lossless-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-freshness-json-object-order-additional-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-freshness-json-object-order-additional-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-execution-evidence-boundary-additional-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-execution-evidence-boundary-additional-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-physical-semantic-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-physical-semantic-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-physical-semantic-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-physical-semantic-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-canonical-exchange-semantic-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-canonical-exchange-semantic-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-canonical-exchange-semantic-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-canonical-exchange-semantic-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-canonical-owner-semantic-build-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-canonical-owner-semantic-build-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-canonical-owner-semantic-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-canonical-owner-semantic-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-physical-predecessor-python-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-physical-predecessor-python-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-physical-canonical-python-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-physical-canonical-python-controls-v1.scope"
+    },
+    {
+      "cgroup": {
+        "exists": false,
+        "path": null,
+        "processes": null
+      },
+      "command": [
+        "/usr/bin/systemctl",
+        "--user",
+        "show",
+        "codex-worldline-codex-takeover-runtime-v9-original-full-physical-disposable-namespace-controls-v1.scope",
+        "-p",
+        "LoadState",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "Result"
+      ],
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n",
+      "unit": "codex-worldline-codex-takeover-runtime-v9-original-full-physical-disposable-namespace-controls-v1.scope"
+    }
+  ],
+  "records": [
+    {
+      "actual_result": {
+        "at": "2026-10-10T20:47:48.348203+00:00",
+        "child_wait": {
+          "additional_deadline_expired": false,
+          "additional_timeout_seconds": null,
+          "argv": [
+            "/usr/bin/python3",
+            "-B",
+            "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/source/native/build_guard.py",
+            "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts"
+          ],
+          "at": "2026-10-10T20:47:28.603205+00:00",
+          "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+          "pid": 2297644,
+          "returncode": 0
+        },
+        "inputs_unchanged": true,
+        "native_artifacts_after": {
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+            "bytes": 472,
+            "mode": 420,
+            "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1"
+          },
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+            "bytes": 149864,
+            "mode": 493,
+            "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590"
+          }
+        },
+        "native_artifacts_before": {},
+        "native_inputs_unchanged": true,
+        "no_proof_claim": true,
+        "original_targets": "OPEN_UNCHANGED",
+        "scope_wait": 0
+      },
+      "mode": "native-build",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/evidence/native-build-v1/result.json",
+      "sha256": "f486713d4b5d58ea440cdbb331f4fb9a98de139d0849013b7047b4407c88b426"
+    },
+    {
+      "actual_result": {
+        "at": "2026-10-10T20:50:16.433014+00:00",
+        "child_wait": {
+          "additional_deadline_expired": false,
+          "additional_timeout_seconds": null,
+          "argv": [
+            "/usr/bin/python3",
+            "-B",
+            "-m",
+            "unittest",
+            "-v",
+            "test_examiner_native_guard",
+            "test_examiner_native_generators"
+          ],
+          "at": "2026-10-10T20:49:53.348289+00:00",
+          "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+          "pid": 2304566,
+          "returncode": 0
+        },
+        "inputs_unchanged": true,
+        "native_artifacts_after": {
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+            "bytes": 472,
+            "mode": 420,
+            "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1"
+          },
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+            "bytes": 149864,
+            "mode": 493,
+            "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590"
+          }
+        },
+        "native_artifacts_before": {
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+            "bytes": 472,
+            "mode": 420,
+            "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1"
+          },
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+            "bytes": 149864,
+            "mode": 493,
+            "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590"
+          }
+        },
+        "native_inputs_unchanged": true,
+        "no_proof_claim": true,
+        "original_targets": "OPEN_UNCHANGED",
+        "scope_wait": 0
+      },
+      "mode": "native-component-tests",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/evidence/native-component-tests-v1/result.json",
+      "sha256": "e34450a7f7a15a1fa18792ceb10f104341a29046c5e5e06ead67b81477f38cb5"
+    },
+    {
+      "actual_result": {
+        "at": "2026-10-10T20:52:03.622710+00:00",
+        "child_wait": {
+          "additional_deadline_expired": false,
+          "additional_timeout_seconds": null,
+          "argv": [
+            "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+            "-p",
+            "-j2",
+            "-P",
+            "pending-component/pending.gpr"
+          ],
+          "at": "2026-10-10T20:51:42.114747+00:00",
+          "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+          "pid": 2311247,
+          "returncode": 0
+        },
+        "inputs_unchanged": true,
+        "native_artifacts_after": {
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+            "bytes": 472,
+            "mode": 420,
+            "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1"
+          },
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+            "bytes": 149864,
+            "mode": 493,
+            "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590"
+          }
+        },
+        "native_artifacts_before": {
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+            "bytes": 472,
+            "mode": 420,
+            "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1"
+          },
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+            "bytes": 149864,
+            "mode": 493,
+            "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590"
+          }
+        },
+        "native_inputs_unchanged": true,
+        "no_proof_claim": true,
+        "original_targets": "OPEN_UNCHANGED",
+        "scope_wait": 0
+      },
+      "mode": "pending-build",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/evidence/pending-build-v1/result.json",
+      "sha256": "d2ae351992fdddcbed7ce22d1b3363a70555e860641d43f1ddf174ca512f41f7"
+    },
+    {
+      "actual_result": {
+        "at": "2026-10-10T20:53:50.832672+00:00",
+        "child_wait": {
+          "additional_deadline_expired": false,
+          "additional_timeout_seconds": null,
+          "argv": [
+            "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+            "-p",
+            "-j2",
+            "-P",
+            "core/worldline_core.gpr"
+          ],
+          "at": "2026-10-10T20:53:29.875324+00:00",
+          "meaning": "actual subprocess.Popen.wait return value; no proof acceptance",
+          "pid": 2317543,
+          "returncode": 4
+        },
+        "inputs_unchanged": true,
+        "native_artifacts_after": {
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+            "bytes": 472,
+            "mode": 420,
+            "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1"
+          },
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+            "bytes": 149864,
+            "mode": 493,
+            "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590"
+          }
+        },
+        "native_artifacts_before": {
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/build.json": {
+            "bytes": 472,
+            "mode": 420,
+            "sha256": "3a3194e4674758cc3dd15603804834231c1a2cc41a0021fd96d2b0bad04fc0b1"
+          },
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so": {
+            "bytes": 149864,
+            "mode": 493,
+            "sha256": "aff2729d1ad07dfc2b622a7af21c25dc2bdd597c7fc845c849034b012cc36590"
+          }
+        },
+        "native_inputs_unchanged": true,
+        "no_proof_claim": true,
+        "original_targets": "OPEN_UNCHANGED",
+        "scope_wait": 4
+      },
+      "mode": "build",
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/evidence/build-v1/result.json",
+      "sha256": "67df69e9fed159b368768995572e649ece2070c25d93a1076896ef077b766c9d"
+    }
+  ],
+  "required_actions": 127,
+  "retained_complete_artifacts": {
+    "bytes": 3184322,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/review/root-batch-terminal-v1/retained-artifacts.json",
+    "sha256": "d9712b86a3ece2474958d17a072295e811c5a0e30eafae899f3b9ca53a36d653"
+  },
+  "schema": "worldline-root-actual-ordinary-terminal-v1",
+  "source_exact_keyset_bytes_modes_match": true,
+  "source_manifest": {
+    "bytes": 144961,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v9-ultra-v1-draft/candidate/inputs.json",
+    "sha256": "a4d49634c5e66b573e7c1652e0235153cb5c7072031acc757bfa75ce28be63b0"
+  },
+  "status": "BATCH_TERMINAL_WITH_RETAINED_GAPS_NO_ACCEPTANCE",
+  "unknown": [
+    "build:outer-nonzero"
+  ],
+  "unrun": [
+    "entry-component-tests",
+    "serializer-controls",
+    "acquisition-regression-tests",
+    "completion-build",
+    "completion-tests",
+    "pending-v2-tests",
+    "transition-direct-build",
+    "transition-direct-tests",
+    "tests",
+    "admission-tests",
+    "evaluation-tests",
+    "pending-tests",
+    "direct-build",
+    "direct-tests",
+    "legacy-direct-build",
+    "legacy-direct-tests",
+    "resource-direct-build",
+    "resource-direct-tests",
+    "terminal-tests",
+    "roster-d2-python-tests",
+    "roster-d2-build",
+    "roster-d2-tests",
+    "raw-observation-tests",
+    "report-facts-build",
+    "report-facts-tests",
+    "core-all-source-build",
+    "proof-source-tests",
+    "wire-build",
+    "wire-tests",
+    "authority-build",
+    "authority-tests",
+    "default-tests",
+    "metadata-tests",
+    "staged-tests",
+    "core-abi-tests",
+    "store-tests",
+    "revalidation-tests",
+    "transaction-tests",
+    "finalization-tests",
+    "finalization-kernel-tests",
+    "finalization-producer-tests",
+    "artifact-build",
+    "artifact-tests",
+    "recovery-integration-tests",
+    "resource-runtime-controls",
+    "recovery-domain-controls",
+    "recovery-epoch-build",
+    "recovery-epoch-tests",
+    "root-custody-context-build",
+    "root-custody-context-controls",
+    "capability-native-binding-simulation-controls",
+    "archive-leaf-build",
+    "archive-leaf-controls",
+    "root-custody-replay-build",
+    "root-custody-replay-controls",
+    "root-custody-abandon-build",
+    "root-custody-abandon-controls",
+    "chain-bounds-tests-test-bounds-build",
+    "chain-bounds-tests-test-bounds",
+    "decision-correspondence-tests-test-completion-correspondence-build",
+    "decision-correspondence-tests-test-completion-correspondence",
+    "decision-correspondence-tests-test-transition-correspondence-build",
+    "decision-correspondence-tests-test-transition-correspondence",
+    "decision-correspondence-tests-test-history-correspondence-build",
+    "decision-correspondence-tests-test-history-correspondence",
+    "decision-correspondence-tests-test-raw-roster-correspondence-build",
+    "decision-correspondence-tests-test-raw-roster-correspondence",
+    "decision-correspondence-tests-test-run-metadata-correspondence-build",
+    "decision-correspondence-tests-test-run-metadata-correspondence",
+    "epoch-correspondence-core-test-epoch-correspondence-build",
+    "epoch-correspondence-core-test-epoch-correspondence",
+    "epoch-correspondence-pending-test-epoch-correspondence-build",
+    "epoch-correspondence-pending-test-epoch-correspondence",
+    "explicit-recovery-marker-tests-test-explicit-recovery-markers-build",
+    "explicit-recovery-marker-tests-test-explicit-recovery-markers",
+    "finalization-value-controls-test-finalization-values-build",
+    "finalization-value-controls-test-finalization-values",
+    "finalization-value-controls-test-finalization-parent-values-build",
+    "finalization-value-controls-test-finalization-parent-values",
+    "finalization-value-controls-test-finalization-projection-build",
+    "finalization-value-controls-test-finalization-projection",
+    "protocol-adapter-tests-test-protocol-adapter-build",
+    "protocol-adapter-tests-test-protocol-adapter",
+    "recovery-protocol-tests-test-protocol-build",
+    "recovery-protocol-tests-test-protocol",
+    "request-abandon-controls-request-abandon-controls-build",
+    "request-abandon-controls-request-abandon-controls",
+    "resource-ledger-correspondence-tests-test-resource-ledger-correspondence-build",
+    "resource-ledger-correspondence-tests-test-resource-ledger-correspondence",
+    "resources-prefix-correspondence-tests-test-resources-prefix-correspondence-build",
+    "resources-prefix-correspondence-tests-test-resources-prefix-correspondence",
+    "tests-resource-policy-smoke-build",
+    "tests-resource-policy-smoke",
+    "tests-worldline-core-tests-build",
+    "tests-worldline-core-tests",
+    "tests-worldline-core-fuzz-build",
+    "tests-worldline-core-fuzz",
+    "use-reservation-tests-use-reservation-tests-build",
+    "use-reservation-tests-use-reservation-tests",
+    "wire-initialization-tests-test-wire-initialization-build",
+    "wire-initialization-tests-test-wire-initialization",
+    "test-context-cast-lifetime-controls",
+    "test-finalization-cast-lifetime-controls",
+    "test-finalization-agent-binding-controls",
+    "test-finalization-agent-binding-additional-controls",
+    "test-finalization-agent-binding-producer-controls",
+    "test-custody-foreign-key-capture-controls",
+    "test-custody-provision-kernel-controls",
+    "test-custody-subject-primitives-controls",
+    "test-custody-v2-explicit-provision-controls",
+    "test-custody-v2-sql-capture-controls",
+    "test-root-worker-codec-lossless-controls",
+    "freshness-json-object-order-additional-controls",
+    "execution-evidence-boundary-additional-controls",
+    "original-physical-semantic-build",
+    "original-physical-semantic-controls",
+    "original-canonical-exchange-semantic-build",
+    "original-canonical-exchange-semantic-controls",
+    "original-canonical-owner-semantic-build",
+    "original-canonical-owner-semantic-controls",
+    "original-physical-predecessor-python-controls",
+    "original-physical-canonical-python-controls",
+    "original-full-physical-disposable-namespace-controls"
+  ]
+}

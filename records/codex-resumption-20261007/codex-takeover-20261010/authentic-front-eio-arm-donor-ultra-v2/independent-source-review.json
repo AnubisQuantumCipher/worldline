@@ -1,0 +1,212 @@
+{
+  "actual_ARM_or_APPLIED_outcome_created": false,
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:ultra",
+  "all_original_guarantees": "OPEN_UNCHANGED",
+  "artifacts": {
+    "exact_roundtrip": {
+      "bytes": 1213,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/EXACT-ROUNDTRIP.json",
+      "sha256": "0b37937d10a3c7d175d8844c3e7f6ba66fec93e140fd17b67f0e8a43e78b4ec1"
+    },
+    "forward_patch": {
+      "bytes": 14333,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/forward.patch",
+      "sha256": "634270861d20a66962d6511b2a87d55e71c043d01631bc2f23847232094dc45a"
+    },
+    "inert_protocol_regression": {
+      "bytes": 1319,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/INERT-PROTOCOL-REGRESSION.json",
+      "sha256": "3c1c690441e19d7bdca3c33742088e71d8ea777dcce7dd2223a3ac58cdfacedd"
+    },
+    "inverse_patch": {
+      "bytes": 14333,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/inverse.patch",
+      "sha256": "eec6a478e7adae6bbd507cb1dcfc606ac7355f8f0ce8b43bc085405163e1e0f9"
+    },
+    "postimages": {
+      "protected-root/controls/live_campaign.py": {
+        "bytes": 37040,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/postimages/protected-root/controls/live_campaign.py",
+        "sha256": "65e66f5b402d91273acbddc64858c7e0ee90aec0e9c831f564f295f672ddd277"
+      },
+      "protected-root/controls/syscall_fault.c": {
+        "bytes": 11115,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/postimages/protected-root/controls/syscall_fault.c",
+        "sha256": "521c61bc3540d0051c5cca235d10e57f2a548c16fd8b29ea3fe666eaa3a426f3"
+      }
+    },
+    "preimages": {
+      "protected-root/controls/live_campaign.py": {
+        "bytes": 29997,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/preimages/protected-root/controls/live_campaign.py",
+        "sha256": "94013d31371f21f3ad36f501de9215a788dffdd8ecb5e0fb8b40e98b71f1700a"
+      },
+      "protected-root/controls/syscall_fault.c": {
+        "bytes": 10511,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/preimages/protected-root/controls/syscall_fault.c",
+        "sha256": "b573cc1356703b9e4bfca65f8297b59cb9c07d8d5d24b9ea73b2c63d093f55a1"
+      }
+    },
+    "preserved_v1": {
+      "packet": {
+        "bytes": 9383,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v1/AUTHOR-PACKET.json",
+        "sha256": "95fb5ec7ef52807521cc190cadd07202c33ec60438587efbcf612364b50734ef"
+      },
+      "reason": "original slot then child timeout was incorrectly narrowed by v1; source-only preparation HOLD, never installed/executed"
+    },
+    "producer_consumer_correspondence": {
+      "bytes": 1676,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/PRODUCER-CONSUMER-CORRESPONDENCE.json",
+      "sha256": "c268e51b193e8d6a2c8dec2491501e76f4e9feb025474ee86539f29a61194d26"
+    },
+    "source_context": {
+      "independent_source_review": {
+        "bytes": 14738,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/frame-review-draft/integrated-v8-independent-source-review.json",
+        "sha256": "6a6611a3d4203c407350b6ba0bfbaea9daef894356d31b768e34a929026e288c"
+      },
+      "selector": {
+        "bytes": 12766,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source-selection.json",
+        "sha256": "b29feb3e7739f00e4daf37c9bcf45d977f859577f8d79f8b9ff222db646c692d"
+      }
+    },
+    "unchanged_original_consumers_and_domains": {
+      "protected-root/controls/assertion_registry.py": {
+        "bytes": 3246,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/protected-root/controls/assertion_registry.py",
+        "sha256": "a6b62f897f28b079dfde5003e968d475120ac87bbfa7bf8a41392122775b0b70"
+      },
+      "protected-root/controls/campaign_registry.py": {
+        "bytes": 8311,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/protected-root/controls/campaign_registry.py",
+        "sha256": "9576289a12673c7bde64e6147d5944c49d0607d27ec9ce6f00f7dd0aedd02194"
+      },
+      "protected-root/controls/construction_registry.py": {
+        "bytes": 2972,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/protected-root/controls/construction_registry.py",
+        "sha256": "3933560b406181e7b1e1b9db58a5a75256835dbf853552686e3ef9a884d36b2d"
+      },
+      "protected-root/controls/original_client.py": {
+        "bytes": 4543,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/protected-root/controls/original_client.py",
+        "sha256": "76fa3f2df34177a96a895ae12545c169fc1f12ba01cd9c73dc6796d1b5b308e7"
+      },
+      "runtime/worldline/custody_mutation_kernel.py": {
+        "bytes": 4309,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/runtime/worldline/custody_mutation_kernel.py",
+        "sha256": "08405872e63f2b3a2670ba583de4f849f3f5f03e9598eae9a02410f1d3493317"
+      },
+      "runtime/worldline/protected_root_worker.py": {
+        "bytes": 51962,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/runtime/worldline/protected_root_worker.py",
+        "sha256": "44aaed616bb4a005ffcdd25de4f18d68109c79b3b9dce053c819a43ebe7e7a91"
+      },
+      "runtime/worldline/root_worker_codec.py": {
+        "bytes": 7745,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source/runtime/worldline/root_worker_codec.py",
+        "sha256": "422f6a38fe211c7a7c4dd79630f97b3775c6b1d31119b0d1edddccccd5718572"
+      }
+    },
+    "v1_to_v2_repair_patch": {
+      "bytes": 6312,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/v1-to-v2-repair.patch",
+      "sha256": "15712bedb863fdbcc77c4fcececd78e895970b422d7d37efb6724e57d79bb848"
+    }
+  },
+  "author": "CodexAuthenticFrontEioArmAuthor",
+  "author_agent": "/root/protected_ultra",
+  "author_model_provenance": {
+    "bytes": 6329,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/protected_ultra-actual-launch-provenance.json",
+    "sha256": "93f567c79f85516185791e67608fc9da1c7809e59de25cdadeeb14fb4f78c067"
+  },
+  "author_packet": {
+    "bytes": 10320,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/authentic-front-eio-arm-donor-ultra-v2/AUTHOR-PACKET.json",
+    "sha256": "cb0f42255758f6fd5ccb0e2525ca019952a497912dfde6edb80a8862fc1c6ba9"
+  },
+  "blocking_findings": [],
+  "compiler_execution": false,
+  "disposition": "QUALIFIED_EXACT_AUTHENTIC_NATIVE_FAULT_ARM_AND_TERMINAL_SOURCE_ONLY",
+  "independent_readback": {
+    "bytes": 23466,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/authentic-front-eio-arm-independent-readback-v2.json",
+    "sha256": "15c1aa14b94232092804efca9fe535cdccaaadc8728592c494e57767fc88120e"
+  },
+  "installation_selected": false,
+  "model_provenance": {
+    "bytes": 6780,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance_ultra-actual-launch-provenance.json",
+    "sha256": "e3e26497b1aa84d8d4483b75b847977094b522ed93a0c525633041c0f2434057"
+  },
+  "open_obligations": [
+    "Root coherent current source registration/enrollment and complete matching-source native build/full strict proof/original and restored runtime controls remain required. Genuine installed injector/source/ELF/ownership/parent authority and source-owner admission are future required facts; no installation or authority is selected here.",
+    "Actual front and worker fault cases must demonstrate the original exact selected syscall, occurrence, effect, complete ARM then APPLIED/raw output, child waits, owned bounded cleanup on refusal/cancellation, all original assertions and full exported native coverage. Failed, missing or unfinished terminal/cleanup waits remain failed or UNKNOWN; they are never a success or release waiver.",
+    "All protected authenticity, original accepted cases, ownership and final Phase One guarantees remain OPEN. No timing efficacy, full runtime pass, proof pass or acceptance is established by this source donor."
+  ],
+  "operator_authority": null,
+  "permitted_names": [
+    "protected-root/controls/live_campaign.py",
+    "protected-root/controls/syscall_fault.c"
+  ],
+  "phase_acceptance": false,
+  "preserved_v1_original_timeout_HOLD": {
+    "bytes": 15994,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/authentic-front-eio-arm-v1-original-timeout-independent-HOLD.json",
+    "sha256": "c758985bf6cdc873265eff860a64dbc94688031782a28d958f20f0d25df2a41b"
+  },
+  "proof_acceptance": false,
+  "qualified_scope": [
+    "The whole original native injector is byte-exact after removing only the new ARM printer, one emission flag and its first successful-resume call. Existing held-target pidfd validation, syscall/effect/path/occurrence domains, attach/initial-stop, register and selected syscall/real EIO/crash/readback/APPLIED bodies stay unchanged. ARM is emitted after the actual first successful PTRACE_SYSCALL resume and flushed; it is not a Python readiness flag.",
+    "The campaign decoder accepts only one complete exact raw native ARM line bound to the selected PID, inherited pidfd, syscall, occurrence, effect and filesystem path bytes. Absent/truncated remains unresolved; mismatch/duplicate refuses. Fault wait:false awaits this barrier while retaining the original owned task and complete later gather; wait:true retains complete terminal waiting. ARM alone does not satisfy APPLIED, actual child wait, original assertions or coverage.",
+    "The fault operation retains a partial ownership/raw-output row before launch, binds the actual injector pidfd/birth and preserves distinct terminal/cleanup waits. The original live_slot(action.timeout) phase is exact, followed by the original full child.wait(action.timeout): wait:true directly awaits it; wait:false runs that same terminal wait in an owned task while gating the next action on authentic ARM. No ARM transition renews the terminal timeout; cleanup gets only the remainder of the child phase. Cleanup signals only the held injector, retains unknown or failed waits and raw hashes, and preserves the primary failure with cleanup notes. Every other campaign method and original run body reconstructs exactly after the bounded changed dispatch/cancellation blocks; original front/worker/root custody and refusal assertions remain.",
+    "Full physical donor pins, exact current source8 preimages, whole forward/inverse patches and genuine ultra native author/reviewer events match. Retained synthetic decoder checks are source-only controls; this reviewer executes no candidate code, compiler, injector, producer or target and creates no ARM/APPLIED outcome."
+  ],
+  "readback_program": {
+    "bytes": 16496,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/review_authentic_front_eio_arm_v2.py",
+    "sha256": "54127246fb06755a26f6e26acc588e416386aee3d8421cf8d0852b5cae881cc2"
+  },
+  "reasoning_effort": "ultra",
+  "reviewed_at": "2026-10-10T20:28:25.675920+00:00",
+  "reviewer": "/root/acceptance_ultra",
+  "reviewer_agent": "/root/acceptance_ultra",
+  "runtime_acceptance": false,
+  "schema": "worldline-independent-authentic-native-fault-arm-and-terminal-source-review-v2",
+  "source_only": true,
+  "source_selection": {
+    "bytes": 12766,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v8/source-selection.json",
+    "sha256": "b29feb3e7739f00e4daf37c9bcf45d977f859577f8d79f8b9ff222db646c692d"
+  },
+  "target_execution": false
+}

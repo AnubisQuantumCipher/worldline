@@ -1,0 +1,9 @@
+worldline-producer_bytes.adb:5:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-producer_bytes.adb:5:04: warning: use clause for type "Interfaces.Unsigned_8" has no effect [-gnatwu]
+worldline-producer_bytes.adb:105:20: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-producer_bytes.adb:156:30: warning: "Block" may be referenced before it has a value [enabled by default]
+evaluation_finalization.ads:408:04: error: pragma "No_Inline" cannot mention ghost and non-ghost variables
+evaluation_finalization.ads:408:04: error: "Seal_Classification_Equation" at line 343 declared as ghost
+evaluation_finalization.ads:408:04: error: "Capture_Reference" at line 245 declared as non-ghost
+evaluation_finalization.ads:409:44: error: ghost entity cannot appear in this context
+evaluation_finalization.ads:410:07: error: ghost entity cannot appear in this context
